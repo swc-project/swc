@@ -69,7 +69,7 @@ impl Babelify for ExportDefaultExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ExportDefaultDeclaration {
             base: ctx.base(self.span),
-            declaration: ExportDefaultDeclType::Expr(self.expr.babelify(ctx).into()),
+            declaration: ExportDefaultDeclType::Expr(Box::new(self.expr.babelify(ctx).into())),
         }
     }
 }

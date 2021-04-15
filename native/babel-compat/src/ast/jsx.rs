@@ -3,8 +3,8 @@ use serde::{Serialize, Deserialize};
 
 use crate::ast::{
     common::{BaseNode, SuperTypeParams},
-    expr::{Expression},
-    lit::{StringLiteral},
+    expr::Expression,
+    lit::StringLiteral,
 };
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -112,7 +112,7 @@ pub struct JSXEmptyExpression {
 // #[serde(untagged)]
 pub enum JSXExprContainerExpr {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "JSXEmptyExpression")]
     Empty(JSXEmptyExpression),
 }

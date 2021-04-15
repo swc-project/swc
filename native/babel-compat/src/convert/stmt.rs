@@ -308,7 +308,7 @@ impl Babelify for VarDeclOrExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             VarDeclOrExpr::VarDecl(v) => ForStmtInit::VarDecl(v.babelify(ctx)),
-            VarDeclOrExpr::Expr(e) => ForStmtInit::Expr(e.babelify(ctx).into()),
+            VarDeclOrExpr::Expr(e) => ForStmtInit::Expr(Box::new(e.babelify(ctx).into())),
         }
     }
 }

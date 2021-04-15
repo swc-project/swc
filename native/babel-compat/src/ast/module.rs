@@ -157,7 +157,7 @@ pub enum ExportDefaultDeclType {
     #[serde(rename = "ClassDeclaration")]
     Class(ClassDeclaration),
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

@@ -23,7 +23,7 @@ impl Babelify for Prop {
                 ObjectMember::Prop(ObjectProperty {
                     base: id.base.clone(),
                     key: ObjectKey::Id(id.clone()),
-                    value: ObjectPropVal::Expr(Expression::Id(id)),
+                    value: ObjectPropVal::Expr(Box::new(Expression::Id(id))),
                     computed: Default::default(),
                     shorthand: true,
                     decorators: Default::default(),
@@ -45,7 +45,7 @@ impl Babelify for KeyValueProp {
         ObjectProperty {
             base: ctx.base(self.span()),
             key: self.key.babelify(ctx),
-            value: ObjectPropVal::Expr(self.value.babelify(ctx).into()),
+            value: ObjectPropVal::Expr(Box::new(self.value.babelify(ctx).into())),
             computed: Default::default(),
             shorthand: Default::default(),
             decorators: Default::default(),
@@ -138,7 +138,7 @@ impl Babelify for PropName {
             PropName::Ident(i) => ObjectKey::Id(i.babelify(ctx)),
             PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
             PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
-            PropName::Computed(e) => ObjectKey::Expr(e.babelify(ctx)),
+            PropName::Computed(e) => ObjectKey::Expr(Box::new(e.babelify(ctx))),
             // PropName::BigInt(_) => panic!("illegal conversion"),
             _ => panic!("illegal conversion: Cannot convert {} to ObjectKey (in impl Babelify for PropName)", type_name_of_val(&self)),
         }

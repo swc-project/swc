@@ -50,7 +50,7 @@ pub enum ObjectMethodKind {
 // #[serde(untagged)]
 pub enum ObjectKey {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "Identifier")]
     Id(Identifier),
     #[serde(rename = "StringLiteral")]
@@ -89,7 +89,7 @@ pub struct ObjectMethod {
 // #[serde(untagged)]
 pub enum ObjectPropVal {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "PatternLike")]
     Pattern(PatternLike),
 }

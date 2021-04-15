@@ -123,7 +123,7 @@ pub enum ExpressionWrapper {
 // #[serde(untagged)]
 pub enum ArrayExprEl {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "SpreadElement")]
     Spread(SpreadElement),
 }
@@ -153,7 +153,7 @@ pub struct AssignmentExpression {
 // #[serde(untagged)]
 pub enum MemberExprProp {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "Identifier")]
     Id(Identifier),
     PrivateName(PrivateName),
@@ -226,7 +226,7 @@ pub enum BinaryExprOp {
 // #[serde(untagged)]
 pub enum BinaryExprLeft {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "PrivateName")]
     Private(PrivateName),
 }
@@ -255,7 +255,7 @@ pub struct V8IntrinsicIdentifier {
 #[serde(untagged)]
 pub enum Callee {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "V8IntrinsicIdentifier")]
     V8Id(V8IntrinsicIdentifier),
 }
@@ -272,7 +272,7 @@ pub struct ArgumentPlaceholder {
 #[serde(untagged)]
 pub enum Arg {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "SpreadElement")]
     Spread(SpreadElement),
     #[serde(rename = "JSXNamespacedName")]
@@ -335,7 +335,7 @@ pub struct FunctionExpression {
 pub struct NewExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub callee: Box<Callee>,
+    pub callee: Callee,
     #[serde(default)]
     pub arguments: Vec<Arg>,
     #[serde(default)]
@@ -469,7 +469,7 @@ pub enum ArrowFuncExprBody {
     #[serde(rename = "BlockStatement")]
     Block(BlockStatement),
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -562,7 +562,7 @@ pub struct AwaitExpression {
 // #[serde(untagged)]
 pub enum OptionalMemberExprProp {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "Identifier")]
     Id(Identifier),
 }
@@ -573,7 +573,7 @@ pub struct OptionalMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub object: Box<Expression>,
-    pub property: Box<OptionalMemberExprProp>,
+    pub property: OptionalMemberExprProp,
     #[serde(default)]
     pub computed: bool,
     #[serde(default)]
@@ -655,7 +655,7 @@ pub struct RecordExpression {
 // #[serde(untagged)]
 pub enum TupleExprEl {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     #[serde(rename = "SpreadElement")]
     Spread(SpreadElement),
 }

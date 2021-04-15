@@ -84,7 +84,7 @@ impl Babelify for JSXExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             JSXExpr::JSXEmptyExpr(e) => JSXExprContainerExpr::Empty(e.babelify(ctx)),
-            JSXExpr::Expr(e) => JSXExprContainerExpr::Expr(e.babelify(ctx).into()),
+            JSXExpr::Expr(e) => JSXExprContainerExpr::Expr(Box::new(e.babelify(ctx).into())),
         }
     }
 }

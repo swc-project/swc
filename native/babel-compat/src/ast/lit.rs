@@ -113,7 +113,7 @@ pub struct TemplateElement {
 // #[serde(untagged)]
 pub enum TemplateLiteralExpr {
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
     TSType(TSType),
 }
 

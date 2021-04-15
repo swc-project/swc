@@ -3,9 +3,9 @@ use crate::defaults::some_false;
 use serde::{Serialize, Deserialize};
 
 use crate::ast::{
-    class::{ClassDeclaration},
+    class::ClassDeclaration,
     common::{BaseNode, LVal, Identifier, Param, TypeAnnotOrNoop, TypeParamDeclOrNoop},
-    expr::{Expression},
+    expr::Expression,
     flow::{
         OpaqueType, DeclareOpaqueType, TypeAlias, DeclareClass, DeclareFunction, DeclareInterface,
         DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable,
@@ -15,7 +15,7 @@ use crate::ast::{
     module::{
         ExportAllDeclaration, ExportDefaultDeclaration, ExportNamedDeclaration, ImportDeclaration,
     },
-    stmt::{BlockStatement},
+    stmt::BlockStatement,
     typescript::{
         TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration,
         TSModuleDeclaration

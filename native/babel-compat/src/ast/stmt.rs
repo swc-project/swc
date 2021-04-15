@@ -246,7 +246,7 @@ pub enum ForStmtInit {
     #[serde(rename = "VariableDeclaration")]
     VarDecl(VariableDeclaration),
     #[serde(rename = "Expression")]
-    Expr(Expression),
+    Expr(Box<Expression>),
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]

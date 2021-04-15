@@ -23,7 +23,7 @@ pub enum PatOutput {
     Rest(RestElement),
     Object(ObjectPattern),
     Assign(AssignmentPattern),
-    Expr(Expression),
+    Expr(Box<Expression>),
 }
 
 impl Babelify for Pat {
@@ -36,7 +36,7 @@ impl Babelify for Pat {
             Pat::Rest(r) => PatOutput::Rest(r.babelify(ctx)),
             Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
             Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
-            Pat::Expr(e) => PatOutput::Expr(e.babelify(ctx).into()),
+            Pat::Expr(e) => PatOutput::Expr(Box::new(e.babelify(ctx).into())),
             Pat::Invalid(_) => panic!("illegal conversion"),
         }
     }
@@ -71,7 +71,7 @@ impl From<PatOutput> for LVal {
             PatOutput::Object(o) => LVal::ObjectPat(o),
             PatOutput::Assign(a) => LVal::AssignmentPat(a),
             PatOutput::Expr(expr) => {
-                match expr {
+                match *expr {
                     Expression::Member(e) => LVal::MemberExpr(e),
                     _ => panic!("illegal conversion"),
                 }
@@ -100,7 +100,7 @@ impl From<PatOutput> for AssignmentPatternLeft {
             PatOutput::Array(a) => AssignmentPatternLeft::Array(a),
             PatOutput::Object(o) => AssignmentPatternLeft::Object(o),
             PatOutput::Expr(expr) => {
-                match expr {
+                match *expr {
                     Expression::Member(e) => AssignmentPatternLeft::Member(e),
                     _ => panic!("illegal conversion"),
                 }
