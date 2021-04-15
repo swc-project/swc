@@ -42,7 +42,7 @@ define!({
     pub struct ClassPrivateProperty {
         pub base: BaseNode,
         pub key: PrivateName,
-        pub value: Option<Expression>,
+        pub value: Option<Box<Expression>>,
         pub decorators: Option<Vec<Decorator>>,
         pub static_any: Value,
         pub type_annotation: Option<TypeAnnotOrNoop>,
@@ -68,7 +68,7 @@ define!({
     pub struct ClassProperty {
         pub base: BaseNode,
         pub key: ObjectKey,
-        pub value: Option<Expression>,
+        pub value: Option<Box<Expression>>,
         pub type_annotation: Option<TypeAnnotOrNoop>,
         pub decorators: Option<Vec<Decorator>>,
         pub computed: Option<bool>,
@@ -99,7 +99,7 @@ define!({
     pub struct ClassDeclaration {
         pub base: BaseNode,
         pub id: Identifier,
-        pub super_class: Option<Expression>,
+        pub super_class: Option<Box<Expression>>,
         pub body: ClassBody,
         pub decorators: Option<Vec<Decorator>>,
         pub is_abstract: Option<bool>,
@@ -140,8 +140,10 @@ define!({
         pub end: Option<usize>,
         pub loc: Option<Loc>,
     }
-
-
+    pub enum Binary {
+        BinaryExpr(BinaryExpression),
+        LogicalExpr(LogicalExpression),
+    }
     pub enum Conditional {
         Expr(ConditionalExpression),
         If(IfStatement),
@@ -278,11 +280,11 @@ define!({
     }
     pub struct SpreadElement {
         pub base: BaseNode,
-        pub argument: Expression,
+        pub argument: Box<Expression>,
     }
     pub struct SpreadProperty {
         pub base: BaseNode,
-        pub argument: Expression,
+        pub argument: Box<Expression>,
     }
     pub struct RestElement {
         pub base: BaseNode,
@@ -303,11 +305,6 @@ define!({
         pub optional: Option<bool>,
         pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
-    pub struct QualifiedTypeIdentifier {
-        pub base: BaseNode,
-        pub id: Identifier,
-        pub qualification: Box<IdOrQualifiedId>,
-    }
     pub enum IdOrQualifiedId {
         Id(Identifier),
         QualifiedId(QualifiedTypeIdentifier),
@@ -322,7 +319,7 @@ define!({
     }
     pub struct Decorator {
         pub base: BaseNode,
-        pub expression: Expression,
+        pub expression: Box<Expression>,
     }
     pub struct Noop {
         pub base: BaseNode,
@@ -387,11 +384,11 @@ define!({
     }
     pub struct PipelineBareFunction {
         pub base: BaseNode,
-        pub callee: Expression,
+        pub callee: Box<Expression>,
     }
     pub struct PipelineTopicExpression {
         pub base: BaseNode,
-        pub expression: Expression,
+        pub expression: Box<Expression>,
     }
     pub enum PlaceholderExpectedNode {
         Identifier,
@@ -444,7 +441,7 @@ define!({
     pub struct VariableDeclarator {
         pub base: BaseNode,
         pub id: LVal,
-        pub init: Option<Expression>,
+        pub init: Option<Box<Expression>>,
         pub definite: Option<bool>,
     }
     pub struct VariableDeclaration {
@@ -574,7 +571,7 @@ define!({
         TypeCast(TypeCastExpression),
     }
     pub enum ArrayExprEl {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Spread(SpreadElement),
     }
     pub struct ArrayExpression {
@@ -588,7 +585,7 @@ define!({
         pub right: Box<Expression>,
     }
     pub enum MemberExprProp {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Id(Identifier),
         PrivateName(PrivateName),
     }
@@ -624,7 +621,7 @@ define!({
         LessThanOrEqual,
     }
     pub enum BinaryExprLeft {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Private(PrivateName),
     }
     pub struct BinaryExpression {
@@ -638,14 +635,14 @@ define!({
         pub name: String,
     }
     pub enum Callee {
-        Expr(Expression),
+        Expr(Box<Expression>),
         V8Id(V8IntrinsicIdentifier),
     }
     pub struct ArgumentPlaceholder {
         pub base: BaseNode,
     }
     pub enum Arg {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Spread(SpreadElement),
         JSXName(JSXNamespacedName),
         Placeholder(ArgumentPlaceholder),
@@ -676,7 +673,7 @@ define!({
     }
     pub struct NewExpression {
         pub base: BaseNode,
-        pub callee: Box<Callee>,
+        pub callee: Callee,
         pub arguments: Vec<Arg>,
         pub optional: Option<bool>,
         pub type_arguments: Option<TypeParameterInstantiation>,
@@ -704,7 +701,7 @@ define!({
     }
     pub struct SequenceExpression {
         pub base: BaseNode,
-        pub expressions: Vec<Expression>,
+        pub expressions: Vec<Box<Expression>>,
     }
     pub struct ParenthesizedExpression {
         pub base: BaseNode,
@@ -741,7 +738,7 @@ define!({
     }
     pub enum ArrowFuncExprBody {
         Block(BlockStatement),
-        Expr(Expression),
+        Expr(Box<Expression>),
     }
     pub struct ArrowFunctionExpression {
         pub base: BaseNode,
@@ -784,13 +781,13 @@ define!({
         pub argument: Box<Expression>,
     }
     pub enum OptionalMemberExprProp {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Id(Identifier),
     }
     pub struct OptionalMemberExpression {
         pub base: BaseNode,
         pub object: Box<Expression>,
-        pub property: Box<OptionalMemberExprProp>,
+        pub property: OptionalMemberExprProp,
         pub computed: bool,
         pub optional: bool,
     }
@@ -828,7 +825,7 @@ define!({
         pub properties: Vec<RecordExprProp>,
     }
     pub enum TupleExprEl {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Spread(SpreadElement),
     }
     pub struct TupleExpression {
@@ -1289,7 +1286,7 @@ define!({
         pub base: BaseNode,
     }
     pub enum JSXExprContainerExpr {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Empty(JSXEmptyExpression),
     }
     pub struct JSXExpressionContainer {
@@ -1298,7 +1295,7 @@ define!({
     }
     pub struct JSXSpreadChild {
         pub base: BaseNode,
-        pub expression: Expression,
+        pub expression: Box<Expression>,
     }
     pub struct JSXIdentifier {
         pub base: BaseNode,
@@ -1331,7 +1328,7 @@ define!({
     }
     pub struct JSXSpreadAttribute {
         pub base: BaseNode,
-        pub argument: Expression,
+        pub argument: Box<Expression>,
     }
     pub struct JSXText {
         pub base: BaseNode,
@@ -1410,7 +1407,7 @@ define!({
         pub tail: bool,
     }
     pub enum TemplateLiteralExpr {
-        Expr(Expression),
+        Expr(Box<Expression>),
         TSType(TSType),
     }
     pub struct TemplateLiteral {
@@ -1494,7 +1491,7 @@ define!({
         Func(FunctionDeclaration),
         TSFunc(TSDeclareFunction),
         Class(ClassDeclaration),
-        Expr(Expression),
+        Expr(Box<Expression>),
     }
     pub struct ExportDefaultDeclaration {
         pub base: BaseNode,
@@ -1571,7 +1568,7 @@ define!({
         Set,
     }
     pub enum ObjectKey {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Id(Identifier),
         String(StringLiteral),
         Numeric(NumericLiteral),
@@ -1590,7 +1587,7 @@ define!({
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub enum ObjectPropVal {
-        Expr(Expression),
+        Expr(Box<Expression>),
         Pattern(PatternLike),
     }
     pub struct ObjectProperty {
@@ -1625,7 +1622,7 @@ define!({
     pub struct AssignmentPattern {
         pub base: BaseNode,
         pub left: AssignmentPatternLeft,
-        pub right: Expression,
+        pub right: Box<Expression>,
         pub decorators: Option<Vec<Decorator>>,
         pub type_annotation: Option<TypeAnnotOrNoop>,
     }
@@ -1728,7 +1725,7 @@ define!({
     }
     pub struct DoWhileStatement {
         pub base: BaseNode,
-        pub test: Expression,
+        pub test: Box<Expression>,
         pub body: Box<Statement>,
     }
     pub struct EmptyStatement {
@@ -1736,11 +1733,11 @@ define!({
     }
     pub struct ExpressionStatement {
         pub base: BaseNode,
-        pub expression: Expression,
+        pub expression: Box<Expression>,
     }
     pub enum ForStmtInit {
         VarDecl(VariableDeclaration),
-        Expr(Expression),
+        Expr(Box<Expression>),
     }
     pub enum ForStmtLeft {
         VarDecl(VariableDeclaration),
@@ -1749,25 +1746,25 @@ define!({
     pub struct ForInStatement {
         pub base: BaseNode,
         pub left: ForStmtLeft,
-        pub right: Expression,
+        pub right: Box<Expression>,
         pub body: Box<Statement>,
     }
     pub struct ForStatement {
         pub base: BaseNode,
         pub init: Option<ForStmtInit>,
-        pub test: Option<Expression>,
-        pub update: Option<Expression>,
+        pub test: Option<Box<Expression>>,
+        pub update: Option<Box<Expression>>,
         pub body: Box<Statement>,
     }
     pub struct ForOfStatement {
         pub base: BaseNode,
         pub left: ForStmtLeft,
-        pub right: Expression,
+        pub right: Box<Expression>,
         pub body: Box<Statement>,
     }
     pub struct IfStatement {
         pub base: BaseNode,
-        pub test: Expression,
+        pub test: Box<Expression>,
         pub consequent: Box<Statement>,
         pub alternate: Option<Box<Statement>>,
     }
@@ -1778,21 +1775,21 @@ define!({
     }
     pub struct ReturnStatement {
         pub base: BaseNode,
-        pub argument: Option<Expression>,
+        pub argument: Option<Box<Expression>>,
     }
     pub struct SwitchCase {
         pub base: BaseNode,
-        pub test: Option<Expression>,
+        pub test: Option<Box<Expression>>,
         pub consequent: Vec<Statement>,
     }
     pub struct SwitchStatement {
         pub base: BaseNode,
-        pub discriminant: Expression,
+        pub discriminant: Box<Expression>,
         pub cases: Vec<SwitchCase>,
     }
     pub struct ThrowStatement {
         pub base: BaseNode,
-        pub argument: Expression,
+        pub argument: Box<Expression>,
     }
     pub enum CatchClauseParam {
         Id(Identifier),
@@ -1812,12 +1809,12 @@ define!({
     }
     pub struct WhileStatement {
         pub base: BaseNode,
-        pub test: Expression,
+        pub test: Box<Expression>,
         pub body: Box<Statement>,
     }
     pub struct WithStatement {
         pub base: BaseNode,
-        pub object: Expression,
+        pub object: Box<Expression>,
         pub body: Box<Statement>,
     }
     pub struct StaticBlock {
@@ -1953,16 +1950,16 @@ define!({
     }
     pub struct TSPropertySignature {
         pub base: BaseNode,
-        pub key: Expression,
+        pub key: Box<Expression>,
         pub type_annotation: Option<TSTypeAnnotation>,
-        pub initializer: Option<Expression>,
+        pub initializer: Option<Box<Expression>>,
         pub computed: Option<bool>,
         pub optional: Option<bool>,
         pub readonly: Option<bool>,
     }
     pub struct TSMethodSignature {
         pub base: BaseNode,
-        pub key: Expression,
+        pub key: Box<Expression>,
         pub type_parameters: Option<TSTypeParameterDeclaration>,
         pub parameters: Vec<IdOrRest>,
         pub type_annotation: Option<TSTypeAnnotation>,
@@ -2178,12 +2175,12 @@ define!({
         pub members: Vec<TSEnumMember>,
         pub is_const: Option<bool>,
         pub declare: Option<bool>,
-        pub initializer: Option<Expression>,
+        pub initializer: Option<Box<Expression>>,
     }
     pub struct TSEnumMember {
         pub base: BaseNode,
         pub id: IdOrString,
-        pub initializer: Option<Expression>,
+        pub initializer: Option<Box<Expression>>,
     }
     pub enum TSModuleDeclBody {
         Block(TSModuleBlock),
@@ -2226,7 +2223,7 @@ define!({
     }
     pub struct TSExportAssignment {
         pub base: BaseNode,
-        pub expression: Expression,
+        pub expression: Box<Expression>,
     }
     pub struct TSNamespaceExportDeclaration {
         pub base: BaseNode,
@@ -2247,306 +2244,4 @@ define!({
         pub name: String,
     }
 });
-
-
-/*
-    pub enum Node {
-        AnyTypeAnnotation(AnyTypeAnnotation),
-        ArgumentPlaceholder(ArgumentPlaceholder),
-        ArrayExpression(ArrayExpression),
-        ArrayPattern(ArrayPattern),
-        ArrayTypeAnnotation(ArrayTypeAnnotation),
-        ArrowFunctionExpression(ArrowFunctionExpression),
-        AssignmentExpression(AssignmentExpression),
-        AssignmentPattern(AssignmentPattern),
-        AwaitExpression(AwaitExpression),
-        BigIntLiteral(BigIntLiteral),
-        Binary(Binary),
-        BinaryExpression(BinaryExpression),
-        BindExpression(BindExpression),
-        Block(Block),
-        BlockParent(BlockParent),
-        BlockStatement(BlockStatement),
-        BooleanLiteral(BooleanLiteral),
-        BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
-        BooleanTypeAnnotation(BooleanTypeAnnotation),
-        BreakStatement(BreakStatement),
-        CallExpression(CallExpression),
-        CatchClause(CatchClause),
-        Class(Class),
-        ClassBody(ClassBody),
-        ClassDeclaration(ClassDeclaration),
-        ClassExpression(ClassExpression),
-        ClassImplements(ClassImplements),
-        ClassMethod(ClassMethod),
-        ClassPrivateMethod(ClassPrivateMethod),
-        ClassPrivateProperty(ClassPrivateProperty),
-        ClassProperty(ClassProperty),
-        CompletionStatement(CompletionStatement),
-        Conditional(Conditional),
-        ConditionalExpression(ConditionalExpression),
-        ContinueStatement(ContinueStatement),
-        DebuggerStatement(DebuggerStatement),
-        DecimalLiteral(DecimalLiteral),
-        Declaration(Declaration),
-        DeclareClass(DeclareClass),
-        DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-        DeclareExportDeclaration(DeclareExportDeclaration),
-        DeclareFunction(DeclareFunction),
-        DeclareInterface(DeclareInterface),
-        DeclareModule(DeclareModule),
-        DeclareModuleExports(DeclareModuleExports),
-        DeclareOpaqueType(DeclareOpaqueType),
-        DeclareTypeAlias(DeclareTypeAlias),
-        DeclareVariable(DeclareVariable),
-        DeclaredPredicate(DeclaredPredicate),
-        Decorator(Decorator),
-        Directive(Directive),
-        DirectiveLiteral(DirectiveLiteral),
-        DoExpression(DoExpression),
-        DoWhileStatement(DoWhileStatement),
-        EmptyStatement(EmptyStatement),
-        EmptyTypeAnnotation(EmptyTypeAnnotation),
-        EnumBody(EnumBody),
-        EnumBooleanBody(EnumBooleanBody),
-        EnumBooleanMember(EnumBooleanMember),
-        EnumDeclaration(EnumDeclaration),
-        EnumDefaultedMember(EnumDefaultedMember),
-        EnumMember(EnumMember),
-        EnumNumberBody(EnumNumberBody),
-        EnumNumberMember(EnumNumberMember),
-        EnumStringBody(EnumStringBody),
-        EnumStringMember(EnumStringMember),
-        EnumSymbolBody(EnumSymbolBody),
-        ExistsTypeAnnotation(ExistsTypeAnnotation),
-        ExportAllDeclaration(ExportAllDeclaration),
-        ExportDeclaration(ExportDeclaration),
-        ExportDefaultDeclaration(ExportDefaultDeclaration),
-        ExportDefaultSpecifier(ExportDefaultSpecifier),
-        ExportNamedDeclaration(ExportNamedDeclaration),
-        ExportNamespaceSpecifier(ExportNamespaceSpecifier),
-        ExportSpecifier(ExportSpecifier),
-        Expression(Expression),
-        ExpressionStatement(ExpressionStatement),
-        ExpressionWrapper(ExpressionWrapper),
-        File(File),
-        Flow(Flow),
-        FlowBaseAnnotation(FlowBaseAnnotation),
-        FlowDeclaration(FlowDeclaration),
-        FlowPredicate(FlowPredicate),
-        FlowType(FlowType),
-        For(For),
-        ForInStatement(ForInStatement),
-        ForOfStatement(ForOfStatement),
-        ForStatement(ForStatement),
-        ForXStatement(ForXStatement),
-        Function(Function),
-        FunctionDeclaration(FunctionDeclaration),
-        FunctionExpression(FunctionExpression),
-        FunctionParent(FunctionParent),
-        FunctionTypeAnnotation(FunctionTypeAnnotation),
-        FunctionTypeParam(FunctionTypeParam),
-        GenericTypeAnnotation(GenericTypeAnnotation),
-        Identifier(Identifier),
-        IfStatement(IfStatement),
-        Immutable(Immutable),
-        Import(Import),
-        ImportAttribute(ImportAttribute),
-        ImportDeclaration(ImportDeclaration),
-        ImportDefaultSpecifier(ImportDefaultSpecifier),
-        ImportNamespaceSpecifier(ImportNamespaceSpecifier),
-        ImportSpecifier(ImportSpecifier),
-        InferredPredicate(InferredPredicate),
-        InterfaceDeclaration(InterfaceDeclaration),
-        InterfaceExtends(InterfaceExtends),
-        InterfaceTypeAnnotation(InterfaceTypeAnnotation),
-        InterpreterDirective(InterpreterDirective),
-        IntersectionTypeAnnotation(IntersectionTypeAnnotation),
-        JSX(JSX),
-        JSXAttribute(JSXAttribute),
-        JSXClosingElement(JSXClosingElement),
-        JSXClosingFragment(JSXClosingFragment),
-        JSXElement(JSXElement),
-        JSXEmptyExpression(JSXEmptyExpression),
-        JSXExpressionContainer(JSXExpressionContainer),
-        JSXFragment(JSXFragment),
-        JSXIdentifier(JSXIdentifier),
-        JSXMemberExpression(JSXMemberExpression),
-        JSXNamespacedName(JSXNamespacedName),
-        JSXOpeningElement(JSXOpeningElement),
-        JSXOpeningFragment(JSXOpeningFragment),
-        JSXSpreadAttribute(JSXSpreadAttribute),
-        JSXSpreadChild(JSXSpreadChild),
-        JSXText(JSXText),
-        LVal(LVal),
-        LabeledStatement(LabeledStatement),
-        Literal(Literal),
-        LogicalExpression(LogicalExpression),
-        Loop(Loop),
-        MemberExpression(MemberExpression),
-        MetaProperty(MetaProperty),
-        Method(Method),
-        MixedTypeAnnotation(MixedTypeAnnotation),
-        ModuleDeclaration(ModuleDeclaration),
-        ModuleExpression(ModuleExpression),
-        ModuleSpecifier(ModuleSpecifier),
-        NewExpression(NewExpression),
-        Noop(Noop),
-        NullLiteral(NullLiteral),
-        NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
-        NullableTypeAnnotation(NullableTypeAnnotation),
-        NumberLiteral(NumberLiteral),
-        NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
-        NumberTypeAnnotation(NumberTypeAnnotation),
-        NumericLiteral(NumericLiteral),
-        ObjectExpression(ObjectExpression),
-        ObjectMember(ObjectMember),
-        ObjectMethod(ObjectMethod),
-        ObjectPattern(ObjectPattern),
-        ObjectProperty(ObjectProperty),
-        ObjectTypeAnnotation(ObjectTypeAnnotation),
-        ObjectTypeCallProperty(ObjectTypeCallProperty),
-        ObjectTypeIndexer(ObjectTypeIndexer),
-        ObjectTypeInternalSlot(ObjectTypeInternalSlot),
-        ObjectTypeProperty(ObjectTypeProperty),
-        ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
-        OpaqueType(OpaqueType),
-        OptionalCallExpression(OptionalCallExpression),
-        OptionalMemberExpression(OptionalMemberExpression),
-        ParenthesizedExpression(ParenthesizedExpression),
-        Pattern(Pattern),
-        PatternLike(PatternLike),
-        PipelineBareFunction(PipelineBareFunction),
-        PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
-        PipelineTopicExpression(PipelineTopicExpression),
-        Placeholder(Placeholder),
-        Private(Private),
-        PrivateName(PrivateName),
-        Program(Program),
-        Property(Property),
-        Pureish(Pureish),
-        QualifiedTypeIdentifier(QualifiedTypeIdentifier),
-        RecordExpression(RecordExpression),
-        RegExpLiteral(RegExpLiteral),
-        RegexLiteral(RegexLiteral),
-        RestElement(RestElement),
-        RestProperty(RestProperty),
-        ReturnStatement(ReturnStatement),
-        Scopable(Scopable),
-        SequenceExpression(SequenceExpression),
-        SpreadElement(SpreadElement),
-        SpreadProperty(SpreadProperty),
-        Statement(Statement),
-        StaticBlock(StaticBlock),
-        StringLiteral(StringLiteral),
-        StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
-        StringTypeAnnotation(StringTypeAnnotation),
-        Super(Super),
-        SwitchCase(SwitchCase),
-        SwitchStatement(SwitchStatement),
-        SymbolTypeAnnotation(SymbolTypeAnnotation),
-        TSAnyKeyword(TSAnyKeyword),
-        TSArrayType(TSArrayType),
-        TSAsExpression(TSAsExpression),
-        TSBaseType(TSBaseType),
-        TSBigIntKeyword(TSBigIntKeyword),
-        TSBooleanKeyword(TSBooleanKeyword),
-        TSCallSignatureDeclaration(TSCallSignatureDeclaration),
-        TSConditionalType(TSConditionalType),
-        TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
-        TSConstructorType(TSConstructorType),
-        TSDeclareFunction(TSDeclareFunction),
-        TSDeclareMethod(TSDeclareMethod),
-        TSEntityName(TSEntityName),
-        TSEnumDeclaration(TSEnumDeclaration),
-        TSEnumMember(TSEnumMember),
-        TSExportAssignment(TSExportAssignment),
-        TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
-        TSExternalModuleReference(TSExternalModuleReference),
-        TSFunctionType(TSFunctionType),
-        TSImportEqualsDeclaration(TSImportEqualsDeclaration),
-        TSImportType(TSImportType),
-        TSIndexSignature(TSIndexSignature),
-        TSIndexedAccessType(TSIndexedAccessType),
-        TSInferType(TSInferType),
-        TSInterfaceBody(TSInterfaceBody),
-        TSInterfaceDeclaration(TSInterfaceDeclaration),
-        TSIntersectionType(TSIntersectionType),
-        TSIntrinsicKeyword(TSIntrinsicKeyword),
-        TSLiteralType(TSLiteralType),
-        TSMappedType(TSMappedType),
-        TSMethodSignature(TSMethodSignature),
-        TSModuleBlock(TSModuleBlock),
-        TSModuleDeclaration(TSModuleDeclaration),
-        TSNamedTupleMember(TSNamedTupleMember),
-        TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
-        TSNeverKeyword(TSNeverKeyword),
-        TSNonNullExpression(TSNonNullExpression),
-        TSNullKeyword(TSNullKeyword),
-        TSNumberKeyword(TSNumberKeyword),
-        TSObjectKeyword(TSObjectKeyword),
-        TSOptionalType(TSOptionalType),
-        TSParameterProperty(TSParameterProperty),
-        TSParenthesizedType(TSParenthesizedType),
-        TSPropertySignature(TSPropertySignature),
-        TSQualifiedName(TSQualifiedName),
-        TSRestType(TSRestType),
-        TSStringKeyword(TSStringKeyword),
-        TSSymbolKeyword(TSSymbolKeyword),
-        TSThisType(TSThisType),
-        TSTupleType(TSTupleType),
-        TSType(TSType),
-        TSTypeAliasDeclaration(TSTypeAliasDeclaration),
-        TSTypeAnnotation(TSTypeAnnotation),
-        TSTypeAssertion(TSTypeAssertion),
-        TSTypeElement(TSTypeElement),
-        TSTypeLiteral(TSTypeLiteral),
-        TSTypeOperator(TSTypeOperator),
-        TSTypeParameter(TSTypeParameter),
-        TSTypeParameterDeclaration(TSTypeParameterDeclaration),
-        TSTypeParameterInstantiation(TSTypeParameterInstantiation),
-        TSTypePredicate(TSTypePredicate),
-        TSTypeQuery(TSTypeQuery),
-        TSTypeReference(TSTypeReference),
-        TSUndefinedKeyword(TSUndefinedKeyword),
-        TSUnionType(TSUnionType),
-        TSUnknownKeyword(TSUnknownKeyword),
-        TSVoidKeyword(TSVoidKeyword),
-        TaggedTemplateExpression(TaggedTemplateExpression),
-        TemplateElement(TemplateElement),
-        TemplateLiteral(TemplateLiteral),
-        Terminatorless(Terminatorless),
-        ThisExpression(ThisExpression),
-        ThisTypeAnnotation(ThisTypeAnnotation),
-        ThrowStatement(ThrowStatement),
-        TryStatement(TryStatement),
-        TupleExpression(TupleExpression),
-        TupleTypeAnnotation(TupleTypeAnnotation),
-        TypeAlias(TypeAlias),
-        TypeAnnotation(TypeAnnotation),
-        TypeCastExpression(TypeCastExpression),
-        TypeParameter(TypeParameter),
-        TypeParameterDeclaration(TypeParameterDeclaration),
-        TypeParameterInstantiation(TypeParameterInstantiation),
-        TypeofTypeAnnotation(TypeofTypeAnnotation),
-        UnaryExpression(UnaryExpression),
-        UnaryLike(UnaryLike),
-        UnionTypeAnnotation(UnionTypeAnnotation),
-        UpdateExpression(UpdateExpression),
-        UserWhitespacable(UserWhitespacable),
-        V8IntrinsicIdentifier(V8IntrinsicIdentifier),
-        VariableDeclaration(VariableDeclaration),
-        VariableDeclarator(VariableDeclarator),
-        Variance(Variance),
-        VoidTypeAnnotation(VoidTypeAnnotation),
-        While(While),
-        WhileStatement(WhileStatement),
-        WithStatement(WithStatement),
-        YieldExpression(YieldExpression),
-    }
-    pub enum Binary {
-        BinaryExpr(BinaryExpression),
-        LogicalExpr(LogicalExpression),
-    }
-*/
 
