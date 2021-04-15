@@ -6,6 +6,7 @@ use swc::{
     config::{Options, SourceMapsConfig},
     Compiler,
 };
+use testing::assert_eq;
 use testing::{StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -126,6 +127,8 @@ fn stacktrace(input_dir: PathBuf) {
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
+                println!("-----Orig:\n{}\n-----", fm.src);
+
                 let expected = Command::new("node")
                     .arg("-e")
                     .arg(&**fm.src)
@@ -146,6 +149,8 @@ fn stacktrace(input_dir: PathBuf) {
                     Ok(v) => {
                         // We created a javascript file with inline source map.
                         assert_eq!(v.map, None, "Source maps should be inlined");
+
+                        println!("-----Compiled:\n{}\n-----", v.code);
 
                         let actual = Command::new("node")
                             .arg("-e")
@@ -186,8 +191,7 @@ fn extract_stack_trace(output: Output) -> Vec<String> {
     //
     let stacks = stderr
         .split(|c| c == '\n')
-        .filter(|s| s.starts_with("    at"))
-        .map(|s| s.replace("    at", ""))
+        .map(|s| s.replace("    at ", ""))
         .collect::<Vec<_>>();
     // println!("{:?}", stacks);
 
