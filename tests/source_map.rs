@@ -155,6 +155,7 @@ fn stacktrace(input_dir: PathBuf) {
                         let actual = Command::new("node")
                             .arg("-e")
                             .arg(&v.code)
+                            .arg("--enable-source-maps")
                             .output()
                             .expect("failed to capture output of node -e 'generated code'");
 
