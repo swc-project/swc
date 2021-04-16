@@ -2377,3 +2377,18 @@ test!(
     );
     "
 );
+
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1575_1,
+    "
+    const obj = {
+      foo: 5,
+      async method() {
+          return this.foo;
+      }
+    }
+    return obj.method((res) => expect(res).toBe(5))
+  "
+);
