@@ -75,6 +75,7 @@
     "lodash": "^4.17.11",
     "progress": "^2.0.3",
     "source-map": "^0.7.3",
+    "source-map-support": "^0.5.19",
     "sourcemap-validator": "^1.1.1",
     "typescript": "^4.2.0-beta"
   },

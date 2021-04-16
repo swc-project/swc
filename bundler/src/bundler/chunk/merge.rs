@@ -758,8 +758,6 @@ where
         log::debug!("All modules are merged");
         self.handle_reexport_of_entry(ctx, id, entry);
 
-        // print_hygiene("before sort", &self.cm, &entry.clone().into());
-
         // print_hygiene("before inline", &self.cm, &entry.clone().into());
 
         inline(self.injected_ctxt, entry);
@@ -1551,7 +1549,8 @@ where
 
                         ModuleDecl::ExportAll(ref export) => {
                             let export_ctxt = export.span.ctxt;
-                            ctx.transitive_remap.insert(export_ctxt, info.export_ctxt());
+                            let reexport = self.scope.get_module(module_id).unwrap().export_ctxt();
+                            ctx.transitive_remap.insert(export_ctxt, reexport);
 
                             ModuleItem::ModuleDecl(decl)
                         }

@@ -2,6 +2,7 @@ use crate::ModuleId;
 use ahash::AHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
+use swc_common::SourceMap;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -214,6 +215,30 @@ impl Modules {
         self.appended_stmts
             .iter_mut()
             .for_each(|(id, v)| v.retain_mut(|item| op(*id, item)));
+    }
+
+    #[allow(unused)]
+    #[cfg(debug_assertions)]
+    pub(crate) fn print(
+        &self,
+        cm: &swc_common::sync::Lrc<SourceMap>,
+        event: impl std::fmt::Display,
+    ) {
+        let files = self
+            .modules
+            .iter()
+            .map(|(_, m)| m.span)
+            .filter_map(|module_span| {
+                if module_span.is_dummy() {
+                    return None;
+                }
+                Some(format!(
+                    "{}\n",
+                    cm.lookup_source_file(module_span.lo).name.to_string()
+                ))
+            })
+            .collect::<String>();
+        crate::debug::print_hygiene(&format!("{}\n{}", event, files), cm, &self.clone().into());
     }
 }
 
