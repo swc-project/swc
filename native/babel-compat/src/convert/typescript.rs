@@ -57,8 +57,8 @@ impl Babelify for TsTypeAnn {
 }
 
 impl From<TSTypeAnnotation> for TypeAnnotOrNoop {
-    fn from(t: TSTypeAnnotation) -> Self {
-        TypeAnnotOrNoop::TS(t)
+    fn from(annot: TSTypeAnnotation) -> Self {
+        TypeAnnotOrNoop::TS(Box::new(annot))
     }
 }
 
@@ -259,7 +259,7 @@ impl Babelify for TsCallSignatureDecl {
             base: ctx.base(self.span),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
         }
     }
 }
@@ -272,7 +272,7 @@ impl Babelify for TsConstructSignatureDecl {
             base: ctx.base(self.span),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
         }
     }
 }
@@ -284,7 +284,7 @@ impl Babelify for TsPropertySignature {
         TSPropertySignature {
             base: ctx.base(self.span),
             key: Box::new(self.key.babelify(ctx).into()),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
             initializer: self.init.map(|i| Box::new(i.babelify(ctx).into())),
             computed: Some(self.computed),
             optional: Some(self.optional),
@@ -302,7 +302,7 @@ impl Babelify for TsMethodSignature {
             key: Box::new(self.key.babelify(ctx).into()),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
             computed: Some(self.computed),
             optional: Some(self.optional),
         }
@@ -316,7 +316,7 @@ impl Babelify for TsIndexSignature {
         TSIndexSignature {
             base: ctx.base(self.span),
             paramters: self.params.iter().map(|param| param.clone().babelify(ctx).into()).collect(),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx)),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
             readonly: Some(self.readonly),
         }
     }

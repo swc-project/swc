@@ -785,7 +785,7 @@ pub enum TypeAnnotOrNoop {
     #[serde(rename = "TypeAnnotation")]
     Flow(TypeAnnotation),
     #[serde(rename = "TSTypeAnnotation")]
-    TS(TSTypeAnnotation),
+    TS(Box<TSTypeAnnotation>),
     Noop(Noop),
 }
 

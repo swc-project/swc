@@ -184,7 +184,7 @@ pub enum TSFuncDeclTypeParams {
 // #[serde(untagged)]
 pub enum TSFuncDeclTypeAnnot {
     #[serde(rename = "TSTypeAnnotation")]
-    Type(TSTypeAnnotation),
+    Type(Box<TSTypeAnnotation>),
     Noop(Noop),
 }
 
@@ -265,7 +265,7 @@ pub struct TSCallSignatureDeclaration {
     #[serde(default)]
     pub parameters: Vec<IdOrRest>,
     #[serde(default)]
-    pub type_annotation: Option<TSTypeAnnotation>,
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -279,7 +279,7 @@ pub struct TSConstructSignatureDeclaration {
     #[serde(default)]
     pub parameters: Vec<IdOrRest>,
     #[serde(default)]
-    pub type_annotation: Option<TSTypeAnnotation>,
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -290,7 +290,7 @@ pub struct TSPropertySignature {
     pub base: BaseNode,
     pub key: Box<Expression>,
     #[serde(default)]
-    pub type_annotation: Option<TSTypeAnnotation>,
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
     #[serde(default)]
     pub initializer: Option<Box<Expression>>,
     #[serde(default)]
@@ -313,7 +313,7 @@ pub struct TSMethodSignature {
     #[serde(default)]
     pub parameters: Vec<IdOrRest>,
     #[serde(default)]
-    pub type_annotation: Option<TSTypeAnnotation>,
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
     #[serde(default)]
     pub computed: Option<bool>,
     #[serde(default)]
@@ -329,7 +329,7 @@ pub struct TSIndexSignature {
     #[serde(default)]
     pub paramters: Vec<Identifier>,
     #[serde(default)]
-    pub type_annotation: Option<TSTypeAnnotation>,
+    pub type_annotation: Option<Box<TSTypeAnnotation>>,
     #[serde(default)]
     pub readonly: Option<bool>,
 }
