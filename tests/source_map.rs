@@ -1,9 +1,14 @@
-use std::{fs::canonicalize, process::Command, sync::Arc};
+use std::path::PathBuf;
+use std::process::Command;
+use std::process::Output;
+use std::{fs::canonicalize, sync::Arc};
 use swc::{
     config::{Options, SourceMapsConfig},
     Compiler,
 };
+use testing::assert_eq;
 use testing::{StdErr, Tester};
+use walkdir::WalkDir;
 
 fn file(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
@@ -98,4 +103,101 @@ fn inline(f: &str) -> Result<(), StdErr> {
 #[test]
 fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
+}
+
+#[testing::fixture("stacktrace/**/input/")]
+fn stacktrace(input_dir: PathBuf) {
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
+
+            for entry in WalkDir::new(&input_dir) {
+                let entry = entry.unwrap();
+                if entry.metadata().unwrap().is_dir() {
+                    continue;
+                }
+                println!("File: {}", entry.path().to_string_lossy());
+
+                if !entry.file_name().to_string_lossy().ends_with(".ts")
+                    && !entry.file_name().to_string_lossy().ends_with(".js")
+                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
+                {
+                    continue;
+                }
+
+                let fm = cm.load_file(entry.path()).expect("failed to load file");
+
+                println!("-----Orig:\n{}\n-----", fm.src);
+
+                let expected = Command::new("node")
+                    .arg("-e")
+                    .arg(&**fm.src)
+                    .output()
+                    .expect("failed to capture output of node -e 'reference code'");
+
+                let expected_st = extract_stack_trace(expected);
+
+                match c.process_js_file(
+                    fm,
+                    &Options {
+                        swcrc: true,
+                        is_module: true,
+                        source_maps: Some(SourceMapsConfig::Str("inline".to_string())),
+                        ..Default::default()
+                    },
+                ) {
+                    Ok(v) => {
+                        // We created a javascript file with inline source map.
+                        assert_eq!(v.map, None, "Source maps should be inlined");
+
+                        println!("-----Compiled:\n{}\n-----", v.code);
+
+                        let actual = Command::new("node")
+                            .arg("-e")
+                            .arg(&v.code)
+                            .arg("-r")
+                            .arg("source-map-support/register")
+                            .output()
+                            .expect("failed to capture output of node -e 'generated code'");
+
+                        let actual_st = extract_stack_trace(actual);
+
+                        assert_eq!(expected_st, actual_st);
+                    }
+                    Err(err) => panic!("Error: {:?}", err),
+                }
+            }
+
+            Ok(())
+        })
+        .map(|_| ())
+        .expect("failed");
+}
+
+/// Extract stack trace from output of `node -e 'code'`.
+///
+/// TODO: Use better type.
+fn extract_stack_trace(output: Output) -> Vec<String> {
+    assert!(
+        !output.status.success(),
+        "Stack trace tests should fail with stack traces"
+    );
+
+    assert_eq!(
+        output.stdout,
+        Vec::<u8>::new(),
+        "Sourcemap test file should not print anything to stdout"
+    );
+
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    //
+    let stacks = stderr
+        .split(|c| c == '\n')
+        .map(|s| s.replace("    at ", "").replace("\r", ""))
+        .collect::<Vec<_>>();
+    // println!("{:?}", stacks);
+
+    println!("{}", stacks.join("\n"));
+
+    stacks
 }
