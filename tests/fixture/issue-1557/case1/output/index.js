@@ -1,2 +1,2 @@
 import * as swcHelpers from "@swc/helpers";
-var a = swcHelpers["typeof"](0);
+var a = swcHelpers.typeOf(0);
