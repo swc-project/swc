@@ -710,6 +710,13 @@ impl CaseHandler<'_> {
 
                 if arg.is_some() && e.delegate {
                     let result = self.make_var();
+                    let name = match &result {
+                        Expr::Member(m) => match &*m.prop {
+                            Expr::Ident(id) if !m.computed => id.sym.clone(),
+                            _ => unreachable!(),
+                        },
+                        _ => unreachable!(),
+                    };
 
                     let ret = ReturnStmt {
                         // Preserve span
@@ -723,7 +730,13 @@ impl CaseHandler<'_> {
                                 .as_callee(),
                             args: vec![
                                 arg.unwrap().as_arg(),
-                                result.clone().as_arg(),
+                                Lit::Str(Str {
+                                    span: DUMMY_SP,
+                                    value: name,
+                                    has_escape: false,
+                                    kind: Default::default(),
+                                })
+                                .as_arg(),
                                 after.to_stmt_index().as_arg(),
                             ],
                             type_args: Default::default(),
