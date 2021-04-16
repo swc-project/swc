@@ -10,6 +10,7 @@ use crate::convert::Babelify;
 use swc_ecma_ast::{Program, Module, Script, ModuleItem};
 use swc_common::Span;
 use serde::{Serialize, Deserialize};
+use std::any::type_name_of_val;
 
 impl Babelify for Program {
     type Output = File;
@@ -106,7 +107,7 @@ impl From<ModuleItemOutput> for Statement {
     fn from(m: ModuleItemOutput) -> Self {
         match m {
             ModuleItemOutput::Stmt(s) => s,
-            _ => panic!("illegal conversion"),
+            _ => panic!("illegal conversion: Cannot convert {} to Statement (in impl From<ModuleItemOutput> for Statement)", type_name_of_val(&m)),
         }
     }
 }

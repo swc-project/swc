@@ -25,6 +25,7 @@ use swc_ecma_ast::{
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
+use std::any::type_name_of_val;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ExprOutput {
@@ -59,7 +60,7 @@ impl Babelify for Expr {
                     Lit::Num(n) => ExprOutput::Expr(Box::new(Expression::NumericLiteral(n.babelify(ctx)))),
                     Lit::BigInt(i) => ExprOutput::Expr(Box::new(Expression::BigIntLiteral(i.babelify(ctx)))),
                     Lit::Regex(r) => ExprOutput::Expr(Box::new(Expression::RegExpLiteral(r.babelify(ctx)))),
-                    Lit::JSXText(_) => panic!("illegal conversion"), // TODO(dwoznicki): is this really illegal?
+                    Lit::JSXText(_) => panic!("illegal conversion: Cannot convert {} to ExprOutput (in impl Babelify for Expr)", type_name_of_val(&lit)), // TODO(dwoznicki): is this really illegal?
                 }
             },
             Expr::Tpl(t) => ExprOutput::Expr(Box::new(Expression::TemplateLiteral(t.babelify(ctx)))),
@@ -71,9 +72,9 @@ impl Babelify for Expr {
             Expr::Await(a) => ExprOutput::Expr(Box::new(Expression::Await(a.babelify(ctx)))),
             Expr::Paren(p) => ExprOutput::Expr(Box::new(Expression::Parenthesized(p.babelify(ctx)))),
             // TODO(dwoznicki): how does babel handle these?
-            Expr::JSXMember(_) => panic!("unimplemented"), // MemberExpression?
-            Expr::JSXNamespacedName(_) => panic!("unimplemented"), // ?
-            Expr::JSXEmpty(_) => panic!("unimplemented"), // ?
+            Expr::JSXMember(_) => panic!("illegal conversion: Cannot convert {} to ExprOutput (in impl Babelify for Expr) - Bable has no equivelent", type_name_of_val(&self)),
+            Expr::JSXNamespacedName(_) => panic!("illegal conversion: Cannot convert {} to ExprOutput (in impl Babelify for Expr) - Bable has no equivelent", type_name_of_val(&self)),
+            Expr::JSXEmpty(_) => panic!("illegal conversion: Cannot convert {} to ExprOutput (in impl Babelify for Expr) - Bable has no equivelent", type_name_of_val(&self)),
             Expr::JSXElement(e) => ExprOutput::Expr(Box::new(Expression::JSXElement(e.babelify(ctx)))),
             Expr::JSXFragment(f) => ExprOutput::Expr(Box::new(Expression::JSXFragment(f.babelify(ctx)))),
             Expr::TsTypeAssertion(a) => ExprOutput::Expr(Box::new(Expression::TSTypeAssertion(a.babelify(ctx)))),
@@ -81,8 +82,8 @@ impl Babelify for Expr {
             Expr::TsNonNull(n) => ExprOutput::Expr(Box::new(Expression::TSNonNull(n.babelify(ctx)))),
             Expr::TsAs(a) => ExprOutput::Expr(Box::new(Expression::TSAs(a.babelify(ctx)))),
             Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
-            Expr::OptChain(_) => panic!("unimplemented"), // Babel has no equivilent
-            Expr::Invalid(_) => panic!("illegal conversion"), // Babel has no equivilent
+            Expr::OptChain(_) => panic!("illegal conversion: Cannot convert {} to ExprOutput (in impl Babelify for Expr) - Bable has no equivelent", type_name_of_val(&self)),
+            Expr::Invalid(_) => panic!("illegal conversion: Cannot convert {} to ExprOutput (in impl Babelify for Expr) - Babel has no equivilent", type_name_of_val(&self)),
         }
     }
 }
@@ -90,8 +91,8 @@ impl Babelify for Expr {
 impl From<ExprOutput> for Expression {
     fn from(o: ExprOutput) -> Self {
         match o {
-            ExprOutput::Private(_) => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
             ExprOutput::Expr(expr) => *expr,
+            ExprOutput::Private(_) => panic!("illegal conversion: Cannot convert {} to Expression (in impl From<ExprOutput> for Expression) - Babel has no equivilent", type_name_of_val(&o)),
         }
     }
 }
@@ -109,7 +110,7 @@ impl From<ExprOutput> for ObjectKey {
     fn from(o: ExprOutput) -> Self {
         match o {
             ExprOutput::Expr(e) => ObjectKey::Expr(e),
-            _ => panic!("illegal conversion"), // TODO(dwoznicki): how to handle?
+            ExprOutput::Private(_) => panic!("illegal conversion: Cannot convert {} to ObjectKey (in impl From<ExprOutput> for ObjectKey) - Babel has no equivilent", type_name_of_val(&o)),
         }
     }
 }
@@ -526,7 +527,7 @@ impl Babelify for PatOrExpr {
             PatOrExpr::Expr(e) => {
                 match *e {
                     Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
-                    _ => panic!("illegal conversion"), // TODO(dwoznicki): really illegal?
+                    _ => panic!("illegal conversion: Cannot convert {} to LVal (in impl Babelify for PatOrExpr)", type_name_of_val(&e)),
                 }
             },
             PatOrExpr::Pat(p) => p.babelify(ctx).into(),

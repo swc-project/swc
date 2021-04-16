@@ -84,7 +84,7 @@ impl Babelify for ExportDecl {
                 Decl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx)),
                 Decl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx)),
                 // TODO(dwoznicki): not sure how to do the rest of the conversions
-                _ => panic!("unimplemented"),
+                _ => panic!("illegal conversion: Cannot convert {} to ExportDefaultDeclType (in impl Babelify for ExportDecl)", type_name_of_val(&self.decl)),
             }
         }
     }
