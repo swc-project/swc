@@ -36,7 +36,7 @@ define!({
         pub accessibility: Option<Access>,
         pub decorators: Option<Vec<Decorator>>,
         pub optional: Option<bool>,
-        pub return_type: Option<TypeAnnotOrNoop>,
+        pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub struct ClassPrivateProperty {
@@ -45,7 +45,7 @@ define!({
         pub value: Option<Box<Expression>>,
         pub decorators: Option<Vec<Decorator>>,
         pub static_any: Value,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
     pub struct ClassPrivateMethod {
         pub base: BaseNode,
@@ -62,14 +62,14 @@ define!({
         pub decorators: Option<Vec<Decorator>>,
         pub generator: Option<bool>,
         pub optional: Option<bool>,
-        pub return_type: Option<TypeAnnotOrNoop>,
+        pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub struct ClassProperty {
         pub base: BaseNode,
         pub key: ObjectKey,
         pub value: Option<Box<Expression>>,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
         pub decorators: Option<Vec<Decorator>>,
         pub computed: Option<bool>,
         pub is_static: Option<bool>,
@@ -290,13 +290,13 @@ define!({
         pub base: BaseNode,
         pub argument: Box<LVal>,
         pub decorators: Option<Vec<Decorator>>,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
     pub struct RestProperty {
         pub base: BaseNode,
         pub argument: LVal,
         pub decorators: Option<Vec<Decorator>>,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
     pub struct Identifier {
         pub base: BaseNode,
@@ -348,7 +348,7 @@ define!({
     }
     pub enum TypeAnnotOrNoop {
         Flow(TypeAnnotation),
-        TS(TSTypeAnnotation),
+        TS(Box<TSTypeAnnotation>),
         Noop(Noop),
     }
     pub enum TypeParamDeclOrNoop {
@@ -457,7 +457,7 @@ define!({
         pub body: BlockStatement,
         pub generator: Option<bool>,
         pub is_async: Option<bool>,
-        pub return_type: Option<TypeAnnotOrNoop>,
+        pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub struct EnumBooleanMember {
@@ -668,7 +668,7 @@ define!({
         pub body: BlockStatement,
         pub generator: Option<bool>,
         pub is_async: Option<bool>,
-        pub return_type: Option<TypeAnnotOrNoop>,
+        pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub struct NewExpression {
@@ -747,7 +747,7 @@ define!({
         pub is_async: bool,
         pub expression: bool,
         pub generator: bool,
-        pub return_type: Option<TypeAnnotOrNoop>,
+        pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub struct ClassExpression {
@@ -1583,7 +1583,7 @@ define!({
         pub generator: Option<bool>,
         pub is_async: Option<bool>,
         pub decorator: Option<Vec<Decorator>>,
-        pub return_type: Option<TypeAnnotOrNoop>,
+        pub return_type: Option<Box<TypeAnnotOrNoop>>,
         pub type_parameters: Option<TypeParamDeclOrNoop>,
     }
     pub enum ObjectPropVal {
@@ -1611,7 +1611,7 @@ define!({
         pub base: BaseNode,
         pub properties: Vec<ObjectPatternProp>,
         pub decorators: Option<Vec<Decorator>>,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
     pub enum AssignmentPatternLeft {
         Id(Identifier),
@@ -1624,13 +1624,13 @@ define!({
         pub left: AssignmentPatternLeft,
         pub right: Box<Expression>,
         pub decorators: Option<Vec<Decorator>>,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
     pub struct ArrayPattern {
         pub base: BaseNode,
         pub elements: Vec<Option<PatternLike>>,
         pub decorators: Option<Vec<Decorator>>,
-        pub type_annotation: Option<TypeAnnotOrNoop>,
+        pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     }
     pub enum Statement {
         Block(BlockStatement),
@@ -1901,7 +1901,7 @@ define!({
         Noop(Noop),
     }
     pub enum TSFuncDeclTypeAnnot {
-        Type(TSTypeAnnotation),
+        Type(Box<TSTypeAnnotation>),
         Noop(Noop),
     }
     pub struct TSDeclareFunction {
@@ -1940,18 +1940,18 @@ define!({
         pub base: BaseNode,
         pub type_parameters: Option<TSTypeParameterDeclaration>,
         pub parameters: Vec<IdOrRest>,
-        pub type_annotation: Option<TSTypeAnnotation>,
+        pub type_annotation: Option<Box<TSTypeAnnotation>>,
     }
     pub struct TSConstructSignatureDeclaration {
         pub base: BaseNode,
         pub type_parameters: Option<TSTypeParameterDeclaration>,
         pub parameters: Vec<IdOrRest>,
-        pub type_annotation: Option<TSTypeAnnotation>,
+        pub type_annotation: Option<Box<TSTypeAnnotation>>,
     }
     pub struct TSPropertySignature {
         pub base: BaseNode,
         pub key: Box<Expression>,
-        pub type_annotation: Option<TSTypeAnnotation>,
+        pub type_annotation: Option<Box<TSTypeAnnotation>>,
         pub initializer: Option<Box<Expression>>,
         pub computed: Option<bool>,
         pub optional: Option<bool>,
@@ -1962,14 +1962,14 @@ define!({
         pub key: Box<Expression>,
         pub type_parameters: Option<TSTypeParameterDeclaration>,
         pub parameters: Vec<IdOrRest>,
-        pub type_annotation: Option<TSTypeAnnotation>,
+        pub type_annotation: Option<Box<TSTypeAnnotation>>,
         pub computed: Option<bool>,
         pub optional: Option<bool>,
     }
     pub struct TSIndexSignature {
         pub base: BaseNode,
         pub paramters: Vec<Identifier>,
-        pub type_annotation: Option<TSTypeAnnotation>,
+        pub type_annotation: Option<Box<TSTypeAnnotation>>,
         pub readonly: Option<bool>,
     }
     pub struct TSAnyKeyword {
