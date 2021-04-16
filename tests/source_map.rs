@@ -193,7 +193,7 @@ fn extract_stack_trace(output: Output) -> Vec<String> {
     //
     let stacks = stderr
         .split(|c| c == '\n')
-        .map(|s| s.replace("    at ", ""))
+        .map(|s| s.replace("    at ", "").replace("\r", ""))
         .collect::<Vec<_>>();
     // println!("{:?}", stacks);
 
