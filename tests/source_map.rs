@@ -142,7 +142,7 @@ fn stacktrace(input_dir: PathBuf) {
                     &Options {
                         swcrc: true,
                         is_module: true,
-
+                        source_maps: Some(SourceMapsConfig::Str("inline".to_string())),
                         ..Default::default()
                     },
                 ) {
