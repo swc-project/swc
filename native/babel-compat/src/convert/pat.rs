@@ -139,7 +139,7 @@ impl Babelify for ArrayPat {
         ArrayPattern {
             base: ctx.base(self.span),
             elements: self.elems.iter().map(|opt| opt.as_ref().map(|e| e.clone().babelify(ctx).into())).collect(), // TODO(dwoznicki): is clone() best solution?
-            type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
+            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -152,7 +152,7 @@ impl Babelify for ObjectPat {
         ObjectPattern {
             base: ctx.base(self.span),
             properties: self.props.iter().map(|p| p.clone().babelify(ctx)).collect(),
-            type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
+            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -192,7 +192,7 @@ impl Babelify for RestPat {
         RestElement {
             base: ctx.base(self.span),
             argument: Box::new(self.arg.babelify(ctx).into()),
-            type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
+            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -206,7 +206,7 @@ impl Babelify for AssignPat {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx).into(),
             right: Box::new(self.right.babelify(ctx).into()),
-            type_annotation: self.type_ann.map(|a| a.babelify(ctx).into()),
+            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }

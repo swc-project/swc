@@ -355,7 +355,7 @@ impl Babelify for ArrowExpr {
             generator: self.is_generator,
             expression: Default::default(),
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
-            return_type: self.return_type.map(|t| t.babelify(ctx).into()),
+            return_type: self.return_type.map(|t| Box::new(t.babelify(ctx).into())),
         }
     }
 }

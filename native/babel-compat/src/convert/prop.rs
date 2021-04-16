@@ -77,7 +77,7 @@ impl Babelify for GetterProp {
             base: ctx.base(self.span),
             kind: ObjectMethodKind::Get,
             key: self.key.babelify(ctx),
-            return_type: self.type_ann.map(|ann| ann.babelify(ctx).into()),
+            return_type: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
             body: self.body.unwrap().babelify(ctx),
             params: Default::default(),
             computed: Default::default(),

@@ -79,7 +79,7 @@ pub struct ObjectMethod {
     #[serde(default)]
     pub decorator: Option<Vec<Decorator>>,
     #[serde(default)]
-    pub return_type: Option<TypeAnnotOrNoop>,
+    pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }

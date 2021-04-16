@@ -324,7 +324,7 @@ pub struct FunctionExpression {
     #[serde(default, rename = "async")]
     pub is_async: Option<bool>,
     #[serde(default)]
-    pub return_type: Option<TypeAnnotOrNoop>,
+    pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
@@ -488,7 +488,7 @@ pub struct ArrowFunctionExpression {
     #[serde(default)]
     pub generator: bool,
     #[serde(default)]
-    pub return_type: Option<TypeAnnotOrNoop>,
+    pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }

@@ -95,7 +95,7 @@ impl Babelify for ClassProp {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx).into(),
             value: self.value.map(|val| Box::new(val.babelify(ctx).into())),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx).into()),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
             is_static: Some(self.is_static),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
             computed: Some(self.computed),
@@ -117,7 +117,7 @@ impl Babelify for PrivateProp {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
             value: self.value.map(|expr| Box::new(expr.babelify(ctx).into())),
-            type_annotation: self.type_ann.map(|ann| ann.babelify(ctx).into()),
+            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
             static_any: Value::Bool(self.is_static),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
         }
@@ -143,7 +143,7 @@ impl Babelify for ClassMethod {
             is_async: Some(self.function.is_async),
             decorators: Some(self.function.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
             type_parameters: self.function.type_params.map(|t| t.babelify(ctx).into()),
-            return_type: self.function.return_type.map(|t| t.babelify(ctx).into()),
+            return_type: self.function.return_type.map(|t| Box::new(t.babelify(ctx).into())),
             computed: Default::default(),
         }
     }
@@ -168,7 +168,7 @@ impl Babelify for PrivateMethod {
             is_async: Some(self.function.is_async),
             decorators: Some(self.function.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
             type_parameters: self.function.type_params.map(|t| t.babelify(ctx).into()),
-            return_type: self.function.return_type.map(|t| t.babelify(ctx).into()),
+            return_type: self.function.return_type.map(|t| Box::new(t.babelify(ctx).into())),
             computed: Default::default(),
         }
     }

@@ -40,7 +40,7 @@ pub struct ObjectPattern {
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]
-    pub type_annotation: Option<TypeAnnotOrNoop>,
+    pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
@@ -67,7 +67,7 @@ pub struct AssignmentPattern {
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]
-    pub type_annotation: Option<TypeAnnotOrNoop>,
+    pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -80,5 +80,5 @@ pub struct ArrayPattern {
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]
-    pub type_annotation: Option<TypeAnnotOrNoop>,
+    pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }

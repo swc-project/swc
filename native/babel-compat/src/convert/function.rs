@@ -19,7 +19,7 @@ impl Babelify for Function {
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
-            return_type: self.return_type.map(|t| t.babelify(ctx).into()),
+            return_type: self.return_type.map(|t| Box::new(t.babelify(ctx).into())),
             id: None,
         }
     }

@@ -64,7 +64,7 @@ pub struct ClassMethod {
     #[serde(default)]
     pub optional: Option<bool>,
     #[serde(default)]
-    pub return_type: Option<TypeAnnotOrNoop>,
+    pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
@@ -83,7 +83,7 @@ pub struct ClassPrivateProperty {
     #[serde(default, rename = "static")]
     pub static_any: Value, // TODO: is this the right way to model any?
     #[serde(default)]
-    pub type_annotation: Option<TypeAnnotOrNoop>,
+    pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -117,7 +117,7 @@ pub struct ClassPrivateMethod {
     #[serde(default)]
     pub optional: Option<bool>,
     #[serde(default)]
-    pub return_type: Option<TypeAnnotOrNoop>,
+    pub return_type: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
@@ -132,7 +132,7 @@ pub struct ClassProperty {
     #[serde(default)]
     pub value: Option<Box<Expression>>,
     #[serde(default)]
-    pub type_annotation: Option<TypeAnnotOrNoop>,
+    pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]
