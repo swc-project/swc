@@ -712,7 +712,7 @@ impl CaseHandler<'_> {
                     let result = self.make_var();
                     let name = match &result {
                         Expr::Member(m) => match &*m.prop {
-                            Expr::Ident(id) => id.sym.clone(),
+                            Expr::Ident(id) if !m.computed => id.sym.clone(),
                             _ => unreachable!(),
                         },
                         _ => unreachable!(),
