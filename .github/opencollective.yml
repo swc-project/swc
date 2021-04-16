@@ -1,0 +1,77 @@
+# Collective
+# ----------
+
+# Define the Open Collective you want to link the repository with.
+# Please use the Open Collective slug not the Open Collective URL.
+
+collective: swc-legacy
+
+# Examples
+
+# collective: webpack
+
+# Invalid examples
+
+# collective: https://opencollective.com/webpack
+# collective: opencollective.com/webpack
+# collective: https://opencollective.com/webpack/contribute/backer-266
+
+# Invitation
+# ----------
+
+# Post a comment on issues created by non contributors.
+
+invitation: |-
+  Hey <author> :wave:,
+
+  Thank you for opening an issue. We will get back to you as soon as we can. Have you seen our Open Collective page? Please consider contributing financially to our project. This will help us involve more contributors and get to issues like yours faster.
+
+  <link>
+
+  > We offer `priority` support for all financial contributors. Don't forget to add `priority` label once you become one! :smile:
+
+# To disable that feature, you can use the following syntax
+
+# invitation: false
+
+# Tiers
+# -----
+
+# In this section you can define specific behavior for all supported tiers, ie: "backer" "and sponsor".
+
+tiers:
+  # # Uncomment this block if you want to activate a custom comment for people contributors to the "backer" tier
+  # - tiers: ['backer']
+  #   labels: ['priority']
+  #   message: |-
+  #     Hey <author> :wave:,
+  #
+  #     Thank you for being a "backer". We will handle your issue with priority support. To make sure we don't forget how special you are, we added a `priority` label to your issue.
+  #
+  #     Thank you again for contributing :tada:!
+
+  # # Uncomment this block if you want to activate a custom commentfor people contributors to the "sponsor" tier
+  # - tiers: ['sponsor']
+  #   labels: ['priority']
+  #   message: |-
+  #     Hey <author> :wave:,
+  #
+  #     Thank you for being a "sponsor".  We will handle your issue with priority support. To make sure we don't forget how special you are, we added a `priority` label to your issue.
+  #
+  #     Thank you again for contributing :tada:!
+
+  # This rule will be catching any contributor whatever their tiers (also custom contributions)
+  - tiers: '*'
+    labels: ['priority']
+    message: |-
+      Hey <author> :wave:,
+
+      Thank you for contributing to our project financially. We will handle your issue with priority support. To make sure we don't forget how special you are, we added a `priority` label to your issue.
+
+      Thank you again for contributing :tada:!
+
+# To disable that feature, you can use the following syntax
+
+# tiers: []
+
+
