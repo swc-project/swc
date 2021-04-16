@@ -1015,7 +1015,7 @@ export function myGenerator() {
                     1,
                     2,
                     3
-                ], _ctx.t0, 1);
+                ], \"t0\", 1);
             case 1:
             case 'end':
                 return _ctx.stop();
@@ -1023,6 +1023,21 @@ export function myGenerator() {
     }, _marked);
 }
 "
+);
+
+test_exec!(
+    syntax(),
+    |_| es2015::regenerator(Mark::fresh(Mark::root())),
+    delegate_context,
+    "function* a() {
+        yield 5;
+        return 7;
+    }
+    function* b() {
+        let x = yield* a();
+        yield (x + 1);
+    }
+    expect([...b()]).toEqual([5, 8]);"
 );
 
 test_exec!(
