@@ -8,5 +8,4 @@ function t(x = false) {
     }
     t(!0);
 }
-
 a();
