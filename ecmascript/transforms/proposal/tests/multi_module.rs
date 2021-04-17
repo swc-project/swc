@@ -1,5 +1,3 @@
-#![cfg(feature = "multi-module")]
-
 use std::path::PathBuf;
 use std::sync::Arc;
 use swc_atoms::js_word;
