@@ -5,5 +5,4 @@ const obj = {
     }
 }
 
-
-console.log(obj.method())
+obj.method().then((v) => console.log(v))
