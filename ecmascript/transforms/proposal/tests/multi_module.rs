@@ -1,5 +1,7 @@
 #![cfg(feature = "multi-module")]
 
+use std::path::PathBuf;
+
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::errors::Diagnostic;
@@ -49,3 +51,6 @@ where
             }))
     }
 }
+
+#[testing::fixture("multi/**/input/index.ts")]
+fn fixture(index: PathBuf) {}
