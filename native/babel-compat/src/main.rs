@@ -55,9 +55,9 @@ fn main() {
     let ast = program.babelify(&ctx);
     println!("{:#?}", ast);
 
-    // let mut idcoll = IdCollector { ids: vec![] };
-    // idcoll.visit_with(&mut ast);
-    // println!("{:#?}", idcoll.ids);
+    let mut idcoll = IdCollector { ids: vec![] };
+    ast.visit_with(&swc_ecma_ast::Invalid { span: swc_common::DUMMY_SP }, &mut idcoll);
+    println!("{:#?}", idcoll.ids);
 
     // let json = serde_json::to_string_pretty(&ast).unwrap();
     // println!("{}", json);
