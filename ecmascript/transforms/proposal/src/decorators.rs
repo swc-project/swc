@@ -1,7 +1,6 @@
 use either::Either;
 use serde::Deserialize;
 use std::iter;
-use std::sync::Arc;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;

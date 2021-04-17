@@ -1,5 +1,6 @@
 use std::rc::Rc;
 use std::sync::Arc;
+use swc_atoms::JsWord;
 use swc_common::errors::Diagnostic;
 use swc_common::FileName;
 use swc_ecma_ast::Module;
@@ -11,7 +12,7 @@ pub trait Loader {
 }
 
 pub trait Resolver {
-    fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Diagnostic>;
+    fn resolve(&self, base: &FileName, target: &JsWord) -> Result<FileName, Diagnostic>;
 }
 
 macro_rules! impl_ref {
@@ -29,7 +30,7 @@ macro_rules! impl_ref {
         where
             $TP: Resolver,
         {
-            fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Diagnostic> {
+            fn resolve(&self, base: &FileName, target: &JsWord) -> Result<FileName, Diagnostic> {
                 (**self).resolve(base, target)
             }
         }
