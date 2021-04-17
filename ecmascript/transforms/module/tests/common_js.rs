@@ -4625,7 +4625,7 @@ test!(
     |_| tr(Default::default()),
     issue_1568_1,
     "
-    export default function get(key: string) {
+    export default function get(key) {
       console.log(key);
     }
     ",
