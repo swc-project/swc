@@ -1,6 +1,5 @@
 use std::rc::Rc;
 use std::sync::Arc;
-
 use swc_common::errors::Diagnostic;
 use swc_common::FileName;
 use swc_ecma_ast::Module;
@@ -11,22 +10,33 @@ pub trait Loader {
     fn load(&self, file: &FileName) -> Result<Module, Diagnostic>;
 }
 
-impl<L> Loader for &'_ L {}
-
-impl<L> Loader for Box<L> {}
-
-impl<L> Loader for Rc<L> {}
-
-impl<L> Loader for Arc<L> {}
-
 pub trait Resolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Diagnostic>;
 }
 
-impl<R> Resolver for &'_ R {}
+macro_rules! impl_ref {
+    ($TP:ident,$T:ty) => {
+        impl<$TP> Loader for $T
+        where
+            $TP: Loader,
+        {
+            fn load(&self, file: &FileName) -> Result<Module, Diagnostic> {
+                (**self).load(file)
+            }
+        }
 
-impl<R> Resolver for Box<R> {}
+        impl<$TP> Resolver for $T
+        where
+            $TP: Resolver,
+        {
+            fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Diagnostic> {
+                (**self).resolve(base, target)
+            }
+        }
+    };
+}
 
-impl<R> Resolver for Rc<R> {}
-
-impl<R> Resolver for Arc<R> {}
+impl_ref!(T, &'_ T);
+impl_ref!(T, Box<T>);
+impl_ref!(T, Rc<T>);
+impl_ref!(T, Arc<T>);
