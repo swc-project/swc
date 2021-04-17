@@ -21,6 +21,7 @@ swc_ecma_parser = {version= "0.54.2", path = "../../ecmascript/parser"}
 swc_babel_compat_macros = {path = "./macros"}
 swc_visit = {version = "0.2.3", path = "../../visit"}
 swc_babel_ast = {path = "../babel-ast"}
+swc_babel_visit = {path = "../babel-visit"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
