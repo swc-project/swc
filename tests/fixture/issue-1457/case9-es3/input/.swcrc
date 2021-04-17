@@ -1,0 +1,8 @@
+{
+  "jsc": {
+    "target": "es3",
+    "parser": {
+      "syntax": "typescript"
+    }
+  }
+}
