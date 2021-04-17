@@ -557,6 +557,7 @@ where
             }
 
             if let Ok("1") = env::var("UPDATE").as_deref() {
+                let _ = create_dir_all(output.parent().unwrap());
                 results.push(NormalizedOutput::from(actual_src.clone()).compare_to_file(output));
             }
             assert_eq!(
