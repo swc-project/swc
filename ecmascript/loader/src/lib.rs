@@ -7,7 +7,7 @@ use swc_ecma_ast::Module;
 pub mod tsc;
 
 pub trait Loader {
-    fn load(&self, file: &FileName) -> Result<Module, Diagnostic>;
+    fn load(&self, file: &FileName) -> Result<Arc<Module>, Diagnostic>;
 }
 
 pub trait Resolver {
@@ -20,7 +20,7 @@ macro_rules! impl_ref {
         where
             $TP: Loader,
         {
-            fn load(&self, file: &FileName) -> Result<Module, Diagnostic> {
+            fn load(&self, file: &FileName) -> Result<Arc<Module>, Diagnostic> {
                 (**self).load(file)
             }
         }
