@@ -2,7 +2,7 @@
 [build]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
-    "-C", "target-feature=+sse2,+aes",
+    "-C", "target-feature=+sse2",
 ]
  
 rustdocflags = [
