@@ -73,7 +73,7 @@ impl Fold for ExportNamespaceFrom {
                         extra_stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)));
                     }
                 }
-                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => stmts.push(item),
+                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => extra_stmts.push(item),
                 _ => extra_stmts.push(item),
             }
         }

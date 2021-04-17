@@ -120,3 +120,30 @@ test!(
     a = a !== null && a !== void 0 ? a : b;
     "
 );
+
+test!(
+    Default::default(),
+    |_| tr(()),
+    issue_1570_1,
+    "
+    const a = {}
+    a.b ??= '1'
+    ",
+    "
+    const a = {
+    };
+    var _b;
+    _b = (_b = a.b) !== null && _b !== void 0 ? _b : a.b = '1';
+    "
+);
+
+test_exec!(
+    Default::default(),
+    |_| tr(()),
+    issue_1570_2,
+    "
+    const a = {}
+    a.b ??= '1'
+    expect(a.b).toBe('1')
+    "
+);

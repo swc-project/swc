@@ -1,0 +1,11 @@
+{
+  "mappings": "WAAa,GAAG;WACL,CAAC",
+  "names": [],
+  "sources": [
+    "$DIR/tests/fixture/issue-1581/case2/input/index.js"
+  ],
+  "sourcesContent": [
+    "export const foo = () => {\n    return 2;\n};"
+  ],
+  "version": 3
+}

@@ -4619,3 +4619,54 @@ test!(
     var ora = _interopRequireWildcard(require('ora'));
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1568_1,
+    "
+    export default function get(key) {
+      console.log(key);
+    }
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+      value: true
+    });
+    
+    function get(key) {
+      console.log(key);
+    }
+
+    exports.default = get;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1568_2,
+    "
+    export function get(key) {
+      console.log(key);
+    }
+
+    export default a;
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+      value: true
+    });
+    exports.get = get;
+    exports.default = void 0;
+    
+    function get(key) {
+      console.log(key);
+    }
+    
+    var _default = a;
+    exports.default = _default;
+    "
+);
