@@ -126,7 +126,7 @@ test!(
     |_| tr(()),
     issue_1570_1,
     "
-    const a: { [a: string]: string } = {}
+    const a = {}
     a.b ??= '1'
     ",
     "
@@ -141,7 +141,7 @@ test_exec!(
     |_| tr(()),
     issue_1570_2,
     "
-    const a: { [a: string]: string } = {}
+    const a = {}
     a.b ??= '1'
     expect(a.b).toBe('1')
     "
