@@ -2,10 +2,9 @@ use crate::deps::EnumKind;
 use fxhash::FxHashMap;
 use std::sync::Arc;
 use swc_atoms::js_word;
+use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::Id;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
@@ -13,7 +12,7 @@ use swc_ecma_visit::VisitWith;
 /// Helper struct to help implementing dependency analyzer.
 #[derive(Debug)]
 pub struct ModuleData {
-    pub metadata_types: Arc<FxHashMap<Id, Box<Expr>>>,
+    pub metadata_types: Arc<FxHashMap<JsWord, Box<Expr>>>,
 }
 
 pub fn analyze(module: &Module) -> ModuleData {
@@ -27,7 +26,7 @@ pub fn analyze(module: &Module) -> ModuleData {
 
 #[derive(Debug, Default)]
 struct Analyzer {
-    metadata_types: FxHashMap<Id, Box<Expr>>,
+    metadata_types: FxHashMap<JsWord, Box<Expr>>,
 }
 
 impl Visit for Analyzer {
@@ -37,7 +36,7 @@ impl Visit for Analyzer {
                 let kind = EnumKind::from(e);
 
                 self.metadata_types.insert(
-                    e.id.to_id(),
+                    e.id.sym.clone(),
                     Box::new(Expr::Ident(Ident::new(
                         match kind {
                             EnumKind::Mixed => {

@@ -21,7 +21,6 @@ use swc_ecma_transforms_proposal::decorators::decorator_with_deps;
 use swc_ecma_transforms_proposal::deps::module_analyzer;
 use swc_ecma_transforms_proposal::deps::DepAnalyzer;
 use swc_ecma_transforms_testing::test_fixture;
-use swc_ecma_utils::ident::IdentLike;
 
 struct SimpleLoader {
     cm: Lrc<SourceMap>,
@@ -96,7 +95,7 @@ where
 
         Ok(analayzed
             .metadata_types
-            .get(&imported.to_id())
+            .get(&imported.sym)
             .cloned()
             .unwrap_or_else(|| {
                 Box::new(Expr::Ident(Ident::new(js_word!("Object"), imported.span)))

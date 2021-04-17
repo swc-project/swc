@@ -69,6 +69,13 @@ pub trait DepAnalyzer {
     ///
     /// In this example, `base` is `index.ts`, `dep_src` is `./foo` and
     /// `imported` will be `default` on first call and `bar` on second call.
+
+    ///
+    ///
+    ///
+    /// # Note
+    ///
+    /// Implementor should ignore span of `imported`.
     fn design_type_of(
         &self,
         _base: &FileName,
