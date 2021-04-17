@@ -50,6 +50,7 @@ impl Loader for SimpleLoader {
     }
 }
 
+/// This only supports relative imports.
 struct SimpleResolver {}
 
 impl Resolver for SimpleResolver {
@@ -58,7 +59,10 @@ impl Resolver for SimpleResolver {
             FileName::Real(v) => v,
             _ => unreachable!(),
         };
-        let new = base.join(&**target);
+
+        let target = PathBuf::from(&**target).with_extension("ts");
+
+        let new = base.parent().unwrap().join(target);
         assert!(new.exists(), "{} does not exist", new.display());
 
         Ok(FileName::Real(new))
