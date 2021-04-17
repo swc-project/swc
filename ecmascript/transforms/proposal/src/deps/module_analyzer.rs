@@ -1,8 +1,12 @@
+use crate::deps::EnumKind;
 use fxhash::FxHashMap;
 use std::sync::Arc;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
+use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 
@@ -26,4 +30,31 @@ struct Analyzer {
     metadata_types: FxHashMap<Id, Box<Expr>>,
 }
 
-impl Visit for Analyzer {}
+impl Visit for Analyzer {
+    fn visit_export_decl(&mut self, n: &ExportDecl, _: &dyn Node) {
+        match &n.decl {
+            Decl::TsEnum(e) => {
+                let kind = EnumKind::from(e);
+
+                self.metadata_types.insert(
+                    e.id.to_id(),
+                    Box::new(Expr::Ident(Ident::new(
+                        match kind {
+                            EnumKind::Mixed => {
+                                js_word!("Object")
+                            }
+                            EnumKind::Str => {
+                                js_word!("String")
+                            }
+                            EnumKind::Num => {
+                                js_word!("Number")
+                            }
+                        },
+                        e.id.span,
+                    ))),
+                );
+            }
+            _ => {}
+        }
+    }
+}

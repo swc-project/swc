@@ -9,6 +9,51 @@ use swc_ecma_ast::*;
 
 pub mod module_analyzer;
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub(crate) enum EnumKind {
+    Mixed,
+    Str,
+    Num,
+}
+
+impl From<&'_ TsEnumDecl> for EnumKind {
+    fn from(e: &TsEnumDecl) -> Self {
+        e.members
+            .iter()
+            .map(|member| member.init.as_ref())
+            .map(|init| match init {
+                Some(e) => match &**e {
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(_) => EnumKind::Str,
+                        Lit::Num(_) => EnumKind::Num,
+                        _ => EnumKind::Mixed,
+                    },
+                    _ => EnumKind::Mixed,
+                },
+                None => EnumKind::Num,
+            })
+            .fold(None, |opt: Option<EnumKind>, item| {
+                //
+                let a = match item {
+                    EnumKind::Mixed => return Some(EnumKind::Mixed),
+                    _ => item,
+                };
+
+                let b = match opt {
+                    Some(EnumKind::Mixed) => return Some(EnumKind::Mixed),
+                    Some(v) => v,
+                    None => return Some(a),
+                };
+                if a == b {
+                    return Some(a);
+                } else {
+                    return Some(EnumKind::Mixed);
+                }
+            })
+            .unwrap_or(EnumKind::Mixed)
+    }
+}
+
 /// This trait defines methods to get information stored in other files.
 pub trait DepAnalyzer {
     /// Returns the type (`$T`) which should be used for

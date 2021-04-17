@@ -1,6 +1,7 @@
 use self::metadata::{Metadata, ParamMetadata};
 use super::usage::DecoratorFinder;
 use crate::deps::DepAnalyzer;
+use crate::deps::EnumKind;
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
@@ -21,13 +22,6 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-enum EnumKind {
-    Mixed,
-    Str,
-    Num,
-}
 
 #[derive(Debug)]
 pub(super) struct Legacy<A>
@@ -65,42 +59,8 @@ where
     A: DepAnalyzer,
 {
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl, _: &dyn Node) {
-        let enum_kind = e
-            .members
-            .iter()
-            .map(|member| member.init.as_ref())
-            .map(|init| match init {
-                Some(e) => match &**e {
-                    Expr::Lit(lit) => match lit {
-                        Lit::Str(_) => EnumKind::Str,
-                        Lit::Num(_) => EnumKind::Num,
-                        _ => EnumKind::Mixed,
-                    },
-                    _ => EnumKind::Mixed,
-                },
-                None => EnumKind::Num,
-            })
-            .fold(None, |opt: Option<EnumKind>, item| {
-                //
-                let a = match item {
-                    EnumKind::Mixed => return Some(EnumKind::Mixed),
-                    _ => item,
-                };
-
-                let b = match opt {
-                    Some(EnumKind::Mixed) => return Some(EnumKind::Mixed),
-                    Some(v) => v,
-                    None => return Some(a),
-                };
-                if a == b {
-                    return Some(a);
-                } else {
-                    return Some(EnumKind::Mixed);
-                }
-            });
-        if let Some(kind) = enum_kind {
-            self.enums.insert(e.id.to_id(), kind);
-        }
+        let kind = EnumKind::from(e);
+        self.enums.insert(e.id.to_id(), kind);
     }
 }
 
