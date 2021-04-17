@@ -1,6 +1,10 @@
+use crate::deps::DepAnalyzer;
+
 use super::EnumKind;
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
+use swc_atoms::JsWord;
+use swc_common::FileName;
 use swc_common::{util::move_map::MoveMap, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::member_expr;
@@ -122,13 +126,24 @@ impl ParamMetadata {
 }
 
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
-pub(super) struct Metadata<'a> {
+pub(super) struct Metadata<'a, A>
+where
+    A: DepAnalyzer,
+{
+    pub(super) base: &'a FileName,
+    /// imported ident : import source
+    pub(super) imports: &'a FxHashMap<Id, JsWord>,
     pub(super) enums: &'a FxHashMap<Id, EnumKind>,
 
     pub(super) class_name: Option<&'a Ident>,
+
+    pub(super) analyzer: A,
 }
 
-impl Fold for Metadata<'_> {
+impl<A> Fold for Metadata<'_, A>
+where
+    A: DepAnalyzer,
+{
     noop_fold_type!();
 
     fn fold_class(&mut self, mut c: Class) -> Class {
@@ -253,6 +268,18 @@ impl Fold for Metadata<'_> {
                 p.decorators.push(dec);
                 return p;
             }
+
+            if let Some(dep_src) = self.imports.get(&name.to_id()) {
+                let arg = self
+                    .analyzer
+                    .design_type_of(self.base, dep_src, &name)
+                    .unwrap_or_else(|err| {
+                        panic!("failed to load `design:type` from `{}`: {:?}", dep_src, err)
+                    });
+                let dec = self.create_metadata_design_decorator("design:type", arg.as_arg());
+                p.decorators.push(dec);
+                return p;
+            }
         }
 
         let dec = self.create_metadata_design_decorator(
@@ -265,7 +292,10 @@ impl Fold for Metadata<'_> {
     }
 }
 
-impl Metadata<'_> {
+impl<A> Metadata<'_, A>
+where
+    A: DepAnalyzer,
+{
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,

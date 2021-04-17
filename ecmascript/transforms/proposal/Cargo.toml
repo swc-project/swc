@@ -10,9 +10,8 @@ version = "0.13.3"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-default = []
-multi-module = ["swc_ecma_loader"]
+[package.metadata.docs.rs]
+all-features = true
 
 [dependencies]
 either = "1.6.1"

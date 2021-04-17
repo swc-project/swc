@@ -1,8 +1,11 @@
+use crate::deps::DepAnalyzer;
+
 use self::metadata::{Metadata, ParamMetadata};
 use super::usage::DecoratorFinder;
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
+use swc_common::FileName;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -18,7 +21,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 enum EnumKind {
     Mixed,
     Str,
@@ -26,25 +29,38 @@ enum EnumKind {
 }
 
 #[derive(Debug)]
-pub(super) struct Legacy {
+pub(super) struct Legacy<A>
+where
+    A: DepAnalyzer,
+{
+    base: FileName,
     metadata: bool,
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
     exports: Vec<ExportSpecifier>,
     enums: FxHashMap<Id, EnumKind>,
+    analyzer: A,
 }
 
-pub(super) fn new(metadata: bool) -> Legacy {
+pub(super) fn new<A>(metadata: bool, base: FileName, analyzer: A) -> Legacy<A>
+where
+    A: DepAnalyzer,
+{
     Legacy {
+        base,
         metadata,
         uninitialized_vars: Default::default(),
         initialized_vars: Default::default(),
         exports: Default::default(),
         enums: Default::default(),
+        analyzer,
     }
 }
 
-impl Visit for Legacy {
+impl<A> Visit for Legacy<A>
+where
+    A: DepAnalyzer,
+{
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl, _: &dyn Node) {
         let enum_kind = e
             .members
@@ -71,7 +87,7 @@ impl Visit for Legacy {
                 let b = match opt {
                     Some(EnumKind::Mixed) => return Some(EnumKind::Mixed),
                     Some(v) => v,
-                    None => return Some(item),
+                    None => return Some(a),
                 };
                 if a == b {
                     return Some(a);
@@ -85,7 +101,10 @@ impl Visit for Legacy {
     }
 }
 
-impl Fold for Legacy {
+impl<A> Fold for Legacy<A>
+where
+    A: DepAnalyzer,
+{
     noop_fold_type!();
 
     fn fold_decl(&mut self, decl: Decl) -> Decl {
@@ -233,7 +252,10 @@ impl Fold for Legacy {
     }
 }
 
-impl Legacy {
+impl<A> Legacy<A>
+where
+    A: DepAnalyzer,
+{
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
@@ -269,14 +291,19 @@ impl Legacy {
     }
 }
 
-impl Legacy {
+impl<A> Legacy<A>
+where
+    A: DepAnalyzer,
+{
     fn handle(&mut self, mut c: ClassExpr) -> Box<Expr> {
         if self.metadata {
             let i = c.ident.clone();
 
             c = c.fold_with(&mut ParamMetadata).fold_with(&mut Metadata {
+                base: &self.base,
                 enums: &self.enums,
                 class_name: i.as_ref(),
+                analyzer: &self.analyzer,
             });
         }
 

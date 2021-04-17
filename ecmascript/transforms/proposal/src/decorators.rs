@@ -1,6 +1,9 @@
+use crate::deps::DepAnalyzer;
+use crate::deps::NoopDepAnalyzer;
 use either::Either;
 use serde::Deserialize;
 use std::iter;
+use swc_common::FileName;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -13,9 +16,6 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
-
-use crate::deps::DepAnalyzer;
-use crate::deps::NoopDepAnalyzer;
 
 mod legacy;
 mod usage;
@@ -61,30 +61,18 @@ mod usage;
 /// }
 /// ```
 pub fn decorators(c: Config) -> impl Fold {
-    if c.legacy {
-        Either::Left(self::legacy::new(c.emit_metadata))
-    } else {
-        if c.emit_metadata {
-            unimplemented!("emitting decorator metadata while using new proposal")
-        }
-        Either::Right(Decorators {
-            is_in_strict: false,
-            analyzer: None::<NoopDepAnalyzer>,
-        })
-    }
+    decorator_with_deps(c, FileName::Anon, NoopDepAnalyzer)
 }
 
-#[cfg(feature = "multi-module")]
-pub fn decorator_with_deps(c: Config, analyzer: impl DepAnalyzer) -> impl Fold {
+pub fn decorator_with_deps(c: Config, base: FileName, analyzer: impl DepAnalyzer) -> impl Fold {
     if c.legacy {
-        Either::Left(self::legacy::new(c.emit_metadata))
+        Either::Left(self::legacy::new(c.emit_metadata, base, analyzer))
     } else {
         if c.emit_metadata {
             unimplemented!("emitting decorator metadata while using new proposal")
         }
         Either::Right(Decorators {
             is_in_strict: false,
-            analyzer: Some(analyzer),
         })
     }
 }
@@ -98,18 +86,11 @@ pub struct Config {
 }
 
 #[derive(Debug, Default)]
-struct Decorators<A>
-where
-    A: DepAnalyzer,
-{
+struct Decorators {
     is_in_strict: bool,
-    analyzer: Option<A>,
 }
 
-impl<A> Fold for Decorators<A>
-where
-    A: DepAnalyzer,
-{
+impl Fold for Decorators {
     noop_fold_type!();
 
     fn fold_decl(&mut self, decl: Decl) -> Decl {
@@ -275,10 +256,7 @@ where
     }
 }
 
-impl<A> Decorators<A>
-where
-    A: DepAnalyzer,
-{
+impl Decorators {
     fn fold_class_inner(&self, ident: Ident, mut class: Class) -> Expr {
         let initialize = private_ident!("_initialize");
         let super_class_ident = match class.super_class {

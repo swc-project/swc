@@ -14,7 +14,6 @@ all-features = true
 [features]
 compat = ["swc_ecma_transforms_compat"]
 module = ["swc_ecma_transforms_module"]
-multi-module = ["swc_ecma_transforms_proposal/multi-module"]
 optimization = ["swc_ecma_transforms_optimization"]
 proposal = ["swc_ecma_transforms_proposal"]
 react = ["swc_ecma_transforms_react"]
