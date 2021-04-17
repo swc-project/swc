@@ -10,8 +10,14 @@ use swc_ecma_ast::Ident;
 use swc_ecma_ast::*;
 use swc_ecma_loader::Loader;
 use swc_ecma_loader::Resolver;
+use swc_ecma_parser::Syntax;
+use swc_ecma_parser::TsConfig;
+use swc_ecma_transforms_proposal::decorators;
+use swc_ecma_transforms_proposal::decorators::decorator_with_deps;
 use swc_ecma_transforms_proposal::deps::module_analyzer;
 use swc_ecma_transforms_proposal::deps::DepAnalyzer;
+use swc_ecma_transforms_testing::test_fixture;
+use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_utils::ident::IdentLike;
 
 /// Simple dependency analyzer which always resolve using `R` and load using
@@ -53,4 +59,26 @@ where
 }
 
 #[testing::fixture("multi/**/input/index.ts")]
-fn fixture(index: PathBuf) {}
+fn fixture(input: PathBuf) {
+    let input_dir = input.parent().unwrap();
+    let test_dir = input_dir.parent().unwrap();
+
+    test_fixture(
+        Syntax::Typescript(TsConfig {
+            decorators: true,
+            tsx: true,
+            ..Default::default()
+        }),
+        &|_| {
+            decorator_with_deps(
+                decorators::Config {
+                    legacy: true,
+                    emit_metadata: true,
+                },
+                SimpleDepAnalyzer {},
+            )
+        },
+        &input,
+        &test_dir.join("output").join("output.js"),
+    );
+}
