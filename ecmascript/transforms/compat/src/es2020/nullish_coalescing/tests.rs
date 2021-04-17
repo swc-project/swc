@@ -130,9 +130,10 @@ test!(
     a.b ??= '1'
     ",
     "
-    var _a;
-    var a = {};
-    (_a = a.b) !== null && _a !== void 0 ? _a : (a.b = '1');
+    const a = {
+    };
+    var _b;
+    _b = (_b = a.b) !== null && _b !== void 0 ? _b : a.b = '1';
     "
 );
 
