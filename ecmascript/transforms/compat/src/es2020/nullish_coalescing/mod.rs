@@ -116,6 +116,14 @@ impl Fold for NullishCoalescing {
                             });
                         }
 
+                        // TODO: Check for computed.
+                        let right_expr = Box::new(Expr::Assign(AssignExpr {
+                            span: assign.span,
+                            left: PatOrExpr::Expr(left.clone()),
+                            op: op!("="),
+                            right: assign.right.take(),
+                        }));
+
                         let var_expr = if aliased {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
@@ -131,12 +139,7 @@ impl Fold for NullishCoalescing {
                             span: assign.span,
                             op: op!("="),
                             left: PatOrExpr::Pat(Box::new(Pat::Ident(alias.clone().into()))),
-                            right: Box::new(make_cond(
-                                assign.span,
-                                &alias,
-                                var_expr,
-                                assign.right.take(),
-                            )),
+                            right: Box::new(make_cond(assign.span, &alias, var_expr, right_expr)),
                         });
                     }
                     PatOrExpr::Pat(left) => match &mut **left {
