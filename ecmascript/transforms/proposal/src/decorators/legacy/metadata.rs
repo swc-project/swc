@@ -132,7 +132,7 @@ where
 {
     pub(super) base: &'a FileName,
     /// imported ident : import source
-    pub(super) imports: &'a FxHashMap<Id, JsWord>,
+    pub(super) imports: &'a FxHashMap<Id, (JsWord, Ident)>,
     pub(super) enums: &'a FxHashMap<Id, EnumKind>,
 
     pub(super) class_name: Option<&'a Ident>,
@@ -269,10 +269,10 @@ where
                 return p;
             }
 
-            if let Some(dep_src) = self.imports.get(&name.to_id()) {
+            if let Some((dep_src, imported)) = self.imports.get(&name.to_id()) {
                 let arg = self
                     .analyzer
-                    .design_type_of(self.base, dep_src, &name)
+                    .design_type_of(self.base, dep_src, imported)
                     .unwrap_or_else(|err| {
                         panic!("failed to load `design:type` from `{}`: {:?}", dep_src, err)
                     });

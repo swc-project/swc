@@ -26,8 +26,8 @@ pub trait DepAnalyzer {
     /// `imported` will be `default` on first call and `bar` on second call.
     fn design_type_of(
         &self,
-        base: &FileName,
-        dep_src: &JsWord,
+        _base: &FileName,
+        _dep_src: &JsWord,
         imported: &Ident,
     ) -> Result<Box<Expr>, Diagnostic> {
         Ok(Box::new(Expr::Ident(Ident::new(

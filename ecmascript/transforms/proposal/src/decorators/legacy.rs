@@ -1,10 +1,11 @@
-use crate::deps::DepAnalyzer;
-
 use self::metadata::{Metadata, ParamMetadata};
 use super::usage::DecoratorFinder;
+use crate::deps::DepAnalyzer;
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
+use swc_atoms::js_word;
+use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -34,6 +35,7 @@ where
     A: DepAnalyzer,
 {
     base: FileName,
+    imports: FxHashMap<Id, (JsWord, Ident)>,
     metadata: bool,
     uninitialized_vars: Vec<VarDeclarator>,
     initialized_vars: Vec<VarDeclarator>,
@@ -54,6 +56,7 @@ where
         exports: Default::default(),
         enums: Default::default(),
         analyzer,
+        imports: Default::default(),
     }
 }
 
@@ -187,6 +190,36 @@ where
         m
     }
 
+    fn fold_import_decl(&mut self, n: ImportDecl) -> ImportDecl {
+        let n = n.fold_children_with(self);
+
+        for s in &n.specifiers {
+            match s {
+                ImportSpecifier::Named(s) => match &s.imported {
+                    Some(imported) => {
+                        self.imports
+                            .insert(s.local.to_id(), (n.src.value.clone(), imported.clone()));
+                    }
+                    None => {
+                        self.imports
+                            .insert(s.local.to_id(), (n.src.value.clone(), s.local.clone()));
+                    }
+                },
+                ImportSpecifier::Default(s) => {
+                    self.imports.insert(
+                        s.local.to_id(),
+                        (n.src.value.clone(), Ident::new(js_word!("default"), s.span)),
+                    );
+                }
+                ImportSpecifier::Namespace(_) => {
+                    // TODO
+                }
+            }
+        }
+
+        n
+    }
+
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
         let item: ModuleItem = item.fold_children_with(self);
 
@@ -304,6 +337,7 @@ where
                 enums: &self.enums,
                 class_name: i.as_ref(),
                 analyzer: &self.analyzer,
+                imports: &self.imports,
             });
         }
 
