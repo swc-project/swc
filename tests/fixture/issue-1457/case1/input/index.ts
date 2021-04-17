@@ -19,3 +19,5 @@ setGlobalOptions({
     },
 });
 import { schemas } from './schemas';
+
+console.log(schemas)
