@@ -58,6 +58,32 @@ impl<A> Visit for Legacy<A>
 where
     A: DepAnalyzer,
 {
+    fn visit_import_decl(&mut self, n: &ImportDecl, _parent: &dyn Node) {
+        for s in &n.specifiers {
+            match s {
+                ImportSpecifier::Named(s) => match &s.imported {
+                    Some(imported) => {
+                        self.imports
+                            .insert(s.local.to_id(), (n.src.value.clone(), imported.clone()));
+                    }
+                    None => {
+                        self.imports
+                            .insert(s.local.to_id(), (n.src.value.clone(), s.local.clone()));
+                    }
+                },
+                ImportSpecifier::Default(s) => {
+                    self.imports.insert(
+                        s.local.to_id(),
+                        (n.src.value.clone(), Ident::new(js_word!("default"), s.span)),
+                    );
+                }
+                ImportSpecifier::Namespace(_) => {
+                    // TODO
+                }
+            }
+        }
+    }
+
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl, _: &dyn Node) {
         let kind = EnumKind::from(e);
         self.enums.insert(e.id.to_id(), kind);
@@ -148,36 +174,6 @@ where
         }
 
         m
-    }
-
-    fn fold_import_decl(&mut self, n: ImportDecl) -> ImportDecl {
-        let n = n.fold_children_with(self);
-
-        for s in &n.specifiers {
-            match s {
-                ImportSpecifier::Named(s) => match &s.imported {
-                    Some(imported) => {
-                        self.imports
-                            .insert(s.local.to_id(), (n.src.value.clone(), imported.clone()));
-                    }
-                    None => {
-                        self.imports
-                            .insert(s.local.to_id(), (n.src.value.clone(), s.local.clone()));
-                    }
-                },
-                ImportSpecifier::Default(s) => {
-                    self.imports.insert(
-                        s.local.to_id(),
-                        (n.src.value.clone(), Ident::new(js_word!("default"), s.span)),
-                    );
-                }
-                ImportSpecifier::Namespace(_) => {
-                    // TODO
-                }
-            }
-        }
-
-        n
     }
 
     fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
