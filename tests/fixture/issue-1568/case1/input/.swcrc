@@ -1,0 +1,18 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": false,
+      "dynamicImport": true
+    },
+    "target": "es5",
+    "loose": true,
+    "externalHelpers": false
+  },
+  "minify": false,
+  "env": {
+    "mode": "entry",
+    "coreJs": 3
+  }
+}
