@@ -2409,6 +2409,6 @@ test_exec!(
         return this.foo;
     }
   }
-  return obj.method((res) => expect(res).toBe(5))
+  return obj.method().then((res) => expect(res).toBe(5))
 "
 );
