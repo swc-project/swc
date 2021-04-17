@@ -88,6 +88,11 @@ where
         dep_src: &JsWord,
         imported: &Ident,
     ) -> Result<Box<Expr>, Diagnostic> {
+        eprintln!(
+            "Fetching design:type of {} -> {} from {}",
+            dep_src, imported.sym, base
+        );
+
         let file = self.resolver.resolve(base, dep_src)?;
         let module = self.loader.load(&file)?;
 
