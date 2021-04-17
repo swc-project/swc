@@ -120,3 +120,29 @@ test!(
     a = a !== null && a !== void 0 ? a : b;
     "
 );
+
+test!(
+    Default::default(),
+    |_| tr(()),
+    issue_1570_1,
+    "
+    const a: { [a: string]: string } = {}
+    a.b ??= '1'
+    ",
+    "
+    var _a;
+    var a = {};
+    (_a = a.b) !== null && _a !== void 0 ? _a : (a.b = '1');
+    "
+);
+
+test_exec!(
+    Default::default(),
+    |_| tr(()),
+    issue_1570_2,
+    "
+    const a: { [a: string]: string } = {}
+    a.b ??= '1'
+    expect(a.b).toBe('1')
+    "
+);
