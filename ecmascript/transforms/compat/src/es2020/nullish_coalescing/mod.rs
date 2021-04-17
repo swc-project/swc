@@ -117,12 +117,16 @@ impl Fold for NullishCoalescing {
                         }
 
                         // TODO: Check for computed.
-                        let right_expr = Box::new(Expr::Assign(AssignExpr {
-                            span: assign.span,
-                            left: PatOrExpr::Expr(left.clone()),
-                            op: op!("="),
-                            right: assign.right.take(),
-                        }));
+                        let right_expr = if aliased {
+                            Box::new(Expr::Assign(AssignExpr {
+                                span: assign.span,
+                                left: PatOrExpr::Expr(left.clone()),
+                                op: op!("="),
+                                right: assign.right.take(),
+                            }))
+                        } else {
+                            assign.right.take()
+                        };
 
                         let var_expr = if aliased {
                             Expr::Assign(AssignExpr {
