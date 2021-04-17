@@ -4,5 +4,6 @@ pub use self::{
 };
 
 pub mod decorators;
+pub mod deps;
 mod export_default_from;
 mod import_assertions;
