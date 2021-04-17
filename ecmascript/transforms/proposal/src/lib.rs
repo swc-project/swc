@@ -4,6 +4,7 @@ pub use self::{
 };
 
 pub mod decorators;
+#[cfg(feature = "swc_ecma_loader")]
 pub mod deps;
 mod export_default_from;
 mod import_assertions;
