@@ -349,6 +349,8 @@ impl Fold for Actual {
         }
         let params = prop.function.params;
 
+        let is_this_used = contains_this_expr(&prop.function.body);
+
         let fn_ref = make_fn_ref(
             FnExpr {
                 ident: None,
@@ -359,12 +361,20 @@ impl Fold for Actual {
             },
             true,
         );
-        let fn_ref = Expr::Call(CallExpr {
-            span: DUMMY_SP,
-            callee: fn_ref.as_callee(),
-            args: vec![],
-            type_args: Default::default(),
-        });
+        let fn_ref = if is_this_used {
+            fn_ref.apply(
+                DUMMY_SP,
+                Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                vec![],
+            )
+        } else {
+            Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: fn_ref.as_callee(),
+                args: vec![],
+                type_args: Default::default(),
+            })
+        };
 
         MethodProp {
             function: Function {
