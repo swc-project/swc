@@ -87,7 +87,7 @@ where
         &self,
         base: &FileName,
         dep_src: &JsWord,
-        imported: Ident,
+        imported: &Ident,
     ) -> Result<Box<Expr>, Diagnostic> {
         let file = self.resolver.resolve(base, dep_src)?;
         let module = self.loader.load(&file)?;
@@ -121,6 +121,7 @@ fn fixture(input: PathBuf) {
                     legacy: true,
                     emit_metadata: true,
                 },
+                FileName::Real(input.clone()),
                 SimpleDepAnalyzer {
                     loader: SimpleLoader { cm: t.cm.clone() },
                     resolver: TscResolver::new(Default::default(), SimpleResolver {}),
