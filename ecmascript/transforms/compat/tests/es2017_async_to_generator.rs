@@ -15,6 +15,8 @@ use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
 
+use crate::es2015::regenerator;
+
 struct ParenRemover;
 impl Fold for ParenRemover {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -2383,12 +2385,30 @@ test_exec!(
     |_| async_to_generator(),
     issue_1575_1,
     "
-    const obj = {
-      foo: 5,
-      async method() {
-          return this.foo;
-      }
+  const obj = {
+    foo: 5,
+    async method() {
+        return this.foo;
     }
-    return obj.method((res) => expect(res).toBe(5))
-  "
+  }
+  return obj.method((res) => expect(res).toBe(5))
+"
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(async_to_generator(), regenerator(mark))
+    },
+    issue_1575_2,
+    "
+  const obj = {
+    foo: 5,
+    async method() {
+        return this.foo;
+    }
+  }
+  return obj.method((res) => expect(res).toBe(5))
+"
 );
