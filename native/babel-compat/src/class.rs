@@ -1,19 +1,7 @@
-// use super::Context;
-// use crate::ast::{
-//     common::Decorator as BabelDecorator,
-//     class::{
-//         ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty, ClassPrivateMethod,
-//         ClassMethod as BabelClassMethod, ClassMethodKind, ClassDeclaration,
-//     },
-//     expr::ClassExpression,
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
     Decorator as BabelDecorator, ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty,
-    ClassPrivateMethod, ClassMethod as BabelClassMethod, ClassMethodKind, ClassDeclaration,
-    ClassExpression,
+    ClassPrivateMethod, ClassMethod as BabelClassMethod, ClassMethodKind, ClassExpression,
 };
 use swc_ecma_ast::{
     Class, ClassMember, ClassProp, PrivateProp, Decorator, PrivateMethod, ClassMethod, MethodKind,

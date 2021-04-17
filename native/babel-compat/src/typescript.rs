@@ -1,32 +1,3 @@
-// use super::Context;
-// use crate::ast::{
-//     common::{
-//         IdOrRest, TypeAnnotOrNoop, TypeParamDeclOrNoop, Access, RestElement, Identifier,
-//         SuperTypeParams, IdOrString,
-//     },
-//     class::ClassImpl,
-//     typescript::{
-//         TSTypeAnnotation, TSType, TSAnyKeyword, TSUnknownKeyword, TSNumberKeyword, TSObjectKeyword,
-//         TSBooleanKeyword, TSBigIntKeyword, TSStringKeyword, TSSymbolKeyword, TSVoidKeyword,
-//         TSUndefinedKeyword, TSNullKeyword, TSNeverKeyword, TSIntrinsicKeyword, TSThisType,
-//         TSFunctionType, TSConstructorType, TSTypeParameterDeclaration, TSTypeParameter,
-//         TSIndexSignature, TSExpressionWithTypeArguments, TSTypeParameterInstantiation, TSEntityName,
-//         TSQualifiedName, TSParameterProperty, TSParamPropParam, TSModuleDeclaration,
-//         TSModuleDeclBody, TSModuleBlock, TSEnumDeclaration, TSEnumMember, TSTypeAliasDeclaration,
-//         TSInterfaceDeclaration, TSInterfaceBody, TSTypeElement, TSCallSignatureDeclaration,
-//         TSConstructSignatureDeclaration, TSPropertySignature, TSMethodSignature,
-//         TSImportEqualsDeclaration, TSImportEqualsDeclModuleRef, TSExternalModuleReference,
-//         TSExportAssignment, TSNamespaceExportDeclaration, TSTypeReference, TSTypePredicate,
-//         TSTypePredicateParamName, TSTypeQuery, TSTypeQueryExprName, TSImportType, TSTypeLiteral,
-//         TSArrayType, TSTupleType, TSTupleTypeElType, TSNamedTupleMember, TSOptionalType,
-//         TSRestType, TSUnionType, TSIntersectionType, TSConditionalType, TSInferType,
-//         TSParenthesizedType, TSTypeOperator, TSIndexedAccessType, TSMappedType, TSLiteralType,
-//         TSLiteralTypeLiteral, TSAsExpression, TSTypeAssertion, TSNonNullExpression,
-//     },
-//     pat::{ArrayPattern, ObjectPattern},
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
     IdOrRest, Access, RestElement, Identifier, IdOrString, TSTypeAnnotation, TSType, TSAnyKeyword,

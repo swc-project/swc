@@ -1,14 +1,5 @@
-// use super::Context;
-// use crate::ast::{
-//     common::{Identifier, PrivateName as BabelPrivateName},
-//     jsx::JSXIdentifier,
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
-use swc_babel_ast::{
-    Identifier, PrivateName as BabelPrivateName, JSXIdentifier,
-};
+use swc_babel_ast::{Identifier, PrivateName as BabelPrivateName};
 
 use swc_ecma_ast::{BindingIdent, Ident, PrivateName};
 

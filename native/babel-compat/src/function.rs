@@ -1,16 +1,7 @@
-// use super::Context;
-// use crate::ast::{
-//     common::{Param as BabelParam, Identifier, RestElement},
-//     expr::FunctionExpression,
-//     decl::FunctionDeclaration,
-//     pat::{Pattern, ArrayPattern, ObjectPattern, AssignmentPattern},
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
-    Param as BabelParam, Identifier, RestElement, FunctionExpression, FunctionDeclaration,
-    Pattern, ArrayPattern, ObjectPattern, AssignmentPattern,
+    Param as BabelParam, Identifier, RestElement, FunctionExpression, Pattern, ArrayPattern,
+    ObjectPattern, AssignmentPattern,
 };
 
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};

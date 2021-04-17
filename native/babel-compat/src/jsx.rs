@@ -1,19 +1,3 @@
-// use super::Context;
-// use crate::ast::{
-//     jsx::{
-//         JSXMemberExprObject, JSXMemberExpression, JSXNamespacedName as BabelJSXNamespacedName,
-//         JSXEmptyExpression, JSXExpressionContainer, JSXExprContainerExpr,
-//         JSXSpreadChild as BabelJSXSpreadChild, JSXElementName as BabelJSXElementName,
-//         JSXOpeningElement as BabelJSXOpeningElement, JSXOpeningElAttr, JSXAttribute,
-//         JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXElement as BabelJSXElement,
-//         JSXClosingElement as BabelJSXClosingElement, JSXElementChild as BabelJSXElementChild,
-//         JSXText as BabelJSXText, JSXFragment as BabelJSXFragment,
-//         JSXOpeningFragment as BabelJSXOpeningFragment,
-//         JSXClosingFragment as BabelJSXClosingFragment,
-//     },
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
     JSXMemberExprObject, JSXMemberExpression, JSXNamespacedName as BabelJSXNamespacedName,

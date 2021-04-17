@@ -1,13 +1,3 @@
-// use super::Context;
-// use crate::ast::{
-//     expr::{Expression, FunctionExpression},
-//     object::{
-//         ObjectKey, ObjectProperty, ObjectMethod, ObjectMethodKind, ObjectPropVal, ObjectMember,
-//     },
-//     pat::{AssignmentPattern, AssignmentPatternLeft},
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
     Expression, FunctionExpression, ObjectKey, ObjectProperty, ObjectMethod, ObjectMethodKind,

@@ -1,16 +1,3 @@
-// use super::Context;
-// use crate::ast::{
-//     common::{LVal, PatternLike, RestElement, Identifier, Param},
-//     expr::Expression,
-//     object::{ObjectProperty, ObjectPropVal},
-//     pat::{
-//         Pattern, ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern,
-//         AssignmentPatternLeft,
-//     },
-//     stmt::CatchClauseParam,
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
     LVal, PatternLike, RestElement, Identifier, Param, Expression, ObjectProperty, ObjectPropVal,
@@ -174,7 +161,6 @@ impl Babelify for ObjectPatProp {
         match self {
             ObjectPatProp::KeyValue(p) => ObjectPatternProp::Prop(p.babelify(ctx)),
             ObjectPatProp::Rest(r) => ObjectPatternProp::Rest(r.babelify(ctx)),
-            ObjectPatProp::Assign(_) => panic!("illegal conversion"),
             ObjectPatProp::Assign(_) => panic!("illegal conversion: Cannot convert {} to ObjectPatternProp (in impl Babelify for ObjectPatProp)", type_name_of_val(&self)),
         }
     }

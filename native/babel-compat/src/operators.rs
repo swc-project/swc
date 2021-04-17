@@ -1,7 +1,3 @@
-// use super::Context;
-// use crate::ast::expr::{BinaryExprOp, LogicalExprOp, UpdateExprOp, UnaryExprOp};
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{BinaryExprOp, LogicalExprOp, UpdateExprOp, UnaryExprOp};
 

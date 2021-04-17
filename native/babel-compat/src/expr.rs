@@ -1,23 +1,3 @@
-// use super::Context;
-// use crate::ast::{
-//     common::{
-//         SpreadElement as BabelSpreadElement, PrivateName, LVal, MetaProperty,
-//     },
-//     expr::{
-//         Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
-//         UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
-//         ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper,
-//         MemberExprProp, ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
-//         ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
-//         TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
-//         Arg,
-//     },
-//     jsx::{JSXSpreadAttribute},
-//     lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
-//     object::{ObjectKey, ObjectMember},
-// };
-// use crate::convert::Babelify;
-
 use crate::{Context, Babelify};
 use swc_babel_ast::{
     SpreadElement as BabelSpreadElement, PrivateName, LVal, MetaProperty, Expression,
@@ -26,8 +6,8 @@ use swc_babel_ast::{
     ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper, MemberExprProp,
     ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
     ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
-    TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee, Arg, JSXSpreadAttribute, TemplateLiteral, TemplateLiteralExpr, TemplateElement,
-    TemplateElVal, ObjectKey, ObjectMember,
+    TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
+    TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal, ObjectKey, ObjectMember,
 };
 
 use swc_ecma_ast::{

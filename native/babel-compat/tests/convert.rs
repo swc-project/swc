@@ -1,8 +1,8 @@
 #![feature(test)]
 extern crate test;
 
-use swc_babel_compat::ast::module::File;
-use swc_babel_compat::convert::{Context, Babelify};
+use swc_babel_ast::File;
+use swc_babel_compat::{Context, Babelify};
 use swc::Compiler;
 use swc_common::{
     // FilePathMapping, SourceMap, FileName, SourceFile,
