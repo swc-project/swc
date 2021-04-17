@@ -1,12 +1,19 @@
-use super::Context;
-use crate::ast::{
-    common::{BaseNode, Loc, LineCol},
-    stmt::Statement,
-    module::{
-        Program as BabelProgram, SrcType, ModuleDeclaration, InterpreterDirective, File,
-    },
+// use super::Context;
+// use crate::ast::{
+//     common::{BaseNode, Loc, LineCol},
+//     stmt::Statement,
+//     module::{
+//         Program as BabelProgram, SrcType, ModuleDeclaration, InterpreterDirective, File,
+//     },
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    BaseNode, Loc, LineCol, Statement, Program as BabelProgram, SrcType, ModuleDeclaration,
+    InterpreterDirective, File,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{Program, Module, Script, ModuleItem};
 use swc_common::Span;
 use serde::{Serialize, Deserialize};

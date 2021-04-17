@@ -260,6 +260,12 @@ pub enum Callee {
     V8Id(V8IntrinsicIdentifier),
 }
 
+impl From<Expression> for Callee {
+    fn from(expr: Expression) -> Self {
+        Callee::Expr(Box::new(expr))
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 pub struct ArgumentPlaceholder {
@@ -279,6 +285,15 @@ pub enum Arg {
     JSXName(JSXNamespacedName),
     #[serde(rename = "ArgumentPlaceholder")]
     Placeholder(ArgumentPlaceholder),
+}
+
+impl From<ArrayExprEl> for Arg {
+    fn from(el: ArrayExprEl) -> Self {
+        match el {
+            ArrayExprEl::Expr(e) => Arg::Expr(e),
+            ArrayExprEl::Spread(s) => Arg::Spread(s),
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

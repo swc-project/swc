@@ -791,6 +791,12 @@ pub enum TypeAnnotOrNoop {
     Noop(Noop),
 }
 
+impl From<TSTypeAnnotation> for TypeAnnotOrNoop {
+    fn from(annot: TSTypeAnnotation) -> Self {
+        TypeAnnotOrNoop::TS(Box::new(annot))
+    }
+}
+
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 // #[serde(untagged)]
@@ -802,6 +808,12 @@ pub enum TypeParamDeclOrNoop {
     Noop(Noop),
 }
 
+impl From<TSTypeParameterDeclaration> for TypeParamDeclOrNoop {
+    fn from(decl: TSTypeParameterDeclaration) -> Self {
+        TypeParamDeclOrNoop::TS(decl)
+    }
+}
+
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 // #[serde(untagged)]
@@ -810,6 +822,12 @@ pub enum SuperTypeParams {
     Flow(TypeParameterInstantiation),
     #[serde(rename = "TSTypeParameterInstantiation")]
     TS(TSTypeParameterInstantiation),
+}
+
+impl From<TSTypeParameterInstantiation> for SuperTypeParams {
+    fn from(param: TSTypeParameterInstantiation) -> Self {
+        SuperTypeParams::TS(param)
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

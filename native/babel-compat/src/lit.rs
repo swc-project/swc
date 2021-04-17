@@ -1,10 +1,17 @@
-use super::Context;
-use crate::ast::lit::{
+// use super::Context;
+// use crate::ast::lit::{
+//     Literal, BooleanLiteral, StringLiteral, NullLiteral, NumericLiteral, BigIntLiteral,
+//     RegExpLiteral,
+// };
+// use crate::ast::jsx::JSXText as BabelJSXText;
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
     Literal, BooleanLiteral, StringLiteral, NullLiteral, NumericLiteral, BigIntLiteral,
-    RegExpLiteral,
+    RegExpLiteral, JSXText as BabelJSXText,
 };
-use crate::ast::jsx::JSXText as BabelJSXText;
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{Lit, Str, Bool, Null, Number, BigInt, Regex};
 use serde::{Serialize, Deserialize};
 

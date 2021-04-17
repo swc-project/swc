@@ -190,6 +190,12 @@ pub enum ClassImpl {
     Implements(ClassImplements),
 }
 
+impl From<TSExpressionWithTypeArguments> for ClassImpl {
+    fn from(expr: TSExpressionWithTypeArguments) -> Self {
+        ClassImpl::TSExpr(expr)
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
@@ -214,5 +220,23 @@ pub struct ClassDeclaration {
     pub super_type_parameters: Option<SuperTypeParams>,
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
+}
+
+impl From<ClassExpression> for ClassDeclaration {
+    fn from(expr: ClassExpression) -> Self {
+        ClassDeclaration {
+            base: expr.base,
+            id: expr.id.unwrap(),
+            super_class: expr.super_class.map(|s| Box::new(*s)),
+            body: expr.body,
+            decorators: expr.decorators,
+            is_abstract: Default::default(),
+            declare: Default::default(),
+            implements: expr.implements,
+            mixins: expr.mixins,
+            super_type_parameters: expr.super_type_parameters,
+            type_parameters: expr.type_parameters,
+        }
+    }
 }
 

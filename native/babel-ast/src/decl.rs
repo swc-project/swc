@@ -4,7 +4,7 @@ use serde::{Serialize, Deserialize};
 use crate::{
     class::ClassDeclaration,
     common::{BaseNode, LVal, Identifier, Param, TypeAnnotOrNoop, TypeParamDeclOrNoop},
-    expr::Expression,
+    expr::{Expression, FunctionExpression},
     flow::{
         OpaqueType, DeclareOpaqueType, TypeAlias, DeclareClass, DeclareFunction, DeclareInterface,
         DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable,
@@ -129,6 +129,22 @@ pub struct FunctionDeclaration {
     #[serde(default)]
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
+
+impl From<FunctionExpression> for FunctionDeclaration {
+    fn from(expr: FunctionExpression) -> Self {
+        FunctionDeclaration {
+            base: expr.base,
+            id: expr.id,
+            params: expr.params,
+            body: expr.body,
+            generator: expr.generator,
+            is_async: expr.is_async,
+            return_type: expr.return_type,
+            type_parameters: expr.type_parameters,
+        }
+    }
+}
+
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]

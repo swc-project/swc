@@ -1,12 +1,19 @@
-use super::Context;
-use crate::ast::{
-    class::{ClassDeclaration, ClassBody},
-    decl::{
-        Declaration, VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
-        FunctionDeclaration,
-    },
+// use super::Context;
+// use crate::ast::{
+//     class::{ClassDeclaration, ClassBody},
+//     decl::{
+//         Declaration, VariableDeclaration, VariableDeclarationKind, VariableDeclarator,
+//         FunctionDeclaration,
+//     },
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    ClassDeclaration, ClassBody, Declaration, VariableDeclaration, VariableDeclarationKind,
+    VariableDeclarator, FunctionDeclaration,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{Decl, VarDecl, VarDeclKind, VarDeclarator, FnDecl, ClassDecl};
 use swc_common::BytePos;
 

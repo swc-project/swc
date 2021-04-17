@@ -1,14 +1,24 @@
-use super::Context;
-use crate::ast::{
-    stmt::{
-        BlockStatement, Statement, ExpressionStatement, EmptyStatement, DebuggerStatement,
-        WithStatement, ReturnStatement, LabeledStatement, BreakStatement, ContinueStatement,
-        IfStatement, SwitchStatement, SwitchCase as BabelSwitchCase, ThrowStatement, TryStatement,
-        CatchClause as BabelCatchClause, WhileStatement, DoWhileStatement, ForStatement,
-        ForStmtInit, ForInStatement, ForStmtLeft, ForOfStatement,
-    },
+// use super::Context;
+// use crate::ast::{
+//     stmt::{
+//         BlockStatement, Statement, ExpressionStatement, EmptyStatement, DebuggerStatement,
+//         WithStatement, ReturnStatement, LabeledStatement, BreakStatement, ContinueStatement,
+//         IfStatement, SwitchStatement, SwitchCase as BabelSwitchCase, ThrowStatement, TryStatement,
+//         CatchClause as BabelCatchClause, WhileStatement, DoWhileStatement, ForStatement,
+//         ForStmtInit, ForInStatement, ForStmtLeft, ForOfStatement,
+//     },
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    BlockStatement, Statement, ExpressionStatement, EmptyStatement, DebuggerStatement,
+    WithStatement, ReturnStatement, LabeledStatement, BreakStatement, ContinueStatement,
+    IfStatement, SwitchStatement, SwitchCase as BabelSwitchCase, ThrowStatement, TryStatement,
+    CatchClause as BabelCatchClause, WhileStatement, DoWhileStatement, ForStatement, ForStmtInit,
+    ForInStatement, ForStmtLeft, ForOfStatement,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{
     BlockStmt, Stmt, ExprStmt, EmptyStmt, DebuggerStmt, WithStmt, ReturnStmt, LabeledStmt,
     BreakStmt, ContinueStmt, IfStmt, SwitchStmt, SwitchCase, ThrowStmt, TryStmt, CatchClause,

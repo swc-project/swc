@@ -1,13 +1,20 @@
-use super::Context;
-use crate::ast::{
-    common::Decorator as BabelDecorator,
-    class::{
-        ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty, ClassPrivateMethod,
-        ClassMethod as BabelClassMethod, ClassMethodKind, ClassDeclaration,
-    },
-    expr::ClassExpression,
+// use super::Context;
+// use crate::ast::{
+//     common::Decorator as BabelDecorator,
+//     class::{
+//         ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty, ClassPrivateMethod,
+//         ClassMethod as BabelClassMethod, ClassMethodKind, ClassDeclaration,
+//     },
+//     expr::ClassExpression,
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    Decorator as BabelDecorator, ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty,
+    ClassPrivateMethod, ClassMethod as BabelClassMethod, ClassMethodKind, ClassDeclaration,
+    ClassExpression,
 };
-use crate::convert::Babelify;
 use swc_ecma_ast::{
     Class, ClassMember, ClassProp, PrivateProp, Decorator, PrivateMethod, ClassMethod, MethodKind,
     Constructor,
@@ -22,31 +29,14 @@ impl Babelify for Class {
         ClassExpression {
             base: ctx.base(self.span),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
-            body: ClassBody::from_swc(self.body, ctx),
+            // body: ClassBody::from_swc(self.body, ctx),
+            body: class_body_from_swc(self.body, ctx),
             super_class: self.super_class.map(|expr| Box::new(expr.babelify(ctx).into())),
             type_parameters: self.type_params.map(|param| param.babelify(ctx).into()),
             super_type_parameters: self.super_type_params.map(|param| param.babelify(ctx).into()),
             implements: Some(self.implements.iter().map(|imp| imp.clone().babelify(ctx).into()).collect()),
             id: Default::default(),
             mixins: Default::default(),
-        }
-    }
-}
-
-impl From<ClassExpression> for ClassDeclaration {
-    fn from(expr: ClassExpression) -> Self {
-        ClassDeclaration {
-            base: expr.base,
-            id: expr.id.unwrap(),
-            super_class: expr.super_class.map(|s| Box::new(*s)),
-            body: expr.body,
-            decorators: expr.decorators,
-            is_abstract: Default::default(),
-            declare: Default::default(),
-            implements: expr.implements,
-            mixins: expr.mixins,
-            super_type_parameters: expr.super_type_parameters,
-            type_parameters: expr.type_parameters,
         }
     }
 }
@@ -67,23 +57,21 @@ impl Babelify for ClassMember {
     }
 }
 
-impl ClassBody {
-    fn from_swc(members: Vec<ClassMember>, ctx: &Context) -> Self {
-        let spans = members.iter().map(|mem| {
-            match mem {
-                ClassMember::Constructor(c) => c.span,
-                ClassMember::Method(m) => m.span,
-                ClassMember::PrivateMethod(m) => m.span,
-                ClassMember::ClassProp(p) => p.span,
-                ClassMember::PrivateProp(p) => p.span,
-                ClassMember::TsIndexSignature(s) => s.span,
-                ClassMember::Empty(e) => e.span,
-            }
-        }).collect();
-        ClassBody {
-            base: ctx.base_reduce(spans),
-            body: members.iter().map(|mem| mem.clone().babelify(ctx)).collect(),
+fn class_body_from_swc(members: Vec<ClassMember>, ctx: &Context) -> ClassBody {
+    let spans = members.iter().map(|mem| {
+        match mem {
+            ClassMember::Constructor(c) => c.span,
+            ClassMember::Method(m) => m.span,
+            ClassMember::PrivateMethod(m) => m.span,
+            ClassMember::ClassProp(p) => p.span,
+            ClassMember::PrivateProp(p) => p.span,
+            ClassMember::TsIndexSignature(s) => s.span,
+            ClassMember::Empty(e) => e.span,
         }
+    }).collect();
+    ClassBody {
+        base: ctx.base_reduce(spans),
+        body: members.iter().map(|mem| mem.clone().babelify(ctx)).collect(),
     }
 }
 

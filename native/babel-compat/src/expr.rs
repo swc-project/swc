@@ -1,22 +1,35 @@
-use super::Context;
-use crate::ast::{
-    common::{
-        SpreadElement as BabelSpreadElement, PrivateName, LVal, MetaProperty,
-    },
-    expr::{
-        Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
-        UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
-        ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper,
-        MemberExprProp, ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
-        ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
-        TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
-        Arg,
-    },
-    jsx::{JSXSpreadAttribute},
-    lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
-    object::{ObjectKey, ObjectMember},
+// use super::Context;
+// use crate::ast::{
+//     common::{
+//         SpreadElement as BabelSpreadElement, PrivateName, LVal, MetaProperty,
+//     },
+//     expr::{
+//         Expression, ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
+//         UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
+//         ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper,
+//         MemberExprProp, ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
+//         ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
+//         TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
+//         Arg,
+//     },
+//     jsx::{JSXSpreadAttribute},
+//     lit::{TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal},
+//     object::{ObjectKey, ObjectMember},
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    SpreadElement as BabelSpreadElement, PrivateName, LVal, MetaProperty, Expression,
+    ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
+    UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
+    ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper, MemberExprProp,
+    ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
+    ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
+    TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee, Arg, JSXSpreadAttribute, TemplateLiteral, TemplateLiteralExpr, TemplateElement,
+    TemplateElVal, ObjectKey, ObjectMember,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{
     Expr, ThisExpr, ArrayLit, ObjectLit, FnExpr, UnaryExpr, UpdateExpr, BinExpr, AssignExpr,
     MemberExpr, CondExpr, CallExpr, NewExpr, SeqExpr, Tpl, TaggedTpl, ArrowExpr, ClassExpr,
@@ -185,16 +198,6 @@ impl Babelify for SpreadElement {
         BabelSpreadElement {
             base: ctx.base(self.span()),
             argument: Box::new(self.expr.babelify(ctx).into()),
-        }
-    }
-}
-
-impl From<BabelSpreadElement> for JSXSpreadAttribute {
-    fn from(spread: BabelSpreadElement) -> Self {
-        JSXSpreadAttribute {
-            base: spread.base.clone(),
-            // argument: spread.argument.clone(),
-            argument: spread.argument,
         }
     }
 }
@@ -469,12 +472,6 @@ impl Babelify for ExprOrSuper {
     }
 }
 
-impl From<Expression> for Callee {
-    fn from(expr: Expression) -> Self {
-        Callee::Expr(Box::new(expr))
-    }
-}
-
 impl Babelify for Super {
     type Output = BabelSuper;
 
@@ -495,15 +492,6 @@ impl Babelify for ExprOrSpread {
                 argument: Box::new(self.expr.babelify(ctx).into()),
             }),
             None => ArrayExprEl::Expr(Box::new(self.expr.babelify(ctx).into())),
-        }
-    }
-}
-
-impl From<ArrayExprEl> for Arg {
-    fn from(el: ArrayExprEl) -> Self {
-        match el {
-            ArrayExprEl::Expr(e) => Arg::Expr(e),
-            ArrayExprEl::Spread(s) => Arg::Spread(s),
         }
     }
 }

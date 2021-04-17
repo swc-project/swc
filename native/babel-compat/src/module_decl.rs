@@ -1,18 +1,31 @@
-use super::Context;
-use crate::ast::{
-    common::IdOrString,
-    module::{
-        ModuleDeclaration, ExportDefaultDeclaration, ExportDefaultDeclType, ImportDeclaration,
-        ImportKind, ImportAttribute, ImportSpecifierType, ImportSpecifier as BabelImportSpecifier,
-        ImportDefaultSpecifier as BabelImportDefaultSpecifier, ImportNamespaceSpecifier,
-        ExportAllDeclaration, ExportNamedDeclaration, ExportKind, ExportSpecifierType,
-        ExportSpecifier as BabelExportSpecifier,
-        ExportDefaultSpecifier as BabelExportDefaultSpecifier,
-        ExportNamespaceSpecifier as BabelExportNamespaceSpecifier,
-    },
-    typescript::{TSImportEqualsDeclaration, TSExportAssignment, TSNamespaceExportDeclaration},
+// use super::Context;
+// use crate::ast::{
+//     common::IdOrString,
+//     module::{
+//         ModuleDeclaration, ExportDefaultDeclaration, ExportDefaultDeclType, ImportDeclaration,
+//         ImportKind, ImportAttribute, ImportSpecifierType, ImportSpecifier as BabelImportSpecifier,
+//         ImportDefaultSpecifier as BabelImportDefaultSpecifier, ImportNamespaceSpecifier,
+//         ExportAllDeclaration, ExportNamedDeclaration, ExportKind, ExportSpecifierType,
+//         ExportSpecifier as BabelExportSpecifier,
+//         ExportDefaultSpecifier as BabelExportDefaultSpecifier,
+//         ExportNamespaceSpecifier as BabelExportNamespaceSpecifier,
+//     },
+//     typescript::{TSImportEqualsDeclaration, TSExportAssignment, TSNamespaceExportDeclaration},
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    IdOrString, ModuleDeclaration, ExportDefaultDeclaration, ExportDefaultDeclType,
+    ImportDeclaration, ImportKind, ImportAttribute, ImportSpecifierType,
+    ImportSpecifier as BabelImportSpecifier, ImportDefaultSpecifier as BabelImportDefaultSpecifier,
+    ImportNamespaceSpecifier, ExportAllDeclaration, ExportNamedDeclaration, ExportKind,
+    ExportSpecifierType, ExportSpecifier as BabelExportSpecifier,
+    ExportDefaultSpecifier as BabelExportDefaultSpecifier,
+    ExportNamespaceSpecifier as BabelExportNamespaceSpecifier, TSImportEqualsDeclaration,
+    TSExportAssignment, TSNamespaceExportDeclaration,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{
     ModuleDecl, ExportDefaultExpr, ExportDefaultDecl, DefaultDecl, ExportDecl, Decl, ImportDecl,
     PropOrSpread, Prop, PropName, Expr, Lit, ImportSpecifier, ImportNamedSpecifier,

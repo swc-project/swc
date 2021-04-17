@@ -1,11 +1,18 @@
-use super::Context;
-use crate::ast::{
-    common::{Param as BabelParam, Identifier, RestElement},
-    expr::FunctionExpression,
-    decl::FunctionDeclaration,
-    pat::{Pattern, ArrayPattern, ObjectPattern, AssignmentPattern},
+// use super::Context;
+// use crate::ast::{
+//     common::{Param as BabelParam, Identifier, RestElement},
+//     expr::FunctionExpression,
+//     decl::FunctionDeclaration,
+//     pat::{Pattern, ArrayPattern, ObjectPattern, AssignmentPattern},
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    Param as BabelParam, Identifier, RestElement, FunctionExpression, FunctionDeclaration,
+    Pattern, ArrayPattern, ObjectPattern, AssignmentPattern,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
 use std::any::type_name_of_val;
 
@@ -22,21 +29,6 @@ impl Babelify for Function {
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
             return_type: self.return_type.map(|t| Box::new(t.babelify(ctx).into())),
             id: None,
-        }
-    }
-}
-
-impl From<FunctionExpression> for FunctionDeclaration {
-    fn from(expr: FunctionExpression) -> Self {
-        FunctionDeclaration {
-            base: expr.base,
-            id: expr.id,
-            params: expr.params,
-            body: expr.body,
-            generator: expr.generator,
-            is_async: expr.is_async,
-            return_type: expr.return_type,
-            type_parameters: expr.type_parameters,
         }
     }
 }

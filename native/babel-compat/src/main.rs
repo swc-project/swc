@@ -1,6 +1,7 @@
 
 #![feature(type_name_of_val)]
 
+/*
 mod ast;
 mod convert;
 mod ser_union;
@@ -90,6 +91,7 @@ fn compile(compiler: &Compiler, fm: Arc<SourceFile>) -> Result<Program> {
         Default::default(),
     )
 }
+*/
 
 
-// fn main() {}
+fn main() {}

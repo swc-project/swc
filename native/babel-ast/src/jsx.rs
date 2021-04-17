@@ -2,7 +2,7 @@ use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
 
 use crate::{
-    common::{BaseNode, SuperTypeParams},
+    common::{BaseNode, SuperTypeParams, SpreadElement, Identifier},
     expr::Expression,
     lit::StringLiteral,
 };
@@ -142,6 +142,15 @@ pub struct JSXIdentifier {
     pub name: String,
 }
 
+impl From<Identifier> for JSXIdentifier {
+    fn from(id: Identifier) -> Self {
+        JSXIdentifier {
+            base: id.base,
+            name: id.name,
+        }
+    }
+}
+
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
 #[serde(tag = "type")]
 // #[serde(untagged)]
@@ -201,6 +210,16 @@ pub struct JSXSpreadAttribute {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: Box<Expression>,
+}
+
+impl From<SpreadElement> for JSXSpreadAttribute {
+    fn from(spread: SpreadElement) -> Self {
+        JSXSpreadAttribute {
+            base: spread.base.clone(),
+            // argument: spread.argument.clone(),
+            argument: spread.argument,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

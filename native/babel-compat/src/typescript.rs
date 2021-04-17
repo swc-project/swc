@@ -1,31 +1,53 @@
-use super::Context;
-use crate::ast::{
-    common::{
-        IdOrRest, TypeAnnotOrNoop, TypeParamDeclOrNoop, Access, RestElement, Identifier,
-        SuperTypeParams, IdOrString,
-    },
-    class::ClassImpl,
-    typescript::{
-        TSTypeAnnotation, TSType, TSAnyKeyword, TSUnknownKeyword, TSNumberKeyword, TSObjectKeyword,
-        TSBooleanKeyword, TSBigIntKeyword, TSStringKeyword, TSSymbolKeyword, TSVoidKeyword,
-        TSUndefinedKeyword, TSNullKeyword, TSNeverKeyword, TSIntrinsicKeyword, TSThisType,
-        TSFunctionType, TSConstructorType, TSTypeParameterDeclaration, TSTypeParameter,
-        TSIndexSignature, TSExpressionWithTypeArguments, TSTypeParameterInstantiation, TSEntityName,
-        TSQualifiedName, TSParameterProperty, TSParamPropParam, TSModuleDeclaration,
-        TSModuleDeclBody, TSModuleBlock, TSEnumDeclaration, TSEnumMember, TSTypeAliasDeclaration,
-        TSInterfaceDeclaration, TSInterfaceBody, TSTypeElement, TSCallSignatureDeclaration,
-        TSConstructSignatureDeclaration, TSPropertySignature, TSMethodSignature,
-        TSImportEqualsDeclaration, TSImportEqualsDeclModuleRef, TSExternalModuleReference,
-        TSExportAssignment, TSNamespaceExportDeclaration, TSTypeReference, TSTypePredicate,
-        TSTypePredicateParamName, TSTypeQuery, TSTypeQueryExprName, TSImportType, TSTypeLiteral,
-        TSArrayType, TSTupleType, TSTupleTypeElType, TSNamedTupleMember, TSOptionalType,
-        TSRestType, TSUnionType, TSIntersectionType, TSConditionalType, TSInferType,
-        TSParenthesizedType, TSTypeOperator, TSIndexedAccessType, TSMappedType, TSLiteralType,
-        TSLiteralTypeLiteral, TSAsExpression, TSTypeAssertion, TSNonNullExpression,
-    },
-    pat::{ArrayPattern, ObjectPattern},
+// use super::Context;
+// use crate::ast::{
+//     common::{
+//         IdOrRest, TypeAnnotOrNoop, TypeParamDeclOrNoop, Access, RestElement, Identifier,
+//         SuperTypeParams, IdOrString,
+//     },
+//     class::ClassImpl,
+//     typescript::{
+//         TSTypeAnnotation, TSType, TSAnyKeyword, TSUnknownKeyword, TSNumberKeyword, TSObjectKeyword,
+//         TSBooleanKeyword, TSBigIntKeyword, TSStringKeyword, TSSymbolKeyword, TSVoidKeyword,
+//         TSUndefinedKeyword, TSNullKeyword, TSNeverKeyword, TSIntrinsicKeyword, TSThisType,
+//         TSFunctionType, TSConstructorType, TSTypeParameterDeclaration, TSTypeParameter,
+//         TSIndexSignature, TSExpressionWithTypeArguments, TSTypeParameterInstantiation, TSEntityName,
+//         TSQualifiedName, TSParameterProperty, TSParamPropParam, TSModuleDeclaration,
+//         TSModuleDeclBody, TSModuleBlock, TSEnumDeclaration, TSEnumMember, TSTypeAliasDeclaration,
+//         TSInterfaceDeclaration, TSInterfaceBody, TSTypeElement, TSCallSignatureDeclaration,
+//         TSConstructSignatureDeclaration, TSPropertySignature, TSMethodSignature,
+//         TSImportEqualsDeclaration, TSImportEqualsDeclModuleRef, TSExternalModuleReference,
+//         TSExportAssignment, TSNamespaceExportDeclaration, TSTypeReference, TSTypePredicate,
+//         TSTypePredicateParamName, TSTypeQuery, TSTypeQueryExprName, TSImportType, TSTypeLiteral,
+//         TSArrayType, TSTupleType, TSTupleTypeElType, TSNamedTupleMember, TSOptionalType,
+//         TSRestType, TSUnionType, TSIntersectionType, TSConditionalType, TSInferType,
+//         TSParenthesizedType, TSTypeOperator, TSIndexedAccessType, TSMappedType, TSLiteralType,
+//         TSLiteralTypeLiteral, TSAsExpression, TSTypeAssertion, TSNonNullExpression,
+//     },
+//     pat::{ArrayPattern, ObjectPattern},
+// };
+// use crate::convert::Babelify;
+
+use crate::{Context, Babelify};
+use swc_babel_ast::{
+    IdOrRest, Access, RestElement, Identifier, IdOrString, TSTypeAnnotation, TSType, TSAnyKeyword,
+    TSUnknownKeyword, TSNumberKeyword, TSObjectKeyword, TSBooleanKeyword, TSBigIntKeyword,
+    TSStringKeyword, TSSymbolKeyword, TSVoidKeyword, TSUndefinedKeyword, TSNullKeyword,
+    TSNeverKeyword, TSIntrinsicKeyword, TSThisType, TSFunctionType, TSConstructorType,
+    TSTypeParameterDeclaration, TSTypeParameter, TSIndexSignature, TSExpressionWithTypeArguments,
+    TSTypeParameterInstantiation, TSEntityName, TSQualifiedName, TSParameterProperty,
+    TSParamPropParam, TSModuleDeclaration, TSModuleDeclBody, TSModuleBlock, TSEnumDeclaration,
+    TSEnumMember, TSTypeAliasDeclaration, TSInterfaceDeclaration, TSInterfaceBody, TSTypeElement,
+    TSCallSignatureDeclaration, TSConstructSignatureDeclaration, TSPropertySignature,
+    TSMethodSignature, TSImportEqualsDeclaration, TSImportEqualsDeclModuleRef,
+    TSExternalModuleReference, TSExportAssignment, TSNamespaceExportDeclaration, TSTypeReference,
+    TSTypePredicate, TSTypePredicateParamName, TSTypeQuery, TSTypeQueryExprName, TSImportType,
+    TSTypeLiteral, TSArrayType, TSTupleType, TSTupleTypeElType, TSNamedTupleMember, TSOptionalType,
+    TSRestType, TSUnionType, TSIntersectionType, TSConditionalType, TSInferType,
+    TSParenthesizedType, TSTypeOperator, TSIndexedAccessType, TSMappedType, TSLiteralType,
+    TSLiteralTypeLiteral, TSAsExpression, TSTypeAssertion, TSNonNullExpression, ArrayPattern,
+    ObjectPattern,
 };
-use crate::convert::Babelify;
+
 use swc_ecma_ast::{
     TsTypeAnn, TsType, TsKeywordType, TsKeywordTypeKind, TsThisType, TsFnOrConstructorType,
     TsFnType, TsFnParam, TsTypeParamDecl, TsTypeParam, Accessibility, TsIndexSignature,
@@ -53,12 +75,6 @@ impl Babelify for TsTypeAnn {
             base: ctx.base(self.span),
             type_annotation: self.type_ann.babelify(ctx),
         }
-    }
-}
-
-impl From<TSTypeAnnotation> for TypeAnnotOrNoop {
-    fn from(annot: TSTypeAnnotation) -> Self {
-        TypeAnnotOrNoop::TS(Box::new(annot))
     }
 }
 
@@ -127,12 +143,6 @@ impl Babelify for TsTypeParamDecl {
     }
 }
 
-impl From<TSTypeParameterDeclaration> for TypeParamDeclOrNoop {
-    fn from(decl: TSTypeParameterDeclaration) -> Self {
-        TypeParamDeclOrNoop::TS(decl)
-    }
-}
-
 impl Babelify for TsTypeParam {
     type Output = TSTypeParameter;
 
@@ -154,12 +164,6 @@ impl Babelify for TsTypeParamInstantiation {
             base: ctx.base(self.span),
             params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
         }
-    }
-}
-
-impl From<TSTypeParameterInstantiation> for SuperTypeParams {
-    fn from(param: TSTypeParameterInstantiation) -> Self {
-        SuperTypeParams::TS(param)
     }
 }
 
@@ -833,12 +837,6 @@ impl Babelify for TsExprWithTypeArgs {
             expression: self.expr.babelify(ctx),
             type_parameters: self.type_args.map(|arg| arg.babelify(ctx)),
         }
-    }
-}
-
-impl From<TSExpressionWithTypeArguments> for ClassImpl {
-    fn from(expr: TSExpressionWithTypeArguments) -> Self {
-        ClassImpl::TSExpr(expr)
     }
 }
 
