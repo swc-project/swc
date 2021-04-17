@@ -24,16 +24,6 @@ where
     resolver: R,
 }
 
-impl<L, R> SimpleDepAnalyzer<L, R>
-where
-    L: Loader,
-    R: Resolver,
-{
-    pub fn new(loader: L, resolver: R) -> Self {
-        Self { loader, resolver }
-    }
-}
-
 impl<L, R> DepAnalyzer for SimpleDepAnalyzer<L, R>
 where
     L: Loader,
