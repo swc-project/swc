@@ -1,5 +1,3 @@
-import { method } from "lodash";
-
 const obj = {
     foo: 5,
     async method() {
@@ -8,4 +6,4 @@ const obj = {
 }
 
 
-console.log(obj.method)
+console.log(obj.method())
