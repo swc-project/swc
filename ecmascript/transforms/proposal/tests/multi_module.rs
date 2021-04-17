@@ -53,6 +53,21 @@ impl Loader for SimpleLoader {
     }
 }
 
+struct SimpleResolver {}
+
+impl Resolver for SimpleResolver {
+    fn resolve(&self, base: &FileName, target: &JsWord) -> Result<FileName, Diagnostic> {
+        let base = match base {
+            FileName::Real(v) => v,
+            _ => unreachable!(),
+        };
+        let new = base.join(&**target);
+        assert!(new.exists(), "{} does not exist", new.display());
+
+        Ok(FileName::Real(new))
+    }
+}
+
 /// Simple dependency analyzer which always resolve using `R` and load using
 /// `L`.
 #[derive(Debug, Clone)]
@@ -110,7 +125,7 @@ fn fixture(input: PathBuf) {
                 },
                 SimpleDepAnalyzer {
                     loader: SimpleLoader { cm: t.cm.clone() },
-                    resolver: TscResolver::new(Default::default()),
+                    resolver: TscResolver::new(Default::default(), SimpleResolver {}),
                 },
             )
         },
