@@ -254,9 +254,9 @@ class B extends A {
         }]);
     return A;
 }();
-var B = function(A) {
+var B = function(A1) {
     'use strict';
-    _inherits(B, A);
+    _inherits(B, A1);
     function B(num) {
         _classCallCheck(this, B);
         var _this;
