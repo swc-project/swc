@@ -4,9 +4,9 @@ use swc_babel_ast::{VariableDeclarator, VariableDeclaration, File};
 pub struct VariableDeclaratorNormalizer;
 
 impl VisitMut for VariableDeclaratorNormalizer {
-    fn visit_mut_variable_declarator(&mut self, var_decl: &mut VariableDeclarator) {
-        if var_decl.definite == None {
-            var_decl.definite = Some(false);
+    fn visit_mut_variable_declarator(&mut self, node: &mut VariableDeclarator) {
+        if node.definite == None {
+            node.definite = Some(false);
         }
     }
 }
@@ -19,9 +19,9 @@ pub fn normalize_variable_declarators(ast: &mut File) {
 pub struct VariableDeclarationNormalizer;
 
 impl VisitMut for VariableDeclarationNormalizer {
-    fn visit_mut_variable_declaration(&mut self, var_decl: &mut VariableDeclaration) {
-        if var_decl.declare == None {
-            var_decl.declare = Some(false);
+    fn visit_mut_variable_declaration(&mut self, node: &mut VariableDeclaration) {
+        if node.declare == None {
+            node.declare = Some(false);
         }
     }
 }

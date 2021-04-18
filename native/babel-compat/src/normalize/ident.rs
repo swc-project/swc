@@ -4,9 +4,12 @@ use swc_babel_ast::{Identifier, File};
 pub struct IdentifierNormalizer;
 
 impl VisitMut for IdentifierNormalizer {
-    fn visit_mut_identifier(&mut self, id: &mut Identifier) {
-        if id.optional == None {
-            id.optional = Some(false);
+    fn visit_mut_identifier(&mut self, node: &mut Identifier) {
+        if node.optional == None {
+            node.optional = Some(false);
+        }
+        if node.decorators == None {
+            node.decorators = Some(vec![]);
         }
     }
 }
