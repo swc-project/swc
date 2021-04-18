@@ -2,6 +2,7 @@ use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::option::ManglePropertiesOptions;
 use crate::util::base54::base54;
+use once_cell::sync::Lazy;
 use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
 use swc_ecma_ast::{
@@ -9,6 +10,22 @@ use swc_ecma_ast::{
 };
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
+
+pub static JS_ENVIRONMENT_PROPS: Lazy<HashSet<JsWord>> = Lazy::new(|| {
+    let domprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/domprops.json"))
+        .expect("failed to parse domprops.json for property mangler");
+
+    let jsprops: Vec<JsWord> = serde_json::from_str(include_str!("../lists/jsprops.json"))
+        .expect("Failed to parse jsprops.json for property mangler");
+
+    let mut word_set: HashSet<JsWord> = HashSet::new();
+
+    for name in domprops.iter().chain(jsprops.iter()) {
+        word_set.insert(name.clone());
+    }
+
+    word_set
+});
 
 #[derive(Debug, Default)]
 struct ManglePropertiesState {
@@ -35,7 +52,7 @@ impl ManglePropertiesState {
     fn can_mangle(&self, name: &JsWord) -> bool {
         if self.unmangleable.contains(name) {
             false
-        } else if self.options.reserved.contains(&name.to_string()) {
+        } else if self.is_reserved(name) {
             false
         } else {
             // TODO only_cache, check if it's a name that doesn't need quotes
@@ -44,12 +61,16 @@ impl ManglePropertiesState {
     }
 
     fn should_mangle(&self, name: &JsWord) -> bool {
-        if self.options.reserved.contains(&name.to_string()) {
+        // TODO check regex option,
+        if self.is_reserved(name) {
             false
         } else {
             self.cache.contains_key(name) || self.names_to_mangle.contains(name)
         }
-        // TODO check regex option,
+    }
+
+    fn is_reserved(&self, name: &JsWord) -> bool {
+        JS_ENVIRONMENT_PROPS.contains(name) || self.options.reserved.contains(&name.to_string())
     }
 }
 
@@ -110,11 +131,7 @@ impl VisitMut for PropertyCollector<'_> {
     }
 
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
-        let is_root_declared = if !self.state.options.undeclared {
-            is_root_of_member_expr_declared(member_expr, &self.data)
-        } else {
-            true
-        };
+        let is_root_declared = is_root_of_member_expr_declared(member_expr, &self.data);
 
         if is_root_declared && !member_expr.computed {
             if let Expr::Ident(ident) = &mut *member_expr.prop {
