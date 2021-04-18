@@ -207,7 +207,8 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
 
 fn stack_trace_from_deno(src: &str) -> Vec<String> {
     let mut child = Command::new("deno")
-        .arg("run")
+        .arg("eval")
+        .arg(&src)
         .stdin(Stdio::piped())
         .spawn()
         .expect("failed to spwan deno");
@@ -229,5 +230,5 @@ fn stack_trace_from_deno(src: &str) -> Vec<String> {
 
     let err = String::from_utf8_lossy(&output.stderr);
 
-    unimplemented!("Deno stderr: {}", err)
+    err.lines().map(|s| s.to_string()).collect()
 }
