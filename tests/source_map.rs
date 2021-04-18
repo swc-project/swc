@@ -206,21 +206,11 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
 }
 
 fn stack_trace_from_deno(src: &str) -> Vec<String> {
-    let mut child = Command::new("deno")
+    let output = Command::new("deno")
         .arg("eval")
         .arg(&src)
-        .stdin(Stdio::piped())
-        .spawn()
+        .output()
         .expect("failed to spwan deno");
-
-    let child_stdin = child.stdin.as_mut().unwrap();
-    child_stdin.write_all(src.as_bytes()).unwrap();
-    // Close stdin to finish and avoid indefinite blocking
-    drop(child_stdin);
-
-    let output = child
-        .wait_with_output()
-        .expect("failed to wait for deno output");
 
     assert_eq!(
         output.stdout,
