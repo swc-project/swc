@@ -135,6 +135,8 @@ fn stacktrace(input_dir: PathBuf) {
                     .map(extract_node_stack_trace)
                     .expect("failed to capture output of node -e 'reference code'");
 
+                let deno_expected = stack_trace_from_deno(&fm.src);
+
                 match c.process_js_file(
                     fm,
                     &Options {
@@ -160,6 +162,10 @@ fn stacktrace(input_dir: PathBuf) {
                             .expect("failed to capture output of node -e 'generated code'");
 
                         assert_eq!(node_expected, node_actual);
+
+                        let deno_actual = stack_trace_from_deno(&v.code);
+
+                        assert_eq!(deno_expected, deno_actual);
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
@@ -199,7 +205,7 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
     stacks
 }
 
-fn execute_deno(src: &str) -> Vec<String> {
+fn stack_trace_from_deno(src: &str) -> Vec<String> {
     let mut child = Command::new("deno")
         .arg("run")
         .stdin(Stdio::piped())
