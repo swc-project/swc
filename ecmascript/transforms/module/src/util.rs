@@ -332,7 +332,7 @@ impl Scope {
                     ),
                     ImportSpecifier::Default(i) => {
                         self.idents.insert(
-                            (i.local.sym.clone(), i.local.span.ctxt()),
+                            i.local.to_id(),
                             (import.src.value.clone(), js_word!("default")),
                         );
                         self.import_types
@@ -346,10 +346,8 @@ impl Scope {
                         let name = imported.map(|i| i.sym).unwrap_or_else(|| local.sym.clone());
                         let is_default = name == js_word!("default");
 
-                        self.idents.insert(
-                            (local.sym.clone(), local.span.ctxt()),
-                            (import.src.value.clone(), name),
-                        );
+                        self.idents
+                            .insert(local.to_id(), (import.src.value.clone(), name));
 
                         if is_default {
                             self.import_types
@@ -397,13 +395,6 @@ impl Scope {
                     folder.config().lazy.is_lazy(&src)
                 };
 
-                let should_convert_to_default = folder
-                    .scope()
-                    .import_types
-                    .get(&src)
-                    .copied()
-                    .unwrap_or(false);
-
                 let (ident, span) = folder
                     .scope()
                     .imports
@@ -424,16 +415,7 @@ impl Scope {
                             type_args: Default::default(),
                         })
                     } else {
-                        if should_convert_to_default {
-                            Expr::Member(MemberExpr {
-                                span: ident.span,
-                                obj: ident.as_obj(),
-                                prop: Box::new(Expr::Ident(quote_ident!("default"))),
-                                computed: false,
-                            })
-                        } else {
-                            Expr::Ident(ident)
-                        }
+                        Expr::Ident(ident)
                     }
                 };
 
