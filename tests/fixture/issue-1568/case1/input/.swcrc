@@ -10,7 +10,6 @@
     "loose": true,
     "externalHelpers": false
   },
-  "sourceMaps": true,
   "minify": false,
   "env": {
     "mode": "entry",
