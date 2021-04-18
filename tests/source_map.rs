@@ -126,11 +126,11 @@ fn stacktrace(input_dir: PathBuf) {
 
                 println!("-----Orig:\n{}\n-----", fm.src);
 
-                let expected = Command::new("node")
+                let node_expected = Command::new("node")
                     .arg("-e")
                     .arg(&**fm.src)
                     .output()
-                    .map(extract_stack_trace)
+                    .map(extract_node_stack_trace)
                     .expect("failed to capture output of node -e 'reference code'");
 
                 match c.process_js_file(
@@ -148,16 +148,16 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let actual = Command::new("node")
+                        let node_actual = Command::new("node")
                             .arg("-e")
                             .arg(&v.code)
                             .arg("-r")
                             .arg("source-map-support/register")
                             .output()
-                            .map(extract_stack_trace)
+                            .map(extract_node_stack_trace)
                             .expect("failed to capture output of node -e 'generated code'");
 
-                        assert_eq!(expected, actual);
+                        assert_eq!(node_expected, node_actual);
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
@@ -172,7 +172,7 @@ fn stacktrace(input_dir: PathBuf) {
 /// Extract stack trace from output of `node -e 'code'`.
 ///
 /// TODO: Use better type.
-fn extract_stack_trace(output: Output) -> Vec<String> {
+fn extract_node_stack_trace(output: Output) -> Vec<String> {
     assert!(
         !output.status.success(),
         "Stack trace tests should fail with stack traces"
