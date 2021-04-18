@@ -7,6 +7,7 @@ use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
 use swc_ecma_ast::{
     CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, Prop, PropName, Str,
+    StrKind,
 };
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -101,6 +102,8 @@ pub struct PropertyCollector<'a> {
 
 impl VisitMut for PropertyCollector<'_> {
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
+        name.visit_mut_children_with(self);
+
         match name {
             PropName::Ident(ident) => {
                 self.state.add(&ident.sym);
@@ -108,29 +111,29 @@ impl VisitMut for PropertyCollector<'_> {
             PropName::Str(s) => {
                 self.state.add(&s.value);
             }
-            _ => {
-                name.visit_mut_children_with(self);
-            }
+            _ => {}
         };
     }
 
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        prop.visit_mut_children_with(self);
+
         if let Prop::Shorthand(ident) = prop {
             self.state.add(&ident.sym);
         }
-
-        prop.visit_mut_children_with(self);
     }
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
+        call.visit_mut_children_with(self);
+
         if let Some(prop_name) = get_object_define_property_name_arg(call) {
             self.state.add(&prop_name.value);
         }
-
-        call.visit_mut_children_with(self);
     }
 
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
+        member_expr.visit_mut_children_with(self);
+
         let is_root_declared = is_root_of_member_expr_declared(member_expr, &self.data);
 
         if is_root_declared && !member_expr.computed {
@@ -138,8 +141,6 @@ impl VisitMut for PropertyCollector<'_> {
                 self.state.add(&ident.sym);
             }
         }
-
-        member_expr.visit_mut_children_with(self);
     }
 }
 
@@ -229,6 +230,7 @@ impl Mangler<'_> {
     fn mangle_str(&mut self, string: &mut Str) {
         if let Some(mangled) = self.mangle(&string.value) {
             string.value = mangled.into();
+            string.kind = StrKind::Synthesized;
         }
     }
 
@@ -238,6 +240,7 @@ impl Mangler<'_> {
 impl VisitMut for Mangler<'_> {
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
         name.visit_mut_children_with(self);
+
         match name {
             PropName::Ident(ident) => {
                 self.mangle_ident(ident);
@@ -274,12 +277,11 @@ impl VisitMut for Mangler<'_> {
 
     fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
         member_expr.visit_mut_children_with(self);
-        if member_expr.computed {
-            // TODO reserve strings
-            return;
-        }
-        if let Expr::Ident(ident) = &mut *member_expr.prop {
-            self.mangle_ident(ident);
+
+        if !member_expr.computed {
+            if let Expr::Ident(ident) = &mut *member_expr.prop {
+                self.mangle_ident(ident);
+            }
         }
     }
 }

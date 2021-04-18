@@ -1,5 +1,5 @@
-a["o"] = "bar";
+a["foo"] = "bar";
 a.color = "red";
 x = { l: 10 };
-a.u(x.l, a.o);
-a["u"]({ color: "blue", o: "baz" });
+a.run(x.l, a.o);
+a["run"]({ color: "blue", o: "baz" });
