@@ -1,15 +1,7 @@
-
 #![feature(type_name_of_val)]
 
 /*
-mod ast;
-mod convert;
-mod ser_union;
-mod defaults;
-mod visit;
-
-use convert::{Context, Babelify};
-use ast::module::File;
+use swc_babel_compat::{Context, Babelify};
 use swc::Compiler;
 use swc_common::{
     FilePathMapping, SourceMap, FileName, SourceFile,
@@ -24,8 +16,8 @@ use std::fs;
 
 // ----------------------------------------------------------------------------
 // Visitor
-use visit::{Visit, Node, VisitWith};
-use ast::common::Identifier;
+use swc_babel_visit::{Visit, VisitMut, Node, VisitWith, VisitMutWith};
+use swc_babel_ast::Identifier;
 
 struct IdCollector {
     ids: Vec<Identifier>,
@@ -36,6 +28,15 @@ impl Visit for IdCollector {
         self.ids.push(id.clone());
     }
 }
+
+struct IdChanger;
+
+impl VisitMut for IdChanger {
+    fn visit_mut_identifier(&mut self, id: &mut Identifier) {
+        id.name += "_gecko";
+    }
+}
+
 // ----------------------------------------------------------------------------
 
 fn main() {
@@ -53,12 +54,16 @@ fn main() {
         cm: cm,
         comments: Arc::new(compiler.comments().clone()),
     };
-    let ast = program.babelify(&ctx);
-    println!("{:#?}", ast);
+    let mut ast = program.babelify(&ctx);
+    // println!("{:#?}", ast);
 
-    let mut idcoll = IdCollector { ids: vec![] };
-    ast.visit_with(&swc_ecma_ast::Invalid { span: swc_common::DUMMY_SP }, &mut idcoll);
-    println!("{:#?}", idcoll.ids);
+    // let mut idcoll = IdCollector { ids: vec![] };
+    // ast.visit_with(&swc_ecma_ast::Invalid { span: swc_common::DUMMY_SP }, &mut idcoll);
+    // println!("{:#?}", idcoll.ids);
+
+    // let mut idchanger = IdChanger {};
+    // ast.visit_mut_with(&mut idchanger);
+    // println!("{:#?}", ast);
 
     // let json = serde_json::to_string_pretty(&ast).unwrap();
     // println!("{}", json);
