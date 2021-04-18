@@ -325,6 +325,7 @@ impl Scope {
                     ))
                 });
 
+            let mut has_non_default = false;
             for s in import.specifiers {
                 match s {
                     ImportSpecifier::Namespace(..) => unreachable!(
@@ -352,8 +353,9 @@ impl Scope {
                         if is_default {
                             self.import_types
                                 .entry(import.src.value.clone())
-                                .or_insert(false);
+                                .or_insert(has_non_default);
                         } else {
+                            has_non_default = true;
                             self.import_types
                                 .entry(import.src.value.clone())
                                 .and_modify(|v| *v = true);
