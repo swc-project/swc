@@ -10,6 +10,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
@@ -382,10 +383,7 @@ impl Scope {
     }
 
     fn fold_ident(folder: &mut impl ModulePass, top_level: bool, i: Ident) -> Result<Expr, Ident> {
-        let v = {
-            let v = folder.scope().idents.get(&(i.sym.clone(), i.span.ctxt()));
-            v.cloned()
-        };
+        let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
             Some((src, prop)) => {
