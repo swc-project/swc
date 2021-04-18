@@ -230,5 +230,7 @@ fn stack_trace_from_deno(src: Either<&str, &Path>) -> Vec<String> {
 
     let err = String::from_utf8_lossy(&output.stderr);
 
-    err.lines().map(|s| s.to_string()).collect()
+    err.lines()
+        .map(|s| s.to_string().replace("file://", ""))
+        .collect()
 }
