@@ -207,6 +207,7 @@ fn stack_trace_from_deno(src: &str) -> Vec<String> {
     let output = Command::new("deno")
         .arg("eval")
         .arg(&src)
+        .env("NO_COLOR", "1")
         .output()
         .expect("failed to spwan deno");
 
