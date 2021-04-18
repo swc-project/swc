@@ -1,8 +1,6 @@
-use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
-use std::process::Stdio;
 use std::{fs::canonicalize, sync::Arc};
 use swc::{
     config::{Options, SourceMapsConfig},
