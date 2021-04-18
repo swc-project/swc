@@ -2100,9 +2100,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function foo() {}
-
 exports.default = foo;
+
+function foo() {}
 
 "#
 );
@@ -4634,12 +4634,12 @@ test!(
     Object.defineProperty(exports, '__esModule', {
       value: true
     });
-    
+
+    exports.default = get;
+
     function get(key) {
       console.log(key);
     }
-
-    exports.default = get;
     "
 );
 
@@ -4669,27 +4669,4 @@ test!(
     var _default = a;
     exports.default = _default;
     "
-);
-
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    issue_1568_1,
-    "
-    export default function get(key: string) {
-      console.log(key);
-    }
-  ",
-    "
-    'use strict';
-    Object.defineProperty(exports, '__esModule', {
-      value: true
-    });
-
-    exports.default = get;
-
-    function get(key) {
-      console.log(key);
-    }
-  "
 );
