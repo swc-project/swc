@@ -62,6 +62,7 @@ impl Visit for ImportAnalyzer {
                     .insert(import.src.value.clone(), true);
             }
         } else {
+            let mut has_non_default = false;
             for s in &import.specifiers {
                 match *s {
                     ImportSpecifier::Namespace(..) => unreachable!(
@@ -89,8 +90,9 @@ impl Visit for ImportAnalyzer {
                             self.scope
                                 .import_types
                                 .entry(import.src.value.clone())
-                                .or_insert(false);
+                                .or_insert(has_non_default);
                         } else {
+                            has_non_default = true;
                             self.scope
                                 .import_types
                                 .entry(import.src.value.clone())
