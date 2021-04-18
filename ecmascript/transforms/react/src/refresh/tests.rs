@@ -1119,6 +1119,7 @@ test!(
     
     var _s = $RefreshSig$();
     
+    exports.default = App;
     function App() {
       _s();
 
@@ -1126,7 +1127,6 @@ test!(
       const foo = (0, _foo).default();
       return <h1>{bar}</h1>;
     }
-    exports.default = App;
     
     _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function () {
       return [_hooks.useFancyState, _foo.default];
