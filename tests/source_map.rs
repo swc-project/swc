@@ -1,3 +1,5 @@
+use either::Either;
+use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
@@ -133,7 +135,7 @@ fn stacktrace(input_dir: PathBuf) {
                     .map(extract_node_stack_trace)
                     .expect("failed to capture output of node -e 'reference code'");
 
-                let deno_expected = stack_trace_from_deno(&fm.src);
+                let deno_expected = stack_trace_from_deno(Either::Right(entry.path()));
 
                 match c.process_js_file(
                     fm,
@@ -161,7 +163,7 @@ fn stacktrace(input_dir: PathBuf) {
 
                         assert_eq!(node_expected, node_actual);
 
-                        let deno_actual = stack_trace_from_deno(&v.code);
+                        let deno_actual = stack_trace_from_deno(Either::Left(&v.code));
 
                         assert_eq!(deno_expected, deno_actual);
                     }
@@ -203,10 +205,19 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
     stacks
 }
 
-fn stack_trace_from_deno(src: &str) -> Vec<String> {
-    let output = Command::new("deno")
-        .arg("eval")
-        .arg(&src)
+fn stack_trace_from_deno(src: Either<&str, &Path>) -> Vec<String> {
+    let mut c = Command::new("deno");
+
+    match src {
+        Either::Left(src) => {
+            c.arg("eval").arg(&src);
+        }
+        Either::Right(path) => {
+            c.arg("run").arg(&path);
+        }
+    }
+
+    let output = c
         .env("NO_COLOR", "1")
         .output()
         .expect("failed to spwan deno");
