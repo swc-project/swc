@@ -1,11 +1,5 @@
 #![feature(type_name_of_val)]
 
-// use crate::ast::comment::BaseComment;
-// use crate::ast::comment::Comment;
-// use crate::ast::common::BaseNode;
-// use crate::ast::common::LineCol;
-// use crate::ast::common::Loc;
-
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use std::sync::Arc;
@@ -31,6 +25,8 @@ mod pat;
 mod prop;
 mod stmt;
 mod typescript;
+
+pub mod normalize;
 
 #[derive(Clone)]
 pub struct Context {
