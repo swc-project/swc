@@ -1,6 +1,8 @@
+use std::io::Write;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
+use std::process::Stdio;
 use std::{fs::canonicalize, sync::Arc};
 use swc::{
     config::{Options, SourceMapsConfig},
@@ -195,4 +197,31 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
     println!("{}", stacks.join("\n"));
 
     stacks
+}
+
+fn execute_deno(src: &str) -> Vec<String> {
+    let mut child = Command::new("deno")
+        .arg("run")
+        .stdin(Stdio::piped())
+        .spawn()
+        .expect("failed to spwan deno");
+
+    let child_stdin = child.stdin.as_mut().unwrap();
+    child_stdin.write_all(src.as_bytes()).unwrap();
+    // Close stdin to finish and avoid indefinite blocking
+    drop(child_stdin);
+
+    let output = child
+        .wait_with_output()
+        .expect("failed to wait for deno output");
+
+    assert_eq!(
+        output.stdout,
+        Vec::<u8>::new(),
+        "Sourcemap test file should not print anything to stdout"
+    );
+
+    let err = String::from_utf8_lossy(&output.stderr);
+
+    unimplemented!("Deno stderr: {}", err)
 }
