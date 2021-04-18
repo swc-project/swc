@@ -244,7 +244,7 @@ impl Fold for CommonJs {
                                 }
                                 DefaultDecl::Fn(FnExpr { ident, function }) => {
                                     // init_export!("default");
-
+                                    let will_inject_var = ident.is_none();
                                     let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
@@ -256,7 +256,13 @@ impl Fold for CommonJs {
                                         .fold_with(self),
                                     ))));
 
-                                    extra_stmts.push(
+                                    let to = if will_inject_var {
+                                        &mut extra_stmts
+                                    } else {
+                                        &mut stmts
+                                    };
+
+                                    to.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(member_expr!(
