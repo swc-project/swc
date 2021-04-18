@@ -4676,13 +4676,18 @@ test!(
     |_| tr(Default::default()),
     issue_1588_1,
     "
-  import { Component, default as React } from 'react';
+    import { Component, default as React } from 'react';
 
-  class X extends Component {
-  }
+    class X extends Component {
+    }
 
-  React.render();
-  ",
+    React.render();
+    ",
     "
-  "
+    'use strict';
+    var _react = _interopRequireWildcard(require('react'));
+    class X extends _react.Component {
+    }
+    _react.default.render();
+    "
 );
