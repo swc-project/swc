@@ -4670,3 +4670,19 @@ test!(
     exports.default = _default;
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1588_1,
+    "
+  import { Component, default as React } from 'react';
+
+  class X extends Component {
+  }
+
+  React.render();
+  ",
+    "
+  "
+);
