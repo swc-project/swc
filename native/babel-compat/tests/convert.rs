@@ -11,6 +11,7 @@ use std::{
 use swc::Compiler;
 use swc_babel_ast::File;
 use swc_babel_compat::{Babelify, Context};
+use swc_babel_compat::normalize::normalize;
 use swc_common::{
     errors::{ColorConfig, Handler},
     FileName,
@@ -121,9 +122,11 @@ fn run_test(src: String, expected: String, syntax: Syntax) {
         cm,
         comments: Arc::new(compiler.comments().clone()),
     };
-    let ast = swc_ast.babelify(&ctx);
+    let mut ast = swc_ast.babelify(&ctx);
+    normalize(&mut ast);
 
-    let expected_ast: File = serde_json::from_str(&expected).unwrap();
+    let mut expected_ast: File = serde_json::from_str(&expected).unwrap();
+    normalize(&mut expected_ast);
 
     assert_eq!(expected_ast, ast);
 }
