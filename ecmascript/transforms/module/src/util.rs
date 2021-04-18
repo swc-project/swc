@@ -397,6 +397,13 @@ impl Scope {
                     folder.config().lazy.is_lazy(&src)
                 };
 
+                let should_convert_to_default = folder
+                    .scope()
+                    .import_types
+                    .get(&src)
+                    .copied()
+                    .unwrap_or(false);
+
                 let (ident, span) = folder
                     .scope()
                     .imports
@@ -417,7 +424,16 @@ impl Scope {
                             type_args: Default::default(),
                         })
                     } else {
-                        Expr::Ident(ident)
+                        if should_convert_to_default {
+                            Expr::Member(MemberExpr {
+                                span: ident.span,
+                                obj: ident.as_obj(),
+                                prop: Box::new(Expr::Ident(quote_ident!("default"))),
+                                computed: false,
+                            })
+                        } else {
+                            Expr::Ident(ident)
+                        }
                     }
                 };
 
