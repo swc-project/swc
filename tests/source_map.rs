@@ -200,8 +200,6 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
         .collect::<Vec<_>>();
     // println!("{:?}", stacks);
 
-    println!("{}", stacks.join("\n"));
-
     stacks
 }
 
@@ -230,7 +228,12 @@ fn stack_trace_from_deno(src: Either<&str, &Path>) -> Vec<String> {
 
     let err = String::from_utf8_lossy(&output.stderr);
 
-    err.lines()
+    let stacks = err
+        .lines()
         .map(|s| s.to_string().replace("file://", ""))
-        .collect()
+        .collect::<Vec<_>>();
+
+    println!("{}", stacks.join("\n"));
+
+    stacks
 }
