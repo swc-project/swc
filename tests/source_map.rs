@@ -130,9 +130,8 @@ fn stacktrace(input_dir: PathBuf) {
                     .arg("-e")
                     .arg(&**fm.src)
                     .output()
+                    .map(extract_stack_trace)
                     .expect("failed to capture output of node -e 'reference code'");
-
-                let expected_st = extract_stack_trace(expected);
 
                 match c.process_js_file(
                     fm,
@@ -155,11 +154,10 @@ fn stacktrace(input_dir: PathBuf) {
                             .arg("-r")
                             .arg("source-map-support/register")
                             .output()
+                            .map(extract_stack_trace)
                             .expect("failed to capture output of node -e 'generated code'");
 
-                        let actual_st = extract_stack_trace(actual);
-
-                        assert_eq!(expected_st, actual_st);
+                        assert_eq!(expected, actual);
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
