@@ -118,10 +118,7 @@ fn stacktrace(input_dir: PathBuf) {
                 }
                 println!("File: {}", entry.path().to_string_lossy());
 
-                if !entry.file_name().to_string_lossy().ends_with(".ts")
-                    && !entry.file_name().to_string_lossy().ends_with(".js")
-                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
-                {
+                if !entry.file_name().to_string_lossy().ends_with(".js") {
                     continue;
                 }
 
