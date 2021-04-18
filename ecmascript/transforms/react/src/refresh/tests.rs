@@ -1114,12 +1114,12 @@ test!(
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+    exports.default = App;
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));
     
     var _s = $RefreshSig$();
     
-    exports.default = App;
     function App() {
       _s();
 
