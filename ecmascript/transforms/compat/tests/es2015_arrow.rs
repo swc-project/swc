@@ -158,3 +158,113 @@ export const getBadgeBorderRadius = function(text, color) {
 };
 "#
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    arguments,
+    r#"
+function test() {
+  return () => arguments[0];
+}"#,
+    r#"
+  function test() {
+    return (function(_arguments) {
+      return _arguments[0];
+    }).bind(this, arguments)
+  }"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    arguments_nested_arrow,
+    r#"
+  function test() {
+    console.log(arguments[0]);
+    return () => {
+      console.log(arguments[0]);
+      return () => {
+        console.log(arguments[0])
+      };
+    }
+  }"#,
+    r#"
+  function test() {
+    console.log(arguments[0]);
+    return (function(_arguments) {
+        console.log(_arguments[0]);
+        return function() {
+            console.log(_arguments[0]);
+        };
+    }).bind(this, arguments);
+  }"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    arguments_nested_fn,
+    r#"
+  function test() {
+    console.log(arguments[0]);
+    return () => {
+      console.log(arguments[0]);
+      return function() {
+        console.log(arguments[0]);
+        return () => {
+          console.log(arguments[0])
+        };
+      };
+    }
+  }"#,
+    r#"
+  function test() {
+    console.log(arguments[0]);
+    return (function(_arguments) {
+        console.log(_arguments[0]);
+        return function() {
+            console.log(arguments[0]);
+            return (function(_arguments1) {
+                console.log(_arguments1[0]);
+            }).bind(this, arguments);
+        };
+    }).bind(this, arguments);
+  }"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    arguments_member,
+    r#"
+  function test() {
+    return (foo) => {
+      return foo.arguments;
+    }
+  }"#,
+    r#"
+  function test() {
+    return function(foo) {
+      return foo.arguments;
+    };
+  }"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::default(),
+    |_| arrow(),
+    arguments_fn_expr,
+    r#"
+  function test() {
+    return function() {
+      return arguments[0];
+    };
+  }"#,
+    r#"
+  function test() {
+    return function() {
+      return arguments[0];
+    };
+  }"#
+);

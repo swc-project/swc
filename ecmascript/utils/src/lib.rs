@@ -99,6 +99,66 @@ impl Visit for IdentFinder<'_> {
     }
 }
 
+pub fn contains_arguments<N>(body: &N) -> bool
+where
+    N: VisitWith<ArgumentsFinder>,
+{
+    let mut visitor = ArgumentsFinder { found: false };
+    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    visitor.found
+}
+
+pub struct ArgumentsFinder {
+    found: bool,
+}
+
+impl Visit for ArgumentsFinder {
+    noop_visit_type!();
+
+    /// Don't recurse into constructor
+    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match *e {
+            Expr::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => {
+                self.found = true;
+            }
+            _ => {}
+        }
+    }
+
+    /// Don't recurse into fn
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    /// Don't recurse into member expression prop if not computed
+    fn visit_member_expr(&mut self, m: &MemberExpr, _: &dyn Node) {
+        m.obj.visit_with(m, self);
+        match &*m.prop {
+            Expr::Ident(_) if !m.computed => {}
+            _ => m.prop.visit_with(m, self),
+        }
+    }
+
+    fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match n {
+            Prop::Shorthand(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => {
+                self.found = true;
+            }
+            _ => {}
+        }
+    }
+}
+
 pub trait ModuleItemLike: StmtLike {
     fn try_into_module_decl(self) -> Result<ModuleDecl, Self> {
         Err(self)
