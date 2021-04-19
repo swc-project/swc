@@ -226,6 +226,9 @@ impl Compiler {
         })
     }
 
+    /// Converts ast node to source string and sourcemap.
+    ///
+    /// TODO: Receive target file path to fix https://github.com/swc-project/swc/issues/1255
     pub fn print<T>(
         &self,
         node: &T,

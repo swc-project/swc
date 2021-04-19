@@ -1,5 +1,6 @@
 use self::metadata::{Metadata, ParamMetadata};
-use super::usage::DecoratorFinder;
+use super::contains_decorator;
+use super::DecoratorFinder;
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
@@ -239,14 +240,14 @@ impl Legacy {
         T: FoldWith<Self> + VisitWith<DecoratorFinder> + StmtLike + ModuleItemLike,
         Vec<T>: VisitWith<DecoratorFinder>,
     {
-        if !super::usage::has_decorator(&stmts) {
+        if !contains_decorator(&stmts) {
             return stmts;
         }
 
         let mut buf = Vec::with_capacity(stmts.len() + 4);
 
         for stmt in stmts {
-            if !super::usage::has_decorator(&stmt) {
+            if !contains_decorator(&stmt) {
                 buf.push(stmt);
                 continue;
             }

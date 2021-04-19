@@ -2100,9 +2100,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function foo() {}
-
 exports.default = foo;
+
+function foo() {}
 
 "#
 );
@@ -4634,12 +4634,12 @@ test!(
     Object.defineProperty(exports, '__esModule', {
       value: true
     });
-    
+
+    exports.default = get;
+
     function get(key) {
       console.log(key);
     }
-
-    exports.default = get;
     "
 );
 
@@ -4668,5 +4668,26 @@ test!(
     
     var _default = a;
     exports.default = _default;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1588_1,
+    "
+    import { Component, default as React } from 'react';
+
+    class X extends Component {
+    }
+
+    React.render();
+    ",
+    "
+    'use strict';
+    var _react = _interopRequireWildcard(require('react'));
+    class X extends _react.Component {
+    }
+    _react.default.render();
     "
 );

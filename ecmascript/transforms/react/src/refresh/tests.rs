@@ -1114,6 +1114,7 @@ test!(
     Object.defineProperty(exports, "__esModule", {
       value: true
     });
+    exports.default = App;
     var _hooks = require("./hooks");
     var _foo = _interopRequireDefault(require("./foo"));
     
@@ -1126,7 +1127,6 @@ test!(
       const foo = (0, _foo).default();
       return <h1>{bar}</h1>;
     }
-    exports.default = App;
     
     _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function () {
       return [_hooks.useFancyState, _foo.default];

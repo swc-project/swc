@@ -13,12 +13,12 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::native::is_native;
 use swc_ecma_utils::quote_expr;
-use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr, ExprFactory, IsDirective,
     ModuleItemLike, StmtLike,
 };
+use swc_ecma_utils::{private_ident, quote_ident};
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
@@ -260,11 +260,13 @@ impl Classes {
             .as_ref()
             .map(|e| alias_if_required(e, "_super").0);
         let has_super = super_ident.is_some();
-        let (params, args) = if let Some(ref super_ident) = super_ident {
+        let (params, args, super_ident) = if let Some(ref super_ident) = super_ident {
+            // Param should have a separate syntax context from arg.
+            let super_param = private_ident!(super_ident.sym.clone());
             let params = vec![Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
-                pat: Pat::Ident(super_ident.clone().into()),
+                pat: Pat::Ident(super_param.clone().into()),
             }];
 
             let super_class = class.super_class.clone().unwrap();
@@ -282,12 +284,13 @@ impl Classes {
                         type_args: Default::default(),
                     }
                     .as_arg()],
+                    Some(super_param),
                 )
             } else {
-                (params, vec![super_class.as_arg()])
+                (params, vec![super_class.as_arg()], Some(super_param))
             }
         } else {
-            (vec![], vec![])
+            (vec![], vec![], None)
         };
 
         let mut stmts = self.class_to_stmts(class_name, super_ident, class);
