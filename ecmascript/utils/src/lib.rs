@@ -122,7 +122,10 @@ impl Visit for ArgumentsFinder {
         e.visit_children_with(self);
 
         match *e {
-            Expr::Ident(ref i) if i.sym == js_word!("arguments") => {
+            Expr::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => {
                 self.found = true;
             }
             _ => {}
@@ -138,6 +141,20 @@ impl Visit for ArgumentsFinder {
         match &*m.prop {
             Expr::Ident(_) if !m.computed => {}
             _ => m.prop.visit_with(m, self),
+        }
+    }
+
+    fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        match n {
+            Prop::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => {
+                self.found = true;
+            }
+            _ => {}
         }
     }
 }
