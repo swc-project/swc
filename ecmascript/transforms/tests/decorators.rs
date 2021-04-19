@@ -5703,3 +5703,21 @@ test!(
     }), _class);
     "
 );
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1456_1,
+    "
+    class MyClass {
+      constructor(@Inject() param1: Injected) {}
+    }
+    ",
+    "
+  
+    "
+);
