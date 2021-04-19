@@ -3,6 +3,11 @@ use swc_babel_ast::*;
 
 struct Normalizer;
 
+// NOTE: When adding a visitor function, don't forget to add
+// ```
+// node.visit_mut_children_with(self);
+// ```
+// at the end! Failing to do so breaks the walk chain and other functions never get called.
 impl VisitMut for Normalizer {
     // ------------------------------------------------------------------------
     // class
@@ -19,6 +24,7 @@ impl VisitMut for Normalizer {
         if node.implements == None {
             node.implements = Some(vec![]);
         }
+        node.visit_mut_children_with(self);
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
@@ -37,6 +43,7 @@ impl VisitMut for Normalizer {
         if node.optional == None {
             node.optional = Some(false);
         }
+        node.visit_mut_children_with(self);
     }
 
     // ------------------------------------------------------------------------
