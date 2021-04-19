@@ -46,7 +46,7 @@ impl Babelify for ClassDecl {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         let is_abstract = self.class.is_abstract;
-        // NOTE(dwoznicki): The body field needs a bit of special handling because babel
+        // NOTE: The body field needs a bit of special handling because babel
         // represents the body as a node, whereas swc represents it as a vector of
         // statements. This means that swc does not have a span corresponding the the
         // class body base node for babel. To solve this, we generate a new span starting
@@ -64,6 +64,12 @@ impl Babelify for ClassDecl {
         // TODO: Verify that this implementation of class body span is correct.
         // It may need to be modified to take into account implements, super classes,
         // etc.
+        // FIXME: There's a known bug where the body_span is not calculated correctly
+        // for unnamed class expressions. For example,
+        //
+        // let X = class {
+        //     // Class body
+        // }
         let body_span = self.class.span.with_lo(self.ident.span.hi + BytePos(1));
         let class = self.class.babelify(ctx);
         ClassDeclaration {
