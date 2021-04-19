@@ -43,6 +43,12 @@ impl VisitMut for Normalizer {
         if node.optional == None {
             node.optional = Some(false);
         }
+        if node.is_abstract == None {
+            node.is_abstract = Some(false);
+        }
+        if node.decorators == None {
+            node.decorators = Some(vec![]);
+        }
         node.visit_mut_children_with(self);
     }
 

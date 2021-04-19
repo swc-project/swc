@@ -222,8 +222,8 @@ pub enum BinaryExprOp {
 }
 
 #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+// #[serde(tag = "type")]
+#[serde(untagged)]
 pub enum BinaryExprLeft {
     #[serde(rename = "Expression")]
     Expr(Box<Expression>),
