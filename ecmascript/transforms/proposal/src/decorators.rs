@@ -14,7 +14,6 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod legacy;
-mod usage;
 
 /// ## Simple class decorator
 ///
@@ -161,7 +160,7 @@ impl Fold for Decorators {
     }
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        if !self::usage::has_decorator(&items) {
+        if !contains_decorator(&items) {
             return items;
         }
 
@@ -170,7 +169,7 @@ impl Fold for Decorators {
 
         let mut buf = Vec::with_capacity(items.len() + 4);
         items.into_iter().for_each(|item| {
-            if !self::usage::has_decorator(&item) {
+            if !contains_decorator(&item) {
                 buf.push(item);
                 return;
             }
