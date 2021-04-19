@@ -12,6 +12,7 @@
     "target": "es2018"
   },
   "module": {
-    "type": "commonjs"
+    "type": "commonjs",
+    "noInterop": true
   }
 }
