@@ -1,3 +1,3 @@
 import * as request from 'supertest';
 
-console.log(request);
+console.log(request());
