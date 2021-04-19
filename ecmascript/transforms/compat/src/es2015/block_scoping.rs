@@ -956,9 +956,8 @@ impl VisitMut for MutationHandler<'_> {
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old = self.in_function;
-        let arguments = self.arguments.clone();
+        let arguments = self.arguments.take();
         self.in_function = true;
-        self.arguments = None;
 
         n.visit_mut_children_with(self);
 
