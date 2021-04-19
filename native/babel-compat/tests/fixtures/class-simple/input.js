@@ -4,3 +4,4 @@ class Rectangle {
         this.width = width;
     }
 }
+const rect = new Rectangle(2, 3);
