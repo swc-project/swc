@@ -11,7 +11,6 @@ use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
     ExprFactory, IdentExt,
 };
-use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod legacy;
@@ -643,8 +642,6 @@ struct DecoratorFinder {
     found: bool,
 }
 impl Visit for DecoratorFinder {
-    noop_visit_type!();
-
     fn visit_decorator(&mut self, _: &Decorator, _: &dyn Node) {
         self.found = true
     }
