@@ -102,7 +102,15 @@ impl From<ExprOutput> for BinaryExprLeft {
 impl From<ExprOutput> for ObjectKey {
     fn from(o: ExprOutput) -> Self {
         match o {
-            ExprOutput::Expr(e) => ObjectKey::Expr(e),
+            // ExprOutput::Expr(e) => ObjectKey::Expr(e),
+            ExprOutput::Expr(e) => {
+                match *e {
+                    Expression::Id(i) => ObjectKey::Id(i),
+                    Expression::StringLiteral(s) => ObjectKey::String(s),
+                    Expression::NumericLiteral(n) => ObjectKey::Numeric(n),
+                    _ => ObjectKey::Expr(e),
+                }
+            },
             ExprOutput::Private(_) => panic!("illegal conversion: Cannot convert {} to ObjectKey (in impl From<ExprOutput> for ObjectKey) - Babel has no equivilent", type_name_of_val(&o)),
         }
     }

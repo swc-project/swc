@@ -52,6 +52,28 @@ impl VisitMut for Normalizer {
         node.visit_mut_children_with(self);
     }
 
+    fn visit_mut_class_property(&mut self, node: &mut ClassProperty) {
+        if node.readonly == None {
+            node.readonly = Some(false);
+        }
+        if node.optional == None {
+            node.optional = Some(false);
+        }
+        if node.definite == None {
+            node.definite = Some(false);
+        }
+        if node.declare == None {
+            node.declare = Some(false);
+        }
+        if node.is_abstract == None {
+            node.is_abstract = Some(false);
+        }
+        if node.decorators == None {
+            node.decorators = Some(vec![]);
+        }
+        node.visit_mut_children_with(self);
+    }
+
     // ------------------------------------------------------------------------
     // decl
     fn visit_mut_variable_declarator(&mut self, node: &mut VariableDeclarator) {
