@@ -11,6 +11,6 @@ if (!inputFile) {
 
 const code = readFileSync(inputFile, "utf8");
 
-const babelAst = parse(code);
-console.log(JSON.stringify(babelAst, null, 2));
+const babelAst = parse(code, {plugins: ["classProperties"]});
+console.log(JSON.stringify(babelAst, null, 4));
 
