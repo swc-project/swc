@@ -118,6 +118,17 @@ impl Visit for ArgumentsFinder {
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
 
+    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        match *e {
+            Expr::Ident(ref i) if i.sym == js_word!("arguments") => {
+                self.found = true;
+            }
+            _ => {}
+        }
+    }
+
     /// Don't recurse into fn
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
 
@@ -127,17 +138,6 @@ impl Visit for ArgumentsFinder {
         match &*m.prop {
             Expr::Ident(_) if !m.computed => {}
             _ => m.prop.visit_with(m, self),
-        }
-    }
-
-    fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
-        e.visit_children_with(self);
-
-        match *e {
-            Expr::Ident(ref i) if i.sym == js_word!("arguments") => {
-                self.found = true;
-            }
-            _ => {}
         }
     }
 }
