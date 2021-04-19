@@ -148,7 +148,7 @@ impl Visit for ArgumentsFinder {
         n.visit_children_with(self);
 
         match n {
-            Prop::Ident(Ident {
+            Prop::Shorthand(Ident {
                 sym: js_word!("arguments"),
                 ..
             }) => {
