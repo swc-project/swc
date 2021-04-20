@@ -718,6 +718,7 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             // handle async foo(){}
+            let is_optional = is_optional || self.input.syntax().typescript() && eat!(self, '?');
             return self.make_method(
                 |p| p.parse_unique_formal_params(),
                 MakeMethodArgs {
