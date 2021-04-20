@@ -1,6 +1,5 @@
 {
   "test": ".*.ts$",
-  "sourceMaps": true,
   "jsc": {
     "loose": true,
     "target": "es2018",
