@@ -40,10 +40,91 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
     print("derive(DeserializeEnum)", item.dump())
 }
 
+///
+#[proc_macro_attribute]
+pub fn ast_serde(
+    args: proc_macro::TokenStream,
+    input: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+
+    // we should use call_site
+    let mut item = Quote::new(Span::call_site());
+    item = match input.data {
+        Data::Enum(..) => {
+            if !args.is_empty() {
+                panic!("#[ast_serde] on enum does not accept any argument")
+            }
+
+            item.quote_with(smart_quote!(Vars { input }, {
+                #[derive(::serde::Serialize, ::swc_common::DeserializeEnum)]
+                #[serde(untagged)]
+                input
+            }))
+        }
+        _ => {
+            let args: Option<ast_node_macro::Args> = if args.is_empty() {
+                None
+            } else {
+                Some(parse(args).expect("failed to parse args of #[ast_serde]"))
+            };
+
+            let serde_tag = match input.data {
+                Data::Struct(DataStruct {
+                    fields: Fields::Named(..),
+                    ..
+                }) => {
+                    if args.is_some() {
+                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
+                            #[serde(tag = "type")]
+                        })))
+                    } else {
+                        None
+                    }
+                }
+                _ => None,
+            };
+
+            let serde_rename = args.as_ref().map(|args| {
+                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty },{
+                    #[serde(rename = name)]
+                }))
+            });
+
+            let ast_node_impl = match args {
+                Some(ref args) => Some(ast_node_macro::expand_struct(args.clone(), input.clone())),
+                None => None,
+            };
+
+            let mut quote =
+                item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+                    #[derive(::serde::Serialize, ::serde::Deserialize)]
+                    serde_tag
+                    #[serde(rename_all = "camelCase")]
+                    serde_rename
+                    input
+                }));
+
+            if let Some(items) = ast_node_impl {
+                for item in items {
+                    quote = quote.quote_with(smart_quote!(Vars { item }, { item }))
+                }
+            }
+
+            quote
+        }
+    };
+
+    print("ast_serde", item)
+}
+
 /// Alias for
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq)]` for a struct and
 /// `#[derive(Spanned, Fold, Clone, Debug, PartialEq, FromVariant)]` for an
 /// enum.
+///
+///
+/// TODO: Delete works related to serde to `#[ast_serde]`.
 #[proc_macro_attribute]
 pub fn ast_node(
     args: proc_macro::TokenStream,
