@@ -1,0 +1,128 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 144,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 144,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 22,
+            "end": 53,
+            "ctxt": 0
+          },
+          "value": "AbstractProviderDeliveryService",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 7,
+          "end": 144,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassMethod",
+            "span": {
+              "start": 102,
+              "end": 142,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 108,
+                "end": 125,
+                "ctxt": 0
+              },
+              "value": "prepareGetRequest",
+              "optional": false
+            },
+            "function": {
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 102,
+                "end": 142,
+                "ctxt": 0
+              },
+              "body": null,
+              "generator": false,
+              "async": true,
+              "typeParameters": null,
+              "returnType": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 127,
+                  "end": 141,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 129,
+                    "end": 141,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 129,
+                      "end": 136,
+                      "ctxt": 0
+                    },
+                    "value": "Promise",
+                    "optional": false
+                  },
+                  "typeParams": {
+                    "type": "TsTypeParameterInstantiation",
+                    "span": {
+                      "start": 136,
+                      "end": 141,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 137,
+                          "end": 140,
+                          "ctxt": 0
+                        },
+                        "kind": "any"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "kind": "method",
+            "isStatic": false,
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": true,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}
