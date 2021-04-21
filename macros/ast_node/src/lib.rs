@@ -40,7 +40,46 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
     print("derive(DeserializeEnum)", item.dump())
 }
 
+/// Derives `serde::Serialize` and `serde::Deerialize`.
 ///
+/// # Struct attributes
+///
+/// `#[ast_serde("A")]` adds `"type": "A"` to json when serialized, and
+/// deserializes as the type only if `type` field of json string is `A`.
+///
+/// # Enum attributes
+////
+/// ## Type-level attributes
+///
+/// This macro does not accept arguments if used on enum.
+///
+/// ## Variant attributes
+///
+/// ### `#[tag("Expr")]`
+///
+/// You can tell "Use this variant if `type` is `Expr`".
+///
+/// This attribute can be applied multiple time, if a variant consumes multiple
+/// `type`s.
+///
+/// For example, `Lit` of swc_ecma_ast is an enum, but `Expr`, which contains
+/// `Lit` as a variant, is also an enum.
+/// So the `Lit` variant has multiple `#[tag]`-s like
+///
+/// ```rust,ignore
+/// enum Expr {
+///   #[tag("StringLiteral")]
+///   #[tag("NumericLiteral")]
+///   #[tag("BooleanLiteral")]
+///   Lit(Lit),
+/// }
+/// ```
+///
+/// so the deserializer can decide which variant to use.
+///
+///
+/// `#[tag]` also supports wildcard like `#[tag("*")]`. You can use this if
+/// there are two many variants.
 #[proc_macro_attribute]
 pub fn ast_serde(
     args: proc_macro::TokenStream,
@@ -91,25 +130,13 @@ pub fn ast_serde(
                 }))
             });
 
-            let ast_node_impl = match args {
-                Some(ref args) => Some(ast_node_macro::expand_struct(args.clone(), input.clone())),
-                None => None,
-            };
-
-            let mut quote =
-                item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
-                    #[derive(::serde::Serialize, ::serde::Deserialize)]
-                    serde_tag
-                    #[serde(rename_all = "camelCase")]
-                    serde_rename
-                    input
-                }));
-
-            if let Some(items) = ast_node_impl {
-                for item in items {
-                    quote = quote.quote_with(smart_quote!(Vars { item }, { item }))
-                }
-            }
+            let quote = item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+                #[derive(::serde::Serialize, ::serde::Deserialize)]
+                serde_tag
+                #[serde(rename_all = "camelCase")]
+                serde_rename
+                input
+            }));
 
             quote
         }
