@@ -1,5 +1,5 @@
 use crate::ModuleId;
-use ahash::AHashMap;
+use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_common::SourceMap;
@@ -24,8 +24,8 @@ pub struct Modules {
 
     // We will change this into `Vec<Module>`.
     modules: Vec<(ModuleId, Module)>,
-    prepended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
-    appended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
+    prepended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
+    appended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
 }
 
 impl Modules {

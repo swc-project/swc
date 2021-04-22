@@ -9,7 +9,7 @@ include = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license = "Apache-2.0/MIT"
 name = "swc_bundler"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.32.4"
+version = "0.32.5"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [features]
@@ -21,6 +21,7 @@ ahash = "0.7"
 anyhow = "1"
 crc = "1.8"
 dashmap = {version = "3", optional = true}
+fxhash = "0.2"
 indexmap = "1.6"
 is-macro = "0.1"
 log = "0.4"
