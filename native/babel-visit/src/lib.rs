@@ -503,7 +503,7 @@ define!({
         pub members: Vec<EnumDefaultedMember>,
         pub has_unknown_members: bool,
     }
-    pub enum EnumDeclBody {
+    pub enum EnumBody {
         Boolean(EnumBooleanBody),
         Number(EnumNumberBody),
         String(EnumStringBody),
@@ -512,7 +512,7 @@ define!({
     pub struct EnumDeclaration {
         pub base: BaseNode,
         pub id: Identifier,
-        pub body: EnumDeclBody,
+        pub body: EnumBody,
     }
     pub enum Expression {
         Array(ArrayExpression),
