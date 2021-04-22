@@ -1618,6 +1618,8 @@ function joinGlobs(globs, { extended =false , globstar =false  } = {
 }
 const mod3 = function() {
     return {
+        SEP: SEP,
+        SEP_PATTERN: SEP_PATTERN,
         win32: win32,
         posix: posix,
         basename: basename2,
@@ -1635,8 +1637,6 @@ const mod3 = function() {
         sep: sep2,
         toFileUrl: toFileUrl2,
         toNamespacedPath: toNamespacedPath2,
-        SEP: SEP,
-        SEP_PATTERN: SEP_PATTERN,
         globToRegExp,
         isGlob,
         normalizeGlob,
