@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     common::{BaseNode, Identifier, TypeAnnotOrNoop, RestElement, Decorator, PatternLike},
@@ -7,25 +7,23 @@ use crate::{
     object::{ObjectProperty},
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Pattern {
-    #[serde(rename = "AssignmentPattern")]
+    #[tag("AssignmentPattern")]
     Assignment(AssignmentPattern),
-    #[serde(rename = "ArrayPattern")]
+    #[tag("ArrayPattern")]
     Array(ArrayPattern),
-    #[serde(rename = "ObjectPattern")]
+    #[tag("ObjectPattern")]
     Object(ObjectPattern),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ObjectPatternProp {
-    #[serde(rename = "RestElement")]
+    #[tag("RestElement")]
     Rest(RestElement),
-    #[serde(rename = "ObjectProperty")]
+    #[tag("ObjectProperty")]
     Prop(ObjectProperty),
 }
 
@@ -43,17 +41,16 @@ pub struct ObjectPattern {
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum AssignmentPatternLeft {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "ObjectPattern")]
+    #[tag("ObjectPattern")]
     Object(ObjectPattern),
-    #[serde(rename = "ArrayPattern")]
+    #[tag("ArrayPattern")]
     Array(ArrayPattern),
-    #[serde(rename = "MemberExpression")]
+    #[tag("MemberExpression")]
     Member(MemberExpression),
 }
 

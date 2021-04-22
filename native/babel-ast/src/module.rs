@@ -1,6 +1,6 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
 use serde_json::Value;
+use swc_common::ast_serde;
 
 use crate::{
     class::{ClassDeclaration},
@@ -13,47 +13,44 @@ use crate::{
     typescript::TSDeclareFunction,
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ModuleDeclaration {
-    #[serde(rename = "ExportAllDeclaration")]
+    #[tag("ExportAllDeclaration")]
     ExportAll(ExportAllDeclaration),
-    #[serde(rename = "ExportDefaultDeclaration")]
+    #[tag("ExportDefaultDeclaration")]
     ExportDefault(ExportDefaultDeclaration),
-    #[serde(rename = "ExportNamedDeclaration")]
+    #[tag("ExportNamedDeclaration")]
     ExportNamed(ExportNamedDeclaration),
-    #[serde(rename = "ImportDeclaration")]
+    #[tag("ImportDeclaration")]
     Import(ImportDeclaration),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ExportDeclaration {
-    #[serde(rename = "ExportAllDeclaration")]
+    #[tag("ExportAllDeclaration")]
     ExportAll(ExportAllDeclaration),
-    #[serde(rename = "ExportDefaultDeclaration")]
+    #[tag("ExportDefaultDeclaration")]
     ExportDefault(ExportDefaultDeclaration),
-    #[serde(rename = "ExportNamedDeclaration")]
+    #[tag("ExportNamedDeclaration")]
     ExportNamed(ExportNamedDeclaration),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ModuleSpecifier {
-    #[serde(rename = "ExportSpecifier")]
+    #[tag("ExportSpecifier")]
     Export(ExportSpecifier),
-    #[serde(rename = "ImportDefaultSpecifier")]
+    #[tag("ImportDefaultSpecifier")]
     ImportDefault(ImportDefaultSpecifier),
-    #[serde(rename = "ImportNamespaceSpecifier")]
+    #[tag("ImportNamespaceSpecifier")]
     ImportNamespace(ImportNamespaceSpecifier),
-    #[serde(rename = "ImportSpecifier")]
+    #[tag("ImportSpecifier")]
     Import(ImportSpecifier),
-    #[serde(rename = "ExportNamespaceSpecifier")]
+    #[tag("ExportNamespaceSpecifier")]
     ExportNamespace(ExportNamespaceSpecifier),
-    #[serde(rename = "ExportDefaultSpecifier")]
+    #[tag("ExportDefaultSpecifier")]
     ExportDefault(ExportDefaultSpecifier),
 }
 
@@ -146,17 +143,16 @@ pub struct ExportAllDeclaration {
     pub export_kind: Option<ExportKind>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ExportDefaultDeclType {
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     Func(FunctionDeclaration),
-    #[serde(rename = "TSDeclareFunction")]
+    #[tag("TSDeclareFunction")]
     TSFunc(TSDeclareFunction),
-    #[serde(rename = "ClassDeclaration")]
+    #[tag("ClassDeclaration")]
     Class(ClassDeclaration),
-    #[serde(rename = "Expression")]
+    #[tag("*")]
     Expr(Box<Expression>),
 }
 
@@ -168,15 +164,14 @@ pub struct ExportDefaultDeclaration {
     pub declaration: ExportDefaultDeclType,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ExportSpecifierType {
-    #[serde(rename = "ExportSpecifier")]
+    #[tag("ExportSpecifier")]
     Export(ExportSpecifier),
-    #[serde(rename = "ExportDefaultSpecifier")]
+    #[tag("ExportDefaultSpecifier")]
     Default(ExportDefaultSpecifier),
-    #[serde(rename = "ExportNamespaceSpecifier")]
+    #[tag("ExportNamespaceSpecifier")]
     Namespace(ExportNamespaceSpecifier),
 }
 
@@ -240,15 +235,14 @@ pub struct ImportNamespaceSpecifier {
     pub local: Identifier,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ImportSpecifierType {
-    #[serde(rename = "ImportSpecifier")]
+    #[tag("ImportSpecifier")]
     Import(ImportSpecifier),
-    #[serde(rename = "ImportDefaultSpecifier")]
+    #[tag("ImportDefaultSpecifier")]
     Default(ImportDefaultSpecifier),
-    #[serde(rename = "ImportNamespaceSpecifier")]
+    #[tag("ImportNamespaceSpecifier")]
     Namespace(ImportNamespaceSpecifier),
 }
 

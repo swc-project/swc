@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     class::ClassMethodKind,
@@ -11,131 +11,128 @@ use crate::{
     stmt::Statement,
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSTypeElement {
-    #[serde(rename = "TSCallSignatureDeclaration")]
+    #[tag("TSCallSignatureDeclaration")]
     CallSignatureDecl(TSCallSignatureDeclaration),
-    #[serde(rename = "TSConstructSignatureDeclaration")]
+    #[tag("TSConstructSignatureDeclaration")]
     ConstructSignatureDecl(TSConstructSignatureDeclaration),
-    #[serde(rename = "TSPropertySignature")]
+    #[tag("TSPropertySignature")]
     PropSignature(TSPropertySignature),
-    #[serde(rename = "TSMethodSignature")]
+    #[tag("TSMethodSignature")]
     MethodSignature(TSMethodSignature),
-    #[serde(rename = "TSIndexSignature")]
+    #[tag("TSIndexSignature")]
     IndexSignature(TSIndexSignature),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSType {
-    #[serde(rename = "TSAnyKeyword")]
+    #[tag("TSAnyKeyword")]
     AnyKeyword(TSAnyKeyword),
-    #[serde(rename = "TSBooleanKeyword")]
+    #[tag("TSBooleanKeyword")]
     BooleanKeyword(TSBooleanKeyword),
-    #[serde(rename = "TSBigIntKeyword")]
+    #[tag("TSBigIntKeyword")]
     BigIntKeyword(TSBigIntKeyword),
-    #[serde(rename = "TSIntrinsicKeyword")]
+    #[tag("TSIntrinsicKeyword")]
     IntrinsicKeyword(TSIntrinsicKeyword),
-    #[serde(rename = "TSNeverKeyword")]
+    #[tag("TSNeverKeyword")]
     NeverKeyword(TSNeverKeyword),
-    #[serde(rename = "TSNullKeyword")]
+    #[tag("TSNullKeyword")]
     NullKeyword(TSNullKeyword),
-    #[serde(rename = "TSNumberKeyword")]
+    #[tag("TSNumberKeyword")]
     NumberKeyword(TSNumberKeyword),
-    #[serde(rename = "TSObjectKeyword")]
+    #[tag("TSObjectKeyword")]
     ObjectKeyword(TSObjectKeyword),
-    #[serde(rename = "TSStringKeyword")]
+    #[tag("TSStringKeyword")]
     StringKeyword(TSStringKeyword),
-    #[serde(rename = "TSSymbolKeyword")]
+    #[tag("TSSymbolKeyword")]
     SymbolKeyword(TSSymbolKeyword),
-    #[serde(rename = "TSUndefinedKeyword")]
+    #[tag("TSUndefinedKeyword")]
     UndefinedKeyword(TSUndefinedKeyword),
-    #[serde(rename = "TSUnknownKeyword")]
+    #[tag("TSUnknownKeyword")]
     UnknownKeyword(TSUnknownKeyword),
-    #[serde(rename = "TSVoidKeyword")]
+    #[tag("TSVoidKeyword")]
     VoidKeyword(TSVoidKeyword),
-    #[serde(rename = "TSThisType")]
+    #[tag("TSThisType")]
     This(TSThisType),
-    #[serde(rename = "TSFunctionType")]
+    #[tag("TSFunctionType")]
     Function(TSFunctionType),
-    #[serde(rename = "TSConstructorType")]
+    #[tag("TSConstructorType")]
     Constructor(TSConstructorType),
-    #[serde(rename = "TSTypeReference")]
+    #[tag("TSTypeReference")]
     TypeRef(TSTypeReference),
-    #[serde(rename = "TSTypePredicate")]
+    #[tag("TSTypePredicate")]
     TypePredicate(TSTypePredicate),
-    #[serde(rename = "TSTypeQuery")]
+    #[tag("TSTypeQuery")]
     TypeQuery(TSTypeQuery),
-    #[serde(rename = "TSTypeLiteral")]
+    #[tag("TSTypeLiteral")]
     TypeLiteral(TSTypeLiteral),
-    #[serde(rename = "TSArrayType")]
+    #[tag("TSArrayType")]
     Array(TSArrayType),
-    #[serde(rename = "TSTupleType")]
+    #[tag("TSTupleType")]
     Tuple(TSTupleType),
-    #[serde(rename = "TSOptionalType")]
+    #[tag("TSOptionalType")]
     Optional(TSOptionalType),
-    #[serde(rename = "TSRestType")]
+    #[tag("TSRestType")]
     Rest(TSRestType),
-    #[serde(rename = "TSUnionType")]
+    #[tag("TSUnionType")]
     Union(TSUnionType),
-    #[serde(rename = "TSIntersectionType")]
+    #[tag("TSIntersectionType")]
     Intersection(TSIntersectionType),
-    #[serde(rename = "TSConditionalType")]
+    #[tag("TSConditionalType")]
     Conditional(TSConditionalType),
-    #[serde(rename = "TSInferType")]
+    #[tag("TSInferType")]
     Infer(TSInferType),
-    #[serde(rename = "TSParenthesizedType")]
+    #[tag("TSParenthesizedType")]
     Parenthesized(TSParenthesizedType),
-    #[serde(rename = "TSTypeOperator")]
+    #[tag("TSTypeOperator")]
     TypeOp(TSTypeOperator),
-    #[serde(rename = "TSIndexedAccessType")]
+    #[tag("TSIndexedAccessType")]
     IndexedAccess(TSIndexedAccessType),
-    #[serde(rename = "TSMappedType")]
+    #[tag("TSMappedType")]
     Mapped(TSMappedType),
-    #[serde(rename = "TSLiteralType")]
+    #[tag("TSLiteralType")]
     Literal(TSLiteralType),
-    #[serde(rename = "TSExpressionWithTypeArguments")]
+    #[tag("TSExpressionWithTypeArguments")]
     ExprWithArgs(TSExpressionWithTypeArguments),
-    #[serde(rename = "TSImportType")]
+    #[tag("TSImportType")]
     Import(TSImportType),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSBaseType {
-    #[serde(rename = "TSAnyKeyword")]
+    #[tag("TSAnyKeyword")]
     Any(TSAnyKeyword),
-    #[serde(rename = "TSBooleanKeyword")]
+    #[tag("TSBooleanKeyword")]
     Boolean(TSBooleanKeyword),
-    #[serde(rename = "TSBigIntKeyword")]
+    #[tag("TSBigIntKeyword")]
     BigInt(TSBigIntKeyword),
-    #[serde(rename = "TSIntrinsicKeyword")]
+    #[tag("TSIntrinsicKeyword")]
     Intrinsic(TSIntrinsicKeyword),
-    #[serde(rename = "TSNeverKeyword")]
+    #[tag("TSNeverKeyword")]
     Never(TSNeverKeyword),
-    #[serde(rename = "TSNullKeyword")]
+    #[tag("TSNullKeyword")]
     Null(TSNullKeyword),
-    #[serde(rename = "TSNumberKeyword")]
+    #[tag("TSNumberKeyword")]
     Number(TSNumberKeyword),
-    #[serde(rename = "TSObjectKeyword")]
+    #[tag("TSObjectKeyword")]
     Object(TSObjectKeyword),
-    #[serde(rename = "TSStringKeyword")]
+    #[tag("TSStringKeyword")]
     String(TSStringKeyword),
-    #[serde(rename = "TSSymbolKeyword")]
+    #[tag("TSSymbolKeyword")]
     Symbol(TSSymbolKeyword),
-    #[serde(rename = "TSUndefinedKeyword")]
+    #[tag("TSUndefinedKeyword")]
     Undefined(TSUndefinedKeyword),
-    #[serde(rename = "TSUnknownKeyword")]
+    #[tag("TSUnknownKeyword")]
     Unknown(TSUnknownKeyword),
-    #[serde(rename = "TSVoidKeyword")]
+    #[tag("TSVoidKeyword")]
     Void(TSVoidKeyword),
-    #[serde(rename = "TSThisType")]
+    #[tag("TSThisType")]
     This(TSThisType),
-    #[serde(rename = "TSLiteralType")]
+    #[tag("TSLiteralType")]
     Literal(TSLiteralType),
 }
 
@@ -148,13 +145,12 @@ pub struct TSTypeAnnotation {
     pub type_annotation: TSType,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSParamPropParam {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "AssignmentPattern")]
+    #[tag("AssignmentPattern")]
     Assignment(AssignmentPattern),
 }
 
@@ -170,21 +166,21 @@ pub struct TSParameterProperty {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSFuncDeclTypeParams {
-    #[serde(rename = "TSTypeParameterDeclaration")]
+    #[tag("TSTypeParameterDeclaration")]
     Type(TSTypeParameterDeclaration),
+    #[tag("Noop")]
     Noop(Noop),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSFuncDeclTypeAnnot {
-    #[serde(rename = "TSTypeAnnotation")]
+    #[tag("TSTypeAnnotation")]
     Type(Box<TSTypeAnnotation>),
+    #[tag("Noop")]
     Noop(Noop),
 }
 
@@ -461,13 +457,12 @@ pub struct TSConstructorType {
     pub is_abstract: Option<bool>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSEntityName {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "TSQualifiedName")]
+    #[tag("TSQualifiedName")]
     Qualified(TSQualifiedName),
 }
 
@@ -482,13 +477,12 @@ pub struct TSTypeReference {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSTypePredicateParamName {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "TSThisType")]
+    #[tag("TSThisType")]
     This(TSThisType),
 }
 
@@ -505,13 +499,13 @@ pub struct TSTypePredicate {
     pub asserts: Option<bool>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSTypeQueryExprName {
-    #[serde(rename = "TSEntityName")]
+    #[tag("Identifier")]
+    #[tag("TSQualifiedName")]
     EntityName(TSEntityName),
-    #[serde(rename = "TSImportType")]
+    #[tag("TSImportType")]
     ImportType(TSImportType),
 }
 
@@ -542,13 +536,13 @@ pub struct TSArrayType {
     pub element_type: Box<TSType>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSTupleTypeElType {
-    TSType(TSType),
-    #[serde(rename = "TSNamedTupleMember")]
+    #[tag("TSNamedTupleMember")]
     Member(TSNamedTupleMember),
+    #[tag("*")]
+    TSType(TSType),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -677,17 +671,16 @@ pub struct TSMappedType {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSLiteralTypeLiteral {
-    #[serde(rename = "NumericLiteral")]
+    #[tag("NumericLiteral")]
     Numeric(NumericLiteral),
-    #[serde(rename = "StringLiteral")]
+    #[tag("StringLiteral")]
     String(StringLiteral),
-    #[serde(rename = "BooleanLiteral")]
+    #[tag("BooleanLiteral")]
     Boolean(BooleanLiteral),
-    #[serde(rename = "BigIntLiteral")]
+    #[tag("BigIntLiteral")]
     BigInt(BigIntLiteral),
 }
 
@@ -795,13 +788,12 @@ pub struct TSEnumMember {
     pub initializer: Option<Box<Expression>>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSModuleDeclBody {
-    #[serde(rename = "TSModuleBlock")]
+    #[tag("TSModuleBlock")]
     Block(TSModuleBlock),
-    #[serde(rename = "TSModuleDeclaration")]
+    #[tag("TSModuleDeclaration")]
     Decl(TSModuleDeclaration),
 }
 
@@ -840,13 +832,13 @@ pub struct TSImportType {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TSImportEqualsDeclModuleRef {
-    #[serde(rename = "TSEntityName")]
+    #[tag("Identifier")]
+    #[tag("TSQualifiedName")]
     Name(TSEntityName),
-    #[serde(rename = "TSExternalModuleReference")]
+    #[tag("TSExternalModuleReference")]
     External(TSExternalModuleReference),
 }
 

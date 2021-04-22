@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     common::BaseNode,
@@ -7,25 +7,24 @@ use crate::{
     typescript::TSType,
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Literal {
-    #[serde(rename = "StringLiteral")]
+    #[tag("StringLiteral")]
     String(StringLiteral),
-    #[serde(rename = "NumericLiteral")]
+    #[tag("NumericLiteral")]
     Numeric(NumericLiteral),
-    #[serde(rename = "NullLiteral")]
+    #[tag("NullLiteral")]
     Null(NullLiteral),
-    #[serde(rename = "BooleanLiteral")]
+    #[tag("BooleanLiteral")]
     Boolean(BooleanLiteral),
-    #[serde(rename = "RegExpLiteral")]
+    #[tag("RegExpLiteral")]
     RegExp(RegExpLiteral),
-    #[serde(rename = "TemplateLiteral")]
+    #[tag("TemplateLiteral")]
     Template(TemplateLiteral),
-    #[serde(rename = "BigIntLiteral")]
+    #[tag("BigIntLiteral")]
     BigInt(BigIntLiteral),
-    #[serde(rename = "DecimalLiteral")]
+    #[tag("DecimalLiteral")]
     Decimal(DecimalLiteral),
 }
 
@@ -108,13 +107,47 @@ pub struct TemplateElement {
     pub tail: bool,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TemplateLiteralExpr {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
+    #[tag("TSAnyKeyword")]
+    #[tag("TSBooleanKeyword")]
+    #[tag("TSBigIntKeyword")]
+    #[tag("TSIntrinsicKeyword")]
+    #[tag("TSNeverKeyword")]
+    #[tag("TSNullKeyword")]
+    #[tag("TSNumberKeyword")]
+    #[tag("TSObjectKeyword")]
+    #[tag("TSStringKeyword")]
+    #[tag("TSSymbolKeyword")]
+    #[tag("TSUndefinedKeyword")]
+    #[tag("TSUnknownKeyword")]
+    #[tag("TSVoidKeyword")]
+    #[tag("TSThisType")]
+    #[tag("TSFunctionType")]
+    #[tag("TSConstructorType")]
+    #[tag("TSTypeReference")]
+    #[tag("TSTypePredicate")]
+    #[tag("TSTypeQuery")]
+    #[tag("TSTypeLiteral")]
+    #[tag("TSArrayType")]
+    #[tag("TSTupleType")]
+    #[tag("TSOptionalType")]
+    #[tag("TSRestType")]
+    #[tag("TSUnionType")]
+    #[tag("TSIntersectionType")]
+    #[tag("TSConditionalType")]
+    #[tag("TSInferType")]
+    #[tag("TSParenthesizedType")]
+    #[tag("TSTypeOperator")]
+    #[tag("TSIndexedAccessType")]
+    #[tag("TSMappedType")]
+    #[tag("TSLiteralType")]
+    #[tag("TSExpressionWithTypeArguments")]
+    #[tag("TSImportType")]
     TSType(TSType),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

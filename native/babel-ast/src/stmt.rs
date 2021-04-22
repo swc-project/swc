@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     class::ClassDeclaration,
@@ -20,162 +20,159 @@ use crate::{
     },
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Statement {
-    #[serde(rename = "BlockStatement")]
+    #[tag("BlockStatement")]
     Block(BlockStatement),
-    #[serde(rename = "BreakStatement")]
+    #[tag("BreakStatement")]
     Break(BreakStatement),
-    #[serde(rename = "ContinueStatement")]
+    #[tag("ContinueStatement")]
     Continue(ContinueStatement),
-    #[serde(rename = "DebuggerStatement")]
+    #[tag("DebuggerStatement")]
     Debugger(DebuggerStatement),
-    #[serde(rename = "DoWhileStatement")]
+    #[tag("DoWhileStatement")]
     DoWhile(DoWhileStatement),
-    #[serde(rename = "EmptyStatement")]
+    #[tag("EmptyStatement")]
     Empty(EmptyStatement),
-    #[serde(rename = "ExpressionStatement")]
+    #[tag("ExpressionStatement")]
     Expr(ExpressionStatement),
-    #[serde(rename = "ForInStatement")]
+    #[tag("ForInStatement")]
     ForIn(ForInStatement),
-    #[serde(rename = "ForStatement")]
+    #[tag("ForStatement")]
     For(ForStatement),
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     FuncDecl(FunctionDeclaration),
-    #[serde(rename = "IfStatement")]
+    #[tag("IfStatement")]
     If(IfStatement),
-    #[serde(rename = "LabeledStatement")]
+    #[tag("LabeledStatement")]
     Labeled(LabeledStatement),
-    #[serde(rename = "ReturnStatement")]
+    #[tag("ReturnStatement")]
     Return(ReturnStatement),
-    #[serde(rename = "SwitchStatement")]
+    #[tag("SwitchStatement")]
     Switch(SwitchStatement),
-    #[serde(rename = "ThrowStatement")]
+    #[tag("ThrowStatement")]
     Throw(ThrowStatement),
-    #[serde(rename = "TryStatement")]
+    #[tag("TryStatement")]
     Try(TryStatement),
-    #[serde(rename = "VariableDeclaration")]
+    #[tag("VariableDeclaration")]
     VarDecl(VariableDeclaration),
-    #[serde(rename = "WhileStatement")]
+    #[tag("WhileStatement")]
     While(WhileStatement),
-    #[serde(rename = "WithStatement")]
+    #[tag("WithStatement")]
     With(WithStatement),
-    #[serde(rename = "ClassDeclaration")]
+    #[tag("ClassDeclaration")]
     ClassDecl(ClassDeclaration),
-    #[serde(rename = "ExportAllDeclaration")]
+    #[tag("ExportAllDeclaration")]
     ExportAllDecl(ExportAllDeclaration),
-    #[serde(rename = "ExportDefaultDeclaration")]
+    #[tag("ExportDefaultDeclaration")]
     ExportDefaultDecl(ExportDefaultDeclaration),
-    #[serde(rename = "ExportNamedDeclaration")]
+    #[tag("ExportNamedDeclaration")]
     ExportNamedDecl(ExportNamedDeclaration),
-    #[serde(rename = "ForOfStatement")]
+    #[tag("ForOfStatement")]
     ForOf(ForOfStatement),
-    #[serde(rename = "ImportDeclaration")]
+    #[tag("ImportDeclaration")]
     ImportDecl(ImportDeclaration),
-    #[serde(rename = "DeclareClass")]
+    #[tag("DeclareClass")]
     DeclClass(DeclareClass),
-    #[serde(rename = "DeclareFunction")]
+    #[tag("DeclareFunction")]
     DeclFunc(DeclareFunction),
-    #[serde(rename = "DeclareInterface")]
+    #[tag("DeclareInterface")]
     DeclInterface(DeclareInterface),
-    #[serde(rename = "DeclareModule")]
+    #[tag("DeclareModule")]
     DeclModule(DeclareModule),
-    #[serde(rename = "DeclareModuleExports")]
+    #[tag("DeclareModuleExports")]
     DeclareModuleExports(DeclareModuleExports),
-    #[serde(rename = "DeclareTypeAlias")]
+    #[tag("DeclareTypeAlias")]
     DeclTypeAlias(DeclareTypeAlias),
-    #[serde(rename = "DeclareOpaqueType")]
+    #[tag("DeclareOpaqueType")]
     DeclOpaqueType(DeclareOpaqueType),
-    #[serde(rename = "DeclareVariable")]
+    #[tag("DeclareVariable")]
     DeclVar(DeclareVariable),
-    #[serde(rename = "DeclareExportDeclaration")]
+    #[tag("DeclareExportDeclaration")]
     DeclExportDeclaration(DeclareExportDeclaration),
-    #[serde(rename = "DeclareExportAllDeclaration")]
+    #[tag("DeclareExportAllDeclaration")]
     DeclExportAllDeclaration(DeclareExportAllDeclaration),
-    #[serde(rename = "InterfaceDeclaration")]
+    #[tag("InterfaceDeclaration")]
     InterfaceDecl(InterfaceDeclaration),
+    #[tag("OpaqueType")]
     OpaqueType(OpaqueType),
+    #[tag("TypeAlias")]
     TypeAlias(TypeAlias),
-    #[serde(rename = "EnumDeclaration")]
+    #[tag("EnumDeclaration")]
     EnumDecl(EnumDeclaration),
-    #[serde(rename = "TSDeclareFunction")]
+    #[tag("TSDeclareFunction")]
     TSDeclFunc(TSDeclareFunction),
-    #[serde(rename = "TSInterfaceDeclaration")]
+    #[tag("TSInterfaceDeclaration")]
     TSInterfaceDecl(TSInterfaceDeclaration),
-    #[serde(rename = "TSTypeAliasDeclaration")]
+    #[tag("TSTypeAliasDeclaration")]
     TSTypeAliasDecl(TSTypeAliasDeclaration),
-    #[serde(rename = "TSEnumDeclaration")]
+    #[tag("TSEnumDeclaration")]
     TSEnumDecl(TSEnumDeclaration),
-    #[serde(rename = "TSModuleDeclaration")]
+    #[tag("TSModuleDeclaration")]
     TSModuleDecl(TSModuleDeclaration),
-    #[serde(rename = "TSImportEqualsDeclaration")]
+    #[tag("TSImportEqualsDeclaration")]
     TSImportEqualsDecl(TSImportEqualsDeclaration),
+    #[tag("TSExportAssignment")]
     TSExportAssignment(TSExportAssignment),
-    #[serde(rename = "TSNamespaceExportDeclaration")]
+    #[tag("TSNamespaceExportDeclaration")]
     TSNamespaceExportDecl(TSNamespaceExportDeclaration),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum CompletionStatement {
-    #[serde(rename = "BreakStatement")]
+    #[tag("BreakStatement")]
     Break(BreakStatement),
-    #[serde(rename = "ContinueStatement")]
+    #[tag("ContinueStatement")]
     Continue(ContinueStatement),
-    #[serde(rename = "ReturnStatement")]
+    #[tag("ReturnStatement")]
     Return(ReturnStatement),
-    #[serde(rename = "ThrowStatement")]
+    #[tag("ThrowStatement")]
     Throw(ThrowStatement),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Loop {
-    #[serde(rename = "DoWhileStatement")]
+    #[tag("DoWhileStatement")]
     DoWhile(DoWhileStatement),
-    #[serde(rename = "ForInStatement")]
+    #[tag("ForInStatement")]
     ForIn(ForInStatement),
-    #[serde(rename = "ForStatement")]
+    #[tag("ForStatement")]
     For(ForStatement),
-    #[serde(rename = "WhileStatement")]
+    #[tag("WhileStatement")]
     While(WhileStatement),
-    #[serde(rename = "ForOfStatement")]
+    #[tag("ForOfStatement")]
     ForOf(ForOfStatement),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum For {
-    #[serde(rename = "ForInStatement")]
+    #[tag("ForInStatement")]
     InStmt(ForInStatement),
-    #[serde(rename = "ForStatement")]
+    #[tag("ForStatement")]
     Stmt(ForStatement),
-    #[serde(rename = "ForOfStatement")]
+    #[tag("ForOfStatement")]
     OfStmt(ForOfStatement),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ForXStatement {
-    #[serde(rename = "ForInStatement")]
+    #[tag("ForInStatement")]
     ForIn(ForInStatement),
-    #[serde(rename = "ForOfStatement")]
+    #[tag("ForOfStatement")]
     ForOf(ForOfStatement),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum While {
-    #[serde(rename = "DoWhileStatement")]
+    #[tag("DoWhileStatement")]
     DoWhile(DoWhileStatement),
-    #[serde(rename = "WhileStatement")]
+    #[tag("WhileStatement")]
     While(WhileStatement),
 }
 
@@ -239,22 +236,21 @@ pub struct ExpressionStatement {
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ForStmtInit {
-    #[serde(rename = "VariableDeclaration")]
+    #[tag("VariableDeclaration")]
     VarDecl(VariableDeclaration),
-    #[serde(rename = "Expression")]
+    #[tag("*")]
     Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ForStmtLeft {
-    #[serde(rename = "VariableDeclaration")]
+    #[tag("VariableDeclaration")]
     VarDecl(VariableDeclaration),
+    #[tag("*")]
     LVal(LVal),
 }
 
@@ -350,15 +346,14 @@ pub struct ThrowStatement {
     pub argument: Box<Expression>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum CatchClauseParam {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "ArrayPattern")]
+    #[tag("ArrayPattern")]
     Array(ArrayPattern),
-    #[serde(rename = "ObjectPattern")]
+    #[tag("ObjectPattern")]
     Object(ObjectPattern),
 }
 

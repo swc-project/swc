@@ -1,4 +1,3 @@
-use serde::{Serialize, Deserialize};
 use swc_common::ast_serde;
 
 use crate::{

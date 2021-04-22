@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     common::{
@@ -14,26 +14,31 @@ use crate::{
     stmt::BlockStatement,
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum UserWhitespacable {
+    #[tag("ObjectMethod")]
     ObjectMethod(ObjectMethod),
+    #[tag("ObjectProperty")]
     ObjectProperty(ObjectProperty),
+    #[tag("ObjectTypeInternalSlot")]
     ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+    #[tag("ObjectTypeCallProperty")]
     ObjectTypeCallProperty(ObjectTypeCallProperty),
+    #[tag("ObjectTypeIndexer")]
     ObjectTypeIndexer(ObjectTypeIndexer),
+    #[tag("ObjectTypeProperty")]
     ObjectTypeProperty(ObjectTypeProperty),
+    #[tag("ObjectTypeSpreadProperty")]
     ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ObjectMember {
-    #[serde(rename = "ObjectMember")]
+    #[tag("ObjectMember")]
     Method(ObjectMethod),
-    #[serde(rename = "ObjectProperty")]
+    #[tag("ObjectProperty")]
     Prop(ObjectProperty),
 }
 
@@ -45,18 +50,17 @@ pub enum ObjectMethodKind {
     Set,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ObjectKey {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "StringLiteral")]
+    #[tag("StringLiteral")]
     String(StringLiteral),
-    #[serde(rename = "NumericLiteral")]
+    #[tag("NumericLiteral")]
     Numeric(NumericLiteral),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -84,14 +88,17 @@ pub struct ObjectMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ObjectPropVal {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "PatternLike")]
+    #[tag("Identifier")]
+    #[tag("RestElement")]
+    #[tag("AssignmentPattern")]
+    #[tag("ArrayPattern")]
+    #[tag("ObjectPattern")]
     Pattern(PatternLike),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
