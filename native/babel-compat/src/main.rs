@@ -1,5 +1,74 @@
 #![feature(type_name_of_val)]
 
+use swc_common::{ast_node, Span, Spanned};
+use serde::{Serialize, Deserialize};
+
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+// #[ast_node]
+// #[serde(tag = "type")]
+struct A {
+    value: usize,
+}
+
+fn main() {}
+
+/*
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[ast_node]
+// #[serde(tag = "type")]
+struct B {
+    value: usize,
+}
+
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+// #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+#[ast_node]
+// #[serde(tag = "type")]
+enum AB {
+    #[tag("A")]
+    A(A),
+    #[tag("B")]
+    B(B),
+}
+
+// pub use swc_babel_compat_macros::SerializeUnion;
+// pub trait SerializeUnion {}
+
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[ast_node]
+// #[serde(tag = "type")]
+struct C {
+    value: usize,
+}
+
+// #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
+// #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[ast_node]
+// #[serde(tag = "type")]
+// #[serde(untagged)]
+enum ABC {
+    #[tag("C")]
+    C(C),
+    #[tag("A")]
+    #[tag("B")]
+    AB(AB),
+}
+
+fn main() {
+    let json = r#"{"type": "A", "value": 1}"#;
+    // let a: A = serde_json::from_str(&json).unwrap();
+    // println!("{:#?}", a);
+
+    // let a: AB = serde_json::from_str(&json).unwrap();
+    // println!("{:?}", a);
+
+    let a: ABC = serde_json::from_str(&json).unwrap();
+    println!("{:#?}", a);
+
+    // println!("{}", serde_json::to_string_pretty(&a).unwrap());
+}
+*/
+
 /*
 use swc_babel_compat::{Context, Babelify};
 use swc::Compiler;
@@ -99,4 +168,4 @@ fn compile(compiler: &Compiler, fm: Arc<SourceFile>) -> Result<Program> {
 */
 
 
-fn main() {}
+// fn main() {}
