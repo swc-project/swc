@@ -1,16 +1,4 @@
-// pub mod class;
-// pub mod comment;
-// pub mod common;
-// pub mod decl;
-// pub mod expr;
-// pub mod flow;
-// pub mod jsx;
-// pub mod lit;
-// pub mod module;
-// pub mod object;
-// pub mod pat;
-// pub mod stmt;
-// pub mod typescript;
+#![feature(macro_attributes_in_derive_output)]
 
 mod class;
 mod comment;

@@ -1,6 +1,6 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
 use serde_json::Value;
+use swc_common::ast_serde;
 
 use crate::{
     common::{
@@ -14,13 +14,12 @@ use crate::{
     typescript::{TSDeclareMethod, TSIndexSignature, TSExpressionWithTypeArguments},
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Class {
-    #[serde(rename = "ClassExpression")]
+    #[tag("ClassExpression")]
     Expr(ClassExpression),
-    #[serde(rename = "ClassDeclaration")]
+    #[tag("ClassDeclaration")]
     Decl(ClassDeclaration),
 }
 
@@ -33,9 +32,8 @@ pub enum ClassMethodKind {
     Constructor,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassMethod")]
 pub struct ClassMethod {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -69,9 +67,8 @@ pub struct ClassMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassPrivateProperty")]
 pub struct ClassPrivateProperty {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -81,14 +78,13 @@ pub struct ClassPrivateProperty {
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default, rename = "static")]
-    pub static_any: Value, // TODO: is this the right way to model any?
+    pub static_any: Value,
     #[serde(default)]
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassPrivateMethod")]
 pub struct ClassPrivateMethod {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -122,9 +118,8 @@ pub struct ClassPrivateMethod {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassProperty")]
 pub struct ClassProperty {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -153,26 +148,25 @@ pub struct ClassProperty {
     pub readonly: Option<bool>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ClassBodyEl {
-    #[serde(rename = "ClassMethod")]
+    #[tag("ClassMethod")]
     Method(ClassMethod),
-    #[serde(rename = "ClassPrivateMethod")]
+    #[tag("ClassPrivateMethod")]
     PrivateMethod(ClassPrivateMethod),
-    #[serde(rename = "ClassProperty")]
+    #[tag("ClassProperty")]
     Prop(ClassProperty),
-    #[serde(rename = "ClassPrivateProperty")]
+    #[tag("ClassPrivateProperty")]
     PrivateProp(ClassPrivateProperty),
-    #[serde(rename = "TSDeclareMethod")]
+    #[tag("TSDeclareMethod")]
     TSMethod(TSDeclareMethod),
-    #[serde(rename = "TSIndexSignature")]
+    #[tag("TSIndexSignature")]
     TSIndex(TSIndexSignature),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassBody")]
 pub struct ClassBody {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -180,13 +174,12 @@ pub struct ClassBody {
     pub body: Vec<ClassBodyEl>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ClassImpl {
-    #[serde(rename = "TSExpressionWithTypeArguments")]
+    #[tag("TSExpressionWithTypeArguments")]
     TSExpr(TSExpressionWithTypeArguments),
-    #[serde(rename = "ClassImplements")]
+    #[tag("ClassImplements")]
     Implements(ClassImplements),
 }
 
@@ -196,9 +189,8 @@ impl From<TSExpressionWithTypeArguments> for ClassImpl {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassDeclaration")]
 pub struct ClassDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
