@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     class::{ClassBody, ClassImpl},
@@ -21,115 +21,125 @@ use crate::{
     },
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Expression {
-    #[serde(rename = "ArrayExpression")]
+    #[tag("ArrayExpression")]
     Array(ArrayExpression),
-    #[serde(rename = "AssignmentExpression")]
+    #[tag("AssignmentExpression")]
     Assignment(AssignmentExpression),
-    #[serde(rename = "BinaryExpression")]
+    #[tag("BinaryExpression")]
     Binary(BinaryExpression),
-    #[serde(rename = "CallExpression")]
+    #[tag("CallExpression")]
     Call(CallExpression),
-    #[serde(rename = "ConditionalExpression")]
+    #[tag("ConditionalExpression")]
     Conditional(ConditionalExpression),
-    #[serde(rename = "FunctionExpression")]
+    #[tag("FunctionExpression")]
     Func(FunctionExpression),
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
+    #[tag("StringLiteral")]
     StringLiteral(StringLiteral),
+    #[tag("NumericLiteral")]
     NumericLiteral(NumericLiteral),
+    #[tag("NullLiteral")]
     NullLiteral(NullLiteral),
+    #[tag("BooleanLiteral")]
     BooleanLiteral(BooleanLiteral),
+    #[tag("RegExpLiteral")]
     RegExpLiteral(RegExpLiteral),
-    #[serde(rename = "LogicalExpression")]
+    #[tag("LogicalExpression")]
     Logical(LogicalExpression),
-    #[serde(rename = "MemberExpression")]
+    #[tag("MemberExpression")]
     Member(MemberExpression),
-    #[serde(rename = "NewExpression")]
+    #[tag("NewExpression")]
     New(NewExpression),
-    #[serde(rename = "ObjectExpression")]
+    #[tag("ObjectExpression")]
     Object(ObjectExpression),
-    #[serde(rename = "SequenceExpression")]
+    #[tag("SequenceExpression")]
     Sequence(SequenceExpression),
-    #[serde(rename = "ParenthesizedExpression")]
+    #[tag("ParenthesizedExpression")]
     Parenthesized(ParenthesizedExpression),
-    #[serde(rename = "ThisExpression")]
+    #[tag("ThisExpression")]
     This(ThisExpression),
-    #[serde(rename = "UnaryExpression")]
+    #[tag("UnaryExpression")]
     Unary(UnaryExpression),
-    #[serde(rename = "UpdateExpression")]
+    #[tag("UpdateExpression")]
     Update(UpdateExpression),
-    #[serde(rename = "ArrowFunctionExpression")]
+    #[tag("ArrowFunctionExpression")]
     ArrowFunc(ArrowFunctionExpression),
-    #[serde(rename = "ClassExpression")]
+    #[tag("ClassExpression")]
     Class(ClassExpression),
-    #[serde(rename = "MetaProperty")]
+    #[tag("MetaProperty")]
     MetaProp(MetaProperty),
+    #[tag("Super")]
     Super(Super),
-    #[serde(rename = "TaggedTemplateExpression")]
+    #[tag("TaggedTemplateExpression")]
     TaggedTemplate(TaggedTemplateExpression),
+    #[tag("TemplateLiteral")]
     TemplateLiteral(TemplateLiteral),
-    #[serde(rename = "YieldExpression")]
+    #[tag("YieldExpression")]
     Yield(YieldExpression),
-    #[serde(rename = "AwaitExpression")]
+    #[tag("AwaitExpression")]
     Await(AwaitExpression),
+    #[tag("Import")]
     Import(Import),
+    #[tag("BigIntLiteral")]
     BigIntLiteral(BigIntLiteral),
-    #[serde(rename = "OptionalMemberExpression")]
+    #[tag("OptionalMemberExpression")]
     OptionalMember(OptionalMemberExpression),
-    #[serde(rename = "OptionalCallExpression")]
+    #[tag("OptionalCallExpression")]
     OptionalCall(OptionalCallExpression),
-    #[serde(rename = "TypeCastExpression")]
+    #[tag("TypeCastExpression")]
     TypeCast(TypeCastExpression),
+    #[tag("JSXElement")]
     JSXElement(JSXElement),
+    #[tag("Fragment")]
     JSXFragment(JSXFragment),
-    #[serde(rename = "BindExpression")]
+    #[tag("BindExpression")]
     Bind(BindExpression),
-    #[serde(rename = "PipelinePrimaryTopicReference")]
+    #[tag("PipelinePrimaryTopicReference")]
     PipelinePrimaryTopicRef(PipelinePrimaryTopicReference),
-    #[serde(rename = "DoExpression")]
+    #[tag("DoExpression")]
     Do(DoExpression),
-    #[serde(rename = "RecordExpression")]
+    #[tag("RecordExpression")]
     Record(RecordExpression),
-    #[serde(rename = "TupleExpression")]
+    #[tag("TupleExpression")]
     Tuple(TupleExpression),
+    #[tag("DecimalLiteral")]
     DecimalLiteral(DecimalLiteral),
-    #[serde(rename = "ModuleExpression")]
+    #[tag("ModuleExpression")]
     Module(ModuleExpression),
-    #[serde(rename = "TSAsExpression")]
+    #[tag("TSAsExpression")]
     TSAs(TSAsExpression),
+    #[tag("TSTypeAssertion")]
     TSTypeAssertion(TSTypeAssertion),
-    #[serde(rename = "TSNonNullExpression")]
+    #[tag("TSNonNullExpression")]
     TSNonNull(TSNonNullExpression),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ExpressionWrapper {
-    #[serde(rename = "ExpressionStatement")]
+    #[tag("ExpressionStatement")]
     Stmt(ExpressionStatement),
-    #[serde(rename = "ParenthesizedExpression")]
+    #[tag("ParenthesizedExpression")]
     Parenthesized(ParenthesizedExpression),
-    #[serde(rename = "TypeCastExpression")]
+    #[tag("TypeCastExpression")]
     TypeCast(TypeCastExpression),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ArrayExprEl {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "SpreadElement")]
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ArrayExpression")]
 pub struct ArrayExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -137,8 +147,8 @@ pub struct ArrayExpression {
     pub elements: Vec<Option<ArrayExprEl>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("AssignmentExpression")]
 pub struct AssignmentExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -148,19 +158,19 @@ pub struct AssignmentExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum MemberExprProp {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
+    #[tag("PrivateName")]
     PrivateName(PrivateName),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("MemberExpression")]
 pub struct MemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -221,18 +231,17 @@ pub enum BinaryExprOp {
     LessThanOrEqual,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum BinaryExprLeft {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "PrivateName")]
+    #[tag("PrivateName")]
     Private(PrivateName),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("BinaryExpression")]
 pub struct BinaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -241,8 +250,8 @@ pub struct BinaryExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("V8IntrinsicIdentifier")]
 pub struct V8IntrinsicIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -250,14 +259,13 @@ pub struct V8IntrinsicIdentifier {
     pub name: String,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Callee {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "V8IntrinsicIdentifier")]
+    #[tag("V8IntrinsicIdentifier")]
     V8Id(V8IntrinsicIdentifier),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
 impl From<Expression> for Callee {
@@ -266,25 +274,24 @@ impl From<Expression> for Callee {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ArgumentPlaceholder")]
 pub struct ArgumentPlaceholder {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-// #[serde(tag = "type")]
-#[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Arg {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "SpreadElement")]
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
-    #[serde(rename = "JSXNamespacedName")]
+    #[tag("JSXNamespacedName")]
     JSXName(JSXNamespacedName),
-    #[serde(rename = "ArgumentPlaceholder")]
+    #[tag("ArgumentPlaceholder")]
     Placeholder(ArgumentPlaceholder),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
 impl From<ArrayExprEl> for Arg {
@@ -296,9 +303,8 @@ impl From<ArrayExprEl> for Arg {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("CallExpression")]
 pub struct CallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -313,8 +319,8 @@ pub struct CallExpression {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ConditionalExpression")]
 pub struct ConditionalExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -323,9 +329,8 @@ pub struct ConditionalExpression {
     pub alternate: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("FunctionExpression")]
 pub struct FunctionExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -344,9 +349,8 @@ pub struct FunctionExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("NewExpression")]
 pub struct NewExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -372,8 +376,8 @@ pub enum LogicalExprOp {
     Nullish,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("LogicalExpression")]
 pub struct LogicalExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -382,21 +386,19 @@ pub struct LogicalExpression {
     pub right: Box<Expression>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ObjectExprProp {
-    #[serde(rename = "ObjectMethod")]
+    #[tag("ObjectMethod")]
     Method(ObjectMethod),
-    #[serde(rename = "ObjectProperty")]
+    #[tag("ObjectProperty")]
     Prop(ObjectProperty),
-    #[serde(rename = "SpreadElement")]
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ObjectExpression")]
 pub struct ObjectExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -404,8 +406,8 @@ pub struct ObjectExpression {
     pub properties: Vec<ObjectExprProp>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("SequenceExpression")]
 pub struct SequenceExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -413,16 +415,16 @@ pub struct SequenceExpression {
     pub expressions: Vec<Box<Expression>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ParenthesizedExpression")]
 pub struct ParenthesizedExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ThisExpression")]
 pub struct ThisExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -446,8 +448,8 @@ pub enum UnaryExprOp {
     Typeof,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("UnaryExpression")]
 pub struct UnaryExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -466,8 +468,8 @@ pub enum UpdateExprOp {
     Decrement,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("UpdateExpression")]
 pub struct UpdateExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -477,19 +479,17 @@ pub struct UpdateExpression {
     pub prefix: bool,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ArrowFuncExprBody {
-    #[serde(rename = "BlockStatement")]
+    #[tag("BlockStatement")]
     Block(BlockStatement),
-    #[serde(rename = "Expression")]
+    #[tag("*")]
     Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ArrowFunctionExpression")]
 pub struct ArrowFunctionExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -508,9 +508,8 @@ pub struct ArrowFunctionExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ClassExpression")]
 pub struct ClassExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -531,19 +530,17 @@ pub struct ClassExpression {
     pub type_parameters: Option<TypeParamDeclOrNoop>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TaggedTemplateExprTypeParams {
-    #[serde(rename = "TypeParameterDeclaration")]
+    #[tag("TypeParameterDeclaration")]
     Flow(TypeParameterDeclaration),
-    #[serde(rename = "TSTypeParameterInstantiation")]
+    #[tag("TSTypeParameterInstantiation")]
     TS(TSTypeParameterInstantiation),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("TaggedTemplateExpression")]
 pub struct TaggedTemplateExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -553,8 +550,8 @@ pub struct TaggedTemplateExpression {
     pub type_parameters: Option<TaggedTemplateExprTypeParams>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("YieldExpression")]
 pub struct YieldExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -564,26 +561,25 @@ pub struct YieldExpression {
     pub delegate: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("AwaitExpression")]
 pub struct AwaitExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: Box<Expression>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum OptionalMemberExprProp {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("OptionalMemberExpression")]
 pub struct OptionalMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -595,9 +591,8 @@ pub struct OptionalMemberExpression {
     pub optional: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("OptionalCallExpression")]
 pub struct OptionalCallExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -612,9 +607,8 @@ pub struct OptionalCallExpression {
     pub type_parameters: Option<TSTypeParameterInstantiation>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("TypeCastExpression")]
 pub struct TypeCastExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -622,8 +616,8 @@ pub struct TypeCastExpression {
     pub type_annotation: TypeAnnotation,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("BindExpression")]
 pub struct BindExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -631,33 +625,32 @@ pub struct BindExpression {
     pub callee: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("PipelinePrimaryTopicReference")]
 pub struct PipelinePrimaryTopicReference {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("DoExpression")]
 pub struct DoExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub body: BlockStatement,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum RecordExprProp {
-    #[serde(rename = "ObjectProperty")]
+    #[tag("ObjectProperty")]
     Prop(ObjectProperty),
-    #[serde(rename = "SpreadElement")]
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("RecordExpression")]
 pub struct RecordExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -665,18 +658,17 @@ pub struct RecordExpression {
     pub properties: Vec<RecordExprProp>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TupleExprEl {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "SpreadElement")]
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("TupleExpression")]
 pub struct TupleExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -684,16 +676,16 @@ pub struct TupleExpression {
     pub elements: Vec<TupleExprEl>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("ModuleExpression")]
 pub struct ModuleExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub body: Program,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("Super")]
 pub struct Super {
     #[serde(flatten)]
     pub base: BaseNode,
