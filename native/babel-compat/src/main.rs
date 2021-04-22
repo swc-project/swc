@@ -1,29 +1,31 @@
-#![feature(type_name_of_val)]
+/*
+#![feature(type_name_of_val, macro_attributes_in_derive_output)]
 
-use swc_common::{ast_node, Span, Spanned};
+use swc_common::{ast_serde};
 use serde::{Serialize, Deserialize};
 
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[ast_node]
 // #[serde(tag = "type")]
+#[derive(Debug)]
+#[ast_serde("A")]
 struct A {
     value: usize,
 }
 
-fn main() {}
-
-/*
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[ast_node]
 // #[serde(tag = "type")]
+#[derive(Debug)]
+#[ast_serde("B")]
 struct B {
     value: usize,
 }
 
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 // #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[ast_node]
 // #[serde(tag = "type")]
+#[derive(Debug)]
+#[ast_serde]
 enum AB {
     #[tag("A")]
     A(A),
@@ -35,17 +37,19 @@ enum AB {
 // pub trait SerializeUnion {}
 
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[ast_node]
 // #[serde(tag = "type")]
+#[derive(Debug)]
+#[ast_serde("C")]
 struct C {
     value: usize,
 }
 
 // #[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
 // #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[ast_node]
 // #[serde(tag = "type")]
 // #[serde(untagged)]
+#[derive(Debug)]
+#[ast_serde]
 enum ABC {
     #[tag("C")]
     C(C),
@@ -65,7 +69,7 @@ fn main() {
     let a: ABC = serde_json::from_str(&json).unwrap();
     println!("{:#?}", a);
 
-    // println!("{}", serde_json::to_string_pretty(&a).unwrap());
+    println!("{}", serde_json::to_string_pretty(&a).unwrap());
 }
 */
 
@@ -168,4 +172,4 @@ fn compile(compiler: &Compiler, fm: Arc<SourceFile>) -> Result<Program> {
 */
 
 
-// fn main() {}
+fn main() {}
