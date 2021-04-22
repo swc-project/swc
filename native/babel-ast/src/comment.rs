@@ -1,9 +1,10 @@
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::common::Loc;
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("BaseComment")]
 pub struct BaseComment {
     pub value: String,
     pub start: usize,
@@ -11,13 +12,12 @@ pub struct BaseComment {
     pub loc: Loc,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Comment {
-    #[serde(rename = "CommentBlock")]
+    #[tag("CommentBlock")]
     Block(BaseComment),
-    #[serde(rename = "CommentLine")]
+    #[tag("CommentLine")]
     Line(BaseComment),
 }
 
