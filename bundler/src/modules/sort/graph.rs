@@ -1,5 +1,4 @@
 use crate::util::fast_graph::FastDiGraphMap;
-use ahash::AHashSet;
 use fxhash::FxHashSet;
 use petgraph::EdgeDirection;
 use petgraph::EdgeDirection::Incoming;
@@ -23,7 +22,7 @@ pub(super) struct StmtDepGraph {
     inner: FastDiGraphMap<usize, Required>,
     /// Read-optimized hashset which contains all direct dependencies and
     /// transitive dependencies.
-    paths: Vec<AHashSet<usize>>,
+    paths: Vec<FxHashSet<usize>>,
 }
 
 impl StmtDepGraph {

@@ -15,10 +15,9 @@ use crate::{
     util::{self, CloneMap, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
-use ahash::AHashMap;
-use ahash::AHashSet;
-use ahash::RandomState;
 use anyhow::{Context, Error};
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use petgraph::graphmap::DiGraphMap;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
@@ -33,7 +32,7 @@ pub(super) struct Ctx {
     pub graph: DiGraphMap<ModuleId, ()>,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,
+    pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -541,7 +540,7 @@ where
             fn add_var(
                 injected_ctxt: SyntaxContext,
                 vars: &mut Vec<(ModuleId, ModuleItem)>,
-                declared: &mut AHashSet<Id>,
+                declared: &mut FxHashSet<Id>,
                 map: &CloneMap<SyntaxContext, SyntaxContext>,
                 module_id: ModuleId,
                 id: Id,
@@ -579,7 +578,7 @@ where
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = AHashSet::<_, RandomState>::default();
+            let mut declared_ids = FxHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
                 match stmt {
@@ -653,7 +652,7 @@ where
 
         {
             let mut map = ctx.export_stars_in_wrapped.lock();
-            let mut additional_props = AHashMap::<_, Vec<_>>::new();
+            let mut additional_props = FxHashMap::<_, Vec<_>>::default();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {

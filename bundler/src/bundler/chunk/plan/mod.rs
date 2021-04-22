@@ -5,8 +5,9 @@ use crate::{
     BundleKind, Bundler, Load, ModuleId, Resolve,
 };
 use ahash::AHashMap;
-use ahash::AHashSet;
 use anyhow::{bail, Error};
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use petgraph::{
     algo::all_simple_paths,
     visit::Bfs,
@@ -30,7 +31,7 @@ struct PlanBuilder {
     ///  `(a, b)`, `(a, c)`,`(b, c)` will be inserted.
     ///
     /// `bool` is `true` if it's connected with exports.
-    all_deps: AHashMap<(ModuleId, ModuleId), bool>,
+    all_deps: FxHashMap<(ModuleId, ModuleId), bool>,
 
     /// Graph to compute direct dependencies (direct means it will be merged
     /// directly)
@@ -38,14 +39,14 @@ struct PlanBuilder {
 
     circular: Circulars,
 
-    kinds: AHashMap<ModuleId, BundleKind>,
+    kinds: FxHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Default)]
-struct Circulars(Vec<AHashSet<ModuleId>>);
+struct Circulars(Vec<FxHashSet<ModuleId>>);
 
 impl Circulars {
-    pub fn get(&self, id: ModuleId) -> Option<&AHashSet<ModuleId>> {
+    pub fn get(&self, id: ModuleId) -> Option<&FxHashSet<ModuleId>> {
         let pos = self.0.iter().position(|set| set.contains(&id))?;
 
         Some(&self.0[pos])
@@ -53,7 +54,7 @@ impl Circulars {
 }
 
 impl Deref for Circulars {
-    type Target = Vec<AHashSet<ModuleId>>;
+    type Target = Vec<FxHashSet<ModuleId>>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -76,7 +77,7 @@ impl PlanBuilder {
             }
         }
 
-        let mut set = AHashSet::default();
+        let mut set = FxHashSet::default();
         set.insert(src);
         set.insert(imported);
         self.circular.push(set);
@@ -98,11 +99,11 @@ pub(super) struct Plan {
     pub entries: Vec<ModuleId>,
 
     /// key is entry
-    pub normal: AHashMap<ModuleId, NormalPlan>,
+    pub normal: FxHashMap<ModuleId, NormalPlan>,
     /// key is entry
-    pub circular: AHashMap<ModuleId, CircularPlan>,
+    pub circular: FxHashMap<ModuleId, CircularPlan>,
 
-    pub bundle_kinds: AHashMap<ModuleId, BundleKind>,
+    pub bundle_kinds: FxHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -165,7 +166,7 @@ where
             self.add_to_graph(&mut builder, module.id, &mut vec![], true);
         }
 
-        let mut metadata = AHashMap::<ModuleId, Metadata>::default();
+        let mut metadata = FxHashMap::<ModuleId, Metadata>::default();
 
         // Draw dependency graph to calculte
         for (id, _) in &builder.kinds {
@@ -205,7 +206,7 @@ where
         Ok((self.build_plan(&metadata, builder), graph))
     }
 
-    fn build_plan(&self, _metadata: &AHashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
+    fn build_plan(&self, _metadata: &FxHashMap<ModuleId, Metadata>, builder: PlanBuilder) -> Plan {
         let mut plans = Plan::default();
 
         for (id, kind) in builder.kinds.iter() {
@@ -218,7 +219,7 @@ where
             let root_entry = *root_entry;
             let mut bfs = Bfs::new(&builder.direct_deps, root_entry);
 
-            let mut done = AHashSet::new();
+            let mut done = FxHashSet::default();
 
             while let Some(entry) = bfs.next(&builder.direct_deps) {
                 let mut deps: Vec<_> = builder

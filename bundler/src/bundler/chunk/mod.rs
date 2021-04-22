@@ -4,8 +4,8 @@ use crate::{
     util::IntoParallelIterator, Bundle,
 };
 use ahash::AHashMap;
-use ahash::AHashSet;
 use anyhow::{Context, Error};
+use fxhash::FxHashSet;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 
@@ -26,9 +26,9 @@ struct InternalEntry {
 
 #[derive(Debug, Default)]
 struct State {
-    synchronously_included: AHashSet<ModuleId>,
-    dynamic_entries: AHashSet<ModuleId>,
-    common_libs: AHashSet<ModuleId>,
+    synchronously_included: FxHashSet<ModuleId>,
+    dynamic_entries: FxHashSet<ModuleId>,
+    common_libs: FxHashSet<ModuleId>,
 }
 
 impl<L, R> Bundler<'_, L, R>

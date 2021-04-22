@@ -1,8 +1,8 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
-use ahash::AHashMap;
-use ahash::AHashSet;
 use anyhow::{Context, Error};
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -94,7 +94,7 @@ pub(super) struct RawImports {
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    pub forced_ns: AHashSet<JsWord>,
+    pub forced_ns: FxHashSet<JsWord>,
 }
 
 /// This type implements two operation (analysis, deglobbing) to reduce binary
@@ -114,13 +114,13 @@ where
 
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
-    usages: AHashMap<Id, Vec<Id>>,
+    usages: FxHashMap<Id, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
-    imported_idents: AHashMap<Id, SyntaxContext>,
+    imported_idents: FxHashMap<Id, SyntaxContext>,
 
     deglob_phase: bool,
-    idents_to_deglob: AHashSet<Id>,
+    idents_to_deglob: FxHashSet<Id>,
 
     /// `true` while folding objects of a member expression.
     ///

@@ -2,8 +2,8 @@ use super::stmt::sort_stmts;
 use crate::dep_graph::ModuleGraph;
 use crate::modules::Modules;
 use crate::ModuleId;
-use ahash::AHashSet;
 use ahash::RandomState;
+use fxhash::FxHashSet;
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
 use petgraph::EdgeDirection::Outgoing;
@@ -117,7 +117,7 @@ fn toposort_real_modules<'a>(
 /// Get all modules in a cycle.
 fn all_modules_in_circle(
     id: ModuleId,
-    done: &AHashSet<ModuleId>,
+    done: &FxHashSet<ModuleId>,
     already_in_index: &mut IndexSet<ModuleId, RandomState>,
     graph: &ModuleGraph,
 ) -> IndexSet<ModuleId, RandomState> {
@@ -159,7 +159,7 @@ fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
-    let mut done = AHashSet::<ModuleId>::default();
+    let mut done = FxHashSet::<ModuleId>::default();
 
     from_fn(move || {
         while let Some(id) = queue.pop_front() {
