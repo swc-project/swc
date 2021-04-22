@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     common::{BaseNode, SuperTypeParams, SpreadElement, Identifier},
@@ -7,68 +7,65 @@ use crate::{
     lit::StringLiteral,
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSX {
-    #[serde(rename = "JSXAttribute")]
+    #[tag("JSXAttribute")]
     Attr(JSXAttribute),
-    #[serde(rename = "JSXClosingElement")]
+    #[tag("JSXClosingElement")]
     ClosingEl(JSXClosingElement),
-    #[serde(rename = "JSXElement")]
+    #[tag("JSXElement")]
     El(JSXElement),
-    #[serde(rename = "JSXEmptyExpression")]
+    #[tag("JSXEmptyExpression")]
     EmptyExpr(JSXEmptyExpression),
-    #[serde(rename = "JSXExpressionContainer")]
+    #[tag("JSXExpressionContainer")]
     ExprContainer(JSXExpressionContainer),
-    #[serde(rename = "JSXSpreadChild")]
+    #[tag("JSXSpreadChild")]
     SpreadChild(JSXSpreadChild),
-    #[serde(rename = "JSXIdentifier")]
+    #[tag("JSXIdentifier")]
     Id(JSXIdentifier),
-    #[serde(rename = "JSXMemberExpression")]
+    #[tag("JSXMemberExpression")]
     MemberExpr(JSXMemberExpression),
-    #[serde(rename = "JSXNamespacedName")]
+    #[tag("JSXNamespacedName")]
     NamespacedName(JSXNamespacedName),
-    #[serde(rename = "JSXOpeningElement")]
+    #[tag("JSXOpeningElement")]
     OpeningEl(JSXOpeningElement),
-    #[serde(rename = "JSXSpreadAttribute")]
+    #[tag("JSXSpreadAttribute")]
     SpreadAttr(JSXSpreadAttribute),
-    #[serde(rename = "JSXText")]
+    #[tag("JSXText")]
     Text(JSXText),
-    #[serde(rename = "JSXFragment")]
+    #[tag("JSXFragment")]
     Fragment(JSXFragment),
-    #[serde(rename = "JSXOpeningFragment")]
+    #[tag("JSXOpeningFragment")]
     OpeningFragment(JSXOpeningFragment),
-    #[serde(rename = "JSXClosingFragment")]
+    #[tag("JSXClosingFragment")]
     ClosingFragment(JSXClosingFragment),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXAttrName {
-    #[serde(rename = "JSXIdentifier")]
+    #[tag("JSXIdentifier")]
     Id(JSXIdentifier),
-    #[serde(rename = "JSXNamespacedName")]
+    #[tag("JSXNamespacedName")]
     Name(JSXNamespacedName),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXAttrVal {
-    #[serde(rename = "JSXElement")]
+    #[tag("JSXElement")]
     Element(JSXElement),
-    #[serde(rename = "JSXFragment")]
+    #[tag("JSXFragment")]
     Fragment(JSXFragment),
-    #[serde(rename = "StringLiteral")]
+    #[tag("StringLiteral")]
     String(StringLiteral),
-    #[serde(rename = "JSXExpressionContainer")]
+    #[tag("JSXExpressionContainer")]
     Expr(JSXExpressionContainer),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXAttribute")]
 pub struct JSXAttribute {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -77,17 +74,16 @@ pub struct JSXAttribute {
     pub value: Option<JSXAttrVal>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXClosingElement")]
 pub struct JSXClosingElement {
     #[serde(flatten)]
     pub base: BaseNode,
     pub name: JSXElementName,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXElement")]
 pub struct JSXElement {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -100,41 +96,40 @@ pub struct JSXElement {
     pub self_closing: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXEmptyExpression")]
 pub struct JSXEmptyExpression {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXExprContainerExpr {
-    #[serde(rename = "Expression")]
-    Expr(Box<Expression>),
-    #[serde(rename = "JSXEmptyExpression")]
+    #[tag("JSXEmptyExpression")]
     Empty(JSXEmptyExpression),
+    #[tag("*")]
+    Expr(Box<Expression>),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXExpressionContainer")]
 pub struct JSXExpressionContainer {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: JSXExprContainerExpr,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXSpreadChild")]
 pub struct JSXSpreadChild {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXIdentifier")]
 pub struct JSXIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -151,18 +146,17 @@ impl From<Identifier> for JSXIdentifier {
     }
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXMemberExprObject {
-    #[serde(rename = "JSXMemberExpression")]
+    #[tag("JSXMemberExpression")]
     Expr(JSXMemberExpression),
-    #[serde(rename = "JSXIdentifier")]
+    #[tag("JSXIdentifier")]
     Id(JSXIdentifier),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXMemberExpression")]
 pub struct JSXMemberExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -170,8 +164,8 @@ pub struct JSXMemberExpression {
     pub property: JSXIdentifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXNamespacedName")]
 pub struct JSXNamespacedName {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -179,19 +173,17 @@ pub struct JSXNamespacedName {
     pub name: JSXIdentifier,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXOpeningElAttr {
-    #[serde(rename = "JSXAttribute")]
+    #[tag("JSXAttribute")]
     Attr(JSXAttribute),
-    #[serde(rename = "JSXSpreadAttribute")]
+    #[tag("JSXSpreadAttribute")]
     Spread(JSXSpreadAttribute),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXOpeningElement")]
 pub struct JSXOpeningElement {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -204,8 +196,8 @@ pub struct JSXOpeningElement {
     pub type_parameters: Option<SuperTypeParams>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXSpreadAttribute")]
 pub struct JSXSpreadAttribute {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -222,17 +214,16 @@ impl From<SpreadElement> for JSXSpreadAttribute {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXText")]
 pub struct JSXText {
     #[serde(flatten)]
     pub base: BaseNode,
     pub value: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXFragment")]
 pub struct JSXFragment {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -242,45 +233,43 @@ pub struct JSXFragment {
     pub children: Vec<JSXElementChild>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXOpeningFragment")]
 pub struct JSXOpeningFragment {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("JSXClosingElement")]
 pub struct JSXClosingFragment {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXElementName {
-    #[serde(rename = "JSXIdentifier")]
+    #[tag("JSXIdentifier")]
     Id(JSXIdentifier),
-    #[serde(rename = "JSXMemberExpression")]
+    #[tag("JSXMemberExpression")]
     Expr(JSXMemberExpression),
-    #[serde(rename = "JSXNamespacedName")]
+    #[tag("JSXNamespacedName")]
     Name(JSXNamespacedName),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum JSXElementChild {
-    #[serde(rename = "JSXText")]
+    #[tag("JSXText")]
     Text(JSXText),
-    #[serde(rename = "JSXExpressionContainer")]
+    #[tag("JSXExpressionContainer")]
     Expr(JSXExpressionContainer),
-    #[serde(rename = "JSXSpreadChild")]
+    #[tag("JSXSpreadChild")]
     Spread(JSXSpreadChild),
-    #[serde(rename = "JSXElement")]
+    #[tag("JSXElement")]
     Element(JSXElement),
-    #[serde(rename = "JSXFragment")]
+    #[tag("JSXFragment")]
     Fragment(JSXFragment),
 }
 
