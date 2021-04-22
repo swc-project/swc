@@ -857,6 +857,8 @@ where
             return;
         }
 
+        let mut extra = vec![];
+
         module.map_any_items(|_, items| {
             let mut new = Vec::with_capacity(items.len() * 11 / 10);
 
@@ -1157,7 +1159,7 @@ where
                                         type_only: false,
                                         asserts: None,
                                     }));
-                                new.push(export);
+                                extra.push(export);
                                 continue;
                             }
 
@@ -1252,6 +1254,10 @@ where
 
             new
         });
+
+        for item in extra {
+            module.append(info.id, item);
+        }
 
         // print_hygiene(
         //     &format!("prepared: {}", info.fm.name),
