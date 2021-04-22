@@ -23,7 +23,7 @@ use swc_ecma_parser::Syntax;
 use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
 use walkdir::WalkDir;
 
-#[test]
+// #[test]
 fn fixtures() -> Result<(), Error> {
     let mut tests = vec![];
 
@@ -82,19 +82,21 @@ fn fixtures() -> Result<(), Error> {
     Ok(())
 }
 
-// #[test]
-// fn single_fixture() -> Result<(), Error> {
-//     let input_file = "tests/fixtures/ts-function/input.ts";
-//     let output_file = "tests/fixtures/ts-function/output.json";
-//
-//     let input = fs::read_to_string(&input_file)
-//         .with_context(|| format!("Failed to open file: {}", &input_file))?;
-//     let output = fs::read_to_string(&output_file)
-//         .with_context(|| format!("Failed to open file: {}", &output_file))?;
-//     run_test(input, output, Syntax::Typescript(Default::default()));
-//
-//     Ok(())
-// }
+#[test]
+fn single_fixture() -> Result<(), Error> {
+    // let input_file = "tests/fixtures/ts-function/input.ts";
+    // let output_file = "tests/fixtures/ts-function/output.json";
+    let input_file = "tests/fixtures/template-literal/input.js";
+    let output_file = "tests/fixtures/template-literal/output.json";
+
+    let input = fs::read_to_string(&input_file)
+        .with_context(|| format!("Failed to open file: {}", &input_file))?;
+    let output = fs::read_to_string(&output_file)
+        .with_context(|| format!("Failed to open file: {}", &output_file))?;
+    run_test(input, output, Syntax::default());
+
+    Ok(())
+}
 
 fn run_test(src: String, expected: String, syntax: Syntax) {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
