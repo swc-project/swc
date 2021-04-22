@@ -1,5 +1,6 @@
 use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     class::ClassDeclaration,
@@ -191,6 +192,19 @@ pub struct EnumDefaultedMember {
     pub id: Identifier,
 }
 
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
+pub enum EnumMember {
+    #[tag("EnumBooleanMember")]
+    Boolean(EnumBooleanMember),
+    #[tag("EnumNumberMember")]
+    Number(EnumNumberMember),
+    #[tag("EnumStringMember")]
+    String(EnumStringMember),
+    #[tag("EnumDefaultedMember")]
+    Defaulted(EnumDefaultedMember),
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
@@ -246,19 +260,19 @@ pub struct EnumSymbolBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
-pub enum EnumDeclBody {
-    #[serde(rename = "EnumBooleanBody")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
+pub enum EnumBody {
+    #[tag("EnumBooleanBody")]
     Boolean(EnumBooleanBody),
-    #[serde(rename = "EnumNumberBody")]
+    #[tag("EnumNumberBody")]
     Number(EnumNumberBody),
-    #[serde(rename = "EnumStringBody")]
+    #[tag("EnumStringBody")]
     String(EnumStringBody),
-    #[serde(rename = "EnumSymbolBody")]
+    #[tag("EnumSymbolBody")]
     Symbol(EnumSymbolBody),
 }
+
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
@@ -266,6 +280,6 @@ pub struct EnumDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
     pub id: Identifier,
-    pub body: EnumDeclBody,
+    pub body: EnumBody,
 }
 

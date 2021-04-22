@@ -1,8 +1,5 @@
-use crate::util::SerializeUnion;
-// use ahash::RandomState;
 use serde::{Deserialize, Serialize};
-// use serde_json::Value;
-// use std::collections::HashMap;
+use swc_common::ast_serde;
 
 use crate::{
     class::*, comment::Comment, decl::*, expr::*, flow::*, jsx::*, lit::*, module::*, object::*,
@@ -18,7 +15,6 @@ pub struct LineCol {
 }
 
 impl LineCol {
-    // pub(crate) fn dummy() -> Self {
     pub fn dummy() -> Self {
         LineCol { line: 0, column: 0 }
     }
@@ -32,7 +28,6 @@ pub struct Loc {
 }
 
 impl Loc {
-    // pub(crate) fn dummy() -> Self {
     pub fn dummy() -> Self {
         Loc {
             start: LineCol::dummy(),
@@ -64,569 +59,275 @@ pub struct BaseNode {
     // pub extra: Option<HashMap<String, Value, RandomState>>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
-pub enum Node {
-    AnyTypeAnnotation(AnyTypeAnnotation),
-    ArgumentPlaceholder(ArgumentPlaceholder),
-    ArrayExpression(ArrayExpression),
-    ArrayPattern(ArrayPattern),
-    ArrayTypeAnnotation(ArrayTypeAnnotation),
-    ArrowFunctionExpression(ArrowFunctionExpression),
-    AssignmentExpression(AssignmentExpression),
-    AssignmentPattern(AssignmentPattern),
-    AwaitExpression(AwaitExpression),
-    BigIntLiteral(BigIntLiteral),
-    Binary(Binary),
-    BinaryExpression(BinaryExpression),
-    BindExpression(BindExpression),
-    Block(Block),
-    BlockParent(BlockParent),
-    BlockStatement(BlockStatement),
-    BooleanLiteral(BooleanLiteral),
-    BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
-    BooleanTypeAnnotation(BooleanTypeAnnotation),
-    BreakStatement(BreakStatement),
-    CallExpression(CallExpression),
-    CatchClause(CatchClause),
-    Class(Class),
-    ClassBody(ClassBody),
-    ClassDeclaration(ClassDeclaration),
-    ClassExpression(ClassExpression),
-    ClassImplements(ClassImplements),
-    ClassMethod(ClassMethod),
-    ClassPrivateMethod(ClassPrivateMethod),
-    ClassPrivateProperty(ClassPrivateProperty),
-    ClassProperty(ClassProperty),
-    CompletionStatement(CompletionStatement),
-    Conditional(Conditional),
-    ConditionalExpression(ConditionalExpression),
-    ContinueStatement(ContinueStatement),
-    DebuggerStatement(DebuggerStatement),
-    DecimalLiteral(DecimalLiteral),
-    Declaration(Declaration),
-    DeclareClass(DeclareClass),
-    DeclareExportAllDeclaration(DeclareExportAllDeclaration),
-    DeclareExportDeclaration(DeclareExportDeclaration),
-    DeclareFunction(DeclareFunction),
-    DeclareInterface(DeclareInterface),
-    DeclareModule(DeclareModule),
-    DeclareModuleExports(DeclareModuleExports),
-    DeclareOpaqueType(DeclareOpaqueType),
-    DeclareTypeAlias(DeclareTypeAlias),
-    DeclareVariable(DeclareVariable),
-    DeclaredPredicate(DeclaredPredicate),
-    Decorator(Decorator),
-    Directive(Directive),
-    DirectiveLiteral(DirectiveLiteral),
-    DoExpression(DoExpression),
-    DoWhileStatement(DoWhileStatement),
-    EmptyStatement(EmptyStatement),
-    EmptyTypeAnnotation(EmptyTypeAnnotation),
-    EnumBody(EnumBody),
-    EnumBooleanBody(EnumBooleanBody),
-    EnumBooleanMember(EnumBooleanMember),
-    EnumDeclaration(EnumDeclaration),
-    EnumDefaultedMember(EnumDefaultedMember),
-    EnumMember(EnumMember),
-    EnumNumberBody(EnumNumberBody),
-    EnumNumberMember(EnumNumberMember),
-    EnumStringBody(EnumStringBody),
-    EnumStringMember(EnumStringMember),
-    EnumSymbolBody(EnumSymbolBody),
-    ExistsTypeAnnotation(ExistsTypeAnnotation),
-    ExportAllDeclaration(ExportAllDeclaration),
-    ExportDeclaration(ExportDeclaration),
-    ExportDefaultDeclaration(ExportDefaultDeclaration),
-    ExportDefaultSpecifier(ExportDefaultSpecifier),
-    ExportNamedDeclaration(ExportNamedDeclaration),
-    ExportNamespaceSpecifier(ExportNamespaceSpecifier),
-    ExportSpecifier(ExportSpecifier),
-    Expression(Expression),
-    ExpressionStatement(ExpressionStatement),
-    ExpressionWrapper(ExpressionWrapper),
-    File(File),
-    Flow(Flow),
-    FlowBaseAnnotation(FlowBaseAnnotation),
-    FlowDeclaration(FlowDeclaration),
-    FlowPredicate(FlowPredicate),
-    FlowType(FlowType),
-    For(For),
-    ForInStatement(ForInStatement),
-    ForOfStatement(ForOfStatement),
-    ForStatement(ForStatement),
-    ForXStatement(ForXStatement),
-    Function(Function),
-    FunctionDeclaration(FunctionDeclaration),
-    FunctionExpression(FunctionExpression),
-    FunctionParent(FunctionParent),
-    FunctionTypeAnnotation(FunctionTypeAnnotation),
-    FunctionTypeParam(FunctionTypeParam),
-    GenericTypeAnnotation(GenericTypeAnnotation),
-    Identifier(Identifier),
-    IfStatement(IfStatement),
-    Immutable(Immutable),
-    Import(Import),
-    ImportAttribute(ImportAttribute),
-    ImportDeclaration(ImportDeclaration),
-    ImportDefaultSpecifier(ImportDefaultSpecifier),
-    ImportNamespaceSpecifier(ImportNamespaceSpecifier),
-    ImportSpecifier(ImportSpecifier),
-    InferredPredicate(InferredPredicate),
-    InterfaceDeclaration(InterfaceDeclaration),
-    InterfaceExtends(InterfaceExtends),
-    InterfaceTypeAnnotation(InterfaceTypeAnnotation),
-    InterpreterDirective(InterpreterDirective),
-    IntersectionTypeAnnotation(IntersectionTypeAnnotation),
-    JSX(JSX),
-    JSXAttribute(JSXAttribute),
-    JSXClosingElement(JSXClosingElement),
-    JSXClosingFragment(JSXClosingFragment),
-    JSXElement(JSXElement),
-    JSXEmptyExpression(JSXEmptyExpression),
-    JSXExpressionContainer(JSXExpressionContainer),
-    JSXFragment(JSXFragment),
-    JSXIdentifier(JSXIdentifier),
-    JSXMemberExpression(JSXMemberExpression),
-    JSXNamespacedName(JSXNamespacedName),
-    JSXOpeningElement(JSXOpeningElement),
-    JSXOpeningFragment(JSXOpeningFragment),
-    JSXSpreadAttribute(JSXSpreadAttribute),
-    JSXSpreadChild(JSXSpreadChild),
-    JSXText(JSXText),
-    LVal(LVal),
-    LabeledStatement(LabeledStatement),
-    Literal(Literal),
-    LogicalExpression(LogicalExpression),
-    Loop(Loop),
-    MemberExpression(MemberExpression),
-    MetaProperty(MetaProperty),
-    Method(Method),
-    MixedTypeAnnotation(MixedTypeAnnotation),
-    ModuleDeclaration(ModuleDeclaration),
-    ModuleExpression(ModuleExpression),
-    ModuleSpecifier(ModuleSpecifier),
-    NewExpression(NewExpression),
-    Noop(Noop),
-    NullLiteral(NullLiteral),
-    NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
-    NullableTypeAnnotation(NullableTypeAnnotation),
-    NumberLiteral(NumberLiteral),
-    NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
-    NumberTypeAnnotation(NumberTypeAnnotation),
-    NumericLiteral(NumericLiteral),
-    ObjectExpression(ObjectExpression),
-    ObjectMember(ObjectMember),
-    ObjectMethod(ObjectMethod),
-    ObjectPattern(ObjectPattern),
-    ObjectProperty(ObjectProperty),
-    ObjectTypeAnnotation(ObjectTypeAnnotation),
-    ObjectTypeCallProperty(ObjectTypeCallProperty),
-    ObjectTypeIndexer(ObjectTypeIndexer),
-    ObjectTypeInternalSlot(ObjectTypeInternalSlot),
-    ObjectTypeProperty(ObjectTypeProperty),
-    ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
-    OpaqueType(OpaqueType),
-    OptionalCallExpression(OptionalCallExpression),
-    OptionalMemberExpression(OptionalMemberExpression),
-    ParenthesizedExpression(ParenthesizedExpression),
-    Pattern(Pattern),
-    PatternLike(PatternLike),
-    PipelineBareFunction(PipelineBareFunction),
-    PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
-    PipelineTopicExpression(PipelineTopicExpression),
-    Placeholder(Placeholder),
-    Private(Private),
-    PrivateName(PrivateName),
-    Program(Program),
-    Property(Property),
-    Pureish(Pureish),
-    QualifiedTypeIdentifier(QualifiedTypeIdentifier),
-    RecordExpression(RecordExpression),
-    RegExpLiteral(RegExpLiteral),
-    RegexLiteral(RegexLiteral),
-    RestElement(RestElement),
-    RestProperty(RestProperty),
-    ReturnStatement(ReturnStatement),
-    Scopable(Scopable),
-    SequenceExpression(SequenceExpression),
-    SpreadElement(SpreadElement),
-    SpreadProperty(SpreadProperty),
-    Statement(Statement),
-    StaticBlock(StaticBlock),
-    StringLiteral(StringLiteral),
-    StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
-    StringTypeAnnotation(StringTypeAnnotation),
-    Super(Super),
-    SwitchCase(SwitchCase),
-    SwitchStatement(SwitchStatement),
-    SymbolTypeAnnotation(SymbolTypeAnnotation),
-    TSAnyKeyword(TSAnyKeyword),
-    TSArrayType(TSArrayType),
-    TSAsExpression(TSAsExpression),
-    TSBaseType(TSBaseType),
-    TSBigIntKeyword(TSBigIntKeyword),
-    TSBooleanKeyword(TSBooleanKeyword),
-    TSCallSignatureDeclaration(TSCallSignatureDeclaration),
-    TSConditionalType(TSConditionalType),
-    TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
-    TSConstructorType(TSConstructorType),
-    TSDeclareFunction(TSDeclareFunction),
-    TSDeclareMethod(TSDeclareMethod),
-    TSEntityName(TSEntityName),
-    TSEnumDeclaration(TSEnumDeclaration),
-    TSEnumMember(TSEnumMember),
-    TSExportAssignment(TSExportAssignment),
-    TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
-    TSExternalModuleReference(TSExternalModuleReference),
-    TSFunctionType(TSFunctionType),
-    TSImportEqualsDeclaration(TSImportEqualsDeclaration),
-    TSImportType(TSImportType),
-    TSIndexSignature(TSIndexSignature),
-    TSIndexedAccessType(TSIndexedAccessType),
-    TSInferType(TSInferType),
-    TSInterfaceBody(TSInterfaceBody),
-    TSInterfaceDeclaration(TSInterfaceDeclaration),
-    TSIntersectionType(TSIntersectionType),
-    TSIntrinsicKeyword(TSIntrinsicKeyword),
-    TSLiteralType(TSLiteralType),
-    TSMappedType(TSMappedType),
-    TSMethodSignature(TSMethodSignature),
-    TSModuleBlock(TSModuleBlock),
-    TSModuleDeclaration(TSModuleDeclaration),
-    TSNamedTupleMember(TSNamedTupleMember),
-    TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
-    TSNeverKeyword(TSNeverKeyword),
-    TSNonNullExpression(TSNonNullExpression),
-    TSNullKeyword(TSNullKeyword),
-    TSNumberKeyword(TSNumberKeyword),
-    TSObjectKeyword(TSObjectKeyword),
-    TSOptionalType(TSOptionalType),
-    TSParameterProperty(TSParameterProperty),
-    TSParenthesizedType(TSParenthesizedType),
-    TSPropertySignature(TSPropertySignature),
-    TSQualifiedName(TSQualifiedName),
-    TSRestType(TSRestType),
-    TSStringKeyword(TSStringKeyword),
-    TSSymbolKeyword(TSSymbolKeyword),
-    TSThisType(TSThisType),
-    TSTupleType(TSTupleType),
-    TSType(TSType),
-    TSTypeAliasDeclaration(TSTypeAliasDeclaration),
-    TSTypeAnnotation(TSTypeAnnotation),
-    TSTypeAssertion(TSTypeAssertion),
-    TSTypeElement(TSTypeElement),
-    TSTypeLiteral(TSTypeLiteral),
-    TSTypeOperator(TSTypeOperator),
-    TSTypeParameter(TSTypeParameter),
-    TSTypeParameterDeclaration(TSTypeParameterDeclaration),
-    TSTypeParameterInstantiation(TSTypeParameterInstantiation),
-    TSTypePredicate(TSTypePredicate),
-    TSTypeQuery(TSTypeQuery),
-    TSTypeReference(TSTypeReference),
-    TSUndefinedKeyword(TSUndefinedKeyword),
-    TSUnionType(TSUnionType),
-    TSUnknownKeyword(TSUnknownKeyword),
-    TSVoidKeyword(TSVoidKeyword),
-    TaggedTemplateExpression(TaggedTemplateExpression),
-    TemplateElement(TemplateElement),
-    TemplateLiteral(TemplateLiteral),
-    Terminatorless(Terminatorless),
-    ThisExpression(ThisExpression),
-    ThisTypeAnnotation(ThisTypeAnnotation),
-    ThrowStatement(ThrowStatement),
-    TryStatement(TryStatement),
-    TupleExpression(TupleExpression),
-    TupleTypeAnnotation(TupleTypeAnnotation),
-    TypeAlias(TypeAlias),
-    TypeAnnotation(TypeAnnotation),
-    TypeCastExpression(TypeCastExpression),
-    TypeParameter(TypeParameter),
-    TypeParameterDeclaration(TypeParameterDeclaration),
-    TypeParameterInstantiation(TypeParameterInstantiation),
-    TypeofTypeAnnotation(TypeofTypeAnnotation),
-    UnaryExpression(UnaryExpression),
-    UnaryLike(UnaryLike),
-    UnionTypeAnnotation(UnionTypeAnnotation),
-    UpdateExpression(UpdateExpression),
-    UserWhitespacable(UserWhitespacable),
-    V8IntrinsicIdentifier(V8IntrinsicIdentifier),
-    VariableDeclaration(VariableDeclaration),
-    VariableDeclarator(VariableDeclarator),
-    Variance(Variance),
-    VoidTypeAnnotation(VoidTypeAnnotation),
-    While(While),
-    WhileStatement(WhileStatement),
-    WithStatement(WithStatement),
-    YieldExpression(YieldExpression),
-}
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Binary {
-    #[serde(rename = "BinaryExpression")]
+    #[tag("BinaryExpression")]
     BinaryExpr(BinaryExpression),
-    #[serde(rename = "LogicalExpression")]
+    #[tag("LogicalExpression")]
     LogicalExpr(LogicalExpression),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Conditional {
-    #[serde(rename = "ConditionalExpression")]
+    #[tag("ConditionalExpression")]
     Expr(ConditionalExpression),
-    #[serde(rename = "LogicalExpression")]
+    #[tag("IfStatement")]
     If(IfStatement),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
-pub enum EnumBody {
-    #[serde(rename = "EnumBooleanBody")]
-    Boolean(EnumBooleanBody),
-    #[serde(rename = "EnumNumberBody")]
-    Number(EnumNumberBody),
-    #[serde(rename = "EnumStringBody")]
-    String(EnumStringBody),
-    #[serde(rename = "EnumSymbolBody")]
-    Symbol(EnumSymbolBody),
-}
-
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
-pub enum EnumMember {
-    #[serde(rename = "EnumBooleanMember")]
-    Boolean(EnumBooleanMember),
-    #[serde(rename = "EnumNumberMember")]
-    Number(EnumNumberMember),
-    #[serde(rename = "EnumStringMember")]
-    String(EnumStringMember),
-    #[serde(rename = "EnumDefaultedMember")]
-    Defaulted(EnumDefaultedMember),
-}
-
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Function {
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     Decl(FunctionDeclaration),
-    #[serde(rename = "FunctionExpression")]
+    #[tag("FunctionExpression")]
     Expr(FunctionExpression),
+    #[tag("ObjectMethod")]
     ObjectMethod(ObjectMethod),
-    #[serde(rename = "ArrowFunctionExpression")]
+    #[tag("ArrowFunctionExpression")]
     Arrow(ArrowFunctionExpression),
+    #[tag("ClassMethod")]
     ClassMethod(ClassMethod),
+    #[tag("ClassPrivateMethod")]
     ClassPrivateMethod(ClassPrivateMethod),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum FunctionParent {
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     Decl(FunctionDeclaration),
-    #[serde(rename = "FunctionExpression")]
+    #[tag("FunctionExpression")]
     Expr(FunctionExpression),
+    #[tag("ObjectMethod")]
     ObjectMethod(ObjectMethod),
-    #[serde(rename = "ArrowFunctionExpression")]
+    #[tag("ArrowFunctionExpression")]
     Arrow(ArrowFunctionExpression),
+    #[tag("ClassMethod")]
     ClassMethod(ClassMethod),
+    #[tag("ClassPrivateMethod")]
     ClassPrivateMethod(ClassPrivateMethod),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Immutable {
+    #[tag("StringLiteral")]
     StringLiteral(StringLiteral),
+    #[tag("NumericLiteral")]
     NumericLiteral(NumericLiteral),
+    #[tag("NullLiteral")]
     NullLiteral(NullLiteral),
+    #[tag("BooleanLiteral")]
     BooleanLiteral(BooleanLiteral),
+    #[tag("BigIntLiteral")]
     BigIntLiteral(BigIntLiteral),
+    #[tag("JSXAttribute")]
     JSXAttribute(JSXAttribute),
+    #[tag("JSXClosingElement")]
     JSXClosingElement(JSXClosingElement),
+    #[tag("JSXElement")]
     JSXElement(JSXElement),
+    #[tag("JSXExpressionContainer")]
     JSXExpressionContainer(JSXExpressionContainer),
+    #[tag("JSXSpreadChild")]
     JSXSpreadChild(JSXSpreadChild),
+    #[tag("JSXOpeningElement")]
     JSXOpeningElement(JSXOpeningElement),
+    #[tag("JSXText")]
     JSXText(JSXText),
+    #[tag("JSXFragment")]
     JSXFragment(JSXFragment),
+    #[tag("JSXOpeningFragment")]
     JSXOpeningFragment(JSXOpeningFragment),
+    #[tag("JSXClosingFragment")]
     JSXClosingFragment(JSXClosingFragment),
+    #[tag("DecimalLiteral")]
     DecimalLiteral(DecimalLiteral),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Method {
-    #[serde(rename = "ObjectMethod")]
+    #[tag("ObjectMethod")]
     Object(ObjectMethod),
-    #[serde(rename = "ClassMethod")]
+    #[tag("ClassMethod")]
     Class(ClassMethod),
-    #[serde(rename = "ClassPrivateMethod")]
+    #[tag("ClassPrivateMethod")]
     ClassPrivate(ClassPrivateMethod),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Private {
-    #[serde(rename = "ClassPrivateProperty")]
+    #[tag("ClassPrivateProperty")]
     ClassProp(ClassPrivateProperty),
-    #[serde(rename = "ClassPrivateMethod")]
+    #[tag("ClassPrivateMethod")]
     ClassMethod(ClassPrivateMethod),
-    #[serde(rename = "PrivateName")]
+    #[tag("PrivateName")]
     Name(PrivateName),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Property {
-    #[serde(rename = "ObjectProperty")]
+    #[tag("ObjectProperty")]
     ObjectProp(ObjectProperty),
-    #[serde(rename = "ClassProperty")]
+    #[tag("ClassProperty")]
     ClassProp(ClassProperty),
-    #[serde(rename = "ClassPrivateProperty")]
+    #[tag("ClassPrivateProperty")]
     ClassPrivateProp(ClassPrivateProperty),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Pureish {
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     FunctionDecl(FunctionDeclaration),
-    #[serde(rename = "FunctionExpression")]
+    #[tag("FunctionExpression")]
     FunctionExpr(FunctionExpression),
+    #[tag("StringLiteral")]
     StringLiteral(StringLiteral),
+    #[tag("NumericLiteral")]
     NumericLiteral(NumericLiteral),
+    #[tag("NullLiteral")]
     NullLiteral(NullLiteral),
+    #[tag("BooleanLiteral")]
     BooleanLiteral(BooleanLiteral),
+    #[tag("RegExpLiteral")]
     RegExpLiteral(RegExpLiteral),
-    #[serde(rename = "ArrowFunctionExpression")]
+    #[tag("ArrowFunctionExpression")]
     ArrowFuncExpr(ArrowFunctionExpression),
+    #[tag("BigIntLiteral")]
     BigIntLiteral(BigIntLiteral),
+    #[tag("DecimalLiteral")]
     DecimalLiteral(DecimalLiteral),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Scopable {
-    #[serde(rename = "BlockStatement")]
+    #[tag("BlockStatement")]
     BlockStmt(BlockStatement),
+    #[tag("CatchClause")]
     CatchClause(CatchClause),
-    #[serde(rename = "DoWhileStatement")]
+    #[tag("DoWhileStatement")]
     DoWhileStmt(DoWhileStatement),
-    #[serde(rename = "ForInStatement")]
+    #[tag("ForInStatement")]
     ForInStmt(ForInStatement),
-    #[serde(rename = "ForStatement")]
+    #[tag("ForStatement")]
     ForStmt(ForStatement),
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     FuncDecl(FunctionDeclaration),
-    #[serde(rename = "FunctionExpression")]
+    #[tag("FunctionExpression")]
     FuncExpr(FunctionExpression),
+    #[tag("Program")]
     Program(Program),
+    #[tag("ObjectMethod")]
     ObjectMethod(ObjectMethod),
-    #[serde(rename = "SwitchStatement")]
+    #[tag("SwitchStatement")]
     SwitchStmt(SwitchStatement),
-    #[serde(rename = "WhileStatement")]
+    #[tag("WhileStatement")]
     WhileStmt(WhileStatement),
-    #[serde(rename = "ArrowFunctionExpression")]
+    #[tag("ArrowFunctionExpression")]
     ArrowFuncExpr(ArrowFunctionExpression),
-    #[serde(rename = "ClassExpression")]
+    #[tag("ClassExpression")]
     ClassExpr(ClassExpression),
-    #[serde(rename = "ClassDeclaration")]
+    #[tag("ClassDeclaration")]
     ClassDecl(ClassDeclaration),
-    #[serde(rename = "ForOfStatement")]
+    #[tag("ForOfStatement")]
     ForOfStmt(ForOfStatement),
+    #[tag("ClassMethod")]
     ClassMethod(ClassMethod),
+    #[tag("ClassPrivateMethod")]
     ClassPrivateMethod(ClassPrivateMethod),
+    #[tag("StaticBlock")]
     StaticBlock(StaticBlock),
+    #[tag("TSModuleBlock")]
     TSModuleBlock(TSModuleBlock),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum BlockParent {
-    #[serde(rename = "BlockStatement")]
+    #[tag("BlockStatement")]
     BlockStmt(BlockStatement),
+    #[tag("CatchClause")]
     CatchClause(CatchClause),
-    #[serde(rename = "DoWhileStatement")]
+    #[tag("DoWhileStatement")]
     DoWhileStmt(DoWhileStatement),
-    #[serde(rename = "ForInStatement")]
+    #[tag("ForInStatement")]
     ForInStmt(ForInStatement),
-    #[serde(rename = "ForStatement")]
+    #[tag("ForStatement")]
     ForStmt(ForStatement),
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     FuncDecl(FunctionDeclaration),
-    #[serde(rename = "FunctionExpression")]
+    #[tag("FunctionExpression")]
     FuncExpr(FunctionExpression),
+    #[tag("Program")]
     Program(Program),
+    #[tag("ObjectMethod")]
     ObjectMethod(ObjectMethod),
-    #[serde(rename = "SwitchStatement")]
+    #[tag("SwitchStatement")]
     SwitchStmt(SwitchStatement),
-    #[serde(rename = "WhileStatement")]
+    #[tag("WhileStatement")]
     WhileStmt(WhileStatement),
-    #[serde(rename = "ArrowFunctionExpression")]
+    #[tag("ArrowFunctionExpression")]
     ArrowFuncExpr(ArrowFunctionExpression),
-    #[serde(rename = "ForOfStatement")]
+    #[tag("ForOfStatement")]
     ForOfStmt(ForOfStatement),
+    #[tag("ClassMethod")]
     ClassMethod(ClassMethod),
+    #[tag("ClassPrivateMethod")]
     ClassPrivateMethod(ClassPrivateMethod),
+    #[tag("StaticBlock")]
     StaticBlock(StaticBlock),
+    #[tag("TSModuleBlock")]
     TSModuleBlock(TSModuleBlock),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Block {
-    #[serde(rename = "BlockStatement")]
+    #[tag("BlockStatement")]
     BlockStmt(BlockStatement),
+    #[tag("Program")]
     Program(Program),
+    #[tag("TSModuleBlock")]
     TSModuleBlock(TSModuleBlock),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Terminatorless {
-    #[serde(rename = "BreakStatement")]
+    #[tag("BreakStatement")]
     Break(BreakStatement),
-    #[serde(rename = "ContinueStatement")]
+    #[tag("ContinueStatement")]
     Continue(ContinueStatement),
-    #[serde(rename = "ReturnStatement")]
+    #[tag("ReturnStatement")]
     Return(ReturnStatement),
-    #[serde(rename = "ThrowStatement")]
+    #[tag("ThrowStatement")]
     Throw(ThrowStatement),
-    #[serde(rename = "YieldExpression")]
+    #[tag("YieldExpression")]
     Yield(YieldExpression),
-    #[serde(rename = "AwaitExpression")]
+    #[tag("AwaitExpression")]
     Await(AwaitExpression),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum UnaryLike {
-    #[serde(rename = "UnaryExpression")]
+    #[tag("UnaryExpression")]
     Expr(UnaryExpression),
-    #[serde(rename = "SpreadElement")]
+    #[tag("SpreadElement")]
     Spread(SpreadElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("SpreadElement")]
 pub struct SpreadElement {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -634,17 +335,16 @@ pub struct SpreadElement {
 }
 
 /// Deprecated. Use SpreadElement instead.
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("SpreadProperty")]
 pub struct SpreadProperty {
     #[serde(flatten)]
     pub base: BaseNode,
     pub argument: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("RestElement")]
 pub struct RestElement {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -656,9 +356,8 @@ pub struct RestElement {
 }
 
 /// Deprecated. Use RestElement element.
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("RestProperty")]
 pub struct RestProperty {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -669,9 +368,8 @@ pub struct RestProperty {
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("Identifier")]
 pub struct Identifier {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -685,109 +383,105 @@ pub struct Identifier {
     pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum IdOrQualifiedId {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "QualifiedTypeIdentifier")]
+    #[tag("QualifiedTypeIdentifier")]
     QualifiedId(QualifiedTypeIdentifier),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum IdOrString {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "StringLiteral")]
+    #[tag("StringLiteral")]
     String(StringLiteral),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum IdOrRest {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "RestElement")]
+    #[tag("RestElement")]
     Rest(RestElement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("Decorator")]
 pub struct Decorator {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("Noop")]
 pub struct Noop {
     #[serde(flatten)]
     pub base: BaseNode,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Param {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "Pattern")]
+    #[tag("AssignmentPattern")]
+    #[tag("ArrayPattern")]
+    #[tag("ObjectPattern")]
     Pat(Pattern),
-    #[serde(rename = "RestElement")]
+    #[tag("RestElement")]
     Rest(RestElement),
-    #[serde(rename = "TSParameterProperty")]
+    #[tag("TSParameterProperty")]
     TSProp(TSParameterProperty),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum LVal {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "MemberExpression")]
+    #[tag("MemberExpression")]
     MemberExpr(MemberExpression),
-    #[serde(rename = "RestElement")]
+    #[tag("RestElement")]
     RestEl(RestElement),
-    #[serde(rename = "AssignmentPattern")]
+    #[tag("AssignmentPattern")]
     AssignmentPat(AssignmentPattern),
-    #[serde(rename = "ArrayPattern")]
+    #[tag("ArrayPattern")]
     ArrayPat(ArrayPattern),
-    #[serde(rename = "ObjectPattern")]
+    #[tag("ObjectPattern")]
     ObjectPat(ObjectPattern),
-    #[serde(rename = "TSParameterProperty")]
+    #[tag("TSParameterProperty")]
     TSParamProp(TSParameterProperty),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum PatternLike {
-    #[serde(rename = "Identifier")]
+    #[tag("Identifier")]
     Id(Identifier),
-    #[serde(rename = "RestElement")]
+    #[tag("RestElement")]
     RestEl(RestElement),
-    #[serde(rename = "AssignmentPattern")]
+    #[tag("AssignmentPattern")]
     AssignmentPat(AssignmentPattern),
-    #[serde(rename = "ArrayPattern")]
+    #[tag("ArrayPattern")]
     ArrayPat(ArrayPattern),
-    #[serde(rename = "ObjectPattern")]
+    #[tag("ObjectPattern")]
     ObjectPat(ObjectPattern),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TypeAnnotOrNoop {
-    #[serde(rename = "TypeAnnotation")]
+    #[tag("TypeAnnotation")]
     Flow(TypeAnnotation),
-    #[serde(rename = "TSTypeAnnotation")]
+    #[tag("TSTypeAnnotation")]
     TS(Box<TSTypeAnnotation>),
+    #[tag("Noop")]
     Noop(Noop),
 }
 
@@ -797,14 +491,14 @@ impl From<TSTypeAnnotation> for TypeAnnotOrNoop {
     }
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum TypeParamDeclOrNoop {
-    #[serde(rename = "TypeParameterDeclaration")]
+    #[tag("TypeParameterDeclaration")]
     Flow(TypeParameterDeclaration),
-    #[serde(rename = "TSTypeParameterDeclaration")]
+    #[tag("TSTypeParameterDeclaration")]
     TS(TSTypeParameterDeclaration),
+    #[tag("Noop")]
     Noop(Noop),
 }
 
@@ -814,13 +508,12 @@ impl From<TSTypeParameterDeclaration> for TypeParamDeclOrNoop {
     }
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum SuperTypeParams {
-    #[serde(rename = "TypeParameterInstantiation")]
+    #[tag("TypeParameterInstantiation")]
     Flow(TypeParameterInstantiation),
-    #[serde(rename = "TSTypeParameterInstantiation")]
+    #[tag("TSTypeParameterInstantiation")]
     TS(TSTypeParameterInstantiation),
 }
 
@@ -830,8 +523,8 @@ impl From<TSTypeParameterInstantiation> for SuperTypeParams {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("PrivateName")]
 pub struct PrivateName {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -846,8 +539,8 @@ pub enum Access {
     Protected,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("MetaProperty")]
 pub struct MetaProperty {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -855,16 +548,16 @@ pub struct MetaProperty {
     pub property: Identifier,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("Directive")]
 pub struct Directive {
     #[serde(flatten)]
     pub base: BaseNode,
     pub value: DirectiveLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("DirectiveLiteral")]
 pub struct DirectiveLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -872,16 +565,16 @@ pub struct DirectiveLiteral {
     pub value: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("PipelineBareFunction")]
 pub struct PipelineBareFunction {
     #[serde(flatten)]
     pub base: BaseNode,
     pub callee: Box<Expression>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("PipelineTopicExpression")]
 pub struct PipelineTopicExpression {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -900,9 +593,8 @@ pub enum PlaceholderExpectedNode {
     Pattern,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("Placeholder")]
 pub struct Placeholder {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -910,3 +602,323 @@ pub struct Placeholder {
     pub name: Identifier,
 }
 
+
+
+// NOTE(dwoznicki): Node is part of the babel node definitions, but it's never used and 
+// a pain to maintain. Do we actually need this?
+//
+// #[derive(Debug, Clone, PartialEq)]
+// #[ast_serde]
+// pub enum Node {
+//     #[tag("AnyTypeAnnotation")]
+//     AnyTypeAnnotation(AnyTypeAnnotation),
+//     #[tag("ArgumentPlaceholder")]
+//     ArgumentPlaceholder(ArgumentPlaceholder),
+//     #[tag("ArrayExpression")]
+//     ArrayExpression(ArrayExpression),
+//     #[tag("ArrayPattern")]
+//     ArrayPattern(ArrayPattern),
+//     #[tag("ArrayTypeAnnotation")]
+//     ArrayTypeAnnotation(ArrayTypeAnnotation),
+//     #[tag("ArrowFunctionExpression")]
+//     ArrowFunctionExpression(ArrowFunctionExpression),
+//     #[tag("AssignmentExpression")]
+//     AssignmentExpression(AssignmentExpression),
+//     #[tag("AssignmentPattern")]
+//     AssignmentPattern(AssignmentPattern),
+//     #[tag("AwaitExpression")]
+//     AwaitExpression(AwaitExpression),
+//     #[tag("BigIntLiteral")]
+//     BigIntLiteral(BigIntLiteral),
+//     #[tag("BinaryExpression")]
+//     #[tag("LogicalExpression")]
+//     Binary(Binary),
+//     #[tag("BinaryExpression")]
+//     BinaryExpression(BinaryExpression),
+//     #[tag("BindExpression")]
+//     BindExpression(BindExpression),
+//     #[tag("BlockStatement")]
+//     #[tag("Program")]
+//     #[tag("TSModuleBlock")]
+//     Block(Block),
+//     #[tag("*")]
+//     BlockParent(BlockParent),
+//     #[tag("BlockStatement")]
+//     BlockStatement(BlockStatement),
+//     BooleanLiteral(BooleanLiteral),
+//     BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
+//     BooleanTypeAnnotation(BooleanTypeAnnotation),
+//     BreakStatement(BreakStatement),
+//     CallExpression(CallExpression),
+//     CatchClause(CatchClause),
+//     Class(Class),
+//     ClassBody(ClassBody),
+//     ClassDeclaration(ClassDeclaration),
+//     ClassExpression(ClassExpression),
+//     ClassImplements(ClassImplements),
+//     ClassMethod(ClassMethod),
+//     ClassPrivateMethod(ClassPrivateMethod),
+//     ClassPrivateProperty(ClassPrivateProperty),
+//     ClassProperty(ClassProperty),
+//     CompletionStatement(CompletionStatement),
+//     Conditional(Conditional),
+//     ConditionalExpression(ConditionalExpression),
+//     ContinueStatement(ContinueStatement),
+//     DebuggerStatement(DebuggerStatement),
+//     DecimalLiteral(DecimalLiteral),
+//     Declaration(Declaration),
+//     DeclareClass(DeclareClass),
+//     DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+//     DeclareExportDeclaration(DeclareExportDeclaration),
+//     DeclareFunction(DeclareFunction),
+//     DeclareInterface(DeclareInterface),
+//     DeclareModule(DeclareModule),
+//     DeclareModuleExports(DeclareModuleExports),
+//     DeclareOpaqueType(DeclareOpaqueType),
+//     DeclareTypeAlias(DeclareTypeAlias),
+//     DeclareVariable(DeclareVariable),
+//     DeclaredPredicate(DeclaredPredicate),
+//     Decorator(Decorator),
+//     Directive(Directive),
+//     DirectiveLiteral(DirectiveLiteral),
+//     DoExpression(DoExpression),
+//     DoWhileStatement(DoWhileStatement),
+//     EmptyStatement(EmptyStatement),
+//     EmptyTypeAnnotation(EmptyTypeAnnotation),
+//     EnumBody(EnumBody),
+//     EnumBooleanBody(EnumBooleanBody),
+//     EnumBooleanMember(EnumBooleanMember),
+//     EnumDeclaration(EnumDeclaration),
+//     EnumDefaultedMember(EnumDefaultedMember),
+//     EnumMember(EnumMember),
+//     EnumNumberBody(EnumNumberBody),
+//     EnumNumberMember(EnumNumberMember),
+//     EnumStringBody(EnumStringBody),
+//     EnumStringMember(EnumStringMember),
+//     EnumSymbolBody(EnumSymbolBody),
+//     ExistsTypeAnnotation(ExistsTypeAnnotation),
+//     ExportAllDeclaration(ExportAllDeclaration),
+//     ExportDeclaration(ExportDeclaration),
+//     ExportDefaultDeclaration(ExportDefaultDeclaration),
+//     ExportDefaultSpecifier(ExportDefaultSpecifier),
+//     ExportNamedDeclaration(ExportNamedDeclaration),
+//     ExportNamespaceSpecifier(ExportNamespaceSpecifier),
+//     ExportSpecifier(ExportSpecifier),
+//     Expression(Expression),
+//     ExpressionStatement(ExpressionStatement),
+//     ExpressionWrapper(ExpressionWrapper),
+//     File(File),
+//     Flow(Flow),
+//     FlowBaseAnnotation(FlowBaseAnnotation),
+//     FlowDeclaration(FlowDeclaration),
+//     FlowPredicate(FlowPredicate),
+//     FlowType(FlowType),
+//     For(For),
+//     ForInStatement(ForInStatement),
+//     ForOfStatement(ForOfStatement),
+//     ForStatement(ForStatement),
+//     ForXStatement(ForXStatement),
+//     Function(Function),
+//     FunctionDeclaration(FunctionDeclaration),
+//     FunctionExpression(FunctionExpression),
+//     FunctionParent(FunctionParent),
+//     FunctionTypeAnnotation(FunctionTypeAnnotation),
+//     FunctionTypeParam(FunctionTypeParam),
+//     GenericTypeAnnotation(GenericTypeAnnotation),
+//     Identifier(Identifier),
+//     IfStatement(IfStatement),
+//     Immutable(Immutable),
+//     Import(Import),
+//     ImportAttribute(ImportAttribute),
+//     ImportDeclaration(ImportDeclaration),
+//     ImportDefaultSpecifier(ImportDefaultSpecifier),
+//     ImportNamespaceSpecifier(ImportNamespaceSpecifier),
+//     ImportSpecifier(ImportSpecifier),
+//     InferredPredicate(InferredPredicate),
+//     InterfaceDeclaration(InterfaceDeclaration),
+//     InterfaceExtends(InterfaceExtends),
+//     InterfaceTypeAnnotation(InterfaceTypeAnnotation),
+//     InterpreterDirective(InterpreterDirective),
+//     IntersectionTypeAnnotation(IntersectionTypeAnnotation),
+//     JSX(JSX),
+//     JSXAttribute(JSXAttribute),
+//     JSXClosingElement(JSXClosingElement),
+//     JSXClosingFragment(JSXClosingFragment),
+//     JSXElement(JSXElement),
+//     JSXEmptyExpression(JSXEmptyExpression),
+//     JSXExpressionContainer(JSXExpressionContainer),
+//     JSXFragment(JSXFragment),
+//     JSXIdentifier(JSXIdentifier),
+//     JSXMemberExpression(JSXMemberExpression),
+//     JSXNamespacedName(JSXNamespacedName),
+//     JSXOpeningElement(JSXOpeningElement),
+//     JSXOpeningFragment(JSXOpeningFragment),
+//     JSXSpreadAttribute(JSXSpreadAttribute),
+//     JSXSpreadChild(JSXSpreadChild),
+//     JSXText(JSXText),
+//     LVal(LVal),
+//     LabeledStatement(LabeledStatement),
+//     Literal(Literal),
+//     LogicalExpression(LogicalExpression),
+//     Loop(Loop),
+//     MemberExpression(MemberExpression),
+//     MetaProperty(MetaProperty),
+//     Method(Method),
+//     MixedTypeAnnotation(MixedTypeAnnotation),
+//     ModuleDeclaration(ModuleDeclaration),
+//     ModuleExpression(ModuleExpression),
+//     ModuleSpecifier(ModuleSpecifier),
+//     NewExpression(NewExpression),
+//     Noop(Noop),
+//     NullLiteral(NullLiteral),
+//     NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
+//     NullableTypeAnnotation(NullableTypeAnnotation),
+//     NumberLiteral(NumberLiteral),
+//     NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
+//     NumberTypeAnnotation(NumberTypeAnnotation),
+//     NumericLiteral(NumericLiteral),
+//     ObjectExpression(ObjectExpression),
+//     ObjectMember(ObjectMember),
+//     ObjectMethod(ObjectMethod),
+//     ObjectPattern(ObjectPattern),
+//     ObjectProperty(ObjectProperty),
+//     ObjectTypeAnnotation(ObjectTypeAnnotation),
+//     ObjectTypeCallProperty(ObjectTypeCallProperty),
+//     ObjectTypeIndexer(ObjectTypeIndexer),
+//     ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+//     ObjectTypeProperty(ObjectTypeProperty),
+//     ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
+//     OpaqueType(OpaqueType),
+//     OptionalCallExpression(OptionalCallExpression),
+//     OptionalMemberExpression(OptionalMemberExpression),
+//     ParenthesizedExpression(ParenthesizedExpression),
+//     Pattern(Pattern),
+//     PatternLike(PatternLike),
+//     PipelineBareFunction(PipelineBareFunction),
+//     PipelinePrimaryTopicReference(PipelinePrimaryTopicReference),
+//     PipelineTopicExpression(PipelineTopicExpression),
+//     Placeholder(Placeholder),
+//     Private(Private),
+//     PrivateName(PrivateName),
+//     Program(Program),
+//     Property(Property),
+//     Pureish(Pureish),
+//     QualifiedTypeIdentifier(QualifiedTypeIdentifier),
+//     RecordExpression(RecordExpression),
+//     RegExpLiteral(RegExpLiteral),
+//     RegexLiteral(RegexLiteral),
+//     RestElement(RestElement),
+//     RestProperty(RestProperty),
+//     ReturnStatement(ReturnStatement),
+//     Scopable(Scopable),
+//     SequenceExpression(SequenceExpression),
+//     SpreadElement(SpreadElement),
+//     SpreadProperty(SpreadProperty),
+//     Statement(Statement),
+//     StaticBlock(StaticBlock),
+//     StringLiteral(StringLiteral),
+//     StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
+//     StringTypeAnnotation(StringTypeAnnotation),
+//     Super(Super),
+//     SwitchCase(SwitchCase),
+//     SwitchStatement(SwitchStatement),
+//     SymbolTypeAnnotation(SymbolTypeAnnotation),
+//     TSAnyKeyword(TSAnyKeyword),
+//     TSArrayType(TSArrayType),
+//     TSAsExpression(TSAsExpression),
+//     TSBaseType(TSBaseType),
+//     TSBigIntKeyword(TSBigIntKeyword),
+//     TSBooleanKeyword(TSBooleanKeyword),
+//     TSCallSignatureDeclaration(TSCallSignatureDeclaration),
+//     TSConditionalType(TSConditionalType),
+//     TSConstructSignatureDeclaration(TSConstructSignatureDeclaration),
+//     TSConstructorType(TSConstructorType),
+//     TSDeclareFunction(TSDeclareFunction),
+//     TSDeclareMethod(TSDeclareMethod),
+//     TSEntityName(TSEntityName),
+//     TSEnumDeclaration(TSEnumDeclaration),
+//     TSEnumMember(TSEnumMember),
+//     TSExportAssignment(TSExportAssignment),
+//     TSExpressionWithTypeArguments(TSExpressionWithTypeArguments),
+//     TSExternalModuleReference(TSExternalModuleReference),
+//     TSFunctionType(TSFunctionType),
+//     TSImportEqualsDeclaration(TSImportEqualsDeclaration),
+//     TSImportType(TSImportType),
+//     TSIndexSignature(TSIndexSignature),
+//     TSIndexedAccessType(TSIndexedAccessType),
+//     TSInferType(TSInferType),
+//     TSInterfaceBody(TSInterfaceBody),
+//     TSInterfaceDeclaration(TSInterfaceDeclaration),
+//     TSIntersectionType(TSIntersectionType),
+//     TSIntrinsicKeyword(TSIntrinsicKeyword),
+//     TSLiteralType(TSLiteralType),
+//     TSMappedType(TSMappedType),
+//     TSMethodSignature(TSMethodSignature),
+//     TSModuleBlock(TSModuleBlock),
+//     TSModuleDeclaration(TSModuleDeclaration),
+//     TSNamedTupleMember(TSNamedTupleMember),
+//     TSNamespaceExportDeclaration(TSNamespaceExportDeclaration),
+//     TSNeverKeyword(TSNeverKeyword),
+//     TSNonNullExpression(TSNonNullExpression),
+//     TSNullKeyword(TSNullKeyword),
+//     TSNumberKeyword(TSNumberKeyword),
+//     TSObjectKeyword(TSObjectKeyword),
+//     TSOptionalType(TSOptionalType),
+//     TSParameterProperty(TSParameterProperty),
+//     TSParenthesizedType(TSParenthesizedType),
+//     TSPropertySignature(TSPropertySignature),
+//     TSQualifiedName(TSQualifiedName),
+//     TSRestType(TSRestType),
+//     TSStringKeyword(TSStringKeyword),
+//     TSSymbolKeyword(TSSymbolKeyword),
+//     TSThisType(TSThisType),
+//     TSTupleType(TSTupleType),
+//     TSType(TSType),
+//     TSTypeAliasDeclaration(TSTypeAliasDeclaration),
+//     TSTypeAnnotation(TSTypeAnnotation),
+//     TSTypeAssertion(TSTypeAssertion),
+//     TSTypeElement(TSTypeElement),
+//     TSTypeLiteral(TSTypeLiteral),
+//     TSTypeOperator(TSTypeOperator),
+//     TSTypeParameter(TSTypeParameter),
+//     TSTypeParameterDeclaration(TSTypeParameterDeclaration),
+//     TSTypeParameterInstantiation(TSTypeParameterInstantiation),
+//     TSTypePredicate(TSTypePredicate),
+//     TSTypeQuery(TSTypeQuery),
+//     TSTypeReference(TSTypeReference),
+//     TSUndefinedKeyword(TSUndefinedKeyword),
+//     TSUnionType(TSUnionType),
+//     TSUnknownKeyword(TSUnknownKeyword),
+//     TSVoidKeyword(TSVoidKeyword),
+//     TaggedTemplateExpression(TaggedTemplateExpression),
+//     TemplateElement(TemplateElement),
+//     TemplateLiteral(TemplateLiteral),
+//     Terminatorless(Terminatorless),
+//     ThisExpression(ThisExpression),
+//     ThisTypeAnnotation(ThisTypeAnnotation),
+//     ThrowStatement(ThrowStatement),
+//     TryStatement(TryStatement),
+//     TupleExpression(TupleExpression),
+//     TupleTypeAnnotation(TupleTypeAnnotation),
+//     TypeAlias(TypeAlias),
+//     TypeAnnotation(TypeAnnotation),
+//     TypeCastExpression(TypeCastExpression),
+//     TypeParameter(TypeParameter),
+//     TypeParameterDeclaration(TypeParameterDeclaration),
+//     TypeParameterInstantiation(TypeParameterInstantiation),
+//     TypeofTypeAnnotation(TypeofTypeAnnotation),
+//     UnaryExpression(UnaryExpression),
+//     UnaryLike(UnaryLike),
+//     UnionTypeAnnotation(UnionTypeAnnotation),
+//     UpdateExpression(UpdateExpression),
+//     UserWhitespacable(UserWhitespacable),
+//     V8IntrinsicIdentifier(V8IntrinsicIdentifier),
+//     VariableDeclaration(VariableDeclaration),
+//     VariableDeclarator(VariableDeclarator),
+//     Variance(Variance),
+//     VoidTypeAnnotation(VoidTypeAnnotation),
+//     While(While),
+//     WhileStatement(WhileStatement),
+//     WithStatement(WithStatement),
+//     YieldExpression(YieldExpression),
+// }
