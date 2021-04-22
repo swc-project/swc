@@ -1,4 +1,3 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
 use swc_common::ast_serde;
 
@@ -22,59 +21,60 @@ use crate::{
     },
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Declaration {
-    #[serde(rename = "FunctionDeclaration")]
+    #[tag("FunctionDeclaration")]
     FuncDecl(FunctionDeclaration),
-    #[serde(rename = "VariableDeclaration")]
+    #[tag("VariableDeclaration")]
     VarDecl(VariableDeclaration),
-    #[serde(rename = "ClassDeclaration")]
+    #[tag("ClassDeclaration")]
     ClassDecl(ClassDeclaration),
-    #[serde(rename = "ExportAllDeclaration")]
+    #[tag("ExportAllDeclaration")]
     ExportAllDecl(ExportAllDeclaration),
-    #[serde(rename = "ExportDefaultDeclaration")]
+    #[tag("ExportDefaultDeclaration")]
     ExportDefaultDecl(ExportDefaultDeclaration),
-    #[serde(rename = "ExportNamedDeclaration")]
+    #[tag("ExportNamedDeclaration")]
     ExportNamedDecl(ExportNamedDeclaration),
-    #[serde(rename = "ImportDeclaration")]
+    #[tag("ImportDeclaration")]
     ImportDecl(ImportDeclaration),
-    #[serde(rename = "DeclareClass")]
+    #[tag("DeclareClass")]
     DeclClass(DeclareClass),
-    #[serde(rename = "DeclareFuncction")]
+    #[tag("DeclareFuncction")]
     DeclFunc(DeclareFunction),
-    #[serde(rename = "DeclareInterface")]
+    #[tag("DeclareInterface")]
     DeclInterface(DeclareInterface),
-    #[serde(rename = "DeclareModule")]
+    #[tag("DeclareModule")]
     DeclModule(DeclareModule),
-    #[serde(rename = "DeclareModuleExports")]
+    #[tag("DeclareModuleExports")]
     DeclModuleExports(DeclareModuleExports),
-    #[serde(rename = "DeclareTypeAlias")]
+    #[tag("DeclareTypeAlias")]
     DeclTypeAlias(DeclareTypeAlias),
-    #[serde(rename = "DeclareOpaqueType")]
+    #[tag("DeclareOpaqueType")]
     DeclOpaqueType(DeclareOpaqueType),
-    #[serde(rename = "DeclareVariable")]
+    #[tag("DeclareVariable")]
     DeclVar(DeclareVariable),
-    #[serde(rename = "DeclareExportDeclaration")]
+    #[tag("DeclareExportDeclaration")]
     DeclExportDecl(DeclareExportDeclaration),
-    #[serde(rename = "DeclareExportAllDeclaration")]
+    #[tag("DeclareExportAllDeclaration")]
     DeclExportAllDecl(DeclareExportAllDeclaration),
-    #[serde(rename = "InterfaceDeclaration")]
+    #[tag("InterfaceDeclaration")]
     InterfaceDecl(InterfaceDeclaration),
+    #[tag("OpaqueType")]
     OpaqueType(OpaqueType),
+    #[tag("TypeAlias")]
     TypeAlias(TypeAlias),
-    #[serde(rename = "EnumDeclaration")]
+    #[tag("EnumDeclaration")]
     EnumDecl(EnumDeclaration),
-    #[serde(rename = "TSDeclareFunction")]
+    #[tag("TSDeclareFunction")]
     TSDeclFunc(TSDeclareFunction),
-    #[serde(rename = "TSIterfaceDeclaration")]
+    #[tag("TSIterfaceDeclaration")]
     TSInterfaceDecl(TSInterfaceDeclaration),
-    #[serde(rename = "TSTypeAliasDeclaration")]
+    #[tag("TSTypeAliasDeclaration")]
     TSTypeAliasDecl(TSTypeAliasDeclaration),
-    #[serde(rename = "TSEnumDeclaration")]
+    #[tag("TSEnumDeclaration")]
     TSEnumDecl(TSEnumDeclaration),
-    #[serde(rename = "TSModuleDeclaration")]
+    #[tag("TSModuleDeclaration")]
     TSModuleDecl(TSModuleDeclaration),
 }
 
@@ -86,8 +86,8 @@ pub enum VariableDeclarationKind {
     Const,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("VariableDeclarator")]
 pub struct VariableDeclarator {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -98,8 +98,8 @@ pub struct VariableDeclarator {
     pub definite: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("VariableDeclaration")]
 pub struct VariableDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -110,9 +110,8 @@ pub struct VariableDeclaration {
     pub declare: Option<bool>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("FunctionDeclaration")]
 pub struct FunctionDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -147,8 +146,8 @@ impl From<FunctionExpression> for FunctionDeclaration {
 }
 
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumBooleanMember")]
 pub struct EnumBooleanMember {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -156,8 +155,8 @@ pub struct EnumBooleanMember {
     pub init: BooleanLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumNumberMember")]
 pub struct EnumNumberMember {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -165,8 +164,8 @@ pub struct EnumNumberMember {
     pub init: NumericLiteral,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumStringMember")]
 pub struct EnumStringMember {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -174,18 +173,17 @@ pub struct EnumStringMember {
     pub init: StringLiteral,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum EnumStringBodyMember {
-    #[serde(rename = "EnumStringBodyMember")]
+    #[tag("EnumStringBodyMember")]
     String(EnumStringMember),
-    #[serde(rename = "EnumDefaultedMember")]
+    #[tag("EnumDefaultedMember")]
     Defaulted(EnumDefaultedMember),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumDefaultedMember")]
 pub struct EnumDefaultedMember {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -205,9 +203,8 @@ pub enum EnumMember {
     Defaulted(EnumDefaultedMember),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumBooleanBody")]
 pub struct EnumBooleanBody {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -219,9 +216,8 @@ pub struct EnumBooleanBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumNumberBody")]
 pub struct EnumNumberBody {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -234,9 +230,8 @@ pub struct EnumNumberBody {
 }
 
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumStringBody")]
 pub struct EnumStringBody {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -248,9 +243,8 @@ pub struct EnumStringBody {
     pub has_unknown_members: bool,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumSymbolBody")]
 pub struct EnumSymbolBody {
     #[serde(flatten)]
     pub base: BaseNode,
@@ -274,8 +268,8 @@ pub enum EnumBody {
 }
 
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
-#[serde(tag = "type")]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde("EnumDeclaration")]
 pub struct EnumDeclaration {
     #[serde(flatten)]
     pub base: BaseNode,
