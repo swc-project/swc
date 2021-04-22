@@ -96,6 +96,16 @@ fn toposort_real_modules<'a>(
             continue;
         }
 
+        // Skip sorting statements if there is no import.
+        if ids.len() == 1 {
+            if graph.neighbors_directed(ids[0], Outgoing).count() == 0 {
+                chunks.push(Chunk {
+                    stmts: stmts.into_iter().next().unwrap(),
+                });
+                continue;
+            }
+        }
+
         let stmts = sort_stmts(injected_ctxt, stmts, cm);
 
         // print_hygiene(
