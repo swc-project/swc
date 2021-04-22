@@ -1040,7 +1040,7 @@ where
                             orig: local,
                             exported: Some(exported),
                         });
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -1087,7 +1087,7 @@ where
                             exported: Some(exported),
                         });
                         log::trace!("Exporting `default` with `export default expr`");
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -1191,7 +1191,7 @@ where
                             exported: Some(exported),
                         });
 
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
