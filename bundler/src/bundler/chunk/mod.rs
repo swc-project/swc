@@ -10,7 +10,6 @@ use fxhash::FxHashSet;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 
-mod circular;
 mod cjs;
 mod computed_key;
 mod export;
