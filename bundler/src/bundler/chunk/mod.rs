@@ -1,5 +1,4 @@
 use super::{load::TransformedModule, Bundler};
-use crate::modules::Modules;
 use crate::{
     bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
     util::IntoParallelIterator, Bundle,
@@ -58,14 +57,15 @@ where
         let all = plan
             .all
             .into_par_iter()
-            .map(|id| {
+            .map(|id| -> Result<_, Error> {
                 let info = self.scope.get_module(id).unwrap();
-                let mut module = Modules::from(id, (*info.module).clone(), self.injected_ctxt);
+                let is_entry = plan.entries.contains_key(&id);
+                let mut module = self.apply_hooks(id, is_entry)?;
                 self.prepare_for_merging(&ctx, &info, &mut module);
 
-                (id, module)
+                Ok((id, module))
             })
-            .collect::<FxHashMap<_, _>>();
+            .collect::<Result<FxHashMap<_, _>, _>>()?;
 
         let mut entries = all
             .iter()

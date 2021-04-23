@@ -12,8 +12,10 @@ use crate::{
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::{Context, Error};
+use fxhash::FxBuildHasher;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
+use indexmap::IndexSet;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
@@ -45,8 +47,27 @@ where
     ) {
         let entry_info = self.scope.get_module(entry_id).unwrap();
 
+        let all_deps_of_entry =
+            self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
+
+        let deps = all_deps_of_entry
+            .iter()
+            .map(|id| all.get(id).cloned().unwrap());
+
+        for dep in deps {
+            entry.add_dep(dep);
+        }
+
         self.replace_import_specifiers(&entry_info, &mut entry);
         self.finalize_merging_of_entry(ctx, entry_id, &mut entry);
+    }
+
+    fn collect_all_deps(
+        &self,
+        graph: &ModuleGraph,
+        start: ModuleId,
+        dejavu: &mut FxHashSet<ModuleId>,
+    ) -> IndexSet<ModuleId, FxBuildHasher> {
     }
 
     fn merge_direct_import(
@@ -437,9 +458,8 @@ where
         })
     }
 
-    pub(super) fn get_module_for_merging(
+    pub(crate) fn apply_hooks(
         &self,
-        _ctx: &Ctx,
         module_id: ModuleId,
         is_entry: bool,
     ) -> Result<Modules, Error> {
