@@ -62,7 +62,7 @@ where
                 // TODO: is_entry should be false if it's dep of other entry.
                 let is_entry = plan.entries.contains_key(id);
                 let mut module = self.apply_hooks(*id, is_entry)?;
-                module = self.prepare_for_merging(&ctx, &info, module, is_entry);
+                module = self.prepare_for_merging(&ctx, &info, module, is_entry)?;
 
                 Ok((*id, module))
             })

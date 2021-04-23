@@ -420,18 +420,19 @@ where
         info: &TransformedModule,
         mut module: Modules,
         is_entry: bool,
-    ) -> Modules {
+    ) -> Result<Modules, Error> {
         self.handle_imports_and_exports(ctx, info, &mut module);
 
         let wrapped = self.scope.should_be_wrapped_with_a_fn(info.id);
+        if wrapped {
+            module = self.wrap_esm(ctx, info.id, module)?;
+        }
 
-        // TODO:
-        // self.wrap_esm(ctx, dep_id, module.into())?.into()
         if !is_entry {
             module = module.fold_with(&mut Unexporter);
         }
 
-        module
+        Ok(module)
     }
 
     fn handle_imports_and_exports(
