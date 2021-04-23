@@ -357,7 +357,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        // print_hygiene("done", &self.cm, &entry.clone().into());
+        crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
@@ -840,6 +840,7 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
                         let export_ctxt = export.span.ctxt;
                         let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
+                        dbg!(export_ctxt, reexport);
                         ctx.transitive_remap.insert(export_ctxt, reexport);
                     }
 
