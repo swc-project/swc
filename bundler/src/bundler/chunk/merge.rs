@@ -124,7 +124,7 @@ where
     ///
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
-    fn handle_reexport_of_entry(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
+    fn inject_reexports(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
         dbg!(&ctx.transitive_remap);
         let injected_ctxt = self.injected_ctxt;
 
@@ -351,7 +351,7 @@ where
 
     fn finalize_merging_of_entry(&self, ctx: &Ctx, id: ModuleId, entry: &mut Modules) {
         log::debug!("All modules are merged");
-        self.handle_reexport_of_entry(ctx, id, entry);
+        self.inject_reexports(ctx, id, entry);
 
         // print_hygiene("before inline", &self.cm, &entry.clone().into());
 
