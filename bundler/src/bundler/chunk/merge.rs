@@ -69,7 +69,7 @@ where
                 .get_module(id)
                 .unwrap_or_else(|| unreachable!("Module {} is not registered", id));
             let mut module = self.apply_hooks(id, is_entry)?;
-            module = self.prepare_for_merging(&ctx, &info, module, is_entry)?;
+            module = self.prepare_for_merging(&ctx, &info, module)?;
 
             Ok(module)
         })
@@ -505,7 +505,6 @@ where
         ctx: &Ctx,
         info: &TransformedModule,
         mut module: Modules,
-        is_entry: bool,
     ) -> Result<Modules, Error> {
         self.handle_imports_and_exports(ctx, info, &mut module);
 
