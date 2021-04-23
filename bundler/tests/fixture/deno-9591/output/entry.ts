@@ -1637,11 +1637,11 @@ const mod3 = function() {
         sep: sep2,
         toFileUrl: toFileUrl2,
         toNamespacedPath: toNamespacedPath2,
+        common,
         globToRegExp,
         isGlob,
         normalizeGlob,
-        joinGlobs,
-        common
+        joinGlobs
     };
 }();
 var LogLevels;
@@ -3278,14 +3278,14 @@ const mod5 = function() {
         ensureSymlinkSync,
         expandGlob,
         expandGlobSync,
-        move,
-        moveSync,
-        copy,
-        copySync,
         _createWalkEntrySync,
         _createWalkEntry,
         walk,
         walkSync,
+        move,
+        moveSync,
+        copy,
+        copySync,
         EOL,
         detect,
         format: format3
