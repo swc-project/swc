@@ -70,13 +70,14 @@ where
             .get_module(module_id)
             .expect("failed to get module");
 
-        for (src, is_export) in m
+        for (src, _) in m
             .imports
             .specifiers
             .iter()
-            .map(|v| (&v.0, false))
-            .chain(m.exports.reexports.iter().map(|v| (&v.0, true)))
+            .chain(m.exports.reexports.iter())
         {
+            log::debug!("Dep: {} -> {}", module_id, src.module_id);
+
             builder.graph.add_edge(module_id, src.module_id, ());
 
             // Prevent infinite loops.
