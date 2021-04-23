@@ -55,7 +55,10 @@ where
         let all = (&*plan.all)
             .into_par_iter()
             .map(|id| -> Result<_, Error> {
-                let info = self.scope.get_module(*id).unwrap();
+                let info = self
+                    .scope
+                    .get_module(*id)
+                    .unwrap_or_else(|| panic!("Module {} is not registered", id));
                 let is_entry = plan.entries.contains_key(id);
                 let mut module = self.apply_hooks(*id, is_entry)?;
                 module = self.prepare_for_merging(&ctx, &info, module, is_entry);

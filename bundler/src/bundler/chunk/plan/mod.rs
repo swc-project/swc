@@ -62,6 +62,7 @@ where
     }
 
     fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId) {
+        builder.all.push(module_id);
         builder.graph.add_node(module_id);
 
         let m = self
