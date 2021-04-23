@@ -47,32 +47,34 @@ where
         entry: &mut Modules,
         all: &FxHashMap<ModuleId, Modules>,
     ) {
-        let entry_info = self.scope.get_module(entry_id).unwrap();
+        self.run(|| {
+            let entry_info = self.scope.get_module(entry_id).unwrap();
 
-        let all_deps_of_entry =
-            self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
+            let all_deps_of_entry =
+                self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-        log::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
+            log::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
 
-        let deps = all_deps_of_entry.iter().map(|id| {
-            let dep_info = self.scope.get_module(*id).unwrap();
-            entry_info.helpers.extend(&dep_info.helpers);
-            entry_info.swc_helpers.extend_from(&dep_info.swc_helpers);
+            let deps = all_deps_of_entry.iter().map(|id| {
+                let dep_info = self.scope.get_module(*id).unwrap();
+                entry_info.helpers.extend(&dep_info.helpers);
+                entry_info.swc_helpers.extend_from(&dep_info.swc_helpers);
 
-            all.get(id).cloned().unwrap_or_else(|| {
-                unreachable!(
-                    "failed to merge into {}: module {} does not exist in the map",
-                    entry_id, id
-                )
-            })
-        });
+                all.get(id).cloned().unwrap_or_else(|| {
+                    unreachable!(
+                        "failed to merge into {}: module {} does not exist in the map",
+                        entry_id, id
+                    )
+                })
+            });
 
-        for dep in deps {
-            entry.add_dep(dep);
-        }
+            for dep in deps {
+                entry.add_dep(dep);
+            }
 
-        self.replace_import_specifiers(&entry_info, entry);
-        self.finalize_merging_of_entry(ctx, entry_id, entry);
+            self.replace_import_specifiers(&entry_info, entry);
+            self.finalize_merging_of_entry(ctx, entry_id, entry);
+        })
     }
 
     fn collect_all_deps(
