@@ -84,6 +84,8 @@ where
         all: &FxHashMap<ModuleId, Modules>,
     ) {
         self.run(|| {
+            let injected_ctxt = self.injected_ctxt;
+
             let entry_info = self.scope.get_module(entry_id).unwrap();
 
             let all_deps_of_entry =
@@ -95,6 +97,10 @@ where
                 let dep_info = self.scope.get_module(*id).unwrap();
                 entry_info.helpers.extend(&dep_info.helpers);
                 entry_info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
+                if *id == entry_id {
+                    return Modules::empty(injected_ctxt);
+                }
 
                 all.get(id).cloned().unwrap_or_else(|| {
                     unreachable!(
