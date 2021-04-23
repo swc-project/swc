@@ -236,12 +236,11 @@ where
                 };
                 // Replace imports iff dependency is common js module.
                 let dep_module = self.bundler.scope.get_module(dep_module_id).unwrap();
-                if !self.bundler.scope.is_cjs(dep_module_id) {
+                if !self.bundler.scope.is_cjs(dep_module_id) && dep_module.is_es6 {
                     return;
                 }
 
                 let load_var = self.bundler.make_cjs_load_var(&dep_module, i.span);
-
                 // Replace import progress from 'progress';
                 // Side effech import
                 if i.specifiers.is_empty() {
