@@ -1222,6 +1222,12 @@ where
                         new.push(item);
                     }
 
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                        let export_ctxt = export.span.ctxt;
+                        let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
+                        ctx.transitive_remap.insert(export_ctxt, reexport);
+                    }
+
                     _ => {
                         new.push(item);
                     }
