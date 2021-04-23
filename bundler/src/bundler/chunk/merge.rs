@@ -123,6 +123,7 @@ where
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
     fn handle_reexport_of_entry(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
+        dbg!(&ctx.transitive_remap);
         let injected_ctxt = self.injected_ctxt;
 
         {
