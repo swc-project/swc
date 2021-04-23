@@ -1678,6 +1678,16 @@ function randomBoundary() {
     return boundary;
 }
 const encoder = new TextEncoder();
+function matchAfterPrefix(buf, prefix, eof) {
+    if (buf.length === prefix.length) {
+        return eof ? 1 : 0;
+    }
+    const c = buf[prefix.length];
+    if (c === " ".charCodeAt(0) || c === "\t".charCodeAt(0) || c === "\r".charCodeAt(0) || c === "\n".charCodeAt(0) || c === "-".charCodeAt(0)) {
+        return 1;
+    }
+    return -1;
+}
 function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
     if (total === 0) {
         if (startsWith(buf, dashBoundary)) {

@@ -11,11 +11,9 @@ use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, prop_name_to_expr_value, undefined,
     ExprFactory, IdentExt,
 };
-use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod legacy;
-mod usage;
 
 /// ## Simple class decorator
 ///
@@ -162,7 +160,7 @@ impl Fold for Decorators {
     }
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
-        if !self::usage::has_decorator(&items) {
+        if !contains_decorator(&items) {
             return items;
         }
 
@@ -171,7 +169,7 @@ impl Fold for Decorators {
 
         let mut buf = Vec::with_capacity(items.len() + 4);
         items.into_iter().for_each(|item| {
-            if !self::usage::has_decorator(&item) {
+            if !contains_decorator(&item) {
                 buf.push(item);
                 return;
             }
@@ -643,8 +641,6 @@ struct DecoratorFinder {
     found: bool,
 }
 impl Visit for DecoratorFinder {
-    noop_visit_type!();
-
     fn visit_decorator(&mut self, _: &Decorator, _: &dyn Node) {
         self.found = true
     }

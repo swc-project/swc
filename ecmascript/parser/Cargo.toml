@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license = "Apache-2.0/MIT"
 name = "swc_ecma_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.53.0"
+version = "0.54.4"
 
 [features]
 default = []
@@ -21,16 +21,16 @@ num-bigint = "0.2"
 serde = {version = "1", features = ["derive"]}
 smallvec = "1"
 swc_atoms = {version = "0.2.3", path = "../../atoms"}
-swc_common = {version = "0.10.10", path = "../../common"}
-swc_ecma_ast = {version = "0.43.0", path = "../ast"}
-swc_ecma_visit = {version = "0.29.0", path = "../visit"}
+swc_common = {version = "0.10.16", path = "../../common"}
+swc_ecma_ast = {version = "0.43.1", path = "../ast"}
+swc_ecma_visit = {version = "0.29.1", path = "../visit"}
 unicode-xid = "0.2"
 
 [dev-dependencies]
 env_logger = "0.7"
 pretty_assertions = "0.6"
 serde_json = "1"
-testing = {version = "0.10.3", path = "../../testing"}
+testing = {version = "0.10.5", path = "../../testing"}
 walkdir = "2"
 
 [[example]]

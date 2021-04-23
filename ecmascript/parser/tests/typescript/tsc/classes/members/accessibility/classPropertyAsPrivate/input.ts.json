@@ -67,6 +67,7 @@
           "accessibility": "private",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -131,7 +132,8 @@
           "isStatic": false,
           "accessibility": "private",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -197,7 +199,8 @@
           "isStatic": false,
           "accessibility": "private",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -242,7 +245,8 @@
           "isStatic": false,
           "accessibility": "private",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassProperty",
@@ -285,6 +289,7 @@
           "accessibility": "private",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -349,7 +354,8 @@
           "isStatic": true,
           "accessibility": "private",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -415,7 +421,8 @@
           "isStatic": true,
           "accessibility": "private",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -460,7 +467,8 @@
           "isStatic": true,
           "accessibility": "private",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,

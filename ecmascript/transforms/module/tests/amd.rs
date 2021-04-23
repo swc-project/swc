@@ -34,7 +34,7 @@ obj[bar('bas')] = '123'",
     "define(['bar'], function(_bar) {
     'use strict';
     _bar = _interopRequireDefault(_bar);
-    obj[_bar.default('bas')] = '123';
+    obj[(0, _bar).default('bas')] = '123';
 });"
 );
 
@@ -835,7 +835,7 @@ define(["exports", "./evens"], function (_exports, _evens) {
   _exports.isOdd = void 0;
 
   function nextOdd(n) {
-    return _evens.isEven(n) ? n + 1 : n + 2;
+    return (0, _evens).isEven(n) ? n + 1 : n + 2;
   }
 
   var isOdd = function (isEven) {

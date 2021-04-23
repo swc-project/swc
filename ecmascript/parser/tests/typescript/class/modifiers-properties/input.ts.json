@@ -51,6 +51,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -96,6 +97,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": true,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -125,6 +127,7 @@
           "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -154,6 +157,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -183,6 +187,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -212,6 +217,7 @@
           "accessibility": "protected",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -241,6 +247,7 @@
           "accessibility": "private",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -270,6 +277,7 @@
           "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -299,6 +307,7 @@
           "accessibility": null,
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -328,6 +337,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -357,6 +367,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -386,6 +397,7 @@
           "accessibility": "public",
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -415,6 +427,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": false,
           "definite": false
@@ -444,6 +457,7 @@
           "accessibility": "public",
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -473,6 +487,7 @@
           "accessibility": "public",
           "isAbstract": true,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -502,6 +517,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": false,
           "definite": false
@@ -531,6 +547,7 @@
           "accessibility": "public",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": true,
           "definite": false
@@ -560,6 +577,7 @@
           "accessibility": "private",
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": true,
           "declare": true,
           "definite": false
@@ -589,6 +607,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": true,
           "definite": false
@@ -618,6 +637,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
+          "isOverride": false,
           "readonly": false,
           "declare": true,
           "definite": false

@@ -1,5 +1,5 @@
 function Component() {
-    return React.createElement("div", {
+    return( /*#__PURE__*/ React.createElement("div", {
         name: "A\n\n      B"
-    });
+    }));
 }

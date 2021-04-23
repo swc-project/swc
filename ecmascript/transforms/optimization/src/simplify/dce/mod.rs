@@ -561,6 +561,7 @@ impl VisitMut for Dce<'_> {
             || node.cases.iter().any(|case| self.is_marked(case.span))
         {
             node.span = node.span.apply_mark(self.config.used_mark);
+            self.mark(&mut node.discriminant);
             self.mark(&mut node.cases);
         }
     }

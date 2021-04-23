@@ -9,7 +9,6 @@ use ntest::timeout;
 use std::path::PathBuf;
 use std::{
     collections::{HashMap, HashSet},
-    env,
     fs::write,
     process::{Command, Stdio},
 };
@@ -960,7 +959,7 @@ fn reexport_01() {
 fn run(url: &str, exports: &[&str]) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
-    println!("{}", path.display());
+    // println!("{}", path.display());
 
     let src = bundle(url);
     write(&path, &src).unwrap();
@@ -984,9 +983,7 @@ fn run(url: &str, exports: &[&str]) {
     })
     .unwrap();
 
-    if env::var("CI").is_ok() {
-        return;
-    }
+    println!("{}", src);
 
     let output = Command::new("deno")
         .arg("run")
@@ -1155,14 +1152,12 @@ fn exec(input: PathBuf) {
     let src = bundle(&input.to_string_lossy());
     write(&path, &src).unwrap();
 
-    if env::var("CI").is_ok() {
-        return;
-    }
+    // println!("{}", src);
 
     let output = Command::new("deno")
         .arg("run")
-        .arg("--allow-all")
         .arg("--no-check")
+        .arg("--allow-net")
         .arg(&path)
         .stdout(Stdio::inherit())
         .stderr(Stdio::inherit())

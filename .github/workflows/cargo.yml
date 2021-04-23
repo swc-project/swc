@@ -155,6 +155,10 @@ jobs:
         with:
           node-version: 14
 
+      - uses: denolib/setup-deno@v2
+        with:
+          deno-version: v1.x
+
       - name: Checkout submodules
         shell: bash
         run: |
@@ -168,6 +172,7 @@ jobs:
           # This does not have any effect on windows.
           npm config set prefix $HOME/npm
           npm i browserslist regenerator-runtime sourcemap-validator progress
+          npm i
           npm i -g jest
           echo $HOME
           echo $HOME/npm/bin >> $GITHUB_PATH

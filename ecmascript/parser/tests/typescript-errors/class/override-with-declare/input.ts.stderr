@@ -1,0 +1,12 @@
+error: `declare` modifier cannot appear on a class element
+ --> $DIR/tests/typescript-errors/class/override-with-declare/input.ts:2:3
+  |
+2 |   declare override m1(): any
+  |   ^^^^^^^
+
+error: 'override' modifier cannot be used with 'declare' modifier.
+ --> $DIR/tests/typescript-errors/class/override-with-declare/input.ts:2:11
+  |
+2 |   declare override m1(): any
+  |           ^^^^^^^^
+

@@ -2,8 +2,8 @@ use super::graph::Required;
 use crate::id::Id;
 use crate::modules::sort::graph::StmtDepGraph;
 use crate::util::MapWithMut;
-use ahash::AHashMap;
-use ahash::AHashSet;
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Incoming as Dependants;
 use petgraph::EdgeDirection::Outgoing as Dependancies;
@@ -103,8 +103,8 @@ fn iter<'a>(
     // dbg!(&free);
     // dbg!(&module_starts);
 
-    let mut moves = AHashSet::new();
-    let mut done = AHashSet::new();
+    let mut moves = FxHashSet::default();
+    let mut done = FxHashSet::default();
     let mut stack = VecDeque::new();
     stack.extend(module_starts.iter().copied());
 
@@ -343,7 +343,7 @@ fn iter<'a>(
 struct FieldInitFinter {
     in_object_assign: bool,
     in_rhs: bool,
-    accessed: AHashSet<Id>,
+    accessed: FxHashSet<Id>,
 }
 
 impl FieldInitFinter {
@@ -643,8 +643,8 @@ fn calc_deps(new: &[ModuleItem]) -> StmtDepGraph {
     log::debug!("Analyzing dependencies between statements");
     let mut graph = StmtDepGraph::default();
 
-    let mut declared_by = AHashMap::<Id, Vec<usize>>::default();
-    let mut uninitialized_ids = AHashMap::<Id, usize>::new();
+    let mut declared_by = FxHashMap::<Id, Vec<usize>>::default();
+    let mut uninitialized_ids = FxHashMap::<Id, usize>::default();
 
     for (idx, item) in new.iter().enumerate() {
         graph.add_node(idx);

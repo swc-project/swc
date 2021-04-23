@@ -106,7 +106,8 @@
           "isStatic": false,
           "accessibility": "protected",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,
@@ -178,7 +179,8 @@
           "isStatic": false,
           "accessibility": "protected",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": {
@@ -296,7 +298,8 @@
           "isStatic": false,
           "accessibility": "public",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": {

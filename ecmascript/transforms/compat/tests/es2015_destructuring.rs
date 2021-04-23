@@ -86,7 +86,7 @@ test!(
 [{ a = 1 }] = foo"#,
     r#"let a;
 var ref, ref1, ref2;
-ref = foo, ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref;"#
+ref = foo, ref1 = ref[0], ref2 = ref1.a, a = ref2 === void 0 ? 1 : ref2, ref1, ref;"#
 );
 
 test!(
@@ -1118,7 +1118,7 @@ var x = z[x],
 
 var _o;
 var ref;
-_o = o, z = _objectWithoutProperties(_o, ['x', 'y']), ref = _o, x = ref.x, y = ref.y, _o;
+_o = o, z = _objectWithoutProperties(_o, ['x', 'y']), ref = _o, x = ref.x, y = ref.y, ref, _o;
 
 
 "#

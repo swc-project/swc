@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_optimization"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.14.0"
+version = "0.15.5"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -18,18 +18,18 @@ once_cell = "1.5.2"
 retain_mut = "0.1.2"
 serde_json = "1.0.61"
 swc_atoms = {version = "0.2", path = "../../../atoms"}
-swc_common = {version = "0.10.10", path = "../../../common"}
-swc_ecma_ast = {version = "0.43.0", path = "../../ast"}
-swc_ecma_parser = {version = "0.53.0", path = "../../parser"}
-swc_ecma_transforms_base = {version = "0.11.0", path = "../base"}
-swc_ecma_utils = {version = "0.34.0", path = "../../utils"}
-swc_ecma_visit = {version = "0.29.0", path = "../../visit"}
+swc_common = {version = "0.10.16", path = "../../../common"}
+swc_ecma_ast = {version = "0.43.1", path = "../../ast"}
+swc_ecma_parser = {version = "0.54.3", path = "../../parser"}
+swc_ecma_transforms_base = {version = "0.12.6", path = "../base"}
+swc_ecma_utils = {version = "0.34.1", path = "../../utils"}
+swc_ecma_visit = {version = "0.29.1", path = "../../visit"}
 
 [dev-dependencies]
-swc_ecma_transforms_compat = {version = "0.12.0", path = "../compat"}
-swc_ecma_transforms_module = {version = "0.12.0", path = "../module"}
-swc_ecma_transforms_proposal = {version = "0.12.0", path = "../proposal"}
-swc_ecma_transforms_react = {version = "0.13.0", path = "../react"}
-swc_ecma_transforms_testing = {version = "0.11.0", path = "../testing"}
-swc_ecma_transforms_typescript = {version = "0.13.0", path = "../typescript"}
-testing = {version = "0.10.0", path = "../../../testing"}
+swc_ecma_transforms_compat = {version = "0.13.3", path = "../compat"}
+swc_ecma_transforms_module = {version = "0.13.3", path = "../module"}
+swc_ecma_transforms_proposal = {version = "0.13.3", path = "../proposal"}
+swc_ecma_transforms_react = {version = "0.14.3", path = "../react"}
+swc_ecma_transforms_testing = {version = "0.12.3", path = "../testing"}
+swc_ecma_transforms_typescript = {version = "0.14.4", path = "../typescript"}
+testing = {version = "0.10.5", path = "../../../testing"}

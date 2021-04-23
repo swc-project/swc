@@ -1340,6 +1340,7 @@ fn test_object_literal() {
     test("({a:1})", "");
     test("({a:foo()})", "foo()");
     test("({'a':foo()})", "foo()");
+    test("({}).foo", "({}).foo");
     // Object-spread may trigger getters.
     test_same("({...a})");
     test_same("({...foo()})");
@@ -1738,5 +1739,24 @@ fn nested_block_stmt() {
         "if (Date.now() < 0) {
             for(let i = 0; i < 10; i++)if (Date.now() < 0) console.log(1);
         } else console.log(2);",
+    );
+}
+
+#[test]
+fn return_function_hoisting() {
+    test(
+        "function test() {
+            return foo();
+            function foo() {
+                return 2;
+            }
+            console.log('hi');
+        }",
+        "function test() {
+            function foo() {
+                return 2;
+            }
+            return foo();
+        }",
     );
 }

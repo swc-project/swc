@@ -582,9 +582,9 @@ var Hello = function Hello() {
   };
 };
 
-var Outer = function (Hello) {
+var Outer = function (Hello1) {
   'use strict';
-  _inherits(Outer, Hello);
+  _inherits(Outer, Hello1);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -892,10 +892,10 @@ function () {
 
 var B =
 /*#__PURE__*/
-function (A) {
+function (A1) {
   'use strict';
 
-  _inherits(B, A);
+  _inherits(B, A1);
 
   function B() {
     _classCallCheck(this, B);
@@ -1717,10 +1717,10 @@ var _prop1 = new WeakMap();
 
 var Bar =
 /*#__PURE__*/
-function (Foo) {
+function (Foo1) {
   'use strict';  
 
-  _inherits(Bar, Foo);
+  _inherits(Bar, Foo1);
 
   function Bar() {
     _classCallCheck(this, Bar);
@@ -1779,10 +1779,10 @@ var A = function () {
 
 var B =
 /*#__PURE__*/
-function (A) {
+function (A1) {
   'use strict';
 
-  _inherits(B, A);
+  _inherits(B, A1);
 
   function B() {
     _classCallCheck(this, B);
@@ -1898,9 +1898,9 @@ var Hello = function () {
   return Hello;
 }();
 
-var Outer = function (Hello) {
+var Outer = function (Hello1) {
   'use strict';
-  _inherits(Outer, Hello);
+  _inherits(Outer, Hello1);
 
   function Outer() {
     _classCallCheck(this, Outer);
@@ -3942,7 +3942,7 @@ class SuperClass extends Obj {
   constructor() {
     var _temp;
 
-    class B extends (_temp = super(), _defineProperty(this, 'field', 1), Obj) {
+    class B extends (_temp = super(), _defineProperty(this, 'field', 1), _temp, Obj) {
       constructor() {
         super();
         expect(this.field).toBeUndefined();
@@ -4600,10 +4600,10 @@ _defineProperty(A, "prop", 1);
 
 var B =
 /*#__PURE__*/
-function (A) {
+function (A1) {
   "use strict";
 
-  _inherits(B, A);
+  _inherits(B, A1);
 
   function B() {
     _classCallCheck(this, B);

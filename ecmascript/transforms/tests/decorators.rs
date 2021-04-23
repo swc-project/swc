@@ -5214,7 +5214,7 @@ class Demo {
     "
 'use strict';
 var _moduleAJs = require('./moduleA.js');
-let Demo = _decorate([_moduleAJs.default('0.0.1')], function(_initialize) {
+let Demo = _decorate([(0, _moduleAJs).default('0.0.1')], function(_initialize) {
   class Demo{
       constructor(){
           _initialize(this);
@@ -5702,4 +5702,31 @@ test!(
         initializer: void 0
     }), _class);
     "
+);
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1456_1,
+    "
+    class MyClass {
+      constructor(@Inject() param1: Injected) {}
+    }
+    ",
+    r#"
+    var _class;
+    var _dec = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+        typeof Injected === "undefined" ? Object : Injected
+    ]), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = function(target, key) {
+        return Inject()(target, undefined, 0);
+    };
+    let MyClass = _class = _dec2(_class = _dec1(_class = _dec((_class = class MyClass {
+        constructor(param1: Injected){
+        }
+    }) || _class) || _class) || _class) || _class;
+    "#
 );

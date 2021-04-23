@@ -9,6 +9,8 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
@@ -323,6 +325,7 @@ impl Scope {
                     ))
                 });
 
+            let mut has_non_default = false;
             for s in import.specifiers {
                 match s {
                     ImportSpecifier::Namespace(..) => unreachable!(
@@ -330,7 +333,7 @@ impl Scope {
                     ),
                     ImportSpecifier::Default(i) => {
                         self.idents.insert(
-                            (i.local.sym.clone(), i.local.span.ctxt()),
+                            i.local.to_id(),
                             (import.src.value.clone(), js_word!("default")),
                         );
                         self.import_types
@@ -344,16 +347,15 @@ impl Scope {
                         let name = imported.map(|i| i.sym).unwrap_or_else(|| local.sym.clone());
                         let is_default = name == js_word!("default");
 
-                        self.idents.insert(
-                            (local.sym.clone(), local.span.ctxt()),
-                            (import.src.value.clone(), name),
-                        );
+                        self.idents
+                            .insert(local.to_id(), (import.src.value.clone(), name));
 
                         if is_default {
                             self.import_types
                                 .entry(import.src.value.clone())
-                                .or_insert(false);
+                                .or_insert(has_non_default);
                         } else {
+                            has_non_default = true;
                             self.import_types
                                 .entry(import.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -381,10 +383,7 @@ impl Scope {
     }
 
     fn fold_ident(folder: &mut impl ModulePass, top_level: bool, i: Ident) -> Result<Expr, Ident> {
-        let v = {
-            let v = folder.scope().idents.get(&(i.sym.clone(), i.span.ctxt()));
-            v.cloned()
-        };
+        let v = folder.scope().idents.get(&i.to_id()).cloned();
         match v {
             None => Err(i),
             Some((src, prop)) => {
@@ -489,7 +488,54 @@ impl Scope {
                     _ => false,
                 } =>
             {
-                return folder.make_dynamic_import(span, args)
+                folder.make_dynamic_import(span, args)
+            }
+
+            Expr::Call(CallExpr {
+                span,
+                callee,
+                args,
+                type_args,
+            }) => {
+                let callee = if let ExprOrSuper::Expr(expr) = callee {
+                    let callee = if let Expr::Ident(ident) = *expr {
+                        match Self::fold_ident(folder, top_level, ident) {
+                            Ok(mut expr) => {
+                                if let Expr::Member(member) = &mut expr {
+                                    if let ExprOrSuper::Expr(expr) = &mut member.obj {
+                                        if let Expr::Ident(ident) = expr.as_mut() {
+                                            member.obj = ExprOrSuper::Expr(Box::new(Expr::Paren(
+                                                ParenExpr {
+                                                    expr: Box::new(Expr::Seq(SeqExpr {
+                                                        span,
+                                                        exprs: vec![
+                                                            Box::new(0_f64.into()),
+                                                            Box::new(ident.take().into()),
+                                                        ],
+                                                    })),
+                                                    span,
+                                                },
+                                            )))
+                                        }
+                                    }
+                                };
+                                expr
+                            }
+                            Err(ident) => Expr::Ident(ident),
+                        }
+                    } else {
+                        *expr.fold_with(folder)
+                    };
+                    ExprOrSuper::Expr(Box::new(callee))
+                } else {
+                    callee.fold_with(folder)
+                };
+                Expr::Call(CallExpr {
+                    span,
+                    callee,
+                    args: args.fold_with(folder),
+                    type_args,
+                })
             }
 
             Expr::Member(e) => {

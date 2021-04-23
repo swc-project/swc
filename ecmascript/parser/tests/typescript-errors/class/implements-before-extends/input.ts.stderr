@@ -1,0 +1,6 @@
+error: 'extends' clause must precede 'implements' clause.
+ --> $DIR/tests/typescript-errors/class/implements-before-extends/input.ts:1:22
+  |
+1 | class C implements A extends B {}
+  |                      ^^^^^^^
+

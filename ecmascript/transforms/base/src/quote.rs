@@ -3,16 +3,13 @@
 #[macro_export]
 macro_rules! external_name {
     ("typeof") => {
-        "_typeof"
+        "typeOf"
     };
     ("instanceof") => {
         "_instanceof"
     };
     ("throw") => {
         "_throw"
-    };
-    ("extends") => {
-        "_extends"
     };
     ($s:literal) => {
         $s

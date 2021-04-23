@@ -86,9 +86,9 @@ fn config_for_file(b: &mut Bencher) {
     b.iter(|| {
         black_box(c.config_for_file(
             &Options {
-                config: Some(Config {
+                config: Config {
                     jsc: JscConfig {
-                        target: JscTarget::Es2016,
+                        target: Some(JscTarget::Es2016),
                         syntax: Some(Syntax::Typescript(TsConfig {
                             ..Default::default()
                         })),
@@ -96,7 +96,7 @@ fn config_for_file(b: &mut Bencher) {
                     },
                     module: None,
                     ..Default::default()
-                }),
+                },
                 swcrc: false,
                 is_module: true,
                 ..Default::default()
@@ -165,9 +165,9 @@ macro_rules! compat {
             bench_full(
                 b,
                 &Options {
-                    config: Some(Config {
+                    config: Config {
                         jsc: JscConfig {
-                            target: $target,
+                            target: Some($target),
                             syntax: Some(Syntax::Typescript(TsConfig {
                                 ..Default::default()
                             })),
@@ -175,7 +175,7 @@ macro_rules! compat {
                         },
                         module: None,
                         ..Default::default()
-                    }),
+                    },
                     swcrc: false,
                     is_module: true,
                     ..Default::default()
@@ -207,9 +207,9 @@ macro_rules! tr_only {
                 let mut config = c
                     .config_for_file(
                         &Options {
-                            config: Some(Config {
+                            config: Config {
                                 jsc: JscConfig {
-                                    target: $target,
+                                    target: Some($target),
                                     syntax: Some(Syntax::Typescript(TsConfig {
                                         ..Default::default()
                                     })),
@@ -217,7 +217,7 @@ macro_rules! tr_only {
                                 },
                                 module: None,
                                 ..Default::default()
-                            }),
+                            },
                             swcrc: false,
                             is_module: true,
                             ..Default::default()

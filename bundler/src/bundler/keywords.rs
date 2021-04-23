@@ -1,6 +1,6 @@
 use crate::id::Id;
 use crate::util::MapWithMut;
-use ahash::AHashMap;
+use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
@@ -10,7 +10,7 @@ use swc_ecma_visit::VisitMutWith;
 
 #[derive(Default)]
 pub struct KeywordRenamer {
-    renamed: AHashMap<Id, Ident>,
+    renamed: FxHashMap<Id, Ident>,
 }
 
 impl KeywordRenamer {

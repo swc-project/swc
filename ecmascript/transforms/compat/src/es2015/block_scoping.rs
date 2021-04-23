@@ -10,8 +10,8 @@ use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::{
-    contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector, ExprFactory, Id,
-    StmtLike,
+    contains_arguments, contains_this_expr, find_ids, ident::IdentLike, prepend, var::VarCollector,
+    ExprFactory, Id, StmtLike,
 };
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{
@@ -147,6 +147,19 @@ impl BlockScoping {
                     None
                 };
 
+                let arguments = if contains_arguments(&body) {
+                    let ident = private_ident!("_arguments");
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(ident.clone().into()),
+                        init: Some(Box::new(Expr::Ident(quote_ident!("arguments")))),
+                        definite: false,
+                    });
+                    Some(ident)
+                } else {
+                    None
+                };
+
                 let mut flow_helper = FlowHelper {
                     all: &args,
                     has_continue: false,
@@ -164,12 +177,13 @@ impl BlockScoping {
                     },
                 };
 
-                if !flow_helper.mutated.is_empty() || this.is_some() {
+                if !flow_helper.mutated.is_empty() || this.is_some() || arguments.is_some() {
                     let no_modification = flow_helper.mutated.is_empty();
                     let mut v = MutationHandler {
                         map: &mut flow_helper.mutated,
                         in_function: false,
                         this,
+                        arguments,
                     };
 
                     // Modifies identifiers, and add reassignments to break / continue / return
@@ -868,6 +882,7 @@ struct MutationHandler<'a> {
     map: &'a mut HashMap<Id, SyntaxContext>,
     in_function: bool,
     this: Option<Ident>,
+    arguments: Option<Ident>,
 }
 
 impl MutationHandler<'_> {
@@ -921,6 +936,11 @@ impl VisitMut for MutationHandler<'_> {
                     ))
                 }
             }
+            Expr::Ident(id) if id.sym == js_word!("arguments") => {
+                if let Some(arguments) = &self.arguments {
+                    *n = Expr::Ident(arguments.clone())
+                }
+            }
             _ => {}
         }
     }
@@ -936,14 +956,17 @@ impl VisitMut for MutationHandler<'_> {
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         let old = self.in_function;
+        let arguments = self.arguments.take();
         self.in_function = true;
 
         n.visit_mut_children_with(self);
 
         self.in_function = old;
+        self.arguments = arguments;
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
+        n.visit_mut_children_with(self);
         if self.in_function || self.map.is_empty() {
             return;
         }
@@ -951,6 +974,15 @@ impl VisitMut for MutationHandler<'_> {
         let val = n.arg.take();
 
         n.arg = Some(Box::new(self.make_reassignment(val)))
+    }
+
+    /// Don't recurse into member expression prop if not computed
+    fn visit_mut_member_expr(&mut self, m: &mut MemberExpr) {
+        m.obj.visit_mut_with(self);
+        match &*m.prop {
+            Expr::Ident(_) if !m.computed => {}
+            _ => m.prop.visit_mut_with(self),
+        }
     }
 }
 
@@ -1288,7 +1320,7 @@ expect(foo()).toBe(false);
             console.log(i1++, [
                 2
             ].every(function(x) {
-                return x != i;
+                return x != i1;
             }));
             i = i1, void 0;
         };
@@ -1319,9 +1351,9 @@ expect(foo()).toBe(false);
             console.log(i1++, [
                 2
             ].every(function(x) {
-                return x != i;
+                return x != i1;
             }));
-            if (i1 % 2 === 0) return (i = i1, "continue");
+            if (i1 % 2 === 0) return i = i1, "continue";
             i = i1, void 0;
         };
         for(var i = 0; i < 5; i++){
@@ -1354,9 +1386,9 @@ expect(foo()).toBe(false);
             console.log(i1++, [
                 2
             ].every(function(x) {
-                return x != i;
+                return x != i1;
             }));
-            if (i1 % 2 === 0) return (i = i1, "break");
+            if (i1 % 2 === 0) return i = i1, "break";
             i = i1, void 0;
         };
         for(var i = 0; i < 5; i++){
@@ -1666,6 +1698,134 @@ expect(foo()).toBe(false);
                 }
                 return infoMap.get(item);
             }
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        arguments_loop,
+        "
+        function test() {
+            for (var i = 0; i < arguments.length; i++) {
+              var arg = arguments[i];
+              console.log((() => arg)());
+            }
+        }
+        ",
+        "
+        function test() {
+            var _arguments = arguments, _loop = function(i) {
+                var arg = _arguments[i];
+                console.log(function() {
+                    return arg;
+                }());
+            };
+            for(var i = 0; i < arguments.length; i++)_loop(i);
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        arguments_loop_member,
+        "
+        function test(a) {
+            for (var i = 0; i < a.arguments.length; i++) {
+              var arg = a.arguments[i];
+              console.log((() => arg)());
+            }
+        }
+        ",
+        "
+        function test(a) {
+            var _loop = function(i) {
+                var arg = a.arguments[i];
+                console.log(function() {
+                    return arg;
+                }());
+            };
+            for(var i = 0; i < a.arguments.length; i++)_loop(i);
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        arguments_arrow,
+        "
+        function test() {
+            for (var i = 0; i < arguments.length; i++) {
+              console.log((() => arguments[i])());
+            }
+        }
+        ",
+        "
+        function test() {
+            var _this = this, _arguments = arguments, _loop = function(i) {
+                console.log((function(_arguments1) {
+                    return _arguments1[i];
+                }).bind(_this, _arguments)());
+            };
+            for(var i = 0; i < arguments.length; i++)_loop(i);
+        }
+        "
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| {
+            let mark = Mark::fresh(Mark::root());
+            es2015::es2015(
+                mark,
+                es2015::Config {
+                    ..Default::default()
+                },
+            )
+        },
+        arguments_function,
+        "
+        function test() {
+            for (var i = 0; i < arguments.length; i++) {
+              console.log((function () { return arguments[i] })());
+            }
+        }
+        ",
+        "
+        function test() {
+            var _loop = function(i) {
+                console.log(function() {
+                    return arguments[i];
+                }());
+            };
+            for(var i = 0; i < arguments.length; i++)_loop(i);
         }
         "
     );

@@ -15,10 +15,9 @@ use crate::{
     util::{self, CloneMap, ExprExt, IntoParallelIterator, MapWithMut, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
-use ahash::AHashMap;
-use ahash::AHashSet;
-use ahash::RandomState;
 use anyhow::{Context, Error};
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use petgraph::graphmap::DiGraphMap;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
@@ -33,7 +32,7 @@ pub(super) struct Ctx {
     pub graph: DiGraphMap<ModuleId, ()>,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
-    pub export_stars_in_wrapped: Lock<AHashMap<ModuleId, Vec<SyntaxContext>>>,
+    pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -537,6 +536,40 @@ where
             // Handle `export *` for non-wrapped modules.
 
             let mut vars = vec![];
+            /// We recurse if `export *` is nested.
+            fn add_var(
+                injected_ctxt: SyntaxContext,
+                vars: &mut Vec<(ModuleId, ModuleItem)>,
+                declared: &mut FxHashSet<Id>,
+                map: &CloneMap<SyntaxContext, SyntaxContext>,
+                module_id: ModuleId,
+                id: Id,
+            ) {
+                let remapped = match map.get(&id.ctxt()) {
+                    Some(v) => v,
+                    _ => return,
+                };
+                let reexported = id.clone().with_ctxt(remapped);
+
+                add_var(
+                    injected_ctxt,
+                    vars,
+                    declared,
+                    map,
+                    module_id,
+                    reexported.clone(),
+                );
+
+                if !declared.insert(reexported.clone()) {
+                    return;
+                }
+
+                vars.push((
+                    module_id,
+                    id.assign_to(reexported)
+                        .into_module_item(injected_ctxt, "export_star_replacer"),
+                ));
+            }
 
             // We have to exlcude some ids because there are already declared.
             // See https://github.com/denoland/deno/issues/8725
@@ -545,7 +578,7 @@ where
             // If an user import and export from D, the transitive syntax context map
             // contains a entry from D to foo because it's reexported and
             // the variable (reexported from D) exist because it's imported.
-            let mut declared_ids = AHashSet::<_, RandomState>::default();
+            let mut declared_ids = FxHashSet::<_>::default();
 
             for (_, stmt) in entry.iter() {
                 match stmt {
@@ -599,19 +632,14 @@ where
                                 continue;
                             }
 
-                            if let Some(remapped) = ctx.transitive_remap.get(&id.ctxt()) {
-                                let reexported = id.clone().with_ctxt(remapped);
-
-                                if declared_ids.contains(&reexported) {
-                                    continue;
-                                }
-
-                                vars.push((
-                                    module_id,
-                                    id.assign_to(reexported)
-                                        .into_module_item(injected_ctxt, "export_star_replacer"),
-                                ));
-                            }
+                            add_var(
+                                injected_ctxt,
+                                &mut vars,
+                                &mut declared_ids,
+                                &ctx.transitive_remap,
+                                module_id,
+                                id,
+                            );
                         }
                     }
 
@@ -624,7 +652,7 @@ where
 
         {
             let mut map = ctx.export_stars_in_wrapped.lock();
-            let mut additional_props = AHashMap::<_, Vec<_>>::new();
+            let mut additional_props = FxHashMap::<_, Vec<_>>::default();
             // Handle `export *` for wrapped modules.
             for (module_id, ctxts) in map.drain() {
                 for (_, stmt) in entry.iter() {
@@ -729,8 +757,6 @@ where
         log::debug!("All modules are merged");
         self.handle_reexport_of_entry(ctx, id, entry);
 
-        // print_hygiene("before sort", &self.cm, &entry.clone().into());
-
         // print_hygiene("before inline", &self.cm, &entry.clone().into());
 
         inline(self.injected_ctxt, entry);
@@ -830,6 +856,8 @@ where
         if !info.is_es6 {
             return;
         }
+
+        let mut extra = vec![];
 
         module.map_any_items(|_, items| {
             let mut new = Vec::with_capacity(items.len() * 11 / 10);
@@ -1012,7 +1040,7 @@ where
                             orig: local,
                             exported: Some(exported),
                         });
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -1059,7 +1087,7 @@ where
                             exported: Some(exported),
                         });
                         log::trace!("Exporting `default` with `export default expr`");
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -1131,7 +1159,7 @@ where
                                         type_only: false,
                                         asserts: None,
                                     }));
-                                new.push(export);
+                                extra.push(export);
                                 continue;
                             }
 
@@ -1163,7 +1191,7 @@ where
                             exported: Some(exported),
                         });
 
-                        new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                        extra.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
                             NamedExport {
                                 span: export.span.with_ctxt(injected_ctxt),
                                 specifiers: vec![specifier],
@@ -1226,6 +1254,10 @@ where
 
             new
         });
+
+        for item in extra {
+            module.append(info.id, item);
+        }
 
         // print_hygiene(
         //     &format!("prepared: {}", info.fm.name),
@@ -1522,7 +1554,8 @@ where
 
                         ModuleDecl::ExportAll(ref export) => {
                             let export_ctxt = export.span.ctxt;
-                            ctx.transitive_remap.insert(export_ctxt, info.export_ctxt());
+                            let reexport = self.scope.get_module(module_id).unwrap().export_ctxt();
+                            ctx.transitive_remap.insert(export_ctxt, reexport);
 
                             ModuleItem::ModuleDecl(decl)
                         }

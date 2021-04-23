@@ -105,11 +105,11 @@ expect(Foo.name).toBe('Foo');
 "#,
     r#"
 var Foo = function() {
-  var Foo = function() {
-   _classCallCheck(this, Foo);
+  var Foo1 = function() {
+   _classCallCheck(this, Foo1);
   };
-  _defineProperty(Foo, 'num', 0);
-  return Foo;
+  _defineProperty(Foo1, 'num', 0);
+  return Foo1;
 }();
 expect(Foo.num).toBe(0);
 expect(Foo.num = 1).toBe(1);
@@ -315,7 +315,7 @@ function (_Component) {
   _createClass(Login, [{
     key: "getForm",
     value: function getForm() {
-      return _store.getForm().toJS();
+      return (0, _store).getForm().toJS();
     }
   }]);
   return Login;

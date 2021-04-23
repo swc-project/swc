@@ -349,6 +349,7 @@
                   "accessibility": "public",
                   "isAbstract": false,
                   "isOptional": false,
+                  "isOverride": false,
                   "readonly": false,
                   "declare": false,
                   "definite": false
@@ -386,6 +387,7 @@
                   "accessibility": "public",
                   "isAbstract": false,
                   "isOptional": false,
+                  "isOverride": false,
                   "readonly": false,
                   "declare": false,
                   "definite": false
@@ -423,6 +425,7 @@
                   "accessibility": "public",
                   "isAbstract": false,
                   "isOptional": false,
+                  "isOverride": false,
                   "readonly": false,
                   "declare": false,
                   "definite": false
@@ -652,7 +655,8 @@
                   "isStatic": false,
                   "accessibility": "public",
                   "isAbstract": false,
-                  "isOptional": false
+                  "isOptional": false,
+                  "isOverride": false
                 }
               ],
               "superClass": null,
@@ -2447,7 +2451,8 @@
                 "isStatic": false,
                 "accessibility": "public",
                 "isAbstract": false,
-                "isOptional": false
+                "isOptional": false,
+                "isOverride": false
               }
             ],
             "superClass": null,
@@ -2570,6 +2575,7 @@
                   "accessibility": "private",
                   "isAbstract": false,
                   "isOptional": false,
+                  "isOverride": false,
                   "readonly": false,
                   "declare": false,
                   "definite": false
@@ -3093,7 +3099,8 @@
                   "isStatic": false,
                   "accessibility": "public",
                   "isAbstract": false,
-                  "isOptional": false
+                  "isOptional": false,
+                  "isOverride": false
                 },
                 {
                   "type": "ClassMethod",
@@ -3438,7 +3445,8 @@
                   "isStatic": false,
                   "accessibility": "public",
                   "isAbstract": false,
-                  "isOptional": false
+                  "isOptional": false,
+                  "isOverride": false
                 },
                 {
                   "type": "ClassMethod",
@@ -3882,7 +3890,8 @@
                   "isStatic": false,
                   "accessibility": "private",
                   "isAbstract": false,
-                  "isOptional": false
+                  "isOptional": false,
+                  "isOverride": false
                 },
                 {
                   "type": "ClassMethod",
@@ -16081,7 +16090,8 @@
                   "isStatic": false,
                   "accessibility": "private",
                   "isAbstract": false,
-                  "isOptional": false
+                  "isOptional": false,
+                  "isOverride": false
                 }
               ],
               "superClass": null,

@@ -1,0 +1,24 @@
+{
+  "test": ".*.ts$",
+  "jsc": {
+    "loose": true,
+    "target": "es2018",
+    "parser": {
+      "syntax": "typescript",
+      "tsx": false,
+      "decorators": true,
+      "dynamicImport": true
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true
+    }
+  },
+  "module": {
+    "type": "commonjs",
+    "strict": true,
+    "strictMode": false,
+    "lazy": false,
+    "noInterop": false
+  }
+}

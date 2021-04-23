@@ -1013,13 +1013,34 @@ impl SourceMap {
         mappings: &mut Vec<(BytePos, LineCol)>,
         orig: Option<&sourcemap::SourceMap>,
     ) -> sourcemap::SourceMap {
+        self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
+    }
+
+    #[cfg(feature = "sourcemap")]
+    pub fn build_source_map_with_config(
+        &self,
+        mappings: &mut Vec<(BytePos, LineCol)>,
+        orig: Option<&sourcemap::SourceMap>,
+        config: impl SourceMapGenConfig,
+    ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
+
+        let mut src_id = 0u32;
+
+        if let Some(orig) = orig {
+            for (idx, src) in orig.sources().enumerate() {
+                builder.set_source(idx as _, src);
+                src_id = idx as u32 + 1;
+            }
+            for (idx, contents) in orig.source_contents().enumerate() {
+                builder.set_source_contents(idx as _, contents);
+            }
+        }
 
         // // This method is optimized based on the fact that mapping is sorted.
         // mappings.sort_by_key(|v| v.0);
 
         let mut cur_file: Option<Lrc<SourceFile>> = None;
-        let mut src_id = 0;
 
         let mut ch_start = 0;
         let mut line_ch_start = 0;
@@ -1038,7 +1059,7 @@ impl SourceMap {
                 Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
                 _ => {
                     f = self.lookup_source_file(pos);
-                    src_id = builder.add_source(&f.name.to_string());
+                    src_id = builder.add_source(&config.file_name_to_source(&f.name));
                     builder.set_source_contents(src_id, Some(&f.src));
                     cur_file = Some(f.clone());
                     ch_start = 0;
@@ -1136,6 +1157,42 @@ impl FilePathMapping {
         }
 
         (path, false)
+    }
+}
+
+pub trait SourceMapGenConfig {
+    /// # Returns
+    ///
+    /// File path to used in `SourceMap.sources`.
+    ///
+    /// This should **not** return content of the file.
+    fn file_name_to_source(&self, f: &FileName) -> String;
+}
+
+#[derive(Debug, Clone)]
+pub struct DefaultSourceMapGenConfig;
+
+macro_rules! impl_ref {
+    ($TP:ident, $T:ty) => {
+        impl<$TP> SourceMapGenConfig for $T
+        where
+            $TP: SourceMapGenConfig,
+        {
+            fn file_name_to_source(&self, f: &FileName) -> String {
+                (**self).file_name_to_source(f)
+            }
+        }
+    };
+}
+
+impl_ref!(T, &'_ T);
+impl_ref!(T, Box<T>);
+impl_ref!(T, std::rc::Rc<T>);
+impl_ref!(T, std::sync::Arc<T>);
+
+impl SourceMapGenConfig for DefaultSourceMapGenConfig {
+    fn file_name_to_source(&self, f: &FileName) -> String {
+        f.to_string()
     }
 }
 

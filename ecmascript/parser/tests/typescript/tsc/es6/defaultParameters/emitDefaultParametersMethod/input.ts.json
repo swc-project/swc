@@ -326,7 +326,8 @@
           "isStatic": false,
           "accessibility": "public",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -480,7 +481,8 @@
           "isStatic": false,
           "accessibility": "public",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -564,7 +566,8 @@
           "isStatic": false,
           "accessibility": "public",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         },
         {
           "type": "ClassMethod",
@@ -682,7 +685,8 @@
           "isStatic": false,
           "accessibility": "public",
           "isAbstract": false,
-          "isOptional": false
+          "isOptional": false,
+          "isOverride": false
         }
       ],
       "superClass": null,

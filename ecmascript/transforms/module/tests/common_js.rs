@@ -132,7 +132,7 @@ test!(
 obj[bar('bas')] = '123'",
     "'use strict';
 var _bar = _interopRequireDefault(require('bar'));
-obj[_bar.default('bas')] = '123';"
+obj[(0, _bar).default('bas')] = '123';"
 );
 
 test!(
@@ -337,7 +337,7 @@ exports.isOdd = void 0;
 var _evens = require("./evens");
 
 function nextOdd(n) {
-  return _evens.isEven(n) ? n + 1 : n + 2;
+  return (0, _evens).isEven(n) ? n + 1 : n + 2;
 }
 
 var isOdd = function (isEven) {
@@ -727,7 +727,7 @@ foo();
 
 var _foo = require("foo");
 
-_foo.default();
+(0, _foo).default();
 
 "#
 );
@@ -1580,15 +1580,15 @@ var Bar = _interopRequireWildcard(require("bar"));
 
 var _baz = require("baz");
 
-Foo = (function() {
+Foo = (42, (function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
-})();
-Bar = (function() {
+})());
+Bar = (43, (function() {
     throw new Error('"' + 'Bar' + '" is read-only.');
-})();
-Baz = (function() {
+})());
+Baz = (44, (function() {
     throw new Error('"' + 'Baz' + '" is read-only.');
-})();
+})());
 ({ Foo  } = ( {
 }, (function() {
     throw new Error('"' + 'Foo' + '" is read-only.');
@@ -2100,9 +2100,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function foo() {}
-
 exports.default = foo;
+
+function foo() {}
 
 "#
 );
@@ -2313,7 +2313,7 @@ var foo4 = _interopRequireWildcard(require("foo"));
 foo4.default;
 foo4.default;
 foo4.foo3;
-foo4.foo3();
+(0, foo4).foo3();
 
 "#
 );
@@ -4072,7 +4072,7 @@ Object.defineProperty(exports, '__esModule', {
 exports.setup = setup;
 var _url = require('./url');
 function setup(url: string, obj: any) {
-    const _queryString = _url.queryString(obj);
+    const _queryString = (0, _url).queryString(obj);
     const _url1 = url + '?' + _queryString;
     return _url1;
 }"
@@ -4392,7 +4392,7 @@ function Thing() {
 _createClass(Thing, [{
   key: "handleCopySomething",
   value: function handleCopySomething() {
-    _copyPaste.copy();
+    (0, _copyPaste).copy();
   }
 }, {
   key: "completelyUnrelated",
@@ -4499,7 +4499,7 @@ function myGenerator() {
                   1,
                   2,
                   3
-              ], _ctx.t0, 1);
+              ], \"t0\", 1);
           case 1:
           case 'end':
               return _ctx.stop();
@@ -4617,5 +4617,77 @@ test!(
     "
     'use strict';
     var ora = _interopRequireWildcard(require('ora'));
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1568_1,
+    "
+    export default function get(key) {
+      console.log(key);
+    }
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+      value: true
+    });
+
+    exports.default = get;
+
+    function get(key) {
+      console.log(key);
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1568_2,
+    "
+    export function get(key) {
+      console.log(key);
+    }
+
+    export default a;
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+      value: true
+    });
+    exports.get = get;
+    exports.default = void 0;
+    
+    function get(key) {
+      console.log(key);
+    }
+    
+    var _default = a;
+    exports.default = _default;
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1588_1,
+    "
+    import { Component, default as React } from 'react';
+
+    class X extends Component {
+    }
+
+    React.render();
+    ",
+    "
+    'use strict';
+    var _react = _interopRequireWildcard(require('react'));
+    class X extends _react.Component {
+    }
+    _react.default.render();
     "
 );

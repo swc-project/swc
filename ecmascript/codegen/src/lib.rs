@@ -1812,12 +1812,18 @@ impl<'a> Emitter<'a> {
     fn emit_object_pat(&mut self, node: &ObjectPat) -> Result {
         self.emit_leading_comments_of_pos(node.span().lo(), false)?;
 
+        let is_last_rest = match node.props.last() {
+            Some(ObjectPatProp::Rest(..)) => true,
+            _ => false,
+        };
+        let format = if is_last_rest {
+            ListFormat::ObjectBindingPatternElements ^ ListFormat::AllowTrailingComma
+        } else {
+            ListFormat::ObjectBindingPatternElements
+        };
+
         punct!("{");
-        self.emit_list(
-            node.span(),
-            Some(&node.props),
-            ListFormat::ObjectBindingPatternElements,
-        )?;
+        self.emit_list(node.span(), Some(&node.props), format)?;
         punct!("}");
         if node.optional {
             punct!("?");

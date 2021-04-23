@@ -15,6 +15,8 @@ use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
 
+use crate::es2015::regenerator;
+
 struct ParenRemover;
 impl Fold for ParenRemover {
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -227,15 +229,15 @@ function _s() {
         for(let _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
             args[_key - 1] = arguments[_key];
         }
-        let t = (function(y, a) {
-            var _ref = _asyncToGenerator((function*(y, a) {
+        let t = (function(_arguments, y, a) {
+            var _ref = _asyncToGenerator((function*(_arguments, y, a) {
                 let r = (function(z, b) {
                     var _ref1 = _asyncToGenerator((function*(z, b) {
                         for(let _len1 = arguments.length, innerArgs = new Array(_len1 > 2 ? _len1 - 2 : 0), _key1 = 2; _key1 < _len1; _key1++){
                             innerArgs[_key1 - 2] = arguments[_key1];
                         }
                         yield z;
-                        console.log(this, innerArgs, arguments);
+                        console.log(this, innerArgs, _arguments);
                         return this.x;
                     }).bind(this));
                     return function() {
@@ -243,13 +245,13 @@ function _s() {
                     };
                 })().bind(this);
                 yield r();
-                console.log(this, args, arguments);
+                console.log(this, args, _arguments);
                 return this.g(r);
             }).bind(this));
             return function () {
                 return _ref.apply(this, arguments);
             };
-        })().bind(this);
+        })().bind(this, arguments);
         yield t();
         return this.h(t);
     }).bind(this));
@@ -2376,4 +2378,37 @@ test!(
     obj.byPlatform('foo').then((v)=>console.log(v)
     );
     "
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1575_1,
+    "
+  const obj = {
+    foo: 5,
+    async method() {
+        return this.foo;
+    }
+  }
+  return obj.method().then((res) => expect(res).toBe(5))
+"
+);
+
+test_exec!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(async_to_generator(), regenerator(mark))
+    },
+    issue_1575_2,
+    "
+  const obj = {
+    foo: 5,
+    async method() {
+        return this.foo;
+    }
+  }
+  return obj.method().then((res) => expect(res).toBe(5))
+"
 );
