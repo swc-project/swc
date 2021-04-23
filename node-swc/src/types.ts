@@ -582,7 +582,7 @@ export interface HasSpan {
 }
 
 export interface HasDecorator {
-  decorators: Decorator[];
+  decorators?: Decorator[];
 }
 
 export interface Class extends HasSpan, HasDecorator {
