@@ -52,6 +52,8 @@ where
         let all_deps_of_entry =
             self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
+        log::debug!("Merging dependenciess: {:?}", all_deps_of_entry);
+
         let deps = all_deps_of_entry.iter().map(|id| {
             let dep_info = self.scope.get_module(*id).unwrap();
             entry_info.helpers.extend(&dep_info.helpers);
