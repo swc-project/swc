@@ -970,11 +970,13 @@ where
                         new.push(item);
                     }
 
-                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
+                    ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         let export_ctxt = export.span.ctxt;
                         let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
                         dbg!(export_ctxt, reexport);
                         ctx.transitive_remap.insert(export_ctxt, reexport);
+
+                        new.push(item);
                     }
 
                     _ => {
