@@ -2,6 +2,7 @@ use super::plan::DepType;
 use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
+use crate::dep_graph::ModuleGraph;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
@@ -18,7 +19,6 @@ use crate::{
 use anyhow::{Context, Error};
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
-use petgraph::graphmap::DiGraphMap;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
@@ -29,7 +29,7 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitM
 use util::CHashSet;
 pub(super) struct Ctx {
     pub plan: Plan,
-    pub graph: DiGraphMap<ModuleId, ()>,
+    pub graph: ModuleGraph,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
     pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,

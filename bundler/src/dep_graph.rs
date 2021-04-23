@@ -1,4 +1,4 @@
+use crate::util::fast_graph::FastDiGraphMap;
 use crate::ModuleId;
-use petgraph::graphmap::DiGraphMap;
 
-pub(crate) type ModuleGraph = DiGraphMap<ModuleId, ()>;
+pub(crate) type ModuleGraph = FastDiGraphMap<ModuleId, ()>;

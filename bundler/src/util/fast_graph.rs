@@ -3,12 +3,18 @@
 
 #![allow(dead_code)] // We don't want to modify copied source code.
 
-use ahash::RandomState;
+use fxhash::FxBuildHasher;
+use fxhash::FxHashSet;
 use indexmap::map::Keys;
 use indexmap::map::{Iter as IndexMapIter, IterMut as IndexMapIterMut};
 use indexmap::IndexMap;
 use petgraph::graph::node_index;
 use petgraph::graph::Graph;
+use petgraph::visit::GraphBase;
+use petgraph::visit::IntoNeighbors;
+use petgraph::visit::IntoNeighborsDirected;
+use petgraph::visit::NodeCount;
+use petgraph::visit::Visitable;
 use petgraph::IntoWeightedEdge;
 use petgraph::{Directed, Direction, EdgeType, Incoming, Outgoing, Undirected};
 use std::cmp::Ordering;
@@ -52,8 +58,8 @@ pub type FastDiGraphMap<N, E> = FastGraphMap<N, E, Directed>;
 /// Depends on crate feature `graphmap` (default).
 #[derive(Clone)]
 pub struct FastGraphMap<N, E, Ty> {
-    nodes: IndexMap<N, Vec<(N, CompactDirection)>, RandomState>,
-    edges: IndexMap<(N, N), E, RandomState>,
+    nodes: IndexMap<N, Vec<(N, CompactDirection)>, FxBuildHasher>,
+    edges: IndexMap<(N, N), E, FxBuildHasher>,
     ty: PhantomData<Ty>,
 }
 
@@ -575,7 +581,7 @@ where
     Ty: EdgeType,
 {
     from: N,
-    edges: &'a IndexMap<(N, N), E, RandomState>,
+    edges: &'a IndexMap<(N, N), E, FxBuildHasher>,
     iter: Neighbors<'a, N, Ty>,
 }
 
@@ -825,5 +831,59 @@ where
     type Item = (N, &'a N);
     fn next(&mut self) -> Option<Self::Item> {
         self.iter.next().map(|(n, _)| (*n, n))
+    }
+}
+
+impl<N, E, Ty> NodeCount for FastGraphMap<N, E, Ty>
+where
+    N: Copy + PartialEq,
+{
+    fn node_count(self: &Self) -> usize {
+        self.nodes.len()
+    }
+}
+
+impl<N, E, Ty> GraphBase for FastGraphMap<N, E, Ty>
+where
+    N: Copy + PartialEq,
+{
+    type EdgeId = (N, N);
+
+    type NodeId = N;
+}
+
+impl<N, E, Ty> Visitable for FastGraphMap<N, E, Ty>
+where
+    N: Copy + Ord + Hash,
+    Ty: EdgeType,
+{
+    type Map = FxHashSet<N>;
+    fn visit_map(&self) -> FxHashSet<N> {
+        FxHashSet::with_capacity_and_hasher(self.node_count(), Default::default())
+    }
+    fn reset_map(&self, map: &mut Self::Map) {
+        map.clear();
+    }
+}
+
+impl<'a, N: 'a, E, Ty> IntoNeighbors for &'a FastGraphMap<N, E, Ty>
+where
+    N: Copy + Ord + Hash,
+    Ty: EdgeType,
+{
+    type Neighbors = Neighbors<'a, N, Ty>;
+    fn neighbors(self, n: Self::NodeId) -> Self::Neighbors {
+        self.neighbors(n)
+    }
+}
+
+impl<'a, N: 'a, E, Ty> IntoNeighborsDirected for &'a FastGraphMap<N, E, Ty>
+where
+    N: Copy + Ord + Hash,
+    Ty: EdgeType,
+{
+    type NeighborsDirected = NeighborsDirected<'a, N, Ty>;
+    fn neighbors_directed(self, n: N, dir: Direction) -> Self::NeighborsDirected {
+        self.neighbors_directed(n, dir)
     }
 }
