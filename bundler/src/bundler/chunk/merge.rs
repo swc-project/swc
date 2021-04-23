@@ -390,7 +390,7 @@ where
         log::debug!("All modules are merged");
         self.inject_reexports(ctx, id, entry);
 
-        // print_hygiene("before inline", &self.cm, &entry.clone().into());
+        // entry.print(&self.cm, "before inline");
 
         inline(self.injected_ctxt, entry);
 

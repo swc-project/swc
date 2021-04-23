@@ -71,18 +71,6 @@ where
                                 ..
                             }) => {
                                 if let Some(..) = ctx.transitive_remap.get(&exported.span.ctxt) {
-                                    let mut var_name = exported.clone();
-                                    var_name.span.ctxt = info.export_ctxt();
-                                    addtional_items.push((
-                                        module_id,
-                                        exported
-                                            .clone()
-                                            .assign_to(var_name.clone())
-                                            .into_module_item(
-                                                injected_ctxt,
-                                                "export * in a wrapped esm",
-                                            ),
-                                    ));
                                     let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
                                         span: DUMMY_SP,
                                         orig: orig.clone(),
