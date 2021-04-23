@@ -113,6 +113,15 @@ impl VisitMut for Normalizer {
         }
         node.visit_mut_children_with(self);
     }
+
+    // ------------------------------------------------------------------------
+    // pat
+    fn visit_mut_assignment_pattern(&mut self, node: &mut AssignmentPattern) {
+        if node.decorators == None {
+            node.decorators = Some(vec![]);
+        }
+        node.visit_mut_children_with(self);
+    }
 }
 
 pub fn normalize(ast: &mut File) {
