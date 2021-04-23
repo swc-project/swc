@@ -57,7 +57,12 @@ where
             entry_info.helpers.extend(&dep_info.helpers);
             entry_info.swc_helpers.extend_from(&dep_info.swc_helpers);
 
-            all.get(id).cloned().unwrap()
+            all.get(id).cloned().unwrap_or_else(|| {
+                unreachable!(
+                    "failed to merge into {}: module {} does not exist in the map",
+                    entry_id, id
+                )
+            })
         });
 
         for dep in deps {
