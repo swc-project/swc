@@ -1,6 +1,6 @@
 //! Utilities for testing.
 use super::{load::TransformedModule, Bundler, Config};
-use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleId, ModuleRecord, Resolve};
+use crate::{load::ModuleData, util::HygieneRemover, Load, ModuleRecord, Resolve};
 use anyhow::Error;
 use indexmap::IndexMap;
 use std::path::PathBuf;
@@ -64,10 +64,6 @@ impl Resolve for Resolver {
 }
 
 impl<'a> Tester<'a> {
-    pub fn id(&self, name: &str) -> ModuleId {
-        self.module(name).id
-    }
-
     pub fn module(&self, name: &str) -> TransformedModule {
         self.bundler
             .scope

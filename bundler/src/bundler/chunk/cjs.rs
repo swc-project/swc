@@ -18,7 +18,7 @@ where
     R: Resolve,
 {
     fn make_cjs_load_var(&self, info: &TransformedModule, span: Span) -> Ident {
-        Ident::new("load".into(), DUMMY_SP.with_ctxt(info.export_ctxt()))
+        Ident::new("load".into(), span.with_ctxt(info.export_ctxt()))
     }
 
     pub(super) fn replace_cjs_require_calls(
@@ -72,7 +72,7 @@ where
             module.into(),
         ));
 
-        let mut wrapped = Modules::from(
+        let wrapped = Modules::from(
             info.id,
             Module {
                 span: DUMMY_SP,
@@ -335,13 +335,6 @@ where
             _ => {}
         }
     }
-}
-
-fn drop_module_decls(modules: &mut Modules) {
-    modules.retain_mut(|_, i| match i {
-        ModuleItem::ModuleDecl(..) => false,
-        ModuleItem::Stmt(_) => true,
-    })
 }
 
 struct DefaultHandler {
