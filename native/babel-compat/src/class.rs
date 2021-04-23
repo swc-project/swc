@@ -1,4 +1,4 @@
-use crate::{Context, Babelify};
+use crate::{Context, Babelify, extract_class_body_span};
 use swc_babel_ast::{
     Decorator as BabelDecorator, ClassBody, ClassBodyEl, ClassProperty, ClassPrivateProperty,
     ClassPrivateMethod, ClassMethod as BabelClassMethod, ClassMethodKind, ClassExpression,
@@ -18,7 +18,7 @@ impl Babelify for Class {
             base: ctx.base(self.span),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
             // body: ClassBody::from_swc(self.body, ctx),
-            body: class_body_from_swc(self.body, ctx),
+            body: extract_class_body(&self, &ctx),
             super_class: self.super_class.map(|expr| Box::new(expr.babelify(ctx).into())),
             type_parameters: self.type_params.map(|param| param.babelify(ctx).into()),
             super_type_parameters: self.super_type_params.map(|param| param.babelify(ctx).into()),
@@ -45,21 +45,25 @@ impl Babelify for ClassMember {
     }
 }
 
-fn class_body_from_swc(members: Vec<ClassMember>, ctx: &Context) -> ClassBody {
-    let spans = members.iter().map(|mem| {
-        match mem {
-            ClassMember::Constructor(c) => c.span,
-            ClassMember::Method(m) => m.span,
-            ClassMember::PrivateMethod(m) => m.span,
-            ClassMember::ClassProp(p) => p.span,
-            ClassMember::PrivateProp(p) => p.span,
-            ClassMember::TsIndexSignature(s) => s.span,
-            ClassMember::Empty(e) => e.span,
-        }
-    }).collect();
+// fn class_body_from_swc(members: Vec<ClassMember>, ctx: &Context) -> ClassBody {
+fn extract_class_body(class: &Class, ctx: &Context) -> ClassBody {
+
+    // let spans = members.iter().map(|mem| {
+    //     match mem {
+    //         ClassMember::Constructor(c) => c.span,
+    //         ClassMember::Method(m) => m.span,
+    //         ClassMember::PrivateMethod(m) => m.span,
+    //         ClassMember::ClassProp(p) => p.span,
+    //         ClassMember::PrivateProp(p) => p.span,
+    //         ClassMember::TsIndexSignature(s) => s.span,
+    //         ClassMember::Empty(e) => e.span,
+    //     }
+    // }).collect();
+
     ClassBody {
-        base: ctx.base_reduce(spans),
-        body: members.iter().map(|mem| mem.clone().babelify(ctx)).collect(),
+        // base: ctx.base_reduce(spans),
+        base: ctx.base(extract_class_body_span(&class, &ctx)),
+        body: class.body.iter().map(|mem| mem.clone().babelify(ctx)).collect(),
     }
 }
 

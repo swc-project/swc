@@ -10,6 +10,7 @@ use swc_common::SourceFile;
 use swc_common::SourceMap;
 use swc_common::Span;
 use swc_babel_ast::{BaseComment, Comment, BaseNode, LineCol, Loc};
+use swc_ecma_ast::Class;
 
 mod class;
 mod decl;
@@ -127,16 +128,16 @@ impl Context {
         }
     }
 
-    fn base_reduce(&self, spans: Vec<Span>) -> BaseNode {
-        // TODO(dwoznicki): verify this actually works
-        // TODO(dwoznicki): do we really need to sort this vector?
-        let mut new_spans = spans.to_vec();
-        // new_spans.sort_by(|a, b| a.lo().0.cmp(&b.lo().0));
-        new_spans.sort();
-        let first = new_spans.first().unwrap(); // TODO(dwoznicki): unwrap()?
-        let last = new_spans.last().unwrap();
-        self.base(first.with_hi(last.hi()))
-    }
+    // fn base_reduce(&self, spans: Vec<Span>) -> BaseNode {
+    //     // TODO(dwoznicki): verify this actually works
+    //     // TODO(dwoznicki): do we really need to sort this vector?
+    //     let mut new_spans = spans.to_vec();
+    //     // new_spans.sort_by(|a, b| a.lo().0.cmp(&b.lo().0));
+    //     new_spans.sort();
+    //     let first = new_spans.first().unwrap(); // TODO(dwoznicki): unwrap()?
+    //     let last = new_spans.last().unwrap();
+    //     self.base(first.with_hi(last.hi()))
+    // }
 
 }
 
@@ -144,5 +145,10 @@ pub trait Babelify {
     type Output: Serialize + DeserializeOwned;
 
     fn babelify(self, ctx: &Context) -> Self::Output;
+}
+
+fn extract_class_body_span(class: &Class, ctx: &Context) -> Span {
+    let sp = ctx.cm.span_take_while(class.span, |ch| *ch != '{');
+    class.span.with_lo(sp.hi())
 }
 

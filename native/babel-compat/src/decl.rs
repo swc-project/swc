@@ -1,11 +1,10 @@
-use crate::{Context, Babelify};
+use crate::{Context, Babelify, extract_class_body_span};
 use swc_babel_ast::{
     ClassDeclaration, ClassBody, Declaration, VariableDeclaration, VariableDeclarationKind,
     VariableDeclarator, FunctionDeclaration,
 };
 
 use swc_ecma_ast::{Decl, VarDecl, VarDeclKind, VarDeclarator, FnDecl, ClassDecl};
-use swc_common::Span;
 
 impl Babelify for Decl {
     type Output = Declaration;
@@ -65,7 +64,7 @@ impl Babelify for ClassDecl {
         // It may need to be modified to take into account implements, super classes,
         // etc.
         // let body_span = self.class.span.with_lo(self.ident.span.hi + BytePos(1));
-        let body_span = extract_class_body_span(&self, &ctx);
+        let body_span = extract_class_body_span(&self.class, &ctx);
         let class = self.class.babelify(ctx);
         ClassDeclaration {
             base: class.base,
@@ -84,11 +83,6 @@ impl Babelify for ClassDecl {
             type_parameters: class.type_parameters,
         }
     }
-}
-
-fn extract_class_body_span(node: &ClassDecl, ctx: &Context) -> Span {
-    let sp = ctx.cm.span_take_while(node.class.span, |ch| *ch != '{');
-    node.class.span.with_lo(sp.hi())
 }
 
 impl Babelify for VarDecl {
