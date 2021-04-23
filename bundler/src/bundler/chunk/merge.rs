@@ -795,6 +795,7 @@ where
 
                     ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                         ref specifiers,
+                        ref src,
                         ..
                     })) => {
                         for s in specifiers {
@@ -830,6 +831,49 @@ where
                                     );
                                 }
 
+                                ExportSpecifier::Namespace(ns) => {
+                                    if let Some((src, _)) = info
+                                        .exports
+                                        .reexports
+                                        .iter()
+                                        .find(|s| s.0.src.value == src.as_ref().unwrap().value)
+                                    {
+                                        if !self.scope.get_module(src.module_id).unwrap().is_es6 {
+                                            continue;
+                                        }
+
+                                        let wrapped_esm_id =
+                                            self.scope.wrapped_esm_id(src.module_id);
+                                        match wrapped_esm_id {
+                                            Some(module_var) => {
+                                                let specifier =
+                                                    ExportSpecifier::Named(ExportNamedSpecifier {
+                                                        span: ns.span,
+                                                        orig: module_var.into(),
+                                                        exported: Some(ns.name.clone()),
+                                                    });
+                                                extra.push(ModuleItem::ModuleDecl(
+                                                    ModuleDecl::ExportNamed(NamedExport {
+                                                        span: ns.span,
+                                                        specifiers: vec![specifier],
+                                                        src: None,
+                                                        asserts: None,
+                                                        type_only: false,
+                                                    }),
+                                                ));
+                                            }
+                                            None => {
+                                                unreachable!(
+                                                    "Modules rexported with `export * as foo from \
+                                                     './foo'` should be marked as a wrapped esm"
+                                                )
+                                            }
+                                        }
+
+                                        // Remove `export * as foo from ''`
+                                        continue;
+                                    }
+                                }
                                 _ => {}
                             }
                         }
