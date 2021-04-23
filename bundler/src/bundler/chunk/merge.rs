@@ -436,9 +436,9 @@ where
             module = self.wrap_esm(ctx, info.id, module)?;
         }
 
-        if !is_entry {
-            module = module.fold_with(&mut Unexporter);
-        }
+        // if !is_entry {
+        //     module = module.fold_with(&mut Unexporter);
+        // }
 
         Ok(module)
     }
