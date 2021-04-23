@@ -45,6 +45,9 @@ where
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
+
+        log::debug!("chunk: Analysis is done");
+
         let ctx = Ctx {
             graph,
             merged: Default::default(),
@@ -64,6 +67,8 @@ where
                 })
             })
             .collect::<Result<FxHashMap<_, _>, _>>()?;
+
+        log::debug!("Prepared all modules");
 
         let entries = all
             .iter()
