@@ -1,5 +1,6 @@
 use super::merge::Unexporter;
 use crate::modules::Modules;
+use crate::ModuleId;
 use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     Bundler, Load, Resolve,
@@ -46,7 +47,7 @@ where
         info: &TransformedModule,
         dep: Modules,
         dep_info: &TransformedModule,
-        targets: &mut Vec<Dependancy>,
+        targets: &mut Vec<ModuleId>,
     ) -> Result<(), Error> {
         if info.is_es6 && dep_info.is_es6 {
             return Ok(());
@@ -63,7 +64,7 @@ where
         entry.visit_mut_with(&mut v);
 
         if v.replaced {
-            if let Some(idx) = targets.iter().position(|v| v.id == dep_info.id) {
+            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
                 targets.remove(idx);
             }
 
@@ -90,25 +91,6 @@ where
                 );
 
                 log::warn!("Injecting load");
-            }
-
-            if let Some(normal_plan) = ctx.plan.normal.get(&dep_info.id) {
-                for dep in normal_plan.chunks.iter() {
-                    if !targets.contains(&dep) {
-                        continue;
-                    }
-
-                    let dep_info = self.scope.get_module(dep.id).unwrap();
-                    self.merge_cjs(
-                        ctx,
-                        false,
-                        entry,
-                        info,
-                        Modules::from(dep_info.id, (*dep_info.module).clone(), self.injected_ctxt),
-                        &dep_info,
-                        targets,
-                    )?;
-                }
             }
         }
 

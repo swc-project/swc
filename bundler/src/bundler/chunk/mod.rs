@@ -52,16 +52,15 @@ where
             export_stars_in_wrapped: Default::default(),
         };
 
-        let all = plan
-            .all
+        let all = (&*plan.all)
             .into_par_iter()
             .map(|id| -> Result<_, Error> {
-                let info = self.scope.get_module(id).unwrap();
-                let is_entry = plan.entries.contains_key(&id);
-                let mut module = self.apply_hooks(id, is_entry)?;
+                let info = self.scope.get_module(*id).unwrap();
+                let is_entry = plan.entries.contains_key(id);
+                let mut module = self.apply_hooks(*id, is_entry)?;
                 module = self.prepare_for_merging(&ctx, &info, module, is_entry);
 
-                Ok((id, module))
+                Ok((*id, module))
             })
             .collect::<Result<FxHashMap<_, _>, _>>()?;
 

@@ -64,8 +64,8 @@ where
             entry.add_dep(dep);
         }
 
-        self.replace_import_specifiers(&entry_info, &mut entry);
-        self.finalize_merging_of_entry(ctx, entry_id, &mut entry);
+        self.replace_import_specifiers(&entry_info, entry);
+        self.finalize_merging_of_entry(ctx, entry_id, entry);
     }
 
     fn collect_all_deps(
@@ -407,7 +407,7 @@ where
     ///
     ///
     /// We convert all exports to variable at here.
-    pub(crate) fn prepare_for_merging(
+    pub(super) fn prepare_for_merging(
         &self,
         ctx: &Ctx,
         info: &TransformedModule,
