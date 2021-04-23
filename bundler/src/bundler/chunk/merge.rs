@@ -74,6 +74,7 @@ where
 
             self.replace_import_specifiers(&entry_info, entry);
             self.finalize_merging_of_entry(ctx, entry_id, entry);
+            self.remove_wrong_exports(&entry_info, entry);
         })
     }
 
@@ -411,6 +412,34 @@ where
         //         .fold_with(&mut hygiene())
         //         .fold_with(&mut fixer(None)),
         // );
+    }
+
+    /// Remove exports with wrong syntax context
+    fn remove_wrong_exports(&self, info: &TransformedModule, module: &mut Modules) {
+        module.retain_mut(|id, item| {
+            match item {
+                // TODO: Handle export default
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    specifiers, ..
+                })) => {
+                    specifiers.retain(|s| match s {
+                        ExportSpecifier::Named(ExportNamedSpecifier {
+                            exported: Some(exported),
+                            ..
+                        }) => exported.span.ctxt == info.export_ctxt(),
+                        _ => true,
+                    });
+
+                    if specifiers.is_empty() {
+                        return false;
+                    }
+                }
+
+                _ => {}
+            }
+
+            true
+        });
     }
 
     /// This method handles imports and exports.
