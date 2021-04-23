@@ -34,6 +34,24 @@ pub(super) struct Ctx {
     pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
 }
 
+impl Ctx {
+    pub fn is_exported_ctxt(
+        &self,
+        ctxt_to_check: SyntaxContext,
+        entry_export_ctxt: SyntaxContext,
+    ) -> bool {
+        if ctxt_to_check == entry_export_ctxt {
+            return true;
+        }
+
+        if let Some(v) = self.transitive_remap.get(&ctxt_to_check) {
+            return self.is_exported_ctxt(v, entry_export_ctxt);
+        }
+
+        false
+    }
+}
+
 impl<L, R> Bundler<'_, L, R>
 where
     L: Load,
@@ -74,7 +92,7 @@ where
 
             self.replace_import_specifiers(&entry_info, entry);
             self.finalize_merging_of_entry(ctx, entry_id, entry);
-            self.remove_wrong_exports(&entry_info, entry);
+            self.remove_wrong_exports(ctx, &entry_info, entry);
         })
     }
 
@@ -415,8 +433,8 @@ where
     }
 
     /// Remove exports with wrong syntax context
-    fn remove_wrong_exports(&self, info: &TransformedModule, module: &mut Modules) {
-        module.retain_mut(|id, item| {
+    fn remove_wrong_exports(&self, ctx: &Ctx, info: &TransformedModule, module: &mut Modules) {
+        module.retain_mut(|_, item| {
             match item {
                 // TODO: Handle export default
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
@@ -426,7 +444,7 @@ where
                         ExportSpecifier::Named(ExportNamedSpecifier {
                             exported: Some(exported),
                             ..
-                        }) => exported.span.ctxt == info.export_ctxt(),
+                        }) => ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt()),
                         _ => true,
                     });
 
