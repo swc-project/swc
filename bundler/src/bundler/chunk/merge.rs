@@ -854,11 +854,7 @@ where
             module.append(info.id, item);
         }
 
-        // print_hygiene(
-        //     &format!("prepared: {}", info.fm.name),
-        //     &self.cm,
-        //     &module.clone().into(),
-        // );
+        module.print(&self.cm, "prepare");
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
