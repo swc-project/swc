@@ -30,6 +30,8 @@ pub(crate) struct TransformedModule {
 
     /// If false, the module will be wrapped with a small helper function.
     pub is_es6: bool,
+    /// Is the module common js?
+    pub is_explicitly_cjs: bool,
 
     /// Used helpers
     pub helpers: Lrc<Helpers>,

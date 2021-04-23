@@ -8,6 +8,8 @@ use crate::{
 use anyhow::Error;
 use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
+use swc_common::FileName;
+use swc_common::Span;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
@@ -18,83 +20,77 @@ where
     L: Load,
     R: Resolve,
 {
-    /// common js module is transpiled as
-    ///
-    ///  Src:
-    ///
-    /// ```ts
-    ///      const foo = require('foo');
-    /// ```
-    ///
-    /// Output:
-    /// ```ts
-    ///     const load = __spack__require.bind(void 0, function(module, exports){
-    ///         // ... body of foo
-    ///     });
-    ///     const foo = load();
-    /// ```
-    /// As usual, this behavior depends on hygiene.
-    ///
-    /// # Parameters
-    ///
-    /// If `is_entry` is true, you can use import statement to import common js
-    /// modules.
-    pub(super) fn merge_cjs(
+    fn make_cjs_load_var(&self, info: &TransformedModule, span: Span) -> Ident {
+        Ident::new("load".into(), DUMMY_SP.with_ctxt(info.export_ctxt()))
+    }
+
+    pub(super) fn replace_cjs_require_calls(
+        &self,
+        info: &TransformedModule,
+        module: &mut Modules,
+        is_entry: bool,
+    ) {
+        if !self.config.require {
+            return;
+        }
+
+        let load_var = self.make_cjs_load_var(info, DUMMY_SP);
+        let mut v = RequireReplacer {
+            is_entry,
+            base: info,
+            bundlder: self,
+            load_var,
+            replaced: false,
+        };
+        module.visit_mut_with(&mut v);
+
+        if v.replaced {
+            info.helpers.require.store(true, Ordering::SeqCst);
+        }
+    }
+
+    /// Creates a variable named `load` (see `make_cjs_load_var`) if it's a
+    /// common js module.
+    pub(super) fn wrap_cjs_module(
         &self,
         ctx: &Ctx,
         is_entry: bool,
-        entry: &mut Modules,
         info: &TransformedModule,
-        dep: Modules,
-        dep_info: &TransformedModule,
-        targets: &mut Vec<ModuleId>,
-    ) -> Result<(), Error> {
-        if info.is_es6 && dep_info.is_es6 {
-            return Ok(());
+        module: Modules,
+    ) -> Result<Modules, Error> {
+        if !self.config.require || !info.is_explicitly_cjs {
+            return Ok(module);
         }
 
         log::debug!("Merging as a common js module: {}", info.fm.name);
-        // If src is none, all requires are transpiled
-        let mut v = RequireReplacer {
-            is_entry,
-            ctxt: dep_info.export_ctxt(),
-            load_var: Ident::new("load".into(), DUMMY_SP.with_ctxt(dep_info.export_ctxt())),
-            replaced: false,
-        };
-        entry.visit_mut_with(&mut v);
 
-        if v.replaced {
-            if let Some(idx) = targets.iter().position(|v| *v == dep_info.id) {
-                targets.remove(idx);
-            }
+        let load_var = self.make_cjs_load_var(info, DUMMY_SP);
 
-            let load_var = v.load_var;
+        module.visit_mut_with(&mut DefaultHandler {
+            local_ctxt: info.local_ctxt(),
+        });
+        module.sort(info.id, &ctx.graph, &self.cm);
 
-            {
-                info.helpers.require.store(true, Ordering::SeqCst);
+        let stmt = ModuleItem::Stmt(wrap_module(
+            SyntaxContext::empty(),
+            info.local_ctxt(),
+            load_var,
+            module.into(),
+        ));
 
-                let mut dep = dep.fold_with(&mut Unexporter);
-                drop_module_decls(&mut dep);
-                dep.visit_mut_with(&mut DefaultHandler {
-                    local_ctxt: dep_info.local_ctxt(),
-                });
-                dep.sort(info.id, &ctx.graph, &self.cm);
+        let mut wrapped = Modules::from(
+            info.id,
+            Module {
+                span: DUMMY_SP,
+                body: vec![stmt],
+                shebang: None,
+            },
+            self.injected_ctxt,
+        );
 
-                entry.prepend(
-                    info.id,
-                    ModuleItem::Stmt(wrap_module(
-                        SyntaxContext::empty(),
-                        dep_info.local_ctxt(),
-                        load_var,
-                        dep.into(),
-                    )),
-                );
+        log::debug!("Injected a variable named `load` for a common js module");
 
-                log::warn!("Injecting load");
-            }
-        }
-
-        Ok(())
+        Ok(wrapped)
     }
 }
 
@@ -171,15 +167,23 @@ fn wrap_module(
     load_var_init
 }
 
-struct RequireReplacer {
-    /// SyntaxContext of the dependency module.
-    ctxt: SyntaxContext,
+struct RequireReplacer<'a, 'b, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    base: &'a TransformedModule,
+    bundlder: &'a Bundler<'b, L, R>,
     load_var: Ident,
     replaced: bool,
     is_entry: bool,
 }
 
-impl VisitMut for RequireReplacer {
+impl<L, R> VisitMut for RequireReplacer<'_, '_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_module_item(&mut self, node: &mut ModuleItem) {
