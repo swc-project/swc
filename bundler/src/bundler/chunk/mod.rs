@@ -64,7 +64,7 @@ where
             })
             .collect::<Result<FxHashMap<_, _>, _>>()?;
 
-        let mut entries = all
+        let entries = all
             .iter()
             .filter_map(|(id, module)| {
                 if plan.entries.contains_key(&id) {
