@@ -813,6 +813,15 @@ where
         info: &TransformedModule,
         module: &mut Modules,
     ) {
+        self.handle_imports_and_exports(ctx, info, module);
+    }
+
+    fn handle_imports_and_exports(
+        &self,
+        ctx: &Ctx,
+        info: &TransformedModule,
+        module: &mut Modules,
+    ) {
         let injected_ctxt = self.injected_ctxt;
 
         if !info.is_es6 {
