@@ -1,4 +1,3 @@
-use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
 use crate::dep_graph::ModuleGraph;
 use crate::inline::inline;
@@ -16,6 +15,7 @@ use fxhash::FxBuildHasher;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use indexmap::IndexSet;
+use petgraph::EdgeDirection;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
@@ -24,6 +24,8 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use util::CHashSet;
+use EdgeDirection::Outgoing;
+
 pub(super) struct Ctx {
     /// Full dependency graph.
     pub graph: ModuleGraph,
@@ -50,9 +52,13 @@ where
         let all_deps_of_entry =
             self.collect_all_deps(&ctx.graph, entry_id, &mut Default::default());
 
-        let deps = all_deps_of_entry
-            .iter()
-            .map(|id| all.get(id).cloned().unwrap());
+        let deps = all_deps_of_entry.iter().map(|id| {
+            let dep_info = self.scope.get_module(*id).unwrap();
+            entry_info.helpers.extend(&dep_info.helpers);
+            entry_info.swc_helpers.extend_from(&dep_info.swc_helpers);
+
+            all.get(id).cloned().unwrap()
+        });
 
         for dep in deps {
             entry.add_dep(dep);
@@ -68,394 +74,17 @@ where
         start: ModuleId,
         dejavu: &mut FxHashSet<ModuleId>,
     ) -> IndexSet<ModuleId, FxBuildHasher> {
-    }
+        let mut set = IndexSet::default();
 
-    fn merge_direct_import(
-        &self,
-        ctx: &Ctx,
-        dep_id: ModuleId,
-        _src: &Source,
-        _specifiers: &[Specifier],
-    ) -> Result<Modules, Error> {
-        let injected_ctxt = self.injected_ctxt;
-
-        log::debug!("Merging {:?} directly", dep_id);
-
-        let dep_info = self.scope.get_module(dep_id).unwrap();
-        let wrapped = self.scope.should_be_wrapped_with_a_fn(dep_id);
-
-        // Now we handle imports
-        let mut module = if wrapped {
-            let mut module: Modules = self.get_module_for_merging(ctx, dep_id, false)?;
-            self.prepare(&dep_info, &mut module);
-            module = self.wrap_esm(ctx, dep_id, module.into())?.into();
-
-            let plan = ctx.plan.normal.get(&dep_id);
-            let default_plan;
-            let plan = match plan {
-                Some(plan) => plan,
-                None => {
-                    default_plan = Default::default();
-                    &default_plan
-                }
-            };
-
-            // print_hygiene(
-            //     &format!("wrapped: before deps: {:?}", dep_id),
-            //     &self.cm,
-            //     &module.clone().into(),
-            // );
-
-            if let Some(plan) = ctx.plan.circular.get(&dep_id) {
-                module = self
-                    .merge_circular_modules(ctx, module, dep_id, plan.chunks.clone())
-                    .with_context(|| format!("failed to merge {:?} (circular import)", dep_id))?;
+        for dep in graph.neighbors_directed(start, Outgoing) {
+            if !dejavu.insert(dep) {
+                continue;
             }
-
-            module = self
-                .merge_deps(ctx, false, module, plan, &dep_info, false)
-                .context("failed to merge dependencies")?;
-
-            // print_hygiene(
-            //     &format!("wrapped: after deps: {:?}", dep_id),
-            //     &self.cm,
-            //     &module.clone().into(),
-            // );
-
-            // This code is currently not required because wrapped es modules store their
-            // content on the top scope.
-            //
-            //
-            // // Required to handle edge cases liek https://github.com/denoland/deno/issues/8530
-            // for specifier in specifiers {
-            //     match specifier {
-            //         Specifier::Specific { local, alias } => {
-            //             let i = alias.clone().unwrap_or_else(|| local.clone());
-
-            //             let from = esm_id.clone().into_ident().make_member(i.clone());
-
-            //             module.append(
-            //                 dep_id,
-            //                 from.assign_to(i.with_ctxt(src.export_ctxt))
-            //                     .into_module_item(injected_ctxt,
-            // "namespace_with_normal"),             );
-            //         }
-            //         Specifier::Namespace { .. } => continue,
-            //     }
-            // }
-
-            self.handle_import_deps(ctx, &dep_info, &mut module, false);
-
-            module
-        } else {
-            let mut module = self.merge_modules(ctx, dep_id, false, true)?;
-
-            // print_hygiene(
-            //     &format!("not-wrapped: after deps: {:?}", dep_id),
-            //     &self.cm,
-            //     &module.clone().into(),
-            // );
-
-            // print_hygiene(
-            //     &format!(
-            //         "import: Before handle_import_deps {:?}:{:?}",
-            //         dep_info.local_ctxt(),
-            //         dep_info.export_ctxt(),
-            //     ),
-            //     &self.cm,
-            //     &module.clone().into(),
-            // );
-            self.handle_import_deps(ctx, &dep_info, &mut module, false);
-            // print_hygiene(
-            //     &format!(
-            //         "import: After handle_import_deps {:?}:{:?}",
-            //         dep_info.local_ctxt(),
-            //         dep_info.export_ctxt(),
-            //     ),
-            //     &self.cm,
-            //     &module.clone().into(),
-            // );
-            module
-        };
-
-        let var_decls = vars_from_exports(&dep_info, &module);
-
-        module = module.fold_with(&mut Unexporter);
-
-        for (id, var) in var_decls {
-            module.append(
-                id,
-                var.into_module_item(injected_ctxt, "from_merge_direct_import"),
-            );
+            set.insert(dep);
+            set.extend(self.collect_all_deps(graph, dep, dejavu));
         }
 
-        Ok(module)
-    }
-
-    fn merge_transitive_import(&self, ctx: &Ctx, dep_id: ModuleId) -> Result<Modules, Error> {
-        let injected_ctxt = self.injected_ctxt;
-
-        log::debug!("Merging {:?} transitively", dep_id);
-
-        let dep_info = self.scope.get_module(dep_id).unwrap();
-        let mut module = self.merge_modules(ctx, dep_id, false, true)?;
-        self.handle_import_deps(ctx, &dep_info, &mut module, false);
-
-        let var_decls = vars_from_exports(&dep_info, &module);
-
-        // module = module.fold_with(&mut Unexporter);
-
-        for (id, var) in var_decls {
-            module.append(
-                id,
-                var.into_module_item(injected_ctxt, "from_merge_transitive_import"),
-            );
-        }
-
-        Ok(module)
-    }
-
-    /// Even after one instance of module is merged into main enrry, code like
-    ///
-    /// ```ts
-    /// export { foo#12, baz#12 } from './common';
-    /// ```
-    ///
-    /// can remain. (`./common` is already merged, but ast nodes were not
-    /// modified because it's not a direct dependancy.)
-    ///
-    /// This method
-    fn transform_indirect_reexports(
-        &self,
-        _ctx: &Ctx,
-        module: &mut Modules,
-        deps: Vec<Source>,
-    ) -> Result<(), Error> {
-        self.run(|| {
-            //
-            for (_, stmt) in module.iter_mut() {
-                let decl = match stmt {
-                    ModuleItem::ModuleDecl(decl) => decl,
-                    ModuleItem::Stmt(_) => continue,
-                };
-
-                for source in &deps {
-                    match decl {
-                        ModuleDecl::ExportNamed(export @ NamedExport { src: Some(..), .. }) => {
-                            if self
-                                .config
-                                .external_modules
-                                .contains(&export.src.as_ref().unwrap().value)
-                            {
-                                continue;
-                            }
-
-                            if export.src.as_ref().unwrap().value == source.src.value {
-                                export.src = None;
-                                break;
-                            }
-                        }
-                        ModuleDecl::ExportAll(..) => {}
-                        _ => continue,
-                    }
-                }
-            }
-
-            Ok(())
-        })
-    }
-
-    fn merge_deps(
-        &self,
-        ctx: &Ctx,
-        is_entry: bool,
-        mut module: Modules,
-        plan: &NormalPlan,
-        info: &TransformedModule,
-        from_circular: bool,
-    ) -> Result<Modules, Error> {
-        self.run(|| -> Result<_, Error> {
-            log::debug!(
-                "Normal merging: ({:?}) {} <= {:?}",
-                info.id,
-                info.fm.name,
-                plan
-            );
-
-            if !from_circular {
-                let deps = info
-                    .exports
-                    .reexports
-                    .iter()
-                    .map(|v| &v.0)
-                    .cloned()
-                    .filter(|source| plan.chunks.iter().all(|chunk| chunk.id != source.module_id))
-                    .collect();
-                self.transform_indirect_reexports(ctx, &mut module, deps)?;
-            }
-
-            if plan.chunks.is_empty() {
-                return Ok(module);
-            }
-
-            let deps: Vec<_> = (&plan.chunks)
-                .into_par_iter()
-                .map(|dep| -> Result<_, Error> {
-                    self.run(|| {
-                        let dep_info = self.scope.get_module(dep.id).unwrap();
-
-                        info.helpers.extend(&dep_info.helpers);
-                        info.swc_helpers.extend_from(&dep_info.swc_helpers);
-
-                        log::debug!("Merging: {} <= {}", info.fm.name, dep_info.fm.name);
-
-                        let reexport = info
-                            .exports
-                            .reexports
-                            .iter()
-                            .find(|(src, _)| src.module_id == dep.id);
-                        let wrapped = self.scope.should_be_wrapped_with_a_fn(dep.id);
-
-                        match reexport {
-                            Some((src, specifiers)) => {
-                                let dep_module = self.merge_export(ctx, dep.id, &specifiers)?;
-                                return Ok((true, Some(src), dep, dep_module));
-                            }
-                            None => {}
-                        }
-
-                        let dep_module = match dep.ty {
-                            DepType::Direct => {
-                                let res = info
-                                    .imports
-                                    .specifiers
-                                    .iter()
-                                    .find(|(src, _)| src.module_id == dep.id);
-
-                                if let Some((src, specifiers)) = res {
-                                    self.merge_direct_import(ctx, dep.id, &src, &specifiers)?
-                                } else {
-                                    // Common js requires different planning strategy.
-                                    self.merge_transitive_import(ctx, dep.id)?
-                                }
-                            }
-                            DepType::Transitive => {
-                                debug_assert!(!wrapped, "Transitive dependency cannot be wrapped");
-                                self.merge_transitive_import(ctx, dep.id)?
-                            }
-                        };
-
-                        Ok((false, None, dep, dep_module))
-                    })
-                })
-                .collect();
-
-            let mut targets = plan.chunks.clone();
-
-            for dep in deps {
-                let (is_export, source, dep, dep_module) = dep?;
-                let dep_info = self.scope.get_module(dep.id).unwrap();
-
-                if let Some(idx) = targets.iter().position(|v| v.id == dep.id) {
-                    targets.remove(idx);
-                    if let Some(v) = ctx.plan.normal.get(&dep.id) {
-                        targets.retain(|&dep| !v.chunks.contains(&dep));
-                    }
-                    if let Some(v) = ctx.plan.circular.get(&dep.id) {
-                        targets.retain(|&dep| !v.chunks.contains(&dep.id));
-                    }
-                }
-
-                if is_export {
-                    if let Some(src) = &source {
-                        if self.config.external_modules.contains(&src.src.value) {
-                            continue;
-                        }
-                    }
-                    assert!(dep_info.is_es6, "export statements are es6-only");
-
-                    inject_export(
-                        &mut module,
-                        ctx,
-                        info.export_ctxt(),
-                        dep_module,
-                        source.unwrap().clone(),
-                    );
-
-                    // print_hygiene("merged as reexport", &self.cm, &module.clone().into());
-
-                    log::debug!(
-                        "Merged {} into {} as a reexport",
-                        dep_info.fm.name,
-                        info.fm.name,
-                    );
-
-                    continue;
-                }
-
-                if dep_info.is_es6 {
-                    // print_hygiene("entry: before injection", &self.cm, &module);
-
-                    match dep.ty {
-                        DepType::Transitive => {
-                            module.add_dep(dep_module);
-
-                            log::debug!(
-                                "Merged {} into {} as a transitive es module",
-                                dep_info.fm.name,
-                                info.fm.name,
-                            );
-
-                            // print_hygiene("ES6", &self.cm, &entry);
-                            continue;
-                        }
-                        _ => {}
-                    }
-
-                    // print_hygiene(
-                    //     &format!("entry: before injection of `{}`", dep_info.fm.name),
-                    //     &self.cm,
-                    //     &module,
-                    // );
-
-                    if info.is_es6 && dep_info.is_es6 {
-                        module.add_dep(dep_module);
-                        continue;
-                    }
-
-                    // print_hygiene(
-                    //     &format!("entry: failed to inject: {}; {:?}",
-                    // dep_info.fm.name, dep),     &self.cm,
-                    //     &dep_module,
-                    // );
-                }
-
-                if self.config.require {
-                    self.merge_cjs(
-                        ctx,
-                        is_entry,
-                        &mut module,
-                        &info,
-                        dep_module,
-                        &dep_info,
-                        &mut targets,
-                    )?;
-                }
-                // if self.config.require {
-                //     self.merge_cjs(
-                //         plan,
-                //         is_entry,
-                //         &mut entry,
-                //         &info,
-                //         Cow::Owned(dep),
-                //         &dep_info,
-                //         &mut targets,
-                //     )?;
-                // }
-            }
-
-            Ok(module)
-        })
+        set
     }
 
     pub(crate) fn apply_hooks(
@@ -747,37 +376,8 @@ where
                         return true;
                     }
 
-                    for (id, p) in &ctx.plan.normal {
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
-                            log::debug!("Dropping import");
-                            return false;
-                        }
-
-                        for &dep in &p.chunks {
-                            if import.span.ctxt
-                                == self.scope.get_module(dep.id).unwrap().export_ctxt()
-                            {
-                                log::debug!("Dropping direct import");
-                                return false;
-                            }
-                        }
-                    }
-
-                    for (id, p) in &ctx.plan.circular {
-                        // Drop if it's one of circular import
-                        if import.span.ctxt == self.scope.get_module(*id).unwrap().export_ctxt() {
-                            log::debug!("Dropping circular import");
-                            return false;
-                        }
-
-                        for &mid in &p.chunks {
-                            if import.span.ctxt == self.scope.get_module(mid).unwrap().export_ctxt()
-                            {
-                                log::debug!("Dropping circular import");
-                                return false;
-                            }
-                        }
-                    }
+                    // Drop import statements.
+                    return false;
                 }
 
                 _ => {}
@@ -811,14 +411,20 @@ where
         &self,
         ctx: &Ctx,
         info: &TransformedModule,
-        module: &mut Modules,
-    ) {
-        self.handle_imports_and_exports(ctx, info, module);
+        mut module: Modules,
+        is_entry: bool,
+    ) -> Modules {
+        self.handle_imports_and_exports(ctx, info, &mut module);
 
         let wrapped = self.scope.should_be_wrapped_with_a_fn(info.id);
 
         // TODO:
         // self.wrap_esm(ctx, dep_id, module.into())?.into()
+        if !is_entry {
+            module = module.fold_with(&mut Unexporter);
+        }
+
+        module
     }
 
     fn handle_imports_and_exports(

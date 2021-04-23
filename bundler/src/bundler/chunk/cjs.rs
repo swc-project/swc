@@ -1,10 +1,7 @@
 use super::merge::Unexporter;
 use crate::modules::Modules;
 use crate::{
-    bundler::{
-        chunk::{merge::Ctx, plan::Dependancy},
-        load::TransformedModule,
-    },
+    bundler::{chunk::merge::Ctx, load::TransformedModule},
     Bundler, Load, Resolve,
 };
 use anyhow::Error;

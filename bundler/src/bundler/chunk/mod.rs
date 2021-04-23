@@ -12,7 +12,6 @@ use rayon::iter::ParallelIterator;
 
 mod cjs;
 mod computed_key;
-mod export;
 mod merge;
 mod plan;
 
@@ -60,7 +59,7 @@ where
                 let info = self.scope.get_module(id).unwrap();
                 let is_entry = plan.entries.contains_key(&id);
                 let mut module = self.apply_hooks(id, is_entry)?;
-                self.prepare_for_merging(&ctx, &info, &mut module);
+                module = self.prepare_for_merging(&ctx, &info, module, is_entry);
 
                 Ok((id, module))
             })
