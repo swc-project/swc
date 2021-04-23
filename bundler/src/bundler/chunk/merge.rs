@@ -444,7 +444,14 @@ where
                         ExportSpecifier::Named(ExportNamedSpecifier {
                             exported: Some(exported),
                             ..
-                        }) => ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt()),
+                        }) => {
+                            // Default is not exported via `export *`
+                            if exported.sym == js_word!("default") {
+                                exported.span.ctxt == info.export_ctxt()
+                            } else {
+                                ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())
+                            }
+                        }
                         _ => true,
                     });
 
