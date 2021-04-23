@@ -1,4 +1,3 @@
-use super::plan::CircularPlan;
 use crate::modules::Modules;
 use crate::{bundler::chunk::merge::Ctx, id::Id, Bundler, Load, ModuleId, Resolve};
 use anyhow::{Context, Error};

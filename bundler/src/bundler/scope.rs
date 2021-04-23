@@ -7,11 +7,6 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{sync::Lrc, FileName};
 
 #[derive(Debug, Default)]
-pub(super) struct Metadata {
-    pub bundle_cnt: u32,
-}
-
-#[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
