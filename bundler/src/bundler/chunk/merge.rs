@@ -43,78 +43,10 @@ where
         entry: &mut Modules,
         all: &FxHashMap<ModuleId, Modules>,
     ) {
-    }
+        let entry_info = self.scope.get_module(entry_id).unwrap();
 
-    /// Merge
-    pub(super) fn merge_modules(
-        &self,
-        ctx: &Ctx,
-        module_id: ModuleId,
-        is_entry: bool,
-        allow_circular: bool,
-    ) -> Result<Modules, Error> {
-        self.run(|| {
-            let info = self.scope.get_module(module_id).unwrap();
-
-            if allow_circular {
-                if let Some(plan) = ctx.plan.circular.get(&module_id) {
-                    let mut module =
-                        self.merge_circular(ctx, plan, module_id).with_context(|| {
-                            format!("failed to merge {:?} (circular import)", module_id)
-                        })?;
-                    if is_entry {
-                        self.replace_import_specifiers(&info, &mut module);
-                        self.finalize_merging_of_entry(ctx, info.id, &mut module);
-                    }
-                    return Ok(module);
-                }
-            }
-
-            let mut module = self
-                .get_module_for_merging(ctx, module_id, is_entry)
-                .with_context(|| format!("failed to clone {:?} for merging", module_id))?;
-
-            self.prepare(&info, &mut module);
-
-            {
-                let plan = ctx.plan.normal.get(&module_id);
-                let default_plan;
-                let plan = match plan {
-                    Some(plan) => plan,
-                    None => {
-                        default_plan = Default::default();
-                        &default_plan
-                    }
-                };
-
-                // print_hygiene(
-                //     &format!("before merging deps: {}", info.fm.name),
-                //     &self.cm,
-                //     &module.clone().into(),
-                // );
-
-                module = self.merge_deps(ctx, is_entry, module, plan, &info, !allow_circular)?;
-
-                // print_hygiene(
-                //     &format!("after merging deps: {}", info.fm.name),
-                //     &self.cm,
-                //     &module.clone().into(),
-                // );
-            }
-
-            // print_hygiene(
-            //     &format!("processed: {}", info.fm.name),
-            //     &self.cm,
-            //     &module.clone().into(),
-            // );
-
-            if is_entry {
-                self.replace_import_specifiers(&info, &mut module);
-                self.finalize_merging_of_entry(ctx, info.id, &mut module);
-            }
-
-            Ok(module)
-        })
+        self.replace_import_specifiers(&entry_info, &mut entry);
+        self.finalize_merging_of_entry(ctx, entry_id, &mut entry);
     }
 
     fn merge_direct_import(
