@@ -52,7 +52,7 @@ where
         info: &TransformedModule,
         mut module: Modules,
     ) -> Result<Modules, Error> {
-        if !self.config.require || !self.scope.is_cjs(info.id) {
+        if !self.config.require || (!self.scope.is_cjs(info.id) && info.is_es6) {
             return Ok(module);
         }
 
