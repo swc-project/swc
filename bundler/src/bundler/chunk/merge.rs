@@ -29,6 +29,7 @@ use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitM
 use util::CHashSet;
 pub(super) struct Ctx {
     pub plan: Plan,
+    /// Full dependency graph.
     pub graph: ModuleGraph,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
