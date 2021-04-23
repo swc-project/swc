@@ -376,6 +376,11 @@ where
                         }
                     }
 
+                    export.specifiers.retain(|s| match s {
+                        ExportSpecifier::Namespace(_) => false,
+                        _ => true,
+                    });
+
                     export.src = None;
                 }
 
