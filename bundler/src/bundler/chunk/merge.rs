@@ -853,6 +853,16 @@ where
                                             self.scope.wrapped_esm_id(src.module_id);
                                         match wrapped_esm_id {
                                             Some(module_var) => {
+                                                // Create variable for the namespaced export.
+                                                extra.push(
+                                                    module_var
+                                                        .clone()
+                                                        .assign_to(ns.name.clone())
+                                                        .into_module_item(
+                                                            injected_ctxt,
+                                                            "prepare -> namespaced reexport",
+                                                        ),
+                                                );
                                                 let specifier =
                                                     ExportSpecifier::Named(ExportNamedSpecifier {
                                                         span: ns.span,
