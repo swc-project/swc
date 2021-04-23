@@ -9,6 +9,7 @@ use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use std::time::Instant;
 
 mod cjs;
 mod computed_key;
@@ -44,9 +45,10 @@ where
         &self,
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
+        let start = Instant::now();
         let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
-
-        log::debug!("chunk: Analysis is done");
+        let dur = Instant::now() - start;
+        log::debug!("Dependency analysis took {:?}", dur);
 
         let ctx = Ctx {
             graph,
