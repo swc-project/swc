@@ -5,7 +5,7 @@ use swc_babel_ast::{
 };
 
 use swc_ecma_ast::{Decl, VarDecl, VarDeclKind, VarDeclarator, FnDecl, ClassDecl};
-use swc_common::BytePos;
+use swc_common::Span;
 
 impl Babelify for Decl {
     type Output = Declaration;
@@ -64,13 +64,8 @@ impl Babelify for ClassDecl {
         // TODO: Verify that this implementation of class body span is correct.
         // It may need to be modified to take into account implements, super classes,
         // etc.
-        // FIXME: There's a known bug where the body_span is not calculated correctly
-        // for unnamed class expressions. For example,
-        //
-        // let X = class {
-        //     // Class body
-        // }
-        let body_span = self.class.span.with_lo(self.ident.span.hi + BytePos(1));
+        // let body_span = self.class.span.with_lo(self.ident.span.hi + BytePos(1));
+        let body_span = extract_class_body_span(&self, &ctx);
         let class = self.class.babelify(ctx);
         ClassDeclaration {
             base: class.base,
@@ -89,6 +84,11 @@ impl Babelify for ClassDecl {
             type_parameters: class.type_parameters,
         }
     }
+}
+
+fn extract_class_body_span(node: &ClassDecl, ctx: &Context) -> Span {
+    let sp = ctx.cm.span_take_while(node.class.span, |ch| *ch != '{');
+    node.class.span.with_lo(sp.hi())
 }
 
 impl Babelify for VarDecl {
