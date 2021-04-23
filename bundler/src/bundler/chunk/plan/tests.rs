@@ -1,8 +1,5 @@
 use super::Plan;
-use crate::bundler::{
-    chunk::plan::DepType,
-    tests::{suite, Tester},
-};
+use crate::bundler::tests::{suite, Tester};
 use ahash::AHashMap;
 use std::collections::HashSet;
 use swc_common::FileName;

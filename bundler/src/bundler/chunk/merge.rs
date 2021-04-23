@@ -35,7 +35,7 @@ where
     L: Load,
     R: Resolve,
 {
-    /// This method does not sort modules.
+    /// This method sort modules.
     pub(super) fn merge_into_entry(
         &self,
         ctx: &Ctx,

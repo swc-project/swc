@@ -81,7 +81,6 @@ where
             .into_par_iter()
             .map(|(id, mut entry)| {
                 self.merge_into_entry(&ctx, id, &mut entry, &all);
-                entry.sort(id, &ctx.graph, &self.cm);
 
                 (id, entry)
             })
@@ -90,7 +89,7 @@ where
                     .entries
                     .get(&id)
                     .unwrap_or_else(|| {
-                        unreachable!("Plan does not contain bundle kind for {:?}", entry)
+                        unreachable!("Plan does not contain bundle kind for {:?}", id)
                     })
                     .clone();
                 Bundle {
