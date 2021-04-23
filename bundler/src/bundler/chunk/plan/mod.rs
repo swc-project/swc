@@ -5,9 +5,6 @@ use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 
-#[cfg(test)]
-mod tests;
-
 #[derive(Debug, Default)]
 struct PlanBuilder {
     tracked: FxHashSet<(ModuleId, ModuleId)>,
