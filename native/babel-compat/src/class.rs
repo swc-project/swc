@@ -45,23 +45,8 @@ impl Babelify for ClassMember {
     }
 }
 
-// fn class_body_from_swc(members: Vec<ClassMember>, ctx: &Context) -> ClassBody {
 fn extract_class_body(class: &Class, ctx: &Context) -> ClassBody {
-
-    // let spans = members.iter().map(|mem| {
-    //     match mem {
-    //         ClassMember::Constructor(c) => c.span,
-    //         ClassMember::Method(m) => m.span,
-    //         ClassMember::PrivateMethod(m) => m.span,
-    //         ClassMember::ClassProp(p) => p.span,
-    //         ClassMember::PrivateProp(p) => p.span,
-    //         ClassMember::TsIndexSignature(s) => s.span,
-    //         ClassMember::Empty(e) => e.span,
-    //     }
-    // }).collect();
-
     ClassBody {
-        // base: ctx.base_reduce(spans),
         base: ctx.base(extract_class_body_span(&class, &ctx)),
         body: class.body.iter().map(|mem| mem.clone().babelify(ctx)).collect(),
     }
