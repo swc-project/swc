@@ -81,7 +81,7 @@ where
             builder.graph.add_edge(module_id, src.module_id, ());
 
             // Prevent infinite loops.
-            if !builder.tracked.insert((module_id, src.module_id)) {
+            if builder.tracked.insert((module_id, src.module_id)) {
                 self.add_to_graph(builder, src.module_id);
             }
         }
