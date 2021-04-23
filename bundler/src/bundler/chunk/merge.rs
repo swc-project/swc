@@ -66,7 +66,7 @@ where
         let info = self
             .scope
             .get_module(id)
-            .unwrap_or_else(|| panic!("Module {} is not registered", id));
+            .unwrap_or_else(|| unreachable!("Module {} is not registered", id));
         let mut module = self.apply_hooks(id, is_entry)?;
         module = self.prepare_for_merging(&ctx, &info, module, is_entry)?;
 
