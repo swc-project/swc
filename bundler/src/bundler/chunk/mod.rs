@@ -50,6 +50,22 @@ where
         let dur = Instant::now() - start;
         log::debug!("Dependency analysis took {:?}", dur);
 
+        if cfg!(debug_assertions) {
+            for (i, id1) in plan.all.iter().enumerate() {
+                for (j, id2) in plan.all.iter().enumerate() {
+                    if i == j {
+                        continue;
+                    }
+
+                    debug_assert_ne!(
+                        id1, id2,
+                        "Dependency analysis created duplicate entries: {:?}",
+                        id1
+                    )
+                }
+            }
+        }
+
         let ctx = Ctx {
             graph,
             merged: Default::default(),
@@ -70,6 +86,7 @@ where
                 })
             })
             .collect::<Result<FxHashMap<_, _>, _>>()?;
+
         let dur = Instant::now() - start;
         log::debug!("Module preparation took {:?}", dur);
 
