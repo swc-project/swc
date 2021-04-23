@@ -71,6 +71,9 @@ where
             let mut module = self.apply_hooks(id, is_entry)?;
             module = self.prepare_for_merging(&ctx, &info, module)?;
 
+            module = self.wrap_cjs_module(ctx, is_entry, &info, module)?;
+            self.replace_cjs_require_calls(&info, &mut module, is_entry);
+
             Ok(module)
         })
     }
