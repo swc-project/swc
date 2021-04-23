@@ -57,6 +57,7 @@ where
             export_stars_in_wrapped: Default::default(),
         };
 
+        let start = Instant::now();
         let all = (&*plan.all)
             .into_par_iter()
             .map(|id| -> Result<_, Error> {
@@ -69,8 +70,8 @@ where
                 })
             })
             .collect::<Result<FxHashMap<_, _>, _>>()?;
-
-        log::debug!("Prepared all modules");
+        let dur = Instant::now() - start;
+        log::debug!("Module preparation took {:?}", dur);
 
         let entries = all
             .iter()
