@@ -57,6 +57,22 @@ where
     L: Load,
     R: Resolve,
 {
+    pub(super) fn get_for_merging(
+        &self,
+        ctx: &Ctx,
+        id: ModuleId,
+        is_entry: bool,
+    ) -> Result<Modules, Error> {
+        let info = self
+            .scope
+            .get_module(id)
+            .unwrap_or_else(|| panic!("Module {} is not registered", id));
+        let mut module = self.apply_hooks(id, is_entry)?;
+        module = self.prepare_for_merging(&ctx, &info, module, is_entry)?;
+
+        Ok(module)
+    }
+
     /// This method sort modules.
     pub(super) fn merge_into_entry(
         &self,
