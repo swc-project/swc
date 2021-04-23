@@ -52,7 +52,7 @@ where
         info: &TransformedModule,
         mut module: Modules,
     ) -> Result<Modules, Error> {
-        if !self.config.require || !info.is_explicitly_cjs {
+        if !self.config.require {
             return Ok(module);
         }
 
@@ -236,7 +236,7 @@ where
                 };
                 // Replace imports iff dependency is common js module.
                 let dep_module = self.bundler.scope.get_module(dep_module_id).unwrap();
-                if !dep_module.is_explicitly_cjs {
+                if !self.bundler.scope.is_cjs(dep_module_id) {
                     return;
                 }
 
