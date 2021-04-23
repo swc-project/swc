@@ -396,7 +396,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
+        // crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
@@ -992,7 +992,7 @@ where
             module.append(info.id, item);
         }
 
-        module.print(&self.cm, "prepare");
+        // module.print(&self.cm, "prepare");
     }
 
     pub(super) fn replace_import_specifiers(&self, info: &TransformedModule, module: &mut Modules) {
