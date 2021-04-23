@@ -1,15 +1,10 @@
-use super::plan::DepType;
-use super::plan::Plan;
 use crate::bundler::chunk::export::inject_export;
 use crate::bundler::keywords::KeywordRenamer;
 use crate::dep_graph::ModuleGraph;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
-    bundler::{
-        chunk::plan::NormalPlan,
-        load::{Imports, Source, Specifier, TransformedModule},
-    },
+    bundler::load::{Imports, Source, Specifier, TransformedModule},
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
@@ -40,6 +35,16 @@ where
     L: Load,
     R: Resolve,
 {
+    /// This method does not sort modules.
+    pub(super) fn merge_into_entry(
+        &self,
+        ctx: &Ctx,
+        entry_id: ModuleId,
+        entry: &mut Modules,
+        all: &FxHashMap<ModuleId, Modules>,
+    ) {
+    }
+
     /// Merge
     pub(super) fn merge_modules(
         &self,
@@ -849,8 +854,13 @@ where
     /// injecting `const local_A = exported_B_from_foo;`
     ///
     ///
-    /// TODO: We convert all exports to variable at here.
-    pub(crate) fn prepare(&self, info: &TransformedModule, module: &mut Modules) {
+    /// We convert all exports to variable at here.
+    pub(crate) fn prepare_for_merging(
+        &self,
+        ctx: &Ctx,
+        info: &TransformedModule,
+        module: &mut Modules,
+    ) {
         let injected_ctxt = self.injected_ctxt;
 
         if !info.is_es6 {

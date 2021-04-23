@@ -1,10 +1,12 @@
 use super::{load::TransformedModule, Bundler};
+use crate::modules::Modules;
 use crate::{
     bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
     util::IntoParallelIterator, Bundle,
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
+use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
@@ -53,32 +55,53 @@ where
             export_stars_in_wrapped: Default::default(),
         };
 
-        Ok((&*plan.entries)
+        let all = plan
+            .all
             .into_par_iter()
-            .map(|&entry| {
-                self.run(|| {
-                    let kind = ctx
-                        .plan
-                        .bundle_kinds
-                        .get(&entry)
-                        .unwrap_or_else(|| {
-                            unreachable!("Plan does not contain bundle kind for {:?}", entry)
-                        })
-                        .clone();
+            .map(|id| {
+                let info = self.scope.get_module(id).unwrap();
+                let mut module = Modules::from(id, (*info.module).clone(), self.injected_ctxt);
+                self.prepare_for_merging(&ctx, &info, &mut module);
 
-                    let module = self
-                        .merge_modules(&ctx, entry, true, true)
-                        .context("failed to merge module")
-                        .unwrap(); // TODO
-
-                    Bundle {
-                        kind,
-                        id: entry,
-                        module: module.into(),
-                    }
-                })
+                (id, module)
             })
-            .collect())
+            .collect::<FxHashMap<_, _>>();
+
+        let mut entries = all
+            .iter()
+            .filter_map(|(id, module)| {
+                if plan.entries.contains_key(&id) {
+                    return Some((*id, module.clone()));
+                }
+                None
+            })
+            .collect::<Vec<_>>();
+
+        let merged = entries
+            .into_par_iter()
+            .map(|(id, mut entry)| {
+                self.merge_into_entry(&ctx, id, &mut entry, &all);
+                entry.sort(id, &ctx.graph, &self.cm);
+
+                (id, entry)
+            })
+            .map(|(id, module)| {
+                let kind = plan
+                    .entries
+                    .get(&id)
+                    .unwrap_or_else(|| {
+                        unreachable!("Plan does not contain bundle kind for {:?}", entry)
+                    })
+                    .clone();
+                Bundle {
+                    kind,
+                    id,
+                    module: module.into(),
+                }
+            })
+            .collect();
+
+        Ok(merged)
     }
 }
 
