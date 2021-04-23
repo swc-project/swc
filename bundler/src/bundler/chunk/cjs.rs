@@ -1,6 +1,4 @@
-use super::merge::Unexporter;
 use crate::modules::Modules;
-use crate::ModuleId;
 use crate::{
     bundler::{chunk::merge::Ctx, load::TransformedModule},
     Bundler, Load, Resolve,
@@ -8,7 +6,6 @@ use crate::{
 use anyhow::Error;
 use std::sync::atomic::Ordering;
 use swc_atoms::js_word;
-use swc_common::FileName;
 use swc_common::Span;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
@@ -34,7 +31,6 @@ where
             return;
         }
 
-        let load_var = self.make_cjs_load_var(info, DUMMY_SP);
         let mut v = RequireReplacer {
             is_entry,
             base: info,
