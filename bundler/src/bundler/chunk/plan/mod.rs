@@ -5,7 +5,6 @@ use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 
-mod lca;
 #[cfg(test)]
 mod tests;
 
