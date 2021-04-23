@@ -53,9 +53,8 @@ where
     pub(super) fn wrap_cjs_module(
         &self,
         ctx: &Ctx,
-        is_entry: bool,
         info: &TransformedModule,
-        module: Modules,
+        mut module: Modules,
     ) -> Result<Modules, Error> {
         if !self.config.require || !info.is_explicitly_cjs {
             return Ok(module);

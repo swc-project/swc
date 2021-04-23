@@ -172,16 +172,18 @@ where
                 SyntaxContext::empty().apply_mark(export_mark),
             );
 
-            let is_es6 = if !self.config.require {
-                true
+            let (is_es6, found_cjs) = if !self.config.require {
+                (true, false)
             } else {
                 let mut v = Es6ModuleDetector {
                     forced_es6: false,
                     found_other: false,
+                    found_cjs: false,
                 };
                 module.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-                v.forced_es6 || !v.found_other
+                (v.forced_es6 || !v.found_other, v.found_cjs)
             };
+            let is_explicitly_cjs = found_cjs && !is_es6;
 
             let (imports, exports) = util::join(
                 || self.resolve_imports(file_name, imports),
@@ -201,6 +203,7 @@ where
                     imports: Lrc::new(imports),
                     exports: Lrc::new(exports),
                     is_es6,
+                    is_explicitly_cjs,
                     helpers: Default::default(),
                     swc_helpers: Lrc::new(data.helpers),
                     local_ctxt: SyntaxContext::empty().apply_mark(local_mark),
@@ -406,6 +409,7 @@ struct Es6ModuleDetector {
     forced_es6: bool,
     /// True if other module system is detected.
     found_other: bool,
+    found_cjs: bool,
 }
 
 impl Visit for Es6ModuleDetector {
@@ -425,6 +429,13 @@ impl Visit for Es6ModuleDetector {
                 _ => {}
             },
             ExprOrSuper::Super(_) => {}
+        }
+    }
+
+    /// Simply checking for `module` as `exports` will work for most codes.
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        if &*n.sym == "module" || &*n.sym == "exports" {
+            self.found_cjs = true;
         }
     }
 
