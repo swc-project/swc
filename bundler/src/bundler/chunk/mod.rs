@@ -47,14 +47,13 @@ where
     ) -> Result<Vec<Bundle>, Error> {
         let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
         let ctx = Ctx {
-            plan,
             graph,
             merged: Default::default(),
             transitive_remap: Default::default(),
             export_stars_in_wrapped: Default::default(),
         };
 
-        Ok((&*ctx.plan.entries)
+        Ok((&*plan.entries)
             .into_par_iter()
             .map(|&entry| {
                 self.run(|| {

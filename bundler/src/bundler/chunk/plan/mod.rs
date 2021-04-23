@@ -37,104 +37,15 @@ struct PlanBuilder {
     /// directly)
     direct_deps: ModuleGraph,
 
-    circular: Circulars,
-
     kinds: FxHashMap<ModuleId, BundleKind>,
 }
 
 #[derive(Debug, Default)]
-struct Circulars(Vec<FxHashSet<ModuleId>>);
-
-impl Circulars {
-    pub fn get(&self, id: ModuleId) -> Option<&FxHashSet<ModuleId>> {
-        let pos = self.0.iter().position(|set| set.contains(&id))?;
-
-        Some(&self.0[pos])
-    }
-}
-
-impl Deref for Circulars {
-    type Target = Vec<FxHashSet<ModuleId>>;
-
-    fn deref(&self) -> &Self::Target {
-        &self.0
-    }
-}
-
-impl DerefMut for Circulars {
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        &mut self.0
-    }
-}
-
-impl PlanBuilder {
-    fn mark_as_circular(&mut self, src: ModuleId, imported: ModuleId) {
-        for set in self.circular.iter_mut() {
-            if set.contains(&src) || set.contains(&imported) {
-                set.insert(src);
-                set.insert(imported);
-                return;
-            }
-        }
-
-        let mut set = FxHashSet::default();
-        set.insert(src);
-        set.insert(imported);
-        self.circular.push(set);
-    }
-
-    fn is_circular(&self, id: ModuleId) -> bool {
-        for set in self.circular.iter() {
-            if set.contains(&id) {
-                return true;
-            }
-        }
-
-        false
-    }
-}
-
-#[derive(Debug, Default)]
 pub(super) struct Plan {
-    pub entries: Vec<ModuleId>,
+    pub entries: FxHashMap<ModuleId, BundleKind>,
 
-    /// key is entry
-    pub normal: FxHashMap<ModuleId, NormalPlan>,
-    /// key is entry
-    pub circular: FxHashMap<ModuleId, CircularPlan>,
-
-    pub bundle_kinds: FxHashMap<ModuleId, BundleKind>,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(super) enum DepType {
-    /// Direct dependencies
-    Direct,
-    /// Used to handle
-    ///
-    /// - a -> b
-    /// - a -> c
-    /// - b -> d
-    /// - c -> d
-    Transitive,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(super) struct Dependancy {
-    pub ty: DepType,
-    pub id: ModuleId,
-}
-
-#[derive(Debug, Clone, Default)]
-#[cfg_attr(test, derive(PartialEq, Eq))]
-pub(super) struct NormalPlan {
-    pub chunks: Vec<Dependancy>,
-}
-
-#[derive(Debug, Default)]
-pub(super) struct CircularPlan {
-    /// Members of the circular dependncies.
-    pub chunks: Vec<ModuleId>,
+    /// Id of all modules.
+    pub all: Vec<ModuleId>,
 }
 
 impl<L, R> Bundler<'_, L, R>
@@ -559,13 +470,7 @@ where
         plans
     }
 
-    fn add_to_graph(
-        &self,
-        builder: &mut PlanBuilder,
-        module_id: ModuleId,
-        path: &mut Vec<ModuleId>,
-        is_in_reexports: bool,
-    ) {
+    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId, is_in_reexports: bool) {
         builder.direct_deps.add_node(module_id);
 
         let m = self
