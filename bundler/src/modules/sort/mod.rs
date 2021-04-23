@@ -38,5 +38,6 @@ impl Modules {
         // print_hygiene("after sort", cm, &module);
 
         *self = Modules::from(entry_id, module, injected_ctxt);
+        log::debug!("Sorted {:?}", entry_id);
     }
 }
