@@ -405,7 +405,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        // crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
+        crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
