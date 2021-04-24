@@ -173,7 +173,7 @@ where
     /// This method does not care about orders of statement, and it's expected
     /// to be called before `sort`.
     fn inject_reexports(&self, ctx: &Ctx, _entry_id: ModuleId, entry: &mut Modules) {
-        dbg!(&ctx.transitive_remap);
+        // dbg!(&ctx.transitive_remap);
         let injected_ctxt = self.injected_ctxt;
 
         {
@@ -407,7 +407,7 @@ where
 
         entry.sort(id, &ctx.graph, &self.cm);
 
-        crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
+        // crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
 
         entry.retain_mut(|_, item| {
             match item {
@@ -983,7 +983,6 @@ where
                     ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
                         let export_ctxt = export.span.ctxt;
                         let reexport = self.scope.get_module(info.id).unwrap().export_ctxt();
-                        dbg!(export_ctxt, reexport);
                         ctx.transitive_remap.insert(export_ctxt, reexport);
 
                         new.push(item);
