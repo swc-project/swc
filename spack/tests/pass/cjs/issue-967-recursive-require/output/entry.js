@@ -13,35 +13,35 @@ function __spack_require__(mod) {
         return cache;
     })();
 }
+var load = __spack_require__.bind(void 0, function(module, exports) {
+    module.exports = {
+        default: 'a-a-a'
+    };
+});
+var load1 = __spack_require__.bind(void 0, function(module, exports) {
+    module.exports = load();
+});
+var load2 = __spack_require__.bind(void 0, function(module, exports) {
+    console.log('a-b');
+    exports.default = 'ab';
+});
 var load3 = __spack_require__.bind(void 0, function(module, exports) {
-    var load1 = __spack_require__.bind(void 0, function(module1, exports1) {
-        var load2 = __spack_require__.bind(void 0, function(module2, exports2) {
-            module2.exports = {
-                default: 'a-a-a'
-            };
-        });
-        module1.exports = load2();
-    });
-    var load2 = __spack_require__.bind(void 0, function(module1, exports1) {
-        console.log('a-b');
-        exports1.default = 'ab';
-    });
+    console.log('b');
+    module.exports = 'b';
+});
+var load4 = __spack_require__.bind(void 0, function(module, exports) {
     var aa = load1();
     var bb = load2();
-    load1();
+    load3();
     module.exports = {
         aa: aa,
         bb: bb
     };
 });
-var load1 = __spack_require__.bind(void 0, function(module, exports) {
-    console.log('b');
-    module.exports = 'b';
-});
-var load2 = __spack_require__.bind(void 0, function(module, exports) {
+var load5 = __spack_require__.bind(void 0, function(module, exports) {
     console.log('c');
 });
-load3();
-var b = load1();
-load2();
+load4();
+var b = load3();
+load5();
 console.log(b);

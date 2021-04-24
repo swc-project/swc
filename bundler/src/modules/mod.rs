@@ -238,7 +238,41 @@ impl Modules {
                 ))
             })
             .collect::<String>();
-        crate::debug::print_hygiene(&format!("{}\n{}", event, files), cm, &self.clone().into());
+        let mut cloned = self.clone();
+        let mut stmts = vec![];
+
+        for (id, mut module) in cloned.modules {
+            swc_ecma_utils::prepend_stmts(
+                &mut module.body,
+                cloned
+                    .prepended_stmts
+                    .get(&id)
+                    .cloned()
+                    .unwrap_or_default()
+                    .into_iter(),
+            );
+
+            module.body.extend(
+                cloned
+                    .appended_stmts
+                    .get(&id)
+                    .cloned()
+                    .unwrap_or_default()
+                    .into_iter(),
+            );
+
+            stmts.extend(module.body);
+        }
+
+        crate::debug::print_hygiene(
+            &format!("{}\n{}", event, files),
+            cm,
+            &Module {
+                span: DUMMY_SP,
+                body: stmts,
+                shebang: None,
+            },
+        );
     }
 }
 

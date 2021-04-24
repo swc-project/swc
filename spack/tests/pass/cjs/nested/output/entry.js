@@ -14,10 +14,10 @@ function __spack_require__(mod) {
     })();
 }
 var load = __spack_require__.bind(void 0, function(module, exports) {
-    var load1 = __spack_require__.bind(void 0, function(module1, exports1) {
-        module1.exports = 1;
-    });
-    module.exports = load1();
+    module.exports = 1;
 });
-const a = load();
+var load1 = __spack_require__.bind(void 0, function(module, exports) {
+    module.exports = load();
+});
+const a = load1();
 console.log(a);

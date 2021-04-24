@@ -2,7 +2,7 @@ use super::stmt::sort_stmts;
 use crate::dep_graph::ModuleGraph;
 use crate::modules::Modules;
 use crate::ModuleId;
-use ahash::RandomState;
+use fxhash::FxBuildHasher;
 use fxhash::FxHashSet;
 use indexmap::IndexSet;
 use petgraph::algo::all_simple_paths;
@@ -10,6 +10,7 @@ use petgraph::EdgeDirection::Outgoing;
 use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::mem::take;
+use std::time::Instant;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_common::SyntaxContext;
@@ -70,7 +71,10 @@ fn toposort_real_modules<'a>(
 
     let mut chunks = vec![];
 
-    let sorted_ids = toposort_real_module_ids(queue, graph);
+    let start = Instant::now();
+    let sorted_ids = toposort_real_module_ids(queue, graph).collect::<Vec<_>>();
+    let end = Instant::now();
+    log::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
         if ids.is_empty() {
             continue;
@@ -128,9 +132,9 @@ fn toposort_real_modules<'a>(
 fn all_modules_in_circle(
     id: ModuleId,
     done: &FxHashSet<ModuleId>,
-    already_in_index: &mut IndexSet<ModuleId, RandomState>,
+    already_in_index: &mut IndexSet<ModuleId, FxBuildHasher>,
     graph: &ModuleGraph,
-) -> IndexSet<ModuleId, RandomState> {
+) -> IndexSet<ModuleId, FxBuildHasher> {
     let deps = graph
         .neighbors_directed(id, Outgoing)
         .filter(|dep| !done.contains(&dep) && !already_in_index.contains(dep))
@@ -151,10 +155,10 @@ fn all_modules_in_circle(
         })
         .flatten()
         .filter(|module_id| !done.contains(&module_id) && !already_in_index.contains(module_id))
-        .collect::<IndexSet<ModuleId, RandomState>>();
+        .collect::<IndexSet<ModuleId, FxBuildHasher>>();
 
     already_in_index.extend(ids.iter().copied());
-    let mut new_ids = IndexSet::<_, RandomState>::default();
+    let mut new_ids = IndexSet::<_, FxBuildHasher>::default();
 
     for &dep_id in &ids {
         let others = all_modules_in_circle(dep_id, done, already_in_index, graph);

@@ -189,6 +189,17 @@ where
         self.bundler.scope.mark_as_wrapping_required(id);
     }
 
+    fn mark_as_cjs(&self, src: &JsWord) {
+        let path = self.bundler.resolve(self.path, src);
+        let path = match path {
+            Ok(v) => v,
+            Err(_) => return,
+        };
+        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+
+        self.bundler.scope.mark_as_cjs(id);
+    }
+
     fn add_forced_ns_for(&mut self, id: Id) {
         self.idents_to_deglob.remove(&id);
         self.imported_idents.remove(&id);
@@ -237,6 +248,7 @@ where
                     {
                         match &mut **callee {
                             Expr::Ident(i) => {
+                                self.mark_as_cjs(&src.value);
                                 if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
                                     i.span = i.span.with_ctxt(export_ctxt);
                                 }
@@ -602,6 +614,8 @@ where
                     if self.bundler.config.external_modules.contains(&src.value) {
                         return;
                     }
+
+                    self.mark_as_cjs(&src.value);
 
                     match &mut **callee {
                         Expr::Ident(i) => {

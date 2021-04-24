@@ -5,14 +5,14 @@ use crate::{
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
+use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use std::time::Instant;
 
-mod circular;
 mod cjs;
 mod computed_key;
-mod export;
 mod merge;
 mod plan;
 
@@ -45,41 +45,85 @@ where
         &self,
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
+        let start = Instant::now();
         let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
+        let dur = Instant::now() - start;
+        log::debug!("Dependency analysis took {:?}", dur);
+
+        if cfg!(debug_assertions) {
+            for (i, id1) in plan.all.iter().enumerate() {
+                for (j, id2) in plan.all.iter().enumerate() {
+                    if i == j {
+                        continue;
+                    }
+
+                    debug_assert_ne!(
+                        id1, id2,
+                        "Dependency analysis created duplicate entries: {:?}",
+                        id1
+                    )
+                }
+            }
+        }
+
         let ctx = Ctx {
-            plan,
             graph,
             merged: Default::default(),
             transitive_remap: Default::default(),
             export_stars_in_wrapped: Default::default(),
         };
 
-        Ok((&*ctx.plan.entries)
+        let start = Instant::now();
+        let all = (&*plan.all)
             .into_par_iter()
-            .map(|&entry| {
+            .map(|id| -> Result<_, Error> {
                 self.run(|| {
-                    let kind = ctx
-                        .plan
-                        .bundle_kinds
-                        .get(&entry)
-                        .unwrap_or_else(|| {
-                            unreachable!("Plan does not contain bundle kind for {:?}", entry)
-                        })
-                        .clone();
+                    // TODO: is_entry should be false if it's dep of other entry.
+                    let is_entry = plan.entries.contains_key(&id);
+                    let module = self.get_for_merging(&ctx, *id, is_entry)?;
 
-                    let module = self
-                        .merge_modules(&ctx, entry, true, true)
-                        .context("failed to merge module")
-                        .unwrap(); // TODO
-
-                    Bundle {
-                        kind,
-                        id: entry,
-                        module: module.into(),
-                    }
+                    Ok((*id, module))
                 })
             })
-            .collect())
+            .collect::<Result<FxHashMap<_, _>, _>>()?;
+
+        let dur = Instant::now() - start;
+        log::debug!("Module preparation took {:?}", dur);
+
+        let entries = all
+            .iter()
+            .filter_map(|(id, module)| {
+                if plan.entries.contains_key(&id) {
+                    return Some((*id, module.clone()));
+                }
+                None
+            })
+            .collect::<Vec<_>>();
+
+        let merged = entries
+            .into_par_iter()
+            .map(|(id, mut entry)| {
+                self.merge_into_entry(&ctx, id, &mut entry, &all);
+
+                (id, entry)
+            })
+            .map(|(id, module)| {
+                let kind = plan
+                    .entries
+                    .get(&id)
+                    .unwrap_or_else(|| {
+                        unreachable!("Plan does not contain bundle kind for {:?}", id)
+                    })
+                    .clone();
+                Bundle {
+                    kind,
+                    id,
+                    module: module.into(),
+                }
+            })
+            .collect();
+
+        Ok(merged)
     }
 }
 
