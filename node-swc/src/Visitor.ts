@@ -1415,7 +1415,7 @@ export default class Visitor {
   visitJSXOpeningElement(n: JSXOpeningElement): JSXOpeningElement {
     n.name = this.visitJSXElementName(n.name);
     n.typeArguments = this.visitTsTypeParameterInstantiation(n.typeArguments);
-    n.attrs = this.visitJSXAttributes(n.attrs);
+    n.attributes = this.visitJSXAttributes(n.attributes);
     return n;
   }
 

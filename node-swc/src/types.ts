@@ -1067,7 +1067,7 @@ export interface JSXOpeningElement extends Node, HasSpan {
 
   name: JSXElementName;
 
-  attrs?: JSXAttributeOrSpread[];
+  attributes?: JSXAttributeOrSpread[];
 
   selfClosing: boolean;
 
