@@ -57,24 +57,6 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         var iteratorSymbol = $Symbol.iterator || "@@iterator";
         var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
         var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
-        function define(obj, key, value) {
-            Object.defineProperty(obj, key, {
-                value: value,
-                enumerable: true,
-                configurable: true,
-                writable: true
-            });
-            return obj[key];
-        }
-        try {
-            // IE 8 has a broken Object.defineProperty that only works on DOM objects.
-            define({
-            }, "");
-        } catch (err) {
-            define = function(obj, key, value) {
-                return obj[key] = value;
-            };
-        }
         function wrap(innerFn, outerFn, self, tryLocsList) {
             // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
             var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
@@ -142,7 +124,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         var Gp = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(IteratorPrototype);
         GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
         GeneratorFunctionPrototype.constructor = GeneratorFunction;
-        GeneratorFunction.displayName = define(GeneratorFunctionPrototype, toStringTagSymbol, "GeneratorFunction");
+        GeneratorFunctionPrototype[toStringTagSymbol] = GeneratorFunction.displayName = "GeneratorFunction";
         // Helper for defining the .next, .throw, and .return methods of the
         // Iterator interface in terms of a single ._invoke method.
         function defineIteratorMethods(prototype) {
@@ -151,9 +133,9 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 "throw",
                 "return"
             ].forEach(function(method) {
-                define(prototype, method, function(arg) {
+                prototype[method] = function(arg) {
                     return this._invoke(method, arg);
-                });
+                };
             });
         }
         exports1.isGeneratorFunction = function(genFun) {
@@ -166,7 +148,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
             if (Object.setPrototypeOf) Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
             else {
                 genFun.__proto__ = GeneratorFunctionPrototype;
-                define(genFun, toStringTagSymbol, "GeneratorFunction");
+                if (!(toStringTagSymbol in genFun)) genFun[toStringTagSymbol] = "GeneratorFunction";
             }
             genFun.prototype = Object.create(Gp);
             return genFun;
@@ -366,7 +348,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         // Define Generator.prototype.{next,throw,return} in terms of the
         // unified ._invoke helper method.
         defineIteratorMethods(Gp);
-        define(Gp, toStringTagSymbol, "Generator");
+        Gp[toStringTagSymbol] = "Generator";
         // A Generator should always return itself as the iterator object when the
         // @@iterator function is called on it. Some browsers' implementations of the
         // iterator prototype chain incorrectly implement this, causing the Generator
