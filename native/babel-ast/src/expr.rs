@@ -493,7 +493,7 @@ pub enum ArrowFuncExprBody {
 pub struct ArrowFunctionExpression {
     #[serde(flatten)]
     pub base: BaseNode,
-    #[serde(rename = "NumericLiteral")]
+    #[serde(default)]
     pub params: Vec<Param>,
     pub body: Box<ArrowFuncExprBody>,
     #[serde(default, rename = "async")]
