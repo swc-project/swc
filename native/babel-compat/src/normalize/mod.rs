@@ -75,6 +75,15 @@ impl VisitMut for Normalizer {
     }
 
     // ------------------------------------------------------------------------
+    // common
+    fn visit_mut_rest_element(&mut self, node: &mut RestElement) {
+        if node.decorators == None {
+            node.decorators = Some(vec![]);
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    // ------------------------------------------------------------------------
     // decl
     fn visit_mut_variable_declarator(&mut self, node: &mut VariableDeclarator) {
         if node.definite == None {

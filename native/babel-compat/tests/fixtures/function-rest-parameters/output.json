@@ -1,0 +1,309 @@
+{
+    "type": "File",
+    "start": 0,
+    "end": 91,
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 4,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 91,
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 4,
+                "column": 0
+            }
+        },
+        "sourceType": "script",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "FunctionDeclaration",
+                "start": 0,
+                "end": 90,
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 3,
+                        "column": 1
+                    }
+                },
+                "id": {
+                    "type": "Identifier",
+                    "start": 9,
+                    "end": 17,
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 9
+                        },
+                        "end": {
+                            "line": 1,
+                            "column": 17
+                        },
+                        "identifierName": "multiply"
+                    },
+                    "name": "multiply"
+                },
+                "generator": false,
+                "async": false,
+                "params": [
+                    {
+                        "type": "Identifier",
+                        "start": 18,
+                        "end": 28,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 18
+                            },
+                            "end": {
+                                "line": 1,
+                                "column": 28
+                            },
+                            "identifierName": "multiplier"
+                        },
+                        "name": "multiplier"
+                    },
+                    {
+                        "type": "RestElement",
+                        "start": 30,
+                        "end": 40,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 30
+                            },
+                            "end": {
+                                "line": 1,
+                                "column": 40
+                            }
+                        },
+                        "argument": {
+                            "type": "Identifier",
+                            "start": 33,
+                            "end": 40,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 33
+                                },
+                                "end": {
+                                    "line": 1,
+                                    "column": 40
+                                },
+                                "identifierName": "theArgs"
+                            },
+                            "name": "theArgs"
+                        }
+                    }
+                ],
+                "body": {
+                    "type": "BlockStatement",
+                    "start": 42,
+                    "end": 90,
+                    "loc": {
+                        "start": {
+                            "line": 1,
+                            "column": 42
+                        },
+                        "end": {
+                            "line": 3,
+                            "column": 1
+                        }
+                    },
+                    "body": [
+                        {
+                            "type": "ReturnStatement",
+                            "start": 48,
+                            "end": 88,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 44
+                                }
+                            },
+                            "argument": {
+                                "type": "CallExpression",
+                                "start": 55,
+                                "end": 87,
+                                "loc": {
+                                    "start": {
+                                        "line": 2,
+                                        "column": 11
+                                    },
+                                    "end": {
+                                        "line": 2,
+                                        "column": 43
+                                    }
+                                },
+                                "callee": {
+                                    "type": "MemberExpression",
+                                    "start": 55,
+                                    "end": 66,
+                                    "loc": {
+                                        "start": {
+                                            "line": 2,
+                                            "column": 11
+                                        },
+                                        "end": {
+                                            "line": 2,
+                                            "column": 22
+                                        }
+                                    },
+                                    "object": {
+                                        "type": "Identifier",
+                                        "start": 55,
+                                        "end": 62,
+                                        "loc": {
+                                            "start": {
+                                                "line": 2,
+                                                "column": 11
+                                            },
+                                            "end": {
+                                                "line": 2,
+                                                "column": 18
+                                            },
+                                            "identifierName": "theArgs"
+                                        },
+                                        "name": "theArgs"
+                                    },
+                                    "computed": false,
+                                    "property": {
+                                        "type": "Identifier",
+                                        "start": 63,
+                                        "end": 66,
+                                        "loc": {
+                                            "start": {
+                                                "line": 2,
+                                                "column": 19
+                                            },
+                                            "end": {
+                                                "line": 2,
+                                                "column": 22
+                                            },
+                                            "identifierName": "map"
+                                        },
+                                        "name": "map"
+                                    }
+                                },
+                                "arguments": [
+                                    {
+                                        "type": "ArrowFunctionExpression",
+                                        "start": 67,
+                                        "end": 86,
+                                        "loc": {
+                                            "start": {
+                                                "line": 2,
+                                                "column": 23
+                                            },
+                                            "end": {
+                                                "line": 2,
+                                                "column": 42
+                                            }
+                                        },
+                                        "id": null,
+                                        "generator": false,
+                                        "async": false,
+                                        "params": [
+                                            {
+                                                "type": "Identifier",
+                                                "start": 67,
+                                                "end": 68,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 2,
+                                                        "column": 23
+                                                    },
+                                                    "end": {
+                                                        "line": 2,
+                                                        "column": 24
+                                                    },
+                                                    "identifierName": "x"
+                                                },
+                                                "name": "x"
+                                            }
+                                        ],
+                                        "body": {
+                                            "type": "BinaryExpression",
+                                            "start": 72,
+                                            "end": 86,
+                                            "loc": {
+                                                "start": {
+                                                    "line": 2,
+                                                    "column": 28
+                                                },
+                                                "end": {
+                                                    "line": 2,
+                                                    "column": 42
+                                                }
+                                            },
+                                            "left": {
+                                                "type": "Identifier",
+                                                "start": 72,
+                                                "end": 82,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 2,
+                                                        "column": 28
+                                                    },
+                                                    "end": {
+                                                        "line": 2,
+                                                        "column": 38
+                                                    },
+                                                    "identifierName": "multiplier"
+                                                },
+                                                "name": "multiplier"
+                                            },
+                                            "operator": "*",
+                                            "right": {
+                                                "type": "Identifier",
+                                                "start": 85,
+                                                "end": 86,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 2,
+                                                        "column": 41
+                                                    },
+                                                    "end": {
+                                                        "line": 2,
+                                                        "column": 42
+                                                    },
+                                                    "identifierName": "x"
+                                                },
+                                                "name": "x"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "directives": []
+                }
+            }
+        ],
+        "directives": []
+    },
+    "comments": []
+}
