@@ -93,8 +93,8 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/module-export-named/input.mjs";
-    let output_file = "tests/fixtures/module-export-named/output.json";
+    let input_file = "tests/fixtures/module-export-default/input.mjs";
+    let output_file = "tests/fixtures/module-export-default/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
