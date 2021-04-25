@@ -36,7 +36,7 @@ impl Babelify for ModuleDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             ModuleDecl::Import(i) => ModuleDeclOutput::Import(i.babelify(ctx)),
-            ModuleDecl::ExportDecl(e) => ModuleDeclOutput::ExportDefault(e.babelify(ctx)),
+            ModuleDecl::ExportDecl(e) => ModuleDeclOutput::ExportNamed(e.babelify(ctx)),
             ModuleDecl::ExportNamed(n) => ModuleDeclOutput::ExportNamed(n.babelify(ctx)),
             ModuleDecl::ExportDefaultDecl(e) => ModuleDeclOutput::ExportDefault(e.babelify(ctx)),
             ModuleDecl::ExportDefaultExpr(e) => ModuleDeclOutput::ExportDefault(e.babelify(ctx)),
@@ -72,18 +72,28 @@ impl Babelify for ExportDefaultExpr {
 }
 
 impl Babelify for ExportDecl {
-    type Output = ExportDefaultDeclaration;
+    type Output = ExportNamedDeclaration;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        ExportDefaultDeclaration {
+        ExportNamedDeclaration {
             base: ctx.base(self.span),
-            declaration: match self.decl {
-                Decl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx)),
-                Decl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx)),
-                // TODO(dwoznicki): not sure how to do the rest of the conversions
-                _ => panic!("illegal conversion: Cannot convert {} to ExportDefaultDeclType (in impl Babelify for ExportDecl)", type_name_of_val(&self.decl)),
-            }
+            declaration: Some(Box::new(self.decl.babelify(ctx))),
+            specifiers: Default::default(),
+            source: Default::default(),
+            assertions: Default::default(),
+            export_kind: Default::default(),
         }
+
+        // ExportDefaultDeclaration {
+        //     base: ctx.base(self.span),
+        //     declaration: match self.decl {
+        //         Decl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx)),
+        //         Decl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx)),
+        //         // TODO(dwoznicki): not sure how to do the rest of the conversions
+        //         _ => panic!("illegal conversion: Cannot convert {} to ExportDefaultDeclType (in impl Babelify for ExportDecl)", type_name_of_val(&self.decl)),
+        //     }
+        // }
+
     }
 }
 
