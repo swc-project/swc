@@ -278,8 +278,9 @@ impl Babelify for ExportNamedSpecifier {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelExportSpecifier {
             base: ctx.base(self.span),
-            local: self.orig.babelify(ctx),
-            exported: IdOrString::Id(self.exported.unwrap().babelify(ctx)), // TODO(dwoznicki): what to do when None?
+            local: self.orig.clone().babelify(ctx),
+            // exported: IdOrString::Id(self.exported.unwrap().babelify(ctx)), // TODO(dwoznicki): what to do when None?
+            exported: IdOrString::Id(self.exported.unwrap_or(self.orig).babelify(ctx)),
         }
     }
 }
