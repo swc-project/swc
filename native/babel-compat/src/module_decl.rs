@@ -228,9 +228,11 @@ impl Babelify for ImportNamedSpecifier {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelImportSpecifier {
             base: ctx.base(self.span),
-            local: self.local.babelify(ctx),
-            imported: IdOrString::Id(self.imported.unwrap().babelify(ctx)), // TODO(dwoznicki): what to do when None?
-            import_kind: ImportKind::Type, // TODO(dwoznicki): not sure what this should actually be
+            local: self.local.clone().babelify(ctx),
+            // imported: IdOrString::Id(self.imported.unwrap().babelify(ctx)), // TODO(dwoznicki): what to do when None?
+            imported: IdOrString::Id(self.imported.unwrap_or(self.local).babelify(ctx)),
+            // import_kind: ImportKind::Type, // TODO(dwoznicki): not sure what this should actually be
+            import_kind: None,
         }
     }
 }

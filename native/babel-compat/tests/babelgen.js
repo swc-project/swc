@@ -11,6 +11,10 @@ if (!inputFile) {
 
 const code = readFileSync(inputFile, "utf8");
 
-const babelAst = parse(code, {plugins: ["classProperties"]});
+const babelAst = parse(code, {
+    plugins: ["classProperties"],
+    sourceType: inputFile.endsWith(".mjs") ? "module" : undefined,
+    // allowImportExportEverywhere: true,
+});
 console.log(JSON.stringify(babelAst, null, 4));
 

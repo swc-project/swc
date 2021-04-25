@@ -7,7 +7,6 @@ use swc_babel_ast::{
 use swc_ecma_ast::{Program, Module, Script, ModuleItem};
 use swc_common::Span;
 use serde::{Serialize, Deserialize};
-use std::any::type_name_of_val;
 
 impl Babelify for Program {
     type Output = File;
@@ -103,8 +102,16 @@ impl Babelify for ModuleItem {
 impl From<ModuleItemOutput> for Statement {
     fn from(m: ModuleItemOutput) -> Self {
         match m {
-            ModuleItemOutput::Stmt(s) => s,
-            _ => panic!("illegal conversion: Cannot convert {} to Statement (in impl From<ModuleItemOutput> for Statement)", type_name_of_val(&m)),
+            ModuleItemOutput::Stmt(stmt) => stmt,
+            ModuleItemOutput::ModuleDecl(decl) => {
+                match decl {
+                    ModuleDeclaration::ExportAll(e) => Statement::ExportAllDecl(e),
+                    ModuleDeclaration::ExportDefault(e) => Statement::ExportDefaultDecl(e),
+                    ModuleDeclaration::ExportNamed(e) => Statement::ExportNamedDecl(e),
+                    ModuleDeclaration::Import(i) => Statement::ImportDecl(i),
+                }
+            },
+            // _ => panic!("illegal conversion: Cannot convert {} to Statement (in impl From<ModuleItemOutput> for Statement)", type_name_of_val(&m)),
         }
     }
 }

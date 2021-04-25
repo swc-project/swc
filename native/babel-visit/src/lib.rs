@@ -1519,7 +1519,7 @@ define!({
         pub base: BaseNode,
         pub local: Identifier,
         pub imported: IdOrString,
-        pub import_kind: ImportKind,
+        pub import_kind: Option<ImportKind>,
     }
     pub struct ImportDefaultSpecifier {
         pub base: BaseNode,

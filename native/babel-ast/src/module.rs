@@ -216,7 +216,8 @@ pub struct ImportSpecifier {
     pub base: BaseNode,
     pub local: Identifier,
     pub imported: IdOrString,
-    pub import_kind: ImportKind,
+    #[serde(default)]
+    pub import_kind: Option<ImportKind>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

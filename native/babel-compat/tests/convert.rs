@@ -38,15 +38,24 @@ fn fixtures() -> Result<(), Error> {
 
         let js_path: PathBuf = entry.path().join("input.js");
         let ts_path: PathBuf = entry.path().join("input.ts");
+        let mjs_path: PathBuf = entry.path().join("input.mjs");
         let output_path: PathBuf = entry.path().join("output.json");
 
         let is_typescript = ts_path.is_file();
+        let is_module = mjs_path.is_file();
 
-        if (!js_path.is_file() && !ts_path.is_file()) || !output_path.is_file() {
+        if (!js_path.is_file() && !ts_path.is_file()) && !mjs_path.is_file() || !output_path.is_file() {
             continue;
         }
 
-        let input = fs::read_to_string(if is_typescript { &ts_path } else { &js_path })
+        let input_path = if is_typescript {
+            &ts_path
+        } else if is_module {
+            &mjs_path
+        } else {
+            &js_path
+        };
+        let input = fs::read_to_string(input_path)
             .with_context(|| format!("Failed to open file: {}", &js_path.to_string_lossy()))?;
         let output = fs::read_to_string(&output_path)
             .with_context(|| format!("Failed to open file: {}", &output_path.to_string_lossy()))?;
@@ -68,7 +77,7 @@ fn fixtures() -> Result<(), Error> {
                 } else {
                     Syntax::default()
                 };
-                run_test(input, output, syntax);
+                run_test(input, output, syntax, is_module);
             })),
         })
     }
@@ -84,19 +93,19 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/module-commonjs/input.js";
-    let output_file = "tests/fixtures/module-commonjs/output.json";
+    let input_file = "tests/fixtures/module-import/input.mjs";
+    let output_file = "tests/fixtures/module-import/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
     let output = fs::read_to_string(&output_file)
         .with_context(|| format!("Failed to open file: {}", &output_file))?;
-    run_test(input, output, Syntax::default());
+    run_test(input, output, Syntax::default(), true);
 
     Ok(())
 }
 
-fn run_test(src: String, expected: String, syntax: Syntax) {
+fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
     let handler = Arc::new(Handler::with_tty_emitter(
         ColorConfig::Always,
@@ -112,8 +121,8 @@ fn run_test(src: String, expected: String, syntax: Syntax) {
             fm.clone(),
             Default::default(),
             syntax,
-            false,
-            true, // parse conmments
+            is_module,
+            true, // parse_conmments
         )
         .unwrap();
 
