@@ -1038,8 +1038,10 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 
 #[inline]
 fn jsx_text_to_str(t: JsWord) -> JsWord {
-    static SPACE_NL_START: Lazy<Regex> = Lazy::new(|| Regex::new("^\\s*\n\\s*").unwrap());
-    static SPACE_NL_END: Lazy<Regex> = Lazy::new(|| Regex::new("\\s*\n\\s*$").unwrap());
+    static SPACE_NL_START: Lazy<Regex> =
+        Lazy::new(|| Regex::new("^[\t'\n\x0C\r ]*\n[\t'\n\x0C\r ]*").unwrap());
+    static SPACE_NL_END: Lazy<Regex> =
+        Lazy::new(|| Regex::new("[\t'\n\x0C\r ]*\n[\t'\n\x0C\r ]*$").unwrap());
 
     if t == *" " {
         return t;
