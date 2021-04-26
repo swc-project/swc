@@ -1,4 +1,5 @@
 use super::stmt::sort_stmts;
+use crate::algo::johnson::Johnson;
 use crate::dep_graph::ModuleGraph;
 use crate::modules::Modules;
 use crate::ModuleId;
@@ -72,7 +73,11 @@ fn toposort_real_modules<'a>(
     let mut chunks = vec![];
 
     let start = Instant::now();
-    let sorted_ids = toposort_real_module_ids(queue, graph).collect::<Vec<_>>();
+    let cycles = {
+        let mut j = Johnson::new(&graph);
+        j.find_circuits()
+    };
+    let sorted_ids = toposort_real_module_ids(queue, graph, cycles).collect::<Vec<_>>();
     let end = Instant::now();
     log::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
@@ -128,50 +133,10 @@ fn toposort_real_modules<'a>(
     chunks
 }
 
-/// Get all modules in a cycle.
-fn all_modules_in_circle(
-    id: ModuleId,
-    done: &FxHashSet<ModuleId>,
-    already_in_index: &mut IndexSet<ModuleId, FxBuildHasher>,
-    graph: &ModuleGraph,
-) -> IndexSet<ModuleId, FxBuildHasher> {
-    let deps = graph
-        .neighbors_directed(id, Outgoing)
-        .filter(|dep| !done.contains(&dep) && !already_in_index.contains(dep))
-        .collect::<Vec<_>>();
-
-    let mut ids = deps
-        .iter()
-        .copied()
-        .flat_map(|dep| {
-            let mut paths =
-                all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None).collect::<Vec<_>>();
-
-            for path in paths.iter_mut() {
-                path.reverse();
-            }
-
-            paths
-        })
-        .flatten()
-        .filter(|module_id| !done.contains(&module_id) && !already_in_index.contains(module_id))
-        .collect::<IndexSet<ModuleId, FxBuildHasher>>();
-
-    already_in_index.extend(ids.iter().copied());
-    let mut new_ids = IndexSet::<_, FxBuildHasher>::default();
-
-    for &dep_id in &ids {
-        let others = all_modules_in_circle(dep_id, done, already_in_index, graph);
-        new_ids.extend(others)
-    }
-    ids.extend(new_ids);
-
-    ids
-}
-
 fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
+    cycles: Vec<Vec<ModuleId>>,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
     let mut done = FxHashSet::<ModuleId>::default();
 
@@ -197,8 +162,12 @@ fn toposort_real_module_ids<'a>(
 
             // dbg!(&deps);
 
-            let mut all_modules_in_circle =
-                all_modules_in_circle(id, &done, &mut Default::default(), graph);
+            let mut all_modules_in_circle = cycles
+                .iter()
+                .filter(|v| v.contains(&id))
+                .flatten()
+                .copied()
+                .collect::<IndexSet<_>>();
             all_modules_in_circle.reverse();
 
             if all_modules_in_circle.is_empty() {
