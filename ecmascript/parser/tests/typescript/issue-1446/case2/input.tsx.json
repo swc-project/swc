@@ -1,0 +1,124 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 78,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 78,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXFragment",
+        "span": {
+          "start": 0,
+          "end": 77,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningFragment",
+          "span": {
+            "start": 0,
+            "end": 2,
+            "ctxt": 0
+          }
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 2,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "\n\n  ",
+            "raw": "\n\n  "
+          },
+          {
+            "type": "JSXElement",
+            "span": {
+              "start": 5,
+              "end": 64,
+              "ctxt": 0
+            },
+            "opening": {
+              "type": "JSXOpeningElement",
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 6,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "value": "span",
+                "optional": false
+              },
+              "span": {
+                "start": 5,
+                "end": 11,
+                "ctxt": 0
+              },
+              "attributes": [],
+              "selfClosing": false,
+              "typeArguments": null
+            },
+            "children": [
+              {
+                "type": "JSXText",
+                "span": {
+                  "start": 11,
+                  "end": 57,
+                  "ctxt": 0
+                },
+                "value": "Hello something long to not trigger line break",
+                "raw": "Hello something long to not trigger line break"
+              }
+            ],
+            "closing": {
+              "type": "JSXClosingElement",
+              "span": {
+                "start": 57,
+                "end": 64,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 59,
+                  "end": 63,
+                  "ctxt": 0
+                },
+                "value": "span",
+                "optional": false
+              }
+            }
+          },
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 64,
+              "end": 74,
+              "ctxt": 0
+            },
+            "value": "\n\n   \n\n",
+            "raw": "\n\n   \n\n"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingFragment",
+          "span": {
+            "start": 74,
+            "end": 77,
+            "ctxt": 0
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
