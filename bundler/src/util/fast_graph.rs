@@ -13,6 +13,7 @@ use petgraph::graph::Graph;
 use petgraph::visit::GraphBase;
 use petgraph::visit::IntoNeighbors;
 use petgraph::visit::IntoNeighborsDirected;
+use petgraph::visit::IntoNodeIdentifiers;
 use petgraph::visit::NodeCount;
 use petgraph::visit::Visitable;
 use petgraph::IntoWeightedEdge;

@@ -1,8 +1,10 @@
 use crate::util::fast_graph::FastDiGraphMap;
 use crate::util::fast_graph::NodeTrait;
 use fxhash::FxHashMap;
+use petgraph::algo::tarjan_scc;
 use petgraph::EdgeDirection::Outgoing;
 use std::hash::Hash;
+use std::mem::take;
 
 pub(crate) struct Johnson<N, E> {
     graph: FastDiGraphMap<N, E>,
@@ -16,6 +18,8 @@ where
     N: Copy + Eq + Hash + NodeTrait,
     E: Copy,
 {
+    pub fn new() -> Self {}
+
     fn unblock(&mut self, u: N) {
         self.blocked.insert(u, false);
 
@@ -87,5 +91,82 @@ where
         }
 
         new
+    }
+
+    fn least_scc(g: &FastDiGraphMap<N, E>) -> FastDiGraphMap<N, E> {
+        let mut graph = g.clone().into_graph::<usize>();
+        let sccs = tarjan_scc(&graph);
+        let mut min = None;
+        let min_scc = vec![];
+        let mut min_scc = &min_scc;
+        for scc in &sccs {
+            if scc.len() == 1 {
+                continue;
+            }
+
+            for i in scc {
+                match &mut min {
+                    Some(min) => {
+                        if i < *min {
+                            min_scc = &scc;
+                            *min = i;
+                        }
+                    }
+                    None => {
+                        min = Some(i);
+                    }
+                }
+            }
+        }
+
+        let mut new = FastDiGraphMap::new();
+        for i in min_scc {
+            let i = graph.remove_node(*i).unwrap();
+            for (from, to, weight) in g.edges(i) {
+                if from != i {
+                    continue;
+                }
+
+                let contains = min_scc
+                    .iter()
+                    .any(|idx| graph.remove_node(*idx).unwrap() == to);
+                if contains {
+                    new.add_edge(from, to, *weight);
+                }
+            }
+        }
+
+        new
+    }
+
+    pub fn find_circuits(mut self) -> Vec<Vec<N>> {
+        if self.graph.node_count() == 0 {
+            return vec![];
+        }
+
+        let mut stack = vec![];
+        let mut nodes_to_visit = self.graph.nodes().collect::<Vec<_>>();
+        nodes_to_visit.sort();
+        nodes_to_visit.reverse();
+
+        while let Some(s) = nodes_to_visit.pop() {
+            let sub_graph = Self::sub_graph_from(&self.graph, s);
+            let least_scc = Self::least_scc(&sub_graph);
+
+            if least_scc.node_count() > 0 {
+                let least = Self::least_vertex(&least_scc).unwrap();
+                nodes_to_visit.retain(|node| *node >= least);
+
+                for i in least_scc.nodes() {
+                    self.blocked.insert(i, false);
+                    self.blocked_nodes.insert(i, vec![]);
+                }
+                self.circuit(&least_scc, s, s, &mut stack);
+            } else {
+                break;
+            }
+        }
+
+        take(&mut self.circuits)
     }
 }
