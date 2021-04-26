@@ -12,6 +12,7 @@ version = "0.15.3"
 [dependencies]
 dashmap = "3"
 fxhash = "0.2.1"
+indexmap = "1.6.2"
 once_cell = "1.2.0"
 semver = {version = "0.9.0", features = ["serde"]}
 serde = {version = "1", features = ["derive"]}
