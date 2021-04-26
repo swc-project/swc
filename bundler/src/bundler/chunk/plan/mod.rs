@@ -10,6 +10,7 @@ struct PlanBuilder {
     tracked: FxHashSet<(ModuleId, ModuleId)>,
 
     graph: ModuleGraph,
+    cycles: Vec<Vec<ModuleId>>,
     all: Vec<ModuleId>,
 
     kinds: FxHashMap<ModuleId, BundleKind>,
@@ -31,16 +32,7 @@ where
     pub(super) fn determine_entries(
         &self,
         entries: AHashMap<String, TransformedModule>,
-    ) -> Result<(Plan, ModuleGraph), Error> {
-        let plan = self.calculate_plan(entries)?;
-
-        Ok(plan)
-    }
-
-    fn calculate_plan(
-        &self,
-        entries: AHashMap<String, TransformedModule>,
-    ) -> Result<(Plan, ModuleGraph), Error> {
+    ) -> Result<(Plan, ModuleGraph, Vec<Vec<ModuleId>>), Error> {
         let mut builder = PlanBuilder::default();
 
         for (name, module) in entries {
@@ -49,7 +41,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id);
+            self.add_to_graph(&mut builder, module.id, &mut vec![]);
         }
 
         Ok((
@@ -58,11 +50,31 @@ where
                 all: builder.all,
             },
             builder.graph,
+            builder.cycles,
         ))
     }
 
-    fn add_to_graph(&self, builder: &mut PlanBuilder, module_id: ModuleId) {
-        if !builder.all.contains(&module_id) {
+    fn add_to_graph(
+        &self,
+        builder: &mut PlanBuilder,
+        module_id: ModuleId,
+        path: &mut Vec<ModuleId>,
+    ) {
+        let visited = builder.all.contains(&module_id);
+        let cycle_rpos = if visited {
+            path.iter().rposition(|v| *v == module_id)
+        } else {
+            None
+        };
+
+        if let Some(rpos) = cycle_rpos {
+            let cycle = path[rpos..].to_vec();
+            builder.cycles.push(cycle);
+        }
+
+        path.push(module_id);
+
+        if !visited {
             builder.all.push(module_id);
         }
         builder.graph.add_node(module_id);
@@ -84,8 +96,11 @@ where
 
             // Prevent infinite loops.
             if builder.tracked.insert((module_id, src.module_id)) {
-                self.add_to_graph(builder, src.module_id);
+                self.add_to_graph(builder, src.module_id, path);
             }
         }
+
+        let res = path.pop();
+        debug_assert_eq!(res, Some(module_id));
     }
 }

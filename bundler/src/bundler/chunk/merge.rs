@@ -29,6 +29,7 @@ use EdgeDirection::Outgoing;
 pub(super) struct Ctx {
     /// Full dependency graph.
     pub graph: ModuleGraph,
+    pub cycles: Vec<Vec<ModuleId>>,
     pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
     pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
@@ -405,7 +406,7 @@ where
 
         inline(self.injected_ctxt, entry);
 
-        entry.sort(id, &ctx.graph, &self.cm);
+        entry.sort(id, &ctx.graph, &ctx.cycles, &self.cm);
 
         // crate::debug::print_hygiene("done", &self.cm, &entry.clone().into());
 

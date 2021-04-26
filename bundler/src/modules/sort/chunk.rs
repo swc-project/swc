@@ -2,10 +2,8 @@ use super::stmt::sort_stmts;
 use crate::dep_graph::ModuleGraph;
 use crate::modules::Modules;
 use crate::ModuleId;
-use fxhash::FxBuildHasher;
 use fxhash::FxHashSet;
 use indexmap::IndexSet;
-use petgraph::algo::all_simple_paths;
 use petgraph::EdgeDirection::Outgoing;
 use std::collections::VecDeque;
 use std::iter::from_fn;
@@ -29,6 +27,7 @@ impl Modules {
         &mut self,
         entry_id: ModuleId,
         graph: &ModuleGraph,
+        cycle: &Vec<Vec<ModuleId>>,
         cm: &Lrc<SourceMap>,
     ) -> Vec<Chunk> {
         let injected_ctxt = self.injected_ctxt;
@@ -51,6 +50,7 @@ impl Modules {
             modules,
             entry_id,
             graph,
+            cycle,
             cm,
         ));
 
@@ -64,6 +64,7 @@ fn toposort_real_modules<'a>(
     mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
     graph: &'a ModuleGraph,
+    cycles: &'a Vec<Vec<ModuleId>>,
     cm: &Lrc<SourceMap>,
 ) -> Vec<Chunk> {
     let mut queue = modules.iter().map(|v| v.0).collect::<VecDeque<_>>();
@@ -72,7 +73,7 @@ fn toposort_real_modules<'a>(
     let mut chunks = vec![];
 
     let start = Instant::now();
-    let sorted_ids = toposort_real_module_ids(queue, graph).collect::<Vec<_>>();
+    let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
     let end = Instant::now();
     log::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
@@ -128,50 +129,35 @@ fn toposort_real_modules<'a>(
     chunks
 }
 
-/// Get all modules in a cycle.
-fn all_modules_in_circle(
+fn cycles_for(
+    cycles: &Vec<Vec<ModuleId>>,
     id: ModuleId,
-    done: &FxHashSet<ModuleId>,
-    already_in_index: &mut IndexSet<ModuleId, FxBuildHasher>,
-    graph: &ModuleGraph,
-) -> IndexSet<ModuleId, FxBuildHasher> {
-    let deps = graph
-        .neighbors_directed(id, Outgoing)
-        .filter(|dep| !done.contains(&dep) && !already_in_index.contains(dep))
-        .collect::<Vec<_>>();
-
-    let mut ids = deps
+    checked: &mut Vec<ModuleId>,
+) -> IndexSet<ModuleId> {
+    checked.push(id);
+    let mut v = cycles
         .iter()
-        .copied()
-        .flat_map(|dep| {
-            let mut paths =
-                all_simple_paths::<Vec<_>, _>(&graph, dep, id, 0, None).collect::<Vec<_>>();
-
-            for path in paths.iter_mut() {
-                path.reverse();
-            }
-
-            paths
-        })
+        .filter(|v| v.contains(&id))
         .flatten()
-        .filter(|module_id| !done.contains(&module_id) && !already_in_index.contains(module_id))
-        .collect::<IndexSet<ModuleId, FxBuildHasher>>();
+        .copied()
+        .collect::<IndexSet<_>>();
 
-    already_in_index.extend(ids.iter().copied());
-    let mut new_ids = IndexSet::<_, FxBuildHasher>::default();
+    let ids = v.clone();
 
-    for &dep_id in &ids {
-        let others = all_modules_in_circle(dep_id, done, already_in_index, graph);
-        new_ids.extend(others)
+    for added in ids {
+        if checked.contains(&added) {
+            continue;
+        }
+        v.extend(cycles_for(cycles, added, checked));
     }
-    ids.extend(new_ids);
 
-    ids
+    v
 }
 
 fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
+    cycles: &'a Vec<Vec<ModuleId>>,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
     let mut done = FxHashSet::<ModuleId>::default();
 
@@ -197,8 +183,7 @@ fn toposort_real_module_ids<'a>(
 
             // dbg!(&deps);
 
-            let mut all_modules_in_circle =
-                all_modules_in_circle(id, &done, &mut Default::default(), graph);
+            let mut all_modules_in_circle = cycles_for(cycles, id, &mut Default::default());
             all_modules_in_circle.reverse();
 
             if all_modules_in_circle.is_empty() {

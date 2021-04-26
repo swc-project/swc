@@ -1837,9 +1837,9 @@ function hasInvalidTimeData(obj) {
     } else return false;
 }
 const INVALID = "Invalid DateTime";
+const INVALID1 = "Invalid Duration";
 let intlDTCache = {
 };
-const INVALID1 = "Invalid Duration";
 let now = ()=>Date.now()
 , defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
 const INVALID2 = "Invalid Interval";
@@ -2575,6 +2575,17 @@ function diffRelative(start, end, opts) {
         }
     }
     return format(0, opts.units[opts.units.length - 1]);
+}
+function friendlyDuration(durationish) {
+    if (isNumber(durationish)) {
+        return Duration.fromMillis(durationish);
+    } else if (Duration.isDuration(durationish)) {
+        return durationish;
+    } else if (typeof durationish === "object") {
+        return Duration.fromObject(durationish);
+    } else {
+        throw new InvalidArgumentError(`Unknown duration argument ${durationish} of type ${typeof durationish}`);
+    }
 }
 class DateTime {
     constructor(config1){
@@ -3708,17 +3719,6 @@ class Locale {
     }
     equals(other) {
         return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
-    }
-}
-function friendlyDuration(durationish) {
-    if (isNumber(durationish)) {
-        return Duration.fromMillis(durationish);
-    } else if (Duration.isDuration(durationish)) {
-        return durationish;
-    } else if (typeof durationish === "object") {
-        return Duration.fromObject(durationish);
-    } else {
-        throw new InvalidArgumentError(`Unknown duration argument ${durationish} of type ${typeof durationish}`);
     }
 }
 class Settings {

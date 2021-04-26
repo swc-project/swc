@@ -63,7 +63,7 @@ where
         module.visit_mut_with(&mut DefaultHandler {
             local_ctxt: info.local_ctxt(),
         });
-        module.sort(info.id, &ctx.graph, &self.cm);
+        module.sort(info.id, &ctx.graph, &ctx.cycles, &self.cm);
 
         let stmt = ModuleItem::Stmt(wrap_module(
             SyntaxContext::empty(),
