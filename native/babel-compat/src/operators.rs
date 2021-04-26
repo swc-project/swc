@@ -3,7 +3,6 @@ use swc_babel_ast::{BinaryExprOp, LogicalExprOp, UpdateExprOp, UnaryExprOp};
 
 use swc_ecma_ast::{BinaryOp, AssignOp, UpdateOp, UnaryOp};
 use serde::{Serialize, Deserialize};
-use std::any::type_name_of_val;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BinaryOpOutput {
@@ -15,7 +14,7 @@ impl From<BinaryOpOutput> for BinaryExprOp {
     fn from(o: BinaryOpOutput) -> Self {
         match o {
             BinaryOpOutput::BinOp(op) => op,
-            BinaryOpOutput::LogicOp(_) => panic!("illegal conversion: Cannot convert {} to BinaryExprOp (in impl From<BinaryOpOutput> for BinaryExprOutput)", type_name_of_val(&o)),
+            BinaryOpOutput::LogicOp(_) => panic!("illegal conversion: Cannot convert {:?} to BinaryExprOp", &o),
         }
     }
 }

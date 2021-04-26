@@ -36,7 +36,6 @@ use swc_ecma_ast::{
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
-use std::any::type_name_of_val;
 
 impl Babelify for TsTypeAnn {
     type Output = TSTypeAnnotation;
@@ -88,7 +87,7 @@ impl From<TsFnParamOutput> for IdOrRest {
         match o {
             TsFnParamOutput::Id(i) => IdOrRest::Id(i),
             TsFnParamOutput::Rest(r) => IdOrRest::Rest(r),
-            _ => panic!("illegal conversion: Cannot convert {} to IdOrRest (in impl From<TsFnParamOutput> for IdOrRest)", type_name_of_val(&o)),
+            _ => panic!("illegal conversion: Cannot convert {:?} to IdOrRest", &o),
         }
     }
 }
@@ -97,7 +96,7 @@ impl From<TsFnParamOutput> for Identifier {
     fn from(o: TsFnParamOutput) -> Self {
         match o {
             TsFnParamOutput::Id(i) => i,
-            _ => panic!("illegal conversion: Cannot convert {} to Identifier (in impl From<TsFnParamOutput> for Identifier)", type_name_of_val(&o)),
+            _ => panic!("illegal conversion: Cannot convert {:?} to Identifier", &o),
         }
     }
 }
@@ -184,31 +183,6 @@ impl Babelify for TsEntityName {
         }
     }
 }
-
-/*
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub enum TsSignatureDeclOutput {
-    CallSignatureDecl(TSCallSignatureDeclaration),
-    ConstructSignatureDecl(TSConstructSignatureDeclaration),
-    MethodSignature(TSMethodSignature),
-    FuncType(TSFunctionType),
-    ConstructorType(TSConstructorType),
-}
-
-impl Babelify for TsSignatureDecl {
-    type Output = TsSignatureDeclOutput;
-
-    fn babelify(self, ctx: &Context) -> Self::Output {
-        match self {
-            TsSignatureDecl::TsCallSignatureDecl(t) => TsSignatureDeclOutput::CallSignatureDecl(t.babelify(ctx)),
-            TsSignatureDecl::TsConstructSignatureDecl(t) => TsSignatureDeclOutput::ConstructSignatureDecl(t.babelify(ctx)),
-            TsSignatureDecl::TsMethodSignature(t) => TsSignatureDeclOutput::MethodSignature(t.babelify(ctx)),
-            TsSignatureDecl::TsFnType(t) => TsSignatureDeclOutput::FuncType(t.babelify(ctx)),
-            TsSignatureDecl::TsConstructorType(t) => TsSignatureDeclOutput::ConstructorType(t.babelify(ctx)),
-        }
-    }
-}
-*/
 
 impl Babelify for TsTypeElement {
     type Output = TSTypeElement;
@@ -576,10 +550,10 @@ impl Babelify for TsTupleElement {
                         Pat::Rest(rest) => {
                             match *rest.arg {
                                 Pat::Ident(id) => id.babelify(ctx),
-                                _ => panic!("illegal conversion: Cannot convert {} to Identifier (in impl Babelify for TsTupleElement)", type_name_of_val(&rest.arg)),
+                                _ => panic!("illegal conversion: Cannot convert {:?} to Identifier", &rest.arg),
                             }
                         },
-                        _ => panic!("illegal conversion: Cannot convert {} to Identifier (in impl Babelify for TsTupleElement)", type_name_of_val(&pat)),
+                        _ => panic!("illegal conversion: Cannot convert {:?} to Identifier", &pat),
                     },
                     element_type: self.ty.babelify(ctx),
                     optional: Default::default(),
@@ -759,7 +733,7 @@ impl Babelify for TsLit {
             TsLit::Str(s) => TSLiteralTypeLiteral::String(s.babelify(ctx)),
             TsLit::Bool(b) => TSLiteralTypeLiteral::Boolean(b.babelify(ctx)),
             TsLit::BigInt(i) => TSLiteralTypeLiteral::BigInt(i.babelify(ctx)),
-            _ => panic!("illegal conversion: Cannot convert {} to TSLiteralTypeLiteral (in impl Babelify for TsLit)", type_name_of_val(&self)),
+            _ => panic!("illegal conversion: Cannot convert {:?} to TSLiteralTypeLiteral", &self),
         }
     }
 }

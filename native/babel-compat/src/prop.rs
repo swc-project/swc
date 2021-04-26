@@ -8,7 +8,6 @@ use swc_ecma_ast::{
     Prop, PropName, ComputedPropName, GetterProp, SetterProp, MethodProp, KeyValueProp, AssignProp,
 };
 use swc_common::Spanned;
-use std::any::type_name_of_val;
 
 impl Babelify for Prop {
     type Output = ObjectMember;
@@ -30,7 +29,7 @@ impl Babelify for Prop {
             Prop::Getter(g) => ObjectMember::Method(g.babelify(ctx)),
             Prop::Setter(s) => ObjectMember::Method(s.babelify(ctx)),
             Prop::Method(m) => ObjectMember::Method(m.babelify(ctx)),
-            _ => panic!("illegal conversion: Cannot convert {} to ObjectMember (in impl Babelify for Prop)", type_name_of_val(&self)),
+            _ => panic!("illegal conversion: Cannot convert {:?} to ObjectMember", &self),
         }
     }
 }
@@ -136,7 +135,7 @@ impl Babelify for PropName {
             PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
             PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
             PropName::Computed(e) => ObjectKey::Expr(Box::new(e.babelify(ctx))),
-            _ => panic!("illegal conversion: Cannot convert {} to ObjectKey (in impl Babelify for PropName)", type_name_of_val(&self)),
+            _ => panic!("illegal conversion: Cannot convert {:?} to ObjectKey", &self),
         }
     }
 }
