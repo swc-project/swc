@@ -93,14 +93,14 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/module-import-star-renamed/input.mjs";
-    let output_file = "tests/fixtures/module-import-star-renamed/output.json";
+    let input_file = "tests/fixtures/object-simple/input.js";
+    let output_file = "tests/fixtures/object-simple/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
     let output = fs::read_to_string(&output_file)
         .with_context(|| format!("Failed to open file: {}", &output_file))?;
-    run_test(input, output, Syntax::default(), true);
+    run_test(input, output, Syntax::default(), false);
 
     Ok(())
 }

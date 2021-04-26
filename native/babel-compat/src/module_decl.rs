@@ -11,7 +11,7 @@ use swc_babel_ast::{
 };
 
 use swc_ecma_ast::{
-    ModuleDecl, ExportDefaultExpr, ExportDefaultDecl, DefaultDecl, ExportDecl, Decl, ImportDecl,
+    ModuleDecl, ExportDefaultExpr, ExportDefaultDecl, DefaultDecl, ExportDecl, ImportDecl,
     PropOrSpread, Prop, PropName, Expr, Lit, ImportSpecifier, ImportNamedSpecifier,
     ImportDefaultSpecifier, ImportStarAsSpecifier, ObjectLit, ExportAll, NamedExport,
     ExportSpecifier, ExportNamedSpecifier, ExportDefaultSpecifier, ExportNamespaceSpecifier,
