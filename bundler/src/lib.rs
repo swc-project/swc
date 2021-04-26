@@ -6,7 +6,6 @@ pub use self::{
     resolve::Resolve,
 };
 
-mod algo;
 mod bundler;
 mod debug;
 mod dep_graph;
