@@ -2,7 +2,7 @@ use crate::{Context, Babelify};
 use swc_babel_ast::{
     LVal, PatternLike, RestElement, Identifier, Param, Expression, ObjectProperty, ObjectPropVal,
     Pattern, ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern,
-    AssignmentPatternLeft, CatchClauseParam,
+    AssignmentPatternLeft, CatchClauseParam, ObjectKey,
 };
 
 use swc_ecma_ast::{
@@ -161,7 +161,8 @@ impl Babelify for ObjectPatProp {
         match self {
             ObjectPatProp::KeyValue(p) => ObjectPatternProp::Prop(p.babelify(ctx)),
             ObjectPatProp::Rest(r) => ObjectPatternProp::Rest(r.babelify(ctx)),
-            ObjectPatProp::Assign(_) => panic!("illegal conversion: Cannot convert {} to ObjectPatternProp (in impl Babelify for ObjectPatProp)", type_name_of_val(&self)),
+            // ObjectPatProp::Assign(_) => panic!("illegal conversion: Cannot convert {:?} to ObjectPatternProp (in impl Babelify for ObjectPatProp)", &self),
+            ObjectPatProp::Assign(a) => ObjectPatternProp::Prop(a.babelify(ctx)),
         }
     }
 }
@@ -208,17 +209,22 @@ impl Babelify for AssignPat {
     }
 }
 
-// TODO(dwoznicki): What is this used for? Is AssignmentPattern the correct conversion? 
 impl Babelify for AssignPatProp {
-    type Output = AssignmentPattern;
+    type Output = ObjectProperty;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        AssignmentPattern {
+        let is_shorthand = self.value.is_none();
+        ObjectProperty {
             base: ctx.base(self.span),
-            left: AssignmentPatternLeft::Id(self.key.babelify(ctx)),
-            right: Box::new(self.value.unwrap().babelify(ctx).into()),
+            key: ObjectKey::Id(self.key.clone().babelify(ctx)),
+            value: if is_shorthand {
+                ObjectPropVal::Pattern(PatternLike::Id(self.key.babelify(ctx)))
+            } else {
+                ObjectPropVal::Expr(Box::new(self.value.unwrap().babelify(ctx).into()))
+            },
+            shorthand: is_shorthand,
+            computed: Default::default(),
             decorators: Default::default(),
-            type_annotation: Default::default(),
         }
     }
 }
