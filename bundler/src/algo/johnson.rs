@@ -14,6 +14,7 @@ pub(crate) struct Johnson<N, E> {
 impl<N, E> Johnson<N, E>
 where
     N: Copy + Eq + Hash + NodeTrait,
+    E: Copy,
 {
     fn unblock(&mut self, u: N) {
         self.blocked.insert(u, false);
@@ -72,5 +73,19 @@ where
         graph.nodes().min()
     }
 
-    fn sub_graph_from(g: &FastDiGraphMap<N, E>, i: N) -> FastDiGraphMap<N, E> {}
+    fn sub_graph_from(g: &FastDiGraphMap<N, E>, i: N) -> FastDiGraphMap<N, E> {
+        let mut new = FastDiGraphMap::new();
+
+        for from in g.nodes() {
+            if from >= i {
+                for to in g.neighbors_directed(from, Outgoing) {
+                    if to >= i {
+                        new.add_edge(from, to, *g.edge_weight(from, to).unwrap());
+                    }
+                }
+            }
+        }
+
+        new
+    }
 }
