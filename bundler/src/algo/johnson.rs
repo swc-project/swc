@@ -3,6 +3,7 @@ use crate::util::fast_graph::NodeTrait;
 use fxhash::FxHashMap;
 use petgraph::algo::tarjan_scc;
 use petgraph::EdgeDirection::Outgoing;
+use std::fmt::Debug;
 use std::hash::Hash;
 use std::mem::take;
 
@@ -15,7 +16,7 @@ pub(crate) struct Johnson<'a, N, E> {
 
 impl<'a, N, E> Johnson<'a, N, E>
 where
-    N: Copy + Eq + Hash + NodeTrait,
+    N: Debug + Copy + Eq + Hash + NodeTrait,
     E: Copy,
 {
     pub fn new(graph: &'a FastDiGraphMap<N, E>) -> Self {
