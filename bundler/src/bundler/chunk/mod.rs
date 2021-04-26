@@ -46,7 +46,7 @@ where
         entries: AHashMap<String, TransformedModule>,
     ) -> Result<Vec<Bundle>, Error> {
         let start = Instant::now();
-        let (plan, graph) = self.determine_entries(entries).context("failed to plan")?;
+        let (plan, graph, cycles) = self.determine_entries(entries).context("failed to plan")?;
         let dur = Instant::now() - start;
         log::debug!("Dependency analysis took {:?}", dur);
 
@@ -68,6 +68,7 @@ where
 
         let ctx = Ctx {
             graph,
+            cycles,
             merged: Default::default(),
             transitive_remap: Default::default(),
             export_stars_in_wrapped: Default::default(),

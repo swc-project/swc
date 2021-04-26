@@ -1,12 +1,9 @@
 use super::stmt::sort_stmts;
-use crate::algo::johnson::Johnson;
 use crate::dep_graph::ModuleGraph;
 use crate::modules::Modules;
 use crate::ModuleId;
-use fxhash::FxBuildHasher;
 use fxhash::FxHashSet;
 use indexmap::IndexSet;
-use petgraph::algo::all_simple_paths;
 use petgraph::EdgeDirection::Outgoing;
 use std::collections::VecDeque;
 use std::iter::from_fn;
@@ -30,6 +27,7 @@ impl Modules {
         &mut self,
         entry_id: ModuleId,
         graph: &ModuleGraph,
+        cycle: &Vec<Vec<ModuleId>>,
         cm: &Lrc<SourceMap>,
     ) -> Vec<Chunk> {
         let injected_ctxt = self.injected_ctxt;
@@ -52,6 +50,7 @@ impl Modules {
             modules,
             entry_id,
             graph,
+            cycle,
             cm,
         ));
 
@@ -65,6 +64,7 @@ fn toposort_real_modules<'a>(
     mut modules: Vec<(ModuleId, Module)>,
     entry: ModuleId,
     graph: &'a ModuleGraph,
+    cycles: &'a Vec<Vec<ModuleId>>,
     cm: &Lrc<SourceMap>,
 ) -> Vec<Chunk> {
     let mut queue = modules.iter().map(|v| v.0).collect::<VecDeque<_>>();
@@ -73,11 +73,7 @@ fn toposort_real_modules<'a>(
     let mut chunks = vec![];
 
     let start = Instant::now();
-    let cycles = {
-        let mut j = Johnson::new(&graph);
-        j.find_circuits()
-    };
-    let sorted_ids = toposort_real_module_ids(queue, graph, cycles).collect::<Vec<_>>();
+    let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
     let end = Instant::now();
     log::debug!("Toposort of module ids took {:?}", end - start);
     for ids in sorted_ids {
@@ -136,7 +132,7 @@ fn toposort_real_modules<'a>(
 fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
-    cycles: Vec<Vec<ModuleId>>,
+    cycles: &'a Vec<Vec<ModuleId>>,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
     let mut done = FxHashSet::<ModuleId>::default();
 
