@@ -60,8 +60,20 @@ where
         module_id: ModuleId,
         path: &mut Vec<ModuleId>,
     ) {
+        let visited = builder.all.contains(&module_id);
+        let cycle_rpos = if visited {
+            path.iter().rposition(|v| *v == module_id)
+        } else {
+            None
+        };
         path.push(module_id);
-        if !builder.all.contains(&module_id) {
+
+        if let Some(rpos) = cycle_rpos {
+            let cycle = path[rpos..].to_vec();
+            builder.cycles.push(cycle);
+        }
+
+        if !visited {
             builder.all.push(module_id);
         }
         builder.graph.add_node(module_id);
