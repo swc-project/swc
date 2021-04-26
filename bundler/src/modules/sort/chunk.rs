@@ -129,6 +129,31 @@ fn toposort_real_modules<'a>(
     chunks
 }
 
+fn cycles_for(
+    cycles: &Vec<Vec<ModuleId>>,
+    id: ModuleId,
+    checked: &mut Vec<ModuleId>,
+) -> IndexSet<ModuleId> {
+    checked.push(id);
+    let mut v = cycles
+        .iter()
+        .filter(|v| v.contains(&id))
+        .flatten()
+        .copied()
+        .collect::<IndexSet<_>>();
+
+    let ids = v.clone();
+
+    for added in ids {
+        if checked.contains(&added) {
+            continue;
+        }
+        v.extend(cycles_for(cycles, added, checked));
+    }
+
+    v
+}
+
 fn toposort_real_module_ids<'a>(
     mut queue: VecDeque<ModuleId>,
     graph: &'a ModuleGraph,
@@ -158,12 +183,7 @@ fn toposort_real_module_ids<'a>(
 
             // dbg!(&deps);
 
-            let mut all_modules_in_circle = cycles
-                .iter()
-                .filter(|v| v.contains(&id))
-                .flatten()
-                .copied()
-                .collect::<IndexSet<_>>();
+            let mut all_modules_in_circle = cycles_for(cycles, id, &mut Default::default());
             all_modules_in_circle.reverse();
 
             if all_modules_in_circle.is_empty() {
