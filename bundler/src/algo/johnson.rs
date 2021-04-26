@@ -6,19 +6,26 @@ use petgraph::EdgeDirection::Outgoing;
 use std::hash::Hash;
 use std::mem::take;
 
-pub(crate) struct Johnson<N, E> {
-    graph: FastDiGraphMap<N, E>,
+pub(crate) struct Johnson<'a, N, E> {
+    graph: &'a FastDiGraphMap<N, E>,
     blocked: FxHashMap<N, bool>,
     blocked_nodes: FxHashMap<N, Vec<N>>,
     circuits: Vec<Vec<N>>,
 }
 
-impl<N, E> Johnson<N, E>
+impl<'a, N, E> Johnson<'a, N, E>
 where
     N: Copy + Eq + Hash + NodeTrait,
     E: Copy,
 {
-    pub fn new() -> Self {}
+    pub fn new(graph: &'a FastDiGraphMap<N, E>) -> Self {
+        Self {
+            graph,
+            blocked: Default::default(),
+            blocked_nodes: Default::default(),
+            circuits: Default::default(),
+        }
+    }
 
     fn unblock(&mut self, u: N) {
         self.blocked.insert(u, false);
