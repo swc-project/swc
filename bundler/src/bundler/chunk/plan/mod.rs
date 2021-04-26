@@ -66,12 +66,13 @@ where
         } else {
             None
         };
-        path.push(module_id);
 
         if let Some(rpos) = cycle_rpos {
             let cycle = path[rpos..].to_vec();
             builder.cycles.push(cycle);
         }
+
+        path.push(module_id);
 
         if !visited {
             builder.all.push(module_id);
