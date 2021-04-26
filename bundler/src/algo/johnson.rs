@@ -135,9 +135,7 @@ where
                     continue;
                 }
 
-                let contains = min_scc
-                    .iter()
-                    .any(|idx| graph.remove_node(*idx).unwrap() == to);
+                let contains = min_scc.iter().copied().any(|idx| graph[idx] == to);
                 if contains {
                     new.add_edge(from, to, *weight);
                 }
