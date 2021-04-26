@@ -5,7 +5,6 @@ use swc_babel_ast::{
 };
 
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
-use std::any::type_name_of_val;
 
 impl Babelify for Function {
     type Output = FunctionExpression;
@@ -54,8 +53,8 @@ impl Babelify for Param {
                 decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
                 ..a.babelify(ctx)
             })),
-            Pat::Expr(_) => panic!("illegal conversion: Cannot convert {} to BabelParam (in impl Babelify for Param)", type_name_of_val(&self.pat)),
-            Pat::Invalid(_) => panic!("illegal conversion: Cannot convert {} to BabelParam (in impl Babelify for Param)", type_name_of_val(&self)),
+            Pat::Expr(_) => panic!("illegal conversion: Cannot convert {:?} to BabelParam", &self.pat),
+            Pat::Invalid(_) => panic!("illegal conversion: Cannot convert {:?} to BabelParam", &self.pat),
         }
     }
 }

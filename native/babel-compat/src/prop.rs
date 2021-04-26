@@ -136,7 +136,6 @@ impl Babelify for PropName {
             PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
             PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
             PropName::Computed(e) => ObjectKey::Expr(Box::new(e.babelify(ctx))),
-            // PropName::BigInt(_) => panic!("illegal conversion"),
             _ => panic!("illegal conversion: Cannot convert {} to ObjectKey (in impl Babelify for PropName)", type_name_of_val(&self)),
         }
     }

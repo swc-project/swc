@@ -102,7 +102,6 @@ impl From<ExprOutput> for BinaryExprLeft {
 impl From<ExprOutput> for ObjectKey {
     fn from(o: ExprOutput) -> Self {
         match o {
-            // ExprOutput::Expr(e) => ObjectKey::Expr(e),
             ExprOutput::Expr(e) => {
                 match *e {
                     Expression::Id(i) => ObjectKey::Id(i),
@@ -146,7 +145,7 @@ impl Babelify for ArrayLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrayExpression {
             base: ctx.base(self.span),
-            elements: self.elems.iter().map(|opt| opt.as_ref().map(|el| el.clone().babelify(ctx))).collect(), // TODO(dwoznicki): is clone() best solution?
+            elements: self.elems.iter().map(|opt| opt.as_ref().map(|el| el.clone().babelify(ctx))).collect(),
         }
     }
 }
@@ -196,7 +195,7 @@ impl Babelify for UnaryExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         UnaryExpression {
             base: ctx.base(self.span),
-            operator: self.op.babelify(ctx), // TODO(dwoznicki): missing `throw` op
+            operator: self.op.babelify(ctx),
             argument: Box::new(self.arg.babelify(ctx).into()),
             prefix: Default::default(),
         }
@@ -409,13 +408,6 @@ impl Babelify for TaggedTpl {
             base: ctx.base(self.span),
             tag: Box::new(self.tag.babelify(ctx).into()),
             quasi: self.tpl.babelify(ctx),
-            // quasi: TemplateLiteral {
-            //     base: ctx.base(self.span), // TODO(dwoznicki): is this right?
-            //     expressions: self.exprs.iter().map(|e| {
-            //         TemplateLiteralExpr::Expr(e.clone().babelify(ctx).into())
-            //     }).collect(),
-            //     quasis: self.quasis.iter().map(|q| q.clone().babelify(ctx)).collect(),
-            // },
             type_parameters: self.type_params.map(|t| {
                 TaggedTemplateExprTypeParams::TS(t.babelify(ctx))
             }),

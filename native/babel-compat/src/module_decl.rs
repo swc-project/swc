@@ -17,7 +17,6 @@ use swc_ecma_ast::{
     ExportSpecifier, ExportNamedSpecifier, ExportDefaultSpecifier, ExportNamespaceSpecifier,
 };
 use serde::{Serialize, Deserialize};
-use std::any::type_name_of_val;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ModuleDeclOutput {
@@ -55,7 +54,7 @@ impl From<ModuleDeclOutput> for ModuleDeclaration {
             ModuleDeclOutput::ExportDefault(e) => ModuleDeclaration::ExportDefault(e),
             ModuleDeclOutput::ExportNamed(n) => ModuleDeclaration::ExportNamed(n),
             ModuleDeclOutput::ExportAll(a) => ModuleDeclaration::ExportAll(a),
-            _ => panic!("illegal conversion: Cannot convert {} to ModuleDeclaration (in impl From<ModuleDeclOutput> for ModuleDeclaration)", type_name_of_val(&module)),
+            _ => panic!("illegal conversion: Cannot convert {:?} to ModuleDeclaration", &module),
         }
     }
 }
@@ -83,17 +82,6 @@ impl Babelify for ExportDecl {
             assertions: Default::default(),
             export_kind: Default::default(),
         }
-
-        // ExportDefaultDeclaration {
-        //     base: ctx.base(self.span),
-        //     declaration: match self.decl {
-        //         Decl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx)),
-        //         Decl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx)),
-        //         // TODO(dwoznicki): not sure how to do the rest of the conversions
-        //         _ => panic!("illegal conversion: Cannot convert {} to ExportDefaultDeclType (in impl Babelify for ExportDecl)", type_name_of_val(&self.decl)),
-        //     }
-        // }
-
     }
 }
 
@@ -102,27 +90,27 @@ fn convert_import_asserts(asserts: Option<ObjectLit>, ctx: &Context) -> Option<V
         obj.props.iter().map(|prop_or_spread| {
             let prop = match prop_or_spread.clone() {
                 PropOrSpread::Prop(p) => p,
-                _ => panic!("illegal conversion: Cannot convert {} to Prop (in convert_import_asserts)", type_name_of_val(&prop_or_spread)),
+                _ => panic!("illegal conversion: Cannot convert {:?} to Prop", &prop_or_spread),
             };
             let (key, val) = match *prop {
                 Prop::KeyValue(keyval) => {
                     let key = match keyval.key {
                         PropName::Ident(i) => IdOrString::Id(i.babelify(ctx)),
                         PropName::Str(s) => IdOrString::String(s.babelify(ctx)),
-                        _ => panic!("illegal conversion: Cannot convert {} to Prop::KeyValue (in convert_import_asserts)", type_name_of_val(&keyval.key)),
+                        _ => panic!("illegal conversion: Cannot convert {:?} to Prop::KeyValue", &keyval.key),
                     };
                     let val = match *keyval.value {
                         Expr::Lit(lit) => {
                             match lit {
                                 Lit::Str(s) => s.babelify(ctx),
-                                _ => panic!("illegal conversion: Cannot convert {} to Expr::Lit (in convert_import_asserts)", type_name_of_val(&lit)),
+                                _ => panic!("illegal conversion: Cannot convert {:?} to Expr::Lit", &lit),
                             }
                         },
-                        _ => panic!("illegal conversion: Cannot convert {} to Expr::Lit (in convert_import_asserts)", type_name_of_val(&keyval.value)),
+                        _ => panic!("illegal conversion: Cannot convert {:?} to Expr::Lit", &keyval.value),
                     };
                     (key, val)
                 },
-                _ => panic!("illegal conversion: Cannot convert {} to key, value (in convert_import_asserts)", type_name_of_val(&prop)),
+                _ => panic!("illegal conversion: Cannot convert {:?} to key, value", &prop),
             };
             ImportAttribute {
                 base: ctx.base(obj.span),
@@ -239,9 +227,7 @@ impl Babelify for ImportNamedSpecifier {
         BabelImportSpecifier {
             base: ctx.base(self.span),
             local: self.local.clone().babelify(ctx),
-            // imported: IdOrString::Id(self.imported.unwrap().babelify(ctx)), // TODO(dwoznicki): what to do when None?
             imported: IdOrString::Id(self.imported.unwrap_or(self.local).babelify(ctx)),
-            // import_kind: ImportKind::Type, // TODO(dwoznicki): not sure what this should actually be
             import_kind: None,
         }
     }
@@ -289,7 +275,6 @@ impl Babelify for ExportNamedSpecifier {
         BabelExportSpecifier {
             base: ctx.base(self.span),
             local: self.orig.clone().babelify(ctx),
-            // exported: IdOrString::Id(self.exported.unwrap().babelify(ctx)), // TODO(dwoznicki): what to do when None?
             exported: IdOrString::Id(self.exported.unwrap_or(self.orig).babelify(ctx)),
         }
     }

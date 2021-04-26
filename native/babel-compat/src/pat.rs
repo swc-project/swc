@@ -134,7 +134,7 @@ impl Babelify for ArrayPat {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrayPattern {
             base: ctx.base(self.span),
-            elements: self.elems.iter().map(|opt| opt.as_ref().map(|e| e.clone().babelify(ctx).into())).collect(), // TODO(dwoznicki): is clone() best solution?
+            elements: self.elems.iter().map(|opt| opt.as_ref().map(|e| e.clone().babelify(ctx).into())).collect(),
             type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
@@ -161,7 +161,6 @@ impl Babelify for ObjectPatProp {
         match self {
             ObjectPatProp::KeyValue(p) => ObjectPatternProp::Prop(p.babelify(ctx)),
             ObjectPatProp::Rest(r) => ObjectPatternProp::Rest(r.babelify(ctx)),
-            // ObjectPatProp::Assign(_) => panic!("illegal conversion: Cannot convert {:?} to ObjectPatternProp (in impl Babelify for ObjectPatProp)", &self),
             ObjectPatProp::Assign(a) => ObjectPatternProp::Prop(a.babelify(ctx)),
         }
     }

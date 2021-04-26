@@ -111,7 +111,6 @@ impl From<ModuleItemOutput> for Statement {
                     ModuleDeclaration::Import(i) => Statement::ImportDecl(i),
                 }
             },
-            // _ => panic!("illegal conversion: Cannot convert {} to Statement (in impl From<ModuleItemOutput> for Statement)", type_name_of_val(&m)),
         }
     }
 }

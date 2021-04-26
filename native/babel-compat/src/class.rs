@@ -17,7 +17,6 @@ impl Babelify for Class {
         ClassExpression {
             base: ctx.base(self.span),
             decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
-            // body: ClassBody::from_swc(self.body, ctx),
             body: extract_class_body(&self, &ctx),
             super_class: self.super_class.map(|expr| Box::new(expr.babelify(ctx).into())),
             type_parameters: self.type_params.map(|param| param.babelify(ctx).into()),
@@ -103,7 +102,7 @@ impl Babelify for ClassMethod {
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
             params: self.function.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
-            body: self.function.body.unwrap().babelify(ctx), // TODO(dwoznicki): unwrap()?
+            body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
             decorators: Some(self.function.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
@@ -128,7 +127,7 @@ impl Babelify for PrivateMethod {
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
             params: self.function.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
-            body: self.function.body.unwrap().babelify(ctx), // TODO(dwoznicki): unwrap()?
+            body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
             decorators: Some(self.function.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
