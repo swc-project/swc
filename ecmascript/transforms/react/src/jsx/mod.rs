@@ -1044,6 +1044,7 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
     if t == *" " {
         return t;
     }
+
     if !t.contains(' ') && !t.contains('\n') {
         return t;
     }
@@ -1055,7 +1056,11 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
 
     let mut buf = String::from(if need_leading_space { " " } else { "" });
 
-    for (last, s) in s.split_ascii_whitespace().identify_last() {
+    for (last, s) in s
+        .split(|c: char| c != '\u{a0}' && c.is_ascii_whitespace())
+        .filter(|s| !s.is_empty())
+        .identify_last()
+    {
         buf.push_str(s);
         if !last {
             buf.push(' ');
