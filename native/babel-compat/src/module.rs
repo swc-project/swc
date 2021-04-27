@@ -3,24 +3,28 @@ use swc_babel_ast::{
     BaseNode, Loc, LineCol, Statement, Program as BabelProgram, SrcType, ModuleDeclaration,
     InterpreterDirective, File,
 };
-
-use swc_ecma_ast::{Program, Module, Script, ModuleItem};
-use swc_common::Span;
+use swc_ecma_ast::{Program, Module, Script, ModuleItem, Invalid};
+use swc_common::{Span, comments::{Comment, Comments, CommentsExt}};
+use swc_ecma_visit::{Visit, Node, VisitWith};
 use serde::{Serialize, Deserialize};
+use std::sync::Arc;
+
 
 impl Babelify for Program {
     type Output = File;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let comments = extract_all_comments(&self, ctx);
         let program = match self {
             Program::Module(module) => module.babelify(ctx),
             Program::Script(script) => script.babelify(ctx),
         };
+
         File {
             base: program.base.clone(),
-            program: program,
-            // comments: Default::default(), // TODO(dwoznicki): implement
-            comments: Some(vec![]), // TODO(dwoznicki): implement
+            program,
+            // comments: Some(vec![]),
+            comments: Some(ctx.convert_comments(comments)),
             tokens: Default::default(),
         }
     }
@@ -117,5 +121,36 @@ impl From<ModuleItemOutput> for Statement {
 
 fn extract_shebang_span(span: Span, ctx: &Context) -> Span {
     ctx.cm.span_take_while(span, |ch| *ch != '\n')
+}
+
+fn extract_all_comments(program: &Program, ctx: &Context) -> Vec<Comment> {
+    let mut collector = CommentCollector {
+        comments: Arc::clone(&ctx.comments),
+        collected: Vec::new(),
+    };
+    program.visit_with(&Invalid { span: swc_common::DUMMY_SP }, &mut collector);
+    collector.collected
+}
+
+struct CommentCollector {
+    comments: Arc<dyn Comments>,
+    collected: Vec<Comment>,
+}
+
+impl Visit for CommentCollector {
+    fn visit_span(&mut self, sp: &Span, _: &dyn Node) {
+        let mut span_comments: Vec<Comment> = Vec::new();
+        self.comments.with_leading(sp.lo, |comments| {
+            for c in comments.iter().cloned() {
+                span_comments.push(c);
+            }
+        });
+        self.comments.with_trailing(sp.hi, |comments| {
+            for c in comments.iter().cloned() {
+                span_comments.push(c);
+            }
+        });
+        self.collected.append(&mut span_comments);
+    }
 }
 

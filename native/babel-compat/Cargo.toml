@@ -19,7 +19,7 @@ swc_common = {version = "0.10.9", path = "../../common", features = ["tty-emitte
 swc_ecma_ast = {version = "0.43", path = "../../ecmascript/ast"}
 swc_ecma_parser = {version= "0.54.2", path = "../../ecmascript/parser"}
 swc_babel_compat_macros = {path = "./macros"}
-swc_visit = {version = "0.2.3", path = "../../visit"}
+swc_ecma_visit = {version = "0.29.1", path = "../../ecmascript/visit"}
 swc_babel_ast = {path = "../babel-ast"}
 swc_babel_visit = {path = "../babel-visit"}
 

@@ -105,7 +105,7 @@ impl Context {
             .unwrap_or_default();
         let trailing_comments = self
             .comments
-            .take_trailing(span.lo)
+            .take_trailing(span.hi)
             .map(|v| self.convert_comments(v))
             .unwrap_or_default();
 
