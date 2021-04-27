@@ -308,6 +308,12 @@ fn test_fold_useless_do_extra() {
 }
 
 #[test]
+fn test_no_fold_do_with_conditional_stopper() {
+    test_same("do { if (Date.now() > 0) break; } while (0);");
+    test_same("do { if (Date.now() > 0) continue; } while (0);");
+}
+
+#[test]
 fn test_fold_empty_do() {
     test("do { } while(true);", "for (;;);");
 }
