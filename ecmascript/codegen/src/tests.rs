@@ -594,12 +594,20 @@ fn issue_1452_1() {
 
 #[test]
 fn issue_1619_1() {
-    assert_min_target("\"\\x00\" + \"\\x31\"", "", EsVersion::Es3);
+    assert_min_target(
+        "\"\\x00\" + \"\\x31\"",
+        "\"\\x00\" + \"\\x31\"",
+        EsVersion::Es3,
+    );
 }
 
 #[test]
 fn issue_1619_2() {
-    assert_min_target("\"\\x00\" + \"\\x31\"", "", EsVersion::latest());
+    assert_min_target(
+        "\"\\x00\" + \"\\x31\"",
+        "\"\\x00\" + \"\\x31\"",
+        EsVersion::latest(),
+    );
 }
 
 #[derive(Debug, Clone)]
