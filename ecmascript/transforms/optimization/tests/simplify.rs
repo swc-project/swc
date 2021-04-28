@@ -15,6 +15,7 @@ use swc_ecma_transforms_compat::es3;
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
+use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_optimization::simplify::simplifier;
 use swc_ecma_transforms_proposal::decorators;
@@ -559,4 +560,18 @@ function _interopRequireDefault(obj) {
 }
 _foo.default.bar = true;
 "
+);
+
+test!(
+    Syntax::default(),
+    |_| expr_simplifier(),
+    issue_1619_1,
+    r#"
+    "use strict";
+	
+    console.log("\x00" + "\x31");
+
+    "#,
+    "
+    "
 );
