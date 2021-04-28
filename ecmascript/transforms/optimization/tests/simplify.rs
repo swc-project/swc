@@ -575,5 +575,6 @@ test!(
     r#"
     "use strict";
     console.log("\x001");
-    "#
+    "#,
+    ok_if_code_eq
 );
