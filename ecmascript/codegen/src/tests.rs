@@ -610,6 +610,14 @@ fn issue_1619_2() {
     );
 }
 
+#[test]
+fn issue_1619_3() {
+    assert_eq!(
+        escape_without_source("\\x00\\x31", EsVersion::Es3, true),
+        "\\x00\\x31"
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
