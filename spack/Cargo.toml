@@ -14,7 +14,7 @@ version = "0.0.0"
 
 [dependencies]
 anyhow = "1"
-dashmap = "3"
+dashmap = "4.0.2"
 is-macro = "0.1.8"
 log = "0.4.8"
 lru = "0.6.1"

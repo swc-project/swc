@@ -1,6 +1,8 @@
 use super::compat::DATA as CORE_JS_COMPAT_DATA;
 use crate::{version::should_enable, Version, Versions};
-use fxhash::{FxHashMap, FxHashSet};
+use fxhash::FxBuildHasher;
+use fxhash::FxHashMap;
+use indexmap::IndexSet;
 use once_cell::sync::Lazy;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -42,7 +44,7 @@ pub struct Entry {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub imports: FxHashSet<&'static str>,
+    pub imports: IndexSet<&'static str, FxBuildHasher>,
     remove_regenerator: bool,
 }
 

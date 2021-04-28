@@ -1,6 +1,7 @@
 use super::builtin::BUILTINS;
 use crate::{version::should_enable, Versions};
-use fxhash::FxHashSet;
+use fxhash::FxBuildHasher;
+use indexmap::IndexSet;
 use swc_atoms::js_word;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -10,7 +11,7 @@ use swc_ecma_visit::{Fold, FoldWith};
 pub struct Entry {
     is_any_target: bool,
     target: Versions,
-    pub imports: FxHashSet<&'static str>,
+    pub imports: IndexSet<&'static str, FxBuildHasher>,
 }
 
 impl Entry {

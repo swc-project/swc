@@ -11,7 +11,8 @@ use crate::{
     version::should_enable,
     Versions,
 };
-use fxhash::FxHashSet;
+use fxhash::FxBuildHasher;
+use indexmap::IndexSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -21,7 +22,7 @@ pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
     is_any_target: bool,
     target: Versions,
-    pub required: FxHashSet<&'static str>,
+    pub required: IndexSet<&'static str, FxBuildHasher>,
 }
 
 impl UsageVisitor {
