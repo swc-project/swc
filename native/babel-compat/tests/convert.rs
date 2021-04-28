@@ -93,8 +93,8 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/comments-first-line/input.js";
-    let output_file = "tests/fixtures/comments-first-line/output.json";
+    let input_file = "tests/fixtures/comments-block-first-line/input.js";
+    let output_file = "tests/fixtures/comments-block-first-line/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
