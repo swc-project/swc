@@ -11,6 +11,6 @@ if (!inputFile) {
 
 const code = readFileSync(inputFile, "utf8");
 
-const swcAst = parseSync(code);
+const swcAst = parseSync(code, { jsx: true });
 console.log(JSON.stringify(swcAst, null, 4));
 

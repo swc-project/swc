@@ -12,7 +12,7 @@ if (!inputFile) {
 const code = readFileSync(inputFile, "utf8");
 
 const babelAst = parse(code, {
-    plugins: ["classProperties"],
+    plugins: ["classProperties", "jsx"],
     sourceType: inputFile.endsWith(".mjs") ? "module" : undefined,
     // allowImportExportEverywhere: true,
 });

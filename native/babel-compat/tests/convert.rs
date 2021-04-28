@@ -19,7 +19,7 @@ use swc_common::{
     FilePathMapping,
     SourceMap,
 };
-use swc_ecma_parser::Syntax;
+use swc_ecma_parser::{Syntax, EsConfig};
 use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
 use walkdir::WalkDir;
 
@@ -39,12 +39,16 @@ fn fixtures() -> Result<(), Error> {
         let js_path: PathBuf = entry.path().join("input.js");
         let ts_path: PathBuf = entry.path().join("input.ts");
         let mjs_path: PathBuf = entry.path().join("input.mjs");
+        let jsx_path: PathBuf = entry.path().join("input.jsx");
         let output_path: PathBuf = entry.path().join("output.json");
 
+        let is_javascript = js_path.is_file();
         let is_typescript = ts_path.is_file();
         let is_module = mjs_path.is_file();
+        let is_jsx = jsx_path.is_file();
 
-        if (!js_path.is_file() && !ts_path.is_file()) && !mjs_path.is_file() || !output_path.is_file() {
+        if (!is_javascript && !is_typescript && !is_module && !is_jsx)
+            || !output_path.is_file() {
             continue;
         }
 
@@ -52,6 +56,8 @@ fn fixtures() -> Result<(), Error> {
             &ts_path
         } else if is_module {
             &mjs_path
+        } else if is_jsx {
+            &jsx_path
         } else {
             &js_path
         };
@@ -74,6 +80,11 @@ fn fixtures() -> Result<(), Error> {
             testfn: DynTestFn(Box::new(move || {
                 let syntax = if is_typescript {
                     Syntax::Typescript(Default::default())
+                } else if is_jsx {
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        ..Default::default()
+                    })
                 } else {
                     Syntax::default()
                 };
@@ -93,14 +104,19 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/comments-block-first-line/input.js";
-    let output_file = "tests/fixtures/comments-block-first-line/output.json";
+    let input_file = "tests/fixtures/jsx-simple/input.jsx";
+    let output_file = "tests/fixtures/jsx-simple/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
     let output = fs::read_to_string(&output_file)
         .with_context(|| format!("Failed to open file: {}", &output_file))?;
-    run_test(input, output, Syntax::default(), false);
+    // run_test(input, output, Syntax::default(), false);
+    let syntax = Syntax::Es(EsConfig {
+        jsx: true,
+        ..Default::default()
+    });
+    run_test(input, output, syntax, false);
 
     Ok(())
 }
@@ -119,7 +135,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     let swc_ast = compiler
         .parse_js(
             fm.clone(),
-            Default::default(),
+            Default::default(), // JscTarget (ES version)
             syntax,
             is_module,
             true, // parse_conmments

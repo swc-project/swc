@@ -124,6 +124,15 @@ impl VisitMut for Normalizer {
     }
 
     // ------------------------------------------------------------------------
+    // jsx
+    fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
+        if node.self_closing == None {
+            node.self_closing = Some(true);
+        }
+        node.visit_mut_children_with(self);
+    }
+
+    // ------------------------------------------------------------------------
     // pat
     fn visit_mut_assignment_pattern(&mut self, node: &mut AssignmentPattern) {
         if node.decorators == None {
