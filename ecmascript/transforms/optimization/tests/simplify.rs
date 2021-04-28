@@ -572,6 +572,8 @@ test!(
     console.log("\x00" + "\x31");
 
     "#,
-    "
-    "
+    r#"
+    "use strict";
+    console.log("\x001");
+    "#
 );
