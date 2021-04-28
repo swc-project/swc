@@ -563,7 +563,7 @@ fn test_escape_without_source() {
     es2020("abcde", "abcde");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
-        "\\0\\r\\n\\x85\\u2028\\u2029;",
+        "\\x00\\r\\n\\x85\\u2028\\u2029;",
     );
 
     es2020("\n", "\\n");
@@ -571,7 +571,7 @@ fn test_escape_without_source() {
 
     es2020("'string'", "\\'string\\'");
 
-    es2020("\u{0}", "\\0");
+    es2020("\u{0}", "\\x00");
     es2020("\u{1}", "\\x01");
 
     es2020("\u{1000}", "\\u1000");
@@ -614,7 +614,7 @@ fn issue_1619_2() {
 fn issue_1619_3() {
     assert_eq!(
         escape_without_source("\x00\x31", EsVersion::Es3, true),
-        "\\x00\\x31"
+        "\\x001"
     );
 }
 
