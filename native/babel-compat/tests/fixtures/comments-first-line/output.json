@@ -1,0 +1,138 @@
+{
+    "type": "File",
+    "start": 0,
+    "end": 38,
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 3,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 38,
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 3,
+                "column": 0
+            }
+        },
+        "sourceType": "script",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "VariableDeclaration",
+                "start": 23,
+                "end": 37,
+                "loc": {
+                    "start": {
+                        "line": 2,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 2,
+                        "column": 14
+                    }
+                },
+                "leadingComments": [
+                    {
+                        "type": "CommentLine",
+                        "value": " a top level comment",
+                        "start": 0,
+                        "end": 22,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 0
+                            },
+                            "end": {
+                                "line": 1,
+                                "column": 22
+                            }
+                        }
+                    }
+                ],
+                "declarations": [
+                    {
+                        "type": "VariableDeclarator",
+                        "start": 27,
+                        "end": 36,
+                        "loc": {
+                            "start": {
+                                "line": 2,
+                                "column": 4
+                            },
+                            "end": {
+                                "line": 2,
+                                "column": 13
+                            }
+                        },
+                        "id": {
+                            "type": "Identifier",
+                            "start": 27,
+                            "end": 28,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 5
+                                },
+                                "identifierName": "a"
+                            },
+                            "name": "a"
+                        },
+                        "init": {
+                            "type": "BooleanLiteral",
+                            "start": 31,
+                            "end": 36,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 8
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 13
+                                }
+                            },
+                            "value": false
+                        }
+                    }
+                ],
+                "kind": "let"
+            }
+        ],
+        "directives": []
+    },
+    "comments": [
+        {
+            "type": "CommentLine",
+            "value": " a top level comment",
+            "start": 0,
+            "end": 22,
+            "loc": {
+                "start": {
+                    "line": 1,
+                    "column": 0
+                },
+                "end": {
+                    "line": 1,
+                    "column": 22
+                }
+            }
+        }
+    ]
+}

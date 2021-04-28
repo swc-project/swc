@@ -93,8 +93,8 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/comments-block/input.js";
-    let output_file = "tests/fixtures/comments-block/output.json";
+    let input_file = "tests/fixtures/comments-first-line/input.js";
+    let output_file = "tests/fixtures/comments-first-line/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
@@ -133,6 +133,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     };
     let mut ast = swc_ast.babelify(&ctx);
     normalize(&mut ast);
+
 
     let mut expected_ast: File = serde_json::from_str(&expected).unwrap();
     normalize(&mut expected_ast);

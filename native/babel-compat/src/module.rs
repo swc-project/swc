@@ -21,9 +21,15 @@ impl Babelify for Program {
         };
 
         File {
-            base: program.base.clone(),
+            base: BaseNode {
+                leading_comments: Default::default(),
+                inner_comments: Default::default(),
+                trailing_comments: Default::default(),
+                start: program.base.start,
+                end: program.base.end,
+                loc: program.base.loc,
+            },
             program,
-            // comments: Some(vec![]),
             comments: Some(ctx.convert_comments(comments)),
             tokens: Default::default(),
         }
@@ -34,7 +40,11 @@ impl Babelify for Module {
     type Output = BabelProgram;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        let span = self.span;
+        let span = if has_comment_first_line(self.span, ctx) {
+            self.span.with_lo(ctx.fm.start_pos)
+        } else {
+            self.span
+        };
         BabelProgram {
             base: base_with_trailing_newline(span.clone(), ctx),
             source_type: SrcType::Module,
@@ -53,7 +63,11 @@ impl Babelify for Script {
     type Output = BabelProgram;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        let span = self.span;
+        let span = if has_comment_first_line(self.span, ctx) {
+            self.span.with_lo(ctx.fm.start_pos)
+        } else {
+            self.span
+        };
         BabelProgram {
             base: base_with_trailing_newline(span.clone(), ctx),
             source_type: SrcType::Script,
@@ -84,6 +98,16 @@ fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
         }
     });
     base
+}
+
+// Should return true if the first line in parsed file is a comment.
+// Required because babel and swc have slightly different handlings for first line
+// comments. Swc ignores them and starts the program on the next line down, while babel
+// includes them in the file start/end.
+fn has_comment_first_line(sp: Span, ctx: &Context) -> bool {
+    ctx.comments.with_leading(sp.hi, |comments| {
+        !comments.first().map(|c| c.span.lo == ctx.fm.start_pos).unwrap_or(false)
+    })
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -140,14 +164,21 @@ struct CommentCollector {
 impl Visit for CommentCollector {
     fn visit_span(&mut self, sp: &Span, _: &dyn Node) {
         let mut span_comments: Vec<Comment> = Vec::new();
+        // Comments must be deduped since it's possible for a single comment to show up
+        // multiple times since they are not removed from the comments map.
+        // For example, this happens when the first line in a file is a comment.
         self.comments.with_leading(sp.lo, |comments| {
-            for c in comments.iter().cloned() {
-                span_comments.push(c);
+            for comment in comments.iter().cloned() {
+                if !self.collected.iter().any(|c| *c == comment) {
+                    span_comments.push(comment);
+                }
             }
         });
         self.comments.with_trailing(sp.hi, |comments| {
-            for c in comments.iter().cloned() {
-                span_comments.push(c);
+            for comment in comments.iter().cloned() {
+                if !self.collected.iter().any(|c| *c == comment) {
+                    span_comments.push(comment);
+                }
             }
         });
         self.collected.append(&mut span_comments);
