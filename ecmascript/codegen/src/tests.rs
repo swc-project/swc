@@ -14,6 +14,7 @@ struct Builder {
     cfg: Config,
     cm: Lrc<SourceMap>,
     comments: SingleThreadedComments,
+    target: EsVersion,
 }
 
 impl Builder {
@@ -21,7 +22,8 @@ impl Builder {
     where
         F: FnOnce(&mut Emitter<'_>) -> Ret,
     {
-        let writer = text_writer::JsWriter::new(self.cm.clone(), "\n", s, None);
+        let writer =
+            text_writer::JsWriter::with_target(self.cm.clone(), "\n", s, None, self.target);
         let writer: Box<dyn WriteJs> = if self.cfg.minify {
             Box::new(omit_trailing_semi(writer))
         } else {
@@ -52,7 +54,7 @@ impl Builder {
     }
 }
 
-fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
+fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax, target: EsVersion) -> String {
     ::testing::run_test(false, |cm, handler| {
         let src = cm.new_source_file(FileName::Real("custom.js".into()), from.to_string());
         println!(
@@ -74,14 +76,31 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
             res?
         };
 
-        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder {
+            cfg,
+            cm,
+            comments,
+            target,
+        }
+        .text(from, |e| e.emit_module(&res).unwrap());
         Ok(out)
     })
     .unwrap()
 }
 
 pub(crate) fn assert_min(from: &str, to: &str) {
-    let out = parse_then_emit(from, Config { minify: true }, Syntax::default());
+    let out = parse_then_emit(
+        from,
+        Config { minify: true },
+        Syntax::default(),
+        EsVersion::latest(),
+    );
+
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
+}
+
+pub(crate) fn assert_min_target(from: &str, to: &str, target: EsVersion) {
+    let out = parse_then_emit(from, Config { minify: true }, Syntax::default(), target);
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
@@ -92,13 +111,19 @@ pub(crate) fn assert_min_typescript(from: &str, to: &str) {
         from,
         Config { minify: true },
         Syntax::Typescript(Default::default()),
+        EsVersion::latest(),
     );
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
 pub(crate) fn assert_pretty(from: &str, to: &str) {
-    let out = parse_then_emit(from, Config { minify: false }, Syntax::default());
+    let out = parse_then_emit(
+        from,
+        Config { minify: false },
+        Syntax::default(),
+        EsVersion::latest(),
+    );
 
     println!("Expected: {:?}", to);
     println!("Actaul:   {:?}", out);
@@ -107,7 +132,12 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
 
 #[track_caller]
 fn test_from_to(from: &str, expected: &str) {
-    let out = parse_then_emit(from, Default::default(), Syntax::default());
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::default(),
+        EsVersion::latest(),
+    );
 
     dbg!(&out);
     dbg!(&expected);
@@ -123,7 +153,7 @@ fn test_identical(from: &str) {
 }
 
 fn test_from_to_custom_config(from: &str, to: &str, cfg: Config, syntax: Syntax) {
-    let out = parse_then_emit(from, cfg, syntax);
+    let out = parse_then_emit(from, cfg, syntax, EsVersion::latest());
 
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
@@ -416,6 +446,7 @@ fn tpl_escape_6() {
         from,
         Default::default(),
         Syntax::Typescript(Default::default()),
+        EsVersion::latest(),
     );
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
@@ -559,6 +590,16 @@ fn deno_8541_2() {
 #[test]
 fn issue_1452_1() {
     assert_min("async foo => 0", "async foo=>0");
+}
+
+#[test]
+fn issue_1619_1() {
+    assert_min_target("\"\\x00\" + \"\\x31\"", "", EsVersion::Es3);
+}
+
+#[test]
+fn issue_1619_2() {
+    assert_min_target("\"\\x00\" + \"\\x31\"", "", EsVersion::latest());
 }
 
 #[derive(Debug, Clone)]
