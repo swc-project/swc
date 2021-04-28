@@ -15,7 +15,7 @@ use std::{
 use swc_atoms::JsWord;
 pub use swc_common::chain;
 use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
-use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+use swc_ecma_ast::{EsVersion, Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
@@ -29,6 +29,7 @@ use swc_ecma_transforms::{
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
+use tsconfig::TsConfig as TsConfigFile;
 
 #[cfg(test)]
 mod tests;
@@ -478,6 +479,35 @@ impl Config {
             }
             _ => {}
         }
+    }
+}
+
+// Convert information from a '.tsconfig' file to a Config.
+// '.tsconfig' files mostly define TypeScript-specific things but can also set
+// things like transpilation target, outDir etc.
+impl From<TsConfigFile> for Config {
+    fn from(mut ts_config: TsConfigFile) -> Self {
+        let mut cfg = Config::default();
+        if let Some(compiler_options) = ts_config.compiler_options.take() {
+            if let Some(target) = compiler_options.target.and_then(|target| {
+                use tsconfig::Target;
+                match target {
+                    Target::Es3 => Some(EsVersion::Es3),
+                    Target::Es5 => Some(EsVersion::Es5),
+                    Target::Es6 | Target::Es2015 => Some(EsVersion::Es2015),
+                    Target::Es7 | Target::Es2016 => Some(EsVersion::Es2016),
+                    Target::Es2017 => Some(EsVersion::Es2017),
+                    Target::Es2018 => Some(EsVersion::Es2018),
+                    Target::Es2019 => Some(EsVersion::Es2019),
+                    Target::Es2020 => Some(EsVersion::Es2020),
+                    Target::EsNext => Some(EsVersion::latest()),
+                    Target::Other(_) => None,
+                }
+            }) {
+                cfg.jsc.target = Some(target);
+            }
+        }
+        cfg
     }
 }
 
