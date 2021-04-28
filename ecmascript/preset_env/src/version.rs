@@ -163,21 +163,41 @@ pub fn should_enable(target: Versions, feature: Versions, default: bool) -> bool
         return default;
     }
 
-    target
-        .iter()
-        .zip(feature.iter())
-        .any(|((_, target_version), (_, f))| {
-            if target_version.is_none() {
-                return false;
-            }
+    target.iter().zip(feature.iter()).any(
+        |((target_name, maybe_target_version), (_, maybe_feature_version))| {
+            maybe_target_version.map_or(false, |target_version| {
+                let feature_or_fallback_version =
+                    maybe_feature_version.or_else(|| match target_name {
+                        // Fall back to Chrome versions if Android browser data
+                        // is missing from the feature data. It appears the
+                        // Android browser has aligned its versioning with Chrome.
+                        "android" => feature.chrome,
+                        _ => None,
+                    });
 
-            if f.is_none() {
-                return true;
-            }
+                feature_or_fallback_version.map_or(true, |v| v > target_version)
+            })
+        },
+    )
+}
 
-            let f = f.as_ref().unwrap();
-            let target = target_version.unwrap();
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::BrowserData;
 
-            *f > target
-        })
+    #[test]
+    fn should_enable_android_falls_back_to_chrome() {
+        assert!(!should_enable(
+            BrowserData {
+                android: Some("51.0.0".parse().unwrap()),
+                ..Default::default()
+            },
+            BrowserData {
+                chrome: Some("51.0.0".parse().unwrap()),
+                ..Default::default()
+            },
+            false
+        ));
+    }
 }
