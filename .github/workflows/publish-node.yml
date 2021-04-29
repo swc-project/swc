@@ -111,7 +111,7 @@ jobs:
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD $DOCKER_REGISTRY_URL
         env:
-          DOCKER_REGISTRY_URL: docker.pkg.github.com
+          DOCKER_REGISTRY_URL: ghcr.io
           DOCKER_USERNAME: ${{ github.actor }}
           DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 
@@ -124,8 +124,8 @@ jobs:
 
       - name: Pull docker image
         run: |
-          docker pull docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine
-          docker tag docker.pkg.github.com/napi-rs/napi-rs/nodejs-rust:10-alpine builder
+          docker pull ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+          docker tag ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine builder
 
       - name: "Install dependencies"
         run: npm i
