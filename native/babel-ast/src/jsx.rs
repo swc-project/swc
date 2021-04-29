@@ -1,7 +1,7 @@
 use swc_common::ast_serde;
 
 use crate::{
-    common::{BaseNode, SuperTypeParams, SpreadElement, Identifier},
+    common::{BaseNode, SuperTypeParams, Identifier},
     expr::Expression,
     lit::StringLiteral,
 };
@@ -203,15 +203,15 @@ pub struct JSXSpreadAttribute {
     pub argument: Box<Expression>,
 }
 
-impl From<SpreadElement> for JSXSpreadAttribute {
-    fn from(spread: SpreadElement) -> Self {
-        JSXSpreadAttribute {
-            base: spread.base.clone(),
-            // argument: spread.argument.clone(),
-            argument: spread.argument,
-        }
-    }
-}
+// impl From<SpreadElement> for JSXSpreadAttribute {
+//     fn from(spread: SpreadElement) -> Self {
+//         JSXSpreadAttribute {
+//             // base: spread.base.clone(),
+//             base: spread.base,
+//             argument: spread.argument,
+//         }
+//     }
+// }
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("JSXText")]

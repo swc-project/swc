@@ -8,6 +8,7 @@ use swc_babel_ast::{
     JSXClosingElement as BabelJSXClosingElement, JSXElementChild as BabelJSXElementChild,
     JSXText as BabelJSXText, JSXFragment as BabelJSXFragment,
     JSXOpeningFragment as BabelJSXOpeningFragment, JSXClosingFragment as BabelJSXClosingFragment,
+    JSXSpreadAttribute,
 };
 
 use swc_ecma_ast::{
@@ -16,7 +17,7 @@ use swc_ecma_ast::{
     JSXAttrValue, Lit, JSXElement, JSXClosingElement, JSXElementChild, JSXText, JSXFragment,
     JSXOpeningFragment, JSXClosingFragment,
 };
-use swc_common::Spanned;
+use swc_common::{Span, BytePos, Spanned};
 
 impl Babelify for JSXObject {
     type Output = JSXMemberExprObject;
@@ -128,9 +129,46 @@ impl Babelify for JSXAttrOrSpread {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             JSXAttrOrSpread::JSXAttr(a) => JSXOpeningElAttr::Attr(a.babelify(ctx)),
-            JSXAttrOrSpread::SpreadElement(s) => JSXOpeningElAttr::Spread(s.babelify(ctx).into()),
+            JSXAttrOrSpread::SpreadElement(spread) => {
+                // For JSX spread elements, babel includes the curly braces, and swc
+                // does not. So we extend the span to include the braces here.
+                let span = extend_spread_span_to_braces(spread.span(), ctx);
+                JSXOpeningElAttr::Spread(JSXSpreadAttribute {
+                    base: ctx.base(span),
+                    argument: Box::new(spread.expr.babelify(ctx).into()),
+                })
+            },
         }
     }
+}
+
+fn extend_spread_span_to_braces(sp: Span, ctx: &Context) -> Span {
+    let mut span = sp;
+    if let Ok(prev_source) = ctx.cm.span_to_prev_source(sp) {
+        let mut num_chars = 0;
+        for c in prev_source.chars().rev() {
+            num_chars += 1;
+            if c == '{' {
+                span = span.with_lo(span.lo - BytePos(num_chars));
+            } else if !c.is_whitespace() {
+                break;
+            }
+        }
+    }
+
+    if let Ok(next_source) = ctx.cm.span_to_next_source(sp) {
+        let mut num_chars = 0;
+        for c in next_source.chars() {
+            num_chars += 1;
+            if c == '}' {
+                span = span.with_hi(span.hi + BytePos(num_chars));
+            } else if !c.is_whitespace() {
+                break;
+            }
+        }
+    }
+
+    span
 }
 
 impl Babelify for JSXClosingElement {
