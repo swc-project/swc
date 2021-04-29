@@ -126,14 +126,17 @@ impl VisitMut for Normalizer {
     // ------------------------------------------------------------------------
     // jsx
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
-        // if node.self_closing == None {
-        //     node.self_closing = Some(false);
-        // }
-
         // From what I can tell, babel just ignores this field, whereas swc sets it,
         // causing the trees to diverge. So we just normalize it to always None to 
         // match babel.
         node.self_closing = None;
+        node.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
+        if node.value.trim().is_empty() {
+            node.value = "".to_owned();
+        }
         node.visit_mut_children_with(self);
     }
 
