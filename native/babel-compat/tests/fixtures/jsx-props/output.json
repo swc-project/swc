@@ -1,0 +1,410 @@
+{
+    "type": "File",
+    "start": 0,
+    "end": 101,
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 5,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 101,
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 5,
+                "column": 0
+            }
+        },
+        "sourceType": "script",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "VariableDeclaration",
+                "start": 0,
+                "end": 100,
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 4,
+                        "column": 2
+                    }
+                },
+                "declarations": [
+                    {
+                        "type": "VariableDeclarator",
+                        "start": 6,
+                        "end": 99,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 6
+                            },
+                            "end": {
+                                "line": 4,
+                                "column": 1
+                            }
+                        },
+                        "id": {
+                            "type": "Identifier",
+                            "start": 6,
+                            "end": 9,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 6
+                                },
+                                "end": {
+                                    "line": 1,
+                                    "column": 9
+                                },
+                                "identifierName": "App"
+                            },
+                            "name": "App"
+                        },
+                        "init": {
+                            "type": "ArrowFunctionExpression",
+                            "start": 12,
+                            "end": 99,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 12
+                                },
+                                "end": {
+                                    "line": 4,
+                                    "column": 1
+                                }
+                            },
+                            "id": null,
+                            "generator": false,
+                            "async": false,
+                            "params": [],
+                            "body": {
+                                "type": "BlockStatement",
+                                "start": 18,
+                                "end": 99,
+                                "loc": {
+                                    "start": {
+                                        "line": 1,
+                                        "column": 18
+                                    },
+                                    "end": {
+                                        "line": 4,
+                                        "column": 1
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "VariableDeclaration",
+                                        "start": 24,
+                                        "end": 43,
+                                        "loc": {
+                                            "start": {
+                                                "line": 2,
+                                                "column": 4
+                                            },
+                                            "end": {
+                                                "line": 2,
+                                                "column": 23
+                                            }
+                                        },
+                                        "declarations": [
+                                            {
+                                                "type": "VariableDeclarator",
+                                                "start": 28,
+                                                "end": 42,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 2,
+                                                        "column": 8
+                                                    },
+                                                    "end": {
+                                                        "line": 2,
+                                                        "column": 22
+                                                    }
+                                                },
+                                                "id": {
+                                                    "type": "Identifier",
+                                                    "start": 28,
+                                                    "end": 32,
+                                                    "loc": {
+                                                        "start": {
+                                                            "line": 2,
+                                                            "column": 8
+                                                        },
+                                                        "end": {
+                                                            "line": 2,
+                                                            "column": 12
+                                                        },
+                                                        "identifierName": "name"
+                                                    },
+                                                    "name": "name"
+                                                },
+                                                "init": {
+                                                    "type": "StringLiteral",
+                                                    "start": 35,
+                                                    "end": 42,
+                                                    "loc": {
+                                                        "start": {
+                                                            "line": 2,
+                                                            "column": 15
+                                                        },
+                                                        "end": {
+                                                            "line": 2,
+                                                            "column": 22
+                                                        }
+                                                    },
+                                                    "extra": {
+                                                        "rawValue": "thing",
+                                                        "raw": "\"thing\""
+                                                    },
+                                                    "value": "thing"
+                                                }
+                                            }
+                                        ],
+                                        "kind": "let"
+                                    },
+                                    {
+                                        "type": "ReturnStatement",
+                                        "start": 48,
+                                        "end": 97,
+                                        "loc": {
+                                            "start": {
+                                                "line": 3,
+                                                "column": 4
+                                            },
+                                            "end": {
+                                                "line": 3,
+                                                "column": 53
+                                            }
+                                        },
+                                        "argument": {
+                                            "type": "JSXElement",
+                                            "start": 55,
+                                            "end": 97,
+                                            "loc": {
+                                                "start": {
+                                                    "line": 3,
+                                                    "column": 11
+                                                },
+                                                "end": {
+                                                    "line": 3,
+                                                    "column": 53
+                                                }
+                                            },
+                                            "openingElement": {
+                                                "type": "JSXOpeningElement",
+                                                "start": 55,
+                                                "end": 97,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 3,
+                                                        "column": 11
+                                                    },
+                                                    "end": {
+                                                        "line": 3,
+                                                        "column": 53
+                                                    }
+                                                },
+                                                "name": {
+                                                    "type": "JSXIdentifier",
+                                                    "start": 56,
+                                                    "end": 59,
+                                                    "loc": {
+                                                        "start": {
+                                                            "line": 3,
+                                                            "column": 12
+                                                        },
+                                                        "end": {
+                                                            "line": 3,
+                                                            "column": 15
+                                                        }
+                                                    },
+                                                    "name": "div"
+                                                },
+                                                "attributes": [
+                                                    {
+                                                        "type": "JSXAttribute",
+                                                        "start": 60,
+                                                        "end": 68,
+                                                        "loc": {
+                                                            "start": {
+                                                                "line": 3,
+                                                                "column": 16
+                                                            },
+                                                            "end": {
+                                                                "line": 3,
+                                                                "column": 24
+                                                            }
+                                                        },
+                                                        "name": {
+                                                            "type": "JSXIdentifier",
+                                                            "start": 60,
+                                                            "end": 62,
+                                                            "loc": {
+                                                                "start": {
+                                                                    "line": 3,
+                                                                    "column": 16
+                                                                },
+                                                                "end": {
+                                                                    "line": 3,
+                                                                    "column": 18
+                                                                }
+                                                            },
+                                                            "name": "id"
+                                                        },
+                                                        "value": {
+                                                            "type": "StringLiteral",
+                                                            "start": 63,
+                                                            "end": 68,
+                                                            "loc": {
+                                                                "start": {
+                                                                    "line": 3,
+                                                                    "column": 19
+                                                                },
+                                                                "end": {
+                                                                    "line": 3,
+                                                                    "column": 24
+                                                                }
+                                                            },
+                                                            "extra": {
+                                                                "rawValue": "app",
+                                                                "raw": "\"app\""
+                                                            },
+                                                            "value": "app"
+                                                        }
+                                                    },
+                                                    {
+                                                        "type": "JSXAttribute",
+                                                        "start": 69,
+                                                        "end": 94,
+                                                        "loc": {
+                                                            "start": {
+                                                                "line": 3,
+                                                                "column": 25
+                                                            },
+                                                            "end": {
+                                                                "line": 3,
+                                                                "column": 50
+                                                            }
+                                                        },
+                                                        "name": {
+                                                            "type": "JSXIdentifier",
+                                                            "start": 69,
+                                                            "end": 78,
+                                                            "loc": {
+                                                                "start": {
+                                                                    "line": 3,
+                                                                    "column": 25
+                                                                },
+                                                                "end": {
+                                                                    "line": 3,
+                                                                    "column": 34
+                                                                }
+                                                            },
+                                                            "name": "className"
+                                                        },
+                                                        "value": {
+                                                            "type": "JSXExpressionContainer",
+                                                            "start": 79,
+                                                            "end": 94,
+                                                            "loc": {
+                                                                "start": {
+                                                                    "line": 3,
+                                                                    "column": 35
+                                                                },
+                                                                "end": {
+                                                                    "line": 3,
+                                                                    "column": 50
+                                                                }
+                                                            },
+                                                            "expression": {
+                                                                "type": "BinaryExpression",
+                                                                "start": 81,
+                                                                "end": 92,
+                                                                "loc": {
+                                                                    "start": {
+                                                                        "line": 3,
+                                                                        "column": 37
+                                                                    },
+                                                                    "end": {
+                                                                        "line": 3,
+                                                                        "column": 48
+                                                                    }
+                                                                },
+                                                                "left": {
+                                                                    "type": "StringLiteral",
+                                                                    "start": 81,
+                                                                    "end": 85,
+                                                                    "loc": {
+                                                                        "start": {
+                                                                            "line": 3,
+                                                                            "column": 37
+                                                                        },
+                                                                        "end": {
+                                                                            "line": 3,
+                                                                            "column": 41
+                                                                        }
+                                                                    },
+                                                                    "extra": {
+                                                                        "rawValue": "a ",
+                                                                        "raw": "\"a \""
+                                                                    },
+                                                                    "value": "a "
+                                                                },
+                                                                "operator": "+",
+                                                                "right": {
+                                                                    "type": "Identifier",
+                                                                    "start": 88,
+                                                                    "end": 92,
+                                                                    "loc": {
+                                                                        "start": {
+                                                                            "line": 3,
+                                                                            "column": 44
+                                                                        },
+                                                                        "end": {
+                                                                            "line": 3,
+                                                                            "column": 48
+                                                                        },
+                                                                        "identifierName": "name"
+                                                                    },
+                                                                    "name": "name"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                ],
+                                                "selfClosing": true
+                                            },
+                                            "closingElement": null,
+                                            "children": []
+                                        }
+                                    }
+                                ],
+                                "directives": []
+                            }
+                        }
+                    }
+                ],
+                "kind": "const"
+            }
+        ],
+        "directives": []
+    },
+    "comments": []
+}
