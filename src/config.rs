@@ -482,6 +482,27 @@ impl Config {
     }
 }
 
+fn set_decorators_true(syntax: &mut Option<Syntax>) {
+    match syntax {
+        Some(Syntax::Es(options)) => {
+            options.decorators = true;
+        }
+        Some(Syntax::Typescript(options)) => {
+            options.decorators = true;
+        }
+        None => {}
+    }
+}
+
+fn convert_runtime(jsx: tsconfig::Jsx) -> react::Runtime {
+    use react::Runtime;
+    use tsconfig::Jsx;
+    match jsx {
+        Jsx::Preserve | Jsx::React | Jsx::ReactNative => Runtime::Classic,
+        Jsx::ReactJsx | Jsx::ReactJsxdev => Runtime::Automatic,
+    }
+}
+
 // Convert information from a '.tsconfig' file to a Config.
 // '.tsconfig' files mostly define TypeScript-specific things but can also set
 // things like transpilation target, outDir etc.
@@ -489,6 +510,65 @@ impl From<TsConfigFile> for Config {
     fn from(mut ts_config: TsConfigFile) -> Self {
         let mut cfg = Config::default();
         if let Some(compiler_options) = ts_config.compiler_options.take() {
+            // importHelpers
+            if let Some(b) = compiler_options.import_helpers {
+                cfg.jsc.external_helpers = b;
+            }
+            // experimentalDecorators
+            if let Some(b) = compiler_options.experimental_decorators {
+                set_decorators_true(&mut cfg.jsc.syntax);
+                cfg.jsc.transform.as_mut().map(|t| t.legacy_decorator = b);
+            }
+            // decoratorMetadata
+            if let Some(b) = compiler_options.emit_decorator_metadata {
+                set_decorators_true(&mut cfg.jsc.syntax);
+                cfg.jsc.transform.as_mut().map(|t| t.decorator_metadata = b);
+            }
+            // JSX transform
+            if let Some(j) = compiler_options.jsx {
+                cfg.jsc
+                    .transform
+                    .as_mut()
+                    .map(|t| t.react.runtime = Some(convert_runtime(j)));
+            }
+
+            // React import source
+            if let Some(i_s) = compiler_options.jsx_import_source {
+                cfg.jsc
+                    .transform
+                    .as_mut()
+                    .map(|t| t.react.import_source = i_s);
+            }
+
+            // JSX Pragma
+            if let Some(f) = compiler_options.jsx_factory {
+                cfg.jsc.transform.as_mut().map(|t| t.react.pragma = f);
+            }
+            // JSX Fragment Pragma
+            if let Some(f) = compiler_options.jsx_fragment_factory {
+                cfg.jsc.transform.as_mut().map(|t| t.react.pragma_frag = f);
+            }
+
+            // Module type
+            if let Some(module) = compiler_options.module {
+                use tsconfig::Module;
+                cfg.module.as_mut().map(|m| {
+                    *m = match module {
+                        Module::Amd => ModuleConfig::Amd(modules::amd::Config {
+                            ..Default::default()
+                        }),
+                        Module::CommonJs => ModuleConfig::CommonJs(modules::common_js::Config {
+                            ..Default::default()
+                        }),
+                        Module::Umd => ModuleConfig::Umd(modules::umd::Config {
+                            ..Default::default()
+                        }),
+                        _ => ModuleConfig::Es6,
+                    }
+                });
+            }
+
+            // Target
             if let Some(target) = compiler_options.target.and_then(|target| {
                 use tsconfig::Target;
                 match target {
