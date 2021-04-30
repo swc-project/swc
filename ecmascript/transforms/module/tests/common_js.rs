@@ -4703,5 +4703,12 @@ test!(
     })()
     ",
     "
+    'use strict';
+    (async ()=>{
+        const example = await Promise.resolve().then(function() {
+          return _interopRequireWildcard(require('./example'));
+      });
+      console.log(example.foo);
+    })();
     "
 );
