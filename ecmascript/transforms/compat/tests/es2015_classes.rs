@@ -6195,8 +6195,25 @@ test!(
       }
     }
     ",
-    "
-    "
+    r#"
+    let A = function(B) {
+      "use strict";
+      _inherits(A, B);
+      function A() {
+          _classCallCheck(this, A);
+          return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+      }
+      _createClass(A, [
+          {
+              key: "foo",
+              value: function foo() {
+                  _get(_getPrototypeOf(A.prototype), "foo", this).call(this), bar();
+              }
+          }
+      ]);
+      return A;
+  }(B);
+    "#
 );
 
 test!(
@@ -6210,6 +6227,23 @@ test!(
     }
   }
   ",
-    "
-  "
+    r#"
+    let A = function(B) {
+      "use strict";
+      _inherits(A, B);
+      function A() {
+          _classCallCheck(this, A);
+          return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+      }
+      _createClass(A, [
+          {
+              key: "foo",
+              value: function foo() {
+                  _get(_getPrototypeOf(A.prototype), "foo", this).call(this);
+              }
+          }
+      ]);
+      return A;
+  }(B);
+    "#
 );

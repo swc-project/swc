@@ -82,6 +82,10 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
 
     fold_only_key!();
 
+    fn fold_seq_expr(&mut self, n: SeqExpr) -> SeqExpr {
+        n
+    }
+
     fn fold_expr(&mut self, n: Expr) -> Expr {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
