@@ -6183,3 +6183,18 @@ test_exec!(
   expect(new Test().foo()).toBe(3);
   "
 );
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1617_1,
+    "
+    class A extends B {
+      foo() {
+        super.foo(), bar();
+      }
+    }
+    ",
+    "
+    "
+);
