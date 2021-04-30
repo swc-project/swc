@@ -16,7 +16,10 @@ jobs:
       - name: Download previous benchmark data
         uses: actions/cache@v1
         with:
-          path: ./cache
+          path: |
+            ./cache
+            ~/.cargo/
+            target
           key: ${{ runner.os }}-benchmark
       # Run `github-action-benchmark` action
       - name: Store benchmark result
