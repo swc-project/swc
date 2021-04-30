@@ -6198,3 +6198,18 @@ test!(
     "
     "
 );
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1617_2,
+    "
+  class A extends B {
+    foo() {
+      super.foo();
+    }
+  }
+  ",
+    "
+  "
+);
