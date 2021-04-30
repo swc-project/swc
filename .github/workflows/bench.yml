@@ -10,10 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run benchmark
-        run: cargo bench --all | tee output.txt
-      # Download previous benchmark result from cache (if exists)
-      - name: Download previous benchmark data
+      - name: Cache
         uses: actions/cache@v1
         with:
           path: |
@@ -21,6 +18,8 @@ jobs:
             ~/.cargo/
             target
           key: ${{ runner.os }}-benchmark
+      - name: Run benchmark
+        run: cargo bench --all | tee output.txt
       # Run `github-action-benchmark` action
       - name: Store benchmark result
         uses: rhysd/github-action-benchmark@v1
