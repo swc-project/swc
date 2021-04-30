@@ -2,6 +2,7 @@ name: Benchmark
 
 on:
   - push
+  - pull_request
 
 jobs:
   benchmark:
