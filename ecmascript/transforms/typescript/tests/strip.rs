@@ -3952,3 +3952,14 @@ to!(
     }
     "
 );
+
+to!(
+    issue_1593,
+    "
+    export = 'something';
+    ",
+    "
+    'use strict';
+    module.exports = 'something';
+    "
+);
