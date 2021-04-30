@@ -4691,3 +4691,17 @@ test!(
     _react.default.render();
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1614_1,
+    "
+    (async () => {
+      const example = await import('./example');
+      console.log(example.foo)
+    })()
+    ",
+    "
+    "
+);
