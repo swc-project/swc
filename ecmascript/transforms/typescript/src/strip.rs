@@ -6,6 +6,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::var::VarCollector;
@@ -1791,13 +1792,17 @@ impl VisitMut for Strip {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(export)) => {
-                    let mut item = ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                        span: export.span(),
-                        expr: export.expr,
-                    });
-                    item.visit_mut_with(self);
-                    stmts.push(ModuleItem::ModuleDecl(item))
+                    stmts.push(ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+                        span: export.span,
+                        expr: Box::new(Expr::Assign(AssignExpr {
+                            span: export.span,
+                            left: PatOrExpr::Expr(member_expr!(DUMMY_SP, module.exports)),
+                            op: op!("="),
+                            right: export.expr,
+                        })),
+                    })));
                 }
+
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(mut export)) => {
                     // if specifier become empty, we remove export statement.
 

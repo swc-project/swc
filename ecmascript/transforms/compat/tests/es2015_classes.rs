@@ -6183,3 +6183,67 @@ test_exec!(
   expect(new Test().foo()).toBe(3);
   "
 );
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1617_1,
+    "
+    class A extends B {
+      foo() {
+        super.foo(), bar();
+      }
+    }
+    ",
+    r#"
+    let A = function(B) {
+      "use strict";
+      _inherits(A, B);
+      function A() {
+          _classCallCheck(this, A);
+          return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+      }
+      _createClass(A, [
+          {
+              key: "foo",
+              value: function foo() {
+                  _get(_getPrototypeOf(A.prototype), "foo", this).call(this), bar();
+              }
+          }
+      ]);
+      return A;
+  }(B);
+    "#
+);
+
+test!(
+    syntax(),
+    |_| classes(),
+    issue_1617_2,
+    "
+  class A extends B {
+    foo() {
+      super.foo();
+    }
+  }
+  ",
+    r#"
+    let A = function(B) {
+      "use strict";
+      _inherits(A, B);
+      function A() {
+          _classCallCheck(this, A);
+          return _possibleConstructorReturn(this, _getPrototypeOf(A).apply(this, arguments));
+      }
+      _createClass(A, [
+          {
+              key: "foo",
+              value: function foo() {
+                  _get(_getPrototypeOf(A.prototype), "foo", this).call(this);
+              }
+          }
+      ]);
+      return A;
+  }(B);
+    "#
+);

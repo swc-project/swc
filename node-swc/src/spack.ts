@@ -1,5 +1,6 @@
-import { Options } from "./types";
 import * as path from 'path';
+
+import { Options } from "./types";
 
 export type BundleInput = BundleOptions | BundleOptions[];
 
@@ -68,6 +69,11 @@ export interface SpackConfig {
     module: ModuleConfig
 
     options?: Options
+
+    /**
+     * Modules to exclude from bundle.
+     */
+    extenalModules?: string[]
 }
 
 export interface OutputConfig {

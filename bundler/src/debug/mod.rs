@@ -6,6 +6,9 @@ use swc_ecma_ast::{Ident, Module};
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
+#[cfg(not(debug_assertions))]
+pub(crate) fn print_hygiene(_: &str, _: &Lrc<SourceMap>, _: &Module) {}
+
 #[cfg(debug_assertions)]
 pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
     let module = t.clone().fold_with(&mut HygieneVisualizer);
