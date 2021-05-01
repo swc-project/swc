@@ -10,6 +10,8 @@ import {
 export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
 import { loadBinding } from "@node-rs/helper";
+import * as babel from '@babel/types';
+import { BabelifyOptions } from './babel';
 
 const bindings = loadBinding(__dirname, "swc", "@swc/core")
 
@@ -29,6 +31,22 @@ export function plugins(ps: Plugin[]): Plugin {
 }
 
 export class Compiler {
+  /**
+   * Parse source code as a babel ast.
+   * 
+   * @param src Source code
+   * @param options 
+   */
+  babelify(src: string, options?: BabelifyOptions): Promise<babel.Program>;
+  babelify(src: Module, options?: BabelifyOptions): Promise<babel.Program>;
+  babelify(input: string | Module, options?: BabelifyOptions): Promise<babel.Program> {
+  }
+
+  babelifySync(src: string, options?: BabelifyOptions): babel.Program;
+  babelifySync(src: Module, options?: BabelifyOptions): babel.Program;
+  babelifySync(input: string | Module, options?: BabelifyOptions): babel.Program {
+  }
+
   parse(
     src: string,
     options: ParseOptions & { isModule: false }
