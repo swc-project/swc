@@ -39,6 +39,8 @@ jobs:
   fmt:
     name: fmt
     runs-on: ubuntu-latest
+    env:
+      RUST_LOG: "0"
     steps:
       - uses: actions/checkout@v2
 
