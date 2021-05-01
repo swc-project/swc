@@ -7,4 +7,4 @@ To run tests
 cargo test
 ```
 
-For more information about writing tests, see [tests/README.md](tests/README.md).
+For more information about writing tests, see [tests](tests).
