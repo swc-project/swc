@@ -8,13 +8,14 @@ use swc_babel_ast::{
     ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
     TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
     TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal, ObjectKey, ObjectMember,
+    LogicalExpression,
 };
 
 use swc_ecma_ast::{
     Expr, ThisExpr, ArrayLit, ObjectLit, FnExpr, UnaryExpr, UpdateExpr, BinExpr, AssignExpr,
     MemberExpr, CondExpr, CallExpr, NewExpr, SeqExpr, Tpl, TaggedTpl, ArrowExpr, ClassExpr,
     YieldExpr, AwaitExpr, ParenExpr, ExprOrSpread, PropOrSpread, SpreadElement, PatOrExpr,
-    ExprOrSuper, Super, BlockStmtOrExpr, MetaPropExpr, TplElement, Lit,
+    ExprOrSuper, Super, BlockStmtOrExpr, MetaPropExpr, TplElement, Lit, BinaryOp,
 };
 use swc_common::Spanned;
 use serde::{Serialize, Deserialize};
@@ -36,7 +37,12 @@ impl Babelify for Expr {
             Expr::Fn(f) => ExprOutput::Expr(Box::new(Expression::Func(f.babelify(ctx)))),
             Expr::Unary(u) => ExprOutput::Expr(Box::new(Expression::Unary(u.babelify(ctx)))),
             Expr::Update(u) => ExprOutput::Expr(Box::new(Expression::Update(u.babelify(ctx)))),
-            Expr::Bin(b) => ExprOutput::Expr(Box::new(Expression::Binary(b.babelify(ctx)))),
+            Expr::Bin(b) => {
+                match b.babelify(ctx) {
+                    BinaryOrLogicalExpr::Binary(bin) => ExprOutput::Expr(Box::new(Expression::Binary(bin))),
+                    BinaryOrLogicalExpr::Logical(log) => ExprOutput::Expr(Box::new(Expression::Logical(log))),
+                }
+            },
             Expr::Assign(a) => ExprOutput::Expr(Box::new(Expression::Assignment(a.babelify(ctx)))),
             Expr::Member(m) => ExprOutput::Expr(Box::new(Expression::Member(m.babelify(ctx)))),
             Expr::Cond(c) => ExprOutput::Expr(Box::new(Expression::Conditional(c.babelify(ctx)))),
@@ -215,16 +221,40 @@ impl Babelify for UpdateExpr {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub enum BinaryOrLogicalExpr {
+    Binary(BinaryExpression),
+    Logical(LogicalExpression),
+}
+
 impl Babelify for BinExpr {
-    type Output = BinaryExpression;
+    type Output = BinaryOrLogicalExpr;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        BinaryExpression {
-            base: ctx.base(self.span),
-            operator: self.op.babelify(ctx).into(),
-            left: Box::new(self.left.babelify(ctx).into()),
-            right: Box::new(self.right.babelify(ctx).into()),
+        match self.op {
+            BinaryOp::LogicalOr | BinaryOp::LogicalAnd | BinaryOp::NullishCoalescing => {
+                BinaryOrLogicalExpr::Logical(LogicalExpression {
+                    base: ctx.base(self.span),
+                    operator: self.op.babelify(ctx).into(),
+                    left: Box::new(self.left.babelify(ctx).into()),
+                    right: Box::new(self.right.babelify(ctx).into()),
+                })
+            },
+            _ => BinaryOrLogicalExpr::Binary(BinaryExpression {
+                base: ctx.base(self.span),
+                operator: self.op.babelify(ctx).into(),
+                left: Box::new(self.left.babelify(ctx).into()),
+                right: Box::new(self.right.babelify(ctx).into()),
+            }),
         }
+
+        // BinaryExpression {
+        //     base: ctx.base(self.span),
+        //     operator: self.op.babelify(ctx).into(),
+        //     left: Box::new(self.left.babelify(ctx).into()),
+        //     right: Box::new(self.right.babelify(ctx).into()),
+        // }
+
     }
 }
 

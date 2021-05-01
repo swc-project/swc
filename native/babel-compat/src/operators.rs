@@ -19,6 +19,15 @@ impl From<BinaryOpOutput> for BinaryExprOp {
     }
 }
 
+impl From<BinaryOpOutput> for LogicalExprOp {
+    fn from(o: BinaryOpOutput) -> Self {
+        match o {
+            BinaryOpOutput::LogicOp(op) => op,
+            BinaryOpOutput::BinOp(_) => panic!("illegal conversion: Cannot convert {:?} to LogicalExprOp", &o),
+        }
+    }
+}
+
 impl Babelify for BinaryOp {
     type Output = BinaryOpOutput;
 
