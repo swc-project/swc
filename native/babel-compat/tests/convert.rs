@@ -104,8 +104,8 @@ fn fixtures() -> Result<(), Error> {
 
 #[test]
 fn single_fixture() -> Result<(), Error> {
-    let input_file = "tests/fixtures/regex-simple/input.js";
-    let output_file = "tests/fixtures/regex-simple/output.json";
+    let input_file = "tests/fixtures/regex-flags/input.js";
+    let output_file = "tests/fixtures/regex-flags/output.json";
 
     let input = fs::read_to_string(&input_file)
         .with_context(|| format!("Failed to open file: {}", &input_file))?;
