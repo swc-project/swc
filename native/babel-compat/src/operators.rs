@@ -1,8 +1,8 @@
-use crate::{Context, Babelify};
-use swc_babel_ast::{BinaryExprOp, LogicalExprOp, UpdateExprOp, UnaryExprOp};
+use crate::{Babelify, Context};
+use swc_babel_ast::{BinaryExprOp, LogicalExprOp, UnaryExprOp, UpdateExprOp};
 
-use swc_ecma_ast::{BinaryOp, AssignOp, UpdateOp, UnaryOp};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+use swc_ecma_ast::{AssignOp, BinaryOp, UnaryOp, UpdateOp};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum BinaryOpOutput {
@@ -14,7 +14,10 @@ impl From<BinaryOpOutput> for BinaryExprOp {
     fn from(o: BinaryOpOutput) -> Self {
         match o {
             BinaryOpOutput::BinOp(op) => op,
-            BinaryOpOutput::LogicOp(_) => panic!("illegal conversion: Cannot convert {:?} to BinaryExprOp", &o),
+            BinaryOpOutput::LogicOp(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to BinaryExprOp",
+                &o
+            ),
         }
     }
 }
@@ -23,7 +26,10 @@ impl From<BinaryOpOutput> for LogicalExprOp {
     fn from(o: BinaryOpOutput) -> Self {
         match o {
             BinaryOpOutput::LogicOp(op) => op,
-            BinaryOpOutput::BinOp(_) => panic!("illegal conversion: Cannot convert {:?} to LogicalExprOp", &o),
+            BinaryOpOutput::BinOp(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to LogicalExprOp",
+                &o
+            ),
         }
     }
 }
@@ -62,8 +68,9 @@ impl Babelify for BinaryOp {
     }
 }
 
-// Babel appears to just store all of these as a string. See AssignmentExpression.operator field.
-// NOTE(dwoznick): I'm unsure if this is the correct way to handle this case.
+// Babel appears to just store all of these as a string. See
+// AssignmentExpression.operator field. NOTE(dwoznick): I'm unsure if this is
+// the correct way to handle this case.
 impl Babelify for AssignOp {
     type Output = String;
     fn babelify(self, _ctx: &Context) -> Self::Output {
@@ -115,4 +122,3 @@ impl Babelify for UnaryOp {
         }
     }
 }
-

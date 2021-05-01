@@ -1,17 +1,17 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_common::ast_serde;
 
 use crate::{
     common::{
-        BaseNode, Identifier, Access, Param, Decorator, PrivateName, TypeAnnotOrNoop,
-        TypeParamDeclOrNoop, SuperTypeParams
+        Access, BaseNode, Decorator, Identifier, Param, PrivateName, SuperTypeParams,
+        TypeAnnotOrNoop, TypeParamDeclOrNoop,
     },
-    expr::{Expression, ClassExpression},
+    expr::{ClassExpression, Expression},
     flow::{ClassImplements, InterfaceExtends},
     object::ObjectKey,
     stmt::BlockStatement,
-    typescript::{TSDeclareMethod, TSIndexSignature, TSExpressionWithTypeArguments},
+    typescript::{TSDeclareMethod, TSExpressionWithTypeArguments, TSIndexSignature},
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -231,4 +231,3 @@ impl From<ClassExpression> for ClassDeclaration {
         }
     }
 }
-

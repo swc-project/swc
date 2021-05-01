@@ -1,7 +1,7 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    Param as BabelParam, Identifier, RestElement, FunctionExpression, Pattern, ArrayPattern,
-    ObjectPattern, AssignmentPattern,
+    ArrayPattern, AssignmentPattern, FunctionExpression, Identifier, ObjectPattern,
+    Param as BabelParam, Pattern, RestElement,
 };
 
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
@@ -12,7 +12,11 @@ impl Babelify for Function {
     fn babelify(self, ctx: &Context) -> Self::Output {
         FunctionExpression {
             base: ctx.base(self.span),
-            params: self.params.iter().map(|param| param.clone().babelify(ctx)).collect(),
+            params: self
+                .params
+                .iter()
+                .map(|param| param.clone().babelify(ctx))
+                .collect(),
             body: self.body.unwrap().babelify(ctx),
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
@@ -30,31 +34,62 @@ impl Babelify for Param {
         match self.pat {
             Pat::Ident(i) => BabelParam::Id(Identifier {
                 base: ctx.base(self.span),
-                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                decorators: Some(
+                    self.decorators
+                        .iter()
+                        .map(|dec| dec.clone().babelify(ctx))
+                        .collect(),
+                ),
                 ..i.babelify(ctx)
             }),
             Pat::Array(a) => BabelParam::Pat(Pattern::Array(ArrayPattern {
                 base: ctx.base(self.span),
-                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                decorators: Some(
+                    self.decorators
+                        .iter()
+                        .map(|dec| dec.clone().babelify(ctx))
+                        .collect(),
+                ),
                 ..a.babelify(ctx)
             })),
             Pat::Rest(r) => BabelParam::Rest(RestElement {
                 base: ctx.base(self.span),
-                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                decorators: Some(
+                    self.decorators
+                        .iter()
+                        .map(|dec| dec.clone().babelify(ctx))
+                        .collect(),
+                ),
                 ..r.babelify(ctx)
             }),
             Pat::Object(o) => BabelParam::Pat(Pattern::Object(ObjectPattern {
                 base: ctx.base(self.span),
-                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                decorators: Some(
+                    self.decorators
+                        .iter()
+                        .map(|dec| dec.clone().babelify(ctx))
+                        .collect(),
+                ),
                 ..o.babelify(ctx)
             })),
             Pat::Assign(a) => BabelParam::Pat(Pattern::Assignment(AssignmentPattern {
                 base: ctx.base(self.span),
-                decorators: Some(self.decorators.iter().map(|dec| dec.clone().babelify(ctx)).collect()),
+                decorators: Some(
+                    self.decorators
+                        .iter()
+                        .map(|dec| dec.clone().babelify(ctx))
+                        .collect(),
+                ),
                 ..a.babelify(ctx)
             })),
-            Pat::Expr(_) => panic!("illegal conversion: Cannot convert {:?} to BabelParam", &self.pat),
-            Pat::Invalid(_) => panic!("illegal conversion: Cannot convert {:?} to BabelParam", &self.pat),
+            Pat::Expr(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to BabelParam",
+                &self.pat
+            ),
+            Pat::Invalid(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to BabelParam",
+                &self.pat
+            ),
         }
     }
 }
@@ -69,4 +104,3 @@ impl Babelify for ParamOrTsParamProp {
         }
     }
 }
-

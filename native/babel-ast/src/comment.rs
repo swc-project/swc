@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::common::Loc;
@@ -28,4 +28,3 @@ pub enum CommentTypeShorthand {
     Inner,
     Trailing,
 }
-

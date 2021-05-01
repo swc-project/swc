@@ -1,23 +1,22 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    JSXMemberExprObject, JSXMemberExpression, JSXNamespacedName as BabelJSXNamespacedName,
-    JSXEmptyExpression, JSXExpressionContainer, JSXExprContainerExpr,
-    JSXSpreadChild as BabelJSXSpreadChild, JSXElementName as BabelJSXElementName,
-    JSXOpeningElement as BabelJSXOpeningElement, JSXOpeningElAttr, JSXAttribute,
-    JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXElement as BabelJSXElement,
-    JSXClosingElement as BabelJSXClosingElement, JSXElementChild as BabelJSXElementChild,
-    JSXText as BabelJSXText, JSXFragment as BabelJSXFragment,
-    JSXOpeningFragment as BabelJSXOpeningFragment, JSXClosingFragment as BabelJSXClosingFragment,
-    JSXSpreadAttribute,
+    JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
+    JSXClosingElement as BabelJSXClosingElement, JSXClosingFragment as BabelJSXClosingFragment,
+    JSXElement as BabelJSXElement, JSXElementChild as BabelJSXElementChild,
+    JSXElementName as BabelJSXElementName, JSXEmptyExpression, JSXExprContainerExpr,
+    JSXExpressionContainer, JSXFragment as BabelJSXFragment, JSXMemberExprObject,
+    JSXMemberExpression, JSXNamespacedName as BabelJSXNamespacedName, JSXOpeningElAttr,
+    JSXOpeningElement as BabelJSXOpeningElement, JSXOpeningFragment as BabelJSXOpeningFragment,
+    JSXSpreadAttribute, JSXSpreadChild as BabelJSXSpreadChild, JSXText as BabelJSXText,
 };
 
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    JSXObject, JSXMemberExpr, JSXNamespacedName, JSXEmptyExpr, JSXExprContainer, JSXExpr,
-    JSXSpreadChild, JSXElementName, JSXOpeningElement, JSXAttrOrSpread, JSXAttr, JSXAttrName,
-    JSXAttrValue, Lit, JSXElement, JSXClosingElement, JSXElementChild, JSXText, JSXFragment,
-    JSXOpeningFragment, JSXClosingFragment,
+    JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
+    JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
+    JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
+    JSXOpeningFragment, JSXSpreadChild, JSXText, Lit,
 };
-use swc_common::{Span, BytePos, Spanned};
 
 impl Babelify for JSXObject {
     type Output = JSXMemberExprObject;
@@ -116,7 +115,11 @@ impl Babelify for JSXOpeningElement {
         BabelJSXOpeningElement {
             base: ctx.base(self.span),
             name: self.name.babelify(ctx),
-            attributes: self.attrs.iter().map(|attr| attr.clone().babelify(ctx)).collect(),
+            attributes: self
+                .attrs
+                .iter()
+                .map(|attr| attr.clone().babelify(ctx))
+                .collect(),
             self_closing: self.self_closing,
             type_parameters: self.type_args.map(|arg| arg.babelify(ctx).into()),
         }
@@ -137,7 +140,7 @@ impl Babelify for JSXAttrOrSpread {
                     base: ctx.base(span),
                     argument: Box::new(spread.expr.babelify(ctx).into()),
                 })
-            },
+            }
         }
     }
 }
@@ -184,7 +187,7 @@ impl Babelify for JSXClosingElement {
 
 impl Babelify for JSXAttr {
     type Output = JSXAttribute;
-    
+
     fn babelify(self, ctx: &Context) -> Self::Output {
         JSXAttribute {
             base: ctx.base(self.span),
@@ -211,12 +214,16 @@ impl Babelify for JSXAttrValue {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             JSXAttrValue::Lit(lit) => {
-                // TODO(dwoznicki): Babel only seems to accept string literals here. Is taht right?
+                // TODO(dwoznicki): Babel only seems to accept string literals here. Is taht
+                // right?
                 match lit {
                     Lit::Str(s) => JSXAttrVal::String(s.babelify(ctx)),
-                    _ => panic!("illegal conversion: Cannot convert {:?} to JsxAttrVal::Lit", &lit),
+                    _ => panic!(
+                        "illegal conversion: Cannot convert {:?} to JsxAttrVal::Lit",
+                        &lit
+                    ),
                 }
-            },
+            }
             JSXAttrValue::JSXExprContainer(e) => JSXAttrVal::Expr(e.babelify(ctx)),
             JSXAttrValue::JSXElement(e) => JSXAttrVal::Element(e.babelify(ctx)),
             JSXAttrValue::JSXFragment(f) => JSXAttrVal::Fragment(f.babelify(ctx)),
@@ -244,7 +251,11 @@ impl Babelify for JSXElement {
             base: ctx.base(self.span),
             opening_element: self.opening.babelify(ctx),
             closing_element: self.closing.map(|el| el.babelify(ctx)),
-            children: self.children.iter().map(|el| el.clone().babelify(ctx)).collect(),
+            children: self
+                .children
+                .iter()
+                .map(|el| el.clone().babelify(ctx))
+                .collect(),
             self_closing: Some(self_closing),
         }
     }
@@ -272,7 +283,11 @@ impl Babelify for JSXFragment {
             base: ctx.base(self.span),
             opening_fragment: self.opening.babelify(ctx),
             closing_fragment: self.closing.babelify(ctx),
-            children: self.children.iter().map(|el| el.clone().babelify(ctx)).collect(),
+            children: self
+                .children
+                .iter()
+                .map(|el| el.clone().babelify(ctx))
+                .collect(),
         }
     }
 }
@@ -296,4 +311,3 @@ impl Babelify for JSXClosingFragment {
         }
     }
 }
-

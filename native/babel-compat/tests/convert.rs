@@ -10,8 +10,8 @@ use std::{
 };
 use swc::Compiler;
 use swc_babel_ast::File;
-use swc_babel_compat::{Babelify, Context};
 use swc_babel_compat::normalize::normalize;
+use swc_babel_compat::{Babelify, Context};
 use swc_common::{
     errors::{ColorConfig, Handler},
     FileName,
@@ -19,7 +19,7 @@ use swc_common::{
     FilePathMapping,
     SourceMap,
 };
-use swc_ecma_parser::{Syntax, EsConfig};
+use swc_ecma_parser::{EsConfig, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic, TestDesc, TestDescAndFn, TestName, TestType};
 use walkdir::WalkDir;
 
@@ -47,8 +47,7 @@ fn fixtures() -> Result<(), Error> {
         let is_module = mjs_path.is_file();
         let is_jsx = jsx_path.is_file();
 
-        if (!is_javascript && !is_typescript && !is_module && !is_jsx)
-            || !output_path.is_file() {
+        if (!is_javascript && !is_typescript && !is_module && !is_jsx) || !output_path.is_file() {
             continue;
         }
 
@@ -148,7 +147,6 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     };
     let mut ast = swc_ast.babelify(&ctx);
     normalize(&mut ast);
-
 
     let mut expected_ast: File = serde_json::from_str(&expected).unwrap();
     normalize(&mut expected_ast);

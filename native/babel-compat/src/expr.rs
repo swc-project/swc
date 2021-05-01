@@ -1,24 +1,23 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    SpreadElement as BabelSpreadElement, PrivateName, LVal, MetaProperty, Expression,
-    ThisExpression, ArrayExpression, ArrayExprEl, ObjectExpression, ObjectExprProp,
-    UnaryExpression, UpdateExpression, BinaryExpression, BinaryExprLeft, FunctionExpression,
-    ClassExpression, AssignmentExpression, MemberExpression, Super as BabelSuper, MemberExprProp,
-    ConditionalExpression, CallExpression, NewExpression, SequenceExpression,
-    ArrowFunctionExpression, ArrowFuncExprBody, YieldExpression, AwaitExpression,
-    TaggedTemplateExpression, TaggedTemplateExprTypeParams, ParenthesizedExpression, Callee,
-    TemplateLiteral, TemplateLiteralExpr, TemplateElement, TemplateElVal, ObjectKey, ObjectMember,
-    LogicalExpression,
+    ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression, AssignmentExpression,
+    AwaitExpression, BinaryExprLeft, BinaryExpression, CallExpression, Callee, ClassExpression,
+    ConditionalExpression, Expression, FunctionExpression, LVal, LogicalExpression, MemberExprProp,
+    MemberExpression, MetaProperty, NewExpression, ObjectExprProp, ObjectExpression, ObjectKey,
+    ObjectMember, ParenthesizedExpression, PrivateName, SequenceExpression,
+    SpreadElement as BabelSpreadElement, Super as BabelSuper, TaggedTemplateExprTypeParams,
+    TaggedTemplateExpression, TemplateElVal, TemplateElement, TemplateLiteral, TemplateLiteralExpr,
+    ThisExpression, UnaryExpression, UpdateExpression, YieldExpression,
 };
 
-use swc_ecma_ast::{
-    Expr, ThisExpr, ArrayLit, ObjectLit, FnExpr, UnaryExpr, UpdateExpr, BinExpr, AssignExpr,
-    MemberExpr, CondExpr, CallExpr, NewExpr, SeqExpr, Tpl, TaggedTpl, ArrowExpr, ClassExpr,
-    YieldExpr, AwaitExpr, ParenExpr, ExprOrSpread, PropOrSpread, SpreadElement, PatOrExpr,
-    ExprOrSuper, Super, BlockStmtOrExpr, MetaPropExpr, TplElement, Lit, BinaryOp,
-};
+use serde::{Deserialize, Serialize};
 use swc_common::Spanned;
-use serde::{Serialize, Deserialize};
+use swc_ecma_ast::{
+    ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BlockStmtOrExpr, CallExpr,
+    ClassExpr, CondExpr, Expr, ExprOrSpread, ExprOrSuper, FnExpr, Lit, MemberExpr, MetaPropExpr,
+    NewExpr, ObjectLit, ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super,
+    TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum ExprOutput {
@@ -37,10 +36,12 @@ impl Babelify for Expr {
             Expr::Fn(f) => ExprOutput::Expr(Box::new(Expression::Func(f.babelify(ctx)))),
             Expr::Unary(u) => ExprOutput::Expr(Box::new(Expression::Unary(u.babelify(ctx)))),
             Expr::Update(u) => ExprOutput::Expr(Box::new(Expression::Update(u.babelify(ctx)))),
-            Expr::Bin(b) => {
-                match b.babelify(ctx) {
-                    BinaryOrLogicalExpr::Binary(bin) => ExprOutput::Expr(Box::new(Expression::Binary(bin))),
-                    BinaryOrLogicalExpr::Logical(log) => ExprOutput::Expr(Box::new(Expression::Logical(log))),
+            Expr::Bin(b) => match b.babelify(ctx) {
+                BinaryOrLogicalExpr::Binary(bin) => {
+                    ExprOutput::Expr(Box::new(Expression::Binary(bin)))
+                }
+                BinaryOrLogicalExpr::Logical(log) => {
+                    ExprOutput::Expr(Box::new(Expression::Logical(log)))
                 }
             },
             Expr::Assign(a) => ExprOutput::Expr(Box::new(Expression::Assignment(a.babelify(ctx)))),
@@ -52,37 +53,84 @@ impl Babelify for Expr {
             Expr::Ident(i) => ExprOutput::Expr(Box::new(Expression::Id(i.babelify(ctx)))),
             Expr::Lit(lit) => {
                 match lit {
-                    Lit::Str(s) => ExprOutput::Expr(Box::new(Expression::StringLiteral(s.babelify(ctx)))),
-                    Lit::Bool(b) => ExprOutput::Expr(Box::new(Expression::BooleanLiteral(b.babelify(ctx)))),
-                    Lit::Null(n) => ExprOutput::Expr(Box::new(Expression::NullLiteral(n.babelify(ctx)))),
-                    Lit::Num(n) => ExprOutput::Expr(Box::new(Expression::NumericLiteral(n.babelify(ctx)))),
-                    Lit::BigInt(i) => ExprOutput::Expr(Box::new(Expression::BigIntLiteral(i.babelify(ctx)))),
-                    Lit::Regex(r) => ExprOutput::Expr(Box::new(Expression::RegExpLiteral(r.babelify(ctx)))),
-                    Lit::JSXText(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput", &lit), // TODO(dwoznicki): is this really illegal?
+                    Lit::Str(s) => {
+                        ExprOutput::Expr(Box::new(Expression::StringLiteral(s.babelify(ctx))))
+                    }
+                    Lit::Bool(b) => {
+                        ExprOutput::Expr(Box::new(Expression::BooleanLiteral(b.babelify(ctx))))
+                    }
+                    Lit::Null(n) => {
+                        ExprOutput::Expr(Box::new(Expression::NullLiteral(n.babelify(ctx))))
+                    }
+                    Lit::Num(n) => {
+                        ExprOutput::Expr(Box::new(Expression::NumericLiteral(n.babelify(ctx))))
+                    }
+                    Lit::BigInt(i) => {
+                        ExprOutput::Expr(Box::new(Expression::BigIntLiteral(i.babelify(ctx))))
+                    }
+                    Lit::Regex(r) => {
+                        ExprOutput::Expr(Box::new(Expression::RegExpLiteral(r.babelify(ctx))))
+                    }
+                    Lit::JSXText(_) => panic!(
+                        "illegal conversion: Cannot convert {:?} to ExprOutput",
+                        &lit
+                    ), // TODO(dwoznicki): is this really illegal?
                 }
-            },
-            Expr::Tpl(t) => ExprOutput::Expr(Box::new(Expression::TemplateLiteral(t.babelify(ctx)))),
-            Expr::TaggedTpl(t) => ExprOutput::Expr(Box::new(Expression::TaggedTemplate(t.babelify(ctx)))),
+            }
+            Expr::Tpl(t) => {
+                ExprOutput::Expr(Box::new(Expression::TemplateLiteral(t.babelify(ctx))))
+            }
+            Expr::TaggedTpl(t) => {
+                ExprOutput::Expr(Box::new(Expression::TaggedTemplate(t.babelify(ctx))))
+            }
             Expr::Arrow(a) => ExprOutput::Expr(Box::new(Expression::ArrowFunc(a.babelify(ctx)))),
             Expr::Class(c) => ExprOutput::Expr(Box::new(Expression::Class(c.babelify(ctx)))),
             Expr::Yield(y) => ExprOutput::Expr(Box::new(Expression::Yield(y.babelify(ctx)))),
             Expr::MetaProp(m) => ExprOutput::Expr(Box::new(Expression::MetaProp(m.babelify(ctx)))),
             Expr::Await(a) => ExprOutput::Expr(Box::new(Expression::Await(a.babelify(ctx)))),
-            Expr::Paren(p) => ExprOutput::Expr(Box::new(Expression::Parenthesized(p.babelify(ctx)))),
-            Expr::JSXElement(e) => ExprOutput::Expr(Box::new(Expression::JSXElement(e.babelify(ctx)))),
-            Expr::JSXFragment(f) => ExprOutput::Expr(Box::new(Expression::JSXFragment(f.babelify(ctx)))),
-            Expr::TsTypeAssertion(a) => ExprOutput::Expr(Box::new(Expression::TSTypeAssertion(a.babelify(ctx)))),
-            Expr::TsNonNull(n) => ExprOutput::Expr(Box::new(Expression::TSNonNull(n.babelify(ctx)))),
+            Expr::Paren(p) => {
+                ExprOutput::Expr(Box::new(Expression::Parenthesized(p.babelify(ctx))))
+            }
+            Expr::JSXElement(e) => {
+                ExprOutput::Expr(Box::new(Expression::JSXElement(e.babelify(ctx))))
+            }
+            Expr::JSXFragment(f) => {
+                ExprOutput::Expr(Box::new(Expression::JSXFragment(f.babelify(ctx))))
+            }
+            Expr::TsTypeAssertion(a) => {
+                ExprOutput::Expr(Box::new(Expression::TSTypeAssertion(a.babelify(ctx))))
+            }
+            Expr::TsNonNull(n) => {
+                ExprOutput::Expr(Box::new(Expression::TSNonNull(n.babelify(ctx))))
+            }
             Expr::TsAs(a) => ExprOutput::Expr(Box::new(Expression::TSAs(a.babelify(ctx)))),
             Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
 
             // TODO(dwoznicki): how does babel handle these?
-            Expr::JSXMember(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent", &self),
-            Expr::JSXNamespacedName(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent", &self),
-            Expr::JSXEmpty(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent", &self),
-            Expr::TsConstAssertion(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent", &self),
-            Expr::OptChain(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent", &self),
-            Expr::Invalid(_) => panic!("illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivilent", &self),
+            Expr::JSXMember(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                &self
+            ),
+            Expr::JSXNamespacedName(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                &self
+            ),
+            Expr::JSXEmpty(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                &self
+            ),
+            Expr::TsConstAssertion(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                &self
+            ),
+            Expr::OptChain(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivelent",
+                &self
+            ),
+            Expr::Invalid(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ExprOutput - babel has no equivilent",
+                &self
+            ),
         }
     }
 }
@@ -91,7 +139,10 @@ impl From<ExprOutput> for Expression {
     fn from(o: ExprOutput) -> Self {
         match o {
             ExprOutput::Expr(expr) => *expr,
-            ExprOutput::Private(_) => panic!("illegal conversion: Cannot convert {:?} to Expression - babel has no equivilent", &o),
+            ExprOutput::Private(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to Expression - babel has no equivilent",
+                &o
+            ),
         }
     }
 }
@@ -108,15 +159,16 @@ impl From<ExprOutput> for BinaryExprLeft {
 impl From<ExprOutput> for ObjectKey {
     fn from(o: ExprOutput) -> Self {
         match o {
-            ExprOutput::Expr(e) => {
-                match *e {
-                    Expression::Id(i) => ObjectKey::Id(i),
-                    Expression::StringLiteral(s) => ObjectKey::String(s),
-                    Expression::NumericLiteral(n) => ObjectKey::Numeric(n),
-                    _ => ObjectKey::Expr(e),
-                }
+            ExprOutput::Expr(e) => match *e {
+                Expression::Id(i) => ObjectKey::Id(i),
+                Expression::StringLiteral(s) => ObjectKey::String(s),
+                Expression::NumericLiteral(n) => ObjectKey::Numeric(n),
+                _ => ObjectKey::Expr(e),
             },
-            ExprOutput::Private(_) => panic!("illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivilent", &o),
+            ExprOutput::Private(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to ObjectKey - babel has no equivilent",
+                &o
+            ),
         }
     }
 }
@@ -125,11 +177,9 @@ impl From<ExprOutput> for MemberExprProp {
     fn from(o: ExprOutput) -> Self {
         match o {
             ExprOutput::Private(p) => MemberExprProp::PrivateName(p),
-            ExprOutput::Expr(e) => {
-                match *e {
-                    Expression::Id(i) => MemberExprProp::Id(i),
-                    _ => MemberExprProp::Expr(e),
-                }
+            ExprOutput::Expr(e) => match *e {
+                Expression::Id(i) => MemberExprProp::Id(i),
+                _ => MemberExprProp::Expr(e),
             },
         }
     }
@@ -151,7 +201,11 @@ impl Babelify for ArrayLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrayExpression {
             base: ctx.base(self.span),
-            elements: self.elems.iter().map(|opt| opt.as_ref().map(|el| el.clone().babelify(ctx))).collect(),
+            elements: self
+                .elems
+                .iter()
+                .map(|opt| opt.as_ref().map(|el| el.clone().babelify(ctx)))
+                .collect(),
         }
     }
 }
@@ -162,7 +216,11 @@ impl Babelify for ObjectLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectExpression {
             base: ctx.base(self.span),
-            properties: self.props.iter().map(|prop| prop.clone().babelify(ctx)).collect(),
+            properties: self
+                .props
+                .iter()
+                .map(|prop| prop.clone().babelify(ctx))
+                .collect(),
         }
     }
 }
@@ -179,7 +237,7 @@ impl Babelify for PropOrSpread {
                     ObjectMember::Method(m) => ObjectExprProp::Method(m),
                     ObjectMember::Prop(p) => ObjectExprProp::Prop(p),
                 }
-            },
+            }
         }
     }
 }
@@ -239,7 +297,7 @@ impl Babelify for BinExpr {
                     left: Box::new(self.left.babelify(ctx).into()),
                     right: Box::new(self.right.babelify(ctx).into()),
                 })
-            },
+            }
             _ => BinaryOrLogicalExpr::Binary(BinaryExpression {
                 base: ctx.base(self.span),
                 operator: self.op.babelify(ctx).into(),
@@ -254,7 +312,6 @@ impl Babelify for BinExpr {
         //     left: Box::new(self.left.babelify(ctx).into()),
         //     right: Box::new(self.right.babelify(ctx).into()),
         // }
-
     }
 }
 
@@ -327,7 +384,11 @@ impl Babelify for CallExpr {
         CallExpression {
             base: ctx.base(self.span),
             callee: Box::new(self.callee.babelify(ctx).into()),
-            arguments: self.args.iter().map(|arg| arg.clone().babelify(ctx).into()).collect(),
+            arguments: self
+                .args
+                .iter()
+                .map(|arg| arg.clone().babelify(ctx).into())
+                .collect(),
             type_parameters: self.type_args.map(|t| t.babelify(ctx)),
             type_arguments: Default::default(),
             optional: Default::default(),
@@ -343,7 +404,10 @@ impl Babelify for NewExpr {
             base: ctx.base(self.span),
             callee: Callee::Expr(Box::new(self.callee.babelify(ctx).into())),
             arguments: match self.args {
-                Some(args) => args.iter().map(|arg| arg.clone().babelify(ctx).into()).collect(),
+                Some(args) => args
+                    .iter()
+                    .map(|arg| arg.clone().babelify(ctx).into())
+                    .collect(),
                 None => vec![],
             },
             type_parameters: self.type_args.map(|t| t.babelify(ctx)),
@@ -359,7 +423,11 @@ impl Babelify for SeqExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         SequenceExpression {
             base: ctx.base(self.span),
-            expressions: self.exprs.iter().map(|expr| Box::new(expr.clone().babelify(ctx).into())).collect(),
+            expressions: self
+                .exprs
+                .iter()
+                .map(|expr| Box::new(expr.clone().babelify(ctx).into()))
+                .collect(),
         }
     }
 }
@@ -370,7 +438,11 @@ impl Babelify for ArrowExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrowFunctionExpression {
             base: ctx.base(self.span),
-            params: self.params.iter().map(|p| p.clone().babelify(ctx).into()).collect(),
+            params: self
+                .params
+                .iter()
+                .map(|p| p.clone().babelify(ctx).into())
+                .collect(),
             body: Box::new(self.body.babelify(ctx)),
             is_async: self.is_async,
             generator: self.is_generator,
@@ -418,14 +490,20 @@ impl Babelify for AwaitExpr {
 
 impl Babelify for Tpl {
     type Output = TemplateLiteral;
-    
+
     fn babelify(self, ctx: &Context) -> Self::Output {
         TemplateLiteral {
             base: ctx.base(self.span),
-            expressions: self.exprs.iter().map(|e| {
-                TemplateLiteralExpr::Expr(Box::new(e.clone().babelify(ctx).into()))
-            }).collect(),
-            quasis: self.quasis.iter().map(|q| q.clone().babelify(ctx)).collect(),
+            expressions: self
+                .exprs
+                .iter()
+                .map(|e| TemplateLiteralExpr::Expr(Box::new(e.clone().babelify(ctx).into())))
+                .collect(),
+            quasis: self
+                .quasis
+                .iter()
+                .map(|q| q.clone().babelify(ctx))
+                .collect(),
         }
     }
 }
@@ -438,9 +516,9 @@ impl Babelify for TaggedTpl {
             base: ctx.base(self.span),
             tag: Box::new(self.tag.babelify(ctx).into()),
             quasi: self.tpl.babelify(ctx),
-            type_parameters: self.type_params.map(|t| {
-                TaggedTemplateExprTypeParams::TS(t.babelify(ctx))
-            }),
+            type_parameters: self
+                .type_params
+                .map(|t| TaggedTemplateExprTypeParams::TS(t.babelify(ctx))),
         }
     }
 }
@@ -522,11 +600,9 @@ impl Babelify for PatOrExpr {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            PatOrExpr::Expr(e) => {
-                match *e {
-                    Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
-                    _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &e),
-                }
+            PatOrExpr::Expr(e) => match *e {
+                Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
+                _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &e),
             },
             PatOrExpr::Pat(p) => p.babelify(ctx).into(),
         }

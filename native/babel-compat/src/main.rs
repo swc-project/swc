@@ -171,5 +171,4 @@ fn compile(compiler: &Compiler, fm: Arc<SourceFile>) -> Result<Program> {
 }
 */
 
-
 fn main() {}

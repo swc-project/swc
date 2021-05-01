@@ -1,11 +1,11 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
     class::ClassMethodKind,
-    common::{BaseNode, Identifier, Access, Param, Decorator, IdOrString, IdOrRest, Noop},
+    common::{Access, BaseNode, Decorator, IdOrRest, IdOrString, Identifier, Noop, Param},
     expr::Expression,
-    lit::{NumericLiteral, StringLiteral, BooleanLiteral, BigIntLiteral},
+    lit::{BigIntLiteral, BooleanLiteral, NumericLiteral, StringLiteral},
     object::ObjectKey,
     pat::AssignmentPattern,
     stmt::Statement,

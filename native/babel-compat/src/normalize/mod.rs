@@ -1,5 +1,5 @@
-use swc_babel_visit::{VisitMut, VisitMutWith};
 use swc_babel_ast::*;
+use swc_babel_visit::{VisitMut, VisitMutWith};
 
 struct Normalizer;
 
@@ -7,7 +7,8 @@ struct Normalizer;
 // ```
 // node.visit_mut_children_with(self);
 // ```
-// at the end! Failing to do so breaks the walk chain and other functions never get called.
+// at the end! Failing to do so breaks the walk chain and other functions never
+// get called.
 impl VisitMut for Normalizer {
     // ------------------------------------------------------------------------
     // class
@@ -127,7 +128,7 @@ impl VisitMut for Normalizer {
     // jsx
     fn visit_mut_jsx_element(&mut self, node: &mut JSXElement) {
         // From what I can tell, babel just ignores this field, whereas swc sets it,
-        // causing the trees to diverge. So we just normalize it to always None to 
+        // causing the trees to diverge. So we just normalize it to always None to
         // match babel.
         node.self_closing = None;
         node.visit_mut_children_with(self);
@@ -154,4 +155,3 @@ pub fn normalize(ast: &mut File) {
     let mut normalizer = Normalizer {};
     ast.visit_mut_with(&mut normalizer);
 }
-

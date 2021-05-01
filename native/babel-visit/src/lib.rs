@@ -1,11 +1,11 @@
-use swc_babel_ast::*;
 use serde_json::Value;
-use swc_visit::define;
 use std::any::Any;
+use swc_babel_ast::*;
+use swc_visit::define;
 
 pub trait Node: Any {}
 
-impl <T: ?Sized> Node for T where T: Any {}
+impl<T: ?Sized> Node for T where T: Any {}
 
 define!({
     pub enum Class {
@@ -977,7 +977,7 @@ define!({
         pub base: BaseNode,
         pub name: Option<Identifier>,
         pub type_annotation: Box<FlowType>,
-        pub optional: Option<bool>
+        pub optional: Option<bool>,
     }
     pub struct FunctionTypeAnnotation {
         pub base: BaseNode,
@@ -1410,7 +1410,7 @@ define!({
     pub struct TemplateLiteral {
         pub base: BaseNode,
         pub quasis: Vec<TemplateElement>,
-        pub expressions: Vec<TemplateLiteralExpr>
+        pub expressions: Vec<TemplateLiteralExpr>,
     }
     pub struct BigIntLiteral {
         pub base: BaseNode,
@@ -2241,4 +2241,3 @@ define!({
         pub name: String,
     }
 });
-

@@ -1,7 +1,7 @@
 use swc_common::ast_serde;
 
 use crate::{
-    common::{BaseNode, SuperTypeParams, Identifier},
+    common::{BaseNode, Identifier, SuperTypeParams},
     expr::Expression,
     lit::StringLiteral,
 };
@@ -271,4 +271,3 @@ pub enum JSXElementChild {
     #[tag("JSXFragment")]
     Fragment(JSXFragment),
 }
-

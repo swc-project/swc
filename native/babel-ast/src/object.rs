@@ -1,16 +1,16 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
     common::{
-        BaseNode, Identifier, Decorator, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop
+        BaseNode, Decorator, Identifier, Param, PatternLike, TypeAnnotOrNoop, TypeParamDeclOrNoop,
     },
     expr::Expression,
     flow::{
-        ObjectTypeSpreadProperty, ObjectTypeProperty, ObjectTypeInternalSlot,
-        ObjectTypeCallProperty, ObjectTypeIndexer
+        ObjectTypeCallProperty, ObjectTypeIndexer, ObjectTypeInternalSlot, ObjectTypeProperty,
+        ObjectTypeSpreadProperty,
     },
-    lit::{StringLiteral, NumericLiteral},
+    lit::{NumericLiteral, StringLiteral},
     stmt::BlockStatement,
 };
 
@@ -115,4 +115,3 @@ pub struct ObjectProperty {
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
 }
-

@@ -1,10 +1,10 @@
-use crate::{Context, Babelify, extract_class_body_span};
+use crate::{extract_class_body_span, Babelify, Context};
 use swc_babel_ast::{
-    ClassDeclaration, ClassBody, Declaration, VariableDeclaration, VariableDeclarationKind,
-    VariableDeclarator, FunctionDeclaration,
+    ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, VariableDeclaration,
+    VariableDeclarationKind, VariableDeclarator,
 };
 
-use swc_ecma_ast::{Decl, VarDecl, VarDeclKind, VarDeclarator, FnDecl, ClassDecl};
+use swc_ecma_ast::{ClassDecl, Decl, FnDecl, VarDecl, VarDeclKind, VarDeclarator};
 
 impl Babelify for Decl {
     type Output = Declaration;
@@ -48,8 +48,8 @@ impl Babelify for ClassDecl {
         // NOTE: The body field needs a bit of special handling because babel
         // represents the body as a node, whereas swc represents it as a vector of
         // statements. This means that swc does not have a span corresponding the the
-        // class body base node for babel. To solve this, we generate a new span starting
-        // from the end of the identifier to the end of the body.
+        // class body base node for babel. To solve this, we generate a new span
+        // starting from the end of the identifier to the end of the body.
         // For example,
         //
         // babel ClassBody node starts here
@@ -92,7 +92,11 @@ impl Babelify for VarDecl {
             base: ctx.base(self.span),
             kind: self.kind.babelify(ctx),
             declare: Some(self.declare),
-            declarations: self.decls.iter().map(|decl| decl.clone().babelify(ctx)).collect(),
+            declarations: self
+                .decls
+                .iter()
+                .map(|decl| decl.clone().babelify(ctx))
+                .collect(),
         }
     }
 }
@@ -121,4 +125,3 @@ impl Babelify for VarDeclarator {
         }
     }
 }
-

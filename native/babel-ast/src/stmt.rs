@@ -1,22 +1,24 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
     class::ClassDeclaration,
-    common::{BaseNode, Identifier, LVal, Directive},
-    decl::{VariableDeclaration, FunctionDeclaration, EnumDeclaration},
+    common::{BaseNode, Directive, Identifier, LVal},
+    decl::{EnumDeclaration, FunctionDeclaration, VariableDeclaration},
     expr::Expression,
     flow::{
-        DeclareClass, DeclareFunction, DeclareInterface, DeclareModule, DeclareModuleExports, 
-        DeclareTypeAlias, DeclareOpaqueType, DeclareVariable, DeclareExportDeclaration,
-        DeclareExportAllDeclaration, InterfaceDeclaration, OpaqueType, TypeAlias
+        DeclareClass, DeclareExportAllDeclaration, DeclareExportDeclaration, DeclareFunction,
+        DeclareInterface, DeclareModule, DeclareModuleExports, DeclareOpaqueType, DeclareTypeAlias,
+        DeclareVariable, InterfaceDeclaration, OpaqueType, TypeAlias,
     },
-    module::{ExportAllDeclaration, ExportDefaultDeclaration, ExportNamedDeclaration, ImportDeclaration},
-    pat::{ObjectPattern, ArrayPattern},
+    module::{
+        ExportAllDeclaration, ExportDefaultDeclaration, ExportNamedDeclaration, ImportDeclaration,
+    },
+    pat::{ArrayPattern, ObjectPattern},
     typescript::{
-        TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration,
-        TSModuleDeclaration, TSImportEqualsDeclaration, TSExportAssignment,
-        TSNamespaceExportDeclaration
+        TSDeclareFunction, TSEnumDeclaration, TSExportAssignment, TSImportEqualsDeclaration,
+        TSInterfaceDeclaration, TSModuleDeclaration, TSNamespaceExportDeclaration,
+        TSTypeAliasDeclaration,
     },
 };
 
@@ -405,4 +407,3 @@ pub struct StaticBlock {
     #[serde(default)]
     pub body: Vec<Statement>,
 }
-

@@ -1,4 +1,4 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{Identifier, PrivateName as BabelPrivateName};
 
 use swc_ecma_ast::{BindingIdent, Ident, PrivateName};
@@ -38,4 +38,3 @@ impl Babelify for PrivateName {
         }
     }
 }
-

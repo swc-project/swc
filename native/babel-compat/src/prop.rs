@@ -1,13 +1,13 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    Expression, FunctionExpression, ObjectKey, ObjectProperty, ObjectMethod, ObjectMethodKind,
-    ObjectPropVal, ObjectMember, AssignmentPattern, AssignmentPatternLeft,
+    AssignmentPattern, AssignmentPatternLeft, Expression, FunctionExpression, ObjectKey,
+    ObjectMember, ObjectMethod, ObjectMethodKind, ObjectPropVal, ObjectProperty,
 };
 
-use swc_ecma_ast::{
-    Prop, PropName, ComputedPropName, GetterProp, SetterProp, MethodProp, KeyValueProp, AssignProp,
-};
 use swc_common::Spanned;
+use swc_ecma_ast::{
+    AssignProp, ComputedPropName, GetterProp, KeyValueProp, MethodProp, Prop, PropName, SetterProp,
+};
 
 impl Babelify for Prop {
     type Output = ObjectMember;
@@ -24,12 +24,15 @@ impl Babelify for Prop {
                     shorthand: true,
                     decorators: Default::default(),
                 })
-            },
+            }
             Prop::KeyValue(k) => ObjectMember::Prop(k.babelify(ctx)),
             Prop::Getter(g) => ObjectMember::Method(g.babelify(ctx)),
             Prop::Setter(s) => ObjectMember::Method(s.babelify(ctx)),
             Prop::Method(m) => ObjectMember::Method(m.babelify(ctx)),
-            _ => panic!("illegal conversion: Cannot convert {:?} to ObjectMember", &self),
+            _ => panic!(
+                "illegal conversion: Cannot convert {:?} to ObjectMember",
+                &self
+            ),
         }
     }
 }
@@ -135,7 +138,10 @@ impl Babelify for PropName {
             PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
             PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
             PropName::Computed(e) => ObjectKey::Expr(Box::new(e.babelify(ctx))),
-            _ => panic!("illegal conversion: Cannot convert {:?} to ObjectKey", &self),
+            _ => panic!(
+                "illegal conversion: Cannot convert {:?} to ObjectKey",
+                &self
+            ),
         }
     }
 }
@@ -147,4 +153,3 @@ impl Babelify for ComputedPropName {
         self.expr.babelify(ctx).into()
     }
 }
-

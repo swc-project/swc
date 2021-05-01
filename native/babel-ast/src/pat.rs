@@ -1,10 +1,10 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
-    common::{BaseNode, Identifier, TypeAnnotOrNoop, RestElement, Decorator, PatternLike},
+    common::{BaseNode, Decorator, Identifier, PatternLike, RestElement, TypeAnnotOrNoop},
     expr::{Expression, MemberExpression},
-    object::{ObjectProperty},
+    object::ObjectProperty,
 };
 
 #[derive(Debug, Clone, PartialEq)]

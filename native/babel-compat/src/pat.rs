@@ -1,15 +1,15 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    LVal, PatternLike, RestElement, Identifier, Param, Expression, ObjectProperty, ObjectPropVal,
-    Pattern, ArrayPattern, ObjectPattern, ObjectPatternProp, AssignmentPattern,
-    AssignmentPatternLeft, CatchClauseParam, ObjectKey,
+    ArrayPattern, AssignmentPattern, AssignmentPatternLeft, CatchClauseParam, Expression,
+    Identifier, LVal, ObjectKey, ObjectPattern, ObjectPatternProp, ObjectPropVal, ObjectProperty,
+    Param, Pattern, PatternLike, RestElement,
 };
 
-use swc_ecma_ast::{
-    Pat, RestPat, ArrayPat, ObjectPat, ObjectPatProp, KeyValuePatProp, AssignPat, AssignPatProp,
-};
+use serde::{Deserialize, Serialize};
 use swc_common::Spanned;
-use serde::{Serialize, Deserialize};
+use swc_ecma_ast::{
+    ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
+};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum PatOutput {
@@ -32,7 +32,10 @@ impl Babelify for Pat {
             Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
             Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
             Pat::Expr(e) => PatOutput::Expr(Box::new(e.babelify(ctx).into())),
-            Pat::Invalid(_) => panic!("illegal conversion: Cannot convert {:?} to PatOutput", &self),
+            Pat::Invalid(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to PatOutput",
+                &self
+            ),
         }
     }
 }
@@ -65,11 +68,9 @@ impl From<PatOutput> for LVal {
             PatOutput::Rest(r) => LVal::RestEl(r),
             PatOutput::Object(o) => LVal::ObjectPat(o),
             PatOutput::Assign(a) => LVal::AssignmentPat(a),
-            PatOutput::Expr(expr) => {
-                match *expr {
-                    Expression::Member(e) => LVal::MemberExpr(e),
-                    _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &expr),
-                }
+            PatOutput::Expr(expr) => match *expr {
+                Expression::Member(e) => LVal::MemberExpr(e),
+                _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &expr),
             },
         }
     }
@@ -94,14 +95,21 @@ impl From<PatOutput> for AssignmentPatternLeft {
             PatOutput::Id(i) => AssignmentPatternLeft::Id(i),
             PatOutput::Array(a) => AssignmentPatternLeft::Array(a),
             PatOutput::Object(o) => AssignmentPatternLeft::Object(o),
-            PatOutput::Expr(expr) => {
-                match *expr {
-                    Expression::Member(e) => AssignmentPatternLeft::Member(e),
-                    _ => panic!("illegal conversion: Cannot convert {:?} to AssignmentPatternLeft", &expr),
-                }
+            PatOutput::Expr(expr) => match *expr {
+                Expression::Member(e) => AssignmentPatternLeft::Member(e),
+                _ => panic!(
+                    "illegal conversion: Cannot convert {:?} to AssignmentPatternLeft",
+                    &expr
+                ),
             },
-            PatOutput::Rest(_) => panic!("illegal conversion: Cannot convert {:?} to AssignmentPatternLeft", &pat),
-            PatOutput::Assign(_) => panic!("illegal conversion: Cannot convert {:?} to AssignmentPatternLeft", &pat),
+            PatOutput::Rest(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to AssignmentPatternLeft",
+                &pat
+            ),
+            PatOutput::Assign(_) => panic!(
+                "illegal conversion: Cannot convert {:?} to AssignmentPatternLeft",
+                &pat
+            ),
         }
     }
 }
@@ -122,7 +130,10 @@ impl From<PatOutput> for CatchClauseParam {
             PatOutput::Id(i) => CatchClauseParam::Id(i),
             PatOutput::Array(a) => CatchClauseParam::Array(a),
             PatOutput::Object(o) => CatchClauseParam::Object(o),
-            _ => panic!("illegal conversion: Cannot convert {:?} to CatchClauseParam", &pat),
+            _ => panic!(
+                "illegal conversion: Cannot convert {:?} to CatchClauseParam",
+                &pat
+            ),
         }
     }
 }
@@ -133,7 +144,11 @@ impl Babelify for ArrayPat {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrayPattern {
             base: ctx.base(self.span),
-            elements: self.elems.iter().map(|opt| opt.as_ref().map(|e| e.clone().babelify(ctx).into())).collect(),
+            elements: self
+                .elems
+                .iter()
+                .map(|opt| opt.as_ref().map(|e| e.clone().babelify(ctx).into()))
+                .collect(),
             type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
@@ -142,7 +157,7 @@ impl Babelify for ArrayPat {
 
 impl Babelify for ObjectPat {
     type Output = ObjectPattern;
-    
+
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectPattern {
             base: ctx.base(self.span),
@@ -226,4 +241,3 @@ impl Babelify for AssignPatProp {
         }
     }
 }
-

@@ -1,11 +1,11 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_common::ast_serde;
 
 use crate::{
-    class::{ClassDeclaration},
-    common::{BaseNode, Identifier, IdOrString, Directive},
+    class::ClassDeclaration,
     comment::Comment,
+    common::{BaseNode, Directive, IdOrString, Identifier},
     decl::{Declaration, FunctionDeclaration},
     expr::Expression,
     lit::StringLiteral,
@@ -269,4 +269,3 @@ pub struct ImportDeclaration {
     #[serde(default)]
     pub import_kind: Option<ImportKind>,
 }
-

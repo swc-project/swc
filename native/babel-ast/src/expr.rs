@@ -1,23 +1,25 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
     class::{ClassBody, ClassImpl},
     common::{
-        BaseNode, SpreadElement, LVal, Identifier, PrivateName, MetaProperty, Param, Decorator,
-        TypeAnnotOrNoop, TypeParamDeclOrNoop, SuperTypeParams,
+        BaseNode, Decorator, Identifier, LVal, MetaProperty, Param, PrivateName, SpreadElement,
+        SuperTypeParams, TypeAnnotOrNoop, TypeParamDeclOrNoop,
     },
-    flow::{TypeParameterInstantiation, TypeParameterDeclaration, TypeAnnotation, InterfaceExtends},
+    flow::{
+        InterfaceExtends, TypeAnnotation, TypeParameterDeclaration, TypeParameterInstantiation,
+    },
     jsx::{JSXElement, JSXFragment, JSXNamespacedName},
     lit::{
-        StringLiteral, NumericLiteral, NullLiteral, BooleanLiteral, RegExpLiteral,
-        TemplateLiteral, BigIntLiteral, DecimalLiteral,
+        BigIntLiteral, BooleanLiteral, DecimalLiteral, NullLiteral, NumericLiteral, RegExpLiteral,
+        StringLiteral, TemplateLiteral,
     },
     module::{Import, Program},
     object::{ObjectMethod, ObjectProperty},
     stmt::{BlockStatement, ExpressionStatement},
     typescript::{
-        TSTypeParameterInstantiation, TSAsExpression, TSTypeAssertion, TSNonNullExpression,
+        TSAsExpression, TSNonNullExpression, TSTypeAssertion, TSTypeParameterInstantiation,
     },
 };
 
@@ -448,7 +450,9 @@ pub enum UnaryExprOp {
     Typeof,
 }
 
-fn default_prefix() -> bool { true }
+fn default_prefix() -> bool {
+    true
+}
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("UnaryExpression")]
@@ -460,7 +464,6 @@ pub struct UnaryExpression {
     #[serde(default = "default_prefix")]
     pub prefix: bool,
 }
-
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

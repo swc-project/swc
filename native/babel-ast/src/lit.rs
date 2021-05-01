@@ -1,11 +1,7 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
-use crate::{
-    common::BaseNode,
-    expr::Expression,
-    typescript::TSType,
-};
+use crate::{common::BaseNode, expr::Expression, typescript::TSType};
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]
@@ -158,7 +154,7 @@ pub struct TemplateLiteral {
     #[serde(default)]
     pub quasis: Vec<TemplateElement>,
     #[serde(default)]
-    pub expressions: Vec<TemplateLiteralExpr>
+    pub expressions: Vec<TemplateLiteralExpr>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -178,4 +174,3 @@ pub struct DecimalLiteral {
     #[serde(default)]
     pub value: String,
 }
-

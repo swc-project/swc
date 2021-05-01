@@ -6,7 +6,6 @@ use crate::{
     pat::*, stmt::*, typescript::*,
 };
 
-
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 pub struct LineCol {
@@ -52,13 +51,11 @@ pub struct BaseNode {
     pub end: Option<usize>,
     #[serde(default)]
     pub loc: Option<Loc>,
-
-    // TODO(dwoznicki): I can't figure out what goes in this field, so I'm just
-    // removing it for now.
-    // #[serde(default)]
-    // pub extra: Option<HashMap<String, Value, RandomState>>,
+    /* TODO(dwoznicki): I can't figure out what goes in this field, so I'm just
+     * removing it for now.
+     * #[serde(default)]
+     * pub extra: Option<HashMap<String, Value, RandomState>>, */
 }
-
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]
@@ -602,10 +599,8 @@ pub struct Placeholder {
     pub name: Identifier,
 }
 
-
-
-// NOTE(dwoznicki): Node is part of the babel node definitions, but it's never used and 
-// a pain to maintain. Do we actually need this?
+// NOTE(dwoznicki): Node is part of the babel node definitions, but it's never
+// used and a pain to maintain. Do we actually need this?
 //
 // #[derive(Debug, Clone, PartialEq)]
 // #[ast_serde]

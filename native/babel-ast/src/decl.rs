@@ -1,14 +1,14 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
     class::ClassDeclaration,
-    common::{BaseNode, LVal, Identifier, Param, TypeAnnotOrNoop, TypeParamDeclOrNoop},
+    common::{BaseNode, Identifier, LVal, Param, TypeAnnotOrNoop, TypeParamDeclOrNoop},
     expr::{Expression, FunctionExpression},
     flow::{
-        OpaqueType, DeclareOpaqueType, TypeAlias, DeclareClass, DeclareFunction, DeclareInterface,
-        DeclareModule, DeclareModuleExports, DeclareTypeAlias, DeclareVariable,
-        DeclareExportDeclaration, DeclareExportAllDeclaration, InterfaceDeclaration
+        DeclareClass, DeclareExportAllDeclaration, DeclareExportDeclaration, DeclareFunction,
+        DeclareInterface, DeclareModule, DeclareModuleExports, DeclareOpaqueType, DeclareTypeAlias,
+        DeclareVariable, InterfaceDeclaration, OpaqueType, TypeAlias,
     },
     lit::{BooleanLiteral, NumericLiteral, StringLiteral},
     module::{
@@ -16,8 +16,8 @@ use crate::{
     },
     stmt::BlockStatement,
     typescript::{
-        TSDeclareFunction, TSInterfaceDeclaration, TSTypeAliasDeclaration, TSEnumDeclaration,
-        TSModuleDeclaration
+        TSDeclareFunction, TSEnumDeclaration, TSInterfaceDeclaration, TSModuleDeclaration,
+        TSTypeAliasDeclaration,
     },
 };
 
@@ -145,7 +145,6 @@ impl From<FunctionExpression> for FunctionDeclaration {
     }
 }
 
-
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("EnumBooleanMember")]
 pub struct EnumBooleanMember {
@@ -229,7 +228,6 @@ pub struct EnumNumberBody {
     pub has_unknown_members: bool,
 }
 
-
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("EnumStringBody")]
 pub struct EnumStringBody {
@@ -267,7 +265,6 @@ pub enum EnumBody {
     Symbol(EnumSymbolBody),
 }
 
-
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("EnumDeclaration")]
 pub struct EnumDeclaration {
@@ -276,4 +273,3 @@ pub struct EnumDeclaration {
     pub id: Identifier,
     pub body: EnumBody,
 }
-

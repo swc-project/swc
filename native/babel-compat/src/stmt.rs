@@ -1,16 +1,16 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    BlockStatement, Statement, ExpressionStatement, EmptyStatement, DebuggerStatement,
-    WithStatement, ReturnStatement, LabeledStatement, BreakStatement, ContinueStatement,
-    IfStatement, SwitchStatement, SwitchCase as BabelSwitchCase, ThrowStatement, TryStatement,
-    CatchClause as BabelCatchClause, WhileStatement, DoWhileStatement, ForStatement, ForStmtInit,
-    ForInStatement, ForStmtLeft, ForOfStatement,
+    BlockStatement, BreakStatement, CatchClause as BabelCatchClause, ContinueStatement,
+    DebuggerStatement, DoWhileStatement, EmptyStatement, ExpressionStatement, ForInStatement,
+    ForOfStatement, ForStatement, ForStmtInit, ForStmtLeft, IfStatement, LabeledStatement,
+    ReturnStatement, Statement, SwitchCase as BabelSwitchCase, SwitchStatement, ThrowStatement,
+    TryStatement, WhileStatement, WithStatement,
 };
 
 use swc_ecma_ast::{
-    BlockStmt, Stmt, ExprStmt, EmptyStmt, DebuggerStmt, WithStmt, ReturnStmt, LabeledStmt,
-    BreakStmt, ContinueStmt, IfStmt, SwitchStmt, SwitchCase, ThrowStmt, TryStmt, CatchClause,
-    WhileStmt, DoWhileStmt, ForStmt, VarDeclOrExpr, ForInStmt, VarDeclOrPat, ForOfStmt, Decl,
+    BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
+    ExprStmt, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase,
+    SwitchStmt, ThrowStmt, TryStmt, VarDeclOrExpr, VarDeclOrPat, WhileStmt, WithStmt,
 };
 
 impl Babelify for BlockStmt {
@@ -19,7 +19,11 @@ impl Babelify for BlockStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BlockStatement {
             base: ctx.base(self.span),
-            body: self.stmts.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
+            body: self
+                .stmts
+                .iter()
+                .map(|stmt| stmt.clone().babelify(ctx))
+                .collect(),
             directives: Default::default(),
         }
     }
@@ -47,16 +51,14 @@ impl Babelify for Stmt {
             Stmt::For(s) => Statement::For(s.babelify(ctx)),
             Stmt::ForIn(s) => Statement::ForIn(s.babelify(ctx)),
             Stmt::ForOf(s) => Statement::ForOf(s.babelify(ctx)),
-            Stmt::Decl(decl) => {
-                match decl {
-                    Decl::Class(d) => Statement::ClassDecl(d.babelify(ctx)),
-                    Decl::Fn(d) => Statement::FuncDecl(d.babelify(ctx)),
-                    Decl::Var(d) => Statement::VarDecl(d.babelify(ctx)),
-                    Decl::TsInterface(d) => Statement::TSInterfaceDecl(d.babelify(ctx)),
-                    Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
-                    Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),
-                    Decl::TsModule(d) => Statement::TSModuleDecl(d.babelify(ctx)),
-                }
+            Stmt::Decl(decl) => match decl {
+                Decl::Class(d) => Statement::ClassDecl(d.babelify(ctx)),
+                Decl::Fn(d) => Statement::FuncDecl(d.babelify(ctx)),
+                Decl::Var(d) => Statement::VarDecl(d.babelify(ctx)),
+                Decl::TsInterface(d) => Statement::TSInterfaceDecl(d.babelify(ctx)),
+                Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
+                Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),
+                Decl::TsModule(d) => Statement::TSModuleDecl(d.babelify(ctx)),
             },
             Stmt::Expr(s) => Statement::Expr(s.babelify(ctx)),
         }
@@ -171,7 +173,11 @@ impl Babelify for SwitchStmt {
         SwitchStatement {
             base: ctx.base(self.span),
             discriminant: Box::new(self.discriminant.babelify(ctx).into()),
-            cases: self.cases.iter().map(|case| case.clone().babelify(ctx)).collect(),
+            cases: self
+                .cases
+                .iter()
+                .map(|case| case.clone().babelify(ctx))
+                .collect(),
         }
     }
 }
@@ -272,7 +278,11 @@ impl Babelify for SwitchCase {
         BabelSwitchCase {
             base: ctx.base(self.span),
             test: self.test.map(|expr| Box::new(expr.babelify(ctx).into())),
-            consequent: self.cons.iter().map(|stmt| stmt.clone().babelify(ctx)).collect(),
+            consequent: self
+                .cons
+                .iter()
+                .map(|stmt| stmt.clone().babelify(ctx))
+                .collect(),
         }
     }
 }
@@ -310,4 +320,3 @@ impl Babelify for VarDeclOrExpr {
         }
     }
 }
-

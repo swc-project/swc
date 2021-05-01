@@ -1,11 +1,11 @@
-use crate::{Context, Babelify};
+use crate::{Babelify, Context};
 use swc_babel_ast::{
-    Literal, BooleanLiteral, StringLiteral, NullLiteral, NumericLiteral, BigIntLiteral,
-    RegExpLiteral, JSXText as BabelJSXText,
+    BigIntLiteral, BooleanLiteral, JSXText as BabelJSXText, Literal, NullLiteral, NumericLiteral,
+    RegExpLiteral, StringLiteral,
 };
 
-use swc_ecma_ast::{Lit, Str, Bool, Null, Number, BigInt, Regex};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
+use swc_ecma_ast::{BigInt, Bool, Lit, Null, Number, Regex, Str};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum LitOutput {
@@ -94,4 +94,3 @@ impl Babelify for Regex {
         }
     }
 }
-

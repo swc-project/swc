@@ -1,12 +1,12 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use swc_common::ast_serde;
 
 use crate::{
-    common::{BaseNode, Identifier, IdOrQualifiedId, IdOrString},
-    expr::{TypeCastExpression},
-    module::{ExportKind, ExportSpecifier, ExportNamespaceSpecifier},
-    lit::{StringLiteral},
-    stmt::{BlockStatement},
+    common::{BaseNode, IdOrQualifiedId, IdOrString, Identifier},
+    expr::TypeCastExpression,
+    lit::StringLiteral,
+    module::{ExportKind, ExportNamespaceSpecifier, ExportSpecifier},
+    stmt::BlockStatement,
 };
 
 #[derive(Debug, Clone, PartialEq)]
@@ -240,7 +240,6 @@ pub enum FlowPredicate {
     InferredPredicate(InferredPredicate),
 }
 
-
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
@@ -306,7 +305,7 @@ pub struct FunctionTypeParam {
     pub name: Option<Identifier>,
     pub type_annotation: Box<FlowType>,
     #[serde(default)]
-    pub optional: Option<bool>
+    pub optional: Option<bool>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
