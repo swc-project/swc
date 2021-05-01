@@ -203,7 +203,7 @@ impl Babelify for UnaryExpr {
             base: ctx.base(self.span),
             operator: self.op.babelify(ctx),
             argument: Box::new(self.arg.babelify(ctx).into()),
-            prefix: Default::default(),
+            prefix: true,
         }
     }
 }

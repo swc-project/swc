@@ -448,6 +448,8 @@ pub enum UnaryExprOp {
     Typeof,
 }
 
+fn default_prefix() -> bool { true }
+
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde("UnaryExpression")]
 pub struct UnaryExpression {
@@ -455,9 +457,10 @@ pub struct UnaryExpression {
     pub base: BaseNode,
     pub operator: UnaryExprOp,
     pub argument: Box<Expression>,
-    #[serde(default)]
+    #[serde(default = "default_prefix")]
     pub prefix: bool,
 }
+
 
 // Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Expressions_and_Operators
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
