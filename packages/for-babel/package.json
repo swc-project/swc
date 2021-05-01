@@ -8,6 +8,7 @@
   "license": "MIT",
   "private": false,
   "devDependencies": {
+    "@swc/core": "^1.2.54",
     "typescript": "^4.2.4"
   }
 }
