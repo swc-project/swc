@@ -34,6 +34,8 @@ export class Compiler {
   /**
    * Parse source code as a babel ast.
    * 
+   * If `options.transforms` is specified, this method also applies transforms.
+   * 
    * @param src Source code
    * @param options 
    */
@@ -42,6 +44,14 @@ export class Compiler {
   babelify(input: string | Module, options?: BabelifyOptions): Promise<babel.Program> {
   }
 
+  /**
+   * Parse source code as a babel ast.
+   * 
+   * If `options.transforms` is specified, this method also applies transforms.
+   * 
+   * @param src Source code
+   * @param options 
+   */
   babelifySync(src: string, options?: BabelifyOptions): babel.Program;
   babelifySync(src: Module, options?: BabelifyOptions): babel.Program;
   babelifySync(input: string | Module, options?: BabelifyOptions): babel.Program {
