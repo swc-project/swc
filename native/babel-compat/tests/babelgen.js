@@ -11,8 +11,16 @@ if (!inputFile) {
 
 const code = readFileSync(inputFile, "utf8");
 
+const plugins = ["classProperties"];
+if (inputFile && inputFile.endsWith(".jsx")) {
+    plugins.push("jsx");
+}
+if (inputFile && inputFile.endsWith(".ts")) {
+    plugins.push("typescript");
+}
+
 const babelAst = parse(code, {
-    plugins: ["classProperties", "jsx"],
+    plugins,
     sourceType: inputFile.endsWith(".mjs") ? "module" : undefined,
     // allowImportExportEverywhere: true,
 });
