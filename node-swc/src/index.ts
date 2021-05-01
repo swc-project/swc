@@ -40,8 +40,8 @@ export class Compiler {
    * @param options 
    */
   babelify(src: string, options?: BabelifyOptions): Promise<babel.Program>;
-  babelify(src: Module, options?: BabelifyOptions): Promise<babel.Program>;
-  babelify(input: string | Module, options?: BabelifyOptions): Promise<babel.Program> {
+  babelify(src: Program, options?: BabelifyOptions): Promise<babel.Program>;
+  babelify(input: string | Program, options?: BabelifyOptions): Promise<babel.Program> {
   }
 
   /**
@@ -53,8 +53,8 @@ export class Compiler {
    * @param options 
    */
   babelifySync(src: string, options?: BabelifyOptions): babel.Program;
-  babelifySync(src: Module, options?: BabelifyOptions): babel.Program;
-  babelifySync(input: string | Module, options?: BabelifyOptions): babel.Program {
+  babelifySync(src: Program, options?: BabelifyOptions): babel.Program;
+  babelifySync(input: string | Program, options?: BabelifyOptions): babel.Program {
   }
 
   parse(
