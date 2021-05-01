@@ -1,5 +1,5 @@
 use crate::ModuleId;
-use ahash::AHashMap;
+use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
 use swc_common::SourceMap;
@@ -24,8 +24,8 @@ pub struct Modules {
 
     // We will change this into `Vec<Module>`.
     modules: Vec<(ModuleId, Module)>,
-    prepended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
-    appended_stmts: AHashMap<ModuleId, Vec<ModuleItem>>,
+    prepended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
+    appended_stmts: FxHashMap<ModuleId, Vec<ModuleItem>>,
 }
 
 impl Modules {
@@ -238,7 +238,41 @@ impl Modules {
                 ))
             })
             .collect::<String>();
-        crate::debug::print_hygiene(&format!("{}\n{}", event, files), cm, &self.clone().into());
+        let mut cloned = self.clone();
+        let mut stmts = vec![];
+
+        for (id, mut module) in cloned.modules {
+            swc_ecma_utils::prepend_stmts(
+                &mut module.body,
+                cloned
+                    .prepended_stmts
+                    .get(&id)
+                    .cloned()
+                    .unwrap_or_default()
+                    .into_iter(),
+            );
+
+            module.body.extend(
+                cloned
+                    .appended_stmts
+                    .get(&id)
+                    .cloned()
+                    .unwrap_or_default()
+                    .into_iter(),
+            );
+
+            stmts.extend(module.body);
+        }
+
+        crate::debug::print_hygiene(
+            &format!("{}\n{}", event, files),
+            cm,
+            &Module {
+                span: DUMMY_SP,
+                body: stmts,
+                shebang: None,
+            },
+        );
     }
 }
 

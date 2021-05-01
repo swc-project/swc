@@ -29,6 +29,7 @@ use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
 #[bench]
+#[ignore]
 fn three_js(b: &mut Bencher) {
     let dir = PathBuf::new()
         .join("..")

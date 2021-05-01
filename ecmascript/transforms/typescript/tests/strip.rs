@@ -77,7 +77,7 @@ to!(
 
 to!(export_import, "export import A = B", "export var A = B;");
 
-to!(export_equals, "export = Foo", "export default Foo");
+to!(export_equals, "export = Foo", "module.exports = Foo;");
 
 to!(
     issue_196_01,
@@ -3950,5 +3950,15 @@ to!(
             }
         }
     }
+    "
+);
+
+to!(
+    issue_1593,
+    "
+    export = 'something';
+    ",
+    "
+    module.exports = 'something';
     "
 );

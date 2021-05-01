@@ -2674,3 +2674,15 @@ to!(
     }
     "#
 );
+
+to_ts!(
+    ts_resolver_type_aliases_do_not_merge,
+    r#"
+    export type A = {}
+    type A = {}
+    "#,
+    r#"
+    export type A = {}
+    type A = {}
+    "#
+);

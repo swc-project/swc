@@ -4691,3 +4691,24 @@ test!(
     _react.default.render();
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1614_1,
+    "
+    (async () => {
+      const example = await import('./example');
+      console.log(example.foo)
+    })()
+    ",
+    "
+    'use strict';
+    (async ()=>{
+        const example = await Promise.resolve().then(function() {
+          return _interopRequireWildcard(require('./example'));
+      });
+      console.log(example.foo);
+    })();
+    "
+);

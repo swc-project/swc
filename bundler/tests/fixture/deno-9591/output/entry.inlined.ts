@@ -1608,6 +1608,8 @@ function joinGlobs(globs, { extended =false , globstar =false  } = {
 }
 const mod3 = function() {
     return {
+        SEP: SEP,
+        SEP_PATTERN: SEP_PATTERN,
         win32: mod1,
         posix: mod2,
         basename: basename2,
@@ -1625,13 +1627,11 @@ const mod3 = function() {
         sep: sep2,
         toFileUrl: toFileUrl2,
         toNamespacedPath: toNamespacedPath2,
-        SEP: SEP,
-        SEP_PATTERN: SEP_PATTERN,
+        common,
         globToRegExp,
         isGlob,
         normalizeGlob,
-        joinGlobs,
-        common
+        joinGlobs
     };
 }();
 var LogLevels;
@@ -3267,14 +3267,14 @@ const mod5 = function() {
         ensureSymlinkSync,
         expandGlob,
         expandGlobSync,
-        move,
-        moveSync,
-        copy,
-        copySync,
         _createWalkEntrySync,
         _createWalkEntry,
         walk,
         walkSync,
+        move,
+        moveSync,
+        copy,
+        copySync,
         EOL,
         detect,
         format: format3

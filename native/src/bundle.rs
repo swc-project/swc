@@ -13,6 +13,7 @@ use std::{
 };
 use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
 use swc_atoms::js_word;
+use swc_atoms::JsWord;
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
 use swc_common::Span;
 use swc_ecma_ast::{
@@ -96,7 +97,15 @@ impl Task for BundleTask {
                         "zlib",
                     ]
                     .into_iter()
-                    .map(From::from)
+                    .map(JsWord::from)
+                    .chain(
+                        self.config
+                            .static_items
+                            .config
+                            .extenal_modules
+                            .iter()
+                            .cloned(),
+                    )
                     .collect(),
                     ..Default::default()
                 },

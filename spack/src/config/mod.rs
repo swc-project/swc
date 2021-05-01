@@ -7,6 +7,7 @@ pub use self::{
 use serde::Deserialize;
 use std::{collections::HashMap, fmt, marker::PhantomData, path::PathBuf};
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_parser::JscTarget;
 
@@ -40,6 +41,9 @@ pub struct Config {
 
     #[serde(default)]
     pub options: Option<swc::config::Options>,
+
+    #[serde(default)]
+    pub extenal_modules: Vec<JsWord>,
 }
 
 impl Config {

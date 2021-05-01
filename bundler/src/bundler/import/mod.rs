@@ -1,8 +1,8 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
-use ahash::AHashMap;
-use ahash::AHashSet;
 use anyhow::{Context, Error};
+use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
@@ -94,7 +94,7 @@ pub(super) struct RawImports {
     /// function bar() {}
     /// foo[bar()]
     /// ```
-    pub forced_ns: AHashSet<JsWord>,
+    pub forced_ns: FxHashSet<JsWord>,
 }
 
 /// This type implements two operation (analysis, deglobbing) to reduce binary
@@ -114,13 +114,13 @@ where
 
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
-    usages: AHashMap<Id, Vec<Id>>,
+    usages: FxHashMap<Id, Vec<Id>>,
 
     /// While deglobbing, we also marks imported identifiers.
-    imported_idents: AHashMap<Id, SyntaxContext>,
+    imported_idents: FxHashMap<Id, SyntaxContext>,
 
     deglob_phase: bool,
-    idents_to_deglob: AHashSet<Id>,
+    idents_to_deglob: FxHashSet<Id>,
 
     /// `true` while folding objects of a member expression.
     ///
@@ -189,6 +189,17 @@ where
         self.bundler.scope.mark_as_wrapping_required(id);
     }
 
+    fn mark_as_cjs(&self, src: &JsWord) {
+        let path = self.bundler.resolve(self.path, src);
+        let path = match path {
+            Ok(v) => v,
+            Err(_) => return,
+        };
+        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+
+        self.bundler.scope.mark_as_cjs(id);
+    }
+
     fn add_forced_ns_for(&mut self, id: Id) {
         self.idents_to_deglob.remove(&id);
         self.imported_idents.remove(&id);
@@ -237,6 +248,7 @@ where
                     {
                         match &mut **callee {
                             Expr::Ident(i) => {
+                                self.mark_as_cjs(&src.value);
                                 if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
                                     i.span = i.span.with_ctxt(export_ctxt);
                                 }
@@ -602,6 +614,8 @@ where
                     if self.bundler.config.external_modules.contains(&src.value) {
                         return;
                     }
+
+                    self.mark_as_cjs(&src.value);
 
                     match &mut **callee {
                         Expr::Ident(i) => {

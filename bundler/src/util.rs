@@ -218,9 +218,9 @@ impl<V> CHashSet<V>
 where
     V: Eq + Hash,
 {
-    pub fn insert(&self, v: V) -> bool {
-        self.inner.insert(v, ()).is_none()
-    }
+    // pub fn insert(&self, v: V) -> bool {
+    //     self.inner.insert(v, ()).is_none()
+    // }
 }
 
 impl<V> Default for CHashSet<V>

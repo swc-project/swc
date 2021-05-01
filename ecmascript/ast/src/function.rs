@@ -43,6 +43,7 @@ pub struct Function {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Param {
     pub span: Span,
+    #[serde(default)]
     pub decorators: Vec<Decorator>,
     pub pat: Pat,
 }

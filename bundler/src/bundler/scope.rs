@@ -7,11 +7,6 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{sync::Lrc, FileName};
 
 #[derive(Debug, Default)]
-pub(super) struct Metadata {
-    pub bundle_cnt: u32,
-}
-
-#[derive(Debug, Default)]
 pub(super) struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
@@ -21,6 +16,7 @@ pub(super) struct Scope {
     transformed_modules: CloneMap<ModuleId, TransformedModule>,
 
     accessed_with_computed_key: CloneMap<ModuleId, Lrc<AtomicBool>>,
+    is_cjs: CloneMap<ModuleId, Lrc<AtomicBool>>,
 }
 
 impl Scope {
@@ -42,6 +38,24 @@ impl Scope {
 
     pub fn get_module(&self, id: ModuleId) -> Option<TransformedModule> {
         Some(self.transformed_modules.get(&id)?.clone())
+    }
+
+    pub fn is_cjs(&self, id: ModuleId) -> bool {
+        if let Some(v) = self.is_cjs.get(&id) {
+            v.load(Ordering::SeqCst)
+        } else {
+            false
+        }
+    }
+
+    /// Set the module as a common js module
+    pub fn mark_as_cjs(&self, id: ModuleId) {
+        if let Some(v) = self.is_cjs.get(&id) {
+            v.store(true, Ordering::SeqCst);
+            return;
+        }
+
+        self.is_cjs.insert(id, Lrc::new(AtomicBool::from(true)));
     }
 
     /// Set the module as

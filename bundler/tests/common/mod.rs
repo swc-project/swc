@@ -1,9 +1,9 @@
 use anyhow::{bail, Context, Error};
 use reqwest::Url;
 use sha1::{Digest, Sha1};
+use std::env::current_dir;
 use std::io::Write;
 use std::{
-    self, env,
     fs::{create_dir_all, read_to_string, write},
     path::{Path, PathBuf},
 };
@@ -39,7 +39,7 @@ fn calc_cache_path(cache_dir: &Path, url: &Url) -> PathBuf {
 /// Load url. This method does caching.
 fn load_url(url: Url) -> Result<String, Error> {
     let cache_dir = PathBuf::from(
-        env::var("CARGO_MANIFEST_DIR")
+        current_dir()
             .expect("the test requires an environment variable named `CARGO_MANIFEST_DIR`"),
     )
     .join("tests")

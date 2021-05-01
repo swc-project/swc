@@ -851,6 +851,10 @@ impl Fold for Remover {
             }
 
             Stmt::DoWhile(s) => {
+                if has_conditional_stopper(&[Stmt::DoWhile(s.clone())]) {
+                    return Stmt::DoWhile(s);
+                }
+
                 if let Known(v) = s.test.as_pure_bool() {
                     if v {
                         // `for(;;);` is shorter than `do ; while(true);`
