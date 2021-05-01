@@ -14,8 +14,6 @@ mod pat;
 mod stmt;
 mod typescript;
 
-pub(crate) mod util;
-
 pub use class::*;
 pub use comment::*;
 pub use common::*;

@@ -1,5 +1,5 @@
-use crate::util::SerializeUnion;
 use serde::{Serialize, Deserialize};
+use swc_common::ast_serde;
 
 use crate::{
     common::{BaseNode, Identifier, IdOrQualifiedId, IdOrString},
@@ -9,178 +9,234 @@ use crate::{
     stmt::{BlockStatement},
 };
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum Flow {
+    #[tag("AnyTypeAnnotation")]
     AnyTypeAnnotation(AnyTypeAnnotation),
+    #[tag("ArrayTypeAnnotation")]
     ArrayTypeAnnotation(ArrayTypeAnnotation),
+    #[tag("BooleanTypeAnnotation")]
     BooleanTypeAnnotation(BooleanTypeAnnotation),
+    #[tag("BooleanLiteralTypeAnnotation")]
     BooleanLiteralTypeAnnotation(BooleanLiteralTypeAnnotation),
+    #[tag("NullLiteralTypeAnnotation")]
     NullLiteralTypeAnnotation(NullLiteralTypeAnnotation),
+    #[tag("ClassImplements")]
     ClassImplements(ClassImplements),
+    #[tag("DeclareClass")]
     DeclareClass(DeclareClass),
+    #[tag("DeclareFunction")]
     DeclareFunction(DeclareFunction),
+    #[tag("DeclareInterface")]
     DeclareInterface(DeclareInterface),
+    #[tag("DeclareModule")]
     DeclareModule(DeclareModule),
+    #[tag("DeclareModuleExports")]
     DeclareModuleExports(DeclareModuleExports),
+    #[tag("DeclareTypeAlias")]
     DeclareTypeAlias(DeclareTypeAlias),
+    #[tag("DeclareOpaqueType")]
     DeclareOpaqueType(DeclareOpaqueType),
+    #[tag("DeclareVariable")]
     DeclareVariable(DeclareVariable),
+    #[tag("DeclareExportDeclaration")]
     DeclareExportDeclaration(DeclareExportDeclaration),
+    #[tag("DeclareExportAllDeclaration")]
     DeclareExportAllDeclaration(DeclareExportAllDeclaration),
+    #[tag("DeclaredPredicate")]
     DeclaredPredicate(DeclaredPredicate),
+    #[tag("ExistsTypeAnnotation")]
     ExistsTypeAnnotation(ExistsTypeAnnotation),
+    #[tag("FunctionTypeAnnotation")]
     FunctionTypeAnnotation(FunctionTypeAnnotation),
+    #[tag("FunctionTypeParam")]
     FunctionTypeParam(FunctionTypeParam),
+    #[tag("GenericTypeAnnotation")]
     GenericTypeAnnotation(GenericTypeAnnotation),
+    #[tag("InferredPredicate")]
     InferredPredicate(InferredPredicate),
+    #[tag("InterfaceExtends")]
     InterfaceExtends(InterfaceExtends),
+    #[tag("InterfaceDeclaration")]
     InterfaceDeclaration(InterfaceDeclaration),
+    #[tag("InterfaceTypeAnnotation")]
     InterfaceTypeAnnotation(InterfaceTypeAnnotation),
+    #[tag("IntersectionTypeAnnotation")]
     IntersectionTypeAnnotation(IntersectionTypeAnnotation),
+    #[tag("MixedTypeAnnotation")]
     MixedTypeAnnotation(MixedTypeAnnotation),
+    #[tag("EmptyTypeAnnotation")]
     EmptyTypeAnnotation(EmptyTypeAnnotation),
+    #[tag("NullableTypeAnnotation")]
     NullableTypeAnnotation(NullableTypeAnnotation),
+    #[tag("NumberLiteralTypeAnnotation")]
     NumberLiteralTypeAnnotation(NumberLiteralTypeAnnotation),
+    #[tag("NumberTypeAnnotation")]
     NumberTypeAnnotation(NumberTypeAnnotation),
+    #[tag("ObjectTypeAnnotation")]
     ObjectTypeAnnotation(ObjectTypeAnnotation),
+    #[tag("ObjectTypeInternalSlot")]
     ObjectTypeInternalSlot(ObjectTypeInternalSlot),
+    #[tag("ObjectTypeCallProperty")]
     ObjectTypeCallProperty(ObjectTypeCallProperty),
+    #[tag("ObjectTypeIndexer")]
     ObjectTypeIndexer(ObjectTypeIndexer),
+    #[tag("ObjectTypeProperty")]
     ObjectTypeProperty(ObjectTypeProperty),
+    #[tag("ObjectTypeSpreadProperty")]
     ObjectTypeSpreadProperty(ObjectTypeSpreadProperty),
+    #[tag("OpaqueType")]
     OpaqueType(OpaqueType),
+    #[tag("QualifiedTypeIdentifier")]
     QualifiedTypeIdentifier(QualifiedTypeIdentifier),
+    #[tag("StringLiteralTypeAnnotation")]
     StringLiteralTypeAnnotation(StringLiteralTypeAnnotation),
+    #[tag("StringTypeAnnotation")]
     StringTypeAnnotation(StringTypeAnnotation),
+    #[tag("SymbolTypeAnnotation")]
     SymbolTypeAnnotation(SymbolTypeAnnotation),
+    #[tag("ThisTypeAnnotation")]
     ThisTypeAnnotation(ThisTypeAnnotation),
+    #[tag("TupleTypeAnnotation")]
     TupleTypeAnnotation(TupleTypeAnnotation),
+    #[tag("TypeofTypeAnnotation")]
     TypeofTypeAnnotation(TypeofTypeAnnotation),
+    #[tag("TypeAlias")]
     TypeAlias(TypeAlias),
+    #[tag("TypeAnnotation")]
     TypeAnnotation(TypeAnnotation),
+    #[tag("TypeCastExpression")]
     TypeCastExpression(TypeCastExpression),
+    #[tag("TypeParameter")]
     TypeParameter(TypeParameter),
+    #[tag("TypeParameterDeclaration")]
     TypeParameterDeclaration(TypeParameterDeclaration),
+    #[tag("TypeParameterInstantiation")]
     TypeParameterInstantiation(TypeParameterInstantiation),
+    #[tag("UnionTypeAnnotation")]
     UnionTypeAnnotation(UnionTypeAnnotation),
+    #[tag("Variance")]
     Variance(Variance),
+    #[tag("VoidTypeAnnotation")]
     VoidTypeAnnotation(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum FlowType {
-    #[serde(rename = "AnyTypeAnnotation")]
+    #[tag("AnyTypeAnnotation")]
     Any(AnyTypeAnnotation),
-    #[serde(rename = "ArrayTypeAnnotation")]
+    #[tag("ArrayTypeAnnotation")]
     Array(ArrayTypeAnnotation),
-    #[serde(rename = "BooleanTypeAnnotation")]
+    #[tag("BooleanTypeAnnotation")]
     Boolean(BooleanTypeAnnotation),
-    #[serde(rename = "BooleanLiteralTypeAnnotation")]
+    #[tag("BooleanLiteralTypeAnnotation")]
     BooleanLiteral(BooleanLiteralTypeAnnotation),
-    #[serde(rename = "NullLiteralTypeAnnotation")]
+    #[tag("NullLiteralTypeAnnotation")]
     NullLiteral(NullLiteralTypeAnnotation),
-    #[serde(rename = "ExistsTypeAnnotation")]
+    #[tag("ExistsTypeAnnotation")]
     Exists(ExistsTypeAnnotation),
-    #[serde(rename = "FunctionTypeAnnotation")]
+    #[tag("FunctionTypeAnnotation")]
     Function(FunctionTypeAnnotation),
-    #[serde(rename = "GenericTypeAnnotation")]
+    #[tag("GenericTypeAnnotation")]
     Generic(GenericTypeAnnotation),
-    #[serde(rename = "InterfaceTypeAnnotation")]
+    #[tag("InterfaceTypeAnnotation")]
     Interface(InterfaceTypeAnnotation),
-    #[serde(rename = "IntersectionTypeAnnotation")]
+    #[tag("IntersectionTypeAnnotation")]
     Intersection(IntersectionTypeAnnotation),
-    #[serde(rename = "MixedTypeAnnotation")]
+    #[tag("MixedTypeAnnotation")]
     Mixed(MixedTypeAnnotation),
-    #[serde(rename = "EmptyTypeAnnotation")]
+    #[tag("EmptyTypeAnnotation")]
     Empty(EmptyTypeAnnotation),
-    #[serde(rename = "NullableTypeAnnotation")]
+    #[tag("NullableTypeAnnotation")]
     Nullable(NullableTypeAnnotation),
-    #[serde(rename = "NumberLiteralTypeAnnotation")]
+    #[tag("NumberLiteralTypeAnnotation")]
     NumerLiteral(NumberLiteralTypeAnnotation),
-    #[serde(rename = "NumberTypeAnnotation")]
+    #[tag("NumberTypeAnnotation")]
     Number(NumberTypeAnnotation),
-    #[serde(rename = "ObjectTypeAnnotation")]
+    #[tag("ObjectTypeAnnotation")]
     Object(ObjectTypeAnnotation),
-    #[serde(rename = "StringLiteralTypeAnnotation")]
+    #[tag("StringLiteralTypeAnnotation")]
     StringLiteral(StringLiteralTypeAnnotation),
-    #[serde(rename = "StringTypeAnnotation")]
+    #[tag("StringTypeAnnotation")]
     String(StringTypeAnnotation),
-    #[serde(rename = "SymbolTypeAnnotation")]
+    #[tag("SymbolTypeAnnotation")]
     Symbol(SymbolTypeAnnotation),
-    #[serde(rename = "ThisTypeAnnotation")]
+    #[tag("ThisTypeAnnotation")]
     This(ThisTypeAnnotation),
-    #[serde(rename = "TupleTypeAnnotation")]
+    #[tag("TupleTypeAnnotation")]
     Tuple(TupleTypeAnnotation),
-    #[serde(rename = "TypeofTypeAnnotation")]
+    #[tag("TypeofTypeAnnotation")]
     Typeof(TypeofTypeAnnotation),
-    #[serde(rename = "UnionTypeAnnotation")]
+    #[tag("UnionTypeAnnotation")]
     Union(UnionTypeAnnotation),
-    #[serde(rename = "VoidTypeAnnotation")]
+    #[tag("VoidTypeAnnotation")]
     Void(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum FlowBaseAnnotation {
-    #[serde(rename = "AnyTypeAnnotation")]
+    #[tag("AnyTypeAnnotation")]
     Any(AnyTypeAnnotation),
-    #[serde(rename = "BooleanTypeAnnotation")]
+    #[tag("BooleanTypeAnnotation")]
     Boolean(BooleanTypeAnnotation),
-    #[serde(rename = "NullLiteralTypeAnnotation")]
+    #[tag("NullLiteralTypeAnnotation")]
     NullLiteral(NullLiteralTypeAnnotation),
-    #[serde(rename = "MixedTypeAnnotation")]
+    #[tag("MixedTypeAnnotation")]
     Mixed(MixedTypeAnnotation),
-    #[serde(rename = "EmptyTypeAnnotation")]
+    #[tag("EmptyTypeAnnotation")]
     Empty(EmptyTypeAnnotation),
-    #[serde(rename = "NumberTypeAnnotation")]
+    #[tag("NumberTypeAnnotation")]
     Number(NumberTypeAnnotation),
-    #[serde(rename = "StringTypeAnnotation")]
+    #[tag("StringTypeAnnotation")]
     String(StringTypeAnnotation),
-    #[serde(rename = "SymbolTypeAnnotation")]
+    #[tag("SymbolTypeAnnotation")]
     Symbol(SymbolTypeAnnotation),
-    #[serde(rename = "ThisTypeAnnotation")]
+    #[tag("ThisTypeAnnotation")]
     This(ThisTypeAnnotation),
-    #[serde(rename = "VoidTypeAnnotation")]
+    #[tag("VoidTypeAnnotation")]
     Void(VoidTypeAnnotation),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum FlowDeclaration {
-    #[serde(rename = "DeclareClass")]
+    #[tag("DeclareClass")]
     Class(DeclareClass),
-    #[serde(rename = "DeclareFunction")]
+    #[tag("DeclareFunction")]
     Func(DeclareFunction),
-    #[serde(rename = "DeclareInterface")]
+    #[tag("DeclareInterface")]
     Interface(DeclareInterface),
-    #[serde(rename = "DeclareModule")]
+    #[tag("DeclareModule")]
     Module(DeclareModule),
-    #[serde(rename = "DeclareModuleExports")]
+    #[tag("DeclareModuleExports")]
     ModuleExports(DeclareModuleExports),
+    #[tag("DeclareTypeAlias")]
     DeclareTypeAlias(DeclareTypeAlias),
+    #[tag("DeclareOpaqueType")]
     DeclareOpaqueType(DeclareOpaqueType),
-    #[serde(rename = "DeclareVariable")]
+    #[tag("DeclareVariable")]
     Var(DeclareVariable),
-    #[serde(rename = "DeclareExportAllDeclaration")]
+    #[tag("DeclareExportAllDeclaration")]
     ExportDecl(DeclareExportDeclaration),
-    #[serde(rename = "DeclareExportAllDeclaration")]
+    #[tag("DeclareExportAllDeclaration")]
     ExportAllDecl(DeclareExportAllDeclaration),
+    #[tag("InterfaceDeclaration")]
     InterfaceDeclaration(InterfaceDeclaration),
+    #[tag("OpaqueType")]
     OpaqueType(OpaqueType),
+    #[tag("TypeAlias")]
     TypeAlias(TypeAlias),
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum FlowPredicate {
+    #[tag("DeclaredPredicate")]
     DeclaredPredicate(DeclaredPredicate),
+    #[tag("InferredPredicate")]
     InferredPredicate(InferredPredicate),
 }
 
@@ -376,13 +432,12 @@ pub struct ObjectTypeSpreadProperty {
     pub argument: FlowType,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum ObjectTypeAnnotProp {
-    #[serde(rename = "ObjectTypeProperty")]
+    #[tag("ObjectTypeProperty")]
     Prop(ObjectTypeProperty),
-    #[serde(rename = "ObjectTypeSpreadProperty")]
+    #[tag("ObjectTypeSpreadProperty")]
     Spread(ObjectTypeSpreadProperty),
 }
 
@@ -711,13 +766,12 @@ pub struct DeclareVariable {
     pub id: Identifier,
 }
 
-#[derive(Debug, Clone, SerializeUnion, Deserialize, PartialEq)]
-#[serde(tag = "type")]
-// #[serde(untagged)]
+#[derive(Debug, Clone, PartialEq)]
+#[ast_serde]
 pub enum DeclareExportDeclSpecifier {
-    #[serde(rename = "ExportSpecifier")]
+    #[tag("ExportSpecifier")]
     Export(ExportSpecifier),
-    #[serde(rename = "ExportNamespaceSpecifier")]
+    #[tag("ExportNamespaceSpecifier")]
     Namespace(ExportNamespaceSpecifier),
 }
 
