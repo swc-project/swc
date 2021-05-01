@@ -5,9 +5,6 @@
   "homepage": "https://swc.rs",
   "main": "./index.js",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
-  "workspaces": [
-    "packages/*"
-  ],
   "license": "MIT",
   "keywords": [
     "swc",
