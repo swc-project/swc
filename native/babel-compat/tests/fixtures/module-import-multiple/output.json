@@ -1,0 +1,204 @@
+{
+    "type": "File",
+    "start": 0,
+    "end": 38,
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 5,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 38,
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 5,
+                "column": 0
+            }
+        },
+        "sourceType": "module",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "ImportDeclaration",
+                "start": 0,
+                "end": 37,
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 4,
+                        "column": 11
+                    }
+                },
+                "specifiers": [
+                    {
+                        "type": "ImportDefaultSpecifier",
+                        "start": 7,
+                        "end": 8,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 7
+                            },
+                            "end": {
+                                "line": 1,
+                                "column": 8
+                            }
+                        },
+                        "local": {
+                            "type": "Identifier",
+                            "start": 7,
+                            "end": 8,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 7
+                                },
+                                "end": {
+                                    "line": 1,
+                                    "column": 8
+                                },
+                                "identifierName": "a"
+                            },
+                            "name": "a"
+                        }
+                    },
+                    {
+                        "type": "ImportSpecifier",
+                        "start": 16,
+                        "end": 17,
+                        "loc": {
+                            "start": {
+                                "line": 2,
+                                "column": 4
+                            },
+                            "end": {
+                                "line": 2,
+                                "column": 5
+                            }
+                        },
+                        "imported": {
+                            "type": "Identifier",
+                            "start": 16,
+                            "end": 17,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 5
+                                },
+                                "identifierName": "b"
+                            },
+                            "name": "b"
+                        },
+                        "local": {
+                            "type": "Identifier",
+                            "start": 16,
+                            "end": 17,
+                            "loc": {
+                                "start": {
+                                    "line": 2,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 2,
+                                    "column": 5
+                                },
+                                "identifierName": "b"
+                            },
+                            "name": "b"
+                        }
+                    },
+                    {
+                        "type": "ImportSpecifier",
+                        "start": 23,
+                        "end": 24,
+                        "loc": {
+                            "start": {
+                                "line": 3,
+                                "column": 4
+                            },
+                            "end": {
+                                "line": 3,
+                                "column": 5
+                            }
+                        },
+                        "imported": {
+                            "type": "Identifier",
+                            "start": 23,
+                            "end": 24,
+                            "loc": {
+                                "start": {
+                                    "line": 3,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 3,
+                                    "column": 5
+                                },
+                                "identifierName": "c"
+                            },
+                            "name": "c"
+                        },
+                        "local": {
+                            "type": "Identifier",
+                            "start": 23,
+                            "end": 24,
+                            "loc": {
+                                "start": {
+                                    "line": 3,
+                                    "column": 4
+                                },
+                                "end": {
+                                    "line": 3,
+                                    "column": 5
+                                },
+                                "identifierName": "c"
+                            },
+                            "name": "c"
+                        }
+                    }
+                ],
+                "source": {
+                    "type": "StringLiteral",
+                    "start": 33,
+                    "end": 36,
+                    "loc": {
+                        "start": {
+                            "line": 4,
+                            "column": 7
+                        },
+                        "end": {
+                            "line": 4,
+                            "column": 10
+                        }
+                    },
+                    "extra": {
+                        "rawValue": "d",
+                        "raw": "\"d\""
+                    },
+                    "value": "d"
+                }
+            }
+        ],
+        "directives": []
+    },
+    "comments": []
+}

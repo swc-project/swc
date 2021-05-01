@@ -1,0 +1,15 @@
+[package]
+name = "swc_babel_visit"
+description = "Visitor implementation for babel nodes"
+version = "0.1.0"
+authors = ["Daniel Woznicki <daniel.woznicki@gmail.com>"]
+edition = "2018"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = {version = "1", features = ["derive"]}
+serde_json = "1.0.62"
+swc_visit = {version = "0.2.3", path = "../../visit"}
+swc_babel_ast = {path = "../babel-ast"}

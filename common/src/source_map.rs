@@ -566,6 +566,11 @@ impl SourceMap {
         self.span_to_source(sp, |src, start_index, _| src[..start_index].to_string())
     }
 
+    /// Return the source snippet as `String` after the given `Span`
+    pub fn span_to_next_source(&self, sp: Span) -> Result<String, SpanSnippetError> {
+        self.span_to_source(sp, |src, _, end_index| src[end_index..].to_string())
+    }
+
     /// Extend the given `Span` to just after the previous occurrence of `c`.
     /// Return the same span if no character could be found or if an error
     /// occurred while retrieving the code snippet.

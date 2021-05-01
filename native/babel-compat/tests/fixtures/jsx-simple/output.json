@@ -1,0 +1,240 @@
+{
+    "type": "File",
+    "start": 0,
+    "end": 59,
+    "loc": {
+        "start": {
+            "line": 1,
+            "column": 0
+        },
+        "end": {
+            "line": 4,
+            "column": 0
+        }
+    },
+    "errors": [],
+    "program": {
+        "type": "Program",
+        "start": 0,
+        "end": 59,
+        "loc": {
+            "start": {
+                "line": 1,
+                "column": 0
+            },
+            "end": {
+                "line": 4,
+                "column": 0
+            }
+        },
+        "sourceType": "script",
+        "interpreter": null,
+        "body": [
+            {
+                "type": "VariableDeclaration",
+                "start": 0,
+                "end": 58,
+                "loc": {
+                    "start": {
+                        "line": 1,
+                        "column": 0
+                    },
+                    "end": {
+                        "line": 3,
+                        "column": 2
+                    }
+                },
+                "declarations": [
+                    {
+                        "type": "VariableDeclarator",
+                        "start": 6,
+                        "end": 57,
+                        "loc": {
+                            "start": {
+                                "line": 1,
+                                "column": 6
+                            },
+                            "end": {
+                                "line": 3,
+                                "column": 1
+                            }
+                        },
+                        "id": {
+                            "type": "Identifier",
+                            "start": 6,
+                            "end": 15,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 6
+                                },
+                                "end": {
+                                    "line": 1,
+                                    "column": 15
+                                },
+                                "identifierName": "Component"
+                            },
+                            "name": "Component"
+                        },
+                        "init": {
+                            "type": "ArrowFunctionExpression",
+                            "start": 18,
+                            "end": 57,
+                            "loc": {
+                                "start": {
+                                    "line": 1,
+                                    "column": 18
+                                },
+                                "end": {
+                                    "line": 3,
+                                    "column": 1
+                                }
+                            },
+                            "id": null,
+                            "generator": false,
+                            "async": false,
+                            "params": [],
+                            "body": {
+                                "type": "BlockStatement",
+                                "start": 24,
+                                "end": 57,
+                                "loc": {
+                                    "start": {
+                                        "line": 1,
+                                        "column": 24
+                                    },
+                                    "end": {
+                                        "line": 3,
+                                        "column": 1
+                                    }
+                                },
+                                "body": [
+                                    {
+                                        "type": "ReturnStatement",
+                                        "start": 30,
+                                        "end": 55,
+                                        "loc": {
+                                            "start": {
+                                                "line": 2,
+                                                "column": 4
+                                            },
+                                            "end": {
+                                                "line": 2,
+                                                "column": 29
+                                            }
+                                        },
+                                        "argument": {
+                                            "type": "JSXElement",
+                                            "start": 37,
+                                            "end": 55,
+                                            "loc": {
+                                                "start": {
+                                                    "line": 2,
+                                                    "column": 11
+                                                },
+                                                "end": {
+                                                    "line": 2,
+                                                    "column": 29
+                                                }
+                                            },
+                                            "openingElement": {
+                                                "type": "JSXOpeningElement",
+                                                "start": 37,
+                                                "end": 43,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 2,
+                                                        "column": 11
+                                                    },
+                                                    "end": {
+                                                        "line": 2,
+                                                        "column": 17
+                                                    }
+                                                },
+                                                "name": {
+                                                    "type": "JSXIdentifier",
+                                                    "start": 38,
+                                                    "end": 42,
+                                                    "loc": {
+                                                        "start": {
+                                                            "line": 2,
+                                                            "column": 12
+                                                        },
+                                                        "end": {
+                                                            "line": 2,
+                                                            "column": 16
+                                                        }
+                                                    },
+                                                    "name": "span"
+                                                },
+                                                "attributes": [],
+                                                "selfClosing": false
+                                            },
+                                            "closingElement": {
+                                                "type": "JSXClosingElement",
+                                                "start": 48,
+                                                "end": 55,
+                                                "loc": {
+                                                    "start": {
+                                                        "line": 2,
+                                                        "column": 22
+                                                    },
+                                                    "end": {
+                                                        "line": 2,
+                                                        "column": 29
+                                                    }
+                                                },
+                                                "name": {
+                                                    "type": "JSXIdentifier",
+                                                    "start": 50,
+                                                    "end": 54,
+                                                    "loc": {
+                                                        "start": {
+                                                            "line": 2,
+                                                            "column": 24
+                                                        },
+                                                        "end": {
+                                                            "line": 2,
+                                                            "column": 28
+                                                        }
+                                                    },
+                                                    "name": "span"
+                                                }
+                                            },
+                                            "children": [
+                                                {
+                                                    "type": "JSXText",
+                                                    "start": 43,
+                                                    "end": 48,
+                                                    "loc": {
+                                                        "start": {
+                                                            "line": 2,
+                                                            "column": 17
+                                                        },
+                                                        "end": {
+                                                            "line": 2,
+                                                            "column": 22
+                                                        }
+                                                    },
+                                                    "extra": {
+                                                        "rawValue": "hello",
+                                                        "raw": "hello"
+                                                    },
+                                                    "value": "hello"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "directives": []
+                            }
+                        }
+                    }
+                ],
+                "kind": "const"
+            }
+        ],
+        "directives": []
+    },
+    "comments": []
+}
