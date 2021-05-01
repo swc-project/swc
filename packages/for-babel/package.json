@@ -6,5 +6,8 @@
   "repository": "https://github.com/swc-project/swc.git",
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "devDependencies": {
+    "typescript": "^4.2.4"
+  }
 }
