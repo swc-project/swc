@@ -6,8 +6,8 @@ use once_cell::sync::Lazy;
 use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, Prop, PropName, Str,
-    StrKind,
+    CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, PrivateName, Prop,
+    PropName, Str, StrKind,
 };
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -37,6 +37,11 @@ struct ManglePropertiesState {
 
     // Cache of already mangled names
     cache: HashMap<JsWord, JsWord>,
+    private_cache: HashMap<JsWord, JsWord>,
+
+    // Numbers to pass to base54()
+    n: usize,
+    private_n: usize,
 }
 
 impl ManglePropertiesState {
@@ -73,6 +78,39 @@ impl ManglePropertiesState {
     fn is_reserved(&self, name: &JsWord) -> bool {
         JS_ENVIRONMENT_PROPS.contains(name) || self.options.reserved.contains(&name.to_string())
     }
+
+    fn gen_name(&mut self, name: &JsWord) -> Option<JsWord> {
+        if self.should_mangle(name) {
+            if let Some(cached) = self.cache.get(name) {
+                Some(cached.clone())
+            } else {
+                let n = self.n;
+                self.n += 1;
+                let mangled_name: JsWord = base54(n).into();
+                self.cache.insert(name.clone(), mangled_name.clone());
+                Some(mangled_name)
+            }
+        } else {
+            None
+        }
+    }
+
+    fn gen_private_name(&mut self, name: &JsWord) -> JsWord {
+        // Always mangleable
+        if let Some(cached) = self.private_cache.get(&name) {
+            cached.clone()
+        } else {
+            let private_n = self.private_n;
+            self.private_n += 1;
+
+            let mangled_name: JsWord = base54(private_n).into();
+
+            self.private_cache
+                .insert(name.clone(), mangled_name.clone());
+
+            mangled_name
+        }
+    }
 }
 
 pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
@@ -87,10 +125,7 @@ pub fn mangle_properties<'a>(m: &mut Module, options: ManglePropertiesOptions) {
         data,
     });
 
-    m.visit_mut_with(&mut Mangler {
-        state: &mut state,
-        n: 0,
-    });
+    m.visit_mut_with(&mut Mangler { state: &mut state });
 }
 
 // Step 1 -- collect candidates to mangle
@@ -201,40 +236,21 @@ fn get_object_define_property_name_arg<'a>(call: &'a mut CallExpr) -> Option<&'a
 #[derive(Debug)]
 struct Mangler<'a> {
     state: &'a mut ManglePropertiesState,
-    n: usize,
 }
 
 impl Mangler<'_> {
-    fn mangle(&mut self, name: &JsWord) -> Option<JsWord> {
-        if self.state.should_mangle(name) {
-            if let Some(cached) = self.state.cache.get(name) {
-                Some(cached.clone())
-            } else {
-                let n = self.n;
-                self.n += 1;
-                let mangled_name: JsWord = base54(n).into();
-                self.state.cache.insert(name.clone(), mangled_name.clone());
-                Some(mangled_name)
-            }
-        } else {
-            None
-        }
-    }
-
     fn mangle_ident(&mut self, ident: &mut Ident) {
-        if let Some(mangled) = self.mangle(&ident.sym) {
+        if let Some(mangled) = self.state.gen_name(&ident.sym) {
             ident.sym = mangled.into();
         }
     }
 
     fn mangle_str(&mut self, string: &mut Str) {
-        if let Some(mangled) = self.mangle(&string.value) {
+        if let Some(mangled) = self.state.gen_name(&string.value) {
             string.value = mangled.into();
             string.kind = StrKind::Synthesized;
         }
     }
-
-    // TODO mangle_private
 }
 
 impl VisitMut for Mangler<'_> {
@@ -283,5 +299,9 @@ impl VisitMut for Mangler<'_> {
                 self.mangle_ident(ident);
             }
         }
+    }
+
+    fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
+        private_name.id.sym = self.state.gen_private_name(&private_name.id.sym);
     }
 }
