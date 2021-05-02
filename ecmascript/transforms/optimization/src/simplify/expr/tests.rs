@@ -1148,6 +1148,7 @@ fn test_fold_instance_of() {
 
     // An unknown value should never be folded.
     fold_same("x instanceof Foo");
+    fold_same("x instanceof Object");
 }
 
 #[test]
