@@ -66,9 +66,18 @@ impl ManglePropertiesState {
         }
     }
 
+    fn matches_regex_option(&self, name: &JsWord) -> bool {
+        if let Some(regex) = &self.options.regex {
+            regex.is_match(name)
+        } else {
+            true
+        }
+    }
+
     fn should_mangle(&self, name: &JsWord) -> bool {
-        // TODO check regex option,
-        if self.is_reserved(name) {
+        if !self.matches_regex_option(name) {
+            false
+        } else if self.is_reserved(name) {
             false
         } else {
             self.cache.contains_key(name) || self.names_to_mangle.contains(name)

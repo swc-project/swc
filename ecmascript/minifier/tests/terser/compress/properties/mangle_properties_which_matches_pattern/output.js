@@ -1,7 +1,7 @@
 var acd = {
     get asd() {
-        return this.t;
+        return this.a;
     },
-    t: !0,
+    a: !0,
 };
 console.log(acd);

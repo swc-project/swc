@@ -1,4 +1,5 @@
 use fxhash::FxHashMap;
+use regex::Regex;
 use serde::Deserialize;
 use serde::Serialize;
 use swc_atoms::JsWord;
@@ -59,6 +60,8 @@ pub struct ManglePropertiesOptions {
     pub reserved: Vec<String>,
     #[serde(default, alias = "undeclared")]
     pub undeclared: bool,
+    #[serde(default, with = "serde_regex")]
+    pub regex: Option<Regex>,
 }
 
 /// https://terser.org/docs/api-reference.html#compress-options
