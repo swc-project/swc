@@ -371,12 +371,11 @@ impl Compiler {
                             }
 
                             if let Some(mut config) = config {
-                                if let Some(config_file) = config_file {
-                                    let config_file = config_file.into_config(Some(path))?;
-                                    if let Some(config_file) = config_file {
-                                        config.merge(&config_file);
-                                    }
-                                }
+                                config_file
+                                    .map(|f| f.into_config(Some(path)))
+                                    .transpose()?
+                                    .flatten()
+                                    .map(|cf| config.merge(&cf));
 
                                 return Ok(Some(config));
                             }
