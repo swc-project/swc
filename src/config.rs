@@ -490,7 +490,11 @@ fn set_decorators_true(syntax: &mut Option<Syntax>) {
         Some(Syntax::Typescript(options)) => {
             options.decorators = true;
         }
-        None => {}
+        None => {
+            let mut ts_syntax_config = TsConfig::default();
+            ts_syntax_config.decorators = true;
+            *syntax = Some(Syntax::Typescript(ts_syntax_config));
+        }
     }
 }
 
@@ -509,64 +513,41 @@ fn convert_runtime(jsx: tsconfig::Jsx) -> react::Runtime {
 impl From<TsConfigFile> for Config {
     fn from(mut ts_config: TsConfigFile) -> Self {
         let mut cfg = Config::default();
+
+        // Exclude
+        if let Some(strs) = ts_config.exclude {
+            let exclude: Vec<_> = strs.into_iter().map(FileMatcher::Regex).collect();
+            let exclude = FileMatcher::Multi(exclude);
+            cfg.exclude = Some(exclude);
+        }
+
         if let Some(compiler_options) = ts_config.compiler_options.take() {
-            // importHelpers
-            if let Some(b) = compiler_options.import_helpers {
-                cfg.jsc.external_helpers = b;
-            }
-            // experimentalDecorators
-            if let Some(b) = compiler_options.experimental_decorators {
-                set_decorators_true(&mut cfg.jsc.syntax);
-                cfg.jsc.transform.as_mut().map(|t| t.legacy_decorator = b);
-            }
-            // decoratorMetadata
-            if let Some(b) = compiler_options.emit_decorator_metadata {
-                set_decorators_true(&mut cfg.jsc.syntax);
-                cfg.jsc.transform.as_mut().map(|t| t.decorator_metadata = b);
-            }
-            // JSX transform
-            if let Some(j) = compiler_options.jsx {
-                cfg.jsc
-                    .transform
-                    .as_mut()
-                    .map(|t| t.react.runtime = Some(convert_runtime(j)));
-            }
+            // Sourcemaps
 
-            // React import source
-            if let Some(i_s) = compiler_options.jsx_import_source {
-                cfg.jsc
-                    .transform
-                    .as_mut()
-                    .map(|t| t.react.import_source = i_s);
-            }
-
-            // JSX Pragma
-            if let Some(f) = compiler_options.jsx_factory {
-                cfg.jsc.transform.as_mut().map(|t| t.react.pragma = f);
-            }
-            // JSX Fragment Pragma
-            if let Some(f) = compiler_options.jsx_fragment_factory {
-                cfg.jsc.transform.as_mut().map(|t| t.react.pragma_frag = f);
-            }
+            if let Some(sourcemap) = compiler_options.source_map {
+                cfg.source_maps = Some(SourceMapsConfig::Bool(sourcemap));
+            } else if let Some(true) = compiler_options.inline_source_map {
+                cfg.source_maps = Some(SourceMapsConfig::Str(String::from("inline")));
+            };
 
             // Module type
             if let Some(module) = compiler_options.module {
                 use tsconfig::Module;
-                cfg.module.as_mut().map(|m| {
-                    *m = match module {
-                        Module::Amd => ModuleConfig::Amd(modules::amd::Config {
-                            ..Default::default()
-                        }),
-                        Module::CommonJs => ModuleConfig::CommonJs(modules::common_js::Config {
-                            ..Default::default()
-                        }),
-                        Module::Umd => ModuleConfig::Umd(modules::umd::Config {
-                            ..Default::default()
-                        }),
-                        _ => ModuleConfig::Es6,
-                    }
-                });
+                cfg.module = Some(match module {
+                    Module::Amd => ModuleConfig::Amd(modules::amd::Config {
+                        ..Default::default()
+                    }),
+                    Module::CommonJs => ModuleConfig::CommonJs(modules::common_js::Config {
+                        ..Default::default()
+                    }),
+                    Module::Umd => ModuleConfig::Umd(modules::umd::Config {
+                        ..Default::default()
+                    }),
+                    _ => ModuleConfig::Es6,
+                })
             }
+
+            // JSConfig
 
             // Target
             if let Some(target) = compiler_options.target.and_then(|target| {
@@ -585,6 +566,54 @@ impl From<TsConfigFile> for Config {
                 }
             }) {
                 cfg.jsc.target = Some(target);
+            }
+
+            // importHelpers
+            if let Some(b) = compiler_options.import_helpers {
+                cfg.jsc.external_helpers = b;
+            }
+
+            // TransformConfig
+            let mut transform = TransformConfig::default();
+            let mut used_transform = false;
+
+            // experimentalDecorators
+            if let Some(b) = compiler_options.experimental_decorators {
+                set_decorators_true(&mut cfg.jsc.syntax);
+                transform.legacy_decorator = b;
+                used_transform = true;
+            }
+            // decoratorMetadata
+            if let Some(b) = compiler_options.emit_decorator_metadata {
+                set_decorators_true(&mut cfg.jsc.syntax);
+                transform.decorator_metadata = b;
+                used_transform = true;
+            }
+            // JSX transform
+            if let Some(j) = compiler_options.jsx {
+                transform.react.runtime = Some(convert_runtime(j));
+                used_transform = true;
+            }
+
+            // React import source
+            if let Some(i_s) = compiler_options.jsx_import_source {
+                transform.react.import_source = i_s;
+                used_transform = true;
+            }
+
+            // JSX Pragma
+            if let Some(f) = compiler_options.jsx_factory {
+                transform.react.pragma = f;
+                used_transform = true;
+            }
+            // JSX Fragment Pragma
+            if let Some(f) = compiler_options.jsx_fragment_factory {
+                transform.react.pragma_frag = f;
+                used_transform = true;
+            }
+
+            if used_transform {
+                cfg.jsc.transform = Some(transform);
             }
         }
         cfg

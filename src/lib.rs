@@ -32,6 +32,8 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::FoldWith;
 
+use tsconfig::TsConfig;
+
 mod builder;
 pub mod config;
 
@@ -350,19 +352,33 @@ impl Compiler {
                         let mut parent = path.parent();
                         while let Some(dir) = parent {
                             let swcrc = dir.join(".swcrc");
+                            let tscfg = dir.join(".tsconfig");
+
+                            let mut config: Option<Config> = None;
 
                             if swcrc.exists() {
-                                let config = load_swcrc(&swcrc)?;
-
-                                let mut config = config
+                                config = load_swcrc(&swcrc)?
                                     .into_config(Some(path))
                                     .context("failed to process config file")?;
+                            }
 
+                            if tscfg.exists() {
+                                let tc = load_tsconfig(&tscfg)?;
+                                match &mut config {
+                                    Some(config) => config.merge(&tc),
+                                    None => config = Some(tc),
+                                }
+                            }
+
+                            if let Some(mut config) = config {
                                 if let Some(config_file) = config_file {
-                                    config.merge(&config_file.into_config(Some(path))?)
+                                    let config_file = config_file.into_config(Some(path))?;
+                                    if let Some(config_file) = config_file {
+                                        config.merge(&config_file);
+                                    }
                                 }
 
-                                return Ok(config);
+                                return Ok(Some(config));
                             }
 
                             if dir == root && *root_mode == RootMode::Root {
@@ -552,24 +568,36 @@ impl Compiler {
         })
     }
 }
+fn convert_json_err(e: serde_json::Error) -> Error {
+    let line = e.line();
+    let column = e.column();
+
+    let msg = match e.classify() {
+        Category::Io => "io error",
+        Category::Syntax => "syntax error",
+        Category::Data => "unmatched data",
+        Category::Eof => "unexpected eof",
+    };
+    Error::new(e).context(format!(
+        "failed to deserialize .swcrc (json) file: {}: {}:{}",
+        msg, line, column
+    ))
+}
+
+fn load_tsconfig(path: &Path) -> Result<Config, Error> {
+    let cfg: Config = TsConfig::parse_file(&path)
+        .map_err(|e| match e {
+            tsconfig::ConfigError::ParseError(e) => convert_json_err(e),
+            tsconfig::ConfigError::CouldNotFindFile(e) => {
+                Error::new(e).context("failed to read config (.tsconfig) file")
+            }
+        })?
+        .into();
+
+    Ok(cfg)
+}
 
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
-    fn convert_json_err(e: serde_json::Error) -> Error {
-        let line = e.line();
-        let column = e.column();
-
-        let msg = match e.classify() {
-            Category::Io => "io error",
-            Category::Syntax => "syntax error",
-            Category::Data => "unmatched data",
-            Category::Eof => "unexpected eof",
-        };
-        Error::new(e).context(format!(
-            "failed to deserialize .swcrc (json) file: {}: {}:{}",
-            msg, line, column
-        ))
-    }
-
     let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 
     match serde_json::from_str(&content) {
