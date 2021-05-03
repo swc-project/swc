@@ -112,8 +112,8 @@ impl Babelify for PrivateProp {
             static_any: Value::Bool(self.is_static),
             decorators: Some(
                 self.decorators
-                    .iter()
-                    .map(|dec| dec.clone().babelify(ctx))
+                    .into_iter()
+                    .map(|dec| dec.babelify(ctx))
                     .collect(),
             ),
         }
@@ -136,8 +136,8 @@ impl Babelify for ClassMethod {
             params: self
                 .function
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx))
+                .into_iter()
+                .map(|param| param.babelify(ctx))
                 .collect(),
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
@@ -145,8 +145,8 @@ impl Babelify for ClassMethod {
             decorators: Some(
                 self.function
                     .decorators
-                    .iter()
-                    .map(|dec| dec.clone().babelify(ctx))
+                    .into_iter()
+                    .map(|dec| dec.babelify(ctx))
                     .collect(),
             ),
             type_parameters: self.function.type_params.map(|t| t.babelify(ctx).into()),
@@ -175,8 +175,8 @@ impl Babelify for PrivateMethod {
             params: self
                 .function
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx))
+                .into_iter()
+                .map(|param| param.babelify(ctx))
                 .collect(),
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
@@ -184,8 +184,8 @@ impl Babelify for PrivateMethod {
             decorators: Some(
                 self.function
                     .decorators
-                    .iter()
-                    .map(|dec| dec.clone().babelify(ctx))
+                    .into_iter()
+                    .map(|dec| dec.babelify(ctx))
                     .collect(),
             ),
             type_parameters: self.function.type_params.map(|t| t.babelify(ctx).into()),
