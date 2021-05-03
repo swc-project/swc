@@ -209,12 +209,8 @@ impl Babelify for TsTypeElement {
             TsTypeElement::TsPropertySignature(t) => TSTypeElement::PropSignature(t.babelify(ctx)),
             TsTypeElement::TsMethodSignature(t) => TSTypeElement::MethodSignature(t.babelify(ctx)),
             TsTypeElement::TsIndexSignature(t) => TSTypeElement::IndexSignature(t.babelify(ctx)),
-            TsTypeElement::TsGetterSignature(_) => panic!("unimplemented"), /* TODO(dwoznicki):
-                                                                              * babel does not
-                                                                              * have this node */
-            TsTypeElement::TsSetterSignature(_) => panic!("unimplemented"), /* TODO(dwoznicki):
-                                                                             * babel does not
-                                                                             * have this node */
+            TsTypeElement::TsGetterSignature(_) => panic!("unimplemented"),
+            TsTypeElement::TsSetterSignature(_) => panic!("unimplemented"),
         }
     }
 }
