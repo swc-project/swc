@@ -601,6 +601,7 @@ impl Babelify for PatOrExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             PatOrExpr::Expr(e) => match *e {
+                Expr::Ident(i) => LVal::Id(i.babelify(ctx)),
                 Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
                 _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &e),
             },
