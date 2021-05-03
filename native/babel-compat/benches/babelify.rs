@@ -52,7 +52,7 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
 }
 
 #[bench]
-fn babelify_without_comments(b: &mut Bencher) {
+fn babelify(b: &mut Bencher) {
     let c = mk();
     let module = parse(&c);
 
