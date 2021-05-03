@@ -55,7 +55,7 @@ impl From<PatOutput> for ObjectPropVal {
     fn from(pat: PatOutput) -> Self {
         match pat {
             PatOutput::Expr(e) => ObjectPropVal::Expr(e),
-            other => other.into(),
+            other => ObjectPropVal::Pattern(other.into()),
         }
     }
 }
