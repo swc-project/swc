@@ -13,15 +13,17 @@ impl Babelify for Class {
     type Output = ClassExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
+        let body = extract_class_body(&self, &ctx);
+
         ClassExpression {
             base: ctx.base(self.span),
             decorators: Some(
                 self.decorators
-                    .iter()
-                    .map(|dec| dec.clone().babelify(ctx))
+                    .into_iter()
+                    .map(|dec| dec.babelify(ctx))
                     .collect(),
             ),
-            body: extract_class_body(&self, &ctx),
+            body,
             super_class: self
                 .super_class
                 .map(|expr| Box::new(expr.babelify(ctx).into())),
@@ -31,8 +33,8 @@ impl Babelify for Class {
                 .map(|param| param.babelify(ctx).into()),
             implements: Some(
                 self.implements
-                    .iter()
-                    .map(|imp| imp.clone().babelify(ctx).into())
+                    .into_iter()
+                    .map(|imp| imp.babelify(ctx).into())
                     .collect(),
             ),
             id: Default::default(),
@@ -83,8 +85,8 @@ impl Babelify for ClassProp {
             is_static: Some(self.is_static),
             decorators: Some(
                 self.decorators
-                    .iter()
-                    .map(|dec| dec.clone().babelify(ctx))
+                    .into_iter()
+                    .map(|dec| dec.babelify(ctx))
                     .collect(),
             ),
             computed: Some(self.computed),

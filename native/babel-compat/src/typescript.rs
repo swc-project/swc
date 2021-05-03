@@ -58,8 +58,8 @@ impl Babelify for TsFnType {
             base: ctx.base(self.span),
             parameters: self
                 .params
-                .iter()
-                .map(|p| p.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|p| p.babelify(ctx).into())
                 .collect(),
             type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
             type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
