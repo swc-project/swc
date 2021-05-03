@@ -211,8 +211,6 @@ impl Babelify for TsTypeElement {
             TsTypeElement::TsIndexSignature(t) => TSTypeElement::IndexSignature(t.babelify(ctx)),
             TsTypeElement::TsGetterSignature(_) => panic!("unimplemented"),
             TsTypeElement::TsSetterSignature(_) => panic!("unimplemented"),
-            TsTypeElement::TsGetterSignature(_) => panic!("unimplemented"), 
-            TsTypeElement::TsSetterSignature(_) => panic!("unimplemented"), 
         }
     }
 }
