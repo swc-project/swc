@@ -27,9 +27,7 @@ use walkdir::WalkDir;
 fn fixtures() -> Result<(), Error> {
     let mut tests = vec![];
 
-    let fixtures_path = PathBuf::from(env::var("CARGO_MANIFEST_DIR")?)
-        .join("tests")
-        .join("fixtures");
+    let fixtures_path = PathBuf::from("tests").join("fixtures");
     for entry in WalkDir::new(&fixtures_path).into_iter() {
         let entry = entry.with_context(|| "Failed to walk dir")?;
         if !entry.file_type().is_dir() {
