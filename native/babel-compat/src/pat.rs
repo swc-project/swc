@@ -186,7 +186,7 @@ impl Babelify for KeyValuePatProp {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectProperty {
             base: ctx.base(self.span()),
-            key: self.key.babelify(ctx).into(),
+            key: self.key.babelify(ctx),
             value: self.value.babelify(ctx).into(),
             computed: Default::default(),
             shorthand: Default::default(),
