@@ -3,7 +3,6 @@
 extern crate test;
 
 use std::{hint::black_box, sync::Arc};
-use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
 use swc_babel_compat::Babelify;
 use swc_babel_compat::Context;
 use swc_common::SourceFile;
@@ -12,9 +11,7 @@ use swc_common::{
     FileName, FilePathMapping, SourceMap,
 };
 use swc_ecma_ast::Program;
-use swc_ecma_parser::{JscTarget, Syntax, TsConfig};
-use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
-use swc_ecma_visit::FoldWith;
+use swc_ecma_parser::{JscTarget, Syntax};
 use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
