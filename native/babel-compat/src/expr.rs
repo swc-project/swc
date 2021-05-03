@@ -386,8 +386,8 @@ impl Babelify for CallExpr {
             callee: Box::new(self.callee.babelify(ctx).into()),
             arguments: self
                 .args
-                .iter()
-                .map(|arg| arg.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|arg| arg.babelify(ctx).into())
                 .collect(),
             type_parameters: self.type_args.map(|t| t.babelify(ctx)),
             type_arguments: Default::default(),
@@ -405,8 +405,8 @@ impl Babelify for NewExpr {
             callee: Callee::Expr(Box::new(self.callee.babelify(ctx).into())),
             arguments: match self.args {
                 Some(args) => args
-                    .iter()
-                    .map(|arg| arg.clone().babelify(ctx).into())
+                    .into_iter()
+                    .map(|arg| arg.babelify(ctx).into())
                     .collect(),
                 None => vec![],
             },
@@ -425,8 +425,8 @@ impl Babelify for SeqExpr {
             base: ctx.base(self.span),
             expressions: self
                 .exprs
-                .iter()
-                .map(|expr| Box::new(expr.clone().babelify(ctx).into()))
+                .into_iter()
+                .map(|expr| Box::new(expr.babelify(ctx).into()))
                 .collect(),
         }
     }
@@ -440,8 +440,8 @@ impl Babelify for ArrowExpr {
             base: ctx.base(self.span),
             params: self
                 .params
-                .iter()
-                .map(|p| p.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|p| p.babelify(ctx).into())
                 .collect(),
             body: Box::new(self.body.babelify(ctx)),
             is_async: self.is_async,
@@ -496,14 +496,10 @@ impl Babelify for Tpl {
             base: ctx.base(self.span),
             expressions: self
                 .exprs
-                .iter()
-                .map(|e| TemplateLiteralExpr::Expr(Box::new(e.clone().babelify(ctx).into())))
+                .into_iter()
+                .map(|e| TemplateLiteralExpr::Expr(Box::new(e.babelify(ctx).into())))
                 .collect(),
-            quasis: self
-                .quasis
-                .iter()
-                .map(|q| q.clone().babelify(ctx))
-                .collect(),
+            quasis: self.quasis.into_iter().map(|q| q.babelify(ctx)).collect(),
         }
     }
 }
