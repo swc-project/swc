@@ -151,9 +151,9 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 import_assertions(),
                 Optional::new(compat::es2020::es2020(), self.target < JscTarget::Es2020),
                 Optional::new(typescript::strip(), syntax.typescript()),
-                Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
-                Optional::new(compat::es2017(), self.target <= JscTarget::Es2017),
-                Optional::new(compat::es2016(), self.target <= JscTarget::Es2016),
+                Optional::new(compat::es2018(), self.target < JscTarget::Es2018),
+                Optional::new(compat::es2017(), self.target < JscTarget::Es2017),
+                Optional::new(compat::es2016(), self.target < JscTarget::Es2016),
                 Optional::new(
                     compat::es2015(
                         self.global_mark,
@@ -167,7 +167,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                             },
                         }
                     ),
-                    self.target <= JscTarget::Es2015
+                    self.target < JscTarget::Es2015
                 ),
                 Optional::new(
                     compat::es3(syntax.dynamic_import()),
