@@ -142,7 +142,7 @@ impl Babelify for JSXAttrOrSpread {
 
 fn extend_spread_span_to_braces(sp: Span, ctx: &Context) -> Span {
     let mut span = sp;
-    if let Ok(prev_source) = ctx.cm.span_to_prev_source(sp) {
+    let _ = ctx.cm.with_span_to_prev_source(sp, |prev_source| {
         let mut num_chars = 0;
         for c in prev_source.chars().rev() {
             num_chars += 1;
@@ -152,9 +152,9 @@ fn extend_spread_span_to_braces(sp: Span, ctx: &Context) -> Span {
                 break;
             }
         }
-    }
+    });
 
-    if let Ok(next_source) = ctx.cm.span_to_next_source(sp) {
+    let _ = ctx.cm.with_span_to_next_source(sp, |next_source| {
         let mut num_chars = 0;
         for c in next_source.chars() {
             num_chars += 1;
@@ -164,7 +164,7 @@ fn extend_spread_span_to_braces(sp: Span, ctx: &Context) -> Span {
                 break;
             }
         }
-    }
+    });
 
     span
 }
