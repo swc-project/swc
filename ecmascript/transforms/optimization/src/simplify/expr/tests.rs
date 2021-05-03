@@ -1140,6 +1140,7 @@ fn test_fold_instance_of() {
 
     // These cases is foldable, but no handled currently.
     fold("new Foo() instanceof Object", "new Foo(), true;");
+
     // These would require type information to fold.
     fold_same("[] instanceof Foo");
     fold_same("({}) instanceof Foo");

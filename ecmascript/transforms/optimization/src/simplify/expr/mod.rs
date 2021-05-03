@@ -466,9 +466,23 @@ impl SimplifyExpr {
                     }
                 }
 
+                fn is_obj(e: &Expr) -> bool {
+                    match *e {
+                        Expr::Array { .. }
+                        | Expr::Object { .. }
+                        | Expr::Fn { .. }
+                        | Expr::New { .. } => true,
+                        _ => false,
+                    }
+                }
+
                 // Non-object types are never instances.
                 if is_non_obj(&left) {
                     return make_bool_expr(span, false, iter::once(right));
+                }
+
+                if is_obj(&left) && right.is_ident_ref_to(js_word!("Object")) {
+                    return make_bool_expr(span, true, iter::once(left));
                 }
 
                 (left, right)
