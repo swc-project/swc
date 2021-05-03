@@ -21,8 +21,8 @@ impl Babelify for BlockStmt {
             base: ctx.base(self.span),
             body: self
                 .stmts
-                .iter()
-                .map(|stmt| stmt.clone().babelify(ctx))
+                .into_iter()
+                .map(|stmt| stmt.babelify(ctx))
                 .collect(),
             directives: Default::default(),
         }
@@ -175,8 +175,8 @@ impl Babelify for SwitchStmt {
             discriminant: Box::new(self.discriminant.babelify(ctx).into()),
             cases: self
                 .cases
-                .iter()
-                .map(|case| case.clone().babelify(ctx))
+                .into_iter()
+                .map(|case| case.babelify(ctx))
                 .collect(),
         }
     }
@@ -280,8 +280,8 @@ impl Babelify for SwitchCase {
             test: self.test.map(|expr| Box::new(expr.babelify(ctx).into())),
             consequent: self
                 .cons
-                .iter()
-                .map(|stmt| stmt.clone().babelify(ctx))
+                .into_iter()
+                .map(|stmt| stmt.babelify(ctx))
                 .collect(),
         }
     }

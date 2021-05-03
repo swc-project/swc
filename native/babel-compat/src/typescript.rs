@@ -113,11 +113,7 @@ impl Babelify for TsTypeParamDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeParameterDeclaration {
             base: ctx.base(self.span),
-            params: self
-                .params
-                .iter()
-                .map(|p| p.clone().babelify(ctx))
-                .collect(),
+            params: self.params.into_iter().map(|p| p.babelify(ctx)).collect(),
         }
     }
 }
@@ -143,8 +139,8 @@ impl Babelify for TsTypeParamInstantiation {
             base: ctx.base(self.span),
             params: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx))
+                .into_iter()
+                .map(|param| param.babelify(ctx))
                 .collect(),
         }
     }
@@ -226,8 +222,8 @@ impl Babelify for TsCallSignatureDecl {
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|param| param.babelify(ctx).into())
                 .collect(),
             type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
         }
