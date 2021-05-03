@@ -4,6 +4,9 @@ extern crate test;
 
 use std::{hint::black_box, sync::Arc};
 use swc::config::{Config, JscConfig, Options, SourceMapsConfig};
+use swc_babel_compat::Babelify;
+use swc_babel_compat::Context;
+use swc_common::SourceFile;
 use swc_common::{
     errors::{ColorConfig, Handler},
     FileName, FilePathMapping, SourceMap,
@@ -35,26 +38,33 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
         FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
         SOURCE.to_string(),
     );
-    c.parse_js(
-        fm,
-        JscTarget::Es5,
-        Syntax::Typescript(Default::default()),
-        true,
-        true,
-    )
-    .unwrap()
+    let module = c
+        .parse_js(
+            fm.clone(),
+            JscTarget::Es5,
+            Syntax::Typescript(Default::default()),
+            true,
+            true,
+        )
+        .unwrap();
+
+    (fm, module)
 }
 
 #[bench]
-fn babelify(b: &mut Bencher) {
+fn babelify_without_comments(b: &mut Bencher) {
     let c = mk();
     let module = parse(&c);
 
     b.iter(|| {
         let (fm, program) = module.clone();
-        let ctx = Context {};
+        let ctx = Context {
+            fm,
+            cm: c.cm.clone(),
+            comments: Arc::new(c.comments().clone()),
+        };
 
-        let babel_ast = program.babelify();
+        let babel_ast = program.babelify(&ctx);
         black_box(babel_ast)
     });
 }

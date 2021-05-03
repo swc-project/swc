@@ -25,4 +25,5 @@ swc_ecma_visit = {version = "0.29.1", path = "../../ecmascript/visit"}
 
 [dev-dependencies]
 pretty_assertions = "0.7.1"
+swc_ecma_transforms = {path = "../../ecmascript/transforms/"}
 walkdir = "2"
