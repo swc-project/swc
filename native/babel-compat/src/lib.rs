@@ -6,6 +6,7 @@ use std::sync::Arc;
 use swc_babel_ast::{BaseComment, BaseNode, Comment, LineCol, Loc};
 use swc_common::comments::CommentKind;
 use swc_common::comments::Comments;
+use swc_common::sync::Lrc;
 use swc_common::BytePos;
 use swc_common::SourceFile;
 use swc_common::SourceMap;
@@ -21,18 +22,17 @@ mod jsx;
 mod lit;
 mod module;
 mod module_decl;
+pub mod normalize;
 mod operators;
 mod pat;
 mod prop;
 mod stmt;
 mod typescript;
 
-pub mod normalize;
-
 #[derive(Clone)]
 pub struct Context {
     pub fm: Arc<SourceFile>,
-    pub cm: Arc<SourceMap>,
+    pub cm: Lrc<SourceMap>,
     pub comments: Arc<dyn Comments>,
 }
 
