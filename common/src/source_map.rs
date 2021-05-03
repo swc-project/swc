@@ -507,9 +507,9 @@ impl SourceMap {
     /// arguments: a string slice containing the source, an index in
     /// the slice for the beginning of the span and an index in the slice for
     /// the end of the span.
-    fn span_to_source<F>(&self, sp: Span, extract_source: F) -> Result<String, SpanSnippetError>
+    fn span_to_source<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, SpanSnippetError>
     where
-        F: Fn(&str, usize, usize) -> String,
+        F: FnOnce(&str, usize, usize) -> Ret,
     {
         if sp.lo() > sp.hi() {
             return Err(SpanSnippetError::IllFormedSpan(sp));
@@ -661,21 +661,22 @@ impl SourceMap {
     }
 
     /// Given a `Span`, get a shorter one until `predicate` yields false.
-    pub fn span_take_while<P>(&self, sp: Span, predicate: P) -> Span
+    pub fn span_take_while<P>(&self, sp: Span, mut predicate: P) -> Span
     where
         P: for<'r> FnMut(&'r char) -> bool,
     {
-        if let Ok(snippet) = self.span_to_snippet(sp) {
+        self.span_to_source(sp, |src, start_index, end_index| {
+            let snippet = &src[start_index..end_index];
+
             let offset = snippet
                 .chars()
-                .take_while(predicate)
+                .take_while(&mut predicate)
                 .map(|c| c.len_utf8())
                 .sum::<usize>();
 
             sp.with_hi(BytePos(sp.lo().0 + (offset as u32)))
-        } else {
-            sp
-        }
+        })
+        .unwrap_or(sp)
     }
 
     pub fn def_span(&self, sp: Span) -> Span {
