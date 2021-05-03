@@ -75,12 +75,12 @@ impl Babelify for Script {
             self.span
         };
         BabelProgram {
-            base: base_with_trailing_newline(span.clone(), ctx),
+            base: base_with_trailing_newline(span, ctx),
             source_type: SrcType::Script,
             body: self
                 .body
-                .iter()
-                .map(|stmt| stmt.clone().babelify(ctx))
+                .into_iter()
+                .map(|stmt| stmt.babelify(ctx))
                 .collect(),
             interpreter: self.shebang.map(|s| InterpreterDirective {
                 base: ctx.base(extract_shebang_span(span, ctx)),

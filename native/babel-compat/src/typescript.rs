@@ -239,8 +239,8 @@ impl Babelify for TsConstructSignatureDecl {
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|param| param.babelify(ctx).into())
                 .collect(),
             type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
         }
@@ -457,8 +457,8 @@ impl Babelify for TsConstructorType {
             base: ctx.base(self.span),
             parameters: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|param| param.babelify(ctx).into())
                 .collect(),
             type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
             type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
@@ -821,11 +821,7 @@ impl Babelify for TsInterfaceBody {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSInterfaceBody {
             base: ctx.base(self.span),
-            body: self
-                .body
-                .iter()
-                .map(|el| el.clone().babelify(ctx))
-                .collect(),
+            body: self.body.into_iter().map(|el| el.babelify(ctx)).collect(),
         }
     }
 }
