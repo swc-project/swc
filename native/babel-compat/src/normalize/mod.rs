@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_babel_ast::*;
 use swc_babel_visit::{VisitMut, VisitMutWith};
 
@@ -136,7 +137,7 @@ impl VisitMut for Normalizer {
 
     fn visit_mut_jsx_text(&mut self, node: &mut JSXText) {
         if node.value.trim().is_empty() {
-            node.value = "".to_owned();
+            node.value = js_word!("");
         }
         node.visit_mut_children_with(self);
     }

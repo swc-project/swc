@@ -1,4 +1,6 @@
 use crate::{Babelify, Context};
+use swc_atoms::js_word;
+use swc_atoms::JsWord;
 use swc_babel_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
     TSAnyKeyword, TSArrayType, TSAsExpression, TSBigIntKeyword, TSBooleanKeyword,
@@ -126,7 +128,7 @@ impl Babelify for TsTypeParam {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeParameter {
             base: ctx.base(self.span),
-            name: self.name.sym.to_string(),
+            name: self.name.sym,
             constraint: self.constraint.map(|c| Box::new(c.babelify(ctx))),
             default: self.default.map(|d| Box::new(d.babelify(ctx))),
         }
@@ -724,13 +726,13 @@ impl Babelify for TsTypeOperator {
 }
 
 impl Babelify for TsTypeOperatorOp {
-    type Output = String;
+    type Output = JsWord;
 
     fn babelify(self, _ctx: &Context) -> Self::Output {
         match self {
-            TsTypeOperatorOp::KeyOf => "keyof".to_string(),
-            TsTypeOperatorOp::Unique => "unique".to_string(),
-            TsTypeOperatorOp::ReadOnly => "readonly".to_string(),
+            TsTypeOperatorOp::KeyOf => js_word!("keyof"),
+            TsTypeOperatorOp::Unique => js_word!("unique"),
+            TsTypeOperatorOp::ReadOnly => js_word!("readonly"),
         }
     }
 }

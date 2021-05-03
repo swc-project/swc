@@ -57,7 +57,7 @@ impl Babelify for Module {
                 .collect(),
             interpreter: self.shebang.map(|s| InterpreterDirective {
                 base: ctx.base(extract_shebang_span(span, ctx)),
-                value: s.to_string(),
+                value: s,
             }),
             directives: Default::default(),
             source_file: Default::default(),
@@ -84,7 +84,7 @@ impl Babelify for Script {
                 .collect(),
             interpreter: self.shebang.map(|s| InterpreterDirective {
                 base: ctx.base(extract_shebang_span(span, ctx)),
-                value: s.to_string(),
+                value: s,
             }),
             directives: Default::default(),
             source_file: Default::default(),

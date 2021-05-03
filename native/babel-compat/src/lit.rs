@@ -35,7 +35,7 @@ impl Babelify for Str {
     fn babelify(self, ctx: &Context) -> Self::Output {
         StringLiteral {
             base: ctx.base(self.span),
-            value: self.value.to_string(),
+            value: self.value,
         }
     }
 }
@@ -89,8 +89,8 @@ impl Babelify for Regex {
     fn babelify(self, ctx: &Context) -> Self::Output {
         RegExpLiteral {
             base: ctx.base(self.span),
-            pattern: self.exp.to_string(),
-            flags: self.flags.to_string(),
+            pattern: self.exp,
+            flags: self.flags,
         }
     }
 }

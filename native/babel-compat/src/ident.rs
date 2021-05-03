@@ -20,7 +20,7 @@ impl Babelify for Ident {
     fn babelify(self, ctx: &Context) -> Self::Output {
         Identifier {
             base: ctx.base(self.span),
-            name: self.sym.to_string(),
+            name: self.sym,
             optional: Some(self.optional),
             decorators: Default::default(),
             type_annotation: Default::default(),

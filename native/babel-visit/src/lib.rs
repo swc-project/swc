@@ -1,5 +1,6 @@
 use serde_json::Value;
 use std::any::Any;
+use swc_atoms::JsWord;
 use swc_babel_ast::*;
 use swc_visit::define;
 
@@ -297,7 +298,7 @@ define!({
     }
     pub struct Identifier {
         pub base: BaseNode,
-        pub name: String,
+        pub name: JsWord,
         pub decorators: Option<Vec<Decorator>>,
         pub optional: Option<bool>,
         pub type_annotation: Option<Box<TypeAnnotOrNoop>>,
@@ -377,7 +378,7 @@ define!({
     }
     pub struct DirectiveLiteral {
         pub base: BaseNode,
-        pub value: String,
+        pub value: JsWord,
     }
     pub struct PipelineBareFunction {
         pub base: BaseNode,
@@ -577,7 +578,7 @@ define!({
     }
     pub struct AssignmentExpression {
         pub base: BaseNode,
-        pub operator: String,
+        pub operator: JsWord,
         pub left: Box<LVal>,
         pub right: Box<Expression>,
     }
@@ -629,7 +630,7 @@ define!({
     }
     pub struct V8IntrinsicIdentifier {
         pub base: BaseNode,
-        pub name: String,
+        pub name: JsWord,
     }
     pub enum Callee {
         Expr(Box<Expression>),
@@ -1004,7 +1005,7 @@ define!({
         pub bound: Option<TypeAnnotation>,
         pub default: Option<FlowType>,
         pub variance: Option<Variance>,
-        pub name: String,
+        pub name: JsWord,
     }
     pub struct TypeParameterInstantiation {
         pub base: BaseNode,
@@ -1102,7 +1103,7 @@ define!({
     }
     pub struct StringLiteralTypeAnnotation {
         pub base: BaseNode,
-        pub value: String,
+        pub value: JsWord,
     }
     pub struct StringTypeAnnotation {
         pub base: BaseNode,
@@ -1296,7 +1297,7 @@ define!({
     }
     pub struct JSXIdentifier {
         pub base: BaseNode,
-        pub name: String,
+        pub name: JsWord,
     }
     pub enum JSXMemberExprObject {
         Expr(JSXMemberExpression),
@@ -1329,7 +1330,7 @@ define!({
     }
     pub struct JSXText {
         pub base: BaseNode,
-        pub value: String,
+        pub value: JsWord,
     }
     pub struct JSXFragment {
         pub base: BaseNode,
@@ -1367,7 +1368,7 @@ define!({
     }
     pub struct StringLiteral {
         pub base: BaseNode,
-        pub value: String,
+        pub value: JsWord,
     }
     pub struct NumericLiteral {
         pub base: BaseNode,
@@ -1386,17 +1387,17 @@ define!({
     }
     pub struct RegExpLiteral {
         pub base: BaseNode,
-        pub pattern: String,
-        pub flags: String,
+        pub pattern: JsWord,
+        pub flags: JsWord,
     }
     pub struct RegexLiteral {
         pub base: BaseNode,
-        pub pattern: String,
-        pub flags: String,
+        pub pattern: JsWord,
+        pub flags: JsWord,
     }
     pub struct TemplateElVal {
-        pub raw: String,
-        pub cooked: Option<String>,
+        pub raw: JsWord,
+        pub cooked: Option<JsWord>,
     }
     pub struct TemplateElement {
         pub base: BaseNode,
@@ -1418,7 +1419,7 @@ define!({
     }
     pub struct DecimalLiteral {
         pub base: BaseNode,
-        pub value: String,
+        pub value: JsWord,
     }
     pub enum ModuleDeclaration {
         ExportAll(ExportAllDeclaration),
@@ -1447,7 +1448,7 @@ define!({
     }
     pub struct InterpreterDirective {
         pub base: BaseNode,
-        pub value: String,
+        pub value: JsWord,
     }
     pub enum SrcType {
         Script,
@@ -2107,7 +2108,7 @@ define!({
     pub struct TSTypeOperator {
         pub base: BaseNode,
         pub type_annotation: Box<TSType>,
-        pub operator: String,
+        pub operator: JsWord,
     }
     pub struct TSIndexedAccessType {
         pub base: BaseNode,
@@ -2238,6 +2239,6 @@ define!({
         pub base: BaseNode,
         pub constraint: Option<Box<TSType>>,
         pub default: Option<Box<TSType>>,
-        pub name: String,
+        pub name: JsWord,
     }
 });

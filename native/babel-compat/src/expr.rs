@@ -343,7 +343,7 @@ impl Babelify for AssignExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         AssignmentExpression {
             base: ctx.base(self.span),
-            operator: self.op.to_string(),
+            operator: self.op.as_str().into(),
             left: Box::new(self.left.babelify(ctx)),
             right: Box::new(self.right.babelify(ctx).into()),
         }
@@ -531,8 +531,8 @@ impl Babelify for TplElement {
             base: ctx.base(self.span),
             tail: self.tail,
             value: TemplateElVal {
-                raw: self.raw.value.to_string(),
-                cooked: self.cooked.map(|s| s.value.to_string()),
+                raw: self.raw.value,
+                cooked: self.cooked.map(|s| s.value),
             },
         }
     }

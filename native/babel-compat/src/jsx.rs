@@ -236,7 +236,7 @@ impl Babelify for JSXText {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelJSXText {
             base: ctx.base(self.span),
-            value: self.value.to_string(),
+            value: self.value,
         }
     }
 }
