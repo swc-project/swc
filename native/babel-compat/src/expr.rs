@@ -201,11 +201,7 @@ impl Babelify for ArrayLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ArrayExpression {
             base: ctx.base(self.span),
-            elements: self
-                .elems
-                .into_iter()
-                .map(|opt| opt.map(|el| el.babelify(ctx)))
-                .collect(),
+            elements: self.elems.babelify(ctx),
         }
     }
 }
@@ -216,11 +212,7 @@ impl Babelify for ObjectLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectExpression {
             base: ctx.base(self.span),
-            properties: self
-                .props
-                .into_iter()
-                .map(|prop| prop.babelify(ctx))
-                .collect(),
+            properties: self.props.babelify(ctx),
         }
     }
 }
@@ -499,7 +491,7 @@ impl Babelify for Tpl {
                 .into_iter()
                 .map(|e| TemplateLiteralExpr::Expr(Box::new(e.babelify(ctx).into())))
                 .collect(),
-            quasis: self.quasis.into_iter().map(|q| q.babelify(ctx)).collect(),
+            quasis: self.quasis.babelify(ctx),
         }
     }
 }

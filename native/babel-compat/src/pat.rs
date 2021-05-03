@@ -161,7 +161,7 @@ impl Babelify for ObjectPat {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectPattern {
             base: ctx.base(self.span),
-            properties: self.props.into_iter().map(|p| p.babelify(ctx)).collect(),
+            properties: self.props.babelify(ctx),
             type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }

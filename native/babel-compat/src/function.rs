@@ -12,11 +12,7 @@ impl Babelify for Function {
     fn babelify(self, ctx: &Context) -> Self::Output {
         FunctionExpression {
             base: ctx.base(self.span),
-            params: self
-                .params
-                .into_iter()
-                .map(|param| param.babelify(ctx))
-                .collect(),
+            params: self.params.babelify(ctx),
             body: self.body.unwrap().babelify(ctx),
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
@@ -34,52 +30,27 @@ impl Babelify for Param {
         match self.pat {
             Pat::Ident(i) => BabelParam::Id(Identifier {
                 base: ctx.base(self.span),
-                decorators: Some(
-                    self.decorators
-                        .into_iter()
-                        .map(|dec| dec.babelify(ctx))
-                        .collect(),
-                ),
+                decorators: Some(self.decorators.babelify(ctx)),
                 ..i.babelify(ctx)
             }),
             Pat::Array(a) => BabelParam::Pat(Pattern::Array(ArrayPattern {
                 base: ctx.base(self.span),
-                decorators: Some(
-                    self.decorators
-                        .into_iter()
-                        .map(|dec| dec.babelify(ctx))
-                        .collect(),
-                ),
+                decorators: Some(self.decorators.babelify(ctx)),
                 ..a.babelify(ctx)
             })),
             Pat::Rest(r) => BabelParam::Rest(RestElement {
                 base: ctx.base(self.span),
-                decorators: Some(
-                    self.decorators
-                        .into_iter()
-                        .map(|dec| dec.babelify(ctx))
-                        .collect(),
-                ),
+                decorators: Some(self.decorators.babelify(ctx)),
                 ..r.babelify(ctx)
             }),
             Pat::Object(o) => BabelParam::Pat(Pattern::Object(ObjectPattern {
                 base: ctx.base(self.span),
-                decorators: Some(
-                    self.decorators
-                        .into_iter()
-                        .map(|dec| dec.babelify(ctx))
-                        .collect(),
-                ),
+                decorators: Some(self.decorators.babelify(ctx)),
                 ..o.babelify(ctx)
             })),
             Pat::Assign(a) => BabelParam::Pat(Pattern::Assignment(AssignmentPattern {
                 base: ctx.base(self.span),
-                decorators: Some(
-                    self.decorators
-                        .into_iter()
-                        .map(|dec| dec.babelify(ctx))
-                        .collect(),
-                ),
+                decorators: Some(self.decorators.babelify(ctx)),
                 ..a.babelify(ctx)
             })),
             Pat::Expr(_) => panic!(

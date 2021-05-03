@@ -15,17 +15,12 @@ impl Babelify for Class {
     fn babelify(self, ctx: &Context) -> Self::Output {
         let body = ClassBody {
             base: ctx.base(extract_class_body_span(&self, &ctx)),
-            body: self.body.into_iter().map(|mem| mem.babelify(ctx)).collect(),
+            body: self.body.babelify(ctx),
         };
 
         ClassExpression {
             base: ctx.base(self.span),
-            decorators: Some(
-                self.decorators
-                    .into_iter()
-                    .map(|dec| dec.babelify(ctx))
-                    .collect(),
-            ),
+            decorators: Some(self.decorators.babelify(ctx)),
             body,
             super_class: self
                 .super_class
@@ -75,12 +70,7 @@ impl Babelify for ClassProp {
             value: self.value.map(|val| Box::new(val.babelify(ctx).into())),
             type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
             is_static: Some(self.is_static),
-            decorators: Some(
-                self.decorators
-                    .into_iter()
-                    .map(|dec| dec.babelify(ctx))
-                    .collect(),
-            ),
+            decorators: Some(self.decorators.babelify(ctx)),
             computed: Some(self.computed),
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
@@ -102,12 +92,7 @@ impl Babelify for PrivateProp {
             value: self.value.map(|expr| Box::new(expr.babelify(ctx).into())),
             type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
             static_any: Value::Bool(self.is_static),
-            decorators: Some(
-                self.decorators
-                    .into_iter()
-                    .map(|dec| dec.babelify(ctx))
-                    .collect(),
-            ),
+            decorators: Some(self.decorators.babelify(ctx)),
         }
     }
 }
@@ -125,22 +110,11 @@ impl Babelify for ClassMethod {
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
-            params: self
-                .function
-                .params
-                .into_iter()
-                .map(|param| param.babelify(ctx))
-                .collect(),
+            params: self.function.params.babelify(ctx),
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
-            decorators: Some(
-                self.function
-                    .decorators
-                    .into_iter()
-                    .map(|dec| dec.babelify(ctx))
-                    .collect(),
-            ),
+            decorators: Some(self.function.decorators.babelify(ctx)),
             type_parameters: self.function.type_params.map(|t| t.babelify(ctx).into()),
             return_type: self
                 .function
@@ -164,22 +138,11 @@ impl Babelify for PrivateMethod {
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),
             is_abstract: Some(self.is_abstract),
             optional: Some(self.is_optional),
-            params: self
-                .function
-                .params
-                .into_iter()
-                .map(|param| param.babelify(ctx))
-                .collect(),
+            params: self.function.params.babelify(ctx),
             body: self.function.body.unwrap().babelify(ctx),
             generator: Some(self.function.is_generator),
             is_async: Some(self.function.is_async),
-            decorators: Some(
-                self.function
-                    .decorators
-                    .into_iter()
-                    .map(|dec| dec.babelify(ctx))
-                    .collect(),
-            ),
+            decorators: Some(self.function.decorators.babelify(ctx)),
             type_parameters: self.function.type_params.map(|t| t.babelify(ctx).into()),
             return_type: self
                 .function
@@ -198,11 +161,7 @@ impl Babelify for Constructor {
             base: ctx.base(self.span),
             kind: Some(ClassMethodKind::Constructor),
             key: self.key.babelify(ctx).into(),
-            params: self
-                .params
-                .into_iter()
-                .map(|param| param.babelify(ctx))
-                .collect(),
+            params: self.params.babelify(ctx),
             body: self.body.unwrap().babelify(ctx),
             access: self.accessibility.map(|access| access.babelify(ctx)),
             accessibility: self.accessibility.map(|access| access.babelify(ctx)),

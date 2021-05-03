@@ -114,11 +114,7 @@ impl Babelify for JSXOpeningElement {
         BabelJSXOpeningElement {
             base: ctx.base(self.span),
             name: self.name.babelify(ctx),
-            attributes: self
-                .attrs
-                .into_iter()
-                .map(|attr| attr.babelify(ctx))
-                .collect(),
+            attributes: self.attrs.babelify(ctx),
             self_closing: self.self_closing,
             type_parameters: self.type_args.map(|arg| arg.babelify(ctx).into()),
         }
@@ -250,11 +246,7 @@ impl Babelify for JSXElement {
             base: ctx.base(self.span),
             opening_element: self.opening.babelify(ctx),
             closing_element: self.closing.map(|el| el.babelify(ctx)),
-            children: self
-                .children
-                .into_iter()
-                .map(|el| el.babelify(ctx))
-                .collect(),
+            children: self.children.babelify(ctx),
             self_closing: Some(self_closing),
         }
     }
@@ -282,11 +274,7 @@ impl Babelify for JSXFragment {
             base: ctx.base(self.span),
             opening_fragment: self.opening.babelify(ctx),
             closing_fragment: self.closing.babelify(ctx),
-            children: self
-                .children
-                .into_iter()
-                .map(|el| el.babelify(ctx))
-                .collect(),
+            children: self.children.babelify(ctx),
         }
     }
 }

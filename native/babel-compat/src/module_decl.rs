@@ -154,11 +154,7 @@ impl Babelify for ImportDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ImportDeclaration {
             base: ctx.base(self.span),
-            specifiers: self
-                .specifiers
-                .into_iter()
-                .map(|spec| spec.babelify(ctx))
-                .collect(),
+            specifiers: self.specifiers.babelify(ctx),
             source: self.src.babelify(ctx),
             assertions: convert_import_asserts(self.asserts, ctx),
             import_kind: if self.type_only {
@@ -190,11 +186,7 @@ impl Babelify for NamedExport {
         ExportNamedDeclaration {
             base: ctx.base(self.span),
             declaration: Default::default(),
-            specifiers: self
-                .specifiers
-                .into_iter()
-                .map(|spec| spec.babelify(ctx))
-                .collect(),
+            specifiers: self.specifiers.babelify(ctx),
             source: self.src.map(|s| s.babelify(ctx)),
             assertions: convert_import_asserts(self.asserts, ctx),
             export_kind: if self.type_only {

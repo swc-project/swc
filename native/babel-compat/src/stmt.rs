@@ -19,11 +19,7 @@ impl Babelify for BlockStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BlockStatement {
             base: ctx.base(self.span),
-            body: self
-                .stmts
-                .into_iter()
-                .map(|stmt| stmt.babelify(ctx))
-                .collect(),
+            body: self.stmts.babelify(ctx),
             directives: Default::default(),
         }
     }
@@ -173,11 +169,7 @@ impl Babelify for SwitchStmt {
         SwitchStatement {
             base: ctx.base(self.span),
             discriminant: Box::new(self.discriminant.babelify(ctx).into()),
-            cases: self
-                .cases
-                .into_iter()
-                .map(|case| case.babelify(ctx))
-                .collect(),
+            cases: self.cases.babelify(ctx),
         }
     }
 }
@@ -278,11 +270,7 @@ impl Babelify for SwitchCase {
         BabelSwitchCase {
             base: ctx.base(self.span),
             test: self.test.map(|expr| Box::new(expr.babelify(ctx).into())),
-            consequent: self
-                .cons
-                .into_iter()
-                .map(|stmt| stmt.babelify(ctx))
-                .collect(),
+            consequent: self.cons.babelify(ctx),
         }
     }
 }

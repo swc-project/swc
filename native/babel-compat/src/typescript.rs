@@ -61,7 +61,7 @@ impl Babelify for TsFnType {
                 .into_iter()
                 .map(|p| p.babelify(ctx).into())
                 .collect(),
-            type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
+            type_parameters: self.type_params.babelify(ctx),
             type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
         }
     }
@@ -113,7 +113,7 @@ impl Babelify for TsTypeParamDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeParameterDeclaration {
             base: ctx.base(self.span),
-            params: self.params.into_iter().map(|p| p.babelify(ctx)).collect(),
+            params: self.params.babelify(ctx),
         }
     }
 }
@@ -137,11 +137,7 @@ impl Babelify for TsTypeParamInstantiation {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeParameterInstantiation {
             base: ctx.base(self.span),
-            params: self
-                .params
-                .into_iter()
-                .map(|param| param.babelify(ctx))
-                .collect(),
+            params: self.params.into_iter().map(|v| v.babelify(ctx)).collect(),
         }
     }
 }
@@ -544,11 +540,7 @@ impl Babelify for TsTypeLit {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeLiteral {
             base: ctx.base(self.span),
-            members: self
-                .members
-                .into_iter()
-                .map(|memb| memb.babelify(ctx))
-                .collect(),
+            members: self.members.babelify(ctx),
         }
     }
 }
@@ -570,11 +562,7 @@ impl Babelify for TsTupleType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTupleType {
             base: ctx.base(self.span),
-            element_types: self
-                .elem_types
-                .into_iter()
-                .map(|t| t.babelify(ctx))
-                .collect(),
+            element_types: self.elem_types.babelify(ctx),
         }
     }
 }

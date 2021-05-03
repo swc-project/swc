@@ -92,11 +92,7 @@ impl Babelify for VarDecl {
             base: ctx.base(self.span),
             kind: self.kind.babelify(ctx),
             declare: Some(self.declare),
-            declarations: self
-                .decls
-                .into_iter()
-                .map(|decl| decl.babelify(ctx))
-                .collect(),
+            declarations: self.decls.babelify(ctx),
         }
     }
 }
