@@ -48,12 +48,12 @@ impl Babelify for Module {
             self.span
         };
         BabelProgram {
-            base: base_with_trailing_newline(span.clone(), ctx),
+            base: base_with_trailing_newline(span, ctx),
             source_type: SrcType::Module,
             body: self
                 .body
-                .iter()
-                .map(|stmt| stmt.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|stmt| stmt.babelify(ctx).into())
                 .collect(),
             interpreter: self.shebang.map(|s| InterpreterDirective {
                 base: ctx.base(extract_shebang_span(span, ctx)),

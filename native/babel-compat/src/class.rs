@@ -208,8 +208,8 @@ impl Babelify for Constructor {
             key: self.key.babelify(ctx).into(),
             params: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx))
+                .into_iter()
+                .map(|param| param.babelify(ctx))
                 .collect(),
             body: self.body.unwrap().babelify(ctx),
             access: self.accessibility.map(|access| access.babelify(ctx)),

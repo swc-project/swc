@@ -94,8 +94,8 @@ impl Babelify for VarDecl {
             declare: Some(self.declare),
             declarations: self
                 .decls
-                .iter()
-                .map(|decl| decl.clone().babelify(ctx))
+                .into_iter()
+                .map(|decl| decl.babelify(ctx))
                 .collect(),
         }
     }

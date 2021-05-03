@@ -203,8 +203,8 @@ impl Babelify for ArrayLit {
             base: ctx.base(self.span),
             elements: self
                 .elems
-                .iter()
-                .map(|opt| opt.as_ref().map(|el| el.clone().babelify(ctx)))
+                .into_iter()
+                .map(|opt| opt.map(|el| el.babelify(ctx)))
                 .collect(),
         }
     }
@@ -218,8 +218,8 @@ impl Babelify for ObjectLit {
             base: ctx.base(self.span),
             properties: self
                 .props
-                .iter()
-                .map(|prop| prop.clone().babelify(ctx))
+                .into_iter()
+                .map(|prop| prop.babelify(ctx))
                 .collect(),
         }
     }
