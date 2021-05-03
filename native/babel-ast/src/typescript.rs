@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
 use swc_common::ast_serde;
 
 use crate::{
@@ -641,7 +642,7 @@ pub struct TSTypeOperator {
     pub base: BaseNode,
     pub type_annotation: Box<TSType>,
     #[serde(default)]
-    pub operator: String,
+    pub operator: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -913,5 +914,5 @@ pub struct TSTypeParameter {
     #[serde(default)]
     pub default: Option<Box<TSType>>,
     #[serde(default)]
-    pub name: String,
+    pub name: JsWord,
 }

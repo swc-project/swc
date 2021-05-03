@@ -1,3 +1,4 @@
+use swc_atoms::JsWord;
 use swc_common::ast_serde;
 
 use crate::{
@@ -133,7 +134,7 @@ pub struct JSXIdentifier {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub name: String,
+    pub name: JsWord,
 }
 
 impl From<Identifier> for JSXIdentifier {
@@ -218,7 +219,7 @@ pub struct JSXSpreadAttribute {
 pub struct JSXText {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: String,
+    pub value: JsWord,
 }
 
 #[derive(Debug, Clone, PartialEq)]

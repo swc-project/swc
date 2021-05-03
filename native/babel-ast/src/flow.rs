@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
 use swc_common::ast_serde;
 
 use crate::{
@@ -361,7 +362,7 @@ pub struct TypeParameter {
     #[serde(default)]
     pub variance: Option<Variance>,
     #[serde(default)]
-    pub name: String,
+    pub name: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -564,7 +565,7 @@ pub struct StringLiteralTypeAnnotation {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: String,
+    pub value: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]

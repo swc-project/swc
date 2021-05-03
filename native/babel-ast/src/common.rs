@@ -1,10 +1,10 @@
-use serde::{Deserialize, Serialize};
-use swc_common::ast_serde;
-
 use crate::{
     class::*, comment::Comment, decl::*, expr::*, flow::*, jsx::*, lit::*, module::*, object::*,
     pat::*, stmt::*, typescript::*,
 };
+use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
+use swc_common::ast_serde;
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
@@ -371,7 +371,7 @@ pub struct Identifier {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub name: String,
+    pub name: JsWord,
     #[serde(default)]
     pub decorators: Option<Vec<Decorator>>,
     #[serde(default)]
@@ -559,7 +559,7 @@ pub struct DirectiveLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: String,
+    pub value: JsWord,
 }
 
 #[derive(Debug, Clone, PartialEq)]

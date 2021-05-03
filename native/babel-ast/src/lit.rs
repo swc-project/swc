@@ -1,7 +1,7 @@
-use serde::{Deserialize, Serialize};
-use swc_common::ast_serde;
-
 use crate::{common::BaseNode, expr::Expression, typescript::TSType};
+use serde::{Deserialize, Serialize};
+use swc_atoms::JsWord;
+use swc_common::ast_serde;
 
 #[derive(Debug, Clone, PartialEq)]
 #[ast_serde]
@@ -29,7 +29,7 @@ pub enum Literal {
 pub struct StringLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub value: String,
+    pub value: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -69,9 +69,9 @@ pub struct BooleanLiteral {
 pub struct RegExpLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub pattern: String,
+    pub pattern: JsWord,
     #[serde(default)]
-    pub flags: String,
+    pub flags: JsWord,
 }
 
 /// Deprecated. Use RegExpLiteral instead.
@@ -80,17 +80,17 @@ pub struct RegExpLiteral {
 pub struct RegexLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
-    pub pattern: String,
+    pub pattern: JsWord,
     #[serde(default)]
-    pub flags: String,
+    pub flags: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct TemplateElVal {
     #[serde(default)]
-    pub raw: String,
+    pub raw: JsWord,
     #[serde(default)]
-    pub cooked: Option<String>,
+    pub cooked: Option<JsWord>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -163,7 +163,7 @@ pub struct BigIntLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: String,
+    pub value: JsWord,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
@@ -172,5 +172,5 @@ pub struct DecimalLiteral {
     #[serde(flatten)]
     pub base: BaseNode,
     #[serde(default)]
-    pub value: String,
+    pub value: JsWord,
 }
