@@ -13,7 +13,10 @@ impl Babelify for Class {
     type Output = ClassExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        let body = extract_class_body(&self, &ctx);
+        let body = ClassBody {
+            base: ctx.base(extract_class_body_span(&self, &ctx)),
+            body: self.body.into_iter().map(|mem| mem.babelify(ctx)).collect(),
+        };
 
         ClassExpression {
             base: ctx.base(self.span),
@@ -59,17 +62,6 @@ impl Babelify for ClassMember {
                 &self
             ),
         }
-    }
-}
-
-fn extract_class_body(class: &Class, ctx: &Context) -> ClassBody {
-    ClassBody {
-        base: ctx.base(extract_class_body_span(&class, &ctx)),
-        body: class
-            .body
-            .iter()
-            .map(|mem| mem.clone().babelify(ctx))
-            .collect(),
     }
 }
 
