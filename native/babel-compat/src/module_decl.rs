@@ -96,10 +96,12 @@ fn convert_import_asserts(
     ctx: &Context,
 ) -> Option<Vec<ImportAttribute>> {
     asserts.map(|obj| {
+        let obj_span = obj.span;
+
         obj.props
-            .iter()
+            .into_iter()
             .map(|prop_or_spread| {
-                let prop = match prop_or_spread.clone() {
+                let prop = match prop_or_spread {
                     PropOrSpread::Prop(p) => p,
                     _ => panic!(
                         "illegal conversion: Cannot convert {:?} to Prop",
@@ -137,7 +139,7 @@ fn convert_import_asserts(
                     ),
                 };
                 ImportAttribute {
-                    base: ctx.base(obj.span),
+                    base: ctx.base(obj_span),
                     key,
                     value: val,
                 }
@@ -154,8 +156,8 @@ impl Babelify for ImportDecl {
             base: ctx.base(self.span),
             specifiers: self
                 .specifiers
-                .iter()
-                .map(|spec| spec.clone().babelify(ctx))
+                .into_iter()
+                .map(|spec| spec.babelify(ctx))
                 .collect(),
             source: self.src.babelify(ctx),
             assertions: convert_import_asserts(self.asserts, ctx),
@@ -190,8 +192,8 @@ impl Babelify for NamedExport {
             declaration: Default::default(),
             specifiers: self
                 .specifiers
-                .iter()
-                .map(|spec| spec.clone().babelify(ctx))
+                .into_iter()
+                .map(|spec| spec.babelify(ctx))
                 .collect(),
             source: self.src.map(|s| s.babelify(ctx)),
             assertions: convert_import_asserts(self.asserts, ctx),

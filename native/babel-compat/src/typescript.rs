@@ -273,8 +273,8 @@ impl Babelify for TsMethodSignature {
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|param| param.babelify(ctx).into())
                 .collect(),
             type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
             computed: Some(self.computed),
@@ -291,8 +291,8 @@ impl Babelify for TsIndexSignature {
             base: ctx.base(self.span),
             paramters: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|param| param.babelify(ctx).into())
                 .collect(),
             type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
             readonly: Some(self.readonly),
@@ -546,8 +546,8 @@ impl Babelify for TsTypeLit {
             base: ctx.base(self.span),
             members: self
                 .members
-                .iter()
-                .map(|memb| memb.clone().babelify(ctx))
+                .into_iter()
+                .map(|memb| memb.babelify(ctx))
                 .collect(),
         }
     }
@@ -572,8 +572,8 @@ impl Babelify for TsTupleType {
             base: ctx.base(self.span),
             element_types: self
                 .elem_types
-                .iter()
-                .map(|t| t.clone().babelify(ctx))
+                .into_iter()
+                .map(|t| t.babelify(ctx))
                 .collect(),
         }
     }
@@ -657,7 +657,7 @@ impl Babelify for TsUnionType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSUnionType {
             base: ctx.base(self.span),
-            types: self.types.iter().map(|t| t.clone().babelify(ctx)).collect(),
+            types: self.types.into_iter().map(|t| t.babelify(ctx)).collect(),
         }
     }
 }
@@ -668,7 +668,7 @@ impl Babelify for TsIntersectionType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSIntersectionType {
             base: ctx.base(self.span),
-            types: self.types.iter().map(|t| t.clone().babelify(ctx)).collect(),
+            types: self.types.into_iter().map(|t| t.babelify(ctx)).collect(),
         }
     }
 }
@@ -808,7 +808,7 @@ impl Babelify for TsInterfaceDecl {
             base: ctx.base(self.span),
             id: self.id.babelify(ctx),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
-            extends: self.extends.first().map(|ext| ext.clone().babelify(ctx)),
+            extends: self.extends.into_iter().next().map(|ext| ext.babelify(ctx)),
             body: self.body.babelify(ctx),
             declare: Some(self.declare),
         }
@@ -861,8 +861,8 @@ impl Babelify for TsEnumDecl {
             id: self.id.babelify(ctx),
             members: self
                 .members
-                .iter()
-                .map(|memb| memb.clone().babelify(ctx))
+                .into_iter()
+                .map(|memb| memb.babelify(ctx))
                 .collect(),
             is_const: Some(self.is_const),
             declare: Some(self.declare),
@@ -927,8 +927,8 @@ impl Babelify for TsModuleBlock {
             base: ctx.base(self.span),
             body: self
                 .body
-                .iter()
-                .map(|m| m.clone().babelify(ctx).into())
+                .into_iter()
+                .map(|m| m.babelify(ctx).into())
                 .collect(),
         }
     }

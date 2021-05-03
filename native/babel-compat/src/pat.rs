@@ -146,8 +146,8 @@ impl Babelify for ArrayPat {
             base: ctx.base(self.span),
             elements: self
                 .elems
-                .iter()
-                .map(|opt| opt.as_ref().map(|e| e.clone().babelify(ctx).into()))
+                .into_iter()
+                .map(|opt| opt.map(|e| e.babelify(ctx).into()))
                 .collect(),
             type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
@@ -161,7 +161,7 @@ impl Babelify for ObjectPat {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ObjectPattern {
             base: ctx.base(self.span),
-            properties: self.props.iter().map(|p| p.clone().babelify(ctx)).collect(),
+            properties: self.props.into_iter().map(|p| p.babelify(ctx)).collect(),
             type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
