@@ -561,14 +561,30 @@ impl SourceMap {
         }
     }
 
+    /// Calls the given closure with the source snippet before the given `Span`
+    pub fn with_span_to_prev_source<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    where
+        F: FnOnce(&str) -> Ret,
+    {
+        self.span_to_source(sp, |src, start_index, _| op(&src[..start_index]))
+    }
+
     /// Return the source snippet as `String` before the given `Span`
     pub fn span_to_prev_source(&self, sp: Span) -> Result<String, SpanSnippetError> {
-        self.span_to_source(sp, |src, start_index, _| src[..start_index].to_string())
+        self.with_span_to_prev_source(sp, |s| s.to_string())
+    }
+
+    /// Calls the given closure with the source snippet after the given `Span`
+    pub fn with_span_to_next_source<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    where
+        F: FnOnce(&str) -> Ret,
+    {
+        self.span_to_source(sp, |src, _, end_index| op(&src[end_index..]))
     }
 
     /// Return the source snippet as `String` after the given `Span`
     pub fn span_to_next_source(&self, sp: Span) -> Result<String, SpanSnippetError> {
-        self.span_to_source(sp, |src, _, end_index| src[end_index..].to_string())
+        self.with_span_to_next_source(sp, |s| s.to_string())
     }
 
     /// Extend the given `Span` to just after the previous occurrence of `c`.
