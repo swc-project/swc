@@ -133,6 +133,17 @@ pub trait Babelify {
     fn babelify(self, ctx: &Context) -> Self::Output;
 }
 
+impl<T> Babelify for Vec<T>
+where
+    T: Babelify,
+{
+    type Output = Vec<T::Output>;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        self.into_iter().map(|v| v.babelify(ctx)).collect()
+    }
+}
+
 fn extract_class_body_span(class: &Class, ctx: &Context) -> Span {
     let sp = ctx.cm.span_take_while(class.span, |ch| *ch != '{');
     class.span.with_lo(sp.hi())
