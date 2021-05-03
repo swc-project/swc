@@ -796,7 +796,7 @@ impl Babelify for TsInterfaceDecl {
             base: ctx.base(self.span),
             id: self.id.babelify(ctx),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
-            extends: self.extends.into_iter().next().map(|ext| ext.babelify(ctx)),
+            extends: self.extends.into_iter().next().babelify(ctx),
             body: self.body.babelify(ctx),
             declare: Some(self.declare),
         }
@@ -809,7 +809,7 @@ impl Babelify for TsInterfaceBody {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSInterfaceBody {
             base: ctx.base(self.span),
-            body: self.body.into_iter().map(|el| el.babelify(ctx)).collect(),
+            body: self.body.babelify(ctx),
         }
     }
 }
@@ -847,11 +847,7 @@ impl Babelify for TsEnumDecl {
         TSEnumDeclaration {
             base: ctx.base(self.span),
             id: self.id.babelify(ctx),
-            members: self
-                .members
-                .into_iter()
-                .map(|memb| memb.babelify(ctx))
-                .collect(),
+            members: self.members.babelify(ctx),
             is_const: Some(self.is_const),
             declare: Some(self.declare),
             initializer: Default::default(),
