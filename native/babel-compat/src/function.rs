@@ -14,8 +14,8 @@ impl Babelify for Function {
             base: ctx.base(self.span),
             params: self
                 .params
-                .iter()
-                .map(|param| param.clone().babelify(ctx))
+                .into_iter()
+                .map(|param| param.babelify(ctx))
                 .collect(),
             body: self.body.unwrap().babelify(ctx),
             generator: Some(self.is_generator),
@@ -36,8 +36,8 @@ impl Babelify for Param {
                 base: ctx.base(self.span),
                 decorators: Some(
                     self.decorators
-                        .iter()
-                        .map(|dec| dec.clone().babelify(ctx))
+                        .into_iter()
+                        .map(|dec| dec.babelify(ctx))
                         .collect(),
                 ),
                 ..i.babelify(ctx)
@@ -46,8 +46,8 @@ impl Babelify for Param {
                 base: ctx.base(self.span),
                 decorators: Some(
                     self.decorators
-                        .iter()
-                        .map(|dec| dec.clone().babelify(ctx))
+                        .into_iter()
+                        .map(|dec| dec.babelify(ctx))
                         .collect(),
                 ),
                 ..a.babelify(ctx)
@@ -56,8 +56,8 @@ impl Babelify for Param {
                 base: ctx.base(self.span),
                 decorators: Some(
                     self.decorators
-                        .iter()
-                        .map(|dec| dec.clone().babelify(ctx))
+                        .into_iter()
+                        .map(|dec| dec.babelify(ctx))
                         .collect(),
                 ),
                 ..r.babelify(ctx)
@@ -66,8 +66,8 @@ impl Babelify for Param {
                 base: ctx.base(self.span),
                 decorators: Some(
                     self.decorators
-                        .iter()
-                        .map(|dec| dec.clone().babelify(ctx))
+                        .into_iter()
+                        .map(|dec| dec.babelify(ctx))
                         .collect(),
                 ),
                 ..o.babelify(ctx)
@@ -76,8 +76,8 @@ impl Babelify for Param {
                 base: ctx.base(self.span),
                 decorators: Some(
                     self.decorators
-                        .iter()
-                        .map(|dec| dec.clone().babelify(ctx))
+                        .into_iter()
+                        .map(|dec| dec.babelify(ctx))
                         .collect(),
                 ),
                 ..a.babelify(ctx)
