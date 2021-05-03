@@ -9,7 +9,6 @@ use swc_babel_ast::{
     JSXOpeningElement as BabelJSXOpeningElement, JSXOpeningFragment as BabelJSXOpeningFragment,
     JSXSpreadAttribute, JSXSpreadChild as BabelJSXSpreadChild, JSXText as BabelJSXText,
 };
-
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
