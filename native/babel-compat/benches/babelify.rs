@@ -12,6 +12,9 @@ use swc_common::{
 };
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{JscTarget, Syntax};
+use swc_ecma_transforms::compat::es2020;
+use swc_ecma_transforms::typescript;
+use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
@@ -45,11 +48,19 @@ fn parse(c: &swc::Compiler) -> (Arc<SourceFile>, Program) {
         )
         .unwrap();
 
+    let module = c.run_transform(false, || {
+        module
+            .fold_with(&mut typescript::strip())
+            .fold_with(&mut es2020())
+    });
+
     (fm, module)
 }
 
 #[bench]
 fn babelify(b: &mut Bencher) {
+    b.bytes = SOURCE.len() as _;
+
     let c = mk();
     let module = parse(&c);
 
