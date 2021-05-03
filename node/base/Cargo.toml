@@ -1,0 +1,16 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition = "2018"
+name = "swc_node_base"
+publish = false
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+
+[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
+jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
+
+[target.'cfg(windows)'.dependencies]
+mimalloc = {version = "0.1"}
