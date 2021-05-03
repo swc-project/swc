@@ -1,5 +1,6 @@
 use std::mem;
 
+pub use self::jsx::Runtime;
 pub use self::refresh::options::RefreshOptions;
 pub use self::{
     display_name::display_name,
