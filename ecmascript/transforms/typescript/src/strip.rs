@@ -1133,6 +1133,17 @@ impl Visit for Strip {
         n.value.visit_with(n, self);
     }
 
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(e) => e.visit_with(n, self),
+            _ => {}
+        }
+    }
+
+    fn visit_assign_prop(&mut self, n: &AssignProp, _: &dyn Node) {
+        n.value.visit_with(n, self);
+    }
+
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         let is_type_only_export = self.is_type_only_export;
         let entry = self
