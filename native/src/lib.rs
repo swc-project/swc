@@ -22,6 +22,7 @@ use swc_common::{
     FilePathMapping, SourceMap,
 };
 
+mod babelify;
 mod bundle;
 mod parse;
 mod print;
