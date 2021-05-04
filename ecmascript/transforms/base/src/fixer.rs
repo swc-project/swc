@@ -1171,4 +1171,14 @@ var store = global[SHARED] || (global[SHARED] = {});
             return (yield foo) ? 'bar' : 'baz';
         }"
     );
+
+    identical!(
+        deno_10487_1,
+        "var generator = class MultiVector extends (options.baseType||Float32Array) {}"
+    );
+
+    identical!(
+        deno_10487_2,
+        "class MultiVector extends (options.baseType||Float32Array) {}"
+    );
 }
