@@ -311,7 +311,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Default;
         node.visit_mut_children_with(self);
         match &mut node.super_class {
-            Some(ref mut e) if e.is_seq() || e.is_await_expr() => self.wrap(&mut **e),
+            Some(ref mut e) if e.is_seq() || e.is_await_expr() || e.is_bin() => self.wrap(&mut **e),
             _ => {}
         };
         self.ctx = old;
@@ -1170,5 +1170,15 @@ var store = global[SHARED] || (global[SHARED] = {});
         "function *test1(foo) {
             return (yield foo) ? 'bar' : 'baz';
         }"
+    );
+
+    identical!(
+        deno_10487_1,
+        "var generator = class MultiVector extends (options.baseType||Float32Array) {}"
+    );
+
+    identical!(
+        deno_10487_2,
+        "class MultiVector extends (options.baseType||Float32Array) {}"
     );
 }
