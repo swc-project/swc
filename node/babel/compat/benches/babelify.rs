@@ -52,7 +52,7 @@ fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
 }
 
 #[bench]
-fn babelify(b: &mut Bencher) {
+fn babelify_only(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
     let c = mk();
