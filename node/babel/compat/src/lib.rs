@@ -3,6 +3,7 @@
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use std::sync::Arc;
+use swc::SwcComments;
 use swc_babel_ast::{BaseComment, BaseNode, Comment, LineCol, Loc};
 use swc_common::comments::CommentKind;
 use swc_common::comments::Comments;
@@ -33,7 +34,7 @@ mod typescript;
 pub struct Context {
     pub fm: Arc<SourceFile>,
     pub cm: Lrc<SourceMap>,
-    pub comments: Arc<dyn Comments>,
+    pub comments: SwcComments,
 }
 
 impl Context {

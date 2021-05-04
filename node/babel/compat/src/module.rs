@@ -1,6 +1,7 @@
 use crate::{Babelify, Context};
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+use swc::SwcComments;
 use swc_babel_ast::{
     BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
     SrcType, Statement,
@@ -168,7 +169,7 @@ fn extract_all_comments(program: &Program, ctx: &Context) -> Vec<Comment> {
 }
 
 struct CommentCollector {
-    comments: Arc<dyn Comments>,
+    comments: SwcComments,
     collected: Vec<Comment>,
 }
 
