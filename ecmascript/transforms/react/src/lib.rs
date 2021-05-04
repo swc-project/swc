@@ -31,11 +31,11 @@ where
     let refresh_options = mem::replace(&mut options.refresh, None);
 
     chain!(
-        jsx(cm.clone(), comments.clone(), options),
-        display_name(),
         jsx_src(development, cm.clone()),
         jsx_self(development),
-        pure_annotations(comments.clone()),
-        refresh(development, refresh_options, cm.clone(), comments)
+        refresh(development, refresh_options, cm.clone(), comments.clone()),
+        jsx(cm.clone(), comments.clone(), options),
+        display_name(),
+        pure_annotations(comments),
     )
 }
