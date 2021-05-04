@@ -1,3 +1,8 @@
+use dashmap::DashMap;
+use swc_common::comments::Comment;
+use swc_common::comments::Comments;
+use swc_common::BytePos;
+
 type CommentMap = DashMap<BytePos, Vec<Comment>>;
 
 /// Multi-threaded implementation of [Comments]
