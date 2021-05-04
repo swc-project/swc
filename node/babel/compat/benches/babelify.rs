@@ -17,6 +17,14 @@ use swc_ecma_transforms::typescript;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
+#[cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))]
+#[global_allocator]
+static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
+
+#[cfg(windows)]
+#[global_allocator]
+static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
+
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn mk() -> swc::Compiler {
