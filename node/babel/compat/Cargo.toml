@@ -30,8 +30,8 @@ pretty_assertions = "0.7.1"
 swc_ecma_transforms = {path = "../../../ecmascript/transforms/"}
 walkdir = "2"
 
-[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
+[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dev-dependencies]
 jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
-[target.'cfg(windows)'.dependencies]
+[target.'cfg(windows)'.dev-dependencies]
 mimalloc = {version = "0.1"}
