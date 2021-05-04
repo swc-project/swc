@@ -1,5 +1,6 @@
 #![feature(type_name_of_val)]
 
+use rayon::prelude::*;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use std::sync::Arc;
@@ -33,7 +34,7 @@ mod typescript;
 pub struct Context {
     pub fm: Arc<SourceFile>,
     pub cm: Lrc<SourceMap>,
-    pub comments: Arc<dyn Comments>,
+    pub comments: Arc<dyn Comments + Send + Sync>,
 }
 
 impl Context {
@@ -128,19 +129,27 @@ impl Context {
 }
 
 pub trait Babelify {
-    type Output: Serialize + DeserializeOwned;
+    type Output: Serialize + DeserializeOwned + Send;
+
+    fn parallel(_cnt: usize) -> bool {
+        false
+    }
 
     fn babelify(self, ctx: &Context) -> Self::Output;
 }
 
 impl<T> Babelify for Vec<T>
 where
-    T: Babelify,
+    T: Babelify + Send,
 {
     type Output = Vec<T::Output>;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        self.into_iter().map(|v| v.babelify(ctx)).collect()
+        if T::parallel(self.len()) {
+            self.into_par_iter().map(|v| v.babelify(ctx)).collect()
+        } else {
+            self.into_iter().map(|v| v.babelify(ctx)).collect()
+        }
     }
 }
 
