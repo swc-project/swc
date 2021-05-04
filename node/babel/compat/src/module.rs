@@ -126,6 +126,10 @@ pub enum ModuleItemOutput {
 impl Babelify for ModuleItem {
     type Output = ModuleItemOutput;
 
+    fn parallel(cnt: usize) -> bool {
+        cnt >= 16
+    }
+
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             ModuleItem::ModuleDecl(d) => ModuleItemOutput::ModuleDecl(d.babelify(ctx).into()),
