@@ -105,36 +105,36 @@ macro_rules! src_to_babel_ast {
 }
 
 src_to_babel_ast!(
-    angular,
+    parse_and_babelify_angular,
     include_str!("../../../../ecmascript/parser/benches/files/angular-1.2.5.js")
 );
 
 src_to_babel_ast!(
-    backbone,
+    parse_and_babelify_backbone,
     include_str!("../../../../ecmascript/parser/benches/files/backbone-1.1.0.js")
 );
 
 src_to_babel_ast!(
-    jquery,
+    parse_and_babelify_jquery,
     include_str!("../../../../ecmascript/parser/benches/files/jquery-1.9.1.js")
 );
 
 src_to_babel_ast!(
-    jquery_mobile,
+    parse_and_babelify_jquery_mobile,
     include_str!("../../../../ecmascript/parser/benches/files/jquery.mobile-1.4.2.js")
 );
 
 src_to_babel_ast!(
-    mootools,
+    parse_and_babelify_mootools,
     include_str!("../../../../ecmascript/parser/benches/files/mootools-1.4.5.js")
 );
 
 src_to_babel_ast!(
-    underscore,
+    parse_and_babelify_underscore,
     include_str!("../../../../ecmascript/parser/benches/files/underscore-1.5.2.js")
 );
 
 src_to_babel_ast!(
-    yui,
+    parse_and_babelify_yui,
     include_str!("../../../../ecmascript/parser/benches/files/yui-3.12.0.js")
 );
