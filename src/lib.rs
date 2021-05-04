@@ -7,7 +7,6 @@ use crate::config::{
 };
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
-use fxhash::FxBuildHasher;
 use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
@@ -582,7 +581,7 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
         .map_err(convert_json_err)
 }
 
-type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, FxBuildHasher>>;
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
 
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]
