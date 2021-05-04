@@ -1,5 +1,6 @@
 #![feature(type_name_of_val)]
 
+use rayon::prelude::*;
 use serde::de::DeserializeOwned;
 use serde::Serialize;
 use std::sync::Arc;
@@ -128,8 +129,12 @@ impl Context {
     }
 }
 
-pub trait Babelify {
-    type Output: Serialize + DeserializeOwned;
+pub trait Babelify: Send + Sync {
+    type Output: Serialize + DeserializeOwned + Send + Sync;
+
+    fn parallel(_cnt: usize) -> bool {
+        false
+    }
 
     fn babelify(self, ctx: &Context) -> Self::Output;
 }
@@ -141,7 +146,11 @@ where
     type Output = Vec<T::Output>;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        self.into_iter().map(|v| v.babelify(ctx)).collect()
+        if T::parallel(self.len()) {
+            self.into_par_iter().map(|v| v.babelify(ctx)).collect()
+        } else {
+            self.into_iter().map(|v| v.babelify(ctx)).collect()
+        }
     }
 }
 
