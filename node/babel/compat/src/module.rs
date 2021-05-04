@@ -1,13 +1,12 @@
 use crate::{Babelify, Context};
 use serde::{Deserialize, Serialize};
-use std::sync::Arc;
 use swc::SwcComments;
 use swc_babel_ast::{
     BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
     SrcType, Statement,
 };
 use swc_common::{
-    comments::{Comment, Comments, CommentsExt},
+    comments::{Comment, CommentsExt},
     Span,
 };
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
@@ -156,7 +155,7 @@ fn extract_shebang_span(span: Span, ctx: &Context) -> Span {
 
 fn extract_all_comments(program: &Program, ctx: &Context) -> Vec<Comment> {
     let mut collector = CommentCollector {
-        comments: Arc::clone(&ctx.comments),
+        comments: ctx.comments.clone(),
         collected: Vec::new(),
     };
     program.visit_with(

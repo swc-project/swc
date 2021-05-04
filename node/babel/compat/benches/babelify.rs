@@ -68,7 +68,7 @@ fn babelify(b: &mut Bencher) {
         let ctx = Context {
             fm: fm.clone(),
             cm: c.cm.clone(),
-            comments: Arc::new(c.comments().clone()),
+            comments: c.comments().clone(),
         };
 
         let babel_ast = program.babelify(&ctx);
@@ -86,7 +86,7 @@ fn parse_and_babelify(b: &mut Bencher, _name: &str, src: &str) {
         let ctx = Context {
             fm,
             cm: c.cm.clone(),
-            comments: Arc::new(c.comments().clone()),
+            comments: c.comments().clone(),
         };
 
         let babel_ast = program.babelify(&ctx);
