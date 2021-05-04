@@ -127,7 +127,7 @@ impl Babelify for ModuleItem {
     type Output = ModuleItemOutput;
 
     fn parallel(cnt: usize) -> bool {
-        cnt >= 16
+        cnt >= 4
     }
 
     fn babelify(self, ctx: &Context) -> Self::Output {
