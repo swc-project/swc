@@ -1,5 +1,5 @@
-use std::mem;
-
+pub use self::jsx::Runtime;
+pub use self::refresh::options::RefreshOptions;
 pub use self::{
     display_name::display_name,
     jsx::{jsx, Options},
@@ -8,6 +8,7 @@ pub use self::{
     pure_annotations::pure_annotations,
     refresh::refresh,
 };
+use std::mem;
 use swc_common::{chain, comments::Comments, sync::Lrc, SourceMap};
 use swc_ecma_visit::Fold;
 
