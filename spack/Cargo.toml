@@ -33,6 +33,7 @@ swc_ecma_parser = {path = "../ecmascript/parser"}
 swc_ecma_transforms = {path = "../ecmascript/transforms"}
 swc_ecma_utils = {path = "../ecmascript/utils"}
 swc_ecma_visit = {path = "../ecmascript/visit"}
+swc_node_base = { path = "../node/base" }
 
 [dev-dependencies]
 pretty_assertions = "0.6.1"
@@ -40,12 +41,6 @@ pretty_env_logger = "0.3"
 tempfile = "3"
 testing = {path = "../testing"}
 walkdir = "2.3.1"
-
-[target.'cfg(all(unix, not(target_env = "musl")))'.dev-dependencies]
-jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
-
-[target.'cfg(windows)'.dependencies]
-normpath="0.2"
 
 [target.'cfg(windows)'.dev-dependencies]
 mimalloc = {version = "0.1"}
