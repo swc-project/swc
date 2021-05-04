@@ -1,5 +1,8 @@
 #![feature(macro_attributes_in_derive_output)]
 
+/// Explicit extern crate to use global allocator.
+extern crate swc_node_base;
+
 mod class;
 mod comment;
 mod common;
