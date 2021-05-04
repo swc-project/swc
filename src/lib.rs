@@ -586,8 +586,8 @@ type CommentMap = Arc<DashMap<BytePos, Vec<Comment>>>;
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]
 pub struct SwcComments {
-    leading: CommentMap,
-    trailing: CommentMap,
+    pub leading: CommentMap,
+    pub trailing: CommentMap,
 }
 
 impl Comments for SwcComments {

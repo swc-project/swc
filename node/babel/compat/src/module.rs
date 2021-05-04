@@ -5,10 +5,7 @@ use swc_babel_ast::{
     BaseNode, File, InterpreterDirective, LineCol, Loc, ModuleDeclaration, Program as BabelProgram,
     SrcType, Statement,
 };
-use swc_common::{
-    comments::{Comment, CommentsExt},
-    Span,
-};
+use swc_common::{comments::Comment, Span};
 use swc_ecma_ast::{Invalid, Module, ModuleItem, Program, Script};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
@@ -110,12 +107,14 @@ fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
 // line comments. Swc ignores them and starts the program on the next line down,
 // while babel includes them in the file start/end.
 fn has_comment_first_line(sp: Span, ctx: &Context) -> bool {
-    ctx.comments.with_leading(sp.hi, |comments| {
+    if let Some(comments) = ctx.comments.leading.get(&sp.hi) {
         !comments
             .first()
             .map(|c| c.span.lo == ctx.fm.start_pos)
             .unwrap_or(false)
-    })
+    } else {
+        false
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -178,20 +177,21 @@ impl Visit for CommentCollector {
         // Comments must be deduped since it's possible for a single comment to show up
         // multiple times since they are not removed from the comments map.
         // For example, this happens when the first line in a file is a comment.
-        self.comments.with_leading(sp.lo, |comments| {
-            for comment in comments.iter().cloned() {
-                if !self.collected.iter().any(|c| *c == comment) {
-                    span_comments.push(comment);
+        if let Some(comments) = self.comments.leading.get(&sp.lo) {
+            for comment in comments.iter() {
+                if !self.collected.iter().any(|c| *c == *comment) {
+                    span_comments.push(comment.clone());
                 }
             }
-        });
-        self.comments.with_trailing(sp.hi, |comments| {
-            for comment in comments.iter().cloned() {
-                if !self.collected.iter().any(|c| *c == comment) {
-                    span_comments.push(comment);
+        }
+
+        if let Some(comments) = self.comments.trailing.get(&sp.hi) {
+            for comment in comments.iter() {
+                if !self.collected.iter().any(|c| *c == *comment) {
+                    span_comments.push(comment.clone());
                 }
             }
-        });
+        }
         self.collected.append(&mut span_comments);
     }
 }
