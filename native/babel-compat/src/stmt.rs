@@ -28,10 +28,6 @@ impl Babelify for BlockStmt {
 impl Babelify for Stmt {
     type Output = Statement;
 
-    fn parallel(cnt: usize) -> bool {
-        32 >= cnt
-    }
-
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             Stmt::Block(s) => Statement::Block(s.babelify(ctx)),

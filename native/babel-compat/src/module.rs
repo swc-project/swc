@@ -127,10 +127,6 @@ pub enum ModuleItemOutput {
 impl Babelify for ModuleItem {
     type Output = ModuleItemOutput;
 
-    fn parallel(cnt: usize) -> bool {
-        cnt >= 32
-    }
-
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             ModuleItem::ModuleDecl(d) => ModuleItemOutput::ModuleDecl(d.babelify(ctx).into()),
@@ -172,7 +168,7 @@ fn extract_all_comments(program: &Program, ctx: &Context) -> Vec<Comment> {
 }
 
 struct CommentCollector {
-    comments: Arc<dyn Comments + Send + Sync>,
+    comments: Arc<dyn Comments>,
     collected: Vec<Comment>,
 }
 
