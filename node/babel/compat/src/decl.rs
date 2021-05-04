@@ -1,4 +1,5 @@
 use crate::{extract_class_body_span, Babelify, Context};
+use copyless::BoxHelper;
 use swc_babel_ast::{
     ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, VariableDeclaration,
     VariableDeclarationKind, VariableDeclarator,
@@ -68,7 +69,7 @@ impl Babelify for ClassDecl {
         ClassDeclaration {
             base: class.base,
             id: self.ident.babelify(ctx),
-            super_class: class.super_class.map(|s| Box::new(*s)),
+            super_class: class.super_class.map(|s| Box::alloc().init(*s)),
             body: ClassBody {
                 base: ctx.base(body_span),
                 ..class.body
@@ -116,7 +117,7 @@ impl Babelify for VarDeclarator {
         VariableDeclarator {
             base: ctx.base(self.span),
             id: self.name.babelify(ctx).into(),
-            init: self.init.map(|i| Box::new(i.babelify(ctx).into())),
+            init: self.init.map(|i| Box::alloc().init(i.babelify(ctx).into())),
             definite: Some(self.definite),
         }
     }

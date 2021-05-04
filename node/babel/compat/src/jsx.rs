@@ -1,4 +1,5 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use swc_babel_ast::{
     JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
     JSXClosingElement as BabelJSXClosingElement, JSXClosingFragment as BabelJSXClosingFragment,
@@ -34,7 +35,7 @@ impl Babelify for JSXMemberExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         JSXMemberExpression {
             base: ctx.base(self.span()),
-            object: Box::new(self.obj.babelify(ctx)),
+            object: Box::alloc().init(self.obj.babelify(ctx)),
             property: self.prop.babelify(ctx).into(),
         }
     }
@@ -79,7 +80,9 @@ impl Babelify for JSXExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             JSXExpr::JSXEmptyExpr(e) => JSXExprContainerExpr::Empty(e.babelify(ctx)),
-            JSXExpr::Expr(e) => JSXExprContainerExpr::Expr(Box::new(e.babelify(ctx).into())),
+            JSXExpr::Expr(e) => {
+                JSXExprContainerExpr::Expr(Box::alloc().init(e.babelify(ctx).into()))
+            }
         }
     }
 }
@@ -90,7 +93,7 @@ impl Babelify for JSXSpreadChild {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelJSXSpreadChild {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }
@@ -133,7 +136,7 @@ impl Babelify for JSXAttrOrSpread {
                 let span = extend_spread_span_to_braces(spread.span(), ctx);
                 JSXOpeningElAttr::Spread(JSXSpreadAttribute {
                     base: ctx.base(span),
-                    argument: Box::new(spread.expr.babelify(ctx).into()),
+                    argument: Box::alloc().init(spread.expr.babelify(ctx).into()),
                 })
             }
         }

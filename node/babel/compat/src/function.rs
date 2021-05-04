@@ -1,9 +1,9 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use swc_babel_ast::{
     ArrayPattern, AssignmentPattern, FunctionExpression, Identifier, ObjectPattern,
     Param as BabelParam, Pattern, RestElement,
 };
-
 use swc_ecma_ast::{Function, Param, ParamOrTsParamProp, Pat};
 
 impl Babelify for Function {
@@ -17,7 +17,9 @@ impl Babelify for Function {
             generator: Some(self.is_generator),
             is_async: Some(self.is_async),
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
-            return_type: self.return_type.map(|t| Box::new(t.babelify(ctx).into())),
+            return_type: self
+                .return_type
+                .map(|t| Box::alloc().init(t.babelify(ctx).into())),
             id: None,
         }
     }

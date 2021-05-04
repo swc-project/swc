@@ -1,4 +1,5 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
 use swc_babel_ast::{
     ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression, AssignmentExpression,
@@ -29,47 +30,63 @@ impl Babelify for Expr {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            Expr::This(t) => ExprOutput::Expr(Box::new(Expression::This(t.babelify(ctx)))),
-            Expr::Array(a) => ExprOutput::Expr(Box::new(Expression::Array(a.babelify(ctx)))),
-            Expr::Object(o) => ExprOutput::Expr(Box::new(Expression::Object(o.babelify(ctx)))),
-            Expr::Fn(f) => ExprOutput::Expr(Box::new(Expression::Func(f.babelify(ctx)))),
-            Expr::Unary(u) => ExprOutput::Expr(Box::new(Expression::Unary(u.babelify(ctx)))),
-            Expr::Update(u) => ExprOutput::Expr(Box::new(Expression::Update(u.babelify(ctx)))),
+            Expr::This(t) => ExprOutput::Expr(Box::alloc().init(Expression::This(t.babelify(ctx)))),
+            Expr::Array(a) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Array(a.babelify(ctx))))
+            }
+            Expr::Object(o) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Object(o.babelify(ctx))))
+            }
+            Expr::Fn(f) => ExprOutput::Expr(Box::alloc().init(Expression::Func(f.babelify(ctx)))),
+            Expr::Unary(u) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Unary(u.babelify(ctx))))
+            }
+            Expr::Update(u) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Update(u.babelify(ctx))))
+            }
             Expr::Bin(b) => match b.babelify(ctx) {
                 BinaryOrLogicalExpr::Binary(bin) => {
-                    ExprOutput::Expr(Box::new(Expression::Binary(bin)))
+                    ExprOutput::Expr(Box::alloc().init(Expression::Binary(bin)))
                 }
                 BinaryOrLogicalExpr::Logical(log) => {
-                    ExprOutput::Expr(Box::new(Expression::Logical(log)))
+                    ExprOutput::Expr(Box::alloc().init(Expression::Logical(log)))
                 }
             },
-            Expr::Assign(a) => ExprOutput::Expr(Box::new(Expression::Assignment(a.babelify(ctx)))),
-            Expr::Member(m) => ExprOutput::Expr(Box::new(Expression::Member(m.babelify(ctx)))),
-            Expr::Cond(c) => ExprOutput::Expr(Box::new(Expression::Conditional(c.babelify(ctx)))),
-            Expr::Call(c) => ExprOutput::Expr(Box::new(Expression::Call(c.babelify(ctx)))),
-            Expr::New(n) => ExprOutput::Expr(Box::new(Expression::New(n.babelify(ctx)))),
-            Expr::Seq(s) => ExprOutput::Expr(Box::new(Expression::Sequence(s.babelify(ctx)))),
-            Expr::Ident(i) => ExprOutput::Expr(Box::new(Expression::Id(i.babelify(ctx)))),
+            Expr::Assign(a) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Assignment(a.babelify(ctx))))
+            }
+            Expr::Member(m) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Member(m.babelify(ctx))))
+            }
+            Expr::Cond(c) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Conditional(c.babelify(ctx))))
+            }
+            Expr::Call(c) => ExprOutput::Expr(Box::alloc().init(Expression::Call(c.babelify(ctx)))),
+            Expr::New(n) => ExprOutput::Expr(Box::alloc().init(Expression::New(n.babelify(ctx)))),
+            Expr::Seq(s) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Sequence(s.babelify(ctx))))
+            }
+            Expr::Ident(i) => ExprOutput::Expr(Box::alloc().init(Expression::Id(i.babelify(ctx)))),
             Expr::Lit(lit) => {
                 match lit {
-                    Lit::Str(s) => {
-                        ExprOutput::Expr(Box::new(Expression::StringLiteral(s.babelify(ctx))))
-                    }
-                    Lit::Bool(b) => {
-                        ExprOutput::Expr(Box::new(Expression::BooleanLiteral(b.babelify(ctx))))
-                    }
-                    Lit::Null(n) => {
-                        ExprOutput::Expr(Box::new(Expression::NullLiteral(n.babelify(ctx))))
-                    }
-                    Lit::Num(n) => {
-                        ExprOutput::Expr(Box::new(Expression::NumericLiteral(n.babelify(ctx))))
-                    }
-                    Lit::BigInt(i) => {
-                        ExprOutput::Expr(Box::new(Expression::BigIntLiteral(i.babelify(ctx))))
-                    }
-                    Lit::Regex(r) => {
-                        ExprOutput::Expr(Box::new(Expression::RegExpLiteral(r.babelify(ctx))))
-                    }
+                    Lit::Str(s) => ExprOutput::Expr(
+                        Box::alloc().init(Expression::StringLiteral(s.babelify(ctx))),
+                    ),
+                    Lit::Bool(b) => ExprOutput::Expr(
+                        Box::alloc().init(Expression::BooleanLiteral(b.babelify(ctx))),
+                    ),
+                    Lit::Null(n) => ExprOutput::Expr(
+                        Box::alloc().init(Expression::NullLiteral(n.babelify(ctx))),
+                    ),
+                    Lit::Num(n) => ExprOutput::Expr(
+                        Box::alloc().init(Expression::NumericLiteral(n.babelify(ctx))),
+                    ),
+                    Lit::BigInt(i) => ExprOutput::Expr(
+                        Box::alloc().init(Expression::BigIntLiteral(i.babelify(ctx))),
+                    ),
+                    Lit::Regex(r) => ExprOutput::Expr(
+                        Box::alloc().init(Expression::RegExpLiteral(r.babelify(ctx))),
+                    ),
                     Lit::JSXText(_) => panic!(
                         "illegal conversion: Cannot convert {:?} to ExprOutput",
                         &lit
@@ -77,32 +94,42 @@ impl Babelify for Expr {
                 }
             }
             Expr::Tpl(t) => {
-                ExprOutput::Expr(Box::new(Expression::TemplateLiteral(t.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::TemplateLiteral(t.babelify(ctx))))
             }
             Expr::TaggedTpl(t) => {
-                ExprOutput::Expr(Box::new(Expression::TaggedTemplate(t.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::TaggedTemplate(t.babelify(ctx))))
             }
-            Expr::Arrow(a) => ExprOutput::Expr(Box::new(Expression::ArrowFunc(a.babelify(ctx)))),
-            Expr::Class(c) => ExprOutput::Expr(Box::new(Expression::Class(c.babelify(ctx)))),
-            Expr::Yield(y) => ExprOutput::Expr(Box::new(Expression::Yield(y.babelify(ctx)))),
-            Expr::MetaProp(m) => ExprOutput::Expr(Box::new(Expression::MetaProp(m.babelify(ctx)))),
-            Expr::Await(a) => ExprOutput::Expr(Box::new(Expression::Await(a.babelify(ctx)))),
+            Expr::Arrow(a) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::ArrowFunc(a.babelify(ctx))))
+            }
+            Expr::Class(c) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Class(c.babelify(ctx))))
+            }
+            Expr::Yield(y) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Yield(y.babelify(ctx))))
+            }
+            Expr::MetaProp(m) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::MetaProp(m.babelify(ctx))))
+            }
+            Expr::Await(a) => {
+                ExprOutput::Expr(Box::alloc().init(Expression::Await(a.babelify(ctx))))
+            }
             Expr::Paren(p) => {
-                ExprOutput::Expr(Box::new(Expression::Parenthesized(p.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::Parenthesized(p.babelify(ctx))))
             }
             Expr::JSXElement(e) => {
-                ExprOutput::Expr(Box::new(Expression::JSXElement(e.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::JSXElement(e.babelify(ctx))))
             }
             Expr::JSXFragment(f) => {
-                ExprOutput::Expr(Box::new(Expression::JSXFragment(f.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::JSXFragment(f.babelify(ctx))))
             }
             Expr::TsTypeAssertion(a) => {
-                ExprOutput::Expr(Box::new(Expression::TSTypeAssertion(a.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::TSTypeAssertion(a.babelify(ctx))))
             }
             Expr::TsNonNull(n) => {
-                ExprOutput::Expr(Box::new(Expression::TSNonNull(n.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::TSNonNull(n.babelify(ctx))))
             }
-            Expr::TsAs(a) => ExprOutput::Expr(Box::new(Expression::TSAs(a.babelify(ctx)))),
+            Expr::TsAs(a) => ExprOutput::Expr(Box::alloc().init(Expression::TSAs(a.babelify(ctx)))),
             Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
 
             // TODO(dwoznicki): how does babel handle these?
@@ -239,7 +266,7 @@ impl Babelify for SpreadElement {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelSpreadElement {
             base: ctx.base(self.span()),
-            argument: Box::new(self.expr.babelify(ctx).into()),
+            argument: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }
@@ -251,7 +278,7 @@ impl Babelify for UnaryExpr {
         UnaryExpression {
             base: ctx.base(self.span),
             operator: self.op.babelify(ctx),
-            argument: Box::new(self.arg.babelify(ctx).into()),
+            argument: Box::alloc().init(self.arg.babelify(ctx).into()),
             prefix: true,
         }
     }
@@ -265,7 +292,7 @@ impl Babelify for UpdateExpr {
             base: ctx.base(self.span),
             operator: self.op.babelify(ctx),
             prefix: self.prefix,
-            argument: Box::new(self.arg.babelify(ctx).into()),
+            argument: Box::alloc().init(self.arg.babelify(ctx).into()),
         }
     }
 }
@@ -285,23 +312,23 @@ impl Babelify for BinExpr {
                 BinaryOrLogicalExpr::Logical(LogicalExpression {
                     base: ctx.base(self.span),
                     operator: self.op.babelify(ctx).into(),
-                    left: Box::new(self.left.babelify(ctx).into()),
-                    right: Box::new(self.right.babelify(ctx).into()),
+                    left: Box::alloc().init(self.left.babelify(ctx).into()),
+                    right: Box::alloc().init(self.right.babelify(ctx).into()),
                 })
             }
             _ => BinaryOrLogicalExpr::Binary(BinaryExpression {
                 base: ctx.base(self.span),
                 operator: self.op.babelify(ctx).into(),
-                left: Box::new(self.left.babelify(ctx).into()),
-                right: Box::new(self.right.babelify(ctx).into()),
+                left: Box::alloc().init(self.left.babelify(ctx).into()),
+                right: Box::alloc().init(self.right.babelify(ctx).into()),
             }),
         }
 
         // BinaryExpression {
         //     base: ctx.base(self.span),
         //     operator: self.op.babelify(ctx).into(),
-        //     left: Box::new(self.left.babelify(ctx).into()),
-        //     right: Box::new(self.right.babelify(ctx).into()),
+        //     left: Box::alloc().init(self.left.babelify(ctx).into()),
+        //     right: Box::alloc().init(self.right.babelify(ctx).into()),
         // }
     }
 }
@@ -335,8 +362,8 @@ impl Babelify for AssignExpr {
         AssignmentExpression {
             base: ctx.base(self.span),
             operator: self.op.as_str().into(),
-            left: Box::new(self.left.babelify(ctx)),
-            right: Box::new(self.right.babelify(ctx).into()),
+            left: Box::alloc().init(self.left.babelify(ctx)),
+            right: Box::alloc().init(self.right.babelify(ctx).into()),
         }
     }
 }
@@ -347,8 +374,8 @@ impl Babelify for MemberExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         MemberExpression {
             base: ctx.base(self.span),
-            object: Box::new(self.obj.babelify(ctx)),
-            property: Box::new(self.prop.babelify(ctx).into()),
+            object: Box::alloc().init(self.obj.babelify(ctx)),
+            property: Box::alloc().init(self.prop.babelify(ctx).into()),
             computed: self.computed,
             optional: Default::default(),
         }
@@ -361,9 +388,9 @@ impl Babelify for CondExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ConditionalExpression {
             base: ctx.base(self.span),
-            test: Box::new(self.test.babelify(ctx).into()),
-            consequent: Box::new(self.cons.babelify(ctx).into()),
-            alternate: Box::new(self.alt.babelify(ctx).into()),
+            test: Box::alloc().init(self.test.babelify(ctx).into()),
+            consequent: Box::alloc().init(self.cons.babelify(ctx).into()),
+            alternate: Box::alloc().init(self.alt.babelify(ctx).into()),
         }
     }
 }
@@ -374,7 +401,7 @@ impl Babelify for CallExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         CallExpression {
             base: ctx.base(self.span),
-            callee: Box::new(self.callee.babelify(ctx).into()),
+            callee: Box::alloc().init(self.callee.babelify(ctx).into()),
             arguments: self
                 .args
                 .into_iter()
@@ -393,7 +420,7 @@ impl Babelify for NewExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         NewExpression {
             base: ctx.base(self.span),
-            callee: Callee::Expr(Box::new(self.callee.babelify(ctx).into())),
+            callee: Callee::Expr(Box::alloc().init(self.callee.babelify(ctx).into())),
             arguments: match self.args {
                 Some(args) => args
                     .into_iter()
@@ -417,7 +444,7 @@ impl Babelify for SeqExpr {
             expressions: self
                 .exprs
                 .into_iter()
-                .map(|expr| Box::new(expr.babelify(ctx).into()))
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into()))
                 .collect(),
         }
     }
@@ -434,12 +461,14 @@ impl Babelify for ArrowExpr {
                 .into_iter()
                 .map(|p| p.babelify(ctx).into())
                 .collect(),
-            body: Box::new(self.body.babelify(ctx)),
+            body: Box::alloc().init(self.body.babelify(ctx)),
             is_async: self.is_async,
             generator: self.is_generator,
             expression: Default::default(),
             type_parameters: self.type_params.map(|t| t.babelify(ctx).into()),
-            return_type: self.return_type.map(|t| Box::new(t.babelify(ctx).into())),
+            return_type: self
+                .return_type
+                .map(|t| Box::alloc().init(t.babelify(ctx).into())),
         }
     }
 }
@@ -450,7 +479,7 @@ impl Babelify for YieldExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         YieldExpression {
             base: ctx.base(self.span),
-            argument: self.arg.map(|a| Box::new(a.babelify(ctx).into())),
+            argument: self.arg.map(|a| Box::alloc().init(a.babelify(ctx).into())),
             delegate: self.delegate,
         }
     }
@@ -474,7 +503,7 @@ impl Babelify for AwaitExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         AwaitExpression {
             base: ctx.base(self.span),
-            argument: Box::new(self.arg.babelify(ctx).into()),
+            argument: Box::alloc().init(self.arg.babelify(ctx).into()),
         }
     }
 }
@@ -488,7 +517,7 @@ impl Babelify for Tpl {
             expressions: self
                 .exprs
                 .into_iter()
-                .map(|e| TemplateLiteralExpr::Expr(Box::new(e.babelify(ctx).into())))
+                .map(|e| TemplateLiteralExpr::Expr(Box::alloc().init(e.babelify(ctx).into())))
                 .collect(),
             quasis: self.quasis.babelify(ctx),
         }
@@ -501,7 +530,7 @@ impl Babelify for TaggedTpl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TaggedTemplateExpression {
             base: ctx.base(self.span),
-            tag: Box::new(self.tag.babelify(ctx).into()),
+            tag: Box::alloc().init(self.tag.babelify(ctx).into()),
             quasi: self.tpl.babelify(ctx),
             type_parameters: self
                 .type_params
@@ -531,7 +560,7 @@ impl Babelify for ParenExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ParenthesizedExpression {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }
@@ -564,9 +593,9 @@ impl Babelify for ExprOrSpread {
         match self.spread {
             Some(_) => ArrayExprEl::Spread(BabelSpreadElement {
                 base: ctx.base(self.span()),
-                argument: Box::new(self.expr.babelify(ctx).into()),
+                argument: Box::alloc().init(self.expr.babelify(ctx).into()),
             }),
-            None => ArrayExprEl::Expr(Box::new(self.expr.babelify(ctx).into())),
+            None => ArrayExprEl::Expr(Box::alloc().init(self.expr.babelify(ctx).into())),
         }
     }
 }
@@ -577,7 +606,9 @@ impl Babelify for BlockStmtOrExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             BlockStmtOrExpr::BlockStmt(b) => ArrowFuncExprBody::Block(b.babelify(ctx)),
-            BlockStmtOrExpr::Expr(e) => ArrowFuncExprBody::Expr(Box::new(e.babelify(ctx).into())),
+            BlockStmtOrExpr::Expr(e) => {
+                ArrowFuncExprBody::Expr(Box::alloc().init(e.babelify(ctx).into()))
+            }
         }
     }
 }

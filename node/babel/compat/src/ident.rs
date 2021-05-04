@@ -1,6 +1,6 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use swc_babel_ast::{Identifier, PrivateName as BabelPrivateName};
-
 use swc_ecma_ast::{BindingIdent, Ident, PrivateName};
 
 impl Babelify for BindingIdent {
@@ -8,7 +8,9 @@ impl Babelify for BindingIdent {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         Identifier {
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
             ..self.id.babelify(ctx)
         }
     }

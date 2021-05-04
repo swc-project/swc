@@ -1,9 +1,9 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use swc_babel_ast::{
     AssignmentPattern, AssignmentPatternLeft, Expression, FunctionExpression, ObjectKey,
     ObjectMember, ObjectMethod, ObjectMethodKind, ObjectPropVal, ObjectProperty,
 };
-
 use swc_common::Spanned;
 use swc_ecma_ast::{
     AssignProp, ComputedPropName, GetterProp, KeyValueProp, MethodProp, Prop, PropName, SetterProp,
@@ -19,7 +19,7 @@ impl Babelify for Prop {
                 ObjectMember::Prop(ObjectProperty {
                     base: id.base.clone(),
                     key: ObjectKey::Id(id.clone()),
-                    value: ObjectPropVal::Expr(Box::new(Expression::Id(id))),
+                    value: ObjectPropVal::Expr(Box::alloc().init(Expression::Id(id))),
                     computed: Default::default(),
                     shorthand: true,
                     decorators: Default::default(),
@@ -44,7 +44,7 @@ impl Babelify for KeyValueProp {
         ObjectProperty {
             base: ctx.base(self.span()),
             key: self.key.babelify(ctx),
-            value: ObjectPropVal::Expr(Box::new(self.value.babelify(ctx).into())),
+            value: ObjectPropVal::Expr(Box::alloc().init(self.value.babelify(ctx).into())),
             computed: Default::default(),
             shorthand: Default::default(),
             decorators: Default::default(),
@@ -61,7 +61,7 @@ impl Babelify for AssignProp {
         AssignmentPattern {
             base: ctx.base(self.span()),
             left: AssignmentPatternLeft::Id(self.key.babelify(ctx)),
-            right: Box::new(self.value.babelify(ctx).into()),
+            right: Box::alloc().init(self.value.babelify(ctx).into()),
             decorators: Default::default(),
             type_annotation: Default::default(),
         }
@@ -76,7 +76,9 @@ impl Babelify for GetterProp {
             base: ctx.base(self.span),
             kind: ObjectMethodKind::Get,
             key: self.key.babelify(ctx),
-            return_type: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
+            return_type: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
             body: self.body.unwrap().babelify(ctx),
             params: Default::default(),
             computed: Default::default(),
@@ -137,7 +139,7 @@ impl Babelify for PropName {
             PropName::Ident(i) => ObjectKey::Id(i.babelify(ctx)),
             PropName::Str(s) => ObjectKey::String(s.babelify(ctx)),
             PropName::Num(n) => ObjectKey::Numeric(n.babelify(ctx)),
-            PropName::Computed(e) => ObjectKey::Expr(Box::new(e.babelify(ctx))),
+            PropName::Computed(e) => ObjectKey::Expr(Box::alloc().init(e.babelify(ctx))),
             _ => panic!(
                 "illegal conversion: Cannot convert {:?} to ObjectKey",
                 &self

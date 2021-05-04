@@ -1,11 +1,11 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
+use serde::{Deserialize, Serialize};
 use swc_babel_ast::{
     ArrayPattern, AssignmentPattern, AssignmentPatternLeft, CatchClauseParam, Expression,
     Identifier, LVal, ObjectKey, ObjectPattern, ObjectPatternProp, ObjectPropVal, ObjectProperty,
     Param, Pattern, PatternLike, RestElement,
 };
-
-use serde::{Deserialize, Serialize};
 use swc_common::Spanned;
 use swc_ecma_ast::{
     ArrayPat, AssignPat, AssignPatProp, KeyValuePatProp, ObjectPat, ObjectPatProp, Pat, RestPat,
@@ -31,7 +31,7 @@ impl Babelify for Pat {
             Pat::Rest(r) => PatOutput::Rest(r.babelify(ctx)),
             Pat::Object(o) => PatOutput::Object(o.babelify(ctx)),
             Pat::Assign(a) => PatOutput::Assign(a.babelify(ctx)),
-            Pat::Expr(e) => PatOutput::Expr(Box::new(e.babelify(ctx).into())),
+            Pat::Expr(e) => PatOutput::Expr(Box::alloc().init(e.babelify(ctx).into())),
             Pat::Invalid(_) => panic!(
                 "illegal conversion: Cannot convert {:?} to PatOutput",
                 &self
@@ -149,7 +149,9 @@ impl Babelify for ArrayPat {
                 .into_iter()
                 .map(|opt| opt.map(|e| e.babelify(ctx).into()))
                 .collect(),
-            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
+            type_annotation: self
+                .type_ann
+                .map(|a| Box::alloc().init(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -162,7 +164,9 @@ impl Babelify for ObjectPat {
         ObjectPattern {
             base: ctx.base(self.span),
             properties: self.props.babelify(ctx),
-            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
+            type_annotation: self
+                .type_ann
+                .map(|a| Box::alloc().init(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -201,8 +205,10 @@ impl Babelify for RestPat {
     fn babelify(self, ctx: &Context) -> Self::Output {
         RestElement {
             base: ctx.base(self.span),
-            argument: Box::new(self.arg.babelify(ctx).into()),
-            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
+            argument: Box::alloc().init(self.arg.babelify(ctx).into()),
+            type_annotation: self
+                .type_ann
+                .map(|a| Box::alloc().init(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -215,8 +221,10 @@ impl Babelify for AssignPat {
         AssignmentPattern {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx).into(),
-            right: Box::new(self.right.babelify(ctx).into()),
-            type_annotation: self.type_ann.map(|a| Box::new(a.babelify(ctx).into())),
+            right: Box::alloc().init(self.right.babelify(ctx).into()),
+            type_annotation: self
+                .type_ann
+                .map(|a| Box::alloc().init(a.babelify(ctx).into())),
             decorators: Default::default(),
         }
     }
@@ -233,7 +241,7 @@ impl Babelify for AssignPatProp {
             value: if is_shorthand {
                 ObjectPropVal::Pattern(PatternLike::Id(self.key.babelify(ctx)))
             } else {
-                ObjectPropVal::Expr(Box::new(self.value.unwrap().babelify(ctx).into()))
+                ObjectPropVal::Expr(Box::alloc().init(self.value.unwrap().babelify(ctx).into()))
             },
             shorthand: is_shorthand,
             computed: Default::default(),

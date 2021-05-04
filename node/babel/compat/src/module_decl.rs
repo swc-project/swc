@@ -1,4 +1,6 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
+use serde::{Deserialize, Serialize};
 use swc_babel_ast::{
     ExportAllDeclaration, ExportDefaultDeclType, ExportDefaultDeclaration,
     ExportDefaultSpecifier as BabelExportDefaultSpecifier, ExportKind, ExportNamedDeclaration,
@@ -8,8 +10,6 @@ use swc_babel_ast::{
     ImportNamespaceSpecifier, ImportSpecifier as BabelImportSpecifier, ImportSpecifierType,
     ModuleDeclaration, TSExportAssignment, TSImportEqualsDeclaration, TSNamespaceExportDeclaration,
 };
-
-use serde::{Deserialize, Serialize};
 use swc_ecma_ast::{
     DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier, Expr,
@@ -71,7 +71,9 @@ impl Babelify for ExportDefaultExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ExportDefaultDeclaration {
             base: ctx.base(self.span),
-            declaration: ExportDefaultDeclType::Expr(Box::new(self.expr.babelify(ctx).into())),
+            declaration: ExportDefaultDeclType::Expr(
+                Box::alloc().init(self.expr.babelify(ctx).into()),
+            ),
         }
     }
 }
@@ -82,7 +84,7 @@ impl Babelify for ExportDecl {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ExportNamedDeclaration {
             base: ctx.base(self.span),
-            declaration: Some(Box::new(self.decl.babelify(ctx))),
+            declaration: Some(Box::alloc().init(self.decl.babelify(ctx))),
             specifiers: Default::default(),
             source: Default::default(),
             assertions: Default::default(),

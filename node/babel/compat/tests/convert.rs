@@ -2,6 +2,7 @@
 extern crate test;
 
 use anyhow::{Context as AnyhowContext, Error};
+use copyless::BoxHelper;
 use pretty_assertions::assert_eq;
 use std::{
     env, fs,
@@ -74,7 +75,7 @@ fn fixtures() -> Result<(), Error> {
                 should_panic: ShouldPanic::No,
                 allow_fail: false,
             },
-            testfn: DynTestFn(Box::new(move || {
+            testfn: DynTestFn(Box::alloc().init(move || {
                 let syntax = if is_typescript {
                     Syntax::Typescript(Default::default())
                 } else if is_jsx {

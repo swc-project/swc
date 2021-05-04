@@ -1,4 +1,5 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use swc_babel_ast::{
     BlockStatement, BreakStatement, CatchClause as BabelCatchClause, ContinueStatement,
     DebuggerStatement, DoWhileStatement, EmptyStatement, ExpressionStatement, ForInStatement,
@@ -6,7 +7,6 @@ use swc_babel_ast::{
     ReturnStatement, Statement, SwitchCase as BabelSwitchCase, SwitchStatement, ThrowStatement,
     TryStatement, WhileStatement, WithStatement,
 };
-
 use swc_ecma_ast::{
     BlockStmt, BreakStmt, CatchClause, ContinueStmt, DebuggerStmt, Decl, DoWhileStmt, EmptyStmt,
     ExprStmt, ForInStmt, ForOfStmt, ForStmt, IfStmt, LabeledStmt, ReturnStmt, Stmt, SwitchCase,
@@ -71,7 +71,7 @@ impl Babelify for ExprStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ExpressionStatement {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }
@@ -102,8 +102,8 @@ impl Babelify for WithStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         WithStatement {
             base: ctx.base(self.span),
-            object: Box::new(self.obj.babelify(ctx).into()),
-            body: Box::new(self.body.babelify(ctx)),
+            object: Box::alloc().init(self.obj.babelify(ctx).into()),
+            body: Box::alloc().init(self.body.babelify(ctx)),
         }
     }
 }
@@ -114,7 +114,9 @@ impl Babelify for ReturnStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ReturnStatement {
             base: ctx.base(self.span),
-            argument: self.arg.map(|expr| Box::new(expr.babelify(ctx).into())),
+            argument: self
+                .arg
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into())),
         }
     }
 }
@@ -126,7 +128,7 @@ impl Babelify for LabeledStmt {
         LabeledStatement {
             base: ctx.base(self.span),
             label: self.label.babelify(ctx),
-            body: Box::new(self.body.babelify(ctx)),
+            body: Box::alloc().init(self.body.babelify(ctx)),
         }
     }
 }
@@ -159,9 +161,9 @@ impl Babelify for IfStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         IfStatement {
             base: ctx.base(self.span),
-            test: Box::new(self.test.babelify(ctx).into()),
-            consequent: Box::new(self.cons.babelify(ctx)),
-            alternate: self.alt.map(|a| Box::new(a.babelify(ctx))),
+            test: Box::alloc().init(self.test.babelify(ctx).into()),
+            consequent: Box::alloc().init(self.cons.babelify(ctx)),
+            alternate: self.alt.map(|a| Box::alloc().init(a.babelify(ctx))),
         }
     }
 }
@@ -172,7 +174,7 @@ impl Babelify for SwitchStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         SwitchStatement {
             base: ctx.base(self.span),
-            discriminant: Box::new(self.discriminant.babelify(ctx).into()),
+            discriminant: Box::alloc().init(self.discriminant.babelify(ctx).into()),
             cases: self.cases.babelify(ctx),
         }
     }
@@ -184,7 +186,7 @@ impl Babelify for ThrowStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         ThrowStatement {
             base: ctx.base(self.span),
-            argument: Box::new(self.arg.babelify(ctx).into()),
+            argument: Box::alloc().init(self.arg.babelify(ctx).into()),
         }
     }
 }
@@ -208,8 +210,8 @@ impl Babelify for WhileStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         WhileStatement {
             base: ctx.base(self.span),
-            test: Box::new(self.test.babelify(ctx).into()),
-            body: Box::new(self.body.babelify(ctx)),
+            test: Box::alloc().init(self.test.babelify(ctx).into()),
+            body: Box::alloc().init(self.body.babelify(ctx)),
         }
     }
 }
@@ -220,8 +222,8 @@ impl Babelify for DoWhileStmt {
     fn babelify(self, ctx: &Context) -> Self::Output {
         DoWhileStatement {
             base: ctx.base(self.span),
-            test: Box::new(self.test.babelify(ctx).into()),
-            body: Box::new(self.body.babelify(ctx)),
+            test: Box::alloc().init(self.test.babelify(ctx).into()),
+            body: Box::alloc().init(self.body.babelify(ctx)),
         }
     }
 }
@@ -233,9 +235,13 @@ impl Babelify for ForStmt {
         ForStatement {
             base: ctx.base(self.span),
             init: self.init.map(|i| i.babelify(ctx)),
-            test: self.test.map(|expr| Box::new(expr.babelify(ctx).into())),
-            update: self.update.map(|expr| Box::new(expr.babelify(ctx).into())),
-            body: Box::new(self.body.babelify(ctx)),
+            test: self
+                .test
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into())),
+            update: self
+                .update
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into())),
+            body: Box::alloc().init(self.body.babelify(ctx)),
         }
     }
 }
@@ -247,8 +253,8 @@ impl Babelify for ForInStmt {
         ForInStatement {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx),
-            right: Box::new(self.right.babelify(ctx).into()),
-            body: Box::new(self.body.babelify(ctx)),
+            right: Box::alloc().init(self.right.babelify(ctx).into()),
+            body: Box::alloc().init(self.body.babelify(ctx)),
         }
     }
 }
@@ -260,8 +266,8 @@ impl Babelify for ForOfStmt {
         ForOfStatement {
             base: ctx.base(self.span),
             left: self.left.babelify(ctx),
-            right: Box::new(self.right.babelify(ctx).into()),
-            body: Box::new(self.body.babelify(ctx)),
+            right: Box::alloc().init(self.right.babelify(ctx).into()),
+            body: Box::alloc().init(self.body.babelify(ctx)),
             // await_token not yet implemented
         }
     }
@@ -273,7 +279,9 @@ impl Babelify for SwitchCase {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelSwitchCase {
             base: ctx.base(self.span),
-            test: self.test.map(|expr| Box::new(expr.babelify(ctx).into())),
+            test: self
+                .test
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into())),
             consequent: self.cons.babelify(ctx),
         }
     }
@@ -308,7 +316,7 @@ impl Babelify for VarDeclOrExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
             VarDeclOrExpr::VarDecl(v) => ForStmtInit::VarDecl(v.babelify(ctx)),
-            VarDeclOrExpr::Expr(e) => ForStmtInit::Expr(Box::new(e.babelify(ctx).into())),
+            VarDeclOrExpr::Expr(e) => ForStmtInit::Expr(Box::alloc().init(e.babelify(ctx).into())),
         }
     }
 }

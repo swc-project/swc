@@ -1,4 +1,5 @@
 use crate::{Babelify, Context};
+use copyless::BoxHelper;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_babel_ast::{
@@ -62,7 +63,7 @@ impl Babelify for TsFnType {
                 .map(|p| p.babelify(ctx).into())
                 .collect(),
             type_parameters: self.type_params.babelify(ctx),
-            type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
+            type_annotation: Some(Box::alloc().init(self.type_ann.babelify(ctx))),
         }
     }
 }
@@ -125,8 +126,8 @@ impl Babelify for TsTypeParam {
         TSTypeParameter {
             base: ctx.base(self.span),
             name: self.name.sym,
-            constraint: self.constraint.map(|c| Box::new(c.babelify(ctx))),
-            default: self.default.map(|d| Box::new(d.babelify(ctx))),
+            constraint: self.constraint.map(|c| Box::alloc().init(c.babelify(ctx))),
+            default: self.default.map(|d| Box::alloc().init(d.babelify(ctx))),
         }
     }
 }
@@ -172,7 +173,7 @@ impl Babelify for TsQualifiedName {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSQualifiedName {
             base: ctx.base(self.span()),
-            left: Box::new(self.left.babelify(ctx)),
+            left: Box::alloc().init(self.left.babelify(ctx)),
             right: self.right.babelify(ctx),
         }
     }
@@ -221,7 +222,9 @@ impl Babelify for TsCallSignatureDecl {
                 .into_iter()
                 .map(|param| param.babelify(ctx).into())
                 .collect(),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
         }
     }
 }
@@ -238,7 +241,9 @@ impl Babelify for TsConstructSignatureDecl {
                 .into_iter()
                 .map(|param| param.babelify(ctx).into())
                 .collect(),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
         }
     }
 }
@@ -249,9 +254,11 @@ impl Babelify for TsPropertySignature {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSPropertySignature {
             base: ctx.base(self.span),
-            key: Box::new(self.key.babelify(ctx).into()),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
-            initializer: self.init.map(|i| Box::new(i.babelify(ctx).into())),
+            key: Box::alloc().init(self.key.babelify(ctx).into()),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
+            initializer: self.init.map(|i| Box::alloc().init(i.babelify(ctx).into())),
             computed: Some(self.computed),
             optional: Some(self.optional),
             readonly: Some(self.readonly),
@@ -265,14 +272,16 @@ impl Babelify for TsMethodSignature {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSMethodSignature {
             base: ctx.base(self.span),
-            key: Box::new(self.key.babelify(ctx).into()),
+            key: Box::alloc().init(self.key.babelify(ctx).into()),
             type_parameters: self.type_params.map(|t| t.babelify(ctx)),
             parameters: self
                 .params
                 .into_iter()
                 .map(|param| param.babelify(ctx).into())
                 .collect(),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
             computed: Some(self.computed),
             optional: Some(self.optional),
         }
@@ -290,7 +299,9 @@ impl Babelify for TsIndexSignature {
                 .into_iter()
                 .map(|param| param.babelify(ctx).into())
                 .collect(),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
             readonly: Some(self.readonly),
         }
     }
@@ -457,7 +468,7 @@ impl Babelify for TsConstructorType {
                 .map(|param| param.babelify(ctx).into())
                 .collect(),
             type_parameters: self.type_params.map(|decl| decl.babelify(ctx)),
-            type_annotation: Some(Box::new(self.type_ann.babelify(ctx))),
+            type_annotation: Some(Box::alloc().init(self.type_ann.babelify(ctx))),
             is_abstract: Some(self.is_abstract),
         }
     }
@@ -482,7 +493,9 @@ impl Babelify for TsTypePredicate {
         TSTypePredicate {
             base: ctx.base(self.span),
             parameter_name: self.param_name.babelify(ctx),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
             asserts: Some(self.asserts),
         }
     }
@@ -551,7 +564,7 @@ impl Babelify for TsArrayType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSArrayType {
             base: ctx.base(self.span),
-            element_type: Box::new(self.elem_type.babelify(ctx)),
+            element_type: Box::alloc().init(self.elem_type.babelify(ctx)),
         }
     }
 }
@@ -602,7 +615,7 @@ impl Babelify for TsOptionalType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSOptionalType {
             base: ctx.base(self.span),
-            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+            type_annotation: Box::alloc().init(self.type_ann.babelify(ctx)),
         }
     }
 }
@@ -613,7 +626,7 @@ impl Babelify for TsRestType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSRestType {
             base: ctx.base(self.span),
-            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+            type_annotation: Box::alloc().init(self.type_ann.babelify(ctx)),
         }
     }
 }
@@ -667,10 +680,10 @@ impl Babelify for TsConditionalType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSConditionalType {
             base: ctx.base(self.span),
-            check_type: Box::new(self.check_type.babelify(ctx)),
-            extends_type: Box::new(self.extends_type.babelify(ctx)),
-            true_type: Box::new(self.true_type.babelify(ctx)),
-            false_type: Box::new(self.false_type.babelify(ctx)),
+            check_type: Box::alloc().init(self.check_type.babelify(ctx)),
+            extends_type: Box::alloc().init(self.extends_type.babelify(ctx)),
+            true_type: Box::alloc().init(self.true_type.babelify(ctx)),
+            false_type: Box::alloc().init(self.false_type.babelify(ctx)),
         }
     }
 }
@@ -681,7 +694,7 @@ impl Babelify for TsInferType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSInferType {
             base: ctx.base(self.span),
-            type_parameter: Box::new(self.type_param.babelify(ctx)),
+            type_parameter: Box::alloc().init(self.type_param.babelify(ctx)),
         }
     }
 }
@@ -692,7 +705,7 @@ impl Babelify for TsParenthesizedType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSParenthesizedType {
             base: ctx.base(self.span),
-            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+            type_annotation: Box::alloc().init(self.type_ann.babelify(ctx)),
         }
     }
 }
@@ -703,7 +716,7 @@ impl Babelify for TsTypeOperator {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeOperator {
             base: ctx.base(self.span),
-            type_annotation: Box::new(self.type_ann.babelify(ctx)),
+            type_annotation: Box::alloc().init(self.type_ann.babelify(ctx)),
             operator: self.op.babelify(ctx),
         }
     }
@@ -727,8 +740,8 @@ impl Babelify for TsIndexedAccessType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSIndexedAccessType {
             base: ctx.base(self.span),
-            object_type: Box::new(self.obj_type.babelify(ctx)),
-            index_type: Box::new(self.index_type.babelify(ctx)),
+            object_type: Box::alloc().init(self.obj_type.babelify(ctx)),
+            index_type: Box::alloc().init(self.index_type.babelify(ctx)),
         }
     }
 }
@@ -741,9 +754,11 @@ impl Babelify for TsMappedType {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSMappedType {
             base: ctx.base(self.span),
-            type_parameter: Box::new(self.type_param.babelify(ctx)),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx))),
-            name_type: self.name_type.map(|t| Box::new(t.babelify(ctx))),
+            type_parameter: Box::alloc().init(self.type_param.babelify(ctx)),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx))),
+            name_type: self.name_type.map(|t| Box::alloc().init(t.babelify(ctx))),
             optional: self.optional.map(|val| val == TruePlusMinus::True),
             readonly: self.readonly.map(|val| val == TruePlusMinus::True),
         }
@@ -862,7 +877,7 @@ impl Babelify for TsEnumMember {
         TSEnumMember {
             base: ctx.base(self.span),
             id: self.id.babelify(ctx),
-            initializer: self.init.map(|i| Box::new(i.babelify(ctx).into())),
+            initializer: self.init.map(|i| Box::alloc().init(i.babelify(ctx).into())),
         }
     }
 }
@@ -885,7 +900,7 @@ impl Babelify for TsModuleDecl {
         TSModuleDeclaration {
             base: ctx.base(self.span),
             id: self.id.babelify(ctx),
-            body: Box::new(self.body.unwrap().babelify(ctx)),
+            body: Box::alloc().init(self.body.unwrap().babelify(ctx)),
             declare: Some(self.declare),
             global: Some(self.global),
         }
@@ -925,7 +940,7 @@ impl Babelify for TsNamespaceDecl {
         TSModuleDeclaration {
             base: ctx.base(self.span),
             id: IdOrString::Id(self.id.babelify(ctx)),
-            body: Box::new(self.body.babelify(ctx)),
+            body: Box::alloc().init(self.body.babelify(ctx)),
             declare: Some(self.declare),
             global: Some(self.global),
         }
@@ -986,7 +1001,7 @@ impl Babelify for TsExportAssignment {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSExportAssignment {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }
@@ -1008,7 +1023,7 @@ impl Babelify for TsAsExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSAsExpression {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
             type_annotation: self.type_ann.babelify(ctx),
         }
     }
@@ -1020,7 +1035,7 @@ impl Babelify for TsTypeAssertion {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSTypeAssertion {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
             type_annotation: self.type_ann.babelify(ctx),
         }
     }
@@ -1032,7 +1047,7 @@ impl Babelify for TsNonNullExpr {
     fn babelify(self, ctx: &Context) -> Self::Output {
         TSNonNullExpression {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }

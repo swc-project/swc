@@ -1,4 +1,5 @@
 use crate::{extract_class_body_span, Babelify, Context};
+use copyless::BoxHelper;
 use serde_json::value::Value;
 use swc_babel_ast::{
     ClassBody, ClassBodyEl, ClassExpression, ClassMethod as BabelClassMethod, ClassMethodKind,
@@ -24,7 +25,7 @@ impl Babelify for Class {
             body,
             super_class: self
                 .super_class
-                .map(|expr| Box::new(expr.babelify(ctx).into())),
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into())),
             type_parameters: self.type_params.map(|param| param.babelify(ctx).into()),
             super_type_parameters: self
                 .super_type_params
@@ -67,8 +68,12 @@ impl Babelify for ClassProp {
         ClassProperty {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx).into(),
-            value: self.value.map(|val| Box::new(val.babelify(ctx).into())),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
+            value: self
+                .value
+                .map(|val| Box::alloc().init(val.babelify(ctx).into())),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
             is_static: Some(self.is_static),
             decorators: Some(self.decorators.babelify(ctx)),
             computed: Some(self.computed),
@@ -89,8 +94,12 @@ impl Babelify for PrivateProp {
         ClassPrivateProperty {
             base: ctx.base(self.span),
             key: self.key.babelify(ctx),
-            value: self.value.map(|expr| Box::new(expr.babelify(ctx).into())),
-            type_annotation: self.type_ann.map(|ann| Box::new(ann.babelify(ctx).into())),
+            value: self
+                .value
+                .map(|expr| Box::alloc().init(expr.babelify(ctx).into())),
+            type_annotation: self
+                .type_ann
+                .map(|ann| Box::alloc().init(ann.babelify(ctx).into())),
             static_any: Value::Bool(self.is_static),
             decorators: Some(self.decorators.babelify(ctx)),
         }
@@ -119,7 +128,7 @@ impl Babelify for ClassMethod {
             return_type: self
                 .function
                 .return_type
-                .map(|t| Box::new(t.babelify(ctx).into())),
+                .map(|t| Box::alloc().init(t.babelify(ctx).into())),
             computed: Default::default(),
         }
     }
@@ -147,7 +156,7 @@ impl Babelify for PrivateMethod {
             return_type: self
                 .function
                 .return_type
-                .map(|t| Box::new(t.babelify(ctx).into())),
+                .map(|t| Box::alloc().init(t.babelify(ctx).into())),
             computed: Default::default(),
         }
     }
@@ -184,7 +193,7 @@ impl Babelify for Decorator {
     fn babelify(self, ctx: &Context) -> Self::Output {
         BabelDecorator {
             base: ctx.base(self.span),
-            expression: Box::new(self.expr.babelify(ctx).into()),
+            expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }
     }
 }
