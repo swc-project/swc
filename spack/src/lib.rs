@@ -1,5 +1,4 @@
 #![cfg_attr(test, feature(test))]
-#![feature(or_patterns)]
 
 #[cfg(test)]
 extern crate test;
