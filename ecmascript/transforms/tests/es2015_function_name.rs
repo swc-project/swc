@@ -270,10 +270,10 @@ const z = {
 // function_name_modules_3
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         function_name(),
-        classes(),
+        classes(Some(t.comments.clone()),),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -329,13 +329,13 @@ exports.default = Login;
 // function_name_basic
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
     ),
     function_name_basic,
@@ -491,14 +491,14 @@ test!(
     // not important
     ignore,
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
         function_name(),
-        classes()
+        classes(Some(t.comments.clone()),)
     ),
     function_name_self_reference,
     r#"
@@ -559,13 +559,13 @@ const z = {
 // function_name_method_definition
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
     ),
     function_name_method_definition,
@@ -642,13 +642,13 @@ test!(
     // not important
     ignore,
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
     ),
     function_name_own_bindings,
@@ -691,13 +691,13 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     syntax(),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
         class_properties(),
-        classes(),
+        classes(Some(t.comments.clone()),),
     ),
     decorators_legacy_interop_strict,
     r#"
@@ -748,13 +748,13 @@ return 123;
 test!(
     ignore,
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
     ),
     function_name_function_collision,
@@ -815,13 +815,13 @@ b();
 // function_name_collisions
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
     ),
     function_name_collisions,
@@ -857,13 +857,13 @@ console.log(search1);
 test!(
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default())
     ),
@@ -920,13 +920,13 @@ exports.default = Container;
 // function_name_await
 test!(
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone()),),
         function_name(),
     ),
     function_name_await,

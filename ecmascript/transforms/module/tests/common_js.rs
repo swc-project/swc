@@ -4224,10 +4224,10 @@ export * from './pipes';
 
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         block_scoping(),
-        classes(),
+        classes(Some(t.comments.clone()),),
         destructuring(Default::default()),
         common_js(Mark::fresh(Mark::root()), Default::default())
     ),
@@ -4355,8 +4355,8 @@ console.log(props);
 // regression_4209
 test!(
     syntax(),
-    |_| chain!(
-        classes(),
+    |t| chain!(
+        classes(Some(t.comments.clone()),),
         parameters(),
         destructuring(Default::default()),
         block_scoping(),

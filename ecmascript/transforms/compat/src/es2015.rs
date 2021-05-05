@@ -79,14 +79,14 @@ mod tests {
     use super::*;
     use swc_common::Mark;
     use swc_ecma_transforms_base::resolver::resolver;
+    use swc_ecma_transforms_testing::test;
     use swc_ecma_transforms_testing::test_exec;
-    use swc_ecma_transforms_testing::{test, Tester};
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(
+        |t| es2015(
             Mark::fresh(Mark::root()),
-            Some(comments.clone()),
+            Some(t.comments.clone()),
             Default::default()
         ),
         issue_169,
@@ -120,9 +120,9 @@ export var Foo = function() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(
+        |t| es2015(
             Mark::fresh(Mark::root()),
-            Some(comments.clone()),
+            Some(t.comments.clone()),
             Default::default()
         ),
         issue_189,
@@ -144,9 +144,9 @@ var HomePage = function(_Component) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(
+        |t| es2015(
             Mark::fresh(Mark::root()),
-            Some(comments.clone()),
+            Some(t.comments.clone()),
             Default::default()
         ),
         issue_227,
@@ -215,9 +215,9 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(
+        |t| es2015(
             Mark::fresh(Mark::root()),
-            Some(comments.clone()),
+            Some(t.comments.clone()),
             Default::default()
         ),
         issue_413,
@@ -235,9 +235,9 @@ export var getBadgeBorderRadius = function(text, color) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(
+        |t| es2015(
             Mark::fresh(Mark::root()),
-            Some(comments.clone()),
+            Some(t.comments.clone()),
             Default::default()
         ),
         issue_400_1,
@@ -300,9 +300,9 @@ var B = function(A1) {
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(
+        |t| es2015(
             Mark::fresh(Mark::root()),
-            Some(comments.clone()),
+            Some(t.comments.clone()),
             Default::default()
         ),
         issue_400_2,

@@ -16,7 +16,7 @@ fn tr(t: &mut Tester, options: Options) -> impl Fold {
     chain!(
         jsx(t.cm.clone(), Some(t.comments.clone()), options),
         display_name(),
-        classes(),
+        classes(Some(t.comments.clone())),
         arrow(),
     )
 }
@@ -1236,7 +1236,7 @@ test!(
         ..Default::default()
     }),
     |t| chain!(
-        classes(),
+        classes(Some(t.comments.clone())),
         jsx(t.cm.clone(), Some(t.comments.clone()), Default::default())
     ),
     regression_2775,
