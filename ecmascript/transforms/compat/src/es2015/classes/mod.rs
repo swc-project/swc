@@ -8,6 +8,7 @@ use self::{
 };
 use fxhash::FxBuildHasher;
 use std::iter;
+use swc_common::comments::Comments;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -28,8 +29,14 @@ mod constructor;
 mod prop_name;
 mod super_field;
 
-pub fn classes() -> impl Fold {
-    Classes::default()
+pub fn classes<C>(comments: Option<C>) -> impl Fold
+where
+    C: Comments,
+{
+    Classes {
+        in_strict: false,
+        comments,
+    }
 }
 
 type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
@@ -66,8 +73,12 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 /// }();
 /// ```
 #[derive(Default, Clone, Copy)]
-struct Classes {
+struct Classes<C>
+where
+    C: Comments,
+{
     in_strict: bool,
+    comments: Option<C>,
 }
 
 struct Data {
@@ -77,7 +88,10 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-impl Classes {
+impl<C> Classes<C>
+where
+    C: Comments,
+{
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + ModuleItemLike + FoldWith<Self>,
@@ -173,7 +187,10 @@ impl Classes {
     }
 }
 
-impl Fold for Classes {
+impl<C> Fold for Classes<C>
+where
+    C: Comments,
+{
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -222,7 +239,10 @@ impl Fold for Classes {
     }
 }
 
-impl Classes {
+impl<C> Classes<C>
+where
+    C: Comments,
+{
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
         let span = class.span;
         let rhs = self.fold_class(Some(ident.clone()), class);
@@ -348,7 +368,7 @@ impl Classes {
             stmts,
         };
 
-        Expr::Call(CallExpr {
+        let call = CallExpr {
             span: DUMMY_SP,
             callee: Expr::Fn(FnExpr {
                 ident: None,
@@ -366,7 +386,12 @@ impl Classes {
             .as_callee(),
             args,
             type_args: Default::default(),
-        })
+        };
+        if let Some(comments) = &self.comments {
+            comments.add_pure_comment(call.span.lo);
+        }
+
+        Expr::Call(call)
     }
 
     /// Returned `stmts` contains `return Foo`

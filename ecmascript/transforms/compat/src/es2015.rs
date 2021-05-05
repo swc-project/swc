@@ -7,7 +7,7 @@ pub use self::{
     template_literal::template_literal, typeof_symbol::typeof_symbol,
 };
 use serde::Deserialize;
-use swc_common::{chain, Mark};
+use swc_common::{chain, comments::Comments, Mark};
 use swc_ecma_visit::Fold;
 
 mod arrow;
@@ -40,11 +40,14 @@ fn exprs() -> impl Fold {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015(global_mark: Mark, c: Config) -> impl Fold {
+pub fn es2015<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+where
+    C: Comments,
+{
     chain!(
         block_scoped_functions(),
         template_literal(),
-        classes(),
+        classes(comments),
         spread(c.spread),
         function_name(),
         exprs(),
@@ -76,12 +79,12 @@ mod tests {
     use super::*;
     use swc_common::Mark;
     use swc_ecma_transforms_base::resolver::resolver;
-    use swc_ecma_transforms_testing::test;
     use swc_ecma_transforms_testing::test_exec;
+    use swc_ecma_transforms_testing::{test, Tester};
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |Tester { comments, .. }| es2015(Mark::fresh(Mark::root()), comments, Default::default()),
         issue_169,
         r#"
 export class Foo {
