@@ -2711,3 +2711,21 @@ to_ts!(
     r#"
     "#
 );
+
+to_ts!(
+    ts_simple,
+    r#"
+    var a;
+    {
+        var a;
+        var b;
+        {
+            var a;
+            var b;
+            var c;
+        }
+    }
+    "#,
+    r#"
+    "#
+);
