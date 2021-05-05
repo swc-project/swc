@@ -1231,6 +1231,9 @@ impl VisitMut for Hoister<'_, '_> {
     #[inline]
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
+    #[inline]
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
+
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.in_block {
             match node.kind {
