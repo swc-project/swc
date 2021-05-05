@@ -2468,24 +2468,41 @@ to_ts!(
         get [`hello ${a} bye`]() { return 0; }
     }
     ",
-    "
+    r#"
     var s: string;
     var n: number;
     var a: any;
     var v = {
-        get [s]() { return 0; },
-        set [n](v__2) { },
-        get [s + s]() { return 0; },
-        set [s + n](v__2) { },
-        get [+s]() { return 0; },
-        set [\"\"](v__2) { },
-        get [0]() { return 0; },
-        set [a](v__2) { },
-        get [<any>true]() { return 0; },
-        set [`hello bye`](v__2) { },
-        get [`hello ${a} bye`]() { return 0; }
-    }
-    "
+        get [s] () {
+            return 0;
+        },
+        set [n] (v){
+        },
+        get [s + s] () {
+            return 0;
+        },
+        set [s + n] (v){
+        },
+        get [+s] () {
+            return 0;
+        },
+        set [""] (v){
+        },
+        get [0] () {
+            return 0;
+        },
+        set [a] (v){
+        },
+        get [<any>true] () {
+            return 0;
+        },
+        set [`hello bye`] (v){
+        },
+        get [`hello ${a} bye`] () {
+            return 0;
+        }
+    };
+    "#
 );
 
 to!(
@@ -2684,31 +2701,6 @@ to_ts!(
     r#"
     export type A = {}
     type A = {}
-    "#
-);
-
-to_ts!(
-    ts_resolver_computed_property_names_11_es5,
-    r#"
-    // @target: es5
-    var s: string;
-    var n: number;
-    var a: any;
-    var v = {
-        get [s]() { return 0; },
-        set [n](v) { },
-        get [s + s]() { return 0; },
-        set [s + n](v) { },
-        get [+s]() { return 0; },
-        set [""](v) { },
-        get [0]() { return 0; },
-        set [a](v) { },
-        get [<any>true]() { return 0; },
-        set [`hello bye`](v) { },
-        get [`hello ${a} bye`]() { return 0; }
-    }
-    "#,
-    r#"
     "#
 );
 
