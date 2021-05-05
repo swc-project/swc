@@ -39,9 +39,13 @@ export class Compiler {
    * @param src Source code
    * @param options 
    */
-  babelify(src: string, options?: BabelifyOptions): Promise<babel.Program>;
-  babelify(src: Program, options?: BabelifyOptions): Promise<babel.Program>;
+  babelify(input: string, options?: BabelifyOptions): Promise<babel.Program>;
+  babelify(input: Program, options?: BabelifyOptions): Promise<babel.Program>;
   babelify(input: string | Program, options?: BabelifyOptions): Promise<babel.Program> {
+    const shouldParseInput = typeof input === 'string';
+    return bindings.babelify({
+      shouldParseInput,
+    }, input, options);
   }
 
   /**
@@ -52,9 +56,13 @@ export class Compiler {
    * @param src Source code
    * @param options 
    */
-  babelifySync(src: string, options?: BabelifyOptions): babel.Program;
-  babelifySync(src: Program, options?: BabelifyOptions): babel.Program;
+  babelifySync(input: string, options?: BabelifyOptions): babel.Program;
+  babelifySync(input: Program, options?: BabelifyOptions): babel.Program;
   babelifySync(input: string | Program, options?: BabelifyOptions): babel.Program {
+    const shouldParseInput = typeof input === 'string';
+    return bindings.babelifySync({
+      shouldParseInput
+    }, input, options);
   }
 
   parse(
