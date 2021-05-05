@@ -113,7 +113,7 @@ fn has_comment_first_line(sp: Span, ctx: &Context) -> bool {
             .map(|c| c.span.lo == ctx.fm.start_pos)
             .unwrap_or(false)
     } else {
-        false
+        true
     }
 }
 
