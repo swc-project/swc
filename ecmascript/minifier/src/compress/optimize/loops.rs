@@ -158,7 +158,7 @@ impl Optimizer<'_> {
         }
     }
 
-    /// 
+    ///
     /// - `for (a(), 5; b(); c())` => `for (a(); b(); c())`
     pub(super) fn optimize_init_of_for_stmt(&mut self, s: &mut ForStmt) {
         if !self.options.side_effects {
