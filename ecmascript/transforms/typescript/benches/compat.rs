@@ -2,7 +2,7 @@
 
 extern crate test;
 
-use swc_common::{chain, sync::Lrc, FileName, Mark, SourceMap};
+use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helpers;
@@ -156,7 +156,11 @@ fn es2016_exponentation(b: &mut Bencher) {
 #[bench]
 fn es2015(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2015(Mark::fresh(Mark::root()), Default::default())
+        swc_ecma_transforms_compat::es2015(
+            Mark::fresh(Mark::root()),
+            Some(SingleThreadedComments::default()),
+            Default::default(),
+        )
     });
 }
 
@@ -179,7 +183,9 @@ fn es2015_block_scoping(b: &mut Bencher) {
 
 #[bench]
 fn es2015_classes(b: &mut Bencher) {
-    run(b, || swc_ecma_transforms_compat::es2015::classes());
+    run(b, || {
+        swc_ecma_transforms_compat::es2015::classes(Some(SingleThreadedComments::default()))
+    });
 }
 
 #[bench]
