@@ -509,20 +509,6 @@ macro_rules! track_ident_mut {
             f.body.visit_mut_with(self);
         }
 
-        fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-            let old = self.ident_type;
-            self.ident_type = IdentType::Ref;
-            f.key.visit_mut_with(self);
-            self.ident_type = old;
-
-            let old = self.ident_type;
-            self.ident_type = IdentType::Binding;
-            f.param.visit_mut_with(self);
-            self.ident_type = old;
-
-            f.body.visit_mut_with(self);
-        }
-
         // impl<'a> Fold for $T<'a> {
         //     fn fold(&mut self, f: GetterProp) -> GetterProp {
         //         let body = f.body.visit_mut_with(self);
@@ -604,6 +590,20 @@ impl<'a> VisitMut for Hygiene<'a> {
     noop_visit_mut_type!();
 
     track_ident_mut!();
+
+    fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Ref;
+        f.key.visit_mut_with(self);
+        self.ident_type = old;
+
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        f.param.visit_mut_with(self);
+        self.ident_type = old;
+
+        f.body.visit_mut_with(self);
+    }
 
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let mut folder = Hygiene {
