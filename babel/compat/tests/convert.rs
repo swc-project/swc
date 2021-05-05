@@ -146,6 +146,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     };
     let mut ast = swc_ast.babelify(&ctx);
     normalize(&mut ast);
+    println!("Actaul: {:?}", ast);
 
     let mut expected_ast: File = serde_json::from_str(&expected).unwrap();
     normalize(&mut expected_ast);
