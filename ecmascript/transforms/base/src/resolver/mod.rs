@@ -774,6 +774,24 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                self.handle_types,
+            );
+
+            n.param.visit_mut_with(&mut child);
+            n.body.visit_mut_with(&mut child);
+        };
+    }
+
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
 
