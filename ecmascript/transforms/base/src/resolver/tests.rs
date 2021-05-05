@@ -2724,6 +2724,11 @@ to_ts!(
             let b;
             let c;
         }
+        {
+            let a;
+            let b;
+            let c;
+        }
     }
     "#,
     r#"
