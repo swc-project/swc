@@ -772,6 +772,7 @@ properties/join_object_assignments_null_0/input.js
 properties/keep_properties/input.js
 properties/lhs_prop_1/input.js
 properties/lhs_prop_2/input.js
+properties/mangle_define_property_arg/input.js
 properties/mangle_private_properties/input.js
 properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
