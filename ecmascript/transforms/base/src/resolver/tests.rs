@@ -2715,14 +2715,14 @@ to_ts!(
 to_ts!(
     ts_simple,
     r#"
-    var a;
+    let a;
     {
-        var a;
-        var b;
+        let a;
+        let b;
         {
-            var a;
-            var b;
-            var c;
+            let a;
+            let b;
+            let c;
         }
     }
     "#,
