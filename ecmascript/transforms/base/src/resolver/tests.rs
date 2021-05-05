@@ -2687,7 +2687,7 @@ to_ts!(
     "#
 );
 
-to!(
+to_ts!(
     ts_resolver_computed_property_names_11_es5,
     r#"
     // @target: es5
