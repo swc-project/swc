@@ -84,7 +84,11 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |Tester { comments, .. }| es2015(Mark::fresh(Mark::root()), comments, Default::default()),
+        |Tester { comments, .. }| es2015(
+            Mark::fresh(Mark::root()),
+            Some(comments.clone()),
+            Default::default()
+        ),
         issue_169,
         r#"
 export class Foo {
@@ -116,7 +120,11 @@ export var Foo = function() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |Tester { comments, .. }| es2015(
+            Mark::fresh(Mark::root()),
+            Some(comments.clone()),
+            Default::default()
+        ),
         issue_189,
         r#"
 class HomePage extends React.Component {}
@@ -136,7 +144,11 @@ var HomePage = function(_Component) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |Tester { comments, .. }| es2015(
+            Mark::fresh(Mark::root()),
+            Some(comments.clone()),
+            Default::default()
+        ),
         issue_227,
         "export default function fn1(...args) {
   fn2(...args);
@@ -203,7 +215,11 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |Tester { comments, .. }| es2015(
+            Mark::fresh(Mark::root()),
+            Some(comments.clone()),
+            Default::default()
+        ),
         issue_413,
         r#"
 export const getBadgeBorderRadius = (text, color) => {
@@ -219,7 +235,11 @@ export var getBadgeBorderRadius = function(text, color) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |Tester { comments, .. }| es2015(
+            Mark::fresh(Mark::root()),
+            Some(comments.clone()),
+            Default::default()
+        ),
         issue_400_1,
         "class A {
     constructor() {
@@ -280,7 +300,11 @@ var B = function(A1) {
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |Tester { comments, .. }| es2015(
+            Mark::fresh(Mark::root()),
+            Some(comments.clone()),
+            Default::default()
+        ),
         issue_400_2,
         "class A {
     constructor() {

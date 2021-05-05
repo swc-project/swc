@@ -1005,8 +1005,7 @@ mod tests {
     use crate::{es2015, es2015::for_of::for_of, es2017::async_to_generator};
     use swc_common::{chain, Mark};
     use swc_ecma_parser::Syntax;
-    use swc_ecma_transforms_testing::test;
-    use swc_ecma_transforms_testing::test_exec;
+    use swc_ecma_transforms_testing::{test, test_exec, Tester};
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -1271,10 +1270,11 @@ expect(foo()).toBe(false);
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1300,10 +1300,11 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1330,10 +1331,11 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1365,10 +1367,11 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1400,10 +1403,11 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1443,10 +1447,11 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1484,12 +1489,13 @@ expect(foo()).toBe(false);
 
     test!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             chain!(
                 async_to_generator(),
                 es2015::es2015(
                     mark,
+                    Some(comments.clone()),
                     es2015::Config {
                         ..Default::default()
                     },
@@ -1554,12 +1560,13 @@ expect(foo()).toBe(false);
 
     test_exec!(
         Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             chain!(
                 async_to_generator(),
                 es2015::es2015(
                     mark,
+                    Some(comments.clone()),
                     es2015::Config {
                         ..Default::default()
                     },
@@ -1704,10 +1711,11 @@ expect(foo()).toBe(false);
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1737,10 +1745,11 @@ expect(foo()).toBe(false);
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1770,10 +1779,11 @@ expect(foo()).toBe(false);
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
@@ -1801,10 +1811,11 @@ expect(foo()).toBe(false);
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| {
+        |Tester { comments, .. }| {
             let mark = Mark::fresh(Mark::root());
             es2015::es2015(
                 mark,
+                Some(comments.clone()),
                 es2015::Config {
                     ..Default::default()
                 },
