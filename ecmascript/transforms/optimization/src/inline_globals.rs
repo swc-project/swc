@@ -104,7 +104,7 @@ mod tests {
                 (*v).into()
             };
 
-            let (mut v, _) = tester
+            let mut v = tester
                 .apply_transform(
                     as_folder(DropSpan {
                         preserve_ctxt: false,

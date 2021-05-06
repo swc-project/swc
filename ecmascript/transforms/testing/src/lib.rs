@@ -13,8 +13,7 @@ use std::{
 };
 use swc_common::DUMMY_SP;
 use swc_common::{
-    comments::Comments, comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName,
-    SourceMap,
+    comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
 };
 use swc_ecma_ast::{Pat, *};
 use swc_ecma_codegen::Emitter;
@@ -139,15 +138,13 @@ impl<'a> Tester<'a> {
         name: &str,
         syntax: Syntax,
         src: &str,
-    ) -> Result<(Module, Lrc<SingleThreadedComments>), ()> {
-        let comments = Lrc::new(SingleThreadedComments::default());
-
+    ) -> Result<Module, ()> {
         let fm = self
             .cm
             .new_source_file(FileName::Real(name.into()), src.into());
 
         let module = {
-            let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&comments));
+            let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
             let res = p
                 .parse_module()
                 .map_err(|e| e.into_diagnostic(&self.handler).emit());
@@ -166,13 +163,10 @@ impl<'a> Tester<'a> {
             }))
             .fold_with(&mut as_folder(Normalizer));
 
-        Ok((module, comments))
+        Ok(module)
     }
 
-    pub fn print<C>(&mut self, module: &Module, comments: Option<Arc<C>>) -> String
-    where
-        C: Comments,
-    {
+    pub fn print(&mut self, module: &Module, comments: &Arc<SingleThreadedComments>) -> String {
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
@@ -184,7 +178,7 @@ impl<'a> Tester<'a> {
                     &mut wr,
                     None,
                 )),
-                comments,
+                comments: Some(comments),
             };
 
             // println!("Emitting: {:?}", module);
@@ -211,7 +205,7 @@ where
     P: Fold,
 {
     Tester::run(|tester| {
-        let (expected, expected_comments) = tester.apply_transform(
+        let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
             }),
@@ -220,16 +214,19 @@ where
             expected,
         )?;
 
+        let expected_comments = tester.comments.clone();
+        tester.comments = Arc::new(SingleThreadedComments::default());
+
         println!("----- Actual -----");
 
         let tr = make_tr("actual", tr, tester);
-        let (actual, actual_comments) = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
                     &actual.clone().fold_with(&mut HygieneVisualizer),
-                    Some(actual_comments),
+                    &tester.comments.clone(),
                 );
                 println!("----- Hygiene -----\n{}", hygiene_src);
             }
@@ -238,27 +235,29 @@ where
 
         let actual = actual
             .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&actual_comments)))
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,
             }));
 
-        println!("{:?}", actual_comments);
+        println!("{:?}", tester.comments);
         println!("{:?}", expected_comments);
 
-        let (actual_leading, actual_trailing) = actual_comments.borrow_all();
-        let (expected_leading, expected_trailing) = expected_comments.borrow_all();
-
-        if actual == expected
-            && *actual_leading == *expected_leading
-            && *actual_trailing == *expected_trailing
         {
-            return Ok(());
+            let (actual_leading, actual_trailing) = tester.comments.borrow_all();
+            let (expected_leading, expected_trailing) = expected_comments.borrow_all();
+
+            if actual == expected
+                && *actual_leading == *expected_leading
+                && *actual_trailing == *expected_trailing
+            {
+                return Ok(());
+            }
         }
 
         let (actual_src, expected_src) = (
-            tester.print(&actual, Some(actual_comments)),
-            tester.print(&expected, Some(expected_comments)),
+            tester.print(&actual, &tester.comments.clone()),
+            tester.print(&expected, &expected_comments),
         );
 
         if actual_src == expected_src {
@@ -327,7 +326,7 @@ where
     Tester::run(|tester| {
         let tr = make_tr(test_name, tr, tester);
 
-        let (module, _) = tester.apply_transform(
+        let module = tester.apply_transform(
             tr,
             "input.js",
             syntax,
@@ -340,8 +339,10 @@ where
         )?;
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
-                let hygiene_src =
-                    tester.print(&module.clone().fold_with(&mut HygieneVisualizer), None);
+                let hygiene_src = tester.print(
+                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
                 println!("----- Hygiene -----\n{}", hygiene_src);
             }
             _ => {}
@@ -351,10 +352,10 @@ where
             .fold_with(&mut hygiene::hygiene())
             .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        let src_without_helpers = tester.print(&module, None);
+        let src_without_helpers = tester.print(&module, &tester.comments.clone());
         module = module.fold_with(&mut inject_helpers());
 
-        let src = tester.print(&module, None);
+        let src = tester.print(&module, &tester.comments.clone());
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("target")
             .join("testing")
@@ -516,7 +517,7 @@ where
 
         let tr = tr(tester);
 
-        let (expected, _) = tester.apply_transform(
+        let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
             }),
@@ -525,7 +526,7 @@ where
             &expected,
         )?;
 
-        let expected_src = tester.print(&expected, None);
+        let expected_src = tester.print(&expected, &tester.comments.clone());
 
         println!(
             "----- {} -----\n{}",
@@ -535,13 +536,15 @@ where
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let (actual, _) =
+        let actual =
             tester.apply_transform(tr, "input.js", syntax, &read_to_string(&input).unwrap())?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
-                let hygiene_src =
-                    tester.print(&actual.clone().fold_with(&mut HygieneVisualizer), None);
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
                 println!(
                     "----- {} -----\n{}",
                     Color::Green.paint("Hygiene"),
@@ -558,7 +561,7 @@ where
                 preserve_ctxt: false,
             }));
 
-        let actual_src = tester.print(&actual, None);
+        let actual_src = tester.print(&actual, &tester.comments.clone());
 
         Ok((actual_src, expected_src))
     });
