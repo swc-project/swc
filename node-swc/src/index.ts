@@ -31,39 +31,39 @@ export function plugins(ps: Plugin[]): Plugin {
 }
 
 export class Compiler {
-  /**
-   * Parse source code as a babel ast.
-   * 
-   * If `options.transforms` is specified, this method also applies transforms.
-   * 
-   * @param src Source code
-   * @param options 
-   */
-  babelify(input: string, options?: BabelifyOptions): Promise<babel.Program>;
-  babelify(input: Program, options?: BabelifyOptions): Promise<babel.Program>;
-  babelify(input: string | Program, options?: BabelifyOptions): Promise<babel.Program> {
-    const shouldParseInput = typeof input === 'string';
-    return bindings.babelify({
-      shouldParseInput,
-    }, input, options);
-  }
+  // /**
+  //  * Parse source code as a babel ast.
+  //  * 
+  //  * If `options.transforms` is specified, this method also applies transforms.
+  //  * 
+  //  * @param src Source code
+  //  * @param options 
+  //  */
+  // babelify(input: string, options?: BabelifyOptions): Promise<babel.Program>;
+  // babelify(input: Program, options?: BabelifyOptions): Promise<babel.Program>;
+  // babelify(input: string | Program, options?: BabelifyOptions): Promise<babel.Program> {
+  //   const shouldParseInput = typeof input === 'string';
+  //   return bindings.babelify({
+  //     shouldParseInput,
+  //   }, input, options);
+  // }
 
-  /**
-   * Parse source code as a babel ast.
-   * 
-   * If `options.transforms` is specified, this method also applies transforms.
-   * 
-   * @param src Source code
-   * @param options 
-   */
-  babelifySync(input: string, options?: BabelifyOptions): babel.Program;
-  babelifySync(input: Program, options?: BabelifyOptions): babel.Program;
-  babelifySync(input: string | Program, options?: BabelifyOptions): babel.Program {
-    const shouldParseInput = typeof input === 'string';
-    return bindings.babelifySync({
-      shouldParseInput
-    }, input, options);
-  }
+  // /**
+  //  * Parse source code as a babel ast.
+  //  * 
+  //  * If `options.transforms` is specified, this method also applies transforms.
+  //  * 
+  //  * @param src Source code
+  //  * @param options 
+  //  */
+  // babelifySync(input: string, options?: BabelifyOptions): babel.Program;
+  // babelifySync(input: Program, options?: BabelifyOptions): babel.Program;
+  // babelifySync(input: string | Program, options?: BabelifyOptions): babel.Program {
+  //   const shouldParseInput = typeof input === 'string';
+  //   return bindings.babelifySync({
+  //     shouldParseInput
+  //   }, input, options);
+  // }
 
   parse(
     src: string,
