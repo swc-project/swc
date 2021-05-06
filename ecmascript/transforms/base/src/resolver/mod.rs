@@ -787,6 +787,8 @@ impl<'a> VisitMut for Resolver<'a> {
                 self.handle_types,
             );
 
+            child.in_type = false;
+            child.ident_type = IdentType::Binding;
             n.param.visit_mut_with(&mut child);
             n.body.visit_mut_with(&mut child);
         };
@@ -1230,6 +1232,9 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    #[inline]
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.in_block {

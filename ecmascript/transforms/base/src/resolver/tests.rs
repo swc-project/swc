@@ -2476,27 +2476,27 @@ to_ts!(
         get [s] () {
             return 0;
         },
-        set [n] (v){
+        set [n] (v__2){
         },
         get [s + s] () {
             return 0;
         },
-        set [s + n] (v){
+        set [s + n] (v__3){
         },
         get [+s] () {
             return 0;
         },
-        set [""] (v){
+        set [""] (v__4){
         },
         get [0] () {
             return 0;
         },
-        set [a] (v){
+        set [a] (v__5){
         },
         get [<any>true] () {
             return 0;
         },
-        set [`hello bye`] (v){
+        set [`hello bye`] (v__6){
         },
         get [`hello ${a} bye`] () {
             return 0;
