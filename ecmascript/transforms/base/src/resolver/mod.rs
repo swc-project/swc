@@ -787,6 +787,8 @@ impl<'a> VisitMut for Resolver<'a> {
                 self.handle_types,
             );
 
+            child.in_type = false;
+            child.ident_type = IdentType::Binding;
             n.param.visit_mut_with(&mut child);
             n.body.visit_mut_with(&mut child);
         };
