@@ -39,6 +39,8 @@ jobs:
   fmt:
     name: fmt
     runs-on: ubuntu-latest
+    env:
+      RUST_LOG: "0"
     steps:
       - uses: actions/checkout@v2
 
@@ -99,10 +101,14 @@ jobs:
           - enum_kind
           - from_variant
           - jsdoc
+          - node
           - spack
           - string_enum
           - swc
           - swc_atoms
+          - swc_babel_ast
+          - swc_babel_compat
+          - swc_babel_visit
           - swc_bundler
           - swc_common
           - swc_ecma_ast
@@ -132,6 +138,7 @@ jobs:
           - swc_visit_macros
           - testing
           - testing_macros
+          - wasm
         exclude:
           - os: windows-2019
             crate: spack

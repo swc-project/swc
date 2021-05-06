@@ -1,7 +1,5 @@
 #![deny(unused)]
 
-pub use sourcemap;
-
 pub use crate::builder::PassBuilder;
 use crate::config::{
     BuiltConfig, Config, ConfigFile, InputSourceMap, JscTarget, Merge, Options, Rc, RootMode,
@@ -11,6 +9,7 @@ use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use serde::Serialize;
 use serde_json::error::Category;
+pub use sourcemap;
 use std::{
     fs::{read_to_string, File},
     path::{Path, PathBuf},
@@ -582,13 +581,13 @@ fn load_swcrc(path: &Path) -> Result<Rc, Error> {
         .map_err(convert_json_err)
 }
 
-type CommentMap = Arc<DashMap<BytePos, Vec<Comment>>>;
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
 
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]
 pub struct SwcComments {
-    leading: CommentMap,
-    trailing: CommentMap,
+    pub leading: CommentMap,
+    pub trailing: CommentMap,
 }
 
 impl Comments for SwcComments {
