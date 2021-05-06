@@ -2468,24 +2468,41 @@ to_ts!(
         get [`hello ${a} bye`]() { return 0; }
     }
     ",
-    "
+    r#"
     var s: string;
     var n: number;
     var a: any;
     var v = {
-        get [s]() { return 0; },
-        set [n](v__2) { },
-        get [s + s]() { return 0; },
-        set [s + n](v__2) { },
-        get [+s]() { return 0; },
-        set [\"\"](v__2) { },
-        get [0]() { return 0; },
-        set [a](v__2) { },
-        get [<any>true]() { return 0; },
-        set [`hello bye`](v__2) { },
-        get [`hello ${a} bye`]() { return 0; }
-    }
-    "
+        get [s] () {
+            return 0;
+        },
+        set [n] (v){
+        },
+        get [s + s] () {
+            return 0;
+        },
+        set [s + n] (v){
+        },
+        get [+s] () {
+            return 0;
+        },
+        set [""] (v){
+        },
+        get [0] () {
+            return 0;
+        },
+        set [a] (v){
+        },
+        get [<any>true] () {
+            return 0;
+        },
+        set [`hello bye`] (v){
+        },
+        get [`hello ${a} bye`] () {
+            return 0;
+        }
+    };
+    "#
 );
 
 to!(
@@ -2685,4 +2702,42 @@ to_ts!(
     export type A = {}
     type A = {}
     "#
+);
+
+to_ts!(
+    ts_simple,
+    "
+    let a;
+    {
+        let a;
+        let b;
+        {
+            let a;
+            let b;
+            let c;
+        }
+        {
+            let a;
+            let b;
+            let c;
+        }
+    }
+    ",
+    "
+    let a;
+    {
+        let a__2;
+        let b__2;
+        {
+            let a__3;
+            let b__3;
+            let c__3;
+        }
+        {
+            let a__4;
+            let b__4;
+            let c__4;
+        }
+    }
+    "
 );
