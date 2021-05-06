@@ -4,14 +4,6 @@
 
 extern crate test;
 
-#[cfg(all(unix, not(target_env = "musl")))]
-#[global_allocator]
-static ALLOC: jemallocator::Jemalloc = jemallocator::Jemalloc;
-
-#[cfg(windows)]
-#[global_allocator]
-static ALLOC: mimalloc::MiMalloc = mimalloc::MiMalloc;
-
 use anyhow::Error;
 use spack::resolvers::NodeResolver;
 use std::{

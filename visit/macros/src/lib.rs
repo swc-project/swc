@@ -432,14 +432,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     // impl Visit for swc_visit::All<V> where V: VisitAll
     if mode == Mode::VisitAll {
-        let mut item = q!(
-            Vars {
-                Trait: Ident::new(mode.trait_name(), call_site()),
-            },
-            {
-                impl<V> Visit for ::swc_visit::All<V> where V: VisitAll {}
-            }
-        )
+        let mut item = q!(Vars {}, {
+            impl<V> Visit for ::swc_visit::All<V> where V: VisitAll {}
+        })
         .parse::<ItemImpl>();
 
         item.items
@@ -585,7 +580,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                     tokens.push_tokens(&q!(
                         Vars {
-                            method_name,
                             Type: ty,
                             expr,
                             default_body,
@@ -619,7 +613,6 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                     tokens.push_tokens(&q!(
                         Vars {
-                            method_name,
                             Type: ty,
                             expr,
                             default_body,
