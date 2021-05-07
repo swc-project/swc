@@ -707,6 +707,7 @@ impl Classes {
                         macro_rules! add {
                             ($field:expr, $kind:expr, $s:literal) => {{
                                 if let Some(value) = $field {
+                                    let value = escape_keywords(value);
                                     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
                                             key: PropName::Ident(quote_ident!($s)),
@@ -926,4 +927,19 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     true
+}
+
+fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
+    match &mut *e {
+        Expr::Fn(f) => {
+            if let Some(i) = &mut f.ident {
+                if i.is_reserved_for_es3() {
+                    i.sym = format!("_{}", i.sym).into();
+                }
+            }
+        }
+        _ => {}
+    }
+
+    e
 }

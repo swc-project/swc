@@ -2741,3 +2741,19 @@ to_ts!(
     }
     "
 );
+
+to!(
+    ts_es5_for_of_27,
+    "
+    for (var {x: a = 0, y: b = 1} of [2, 3]) {
+        a;
+        b;
+    }
+    ",
+    "
+    for (var {x: a = 0, y: b = 1} of [2, 3]) {
+        a;
+        b;
+    }
+    "
+);
