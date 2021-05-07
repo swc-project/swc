@@ -201,8 +201,13 @@ where
     op(tester)
 }
 
-pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, _always_ok_if_code_eq: bool)
-where
+pub fn test_transform<F, P>(
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    expected: &str,
+    _always_ok_if_code_eq: bool,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
