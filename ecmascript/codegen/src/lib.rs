@@ -1978,8 +1978,10 @@ impl<'a> Emitter<'a> {
             };
             if need_paren {
                 punct!("(");
+            } else {
+                space!();
             }
-            space!();
+
             emit!(arg);
             if need_paren {
                 punct!(")");
