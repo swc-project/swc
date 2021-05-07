@@ -1968,14 +1968,15 @@ impl<'a> Emitter<'a> {
 
         keyword!("return");
         if let Some(ref arg) = node.arg {
-            let need_paren = if let Some(cmt) = self.comments {
-                let lo = node.arg.span().lo();
+            let need_paren = !node.arg.span().is_dummy()
+                && if let Some(cmt) = self.comments {
+                    let lo = node.arg.span().lo();
 
-                // see #415
-                cmt.has_leading(lo)
-            } else {
-                false
-            };
+                    // see #415
+                    cmt.has_leading(lo)
+                } else {
+                    false
+                };
             if need_paren {
                 punct!("(");
             } else {
