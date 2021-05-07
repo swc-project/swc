@@ -201,7 +201,7 @@ where
     op(tester)
 }
 
-pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
+pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, _always_ok_if_code_eq: bool)
 where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
@@ -259,13 +259,7 @@ where
         );
 
         if actual_src == expected_src {
-            if ok_if_code_eq {
-                return Ok(());
-            }
-            // Diff it
-            println!(">>>>> Code <<<<<\n{}", actual_src);
-            assert_eq!(actual, expected, "different ast was detected");
-            return Err(());
+            return Ok(());
         }
 
         println!(">>>>> Orig <<<<<\n{}", input);
