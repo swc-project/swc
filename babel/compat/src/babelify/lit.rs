@@ -1,4 +1,4 @@
-use crate::{Babelify, Context};
+use crate::babelify::{Babelify, Context};
 use swc_babel_ast::{
     BigIntLiteral, BooleanLiteral, JSXText as BabelJSXText, Literal, NullLiteral, NumericLiteral,
     RegExpLiteral, StringLiteral,

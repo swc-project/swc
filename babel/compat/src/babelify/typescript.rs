@@ -1,4 +1,4 @@
-use crate::{Babelify, Context};
+use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
