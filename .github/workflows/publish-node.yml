@@ -26,7 +26,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 14
-      
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1
         with:
@@ -60,7 +60,7 @@ jobs:
     runs-on: windows-latest
     env:
       CARGO_PROFILE_RELEASE_CODEGEN_UNITS: 32
-      CARGO_PROFILE_RELEASE_LTO: 'false'
+      CARGO_PROFILE_RELEASE_LTO: "false"
     steps:
       - uses: actions/checkout@v2
 
@@ -222,7 +222,7 @@ jobs:
         with:
           name: bindings
           path: swc.*.node
-  
+
   build-linux-arm7:
     name: stable - arm7-unknown-linux-gnu - node@14
     runs-on: ubuntu-latest
@@ -311,7 +311,7 @@ jobs:
       - build-linux-arm7
       - build-linux-aarch64
       - build-apple-silicon
-      - build-android-aarch64
+      # - build-android-aarch64
     steps:
       - uses: actions/checkout@v2
 
