@@ -3,6 +3,7 @@ use serde::de::DeserializeOwned;
 use std::env;
 use std::fs::read_to_string;
 use std::mem::replace;
+use std::rc::Rc;
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -34,7 +35,7 @@ use testing::NormalizedOutput;
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: Lrc<SingleThreadedComments>,
+    pub comments: Rc<SingleThreadedComments>,
 }
 
 impl<'a> Tester<'a> {
@@ -166,7 +167,7 @@ impl<'a> Tester<'a> {
         Ok(module)
     }
 
-    pub fn print(&mut self, module: &Module, comments: &Arc<SingleThreadedComments>) -> String {
+    pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
@@ -215,7 +216,7 @@ where
         )?;
 
         let expected_comments = tester.comments.clone();
-        tester.comments = Arc::new(SingleThreadedComments::default());
+        tester.comments = Rc::new(SingleThreadedComments::default());
 
         println!("----- Actual -----");
 
