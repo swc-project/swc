@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_optimization"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.16.0"
+version = "0.17.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -26,10 +26,10 @@ swc_ecma_utils = {version = "0.34.1", path = "../../utils"}
 swc_ecma_visit = {version = "0.29.1", path = "../../visit"}
 
 [dev-dependencies]
-swc_ecma_transforms_compat = {version = "0.13.3", path = "../compat"}
-swc_ecma_transforms_module = {version = "0.13.3", path = "../module"}
-swc_ecma_transforms_proposal = {version = "0.13.3", path = "../proposal"}
-swc_ecma_transforms_react = {version = "0.14.3", path = "../react"}
+swc_ecma_transforms_compat = {version = "0.14.0", path = "../compat"}
+swc_ecma_transforms_module = {version = "0.14.0", path = "../module"}
+swc_ecma_transforms_proposal = {version = "0.14.0", path = "../proposal"}
+swc_ecma_transforms_react = {version = "0.15.0", path = "../react"}
 swc_ecma_transforms_testing = {version = "0.12.3", path = "../testing"}
-swc_ecma_transforms_typescript = {version = "0.15.0", path = "../typescript"}
+swc_ecma_transforms_typescript = {version = "0.16.0", path = "../typescript"}
 testing = {version = "0.10.5", path = "../../../testing"}
