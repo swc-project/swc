@@ -3,6 +3,7 @@ use serde::de::DeserializeOwned;
 use std::env;
 use std::fs::read_to_string;
 use std::mem::replace;
+use std::mem::take;
 use std::rc::Rc;
 use std::{
     fmt,
@@ -215,8 +216,7 @@ where
             expected,
         )?;
 
-        let expected_comments = tester.comments.clone();
-        tester.comments = Rc::new(SingleThreadedComments::default());
+        let expected_comments = take(&mut tester.comments);
 
         println!("----- Actual -----");
 
