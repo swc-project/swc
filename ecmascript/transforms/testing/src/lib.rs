@@ -236,10 +236,7 @@ where
 
         let actual = actual
             .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&tester.comments)))
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: false,
-            }));
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
         println!("{:?}", tester.comments);
         println!("{:?}", expected_comments);
