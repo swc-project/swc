@@ -390,7 +390,7 @@ where
             type_args: Default::default(),
         };
         if let Some(comments) = &self.comments {
-            comments.add_pure_comment(call.span.lo);
+            comments.add_pure_comment(span.lo);
         }
 
         Expr::Call(call)
