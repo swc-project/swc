@@ -180,7 +180,7 @@ foo(1, 2, 3);"#
 
 test!(
     syntax(),
-    |_| chain!(classes(), tr()),
+    |t| chain!(classes(Some(t.comments.clone())), tr()),
     default_iife_4253,
     r#"class Ref {
   constructor(id = ++Ref.nextID) {
@@ -216,7 +216,7 @@ expect(new Ref().id).toBe(2);"#
 
 test!(
     syntax(),
-    |_| chain!(classes(), tr()),
+    |t| chain!(classes(Some(t.comments.clone())), tr()),
     default_iife_self,
     r#"class Ref {
   constructor(ref = Ref) {
@@ -1211,7 +1211,11 @@ function d(thing) {
 
 test!(
     syntax(),
-    |_| chain!(tr(), classes(), spread(Default::default())),
+    |t| chain!(
+        tr(),
+        classes(Some(t.comments.clone())),
+        spread(Default::default())
+    ),
     rest_nested_iife,
     r#"function broken(x, ...foo) {
   if (true) {

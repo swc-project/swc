@@ -14,7 +14,7 @@ use std::{
     io::Read,
     path::{Path, PathBuf},
 };
-use swc_common::{input::StringInput, FromVariant, Mark};
+use swc_common::{comments::SingleThreadedComments, input::StringInput, FromVariant, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{EsConfig, Parser, Syntax};
@@ -177,6 +177,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         .print_errors(|cm, handler| {
             let mut pass = preset_env(
                 Mark::fresh(Mark::root()),
+                Some(SingleThreadedComments::default()),
                 Config {
                     debug: c.debug,
                     mode: match c.use_built_ins {

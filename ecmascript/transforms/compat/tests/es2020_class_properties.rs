@@ -11,8 +11,7 @@ use swc_ecma_transforms_compat::{
     es2020::{class_properties, typescript_class_properties},
     es3::reserved_words,
 };
-use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_testing::test_exec;
+use swc_ecma_transforms_testing::{test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
@@ -29,12 +28,12 @@ fn syntax() -> Syntax {
     })
 }
 
-fn tr() -> impl Fold {
+fn tr(t: &Tester) -> impl Fold {
     chain!(
         resolver(),
         function_name(),
         class_properties(),
-        classes(),
+        classes(Some(t.comments.clone())),
         block_scoping(),
         reserved_words(false),
     )
@@ -42,7 +41,7 @@ fn tr() -> impl Fold {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static_infer_name,
     r#"
 var Foo = class {
@@ -64,7 +63,7 @@ var Foo = function() {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_call_exec,
     r#"
 class Foo {
@@ -88,7 +87,7 @@ expect(test[1]).toBe(o);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_instance_computed,
     r#"
 function test(x) {
@@ -126,7 +125,7 @@ test('foo');
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_super_statement,
     r#"
 class Foo extends Bar {
@@ -163,7 +162,7 @@ function (Bar) {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_foobar,
     r#"
 class Child extends Parent {
@@ -211,7 +210,7 @@ var _scopedFunctionWithThis = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_call_exec,
     r#"
 class Foo {
@@ -235,7 +234,7 @@ expect(test[1]).toBe(o);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_derived_multiple_supers,
     r#"
 class Foo extends Bar {
@@ -283,7 +282,7 @@ function (Bar) {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_static_call_exec,
     r#"
 class Foo {
@@ -305,7 +304,7 @@ expect(f.test("bar")).toBe("bar");
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_instance_undefined_exec,
     r#"
 class Foo {
@@ -323,7 +322,7 @@ expect(new Foo().test()).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_instance_exec,
     r#"
 class Foo {
@@ -367,7 +366,7 @@ expect(f.test()).toBe(4);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -414,7 +413,7 @@ function withContext(ComposedComponent) {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_super_with_collision,
     r#"
 class A {
@@ -439,7 +438,7 @@ var A = function A(force1) {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_call,
     r#"
 class Foo {
@@ -482,7 +481,7 @@ function () {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_instance_computed_exec,
     r#"
 function test(x) {
@@ -504,7 +503,7 @@ test('foo');
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_declaration_order,
     r#"
 class C {
@@ -541,7 +540,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     nested_class_super_call_in_key,
     r#"
 
@@ -610,7 +609,7 @@ expect(new Outer().hello).toBe('hello');
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_instance_undefined,
     r#"
 class Foo {
@@ -631,7 +630,7 @@ var Foo = function Foo() {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_derived_multiple_supers,
     r#"
 class Foo extends Bar {
@@ -689,7 +688,7 @@ var _bar = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_native_classes_exec,
     r#"
 class Foo {
@@ -716,7 +715,7 @@ expect(f.test()).toBe("bar")
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_regression_t2983,
     r#"
 call(class {
@@ -748,7 +747,7 @@ export { _class as default }
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static,
     r#"
 class Foo {
@@ -770,7 +769,7 @@ _defineProperty(Foo, "bar", "foo");
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_instance_undefined,
     r#"
 class Foo {
@@ -797,7 +796,7 @@ var _bar = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_declaration_order_exec,
     r#"
 class C {
@@ -814,7 +813,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_update,
     r#"
 class Foo {
@@ -857,7 +856,7 @@ function () {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_super_call,
     r#"
 class A {
@@ -914,7 +913,7 @@ function (A1) {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_constructor_collision,
     r#"
 var foo = "bar";
@@ -951,7 +950,7 @@ var _bar = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_constructor_collision,
     r#"
 var foo = "bar";
@@ -986,7 +985,7 @@ _defineProperty(Foo, "bar", baz);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_computed,
     r#"
 const foo = "foo";
@@ -1086,7 +1085,7 @@ _defineProperty(MyClass, _ref3, '247');
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_assignment,
     r#"
 class Foo {
@@ -1133,7 +1132,7 @@ function () {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static_exec,
     r#"
 class Foo {
@@ -1151,7 +1150,7 @@ expect(Foo.str = "bar").toBe("bar");
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     regression_7371_exec_1,
     r#"
 
@@ -1184,7 +1183,7 @@ new A();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     regression_7371_exec_2,
     r#"
 class Obj {
@@ -1266,7 +1265,7 @@ new ComputedField();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_static_inherited_exec,
     r#"
 class Base {
@@ -1344,7 +1343,7 @@ expect(Sub2.getClass()).toBe(7);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     nested_class_super_property_in_key_exec,
     r#"
 
@@ -1372,7 +1371,7 @@ expect(new Outer().hello).toBe('hello');
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_super_statement,
     r#"
 class Foo extends Bar {
@@ -1416,7 +1415,7 @@ var _bar = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_private_in_derived,
     r#"
 class Outer {
@@ -1459,7 +1458,7 @@ var _outer = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_update,
     r#"
 class Foo {
@@ -1510,7 +1509,7 @@ var _foo = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_super_expression,
     r#"
 class Foo extends Bar {
@@ -1545,7 +1544,7 @@ var Foo = function (Bar) {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_computed_initialization_order_exec,
     r#"
 const actualOrder = [];
@@ -1592,7 +1591,7 @@ expect(inst[9]).toBe(15);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     nested_class_super_call_in_key_exec,
     r#"
 
@@ -1623,7 +1622,7 @@ expect(new Outer().hello).toBe('hello');
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_update_exec,
     r#"
 class Foo {
@@ -1659,7 +1658,7 @@ expect(results[7]).toBe(4);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_extracted_this,
     r#"
 var foo = "bar";
@@ -1689,7 +1688,7 @@ var Foo = function Foo(foo1) {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_derived,
     r#"
 class Foo {
@@ -1746,7 +1745,7 @@ var _prop2 = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_super_call,
     r#"
 class A {
@@ -1808,7 +1807,7 @@ var _foo = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_reference_in_other_property,
     r#"
 class Foo {
@@ -1856,7 +1855,7 @@ var _four = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     nested_class_super_property_in_key,
     r#"
 
@@ -1926,7 +1925,7 @@ expect(new Outer().hello).toBe('hello');
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_reevaluated_exec,
     r#"
 function classFactory() {
@@ -1986,7 +1985,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_numeric,
     r#"
 class Foo {
@@ -2009,7 +2008,7 @@ var Foo = function Foo() {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_assignment,
     r#"
 class Foo {
@@ -2060,7 +2059,7 @@ var _foo = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_constructor_collision_exec,
     r#"
 var foo = "bar";
@@ -2086,7 +2085,7 @@ expect("bar" in f).toBe(false);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static_export,
     r#"
 export class MyClass {
@@ -2118,7 +2117,7 @@ export { MyClass2 as default };
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_multiple,
     r#"
 class Foo {
@@ -2153,7 +2152,7 @@ var _y = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_derived,
     r#"
 class Foo extends Bar {
@@ -2186,7 +2185,7 @@ function (Bar) {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static_undefined_exec,
     r#"
 class Foo {
@@ -2201,7 +2200,7 @@ expect(Foo.num).toBeUndefined();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_instance,
     r#"
 class Foo {
@@ -2222,7 +2221,7 @@ var Foo = function Foo() {
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     static_property_tdz_edgest_case_exec,
     r#"
 expect(() => {
@@ -2236,7 +2235,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_non_block_arrow_func,
     r#"
 export default param =>
@@ -2277,7 +2276,7 @@ export default ((param)=>{
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static_undefined,
     r#"
 class Foo {
@@ -2299,7 +2298,7 @@ _defineProperty(Foo, "bar", void 0);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_static_infer_name_exec,
     r#"
 var Foo = class {
@@ -2315,7 +2314,7 @@ expect(Foo.name).toBe("Foo");
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     static_property_tdz_general_exec,
     r#"
 expect(() => {
@@ -2329,7 +2328,7 @@ expect(() => {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_call,
     r#"
 class Foo {
@@ -2379,7 +2378,7 @@ var _foo = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_derived_exec,
     r#"
 class Foo {
@@ -2410,7 +2409,7 @@ expect(b.bar()).toBe("bar");
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_extracted_this,
     r#"
 var foo = "bar";
@@ -2452,7 +2451,7 @@ var _baz = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_canonical_exec,
     r#"
 class Point {
@@ -2534,7 +2533,7 @@ expect(p3.toString()).toBe("Point<0,0>")
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_static_undefined_exec,
     r#"
 class Foo {
@@ -2558,7 +2557,7 @@ expect(Foo.test()).toBe(undefined);
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     public_update_exec,
     r#"
 class Foo {
@@ -2594,7 +2593,7 @@ expect(results[7]).toBe(4);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_static_call,
     r#"
 class Foo {
@@ -2640,7 +2639,7 @@ var _foo = {
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_super_expression,
     r#"
 class Foo extends Bar {
@@ -2683,7 +2682,7 @@ var _bar = new WeakMap();
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_native_classes_exec,
     r#"
 class Foo {
@@ -2710,7 +2709,7 @@ expect(f.test()).toBe("bar")
 
 test_exec!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     private_multiple_exec,
     r#"
 class Foo {
@@ -2730,7 +2729,7 @@ expect(f.test()).toBe(1);
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     custom_instance_update,
     "
 class Foo {
@@ -2774,7 +2773,7 @@ var _x = new WeakMap();
 
 test!(
     syntax(),
-    |_| tr(),
+    |t| tr(t),
     custom_static_update,
     "
 class Foo {
@@ -2845,7 +2844,11 @@ class Foo{
 
 test!(
     syntax(),
-    |_| chain!(resolver(), class_properties(), classes()),
+    |t| chain!(
+        resolver(),
+        class_properties(),
+        classes(Some(t.comments.clone()))
+    ),
     issue_342,
     "class Foo {
   constructor(bar) {
@@ -3145,7 +3148,11 @@ expect(Foo.test()).toBe("foo");
 // private_destructuring_object_pattern_1
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     private_destructuring_object_pattern_1,
     r#"
 class Foo {
@@ -3329,7 +3336,11 @@ var _bar = {
 // private_destructuring_array_pattern
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     private_destructuring_array_pattern,
     r#"
 class Foo {
@@ -3468,7 +3479,11 @@ export { MyClass3 as default };
 // private_destructuring_array_pattern_1
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     private_destructuring_array_pattern_1,
     r#"
 class Foo {
@@ -3672,7 +3687,7 @@ export { MyClass2 as default }
 // static_property_tdz_edgest_case
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes()),
+    |t| chain!(class_properties(), classes(Some(t.comments.clone()))),
     static_property_tdz_edgest_case,
     r#"
 class A {
@@ -4010,7 +4025,11 @@ new ComputedField();
 // private_canonical
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     private_canonical,
     r#"
 class Point {
@@ -4150,7 +4169,11 @@ for(let i = 0; i <= 10; ++i){
 // private_destructuring_array_pattern_3
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     private_destructuring_array_pattern_3,
     r#"
 class Foo {
@@ -4208,7 +4231,11 @@ expect(getPropA()).toBe(1);
 // private_destructuring_array_pattern_2
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     private_destructuring_array_pattern_2,
     r#"
 class Foo {
@@ -4321,10 +4348,10 @@ expect(instance.foo).toBe(2);
 // private_instance
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         class_properties(),
         exponentation(),
-        classes(),
+        classes(Some(t.comments.clone())),
         block_scoping(),
     ),
     private_instance,
@@ -4354,7 +4381,7 @@ var _bar = new WeakMap();
 // static_property_tdz_general
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes()),
+    |t| chain!(class_properties(), classes(Some(t.comments.clone()))),
     static_property_tdz_general,
     r#"
 class C {
@@ -4527,7 +4554,11 @@ var _bar = new WeakMap();
 // public_computed_without_block
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     public_computed_without_block,
     r#"
 const createClass = (k) => class { [k()] = 2 };
@@ -4575,7 +4606,11 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 // public_static_super
 test!(
     syntax(),
-    |_| chain!(class_properties(), classes(), block_scoping()),
+    |t| chain!(
+        class_properties(),
+        classes(Some(t.comments.clone())),
+        block_scoping()
+    ),
     public_static_super,
     r#"
 class A {

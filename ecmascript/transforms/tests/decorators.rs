@@ -4317,7 +4317,7 @@ test!(
             ..Default::default()
         }),
         strip(),
-        // classes(),
+        // classes(Some(t.comments.clone())),
     ),
     issue_823_2,
     "import {Debounce} from 'lodash-decorators';
@@ -4353,13 +4353,13 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(
+    |t| chain!(
         decorators(Config {
             legacy: true,
             ..Default::default()
         }),
         strip(),
-        classes(),
+        classes(Some(t.comments.clone())),
     ),
     issue_823_3,
     "import {Debounce} from 'lodash-decorators';
@@ -5120,13 +5120,13 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
         class_properties(),
-        classes()
+        classes(Some(t.comments.clone()),)
     ),
     decorators_legacy_interop_local_define_property,
     r#"
@@ -5274,13 +5274,13 @@ exports.default = _default;
 test!(
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone())),
         function_name(),
     ),
     function_name_function_assignment,
@@ -5335,13 +5335,13 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone())),
         function_name(),
     ),
     function_name_shorthand_property,
@@ -5399,10 +5399,10 @@ var obj = {
 test!(
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         function_name(),
-        classes(),
+        classes(Some(t.comments.clone())),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -5460,10 +5460,10 @@ test!(
     // not important
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         function_name(),
-        classes(),
+        classes(Some(t.comments.clone())),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
@@ -5524,14 +5524,14 @@ test!(
     // Cost of development is too high.
     ignore,
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
         function_name(),
-        classes(),
+        classes(Some(t.comments.clone())),
     ),
     function_name_global,
     r#"
@@ -5565,13 +5565,13 @@ setInterval: function (_setInterval) {
 // function_name_modules
 test!(
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()
         }),
-        classes(),
+        classes(Some(t.comments.clone())),
         function_name(),
         common_js(Mark::fresh(Mark::root()), Default::default()),
     ),
@@ -5618,10 +5618,10 @@ console.log(new Template().events());
 // function_name_eval
 test!(
     Default::default(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
         function_name(),
-        classes(),
+        classes(Some(t.comments.clone())),
         decorators(decorators::Config {
             legacy: true,
             ..Default::default()

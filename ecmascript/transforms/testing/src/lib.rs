@@ -3,6 +3,8 @@ use serde::de::DeserializeOwned;
 use std::env;
 use std::fs::read_to_string;
 use std::mem::replace;
+use std::mem::take;
+use std::rc::Rc;
 use std::{
     fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
@@ -34,7 +36,7 @@ use testing::NormalizedOutput;
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
-    pub comments: Lrc<SingleThreadedComments>,
+    pub comments: Rc<SingleThreadedComments>,
 }
 
 impl<'a> Tester<'a> {
@@ -166,7 +168,7 @@ impl<'a> Tester<'a> {
         Ok(module)
     }
 
-    pub fn print(&mut self, module: &Module) -> String {
+    pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
         let mut wr = Buf(Arc::new(RwLock::new(vec![])));
         {
             let mut emitter = Emitter {
@@ -178,7 +180,7 @@ impl<'a> Tester<'a> {
                     &mut wr,
                     None,
                 )),
-                comments: None,
+                comments: Some(comments),
             };
 
             // println!("Emitting: {:?}", module);
@@ -199,8 +201,13 @@ where
     op(tester)
 }
 
-pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, expected: &str, ok_if_code_eq: bool)
-where
+pub fn test_transform<F, P>(
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    expected: &str,
+    _always_ok_if_code_eq: bool,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -214,6 +221,8 @@ where
             expected,
         )?;
 
+        let expected_comments = take(&mut tester.comments);
+
         println!("----- Actual -----");
 
         let tr = make_tr("actual", tr, tester);
@@ -221,7 +230,10 @@ where
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
-                let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
                 println!("----- Hygiene -----\n{}", hygiene_src);
             }
             _ => {}
@@ -229,25 +241,30 @@ where
 
         let actual = actual
             .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(None))
-            .fold_with(&mut as_folder(DropSpan {
-                preserve_ctxt: false,
-            }));
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        if actual == expected {
-            return Ok(());
-        }
+        println!("{:?}", tester.comments);
+        println!("{:?}", expected_comments);
 
-        let (actual_src, expected_src) = (tester.print(&actual), tester.print(&expected));
+        {
+            let (actual_leading, actual_trailing) = tester.comments.borrow_all();
+            let (expected_leading, expected_trailing) = expected_comments.borrow_all();
 
-        if actual_src == expected_src {
-            if ok_if_code_eq {
+            if actual == expected
+                && *actual_leading == *expected_leading
+                && *actual_trailing == *expected_trailing
+            {
                 return Ok(());
             }
-            // Diff it
-            println!(">>>>> Code <<<<<\n{}", actual_src);
-            assert_eq!(actual, expected, "different ast was detected");
-            return Err(());
+        }
+
+        let (actual_src, expected_src) = (
+            tester.print(&actual, &tester.comments.clone()),
+            tester.print(&expected, &expected_comments),
+        );
+
+        if actual_src == expected_src {
+            return Ok(());
         }
 
         println!(">>>>> Orig <<<<<\n{}", input);
@@ -319,7 +336,10 @@ where
         )?;
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
-                let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
+                let hygiene_src = tester.print(
+                    &module.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
                 println!("----- Hygiene -----\n{}", hygiene_src);
             }
             _ => {}
@@ -327,12 +347,12 @@ where
 
         let mut module = module
             .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(None));
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
 
-        let src_without_helpers = tester.print(&module);
+        let src_without_helpers = tester.print(&module, &tester.comments.clone());
         module = module.fold_with(&mut inject_helpers());
 
-        let src = tester.print(&module);
+        let src = tester.print(&module, &tester.comments.clone());
         let root = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join("target")
             .join("testing")
@@ -503,7 +523,7 @@ where
             &expected,
         )?;
 
-        let expected_src = tester.print(&expected);
+        let expected_src = tester.print(&expected, &tester.comments.clone());
 
         println!(
             "----- {} -----\n{}",
@@ -518,7 +538,10 @@ where
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
-                let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
                 println!(
                     "----- {} -----\n{}",
                     Color::Green.paint("Hygiene"),
@@ -530,12 +553,12 @@ where
 
         let actual = actual
             .fold_with(&mut crate::hygiene::hygiene())
-            .fold_with(&mut crate::fixer::fixer(None))
+            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,
             }));
 
-        let actual_src = tester.print(&actual);
+        let actual_src = tester.print(&actual, &tester.comments.clone());
 
         Ok((actual_src, expected_src))
     });

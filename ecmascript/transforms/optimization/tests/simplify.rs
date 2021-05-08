@@ -531,7 +531,7 @@ test!(
         dynamic_import: true,
         ..Default::default()
     }),
-    |_| chain!(
+    |t| chain!(
         strip(),
         decorators(Default::default()),
         class_properties(),
@@ -539,7 +539,11 @@ test!(
         es2018(),
         es2017(),
         es2016(),
-        es2015(Mark::fresh(Mark::root()), Default::default()),
+        es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         es3(true),
         import_analyzer(),
         inject_helpers(),

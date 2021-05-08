@@ -11,7 +11,7 @@ use std::{
     process::Command,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{chain, FromVariant, Mark, DUMMY_SP};
+use swc_common::{chain, comments::Comments, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
     compat::{bugfixes, es2015, es2016, es2017, es2018, es2020, es3},
@@ -28,7 +28,10 @@ mod regenerator;
 mod transform_data;
 mod version;
 
-pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
+pub fn preset_env<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+where
+    C: Comments,
+{
     let loose = c.loose;
     let targets: Versions =
         targets_to_versions(c.targets, &c.path).expect("failed to parse targets");
@@ -97,7 +100,7 @@ pub fn preset_env(global_mark: Mark, c: Config) -> impl Fold {
     // ES2015
     let pass = add!(pass, BlockScopedFunctions, es2015::block_scoped_functions());
     let pass = add!(pass, TemplateLiterals, es2015::template_literal(), true);
-    let pass = add!(pass, Classes, es2015::classes());
+    let pass = add!(pass, Classes, es2015::classes(comments));
     let pass = add!(
         pass,
         Spread,
