@@ -513,9 +513,13 @@ function foo(bar) {
 
 test!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         resolver(),
-        es2015(Mark::fresh(Mark::root()), Default::default()),
+        es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
     ),
     issue_404_2,
     "function foo(bar) {

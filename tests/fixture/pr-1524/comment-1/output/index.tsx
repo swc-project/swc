@@ -34,5 +34,5 @@ function Bar() {
     // @refresh reset
     React.useEffect(function() {
     });
-    return( /*#__PURE__*/ React.createElement("h1", null, foo, " "));
+    return(/*#__PURE__*/ React.createElement("h1", null, foo, " "));
 }

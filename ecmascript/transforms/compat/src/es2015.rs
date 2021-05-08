@@ -7,7 +7,7 @@ pub use self::{
     template_literal::template_literal, typeof_symbol::typeof_symbol,
 };
 use serde::Deserialize;
-use swc_common::{chain, Mark};
+use swc_common::{chain, comments::Comments, Mark};
 use swc_ecma_visit::Fold;
 
 mod arrow;
@@ -40,11 +40,14 @@ fn exprs() -> impl Fold {
 }
 
 /// Compiles es2015 to es5.
-pub fn es2015(global_mark: Mark, c: Config) -> impl Fold {
+pub fn es2015<C>(global_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+where
+    C: Comments,
+{
     chain!(
         block_scoped_functions(),
         template_literal(),
-        classes(),
+        classes(comments),
         spread(c.spread),
         function_name(),
         exprs(),
@@ -81,7 +84,11 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         issue_169,
         r#"
 export class Foo {
@@ -113,7 +120,11 @@ export var Foo = function() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         issue_189,
         r#"
 class HomePage extends React.Component {}
@@ -133,7 +144,11 @@ var HomePage = function(_Component) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         issue_227,
         "export default function fn1(...args) {
   fn2(...args);
@@ -200,7 +215,11 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         issue_413,
         r#"
 export const getBadgeBorderRadius = (text, color) => {
@@ -216,7 +235,11 @@ export var getBadgeBorderRadius = function(text, color) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         issue_400_1,
         "class A {
     constructor() {
@@ -277,7 +300,11 @@ var B = function(A1) {
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |_| es2015(Mark::fresh(Mark::root()), Default::default()),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
         issue_400_2,
         "class A {
     constructor() {

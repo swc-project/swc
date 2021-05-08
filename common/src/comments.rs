@@ -162,7 +162,11 @@ impl Comments for SingleThreadedComments {
     }
 
     fn has_leading(&self, pos: BytePos) -> bool {
-        self.leading.borrow().contains_key(&pos)
+        if let Some(v) = self.leading.borrow().get(&pos) {
+            !v.is_empty()
+        } else {
+            false
+        }
     }
 
     fn move_leading(&self, from: BytePos, to: BytePos) {
@@ -190,7 +194,11 @@ impl Comments for SingleThreadedComments {
     }
 
     fn has_trailing(&self, pos: BytePos) -> bool {
-        self.trailing.borrow().contains_key(&pos)
+        if let Some(v) = self.trailing.borrow().get(&pos) {
+            !v.is_empty()
+        } else {
+            false
+        }
     }
 
     fn move_trailing(&self, from: BytePos, to: BytePos) {
