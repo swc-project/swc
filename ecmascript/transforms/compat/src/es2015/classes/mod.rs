@@ -274,6 +274,8 @@ where
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
+        let span = class.span;
+
         // Ident of the super class *inside* function.
         let super_ident = class
             .super_class
@@ -369,7 +371,7 @@ where
         };
 
         let call = CallExpr {
-            span: class.span,
+            span,
             callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
