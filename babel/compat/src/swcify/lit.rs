@@ -1,8 +1,10 @@
 use super::Context;
 use crate::swcify::Swcify;
 use swc_babel_ast::Literal;
+use swc_babel_ast::NumberLiteral;
 use swc_babel_ast::StringLiteral;
 use swc_ecma_ast::Lit;
+use swc_ecma_ast::Number;
 use swc_ecma_ast::Str;
 
 impl Swcify for Literal {
@@ -31,6 +33,17 @@ impl Swcify for StringLiteral {
             value: self.value,
             has_escape: false,
             kind: Default::default(),
+        }
+    }
+}
+
+impl Swcify for NumberLiteral {
+    type Output = Number;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        Number {
+            span: ctx.span(&self.base),
+            value: self.value,
         }
     }
 }
