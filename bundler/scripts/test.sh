@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -eux
 
-cargo test --lib
-cargo test --test fixture
-(cd ../spack && cargo test --test fixture)
+if [ -z "$@" ]; then
+    cargo test --lib
+    cargo test --test fixture
+    (cd ../spack && cargo test --test fixture)
+fi
+
 cargo test --test deno $@ -- --nocapture

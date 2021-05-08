@@ -11,10 +11,12 @@
 #
 set -eu
 
-./scripts/sort.sh
+if [ -z "$@" ]; then
+    ./scripts/sort.sh
 
-export RUST_LOG=swc_ecma_minifier=trace
+    export RUST_LOG=swc_ecma_minifier=trace
 
-GOLDEN_ONLY=1 cargo test --test compress
+    GOLDEN_ONLY=1 cargo test --test compress
+fi
 
 cargo test --test compress $@
