@@ -17,7 +17,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var Foo = function() {
+var Foo = /*#__PURE__*/ function() {
     "use strict";
     function Foo() {
         _classCallCheck(this, Foo);

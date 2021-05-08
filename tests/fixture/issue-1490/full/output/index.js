@@ -140,7 +140,7 @@ function _wrapNativeSuper(Class) {
     };
     return _wrapNativeSuper(Class);
 }
-var Element1 = function() {
+var Element1 = /*#__PURE__*/ function() {
     function Element1() {
         _classCallCheck(this, Element1);
     }
@@ -154,7 +154,7 @@ var Element1 = function() {
     ]);
     return Element1;
 }();
-var CanvasElement = function(Element2) {
+var CanvasElement = /*#__PURE__*/ function(Element2) {
     _inherits(CanvasElement, Element2);
     function CanvasElement() {
         _classCallCheck(this, CanvasElement);
@@ -170,7 +170,7 @@ var CanvasElement = function(Element2) {
     ]);
     return CanvasElement;
 }(_wrapNativeSuper(Element1));
-var ColouredCanvasElement = function(CanvasElement1) {
+var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
     _inherits(ColouredCanvasElement, CanvasElement1);
     function ColouredCanvasElement() {
         _classCallCheck(this, ColouredCanvasElement);
@@ -186,7 +186,7 @@ var ColouredCanvasElement = function(CanvasElement1) {
     ]);
     return ColouredCanvasElement;
 }(CanvasElement);
-var ColouredSquare = function(ColouredCanvasElement1) {
+var ColouredSquare = /*#__PURE__*/ function(ColouredCanvasElement1) {
     _inherits(ColouredSquare, ColouredCanvasElement1);
     function ColouredSquare() {
         _classCallCheck(this, ColouredSquare);
