@@ -311,7 +311,7 @@ jobs:
       - build-linux-arm7
       - build-linux-aarch64
       - build-apple-silicon
-      # - build-android-aarch64
+      - build-android-aarch64
     steps:
       - uses: actions/checkout@v2
 
