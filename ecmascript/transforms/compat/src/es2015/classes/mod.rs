@@ -369,7 +369,7 @@ where
         };
 
         let call = CallExpr {
-            span: DUMMY_SP,
+            span: class.span,
             callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
