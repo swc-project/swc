@@ -244,14 +244,13 @@ where
     C: Comments,
 {
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
-        let span = class.span;
         let rhs = self.fold_class(Some(ident.clone()), class);
 
         VarDecl {
-            span,
+            span: DUMMY_SP,
             kind: VarDeclKind::Let,
             decls: vec![VarDeclarator {
-                span,
+                span: DUMMY_SP,
                 init: Some(Box::new(rhs)),
                 // Foo in var Foo =
                 name: ident.into(),
