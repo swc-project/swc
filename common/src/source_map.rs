@@ -103,6 +103,13 @@ pub(super) struct SourceMapFiles {
     stable_id_to_source_file: HashMap<StableSourceFileId, Lrc<SourceFile>>,
 }
 
+/// The interner for spans.
+///
+/// As most spans are simply stored, we store them as interend form.
+///
+///  - Each ast node only stores pointer to actual data ([BytePos]).
+///  - The pointers ([BytePos]) can be converted to file name, line and column
+///    using this struct.
 pub struct SourceMap {
     pub(super) files: Lock<SourceMapFiles>,
     start_pos: AtomicUsize,
