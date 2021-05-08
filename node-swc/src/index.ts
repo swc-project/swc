@@ -92,11 +92,11 @@ export class Compiler {
     options: ParseOptions & { isModule: false }
   ): Promise<Script>;
   parseFile(path: string, options?: ParseOptions): Promise<Module>;
-  parseFile(path: string, options?: ParseOptions): Promise<Program> {
+  async parseFile(path: string, options?: ParseOptions): Promise<Program> {
     options = options || { syntax: "ecmascript" };
     options.syntax = options.syntax || "ecmascript";
 
-    const res = bindings.parseFile(path, toBuffer(options));
+    const res = await bindings.parseFile(path, toBuffer(options));
 
     return JSON.parse(res);
   }
