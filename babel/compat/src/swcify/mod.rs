@@ -4,6 +4,9 @@ use swc_common::FileName;
 use swc_common::SourceFile;
 use swc_common::SourceMap;
 
+mod lit;
+mod program;
+
 pub struct Context {
     pub(crate) cm: Arc<SourceMap>,
     pub(crate) fm: Arc<SourceFile>,
