@@ -581,7 +581,6 @@ impl SimplifyExpr {
                 }
 
                 if is_obj(&left) && right.is_ident_ref_to(js_word!("Object")) {
-                if right.is_ident_ref_to(js_word!("Object")) {
                     self.changed = true;
                     return make_bool_expr(span, true, iter::once(left));
                 }
