@@ -62,7 +62,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          # - macos-10.15
+          - macos-10.15
           - windows-2019
     steps:
       - uses: actions/checkout@v2
@@ -94,7 +94,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-10.15
+          # - macos-10.15
           - windows-2019
         crate:
           - ast_node
