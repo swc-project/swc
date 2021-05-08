@@ -44,7 +44,7 @@ function _setPrototypeOf(o, p) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-export var a = function(Component) {
+export var a = /*#__PURE__*/ function(Component) {
     "use strict";
     _inherits(_class, Component);
     function _class() {

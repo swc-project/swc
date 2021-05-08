@@ -244,14 +244,13 @@ where
     C: Comments,
 {
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
-        let span = class.span;
         let rhs = self.fold_class(Some(ident.clone()), class);
 
         VarDecl {
-            span,
+            span: DUMMY_SP,
             kind: VarDeclKind::Let,
             decls: vec![VarDeclarator {
-                span,
+                span: DUMMY_SP,
                 init: Some(Box::new(rhs)),
                 // Foo in var Foo =
                 name: ident.into(),
@@ -274,6 +273,8 @@ where
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
+        let span = class.span;
+
         // Ident of the super class *inside* function.
         let super_ident = class
             .super_class
@@ -373,7 +374,7 @@ where
             callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
-                    span: DUMMY_SP,
+                    span,
                     is_async: false,
                     is_generator: false,
                     params,
@@ -388,7 +389,7 @@ where
             type_args: Default::default(),
         };
         if let Some(comments) = &self.comments {
-            comments.add_pure_comment(call.span.lo);
+            comments.add_pure_comment(span.lo);
         }
 
         Expr::Call(call)
