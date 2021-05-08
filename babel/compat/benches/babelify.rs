@@ -3,8 +3,8 @@
 extern crate test;
 
 use std::{hint::black_box, sync::Arc};
-use swc_babel_compat::Babelify;
-use swc_babel_compat::Context;
+use swc_babel_compat::babelify::Babelify;
+use swc_babel_compat::babelify::Context;
 use swc_common::SourceFile;
 use swc_common::{
     errors::{ColorConfig, Handler},
