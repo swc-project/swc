@@ -371,11 +371,11 @@ where
         };
 
         let call = CallExpr {
-            span,
+            span: DUMMY_SP,
             callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
-                    span: DUMMY_SP,
+                    span,
                     is_async: false,
                     is_generator: false,
                     params,
