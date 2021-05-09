@@ -11,6 +11,7 @@ use swc_ecma_transforms_compat::es2016;
 use swc_ecma_transforms_compat::es2017;
 use swc_ecma_transforms_compat::es2018;
 use swc_ecma_transforms_compat::es2020;
+use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_testing::{test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
@@ -6341,9 +6342,34 @@ test!(
     },
     issue_1660_4,
     "
-    console.log(class { run() { } });
-    ",
+  console.log(class { run() { } });
+  ",
     "
 
+  "
+);
+
+test!(
+    syntax(),
+    |t| {
+        let global_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            class_properties(),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
+        )
+    },
+    issue_1660_5,
     "
+  console.log(class { run() { } });
+  ",
+    "
+
+  "
 );
