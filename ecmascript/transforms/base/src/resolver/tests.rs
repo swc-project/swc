@@ -1937,7 +1937,7 @@ to_ts!(
     "
     module Top {
         module A__2 {
-            export function b__0() {
+            export function b__3() {
             }
         }
         A__2.b();
@@ -1989,9 +1989,9 @@ to_ts!(
         interface B__2 {
             m__0: string;
         }
-        var x: any;
-        var y = x as A__2<B__2>[];
-        var z = y[0].m;
+        var x__2: any;
+        var y__2 = x__2 as A__2<B__2>[];
+        var z__2 = y__2[0].m;
     }
     
     "
@@ -2754,6 +2754,45 @@ to!(
     for (var {x: a = 0, y: b = 1} of [2, 3]) {
         a;
         b;
+    }
+    "
+);
+
+to_ts!(
+    ts_if_do_while_statements_01,
+    "
+    module M {
+        export class A {
+            name: string;
+        }
+    
+        export function F2(x: number): string { return x.toString(); }
+    }
+    
+    module N {
+        export class A {
+            id: number;
+        }
+    
+        export function F2(x: number): string { return x.toString(); }
+    }
+    ",
+    "
+    module M {
+        export class A__2 {
+            name__0: string;
+        }
+        export function F2__2(x__3: number): string {
+            return x__3.toString();
+        }
+    }
+    module N {
+        export class A__4 {
+            id__0: number;
+        }
+        export function F2__4(x__5: number): string {
+            return x__5.toString();
+        }
     }
     "
 );
