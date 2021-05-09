@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.ServiceError = void 0;
 class ServiceError extends Error {
     constructor(...args){
         super(...args);
@@ -10,7 +11,9 @@ class ServiceError extends Error {
     }
 }
 exports.ServiceError = ServiceError;
-(function(ServiceError1) {
+var ServiceError1;
+exports.ServiceError = ServiceError1;
+(function(ServiceError2) {
     var Code;
     (function(Code1) {
         Code1[Code1["serviceNotFound"] = 404] = "serviceNotFound";
@@ -30,13 +33,13 @@ exports.ServiceError = ServiceError;
             this.name = "ServiceError.ServiceNotFound";
         }
     }
-    ServiceError1.ServiceNotFound = ServiceNotFound;
+    ServiceError2.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
         return {
             code: ServiceError.Code.implementation
         };
     }
-    ServiceError1.toMessageBody = toMessageBody;
-    ServiceError1.Code = Code;
-})(ServiceError || (ServiceError = {
+    ServiceError2.toMessageBody = toMessageBody;
+    ServiceError2.Code = Code;
+})(ServiceError1 || (exports.ServiceError = ServiceError1 = {
 }));
