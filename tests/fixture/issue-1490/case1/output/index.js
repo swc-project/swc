@@ -82,7 +82,7 @@ function _superPropBase(object, property) {
 var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
-var ColouredCanvasElement = function(CanvasElement) {
+var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement) {
     "use strict";
     _inherits(ColouredCanvasElement, CanvasElement);
     function ColouredCanvasElement() {

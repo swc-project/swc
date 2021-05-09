@@ -34,7 +34,7 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var Animal = function() {
+var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal(name) {
         _classCallCheck(this, Animal);
