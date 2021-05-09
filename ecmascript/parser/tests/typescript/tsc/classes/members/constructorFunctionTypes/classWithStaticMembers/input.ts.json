@@ -247,6 +247,7 @@
               },
               "decorators": [],
               "accessibility": "public",
+              "override": false,
               "readonly": false,
               "param": {
                 "type": "Identifier",
@@ -285,6 +286,7 @@
               },
               "decorators": [],
               "accessibility": "private",
+              "override": false,
               "readonly": false,
               "param": {
                 "type": "Identifier",

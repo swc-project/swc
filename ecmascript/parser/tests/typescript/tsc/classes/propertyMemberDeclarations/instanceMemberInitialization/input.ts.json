@@ -376,6 +376,7 @@
               },
               "decorators": [],
               "accessibility": "private",
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "Identifier",

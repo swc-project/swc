@@ -612,6 +612,11 @@ impl<'a> Emitter<'a> {
 
         self.emit_accesibility(n.accessibility)?;
 
+        if n.is_override {
+            keyword!("override");
+            space!();
+        }
+
         if n.readonly {
             keyword!("readonly");
             space!();

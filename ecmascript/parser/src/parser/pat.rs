@@ -315,16 +315,17 @@ impl<'a, I: Tokens> Parser<I> {
         param_start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<ParamOrTsParamProp> {
-        let (accessibility, readonly) = if self.input.syntax().typescript() {
+        let (accessibility, is_override, readonly) = if self.input.syntax().typescript() {
             let accessibility = self.parse_access_modifier()?;
             (
                 accessibility,
+                self.parse_ts_modifier(&["override"])?.is_some(),
                 self.parse_ts_modifier(&["readonly"])?.is_some(),
             )
         } else {
-            (None, false)
+            (None, false, false)
         };
-        if accessibility == None && !readonly {
+        if accessibility == None && !is_override && !readonly {
             let pat = self.parse_formal_param_pat()?;
             Ok(ParamOrTsParamProp::Param(Param {
                 span: span!(self, param_start),
@@ -340,6 +341,7 @@ impl<'a, I: Tokens> Parser<I> {
             Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
                 span: span!(self, param_start),
                 accessibility,
+                is_override,
                 readonly,
                 decorators,
                 param,

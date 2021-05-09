@@ -53,6 +53,7 @@
               },
               "decorators": [],
               "accessibility": null,
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "Identifier",
@@ -400,6 +401,7 @@
               },
               "decorators": [],
               "accessibility": null,
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "Identifier",
@@ -599,6 +601,7 @@
               },
               "decorators": [],
               "accessibility": "private",
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "Identifier",
@@ -749,6 +752,7 @@
               },
               "decorators": [],
               "accessibility": null,
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "Identifier",
