@@ -2929,13 +2929,13 @@ export default class MyClass3 {
       }
     }
 
-    class MyClass2 {
+    (class MyClass2 {
         constructor(){
             _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
                 console.log(this);
             }).bind(this)).bind(this));
         }
-    }
+    })
 
     class MyClass3 {
         constructor(){
