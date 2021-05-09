@@ -2757,3 +2757,27 @@ to!(
     }
     "
 );
+
+to_ts!(
+    ts_if_do_while_statements_01,
+    "
+    module M {
+        export class A {
+            name: string;
+        }
+    
+        export function F2(x: number): string { return x.toString(); }
+    }
+    
+    module N {
+        export class A {
+            id: number;
+        }
+    
+        export function F2(x: number): string { return x.toString(); }
+    }
+    ",
+    "
+    
+    "
+);
