@@ -134,6 +134,7 @@ struct Resolver<'a> {
     ident_type: IdentType,
     handle_types: bool,
     in_type: bool,
+    in_ts_module: bool,
 }
 
 impl<'a> Resolver<'a> {
@@ -145,6 +146,7 @@ impl<'a> Resolver<'a> {
             ident_type: IdentType::Ref,
             handle_types,
             in_type: false,
+            in_ts_module: false,
         }
     }
 
@@ -814,7 +816,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        if self.current.kind != ScopeKind::Fn {
+        if !self.in_ts_module && self.current.kind != ScopeKind::Fn {
             return stmts.visit_mut_children_with(self);
         }
 
@@ -1062,6 +1064,7 @@ impl<'a> VisitMut for Resolver<'a> {
             Scope::new(ScopeKind::Block, Some(&self.current)),
             self.handle_types,
         );
+        child_folder.in_ts_module = true;
 
         decl.body.visit_mut_children_with(&mut child_folder);
     }
