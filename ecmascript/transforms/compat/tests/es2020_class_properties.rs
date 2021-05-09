@@ -5235,3 +5235,15 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |_| { class_properties() },
+    issue_1660_1,
+    "
+    console.log(class { run() { } });
+    ",
+    "
+
+    "
+);
