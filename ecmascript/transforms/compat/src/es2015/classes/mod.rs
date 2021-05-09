@@ -402,7 +402,6 @@ where
         super_class_ident: Option<Ident>,
         class: Class,
     ) -> Vec<Stmt> {
-        let is_named = class_name.is_some();
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
 
@@ -612,7 +611,7 @@ where
                 .into_stmt(),
             );
 
-            if is_named && stmts.len() == 2 {
+            if stmts.len() == 2 {
                 return stmts;
             }
         }

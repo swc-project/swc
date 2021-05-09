@@ -6246,3 +6246,45 @@ test!(
   }(B);
     "#
 );
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone())),
+    issue_1660_1,
+    "
+    class A {
+
+    }
+    ",
+    "
+    let A = function A() {
+      'use strict';
+      _classCallCheck(this, A);
+    };
+  "
+);
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone())),
+    issue_1660_2,
+    "
+    const foo = class {run(){}};
+    ",
+    "
+    const foo = function() {
+        'use strict';
+        function _class() {
+            _classCallCheck(this, _class);
+        }
+        _createClass(_class, [
+            {
+                key: 'run',
+                value: function run() {
+                }
+            }
+        ]);
+        return _class;
+    }();
+    "
+);
