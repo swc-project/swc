@@ -5244,6 +5244,9 @@ test!(
     console.log(class { run() { } });
     ",
     "
-
+    console.log(class _class {
+        run() {
+        }
+    });
     "
 );
