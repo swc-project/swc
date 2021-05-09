@@ -7,4 +7,5 @@ class MyClass1 extends BaseClass {
   override readonly abstract size = 5;
   abstract override readonly size = 5;
   private abstract override readonly size = 5;
+  static override show() {}
 }

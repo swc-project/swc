@@ -1,3 +1,3 @@
 class C extends B {
-  static override t() {}
+  override static t() {}
 }

@@ -1,6 +1,6 @@
-error: 'static' modifier cannot be used with 'override' modifier.
- --> $DIR/tests/typescript-errors/class/override-with-static/input.ts:2:10
+error: 'static' modifier must precede 'override' modifier.
+ --> $DIR/tests/typescript-errors/class/override-with-static/input.ts:2:12
   |
-2 |   static override t() {}
-  |          ^^^^^^^^
+2 |   override static t() {}
+  |            ^^^^^^
 

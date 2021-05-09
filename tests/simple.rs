@@ -101,7 +101,7 @@ fn issue_834_3() {
 fn test_tsx_escape_xhtml() {
     let source = r#"<div id="abc&gt;" />"#;
 
-    let expected = r#"React.createElement("div", {
+    let expected = r#"/*#__PURE__*/ React.createElement("div", {
     id: "abc>"
 });
 "#;

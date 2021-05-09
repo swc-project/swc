@@ -55,11 +55,7 @@ impl<'a> Emitter<'a> {
         write_comments!(self, prefix_space, &cmts)
     }
 
-    pub(super) fn emit_leading_comments_of_pos(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
-        if pos == BytePos(0) {
-            return Ok(());
-        }
-
+    pub(super) fn emit_leading_comments(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
         if is_hi {
             pos = pos - BytePos(1)
         }
@@ -70,5 +66,14 @@ impl<'a> Emitter<'a> {
         };
 
         write_comments!(self, false, comments.take_leading(pos))
+    }
+
+    pub(super) fn emit_leading_comments_of_span(&mut self, span: Span, is_hi: bool) -> Result {
+        if span.is_dummy() {
+            return Ok(());
+        }
+
+        let pos = if is_hi { span.hi } else { span.lo };
+        self.emit_leading_comments(pos, is_hi)
     }
 }

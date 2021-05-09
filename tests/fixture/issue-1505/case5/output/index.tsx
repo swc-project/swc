@@ -45,7 +45,7 @@ var _typeof = function(obj) {
     return obj && typeof Symbol !== "undefined" && obj.constructor === Symbol ? "symbol" : typeof obj;
 };
 var withTeamsForUser = function() {
-    var _class = function(Component) {
+    var _class = /*#__PURE__*/ function(Component) {
         "use strict";
         _inherits(_class, Component);
         function _class() {
