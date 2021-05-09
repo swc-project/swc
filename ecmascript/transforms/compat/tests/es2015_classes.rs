@@ -1,10 +1,16 @@
 use swc_common::chain;
+use swc_common::Mark;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
+use swc_ecma_transforms_compat::es2015;
 use swc_ecma_transforms_compat::es2015::arrow;
 use swc_ecma_transforms_compat::es2015::block_scoping;
 use swc_ecma_transforms_compat::es2015::classes;
 use swc_ecma_transforms_compat::es2015::spread;
+use swc_ecma_transforms_compat::es2016;
+use swc_ecma_transforms_compat::es2017;
+use swc_ecma_transforms_compat::es2018;
+use swc_ecma_transforms_compat::es2020;
 use swc_ecma_transforms_testing::{test, test_exec, Tester};
 use swc_ecma_visit::Fold;
 
@@ -6294,9 +6300,37 @@ test!(
     |t| classes(Some(t.comments.clone())),
     issue_1660_3,
     "
-    console.log(class { run() { } });
-    ",
+  console.log(class { run() { } });
+  ",
     "
-  
+
+  "
+);
+
+test!(
+    syntax(),
+    |t| {
+        let global_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            es2020::es2020(),
+            es2018::es2018(),
+            es2017::es2017(),
+            es2016::es2016(),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
+        )
+    },
+    issue_1660_4,
     "
+  console.log(class { run() { } });
+  ",
+    "
+
+  "
 );
