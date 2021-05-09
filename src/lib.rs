@@ -600,7 +600,11 @@ impl Comments for SwcComments {
     }
 
     fn has_leading(&self, pos: BytePos) -> bool {
-        self.leading.contains_key(&pos)
+        if let Some(v) = self.leading.get(&pos) {
+            !v.is_empty()
+        } else {
+            false
+        }
     }
 
     fn move_leading(&self, from: BytePos, to: BytePos) {
@@ -624,7 +628,11 @@ impl Comments for SwcComments {
     }
 
     fn has_trailing(&self, pos: BytePos) -> bool {
-        self.trailing.contains_key(&pos)
+        if let Some(v) = self.trailing.get(&pos) {
+            !v.is_empty()
+        } else {
+            false
+        }
     }
 
     fn move_trailing(&self, from: BytePos, to: BytePos) {

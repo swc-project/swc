@@ -17,17 +17,20 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-var Foo = /*#__PURE__*/ function() {
-    "use strict";
-    function Foo() {
-        _classCallCheck(this, Foo);
-    }
-    _createClass(Foo, [
-        {
-            key: "true",
-            value: function _true() {
-            }
+console.log(function() {
+    var _class = /*#__PURE__*/ function() {
+        "use strict";
+        function _class() {
+            _classCallCheck(this, _class);
         }
-    ]);
-    return Foo;
-}();
+        _createClass(_class, [
+            {
+                key: "run",
+                value: function run() {
+                }
+            }
+        ]);
+        return _class;
+    }();
+    return _class;
+}());

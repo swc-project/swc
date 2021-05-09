@@ -53,7 +53,7 @@ var ComponentType = function ComponentType() {
     _classCallCheck(this, ComponentType);
 };
 var withTeamsForUser = function(_WrappedComponent) {
-    var _class = function(Component1) {
+    var _class = /*#__PURE__*/ function(Component1) {
         "use strict";
         _inherits(_class, Component1);
         function _class() {

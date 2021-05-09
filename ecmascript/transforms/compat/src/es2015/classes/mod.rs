@@ -8,6 +8,7 @@ use self::{
 };
 use fxhash::FxBuildHasher;
 use std::iter;
+use swc_common::comments::Comments;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -28,8 +29,14 @@ mod constructor;
 mod prop_name;
 mod super_field;
 
-pub fn classes() -> impl Fold {
-    Classes::default()
+pub fn classes<C>(comments: Option<C>) -> impl Fold
+where
+    C: Comments,
+{
+    Classes {
+        in_strict: false,
+        comments,
+    }
 }
 
 type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
@@ -66,8 +73,12 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, FxBuildHasher>;
 /// }();
 /// ```
 #[derive(Default, Clone, Copy)]
-struct Classes {
+struct Classes<C>
+where
+    C: Comments,
+{
     in_strict: bool,
+    comments: Option<C>,
 }
 
 struct Data {
@@ -77,7 +88,10 @@ struct Data {
     get: Option<Box<Expr>>,
 }
 
-impl Classes {
+impl<C> Classes<C>
+where
+    C: Comments,
+{
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
         T: StmtLike + ModuleItemLike + FoldWith<Self>,
@@ -173,7 +187,10 @@ impl Classes {
     }
 }
 
-impl Fold for Classes {
+impl<C> Fold for Classes<C>
+where
+    C: Comments,
+{
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -222,16 +239,18 @@ impl Fold for Classes {
     }
 }
 
-impl Classes {
+impl<C> Classes<C>
+where
+    C: Comments,
+{
     fn fold_class_as_var_decl(&mut self, ident: Ident, class: Class) -> VarDecl {
-        let span = class.span;
         let rhs = self.fold_class(Some(ident.clone()), class);
 
         VarDecl {
-            span,
+            span: DUMMY_SP,
             kind: VarDeclKind::Let,
             decls: vec![VarDeclarator {
-                span,
+                span: DUMMY_SP,
                 init: Some(Box::new(rhs)),
                 // Foo in var Foo =
                 name: ident.into(),
@@ -254,6 +273,8 @@ impl Classes {
     /// }()
     /// ```
     fn fold_class(&mut self, class_name: Option<Ident>, class: Class) -> Expr {
+        let span = class.span;
+
         // Ident of the super class *inside* function.
         let super_ident = class
             .super_class
@@ -348,12 +369,12 @@ impl Classes {
             stmts,
         };
 
-        Expr::Call(CallExpr {
+        let call = CallExpr {
             span: DUMMY_SP,
             callee: Expr::Fn(FnExpr {
                 ident: None,
                 function: Function {
-                    span: DUMMY_SP,
+                    span,
                     is_async: false,
                     is_generator: false,
                     params,
@@ -366,7 +387,12 @@ impl Classes {
             .as_callee(),
             args,
             type_args: Default::default(),
-        })
+        };
+        if let Some(comments) = &self.comments {
+            comments.add_pure_comment(span.lo);
+        }
+
+        Expr::Call(call)
     }
 
     /// Returned `stmts` contains `return Foo`
@@ -376,7 +402,6 @@ impl Classes {
         super_class_ident: Option<Ident>,
         class: Class,
     ) -> Vec<Stmt> {
-        let is_named = class_name.is_some();
         let class_name = class_name.unwrap_or_else(|| quote_ident!("_class"));
         let mut stmts = vec![];
 
@@ -586,7 +611,7 @@ impl Classes {
                 .into_stmt(),
             );
 
-            if is_named && stmts.len() == 2 {
+            if stmts.len() == 2 {
                 return stmts;
             }
         }

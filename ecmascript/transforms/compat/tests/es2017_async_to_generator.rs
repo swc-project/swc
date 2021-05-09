@@ -669,7 +669,14 @@ test!(
 
 test_exec!(
     syntax(),
-    |_| chain!(tr(), es2015(Mark::fresh(Mark::root()), Default::default())),
+    |t| chain!(
+        tr(),
+        es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        )
+    ),
     issue_400_1,
     "class A {
     constructor() {
@@ -728,9 +735,13 @@ return (new B(20)).print().then(() => console.log('Done'));"
 
 test_exec!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         async_to_generator(),
-        es2015(Mark::fresh(Mark::root()), Default::default())
+        es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        )
     ),
     issue_400_3,
     "class A {

@@ -144,7 +144,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Either::Left(chain!(
                 import_assertions(),
                 Optional::new(typescript::strip(), syntax.typescript()),
-                swc_ecma_preset_env::preset_env(self.global_mark, env)
+                swc_ecma_preset_env::preset_env(self.global_mark, comments, env)
             ))
         } else {
             Either::Right(chain!(
@@ -157,6 +157,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2015(
                         self.global_mark,
+                        comments,
                         compat::es2015::Config {
                             for_of: compat::es2015::for_of::Config {
                                 assume_array: self.loose

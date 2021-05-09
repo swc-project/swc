@@ -1,7 +1,7 @@
 #![feature(test)]
 extern crate test;
 
-use swc_common::{FileName, Mark};
+use swc_common::{comments::SingleThreadedComments, FileName, Mark};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_preset_env::{preset_env, Config};
 use swc_ecma_visit::FoldWith;
@@ -23,7 +23,11 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
             e.into_diagnostic(&handler).emit()
         }
 
-        let mut folder = preset_env(Mark::fresh(Mark::root()), config);
+        let mut folder = preset_env(
+            Mark::fresh(Mark::root()),
+            Some(SingleThreadedComments::default()),
+            config,
+        );
 
         b.iter(|| test::black_box(module.clone().fold_with(&mut folder)));
         Ok(())

@@ -925,10 +925,14 @@ expect(v.next()).toEqual({ done: true });
 
 test_exec!(
     syntax(),
-    |_| chain!(
+    |t| chain!(
         es2017(),
         es2016(),
-        es2015(Mark::fresh(Mark::root()), Default::default()),
+        es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
     ),
     issue_600_full,
     "async function foo(b) {
