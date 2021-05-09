@@ -370,6 +370,7 @@
               },
               "decorators": [],
               "accessibility": "public",
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "Identifier",
@@ -695,6 +696,7 @@
               },
               "decorators": [],
               "accessibility": "public",
+              "override": false,
               "readonly": false,
               "param": {
                 "type": "Identifier",

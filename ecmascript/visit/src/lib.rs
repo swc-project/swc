@@ -1284,6 +1284,7 @@ define!({
         pub span: Span,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
+        pub is_override: bool,
         pub readonly: bool,
         pub param: TsParamPropParam,
     }

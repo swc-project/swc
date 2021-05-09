@@ -70,6 +70,8 @@ pub struct TsParamProp {
     /// At least one of `accessibility` or `readonly` must be set.
     #[serde(default)]
     pub accessibility: Option<Accessibility>,
+    #[serde(rename = "override")]
+    pub is_override: bool,
     pub readonly: bool,
     pub param: TsParamPropParam,
 }
