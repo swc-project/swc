@@ -6252,11 +6252,15 @@ test!(
     |t| classes(Some(t.comments.clone())),
     issue_1660_1,
     "
-  class A {
+    class A {
 
-  }
-  ",
+    }
+    ",
     "
+    let A = function A() {
+      'use strict';
+      _classCallCheck(this, A);
+    };
   "
 );
 
