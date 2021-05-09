@@ -2876,7 +2876,14 @@ to_ts!(
 fn issue_1653_2() {
     run_test(
         ts(),
-        || resolver(),
+        || {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                as_folder(TsHygiene { top_level_mark })
+            )
+        },
         "
             namespace X
             {
@@ -2895,16 +2902,7 @@ fn issue_1653_2() {
             }
             ",
         "
-            module X {
-                export module Z__2 {
-                    export const foo__3 = 0;
-                }
-            }
-            module Y {
-                export module Z__4 {
-                    export const bar__5 = 1;
-                }
-            }
+            
             ",
     );
 }
