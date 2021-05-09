@@ -419,7 +419,14 @@ impl<'a> VisitMut for Resolver<'a> {
         folder.ident_type = old;
         folder.hoist = old_hoist;
 
-        e.body.visit_mut_with(&mut folder);
+        {
+            folder.hoist = false;
+
+            match &mut e.body {
+                BlockStmtOrExpr::BlockStmt(s) => s.stmts.visit_mut_with(&mut folder),
+                BlockStmtOrExpr::Expr(e) => e.visit_mut_with(&mut folder),
+            }
+        }
 
         e.return_type.visit_mut_with(&mut folder);
     }

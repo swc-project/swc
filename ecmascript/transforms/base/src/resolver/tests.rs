@@ -2796,3 +2796,44 @@ to_ts!(
     }
     "
 );
+
+to_ts!(
+    ts_type_parameter_used_as_type_parameter_contraint_01,
+    "
+    var f3 = <T, U extends T>(x: T, y: U) => {
+        function bar<V extends T, W extends U>() {
+            var g = <X extends W, Y extends V>(a: X, b: Y): T => {
+                x = y;
+                return y;
+            }
+        }
+    }
+
+    var f4 = <U extends T, T>(x: T, y: U) => {
+        function bar<V extends T, W extends U>() {
+            var g = <X extends W, Y extends V>(a: X, b: Y): T => {
+                x = y;
+                return y;
+            }
+        }
+    }
+    ",
+    "
+    var f3 = <T__2, U__2 extends T__2>(x__2: T__2, y__2: U__2)=>{
+        function bar__2<V__3 extends T__2, W__3 extends U__2>() {
+            var g__3 = <X__4 extends W__3, Y__4 extends V__3>(a__4: X__4, b__4: Y__4)=>{
+                x__2 = y__2;
+                return y__2;
+            };
+        }
+    };
+    var f4 = <U__5 extends T__5, T__5>(x__5: T__5, y__5: U__5)=>{
+        function bar__5<V__6 extends T__5, W__6 extends U__5>() {
+            var g__6 = <X__7 extends W__6, Y__7 extends V__6>(a__7: X__7, b__7: Y__7)=>{
+                x__5 = y__5;
+                return y__5;
+            };
+        }
+    };
+    "
+);
