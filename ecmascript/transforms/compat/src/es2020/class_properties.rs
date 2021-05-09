@@ -140,6 +140,13 @@ impl Fold for ClassProperties {
                     })));
                 }
 
+                if stmts.is_empty() {
+                    return Expr::Class(ClassExpr {
+                        ident: Some(decl.ident),
+                        class: decl.class,
+                    });
+                }
+
                 stmts.push(Stmt::Decl(Decl::Class(decl)));
                 stmts.append(&mut extra_stmts);
 
