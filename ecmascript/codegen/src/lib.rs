@@ -857,7 +857,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         if n.is_static {
             keyword!("static");
@@ -894,7 +894,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_bool(&mut self, n: &Bool) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         if n.value {
             keyword!(n.span, "true")
@@ -905,7 +905,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         self.emit_accesibility(n.accessibility)?;
 
@@ -967,7 +967,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
@@ -1004,7 +1004,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         if n.accessibility != Some(Accessibility::Public) {
             self.emit_accesibility(n.accessibility)?;
@@ -1066,7 +1066,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         self.emit_accesibility(n.accessibility)?;
 
@@ -1432,7 +1432,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_private_name(&mut self, n: &PrivateName) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         punct!("#");
         emit!(n.id)
@@ -1457,7 +1457,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
         // TODO: Use write_symbol when ident is a symbol.
-        self.emit_leading_comments_of_lo(ident.span.lo(), false)?;
+        self.emit_leading_comments_of_lo(ident.span, false)?;
 
         // TODO: span
         self.wr.write_symbol(ident.span, &ident.sym)?;
@@ -1577,7 +1577,7 @@ impl<'a> Emitter<'a> {
                     if format.contains(ListFormat::DelimitersMask)
                         && previous_sibling.span().hi() != parent_node.hi()
                     {
-                        self.emit_leading_comments_of_lo(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
 
                     self.write_delim(format)?;
@@ -1670,7 +1670,7 @@ impl<'a> Emitter<'a> {
                         && previous_sibling.span().hi() != parent_node.hi()
                         && emit_trailing_comments
                     {
-                        self.emit_leading_comments_of_lo(previous_sibling.span().hi(), true)?;
+                        self.emit_leading_comments(previous_sibling.span().hi(), true)?;
                     }
                 }
             }
@@ -1697,7 +1697,7 @@ impl<'a> Emitter<'a> {
 
         if format.contains(ListFormat::BracketsMask) {
             if is_empty {
-                self.emit_leading_comments_of_lo(
+                self.emit_leading_comments(
                     {
                         //TODO: children.hi()
 
