@@ -6328,9 +6328,9 @@ test!(
     },
     issue_1660_4,
     "
-  console.log(class { run() { } });
-  ",
+    console.log(class { run() { } });
+    ",
     "
 
-  "
+    "
 );
