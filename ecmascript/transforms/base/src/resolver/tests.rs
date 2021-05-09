@@ -2798,7 +2798,7 @@ to_ts!(
 );
 
 to_ts!(
-    ts_if_do_while_statements_01,
+    ts_type_parameter_used_as_type_parameter_contraint_01,
     "
     var f3 = <T, U extends T>(x: T, y: U) => {
         function bar<V extends T, W extends U>() {
