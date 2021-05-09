@@ -6288,3 +6288,15 @@ test!(
     }();
     "
 );
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone())),
+    issue_1660_3,
+    "
+    console.log(class { run() { } });
+    ",
+    "
+  
+    "
+);
