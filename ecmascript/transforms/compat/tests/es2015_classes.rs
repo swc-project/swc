@@ -6370,6 +6370,19 @@ test!(
     console.log(class { run() { } });
     ",
     "
-
+    console.log(function() {
+      'use strict';
+      function _class() {
+          _classCallCheck(this, _class);
+      }
+      _createClass(_class, [
+          {
+              key: 'run',
+              value: function run() {
+              }
+          }
+      ]);
+      return _class;
+  }());
     "
 );
