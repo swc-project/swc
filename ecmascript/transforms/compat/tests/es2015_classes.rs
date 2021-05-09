@@ -6367,9 +6367,9 @@ test!(
     },
     issue_1660_5,
     "
-  console.log(class { run() { } });
-  ",
+    console.log(class { run() { } });
+    ",
     "
 
-  "
+    "
 );
