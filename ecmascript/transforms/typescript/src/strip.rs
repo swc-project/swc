@@ -3,6 +3,7 @@ use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::{borrow::Borrow, mem::take};
 use swc_atoms::{js_word, JsWord};
+use swc_common::Mark;
 use swc_common::{util::move_map::MoveMap, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -893,7 +894,10 @@ impl Strip {
         let module_span = module.span;
 
         let module_name = match module.id {
-            TsModuleName::Ident(i) => i,
+            TsModuleName::Ident(i) => {
+                let mark = Mark::fresh(Mark::root());
+                Ident::new(i.sym, i.span.apply_mark(mark))
+            }
             TsModuleName::Str(_) => return None,
         };
         let body = module.body?;
