@@ -6300,10 +6300,23 @@ test!(
     |t| classes(Some(t.comments.clone())),
     issue_1660_3,
     "
-  console.log(class { run() { } });
-  ",
+    console.log(class { run() { } });
+    ",
     "
-
+    console.log(function() {
+        'use strict';
+        function _class() {
+            _classCallCheck(this, _class);
+        }
+        _createClass(_class, [
+            {
+                key: 'run',
+                value: function run() {
+                }
+            }
+        ]);
+        return _class;
+    }());
   "
 );
 
