@@ -73,7 +73,7 @@ impl<'a> Emitter<'a> {
             return Ok(());
         }
 
-        let mut pos = if is_hi { span.hi } else { span.lo };
+        let pos = if is_hi { span.hi } else { span.lo };
         self.emit_leading_comments(pos, is_hi)
     }
 }
