@@ -583,7 +583,9 @@ impl<'a> VisitMut for Resolver<'a> {
             Scope::new(ScopeKind::Fn, Some(&self.current)),
             self.handle_types,
         );
+
         if let Some(ident) = &mut e.ident {
+            self.in_type = false;
             folder.visit_mut_binding_ident(ident, None)
         }
         e.function.visit_mut_with(&mut folder);
