@@ -104,7 +104,7 @@ impl Fold for ClassProperties {
                         declare: false,
                     })));
                 }
-                stmts.push(Stmt::Decl(decl));
+                stmts.push(Stmt::Decl(Decl::Class(decl)));
                 stmts.append(&mut extra_stmts);
                 stmts.push(Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
@@ -139,7 +139,8 @@ impl Fold for ClassProperties {
                         declare: false,
                     })));
                 }
-                stmts.push(Stmt::Decl(decl));
+
+                stmts.push(Stmt::Decl(Decl::Class(decl)));
                 stmts.append(&mut extra_stmts);
 
                 stmts.push(Stmt::Return(ReturnStmt {
@@ -208,7 +209,7 @@ impl ClassProperties {
                                         declare: false,
                                     }))));
                                 }
-                                buf.push(T::from_stmt(Stmt::Decl(decl)));
+                                buf.push(T::from_stmt(Stmt::Decl(Decl::Class(decl))));
                                 buf.extend(stmts.into_iter().map(T::from_stmt));
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportNamed(
@@ -251,7 +252,10 @@ impl ClassProperties {
                                 }
                                 buf.push(
                                     match T::try_from_module_decl(ModuleDecl::ExportDecl(
-                                        ExportDecl { span, decl },
+                                        ExportDecl {
+                                            span,
+                                            decl: Decl::Class(decl),
+                                        },
                                     )) {
                                         Ok(t) => t,
                                         Err(..) => unreachable!(),
@@ -285,7 +289,7 @@ impl ClassProperties {
                                     declare: false,
                                 }))));
                             }
-                            buf.push(T::from_stmt(Stmt::Decl(decl)));
+                            buf.push(T::from_stmt(Stmt::Decl(Decl::Class(decl))));
                             buf.extend(stmts.into_iter().map(T::from_stmt));
                         }
                         _ => buf.push(T::from_stmt(stmt)),
@@ -303,7 +307,7 @@ impl ClassProperties {
         &mut self,
         ident: Ident,
         class: Class,
-    ) -> (Vec<VarDeclarator>, Decl, Vec<Stmt>) {
+    ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
         self.mark = Mark::fresh(Mark::root());
 
@@ -673,14 +677,14 @@ impl ClassProperties {
 
         (
             vars,
-            Decl::Class(ClassDecl {
+            ClassDecl {
                 ident,
                 declare: false,
                 class: Class {
                     body: members,
                     ..class
                 },
-            }),
+            },
             extra_stmts,
         )
     }
