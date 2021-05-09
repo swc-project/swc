@@ -441,13 +441,15 @@ impl<'a, I: Tokens> Parser<I> {
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
     ) -> PResult<ClassMember> {
-        let is_static = static_token.is_some();
+        let mut is_static = static_token.is_some();
 
         let mut is_abstract = false;
         let mut is_override = false;
         let mut readonly = None;
         let mut modifier_span = None;
-        while let Some(modifier) = self.parse_ts_modifier(&["abstract", "readonly", "override"])? {
+        while let Some(modifier) =
+            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"])?
+        {
             modifier_span = Some(self.input.prev_span());
             match modifier {
                 "abstract" => {
@@ -490,15 +492,18 @@ impl<'a, I: Tokens> Parser<I> {
                         readonly = Some(readonly_span);
                     }
                 }
+                "static" => {
+                    if is_override {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029(js_word!("static"), js_word!("override")),
+                        );
+                    }
+
+                    is_static = true;
+                }
                 _ => {}
             }
-        }
-
-        if is_static && is_override {
-            self.emit_err(
-                self.input.prev_span(),
-                SyntaxError::TS1243(js_word!("static"), js_word!("override")),
-            );
         }
 
         if self.input.syntax().typescript()
