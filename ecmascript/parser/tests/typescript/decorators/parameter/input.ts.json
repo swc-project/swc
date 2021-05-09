@@ -111,6 +111,7 @@
                 }
               ],
               "accessibility": "private",
+              "override": false,
               "readonly": false,
               "param": {
                 "type": "Identifier",

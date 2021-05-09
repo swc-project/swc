@@ -91,6 +91,7 @@
               },
               "decorators": [],
               "accessibility": null,
+              "override": false,
               "readonly": true,
               "param": {
                 "type": "AssignmentPattern",
