@@ -23,7 +23,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
-        self.emit_leading_comments_of_lo(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.declare {
             keyword!("declare");
@@ -44,7 +44,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
-        self.emit_leading_comments_of_lo(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span(), false)?;
 
         if node.declare {
             keyword!("declare");
@@ -71,7 +71,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        self.emit_leading_comments_of_lo(node.span, false)?;
+        self.emit_leading_comments_of_span(node.span, false)?;
 
         if node.declare {
             keyword!("declare");
@@ -90,7 +90,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_var_declarator(&mut self, node: &VarDeclarator) -> Result {
-        self.emit_leading_comments_of_lo(node.span(), false)?;
+        self.emit_leading_comments_of_span(node.span(), false)?;
 
         emit!(node.name);
 

@@ -68,7 +68,7 @@ impl<'a> Emitter<'a> {
         write_comments!(self, false, comments.take_leading(pos))
     }
 
-    pub(super) fn emit_leading_comments_of_lo(&mut self, span: Span, is_hi: bool) -> Result {
+    pub(super) fn emit_leading_comments_of_span(&mut self, span: Span, is_hi: bool) -> Result {
         if span.is_dummy() {
             return Ok(());
         }
