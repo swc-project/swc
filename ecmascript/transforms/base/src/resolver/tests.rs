@@ -2839,7 +2839,7 @@ to_ts!(
 );
 
 to_ts!(
-    issue_1653,
+    issue_1653_1,
     "
     namespace X
     {
@@ -2871,3 +2871,40 @@ to_ts!(
     }
     "
 );
+
+#[test]
+fn issue_1653_2() {
+    run_test(
+        ts(),
+        || resolver(),
+        "
+            namespace X
+            {
+                export namespace Z
+                {
+                    export const foo = 0
+                }
+            }
+
+            namespace Y
+            {
+                export namespace Z
+                {
+                    export const bar = 1
+                }
+            }
+            ",
+        "
+            module X {
+                export module Z__2 {
+                    export const foo__3 = 0;
+                }
+            }
+            module Y {
+                export module Z__4 {
+                    export const bar__5 = 1;
+                }
+            }
+            ",
+    );
+}
