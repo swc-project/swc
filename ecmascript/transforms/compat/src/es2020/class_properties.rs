@@ -140,7 +140,7 @@ impl Fold for ClassProperties {
                     })));
                 }
 
-                if stmts.is_empty() {
+                if stmts.is_empty() && extra_stmts.is_empty() {
                     return Expr::Class(ClassExpr {
                         ident: Some(decl.ident),
                         class: decl.class,
