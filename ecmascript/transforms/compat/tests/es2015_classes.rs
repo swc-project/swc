@@ -6246,3 +6246,27 @@ test!(
   }(B);
     "#
 );
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone())),
+    issue_1660_1,
+    "
+  class A {
+
+  }
+  ",
+    "
+  "
+);
+
+test!(
+    syntax(),
+    |t| classes(Some(t.comments.clone())),
+    issue_1660_2,
+    "
+    const foo = class {run(){}};
+    ",
+    "
+    "
+);
