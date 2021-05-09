@@ -36,10 +36,6 @@ pub fn optimize(
     options: &MinifyOptions,
 ) -> Module {
     m.visit_mut_with(&mut unique_marker());
-    // TODO: reserve_quoted_keys
-    // if (quoted_props && options.mangle.properties.keep_quoted !== "strict") {
-    //     reserve_quoted_keys(toplevel, quoted_props);
-    // }
 
     if options.wrap {
         // TODO: wrap_common_js
@@ -65,8 +61,8 @@ pub fn optimize(
         m.visit_mut_with(&mut name_expander());
     }
 
-    if let Some(ref mut _t) = timings {
-        // TODO: store `compress`
+    if let Some(ref mut t) = timings {
+        t.section("compress");
     }
     if let Some(options) = &options.compress {
         m = m.fold_with(&mut compressor(&options, comments));
@@ -80,8 +76,8 @@ pub fn optimize(
         // toplevel.figure_out_scope(options.mangle);
     }
 
-    if let Some(ref mut _t) = timings {
-        // TODO: store `mangle`
+    if let Some(ref mut t) = timings {
+        t.section("mangle");
     }
 
     if let Some(mangle) = &options.mangle {
@@ -95,12 +91,17 @@ pub fn optimize(
         mangle_properties(&mut m, property_mangle_options.clone());
     }
 
-    if let Some(ref mut _t) = timings {
-        // TODO: store `hygiene`
+    if let Some(ref mut t) = timings {
+        t.section("hygiene");
     }
+
     {
         let data = analyze(&m);
         m.visit_mut_with(&mut hygiene_optimizer(data));
+    }
+
+    if let Some(ref mut t) = timings {
+        t.end_section();
     }
 
     m
