@@ -2904,12 +2904,12 @@ fn issue_1653_2() {
         "
             module X {
                 export module Z__0 {
-                    export const foo__3 = 0;
+                    export const foo__0 = 0;
                 }
             }
             module Y {
                 export module Z__0 {
-                    export const bar__5 = 1;
+                    export const bar__0 = 1;
                 }
             }
             ",
