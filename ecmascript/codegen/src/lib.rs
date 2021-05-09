@@ -422,7 +422,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_num_lit(&mut self, num: &Number) -> Result {
-        self.emit_leading_comments_of_lo(num.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(num.span(), false)?;
 
         // Handle infinity
         if num.value.is_infinite() {
@@ -441,7 +441,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_big_lit(&mut self, v: &BigInt) -> Result {
-        self.emit_leading_comments_of_lo(v.span.lo(), false)?;
+        self.emit_leading_comments_of_lo(v.span, false)?;
 
         self.wr.write_lit(v.span, &v.value.to_string())?;
         self.wr.write_lit(v.span, "n")?;
@@ -528,7 +528,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_opt_chain(&mut self, n: &OptChainExpr) -> Result {
-        self.emit_leading_comments_of_lo(n.span().lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span(), false)?;
 
         match *n.expr {
             Expr::Member(ref e) => {
@@ -557,7 +557,7 @@ impl<'a> Emitter<'a> {
 
     #[emitter]
     fn emit_invalid(&mut self, n: &Invalid) -> Result {
-        self.emit_leading_comments_of_lo(n.span.lo(), false)?;
+        self.emit_leading_comments_of_lo(n.span, false)?;
 
         self.wr.write_str_lit(n.span, "<invalid>")?;
     }
@@ -605,12 +605,12 @@ impl<'a> Emitter<'a> {
         } else {
             if self.needs_2dots_for_property_access(&node.obj) {
                 if node.prop.span().lo() >= BytePos(2) {
-                    self.emit_leading_comments_of_lo(node.prop.span().lo() - BytePos(2), false)?;
+                    self.emit_leading_comments(node.prop.span().lo() - BytePos(2), false)?;
                 }
                 punct!(".");
             }
             if node.prop.span().lo() >= BytePos(1) {
-                self.emit_leading_comments_of_lo(node.prop.span().lo() - BytePos(1), false)?;
+                self.emit_leading_comments(node.prop.span().lo() - BytePos(1), false)?;
             }
             punct!(".");
             emit!(node.prop);
