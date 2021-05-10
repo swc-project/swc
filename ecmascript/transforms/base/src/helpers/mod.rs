@@ -60,7 +60,12 @@ macro_rules! add_to {
     }};
 }
 
-scoped_thread_local!(pub static HELPERS: Helpers);
+scoped_thread_local!(
+    /// This variable is used to manage helper scripts like `_inherits` from babel.
+    ///
+    /// The instance contains flags where each flag denotes if a helper script should be injected.
+    pub static HELPERS: Helpers
+);
 
 /// Tracks used helper methods. (e.g. __extends)
 #[derive(Debug, Default)]
