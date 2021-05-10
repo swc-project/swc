@@ -330,4 +330,33 @@ class B extends A {
 
 return new B(20).print()"
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Default::default()
+        ),
+        issue_1660_1,
+        "
+        console.log(class {run(){}});
+        ",
+        "
+        console.log(function() {
+            'use strict';
+            function _class() {
+                _classCallCheck(this, _class);
+            }
+            _createClass(_class, [
+                {
+                    key: 'run',
+                    value: function run() {
+                    }
+                }
+            ]);
+            return _class;
+        }());
+        "
+    );
 }

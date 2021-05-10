@@ -2837,3 +2837,81 @@ to_ts!(
     };
     "
 );
+
+to_ts!(
+    issue_1653_1,
+    "
+    namespace X
+    {
+        export namespace Z
+        {
+            export const foo = 0
+        }
+    }
+
+    namespace Y
+    {
+        export namespace Z
+        {
+            export const bar = 1
+        }
+    }
+
+    ",
+    "
+    module X {
+        export module Z__2 {
+            export const foo__3 = 0;
+        }
+    }
+    module Y {
+        export module Z__4 {
+            export const bar__5 = 1;
+        }
+    }
+    "
+);
+
+#[test]
+fn issue_1653_2() {
+    run_test(
+        ts(),
+        || {
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            chain!(
+                resolver_with_mark(top_level_mark),
+                as_folder(TsHygiene { top_level_mark })
+            )
+        },
+        "
+            namespace X
+            {
+                export namespace Z
+                {
+                    export const foo = 0
+                }
+            }
+
+            namespace Y
+            {
+                export namespace Z
+                {
+                    export const bar = 1
+                }
+            }
+            ",
+        "
+            module X {
+                export module Z__0 {
+                    export const foo__0 = 0;
+                }
+            }
+            module Y {
+                export module Z__0 {
+                    export const bar__0 = 1;
+                }
+            }
+            ",
+    );
+}

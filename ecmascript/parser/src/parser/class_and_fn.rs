@@ -458,6 +458,11 @@ impl<'a, I: Tokens> Parser<I> {
                             self.input.prev_span(),
                             SyntaxError::TS1030(js_word!("abstract")),
                         );
+                    } else if is_override {
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029(js_word!("abstract"), js_word!("override")),
+                        );
                     } else {
                         is_abstract = true;
                     }
