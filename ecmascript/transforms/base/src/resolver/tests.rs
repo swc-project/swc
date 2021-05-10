@@ -2915,3 +2915,17 @@ fn issue_1653_2() {
             ",
     );
 }
+
+to_ts!(
+    ts_for_of_statements_for_of_23_01
+    "
+    for (const v of new FooIterator) {
+        const v = 0; // new scope
+    }
+    ",
+    "
+    for (const v of new FooIterator) {
+        const v = 0; // new scope
+    }
+    "
+);
