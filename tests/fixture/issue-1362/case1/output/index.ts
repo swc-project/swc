@@ -34,22 +34,19 @@ var _class, _dec, _dec1, _dec2, _dec3, _dec4, _dec5, _dec6;
 var _dec7 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
     typeof _appService.AppService === "undefined" ? Object : _appService.AppService
 ]), _dec8 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec9 = (0, _common).Controller();
-let AppController = _class = _dec9(_class = _dec8(_class = _dec7(((_class = function() {
-    class AppController1 {
-        async getHello() {
-            const result = await this.appService.getHello();
-            return result;
-        }
-        async create(createUserDto) {
-            console.log("createUserDto", createUserDto);
-            return "Hello User!";
-        }
-        constructor(appService){
-            this.appService = appService;
-        }
+let AppController = _class = _dec9(_class = _dec8(_class = _dec7(((_class = class AppController1 {
+    async getHello() {
+        const result = await this.appService.getHello();
+        return result;
     }
-    return AppController1;
-}()) || _class, _dec = (0, _common).Get(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
+    async create(createUserDto) {
+        console.log("createUserDto", createUserDto);
+        return "Hello User!";
+    }
+    constructor(appService){
+        this.appService = appService;
+    }
+}) || _class, _dec = (0, _common).Get(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", []), _applyDecoratedDescriptor(_class.prototype, "getHello", [
     _dec,
     _dec1,
     _dec2

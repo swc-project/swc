@@ -40,14 +40,11 @@ var MyEnum;
 })(MyEnum || (MyEnum = {
 }));
 var _dec = Decorator(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String);
-let Xpto = ((_class = function() {
-    class Xpto1 {
-        constructor(){
-            _initializerDefineProperty(this, "value", _descriptor, this);
-        }
+let Xpto = ((_class = class Xpto1 {
+    constructor(){
+        _initializerDefineProperty(this, "value", _descriptor, this);
     }
-    return Xpto1;
-}()) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "value", [
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "value", [
     _dec,
     _dec1
 ], {

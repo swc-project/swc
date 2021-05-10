@@ -63,7 +63,7 @@ jobs:
         os:
           - ubuntu-latest
           - macos-10.15
-          - windows-2019
+          - windows-latest
     steps:
       - uses: actions/checkout@v2
 
@@ -95,7 +95,7 @@ jobs:
         os:
           - ubuntu-latest
           # - macos-10.15
-          - windows-2019
+          - windows-latest
         crate:
           - ast_node
           - enum_kind
@@ -140,7 +140,7 @@ jobs:
           - testing_macros
           - wasm
         exclude:
-          - os: windows-2019
+          - os: windows-latest
             crate: spack
 
     steps:
