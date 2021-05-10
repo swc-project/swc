@@ -14,6 +14,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::native::is_native;
 use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::quote_expr;
 use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
@@ -951,6 +952,7 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     e
 }
 
+#[derive(Default)]
 struct ClassFinder {
     found: bool,
 }
