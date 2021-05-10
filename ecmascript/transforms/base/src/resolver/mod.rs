@@ -150,6 +150,17 @@ impl<'a> Resolver<'a> {
         }
     }
 
+    fn visit_mut_stmt_within_child_scope(&mut self, s: &mut Stmt) {
+        let child_mark = Mark::fresh(self.mark);
+        let mut child = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Block, Some(&self.current)),
+            self.handle_types,
+        );
+
+        child.visit_mut_stmt_within_same_scope(s)
+    }
+
     fn visit_mut_stmt_within_same_scope(&mut self, s: &mut Stmt) {
         match s {
             Stmt::Block(s) => {
@@ -638,7 +649,7 @@ impl<'a> VisitMut for Resolver<'a> {
         n.left.visit_mut_with(&mut child);
         n.right.visit_mut_with(&mut child);
 
-        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+        child.visit_mut_stmt_within_child_scope(&mut *n.body);
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -652,7 +663,7 @@ impl<'a> VisitMut for Resolver<'a> {
         n.left.visit_mut_with(&mut child);
         n.right.visit_mut_with(&mut child);
 
-        child.visit_mut_stmt_within_same_scope(&mut *n.body);
+        child.visit_mut_stmt_within_child_scope(&mut *n.body);
     }
 
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
