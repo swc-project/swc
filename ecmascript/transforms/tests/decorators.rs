@@ -3165,15 +3165,14 @@ export default class {
 
 "#,
     r#"
-var _class;
-let _class1 = ((_class = function() {
-    class _class2{
-         bar() {
+    var _class;
+    let _class1 = ((_class = class _class2 {
+        bar() {
         }
-    }
-    return _class2;
-}()) || _class, _applyDecoratedDescriptor(_class.prototype, 'bar', [foo], Object.getOwnPropertyDescriptor(_class.prototype, 'bar'), _class.prototype), _class);
-export { _class1 as default }
+    }) || _class, _applyDecoratedDescriptor(_class.prototype, "bar", [
+        foo
+    ], Object.getOwnPropertyDescriptor(_class.prototype, "bar"), _class.prototype), _class);
+    export { _class1 as default };
 "#
 );
 
