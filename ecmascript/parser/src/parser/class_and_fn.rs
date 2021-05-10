@@ -716,7 +716,13 @@ impl<'a, I: Tokens> Parser<I> {
         {
             // handle async foo(){}
 
-            let is_override = is_override || self.parse_ts_modifier(&["override"])?.is_some();
+            if self.parse_ts_modifier(&["override"])?.is_some() {
+                is_override = true;
+                self.emit_err(
+                    self.input.prev_span(),
+                    SyntaxError::TS1029(js_word!("override"), js_word!("async")),
+                );
+            }
 
             let is_generator = eat!(self, '*');
             let key = self.parse_class_prop_name()?;
