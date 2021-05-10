@@ -63,7 +63,20 @@ impl Globals {
     }
 }
 
-// scoped_thread_local!(pub static GLOBALS: Globals);
+/// Storage for span hygiene data.
+///
+/// This variable is used to manage identifiers or to identify nodes.
+/// Note that it's stored as a thread-local storage, but actually it's shared
+/// between threads.
+///
+/// # Usages
+///
+/// ## Span hygiene
+///
+/// [Mark]s are stored in this variable.
+///
+/// You can see the document how swc uses the span hygiene info at
+/// https://rustdoc.swc.rs/swc_ecma_transforms_base/resolver/fn.resolver_with_mark.html
 pub static GLOBALS: ::scoped_tls::ScopedKey<Globals> = ::scoped_tls::ScopedKey {
     inner: {
         thread_local!(static FOO: ::std::cell::Cell<usize> = {
