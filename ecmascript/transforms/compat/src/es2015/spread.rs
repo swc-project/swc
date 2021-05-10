@@ -5,6 +5,8 @@ use swc_common::{util::move_map::MoveMap, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::alias_ident_for;
 use swc_ecma_utils::is_literal;
 use swc_ecma_utils::member_expr;
@@ -13,6 +15,9 @@ use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::StmtLike;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn spread(c: Config) -> impl Fold {
@@ -37,6 +42,7 @@ struct ActualFolder {
     vars: Vec<VarDeclarator>,
 }
 
+#[fast_path(SpreadFinder)]
 impl Fold for Spread {
     noop_fold_type!();
 
@@ -75,6 +81,7 @@ impl Spread {
     }
 }
 
+#[fast_path(SpreadFinder)]
 impl Fold for ActualFolder {
     noop_fold_type!();
 
@@ -454,4 +461,23 @@ fn expand_literal_args(
     let mut buf = Vec::with_capacity(args.len() + 4);
     expand(&mut buf, args);
     buf
+}
+
+#[derive(Default)]
+struct SpreadFinder {
+    found: bool,
+}
+
+impl Visit for SpreadFinder {
+    noop_visit_type!();
+
+    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
+        self.found |= n.spread.is_some();
+    }
+}
+
+impl Check for SpreadFinder {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
 }
