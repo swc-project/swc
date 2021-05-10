@@ -1,6 +1,7 @@
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
@@ -35,32 +36,11 @@ pub fn instance_of() -> impl Fold {
 }
 struct InstanceOf;
 
+#[fast_path(InstnaceOfFinder)]
 impl Fold for InstanceOf {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
-        fn should_work(node: &Expr) -> bool {
-            struct Visitor {
-                found: bool,
-            }
-            impl Visit for Visitor {
-                noop_visit_type!();
-
-                fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
-                    if e.op == op!("instanceof") {
-                        self.found = true
-                    }
-                }
-            }
-            let mut v = Visitor { found: false };
-            node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-            v.found
-        }
-        // fast path
-        if !should_work(&expr) {
-            return expr;
-        }
-
         let expr = expr.fold_children_with(self);
 
         match expr {
@@ -77,5 +57,28 @@ impl Fold for InstanceOf {
             }),
             _ => expr,
         }
+    }
+}
+
+#[derive(Default)]
+struct InstnaceOfFinder {
+    found: bool,
+}
+
+impl Visit for InstnaceOfFinder {
+    noop_visit_type!();
+
+    fn visit_bin_expr(&mut self, e: &BinExpr, _: &dyn Node) {
+        e.visit_children_with(self);
+
+        if e.op == op!("instanceof") {
+            self.found = true
+        }
+    }
+}
+
+impl Check for InstnaceOfFinder {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
