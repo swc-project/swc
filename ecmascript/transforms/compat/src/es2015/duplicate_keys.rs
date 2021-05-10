@@ -1,4 +1,4 @@
-use std::collections::HashSet;
+use fxhash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
@@ -34,8 +34,8 @@ impl Fold for DuplicateKeys {
 
 #[derive(Default)]
 struct PropFolder {
-    getter_props: HashSet<JsWord>,
-    setter_props: HashSet<JsWord>,
+    getter_props: FxHashSet<JsWord>,
+    setter_props: FxHashSet<JsWord>,
 }
 
 impl Fold for PropFolder {
@@ -85,7 +85,7 @@ impl Fold for PropFolder {
 }
 
 struct PropNameFolder<'a> {
-    props: &'a mut HashSet<JsWord>,
+    props: &'a mut FxHashSet<JsWord>,
 }
 impl<'a> Fold for PropNameFolder<'a> {
     noop_fold_type!();
