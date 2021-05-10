@@ -1701,8 +1701,10 @@ impl<'a> UsageFinder<'a> {
     }
 }
 
-// Used for error reporting in transform.
-scoped_thread_local!(pub static HANDLER: Handler);
+scoped_thread_local!(
+    /// Used for error reporting in transform.
+    pub static HANDLER: Handler
+);
 
 /// make a new expression which evaluates `val` preserving side effects, if any.
 pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
