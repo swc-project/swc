@@ -4,7 +4,6 @@ class MyClass1 extends BaseClass {
   public override show() {}
   override size = 5;
   override readonly size = 5;
-  override readonly abstract size = 5;
   abstract override readonly size = 5;
   private abstract override readonly size = 5;
   static override show() {}

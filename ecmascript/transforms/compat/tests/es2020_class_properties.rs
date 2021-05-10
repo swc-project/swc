@@ -2928,16 +2928,15 @@ export default class MyClass3 {
           }).bind(this)).bind(this));
       }
     }
-    (function() {
-        class MyClass2 {
-            constructor(){
-                _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
-                    console.log(this);
-                }).bind(this)).bind(this));
-            }
+
+    (class MyClass2 {
+        constructor(){
+            _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
+                console.log(this);
+            }).bind(this)).bind(this));
         }
-        return MyClass2;
-    })();
+    })
+
     class MyClass3 {
         constructor(){
             _defineProperty(this, "myAsyncMethod", _asyncToGenerator((function*() {
@@ -5233,5 +5232,20 @@ test!(
           _classPrivateFieldGet(this, _serialization).decode(raw);
       }
     }
+    "
+);
+
+test!(
+    syntax(),
+    |_| { class_properties() },
+    issue_1660_1,
+    "
+    console.log(class { run() { } });
+    ",
+    "
+    console.log(class _class {
+        run() {
+        }
+    });
     "
 );
