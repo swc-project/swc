@@ -215,6 +215,7 @@ impl SimplifyExpr {
 
                 let val = if (!v.may_have_side_effects() && after_does_not_have_side_effect)
                     || ((idx as usize) == len - 1)
+                    || v.is_lit()
                 {
                     v
                 } else {
