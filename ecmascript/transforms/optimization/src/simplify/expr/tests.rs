@@ -1545,6 +1545,12 @@ fn issue_1674() {
             console.log(foo);
             console.log(bar);
         ",
-        "",
+        "
+            var _foo;
+            let foo = 'info';
+            var bar = (_foo = foo, foo = 'other', _foo);
+            console.log(foo);
+            console.log(bar);
+        ",
     )
 }
