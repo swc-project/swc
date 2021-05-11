@@ -1540,4 +1540,16 @@ fn issue_1674() {
         "var bar = [foo, (foo = 'other')][0];",
         "var bar = (foo = 'other', foo)",
     );
+
+    fold(
+        "
+            let foo = 'info';
+
+            var bar = [foo, (foo = 'other')][0];
+
+            console.log(foo == 'other');
+            console.log(bar == 'info');
+        ",
+        "",
+    )
 }
