@@ -7,6 +7,8 @@ use swc_common::{
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_utils::alias_if_required;
+use swc_ecma_utils::extract_side_effects_to;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::is_literal;
 use swc_ecma_utils::preserve_effects;
@@ -178,20 +180,33 @@ impl SimplifyExpr {
                     _ => unreachable!(),
                 };
 
-                let e = if elems.len() > idx as _ && idx >= 0 {
-                    elems.remove(idx as _)
+                let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
+                    let before = elems.drain(..(idx as usize)).collect();
+                    let mut iter = elems.into_iter();
+                    let e = iter.next().flatten();
+                    let after = iter.collect();
+
+                    (before, e, after)
                 } else {
-                    None
+                    (vec![], None, vec![])
                 };
+
                 let v = match e {
                     None => *undefined(span),
                     Some(e) => *e.expr,
                 };
 
+                let mut exprs = vec![];
+                for expr in before {
+                    if let Some(before) = expr {
+                        extract_side_effects_to(&mut exprs, before.expr);
+                    }
+                }
+
                 preserve_effects(
                     span,
-                    v,
-                    once(Box::new(Expr::Array(ArrayLit { span, elems }))),
+                    before,
+                    once(Box::new(Expr::Array(ArrayLit { span, elems: after }))),
                 )
             }
 
