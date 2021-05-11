@@ -3,6 +3,8 @@ use std::iter;
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::alias_ident_for;
 use swc_ecma_utils::alias_if_required;
 use swc_ecma_utils::has_rest_pat;
@@ -454,6 +456,7 @@ impl AssignFolder {
     }
 }
 
+#[fast_path(DestructuringVisitor)]
 impl Fold for Destructuring {
     noop_fold_type!();
 
@@ -527,6 +530,7 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
+#[fast_path(DestructuringVisitor)]
 impl Fold for AssignFolder {
     noop_fold_type!();
 
@@ -1129,6 +1133,7 @@ where
     v.found
 }
 
+#[derive(Default)]
 struct DestructuringVisitor {
     found: bool,
 }
@@ -1142,5 +1147,11 @@ impl Visit for DestructuringVisitor {
             Pat::Ident(..) => {}
             _ => self.found = true,
         }
+    }
+}
+
+impl Check for DestructuringVisitor {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }

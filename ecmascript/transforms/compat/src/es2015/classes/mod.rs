@@ -13,6 +13,8 @@ use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::native::is_native;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::quote_expr;
 use swc_ecma_utils::quote_str;
 use swc_ecma_utils::{
@@ -187,6 +189,7 @@ where
     }
 }
 
+#[fast_path(ClassFinder)]
 impl<C> Fold for Classes<C>
 where
     C: Comments,
@@ -202,26 +205,6 @@ where
     }
 
     fn fold_decl(&mut self, n: Decl) -> Decl {
-        fn should_work(node: &Decl) -> bool {
-            struct Visitor {
-                found: bool,
-            }
-            impl Visit for Visitor {
-                noop_visit_type!();
-
-                fn visit_class(&mut self, _: &Class, _: &dyn Node) {
-                    self.found = true
-                }
-            }
-            let mut v = Visitor { found: false };
-            node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-            v.found
-        }
-        // fast path
-        if !should_work(&n) {
-            return n;
-        }
-
         let n = match n {
             Decl::Class(decl) => Decl::Var(self.fold_class_as_var_decl(decl.ident, decl.class)),
             _ => n,
@@ -967,4 +950,23 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     }
 
     e
+}
+
+#[derive(Default)]
+struct ClassFinder {
+    found: bool,
+}
+
+impl Visit for ClassFinder {
+    noop_visit_type!();
+
+    fn visit_class(&mut self, _: &Class, _: &dyn Node) {
+        self.found = true
+    }
+}
+
+impl Check for ClassFinder {
+    fn should_handle(&self) -> bool {
+        self.found
+    }
 }
