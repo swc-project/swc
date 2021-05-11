@@ -1,5 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 use swc_atoms::{js_word, JsWord};
+use swc_common::DUMMY_SP;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     Span, Spanned,
@@ -7,8 +8,11 @@ use swc_common::{
 use swc_ecma_ast::{Ident, Lit, *};
 use swc_ecma_transforms_base::ext::ExprRefExt;
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_utils::alias_ident_for;
+use swc_ecma_utils::extract_side_effects_to;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::is_literal;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::preserve_effects;
 use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::to_int32;
@@ -48,6 +52,8 @@ pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
 #[derive(Debug, Default)]
 struct SimplifyExpr {
     changed: bool,
+    /// Uninitializd variables.
+    vars: Vec<VarDeclarator>,
 }
 
 impl CompilerPass for SimplifyExpr {
@@ -177,22 +183,79 @@ impl SimplifyExpr {
                     KnownOp::Index(i) => i,
                     _ => unreachable!(),
                 };
+                let len = elems.len();
 
-                let e = if elems.len() > idx as _ && idx >= 0 {
-                    elems.remove(idx as _)
+                let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
+                    let before = elems.drain(..(idx as usize)).collect();
+                    let mut iter = elems.into_iter();
+                    let e = iter.next().flatten();
+                    let after = iter.collect();
+
+                    (before, e, after)
                 } else {
-                    None
-                };
-                let v = match e {
-                    None => *undefined(span),
-                    Some(e) => *e.expr,
+                    (vec![], None, vec![])
                 };
 
-                preserve_effects(
-                    span,
-                    v,
-                    once(Box::new(Expr::Array(ArrayLit { span, elems }))),
-                )
+                let v = match e {
+                    None => undefined(span),
+                    Some(e) => e.expr,
+                };
+
+                let mut exprs = vec![];
+                for elem in before {
+                    if let Some(elem) = elem {
+                        extract_side_effects_to(&mut exprs, elem.expr);
+                    }
+                }
+
+                let after_does_not_have_side_effect = after.iter().all(|elem| match elem {
+                    Some(elem) => !elem.expr.may_have_side_effects(),
+                    None => true,
+                });
+
+                let val = if (!v.may_have_side_effects() && after_does_not_have_side_effect)
+                    || ((idx as usize) == len - 1)
+                    || v.is_lit()
+                {
+                    v
+                } else {
+                    let var_name = alias_ident_for(&v, "_v");
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: Pat::Ident(BindingIdent {
+                            id: var_name.clone(),
+                            type_ann: None,
+                        }),
+                        init: None,
+                        definite: false,
+                    });
+
+                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: v.span(),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(BindingIdent {
+                            id: var_name.clone(),
+                            type_ann: None,
+                        }))),
+                        op: op!("="),
+                        right: v,
+                    })));
+
+                    Box::new(Expr::Ident(var_name))
+                };
+
+                for elem in after {
+                    if let Some(elem) = elem {
+                        extract_side_effects_to(&mut exprs, elem.expr);
+                    }
+                }
+
+                if exprs.is_empty() {
+                    return *val;
+                }
+
+                exprs.push(val);
+
+                Expr::Seq(SeqExpr { span, exprs })
             }
 
             // { foo: true }['foo']
@@ -1210,6 +1273,48 @@ impl Fold for SimplifyExpr {
             exprs,
             span: e.span,
         }
+    }
+
+    fn fold_stmts(&mut self, mut n: Vec<Stmt>) -> Vec<Stmt> {
+        let mut child = Self::default();
+
+        n = n.fold_children_with(&mut child);
+        self.changed |= child.changed;
+
+        if !child.vars.is_empty() {
+            prepend(
+                &mut n,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: child.vars,
+                })),
+            );
+        }
+
+        n
+    }
+
+    fn fold_module_items(&mut self, mut n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let mut child = Self::default();
+
+        n = n.fold_children_with(&mut child);
+        self.changed |= child.changed;
+
+        if !child.vars.is_empty() {
+            prepend(
+                &mut n,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: child.vars,
+                }))),
+            );
+        }
+
+        n
     }
 }
 

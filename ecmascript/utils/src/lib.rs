@@ -1711,151 +1711,8 @@ pub fn preserve_effects<I>(span: Span, val: Expr, exprs: I) -> Expr
 where
     I: IntoIterator<Item = Box<Expr>>,
 {
-    /// Add side effects of `expr` to `v`
-    /// preserving order and conditions. (think a() ? yield b() : c())
-    #[allow(clippy::vec_box)]
-    fn add_effects(v: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
-        let expr = *expr;
-        match expr {
-            Expr::Lit(..)
-            | Expr::This(..)
-            | Expr::Fn(..)
-            | Expr::Arrow(..)
-            | Expr::Ident(..)
-            | Expr::PrivateName(..) => {}
-
-            // In most case, we can do nothing for this.
-            Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => {
-                v.push(Box::new(expr))
-            }
-
-            // TODO
-            Expr::MetaProp(_) => v.push(Box::new(expr)),
-
-            Expr::Call(_) => v.push(Box::new(expr)),
-            Expr::New(e) => {
-                // Known constructors
-                match *e.callee {
-                    Expr::Ident(Ident { ref sym, .. }) => {
-                        if *sym == js_word!("Date") && e.args.is_empty() {
-                            return;
-                        }
-                    }
-                    _ => {}
-                }
-
-                v.push(Box::new(Expr::New(e)))
-            }
-            Expr::Member(_) => v.push(Box::new(expr)),
-
-            // We are at here because we could not determine value of test.
-            //TODO: Drop values if it does not have side effects.
-            Expr::Cond(_) => v.push(Box::new(expr)),
-
-            Expr::Unary(UnaryExpr { arg, .. }) => add_effects(v, arg),
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                add_effects(v, left);
-                add_effects(v, right);
-            }
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.into_iter().for_each(|e| add_effects(v, e)),
-
-            Expr::Paren(e) => add_effects(v, e.expr),
-
-            Expr::Object(ObjectLit {
-                span, mut props, ..
-            }) => {
-                //
-                let mut has_spread = false;
-                props.retain(|node| match node {
-                    PropOrSpread::Prop(node) => match &**node {
-                        Prop::Shorthand(..) => false,
-                        Prop::KeyValue(KeyValueProp { key, value }) => {
-                            if let PropName::Computed(e) = key {
-                                if e.expr.may_have_side_effects() {
-                                    return true;
-                                }
-                            }
-
-                            value.may_have_side_effects()
-                        }
-                        Prop::Getter(GetterProp { key, .. })
-                        | Prop::Setter(SetterProp { key, .. })
-                        | Prop::Method(MethodProp { key, .. }) => {
-                            if let PropName::Computed(e) = key {
-                                e.expr.may_have_side_effects()
-                            } else {
-                                false
-                            }
-                        }
-                        Prop::Assign(..) => {
-                            unreachable!("assign property in object literal is not a valid syntax")
-                        }
-                    },
-                    PropOrSpread::Spread(SpreadElement { .. }) => {
-                        has_spread = true;
-                        true
-                    }
-                });
-
-                if has_spread {
-                    v.push(Box::new(Expr::Object(ObjectLit { span, props })))
-                } else {
-                    props.into_iter().for_each(|prop| match prop {
-                        PropOrSpread::Prop(node) => match *node {
-                            Prop::Shorthand(..) => {}
-                            Prop::KeyValue(KeyValueProp { key, value }) => {
-                                if let PropName::Computed(e) = key {
-                                    add_effects(v, e.expr);
-                                }
-
-                                add_effects(v, value)
-                            }
-                            Prop::Getter(GetterProp { key, .. })
-                            | Prop::Setter(SetterProp { key, .. })
-                            | Prop::Method(MethodProp { key, .. }) => {
-                                if let PropName::Computed(e) = key {
-                                    add_effects(v, e.expr)
-                                }
-                            }
-                            Prop::Assign(..) => unreachable!(
-                                "assign property in object literal is not a valid syntax"
-                            ),
-                        },
-                        _ => unreachable!(),
-                    })
-                }
-            }
-
-            Expr::Array(ArrayLit { elems, .. }) => {
-                elems.into_iter().filter_map(|e| e).fold(v, |v, e| {
-                    add_effects(v, e.expr);
-
-                    v
-                });
-            }
-
-            Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
-            Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
-            Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
-
-            Expr::JSXMember(..)
-            | Expr::JSXNamespacedName(..)
-            | Expr::JSXEmpty(..)
-            | Expr::JSXElement(..)
-            | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
-
-            Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-            | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-            | Expr::TsAs(TsAsExpr { expr, .. })
-            | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => add_effects(v, expr),
-            Expr::OptChain(e) => add_effects(v, e.expr),
-
-            Expr::Invalid(..) => unreachable!(),
-        }
-    }
-
     let mut exprs = exprs.into_iter().fold(vec![], |mut v, e| {
-        add_effects(&mut v, e);
+        extract_side_effects_to(&mut v, e);
         v
     });
 
@@ -1865,6 +1722,154 @@ where
         exprs.push(Box::new(val));
 
         Expr::Seq(SeqExpr { exprs, span })
+    }
+}
+
+/// Add side effects of `expr` to `to`.
+//
+/// Thie function preserves order and conditions. (think a() ? yield b() : c())
+#[allow(clippy::vec_box)]
+pub fn extract_side_effects_to(to: &mut Vec<Box<Expr>>, expr: Box<Expr>) {
+    let expr = *expr;
+    match expr {
+        Expr::Lit(..)
+        | Expr::This(..)
+        | Expr::Fn(..)
+        | Expr::Arrow(..)
+        | Expr::Ident(..)
+        | Expr::PrivateName(..) => {}
+
+        // In most case, we can do nothing for this.
+        Expr::Update(_) | Expr::Assign(_) | Expr::Yield(_) | Expr::Await(_) => {
+            to.push(Box::new(expr))
+        }
+
+        // TODO
+        Expr::MetaProp(_) => to.push(Box::new(expr)),
+
+        Expr::Call(_) => to.push(Box::new(expr)),
+        Expr::New(e) => {
+            // Known constructors
+            match *e.callee {
+                Expr::Ident(Ident { ref sym, .. }) => {
+                    if *sym == js_word!("Date") && e.args.is_empty() {
+                        return;
+                    }
+                }
+                _ => {}
+            }
+
+            to.push(Box::new(Expr::New(e)))
+        }
+        Expr::Member(_) => to.push(Box::new(expr)),
+
+        // We are at here because we could not determine value of test.
+        //TODO: Drop values if it does not have side effects.
+        Expr::Cond(_) => to.push(Box::new(expr)),
+
+        Expr::Unary(UnaryExpr { arg, .. }) => extract_side_effects_to(to, arg),
+        Expr::Bin(BinExpr { left, right, .. }) => {
+            extract_side_effects_to(to, left);
+            extract_side_effects_to(to, right);
+        }
+        Expr::Seq(SeqExpr { exprs, .. }) => exprs
+            .into_iter()
+            .for_each(|e| extract_side_effects_to(to, e)),
+
+        Expr::Paren(e) => extract_side_effects_to(to, e.expr),
+
+        Expr::Object(ObjectLit {
+            span, mut props, ..
+        }) => {
+            //
+            let mut has_spread = false;
+            props.retain(|node| match node {
+                PropOrSpread::Prop(node) => match &**node {
+                    Prop::Shorthand(..) => false,
+                    Prop::KeyValue(KeyValueProp { key, value }) => {
+                        if let PropName::Computed(e) = key {
+                            if e.expr.may_have_side_effects() {
+                                return true;
+                            }
+                        }
+
+                        value.may_have_side_effects()
+                    }
+                    Prop::Getter(GetterProp { key, .. })
+                    | Prop::Setter(SetterProp { key, .. })
+                    | Prop::Method(MethodProp { key, .. }) => {
+                        if let PropName::Computed(e) = key {
+                            e.expr.may_have_side_effects()
+                        } else {
+                            false
+                        }
+                    }
+                    Prop::Assign(..) => {
+                        unreachable!("assign property in object literal is not a valid syntax")
+                    }
+                },
+                PropOrSpread::Spread(SpreadElement { .. }) => {
+                    has_spread = true;
+                    true
+                }
+            });
+
+            if has_spread {
+                to.push(Box::new(Expr::Object(ObjectLit { span, props })))
+            } else {
+                props.into_iter().for_each(|prop| match prop {
+                    PropOrSpread::Prop(node) => match *node {
+                        Prop::Shorthand(..) => {}
+                        Prop::KeyValue(KeyValueProp { key, value }) => {
+                            if let PropName::Computed(e) = key {
+                                extract_side_effects_to(to, e.expr);
+                            }
+
+                            extract_side_effects_to(to, value)
+                        }
+                        Prop::Getter(GetterProp { key, .. })
+                        | Prop::Setter(SetterProp { key, .. })
+                        | Prop::Method(MethodProp { key, .. }) => {
+                            if let PropName::Computed(e) = key {
+                                extract_side_effects_to(to, e.expr)
+                            }
+                        }
+                        Prop::Assign(..) => {
+                            unreachable!("assign property in object literal is not a valid syntax")
+                        }
+                    },
+                    _ => unreachable!(),
+                })
+            }
+        }
+
+        Expr::Array(ArrayLit { elems, .. }) => {
+            elems.into_iter().filter_map(|e| e).fold(to, |v, e| {
+                extract_side_effects_to(v, e.expr);
+
+                v
+            });
+        }
+
+        Expr::TaggedTpl { .. } => unimplemented!("add_effects for tagged template literal"),
+        Expr::Tpl { .. } => unimplemented!("add_effects for template literal"),
+        Expr::Class(ClassExpr { .. }) => unimplemented!("add_effects for class expression"),
+
+        Expr::JSXMember(..)
+        | Expr::JSXNamespacedName(..)
+        | Expr::JSXEmpty(..)
+        | Expr::JSXElement(..)
+        | Expr::JSXFragment(..) => unreachable!("simplifying jsx"),
+
+        Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+        | Expr::TsAs(TsAsExpr { expr, .. })
+        | Expr::TsConstAssertion(TsConstAssertion { expr, .. }) => {
+            extract_side_effects_to(to, expr)
+        }
+        Expr::OptChain(e) => extract_side_effects_to(to, e.expr),
+
+        Expr::Invalid(..) => unreachable!(),
     }
 }
 
