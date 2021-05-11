@@ -18,6 +18,7 @@ use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn spread(c: Config) -> impl Fold {
