@@ -1537,11 +1537,6 @@ fn test_es6_features() {
 #[test]
 fn issue_1674() {
     fold(
-        "var bar = [foo, (foo = 'other')][0];",
-        "var bar = (foo = 'other', foo)",
-    );
-
-    fold(
         "
             let foo = 'info';
 
