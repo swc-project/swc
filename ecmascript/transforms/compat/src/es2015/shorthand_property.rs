@@ -84,7 +84,7 @@ impl Visit for ShorthandFinder {
     fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
         n.visit_children_with(self);
 
-        self.found |= n.is_shorthand();
+        self.found |= n.is_shorthand() || n.is_method();
     }
 }
 
