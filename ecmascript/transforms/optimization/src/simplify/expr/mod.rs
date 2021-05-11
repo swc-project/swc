@@ -183,6 +183,7 @@ impl SimplifyExpr {
                     KnownOp::Index(i) => i,
                     _ => unreachable!(),
                 };
+                let len = elems.len();
 
                 let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
                     let before = elems.drain(..(idx as usize)).collect();
@@ -207,7 +208,14 @@ impl SimplifyExpr {
                     }
                 }
 
-                let val = if !v.may_have_side_effects() {
+                let after_does_not_have_side_effect = after.iter().all(|elem| match elem {
+                    Some(elem) => !elem.expr.may_have_side_effects(),
+                    None => true,
+                });
+
+                let val = if (!v.may_have_side_effects() && after_does_not_have_side_effect)
+                    || ((idx as usize) == len - 1)
+                {
                     v
                 } else {
                     let var_name = alias_ident_for(&v, "_v");
