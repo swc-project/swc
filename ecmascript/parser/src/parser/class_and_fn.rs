@@ -316,7 +316,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Allow `private declare`.
         let declare = declare || self.syntax().typescript() && eat!(self, "declare");
 
-        if declare && accessibility.is_none() {
+        if declare {
             // Handle declare(){}
             if self.is_class_method()? {
                 let key = Either::Right(PropName::Ident(Ident::new(
@@ -360,7 +360,7 @@ impl<'a, I: Tokens> Parser<I> {
                     false,
                     false,
                 );
-            } else {
+            } else if accessibility.is_none() {
                 self.emit_err(self.input.prev_span(), SyntaxError::TS1031);
             }
         }
