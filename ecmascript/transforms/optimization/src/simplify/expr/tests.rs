@@ -1533,3 +1533,11 @@ fn test_es6_features() {
         "function foo() {return `${false}`}",
     );
 }
+
+#[test]
+fn issue_1674() {
+    fold(
+        "var bar = [foo, (foo = 'other')][0];",
+        "var bar = (foo = 'other', foo)",
+    );
+}
