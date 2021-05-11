@@ -1547,8 +1547,8 @@ fn issue_1674() {
 
             var bar = [foo, (foo = 'other')][0];
 
-            console.log(foo == 'other');
-            console.log(bar == 'info');
+            console.log(foo);
+            console.log(bar);
         ",
         "",
     )
