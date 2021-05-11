@@ -36,19 +36,11 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        run: (cd wasm && wasm-pack build  --release --scope=swc)
+        run: (cd wasm && wasm-pack build  --release --scope=swc --target web)
 
       - name: Rename
         run: |
           sed -i'' -e 's/"name": "@swc\/wasm"/"name": "@swc\/wasm-web"/g' package.json
-        working-directory: wasm/pkg
-
-      - name: Include *_bg files
-        # We explicitly use a temporary file here as jq does not support editing files in place
-        # https://github.com/stedolan/jq/wiki/FAQ#:~:text=%22in-place%22%20editing
-        run: |
-          jq '.files += ["wasm_bg.js", "wasm_bg.wasm.d.ts"]' package.json > tmppackage.json
-          mv tmppackage.json package.json
         working-directory: wasm/pkg
 
       - name: Publish

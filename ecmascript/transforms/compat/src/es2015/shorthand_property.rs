@@ -1,5 +1,11 @@
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 /// Compile ES2015 shorthand properties to ES5
@@ -43,6 +49,7 @@ pub fn shorthand() -> impl 'static + Fold {
 #[derive(Clone, Copy)]
 struct Shorthand;
 
+#[fast_path(ShorthandFinder)]
 impl Fold for Shorthand {
     noop_fold_type!();
 
@@ -63,6 +70,27 @@ impl Fold for Shorthand {
             }),
             _ => prop,
         }
+    }
+}
+
+#[derive(Default)]
+struct ShorthandFinder {
+    found: bool,
+}
+
+impl Visit for ShorthandFinder {
+    noop_visit_type!();
+
+    fn visit_prop(&mut self, n: &Prop, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        self.found |= n.is_shorthand() || n.is_method();
+    }
+}
+
+impl Check for ShorthandFinder {
+    fn should_handle(&self) -> bool {
+        self.found
     }
 }
 

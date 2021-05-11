@@ -4,7 +4,7 @@ use swc_ecma_transforms_testing::test_transform;
 fn fold(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| SimplifyExpr { changed: false },
+        |_| SimplifyExpr::default(),
         src,
         expected,
         true,
@@ -1532,4 +1532,25 @@ fn test_es6_features() {
         "function foo() {return `${false && y}`}",
         "function foo() {return `${false}`}",
     );
+}
+
+#[test]
+fn issue_1674() {
+    fold(
+        "
+            let foo = 'info';
+
+            var bar = [foo, (foo = 'other')][0];
+
+            console.log(foo);
+            console.log(bar);
+        ",
+        "
+            var _foo;
+            let foo = 'info';
+            var bar = (_foo = foo, foo = 'other', _foo);
+            console.log(foo);
+            console.log(bar);
+        ",
+    )
 }
