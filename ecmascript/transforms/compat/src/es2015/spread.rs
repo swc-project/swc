@@ -472,6 +472,8 @@ impl Visit for SpreadFinder {
     noop_visit_type!();
 
     fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
+        n.visit_children_with(self);
+
         self.found |= n.spread.is_some();
     }
 }
