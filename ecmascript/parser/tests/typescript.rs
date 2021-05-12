@@ -4,14 +4,20 @@ extern crate test;
 
 use crate::common::Normalizer;
 use pretty_assertions::assert_eq;
+use std::sync::Arc;
 use std::{
     fs::File,
     io::Read,
     path::{Path, PathBuf},
 };
+use swc_common::errors::Handler;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_visit::FoldWith;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 use testing::StdErr;
 
 #[path = "common/mod.rs"]
@@ -98,11 +104,12 @@ fn spec(file: PathBuf) {
         );
     }
 
-    with_parser(is_backtrace_enabled(), &file, true, |p| {
+    with_parser(is_backtrace_enabled(), &file, true, |handler, p| {
         let program = p.parse_program()?.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
+        program.visit_with(&Invalid { span: DUMMY_SP }, &mut AssertValid { handler });
 
         let json =
             serde_json::to_string_pretty(&program).expect("failed to serialize module as json");
@@ -150,10 +157,11 @@ fn with_parser<F, Ret>(
     f: F,
 ) -> Result<Ret, StdErr>
 where
-    F: FnOnce(&mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
+    F: FnOnce(Arc<Handler>, &mut Parser<Lexer<StringInput<'_>>>) -> PResult<Ret>,
 {
     let fname = file_name.display().to_string();
-    let output = ::testing::run_test(treat_error_as_bug, |cm, handler| {
+    let output = ::testing::run_test2(treat_error_as_bug, |cm, handler| {
+        let handler = Arc::new(handler);
         let fm = cm
             .load_file(file_name)
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
@@ -175,7 +183,7 @@ where
 
         let mut p = Parser::new_from(lexer);
 
-        let res = f(&mut p).map_err(|e| e.into_diagnostic(&handler).emit());
+        let res = f(handler.clone(), &mut p).map_err(|e| e.into_diagnostic(&handler).emit());
 
         for err in p.take_errors() {
             err.into_diagnostic(&handler).emit();
@@ -208,7 +216,7 @@ fn errors(file: PathBuf) {
         );
     }
 
-    let module = with_parser(false, &file, false, |p| p.parse_typescript_module());
+    let module = with_parser(false, &file, false, |_, p| p.parse_typescript_module());
 
     let err = module.expect_err("should fail, but parsed as");
     if err
@@ -223,5 +231,15 @@ fn is_backtrace_enabled() -> bool {
     match ::std::env::var("RUST_BACKTRACE") {
         Ok(val) => val == "1" || val == "full",
         _ => false,
+    }
+}
+
+struct AssertValid {
+    handler: Arc<Handler>,
+}
+
+impl Visit for AssertValid {
+    fn visit_invalid(&mut self, n: &Invalid, _: &dyn Node) {
+        self.handler.struct_span_err(n.span, "invalid").emit();
     }
 }
