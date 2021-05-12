@@ -5,12 +5,15 @@ use swc_babel_ast::BinaryExpression;
 use swc_babel_ast::CallExpression;
 use swc_babel_ast::ConditionalExpression;
 use swc_babel_ast::Expression;
+use swc_babel_ast::FunctionExpression;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::AssignExpr;
 use swc_ecma_ast::BinExpr;
 use swc_ecma_ast::CallExpr;
 use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
+use swc_ecma_ast::FnExpr;
+use swc_ecma_ast::Function;
 
 impl Swcify for Expression {
     type Output = Box<Expr>;
@@ -126,6 +129,26 @@ impl Swcify for ConditionalExpression {
             test: self.test.swcify(ctx),
             cons: self.consequent.swcify(ctx),
             alt: self.alternate.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for FunctionExpression {
+    type Output = FnExpr;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        FnExpr {
+            ident: self.id.swcify(ctx),
+            function: Function {
+                params: self.params.swcify(ctx),
+                decorators: Default::default(),
+                span: ctx.span(&self.base),
+                body: self.body.swcify(ctx),
+                is_generator: self.generator.unwrap_or(false),
+                is_async: self.is_async.unwrap_or(false),
+                type_params: self.type_parameters.swcify(ctx),
+                return_type: self.return_type.swcify(ctx),
+            },
         }
     }
 }
