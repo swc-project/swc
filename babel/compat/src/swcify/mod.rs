@@ -3,6 +3,7 @@ use std::fmt::Debug;
 
 mod ctx;
 mod expr;
+mod jsx;
 mod lit;
 mod pat;
 mod program;

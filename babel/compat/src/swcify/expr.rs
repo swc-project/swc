@@ -287,28 +287,36 @@ impl Swcify for CallExpression {
         CallExpr {
             span: ctx.span(&self.base),
             callee: self.callee.swcify(ctx),
-            args: self.arguments.swcify(ctx),
+            args: self
+                .arguments
+                .swcify(ctx)
+                .into_iter()
+                .map(|v| v.expect("failed to swcify arguments"))
+                .collect(),
             type_args: self.type_arguments.swcify(ctx),
         }
     }
 }
 
 impl Swcify for Arg {
-    type Output = ExprOrSpread;
+    type Output = Option<ExprOrSpread>;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        match self {
+        Some(match self {
             Arg::Spread(s) => ExprOrSpread {
                 spread: Some(ctx.span(&s.base)),
                 expr: s.argument.swcify(ctx),
             },
-            Arg::JSXName(e) => e.swcify(ctx),
-            Arg::Placeholder(_) => {}
+            Arg::JSXName(e) => ExprOrSpread {
+                spread: None,
+                expr: Box::new(Expr::JSXNamespacedName(e.swcify(ctx))),
+            },
+            Arg::Placeholder(_) => return None,
             Arg::Expr(e) => ExprOrSpread {
                 spread: None,
                 expr: e.swcify(ctx),
             },
-        }
+        })
     }
 }
 
