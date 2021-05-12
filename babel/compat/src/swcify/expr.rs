@@ -9,6 +9,7 @@ use swc_babel_ast::BinaryExprOp;
 use swc_babel_ast::BinaryExpression;
 use swc_babel_ast::BindExpression;
 use swc_babel_ast::CallExpression;
+use swc_babel_ast::Callee;
 use swc_babel_ast::ClassExpression;
 use swc_babel_ast::ConditionalExpression;
 use swc_babel_ast::DoExpression;
@@ -50,6 +51,7 @@ use swc_ecma_ast::CallExpr;
 use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
 use swc_ecma_ast::ExprOrSpread;
+use swc_ecma_ast::ExprOrSuper;
 use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
@@ -257,6 +259,22 @@ impl Swcify for BinaryExprOp {
             BinaryExprOp::LessThanOrEqual => {
                 op!("<=")
             }
+        }
+    }
+}
+
+impl Swcify for Callee {
+    type Output = ExprOrSuper;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Callee::V8Id(_) => {
+                unreachable!("what is v8 id?")
+            }
+            Callee::Expr(e) => match *e {
+                Expression::Super(s) => s.swcify(ctx),
+                _ => e.swcify(ctx),
+            },
         }
     }
 }
