@@ -5,9 +5,9 @@ use swc_babel_ast::TSType;
 use swc_babel_ast::TSTypeAnnotation;
 use swc_babel_ast::TSTypeParameter;
 use swc_babel_ast::TSTypeParameterDeclaration;
+use swc_babel_ast::TSTypeParameterInstantiation;
 use swc_babel_ast::TypeAnnotOrNoop;
 use swc_babel_ast::TypeParamDeclOrNoop;
-use swc_babel_ast::TypeParameterInstantiation;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::TsType;
 use swc_ecma_ast::TsTypeAnn;
@@ -15,7 +15,7 @@ use swc_ecma_ast::TsTypeParam;
 use swc_ecma_ast::TsTypeParamDecl;
 use swc_ecma_ast::TsTypeParamInstantiation;
 
-impl Swcify for TypeParameterInstantiation {
+impl Swcify for TSTypeParameterInstantiation {
     type Output = TsTypeParamInstantiation;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
@@ -95,7 +95,7 @@ impl Swcify for TSTypeAnnotation {
 }
 
 impl Swcify for TSType {
-    type Output = TsType;
+    type Output = Box<TsType>;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {}

@@ -28,6 +28,8 @@ use swc_babel_ast::ModuleExpression;
 use swc_babel_ast::NewExpression;
 use swc_babel_ast::ObjectExprProp;
 use swc_babel_ast::ObjectExpression;
+use swc_babel_ast::ObjectMethod;
+use swc_babel_ast::ObjectProperty;
 use swc_babel_ast::OptionalCallExpression;
 use swc_babel_ast::OptionalMemberExpression;
 use swc_babel_ast::ParenthesizedExpression;
@@ -61,6 +63,7 @@ use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
+use swc_ecma_ast::MethodProp;
 use swc_ecma_ast::NewExpr;
 use swc_ecma_ast::ObjectLit;
 use swc_ecma_ast::Pat;
@@ -483,6 +486,18 @@ impl Swcify for ObjectExprProp {
             }),
         }
     }
+}
+
+impl Swcify for ObjectMethod {
+    type Output = MethodProp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for ObjectProperty {
+    type Output = Prop;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for SequenceExpression {
