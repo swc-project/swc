@@ -48,11 +48,13 @@ use swc_babel_ast::TupleExpression;
 use swc_babel_ast::TypeCastExpression;
 use swc_babel_ast::UnaryExprOp;
 use swc_babel_ast::UnaryExpression;
+use swc_babel_ast::UpdateExprOp;
 use swc_babel_ast::UpdateExpression;
 use swc_babel_ast::YieldExpression;
 use swc_common::Spanned;
 use swc_ecma_ast::op;
 use swc_ecma_ast::ArrayLit;
+use swc_ecma_ast::ArrowExpr;
 use swc_ecma_ast::AssignExpr;
 use swc_ecma_ast::BinExpr;
 use swc_ecma_ast::BinaryOp;
@@ -648,9 +650,27 @@ impl Swcify for UnaryExprOp {
 
 impl Swcify for UpdateExpression {
     type Output = UpdateExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        UpdateExpr {
+            span: ctx.span(&self.base),
+            op: match self.operator {
+                UpdateExprOp::Increment => {
+                    op!("++")
+                }
+                UpdateExprOp::Decrement => {
+                    op!("--")
+                }
+            },
+            prefix: self.prefix,
+            arg: self.argument.swcify(ctx),
+        }
+    }
 }
 
-impl Swcify for ArrowFunctionExpression {}
+impl Swcify for ArrowFunctionExpression {
+    type Output = ArrowExpr;
+}
 
 impl Swcify for ClassExpression {}
 
