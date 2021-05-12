@@ -19,7 +19,9 @@ use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
 use swc_babel_ast::LVal;
+use swc_babel_ast::LogicalExprOp;
 use swc_babel_ast::LogicalExpression;
+use swc_babel_ast::MemberExprProp;
 use swc_babel_ast::MemberExpression;
 use swc_babel_ast::MetaProperty;
 use swc_babel_ast::ModuleExpression;
@@ -347,7 +349,7 @@ impl Swcify for FunctionExpression {
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten(),
-                return_type: self.return_type.swcify(ctx),
+                return_type: self.return_type.swcify(ctx).flatten(),
             },
         }
     }
@@ -363,7 +365,25 @@ impl Swcify for Identifier {
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
             },
-            type_ann: self.type_annotation.swcify(ctx),
+            type_ann: self.type_annotation.swcify(ctx).flatten(),
+        }
+    }
+}
+
+impl Swcify for LogicalExprOp {
+    type Output = BinaryOp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            LogicalExprOp::Or => {
+                op!("||")
+            }
+            LogicalExprOp::And => {
+                op!("&&")
+            }
+            LogicalExprOp::Nullish => {
+                op!("??")
+            }
         }
     }
 }
@@ -387,9 +407,24 @@ impl Swcify for MemberExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         MemberExpr {
             span: ctx.span(&self.base),
-            obj: self.object.swcify(ctx),
+            obj: match *self.object {
+                Expression::Super(s) => s.swcify(ctx),
+                _ => ExprOrSuper::Expr(self.object.swcify(ctx)),
+            },
             prop: self.property.swcify(ctx),
             computed: self.computed,
+        }
+    }
+}
+
+impl Swcify for MemberExprProp {
+    type Output = Box<Expr>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            MemberExprProp::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).id)),
+            MemberExprProp::PrivateName(e) => Box::new(Expr::PrivateName(e.swcify(ctx))),
+            MemberExprProp::Expr(e) => e.swcify(ctx),
         }
     }
 }
