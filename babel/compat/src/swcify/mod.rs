@@ -2,8 +2,10 @@ pub use self::ctx::Context;
 use std::fmt::Debug;
 
 mod ctx;
+mod expr;
 mod lit;
 mod program;
+mod stmt;
 
 /// Used to convert a babel ast node to
 pub trait Swcify {
