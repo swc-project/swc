@@ -26,6 +26,7 @@ use swc_babel_ast::MemberExpression;
 use swc_babel_ast::MetaProperty;
 use swc_babel_ast::ModuleExpression;
 use swc_babel_ast::NewExpression;
+use swc_babel_ast::ObjectExprProp;
 use swc_babel_ast::ObjectExpression;
 use swc_babel_ast::OptionalCallExpression;
 use swc_babel_ast::OptionalMemberExpression;
@@ -65,7 +66,10 @@ use swc_ecma_ast::ObjectLit;
 use swc_ecma_ast::Pat;
 use swc_ecma_ast::PatOrExpr;
 use swc_ecma_ast::PrivateName;
+use swc_ecma_ast::Prop;
+use swc_ecma_ast::PropOrSpread;
 use swc_ecma_ast::SeqExpr;
+use swc_ecma_ast::SpreadElement;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
@@ -461,6 +465,22 @@ impl Swcify for ObjectExpression {
         ObjectLit {
             span: ctx.span(&self.base),
             props: self.properties.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for ObjectExprProp {
+    type Output = PropOrSpread;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ObjectExprProp::Method(m) => m.swcify(ctx),
+            ObjectExprProp::Prop(p) => p.swcify(ctx),
+            ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
+                // TODO: Use exact span
+                dot3_token: ctx.span(&p.base),
+                expr: p.argument.swcify(ctx),
+            }),
         }
     }
 }
