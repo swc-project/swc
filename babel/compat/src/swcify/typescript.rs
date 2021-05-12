@@ -8,6 +8,7 @@ use swc_babel_ast::TSTypeParameterDeclaration;
 use swc_babel_ast::TSTypeParameterInstantiation;
 use swc_babel_ast::TypeAnnotOrNoop;
 use swc_babel_ast::TypeParamDeclOrNoop;
+use swc_babel_ast::TypeParameterInstantiation;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::TsType;
 use swc_ecma_ast::TsTypeAnn;

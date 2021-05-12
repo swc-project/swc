@@ -18,7 +18,6 @@ use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
-use swc_babel_ast::LVal;
 use swc_babel_ast::LogicalExprOp;
 use swc_babel_ast::LogicalExpression;
 use swc_babel_ast::MemberExprProp;
@@ -28,6 +27,7 @@ use swc_babel_ast::ModuleExpression;
 use swc_babel_ast::NewExpression;
 use swc_babel_ast::ObjectExprProp;
 use swc_babel_ast::ObjectExpression;
+use swc_babel_ast::ObjectKey;
 use swc_babel_ast::ObjectMethod;
 use swc_babel_ast::ObjectProperty;
 use swc_babel_ast::OptionalCallExpression;
@@ -47,6 +47,7 @@ use swc_babel_ast::TypeCastExpression;
 use swc_babel_ast::UnaryExpression;
 use swc_babel_ast::UpdateExpression;
 use swc_babel_ast::YieldExpression;
+use swc_common::Spanned;
 use swc_ecma_ast::op;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::AssignExpr;
@@ -54,6 +55,7 @@ use swc_ecma_ast::BinExpr;
 use swc_ecma_ast::BinaryOp;
 use swc_ecma_ast::BindingIdent;
 use swc_ecma_ast::CallExpr;
+use swc_ecma_ast::ComputedPropName;
 use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
 use swc_ecma_ast::ExprOrSpread;
@@ -70,6 +72,7 @@ use swc_ecma_ast::Pat;
 use swc_ecma_ast::PatOrExpr;
 use swc_ecma_ast::PrivateName;
 use swc_ecma_ast::Prop;
+use swc_ecma_ast::PropName;
 use swc_ecma_ast::PropOrSpread;
 use swc_ecma_ast::SeqExpr;
 use swc_ecma_ast::SpreadElement;
@@ -303,7 +306,7 @@ impl Swcify for CallExpression {
                 .into_iter()
                 .map(|v| v.expect("failed to swcify arguments"))
                 .collect(),
-            type_args: self.type_arguments.swcify(ctx),
+            type_args: self.type_parameters.swcify(ctx),
         }
     }
 }
@@ -456,7 +459,7 @@ impl Swcify for NewExpression {
                     .map(|v| v.expect("failed to swcify arguemnts"))
                     .collect(),
             ),
-            type_args: self.type_arguments.swcify(ctx),
+            type_args: self.type_parameters.swcify(ctx),
         }
     }
 }
@@ -477,8 +480,8 @@ impl Swcify for ObjectExprProp {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ObjectExprProp::Method(m) => m.swcify(ctx),
-            ObjectExprProp::Prop(p) => p.swcify(ctx),
+            ObjectExprProp::Method(m) => PropOrSpread::Prop(Box::new(Prop::Method(m.swcify(ctx)))),
+            ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(p.swcify(ctx))),
             ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
                 // TODO: Use exact span
                 dot3_token: ctx.span(&p.base),
@@ -491,7 +494,40 @@ impl Swcify for ObjectExprProp {
 impl Swcify for ObjectMethod {
     type Output = MethodProp;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        MethodProp {
+            key: self.key.swcify(ctx),
+            function: Function {
+                params: self.params.swcify(ctx),
+                decorators: self.decorator.swcify(ctx),
+                span: ctx.span(&self.base),
+                body: Some(self.body.swcify(ctx)),
+                is_generator: self.generator.unwrap_or(false),
+                is_async: self.is_async.unwrap_or(false),
+                type_params: self.type_parameters.swcify(ctx),
+                return_type: self.return_type.swcify(ctx),
+            },
+        }
+    }
+}
+
+impl Swcify for ObjectKey {
+    type Output = PropName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ObjectKey::Id(v) => PropName::Ident(v.swcify(ctx).id),
+            ObjectKey::String(v) => PropName::Str(v.swcify(ctx)),
+            ObjectKey::Numeric(v) => PropName::Num(v.swcify(ctx)),
+            ObjectKey::Expr(v) => {
+                let expr = v.swcify(ctx);
+                PropName::Computed(ComputedPropName {
+                    span: expr.span(),
+                    expr,
+                })
+            }
+        }
+    }
 }
 
 impl Swcify for ObjectProperty {
