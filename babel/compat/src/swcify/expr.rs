@@ -65,6 +65,7 @@ use swc_ecma_ast::ObjectLit;
 use swc_ecma_ast::Pat;
 use swc_ecma_ast::PatOrExpr;
 use swc_ecma_ast::PrivateName;
+use swc_ecma_ast::SeqExpr;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
@@ -435,8 +436,19 @@ impl Swcify for NewExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         NewExpr {
             span: ctx.span(&self.base),
-            callee: self.callee.swcify(ctx),
-            args: self.arguments.swcify(ctx),
+            callee: match self.callee {
+                Callee::V8Id(..) => {
+                    unreachable!()
+                }
+                Callee::Expr(e) => e.swcify(ctx),
+            },
+            args: Some(
+                self.arguments
+                    .swcify(ctx)
+                    .into_iter()
+                    .map(|v| v.expect("failed to swcify arguemnts"))
+                    .collect(),
+            ),
             type_args: self.type_arguments.swcify(ctx),
         }
     }
@@ -453,7 +465,16 @@ impl Swcify for ObjectExpression {
     }
 }
 
-impl Swcify for SequenceExpression {}
+impl Swcify for SequenceExpression {
+    type Output = SeqExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        SeqExpr {
+            span: ctx.span(&self.base),
+            exprs: self.expressions.swcify(ctx),
+        }
+    }
+}
 
 impl Swcify for ParenthesizedExpression {}
 
