@@ -56,10 +56,12 @@ use swc_ecma_ast::op;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::ArrowExpr;
 use swc_ecma_ast::AssignExpr;
+use swc_ecma_ast::AwaitExpr;
 use swc_ecma_ast::BinExpr;
 use swc_ecma_ast::BinaryOp;
 use swc_ecma_ast::BindingIdent;
 use swc_ecma_ast::CallExpr;
+use swc_ecma_ast::ClassExpr;
 use swc_ecma_ast::ComputedPropName;
 use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
@@ -71,6 +73,7 @@ use swc_ecma_ast::Ident;
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
+use swc_ecma_ast::MetaPropExpr;
 use swc_ecma_ast::MethodProp;
 use swc_ecma_ast::NewExpr;
 use swc_ecma_ast::ObjectLit;
@@ -83,6 +86,7 @@ use swc_ecma_ast::PropName;
 use swc_ecma_ast::PropOrSpread;
 use swc_ecma_ast::SeqExpr;
 use swc_ecma_ast::SpreadElement;
+use swc_ecma_ast::TaggedTpl;
 use swc_ecma_ast::ThisExpr;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
@@ -90,6 +94,7 @@ use swc_ecma_ast::TsTypeAssertion;
 use swc_ecma_ast::UnaryExpr;
 use swc_ecma_ast::UnaryOp;
 use swc_ecma_ast::UpdateExpr;
+use swc_ecma_ast::YieldExpr;
 
 use super::Context;
 
@@ -670,19 +675,45 @@ impl Swcify for UpdateExpression {
 
 impl Swcify for ArrowFunctionExpression {
     type Output = ArrowExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
-impl Swcify for ClassExpression {}
+impl Swcify for ClassExpression {
+    type Output = ClassExpr;
 
-impl Swcify for MetaProperty {}
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
 
-impl Swcify for Super {}
+impl Swcify for MetaProperty {
+    type Output = MetaPropExpr;
 
-impl Swcify for TaggedTemplateExpression {}
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
 
-impl Swcify for YieldExpression {}
+impl Swcify for swc_babel_ast::Super {
+    type Output = swc_ecma_ast::Super;
 
-impl Swcify for AwaitExpression {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::Super {
+            span: ctx.span(&self.base),
+        }
+    }
+}
+
+impl Swcify for TaggedTemplateExpression {
+    type Output = TaggedTpl;
+}
+
+impl Swcify for YieldExpression {
+    type Output = YieldExpr;
+}
+
+impl Swcify for AwaitExpression {
+    type Output = AwaitExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
 
 impl Swcify for Import {}
 
