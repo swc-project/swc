@@ -7,6 +7,7 @@ mod lit;
 mod pat;
 mod program;
 mod stmt;
+mod typescript;
 
 /// Used to convert a babel ast node to
 pub trait Swcify {
