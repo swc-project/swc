@@ -1,4 +1,5 @@
 use crate::swcify::Swcify;
+use swc_babel_ast::Arg;
 use swc_babel_ast::ArrayExprEl;
 use swc_babel_ast::ArrayExpression;
 use swc_babel_ast::ArrowFunctionExpression;
@@ -292,6 +293,25 @@ impl Swcify for CallExpression {
     }
 }
 
+impl Swcify for Arg {
+    type Output = ExprOrSpread;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Arg::Spread(s) => ExprOrSpread {
+                spread: Some(ctx.span(&s.base)),
+                expr: s.argument.swcify(ctx),
+            },
+            Arg::JSXName(e) => e.swcify(ctx),
+            Arg::Placeholder(_) => {}
+            Arg::Expr(e) => ExprOrSpread {
+                spread: None,
+                expr: e.swcify(ctx),
+            },
+        }
+    }
+}
+
 impl Swcify for ConditionalExpression {
     type Output = CondExpr;
 
@@ -310,7 +330,7 @@ impl Swcify for FunctionExpression {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         FnExpr {
-            ident: self.id.swcify(ctx),
+            ident: self.id.swcify(ctx).map(|v| v.id),
             function: Function {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
