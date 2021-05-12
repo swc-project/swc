@@ -46,6 +46,7 @@ use swc_babel_ast::TaggedTemplateExpression;
 use swc_babel_ast::ThisExpression;
 use swc_babel_ast::TupleExpression;
 use swc_babel_ast::TypeCastExpression;
+use swc_babel_ast::UnaryExprOp;
 use swc_babel_ast::UnaryExpression;
 use swc_babel_ast::UpdateExpression;
 use swc_babel_ast::YieldExpression;
@@ -71,6 +72,7 @@ use swc_ecma_ast::MemberExpr;
 use swc_ecma_ast::MethodProp;
 use swc_ecma_ast::NewExpr;
 use swc_ecma_ast::ObjectLit;
+use swc_ecma_ast::ParenExpr;
 use swc_ecma_ast::Pat;
 use swc_ecma_ast::PatOrExpr;
 use swc_ecma_ast::PrivateName;
@@ -79,9 +81,13 @@ use swc_ecma_ast::PropName;
 use swc_ecma_ast::PropOrSpread;
 use swc_ecma_ast::SeqExpr;
 use swc_ecma_ast::SpreadElement;
+use swc_ecma_ast::ThisExpr;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
+use swc_ecma_ast::UnaryExpr;
+use swc_ecma_ast::UnaryOp;
+use swc_ecma_ast::UpdateExpr;
 
 use super::Context;
 
@@ -574,13 +580,75 @@ impl Swcify for SequenceExpression {
     }
 }
 
-impl Swcify for ParenthesizedExpression {}
+impl Swcify for ParenthesizedExpression {
+    type Output = ParenExpr;
 
-impl Swcify for ThisExpression {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ParenExpr {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
+        }
+    }
+}
 
-impl Swcify for UnaryExpression {}
+impl Swcify for ThisExpression {
+    type Output = ThisExpr;
 
-impl Swcify for UpdateExpression {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ThisExpr {
+            span: ctx.span(&self.base),
+        }
+    }
+}
+
+impl Swcify for UnaryExpression {
+    type Output = UnaryExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        UnaryExpr {
+            span: ctx.span(&self.base),
+            op: self.operator.swcify(ctx),
+            arg: self.argument.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for UnaryExprOp {
+    type Output = UnaryOp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            UnaryExprOp::Void => {
+                op!("void")
+            }
+            UnaryExprOp::Throw => {
+                panic!("swc does not support throw expressions")
+            }
+            UnaryExprOp::Delete => {
+                op!("delete")
+            }
+            UnaryExprOp::LogicalNot => {
+                op!("!")
+            }
+            UnaryExprOp::Plus => {
+                op!(unary, "+")
+            }
+            UnaryExprOp::Negation => {
+                op!(unary, "-")
+            }
+            UnaryExprOp::BitwiseNot => {
+                op!("~")
+            }
+            UnaryExprOp::Typeof => {
+                op!("typeof")
+            }
+        }
+    }
+}
+
+impl Swcify for UpdateExpression {
+    type Output = UpdateExpr;
+}
 
 impl Swcify for ArrowFunctionExpression {}
 
