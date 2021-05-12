@@ -4,6 +4,8 @@ use swc_babel_ast::ArrayExpression;
 use swc_babel_ast::ArrowFunctionExpression;
 use swc_babel_ast::AssignmentExpression;
 use swc_babel_ast::AwaitExpression;
+use swc_babel_ast::BinaryExprLeft;
+use swc_babel_ast::BinaryExprOp;
 use swc_babel_ast::BinaryExpression;
 use swc_babel_ast::BindExpression;
 use swc_babel_ast::CallExpression;
@@ -38,9 +40,11 @@ use swc_babel_ast::TypeCastExpression;
 use swc_babel_ast::UnaryExpression;
 use swc_babel_ast::UpdateExpression;
 use swc_babel_ast::YieldExpression;
+use swc_ecma_ast::op;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::AssignExpr;
 use swc_ecma_ast::BinExpr;
+use swc_ecma_ast::BinaryOp;
 use swc_ecma_ast::BindingIdent;
 use swc_ecma_ast::CallExpr;
 use swc_ecma_ast::CondExpr;
@@ -52,7 +56,10 @@ use swc_ecma_ast::Ident;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
 use swc_ecma_ast::NewExpr;
+use swc_ecma_ast::ObjectLit;
 use swc_ecma_ast::Pat;
+use swc_ecma_ast::PatOrExpr;
+use swc_ecma_ast::PrivateName;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
@@ -138,7 +145,7 @@ impl Swcify for AssignmentExpression {
                     self.operator,
                 )
             }),
-            left: self.left.swcify(ctx).into(),
+            left: PatOrExpr::Pat(Box::new(self.left.swcify(ctx))),
             right: self.right.swcify(ctx),
         }
     }
@@ -153,6 +160,103 @@ impl Swcify for BinaryExpression {
             op: self.operator.swcify(ctx),
             left: self.left.swcify(ctx),
             right: self.right.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::PrivateName {
+    type Output = swc_ecma_ast::PrivateName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::PrivateName {
+            span: ctx.span(&self.base),
+            id: self.id.swcify(ctx).id,
+        }
+    }
+}
+
+impl Swcify for BinaryExprLeft {
+    type Output = Box<Expr>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            BinaryExprLeft::Private(e) => Box::new(Expr::PrivateName(e.swcify(ctx))),
+            BinaryExprLeft::Expr(e) => e.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for BinaryExprOp {
+    type Output = BinaryOp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            BinaryExprOp::Addition => {
+                op!(bin, "+")
+            }
+            BinaryExprOp::Subtraction => {
+                op!(bin, "-")
+            }
+            BinaryExprOp::Division => {
+                op!("/")
+            }
+            BinaryExprOp::Remainder => {
+                op!("%")
+            }
+            BinaryExprOp::Multiplication => {
+                op!("*")
+            }
+            BinaryExprOp::Exponentiation => {
+                op!("**")
+            }
+            BinaryExprOp::And => {
+                op!("&")
+            }
+            BinaryExprOp::Or => {
+                op!("|")
+            }
+            BinaryExprOp::RightShift => {
+                op!(">>")
+            }
+            BinaryExprOp::UnsignedRightShift => {
+                op!(">>>")
+            }
+            BinaryExprOp::LeftShift => {
+                op!("<<")
+            }
+            BinaryExprOp::Xor => {
+                op!("^")
+            }
+            BinaryExprOp::Equal => {
+                op!("==")
+            }
+            BinaryExprOp::StrictEqual => {
+                op!("===")
+            }
+            BinaryExprOp::NotEqual => {
+                op!("!=")
+            }
+            BinaryExprOp::StrictNotEqual => {
+                op!("!==")
+            }
+            BinaryExprOp::In => {
+                op!("in")
+            }
+            BinaryExprOp::Instanceof => {
+                op!("instanceof")
+            }
+            BinaryExprOp::GreaterThan => {
+                op!(">")
+            }
+            BinaryExprOp::LessThan => {
+                op!("<")
+            }
+            BinaryExprOp::GreaterThanOrEqual => {
+                op!(">=")
+            }
+            BinaryExprOp::LessThanOrEqual => {
+                op!("<=")
+            }
         }
     }
 }
@@ -257,7 +361,16 @@ impl Swcify for NewExpression {
     }
 }
 
-impl Swcify for ObjectExpression {}
+impl Swcify for ObjectExpression {
+    type Output = ObjectLit;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ObjectLit {
+            span: ctx.span(&self.base),
+            props: self.properties.swcify(ctx),
+        }
+    }
+}
 
 impl Swcify for SequenceExpression {}
 

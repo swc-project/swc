@@ -36,3 +36,14 @@ where
         self.map(|v| v.swcify(ctx))
     }
 }
+
+impl<T> Swcify for Box<T>
+where
+    T: Swcify,
+{
+    type Output = T::Output;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        (*self).swcify(ctx)
+    }
+}
