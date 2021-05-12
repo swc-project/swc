@@ -24,3 +24,14 @@ where
         self.into_iter().map(|v| v.swcify(ctx)).collect()
     }
 }
+
+impl<T> Swcify for Option<T>
+where
+    T: Swcify,
+{
+    type Output = Option<T::Output>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        self.map(|v| v.swcify(ctx))
+    }
+}

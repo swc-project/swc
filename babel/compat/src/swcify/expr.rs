@@ -1,12 +1,22 @@
 use crate::swcify::Swcify;
+use swc_babel_ast::ArrayExpression;
+use swc_babel_ast::AssignmentExpression;
+use swc_babel_ast::BinaryExpression;
+use swc_babel_ast::CallExpression;
+use swc_babel_ast::ConditionalExpression;
 use swc_babel_ast::Expression;
+use swc_ecma_ast::ArrayLit;
+use swc_ecma_ast::AssignExpr;
+use swc_ecma_ast::BinExpr;
+use swc_ecma_ast::CallExpr;
+use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
 
 impl Swcify for Expression {
     type Output = Box<Expr>;
 
     fn swcify(self, ctx: &super::Context) -> Self::Output {
-        match self {
+        Box::new(match self {
             Expression::Array(e) => e.swcify(ctx).into(),
             Expression::Assignment(e) => e.swcify(ctx).into(),
             Expression::Binary(e) => e.swcify(ctx).into(),
@@ -53,6 +63,41 @@ impl Swcify for Expression {
             Expression::TSAs(e) => e.swcify(ctx).into(),
             Expression::TSTypeAssertion(e) => e.swcify(ctx).into(),
             Expression::TSNonNull(e) => e.swcify(ctx).into(),
+        })
+    }
+}
+
+impl Swcify for ArrayExpression {
+    type Output = ArrayLit;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        ArrayLit {
+            span: ctx.span(&self.base),
+            elems: self.elements.swcify(ctx),
         }
     }
+}
+
+impl Swcify for AssignmentExpression {
+    type Output = AssignExpr;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+}
+
+impl Swcify for BinaryExpression {
+    type Output = BinExpr;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+}
+
+impl Swcify for CallExpression {
+    type Output = CallExpr;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+}
+
+impl Swcify for ConditionalExpression {
+    type Output = CondExpr;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {}
 }
