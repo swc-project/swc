@@ -1,13 +1,42 @@
 use crate::swcify::Swcify;
+use swc_babel_ast::ArrayExprEl;
 use swc_babel_ast::ArrayExpression;
+use swc_babel_ast::ArrowFunctionExpression;
 use swc_babel_ast::AssignmentExpression;
+use swc_babel_ast::AwaitExpression;
 use swc_babel_ast::BinaryExpression;
+use swc_babel_ast::BindExpression;
 use swc_babel_ast::CallExpression;
+use swc_babel_ast::ClassExpression;
 use swc_babel_ast::ConditionalExpression;
+use swc_babel_ast::DoExpression;
 use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
+use swc_babel_ast::Import;
 use swc_babel_ast::LogicalExpression;
+use swc_babel_ast::MemberExpression;
+use swc_babel_ast::MetaProperty;
+use swc_babel_ast::ModuleExpression;
+use swc_babel_ast::NewExpression;
+use swc_babel_ast::ObjectExpression;
+use swc_babel_ast::OptionalCallExpression;
+use swc_babel_ast::OptionalMemberExpression;
+use swc_babel_ast::ParenthesizedExpression;
+use swc_babel_ast::PipelinePrimaryTopicReference;
+use swc_babel_ast::RecordExpression;
+use swc_babel_ast::SequenceExpression;
+use swc_babel_ast::Super;
+use swc_babel_ast::TSAsExpression;
+use swc_babel_ast::TSNonNullExpression;
+use swc_babel_ast::TSTypeAssertion;
+use swc_babel_ast::TaggedTemplateExpression;
+use swc_babel_ast::ThisExpression;
+use swc_babel_ast::TupleExpression;
+use swc_babel_ast::TypeCastExpression;
+use swc_babel_ast::UnaryExpression;
+use swc_babel_ast::UpdateExpression;
+use swc_babel_ast::YieldExpression;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::AssignExpr;
 use swc_ecma_ast::BinExpr;
@@ -15,15 +44,23 @@ use swc_ecma_ast::BindingIdent;
 use swc_ecma_ast::CallExpr;
 use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
+use swc_ecma_ast::ExprOrSpread;
 use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::Lit;
+use swc_ecma_ast::MemberExpr;
+use swc_ecma_ast::NewExpr;
+use swc_ecma_ast::TsAsExpr;
+use swc_ecma_ast::TsNonNullExpr;
+use swc_ecma_ast::TsTypeAssertion;
+
+use super::Context;
 
 impl Swcify for Expression {
     type Output = Box<Expr>;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         Box::new(match self {
             Expression::Array(e) => e.swcify(ctx).into(),
             Expression::Assignment(e) => e.swcify(ctx).into(),
@@ -78,7 +115,7 @@ impl Swcify for Expression {
 impl Swcify for ArrayExpression {
     type Output = ArrayLit;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         ArrayLit {
             span: ctx.span(&self.base),
             elems: self.elements.swcify(ctx),
@@ -89,7 +126,7 @@ impl Swcify for ArrayExpression {
 impl Swcify for AssignmentExpression {
     type Output = AssignExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         AssignExpr {
             span: ctx.span(&self.base),
             op: (),
@@ -102,7 +139,7 @@ impl Swcify for AssignmentExpression {
 impl Swcify for BinaryExpression {
     type Output = BinExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         BinExpr {
             span: ctx.span(&self.base),
             op: self.operator.swcify(ctx),
@@ -115,7 +152,7 @@ impl Swcify for BinaryExpression {
 impl Swcify for CallExpression {
     type Output = CallExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         CallExpr {
             span: ctx.span(&self.base),
             callee: self.callee.swcify(ctx),
@@ -128,7 +165,7 @@ impl Swcify for CallExpression {
 impl Swcify for ConditionalExpression {
     type Output = CondExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         CondExpr {
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
@@ -141,7 +178,7 @@ impl Swcify for ConditionalExpression {
 impl Swcify for FunctionExpression {
     type Output = FnExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         FnExpr {
             ident: self.id.swcify(ctx),
             function: Function {
@@ -161,7 +198,7 @@ impl Swcify for FunctionExpression {
 impl Swcify for Identifier {
     type Output = BindingIdent;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         BindingIdent {
             id: Ident {
                 span: ctx.span(&self.base),
@@ -176,7 +213,7 @@ impl Swcify for Identifier {
 impl Swcify for LogicalExpression {
     type Output = BinExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {
+    fn swcify(self, ctx: &Context) -> Self::Output {
         BinExpr {
             span: ctx.span(&self.base),
             op: self.operator.swcify(ctx),
@@ -184,4 +221,140 @@ impl Swcify for LogicalExpression {
             right: self.right.swcify(ctx),
         }
     }
+}
+
+impl Swcify for MemberExpression {
+    type Output = MemberExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        MemberExpr {
+            span: ctx.span(&self.base),
+            obj: self.object.swcify(ctx),
+            prop: self.property.swcify(ctx),
+            computed: self.computed,
+        }
+    }
+}
+
+impl Swcify for NewExpression {
+    type Output = NewExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        NewExpr {
+            span: ctx.span(&self.base),
+            callee: self.callee.swcify(ctx),
+            args: self.arguments.swcify(ctx),
+            type_args: self.type_arguments.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for ObjectExpression {}
+
+impl Swcify for SequenceExpression {}
+
+impl Swcify for ParenthesizedExpression {}
+
+impl Swcify for ThisExpression {}
+
+impl Swcify for UnaryExpression {}
+
+impl Swcify for UpdateExpression {}
+
+impl Swcify for ArrowFunctionExpression {}
+
+impl Swcify for ClassExpression {}
+
+impl Swcify for MetaProperty {}
+
+impl Swcify for Super {}
+
+impl Swcify for TaggedTemplateExpression {}
+
+impl Swcify for YieldExpression {}
+
+impl Swcify for AwaitExpression {}
+
+impl Swcify for Import {}
+
+impl Swcify for OptionalMemberExpression {}
+
+impl Swcify for OptionalCallExpression {}
+
+impl Swcify for TypeCastExpression {}
+
+impl Swcify for swc_babel_ast::JSXElement {}
+
+impl Swcify for swc_babel_ast::JSXFragment {}
+
+impl Swcify for BindExpression {
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        panic!("swc does not support bind expressions")
+    }
+}
+
+impl Swcify for DoExpression {
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        panic!("swc does not support do expressions")
+    }
+}
+
+impl Swcify for PipelinePrimaryTopicReference {
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        panic!("swc does not support `PipelinePrimaryTopicReference`")
+    }
+}
+
+impl Swcify for RecordExpression {
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        panic!("swc does not support record expressions")
+    }
+}
+
+impl Swcify for TupleExpression {
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        panic!("swc does not support tuple expressions")
+    }
+}
+
+impl Swcify for ModuleExpression {
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        panic!("swc does not support module expressions")
+    }
+}
+
+impl Swcify for TSAsExpression {
+    type Output = TsAsExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for TSTypeAssertion {
+    type Output = TsTypeAssertion;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for TSNonNullExpression {
+    type Output = TsNonNullExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for ArrayExprEl {
+    type Output = ExprOrSpread;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
