@@ -14,6 +14,7 @@ use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
+use swc_babel_ast::LVal;
 use swc_babel_ast::LogicalExpression;
 use swc_babel_ast::MemberExpression;
 use swc_babel_ast::MetaProperty;
@@ -51,6 +52,7 @@ use swc_ecma_ast::Ident;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
 use swc_ecma_ast::NewExpr;
+use swc_ecma_ast::Pat;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
@@ -129,9 +131,15 @@ impl Swcify for AssignmentExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {
         AssignExpr {
             span: ctx.span(&self.base),
-            op: (),
-            left: (),
-            right: (),
+            op: self.operator.parse().unwrap_or_else(|_| {
+                panic!(
+                    "failed to convert `AssignmentExpression` of babel: Unknown assignment \
+                     operator {}",
+                    self.operator,
+                )
+            }),
+            left: self.left.swcify(ctx).into(),
+            right: self.right.swcify(ctx),
         }
     }
 }

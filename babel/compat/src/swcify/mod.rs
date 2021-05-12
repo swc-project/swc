@@ -4,6 +4,7 @@ use std::fmt::Debug;
 mod ctx;
 mod expr;
 mod lit;
+mod pat;
 mod program;
 mod stmt;
 
