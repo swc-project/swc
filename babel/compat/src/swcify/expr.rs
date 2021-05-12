@@ -81,23 +81,51 @@ impl Swcify for ArrayExpression {
 impl Swcify for AssignmentExpression {
     type Output = AssignExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        AssignExpr {
+            span: ctx.span(&self.base),
+            op: (),
+            left: (),
+            right: (),
+        }
+    }
 }
 
 impl Swcify for BinaryExpression {
     type Output = BinExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        BinExpr {
+            span: ctx.span(&self.base),
+            op: self.operator.swcify(ctx),
+            left: self.left.swcify(ctx),
+            right: self.right.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for CallExpression {
     type Output = CallExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        CallExpr {
+            span: ctx.span(&self.base),
+            callee: self.callee.swcify(ctx),
+            args: self.arguments.swcify(ctx),
+            type_args: self.type_arguments.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for ConditionalExpression {
     type Output = CondExpr;
 
-    fn swcify(self, ctx: &super::Context) -> Self::Output {}
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        CondExpr {
+            span: ctx.span(&self.base),
+            test: self.test.swcify(ctx),
+            cons: self.consequent.swcify(ctx),
+            alt: self.alternate.swcify(ctx),
+        }
+    }
 }
