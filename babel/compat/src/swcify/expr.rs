@@ -29,10 +29,12 @@ use swc_babel_ast::ObjectExprProp;
 use swc_babel_ast::ObjectExpression;
 use swc_babel_ast::ObjectKey;
 use swc_babel_ast::ObjectMethod;
+use swc_babel_ast::ObjectPropVal;
 use swc_babel_ast::ObjectProperty;
 use swc_babel_ast::OptionalCallExpression;
 use swc_babel_ast::OptionalMemberExpression;
 use swc_babel_ast::ParenthesizedExpression;
+use swc_babel_ast::PatternLike;
 use swc_babel_ast::PipelinePrimaryTopicReference;
 use swc_babel_ast::RecordExpression;
 use swc_babel_ast::SequenceExpression;
@@ -63,6 +65,7 @@ use swc_ecma_ast::ExprOrSuper;
 use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
+use swc_ecma_ast::KeyValueProp;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
 use swc_ecma_ast::MethodProp;
@@ -481,7 +484,7 @@ impl Swcify for ObjectExprProp {
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
             ObjectExprProp::Method(m) => PropOrSpread::Prop(Box::new(Prop::Method(m.swcify(ctx)))),
-            ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(p.swcify(ctx))),
+            ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(Prop::KeyValue(p.swcify(ctx)))),
             ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
                 // TODO: Use exact span
                 dot3_token: ctx.span(&p.base),
@@ -542,9 +545,22 @@ impl Swcify for ObjectKey {
 }
 
 impl Swcify for ObjectProperty {
-    type Output = Prop;
+    type Output = KeyValueProp;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        KeyValueProp {
+            key: self.key.swcify(ctx),
+            value: match self.value {
+                ObjectPropVal::Pattern(pat) => match pat {
+                    PatternLike::Id(i) => Box::new(Expr::Ident(i.swcify(ctx).id)),
+                    _ => {
+                        panic!("swc does not support ObjectPropVal::Pattern({:?})", pat)
+                    }
+                },
+                ObjectPropVal::Expr(e) => e.swcify(ctx),
+            },
+        }
+    }
 }
 
 impl Swcify for SequenceExpression {
