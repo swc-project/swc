@@ -6,14 +6,19 @@ use swc_babel_ast::CallExpression;
 use swc_babel_ast::ConditionalExpression;
 use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
+use swc_babel_ast::Identifier;
+use swc_babel_ast::LogicalExpression;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::AssignExpr;
 use swc_ecma_ast::BinExpr;
+use swc_ecma_ast::BindingIdent;
 use swc_ecma_ast::CallExpr;
 use swc_ecma_ast::CondExpr;
 use swc_ecma_ast::Expr;
 use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
+use swc_ecma_ast::Ident;
+use swc_ecma_ast::Lit;
 
 impl Swcify for Expression {
     type Output = Box<Expr>;
@@ -26,12 +31,12 @@ impl Swcify for Expression {
             Expression::Call(e) => e.swcify(ctx).into(),
             Expression::Conditional(e) => e.swcify(ctx).into(),
             Expression::Func(e) => e.swcify(ctx).into(),
-            Expression::Id(e) => e.swcify(ctx).into(),
+            Expression::Id(e) => e.swcify(ctx).id.into(),
             Expression::StringLiteral(e) => e.swcify(ctx).into(),
             Expression::NumericLiteral(e) => e.swcify(ctx).into(),
-            Expression::NullLiteral(e) => e.swcify(ctx).into(),
-            Expression::BooleanLiteral(e) => e.swcify(ctx).into(),
-            Expression::RegExpLiteral(e) => e.swcify(ctx).into(),
+            Expression::NullLiteral(e) => Lit::from(e.swcify(ctx)).into(),
+            Expression::BooleanLiteral(e) => Lit::from(e.swcify(ctx)).into(),
+            Expression::RegExpLiteral(e) => Lit::from(e.swcify(ctx)).into(),
             Expression::Logical(e) => e.swcify(ctx).into(),
             Expression::Member(e) => e.swcify(ctx).into(),
             Expression::New(e) => e.swcify(ctx).into(),
@@ -149,6 +154,34 @@ impl Swcify for FunctionExpression {
                 type_params: self.type_parameters.swcify(ctx),
                 return_type: self.return_type.swcify(ctx),
             },
+        }
+    }
+}
+
+impl Swcify for Identifier {
+    type Output = BindingIdent;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        BindingIdent {
+            id: Ident {
+                span: ctx.span(&self.base),
+                sym: self.name,
+                optional: self.optional.unwrap_or(false),
+            },
+            type_ann: self.type_annotation.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for LogicalExpression {
+    type Output = BinExpr;
+
+    fn swcify(self, ctx: &super::Context) -> Self::Output {
+        BinExpr {
+            span: ctx.span(&self.base),
+            op: self.operator.swcify(ctx),
+            left: self.left.swcify(ctx),
+            right: self.right.swcify(ctx),
         }
     }
 }
