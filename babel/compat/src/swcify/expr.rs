@@ -343,10 +343,10 @@ impl Swcify for FunctionExpression {
                 params: self.params.swcify(ctx),
                 decorators: Default::default(),
                 span: ctx.span(&self.base),
-                body: self.body.swcify(ctx),
+                body: Some(self.body.swcify(ctx)),
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
-                type_params: self.type_parameters.swcify(ctx),
+                type_params: self.type_parameters.swcify(ctx).flatten(),
                 return_type: self.return_type.swcify(ctx),
             },
         }

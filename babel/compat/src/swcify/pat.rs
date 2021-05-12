@@ -1,6 +1,7 @@
 use crate::swcify::Context;
 use crate::swcify::Swcify;
 use swc_babel_ast::LVal;
+use swc_babel_ast::RestElement;
 use swc_ecma_ast::Expr;
 use swc_ecma_ast::Pat;
 
@@ -18,4 +19,10 @@ impl Swcify for LVal {
             LVal::TSParamProp(e) => e.swcify(ctx).into(),
         }
     }
+}
+
+impl Swcify for RestElement {}
+
+impl Swcify for swc_babel_ast::Param {
+    type Output = swc_ecma_ast::Param;
 }
