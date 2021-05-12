@@ -499,14 +499,25 @@ impl Swcify for ObjectMethod {
             key: self.key.swcify(ctx),
             function: Function {
                 params: self.params.swcify(ctx),
-                decorators: self.decorator.swcify(ctx),
+                decorators: self.decorator.swcify(ctx).unwrap_or_default(),
                 span: ctx.span(&self.base),
                 body: Some(self.body.swcify(ctx)),
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
-                type_params: self.type_parameters.swcify(ctx),
-                return_type: self.return_type.swcify(ctx),
+                type_params: self.type_parameters.swcify(ctx).flatten(),
+                return_type: self.return_type.swcify(ctx).flatten(),
             },
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::Decorator {
+    type Output = swc_ecma_ast::Decorator;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::Decorator {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
         }
     }
 }
