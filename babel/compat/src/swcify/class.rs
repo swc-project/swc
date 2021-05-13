@@ -4,6 +4,7 @@ use swc_babel_ast::ClassBody;
 use swc_babel_ast::ClassBodyEl;
 use swc_babel_ast::ClassMethodKind;
 use swc_ecma_ast::ClassMember;
+use swc_ecma_ast::Function;
 use swc_ecma_ast::MethodKind;
 
 impl Swcify for ClassBody {
@@ -87,7 +88,7 @@ impl Swcify for swc_babel_ast::ClassPrivateMethod {
                     unreachable!()
                 }
             },
-            is_static: self.is_static,
+            is_static: self.is_static.unwrap_or_default(),
             accessibility: self.accessibility.swcify(ctx),
             is_abstract: self.is_abstract.unwrap_or_default(),
             is_optional: self.optional.unwrap_or_default(),
