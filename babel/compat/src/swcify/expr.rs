@@ -43,6 +43,7 @@ use swc_babel_ast::Super;
 use swc_babel_ast::TSAsExpression;
 use swc_babel_ast::TSNonNullExpression;
 use swc_babel_ast::TSTypeAssertion;
+use swc_babel_ast::TaggedTemplateExprTypeParams;
 use swc_babel_ast::TaggedTemplateExpression;
 use swc_babel_ast::ThisExpression;
 use swc_babel_ast::TupleExpression;
@@ -95,6 +96,7 @@ use swc_ecma_ast::Tpl;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
+use swc_ecma_ast::TsTypeParamInstantiation;
 use swc_ecma_ast::UnaryExpr;
 use swc_ecma_ast::UnaryOp;
 use swc_ecma_ast::UpdateExpr;
@@ -754,6 +756,17 @@ impl Swcify for TaggedTemplateExpression {
             tag: self.tag.swcify(ctx),
             type_params: self.type_parameters.swcify(ctx),
             tpl: self.quasi.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for TaggedTemplateExprTypeParams {
+    type Output = TsTypeParamInstantiation;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TaggedTemplateExprTypeParams::Flow(_) => unimplemented!("flow types"),
+            TaggedTemplateExprTypeParams::TS(v) => v.swcify(ctx),
         }
     }
 }
