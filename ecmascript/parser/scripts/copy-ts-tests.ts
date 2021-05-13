@@ -48,9 +48,13 @@ async function check(f: string) {
     const passTestFile = f.endsWith('.tsx') ? path.join(passTestDir, 'input.tsx') : path.join(passTestDir, 'input.ts');
     const errorTestFile = f.endsWith('.tsx') ? path.join(errorTestDir, 'input.tsx') : path.join(errorTestDir, 'input.ts');
 
-    if ((await fs.promises.stat(passTestFile)).isFile() || (await fs.promises.stat(errorTestFile)).isFile()) {
-        return
+    try {
+        if ((await fs.promises.stat(passTestFile)).isFile() || (await fs.promises.stat(errorTestFile)).isFile()) {
+            return
+        }
+    } catch (ignored) {
     }
+
 
     const res = await doesNotHaveParsingError([f], {
         noEmitOnError: true,
