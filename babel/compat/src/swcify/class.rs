@@ -6,6 +6,7 @@ use swc_babel_ast::ClassMethodKind;
 use swc_ecma_ast::ClassMember;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::MethodKind;
+use swc_ecma_ast::ParamOrTsParamProp;
 
 impl Swcify for ClassBody {
     type Output = Vec<ClassMember>;
@@ -39,7 +40,16 @@ impl Swcify for swc_babel_ast::ClassMethod {
                 swc_ecma_ast::ClassMethod {
                     span: ctx.span(&self.base),
                     key: self.key.swcify(ctx),
-                    function: (),
+                    function: Function {
+                        params: self.params.swcify(ctx),
+                        decorators: self.decorators.swcify(ctx).unwrap_or_default(),
+                        span: ctx.span(&self.base),
+                        body: Some(self.body.swcify(ctx)),
+                        is_generator: self.generator.unwrap_or_default(),
+                        is_async: self.is_async.unwrap_or_default(),
+                        type_params: self.type_parameters.swcify(ctx).flatten(),
+                        return_type: self.return_type.swcify(ctx).flatten(),
+                    },
                     kind: self
                         .kind
                         .map(|kind| match kind {
@@ -62,8 +72,13 @@ impl Swcify for swc_babel_ast::ClassMethod {
             ClassMethodKind::Constructor => swc_ecma_ast::Constructor {
                 span: ctx.span(&self.base),
                 key: self.key.swcify(ctx),
-                params: self.params.swcify(ctx),
-                body: self.body.swcify(ctx),
+                params: self
+                    .params
+                    .into_iter()
+                    .map(|v| v.swcify(ctx))
+                    .map(ParamOrTsParamProp::Param)
+                    .collect(),
+                body: Some(self.body.swcify(ctx)),
                 accessibility: self.accessibility.swcify(ctx),
                 is_optional: self.optional.unwrap_or_default(),
             }
