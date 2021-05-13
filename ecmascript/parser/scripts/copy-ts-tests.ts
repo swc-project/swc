@@ -49,6 +49,7 @@ async function check(f: string) {
 
     try {
         if ((await fs.promises.stat(passTestFile)).isFile()) {
+            console.log(`${passTestFile} exists`)
             return
         }
     } catch (ignored) {
@@ -56,6 +57,7 @@ async function check(f: string) {
 
     try {
         if ((await fs.promises.stat(errorTestFile)).isFile()) {
+            console.log(`${errorTestFile} exists`)
             return
         }
     } catch (ignored) {
