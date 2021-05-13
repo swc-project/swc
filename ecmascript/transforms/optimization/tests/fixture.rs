@@ -38,7 +38,7 @@ fn dce_repeated(input: PathBuf) {
 
 #[testing::fixture("expr-simplifier/**/input.js")]
 fn expr(input: PathBuf) {
-    let output = input.with_file_name("output.full.js");
+    let output = input.with_file_name("output.js");
 
     test_fixture(
         Syntax::Es(EsConfig {
