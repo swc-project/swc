@@ -11,3 +11,12 @@ cargo test --test typescript \
     | sed -e 's!__!/!g' \
     | sed -e 's!_ts!.ts!g' \
     | prepend 'rm tests/'
+
+
+cargo test --test typescript \
+    | grep ' ... FAILED' \
+    | sed -e 's/test errors_typescript_errors__//' \
+    | sed -e 's/ ... FAILED//' \
+    | sed -e 's!__!/!g' \
+    | sed -e 's!_ts!.ts!g' \
+    | prepend 'rm tests/typescript-errors/'
