@@ -17,20 +17,28 @@ impl Swcify for ClassBodyEl {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ClassBodyEl::Method(v) => {}
-            ClassBodyEl::PrivateMethod(v) => {}
-            ClassBodyEl::Prop(v) => {}
-            ClassBodyEl::PrivateProp(v) => {}
-            ClassBodyEl::TSMethod(v) => {}
-            ClassBodyEl::TSIndex(v) => {}
+            ClassBodyEl::Method(v) => ClassMember::Method(v.swcify(ctx)),
+            ClassBodyEl::PrivateMethod(v) => v.swcify(ctx).into(),
+            ClassBodyEl::Prop(v) => v.swcify(ctx).into(),
+            ClassBodyEl::PrivateProp(v) => v.swcify(ctx).into(),
+            ClassBodyEl::TSMethod(v) => v.swcify(ctx).into(),
+            ClassBodyEl::TSIndex(v) => v.swcify(ctx).into(),
         }
     }
 }
 
-impl Swcify for swc_babel_ast::ClassMethod {}
+impl Swcify for swc_babel_ast::ClassMethod {
+    type Output = swc_ecma_ast::ClassMethod;
+}
 
-impl Swcify for swc_babel_ast::ClassPrivateMethod {}
+impl Swcify for swc_babel_ast::ClassPrivateMethod {
+    type Output = swc_ecma_ast::PrivateMethod;
+}
 
-impl Swcify for swc_babel_ast::ClassProperty {}
+impl Swcify for swc_babel_ast::ClassProperty {
+    type Output = swc_ecma_ast::ClassProp;
+}
 
-impl Swcify for swc_babel_ast::ClassPrivateProperty {}
+impl Swcify for swc_babel_ast::ClassPrivateProperty {
+    type Output = swc_ecma_ast::PrivateProp;
+}
