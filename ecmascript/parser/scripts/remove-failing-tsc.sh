@@ -10,4 +10,4 @@ cargo test --test typescript \
     | sed -e 's/ ... FAILED//' \
     | sed -e 's!__!/!g' \
     | sed -e 's!_ts!.ts!g' \
-    | prepend 'tests/'
+    | prepend 'rm tests/'
