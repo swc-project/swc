@@ -83,7 +83,7 @@ async function check(f: string) {
     }
 
 
-    const res = await doesNotHaveParsingError([f], {
+    const res = await doesNotHaveParsingError([f.replace('.d.ts', '.ts')], {
         noEmitOnError: true,
         target: ts.ScriptTarget.Latest,
         module: ts.ModuleKind.None
