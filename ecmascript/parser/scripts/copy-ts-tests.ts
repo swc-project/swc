@@ -31,6 +31,7 @@ async function doesNotHaveParsingError(fileNames: string[], options: ts.Compiler
             d.code === 18024 ||
             d.code === 18029 ||
             d.code === 18009 ||
+            d.code === 18006 ||
             d.code === 2657
         ) return false;
         if (17000 <= d.code && d.code < 18000) return false;
