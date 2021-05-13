@@ -1,6 +1,7 @@
 use super::Context;
 use crate::swcify::Swcify;
 use swc_babel_ast::FlowType;
+use swc_babel_ast::SuperTypeParams;
 use swc_babel_ast::TSType;
 use swc_babel_ast::TSTypeAnnotation;
 use swc_babel_ast::TSTypeParameter;
@@ -100,5 +101,16 @@ impl Swcify for TSType {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {}
+    }
+}
+
+impl Swcify for SuperTypeParams {
+    type Output = TsTypeParamInstantiation;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            SuperTypeParams::Flow(_) => unimplemented!("swc does not support flow types"),
+            SuperTypeParams::TS(v) => v.swcify(ctx),
+        }
     }
 }
