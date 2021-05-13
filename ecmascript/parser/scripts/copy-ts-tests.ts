@@ -49,7 +49,14 @@ async function check(f: string) {
     const errorTestFile = f.endsWith('.tsx') ? path.join(errorTestDir, 'input.tsx') : path.join(errorTestDir, 'input.ts');
 
     try {
-        if ((await fs.promises.stat(passTestFile)).isFile() || (await fs.promises.stat(errorTestFile)).isFile()) {
+        if ((await fs.promises.stat(passTestFile)).isFile()) {
+            return
+        }
+    } catch (ignored) {
+    }
+
+    try {
+        if ((await fs.promises.stat(errorTestFile)).isFile()) {
             return
         }
     } catch (ignored) {
