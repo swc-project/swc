@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 38,
-    "end": 88,
+    "start": 36,
+    "end": 84,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 38,
-        "end": 88,
+        "start": 36,
+        "end": 84,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 42,
-            "end": 88,
+            "start": 40,
+            "end": 84,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 42,
-              "end": 45,
+              "start": 40,
+              "end": 43,
               "ctxt": 0
             },
             "value": "obj",
@@ -37,8 +37,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 48,
-              "end": 88,
+              "start": 46,
+              "end": 84,
               "ctxt": 0
             },
             "properties": [
@@ -47,22 +47,22 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 55,
-                    "end": 82,
+                    "start": 52,
+                    "end": 79,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 56,
-                      "end": 81,
+                      "start": 53,
+                      "end": 78,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 56,
-                        "end": 62,
+                        "start": 53,
+                        "end": 59,
                         "ctxt": 0
                       },
                       "value": "Symbol",
@@ -71,8 +71,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 63,
-                        "end": 81,
+                        "start": 60,
+                        "end": 78,
                         "ctxt": 0
                       },
                       "value": "isConcatSpreadable",
@@ -84,8 +84,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 84,
-                    "end": 85,
+                    "start": 81,
+                    "end": 82,
                     "ctxt": 0
                   },
                   "value": 0.0

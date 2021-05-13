@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 44,
-    "end": 184,
+    "start": 41,
+    "end": 174,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 44,
-        "end": 69,
+        "start": 41,
+        "end": 66,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 60,
-            "end": 63,
+            "start": 57,
+            "end": 60,
             "ctxt": 0
           },
           "value": "foo",
@@ -29,15 +29,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 51,
-          "end": 69,
+          "start": 48,
+          "end": 66,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 66,
-            "end": 69,
+            "start": 63,
+            "end": 66,
             "ctxt": 0
           },
           "stmts": []
@@ -51,23 +51,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 94,
-        "end": 122,
+        "start": 88,
+        "end": 116,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 103,
-            "end": 106,
+            "start": 97,
+            "end": 100,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 103,
-              "end": 106,
+              "start": 97,
+              "end": 100,
               "ctxt": 0
             },
             "value": "foo",
@@ -79,8 +79,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 114,
-          "end": 121,
+          "start": 108,
+          "end": 115,
           "ctxt": 0
         },
         "value": "./foo",
@@ -96,22 +96,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 160,
-        "end": 169,
+        "start": 151,
+        "end": 160,
         "ctxt": 0
       },
       "expression": {
         "type": "TsTypeAssertion",
         "span": {
-          "start": 160,
-          "end": 168,
+          "start": 151,
+          "end": 159,
           "ctxt": 0
         },
         "expression": {
           "type": "Identifier",
           "span": {
-            "start": 165,
-            "end": 168,
+            "start": 156,
+            "end": 159,
             "ctxt": 0
           },
           "value": "foo",
@@ -120,8 +120,8 @@
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
-            "start": 161,
-            "end": 164,
+            "start": 152,
+            "end": 155,
             "ctxt": 0
           },
           "kind": "any"
@@ -131,29 +131,29 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 171,
-        "end": 184,
+        "start": 161,
+        "end": 174,
         "ctxt": 0
       },
       "expression": {
         "type": "ParenthesisExpression",
         "span": {
-          "start": 171,
-          "end": 183,
+          "start": 161,
+          "end": 173,
           "ctxt": 0
         },
         "expression": {
           "type": "TsAsExpression",
           "span": {
-            "start": 172,
-            "end": 182,
+            "start": 162,
+            "end": 172,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 172,
-              "end": 175,
+              "start": 162,
+              "end": 165,
               "ctxt": 0
             },
             "value": "foo",
@@ -162,8 +162,8 @@
           "typeAnnotation": {
             "type": "TsKeywordType",
             "span": {
-              "start": 179,
-              "end": 182,
+              "start": 169,
+              "end": 172,
               "ctxt": 0
             },
             "kind": "any"

@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 118,
-    "end": 183,
+    "start": 114,
+    "end": 173,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 118,
-        "end": 169,
+        "start": 114,
+        "end": 161,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 124,
-            "end": 169,
+            "start": 120,
+            "end": 161,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 124,
-              "end": 125,
+              "start": 120,
+              "end": 121,
               "ctxt": 0
             },
             "value": "a",
@@ -37,15 +37,15 @@
           "init": {
             "type": "JSXFragment",
             "span": {
-              "start": 128,
-              "end": 169,
+              "start": 124,
+              "end": 161,
               "ctxt": 0
             },
             "opening": {
               "type": "JSXOpeningFragment",
               "span": {
-                "start": 128,
-                "end": 130,
+                "start": 124,
+                "end": 126,
                 "ctxt": 0
               }
             },
@@ -53,18 +53,18 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 130,
-                  "end": 134,
+                  "start": 126,
+                  "end": 129,
                   "ctxt": 0
                 },
-                "value": "\n\r\n  ",
-                "raw": "\n\r\n  "
+                "value": "\n\n  ",
+                "raw": "\n\n  "
               },
               {
                 "type": "JSXElement",
                 "span": {
-                  "start": 134,
-                  "end": 141,
+                  "start": 129,
+                  "end": 136,
                   "ctxt": 0
                 },
                 "opening": {
@@ -72,16 +72,16 @@
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 135,
-                      "end": 136,
+                      "start": 130,
+                      "end": 131,
                       "ctxt": 0
                     },
                     "value": "p",
                     "optional": false
                   },
                   "span": {
-                    "start": 134,
-                    "end": 137,
+                    "start": 129,
+                    "end": 132,
                     "ctxt": 0
                   },
                   "attributes": [],
@@ -92,15 +92,15 @@
                 "closing": {
                   "type": "JSXClosingElement",
                   "span": {
-                    "start": 137,
-                    "end": 141,
+                    "start": 132,
+                    "end": 136,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 139,
-                      "end": 140,
+                      "start": 134,
+                      "end": 135,
                       "ctxt": 0
                     },
                     "value": "p",
@@ -111,18 +111,18 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 141,
-                  "end": 153,
+                  "start": 136,
+                  "end": 146,
                   "ctxt": 0
                 },
-                "value": "\n\r\n  text\n\r\n  ",
-                "raw": "\n\r\n  text\n\r\n  "
+                "value": "\n\n  text\n\n  ",
+                "raw": "\n\n  text\n\n  "
               },
               {
                 "type": "JSXElement",
                 "span": {
-                  "start": 153,
-                  "end": 164,
+                  "start": 146,
+                  "end": 157,
                   "ctxt": 0
                 },
                 "opening": {
@@ -130,16 +130,16 @@
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 154,
-                      "end": 157,
+                      "start": 147,
+                      "end": 150,
                       "ctxt": 0
                     },
                     "value": "div",
                     "optional": false
                   },
                   "span": {
-                    "start": 153,
-                    "end": 158,
+                    "start": 146,
+                    "end": 151,
                     "ctxt": 0
                   },
                   "attributes": [],
@@ -150,15 +150,15 @@
                 "closing": {
                   "type": "JSXClosingElement",
                   "span": {
-                    "start": 158,
-                    "end": 164,
+                    "start": 151,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 160,
-                      "end": 163,
+                      "start": 153,
+                      "end": 156,
                       "ctxt": 0
                     },
                     "value": "div",
@@ -169,19 +169,19 @@
               {
                 "type": "JSXText",
                 "span": {
-                  "start": 164,
-                  "end": 166,
+                  "start": 157,
+                  "end": 158,
                   "ctxt": 0
                 },
-                "value": "\n\r\n",
-                "raw": "\n\r\n"
+                "value": "\n\n",
+                "raw": "\n\n"
               }
             ],
             "closing": {
               "type": "JSXClosingFragment",
               "span": {
-                "start": 166,
-                "end": 169,
+                "start": 158,
+                "end": 161,
                 "ctxt": 0
               }
             }
@@ -193,8 +193,8 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 173,
-        "end": 183,
+        "start": 163,
+        "end": 173,
         "ctxt": 0
       },
       "specifiers": [],

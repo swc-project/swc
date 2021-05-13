@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 445,
-    "end": 630,
+    "start": 422,
+    "end": 595,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 445,
-        "end": 535,
+        "start": 422,
+        "end": 507,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 455,
-          "end": 456,
+          "start": 432,
+          "end": 433,
           "ctxt": 0
         },
         "value": "I",
@@ -27,23 +27,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 456,
-          "end": 465,
+          "start": 433,
+          "end": 442,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 457,
-              "end": 458,
+              "start": 434,
+              "end": 435,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 457,
-                "end": 458,
+                "start": 434,
+                "end": 435,
                 "ctxt": 0
               },
               "value": "T",
@@ -55,15 +55,15 @@
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 460,
-              "end": 461,
+              "start": 437,
+              "end": 438,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 460,
-                "end": 461,
+                "start": 437,
+                "end": 438,
                 "ctxt": 0
               },
               "value": "U",
@@ -75,15 +75,15 @@
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 463,
-              "end": 464,
+              "start": 440,
+              "end": 441,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 463,
-                "end": 464,
+                "start": 440,
+                "end": 441,
                 "ctxt": 0
               },
               "value": "V",
@@ -98,24 +98,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 466,
-          "end": 535,
+          "start": 443,
+          "end": 507,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 473,
-              "end": 478,
+              "start": 449,
+              "end": 454,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 473,
-                "end": 474,
+                "start": 449,
+                "end": 450,
                 "ctxt": 0
               },
               "value": "x",
@@ -128,22 +128,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 474,
-                "end": 477,
+                "start": 450,
+                "end": 453,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 476,
-                  "end": 477,
+                  "start": 452,
+                  "end": 453,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 476,
-                    "end": 477,
+                    "start": 452,
+                    "end": 453,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -157,16 +157,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 484,
-              "end": 489,
+              "start": 459,
+              "end": 464,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 484,
-                "end": 485,
+                "start": 459,
+                "end": 460,
                 "ctxt": 0
               },
               "value": "y",
@@ -179,22 +179,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 485,
-                "end": 488,
+                "start": 460,
+                "end": 463,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 487,
-                  "end": 488,
+                  "start": 462,
+                  "end": 463,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 487,
-                    "end": 488,
+                    "start": 462,
+                    "end": 463,
                     "ctxt": 0
                   },
                   "value": "U",
@@ -208,16 +208,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 495,
-              "end": 500,
+              "start": 469,
+              "end": 474,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 495,
-                "end": 496,
+                "start": 469,
+                "end": 470,
                 "ctxt": 0
               },
               "value": "z",
@@ -230,22 +230,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 496,
-                "end": 499,
+                "start": 470,
+                "end": 473,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 498,
-                  "end": 499,
+                  "start": 472,
+                  "end": 473,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 498,
-                    "end": 499,
+                    "start": 472,
+                    "end": 473,
                     "ctxt": 0
                   },
                   "value": "V",
@@ -259,16 +259,16 @@
           {
             "type": "TsMethodSignature",
             "span": {
-              "start": 506,
-              "end": 532,
+              "start": 479,
+              "end": 505,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 506,
-                "end": 509,
+                "start": 479,
+                "end": 482,
                 "ctxt": 0
               },
               "value": "foo",
@@ -280,8 +280,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 523,
-                  "end": 527,
+                  "start": 496,
+                  "end": 500,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -289,22 +289,22 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 524,
-                    "end": 527,
+                    "start": 497,
+                    "end": 500,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 526,
-                      "end": 527,
+                      "start": 499,
+                      "end": 500,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 526,
-                        "end": 527,
+                        "start": 499,
+                        "end": 500,
                         "ctxt": 0
                       },
                       "value": "W",
@@ -318,22 +318,22 @@
             "typeAnn": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 528,
-                "end": 531,
+                "start": 501,
+                "end": 504,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 530,
-                  "end": 531,
+                  "start": 503,
+                  "end": 504,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 530,
-                    "end": 531,
+                    "start": 503,
+                    "end": 504,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -345,23 +345,23 @@
             "typeParams": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 509,
-                "end": 522,
+                "start": 482,
+                "end": 495,
                 "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 510,
-                    "end": 521,
+                    "start": 483,
+                    "end": 494,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 510,
-                      "end": 511,
+                      "start": 483,
+                      "end": 484,
                       "ctxt": 0
                     },
                     "value": "W",
@@ -370,15 +370,15 @@
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 520,
-                      "end": 521,
+                      "start": 493,
+                      "end": 494,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 520,
-                        "end": 521,
+                        "start": 493,
+                        "end": 494,
                         "ctxt": 0
                       },
                       "value": "V",
@@ -397,15 +397,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 539,
-        "end": 630,
+        "start": 509,
+        "end": 595,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 549,
-          "end": 551,
+          "start": 519,
+          "end": 521,
           "ctxt": 0
         },
         "value": "I2",
@@ -415,23 +415,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 551,
-          "end": 560,
+          "start": 521,
+          "end": 530,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 552,
-              "end": 553,
+              "start": 522,
+              "end": 523,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 552,
-                "end": 553,
+                "start": 522,
+                "end": 523,
                 "ctxt": 0
               },
               "value": "V",
@@ -443,15 +443,15 @@
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 555,
-              "end": 556,
+              "start": 525,
+              "end": 526,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 555,
-                "end": 556,
+                "start": 525,
+                "end": 526,
                 "ctxt": 0
               },
               "value": "T",
@@ -463,15 +463,15 @@
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 558,
-              "end": 559,
+              "start": 528,
+              "end": 529,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 558,
-                "end": 559,
+                "start": 528,
+                "end": 529,
                 "ctxt": 0
               },
               "value": "U",
@@ -486,24 +486,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 561,
-          "end": 630,
+          "start": 531,
+          "end": 595,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 568,
-              "end": 573,
+              "start": 537,
+              "end": 542,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 568,
-                "end": 569,
+                "start": 537,
+                "end": 538,
                 "ctxt": 0
               },
               "value": "x",
@@ -516,22 +516,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 569,
-                "end": 572,
+                "start": 538,
+                "end": 541,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 571,
-                  "end": 572,
+                  "start": 540,
+                  "end": 541,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 571,
-                    "end": 572,
+                    "start": 540,
+                    "end": 541,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -545,16 +545,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 579,
-              "end": 584,
+              "start": 547,
+              "end": 552,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 579,
-                "end": 580,
+                "start": 547,
+                "end": 548,
                 "ctxt": 0
               },
               "value": "y",
@@ -567,22 +567,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 580,
-                "end": 583,
+                "start": 548,
+                "end": 551,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 582,
-                  "end": 583,
+                  "start": 550,
+                  "end": 551,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 582,
-                    "end": 583,
+                    "start": 550,
+                    "end": 551,
                     "ctxt": 0
                   },
                   "value": "U",
@@ -596,16 +596,16 @@
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 590,
-              "end": 595,
+              "start": 557,
+              "end": 562,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 590,
-                "end": 591,
+                "start": 557,
+                "end": 558,
                 "ctxt": 0
               },
               "value": "z",
@@ -618,22 +618,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 591,
-                "end": 594,
+                "start": 558,
+                "end": 561,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 593,
-                  "end": 594,
+                  "start": 560,
+                  "end": 561,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 593,
-                    "end": 594,
+                    "start": 560,
+                    "end": 561,
                     "ctxt": 0
                   },
                   "value": "V",
@@ -647,16 +647,16 @@
           {
             "type": "TsMethodSignature",
             "span": {
-              "start": 601,
-              "end": 627,
+              "start": 567,
+              "end": 593,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 601,
-                "end": 604,
+                "start": 567,
+                "end": 570,
                 "ctxt": 0
               },
               "value": "foo",
@@ -668,8 +668,8 @@
               {
                 "type": "Identifier",
                 "span": {
-                  "start": 618,
-                  "end": 622,
+                  "start": 584,
+                  "end": 588,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -677,22 +677,22 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 619,
-                    "end": 622,
+                    "start": 585,
+                    "end": 588,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 621,
-                      "end": 622,
+                      "start": 587,
+                      "end": 588,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 621,
-                        "end": 622,
+                        "start": 587,
+                        "end": 588,
                         "ctxt": 0
                       },
                       "value": "W",
@@ -706,22 +706,22 @@
             "typeAnn": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 623,
-                "end": 626,
+                "start": 589,
+                "end": 592,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 625,
-                  "end": 626,
+                  "start": 591,
+                  "end": 592,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 625,
-                    "end": 626,
+                    "start": 591,
+                    "end": 592,
                     "ctxt": 0
                   },
                   "value": "T",
@@ -733,23 +733,23 @@
             "typeParams": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 604,
-                "end": 617,
+                "start": 570,
+                "end": 583,
                 "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 605,
-                    "end": 616,
+                    "start": 571,
+                    "end": 582,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 605,
-                      "end": 606,
+                      "start": 571,
+                      "end": 572,
                       "ctxt": 0
                     },
                     "value": "W",
@@ -758,15 +758,15 @@
                   "constraint": {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 615,
-                      "end": 616,
+                      "start": 581,
+                      "end": 582,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 615,
-                        "end": 616,
+                        "start": 581,
+                        "end": 582,
                         "ctxt": 0
                       },
                       "value": "V",

@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 30,
-    "end": 37,
+    "start": 27,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 30,
-        "end": 37,
+        "start": 27,
+        "end": 32,
         "ctxt": 0
       },
       "expression": {
         "type": "TemplateLiteral",
         "span": {
-          "start": 30,
-          "end": 37,
+          "start": 27,
+          "end": 32,
           "ctxt": 0
         },
         "expressions": [],
@@ -25,16 +25,16 @@
           {
             "type": "TemplateElement",
             "span": {
-              "start": 31,
-              "end": 36,
+              "start": 28,
+              "end": 31,
               "ctxt": 0
             },
             "tail": true,
             "cooked": {
               "type": "StringLiteral",
               "span": {
-                "start": 31,
-                "end": 36,
+                "start": 28,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "\n",
@@ -47,11 +47,11 @@
             "raw": {
               "type": "StringLiteral",
               "span": {
-                "start": 31,
-                "end": 36,
+                "start": 28,
+                "end": 31,
                 "ctxt": 0
               },
-              "value": "\r\n\\\r\n",
+              "value": "\n\\\n",
               "hasEscape": true,
               "kind": {
                 "type": "normal",

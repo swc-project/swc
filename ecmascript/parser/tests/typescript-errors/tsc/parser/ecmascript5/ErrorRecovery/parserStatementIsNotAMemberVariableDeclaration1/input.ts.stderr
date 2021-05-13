@@ -8,11 +8,11 @@ error: Return statement is not allowed here
   --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserStatementIsNotAMemberVariableDeclaration1/input.ts:1:1
    |
 1  | / return {
-2  | | 
+2  | |
 3  | |   "set": function (key, value) {
-4  | | 
+4  | |
 ...  |
-9  | | 
+9  | |
 10 | | };
    | |__^
 

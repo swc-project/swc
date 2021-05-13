@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 36,
+    "start": 15,
+    "end": 35,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 16,
-        "end": 36,
+        "start": 15,
+        "end": 35,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 32,
+          "start": 25,
+          "end": 31,
           "ctxt": 0
         },
         "value": "symbol",
@@ -29,8 +29,8 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 33,
-          "end": 36,
+          "start": 32,
+          "end": 35,
           "ctxt": 0
         },
         "body": []

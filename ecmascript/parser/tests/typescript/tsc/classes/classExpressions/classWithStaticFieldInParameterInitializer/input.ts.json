@@ -1,52 +1,52 @@
 {
   "type": "Script",
   "span": {
-    "start": 119,
-    "end": 158,
+    "start": 115,
+    "end": 154,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 119,
-        "end": 158,
+        "start": 115,
+        "end": 154,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 119,
-          "end": 157,
+          "start": 115,
+          "end": 153,
           "ctxt": 0
         },
         "callee": {
           "type": "ParenthesisExpression",
           "span": {
-            "start": 119,
-            "end": 155,
+            "start": 115,
+            "end": 151,
             "ctxt": 0
           },
           "expression": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 120,
-              "end": 154,
+              "start": 116,
+              "end": 150,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "AssignmentPattern",
                 "span": {
-                  "start": 121,
-                  "end": 147,
+                  "start": 117,
+                  "end": 143,
                   "ctxt": 0
                 },
                 "left": {
                   "type": "Identifier",
                   "span": {
-                    "start": 121,
-                    "end": 122,
+                    "start": 117,
+                    "end": 118,
                     "ctxt": 0
                   },
                   "value": "b",
@@ -57,8 +57,8 @@
                   "type": "ClassExpression",
                   "identifier": null,
                   "span": {
-                    "start": 125,
-                    "end": 147,
+                    "start": 121,
+                    "end": 143,
                     "ctxt": 0
                   },
                   "decorators": [],
@@ -66,15 +66,15 @@
                     {
                       "type": "ClassProperty",
                       "span": {
-                        "start": 133,
-                        "end": 145,
+                        "start": 129,
+                        "end": 141,
                         "ctxt": 0
                       },
                       "key": {
                         "type": "Identifier",
                         "span": {
-                          "start": 140,
-                          "end": 141,
+                          "start": 136,
+                          "end": 137,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -83,8 +83,8 @@
                       "value": {
                         "type": "NumericLiteral",
                         "span": {
-                          "start": 144,
-                          "end": 145,
+                          "start": 140,
+                          "end": 141,
                           "ctxt": 0
                         },
                         "value": 1.0
@@ -114,8 +114,8 @@
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 152,
-                "end": 154,
+                "start": 148,
+                "end": 150,
                 "ctxt": 0
               },
               "stmts": []

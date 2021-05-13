@@ -1,0 +1,6 @@
+error: Unexpected token `#`. Expected identifier, string literal, numeric literal or [ for the computed key
+ --> $DIR/tests/typescript-errors/tsc/classes/members/privateNames/privateNameJsBadDeclaration/input.ts:8:3
+  |
+8 |   #x: 1         // Error
+  |   ^
+

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 4,
-    "end": 31,
+    "start": 2,
+    "end": 29,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 4,
-        "end": 31,
+        "start": 2,
+        "end": 29,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 8,
-            "end": 30,
+            "start": 6,
+            "end": 28,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 8,
-              "end": 9,
+              "start": 6,
+              "end": 7,
               "ctxt": 0
             },
             "value": "x",
@@ -37,8 +37,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 12,
-              "end": 30,
+              "start": 10,
+              "end": 28,
               "ctxt": 0
             },
             "expressions": [],
@@ -46,16 +46,16 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 13,
-                  "end": 29,
+                  "start": 11,
+                  "end": 27,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 13,
-                    "end": 29,
+                    "start": 11,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "value": "\u001f\u001f 1F 1f",
@@ -68,8 +68,8 @@
                 "raw": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 13,
-                    "end": 29,
+                    "start": 11,
+                    "end": 27,
                     "ctxt": 0
                   },
                   "value": "\\0x1F\\u001f 1F 1f",

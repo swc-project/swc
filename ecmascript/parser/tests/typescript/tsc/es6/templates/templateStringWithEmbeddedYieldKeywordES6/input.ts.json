@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 136,
+    "start": 16,
+    "end": 132,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 30,
+          "start": 26,
+          "end": 29,
           "ctxt": 0
         },
         "value": "gen",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 17,
-        "end": 136,
+        "start": 16,
+        "end": 132,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 33,
-          "end": 136,
+          "start": 32,
+          "end": 132,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 103,
-              "end": 133,
+              "start": 100,
+              "end": 130,
               "ctxt": 0
             },
             "kind": "var",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 107,
-                  "end": 132,
+                  "start": 104,
+                  "end": 129,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 107,
-                    "end": 108,
+                    "start": 104,
+                    "end": 105,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -65,23 +65,23 @@
                 "init": {
                   "type": "TemplateLiteral",
                   "span": {
-                    "start": 111,
-                    "end": 132,
+                    "start": 108,
+                    "end": 129,
                     "ctxt": 0
                   },
                   "expressions": [
                     {
                       "type": "YieldExpression",
                       "span": {
-                        "start": 118,
-                        "end": 126,
+                        "start": 115,
+                        "end": 123,
                         "ctxt": 0
                       },
                       "argument": {
                         "type": "NumericLiteral",
                         "span": {
-                          "start": 124,
-                          "end": 126,
+                          "start": 121,
+                          "end": 123,
                           "ctxt": 0
                         },
                         "value": 10.0
@@ -93,16 +93,16 @@
                     {
                       "type": "TemplateElement",
                       "span": {
-                        "start": 112,
-                        "end": 115,
+                        "start": 109,
+                        "end": 112,
                         "ctxt": 0
                       },
                       "tail": false,
                       "cooked": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 112,
-                          "end": 115,
+                          "start": 109,
+                          "end": 112,
                           "ctxt": 0
                         },
                         "value": "abc",
@@ -115,8 +115,8 @@
                       "raw": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 112,
-                          "end": 115,
+                          "start": 109,
+                          "end": 112,
                           "ctxt": 0
                         },
                         "value": "abc",
@@ -130,16 +130,16 @@
                     {
                       "type": "TemplateElement",
                       "span": {
-                        "start": 128,
-                        "end": 131,
+                        "start": 125,
+                        "end": 128,
                         "ctxt": 0
                       },
                       "tail": true,
                       "cooked": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 128,
-                          "end": 131,
+                          "start": 125,
+                          "end": 128,
                           "ctxt": 0
                         },
                         "value": "def",
@@ -152,8 +152,8 @@
                       "raw": {
                         "type": "StringLiteral",
                         "span": {
-                          "start": 128,
-                          "end": 131,
+                          "start": 125,
+                          "end": 128,
                           "ctxt": 0
                         },
                         "value": "def",

@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/classes/members/privateNames/privateNameEnum/input.ts:3:5
+  |
+3 |     #x
+  |     ^
+

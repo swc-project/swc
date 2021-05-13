@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 124,
+    "end": 117,
     "ctxt": 0
   },
   "body": [
@@ -35,8 +35,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 46,
-        "end": 66,
+        "start": 43,
+        "end": 63,
         "ctxt": 0
       },
       "kind": "var",
@@ -45,15 +45,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 50,
-            "end": 65,
+            "start": 47,
+            "end": 62,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 50,
-              "end": 53,
+              "start": 47,
+              "end": 50,
               "ctxt": 0
             },
             "value": "AAA",
@@ -61,15 +61,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 53,
-                "end": 65,
+                "start": 50,
+                "end": 62,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsConstructorType",
                 "span": {
-                  "start": 55,
-                  "end": 65,
+                  "start": 52,
+                  "end": 62,
                   "ctxt": 0
                 },
                 "params": [],
@@ -77,22 +77,22 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 61,
-                    "end": 65,
+                    "start": 58,
+                    "end": 62,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 64,
-                      "end": 65,
+                      "start": 61,
+                      "end": 62,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 64,
-                        "end": 65,
+                        "start": 61,
+                        "end": 62,
                         "ctxt": 0
                       },
                       "value": "A",
@@ -113,23 +113,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 90,
-        "end": 98,
+        "start": 84,
+        "end": 92,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 90,
-          "end": 97,
+          "start": 84,
+          "end": 91,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 90,
-            "end": 93,
+            "start": 84,
+            "end": 87,
             "ctxt": 0
           },
           "value": "AAA",
@@ -139,8 +139,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 96,
-            "end": 97,
+            "start": 90,
+            "end": 91,
             "ctxt": 0
           },
           "value": "A",
@@ -151,23 +151,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 111,
-        "end": 124,
+        "start": 104,
+        "end": 117,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 111,
-          "end": 123,
+          "start": 104,
+          "end": 116,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 111,
-            "end": 114,
+            "start": 104,
+            "end": 107,
             "ctxt": 0
           },
           "value": "AAA",
@@ -177,8 +177,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 117,
-            "end": 123,
+            "start": 110,
+            "end": 116,
             "ctxt": 0
           },
           "value": "asdf",

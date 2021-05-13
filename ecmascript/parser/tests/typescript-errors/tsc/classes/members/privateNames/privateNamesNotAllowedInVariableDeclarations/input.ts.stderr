@@ -1,0 +1,6 @@
+error: Unexpected token `#`. Expected yield, an identifier, [ or {
+ --> $DIR/tests/typescript-errors/tsc/classes/members/privateNames/privateNamesNotAllowedInVariableDeclarations/input.ts:4:7
+  |
+4 | const #foo = 3;
+  |       ^
+

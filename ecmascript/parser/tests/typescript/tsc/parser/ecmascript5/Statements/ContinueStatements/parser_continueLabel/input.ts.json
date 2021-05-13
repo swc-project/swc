@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 61,
+    "end": 59,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "LabeledStatement",
       "span": {
         "start": 0,
-        "end": 61,
+        "end": 59,
         "ctxt": 0
       },
       "label": {
@@ -27,7 +27,7 @@
         "type": "ForStatement",
         "span": {
           "start": 8,
-          "end": 61,
+          "end": 59,
           "ctxt": 0
         },
         "init": {
@@ -123,22 +123,22 @@
           "type": "BlockStatement",
           "span": {
             "start": 35,
-            "end": 61,
+            "end": 59,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ContinueStatement",
               "span": {
-                "start": 42,
-                "end": 58,
+                "start": 41,
+                "end": 57,
                 "ctxt": 0
               },
               "label": {
                 "type": "Identifier",
                 "span": {
-                  "start": 51,
-                  "end": 57,
+                  "start": 50,
+                  "end": 56,
                   "ctxt": 0
                 },
                 "value": "label1",

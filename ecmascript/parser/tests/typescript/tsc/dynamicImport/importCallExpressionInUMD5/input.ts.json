@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 57,
-    "end": 305,
+    "start": 54,
+    "end": 294,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 57,
-        "end": 96,
+        "start": 54,
+        "end": 93,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 73,
-            "end": 76,
+            "start": 70,
+            "end": 73,
             "ctxt": 0
           },
           "value": "foo",
@@ -29,30 +29,30 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 64,
-          "end": 96,
+          "start": 61,
+          "end": 93,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 79,
-            "end": 96,
+            "start": 76,
+            "end": 93,
             "ctxt": 0
           },
           "stmts": [
             {
               "type": "ReturnStatement",
               "span": {
-                "start": 81,
-                "end": 94,
+                "start": 78,
+                "end": 91,
                 "ctxt": 0
               },
               "argument": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 88,
-                  "end": 93,
+                  "start": 85,
+                  "end": 90,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -76,8 +76,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 194,
-          "end": 198,
+          "start": 186,
+          "end": 190,
           "ctxt": 0
         },
         "value": "func",
@@ -87,23 +87,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 179,
-        "end": 305,
+        "start": 171,
+        "end": 294,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 201,
-          "end": 305,
+          "start": 193,
+          "end": 294,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 208,
-              "end": 232,
+              "start": 199,
+              "end": 223,
               "ctxt": 0
             },
             "kind": "const",
@@ -112,15 +112,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 214,
-                  "end": 231,
+                  "start": 205,
+                  "end": 222,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 214,
-                    "end": 225,
+                    "start": 205,
+                    "end": 216,
                     "ctxt": 0
                   },
                   "value": "packageName",
@@ -130,8 +130,8 @@
                 "init": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 228,
-                    "end": 231,
+                    "start": 219,
+                    "end": 222,
                     "ctxt": 0
                   },
                   "value": ".",
@@ -148,8 +148,8 @@
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 238,
-              "end": 302,
+              "start": 228,
+              "end": 292,
               "ctxt": 0
             },
             "kind": "const",
@@ -158,15 +158,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 244,
-                  "end": 301,
+                  "start": 234,
+                  "end": 291,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 244,
-                    "end": 255,
+                    "start": 234,
+                    "end": 245,
                     "ctxt": 0
                   },
                   "value": "packageJson",
@@ -176,22 +176,22 @@
                 "init": {
                   "type": "AwaitExpression",
                   "span": {
-                    "start": 258,
-                    "end": 301,
+                    "start": 248,
+                    "end": 291,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "CallExpression",
                     "span": {
-                      "start": 264,
-                      "end": 301,
+                      "start": 254,
+                      "end": 291,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "Identifier",
                       "span": {
-                        "start": 264,
-                        "end": 270,
+                        "start": 254,
+                        "end": 260,
                         "ctxt": 0
                       },
                       "value": "import",
@@ -203,16 +203,16 @@
                         "expression": {
                           "type": "BinaryExpression",
                           "span": {
-                            "start": 271,
-                            "end": 300,
+                            "start": 261,
+                            "end": 290,
                             "ctxt": 0
                           },
                           "operator": "+",
                           "left": {
                             "type": "Identifier",
                             "span": {
-                              "start": 271,
-                              "end": 282,
+                              "start": 261,
+                              "end": 272,
                               "ctxt": 0
                             },
                             "value": "packageName",
@@ -221,8 +221,8 @@
                           "right": {
                             "type": "StringLiteral",
                             "span": {
-                              "start": 285,
-                              "end": 300,
+                              "start": 275,
+                              "end": 290,
                               "ctxt": 0
                             },
                             "value": "/package.json",

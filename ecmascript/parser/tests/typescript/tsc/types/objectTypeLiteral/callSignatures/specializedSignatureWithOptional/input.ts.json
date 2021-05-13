@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 74,
+    "end": 73,
     "ctxt": 0
   },
   "body": [
@@ -103,8 +103,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 54,
-          "end": 55,
+          "start": 53,
+          "end": 54,
           "ctxt": 0
         },
         "value": "f",
@@ -115,16 +115,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 56,
-            "end": 66,
+            "start": 55,
+            "end": 65,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 56,
-              "end": 66,
+              "start": 55,
+              "end": 65,
               "ctxt": 0
             },
             "value": "x",
@@ -132,15 +132,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 58,
-                "end": 66,
+                "start": 57,
+                "end": 65,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 60,
-                  "end": 66,
+                  "start": 59,
+                  "end": 65,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -151,8 +151,8 @@
       ],
       "decorators": [],
       "span": {
-        "start": 37,
-        "end": 74,
+        "start": 36,
+        "end": 73,
         "ctxt": 0
       },
       "body": null,
@@ -162,15 +162,15 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 67,
-          "end": 73,
+          "start": 66,
+          "end": 72,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
-            "start": 69,
-            "end": 73,
+            "start": 68,
+            "end": 72,
             "ctxt": 0
           },
           "kind": "void"

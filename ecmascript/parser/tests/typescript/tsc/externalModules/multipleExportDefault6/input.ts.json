@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 0,
-    "end": 66,
+    "end": 60,
     "ctxt": 0
   },
   "body": [
@@ -10,14 +10,14 @@
       "type": "ExportDefaultExpression",
       "span": {
         "start": 0,
-        "end": 31,
+        "end": 29,
         "ctxt": 0
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
           "start": 15,
-          "end": 31,
+          "end": 29,
           "ctxt": 0
         },
         "properties": [
@@ -26,8 +26,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 22,
-                "end": 25,
+                "start": 21,
+                "end": 24,
                 "ctxt": 0
               },
               "value": "lol",
@@ -36,8 +36,8 @@
             "value": {
               "type": "NumericLiteral",
               "span": {
-                "start": 27,
-                "end": 28,
+                "start": 26,
+                "end": 27,
                 "ctxt": 0
               },
               "value": 1.0
@@ -49,15 +49,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 35,
-        "end": 66,
+        "start": 31,
+        "end": 60,
         "ctxt": 0
       },
       "expression": {
         "type": "ObjectExpression",
         "span": {
-          "start": 50,
-          "end": 66,
+          "start": 46,
+          "end": 60,
           "ctxt": 0
         },
         "properties": [
@@ -66,8 +66,8 @@
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 57,
-                "end": 60,
+                "start": 52,
+                "end": 55,
                 "ctxt": 0
               },
               "value": "lol",
@@ -76,8 +76,8 @@
             "value": {
               "type": "NumericLiteral",
               "span": {
-                "start": 62,
-                "end": 63,
+                "start": 57,
+                "end": 58,
                 "ctxt": 0
               },
               "value": 2.0

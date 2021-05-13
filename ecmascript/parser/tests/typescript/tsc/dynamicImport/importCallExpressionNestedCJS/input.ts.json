@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 99,
-    "end": 234,
+    "start": 94,
+    "end": 224,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 99,
-        "end": 122,
+        "start": 94,
+        "end": 117,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 114,
-          "end": 121,
+          "start": 109,
+          "end": 116,
           "ctxt": 0
         },
         "value": "./foo",
@@ -33,8 +33,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 165,
-          "end": 168,
+          "start": 157,
+          "end": 160,
           "ctxt": 0
         },
         "value": "foo",
@@ -44,44 +44,44 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 150,
-        "end": 234,
+        "start": 142,
+        "end": 224,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 171,
-          "end": 234,
+          "start": 163,
+          "end": 224,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 178,
-              "end": 231,
+              "start": 169,
+              "end": 222,
               "ctxt": 0
             },
             "argument": {
               "type": "AwaitExpression",
               "span": {
-                "start": 185,
-                "end": 230,
+                "start": 176,
+                "end": 221,
                 "ctxt": 0
               },
               "argument": {
                 "type": "CallExpression",
                 "span": {
-                  "start": 191,
-                  "end": 230,
+                  "start": 182,
+                  "end": 221,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 191,
-                    "end": 197,
+                    "start": 182,
+                    "end": 188,
                     "ctxt": 0
                   },
                   "value": "import",
@@ -93,36 +93,36 @@
                     "expression": {
                       "type": "MemberExpression",
                       "span": {
-                        "start": 198,
-                        "end": 229,
+                        "start": 189,
+                        "end": 220,
                         "ctxt": 0
                       },
                       "object": {
                         "type": "ParenthesisExpression",
                         "span": {
-                          "start": 198,
-                          "end": 221,
+                          "start": 189,
+                          "end": 212,
                           "ctxt": 0
                         },
                         "expression": {
                           "type": "AwaitExpression",
                           "span": {
-                            "start": 199,
-                            "end": 220,
+                            "start": 190,
+                            "end": 211,
                             "ctxt": 0
                           },
                           "argument": {
                             "type": "CallExpression",
                             "span": {
-                              "start": 205,
-                              "end": 220,
+                              "start": 196,
+                              "end": 211,
                               "ctxt": 0
                             },
                             "callee": {
                               "type": "Identifier",
                               "span": {
-                                "start": 205,
-                                "end": 211,
+                                "start": 196,
+                                "end": 202,
                                 "ctxt": 0
                               },
                               "value": "import",
@@ -134,8 +134,8 @@
                                 "expression": {
                                   "type": "StringLiteral",
                                   "span": {
-                                    "start": 212,
-                                    "end": 219,
+                                    "start": 203,
+                                    "end": 210,
                                     "ctxt": 0
                                   },
                                   "value": "./foo",
@@ -154,8 +154,8 @@
                       "property": {
                         "type": "Identifier",
                         "span": {
-                          "start": 222,
-                          "end": 229,
+                          "start": 213,
+                          "end": 220,
                           "ctxt": 0
                         },
                         "value": "default",

@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 104,
-    "end": 120,
+    "start": 99,
+    "end": 115,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 114,
-          "end": 115,
+          "start": 109,
+          "end": 110,
           "ctxt": 0
         },
         "value": "g",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 104,
-        "end": 120,
+        "start": 99,
+        "end": 115,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 118,
-          "end": 120,
+          "start": 113,
+          "end": 115,
           "ctxt": 0
         },
         "stmts": []

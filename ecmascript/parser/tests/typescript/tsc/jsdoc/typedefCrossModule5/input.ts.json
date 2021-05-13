@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 129,
-    "end": 213,
+    "start": 122,
+    "end": 202,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 135,
-          "end": 138,
+          "start": 128,
+          "end": 131,
           "ctxt": 0
         },
         "value": "Bar",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 129,
-        "end": 141,
+        "start": 122,
+        "end": 134,
         "ctxt": 0
       },
       "decorators": [],
@@ -37,8 +37,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 174,
-          "end": 177,
+          "start": 164,
+          "end": 167,
           "ctxt": 0
         },
         "value": "Foo",
@@ -46,8 +46,8 @@
       },
       "declare": false,
       "span": {
-        "start": 168,
-        "end": 181,
+        "start": 158,
+        "end": 171,
         "ctxt": 0
       },
       "decorators": [],
@@ -61,8 +61,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 199,
-        "end": 213,
+        "start": 188,
+        "end": 202,
         "ctxt": 0
       },
       "kind": "const",
@@ -71,15 +71,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 205,
-            "end": 212,
+            "start": 194,
+            "end": 201,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 205,
-              "end": 208,
+              "start": 194,
+              "end": 197,
               "ctxt": 0
             },
             "value": "Bar",
@@ -89,8 +89,8 @@
           "init": {
             "type": "NumericLiteral",
             "span": {
-              "start": 211,
-              "end": 212,
+              "start": 200,
+              "end": 201,
               "ctxt": 0
             },
             "value": 3.0

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 19,
-    "end": 116,
+    "start": 17,
+    "end": 112,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 19,
-        "end": 58,
+        "start": 17,
+        "end": 56,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 23,
-            "end": 57,
+            "start": 21,
+            "end": 55,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 23,
-              "end": 27,
+              "start": 21,
+              "end": 25,
               "ctxt": 0
             },
             "value": "foge",
@@ -37,15 +37,15 @@
           "init": {
             "type": "NewExpression",
             "span": {
-              "start": 30,
-              "end": 57,
+              "start": 28,
+              "end": 55,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 51,
+                "start": 32,
+                "end": 49,
                 "ctxt": 0
               },
               "value": "SharedArrayBuffer",
@@ -57,8 +57,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 52,
-                    "end": 56,
+                    "start": 50,
+                    "end": 54,
                     "ctxt": 0
                   },
                   "value": 1024.0
@@ -74,8 +74,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 60,
-        "end": 88,
+        "start": 57,
+        "end": 85,
         "ctxt": 0
       },
       "kind": "var",
@@ -84,15 +84,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 64,
-            "end": 87,
+            "start": 61,
+            "end": 84,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 64,
-              "end": 67,
+              "start": 61,
+              "end": 64,
               "ctxt": 0
             },
             "value": "bar",
@@ -102,22 +102,22 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 70,
-              "end": 87,
+              "start": 67,
+              "end": 84,
               "ctxt": 0
             },
             "callee": {
               "type": "MemberExpression",
               "span": {
-                "start": 70,
-                "end": 80,
+                "start": 67,
+                "end": 77,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 70,
-                  "end": 74,
+                  "start": 67,
+                  "end": 71,
                   "ctxt": 0
                 },
                 "value": "foge",
@@ -126,8 +126,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 75,
-                  "end": 80,
+                  "start": 72,
+                  "end": 77,
                   "ctxt": 0
                 },
                 "value": "slice",
@@ -141,8 +141,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 81,
-                    "end": 82,
+                    "start": 78,
+                    "end": 79,
                     "ctxt": 0
                   },
                   "value": 1.0
@@ -153,8 +153,8 @@
                 "expression": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 84,
-                    "end": 86,
+                    "start": 81,
+                    "end": 83,
                     "ctxt": 0
                   },
                   "value": 10.0
@@ -170,8 +170,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 90,
-        "end": 116,
+        "start": 86,
+        "end": 112,
         "ctxt": 0
       },
       "kind": "var",
@@ -180,15 +180,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 94,
-            "end": 115,
+            "start": 90,
+            "end": 111,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 94,
-              "end": 97,
+              "start": 90,
+              "end": 93,
               "ctxt": 0
             },
             "value": "len",
@@ -198,15 +198,15 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 100,
-              "end": 115,
+              "start": 96,
+              "end": 111,
               "ctxt": 0
             },
             "object": {
               "type": "Identifier",
               "span": {
-                "start": 100,
-                "end": 104,
+                "start": 96,
+                "end": 100,
                 "ctxt": 0
               },
               "value": "foge",
@@ -215,8 +215,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 105,
-                "end": 115,
+                "start": 101,
+                "end": 111,
                 "ctxt": 0
               },
               "value": "byteLength",

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 0,
-    "end": 39,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
@@ -68,22 +68,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 20,
-        "end": 39,
+        "start": 19,
+        "end": 38,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 20,
-          "end": 38,
+          "start": 19,
+          "end": 37,
           "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
-            "start": 20,
-            "end": 23,
+            "start": 19,
+            "end": 22,
             "ctxt": 0
           },
           "value": "tag",
@@ -93,8 +93,8 @@
         "template": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 24,
-            "end": 38,
+            "start": 23,
+            "end": 37,
             "ctxt": 0
           },
           "expressions": [],
@@ -102,16 +102,16 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 25,
-                "end": 37,
+                "start": 24,
+                "end": 36,
                 "ctxt": 0
               },
               "tail": true,
               "cooked": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 25,
-                  "end": 37,
+                  "start": 24,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "value": "Hello world!",
@@ -124,8 +124,8 @@
               "raw": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 25,
-                  "end": 37,
+                  "start": 24,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "value": "Hello world!",

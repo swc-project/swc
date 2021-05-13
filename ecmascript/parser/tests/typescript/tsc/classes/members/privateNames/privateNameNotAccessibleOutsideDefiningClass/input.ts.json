@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 37,
-    "end": 93,
+    "start": 34,
+    "end": 86,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 43,
-          "end": 44,
+          "start": 40,
+          "end": 41,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 37,
-        "end": 72,
+        "start": 34,
+        "end": 67,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,22 +29,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 52,
-            "end": 69,
+            "start": 48,
+            "end": 65,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 52,
-              "end": 56,
+              "start": 48,
+              "end": 52,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 53,
-                "end": 56,
+                "start": 49,
+                "end": 52,
                 "ctxt": 0
               },
               "value": "foo",
@@ -54,8 +54,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 67,
-              "end": 68,
+              "start": 63,
+              "end": 64,
               "ctxt": 0
             },
             "value": 3.0
@@ -63,15 +63,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 56,
-              "end": 64,
+              "start": 52,
+              "end": 60,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 58,
-                "end": 64,
+                "start": 54,
+                "end": 60,
                 "ctxt": 0
               },
               "kind": "number"
@@ -97,37 +97,37 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 76,
-        "end": 93,
+        "start": 69,
+        "end": 86,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 76,
-          "end": 92,
+          "start": 69,
+          "end": 85,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 76,
-            "end": 88,
+            "start": 69,
+            "end": 81,
             "ctxt": 0
           },
           "object": {
             "type": "NewExpression",
             "span": {
-              "start": 76,
-              "end": 83,
+              "start": 69,
+              "end": 76,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 80,
-                "end": 81,
+                "start": 73,
+                "end": 74,
                 "ctxt": 0
               },
               "value": "A",
@@ -139,15 +139,15 @@
           "property": {
             "type": "PrivateName",
             "span": {
-              "start": 84,
-              "end": 88,
+              "start": 77,
+              "end": 81,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 85,
-                "end": 88,
+                "start": 78,
+                "end": 81,
                 "ctxt": 0
               },
               "value": "foo",
@@ -159,8 +159,8 @@
         "right": {
           "type": "NumericLiteral",
           "span": {
-            "start": 91,
-            "end": 92,
+            "start": 84,
+            "end": 85,
             "ctxt": 0
           },
           "value": 4.0
