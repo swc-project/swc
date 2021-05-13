@@ -717,7 +717,7 @@ impl Swcify for ClassExpression {
                 is_abstract: false,
                 type_params: self.type_parameters.swcify(ctx).flatten(),
                 super_type_params: self.super_type_parameters.swcify(ctx),
-                implements: self.implements.swcify(self).unwrap_or_default(),
+                implements: self.implements.swcify(ctx).unwrap_or_default(),
             },
         }
     }
@@ -726,7 +726,12 @@ impl Swcify for ClassExpression {
 impl Swcify for MetaProperty {
     type Output = MetaPropExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        MetaPropExpr {
+            meta: self.meta.swcify(ctx).id,
+            prop: self.property.swcify(ctx).id,
+        }
+    }
 }
 
 impl Swcify for swc_babel_ast::Super {
