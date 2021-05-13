@@ -194,7 +194,7 @@ impl Swcify for TSQualifiedName {
     fn swcify(self, ctx: &Context) -> Self::Output {
         TsQualifiedName {
             left: self.left.swcify(ctx),
-            right: self.right.swcify(ctx),
+            right: self.right.swcify(ctx).id,
         }
     }
 }
