@@ -91,6 +91,7 @@ use swc_ecma_ast::SeqExpr;
 use swc_ecma_ast::SpreadElement;
 use swc_ecma_ast::TaggedTpl;
 use swc_ecma_ast::ThisExpr;
+use swc_ecma_ast::Tpl;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
@@ -746,6 +747,15 @@ impl Swcify for swc_babel_ast::Super {
 
 impl Swcify for TaggedTemplateExpression {
     type Output = TaggedTpl;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TaggedTpl {
+            span: ctx.span(&self.base),
+            tag: self.tag.swcify(ctx),
+            type_params: self.type_parameters.swcify(ctx),
+            tpl: self.quasi.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for YieldExpression {
