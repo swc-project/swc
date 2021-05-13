@@ -786,7 +786,12 @@ impl Swcify for YieldExpression {
 impl Swcify for AwaitExpression {
     type Output = AwaitExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        AwaitExpr {
+            span: ctx.span(&self.base),
+            arg: self.argument.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for Import {
