@@ -134,15 +134,15 @@ impl Swcify for swc_babel_ast::ClassProperty {
             value: self.value.swcify(ctx),
             type_ann: self.type_annotation.swcify(ctx).flatten(),
             is_static: self.is_static.unwrap_or(false),
-            decorators: (),
+            decorators: self.decorators.swcify(ctx).unwrap_or_default(),
             computed,
-            accessibility: (),
-            is_abstract: (),
-            is_optional: (),
-            is_override: (),
-            readonly: (),
-            declare: (),
-            definite: (),
+            accessibility: self.accessibility.swcify(ctx),
+            is_abstract: self.is_abstract.unwrap_or_default(),
+            is_optional: self.optional.unwrap_or_default(),
+            is_override: false,
+            readonly: self.readonly.unwrap_or_default(),
+            declare: self.declare.unwrap_or_default(),
+            definite: self.definite.unwrap_or_default(),
         }
     }
 }

@@ -136,7 +136,7 @@ impl Swcify for Expression {
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
             Expression::Import(e) => e.swcify(ctx).into(),
-            Expression::BigIntLiteral(e) => e.swcify(ctx).into(),
+            Expression::BigIntLiteral(e) => Expr::Lit(e.swcify(ctx).into()),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
             Expression::TypeCast(e) => e.swcify(ctx).into(),
@@ -832,7 +832,13 @@ impl Swcify for ModuleExpression {
 impl Swcify for TSAsExpression {
     type Output = TsAsExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsAsExpr {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
+            type_ann: self.type_annotation.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for TSTypeAssertion {
