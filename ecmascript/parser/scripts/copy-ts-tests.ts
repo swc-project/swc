@@ -6,14 +6,14 @@ import { promisify } from 'util';
 
 // Usage: ./scripts/copy-ts-tests.js  ~/projects/TypeScript
 
-const targetDir = path.resolve(__dirname, '..', 'tests', 'typescript', 'tsc')
+const targetPassDir = path.resolve(__dirname, '..', 'tests', 'typescript', 'tsc')
+const targetErrorDir = path.resolve(__dirname, '..', 'tests', 'typescript-errors', 'tsc')
 
-const root = path.join(process.argv[1], 'tests', 'cases', 'conformance')
+const root = path.join(process.argv[2], 'tests', 'cases', 'conformance')
 process.chdir(root)
 
 
-
-async function compile(fileNames: string[], options: ts.CompilerOptions): Promise<boolean> {
+async function doesNotHaveParsingError(fileNames: string[], options: ts.CompilerOptions): Promise<boolean> {
     options.noEmit = true;
     options.jsx = ts.JsxEmit.Preserve;
     let program = ts.createProgram(fileNames, options);
@@ -27,7 +27,6 @@ async function compile(fileNames: string[], options: ts.CompilerOptions): Promis
         if (!d.file) continue;
         // Parse failure
         if (1000 <= d.code && d.code < 2000) return false;
-        if (10000 <= d.code) return false;
         if (2000 <= d.code && d.code < 3000) continue;
 
         let { line, character } = d.file.getLineAndCharacterOfPosition(d.start!);
@@ -41,15 +40,29 @@ async function compile(fileNames: string[], options: ts.CompilerOptions): Promis
 
 
 async function check(f: string) {
-    const ok = await compile([f], {
+    const res = await doesNotHaveParsingError([f], {
         noEmitOnError: true,
         target: ts.ScriptTarget.Latest,
         module: ts.ModuleKind.None
     });
 
-    if (ok) {
-        const rel = path.relative(root, f);
-        const target = path.join(targetDir, rel.replace('.ts', ''))
+    const rel = path.relative(root, f);
+
+    if (res) {
+        const target = path.join(targetPassDir, rel.replace('.ts', ''))
+
+        console.log('Creating', f, '->', target)
+        fs.mkdirSync(target, { recursive: true })
+
+        // We use rename as resumable copy
+        if (f.endsWith('.tsx')) {
+            fs.renameSync(f, path.join(target, 'input.tsx'))
+        } else {
+            fs.renameSync(f, path.join(target, 'input.ts'))
+        }
+        // console.log('Created', target)
+    } else {
+        const target = path.join(targetErrorDir, rel.replace('.ts', ''))
 
         console.log('Creating', f, '->', target)
         fs.mkdirSync(target, { recursive: true })
