@@ -70,7 +70,7 @@ async function check(f: string) {
         module: ts.ModuleKind.None
     });
 
-    console.log(`Moving ${testName}`)
+    console.log(`Moving ${testName} at ${f}`)
 
 
     if (res) {
