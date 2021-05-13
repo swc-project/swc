@@ -2,6 +2,8 @@ use super::Context;
 use crate::swcify::Swcify;
 use swc_babel_ast::FlowType;
 use swc_babel_ast::SuperTypeParams;
+use swc_babel_ast::TSDeclareMethod;
+use swc_babel_ast::TSIndexSignature;
 use swc_babel_ast::TSType;
 use swc_babel_ast::TSTypeAnnotation;
 use swc_babel_ast::TSTypeParameter;
@@ -114,3 +116,7 @@ impl Swcify for SuperTypeParams {
         }
     }
 }
+
+impl Swcify for TSDeclareMethod {}
+
+impl Swcify for TSIndexSignature {}

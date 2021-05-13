@@ -26,3 +26,11 @@ impl Swcify for ClassBodyEl {
         }
     }
 }
+
+impl Swcify for swc_babel_ast::ClassMethod {}
+
+impl Swcify for swc_babel_ast::ClassPrivateMethod {}
+
+impl Swcify for swc_babel_ast::ClassProperty {}
+
+impl Swcify for swc_babel_ast::ClassPrivateProperty {}
