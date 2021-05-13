@@ -1,5 +1,6 @@
 use super::Context;
 use crate::swcify::Swcify;
+use swc_babel_ast::Access;
 use swc_babel_ast::FlowType;
 use swc_babel_ast::SuperTypeParams;
 use swc_babel_ast::TSDeclareMethod;
@@ -12,6 +13,7 @@ use swc_babel_ast::TSTypeParameterInstantiation;
 use swc_babel_ast::TypeAnnotOrNoop;
 use swc_babel_ast::TypeParamDeclOrNoop;
 use swc_babel_ast::TypeParameterInstantiation;
+use swc_ecma_ast::Accessibility;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::TsType;
 use swc_ecma_ast::TsTypeAnn;
@@ -120,3 +122,15 @@ impl Swcify for SuperTypeParams {
 impl Swcify for TSDeclareMethod {}
 
 impl Swcify for TSIndexSignature {}
+
+impl Swcify for Access {
+    type Output = Accessibility;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            Access::Public => Accessibility::Public,
+            Access::Private => Accessibility::Private,
+            Access::Protected => Accessibility::Protected,
+        }
+    }
+}
