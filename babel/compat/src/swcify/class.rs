@@ -196,6 +196,3 @@ impl Swcify for TSExpressionWithTypeArguments {
         }
     }
 }
-
-
-i
