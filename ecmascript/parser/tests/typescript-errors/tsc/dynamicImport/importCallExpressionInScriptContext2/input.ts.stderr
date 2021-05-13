@@ -1,0 +1,6 @@
+error: 'eval' and 'arguments' cannot be used as a binding identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/dynamicImport/importCallExpressionInScriptContext2/input.ts:11:10
+   |
+11 | function arguments() { }
+   |          ^^^^^^^^^
+

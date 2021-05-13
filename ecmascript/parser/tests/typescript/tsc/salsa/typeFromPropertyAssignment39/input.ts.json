@@ -1,0 +1,193 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 125,
+    "end": 181,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 125,
+        "end": 140,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 131,
+            "end": 139,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 131,
+              "end": 134,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 137,
+              "end": 139,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 141,
+        "end": 157,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 141,
+          "end": 156,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 141,
+            "end": 151,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 141,
+              "end": 144,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "property": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 145,
+              "end": 150,
+              "ctxt": 0
+            },
+            "value": "baz",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 154,
+            "end": 156,
+            "ctxt": 0
+          },
+          "properties": []
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 158,
+        "end": 181,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 158,
+          "end": 180,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 158,
+            "end": 176,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 158,
+              "end": 168,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 158,
+                "end": 161,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "property": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 162,
+                "end": 167,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "computed": true
+          },
+          "property": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 169,
+              "end": 175,
+              "ctxt": 0
+            },
+            "value": "blah",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "computed": true
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 179,
+            "end": 180,
+            "ctxt": 0
+          },
+          "value": 3.0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

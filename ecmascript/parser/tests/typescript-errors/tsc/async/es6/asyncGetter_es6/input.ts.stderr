@@ -1,0 +1,6 @@
+error: Expected (, got foo
+ --> $DIR/tests/typescript-errors/tsc/async/es6/asyncGetter_es6/input.ts:4:13
+  |
+4 |   async get foo() {
+  |             ^^^
+

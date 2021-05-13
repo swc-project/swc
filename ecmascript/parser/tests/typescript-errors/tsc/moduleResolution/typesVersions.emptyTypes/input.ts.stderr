@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/typesVersions.emptyTypes/input.ts:8:12
+  |
+8 |     "types": "",
+  |            ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/typesVersions.emptyTypes/input.ts:8:5
+  |
+8 |     "types": "",
+  |     ^^^^^^^
+

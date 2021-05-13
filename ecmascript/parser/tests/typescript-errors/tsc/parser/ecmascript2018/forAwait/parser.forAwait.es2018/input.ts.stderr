@@ -1,0 +1,6 @@
+error: for await syntax is valid only for for-of statement
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript2018/forAwait/parser.forAwait.es2018/input.ts:11:5
+   |
+11 | for await (const x in y) {
+   |     ^^^^^
+

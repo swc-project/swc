@@ -1,0 +1,6 @@
+error: Expected ,, got ;
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/ArgumentLists/parserErrorRecovery_ArgumentList3/input.ts:3:10
+  |
+3 |    return;
+  |          ^
+

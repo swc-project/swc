@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsPackageJson/input.ts:12:11
+   |
+12 |     "name": "pkg",
+   |           ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsPackageJson/input.ts:12:5
+   |
+12 |     "name": "pkg",
+   |     ^^^^^^
+

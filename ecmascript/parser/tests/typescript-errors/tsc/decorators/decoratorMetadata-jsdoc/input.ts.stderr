@@ -1,0 +1,12 @@
+error: Unexpected token `?`. Expected identifier, string literal, numeric literal or [ for the computed key
+ --> $DIR/tests/typescript-errors/tsc/decorators/decoratorMetadata-jsdoc/input.ts:9:15
+  |
+9 |     a?: string?;
+  |               ^
+
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/decorators/decoratorMetadata-jsdoc/input.ts:9:15
+  |
+9 |     a?: string?;
+  |               ^
+

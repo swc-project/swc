@@ -1,0 +1,6 @@
+error: Expected ,, got string literal (a b)
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/propertySignatures/stringNamedPropertyDuplicates/input.ts:20:5
+   |
+20 |     "a b": 1
+   |     ^^^^^
+

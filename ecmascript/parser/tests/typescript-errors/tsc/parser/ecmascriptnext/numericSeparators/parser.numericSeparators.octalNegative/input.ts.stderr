@@ -1,0 +1,24 @@
+error: Identifier cannot follow number
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.octalNegative/input.ts:8:3
+  |
+8 | 0_O0101
+  |   ^
+
+error: A numeric separator is only allowed between two digits
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.octalNegative/input.ts:2:3
+  |
+2 | 0o00_
+  |   ^^
+
+error: A numeric separator is only allowed between two digits
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.octalNegative/input.ts:5:3
+  |
+5 | 0o_110
+  |   ^
+
+error: A numeric separator is only allowed between two digits
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.octalNegative/input.ts:8:1
+  |
+8 | 0_O0101
+  | ^
+

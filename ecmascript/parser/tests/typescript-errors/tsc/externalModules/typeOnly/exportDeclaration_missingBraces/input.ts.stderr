@@ -1,0 +1,6 @@
+error: Expected {, got T
+  --> $DIR/tests/typescript-errors/tsc/externalModules/typeOnly/exportDeclaration_missingBraces/input.ts:14:15
+   |
+14 |   export type T; // Normal parse error because there is no other 'T'
+   |               ^
+

@@ -1,0 +1,18 @@
+error: Unexpected token `...`. Expected yield, an identifier, [ or {
+  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterDeclaration4/input.ts:29:24
+   |
+29 |     constructor(public ...temp) { }  // Error, rest parameter can't have properties
+   |                        ^^^
+
+error: A rest parameter cannot be optional
+  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterDeclaration4/input.ts:14:17
+   |
+14 | function a3(...b?) { }            // Error, can't be optional
+   |                 ^
+
+error: A rest parameter cannot have an initializer
+  --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterDeclaration4/input.ts:15:16
+   |
+15 | function a4(...b = [1,2,3]) { }   // Error, can't have initializer
+   |                ^
+

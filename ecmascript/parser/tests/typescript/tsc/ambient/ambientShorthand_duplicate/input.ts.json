@@ -1,0 +1,105 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 34,
+    "end": 251,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 34,
+        "end": 55,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 49,
+          "end": 54,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "body": null
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 93,
+        "end": 114,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 108,
+          "end": 113,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "body": null
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 229,
+        "end": 251,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 236,
+            "end": 239,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 236,
+              "end": 239,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 245,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

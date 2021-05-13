@@ -1,0 +1,6 @@
+error: Expected 4 hex characters
+  --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript5/scannerS7.8.4_A7.1_T4/input.ts:13:2
+   |
+13 | "\u000G"
+   |  ^^^^^
+

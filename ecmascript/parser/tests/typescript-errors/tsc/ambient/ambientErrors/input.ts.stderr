@@ -1,0 +1,36 @@
+error: A parameter initializer is only allowed in a function or constructor implementation
+  --> $DIR/tests/typescript-errors/tsc/ambient/ambientErrors/input.ts:17:22
+   |
+17 | declare function fn3(x = 3);
+   |                      ^^^^^
+
+error: An implementation cannot be declared in ambient contexts
+  --> $DIR/tests/typescript-errors/tsc/ambient/ambientErrors/input.ts:20:24
+   |
+20 | declare function fn4() { };
+   |                        ^
+
+error: An implementation cannot be declared in ambient contexts
+  --> $DIR/tests/typescript-errors/tsc/ambient/ambientErrors/input.ts:35:19
+   |
+35 |     function fn() { }
+   |                   ^
+
+error: An implementation cannot be declared in ambient contexts
+  --> $DIR/tests/typescript-errors/tsc/ambient/ambientErrors/input.ts:39:23
+   |
+39 |         constructor() { }
+   |                       ^
+
+error: An implementation cannot be declared in ambient contexts
+  --> $DIR/tests/typescript-errors/tsc/ambient/ambientErrors/input.ts:40:14
+   |
+40 |         fn() { }
+   |              ^
+
+error: An implementation cannot be declared in ambient contexts
+  --> $DIR/tests/typescript-errors/tsc/ambient/ambientErrors/input.ts:41:22
+   |
+41 |         static sfn() { }
+   |                      ^
+

@@ -1,0 +1,6 @@
+error: Unexpected token `}`. Expected an identifier
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/objectBindingPatternKeywordIdentifiers03/input.ts:2:15
+  |
+2 | var { "while" } = { while: 1 }
+  |               ^
+

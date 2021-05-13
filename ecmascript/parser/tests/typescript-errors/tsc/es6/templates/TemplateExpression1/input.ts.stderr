@@ -1,0 +1,6 @@
+error: Unexpected eof
+ --> $DIR/tests/typescript-errors/tsc/es6/templates/TemplateExpression1/input.ts:1:18
+  |
+1 | var v = `foo ${ a 
+  |                  ^
+

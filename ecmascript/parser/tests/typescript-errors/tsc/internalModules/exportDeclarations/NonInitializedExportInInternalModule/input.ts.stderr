@@ -1,0 +1,18 @@
+error: Trailing comma is not allowed
+ --> $DIR/tests/typescript-errors/tsc/internalModules/exportDeclarations/NonInitializedExportInInternalModule/input.ts:3:8
+  |
+3 |     var;
+  |        ^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/internalModules/exportDeclarations/NonInitializedExportInInternalModule/input.ts:4:5
+  |
+4 |     let;
+  |     ^^^
+
+error: Trailing comma is not allowed
+ --> $DIR/tests/typescript-errors/tsc/internalModules/exportDeclarations/NonInitializedExportInInternalModule/input.ts:5:10
+  |
+5 |     const;
+  |          ^
+

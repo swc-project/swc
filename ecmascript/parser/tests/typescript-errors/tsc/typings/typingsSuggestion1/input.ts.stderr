@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/typings/typingsSuggestion1/input.ts:2:20
+  |
+2 | { "compilerOptions": {"types": []} }
+  |                    ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/typings/typingsSuggestion1/input.ts:2:3
+  |
+2 | { "compilerOptions": {"types": []} }
+  |   ^^^^^^^^^^^^^^^^^
+

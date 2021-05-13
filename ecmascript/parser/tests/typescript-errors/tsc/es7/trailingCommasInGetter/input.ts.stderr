@@ -1,0 +1,6 @@
+error: Unexpected token `,`. Expected yield, an identifier, [ or {
+ --> $DIR/tests/typescript-errors/tsc/es7/trailingCommasInGetter/input.ts:2:11
+  |
+2 |     get x(,) { return 0; }
+  |           ^
+

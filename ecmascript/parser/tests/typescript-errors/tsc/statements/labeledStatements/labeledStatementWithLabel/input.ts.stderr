@@ -1,0 +1,6 @@
+error: Generator cannot be labelled
+ --> $DIR/tests/typescript-errors/tsc/statements/labeledStatements/labeledStatementWithLabel/input.ts:4:8
+  |
+4 | label: function* gen() { }
+  |        ^^^^^^^^^^^^^^^^^^^
+

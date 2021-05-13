@@ -1,0 +1,18 @@
+error: Unexpected token `>`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+  --> $DIR/tests/typescript-errors/tsc/dynamicImport/importCallExpressionWithTypeArgument/input.ts:11:17
+   |
+11 | var p2 = import<>("./0");  // error
+   |                 ^
+
+error: Expression expected
+  --> $DIR/tests/typescript-errors/tsc/dynamicImport/importCallExpressionWithTypeArgument/input.ts:10:16
+   |
+10 | var p1 = import<Promise<any>>("./0");  // error
+   |                ^
+
+error: Expression expected
+  --> $DIR/tests/typescript-errors/tsc/dynamicImport/importCallExpressionWithTypeArgument/input.ts:11:16
+   |
+11 | var p2 = import<>("./0");  // error
+   |                ^
+

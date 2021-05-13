@@ -1,0 +1,12 @@
+error: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+ --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript3/scannerES3NumericLiteral2/input.ts:1:1
+  |
+1 | 01
+  | ^^
+
+error: Legacy octal escape is not permitted in strict mode
+ --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript3/scannerES3NumericLiteral2/input.ts:1:1
+  |
+1 | 01
+  | ^^
+

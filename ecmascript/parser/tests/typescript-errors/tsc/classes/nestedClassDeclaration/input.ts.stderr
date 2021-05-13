@@ -1,0 +1,6 @@
+error: Unexpected token `C2`. Expected * for generator, private key, identifier or async
+ --> $DIR/tests/typescript-errors/tsc/classes/nestedClassDeclaration/input.ts:5:11
+  |
+5 |     class C2 {
+  |           ^^
+

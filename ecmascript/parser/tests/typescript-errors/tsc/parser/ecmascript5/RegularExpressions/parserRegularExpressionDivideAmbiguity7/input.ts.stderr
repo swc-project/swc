@@ -1,0 +1,13 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity7/input.ts:2:3
+  |
+2 |  ){}
+  |   ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegularExpressions/parserRegularExpressionDivideAmbiguity7/input.ts:1:1
+  |
+1 | / (a/8
+2 | |  ){}
+  | |__^
+

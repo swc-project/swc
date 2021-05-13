@@ -1,0 +1,89 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 80,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 0,
+        "end": 26,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "ClassExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 21,
+            "end": 22,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        },
+        "span": {
+          "start": 15,
+          "end": 26,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 30,
+        "end": 80,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 45,
+          "end": 79,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 52,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "uhoh",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 58,
+                "end": 75,
+                "ctxt": 0
+              },
+              "value": "another default",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,36 @@
+error: Unexpected token `=`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:35:9
+   |
+35 | { a: 0} = value;
+   |         ^
+
+error: Invalid left-hand side in 'for...in' statement
+ --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:6:21
+  |
+6 |     constructor() { this = value; }
+  |                     ^^^^
+
+error: Invalid left-hand side in 'for...in' statement
+ --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:7:13
+  |
+7 |     foo() { this = value; }
+  |             ^^^^
+
+error: Invalid left-hand side in 'for...in' statement
+ --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:8:21
+  |
+8 |     static sfoo() { this = value; }
+  |                     ^^^^
+
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:11:18
+   |
+11 | function foo() { this = value; }
+   |                  ^^^^
+
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/assignmentOperator/assignmentLHSIsValue/input.ts:13:1
+   |
+13 | this = value;
+   | ^^^^
+

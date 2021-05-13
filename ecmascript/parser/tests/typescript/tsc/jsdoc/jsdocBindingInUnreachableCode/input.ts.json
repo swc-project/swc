@@ -1,0 +1,116 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 79,
+    "end": 170,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 79,
+        "end": 170,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 83,
+          "end": 88,
+          "ctxt": 0
+        },
+        "value": false
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 90,
+          "end": 170,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 137,
+              "end": 168,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 143,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 143,
+                    "end": 144,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "FunctionExpression",
+                  "identifier": null,
+                  "params": [
+                    {
+                      "type": "Parameter",
+                      "span": {
+                        "start": 157,
+                        "end": 158,
+                        "ctxt": 0
+                      },
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 157,
+                          "end": 158,
+                          "ctxt": 0
+                        },
+                        "value": "s",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    }
+                  ],
+                  "decorators": [],
+                  "span": {
+                    "start": 147,
+                    "end": 167,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 160,
+                      "end": 167,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

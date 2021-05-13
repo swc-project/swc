@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/untypedModuleImport_noImplicitAny/input.ts:6:9
+  |
+6 | { "name": "foo", "version": "1.2.3" }
+  |         ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/untypedModuleImport_noImplicitAny/input.ts:6:3
+  |
+6 | { "name": "foo", "version": "1.2.3" }
+  |   ^^^^^^
+

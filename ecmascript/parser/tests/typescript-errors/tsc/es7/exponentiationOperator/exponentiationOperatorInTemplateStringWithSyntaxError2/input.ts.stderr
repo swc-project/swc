@@ -1,0 +1,6 @@
+error: ** cannot be applied to unary expression
+ --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/exponentiationOperatorInTemplateStringWithSyntaxError2/input.ts:9:14
+  |
+9 | `hello ${-t1 ** t2 - t1}`;
+  |              ^^
+

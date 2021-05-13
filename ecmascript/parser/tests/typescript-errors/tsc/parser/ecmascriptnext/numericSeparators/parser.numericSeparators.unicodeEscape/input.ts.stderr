@@ -1,0 +1,18 @@
+error: Expected unicode escape
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.unicodeEscape/input.ts:35:2
+   |
+35 | /\xf_f/u
+   |  ^
+
+error: Invalid character in identifier
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.unicodeEscape/input.ts:11:2
+   |
+11 | /\u{10_ffff}/u
+   |  ^^^^^^^^^^^
+
+error: Invalid character in identifier
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.unicodeEscape/input.ts:23:2
+   |
+23 | /\uff_ff/u
+   |  ^^^^^^^
+

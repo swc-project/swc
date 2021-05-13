@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/typesVersions.multiFile/input.ts:6:11
+  |
+6 |     "name": "ext",
+  |           ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/typesVersions.multiFile/input.ts:6:5
+  |
+6 |     "name": "ext",
+  |     ^^^^^^
+

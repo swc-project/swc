@@ -1,0 +1,24 @@
+error: 'yield' cannot be used as a parameter within generator
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript2018/asyncGenerators/parser.asyncGenerators.classMethods.es2018/input.ts:36:19
+   |
+36 |     async * f(a = yield) {
+   |                   ^^^^^
+
+error: Expected ident
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript2018/asyncGenerators/parser.asyncGenerators.classMethods.es2018/input.ts:21:15
+   |
+21 |     async * f(await) {
+   |               ^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript2018/asyncGenerators/parser.asyncGenerators.classMethods.es2018/input.ts:26:15
+   |
+26 |     async * f(yield) {
+   |               ^^^^^
+
+error: Expected ident
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript2018/asyncGenerators/parser.asyncGenerators.classMethods.es2018/input.ts:26:15
+   |
+26 |     async * f(yield) {
+   |               ^^^^^
+

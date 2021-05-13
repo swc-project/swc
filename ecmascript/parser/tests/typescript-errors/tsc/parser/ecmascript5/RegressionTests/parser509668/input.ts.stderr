@@ -1,0 +1,6 @@
+error: Unexpected token `...`. Expected yield, an identifier, [ or {
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RegressionTests/parser509668/input.ts:3:23
+  |
+3 |   constructor (public ...args: string[]) { }
+  |                       ^^^
+

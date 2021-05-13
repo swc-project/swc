@@ -1,0 +1,18 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/externalModules/umd-errors/input.ts:16:8
+   |
+16 | static export as namespace oo1;
+   |        ^^^^^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/externalModules/umd-errors/input.ts:16:1
+   |
+16 | static export as namespace oo1;
+   | ^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/externalModules/umd-errors/input.ts:16:1
+   |
+16 | static export as namespace oo1;
+   | ^^^^^^
+

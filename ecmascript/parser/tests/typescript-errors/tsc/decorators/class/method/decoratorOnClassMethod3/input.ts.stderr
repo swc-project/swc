@@ -1,0 +1,6 @@
+error: Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
+ --> $DIR/tests/typescript-errors/tsc/decorators/class/method/decoratorOnClassMethod3/input.ts:6:12
+  |
+6 |     public @dec method() {}
+  |            ^
+

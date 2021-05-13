@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/declarationEmit/typeReferenceRelatedFiles/input.ts:10:11
+   |
+10 |     "name": "@types/node",
+   |           ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/declarationEmit/typeReferenceRelatedFiles/input.ts:10:5
+   |
+10 |     "name": "@types/node",
+   |     ^^^^^^
+

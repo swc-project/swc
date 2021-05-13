@@ -1,0 +1,181 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 97,
+    "end": 232,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 97,
+        "end": 120,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 112,
+          "end": 119,
+          "ctxt": 0
+        },
+        "value": "./foo",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 163,
+          "end": 166,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 148,
+        "end": 232,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 169,
+          "end": 232,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 176,
+              "end": 229,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 183,
+                "end": 228,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 189,
+                  "end": 228,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 189,
+                    "end": 195,
+                    "ctxt": 0
+                  },
+                  "value": "import",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 196,
+                        "end": 227,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "ParenthesisExpression",
+                        "span": {
+                          "start": 196,
+                          "end": 219,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "AwaitExpression",
+                          "span": {
+                            "start": 197,
+                            "end": 218,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "CallExpression",
+                            "span": {
+                              "start": 203,
+                              "end": 218,
+                              "ctxt": 0
+                            },
+                            "callee": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 203,
+                                "end": 209,
+                                "ctxt": 0
+                              },
+                              "value": "import",
+                              "optional": false
+                            },
+                            "arguments": [
+                              {
+                                "spread": null,
+                                "expression": {
+                                  "type": "StringLiteral",
+                                  "span": {
+                                    "start": 210,
+                                    "end": 217,
+                                    "ctxt": 0
+                                  },
+                                  "value": "./foo",
+                                  "hasEscape": false,
+                                  "kind": {
+                                    "type": "normal",
+                                    "containsQuote": true
+                                  }
+                                }
+                              }
+                            ],
+                            "typeArguments": null
+                          }
+                        }
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 220,
+                          "end": 227,
+                          "ctxt": 0
+                        },
+                        "value": "default",
+                        "optional": false
+                      },
+                      "computed": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

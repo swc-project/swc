@@ -1,0 +1,12 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/es6/functionDeclarations/FunctionDeclaration5_es6/input.ts:2:14
+  |
+2 | function*foo(yield) {
+  |              ^^^^^
+
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/es6/functionDeclarations/FunctionDeclaration5_es6/input.ts:2:14
+  |
+2 | function*foo(yield) {
+  |              ^^^^^
+

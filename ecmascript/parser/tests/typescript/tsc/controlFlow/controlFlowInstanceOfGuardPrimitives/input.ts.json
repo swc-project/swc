@@ -1,0 +1,719 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 445,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 9,
+          "end": 20,
+          "ctxt": 0
+        },
+        "value": "distinguish",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 21,
+            "end": 50,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "thing",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 26,
+                "end": 50,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 28,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 28,
+                      "end": 34,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  },
+                  {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 37,
+                      "end": 43,
+                      "ctxt": 0
+                    },
+                    "kind": "number"
+                  },
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 46,
+                      "end": 50,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 46,
+                        "end": 50,
+                        "ctxt": 0
+                      },
+                      "value": "Date",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 0,
+        "end": 369,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 52,
+          "end": 369,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 59,
+              "end": 366,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 63,
+                "end": 86,
+                "ctxt": 0
+              },
+              "operator": "instanceof",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 63,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "value": "thing",
+                "optional": false
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 80,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": "Object",
+                "optional": false
+              }
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 88,
+                "end": 165,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 99,
+                    "end": 158,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 99,
+                      "end": 157,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 99,
+                        "end": 110,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 99,
+                          "end": 106,
+                          "ctxt": 0
+                        },
+                        "value": "console",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 107,
+                          "end": 110,
+                          "ctxt": 0
+                        },
+                        "value": "log",
+                        "optional": false
+                      },
+                      "computed": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "BinaryExpression",
+                          "span": {
+                            "start": 111,
+                            "end": 156,
+                            "ctxt": 0
+                          },
+                          "operator": "+",
+                          "left": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 111,
+                              "end": 134,
+                              "ctxt": 0
+                            },
+                            "value": "Aha!! It's a Date in ",
+                            "hasEscape": false,
+                            "kind": {
+                              "type": "normal",
+                              "containsQuote": true
+                            }
+                          },
+                          "right": {
+                            "type": "CallExpression",
+                            "span": {
+                              "start": 137,
+                              "end": 156,
+                              "ctxt": 0
+                            },
+                            "callee": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 137,
+                                "end": 154,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 137,
+                                  "end": 142,
+                                  "ctxt": 0
+                                },
+                                "value": "thing",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 143,
+                                  "end": 154,
+                                  "ctxt": 0
+                                },
+                                "value": "getFullYear",
+                                "optional": false
+                              },
+                              "computed": false
+                            },
+                            "arguments": [],
+                            "typeArguments": null
+                          }
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  }
+                }
+              ]
+            },
+            "alternate": {
+              "type": "IfStatement",
+              "span": {
+                "start": 171,
+                "end": 366,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 175,
+                  "end": 200,
+                  "ctxt": 0
+                },
+                "operator": "===",
+                "left": {
+                  "type": "UnaryExpression",
+                  "span": {
+                    "start": 175,
+                    "end": 187,
+                    "ctxt": 0
+                  },
+                  "operator": "typeof",
+                  "argument": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 182,
+                      "end": 187,
+                      "ctxt": 0
+                    },
+                    "value": "thing",
+                    "optional": false
+                  }
+                },
+                "right": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 192,
+                    "end": 200,
+                    "ctxt": 0
+                  },
+                  "value": "string",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              "consequent": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 202,
+                  "end": 281,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 213,
+                      "end": 274,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 213,
+                        "end": 273,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 213,
+                          "end": 224,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 213,
+                            "end": 220,
+                            "ctxt": 0
+                          },
+                          "value": "console",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 221,
+                            "end": 224,
+                            "ctxt": 0
+                          },
+                          "value": "log",
+                          "optional": false
+                        },
+                        "computed": false
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "BinaryExpression",
+                            "span": {
+                              "start": 225,
+                              "end": 272,
+                              "ctxt": 0
+                            },
+                            "operator": "+",
+                            "left": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 225,
+                                "end": 257,
+                                "ctxt": 0
+                              },
+                              "value": "Aha!! It's a string of length ",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
+                            },
+                            "right": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 260,
+                                "end": 272,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 260,
+                                  "end": 265,
+                                  "ctxt": 0
+                                },
+                                "value": "thing",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 266,
+                                  "end": 272,
+                                  "ctxt": 0
+                                },
+                                "value": "length",
+                                "optional": false
+                              },
+                              "computed": false
+                            }
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  }
+                ]
+              },
+              "alternate": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 287,
+                  "end": 366,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 298,
+                      "end": 359,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 298,
+                        "end": 358,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 298,
+                          "end": 309,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 298,
+                            "end": 305,
+                            "ctxt": 0
+                          },
+                          "value": "console",
+                          "optional": false
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 306,
+                            "end": 309,
+                            "ctxt": 0
+                          },
+                          "value": "log",
+                          "optional": false
+                        },
+                        "computed": false
+                      },
+                      "arguments": [
+                        {
+                          "spread": null,
+                          "expression": {
+                            "type": "BinaryExpression",
+                            "span": {
+                              "start": 310,
+                              "end": 357,
+                              "ctxt": 0
+                            },
+                            "operator": "+",
+                            "left": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 310,
+                                "end": 334,
+                                "ctxt": 0
+                              },
+                              "value": "Aha!! It's the number ",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
+                            },
+                            "right": {
+                              "type": "CallExpression",
+                              "span": {
+                                "start": 337,
+                                "end": 357,
+                                "ctxt": 0
+                              },
+                              "callee": {
+                                "type": "MemberExpression",
+                                "span": {
+                                  "start": 337,
+                                  "end": 354,
+                                  "ctxt": 0
+                                },
+                                "object": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 337,
+                                    "end": 342,
+                                    "ctxt": 0
+                                  },
+                                  "value": "thing",
+                                  "optional": false
+                                },
+                                "property": {
+                                  "type": "Identifier",
+                                  "span": {
+                                    "start": 343,
+                                    "end": 354,
+                                    "ctxt": 0
+                                  },
+                                  "value": "toPrecision",
+                                  "optional": false
+                                },
+                                "computed": false
+                              },
+                              "arguments": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "NumericLiteral",
+                                    "span": {
+                                      "start": 355,
+                                      "end": 356,
+                                      "ctxt": 0
+                                    },
+                                    "value": 3.0
+                                  }
+                                }
+                              ],
+                              "typeArguments": null
+                            }
+                          }
+                        }
+                      ],
+                      "typeArguments": null
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 373,
+        "end": 397,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 373,
+          "end": 396,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 373,
+            "end": 384,
+            "ctxt": 0
+          },
+          "value": "distinguish",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NewExpression",
+              "span": {
+                "start": 385,
+                "end": 395,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 389,
+                  "end": 393,
+                  "ctxt": 0
+                },
+                "value": "Date",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 399,
+        "end": 419,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 399,
+          "end": 418,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 399,
+            "end": 410,
+            "ctxt": 0
+          },
+          "value": "distinguish",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 411,
+                "end": 417,
+                "ctxt": 0
+              },
+              "value": "beef",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 421,
+        "end": 445,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 421,
+          "end": 444,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 421,
+            "end": 432,
+            "ctxt": 0
+          },
+          "value": "distinguish",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 433,
+                "end": 443,
+                "ctxt": 0
+              },
+              "value": 3.14159265
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

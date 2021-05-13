@@ -1,0 +1,60 @@
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+ --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:7:1
+  |
+7 | await x;
+  | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:10:1
+   |
+10 | await [x];
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:11:1
+   |
+11 | await [x, x];
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:15:1
+   |
+15 | await (x);
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:16:1
+   |
+16 | await (f(), x);
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:17:1
+   |
+17 | await <number>(x);
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:18:1
+   |
+18 | await <number>(f(), x);
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:21:1
+   |
+21 | await ``;
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:22:1
+   |
+22 | await <string> ``;
+   | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwait.1/input.ts:68:1
+   |
+68 | await
+   | ^^^^^
+

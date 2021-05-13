@@ -1,0 +1,30 @@
+error: Unexpected token `)`. Expected an identifier, [ for an array pattern, { for an object patter or ... for a rest pattern
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignatureWithOptionalParameterAndInitializer/input.ts:23:12
+   |
+23 |     (x? = 1);
+   |            ^
+
+error: Parameter cannot have question mark and initializer
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignatureWithOptionalParameterAndInitializer/input.ts:3:14
+  |
+3 | function foo(x?: number = 1) { }
+  |              ^^^^^^^^^^
+
+error: Parameter cannot have question mark and initializer
+ --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignatureWithOptionalParameterAndInitializer/input.ts:4:22
+  |
+4 | var f = function foo(x?: number = 1) { }
+  |                      ^^^^^^^^^^
+
+error: Parameter cannot have question mark and initializer
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignatureWithOptionalParameterAndInitializer/input.ts:15:9
+   |
+15 |     foo(x?: number = 1) { }
+   |         ^^^^^^^^^^
+
+error: Parameter cannot have question mark and initializer
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/callSignatures/callSignatureWithOptionalParameterAndInitializer/input.ts:23:6
+   |
+23 |     (x? = 1);
+   |      ^
+

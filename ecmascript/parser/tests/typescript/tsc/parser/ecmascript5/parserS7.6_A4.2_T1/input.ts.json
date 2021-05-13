@@ -1,0 +1,4433 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 286,
+    "end": 1968,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 286,
+        "end": 301,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 290,
+            "end": 300,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 290,
+              "end": 296,
+              "ctxt": 0
+            },
+            "value": "А",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 299,
+              "end": 300,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 302,
+        "end": 336,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 306,
+          "end": 314,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 306,
+            "end": 308,
+            "ctxt": 0
+          },
+          "value": "А",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 313,
+            "end": 314,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 316,
+          "end": 336,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 320,
+              "end": 334,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 320,
+                "end": 333,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 320,
+                  "end": 326,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 327,
+                      "end": 332,
+                      "ctxt": 0
+                    },
+                    "value": "#А",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 337,
+        "end": 352,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 341,
+            "end": 351,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 341,
+              "end": 347,
+              "ctxt": 0
+            },
+            "value": "Б",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 350,
+              "end": 351,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 353,
+        "end": 387,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 357,
+          "end": 365,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 357,
+            "end": 359,
+            "ctxt": 0
+          },
+          "value": "Б",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 364,
+            "end": 365,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 367,
+          "end": 387,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 371,
+              "end": 385,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 371,
+                "end": 384,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 371,
+                  "end": 377,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 378,
+                      "end": 383,
+                      "ctxt": 0
+                    },
+                    "value": "#Б",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 388,
+        "end": 403,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 392,
+            "end": 402,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 392,
+              "end": 398,
+              "ctxt": 0
+            },
+            "value": "В",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 401,
+              "end": 402,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 404,
+        "end": 438,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 408,
+          "end": 416,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 408,
+            "end": 410,
+            "ctxt": 0
+          },
+          "value": "В",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 415,
+            "end": 416,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 418,
+          "end": 438,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 422,
+              "end": 436,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 422,
+                "end": 435,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 422,
+                  "end": 428,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 429,
+                      "end": 434,
+                      "ctxt": 0
+                    },
+                    "value": "#В",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 439,
+        "end": 454,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 443,
+            "end": 453,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 443,
+              "end": 449,
+              "ctxt": 0
+            },
+            "value": "Г",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 452,
+              "end": 453,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 455,
+        "end": 489,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 459,
+          "end": 467,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 459,
+            "end": 461,
+            "ctxt": 0
+          },
+          "value": "Г",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 466,
+            "end": 467,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 469,
+          "end": 489,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 473,
+              "end": 487,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 473,
+                "end": 486,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 473,
+                  "end": 479,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 480,
+                      "end": 485,
+                      "ctxt": 0
+                    },
+                    "value": "#Г",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 490,
+        "end": 505,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 494,
+            "end": 504,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 494,
+              "end": 500,
+              "ctxt": 0
+            },
+            "value": "Д",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 503,
+              "end": 504,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 506,
+        "end": 540,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 510,
+          "end": 518,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 510,
+            "end": 512,
+            "ctxt": 0
+          },
+          "value": "Д",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 517,
+            "end": 518,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 520,
+          "end": 540,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 524,
+              "end": 538,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 524,
+                "end": 537,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 524,
+                  "end": 530,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 531,
+                      "end": 536,
+                      "ctxt": 0
+                    },
+                    "value": "#Д",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 541,
+        "end": 556,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 545,
+            "end": 555,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 545,
+              "end": 551,
+              "ctxt": 0
+            },
+            "value": "Е",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 554,
+              "end": 555,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 557,
+        "end": 591,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 561,
+          "end": 569,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 561,
+            "end": 563,
+            "ctxt": 0
+          },
+          "value": "Е",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 568,
+            "end": 569,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 571,
+          "end": 591,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 575,
+              "end": 589,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 575,
+                "end": 588,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 575,
+                  "end": 581,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 582,
+                      "end": 587,
+                      "ctxt": 0
+                    },
+                    "value": "#Е",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 592,
+        "end": 607,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 596,
+            "end": 606,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 596,
+              "end": 602,
+              "ctxt": 0
+            },
+            "value": "Ж",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 605,
+              "end": 606,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 608,
+        "end": 642,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 612,
+          "end": 620,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 612,
+            "end": 614,
+            "ctxt": 0
+          },
+          "value": "Ж",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 619,
+            "end": 620,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 622,
+          "end": 642,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 626,
+              "end": 640,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 626,
+                "end": 639,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 626,
+                  "end": 632,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 633,
+                      "end": 638,
+                      "ctxt": 0
+                    },
+                    "value": "#Ж",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 643,
+        "end": 658,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 647,
+            "end": 657,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 647,
+              "end": 653,
+              "ctxt": 0
+            },
+            "value": "З",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 656,
+              "end": 657,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 659,
+        "end": 693,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 663,
+          "end": 671,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 663,
+            "end": 665,
+            "ctxt": 0
+          },
+          "value": "З",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 670,
+            "end": 671,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 673,
+          "end": 693,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 677,
+              "end": 691,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 677,
+                "end": 690,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 677,
+                  "end": 683,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 684,
+                      "end": 689,
+                      "ctxt": 0
+                    },
+                    "value": "#З",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 694,
+        "end": 709,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 698,
+            "end": 708,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 698,
+              "end": 704,
+              "ctxt": 0
+            },
+            "value": "И",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 707,
+              "end": 708,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 710,
+        "end": 744,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 714,
+          "end": 722,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 714,
+            "end": 716,
+            "ctxt": 0
+          },
+          "value": "И",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 721,
+            "end": 722,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 724,
+          "end": 744,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 728,
+              "end": 742,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 728,
+                "end": 741,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 728,
+                  "end": 734,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 735,
+                      "end": 740,
+                      "ctxt": 0
+                    },
+                    "value": "#И",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 745,
+        "end": 760,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 749,
+            "end": 759,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 749,
+              "end": 755,
+              "ctxt": 0
+            },
+            "value": "Й",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 758,
+              "end": 759,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 761,
+        "end": 795,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 765,
+          "end": 773,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 765,
+            "end": 767,
+            "ctxt": 0
+          },
+          "value": "Й",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 772,
+            "end": 773,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 775,
+          "end": 795,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 779,
+              "end": 793,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 779,
+                "end": 792,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 779,
+                  "end": 785,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 786,
+                      "end": 791,
+                      "ctxt": 0
+                    },
+                    "value": "#Й",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 796,
+        "end": 811,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 800,
+            "end": 810,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 800,
+              "end": 806,
+              "ctxt": 0
+            },
+            "value": "К",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 809,
+              "end": 810,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 812,
+        "end": 846,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 816,
+          "end": 824,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 816,
+            "end": 818,
+            "ctxt": 0
+          },
+          "value": "К",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 823,
+            "end": 824,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 826,
+          "end": 846,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 830,
+              "end": 844,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 830,
+                "end": 843,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 830,
+                  "end": 836,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 837,
+                      "end": 842,
+                      "ctxt": 0
+                    },
+                    "value": "#К",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 847,
+        "end": 862,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 851,
+            "end": 861,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 851,
+              "end": 857,
+              "ctxt": 0
+            },
+            "value": "Л",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 860,
+              "end": 861,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 863,
+        "end": 897,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 867,
+          "end": 875,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 867,
+            "end": 869,
+            "ctxt": 0
+          },
+          "value": "Л",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 874,
+            "end": 875,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 877,
+          "end": 897,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 881,
+              "end": 895,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 881,
+                "end": 894,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 881,
+                  "end": 887,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 888,
+                      "end": 893,
+                      "ctxt": 0
+                    },
+                    "value": "#Л",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 898,
+        "end": 913,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 902,
+            "end": 912,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 902,
+              "end": 908,
+              "ctxt": 0
+            },
+            "value": "М",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 911,
+              "end": 912,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 914,
+        "end": 948,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 918,
+          "end": 926,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 918,
+            "end": 920,
+            "ctxt": 0
+          },
+          "value": "М",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 925,
+            "end": 926,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 928,
+          "end": 948,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 932,
+              "end": 946,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 932,
+                "end": 945,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 932,
+                  "end": 938,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 939,
+                      "end": 944,
+                      "ctxt": 0
+                    },
+                    "value": "#М",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 949,
+        "end": 964,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 953,
+            "end": 963,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 953,
+              "end": 959,
+              "ctxt": 0
+            },
+            "value": "Н",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 962,
+              "end": 963,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 965,
+        "end": 999,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 969,
+          "end": 977,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 969,
+            "end": 971,
+            "ctxt": 0
+          },
+          "value": "Н",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 976,
+            "end": 977,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 979,
+          "end": 999,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 983,
+              "end": 997,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 983,
+                "end": 996,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 983,
+                  "end": 989,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 990,
+                      "end": 995,
+                      "ctxt": 0
+                    },
+                    "value": "#Н",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1000,
+        "end": 1015,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1004,
+            "end": 1014,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1004,
+              "end": 1010,
+              "ctxt": 0
+            },
+            "value": "О",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1013,
+              "end": 1014,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1016,
+        "end": 1050,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1020,
+          "end": 1028,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1020,
+            "end": 1022,
+            "ctxt": 0
+          },
+          "value": "О",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1027,
+            "end": 1028,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1030,
+          "end": 1050,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1034,
+              "end": 1048,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1034,
+                "end": 1047,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1034,
+                  "end": 1040,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1041,
+                      "end": 1046,
+                      "ctxt": 0
+                    },
+                    "value": "#О",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1051,
+        "end": 1066,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1055,
+            "end": 1065,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1055,
+              "end": 1061,
+              "ctxt": 0
+            },
+            "value": "П",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1064,
+              "end": 1065,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1067,
+        "end": 1101,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1071,
+          "end": 1079,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1071,
+            "end": 1073,
+            "ctxt": 0
+          },
+          "value": "П",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1078,
+            "end": 1079,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1081,
+          "end": 1101,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1085,
+              "end": 1099,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1085,
+                "end": 1098,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1085,
+                  "end": 1091,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1092,
+                      "end": 1097,
+                      "ctxt": 0
+                    },
+                    "value": "#П",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1102,
+        "end": 1117,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1106,
+            "end": 1116,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1106,
+              "end": 1112,
+              "ctxt": 0
+            },
+            "value": "Р",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1115,
+              "end": 1116,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1118,
+        "end": 1152,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1122,
+          "end": 1130,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1122,
+            "end": 1124,
+            "ctxt": 0
+          },
+          "value": "Р",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1129,
+            "end": 1130,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1132,
+          "end": 1152,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1136,
+              "end": 1150,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1136,
+                "end": 1149,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1136,
+                  "end": 1142,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1143,
+                      "end": 1148,
+                      "ctxt": 0
+                    },
+                    "value": "#Р",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1153,
+        "end": 1168,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1157,
+            "end": 1167,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1157,
+              "end": 1163,
+              "ctxt": 0
+            },
+            "value": "С",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1166,
+              "end": 1167,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1169,
+        "end": 1203,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1173,
+          "end": 1181,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1173,
+            "end": 1175,
+            "ctxt": 0
+          },
+          "value": "С",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1180,
+            "end": 1181,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1183,
+          "end": 1203,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1187,
+              "end": 1201,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1187,
+                "end": 1200,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1187,
+                  "end": 1193,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1194,
+                      "end": 1199,
+                      "ctxt": 0
+                    },
+                    "value": "#С",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1204,
+        "end": 1219,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1208,
+            "end": 1218,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1208,
+              "end": 1214,
+              "ctxt": 0
+            },
+            "value": "Т",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1217,
+              "end": 1218,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1220,
+        "end": 1254,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1224,
+          "end": 1232,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1224,
+            "end": 1226,
+            "ctxt": 0
+          },
+          "value": "Т",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1231,
+            "end": 1232,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1234,
+          "end": 1254,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1238,
+              "end": 1252,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1238,
+                "end": 1251,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1238,
+                  "end": 1244,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1245,
+                      "end": 1250,
+                      "ctxt": 0
+                    },
+                    "value": "#Т",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1255,
+        "end": 1270,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1259,
+            "end": 1269,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1259,
+              "end": 1265,
+              "ctxt": 0
+            },
+            "value": "У",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1268,
+              "end": 1269,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1271,
+        "end": 1305,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1275,
+          "end": 1283,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1275,
+            "end": 1277,
+            "ctxt": 0
+          },
+          "value": "У",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1282,
+            "end": 1283,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1285,
+          "end": 1305,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1289,
+              "end": 1303,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1289,
+                "end": 1302,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1289,
+                  "end": 1295,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1296,
+                      "end": 1301,
+                      "ctxt": 0
+                    },
+                    "value": "#У",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1306,
+        "end": 1321,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1310,
+            "end": 1320,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1310,
+              "end": 1316,
+              "ctxt": 0
+            },
+            "value": "Ф",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1319,
+              "end": 1320,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1322,
+        "end": 1356,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1326,
+          "end": 1334,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1326,
+            "end": 1328,
+            "ctxt": 0
+          },
+          "value": "Ф",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1333,
+            "end": 1334,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1336,
+          "end": 1356,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1340,
+              "end": 1354,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1340,
+                "end": 1353,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1340,
+                  "end": 1346,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1347,
+                      "end": 1352,
+                      "ctxt": 0
+                    },
+                    "value": "#Ф",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1357,
+        "end": 1372,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1361,
+            "end": 1371,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1361,
+              "end": 1367,
+              "ctxt": 0
+            },
+            "value": "Х",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1370,
+              "end": 1371,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1373,
+        "end": 1407,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1377,
+          "end": 1385,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1377,
+            "end": 1379,
+            "ctxt": 0
+          },
+          "value": "Х",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1384,
+            "end": 1385,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1387,
+          "end": 1407,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1391,
+              "end": 1405,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1391,
+                "end": 1404,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1391,
+                  "end": 1397,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1398,
+                      "end": 1403,
+                      "ctxt": 0
+                    },
+                    "value": "#Х",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1408,
+        "end": 1423,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1412,
+            "end": 1422,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1412,
+              "end": 1418,
+              "ctxt": 0
+            },
+            "value": "Ц",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1421,
+              "end": 1422,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1424,
+        "end": 1458,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1428,
+          "end": 1436,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1428,
+            "end": 1430,
+            "ctxt": 0
+          },
+          "value": "Ц",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1435,
+            "end": 1436,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1438,
+          "end": 1458,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1442,
+              "end": 1456,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1442,
+                "end": 1455,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1442,
+                  "end": 1448,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1449,
+                      "end": 1454,
+                      "ctxt": 0
+                    },
+                    "value": "#Ц",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1459,
+        "end": 1474,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1463,
+            "end": 1473,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1463,
+              "end": 1469,
+              "ctxt": 0
+            },
+            "value": "Ч",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1472,
+              "end": 1473,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1475,
+        "end": 1509,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1479,
+          "end": 1487,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1479,
+            "end": 1481,
+            "ctxt": 0
+          },
+          "value": "Ч",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1486,
+            "end": 1487,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1489,
+          "end": 1509,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1493,
+              "end": 1507,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1493,
+                "end": 1506,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1493,
+                  "end": 1499,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1500,
+                      "end": 1505,
+                      "ctxt": 0
+                    },
+                    "value": "#Ч",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1510,
+        "end": 1525,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1514,
+            "end": 1524,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1514,
+              "end": 1520,
+              "ctxt": 0
+            },
+            "value": "Ш",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1523,
+              "end": 1524,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1526,
+        "end": 1560,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1530,
+          "end": 1538,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1530,
+            "end": 1532,
+            "ctxt": 0
+          },
+          "value": "Ш",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1537,
+            "end": 1538,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1540,
+          "end": 1560,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1544,
+              "end": 1558,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1544,
+                "end": 1557,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1544,
+                  "end": 1550,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1551,
+                      "end": 1556,
+                      "ctxt": 0
+                    },
+                    "value": "#Ш",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1561,
+        "end": 1576,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1565,
+            "end": 1575,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1565,
+              "end": 1571,
+              "ctxt": 0
+            },
+            "value": "Щ",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1574,
+              "end": 1575,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1577,
+        "end": 1611,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1581,
+          "end": 1589,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1581,
+            "end": 1583,
+            "ctxt": 0
+          },
+          "value": "Щ",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1588,
+            "end": 1589,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1591,
+          "end": 1611,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1595,
+              "end": 1609,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1595,
+                "end": 1608,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1595,
+                  "end": 1601,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1602,
+                      "end": 1607,
+                      "ctxt": 0
+                    },
+                    "value": "#Щ",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1612,
+        "end": 1627,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1616,
+            "end": 1626,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1616,
+              "end": 1622,
+              "ctxt": 0
+            },
+            "value": "Ъ",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1625,
+              "end": 1626,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1628,
+        "end": 1662,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1632,
+          "end": 1640,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1632,
+            "end": 1634,
+            "ctxt": 0
+          },
+          "value": "Ъ",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1639,
+            "end": 1640,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1642,
+          "end": 1662,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1646,
+              "end": 1660,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1646,
+                "end": 1659,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1646,
+                  "end": 1652,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1653,
+                      "end": 1658,
+                      "ctxt": 0
+                    },
+                    "value": "#Ъ",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1663,
+        "end": 1678,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1667,
+            "end": 1677,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1667,
+              "end": 1673,
+              "ctxt": 0
+            },
+            "value": "Ы",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1676,
+              "end": 1677,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1679,
+        "end": 1713,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1683,
+          "end": 1691,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1683,
+            "end": 1685,
+            "ctxt": 0
+          },
+          "value": "Ы",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1690,
+            "end": 1691,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1693,
+          "end": 1713,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1697,
+              "end": 1711,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1697,
+                "end": 1710,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1697,
+                  "end": 1703,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1704,
+                      "end": 1709,
+                      "ctxt": 0
+                    },
+                    "value": "#Ы",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1714,
+        "end": 1729,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1718,
+            "end": 1728,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1718,
+              "end": 1724,
+              "ctxt": 0
+            },
+            "value": "Ь",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1727,
+              "end": 1728,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1730,
+        "end": 1764,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1734,
+          "end": 1742,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1734,
+            "end": 1736,
+            "ctxt": 0
+          },
+          "value": "Ь",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1741,
+            "end": 1742,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1744,
+          "end": 1764,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1748,
+              "end": 1762,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1748,
+                "end": 1761,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1748,
+                  "end": 1754,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1755,
+                      "end": 1760,
+                      "ctxt": 0
+                    },
+                    "value": "#Ь",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1765,
+        "end": 1780,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1769,
+            "end": 1779,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1769,
+              "end": 1775,
+              "ctxt": 0
+            },
+            "value": "Э",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1778,
+              "end": 1779,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1781,
+        "end": 1815,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1785,
+          "end": 1793,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1785,
+            "end": 1787,
+            "ctxt": 0
+          },
+          "value": "Э",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1792,
+            "end": 1793,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1795,
+          "end": 1815,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1799,
+              "end": 1813,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1799,
+                "end": 1812,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1799,
+                  "end": 1805,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1806,
+                      "end": 1811,
+                      "ctxt": 0
+                    },
+                    "value": "#Э",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1816,
+        "end": 1831,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1820,
+            "end": 1830,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1820,
+              "end": 1826,
+              "ctxt": 0
+            },
+            "value": "Ю",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1829,
+              "end": 1830,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1832,
+        "end": 1866,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1836,
+          "end": 1844,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1836,
+            "end": 1838,
+            "ctxt": 0
+          },
+          "value": "Ю",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1843,
+            "end": 1844,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1846,
+          "end": 1866,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1850,
+              "end": 1864,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1850,
+                "end": 1863,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1850,
+                  "end": 1856,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1857,
+                      "end": 1862,
+                      "ctxt": 0
+                    },
+                    "value": "#Ю",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1867,
+        "end": 1882,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1871,
+            "end": 1881,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1871,
+              "end": 1877,
+              "ctxt": 0
+            },
+            "value": "Я",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1880,
+              "end": 1881,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1883,
+        "end": 1917,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1887,
+          "end": 1895,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1887,
+            "end": 1889,
+            "ctxt": 0
+          },
+          "value": "Я",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1894,
+            "end": 1895,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1897,
+          "end": 1917,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1901,
+              "end": 1915,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1901,
+                "end": 1914,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1901,
+                  "end": 1907,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1908,
+                      "end": 1913,
+                      "ctxt": 0
+                    },
+                    "value": "#Я",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1918,
+        "end": 1933,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1922,
+            "end": 1932,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1922,
+              "end": 1928,
+              "ctxt": 0
+            },
+            "value": "Ё",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1931,
+              "end": 1932,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1934,
+        "end": 1968,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1938,
+          "end": 1946,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1938,
+            "end": 1940,
+            "ctxt": 0
+          },
+          "value": "Ё",
+          "optional": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1945,
+            "end": 1946,
+            "ctxt": 0
+          },
+          "value": 1.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1948,
+          "end": 1968,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1952,
+              "end": 1966,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 1952,
+                "end": 1965,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1952,
+                  "end": 1958,
+                  "ctxt": 0
+                },
+                "value": "$ERROR",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 1959,
+                      "end": 1964,
+                      "ctxt": 0
+                    },
+                    "value": "#Ё",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

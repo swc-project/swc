@@ -1,0 +1,6 @@
+error: `extends` clause already seen.
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/InterfaceDeclarations/parserInterfaceDeclaration1/input.ts:1:23
+  |
+1 | interface I extends A extends B {
+  |                       ^^^^^^^
+

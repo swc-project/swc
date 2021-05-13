@@ -1,0 +1,6 @@
+error: Unexpected token `,`. Expected an identifier, void, yield, null, await, break, a string literal, a numeric literal, true, false, `, -, import, this, typeof, {, [, (
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/TupleTypes/TupleType6/input.ts:1:16
+  |
+1 | var v: [number,,]
+  |                ^
+

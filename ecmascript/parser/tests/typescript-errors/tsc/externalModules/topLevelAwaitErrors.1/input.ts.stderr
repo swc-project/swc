@@ -1,0 +1,18 @@
+error: Expected >, got ,
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwaitErrors.1/input.ts:10:14
+   |
+10 | await <number, string>(1);
+   |              ^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+ --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwaitErrors.1/input.ts:9:1
+  |
+9 | await (1,);
+  | ^^^^^
+
+error: top level await requires target to es2017 or higher and topLevelAwait:true for ecmascript
+  --> $DIR/tests/typescript-errors/tsc/externalModules/topLevelAwaitErrors.1/input.ts:10:1
+   |
+10 | await <number, string>(1);
+   | ^^^^^
+

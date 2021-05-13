@@ -1,0 +1,6 @@
+error: Unexpected token `x`. Expected a string literal
+ --> $DIR/tests/typescript-errors/tsc/externalModules/importNonStringLiteral/input.ts:4:22
+  |
+4 | import foo = require(x); // invalid
+  |                      ^
+

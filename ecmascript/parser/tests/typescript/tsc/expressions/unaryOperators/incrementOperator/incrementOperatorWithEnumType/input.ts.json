@@ -1,0 +1,346 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 29,
+    "end": 192,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 29,
+        "end": 52,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 34,
+          "end": 39,
+          "ctxt": 0
+        },
+        "value": "ENUM1",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 42,
+            "end": 43,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "A",
+            "optional": false
+          },
+          "init": null
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 45,
+            "end": 46,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 45,
+              "end": 46,
+              "ctxt": 0
+            },
+            "value": "B",
+            "optional": false
+          },
+          "init": null
+        },
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 48,
+            "end": 50,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 48,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "init": null
+        }
+      ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 52,
+        "end": 53,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 69,
+        "end": 104,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 73,
+            "end": 103,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 73,
+              "end": 88,
+              "ctxt": 0
+            },
+            "value": "ResultIsNumber1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 91,
+              "end": 103,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": true,
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 93,
+                "end": 103,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 93,
+                  "end": 98,
+                  "ctxt": 0
+                },
+                "value": "ENUM1",
+                "optional": false
+              },
+              "property": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 99,
+                  "end": 102,
+                  "ctxt": 0
+                },
+                "value": "B",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              },
+              "computed": true
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 105,
+        "end": 137,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 109,
+            "end": 136,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 109,
+              "end": 124,
+              "ctxt": 0
+            },
+            "value": "ResultIsNumber2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "UpdateExpression",
+            "span": {
+              "start": 127,
+              "end": 136,
+              "ctxt": 0
+            },
+            "operator": "++",
+            "prefix": false,
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 127,
+                "end": 134,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 127,
+                  "end": 132,
+                  "ctxt": 0
+                },
+                "value": "ENUM1",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 133,
+                  "end": 134,
+                  "ctxt": 0
+                },
+                "value": "B",
+                "optional": false
+              },
+              "computed": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 167,
+        "end": 180,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 167,
+          "end": 179,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": true,
+        "argument": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 169,
+            "end": 179,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 169,
+              "end": 174,
+              "ctxt": 0
+            },
+            "value": "ENUM1",
+            "optional": false
+          },
+          "property": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 175,
+              "end": 178,
+              "ctxt": 0
+            },
+            "value": "B",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "computed": true
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 182,
+        "end": 192,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UpdateExpression",
+        "span": {
+          "start": 182,
+          "end": 191,
+          "ctxt": 0
+        },
+        "operator": "++",
+        "prefix": false,
+        "argument": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 182,
+            "end": 189,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 182,
+              "end": 187,
+              "ctxt": 0
+            },
+            "value": "ENUM1",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 188,
+              "end": 189,
+              "ctxt": 0
+            },
+            "value": "B",
+            "optional": false
+          },
+          "computed": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

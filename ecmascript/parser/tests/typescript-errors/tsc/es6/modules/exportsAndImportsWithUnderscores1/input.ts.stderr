@@ -1,0 +1,6 @@
+error: Expected ,, got string literal (___)
+ --> $DIR/tests/typescript-errors/tsc/es6/modules/exportsAndImportsWithUnderscores1/input.ts:9:5
+  |
+9 |     "___": 30
+  |     ^^^^^
+

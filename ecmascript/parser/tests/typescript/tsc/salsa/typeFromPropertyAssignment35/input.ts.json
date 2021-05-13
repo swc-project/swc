@@ -1,0 +1,499 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 104,
+    "end": 359,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 113,
+          "end": 123,
+          "ctxt": 0
+        },
+        "value": "ollKorrect",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 124,
+            "end": 125,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 124,
+              "end": 125,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 104,
+        "end": 207,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 127,
+          "end": 207,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 133,
+              "end": 141,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 133,
+                "end": 141,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 133,
+                  "end": 134,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 135,
+                  "end": 141,
+                  "ctxt": 0
+                },
+                "value": "_model",
+                "optional": false
+              },
+              "computed": false
+            }
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 146,
+              "end": 167,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 152,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 152,
+                    "end": 153,
+                    "ctxt": 0
+                  },
+                  "value": "y",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NewExpression",
+                  "span": {
+                    "start": 156,
+                    "end": 167,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 160,
+                      "end": 165,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 160,
+                        "end": 163,
+                        "ctxt": 0
+                      },
+                      "value": "Emu",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 164,
+                        "end": 165,
+                        "ctxt": 0
+                      },
+                      "value": "D",
+                      "optional": false
+                    },
+                    "computed": false
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 172,
+              "end": 205,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 178,
+                  "end": 204,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 178,
+                    "end": 179,
+                    "ctxt": 0
+                  },
+                  "value": "z",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 182,
+                    "end": 204,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "MemberExpression",
+                    "span": {
+                      "start": 182,
+                      "end": 187,
+                      "ctxt": 0
+                    },
+                    "object": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 182,
+                        "end": 185,
+                        "ctxt": 0
+                      },
+                      "value": "Emu",
+                      "optional": false
+                    },
+                    "property": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 186,
+                        "end": 187,
+                        "ctxt": 0
+                      },
+                      "value": "D",
+                      "optional": false
+                    },
+                    "computed": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 188,
+                      "end": 204,
+                      "ctxt": 0
+                    },
+                    "value": "_wrapperInstance",
+                    "optional": false
+                  },
+                  "computed": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 208,
+        "end": 275,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 208,
+          "end": 275,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 208,
+            "end": 213,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 208,
+              "end": 211,
+              "ctxt": 0
+            },
+            "value": "Emu",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 212,
+              "end": 213,
+              "ctxt": 0
+            },
+            "value": "D",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ClassExpression",
+          "identifier": null,
+          "span": {
+            "start": 216,
+            "end": 275,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [
+            {
+              "type": "Constructor",
+              "span": {
+                "start": 228,
+                "end": 273,
+                "ctxt": 0
+              },
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 228,
+                  "end": 239,
+                  "ctxt": 0
+                },
+                "value": "constructor",
+                "optional": false
+              },
+              "params": [],
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 242,
+                  "end": 273,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ExpressionStatement",
+                    "span": {
+                      "start": 252,
+                      "end": 267,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "AssignmentExpression",
+                      "span": {
+                        "start": 252,
+                        "end": 267,
+                        "ctxt": 0
+                      },
+                      "operator": "=",
+                      "left": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 252,
+                          "end": 263,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "ThisExpression",
+                          "span": {
+                            "start": 252,
+                            "end": 256,
+                            "ctxt": 0
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 257,
+                            "end": 263,
+                            "ctxt": 0
+                          },
+                          "value": "_model",
+                          "optional": false
+                        },
+                        "computed": false
+                      },
+                      "right": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 266,
+                          "end": 267,
+                          "ctxt": 0
+                        },
+                        "value": 1.0
+                      }
+                    }
+                  }
+                ]
+              },
+              "accessibility": null,
+              "isOptional": false
+            }
+          ],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 301,
+        "end": 313,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 305,
+            "end": 313,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 305,
+              "end": 308,
+              "ctxt": 0
+            },
+            "value": "Emu",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 311,
+              "end": 313,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 336,
+        "end": 359,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 336,
+          "end": 358,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 336,
+            "end": 341,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 336,
+              "end": 339,
+              "ctxt": 0
+            },
+            "value": "Emu",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 340,
+              "end": 341,
+              "ctxt": 0
+            },
+            "value": "D",
+            "optional": false
+          },
+          "computed": false
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 342,
+            "end": 358,
+            "ctxt": 0
+          },
+          "value": "_wrapperInstance",
+          "optional": false
+        },
+        "computed": false
+      }
+    }
+  ],
+  "interpreter": null
+}

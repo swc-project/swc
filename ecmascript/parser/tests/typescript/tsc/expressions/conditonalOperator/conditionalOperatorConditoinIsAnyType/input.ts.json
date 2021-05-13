@@ -1,0 +1,3291 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 81,
+    "end": 2538,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 81,
+        "end": 98,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 85,
+            "end": 97,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 85,
+              "end": 92,
+              "ctxt": 0
+            },
+            "value": "condAny",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 92,
+                "end": 97,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 94,
+                  "end": 97,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 99,
+        "end": 110,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 103,
+            "end": 109,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 103,
+              "end": 104,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 104,
+                "end": 109,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 106,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 112,
+        "end": 130,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 116,
+            "end": 129,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 116,
+              "end": 124,
+              "ctxt": 0
+            },
+            "value": "exprAny1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 124,
+                "end": 129,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 126,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 131,
+        "end": 157,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 135,
+            "end": 156,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 135,
+              "end": 147,
+              "ctxt": 0
+            },
+            "value": "exprBoolean1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 147,
+                "end": 156,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 149,
+                  "end": 156,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 158,
+        "end": 182,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 162,
+            "end": 181,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 162,
+              "end": 173,
+              "ctxt": 0
+            },
+            "value": "exprNumber1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 173,
+                "end": 181,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 175,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 183,
+        "end": 207,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 187,
+            "end": 206,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 187,
+              "end": 198,
+              "ctxt": 0
+            },
+            "value": "exprString1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 198,
+                "end": 206,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 200,
+                  "end": 206,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 208,
+        "end": 234,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 212,
+            "end": 233,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 212,
+              "end": 225,
+              "ctxt": 0
+            },
+            "value": "exprIsObject1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 225,
+                "end": 233,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 227,
+                  "end": 233,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 227,
+                    "end": 233,
+                    "ctxt": 0
+                  },
+                  "value": "Object",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 236,
+        "end": 254,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 240,
+            "end": 253,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 240,
+              "end": 248,
+              "ctxt": 0
+            },
+            "value": "exprAny2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 248,
+                "end": 253,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 250,
+                  "end": 253,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 255,
+        "end": 281,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 259,
+            "end": 280,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 259,
+              "end": 271,
+              "ctxt": 0
+            },
+            "value": "exprBoolean2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 271,
+                "end": 280,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 273,
+                  "end": 280,
+                  "ctxt": 0
+                },
+                "kind": "boolean"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 282,
+        "end": 306,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 286,
+            "end": 305,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 286,
+              "end": 297,
+              "ctxt": 0
+            },
+            "value": "exprNumber2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 297,
+                "end": 305,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 299,
+                  "end": 305,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 307,
+        "end": 331,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 311,
+            "end": 330,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 311,
+              "end": 322,
+              "ctxt": 0
+            },
+            "value": "exprString2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 322,
+                "end": 330,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 324,
+                  "end": 330,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 332,
+        "end": 358,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 336,
+            "end": 357,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 336,
+              "end": 349,
+              "ctxt": 0
+            },
+            "value": "exprIsObject2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 349,
+                "end": 357,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 351,
+                  "end": 357,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 351,
+                    "end": 357,
+                    "ctxt": 0
+                  },
+                  "value": "Object",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 391,
+        "end": 421,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 391,
+          "end": 420,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 391,
+            "end": 398,
+            "ctxt": 0
+          },
+          "value": "condAny",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 401,
+            "end": 409,
+            "ctxt": 0
+          },
+          "value": "exprAny1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 412,
+            "end": 420,
+            "ctxt": 0
+          },
+          "value": "exprAny2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 422,
+        "end": 460,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 422,
+          "end": 459,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 422,
+            "end": 429,
+            "ctxt": 0
+          },
+          "value": "condAny",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 432,
+            "end": 444,
+            "ctxt": 0
+          },
+          "value": "exprBoolean1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 447,
+            "end": 459,
+            "ctxt": 0
+          },
+          "value": "exprBoolean2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 461,
+        "end": 497,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 461,
+          "end": 496,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 461,
+            "end": 468,
+            "ctxt": 0
+          },
+          "value": "condAny",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 471,
+            "end": 482,
+            "ctxt": 0
+          },
+          "value": "exprNumber1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 485,
+            "end": 496,
+            "ctxt": 0
+          },
+          "value": "exprNumber2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 498,
+        "end": 534,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 498,
+          "end": 533,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 498,
+            "end": 505,
+            "ctxt": 0
+          },
+          "value": "condAny",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 508,
+            "end": 519,
+            "ctxt": 0
+          },
+          "value": "exprString1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 522,
+            "end": 533,
+            "ctxt": 0
+          },
+          "value": "exprString2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 535,
+        "end": 575,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 535,
+          "end": 574,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 535,
+            "end": 542,
+            "ctxt": 0
+          },
+          "value": "condAny",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 545,
+            "end": 558,
+            "ctxt": 0
+          },
+          "value": "exprIsObject1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 561,
+            "end": 574,
+            "ctxt": 0
+          },
+          "value": "exprIsObject2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 576,
+        "end": 613,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 576,
+          "end": 612,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 576,
+            "end": 583,
+            "ctxt": 0
+          },
+          "value": "condAny",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 586,
+            "end": 597,
+            "ctxt": 0
+          },
+          "value": "exprString1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 600,
+            "end": 612,
+            "ctxt": 0
+          },
+          "value": "exprBoolean1",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 654,
+        "end": 681,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 654,
+          "end": 680,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "NullLiteral",
+          "span": {
+            "start": 654,
+            "end": 658,
+            "ctxt": 0
+          }
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 661,
+            "end": 669,
+            "ctxt": 0
+          },
+          "value": "exprAny1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 672,
+            "end": 680,
+            "ctxt": 0
+          },
+          "value": "exprAny2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 682,
+        "end": 717,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 682,
+          "end": 716,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "NullLiteral",
+          "span": {
+            "start": 682,
+            "end": 686,
+            "ctxt": 0
+          }
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 689,
+            "end": 701,
+            "ctxt": 0
+          },
+          "value": "exprBoolean1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 704,
+            "end": 716,
+            "ctxt": 0
+          },
+          "value": "exprBoolean2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 718,
+        "end": 756,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 718,
+          "end": 755,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 718,
+            "end": 727,
+            "ctxt": 0
+          },
+          "value": "undefined",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 730,
+            "end": 741,
+            "ctxt": 0
+          },
+          "value": "exprNumber1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 744,
+            "end": 755,
+            "ctxt": 0
+          },
+          "value": "exprNumber2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 757,
+        "end": 803,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 757,
+          "end": 802,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "ArrayExpression",
+          "span": {
+            "start": 757,
+            "end": 774,
+            "ctxt": 0
+          },
+          "elements": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "NullLiteral",
+                "span": {
+                  "start": 758,
+                  "end": 762,
+                  "ctxt": 0
+                }
+              }
+            },
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 764,
+                  "end": 773,
+                  "ctxt": 0
+                },
+                "value": "undefined",
+                "optional": false
+              }
+            }
+          ]
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 777,
+            "end": 788,
+            "ctxt": 0
+          },
+          "value": "exprString1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 791,
+            "end": 802,
+            "ctxt": 0
+          },
+          "value": "exprString2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 804,
+        "end": 854,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 804,
+          "end": 853,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "ArrayExpression",
+          "span": {
+            "start": 804,
+            "end": 821,
+            "ctxt": 0
+          },
+          "elements": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "NullLiteral",
+                "span": {
+                  "start": 805,
+                  "end": 809,
+                  "ctxt": 0
+                }
+              }
+            },
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 811,
+                  "end": 820,
+                  "ctxt": 0
+                },
+                "value": "undefined",
+                "optional": false
+              }
+            }
+          ]
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 824,
+            "end": 837,
+            "ctxt": 0
+          },
+          "value": "exprIsObject1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 840,
+            "end": 853,
+            "ctxt": 0
+          },
+          "value": "exprIsObject2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 855,
+        "end": 894,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 855,
+          "end": 893,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 855,
+            "end": 864,
+            "ctxt": 0
+          },
+          "value": "undefined",
+          "optional": false
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 867,
+            "end": 878,
+            "ctxt": 0
+          },
+          "value": "exprString1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 881,
+            "end": 893,
+            "ctxt": 0
+          },
+          "value": "exprBoolean1",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 938,
+        "end": 976,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 938,
+          "end": 975,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "CallExpression",
+          "span": {
+            "start": 938,
+            "end": 953,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 938,
+              "end": 951,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 938,
+                "end": 939,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 940,
+                "end": 951,
+                "ctxt": 0
+              },
+              "value": "doSomeThing",
+              "optional": false
+            },
+            "computed": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 956,
+            "end": 964,
+            "ctxt": 0
+          },
+          "value": "exprAny1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 967,
+            "end": 975,
+            "ctxt": 0
+          },
+          "value": "exprAny2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 977,
+        "end": 1014,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 977,
+          "end": 1013,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "CallExpression",
+          "span": {
+            "start": 977,
+            "end": 983,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 977,
+              "end": 978,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 979,
+                  "end": 982,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          ],
+          "typeArguments": null
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 986,
+            "end": 998,
+            "ctxt": 0
+          },
+          "value": "exprBoolean1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 1001,
+            "end": 1013,
+            "ctxt": 0
+          },
+          "value": "exprBoolean2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1015,
+        "end": 1048,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 1015,
+          "end": 1047,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "CallExpression",
+          "span": {
+            "start": 1015,
+            "end": 1019,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 1015,
+              "end": 1016,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1017,
+                  "end": 1018,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            }
+          ],
+          "typeArguments": null
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 1022,
+            "end": 1033,
+            "ctxt": 0
+          },
+          "value": "exprNumber1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 1036,
+            "end": 1047,
+            "ctxt": 0
+          },
+          "value": "exprNumber2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1049,
+        "end": 1084,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 1049,
+          "end": 1083,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "CallExpression",
+          "span": {
+            "start": 1049,
+            "end": 1055,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 1049,
+              "end": 1050,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 1051,
+                  "end": 1054,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          ],
+          "typeArguments": null
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 1058,
+            "end": 1069,
+            "ctxt": 0
+          },
+          "value": "exprString1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 1072,
+            "end": 1083,
+            "ctxt": 0
+          },
+          "value": "exprString2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1085,
+        "end": 1133,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 1085,
+          "end": 1132,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "CallExpression",
+          "span": {
+            "start": 1085,
+            "end": 1100,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 1085,
+              "end": 1098,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 1085,
+                "end": 1086,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 1087,
+                "end": 1098,
+                "ctxt": 0
+              },
+              "value": "doSomeThing",
+              "optional": false
+            },
+            "computed": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 1103,
+            "end": 1116,
+            "ctxt": 0
+          },
+          "value": "exprIsObject1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 1119,
+            "end": 1132,
+            "ctxt": 0
+          },
+          "value": "exprIsObject2",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1134,
+        "end": 1179,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 1134,
+          "end": 1178,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "CallExpression",
+          "span": {
+            "start": 1134,
+            "end": 1149,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 1134,
+              "end": 1147,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 1134,
+                "end": 1135,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 1136,
+                "end": 1147,
+                "ctxt": 0
+              },
+              "value": "doSomeThing",
+              "optional": false
+            },
+            "computed": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        },
+        "consequent": {
+          "type": "Identifier",
+          "span": {
+            "start": 1152,
+            "end": 1163,
+            "ctxt": 0
+          },
+          "value": "exprString1",
+          "optional": false
+        },
+        "alternate": {
+          "type": "Identifier",
+          "span": {
+            "start": 1166,
+            "end": 1178,
+            "ctxt": 0
+          },
+          "value": "exprBoolean1",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1233,
+        "end": 1282,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1237,
+            "end": 1281,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1237,
+              "end": 1249,
+              "ctxt": 0
+            },
+            "value": "resultIsAny1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1252,
+              "end": 1281,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1252,
+                "end": 1259,
+                "ctxt": 0
+              },
+              "value": "condAny",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1262,
+                "end": 1270,
+                "ctxt": 0
+              },
+              "value": "exprAny1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1273,
+                "end": 1281,
+                "ctxt": 0
+              },
+              "value": "exprAny2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1283,
+        "end": 1344,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1287,
+            "end": 1343,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1287,
+              "end": 1303,
+              "ctxt": 0
+            },
+            "value": "resultIsBoolean1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1306,
+              "end": 1343,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1306,
+                "end": 1313,
+                "ctxt": 0
+              },
+              "value": "condAny",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1316,
+                "end": 1328,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1331,
+                "end": 1343,
+                "ctxt": 0
+              },
+              "value": "exprBoolean2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1345,
+        "end": 1403,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1349,
+            "end": 1402,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1349,
+              "end": 1364,
+              "ctxt": 0
+            },
+            "value": "resultIsNumber1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1367,
+              "end": 1402,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1367,
+                "end": 1374,
+                "ctxt": 0
+              },
+              "value": "condAny",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1377,
+                "end": 1388,
+                "ctxt": 0
+              },
+              "value": "exprNumber1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1391,
+                "end": 1402,
+                "ctxt": 0
+              },
+              "value": "exprNumber2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1404,
+        "end": 1462,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1408,
+            "end": 1461,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1408,
+              "end": 1423,
+              "ctxt": 0
+            },
+            "value": "resultIsString1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1426,
+              "end": 1461,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1426,
+                "end": 1433,
+                "ctxt": 0
+              },
+              "value": "condAny",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1436,
+                "end": 1447,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1450,
+                "end": 1461,
+                "ctxt": 0
+              },
+              "value": "exprString2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1463,
+        "end": 1525,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1467,
+            "end": 1524,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1467,
+              "end": 1482,
+              "ctxt": 0
+            },
+            "value": "resultIsObject1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1485,
+              "end": 1524,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1485,
+                "end": 1492,
+                "ctxt": 0
+              },
+              "value": "condAny",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1495,
+                "end": 1508,
+                "ctxt": 0
+              },
+              "value": "exprIsObject1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1511,
+                "end": 1524,
+                "ctxt": 0
+              },
+              "value": "exprIsObject2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1526,
+        "end": 1594,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1530,
+            "end": 1593,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1530,
+              "end": 1554,
+              "ctxt": 0
+            },
+            "value": "resultIsStringOrBoolean1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1557,
+              "end": 1593,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1557,
+                "end": 1564,
+                "ctxt": 0
+              },
+              "value": "condAny",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1567,
+                "end": 1578,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1581,
+                "end": 1593,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1605,
+        "end": 1651,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1609,
+            "end": 1650,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1609,
+              "end": 1621,
+              "ctxt": 0
+            },
+            "value": "resultIsAny2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1624,
+              "end": 1650,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "NullLiteral",
+              "span": {
+                "start": 1624,
+                "end": 1628,
+                "ctxt": 0
+              }
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1631,
+                "end": 1639,
+                "ctxt": 0
+              },
+              "value": "exprAny1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1642,
+                "end": 1650,
+                "ctxt": 0
+              },
+              "value": "exprAny2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1652,
+        "end": 1710,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1656,
+            "end": 1709,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1656,
+              "end": 1672,
+              "ctxt": 0
+            },
+            "value": "resultIsBoolean2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1675,
+              "end": 1709,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "NullLiteral",
+              "span": {
+                "start": 1675,
+                "end": 1679,
+                "ctxt": 0
+              }
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1682,
+                "end": 1694,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1697,
+                "end": 1709,
+                "ctxt": 0
+              },
+              "value": "exprBoolean2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1711,
+        "end": 1771,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1715,
+            "end": 1770,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1715,
+              "end": 1730,
+              "ctxt": 0
+            },
+            "value": "resultIsNumber2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1733,
+              "end": 1770,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 1733,
+                "end": 1742,
+                "ctxt": 0
+              },
+              "value": "undefined",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1745,
+                "end": 1756,
+                "ctxt": 0
+              },
+              "value": "exprNumber1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1759,
+                "end": 1770,
+                "ctxt": 0
+              },
+              "value": "exprNumber2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1772,
+        "end": 1840,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1776,
+            "end": 1839,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1776,
+              "end": 1791,
+              "ctxt": 0
+            },
+            "value": "resultIsString2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1794,
+              "end": 1839,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 1794,
+                "end": 1811,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NullLiteral",
+                    "span": {
+                      "start": 1795,
+                      "end": 1799,
+                      "ctxt": 0
+                    }
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1801,
+                      "end": 1810,
+                      "ctxt": 0
+                    },
+                    "value": "undefined",
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1814,
+                "end": 1825,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1828,
+                "end": 1839,
+                "ctxt": 0
+              },
+              "value": "exprString2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1841,
+        "end": 1913,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1845,
+            "end": 1912,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1845,
+              "end": 1860,
+              "ctxt": 0
+            },
+            "value": "resultIsObject2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1863,
+              "end": 1912,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 1863,
+                "end": 1880,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NullLiteral",
+                    "span": {
+                      "start": 1864,
+                      "end": 1868,
+                      "ctxt": 0
+                    }
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1870,
+                      "end": 1879,
+                      "ctxt": 0
+                    },
+                    "value": "undefined",
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1883,
+                "end": 1896,
+                "ctxt": 0
+              },
+              "value": "exprIsObject1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1899,
+                "end": 1912,
+                "ctxt": 0
+              },
+              "value": "exprIsObject2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1914,
+        "end": 1979,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1918,
+            "end": 1978,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1918,
+              "end": 1942,
+              "ctxt": 0
+            },
+            "value": "resultIsStringOrBoolean2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 1945,
+              "end": 1978,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "NullLiteral",
+              "span": {
+                "start": 1945,
+                "end": 1949,
+                "ctxt": 0
+              }
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 1952,
+                "end": 1963,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 1966,
+                "end": 1978,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1989,
+        "end": 2059,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 1993,
+            "end": 2058,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 1993,
+              "end": 2017,
+              "ctxt": 0
+            },
+            "value": "resultIsStringOrBoolean3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2020,
+              "end": 2058,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "Identifier",
+              "span": {
+                "start": 2020,
+                "end": 2029,
+                "ctxt": 0
+              },
+              "value": "undefined",
+              "optional": false
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2032,
+                "end": 2043,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2046,
+                "end": 2058,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2069,
+        "end": 2147,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2073,
+            "end": 2146,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2073,
+              "end": 2097,
+              "ctxt": 0
+            },
+            "value": "resultIsStringOrBoolean4",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2100,
+              "end": 2146,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 2100,
+                "end": 2117,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "NullLiteral",
+                    "span": {
+                      "start": 2101,
+                      "end": 2105,
+                      "ctxt": 0
+                    }
+                  }
+                },
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2107,
+                      "end": 2116,
+                      "ctxt": 0
+                    },
+                    "value": "undefined",
+                    "optional": false
+                  }
+                }
+              ]
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2120,
+                "end": 2131,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2134,
+                "end": 2146,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2158,
+        "end": 2215,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2162,
+            "end": 2214,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2162,
+              "end": 2174,
+              "ctxt": 0
+            },
+            "value": "resultIsAny3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2177,
+              "end": 2214,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 2177,
+                "end": 2192,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 2177,
+                  "end": 2190,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2177,
+                    "end": 2178,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2179,
+                    "end": 2190,
+                    "ctxt": 0
+                  },
+                  "value": "doSomeThing",
+                  "optional": false
+                },
+                "computed": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2195,
+                "end": 2203,
+                "ctxt": 0
+              },
+              "value": "exprAny1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2206,
+                "end": 2214,
+                "ctxt": 0
+              },
+              "value": "exprAny2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2216,
+        "end": 2276,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2220,
+            "end": 2275,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2220,
+              "end": 2236,
+              "ctxt": 0
+            },
+            "value": "resultIsBoolean3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2239,
+              "end": 2275,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 2239,
+                "end": 2245,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2239,
+                  "end": 2240,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 2241,
+                      "end": 2244,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2248,
+                "end": 2260,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2263,
+                "end": 2275,
+                "ctxt": 0
+              },
+              "value": "exprBoolean2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2277,
+        "end": 2332,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2281,
+            "end": 2331,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2281,
+              "end": 2296,
+              "ctxt": 0
+            },
+            "value": "resultIsNumber3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2299,
+              "end": 2331,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 2299,
+                "end": 2303,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2299,
+                  "end": 2300,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2301,
+                      "end": 2302,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2306,
+                "end": 2317,
+                "ctxt": 0
+              },
+              "value": "exprNumber1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2320,
+                "end": 2331,
+                "ctxt": 0
+              },
+              "value": "exprNumber2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2333,
+        "end": 2390,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2337,
+            "end": 2389,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2337,
+              "end": 2352,
+              "ctxt": 0
+            },
+            "value": "resultIsString3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2355,
+              "end": 2389,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 2355,
+                "end": 2361,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2355,
+                  "end": 2356,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 2357,
+                      "end": 2360,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2364,
+                "end": 2375,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2378,
+                "end": 2389,
+                "ctxt": 0
+              },
+              "value": "exprString2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2391,
+        "end": 2461,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2395,
+            "end": 2460,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2395,
+              "end": 2410,
+              "ctxt": 0
+            },
+            "value": "resultIsObject3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2413,
+              "end": 2460,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 2413,
+                "end": 2428,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 2413,
+                  "end": 2426,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2413,
+                    "end": 2414,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2415,
+                    "end": 2426,
+                    "ctxt": 0
+                  },
+                  "value": "doSomeThing",
+                  "optional": false
+                },
+                "computed": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2431,
+                "end": 2444,
+                "ctxt": 0
+              },
+              "value": "exprIsObject1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2447,
+                "end": 2460,
+                "ctxt": 0
+              },
+              "value": "exprIsObject2",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 2462,
+        "end": 2538,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 2466,
+            "end": 2537,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 2466,
+              "end": 2490,
+              "ctxt": 0
+            },
+            "value": "resultIsStringOrBoolean5",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 2493,
+              "end": 2537,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 2493,
+                "end": 2508,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "MemberExpression",
+                "span": {
+                  "start": 2493,
+                  "end": 2506,
+                  "ctxt": 0
+                },
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2493,
+                    "end": 2494,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2495,
+                    "end": 2506,
+                    "ctxt": 0
+                  },
+                  "value": "doSomeThing",
+                  "optional": false
+                },
+                "computed": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "Identifier",
+              "span": {
+                "start": 2511,
+                "end": 2522,
+                "ctxt": 0
+              },
+              "value": "exprString1",
+              "optional": false
+            },
+            "alternate": {
+              "type": "Identifier",
+              "span": {
+                "start": 2525,
+                "end": 2537,
+                "ctxt": 0
+              },
+              "value": "exprBoolean1",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

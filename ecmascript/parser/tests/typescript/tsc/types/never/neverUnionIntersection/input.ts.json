@@ -1,0 +1,689 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 382,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 20,
+        "end": 46,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 25,
+          "end": 28,
+          "ctxt": 0
+        },
+        "value": "T01",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 31,
+          "end": 45,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 31,
+              "end": 37,
+              "ctxt": 0
+            },
+            "kind": "string"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 40,
+              "end": 45,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 48,
+        "end": 74,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 53,
+          "end": 56,
+          "ctxt": 0
+        },
+        "value": "T02",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 59,
+          "end": 73,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 59,
+              "end": 65,
+              "ctxt": 0
+            },
+            "kind": "string"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 68,
+              "end": 73,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 76,
+        "end": 111,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 81,
+          "end": 84,
+          "ctxt": 0
+        },
+        "value": "T03",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 87,
+          "end": 110,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 87,
+              "end": 93,
+              "ctxt": 0
+            },
+            "kind": "string"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 96,
+              "end": 102,
+              "ctxt": 0
+            },
+            "kind": "number"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 105,
+              "end": 110,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 113,
+        "end": 148,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 118,
+          "end": 121,
+          "ctxt": 0
+        },
+        "value": "T04",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 124,
+          "end": 147,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 124,
+              "end": 130,
+              "ctxt": 0
+            },
+            "kind": "string"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 133,
+              "end": 139,
+              "ctxt": 0
+            },
+            "kind": "number"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 142,
+              "end": 147,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 150,
+        "end": 173,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 155,
+          "end": 158,
+          "ctxt": 0
+        },
+        "value": "T05",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 161,
+          "end": 172,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 161,
+              "end": 164,
+              "ctxt": 0
+            },
+            "kind": "any"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 167,
+              "end": 172,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 175,
+        "end": 198,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 180,
+          "end": 183,
+          "ctxt": 0
+        },
+        "value": "T06",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 186,
+          "end": 197,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 186,
+              "end": 189,
+              "ctxt": 0
+            },
+            "kind": "any"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 192,
+              "end": 197,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 200,
+        "end": 229,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 205,
+          "end": 208,
+          "ctxt": 0
+        },
+        "value": "T07",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 211,
+          "end": 228,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 211,
+              "end": 220,
+              "ctxt": 0
+            },
+            "kind": "undefined"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 223,
+              "end": 228,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 231,
+        "end": 260,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 236,
+          "end": 239,
+          "ctxt": 0
+        },
+        "value": "T08",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 242,
+          "end": 259,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 242,
+              "end": 251,
+              "ctxt": 0
+            },
+            "kind": "undefined"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 254,
+              "end": 259,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 262,
+        "end": 286,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 267,
+          "end": 270,
+          "ctxt": 0
+        },
+        "value": "T09",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 273,
+          "end": 285,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 273,
+              "end": 277,
+              "ctxt": 0
+            },
+            "kind": "null"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 280,
+              "end": 285,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 288,
+        "end": 312,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 293,
+          "end": 296,
+          "ctxt": 0
+        },
+        "value": "T10",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 299,
+          "end": 311,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 299,
+              "end": 303,
+              "ctxt": 0
+            },
+            "kind": "null"
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 306,
+              "end": 311,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 314,
+        "end": 347,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 319,
+          "end": 322,
+          "ctxt": 0
+        },
+        "value": "T11",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsUnionType",
+        "span": {
+          "start": 325,
+          "end": 346,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsTypeLiteral",
+            "span": {
+              "start": 325,
+              "end": 338,
+              "ctxt": 0
+            },
+            "members": [
+              {
+                "type": "TsPropertySignature",
+                "span": {
+                  "start": 327,
+                  "end": 336,
+                  "ctxt": 0
+                },
+                "readonly": false,
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 327,
+                    "end": 328,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false
+                },
+                "computed": false,
+                "optional": false,
+                "init": null,
+                "params": [],
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 328,
+                    "end": 336,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 330,
+                      "end": 336,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  }
+                },
+                "typeParams": null
+              }
+            ]
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 341,
+              "end": 346,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 349,
+        "end": 382,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 354,
+          "end": 357,
+          "ctxt": 0
+        },
+        "value": "T12",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsIntersectionType",
+        "span": {
+          "start": 360,
+          "end": 381,
+          "ctxt": 0
+        },
+        "types": [
+          {
+            "type": "TsTypeLiteral",
+            "span": {
+              "start": 360,
+              "end": 373,
+              "ctxt": 0
+            },
+            "members": [
+              {
+                "type": "TsPropertySignature",
+                "span": {
+                  "start": 362,
+                  "end": 371,
+                  "ctxt": 0
+                },
+                "readonly": false,
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 362,
+                    "end": 363,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false
+                },
+                "computed": false,
+                "optional": false,
+                "init": null,
+                "params": [],
+                "typeAnnotation": {
+                  "type": "TsTypeAnnotation",
+                  "span": {
+                    "start": 363,
+                    "end": 371,
+                    "ctxt": 0
+                  },
+                  "typeAnnotation": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 365,
+                      "end": 371,
+                      "ctxt": 0
+                    },
+                    "kind": "string"
+                  }
+                },
+                "typeParams": null
+              }
+            ]
+          },
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 376,
+              "end": 381,
+              "ctxt": 0
+            },
+            "kind": "never"
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,411 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 121,
+    "end": 521,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 121,
+        "end": 153,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 128,
+          "end": 133,
+          "ctxt": 0
+        },
+        "value": "React",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 136,
+          "end": 152,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 144,
+            "end": 151,
+            "ctxt": 0
+          },
+          "value": "react",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 157,
+        "end": 191,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 157,
+          "end": 190,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 158,
+              "end": 161,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          },
+          "span": {
+            "start": 157,
+            "end": 162,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 162,
+              "end": 184,
+              "ctxt": 0
+            },
+            "value": "\n\r\n    // Not Comment\n\r\n",
+            "raw": "\n\r\n    // Not Comment\n\r\n"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 184,
+            "end": 190,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 186,
+              "end": 189,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 195,
+        "end": 300,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 195,
+          "end": 299,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 196,
+              "end": 199,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          },
+          "span": {
+            "start": 195,
+            "end": 200,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 200,
+              "end": 226,
+              "ctxt": 0
+            },
+            "value": "\n\r\n    // Not Comment\n\r\n    ",
+            "raw": "\n\r\n    // Not Comment\n\r\n    "
+          },
+          {
+            "type": "JSXExpressionContainer",
+            "span": {
+              "start": 226,
+              "end": 263,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "JSXEmptyExpression",
+              "span": {
+                "start": 262,
+                "end": 262,
+                "ctxt": 0
+              }
+            }
+          },
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 263,
+              "end": 293,
+              "ctxt": 0
+            },
+            "value": "\n\r\n    // Another not Comment\n\r\n",
+            "raw": "\n\r\n    // Another not Comment\n\r\n"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 293,
+            "end": 299,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 295,
+              "end": 298,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 304,
+        "end": 423,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 304,
+          "end": 422,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 305,
+              "end": 308,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          },
+          "span": {
+            "start": 304,
+            "end": 309,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 309,
+              "end": 335,
+              "ctxt": 0
+            },
+            "value": "\n\r\n    // Not Comment\n\r\n    ",
+            "raw": "\n\r\n    // Not Comment\n\r\n    "
+          },
+          {
+            "type": "JSXExpressionContainer",
+            "span": {
+              "start": 335,
+              "end": 386,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 375,
+                "end": 379,
+                "ctxt": 0
+              },
+              "value": "Hi",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 386,
+              "end": 416,
+              "ctxt": 0
+            },
+            "value": "\n\r\n    // Another not Comment\n\r\n",
+            "raw": "\n\r\n    // Another not Comment\n\r\n"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 416,
+            "end": 422,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 418,
+              "end": 421,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 427,
+        "end": 521,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 427,
+          "end": 520,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 428,
+              "end": 431,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          },
+          "span": {
+            "start": 427,
+            "end": 432,
+            "ctxt": 0
+          },
+          "attributes": [],
+          "selfClosing": false,
+          "typeArguments": null
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 432,
+              "end": 461,
+              "ctxt": 0
+            },
+            "value": "\n\r\n    /* Not Comment */\n\r\n    ",
+            "raw": "\n\r\n    /* Not Comment */\n\r\n    "
+          },
+          {
+            "type": "JSXExpressionContainer",
+            "span": {
+              "start": 461,
+              "end": 512,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 501,
+                "end": 505,
+                "ctxt": 0
+              },
+              "value": "Hi",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 512,
+              "end": 514,
+              "ctxt": 0
+            },
+            "value": "\n\r\n",
+            "raw": "\n\r\n"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingElement",
+          "span": {
+            "start": 514,
+            "end": 520,
+            "ctxt": 0
+          },
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 516,
+              "end": 519,
+              "ctxt": 0
+            },
+            "value": "div",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,12 @@
+error: Expected ,, got .
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorWithModule/input.ts:10:10
+   |
+10 |         m.x  // error
+   |          ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/es6/shorthandPropertyAssignment/objectLiteralShorthandPropertiesErrorWithModule/input.ts:10:10
+   |
+10 |         m.x  // error
+   |          ^
+

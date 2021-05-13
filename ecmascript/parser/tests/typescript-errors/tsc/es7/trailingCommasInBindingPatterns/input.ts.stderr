@@ -1,0 +1,6 @@
+error: Expected ], got ,
+ --> $DIR/tests/typescript-errors/tsc/es7/trailingCommasInBindingPatterns/input.ts:1:12
+  |
+1 | const [...a,] = [];
+  |            ^
+

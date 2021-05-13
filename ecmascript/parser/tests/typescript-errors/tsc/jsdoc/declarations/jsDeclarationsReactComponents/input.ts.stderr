@@ -1,0 +1,18 @@
+error: Unexpected token `)`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsReactComponents/input.ts:19:5
+   |
+19 |     );
+   |     ^
+
+error: Expression expected
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsReactComponents/input.ts:18:14
+   |
+18 |         <div />
+   |              ^
+
+error: Expression expected
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsReactComponents/input.ts:18:15
+   |
+18 |         <div />
+   |               ^
+

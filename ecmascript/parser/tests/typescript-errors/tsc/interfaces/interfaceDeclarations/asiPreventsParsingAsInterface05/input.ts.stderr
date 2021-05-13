@@ -1,0 +1,12 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface05/input.ts:3:5
+  |
+3 | var interface: number;
+  |     ^^^^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/asiPreventsParsingAsInterface05/input.ts:10:1
+   |
+10 | interface   // This should be the identifier 'interface'
+   | ^^^^^^^^^
+

@@ -1,0 +1,70 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 175,
+    "end": 195,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 175,
+        "end": 195,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 179,
+            "end": 194,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 179,
+              "end": 182,
+              "ctxt": 0
+            },
+            "value": "sid",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 185,
+              "end": 194,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 191,
+                "end": 194,
+                "ctxt": 0
+              },
+              "value": "!",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

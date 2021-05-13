@@ -1,0 +1,12 @@
+error: Unterminated regexp literal
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsNonIdentifierInferredNames/input.ts:12:13
+   |
+12 |     <>Hello</>
+   |             ^^
+
+error: Expression expected
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsNonIdentifierInferredNames/input.ts:12:6
+   |
+12 |     <>Hello</>
+   |      ^
+

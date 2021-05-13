@@ -1,0 +1,18 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserStatementIsNotAMemberVariableDeclaration1/input.ts:6:5
+  |
+6 |     private[key] = value;
+  |     ^^^^^^^
+
+error: Return statement is not allowed here
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserStatementIsNotAMemberVariableDeclaration1/input.ts:1:1
+   |
+1  | / return {
+2  | | 
+3  | |   "set": function (key, value) {
+4  | | 
+...  |
+9  | | 
+10 | | };
+   | |__^
+

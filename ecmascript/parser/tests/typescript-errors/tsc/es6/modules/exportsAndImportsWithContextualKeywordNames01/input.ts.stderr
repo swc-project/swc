@@ -1,0 +1,6 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/es6/modules/exportsAndImportsWithContextualKeywordNames01/input.ts:17:17
+   |
+17 | import { set as yield } from "./t1";
+   |                 ^^^^^
+

@@ -1,0 +1,6 @@
+error: Expected ,, got Some(g)
+  --> $DIR/tests/typescript-errors/tsc/constEnums/constEnum2/input.ts:14:5
+   |
+14 |     g = CONST,
+   |     ^
+

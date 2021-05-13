@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/typings/typingsLookup2/input.ts:11:12
+   |
+11 | { "typings": null }
+   |            ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/typings/typingsLookup2/input.ts:11:3
+   |
+11 | { "typings": null }
+   |   ^^^^^^^^^
+

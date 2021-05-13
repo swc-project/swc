@@ -1,0 +1,30 @@
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/incrementOperator/incrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:37:26
+   |
+37 | var ResultIsNumber11 = ++{};
+   |                          ^^
+
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/incrementOperator/incrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:42:24
+   |
+42 | var ResultIsNumber15 = {}++;
+   |                        ^^
+
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/incrementOperator/incrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:67:3
+   |
+67 | ++ANY1++;
+   |   ^^^^^^
+
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/incrementOperator/incrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:68:3
+   |
+68 | ++ANY2++;
+   |   ^^^^^^
+
+error: Invalid left-hand side in 'for...in' statement
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/incrementOperator/incrementOperatorWithAnyOtherTypeInvalidOperations/input.ts:69:3
+   |
+69 | ++ANY2[0]++;
+   |   ^^^^^^^^^
+

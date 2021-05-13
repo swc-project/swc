@@ -1,0 +1,111 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 40,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 0,
+        "end": 40,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 0,
+          "end": 40,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "CallExpression",
+          "span": {
+            "start": 1,
+            "end": 38,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 4,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 5,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            },
+            {
+              "spread": null,
+              "expression": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 12,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 18,
+                    "end": 20,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            },
+            {
+              "spread": null,
+              "expression": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 26,
+                  "end": 34,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 32,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "stmts": []
+                },
+                "async": false,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              }
+            }
+          ],
+          "typeArguments": null
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

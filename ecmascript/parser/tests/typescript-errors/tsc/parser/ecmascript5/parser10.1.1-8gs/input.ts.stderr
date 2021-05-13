@@ -1,0 +1,6 @@
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/parser10.1.1-8gs/input.ts:19:5
+   |
+19 | var public = 1;
+   |     ^^^^^^
+

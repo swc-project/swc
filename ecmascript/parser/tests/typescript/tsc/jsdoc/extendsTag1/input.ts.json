@@ -1,0 +1,46 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 201,
+    "end": 224,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 207,
+          "end": 209,
+          "ctxt": 0
+        },
+        "value": "My",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 201,
+        "end": 224,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 218,
+          "end": 221,
+          "ctxt": 0
+        },
+        "value": "Set",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

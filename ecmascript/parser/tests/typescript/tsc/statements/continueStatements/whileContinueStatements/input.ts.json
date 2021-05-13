@@ -1,0 +1,740 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 597,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "WhileStatement",
+      "span": {
+        "start": 0,
+        "end": 31,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 6,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 12,
+          "end": 31,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ContinueStatement",
+            "span": {
+              "start": 19,
+              "end": 28,
+              "ctxt": 0
+            },
+            "label": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "WhileStatement",
+      "span": {
+        "start": 36,
+        "end": 96,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 43,
+          "end": 47,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 49,
+          "end": 96,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "IfStatement",
+            "span": {
+              "start": 56,
+              "end": 93,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 60,
+                "end": 64,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "consequent": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 66,
+                "end": 93,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ContinueStatement",
+                  "span": {
+                    "start": 77,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "label": null
+                }
+              ]
+            },
+            "alternate": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 100,
+        "end": 144,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 100,
+          "end": 103,
+          "ctxt": 0
+        },
+        "value": "ONE",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 108,
+          "end": 144,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 115,
+            "end": 119,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 121,
+            "end": 144,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 128,
+                "end": 141,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 137,
+                  "end": 140,
+                  "ctxt": 0
+                },
+                "value": "ONE",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 148,
+        "end": 200,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 148,
+          "end": 151,
+          "ctxt": 0
+        },
+        "value": "TWO",
+        "optional": false
+      },
+      "body": {
+        "type": "LabeledStatement",
+        "span": {
+          "start": 154,
+          "end": 200,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 154,
+            "end": 159,
+            "ctxt": 0
+          },
+          "value": "THREE",
+          "optional": false
+        },
+        "body": {
+          "type": "WhileStatement",
+          "span": {
+            "start": 162,
+            "end": 200,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 169,
+              "end": 173,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 175,
+              "end": 200,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 182,
+                  "end": 197,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 191,
+                    "end": 196,
+                    "ctxt": 0
+                  },
+                  "value": "THREE",
+                  "optional": false
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 204,
+        "end": 290,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 204,
+          "end": 208,
+          "ctxt": 0
+        },
+        "value": "FOUR",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 211,
+          "end": 290,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 218,
+            "end": 222,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 224,
+            "end": 290,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "LabeledStatement",
+              "span": {
+                "start": 231,
+                "end": 287,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 231,
+                  "end": 235,
+                  "ctxt": 0
+                },
+                "value": "FIVE",
+                "optional": false
+              },
+              "body": {
+                "type": "WhileStatement",
+                "span": {
+                  "start": 242,
+                  "end": 287,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 249,
+                    "end": 253,
+                    "ctxt": 0
+                  },
+                  "value": true
+                },
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 255,
+                    "end": 287,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ContinueStatement",
+                      "span": {
+                        "start": 266,
+                        "end": 280,
+                        "ctxt": 0
+                      },
+                      "label": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 275,
+                          "end": 279,
+                          "ctxt": 0
+                        },
+                        "value": "FOUR",
+                        "optional": false
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "WhileStatement",
+      "span": {
+        "start": 294,
+        "end": 362,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 301,
+          "end": 305,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 307,
+          "end": 362,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 314,
+              "end": 359,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 314,
+                "end": 317,
+                "ctxt": 0
+              },
+              "value": "SIX",
+              "optional": false
+            },
+            "body": {
+              "type": "WhileStatement",
+              "span": {
+                "start": 324,
+                "end": 359,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 331,
+                  "end": 335,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "body": {
+                "type": "ContinueStatement",
+                "span": {
+                  "start": 346,
+                  "end": 359,
+                  "ctxt": 0
+                },
+                "label": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 355,
+                    "end": 358,
+                    "ctxt": 0
+                  },
+                  "value": "SIX",
+                  "optional": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 366,
+        "end": 455,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 366,
+          "end": 371,
+          "ctxt": 0
+        },
+        "value": "SEVEN",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 374,
+          "end": 455,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 381,
+            "end": 385,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "WhileStatement",
+          "span": {
+            "start": 392,
+            "end": 455,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 399,
+              "end": 403,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "body": {
+            "type": "WhileStatement",
+            "span": {
+              "start": 414,
+              "end": 455,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 421,
+                "end": 425,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 440,
+                "end": 455,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 449,
+                  "end": 454,
+                  "ctxt": 0
+                },
+                "value": "SEVEN",
+                "optional": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 459,
+        "end": 535,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 459,
+          "end": 464,
+          "ctxt": 0
+        },
+        "value": "EIGHT",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 467,
+          "end": 535,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 474,
+            "end": 478,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 480,
+            "end": 535,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 487,
+                "end": 511,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 491,
+                    "end": 511,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 491,
+                      "end": 493,
+                      "ctxt": 0
+                    },
+                    "value": "fn",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "FunctionExpression",
+                    "identifier": null,
+                    "params": [],
+                    "decorators": [],
+                    "span": {
+                      "start": 496,
+                      "end": 511,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 508,
+                        "end": 511,
+                        "ctxt": 0
+                      },
+                      "stmts": []
+                    },
+                    "generator": false,
+                    "async": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  },
+                  "definite": false
+                }
+              ]
+            },
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 517,
+                "end": 532,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 526,
+                  "end": 531,
+                  "ctxt": 0
+                },
+                "value": "EIGHT",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 539,
+        "end": 597,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 539,
+          "end": 543,
+          "ctxt": 0
+        },
+        "value": "NINE",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 546,
+          "end": 597,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 553,
+            "end": 557,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 559,
+            "end": 597,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "IfStatement",
+              "span": {
+                "start": 566,
+                "end": 594,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "BooleanLiteral",
+                "span": {
+                  "start": 570,
+                  "end": 574,
+                  "ctxt": 0
+                },
+                "value": true
+              },
+              "consequent": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 576,
+                  "end": 594,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ContinueStatement",
+                    "span": {
+                      "start": 578,
+                      "end": 592,
+                      "ctxt": 0
+                    },
+                    "label": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 587,
+                        "end": 591,
+                        "ctxt": 0
+                      },
+                      "value": "NINE",
+                      "optional": false
+                    }
+                  }
+                ]
+              },
+              "alternate": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

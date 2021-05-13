@@ -1,0 +1,6 @@
+error: Expected (, got await
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript2018/asyncGenerators/parser.asyncGenerators.functionExpressions.es2018/input.ts:8:29
+  |
+8 | const f2 = async function * await() {
+  |                             ^^^^^
+

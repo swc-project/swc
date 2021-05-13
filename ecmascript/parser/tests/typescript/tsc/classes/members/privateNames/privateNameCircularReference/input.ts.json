@@ -1,0 +1,244 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 34,
+    "end": 164,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 40,
+          "end": 41,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 34,
+        "end": 164,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 48,
+            "end": 65,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 48,
+              "end": 52,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 49,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 55,
+              "end": 64,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "ThisExpression",
+              "span": {
+                "start": 55,
+                "end": 59,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "PrivateName",
+              "span": {
+                "start": 60,
+                "end": 64,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 61,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "optional": false
+              }
+            },
+            "computed": false
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 70,
+            "end": 87,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 70,
+              "end": 74,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 71,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 77,
+              "end": 86,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "ThisExpression",
+              "span": {
+                "start": 77,
+                "end": 81,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "PrivateName",
+              "span": {
+                "start": 82,
+                "end": 86,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 83,
+                  "end": 86,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+              }
+            },
+            "computed": false
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 92,
+            "end": 116,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 93,
+              "end": 99,
+              "ctxt": 0
+            },
+            "value": "#baz",
+            "hasEscape": false,
+            "kind": {
+              "type": "normal",
+              "containsQuote": true
+            }
+          },
+          "value": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 103,
+              "end": 115,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "ThisExpression",
+              "span": {
+                "start": 103,
+                "end": 107,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 108,
+                "end": 114,
+                "ctxt": 0
+              },
+              "value": "#baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "computed": true
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

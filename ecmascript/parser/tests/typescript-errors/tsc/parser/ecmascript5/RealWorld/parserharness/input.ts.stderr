@@ -1,0 +1,6 @@
+error: Expected {, got module
+    --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/RealWorld/parserharness/input.ts:1415:12
+     |
+1415 |     export module TestCaseParser {
+     |            ^^^^^^
+

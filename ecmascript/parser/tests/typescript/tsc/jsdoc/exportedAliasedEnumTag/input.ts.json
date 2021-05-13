@@ -1,0 +1,173 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 75,
+    "end": 172,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 75,
+        "end": 114,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 79,
+            "end": 113,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 79,
+              "end": 91,
+              "ctxt": 0
+            },
+            "value": "middlewarify",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 94,
+              "end": 113,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 94,
+                "end": 108,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 94,
+                  "end": 100,
+                  "ctxt": 0
+                },
+                "value": "module",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 101,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "value": "exports",
+                "optional": false
+              },
+              "computed": false
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 111,
+                "end": 113,
+                "ctxt": 0
+              },
+              "properties": []
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 129,
+        "end": 172,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 129,
+          "end": 171,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 129,
+            "end": 146,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 129,
+              "end": 141,
+              "ctxt": 0
+            },
+            "value": "middlewarify",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 142,
+              "end": 146,
+              "ctxt": 0
+            },
+            "value": "Type",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 149,
+            "end": 171,
+            "ctxt": 0
+          },
+          "properties": [
+            {
+              "type": "KeyValueProperty",
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 153,
+                  "end": 159,
+                  "ctxt": 0
+                },
+                "value": "BEFORE",
+                "optional": false
+              },
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 161,
+                  "end": 169,
+                  "ctxt": 0
+                },
+                "value": "before",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

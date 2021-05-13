@@ -1,0 +1,120 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 79,
+    "end": 121,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 79,
+        "end": 103,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 86,
+            "end": 87,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 86,
+              "end": 87,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 93,
+          "end": 103,
+          "ctxt": 0
+        },
+        "value": "arglebaz",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 104,
+        "end": 121,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 110,
+            "end": 119,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 110,
+              "end": 119,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 110,
+                "end": 115,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 110,
+                  "end": 111,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 112,
+                  "end": 115,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "optional": false
+              },
+              "computed": false
+            },
+            "right": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 118,
+                "end": 119,
+                "ctxt": 0
+              },
+              "value": 1.0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

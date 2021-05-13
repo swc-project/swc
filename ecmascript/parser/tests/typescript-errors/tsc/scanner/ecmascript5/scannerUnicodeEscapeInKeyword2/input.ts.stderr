@@ -1,0 +1,6 @@
+error: Unexpected escape sequence in reserved word: await
+ --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript5/scannerUnicodeEscapeInKeyword2/input.ts:5:5
+  |
+5 |     \u0061wait 12; // not ok
+  |     ^^^^^^^^^^
+

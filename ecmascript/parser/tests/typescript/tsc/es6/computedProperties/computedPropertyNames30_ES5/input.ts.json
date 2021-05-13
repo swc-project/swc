@@ -1,0 +1,284 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 419,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 23,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 17,
+        "end": 32,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 40,
+          "end": 41,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 34,
+        "end": 419,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "Constructor",
+          "span": {
+            "start": 62,
+            "end": 416,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 62,
+              "end": 73,
+              "ctxt": 0
+            },
+            "value": "constructor",
+            "optional": false
+          },
+          "params": [],
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 76,
+              "end": 416,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 87,
+                  "end": 95,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 87,
+                    "end": 94,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Super",
+                    "span": {
+                      "start": 87,
+                      "end": 92,
+                      "ctxt": 0
+                    }
+                  },
+                  "arguments": [],
+                  "typeArguments": null
+                }
+              },
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 105,
+                  "end": 409,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "ArrowFunctionExpression",
+                  "span": {
+                    "start": 105,
+                    "end": 409,
+                    "ctxt": 0
+                  },
+                  "params": [],
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 111,
+                      "end": 409,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "VariableDeclaration",
+                        "span": {
+                          "start": 126,
+                          "end": 398,
+                          "ctxt": 0
+                        },
+                        "kind": "var",
+                        "declare": false,
+                        "declarations": [
+                          {
+                            "type": "VariableDeclarator",
+                            "span": {
+                              "start": 130,
+                              "end": 397,
+                              "ctxt": 0
+                            },
+                            "id": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 130,
+                                "end": 133,
+                                "ctxt": 0
+                              },
+                              "value": "obj",
+                              "optional": false,
+                              "typeAnnotation": null
+                            },
+                            "init": {
+                              "type": "ObjectExpression",
+                              "span": {
+                                "start": 136,
+                                "end": 397,
+                                "ctxt": 0
+                              },
+                              "properties": [
+                                {
+                                  "type": "MethodProperty",
+                                  "key": {
+                                    "type": "Computed",
+                                    "span": {
+                                      "start": 357,
+                                      "end": 376,
+                                      "ctxt": 0
+                                    },
+                                    "expression": {
+                                      "type": "ParenthesisExpression",
+                                      "span": {
+                                        "start": 358,
+                                        "end": 375,
+                                        "ctxt": 0
+                                      },
+                                      "expression": {
+                                        "type": "SequenceExpression",
+                                        "span": {
+                                          "start": 359,
+                                          "end": 374,
+                                          "ctxt": 0
+                                        },
+                                        "expressions": [
+                                          {
+                                            "type": "CallExpression",
+                                            "span": {
+                                              "start": 359,
+                                              "end": 366,
+                                              "ctxt": 0
+                                            },
+                                            "callee": {
+                                              "type": "Super",
+                                              "span": {
+                                                "start": 359,
+                                                "end": 364,
+                                                "ctxt": 0
+                                              }
+                                            },
+                                            "arguments": [],
+                                            "typeArguments": null
+                                          },
+                                          {
+                                            "type": "StringLiteral",
+                                            "span": {
+                                              "start": 368,
+                                              "end": 374,
+                                              "ctxt": 0
+                                            },
+                                            "value": "prop",
+                                            "hasEscape": false,
+                                            "kind": {
+                                              "type": "normal",
+                                              "containsQuote": true
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "params": [],
+                                  "decorators": [],
+                                  "span": {
+                                    "start": 357,
+                                    "end": 382,
+                                    "ctxt": 0
+                                  },
+                                  "body": {
+                                    "type": "BlockStatement",
+                                    "span": {
+                                      "start": 379,
+                                      "end": 382,
+                                      "ctxt": 0
+                                    },
+                                    "stmts": []
+                                  },
+                                  "generator": false,
+                                  "async": false,
+                                  "typeParameters": null,
+                                  "returnType": null
+                                }
+                              ]
+                            },
+                            "definite": false
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "async": false,
+                  "generator": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              }
+            ]
+          },
+          "accessibility": null,
+          "isOptional": false
+        }
+      ],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 50,
+          "end": 54,
+          "ctxt": 0
+        },
+        "value": "Base",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

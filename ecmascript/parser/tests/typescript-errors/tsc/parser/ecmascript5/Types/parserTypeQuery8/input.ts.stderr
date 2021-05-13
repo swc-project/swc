@@ -1,0 +1,6 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Types/parserTypeQuery8/input.ts:1:16
+  |
+1 | var v: typeof A<B>
+  |                ^
+

@@ -1,0 +1,6 @@
+error: Unexpected token `m`. Expected * for generator, private key, identifier or async
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Protected/Protected7/input.ts:2:21
+  |
+2 |   protected private m() { }
+  |                     ^
+

@@ -1,0 +1,6 @@
+error: Expected (, got yield
+ --> $DIR/tests/typescript-errors/tsc/es6/functionDeclarations/FunctionDeclaration12_es6/input.ts:2:20
+  |
+2 | var v = function * yield() { }
+  |                    ^^^^^
+

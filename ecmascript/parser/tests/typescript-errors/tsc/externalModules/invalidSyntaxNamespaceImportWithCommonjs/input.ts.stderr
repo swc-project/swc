@@ -1,0 +1,6 @@
+error: Expected as, got from
+ --> $DIR/tests/typescript-errors/tsc/externalModules/invalidSyntaxNamespaceImportWithCommonjs/input.ts:6:10
+  |
+6 | import * from Zero from "./0"
+  |          ^^^^
+

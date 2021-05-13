@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:9:5
+  |
+9 | x++ = 4; // Error
+  |     ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/expressions/operators/incrementAndDecrement/input.ts:9:1
+  |
+9 | x++ = 4; // Error
+  | ^^^
+

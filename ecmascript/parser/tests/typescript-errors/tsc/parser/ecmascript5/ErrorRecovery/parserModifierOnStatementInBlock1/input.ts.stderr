@@ -1,0 +1,6 @@
+error: 'import', and 'export' cannot be used outside of module code
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserModifierOnStatementInBlock1/input.ts:2:4
+  |
+2 |    export var x = this;
+  |    ^^^^^^
+

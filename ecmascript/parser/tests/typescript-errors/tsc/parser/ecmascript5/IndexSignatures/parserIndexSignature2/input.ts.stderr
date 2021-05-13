@@ -1,0 +1,12 @@
+error: Expected ], got a
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature2/input.ts:2:11
+  |
+2 |   [public a]
+  |           ^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/IndexSignatures/parserIndexSignature2/input.ts:2:4
+  |
+2 |   [public a]
+  |    ^^^^^^
+

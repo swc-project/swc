@@ -1,0 +1,6 @@
+error: `implements` clause already seen
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ClassDeclarations/parserClassDeclaration2/input.ts:1:22
+  |
+1 | class C implements A implements B {
+  |                      ^^^^^^^^^^
+

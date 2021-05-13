@@ -1,0 +1,12 @@
+error: Parenthesized expression cannot be empty
+ --> $DIR/tests/typescript-errors/tsc/es6/functionPropertyAssignments/FunctionPropertyAssignments6_es6/input.ts:2:15
+  |
+2 | var v = { *<T>() { } }
+  |               ^^
+
+error: Expression expected
+ --> $DIR/tests/typescript-errors/tsc/es6/functionPropertyAssignments/FunctionPropertyAssignments6_es6/input.ts:2:12
+  |
+2 | var v = { *<T>() { } }
+  |            ^
+

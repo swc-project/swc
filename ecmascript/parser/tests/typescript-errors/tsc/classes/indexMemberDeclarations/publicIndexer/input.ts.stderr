@@ -1,0 +1,6 @@
+error: Expected ], got :
+ --> $DIR/tests/typescript-errors/tsc/classes/indexMemberDeclarations/publicIndexer/input.ts:4:14
+  |
+4 |     public [x: string]: string;
+  |              ^
+

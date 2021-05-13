@@ -1,0 +1,82 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 57,
+    "end": 113,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 57,
+        "end": 113,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 65,
+          "end": 71,
+          "ctxt": 0
+        },
+        "value": "global",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 72,
+          "end": 113,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportNamedDeclaration",
+            "span": {
+              "start": 79,
+              "end": 110,
+              "ctxt": 0
+            },
+            "specifiers": [
+              {
+                "type": "ExportSpecifier",
+                "span": {
+                  "start": 88,
+                  "end": 108,
+                  "ctxt": 0
+                },
+                "orig": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 88,
+                    "end": 98,
+                    "ctxt": 0
+                  },
+                  "value": "globalThis",
+                  "optional": false
+                },
+                "exported": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 102,
+                    "end": 108,
+                    "ctxt": 0
+                  },
+                  "value": "global",
+                  "optional": false
+                }
+              }
+            ],
+            "source": null,
+            "typeOnly": false,
+            "asserts": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

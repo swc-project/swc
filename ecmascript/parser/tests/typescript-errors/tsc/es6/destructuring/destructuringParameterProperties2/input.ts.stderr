@@ -1,0 +1,6 @@
+error: Typescript parameter property must be identifer or assignment pattern
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/destructuringParameterProperties2/input.ts:2:44
+  |
+2 |     constructor(private k: number, private [a, b, c]: [number, string, boolean]) {
+  |                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+

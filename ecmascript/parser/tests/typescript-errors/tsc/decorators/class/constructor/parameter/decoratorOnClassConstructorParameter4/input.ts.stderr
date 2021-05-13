@@ -1,0 +1,6 @@
+error: Unexpected token `@`. Expected yield, an identifier, [ or {
+ --> $DIR/tests/typescript-errors/tsc/decorators/class/constructor/parameter/decoratorOnClassConstructorParameter4/input.ts:6:24
+  |
+6 |     constructor(public @dec p: number) {}
+  |                        ^
+

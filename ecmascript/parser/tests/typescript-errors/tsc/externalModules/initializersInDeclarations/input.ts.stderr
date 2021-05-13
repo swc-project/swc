@@ -1,0 +1,6 @@
+error: An implementation cannot be declared in ambient contexts
+ --> $DIR/tests/typescript-errors/tsc/externalModules/initializersInDeclarations/input.ts:8:16
+  |
+8 |     fn(): boolean {
+  |                   ^
+

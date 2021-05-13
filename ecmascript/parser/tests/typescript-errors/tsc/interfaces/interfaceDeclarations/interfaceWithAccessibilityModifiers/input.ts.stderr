@@ -1,0 +1,6 @@
+error: Expected ;, got a
+ --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfaceWithAccessibilityModifiers/input.ts:3:12
+  |
+3 |     public a: any;
+  |            ^
+

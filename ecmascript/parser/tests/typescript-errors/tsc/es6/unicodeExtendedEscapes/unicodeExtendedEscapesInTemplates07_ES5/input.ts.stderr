@@ -1,0 +1,6 @@
+error: Invalid unicode code point
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInTemplates07_ES5/input.ts:5:13
+  |
+5 | var x = `\u{110000}`;
+  |             ^^^^^^
+

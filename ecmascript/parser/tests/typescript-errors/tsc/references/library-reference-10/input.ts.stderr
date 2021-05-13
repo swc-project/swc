@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/references/library-reference-10/input.ts:10:14
+   |
+10 |     "typings": "jquery.d.ts"
+   |              ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/references/library-reference-10/input.ts:10:5
+   |
+10 |     "typings": "jquery.d.ts"
+   |     ^^^^^^^^^
+

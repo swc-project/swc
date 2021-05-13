@@ -1,0 +1,6 @@
+error: Unexpected token ```. Expected identifier, string literal, numeric literal or [ for the computed key
+ --> $DIR/tests/typescript-errors/tsc/es6/templates/templateStringInObjectLiteralES6/input.ts:4:5
+  |
+4 |     `b`: 321
+  |     ^
+

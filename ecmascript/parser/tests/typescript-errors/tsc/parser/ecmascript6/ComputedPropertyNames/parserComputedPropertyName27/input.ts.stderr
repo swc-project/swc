@@ -1,0 +1,12 @@
+error: Unexpected token `:`. Expected identifier, string literal, numeric literal or [ for the computed key
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName27/input.ts:5:9
+  |
+5 |     [e2]: number
+  |         ^
+
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ComputedPropertyNames/parserComputedPropertyName27/input.ts:5:9
+  |
+5 |     [e2]: number
+  |         ^
+

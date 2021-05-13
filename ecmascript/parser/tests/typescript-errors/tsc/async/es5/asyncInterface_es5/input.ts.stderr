@@ -1,0 +1,12 @@
+error: Expected =>, got I
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncInterface_es5/input.ts:4:17
+  |
+4 | async interface I {
+  |                 ^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/async/es5/asyncInterface_es5/input.ts:4:7
+  |
+4 | async interface I {
+  |       ^^^^^^^^^
+

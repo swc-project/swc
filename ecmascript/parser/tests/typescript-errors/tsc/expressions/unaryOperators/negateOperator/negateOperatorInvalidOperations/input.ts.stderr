@@ -1,0 +1,12 @@
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:4:19
+  |
+4 | var NUMBER1 = var NUMBER-;  //expect error
+  |                   ^^^^^^
+
+error: Unexpected token `;`. Expected this, import, async, function, [ for array literal, { for object literal, @ for decorator, function, class, null, true, false, number, bigint, string, regexp, ` for template literal, (, or an identifier
+  --> $DIR/tests/typescript-errors/tsc/expressions/unaryOperators/negateOperator/negateOperatorInvalidOperations/input.ts:12:14
+   |
+12 | var NUMBER =-;
+   |              ^
+

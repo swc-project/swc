@@ -1,0 +1,6 @@
+error: Expected {, got =>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/parserErrantEqualsGreaterThanAfterFunction2/input.ts:1:18
+  |
+1 | function f(p: A) => p;
+  |                  ^^
+

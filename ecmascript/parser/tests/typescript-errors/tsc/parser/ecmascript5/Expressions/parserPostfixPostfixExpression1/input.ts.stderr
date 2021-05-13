@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Expressions/parserPostfixPostfixExpression1/input.ts:1:5
+  |
+1 | a++ ++;
+  |     ^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Expressions/parserPostfixPostfixExpression1/input.ts:1:1
+  |
+1 | a++ ++;
+  | ^^^
+

@@ -1,0 +1,6 @@
+error: Expected a decimal digit
+ --> $DIR/tests/typescript-errors/tsc/scanner/ecmascript3/scannerES3NumericLiteral6/input.ts:1:4
+  |
+1 | 1e+
+  |    ^
+

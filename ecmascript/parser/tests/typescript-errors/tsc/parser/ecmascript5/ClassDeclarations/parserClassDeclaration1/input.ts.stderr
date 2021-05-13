@@ -1,0 +1,6 @@
+error: `extends` clause already seen.
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ClassDeclarations/parserClassDeclaration1/input.ts:1:19
+  |
+1 | class C extends A extends B {
+  |                   ^^^^^^^
+

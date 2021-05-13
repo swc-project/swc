@@ -1,0 +1,54 @@
+error: Expected ident
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:53:30
+   |
+53 | enum E14 { a, b: any "hello" += 1, c, d}
+   |                              ^^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:48:18
+   |
+48 |     postSemicolon;
+   |                  ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:49:24
+   |
+49 |     postColonValueComma: 2,
+   |                        ^
+
+error: An enum member cannot have a numeric name
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:49:26
+   |
+49 |     postColonValueComma: 2,
+   |                          ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:50:28
+   |
+50 |     postColonValueSemicolon: 3;
+   |                            ^
+
+error: An enum member cannot have a numeric name
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:50:30
+   |
+50 |     postColonValueSemicolon: 3;
+   |                              ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:50:31
+   |
+50 |     postColonValueSemicolon: 3;
+   |                               ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:53:16
+   |
+53 | enum E14 { a, b: any "hello" += 1, c, d}
+   |                ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/enums/enumErrors/input.ts:53:22
+   |
+53 | enum E14 { a, b: any "hello" += 1, c, d}
+   |                      ^
+

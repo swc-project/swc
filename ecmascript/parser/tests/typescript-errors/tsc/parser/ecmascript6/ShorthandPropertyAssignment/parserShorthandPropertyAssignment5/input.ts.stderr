@@ -1,0 +1,6 @@
+error: An object member cannot be declared optional
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript6/ShorthandPropertyAssignment/parserShorthandPropertyAssignment5/input.ts:2:18
+  |
+2 | var obj = { greet? }; 
+  |                  ^
+

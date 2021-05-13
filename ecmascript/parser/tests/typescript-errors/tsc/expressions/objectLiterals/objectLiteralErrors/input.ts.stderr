@@ -1,0 +1,24 @@
+error: Expected ,, got string literal (a)
+  --> $DIR/tests/typescript-errors/tsc/expressions/objectLiterals/objectLiteralErrors/input.ts:29:22
+   |
+29 | var f6 = { a: 0, get 'a'() { return 0; } };
+   |                      ^^^
+
+error: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+  --> $DIR/tests/typescript-errors/tsc/expressions/objectLiterals/objectLiteralErrors/input.ts:18:19
+   |
+18 | var e14 = { 0: 0, 000: 0 };
+   |                   ^^^
+
+error: Legacy octal escape is not permitted in strict mode
+  --> $DIR/tests/typescript-errors/tsc/expressions/objectLiterals/objectLiteralErrors/input.ts:18:19
+   |
+18 | var e14 = { 0: 0, 000: 0 };
+   |                   ^^^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/expressions/objectLiterals/objectLiteralErrors/input.ts:29:22
+   |
+29 | var f6 = { a: 0, get 'a'() { return 0; } };
+   |                      ^^^
+

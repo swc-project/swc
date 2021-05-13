@@ -1,0 +1,6 @@
+error: Invalid unicode code point
+ --> $DIR/tests/typescript-errors/tsc/es2018/invalidTaggedTemplateEscapeSequences/input.ts:9:18
+  |
+9 | const x = tag`\u{hello} ${ 100 } \xtraordinary ${ 200 } wonderful ${ 300 } \uworld`;
+  |                  ^
+

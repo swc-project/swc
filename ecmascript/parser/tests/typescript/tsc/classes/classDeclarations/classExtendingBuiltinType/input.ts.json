@@ -1,0 +1,379 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 295,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 6,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 0,
+        "end": 27,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 17,
+          "end": 23,
+          "ctxt": 0
+        },
+        "value": "Object",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 35,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "C2",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 29,
+        "end": 58,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 46,
+          "end": 54,
+          "ctxt": 0
+        },
+        "value": "Function",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 66,
+          "end": 68,
+          "ctxt": 0
+        },
+        "value": "C3",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 60,
+        "end": 87,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 77,
+          "end": 83,
+          "ctxt": 0
+        },
+        "value": "String",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 95,
+          "end": 97,
+          "ctxt": 0
+        },
+        "value": "C4",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 89,
+        "end": 117,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 106,
+          "end": 113,
+          "ctxt": 0
+        },
+        "value": "Boolean",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 125,
+          "end": 127,
+          "ctxt": 0
+        },
+        "value": "C5",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 119,
+        "end": 146,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 136,
+          "end": 142,
+          "ctxt": 0
+        },
+        "value": "Number",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 154,
+          "end": 156,
+          "ctxt": 0
+        },
+        "value": "C6",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 148,
+        "end": 173,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 165,
+          "end": 169,
+          "ctxt": 0
+        },
+        "value": "Date",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 181,
+          "end": 183,
+          "ctxt": 0
+        },
+        "value": "C7",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 175,
+        "end": 202,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 192,
+          "end": 198,
+          "ctxt": 0
+        },
+        "value": "RegExp",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 210,
+          "end": 212,
+          "ctxt": 0
+        },
+        "value": "C8",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 204,
+        "end": 230,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 221,
+          "end": 226,
+          "ctxt": 0
+        },
+        "value": "Error",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 238,
+          "end": 240,
+          "ctxt": 0
+        },
+        "value": "C9",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 232,
+        "end": 258,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 249,
+          "end": 254,
+          "ctxt": 0
+        },
+        "value": "Array",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 266,
+          "end": 269,
+          "ctxt": 0
+        },
+        "value": "C10",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 260,
+        "end": 295,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "Identifier",
+        "span": {
+          "start": 278,
+          "end": 283,
+          "ctxt": 0
+        },
+        "value": "Array",
+        "optional": false
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": {
+        "type": "TsTypeParameterInstantiation",
+        "span": {
+          "start": 283,
+          "end": 291,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "TsKeywordType",
+            "span": {
+              "start": 284,
+              "end": 290,
+              "ctxt": 0
+            },
+            "kind": "number"
+          }
+        ]
+      },
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

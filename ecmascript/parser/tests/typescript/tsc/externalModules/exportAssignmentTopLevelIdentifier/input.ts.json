@@ -1,0 +1,215 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 41,
+    "end": 186,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 41,
+        "end": 82,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 48,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 52,
+          "end": 82,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 56,
+              "end": 79,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 63,
+                "end": 79,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 67,
+                    "end": 78,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 67,
+                      "end": 73,
+                      "ctxt": 0
+                    },
+                    "value": "answer",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 76,
+                      "end": 78,
+                      "ctxt": 0
+                    },
+                    "value": 42.0
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 84,
+        "end": 97,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 93,
+          "end": 96,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "optional": false
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 125,
+        "end": 157,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isExport": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 132,
+          "end": 135,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 138,
+          "end": 156,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 146,
+            "end": 155,
+            "ctxt": 0
+          },
+          "value": "./foo_0",
+          "hasEscape": false,
+          "kind": {
+            "type": "normal",
+            "containsQuote": true
+          }
+        }
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 159,
+        "end": 186,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 162,
+          "end": 179,
+          "ctxt": 0
+        },
+        "operator": "===",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 162,
+            "end": 172,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 162,
+              "end": 165,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 166,
+              "end": 172,
+              "ctxt": 0
+            },
+            "value": "answer",
+            "optional": false
+          },
+          "computed": false
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 177,
+            "end": 179,
+            "ctxt": 0
+          },
+          "value": 42.0
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 180,
+          "end": 186,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/untypedModuleImport/input.ts:7:6
+  |
+7 | This file is not processed.
+  |      ^^^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/untypedModuleImport/input.ts:7:1
+  |
+7 | This file is not processed.
+  | ^^^^
+

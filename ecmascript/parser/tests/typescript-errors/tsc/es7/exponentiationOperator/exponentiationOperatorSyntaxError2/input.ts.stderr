@@ -1,0 +1,12 @@
+error: ** cannot be applied to unary expression
+ --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/exponentiationOperatorSyntaxError2/input.ts:6:15
+  |
+6 | delete --temp ** 3;
+  |               ^^
+
+error: The operand of a delete operator must be a property reference.
+ --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/exponentiationOperatorSyntaxError2/input.ts:6:8
+  |
+6 | delete --temp ** 3;
+  |        ^^^^^^
+

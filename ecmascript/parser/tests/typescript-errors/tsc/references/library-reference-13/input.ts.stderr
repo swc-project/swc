@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/references/library-reference-13/input.ts:9:22
+  |
+9 |     "compilerOptions": {
+  |                      ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/references/library-reference-13/input.ts:9:5
+  |
+9 |     "compilerOptions": {
+  |     ^^^^^^^^^^^^^^^^^
+

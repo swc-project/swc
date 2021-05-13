@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/classes/classDeclarations/classWithPredefinedTypesAsNames2/input.ts:3:7
+  |
+3 | class void {}
+  |       ^^^^
+

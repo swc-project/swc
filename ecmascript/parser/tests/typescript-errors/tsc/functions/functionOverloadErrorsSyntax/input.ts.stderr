@@ -1,0 +1,6 @@
+error: A rest parameter must be last in a parameter list
+ --> $DIR/tests/typescript-errors/tsc/functions/functionOverloadErrorsSyntax/input.ts:9:25
+  |
+9 | function fn5(x: string, ...y: any[], z: string);
+  |                         ^^^
+

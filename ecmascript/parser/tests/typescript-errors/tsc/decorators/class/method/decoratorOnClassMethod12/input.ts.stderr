@@ -1,0 +1,6 @@
+error: Expected ident
+ --> $DIR/tests/typescript-errors/tsc/decorators/class/method/decoratorOnClassMethod12/input.ts:8:10
+  |
+8 |         @super.decorator
+  |          ^^^^^
+

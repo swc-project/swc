@@ -1,0 +1,6 @@
+error: Destructuring bindings require initializers
+ --> $DIR/tests/typescript-errors/tsc/es6/destructuring/emptyVariableDeclarationBindingPatterns02_ES5iterable/input.ts:6:9
+  |
+6 |     var {};
+  |         ^^
+

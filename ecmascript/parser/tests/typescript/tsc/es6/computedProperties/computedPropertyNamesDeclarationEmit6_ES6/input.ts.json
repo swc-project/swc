@@ -1,0 +1,205 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 38,
+    "end": 96,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 38,
+        "end": 96,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 42,
+            "end": 96,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 46,
+              "end": 96,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 50,
+                    "end": 54,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "UnaryExpression",
+                    "span": {
+                      "start": 51,
+                      "end": 53,
+                      "ctxt": 0
+                    },
+                    "operator": "-",
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 52,
+                        "end": 53,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                "value": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 56,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 62,
+                    "end": 66,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "UnaryExpression",
+                    "span": {
+                      "start": 63,
+                      "end": 65,
+                      "ctxt": 0
+                    },
+                    "operator": "+",
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 64,
+                        "end": 65,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                "value": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 68,
+                    "end": 70,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 74,
+                    "end": 78,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "UnaryExpression",
+                    "span": {
+                      "start": 75,
+                      "end": 77,
+                      "ctxt": 0
+                    },
+                    "operator": "~",
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 76,
+                        "end": 77,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                "value": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 80,
+                    "end": 82,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                }
+              },
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 86,
+                    "end": 90,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "UnaryExpression",
+                    "span": {
+                      "start": 87,
+                      "end": 89,
+                      "ctxt": 0
+                    },
+                    "operator": "!",
+                    "argument": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 88,
+                        "end": 89,
+                        "ctxt": 0
+                      },
+                      "value": 1.0
+                    }
+                  }
+                },
+                "value": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 92,
+                    "end": 94,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

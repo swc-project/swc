@@ -1,0 +1,6 @@
+error: Expected {, got @
+ --> $DIR/tests/typescript-errors/tsc/decorators/class/decoratorOnClass3/input.ts:7:1
+  |
+7 | @dec
+  | ^
+

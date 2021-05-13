@@ -1,0 +1,6 @@
+error: A `set` accessor must have a corresponding `get` accessor
+  --> $DIR/tests/typescript-errors/tsc/es6/computedProperties/computedPropertyNames49_ES6/input.ts:11:9
+   |
+11 |     set [1 + 1]() {
+   |         ^^^^^^^
+

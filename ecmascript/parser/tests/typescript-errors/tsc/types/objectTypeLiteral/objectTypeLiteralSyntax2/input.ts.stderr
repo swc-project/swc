@@ -1,0 +1,6 @@
+error: Expected ;, got bar
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/objectTypeLiteralSyntax2/input.ts:12:22
+   |
+12 | var z: { foo: string bar: string }
+   |                      ^^^
+

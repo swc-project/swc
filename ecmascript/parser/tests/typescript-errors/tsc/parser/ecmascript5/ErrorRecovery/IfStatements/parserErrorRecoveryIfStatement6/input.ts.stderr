@@ -1,0 +1,18 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement6/input.ts:5:10
+  |
+5 |   public f2() {
+  |          ^^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement6/input.ts:5:3
+  |
+5 |   public f2() {
+  |   ^^^^^^
+
+error: 'implements', 'interface', 'let', 'package', 'private', 'protected',  'public', 'static', or 'yield' cannot be used as an identifier in strict mode
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ErrorRecovery/IfStatements/parserErrorRecoveryIfStatement6/input.ts:5:3
+  |
+5 |   public f2() {
+  |   ^^^^^^
+

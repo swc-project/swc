@@ -1,0 +1,6 @@
+error: `declare` modifier cannot appear on a class element
+  --> $DIR/tests/typescript-errors/tsc/externalModules/typeOnly/computedPropertyName/input.ts:38:3
+   |
+38 |   declare [onInit]: any;
+   |   ^^^^^^^
+

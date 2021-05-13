@@ -1,0 +1,12 @@
+error: Unexpected token `.`. Expected identifier, string literal, numeric literal or [ for the computed key
+  --> $DIR/tests/typescript-errors/tsc/classes/members/accessibility/privateInstanceMemberAccessibility/input.ts:12:12
+   |
+12 |     a: this.foo; // error
+   |            ^
+
+error: Expected a semicolon
+  --> $DIR/tests/typescript-errors/tsc/classes/members/accessibility/privateInstanceMemberAccessibility/input.ts:12:12
+   |
+12 |     a: this.foo; // error
+   |            ^
+

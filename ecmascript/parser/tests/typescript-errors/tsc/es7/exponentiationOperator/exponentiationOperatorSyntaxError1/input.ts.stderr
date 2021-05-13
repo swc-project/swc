@@ -1,0 +1,6 @@
+error: ** cannot be applied to unary expression
+ --> $DIR/tests/typescript-errors/tsc/es7/exponentiationOperator/exponentiationOperatorSyntaxError1/input.ts:4:4
+  |
+4 | -1 ** 2;
+  |    ^^
+

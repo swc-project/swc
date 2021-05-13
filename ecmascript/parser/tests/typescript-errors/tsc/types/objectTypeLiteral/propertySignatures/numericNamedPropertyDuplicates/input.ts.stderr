@@ -1,0 +1,6 @@
+error: Expected ,, got numeric literal
+  --> $DIR/tests/typescript-errors/tsc/types/objectTypeLiteral/propertySignatures/numericNamedPropertyDuplicates/input.ts:20:5
+   |
+20 |     2: 1
+   |     ^
+

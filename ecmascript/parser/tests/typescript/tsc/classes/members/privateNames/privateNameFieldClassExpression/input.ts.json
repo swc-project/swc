@@ -1,0 +1,325 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 216,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 26,
+          "end": 27,
+          "ctxt": 0
+        },
+        "value": "B",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 20,
+        "end": 216,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 34,
+            "end": 150,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 34,
+              "end": 38,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 35,
+                "end": 38,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "ClassExpression",
+            "identifier": null,
+            "span": {
+              "start": 41,
+              "end": 149,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [
+              {
+                "type": "Constructor",
+                "span": {
+                  "start": 57,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 57,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "value": "constructor",
+                  "optional": false
+                },
+                "params": [],
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 71,
+                    "end": 116,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ExpressionStatement",
+                      "span": {
+                        "start": 85,
+                        "end": 106,
+                        "ctxt": 0
+                      },
+                      "expression": {
+                        "type": "CallExpression",
+                        "span": {
+                          "start": 85,
+                          "end": 105,
+                          "ctxt": 0
+                        },
+                        "callee": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 85,
+                            "end": 96,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 85,
+                              "end": 92,
+                              "ctxt": 0
+                            },
+                            "value": "console",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 93,
+                              "end": 96,
+                              "ctxt": 0
+                            },
+                            "value": "log",
+                            "optional": false
+                          },
+                          "computed": false
+                        },
+                        "arguments": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "StringLiteral",
+                              "span": {
+                                "start": 97,
+                                "end": 104,
+                                "ctxt": 0
+                              },
+                              "value": "hello",
+                              "hasEscape": false,
+                              "kind": {
+                                "type": "normal",
+                                "containsQuote": true
+                              }
+                            }
+                          }
+                        ],
+                        "typeArguments": null
+                      }
+                    }
+                  ]
+                },
+                "accessibility": null,
+                "isOptional": false
+              },
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 125,
+                  "end": 143,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 132,
+                    "end": 136,
+                    "ctxt": 0
+                  },
+                  "value": "test",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 139,
+                    "end": 142,
+                    "ctxt": 0
+                  },
+                  "value": 123.0
+                },
+                "typeAnnotation": null,
+                "isStatic": true,
+                "decorators": [],
+                "computed": false,
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              }
+            ],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 155,
+            "end": 214,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 155,
+              "end": 160,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 156,
+                "end": 160,
+                "ctxt": 0
+              },
+              "value": "foo2",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "ClassExpression",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 169,
+                "end": 172,
+                "ctxt": 0
+              },
+              "value": "Foo",
+              "optional": false
+            },
+            "span": {
+              "start": 163,
+              "end": 213,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "body": [
+              {
+                "type": "ClassProperty",
+                "span": {
+                  "start": 183,
+                  "end": 207,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 190,
+                    "end": 200,
+                    "ctxt": 0
+                  },
+                  "value": "otherClass",
+                  "optional": false
+                },
+                "value": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 203,
+                    "end": 206,
+                    "ctxt": 0
+                  },
+                  "value": 123.0
+                },
+                "typeAnnotation": null,
+                "isStatic": true,
+                "decorators": [],
+                "computed": false,
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false,
+                "readonly": false,
+                "declare": false,
+                "definite": false
+              }
+            ],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "computed": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

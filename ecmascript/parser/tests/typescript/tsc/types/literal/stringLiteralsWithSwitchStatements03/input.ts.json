@@ -1,0 +1,929 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 512,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 13,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 12,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5,
+                "end": 12,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsLiteralType",
+                "span": {
+                  "start": 7,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "literal": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 7,
+                    "end": 12,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 15,
+        "end": 36,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 19,
+            "end": 35,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 19,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 20,
+                "end": 35,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 22,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 22,
+                      "end": 27,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 22,
+                        "end": 27,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 30,
+                      "end": 35,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 30,
+                        "end": 35,
+                        "ctxt": 0
+                      },
+                      "value": "bar",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 39,
+        "end": 52,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 43,
+            "end": 51,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 43,
+              "end": 44,
+              "ctxt": 0
+            },
+            "value": "z",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 44,
+                "end": 51,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsLiteralType",
+                "span": {
+                  "start": 46,
+                  "end": 51,
+                  "ctxt": 0
+                },
+                "literal": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 46,
+                    "end": 51,
+                    "ctxt": 0
+                  },
+                  "value": "bar",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 73,
+          "end": 81,
+          "ctxt": 0
+        },
+        "value": "randBool",
+        "optional": false
+      },
+      "declare": true,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 56,
+        "end": 93,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 83,
+          "end": 92,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 85,
+            "end": 92,
+            "ctxt": 0
+          },
+          "kind": "boolean"
+        }
+      }
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 97,
+        "end": 512,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "Identifier",
+        "span": {
+          "start": 105,
+          "end": 106,
+          "ctxt": 0
+        },
+        "value": "x",
+        "optional": false
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 115,
+            "end": 163,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "ConditionalExpression",
+            "span": {
+              "start": 120,
+              "end": 146,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "CallExpression",
+              "span": {
+                "start": 120,
+                "end": 130,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 120,
+                  "end": 128,
+                  "ctxt": 0
+                },
+                "value": "randBool",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "consequent": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 133,
+                "end": 138,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "alternate": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 141,
+                "end": 146,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 157,
+                "end": 163,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 169,
+            "end": 237,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 174,
+              "end": 220,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ConditionalExpression",
+              "span": {
+                "start": 175,
+                "end": 219,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 175,
+                  "end": 185,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 175,
+                    "end": 183,
+                    "ctxt": 0
+                  },
+                  "value": "randBool",
+                  "optional": false
+                },
+                "arguments": [],
+                "typeArguments": null
+              },
+              "consequent": {
+                "type": "ParenthesisExpression",
+                "span": {
+                  "start": 188,
+                  "end": 195,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 189,
+                    "end": 194,
+                    "ctxt": 0
+                  },
+                  "value": "bar",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              },
+              "alternate": {
+                "type": "ConditionalExpression",
+                "span": {
+                  "start": 198,
+                  "end": 219,
+                  "ctxt": 0
+                },
+                "test": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 198,
+                    "end": 203,
+                    "ctxt": 0
+                  },
+                  "value": "baz",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "consequent": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 206,
+                    "end": 211,
+                    "ctxt": 0
+                  },
+                  "value": "bar",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "alternate": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 214,
+                    "end": 219,
+                    "ctxt": 0
+                  },
+                  "value": "baz",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                }
+              }
+            }
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 231,
+                "end": 237,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 243,
+            "end": 274,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 248,
+              "end": 257,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 249,
+                "end": 256,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 250,
+                  "end": 255,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              }
+            }
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 268,
+                "end": 274,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 280,
+            "end": 341,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 285,
+              "end": 300,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "SequenceExpression",
+              "span": {
+                "start": 286,
+                "end": 299,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 286,
+                    "end": 287,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 289,
+                    "end": 290,
+                    "ctxt": 0
+                  },
+                  "value": "y",
+                  "optional": false
+                },
+                {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 292,
+                    "end": 299,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 293,
+                      "end": 298,
+                      "ctxt": 0
+                    },
+                    "value": "baz",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 311,
+                "end": 313,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 311,
+                  "end": 312,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            },
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 323,
+                "end": 325,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 323,
+                  "end": 324,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              }
+            },
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 335,
+                "end": 341,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 347,
+            "end": 389,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 352,
+              "end": 372,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 353,
+                "end": 371,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 354,
+                  "end": 370,
+                  "ctxt": 0
+                },
+                "operator": "||",
+                "left": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 354,
+                    "end": 359,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "right": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 363,
+                    "end": 370,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 364,
+                      "end": 369,
+                      "ctxt": 0
+                    },
+                    "value": "bar",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 383,
+                "end": 389,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 395,
+            "end": 437,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 400,
+              "end": 420,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 401,
+                "end": 419,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 402,
+                  "end": 418,
+                  "ctxt": 0
+                },
+                "operator": "||",
+                "left": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 402,
+                    "end": 407,
+                    "ctxt": 0
+                  },
+                  "value": "bar",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "right": {
+                  "type": "ParenthesisExpression",
+                  "span": {
+                    "start": 411,
+                    "end": 418,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 412,
+                      "end": 417,
+                      "ctxt": 0
+                    },
+                    "value": "baz",
+                    "hasEscape": false,
+                    "kind": {
+                      "type": "normal",
+                      "containsQuote": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 431,
+                "end": 437,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 443,
+            "end": 459,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 448,
+              "end": 458,
+              "ctxt": 0
+            },
+            "operator": "||",
+            "left": {
+              "type": "Identifier",
+              "span": {
+                "start": 448,
+                "end": 449,
+                "ctxt": 0
+              },
+              "value": "z",
+              "optional": false
+            },
+            "right": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 453,
+                "end": 458,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            }
+          },
+          "consequent": []
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 465,
+            "end": 509,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 470,
+              "end": 480,
+              "ctxt": 0
+            },
+            "operator": "||",
+            "left": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 470,
+                "end": 475,
+                "ctxt": 0
+              },
+              "value": "baz",
+              "hasEscape": false,
+              "kind": {
+                "type": "normal",
+                "containsQuote": true
+              }
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 479,
+                "end": 480,
+                "ctxt": 0
+              },
+              "value": "z",
+              "optional": false
+            }
+          },
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 491,
+                "end": 493,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 491,
+                  "end": 492,
+                  "ctxt": 0
+                },
+                "value": "z",
+                "optional": false
+              }
+            },
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 503,
+                "end": 509,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

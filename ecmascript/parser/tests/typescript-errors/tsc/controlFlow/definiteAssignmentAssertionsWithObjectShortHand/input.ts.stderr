@@ -1,0 +1,12 @@
+error: Expected ,, got !
+ --> $DIR/tests/typescript-errors/tsc/controlFlow/definiteAssignmentAssertionsWithObjectShortHand/input.ts:5:16
+  |
+5 | const foo = { a! }
+  |                ^
+
+error: Expected a semicolon
+ --> $DIR/tests/typescript-errors/tsc/controlFlow/definiteAssignmentAssertionsWithObjectShortHand/input.ts:5:16
+  |
+5 | const foo = { a! }
+  |                ^
+

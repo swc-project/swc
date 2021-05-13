@@ -1,0 +1,6 @@
+error: A rest parameter cannot have an initializer
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/ParameterLists/parserParameterList10/input.ts:2:11
+  |
+2 |    foo(...bar = 0) { }
+  |           ^^^
+

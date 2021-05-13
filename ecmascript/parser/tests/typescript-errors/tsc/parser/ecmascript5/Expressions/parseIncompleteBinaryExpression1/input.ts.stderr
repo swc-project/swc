@@ -1,0 +1,6 @@
+error: Expression expected
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Expressions/parseIncompleteBinaryExpression1/input.ts:1:9
+  |
+1 | var v = || b;
+  |         ^^
+

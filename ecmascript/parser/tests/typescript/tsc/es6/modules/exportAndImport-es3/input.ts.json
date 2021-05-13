@@ -1,0 +1,166 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 56,
+    "end": 173,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 71,
+        "end": 88,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "FunctionExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 80,
+            "end": 82,
+            "ctxt": 0
+          },
+          "value": "f1",
+          "optional": false
+        },
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 71,
+          "end": 88,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 85,
+            "end": 88,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 110,
+        "end": 132,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 117,
+            "end": 119,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 117,
+              "end": 119,
+              "ctxt": 0
+            },
+            "value": "f1",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 125,
+          "end": 131,
+          "ctxt": 0
+        },
+        "value": "./m1",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 148,
+        "end": 173,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "FunctionExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 157,
+            "end": 159,
+            "ctxt": 0
+          },
+          "value": "f2",
+          "optional": false
+        },
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 148,
+          "end": 173,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 162,
+            "end": 173,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 166,
+                "end": 171,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 166,
+                  "end": 170,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 166,
+                    "end": 168,
+                    "ctxt": 0
+                  },
+                  "value": "f1",
+                  "optional": false
+                },
+                "arguments": [],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}

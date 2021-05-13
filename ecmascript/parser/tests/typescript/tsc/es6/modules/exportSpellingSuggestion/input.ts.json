@@ -1,0 +1,237 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 19,
+    "end": 170,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 19,
+        "end": 115,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 35,
+            "end": 46,
+            "ctxt": 0
+          },
+          "value": "assertNever",
+          "optional": false
+        },
+        "declare": false,
+        "params": [
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 47,
+              "end": 55,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 47,
+                "end": 55,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 48,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 50,
+                    "end": 55,
+                    "ctxt": 0
+                  },
+                  "kind": "never"
+                }
+              }
+            }
+          },
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 57,
+              "end": 68,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 68,
+                "ctxt": 0
+              },
+              "value": "msg",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 60,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 62,
+                    "end": 68,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        ],
+        "decorators": [],
+        "span": {
+          "start": 26,
+          "end": 115,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 70,
+            "end": 115,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ThrowStatement",
+              "span": {
+                "start": 76,
+                "end": 113,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "NewExpression",
+                "span": {
+                  "start": 82,
+                  "end": 112,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 86,
+                    "end": 91,
+                    "ctxt": 0
+                  },
+                  "value": "Error",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 92,
+                        "end": 111,
+                        "ctxt": 0
+                      },
+                      "operator": "+",
+                      "left": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 92,
+                          "end": 105,
+                          "ctxt": 0
+                        },
+                        "value": "Unexpected ",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 108,
+                          "end": 111,
+                          "ctxt": 0
+                        },
+                        "value": "msg",
+                        "optional": false
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 136,
+        "end": 170,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 145,
+            "end": 156,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 145,
+              "end": 156,
+              "ctxt": 0
+            },
+            "value": "assertNevar",
+            "optional": false
+          },
+          "imported": null
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 164,
+          "end": 169,
+          "ctxt": 0
+        },
+        "value": "./a",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,6 @@
+error: Invalid left-hand side in 'for...in' statement
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/Expressions/parserUnaryExpression5/input.ts:1:4
+  |
+1 | ++ delete foo.bar
+  |    ^^^^^^^^^^^^^^
+

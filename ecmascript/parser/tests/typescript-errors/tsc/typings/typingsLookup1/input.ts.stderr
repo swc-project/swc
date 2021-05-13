@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/typings/typingsLookup1/input.ts:6:10
+  |
+6 | { "files": "a.ts" }
+  |          ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/typings/typingsLookup1/input.ts:6:3
+  |
+6 | { "files": "a.ts" }
+  |   ^^^^^^^
+

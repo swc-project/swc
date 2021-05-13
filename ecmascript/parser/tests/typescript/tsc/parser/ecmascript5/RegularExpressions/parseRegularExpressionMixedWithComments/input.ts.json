@@ -1,0 +1,258 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 183,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 22,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 4,
+            "end": 21,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 4,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "regex1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "RegExpLiteral",
+            "span": {
+              "start": 13,
+              "end": 21,
+              "ctxt": 0
+            },
+            "pattern": " asdf ",
+            "flags": ""
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 24,
+        "end": 50,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 28,
+            "end": 49,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 28,
+              "end": 34,
+              "ctxt": 0
+            },
+            "value": "regex2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "RegExpLiteral",
+            "span": {
+              "start": 41,
+              "end": 49,
+              "ctxt": 0
+            },
+            "pattern": " asdf ",
+            "flags": ""
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 52,
+        "end": 119,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 56,
+            "end": 118,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 56,
+              "end": 62,
+              "ctxt": 0
+            },
+            "value": "regex3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 117,
+              "end": 118,
+              "ctxt": 0
+            },
+            "value": 1.0
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 121,
+        "end": 151,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 125,
+            "end": 150,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 125,
+              "end": 131,
+              "ctxt": 0
+            },
+            "value": "regex4",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 138,
+              "end": 150,
+              "ctxt": 0
+            },
+            "operator": "**",
+            "left": {
+              "type": "RegExpLiteral",
+              "span": {
+                "start": 138,
+                "end": 141,
+                "ctxt": 0
+              },
+              "pattern": " ",
+              "flags": ""
+            },
+            "right": {
+              "type": "RegExpLiteral",
+              "span": {
+                "start": 143,
+                "end": 150,
+                "ctxt": 0
+              },
+              "pattern": "asdf ",
+              "flags": ""
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 153,
+        "end": 183,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 157,
+            "end": 182,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 157,
+              "end": 163,
+              "ctxt": 0
+            },
+            "value": "regex5",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 170,
+              "end": 182,
+              "ctxt": 0
+            },
+            "operator": "**",
+            "left": {
+              "type": "RegExpLiteral",
+              "span": {
+                "start": 170,
+                "end": 177,
+                "ctxt": 0
+              },
+              "pattern": " asdf",
+              "flags": ""
+            },
+            "right": {
+              "type": "RegExpLiteral",
+              "span": {
+                "start": 179,
+                "end": 182,
+                "ctxt": 0
+              },
+              "pattern": " ",
+              "flags": ""
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

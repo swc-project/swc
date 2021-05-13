@@ -1,0 +1,6 @@
+error: Expected (, got {
+ --> $DIR/tests/typescript-errors/tsc/dynamicImport/importCallExpressionIncorrect2/input.ts:7:16
+  |
+7 | var x = import { foo } from './0';
+  |                ^
+

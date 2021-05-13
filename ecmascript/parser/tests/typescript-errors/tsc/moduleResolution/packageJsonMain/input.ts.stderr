@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/packageJsonMain/input.ts:6:9
+  |
+6 | { "main": "oof" }
+  |         ^
+  |
+note: This is the expression part of an expression statement
+ --> $DIR/tests/typescript-errors/tsc/moduleResolution/packageJsonMain/input.ts:6:3
+  |
+6 | { "main": "oof" }
+  |   ^^^^^^
+

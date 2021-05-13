@@ -1,0 +1,6 @@
+error: Unterminated string constant
+ --> $DIR/tests/typescript-errors/tsc/es6/unicodeExtendedEscapes/unicodeExtendedEscapesInStrings25_ES6/input.ts:3:9
+  |
+3 | var x = "\u{00000000000067}
+  |         ^^^^^^^^^^^^^^^^^^^
+

@@ -1,0 +1,6 @@
+error: `declare` modifier cannot appear on a class element
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascript5/MemberAccessorDeclarations/parserMemberAccessorDeclaration11/input.ts:3:5
+  |
+3 |     declare get Foo() { }
+  |     ^^^^^^^
+

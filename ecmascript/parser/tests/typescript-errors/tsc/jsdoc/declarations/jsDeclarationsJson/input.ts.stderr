@@ -1,0 +1,12 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsJson/input.ts:12:8
+   |
+12 |     "x": 12,
+   |        ^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/jsdoc/declarations/jsDeclarationsJson/input.ts:12:5
+   |
+12 |     "x": 12,
+   |     ^^^
+

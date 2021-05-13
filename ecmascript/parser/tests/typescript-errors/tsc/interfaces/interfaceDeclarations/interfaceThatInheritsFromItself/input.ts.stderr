@@ -1,0 +1,6 @@
+error: Expected {, got implements
+  --> $DIR/tests/typescript-errors/tsc/interfaces/interfaceDeclarations/interfaceThatInheritsFromItself/input.ts:10:15
+   |
+10 | interface Bar implements Bar { // error
+   |               ^^^^^^^^^^
+

@@ -1,0 +1,42 @@
+error: Expected ';', '}' or <eof>
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:11:3
+   |
+11 | 0_.0
+   |   ^^
+   |
+note: This is the expression part of an expression statement
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:11:1
+   |
+11 | 0_.0
+   | ^^
+
+error: A numeric separator is only allowed between two digits
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:5:1
+  |
+5 | 10_
+  | ^^
+
+error: A numeric separator is only allowed between two digits
+ --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:8:1
+  |
+8 | 1__0
+  | ^
+
+error: A numeric separator is only allowed between two digits
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:11:1
+   |
+11 | 0_.0
+   | ^
+
+error: Legacy octal literals are not available when targeting ECMAScript 5 and higher
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:11:1
+   |
+11 | 0_.0
+   | ^^
+
+error: Legacy octal escape is not permitted in strict mode
+  --> $DIR/tests/typescript-errors/tsc/parser/ecmascriptnext/numericSeparators/parser.numericSeparators.decmialNegative/input.ts:11:1
+   |
+11 | 0_.0
+   | ^^
+

@@ -1,0 +1,100 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 49,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 16,
+        "end": 49,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 20,
+            "end": 49,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "v",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 24,
+              "end": 49,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Computed",
+                  "span": {
+                    "start": 31,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "BinaryExpression",
+                    "span": {
+                      "start": 32,
+                      "end": 39,
+                      "ctxt": 0
+                    },
+                    "operator": "in",
+                    "left": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 32,
+                        "end": 33,
+                        "ctxt": 0
+                      },
+                      "value": 0.0
+                    },
+                    "right": {
+                      "type": "ArrayExpression",
+                      "span": {
+                        "start": 37,
+                        "end": 39,
+                        "ctxt": 0
+                      },
+                      "elements": []
+                    }
+                  }
+                },
+                "value": {
+                  "type": "BooleanLiteral",
+                  "span": {
+                    "start": 42,
+                    "end": 46,
+                    "ctxt": 0
+                  },
+                  "value": true
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
