@@ -41,9 +41,9 @@ async function doesNotHaveParsingError(fileNames: string[], options: ts.Compiler
 
 // We use rename as resumable copy
 async function check(f: string) {
-    const rel = path.relative(root, f);
-    const passTestDir = path.join(targetPassDir, rel.replace('.tsx', '').replace('.ts', ''))
-    const errorTestDir = path.join(targetErrorDir, rel.replace('.tsx', '').replace('.ts', ''))
+    const testName = path.relative(root, f).replace('.tsx', '').replace('.ts', '');
+    const passTestDir = path.join(targetPassDir, testName)
+    const errorTestDir = path.join(targetErrorDir, testName)
     const passTestFile = f.endsWith('.tsx') ? path.join(passTestDir, 'input.tsx') : path.join(passTestDir, 'input.ts');
     const errorTestFile = f.endsWith('.tsx') ? path.join(errorTestDir, 'input.tsx') : path.join(errorTestDir, 'input.ts');
 
