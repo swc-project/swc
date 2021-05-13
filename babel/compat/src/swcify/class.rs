@@ -20,7 +20,7 @@ impl Swcify for ClassBodyEl {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ClassBodyEl::Method(v) => ClassMember::Method(v.swcify(ctx)),
+            ClassBodyEl::Method(v) => v.swcify(ctx),
             ClassBodyEl::PrivateMethod(v) => v.swcify(ctx).into(),
             ClassBodyEl::Prop(v) => v.swcify(ctx).into(),
             ClassBodyEl::PrivateProp(v) => v.swcify(ctx).into(),
@@ -83,7 +83,7 @@ impl Swcify for swc_babel_ast::ClassPrivateMethod {
                 params: self.params.swcify(ctx),
                 decorators: self.decorators.swcify(ctx).unwrap_or_default(),
                 span: ctx.span(&self.base),
-                body: self.body.swcify(ctx),
+                body: Some(self.body.swcify(ctx)),
                 is_generator: self.generator.unwrap_or_default(),
                 is_async: self.is_async.unwrap_or_default(),
                 type_params: self.type_parameters.swcify(ctx).flatten(),
@@ -110,7 +110,25 @@ impl Swcify for swc_babel_ast::ClassProperty {
     type Output = swc_ecma_ast::ClassProp;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        swc_ecma_ast::ClassProp {}
+        let key = self.key.swcify(ctx);
+        let computed = key.is_computed();
+
+        swc_ecma_ast::ClassProp {
+            span: ctx.span(&self.base),
+            key,
+            value: self.value.swcify(ctx),
+            type_ann: self.type_annotation.swcify(ctx).flatten(),
+            is_static: self.is_static.unwrap_or(false),
+            decorators: (),
+            computed,
+            accessibility: (),
+            is_abstract: (),
+            is_optional: (),
+            is_override: (),
+            readonly: (),
+            declare: (),
+            definite: (),
+        }
     }
 }
 
