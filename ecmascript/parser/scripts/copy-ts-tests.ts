@@ -2,7 +2,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as ts from "typescript";
-import { promisify } from 'util';
 
 // Usage: ./scripts/copy-ts-tests.js  ~/projects/TypeScript
 
