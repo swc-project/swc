@@ -25,7 +25,7 @@ async function doesNotHaveParsingError(fileNames: string[], options: ts.Compiler
     for (const d of allDiagnostics) {
         if (!d.file) continue;
 
-        if (d.code === 1023) continue;
+        if (d.code === 1023 || d.code === 1332 || d.code === 1335) continue;
 
         // Parsing errors
         if (1000 <= d.code && d.code < 2000) return false;
