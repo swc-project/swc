@@ -79,7 +79,16 @@ impl Swcify for swc_babel_ast::ClassPrivateMethod {
         swc_ecma_ast::PrivateMethod {
             span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
-            function: Function {},
+            function: Function {
+                params: self.params.swcify(ctx),
+                decorators: self.decorators.swcify(ctx).unwrap_or_default(),
+                span: ctx.span(&self.base),
+                body: self.body.swcify(ctx),
+                is_generator: self.generator.unwrap_or_default(),
+                is_async: self.is_async.unwrap_or_default(),
+                type_params: self.type_parameters.swcify(ctx).flatten(),
+                return_type: self.return_type.swcify(ctx).flatten(),
+            },
             kind: match self.kind.unwrap_or(ClassMethodKind::Method) {
                 ClassMethodKind::Get => MethodKind::Getter,
                 ClassMethodKind::Set => MethodKind::Setter,
@@ -109,6 +118,20 @@ impl Swcify for swc_babel_ast::ClassPrivateProperty {
     type Output = swc_ecma_ast::PrivateProp;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        swc_ecma_ast::PrivateProp {}
+        swc_ecma_ast::PrivateProp {
+            span: ctx.span(&self.base),
+            key: self.key.swcify(ctx),
+            value: self.value.swcify(ctx),
+            type_ann: self.type_annotation.swcify(ctx).flatten(),
+            is_static: false,
+            decorators: Default::default(),
+            computed: false,
+            accessibility: Default::default(),
+            is_abstract: false,
+            is_optional: false,
+            is_override: false,
+            readonly: false,
+            definite: false,
+        }
     }
 }
