@@ -33,6 +33,7 @@ use swc_babel_ast::ObjectMethod;
 use swc_babel_ast::ObjectPropVal;
 use swc_babel_ast::ObjectProperty;
 use swc_babel_ast::OptionalCallExpression;
+use swc_babel_ast::OptionalMemberExprProp;
 use swc_babel_ast::OptionalMemberExpression;
 use swc_babel_ast::ParenthesizedExpression;
 use swc_babel_ast::PatternLike;
@@ -54,6 +55,7 @@ use swc_babel_ast::UpdateExprOp;
 use swc_babel_ast::UpdateExpression;
 use swc_babel_ast::YieldExpression;
 use swc_common::Spanned;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::op;
 use swc_ecma_ast::ArrayLit;
 use swc_ecma_ast::ArrowExpr;
@@ -139,11 +141,11 @@ impl Swcify for Expression {
             Expression::TemplateLiteral(e) => e.swcify(ctx).into(),
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
-            Expression::Import(e) => e.swcify(ctx).into(),
+            Expression::Import(e) => unimplemented!("babel: Expression::Import({:?})", e),
             Expression::BigIntLiteral(e) => Expr::Lit(e.swcify(ctx).into()),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
-            Expression::TypeCast(e) => e.swcify(ctx).into(),
+            Expression::TypeCast(e) => unimplemented!("babel: Expression::TypeCast({:?})", e),
             Expression::JSXElement(e) => e.swcify(ctx).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
             Expression::Bind(e) => e.swcify(ctx).into(),
@@ -805,14 +807,63 @@ impl Swcify for Import {
 
 impl Swcify for OptionalMemberExpression {
     type Output = OptChainExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        OptChainExpr {
+            span: ctx.span(&self.base),
+            // TODO: Use correct span.
+            question_dot_token: DUMMY_SP,
+            expr: Box::new(Expr::Member(MemberExpr {
+                span: ctx.span(&self.base),
+                obj: match *self.object {
+                    Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
+                    _ => ExprOrSuper::Expr(self.object.swcify(ctx)),
+                },
+                prop: self.property.swcify(ctx),
+                computed: self.computed,
+            })),
+        }
+    }
+}
+
+impl Swcify for OptionalMemberExprProp {
+    type Output = Box<Expr>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            OptionalMemberExprProp::Id(v) => Box::new(Expr::Ident(v.swcify(ctx).id)),
+            OptionalMemberExprProp::Expr(v) => v.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for OptionalCallExpression {
     type Output = OptChainExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        OptChainExpr {
+            span: ctx.span(&self.base),
+            // TODO: Use correct span.
+            question_dot_token: DUMMY_SP,
+            expr: Box::new(Expr::Call(CallExpr {
+                span: ctx.span(&self.base),
+                callee: match *self.callee {
+                    Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
+                    _ => ExprOrSuper::Expr(self.callee.swcify(ctx)),
+                },
+                args: self.arguments.swcify(ctx),
+                type_args: self.type_parameters.swcify(ctx),
+            })),
+        }
+    }
 }
 
 impl Swcify for TypeCastExpression {
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    type Output = !;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        unimplemented!("flow type cast")
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXElement {
