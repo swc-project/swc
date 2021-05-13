@@ -134,7 +134,7 @@ impl Swcify for swc_babel_ast::ClassProperty {
 
         swc_ecma_ast::ClassProp {
             span: ctx.span(&self.base),
-            key: prop_name_to_expr(key),
+            key: Box::new(prop_name_to_expr(key)),
             value: self.value.swcify(ctx),
             type_ann: self.type_annotation.swcify(ctx).flatten(),
             is_static: self.is_static.unwrap_or(false),
