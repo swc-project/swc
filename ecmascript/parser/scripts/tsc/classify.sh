@@ -2,4 +2,5 @@
 set -eu
 
 
-RES=$(./scripts/remove-failing-tsc.sh)
+./scripts/remove-failing-tsc.sh
+./scripts/copy-ts-tests.ts
