@@ -760,6 +760,14 @@ impl Swcify for TaggedTemplateExpression {
 
 impl Swcify for YieldExpression {
     type Output = YieldExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        YieldExpr {
+            span: ctx.span(&self.base),
+            arg: self.argument.swcify(ctx),
+            delegate: self.delegate,
+        }
+    }
 }
 
 impl Swcify for AwaitExpression {
