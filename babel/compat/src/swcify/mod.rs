@@ -1,6 +1,7 @@
 pub use self::ctx::Context;
 use std::fmt::Debug;
 
+mod class;
 mod ctx;
 mod expr;
 mod jsx;
