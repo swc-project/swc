@@ -1,0 +1,92 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 57,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 29,
+          "end": 30,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": true,
+      "span": {
+        "start": 15,
+        "end": 57,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 37,
+            "end": 55,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 38,
+              "end": 47,
+              "ctxt": 0
+            },
+            "value": "generator",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 37,
+              "end": 55,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 49,
+                "end": 54,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 51,
+                  "end": 54,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

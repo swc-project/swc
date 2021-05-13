@@ -1,0 +1,83 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 15,
+    "end": 67,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 15,
+        "end": 67,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 30,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 32,
+          "end": 67,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "FunctionDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 48,
+                "end": 57,
+                "ctxt": 0
+              },
+              "value": "generator",
+              "optional": false
+            },
+            "declare": false,
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 38,
+              "end": 65,
+              "ctxt": 0
+            },
+            "body": null,
+            "generator": true,
+            "async": false,
+            "typeParameters": null,
+            "returnType": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 59,
+                "end": 64,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 61,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}
