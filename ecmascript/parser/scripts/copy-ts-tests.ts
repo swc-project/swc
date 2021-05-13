@@ -73,11 +73,11 @@ async function check(f: string) {
 
 
     if (res) {
-        console.log('Creating', f, '->', passTestDir)
+        console.log('Creating', f, '->', passTestFile)
         await fs.promises.mkdir(passTestDir, { recursive: true })
         await fs.promises.rename(f, passTestFile);
     } else {
-        console.log('Creating', f, '->', errorTestDir)
+        console.log('Creating', f, '->', errorTestFile)
         await fs.promises.mkdir(errorTestDir, { recursive: true })
         await fs.promises.rename(f, errorTestFile);
     }
