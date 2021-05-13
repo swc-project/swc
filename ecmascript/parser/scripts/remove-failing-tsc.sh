@@ -11,7 +11,7 @@ cargo test --test typescript \
     | sed -e 's!__!/!g' \
     | sed -e 's!_ts!.ts!g' \
     | prepend 'tests/' \
-    | xargs rm
+    | xargs rm -f
 
 
 cargo test --test typescript \
@@ -21,4 +21,4 @@ cargo test --test typescript \
     | sed -e 's!__!/!g' \
     | sed -e 's!_ts!.ts!g' \
     | prepend 'tests/typescript-errors/' \
-    | xargs rm
+    | xargs rm -f
