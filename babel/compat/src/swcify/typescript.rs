@@ -4,7 +4,9 @@ use swc_babel_ast::Access;
 use swc_babel_ast::FlowType;
 use swc_babel_ast::SuperTypeParams;
 use swc_babel_ast::TSDeclareMethod;
+use swc_babel_ast::TSEntityName;
 use swc_babel_ast::TSIndexSignature;
+use swc_babel_ast::TSQualifiedName;
 use swc_babel_ast::TSType;
 use swc_babel_ast::TSTypeAnnotation;
 use swc_babel_ast::TSTypeParameter;
@@ -14,7 +16,9 @@ use swc_babel_ast::TypeAnnotOrNoop;
 use swc_babel_ast::TypeParamDeclOrNoop;
 use swc_ecma_ast::Accessibility;
 use swc_ecma_ast::Ident;
+use swc_ecma_ast::TsEntityName;
 use swc_ecma_ast::TsIndexSignature;
+use swc_ecma_ast::TsQualifiedName;
 use swc_ecma_ast::TsType;
 use swc_ecma_ast::TsTypeAnn;
 use swc_ecma_ast::TsTypeParam;
@@ -169,6 +173,28 @@ impl Swcify for Access {
             Access::Public => Accessibility::Public,
             Access::Private => Accessibility::Private,
             Access::Protected => Accessibility::Protected,
+        }
+    }
+}
+
+impl Swcify for TSEntityName {
+    type Output = TsEntityName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            TSEntityName::Id(v) => TsEntityName::Ident(v.swcify(ctx).id),
+            TSEntityName::Qualified(v) => TsEntityName::TsQualifiedName(Box::new(v.swcify(ctx))),
+        }
+    }
+}
+
+impl Swcify for TSQualifiedName {
+    type Output = TsQualifiedName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsQualifiedName {
+            left: self.left.swcify(ctx),
+            right: self.right.swcify(ctx),
         }
     }
 }

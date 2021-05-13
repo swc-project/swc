@@ -844,17 +844,40 @@ impl Swcify for TSAsExpression {
 impl Swcify for TSTypeAssertion {
     type Output = TsTypeAssertion;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsTypeAssertion {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
+            type_ann: self.type_annotation.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for TSNonNullExpression {
     type Output = TsNonNullExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsNonNullExpr {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for ArrayExprEl {
     type Output = ExprOrSpread;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ArrayExprEl::Spread(s) => ExprOrSpread {
+                // TODO: Use correct span
+                spread: Some(ctx.span(&s.base)),
+                expr: s.argument.swcify(ctx),
+            },
+            ArrayExprEl::Expr(e) => ExprOrSpread {
+                spread: None,
+                expr: e.swcify(ctx),
+            },
+        }
+    }
 }

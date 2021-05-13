@@ -2,11 +2,14 @@ use super::Context;
 use crate::swcify::Swcify;
 use swc_babel_ast::ClassBody;
 use swc_babel_ast::ClassBodyEl;
+use swc_babel_ast::ClassImpl;
 use swc_babel_ast::ClassMethodKind;
+use swc_babel_ast::TSExpressionWithTypeArguments;
 use swc_ecma_ast::ClassMember;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::MethodKind;
 use swc_ecma_ast::ParamOrTsParamProp;
+use swc_ecma_ast::TsExprWithTypeArgs;
 
 impl Swcify for ClassBody {
     type Output = Vec<ClassMember>;
@@ -168,3 +171,31 @@ impl Swcify for swc_babel_ast::ClassPrivateProperty {
         }
     }
 }
+
+impl Swcify for ClassImpl {
+    type Output = TsExprWithTypeArgs;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ClassImpl::TSExpr(v) => v.swcify(ctx),
+            ClassImpl::Implements(_) => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl Swcify for TSExpressionWithTypeArguments {
+    type Output = TsExprWithTypeArgs;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsExprWithTypeArgs {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
+            type_args: self.type_parameters.swcify(ctx),
+        }
+    }
+}
+
+
+i
