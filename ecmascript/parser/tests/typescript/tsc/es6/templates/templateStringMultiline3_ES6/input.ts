@@ -1,1 +1,1 @@
-﻿//@target: es6// newlines are <CR>`\`
+﻿//@target: es6// newlines are <CR>`\`
