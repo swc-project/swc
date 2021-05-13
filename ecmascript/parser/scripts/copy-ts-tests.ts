@@ -29,6 +29,7 @@ async function doesNotHaveParsingError(fileNames: string[], options: ts.Compiler
             d.code === 1023 ||
             d.code === 1332 ||
             d.code === 1335 ||
+            d.code === 1166 ||
             d.code === 1169
         ) continue;
 
