@@ -1683,6 +1683,7 @@ impl VisitMut for Strip {
                     span,
                     declare: false,
                     is_export: false,
+                    is_type_only: false,
                     id,
                     module_ref:
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { span: _, expr }),
