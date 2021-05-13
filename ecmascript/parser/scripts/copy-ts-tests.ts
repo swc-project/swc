@@ -85,11 +85,11 @@ async function check(f: string) {
 
 
 async function walk(dir: string): Promise<void> {
-    const files: string[] = await promisify(fs.readdir)(dir);
+    const files: string[] = await fs.promises.readdir(dir);
 
     await Promise.all(files.map(async (f) => {
         const p = path.join(dir, f);
-        if (fs.statSync(p).isDirectory()) {
+        if ((await fs.promises.stat(p)).isDirectory()) {
             await walk(p)
         } else if (f.endsWith('.ts') || f.endsWith('.tsx')) {
             await check(p)
