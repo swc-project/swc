@@ -2,4 +2,4 @@
 set -eu
 
 
-./scripts/remove-failing-tsc.sh
+RES=$(./scripts/remove-failing-tsc.sh)
