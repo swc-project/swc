@@ -2,6 +2,7 @@ use crate::swcify::Swcify;
 use swc_babel_ast::Arg;
 use swc_babel_ast::ArrayExprEl;
 use swc_babel_ast::ArrayExpression;
+use swc_babel_ast::ArrowFuncExprBody;
 use swc_babel_ast::ArrowFunctionExpression;
 use swc_babel_ast::AssignmentExpression;
 use swc_babel_ast::AwaitExpression;
@@ -60,6 +61,7 @@ use swc_ecma_ast::AwaitExpr;
 use swc_ecma_ast::BinExpr;
 use swc_ecma_ast::BinaryOp;
 use swc_ecma_ast::BindingIdent;
+use swc_ecma_ast::BlockStmtOrExpr;
 use swc_ecma_ast::CallExpr;
 use swc_ecma_ast::ClassExpr;
 use swc_ecma_ast::ComputedPropName;
@@ -676,13 +678,48 @@ impl Swcify for UpdateExpression {
 impl Swcify for ArrowFunctionExpression {
     type Output = ArrowExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ArrowExpr {
+            span: ctx.span(&self.base),
+            params: self.params.into_iter().map(|v| v.swcify(ctx).pat).collect(),
+            body: self.body.swcify(ctx),
+            is_async: self.is_async,
+            is_generator: self.generator,
+            type_params: self.type_parameters.swcify(ctx).flatten(),
+            return_type: self.return_type.swcify(ctx).flatten(),
+        }
+    }
+}
+
+impl Swcify for ArrowFuncExprBody {
+    type Output = BlockStmtOrExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ArrowFuncExprBody::Block(v) => BlockStmtOrExpr::BlockStmt(v.swcify(ctx)),
+            ArrowFuncExprBody::Expr(v) => BlockStmtOrExpr::Expr(v.swcify(ctx)),
+        }
+    }
 }
 
 impl Swcify for ClassExpression {
     type Output = ClassExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ClassExpr {
+            ident: self.id.swcify(ctx).map(|v| v.id),
+            class: swc_ecma_ast::Class {
+                span: ctx.span(&self.base),
+                decorators: self.decorators.swcify(ctx).unwrap_or_default(),
+                body: self.body.swcify(ctx),
+                super_class: self.super_class.swcify(ctx),
+                is_abstract: false,
+                type_params: self.type_parameters.swcify(ctx).flatten(),
+                super_type_params: self.super_type_parameters.swcify(ctx),
+                implements: self.implements.swcify(self).unwrap_or_default(),
+            },
+        }
+    }
 }
 
 impl Swcify for MetaProperty {
