@@ -29,16 +29,32 @@ impl Swcify for ClassBodyEl {
 
 impl Swcify for swc_babel_ast::ClassMethod {
     type Output = swc_ecma_ast::ClassMethod;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::ClassMethod {}
+    }
 }
 
 impl Swcify for swc_babel_ast::ClassPrivateMethod {
     type Output = swc_ecma_ast::PrivateMethod;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::PrivateMethod {}
+    }
 }
 
 impl Swcify for swc_babel_ast::ClassProperty {
     type Output = swc_ecma_ast::ClassProp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::ClassProp {}
+    }
 }
 
 impl Swcify for swc_babel_ast::ClassPrivateProperty {
     type Output = swc_ecma_ast::PrivateProp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::PrivateProp {}
+    }
 }
