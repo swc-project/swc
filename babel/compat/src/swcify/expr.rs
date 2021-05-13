@@ -127,7 +127,7 @@ impl Swcify for Expression {
             Expression::ArrowFunc(e) => e.swcify(ctx).into(),
             Expression::Class(e) => e.swcify(ctx).into(),
             Expression::MetaProp(e) => e.swcify(ctx).into(),
-            Expression::Super(e) => e.swcify(ctx).into(),
+            Expression::Super(e) => unreachable!(),
             Expression::TaggedTemplate(e) => e.swcify(ctx).into(),
             Expression::TemplateLiteral(e) => e.swcify(ctx).into(),
             Expression::Yield(e) => e.swcify(ctx).into(),
@@ -302,8 +302,8 @@ impl Swcify for Callee {
                 unreachable!("what is v8 id?")
             }
             Callee::Expr(e) => match *e {
-                Expression::Super(s) => s.swcify(ctx),
-                _ => e.swcify(ctx),
+                Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
+                _ => ExprOrSuper::Expr(e.swcify(ctx)),
             },
         }
     }
@@ -435,7 +435,7 @@ impl Swcify for MemberExpression {
         MemberExpr {
             span: ctx.span(&self.base),
             obj: match *self.object {
-                Expression::Super(s) => s.swcify(ctx),
+                Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
                 _ => ExprOrSuper::Expr(self.object.swcify(ctx)),
             },
             prop: self.property.swcify(ctx),
