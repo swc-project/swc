@@ -40,41 +40,34 @@ async function doesNotHaveParsingError(fileNames: string[], options: ts.Compiler
 
 
 
+// We use rename as resumable copy
 async function check(f: string) {
+    const rel = path.relative(root, f);
+    const passTestDir = path.join(targetPassDir, rel.replace('.ts', ''))
+    const errorTestDir = path.join(targetErrorDir, rel.replace('.ts', ''))
+    const passTestFile = f.endsWith('.tsx') ? path.join(passTestDir, 'input.tsx') : path.join(passTestDir, 'input.ts');
+    const errorTestFile = f.endsWith('.tsx') ? path.join(errorTestDir, 'input.tsx') : path.join(errorTestDir, 'input.ts');
+
+    if ((await fs.promises.stat(passTestFile)).isFile() || (await fs.promises.stat(errorTestFile)).isFile()) {
+        return
+    }
+
     const res = await doesNotHaveParsingError([f], {
         noEmitOnError: true,
         target: ts.ScriptTarget.Latest,
         module: ts.ModuleKind.None
     });
 
-    const rel = path.relative(root, f);
+
 
     if (res) {
-        const target = path.join(targetPassDir, rel.replace('.ts', ''))
-
-        console.log('Creating', f, '->', target)
-        fs.mkdirSync(target, { recursive: true })
-
-        // We use rename as resumable copy
-        if (f.endsWith('.tsx')) {
-            fs.renameSync(f, path.join(target, 'input.tsx'))
-        } else {
-            fs.renameSync(f, path.join(target, 'input.ts'))
-        }
-        // console.log('Created', target)
+        console.log('Creating', f, '->', passTestDir)
+        await fs.promises.mkdir(passTestDir, { recursive: true })
+        await fs.promises.rename(f, passTestFile);
     } else {
-        const target = path.join(targetErrorDir, rel.replace('.ts', ''))
-
-        console.log('Creating', f, '->', target)
-        fs.mkdirSync(target, { recursive: true })
-
-        // We use rename as resumable copy
-        if (f.endsWith('.tsx')) {
-            fs.renameSync(f, path.join(target, 'input.tsx'))
-        } else {
-            fs.renameSync(f, path.join(target, 'input.ts'))
-        }
-        // console.log('Created', target)
+        console.log('Creating', f, '->', errorTestDir)
+        await fs.promises.mkdir(errorTestDir, { recursive: true })
+        await fs.promises.rename(f, errorTestFile);
     }
 }
 
