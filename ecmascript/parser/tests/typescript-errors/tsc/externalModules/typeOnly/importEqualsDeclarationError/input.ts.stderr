@@ -1,0 +1,6 @@
+error: Expected ,, got =
+  --> $DIR/tests/typescript-errors/tsc/externalModules/typeOnly/importEqualsDeclarationError/input.ts:13:15
+   |
+13 | import type T = require('./a'); // Error
+   |               ^
+
