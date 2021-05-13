@@ -1,13 +1,14 @@
-// Usage:  npx tsc *.ts && node copy-ts-tests.js  ~/projects/TypeScript
-
-import * as ts from "typescript";
+#!/usr/bin/env ts-node
 import * as fs from 'fs';
 import * as path from 'path';
+import * as ts from "typescript";
 import { promisify } from 'util';
+
+// Usage: ./scripts/copy-ts-tests.js  ~/projects/TypeScript
 
 const targetDir = path.resolve(__dirname, '..', 'tests', 'typescript', 'tsc')
 
-const root = path.join(process.argv[2], 'tests', 'cases', 'conformance')
+const root = path.join(process.argv[1], 'tests', 'cases', 'conformance')
 process.chdir(root)
 
 
