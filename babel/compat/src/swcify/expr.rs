@@ -79,6 +79,7 @@ use swc_ecma_ast::MetaPropExpr;
 use swc_ecma_ast::MethodProp;
 use swc_ecma_ast::NewExpr;
 use swc_ecma_ast::ObjectLit;
+use swc_ecma_ast::OptChainExpr;
 use swc_ecma_ast::ParenExpr;
 use swc_ecma_ast::Pat;
 use swc_ecma_ast::PatOrExpr;
@@ -752,17 +753,33 @@ impl Swcify for AwaitExpression {
     fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
-impl Swcify for Import {}
+impl Swcify for Import {
+    type Output = CallExpr;
+}
 
-impl Swcify for OptionalMemberExpression {}
+impl Swcify for OptionalMemberExpression {
+    type Output = OptChainExpr;
+}
 
-impl Swcify for OptionalCallExpression {}
+impl Swcify for OptionalCallExpression {
+    type Output = OptChainExpr;
+}
 
-impl Swcify for TypeCastExpression {}
+impl Swcify for TypeCastExpression {
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
 
-impl Swcify for swc_babel_ast::JSXElement {}
+impl Swcify for swc_babel_ast::JSXElement {
+    type Output = swc_ecma_ast::JSXElement;
 
-impl Swcify for swc_babel_ast::JSXFragment {}
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for swc_babel_ast::JSXFragment {
+    type Output = swc_ecma_ast::JSXFragment;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
 
 impl Swcify for BindExpression {
     type Output = !;
