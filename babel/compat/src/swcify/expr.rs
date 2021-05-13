@@ -101,6 +101,7 @@ use swc_ecma_ast::UnaryExpr;
 use swc_ecma_ast::UnaryOp;
 use swc_ecma_ast::UpdateExpr;
 use swc_ecma_ast::YieldExpr;
+use swc_ecma_utils::quote_ident;
 
 use super::Context;
 
@@ -795,7 +796,11 @@ impl Swcify for AwaitExpression {
 }
 
 impl Swcify for Import {
-    type Output = CallExpr;
+    type Output = !;
+
+    fn swcify(self, _: &Context) -> Self::Output {
+        unimplemented!("import expression")
+    }
 }
 
 impl Swcify for OptionalMemberExpression {
