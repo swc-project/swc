@@ -42,10 +42,7 @@ impl Fold for JsxSrc {
                                 key: PropName::Ident(quote_ident!("fileName")),
                                 value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
-                                    value: match file_lines.file.name {
-                                        FileName::Real(ref p) => p.display().to_string().into(),
-                                        _ => unimplemented!("file name for other than real files"),
-                                    },
+                                    value: file_lines.file.name.to_string().into(),
                                     has_escape: false,
                                     kind: Default::default(),
                                 }))),

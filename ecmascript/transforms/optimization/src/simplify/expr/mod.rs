@@ -1084,6 +1084,12 @@ impl SimplifyExpr {
 impl Fold for SimplifyExpr {
     noop_fold_type!();
 
+    /// Currently noop
+    #[inline]
+    fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
+        n
+    }
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         // fold children before doing something more.
         let expr = expr.fold_children_with(self);
