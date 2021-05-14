@@ -1,1 +1,1 @@
-import type { MyType } = from 'commonjs-package'
+import type { MyType } = require('commonjs-package')
