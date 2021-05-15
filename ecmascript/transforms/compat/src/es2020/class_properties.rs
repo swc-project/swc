@@ -694,7 +694,10 @@ impl ClassProperties {
                     // set.
                     constructor_exprs.push(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: weak_set_var.clone().as_callee(),
+                        callee: weak_set_var
+                            .clone()
+                            .make_member(quote_ident!("add"))
+                            .as_callee(),
                         args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                         type_args: Default::default(),
                     })));
