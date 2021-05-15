@@ -207,6 +207,7 @@ impl<'a> Resolver<'a> {
         None
     }
 
+    /// Modifies a binding identifier.
     fn modify(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
             eprintln!(
