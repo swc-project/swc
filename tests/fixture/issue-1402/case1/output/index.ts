@@ -4,3 +4,4 @@ try {
 } catch (e1) {
     console.log(e);
 }
+export { };

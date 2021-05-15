@@ -37,3 +37,4 @@ class Service {
 _asyncToGenerator(function*() {
     yield new Service().is('ABC');
 })();
+export { };

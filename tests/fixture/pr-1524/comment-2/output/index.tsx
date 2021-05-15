@@ -5,3 +5,4 @@ function Bar() {
     });
     return(/*#__PURE__*/ React.createElement("h1", null, foo, " "));
 }
+export { };
