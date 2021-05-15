@@ -5249,3 +5249,59 @@ test!(
     });
     "
 );
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1694_1,
+    "
+    class MyClass {
+        #get() {
+            return 1
+        }
+        constructor() {
+            this.#get(foo);
+        }
+    }
+    ",
+    "
+    var _get = new WeakSet();
+    class MyClass {
+        constructor(){
+            _get.add(this);
+            _classPrivateMethodGet(this, _get, get).call(this, foo);
+        }
+    }
+    function get() {
+        return 1;
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1694_2,
+    "
+  class MyClass {
+      static #get() {
+          return 1
+      }
+      constructor() {
+          MyClass.#get(foo);
+      }
+  }
+  ",
+    "
+    var _get = new WeakSet();
+    class MyClass {
+        constructor(){
+            _get.add(this);
+            _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
+        }
+    }
+    function get() {
+        return 1;
+    }
+    "
+);
