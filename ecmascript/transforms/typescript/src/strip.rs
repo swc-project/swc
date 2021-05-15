@@ -77,6 +77,7 @@ struct Strip {
     config: Config,
     non_top_level: bool,
     scope: Scope,
+
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
@@ -1590,6 +1591,26 @@ impl VisitMut for Strip {
                 }))
                 .into(),
             );
+        }
+
+        // Create `export {}` to preserve module context, just like tsc.
+        //
+        // See https://github.com/swc-project/swc/issues/1698
+        if module.body.iter().all(|item| match item {
+            ModuleItem::ModuleDecl(_) => false,
+            ModuleItem::Stmt(_) => true,
+        }) {
+            module
+                .body
+                .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    NamedExport {
+                        span: module.span,
+                        specifiers: vec![],
+                        src: None,
+                        type_only: false,
+                        asserts: None,
+                    },
+                )))
         }
     }
 
