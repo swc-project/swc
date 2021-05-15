@@ -690,6 +690,15 @@ impl ClassProperties {
                         }))),
                     });
 
+                    // Add `_get.add(this);` to the constructor where `_get` is the name of the weak
+                    // set.
+                    constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: weak_set_var.clone().as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    })));
+
                     extra_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                         ident: fn_name,
                         function: method.function,
