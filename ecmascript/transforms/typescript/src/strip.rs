@@ -1614,6 +1614,22 @@ impl VisitMut for Strip {
         }
     }
 
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        n.visit_mut_children_with(self);
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut n.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.uninitialized_vars),
+                    declare: false,
+                }))
+                .into(),
+            );
+        }
+    }
+
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_like(items);
         items.visit_with(&Invalid { span: DUMMY_SP }, self);
