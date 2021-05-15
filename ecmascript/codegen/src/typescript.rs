@@ -250,7 +250,17 @@ impl<'a> Emitter<'a> {
         }
 
         keyword!("import");
+        space!();
+
+        if n.is_type_only {
+            keyword!("type");
+            space!();
+        }
+
+        emit!(n.id);
+
         formatting_space!();
+
         punct!("=");
         formatting_space!();
 
