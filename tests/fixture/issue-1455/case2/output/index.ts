@@ -64,3 +64,4 @@ var obj = {
 obj.byPlatform('foo').then(function(v) {
     return console.log(v);
 });
+export { };

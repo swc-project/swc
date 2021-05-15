@@ -58,6 +58,14 @@ pub struct Config {
     /// get this backward-compatible output.
     #[serde(default)]
     pub use_define_for_class_fields: bool,
+
+    /// Don't create `export {}`.
+    /// By default, strip creates `export {}` for modules to preserve module
+    /// context.
+    ///
+    /// https://github.com/swc-project/swc/issues/1698
+    #[serde(default)]
+    pub no_empty_export: bool,
 }
 
 pub fn strip_with_config(config: Config) -> impl Fold {
@@ -77,6 +85,7 @@ struct Strip {
     config: Config,
     non_top_level: bool,
     scope: Scope,
+
     is_side_effect_import: bool,
     is_type_only_export: bool,
     uninitialized_vars: Vec<VarDeclarator>,
@@ -1582,6 +1591,44 @@ impl VisitMut for Strip {
         if !self.uninitialized_vars.is_empty() {
             prepend(
                 &mut module.body,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: take(&mut self.uninitialized_vars),
+                    declare: false,
+                }))
+                .into(),
+            );
+        }
+
+        // Create `export {}` to preserve module context, just like tsc.
+        //
+        // See https://github.com/swc-project/swc/issues/1698
+        if !self.config.no_empty_export
+            && module.body.iter().all(|item| match item {
+                ModuleItem::ModuleDecl(_) => false,
+                ModuleItem::Stmt(_) => true,
+            })
+        {
+            module
+                .body
+                .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+                    NamedExport {
+                        span: module.span,
+                        specifiers: vec![],
+                        src: None,
+                        type_only: false,
+                        asserts: None,
+                    },
+                )))
+        }
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        n.visit_mut_children_with(self);
+        if !self.uninitialized_vars.is_empty() {
+            prepend(
+                &mut n.body,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
