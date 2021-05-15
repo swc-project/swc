@@ -5282,15 +5282,6 @@ test!(
   }
   ",
     "
-    var _get = new WeakSet();
-    class MyClass {
-        constructor(){
-            _get.add(this);
-            _classPrivateMethodGet(this, _get, get).call(this, foo);
-        }
-    }
-    function get() {
-        return 1;
-    }
+    
     "
 );
