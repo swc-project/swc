@@ -5249,3 +5249,20 @@ test!(
     });
     "
 );
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1694,
+    "
+    class MyClass {
+        #get() {
+            return 1
+        }
+        constructor() {
+            this.#get();
+        }
+    }
+    ",
+    ""
+);
