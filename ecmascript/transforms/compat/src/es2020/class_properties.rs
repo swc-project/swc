@@ -693,7 +693,7 @@ impl ClassProperties {
                     // Add `_get.add(this);` to the constructor where `_get` is the name of the weak
                     // set.
                     constructor_exprs.push(Box::new(Expr::Call(CallExpr {
-                        span: DUMMY_SP,
+                        span: prop_span,
                         callee: weak_set_var
                             .clone()
                             .make_member(quote_ident!("add"))
