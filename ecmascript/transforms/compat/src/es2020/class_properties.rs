@@ -7,6 +7,7 @@ use self::{
 use crate::es2015::classes::SuperFieldAccessFolder;
 use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
+use swc_common::SyntaxContext;
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -37,6 +38,7 @@ pub fn class_properties() -> impl Fold {
     ClassProperties {
         typescript: false,
         mark: Mark::root(),
+        method_mark: Mark::root(),
     }
 }
 
@@ -46,6 +48,7 @@ pub fn typescript_class_properties() -> impl Fold {
     ClassProperties {
         typescript: true,
         mark: Mark::root(),
+        method_mark: Mark::root(),
     }
 }
 
@@ -53,6 +56,7 @@ pub fn typescript_class_properties() -> impl Fold {
 struct ClassProperties {
     typescript: bool,
     mark: Mark,
+    method_mark: Mark,
 }
 
 #[fast_path(ShouldWork)]
@@ -317,6 +321,7 @@ impl ClassProperties {
     ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
         self.mark = Mark::fresh(Mark::root());
+        self.method_mark = Mark::fresh(Mark::root());
 
         let has_super = class.super_class.is_some();
 
@@ -327,6 +332,7 @@ impl ClassProperties {
         let mut used_names = vec![];
         let mut used_key_names = vec![];
         let mut statics = HashSet::default();
+        let mut private_methods = HashSet::default();
 
         for member in class.body {
             match member {
@@ -660,8 +666,16 @@ impl ClassProperties {
                 }
 
                 ClassMember::PrivateMethod(method) => {
+                    private_methods.insert(method.key.id.sym.clone());
+
                     let prop_span = method.span;
-                    let fn_name = private_ident!(method.key.id.sym.clone());
+                    let fn_name = Ident::new(
+                        method.key.id.sym.clone(),
+                        method
+                            .span
+                            .with_ctxt(SyntaxContext::empty())
+                            .apply_mark(self.method_mark),
+                    );
                     if method.is_static {
                         statics.insert(method.key.id.sym.clone());
                     }
@@ -724,6 +738,7 @@ impl ClassProperties {
 
         let members = members.fold_with(&mut FieldAccessFolder {
             mark: self.mark,
+            private_methods: &private_methods,
             statics: &statics,
             vars: vec![],
             class_name: &ident,

@@ -1,4 +1,5 @@
-use std::{collections::HashSet, iter, mem};
+use fxhash::FxHashSet;
+use std::{iter, mem};
 use swc_atoms::JsWord;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -12,8 +13,9 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 pub(super) struct FieldAccessFolder<'a> {
     pub mark: Mark,
     pub class_name: &'a Ident,
+    pub private_methods: &'a FxHashSet<JsWord>,
     pub vars: Vec<VarDeclarator>,
-    pub statics: &'a HashSet<JsWord>,
+    pub statics: &'a FxHashSet<JsWord>,
     pub in_assign_pat: bool,
 }
 
@@ -441,6 +443,7 @@ impl<'a> FieldAccessFolder<'a> {
             ExprOrSuper::Expr(obj) => obj,
         };
 
+        let is_method = self.private_methods.contains(&n.id.sym);
         let is_static = self.statics.contains(&n.id.sym);
         let ident = Ident::new(
             format!("_{}", n.id.sym).into(),
