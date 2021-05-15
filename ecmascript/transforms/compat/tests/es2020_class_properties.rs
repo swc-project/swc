@@ -5253,7 +5253,7 @@ test!(
 test!(
     syntax(),
     |_| chain!(class_properties(), async_to_generator()),
-    issue_1694,
+    issue_1694_1,
     "
     class MyClass {
         #get() {
@@ -5264,5 +5264,22 @@ test!(
         }
     }
     ",
+    ""
+);
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1694_2,
+    "
+  class MyClass {
+      static #get() {
+          return 1
+      }
+      constructor() {
+          MyClass.#get();
+      }
+  }
+  ",
     ""
 );
