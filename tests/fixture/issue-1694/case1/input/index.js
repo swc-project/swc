@@ -1,4 +1,4 @@
-class myclass {
+class MyClass {
     #get() {
         console.log("Hi from a method with a private identifier called #get");
     }
@@ -7,4 +7,4 @@ class myclass {
     }
 }
 
-const instance = new myclass();
+const instance = new MyClass();
