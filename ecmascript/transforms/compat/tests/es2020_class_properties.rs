@@ -5260,7 +5260,7 @@ test!(
             return 1
         }
         constructor() {
-            this.#get();
+            this.#get(foo);
         }
     }
     ",
@@ -5277,7 +5277,7 @@ test!(
           return 1
       }
       constructor() {
-          MyClass.#get();
+          MyClass.#get(foo);
       }
   }
   ",
