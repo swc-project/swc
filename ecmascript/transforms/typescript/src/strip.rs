@@ -58,6 +58,14 @@ pub struct Config {
     /// get this backward-compatible output.
     #[serde(default)]
     pub use_define_for_class_fields: bool,
+
+    /// Don't create `export {}`.
+    /// By default, strip creates `export {}` for modules to preserve module
+    /// context.
+    ///
+    /// https://github.com/swc-project/swc/issues/1698
+    #[serde(default)]
+    pub no_empty_export: bool,
 }
 
 pub fn strip_with_config(config: Config) -> impl Fold {
@@ -1596,10 +1604,12 @@ impl VisitMut for Strip {
         // Create `export {}` to preserve module context, just like tsc.
         //
         // See https://github.com/swc-project/swc/issues/1698
-        if module.body.iter().all(|item| match item {
-            ModuleItem::ModuleDecl(_) => false,
-            ModuleItem::Stmt(_) => true,
-        }) {
+        if !self.config.no_empty_export
+            && module.body.iter().all(|item| match item {
+                ModuleItem::ModuleDecl(_) => false,
+                ModuleItem::Stmt(_) => true,
+            })
+        {
             module
                 .body
                 .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(

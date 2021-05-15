@@ -13,7 +13,10 @@ use swc_ecma_transforms_typescript::strip::strip_with_config;
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    strip()
+    strip_with_config(strip::Config {
+        no_empty_export: true,
+        ..Default::default()
+    })
 }
 
 macro_rules! to {
