@@ -694,6 +694,8 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = IdentType::Binding;
         f.params.visit_mut_with(self);
 
+        f.return_type.visit_mut_with(self);
+
         self.ident_type = IdentType::Ref;
         match &mut f.body {
             Some(body) => {
@@ -702,8 +704,6 @@ impl<'a> VisitMut for Resolver<'a> {
             }
             None => {}
         }
-
-        f.return_type.visit_mut_with(self);
     }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
