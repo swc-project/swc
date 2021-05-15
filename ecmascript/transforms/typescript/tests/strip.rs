@@ -3105,9 +3105,11 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mut config = strip::Config::default();
-        config.import_not_used_as_values = strip::ImportsNotUsedAsValues::Preserve;
-        strip_with_config(config)
+        strip_with_config(strip::Config {
+            no_empty_export: true,
+            import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
+            ..Default::default()
+        })
     },
     deno_7413_3,
     "
@@ -3237,10 +3239,10 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        strip_with_config({
-            let mut config = strip::Config::default();
-            config.use_define_for_class_fields = true;
-            config
+        strip_with_config(strip::Config {
+            use_define_for_class_fields: true,
+            no_empty_export: true,
+            ..Default::default()
         }),
         class_properties()
     ),
@@ -3517,6 +3519,7 @@ test_with_config!(
     issue_1472_1_define,
     strip::Config {
         use_define_for_class_fields: true,
+        no_empty_export: true,
         ..Default::default()
     },
     "
