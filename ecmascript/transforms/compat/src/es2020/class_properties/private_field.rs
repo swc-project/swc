@@ -1,6 +1,7 @@
 use fxhash::FxHashSet;
 use std::{iter, mem};
 use swc_atoms::JsWord;
+use swc_common::SyntaxContext;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::AsOptExpr;
@@ -11,7 +12,10 @@ use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub(super) struct FieldAccessFolder<'a> {
+    /// Mark for the private `WeakSet` variable.
     pub mark: Mark,
+    pub method_mark: Mark,
+
     pub class_name: &'a Ident,
     pub private_methods: &'a FxHashSet<JsWord>,
     pub vars: Vec<VarDeclarator>,
@@ -445,12 +449,39 @@ impl<'a> FieldAccessFolder<'a> {
 
         let is_method = self.private_methods.contains(&n.id.sym);
         let is_static = self.statics.contains(&n.id.sym);
+        let method_name = Ident::new(
+            n.id.sym.clone(),
+            n.id.span
+                .with_ctxt(SyntaxContext::empty())
+                .apply_mark(self.method_mark),
+        );
         let ident = Ident::new(
             format!("_{}", n.id.sym).into(),
             n.id.span.apply_mark(self.mark),
         );
 
         if is_static {
+            if is_method {
+                let h = helper!(
+                    class_static_private_method_get,
+                    "classStaticPrivateMethodGet"
+                );
+
+                return (
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: h,
+                        args: vec![
+                            obj.as_arg(),
+                            self.class_name.clone().as_arg(),
+                            method_name.as_arg(),
+                        ],
+                        type_args: Default::default(),
+                    }),
+                    Some(Expr::Ident(self.class_name.clone())),
+                );
+            }
+
             let get = helper!(
                 class_static_private_field_spec_get,
                 "classStaticPrivateFieldSpecGet"
@@ -491,6 +522,25 @@ impl<'a> FieldAccessFolder<'a> {
                     ),
                     _ => unimplemented!("destructuring set for object except this"),
                 };
+            }
+
+            if is_method {
+                let h = helper!(class_private_method_get, " classPrivateMethodGet");
+
+                return (
+                    CallExpr {
+                        span: DUMMY_SP,
+                        callee: h,
+                        args: vec![
+                            ThisExpr { span: DUMMY_SP }.as_arg(),
+                            ident.as_arg(),
+                            method_name.as_arg(),
+                        ],
+                        type_args: Default::default(),
+                    }
+                    .into(),
+                    Some(Expr::This(ThisExpr { span: DUMMY_SP })),
+                );
             }
 
             let get = helper!(class_private_field_get, "classPrivateFieldGet");
