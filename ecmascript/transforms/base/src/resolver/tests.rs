@@ -2931,7 +2931,7 @@ to_ts!(
 );
 
 to_ts!(
-    ts_local_types_4,
+    ts_local_types_4_1,
     "
     function f1() {
         // Type parameters are in scope in parameters and return types
@@ -2972,6 +2972,28 @@ to_ts!(
     function f3() {
         function f__6<T__7>() {
             interface T__7 {
+            }
+            return undefined;
+        }
+    }
+    "
+);
+
+to_ts!(
+    ts_local_types_4_2,
+    "
+    function f2() {
+        // Local types are not in scope in parameters and return types
+        function f(x: T): T {
+            interface T { }
+            return undefined;
+        }
+    }
+    ",
+    "
+    function f2() {
+        function f__4(x__5: T__5): T__5 {
+            interface T__5 {
             }
             return undefined;
         }
