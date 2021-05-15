@@ -104,6 +104,7 @@ fn test_tsx_escape_xhtml() {
     let expected = r#"/*#__PURE__*/ React.createElement("div", {
     id: "abc>"
 });
+export { };
 "#;
 
     let compiled_es5 = compile(
