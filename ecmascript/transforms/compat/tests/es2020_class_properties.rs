@@ -5264,7 +5264,18 @@ test!(
         }
     }
     ",
-    ""
+    "
+    var _get = new WeakSet();
+    class MyClass {
+        constructor(){
+            _get.add(this);
+            _classPrivateMethodGet(this, _get, get).call(this, foo);
+        }
+    }
+    function get() {
+        return 1;
+    }
+    "
 );
 
 test!(
@@ -5282,6 +5293,15 @@ test!(
   }
   ",
     "
-    
+    var _get = new WeakSet();
+    class MyClass {
+        constructor(){
+            _get.add(this);
+            _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
+        }
+    }
+    function get() {
+        return 1;
+    }
     "
 );
