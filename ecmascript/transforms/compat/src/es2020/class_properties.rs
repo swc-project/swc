@@ -330,9 +330,7 @@ impl ClassProperties {
 
         for member in class.body {
             match member {
-                ClassMember::PrivateMethod(..)
-                | ClassMember::Empty(..)
-                | ClassMember::TsIndexSignature(..) => members.push(member),
+                ClassMember::Empty(..) | ClassMember::TsIndexSignature(..) => members.push(member),
 
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order
@@ -659,6 +657,44 @@ impl ClassProperties {
                     }
 
                     constructor = Some(c);
+                }
+
+                ClassMember::PrivateMethod(method) => {
+                    let prop_span = method.span;
+                    let fn_name = private_ident!(method.key.id.sym.clone());
+                    if method.is_static {
+                        statics.insert(method.key.id.sym.clone());
+                    }
+
+                    let weak_set_var = Ident::new(
+                        format!("_{}", method.key.id.sym).into(),
+                        // We use `self.mark` for private variables.
+                        method.key.span.apply_mark(self.mark),
+                    );
+                    method.function.visit_with(
+                        &Invalid { span: DUMMY_SP } as _,
+                        &mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        },
+                    );
+
+                    vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        definite: false,
+                        name: Pat::Ident(weak_set_var.clone().into()),
+                        init: Some(Box::new(Expr::from(NewExpr {
+                            span: DUMMY_SP,
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                            args: Some(Default::default()),
+                            type_args: Default::default(),
+                        }))),
+                    });
+
+                    extra_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
+                        ident: fn_name,
+                        function: method.function,
+                        declare: false,
+                    })))
                 }
             }
         }
