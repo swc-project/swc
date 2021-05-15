@@ -3545,6 +3545,7 @@ test_with_config!(
 test_with_config!(
     issue_1472_1_no_define,
     strip::Config {
+        no_empty_export: true,
         use_define_for_class_fields: false,
         ..Default::default()
     },
