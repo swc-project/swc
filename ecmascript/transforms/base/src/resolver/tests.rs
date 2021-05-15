@@ -2963,7 +2963,7 @@ to_ts!(
         }
     }
     function f2() {
-        function f__4(x__5: T__5): T__5 {
+        function f__4(x__5: T): T {
             interface T__5 {
             }
             return undefined;
@@ -2992,7 +2992,7 @@ to_ts!(
     ",
     "
     function f2() {
-        function f__4(x__5: T__5): T__5 {
+        function f__4(x__5: T): T {
             interface T__5 {
             }
             return undefined;
