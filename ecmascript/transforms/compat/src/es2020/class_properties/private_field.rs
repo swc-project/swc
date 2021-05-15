@@ -525,7 +525,7 @@ impl<'a> FieldAccessFolder<'a> {
             }
 
             if is_method {
-                let h = helper!(class_private_method_get, " classPrivateMethodGet");
+                let h = helper!(class_private_method_get, "classPrivateMethodGet");
 
                 return (
                     CallExpr {
