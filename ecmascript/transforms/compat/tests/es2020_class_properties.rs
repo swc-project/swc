@@ -5329,5 +5329,28 @@ test!(
     const instance = new Foo();
     ",
     "
+    var _sssss = new WeakSet();
+    class Foo {
+        constructor(){
+            _y.set(this, {
+                writable: true,
+                value: void 0
+            });
+            _sssss.add(this);
+            this.x = 1;
+            _classPrivateFieldSet(this, _y, 2);
+            _classPrivateMethodGet(this, _sssss, sssss).call(this);
+        }
+    }
+    var _y = new WeakMap();
+    var _z = {
+        writable: true,
+        value: 3
+    };
+    function sssss() {
+        console.log(this.x, _classPrivateFieldGet(this, _y), _classStaticPrivateFieldSpecGet(Foo, \
+     Foo, _z));
+    }
+    const instance = new Foo();
     "
 );
