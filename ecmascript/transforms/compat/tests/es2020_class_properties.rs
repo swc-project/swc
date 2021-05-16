@@ -5283,25 +5283,51 @@ test!(
     |_| chain!(class_properties(), async_to_generator()),
     issue_1694_2,
     "
+class MyClass {
+    static #get() {
+        return 1
+    }
+    constructor() {
+        MyClass.#get(foo);
+    }
+}
+",
+    "
+  var _get = new WeakSet();
   class MyClass {
-      static #get() {
-          return 1
-      }
-      constructor() {
-          MyClass.#get(foo);
+      constructor(){
+          _get.add(this);
+          _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
       }
   }
-  ",
+  function get() {
+      return 1;
+  }
+  "
+);
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1702_1,
     "
-    var _get = new WeakSet();
-    class MyClass {
-        constructor(){
-            _get.add(this);
-            _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
-        }
+    class Foo {
+      #y;
+      static #z = 3;
+    
+      constructor() {
+        this.x = 1;
+        this.#y = 2;
+        this.#sssss();
+      }
+    
+      #sssss() {
+        console.log(this.x, this.#y, Foo.#z);
+      }
     }
-    function get() {
-        return 1;
-    }
+    
+    const instance = new Foo();
+    ",
+    "
     "
 );
