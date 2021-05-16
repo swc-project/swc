@@ -329,6 +329,7 @@ impl ClassProperties {
 
         let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
             (vec![], vec![], vec![], vec![], None);
+        let mut private_method_fn_decls = vec![];
         let mut used_names = vec![];
         let mut used_key_names = vec![];
         let mut statics = HashSet::default();
@@ -716,7 +717,7 @@ impl ClassProperties {
                         type_args: Default::default(),
                     })));
 
-                    extra_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
+                    private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
                         ident: fn_name,
                         function: method.function,
                         declare: false,
@@ -735,6 +736,16 @@ impl ClassProperties {
         if let Some(c) = constructor {
             members.push(ClassMember::Constructor(c));
         }
+
+        extra_stmts.extend(private_method_fn_decls.fold_with(&mut FieldAccessFolder {
+            mark: self.mark,
+            method_mark: self.method_mark,
+            private_methods: &private_methods,
+            statics: &statics,
+            vars: vec![],
+            class_name: &ident,
+            in_assign_pat: false,
+        }));
 
         let members = members.fold_with(&mut FieldAccessFolder {
             mark: self.mark,
