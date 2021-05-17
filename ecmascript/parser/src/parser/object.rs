@@ -244,6 +244,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
         match ident.sym {
             js_word!("get") | js_word!("set") | js_word!("async") => {
+                trace_cur!(self, parse_object_prop__after_accessor);
+
                 if has_modifiers {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
