@@ -1217,7 +1217,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         self.wr
-            .write_str_lit(node.span, &unescape(&node.raw.value))?;
+            .write_str_lit(node.span, &unescape_tpl_lit(&node.raw.value))?;
         return Ok(());
     }
 
@@ -2352,7 +2352,7 @@ where
     }
 }
 
-fn unescape(s: &str) -> String {
+fn unescape_tpl_lit(s: &str) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
