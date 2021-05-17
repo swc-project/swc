@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
     var desc = {
     };

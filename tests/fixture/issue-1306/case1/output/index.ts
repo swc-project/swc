@@ -55,4 +55,3 @@ var Animal = /*#__PURE__*/ function() {
     return Animal;
 }();
 var _name = new WeakMap();
-export { };

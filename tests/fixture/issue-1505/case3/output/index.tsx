@@ -64,4 +64,3 @@ var withTeamsForUser = function(_WrappedComponent) {
     }(Component);
     _class.displayName = "x";
 };
-export { };
