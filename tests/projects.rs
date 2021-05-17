@@ -623,7 +623,29 @@ fn issue_1549() {
     .unwrap();
     println!("{}", output);
 
-    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
+    assert_eq!(output.to_string(), "var a = \"\\r\\n\";\n");
+}
+
+#[test]
+fn deno_10282() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2015),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "var a = \"\\r\\n\";\n");
 }
 
 #[testing::fixture("fixture/**/input/")]
