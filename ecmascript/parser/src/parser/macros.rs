@@ -39,6 +39,20 @@ macro_rules! is {
         }
     }};
 
+    ($p:expr,Str) => {{
+        match cur!($p, false) {
+            Ok(&Token::Str { .. }) => true,
+            _ => false,
+        }
+    }};
+
+    ($p:expr,Num) => {{
+        match cur!($p, false) {
+            Ok(&Token::Num { .. }) => true,
+            _ => false,
+        }
+    }};
+
     ($p:expr,';') => {{
         match $p.input.cur() {
             Some(&Token::Semi) | None | Some(&tok!('}')) => true,

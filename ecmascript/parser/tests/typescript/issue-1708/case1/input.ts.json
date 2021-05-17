@@ -1,0 +1,192 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 0,
+    "end": 92,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 0,
+        "end": 65,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 6,
+            "end": 64,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "thing",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 14,
+              "end": 64,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "GetterProperty",
+                "span": {
+                  "start": 20,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 24,
+                    "end": 29,
+                    "ctxt": 0
+                  },
+                  "value": "a-b",
+                  "hasEscape": false,
+                  "kind": {
+                    "type": "normal",
+                    "containsQuote": true
+                  }
+                },
+                "typeAnnotation": null,
+                "body": {
+                  "type": "BlockStatement",
+                  "span": {
+                    "start": 32,
+                    "end": 61,
+                    "ctxt": 0
+                  },
+                  "stmts": [
+                    {
+                      "type": "ReturnStatement",
+                      "span": {
+                        "start": 42,
+                        "end": 55,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 49,
+                          "end": 54,
+                          "ctxt": 0
+                        },
+                        "value": "abc",
+                        "hasEscape": false,
+                        "kind": {
+                          "type": "normal",
+                          "containsQuote": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 66,
+        "end": 92,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 66,
+          "end": 91,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 66,
+            "end": 77,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 66,
+              "end": 73,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 74,
+              "end": 77,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 78,
+                "end": 90,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 78,
+                  "end": 83,
+                  "ctxt": 0
+                },
+                "value": "thing",
+                "optional": false
+              },
+              "property": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 84,
+                  "end": 89,
+                  "ctxt": 0
+                },
+                "value": "a-b",
+                "hasEscape": false,
+                "kind": {
+                  "type": "normal",
+                  "containsQuote": true
+                }
+              },
+              "computed": true
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

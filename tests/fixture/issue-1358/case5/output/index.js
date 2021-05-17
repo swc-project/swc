@@ -1,2 +1,1 @@
 "'font-size\\'a";
-export { };

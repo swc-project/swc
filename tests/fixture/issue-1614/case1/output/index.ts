@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 function _interopRequireWildcard(obj) {
     if (obj && obj.__esModule) {
         return obj;

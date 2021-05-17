@@ -626,6 +626,50 @@ fn issue_1549() {
     assert_eq!(output.to_string(), "var a = \"\\n\";\n");
 }
 
+#[test]
+fn deno_10282_1() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es3),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
+}
+
+#[test]
+fn deno_10282_2() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2020),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "const a = `\\n`;\n");
+}
+
 #[testing::fixture("fixture/**/input/")]
 fn tests(dir: PathBuf) {
     let output = dir.parent().unwrap().join("output");
