@@ -128,6 +128,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
 
     /// spec: 'PropertyDefinition'
     fn parse_object_prop(&mut self) -> PResult<Self::Prop> {
+        trace_cur!(self, parse_object_prop);
+
         let start = cur_pos!(self);
         // Parse as 'MethodDefinition'
 
@@ -175,6 +177,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                     _ => false,
                 })
         {
+            trace_cur!(self, parse_object_prop_error);
+
             self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
