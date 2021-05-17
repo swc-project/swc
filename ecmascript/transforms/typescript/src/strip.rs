@@ -1587,6 +1587,11 @@ impl VisitMut for Strip {
     }
 
     fn visit_mut_module(&mut self, module: &mut Module) {
+        let was_module = module.body.iter().any(|item| match item {
+            ModuleItem::ModuleDecl(..) => true,
+            _ => false,
+        });
+
         module.visit_mut_children_with(self);
         if !self.uninitialized_vars.is_empty() {
             prepend(
@@ -1601,10 +1606,17 @@ impl VisitMut for Strip {
             );
         }
 
+        let is_module = module.body.iter().any(|item| match item {
+            ModuleItem::ModuleDecl(..) => true,
+            _ => false,
+        });
+
         // Create `export {}` to preserve module context, just like tsc.
         //
         // See https://github.com/swc-project/swc/issues/1698
-        if !self.config.no_empty_export
+        if was_module
+            && !is_module
+            && !self.config.no_empty_export
             && module.body.iter().all(|item| match item {
                 ModuleItem::ModuleDecl(_) => false,
                 ModuleItem::Stmt(_) => true,
