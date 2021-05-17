@@ -11,6 +11,8 @@ impl<'a, I: Tokens> Parser<I> {
     where
         Self: ParseObject<T>,
     {
+        trace_cur!(self, parse_object);
+
         let start = cur_pos!(self);
         assert_and_bump!(self, '{');
 
