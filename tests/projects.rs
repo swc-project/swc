@@ -656,7 +656,7 @@ fn deno_10282_2() {
             is_module: true,
             config: Config {
                 jsc: JscConfig {
-                    target: Some(EsVersion::Es2015),
+                    target: Some(EsVersion::Es2020),
                     ..Default::default()
                 },
                 ..Default::default()
