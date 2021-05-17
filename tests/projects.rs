@@ -667,7 +667,7 @@ fn deno_10282_2() {
     .unwrap();
     println!("{}", output);
 
-    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
+    assert_eq!(output.to_string(), "채ㅜㄴㅅ a = \"\\n\";\n");
 }
 
 #[testing::fixture("fixture/**/input/")]
