@@ -627,7 +627,29 @@ fn issue_1549() {
 }
 
 #[test]
-fn deno_10282() {
+fn deno_10282_1() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es3),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "var a = \"\\r\\n\";\n");
+}
+
+#[test]
+fn deno_10282_2() {
     let output = str_with_opt(
         "const a = `\r\n`;",
         Options {
