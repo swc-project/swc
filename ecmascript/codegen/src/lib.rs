@@ -2403,12 +2403,16 @@ fn unescape_tpl_lit(s: &str) -> String {
     }
 
     let mut result = String::with_capacity(s.len() * 6 / 5);
-    let mut chars = s.chars();
+    let mut chars = s.chars().peekable();
 
     while let Some(c) = chars.next() {
         if c != '\\' {
             match c {
                 '\r' => {
+                    if chars.peek().map(|&v| v) == Some('\n') {
+                        continue;
+                    }
+
                     result.push_str("\\r");
                 }
                 '\n' => {
