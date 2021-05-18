@@ -1,15 +1,15 @@
-import "core-js/modules/web.timers";
-import "core-js/modules/web.immediate";
-import "core-js/modules/web.dom.iterable";
+import   "core-js/modules/web.dom.iterable";
+import   "core-js/modules/web.immediate";
+import   "core-js/modules/web.timers";
 const foo = {
-  a: true
+    a: true
 };
-const bar = { ...foo,
-  b: false
+const bar = {
+    ...foo,
+    b: false
 };
-
 async function baz() {
-  for await (const x of someAsyncThing()) {
-    console.log(x);
-  }
+    for await (const x of someAsyncThing()){
+        console.log(x);
+    }
 }
