@@ -116,6 +116,9 @@ pub enum Feature {
     /// `transform-reserved-words`
     ReservedWords,
 
+    /// `proposal-export-namespace-from`
+    ExportNamespaceFrom,
+
     /// `proposal-nullish-coalescing-operator`
     NullishCoalescing,
 

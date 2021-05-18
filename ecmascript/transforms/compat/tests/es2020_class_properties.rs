@@ -5354,3 +5354,35 @@ test!(
     const instance = new Foo();
     "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1711_1,
+    "
+    class Foo {
+      #value() {
+        return 1;
+      }
+      // #value = 1;
+    
+      get(target) {
+        return target.#value;
+      }
+    }
+    ",
+    "
+    var _value = new WeakSet();
+    class Foo {
+        get(target) {
+            return _classPrivateMethodGet(target, _value, value);
+        }
+        constructor(){
+            _value.add(this);
+        }
+    }
+    function value() {
+        return 1;
+    }
+    "
+);

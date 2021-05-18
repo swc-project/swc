@@ -1,5 +1,4 @@
-import "core-js/modules/web.dom.iterable";
-
+import   "core-js/modules/web.dom.iterable";
 function* a() {
-  yield* 1;
+    yield* 1;
 }
