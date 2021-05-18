@@ -531,11 +531,7 @@ impl<'a> FieldAccessFolder<'a> {
                     CallExpr {
                         span: DUMMY_SP,
                         callee: h,
-                        args: vec![
-                            ThisExpr { span: DUMMY_SP }.as_arg(),
-                            ident.as_arg(),
-                            method_name.as_arg(),
-                        ],
+                        args: vec![obj.as_arg(), ident.as_arg(), method_name.as_arg()],
                         type_args: Default::default(),
                     }
                     .into(),
