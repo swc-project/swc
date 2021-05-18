@@ -5375,7 +5375,7 @@ test!(
     var _value = new WeakSet();
     class Foo {
         get(target) {
-            return _classPrivateMethodGet(target, _value, _value2);
+            return _classPrivateMethodGet(target, _value, value);
         }
         constructor(){
             _value.add(this);
