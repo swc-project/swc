@@ -1,10 +1,4 @@
 {
-  "proposal-class-static-block": {
-    "chrome": "91"
-  },
-  "proposal-private-property-in-object": {
-    "chrome": "91"
-  },
   "proposal-class-properties": {
     "chrome": "74",
     "opera": "62",
@@ -31,16 +25,6 @@
     "ios": "13",
     "samsung": "11",
     "electron": "6.0"
-  },
-  "proposal-logical-assignment-operators": {
-    "chrome": "85",
-    "opera": "71",
-    "edge": "85",
-    "firefox": "79",
-    "safari": "14",
-    "node": "15",
-    "ios": "14",
-    "electron": "10.0"
   },
   "proposal-nullish-coalescing-operator": {
     "chrome": "80",
