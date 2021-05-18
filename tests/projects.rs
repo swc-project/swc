@@ -336,7 +336,7 @@ fn env_entry_chrome_49() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 76);
+    assert_eq!(f.lines().count(), 78);
 }
 
 #[test]
@@ -348,7 +348,7 @@ fn env_entry_chrome_71() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 5);
+    assert_eq!(f.lines().count(), 7);
 }
 
 #[test]
@@ -360,7 +360,7 @@ fn env_query_chrome_71() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 5);
+    assert_eq!(f.lines().count(), 7);
 }
 
 #[test]
