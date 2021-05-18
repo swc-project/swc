@@ -388,7 +388,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
     typed_ref!(visit_mut_ts_union_type, TsUnionType);
     typed_ref!(visit_mut_ts_infer_type, TsInferType);
-    typed_ref!(visit_mut_ts_mapped_type, TsMappedType);
     typed_ref!(visit_mut_ts_import_type, TsImportType);
     typed_ref!(visit_mut_ts_tuple_type, TsTupleType);
     typed_ref!(visit_mut_ts_intersection_type, TsIntersectionType);
@@ -410,6 +409,24 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_rest_type, TsRestType);
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
+
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = true;
+        self.ident_type = IdentType::Binding;
+        n.type_param.visit_mut_with(self);
+
+        self.in_type = true;
+        self.ident_type = IdentType::Ref;
+        n.name_type.visit_mut_with(self);
+
+        self.in_type = true;
+        self.ident_type = IdentType::Ref;
+        n.type_ann.visit_mut_with(self);
+    }
 
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(self.mark);
