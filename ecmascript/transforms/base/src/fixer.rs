@@ -1184,4 +1184,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         deno_10487_2,
         "class MultiVector extends (options.baseType||Float32Array) {}"
     );
+
+    identical!(deno_10668, "console.log(null ?? (undefined && true))");
 }
