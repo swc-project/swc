@@ -190,6 +190,12 @@ pub struct BrowserData<T: Default> {
     #[serde(default)]
     pub chrome: T,
     #[serde(default)]
+    pub and_chr: T,
+    #[serde(default)]
+    pub and_ff: T,
+    #[serde(default)]
+    pub op_mob: T,
+    #[serde(default)]
     pub ie: T,
     #[serde(default)]
     pub edge: T,
