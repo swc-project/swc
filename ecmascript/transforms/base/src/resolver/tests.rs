@@ -3000,3 +3000,17 @@ to_ts!(
     }
     "
 );
+
+to_ts!(
+    ts_mapped_type_as_clauses_01,
+    "
+    type Lazyify<T> = {
+        [K in keyof T as `get${Capitalize<K & string>}`]: () => T[K]
+    };
+    ",
+    "
+    type Lazyify<T__2> = {
+        [K__2 in keyof T__2]: () => T__2[K__2];
+    };
+    "
+);
