@@ -5354,3 +5354,27 @@ test!(
     const instance = new Foo();
     "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1711_1,
+    "
+    class Foo {
+      #value() {
+        return 1;
+      }
+      // #value = 1;
+    
+      get(target) {
+        return target.#value;
+      }
+    }
+    
+    let foo = new Foo();
+    let getter = foo.get;
+    console.log(getter(foo));
+    ",
+    "
+    "
+);
