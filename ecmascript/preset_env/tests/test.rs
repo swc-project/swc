@@ -24,6 +24,7 @@ use swc_ecma_visit::as_folder;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMut;
 use test::{test_main, ShouldPanic, TestDesc, TestDescAndFn, TestFn, TestName, TestType};
+use testing::NormalizedOutput;
 use testing::Tester;
 use walkdir::WalkDir;
 
@@ -259,6 +260,13 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 return Ok(());
             };
 
+            let actual_src = print(&actual);
+            if let Ok(..) = env::var("UDPATE") {
+                NormalizedOutput::from(actual_src.clone())
+                    .compare_to_file(dir.join("output.mjs"))
+                    .unwrap();
+            }
+
             // It's normal transform test.
             let expected = {
                 let fm = cm
@@ -306,7 +314,6 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                 m
             };
 
-            let actual_src = print(&actual);
             let expected_src = print(&expected);
 
             if drop_span(actual.fold_with(&mut as_folder(Normalizer)))
