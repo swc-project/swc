@@ -410,24 +410,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
 
-    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
-        if !self.handle_types {
-            return;
-        }
-
-        self.in_type = true;
-        self.ident_type = IdentType::Binding;
-        n.type_param.visit_mut_with(self);
-
-        self.in_type = true;
-        self.ident_type = IdentType::Ref;
-        n.name_type.visit_mut_with(self);
-
-        self.in_type = true;
-        self.ident_type = IdentType::Ref;
-        n.type_ann.visit_mut_with(self);
-    }
-
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(self.mark);
 
@@ -587,6 +569,33 @@ impl<'a> VisitMut for Resolver<'a> {
         decl.visit_mut_children_with(self)
     }
 
+    fn visit_mut_export_default_decl(&mut self, e: &mut ExportDefaultDecl) {
+        // Treat default exported functions and classes as declarations
+        // even though they are parsed as expressions.
+        match &mut e.decl {
+            DefaultDecl::Fn(f) => {
+                if f.ident.is_some() {
+                    let child_mark = Mark::fresh(self.mark);
+
+                    // Child folder
+                    let mut folder = Resolver::new(
+                        child_mark,
+                        Scope::new(ScopeKind::Fn, Some(&self.current)),
+                        self.handle_types,
+                    );
+                    f.function.visit_mut_with(&mut folder)
+                } else {
+                    f.visit_mut_with(self)
+                }
+            }
+            DefaultDecl::Class(c) => {
+                // Skip class expression visitor to treat as a declaration.
+                c.class.visit_mut_with(self)
+            }
+            _ => e.visit_mut_children_with(self),
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         self.in_type = false;
         let old = self.ident_type;
@@ -627,33 +636,6 @@ impl<'a> VisitMut for Resolver<'a> {
             folder.modify(ident, None)
         }
         e.function.visit_mut_with(&mut folder);
-    }
-
-    fn visit_mut_export_default_decl(&mut self, e: &mut ExportDefaultDecl) {
-        // Treat default exported functions and classes as declarations
-        // even though they are parsed as expressions.
-        match &mut e.decl {
-            DefaultDecl::Fn(f) => {
-                if f.ident.is_some() {
-                    let child_mark = Mark::fresh(self.mark);
-
-                    // Child folder
-                    let mut folder = Resolver::new(
-                        child_mark,
-                        Scope::new(ScopeKind::Fn, Some(&self.current)),
-                        self.handle_types,
-                    );
-                    f.function.visit_mut_with(&mut folder)
-                } else {
-                    f.visit_mut_with(self)
-                }
-            }
-            DefaultDecl::Class(c) => {
-                // Skip class expression visitor to treat as a declaration.
-                c.class.visit_mut_with(self)
-            }
-            _ => e.visit_mut_children_with(self),
-        }
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {
@@ -794,11 +776,6 @@ impl<'a> VisitMut for Resolver<'a> {
         self.ident_type = old;
     }
 
-    // TODO: How should I handle this?
-    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
-
-    track_ident_mut!();
-
     /// Leftmost one of a member expression should be resolved.
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
@@ -808,25 +785,10 @@ impl<'a> VisitMut for Resolver<'a> {
         }
     }
 
-    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
-        n.key.visit_mut_with(self);
+    // TODO: How should I handle this?
+    typed!(visit_mut_ts_namespace_export_decl, TsNamespaceExportDecl);
 
-        {
-            let child_mark = Mark::fresh(self.mark);
-
-            // Child folder
-            let mut child = Resolver::new(
-                child_mark,
-                Scope::new(ScopeKind::Fn, Some(&self.current)),
-                self.handle_types,
-            );
-
-            child.in_type = false;
-            child.ident_type = IdentType::Binding;
-            n.param.visit_mut_with(&mut child);
-            n.body.visit_mut_with(&mut child);
-        };
-    }
+    track_ident_mut!();
 
     fn visit_mut_method_prop(&mut self, m: &mut MethodProp) {
         m.key.visit_mut_with(self);
@@ -905,6 +867,26 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.key.visit_mut_with(self);
+
+        {
+            let child_mark = Mark::fresh(self.mark);
+
+            // Child folder
+            let mut child = Resolver::new(
+                child_mark,
+                Scope::new(ScopeKind::Fn, Some(&self.current)),
+                self.handle_types,
+            );
+
+            child.in_type = false;
+            child.ident_type = IdentType::Binding;
+            n.param.visit_mut_with(&mut child);
+            n.body.visit_mut_with(&mut child);
+        };
+    }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         // Phase 1: Handle hoisting
@@ -1053,6 +1035,24 @@ impl<'a> VisitMut for Resolver<'a> {
         n.type_params.visit_mut_with(&mut child);
         n.extends.visit_mut_with(&mut child);
         n.body.visit_mut_with(&mut child);
+    }
+
+    fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
+        if !self.handle_types {
+            return;
+        }
+
+        self.in_type = true;
+        self.ident_type = IdentType::Binding;
+        n.type_param.visit_mut_with(self);
+
+        self.in_type = true;
+        self.ident_type = IdentType::Ref;
+        n.name_type.visit_mut_with(self);
+
+        self.in_type = true;
+        self.ident_type = IdentType::Ref;
+        n.type_ann.visit_mut_with(self);
     }
 
     fn visit_mut_ts_method_signature(&mut self, n: &mut TsMethodSignature) {
