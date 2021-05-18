@@ -170,7 +170,9 @@ impl VisitMut for Fixer<'_> {
                             self.wrap(&mut expr.right);
                         }
                     }
-                } else if op_of_rhs.precedence() <= expr.op.precedence() {
+                } else if op_of_rhs.precedence() <= expr.op.precedence()
+                    || (*op_of_rhs == op!("&&") && expr.op == op!("??"))
+                {
                     self.wrap(&mut expr.right);
                 }
             }
@@ -1185,5 +1187,7 @@ var store = global[SHARED] || (global[SHARED] = {});
         "class MultiVector extends (options.baseType||Float32Array) {}"
     );
 
-    identical!(deno_10668, "console.log(null ?? (undefined && true))");
+    identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
+
+    identical!(deno_10668_2, "console.log(null && (undefined ?? true))");
 }
