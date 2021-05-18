@@ -5370,11 +5370,19 @@ test!(
         return target.#value;
       }
     }
-    
-    let foo = new Foo();
-    let getter = foo.get;
-    console.log(getter(foo));
     ",
     "
+    var _value = new WeakSet();
+    class Foo {
+        get(target) {
+            return _classPrivateMethodGet(target, _value, _value2);
+        }
+        constructor(){
+            _value.add(this);
+        }
+    }
+    function value() {
+        return 1;
+    }
     "
 );
