@@ -424,7 +424,7 @@ fn test_unary_ops_1() {
 
     // These cases are handled here.
     fold("a=!true", "a=false");
-    // fold("a=!10", "a=false");
+    fold("a=!10", "a=false");
     fold("a=!false", "a=true");
     fold_same("a=!foo()");
     //fold("a=-0", "a=-0.0");
