@@ -172,11 +172,7 @@ impl Fold for Remover {
                     return if value {
                         None
                     } else {
-                        Some(Box::new(Expr::Unary(UnaryExpr {
-                            span,
-                            op: op!("!"),
-                            arg: Box::new(Expr::Lit(Lit::Num(Number { span, value: 1.0 }))),
-                        })))
+                        Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))))
                     };
                 }
 
@@ -819,8 +815,8 @@ impl Fold for Remover {
 
             Stmt::For(s)
                 if match &s.test {
-                    Some(test) => match test.as_pure_bool() {
-                        Known(false) => true,
+                    Some(test) => match &**test {
+                        Expr::Lit(Lit::Bool(Bool { value: false, .. })) => true,
                         _ => false,
                     },
                     _ => false,
@@ -847,7 +843,13 @@ impl Fold for Remover {
             Stmt::While(s) => {
                 if let (purity, Known(v)) = s.test.as_bool() {
                     if v {
-                        return Stmt::While(s);
+                        Stmt::While(WhileStmt {
+                            test: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                span: s.test.span(),
+                                value: true,
+                            }))),
+                            ..s
+                        })
                     } else {
                         let body = s.body.extract_var_ids_as_var();
                         let body = body.map(Decl::Var).map(Stmt::Decl);
@@ -1197,8 +1199,8 @@ fn ignore_result(e: Expr) -> Option<Expr> {
 
                 let l = left.as_pure_bool();
 
-                if let Known(false) = l {
-                    Some(Expr::Lit(Lit::Bool(Bool { span, value: false })))
+                if let Known(l) = l {
+                    Some(Expr::Lit(Lit::Bool(Bool { span, value: l })))
                 } else {
                     Some(Expr::Bin(BinExpr {
                         span,
