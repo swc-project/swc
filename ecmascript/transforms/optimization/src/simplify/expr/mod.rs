@@ -1157,13 +1157,7 @@ impl Fold for SimplifyExpr {
     fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
         n
     }
-    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
-        let old = self.is_arg_of_update;
-        self.is_arg_of_update = false;
-        let s = s.fold_children_with(self);
-        self.is_arg_of_update = old;
-        s
-    }
+
     fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
         let old = self.is_modifying;
         self.is_modifying = true;
@@ -1430,10 +1424,13 @@ impl Fold for SimplifyExpr {
     }
 
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
-        let old = self.is_modifying;
+        let old_is_modifying = self.is_modifying;
         self.is_modifying = false;
+        let old_is_arg_of_update = self.is_arg_of_update;
+        self.is_arg_of_update = false;
         let s = s.fold_children_with(self);
-        self.is_modifying = old;
+        self.is_arg_of_update = old_is_arg_of_update;
+        self.is_modifying = old_is_modifying;
         s
     }
 
