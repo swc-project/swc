@@ -267,13 +267,6 @@ impl SimplifyExpr {
                 exprs.push(val);
 
                 Expr::Seq(SeqExpr { span, exprs })
-                self.changed = true;
-
-                preserve_effects(
-                    span,
-                    v,
-                    once(Box::new(Expr::Array(ArrayLit { span, elems }))),
-                )
             }
 
             // { foo: true }['foo']
@@ -1163,6 +1156,7 @@ impl Fold for SimplifyExpr {
     #[inline]
     fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
         n
+    }
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
         let old = self.is_arg_of_update;
         self.is_arg_of_update = false;
@@ -1433,6 +1427,8 @@ impl Fold for SimplifyExpr {
         }
 
         n
+    }
+
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
         let old = self.is_modifying;
         self.is_modifying = false;
