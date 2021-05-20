@@ -5,7 +5,6 @@ use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::option::CompressOptions;
 use crate::util::Optional;
-use pretty_assertions::assert_eq;
 use std::borrow::Cow;
 use std::fmt;
 use std::fmt::Debug;
