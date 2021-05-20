@@ -3014,3 +3014,40 @@ to_ts!(
     };
     "
 );
+
+to_ts!(
+    ts_async_await_nested_class_es5,
+    "
+    class A {
+        static B = class B {
+            static func2(): Promise<void> {
+                return new Promise((resolve) => { resolve(null); });
+            }
+            static C = class C {
+                static async func() {
+                    await B.func2();
+                }
+            }
+        }
+    }
+    
+    A.B.C.func();
+    ",
+    "
+    class A {
+        static B__0 = class B__2 {
+            static func2(): Promise<void> {
+                return new Promise((resolve__3)=>{
+                    resolve__3(null);
+                });
+            }
+            static C__0 = class C__4 {
+                static async func() {
+                    await B__2.func2();
+                }
+            };
+        };
+    }
+    A.B.C.func();
+    "
+);
