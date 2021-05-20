@@ -461,16 +461,6 @@ functions/unsafe_call_3/input.js
 functions/unsafe_call_expansion_1/input.js
 functions/unsafe_call_expansion_2/input.js
 functions/use_before_init_in_loop/input.js
-global_defs/conditional_chains/input.js
-global_defs/expanded/input.js
-global_defs/issue_1801/input.js
-global_defs/issue_1986/input.js
-global_defs/issue_2167/input.js
-global_defs/issue_3217/input.js
-global_defs/keyword/input.js
-global_defs/mixed/input.js
-global_defs/must_replace/input.js
-global_defs/object/input.js
 harmony/array_literal_with_spread_2b/input.js
 harmony/array_literal_with_spread_3b/input.js
 harmony/array_literal_with_spread_4a/input.js
