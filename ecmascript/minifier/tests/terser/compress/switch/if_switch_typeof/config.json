@@ -1,0 +1,6 @@
+{
+    "conditionals": true,
+    "dead_code": true,
+    "side_effects": true,
+    "switches": true
+}

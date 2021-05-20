@@ -1,0 +1,5 @@
+{
+    "conditionals": true,
+    "expression": true,
+    "negate_iife": true
+}

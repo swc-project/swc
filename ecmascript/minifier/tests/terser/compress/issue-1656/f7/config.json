@@ -1,0 +1,22 @@
+{
+    "booleans": true,
+    "collapse_vars": true,
+    "comparisons": true,
+    "conditionals": true,
+    "dead_code": true,
+    "drop_debugger": true,
+    "evaluate": true,
+    "hoist_funs": true,
+    "if_return": true,
+    "join_vars": true,
+    "loops": true,
+    "negate_iife": true,
+    "passes": 3,
+    "properties": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "sequences": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true
+}

@@ -1,0 +1,14 @@
+console.log("İ".toLowerCase().charCodeAt(0));
+console.log("I".toLowerCase().charCodeAt(0));
+console.log("Ş".toLowerCase().charCodeAt(0));
+console.log("Ğ".toLowerCase().charCodeAt(0));
+console.log("Ü".toLowerCase().charCodeAt(0));
+console.log("Ö".toLowerCase().charCodeAt(0));
+console.log("Ç".toLowerCase().charCodeAt(0));
+console.log("i".toUpperCase().charCodeAt(0));
+console.log("ı".toUpperCase().charCodeAt(0));
+console.log("ş".toUpperCase().charCodeAt(0));
+console.log("ğ".toUpperCase().charCodeAt(0));
+console.log("ü".toUpperCase().charCodeAt(0));
+console.log("ö".toUpperCase().charCodeAt(0));
+console.log("ç".toUpperCase().charCodeAt(0));

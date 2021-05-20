@@ -1,0 +1,6 @@
+{
+    "arguments": true,
+    "evaluate": true,
+    "keep_fargs": true,
+    "properties": true
+}

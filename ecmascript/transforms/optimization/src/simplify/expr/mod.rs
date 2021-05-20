@@ -54,6 +54,8 @@ struct SimplifyExpr {
     changed: bool,
     /// Uninitializd variables.
     vars: Vec<VarDeclarator>,
+    is_arg_of_update: bool,
+    is_modifying: bool,
 }
 
 impl CompilerPass for SimplifyExpr {
@@ -74,6 +76,10 @@ impl Repeated for SimplifyExpr {
 
 impl SimplifyExpr {
     fn fold_member_expr(&mut self, e: MemberExpr) -> Expr {
+        if self.is_modifying {
+            return Expr::Member(e);
+        }
+
         #[derive(Clone, PartialEq, Eq)]
         enum KnownOp {
             /// [a, b].length
@@ -106,13 +112,17 @@ impl SimplifyExpr {
                 ref value, span, ..
             })) => match op {
                 // 'foo'.length
-                KnownOp::Len => Expr::Lit(Lit::Num(Number {
-                    value: value.chars().count() as f64,
-                    span,
-                })),
+                KnownOp::Len => {
+                    self.changed = true;
+                    Expr::Lit(Lit::Num(Number {
+                        value: value.chars().count() as f64,
+                        span,
+                    }))
+                }
 
                 // 'foo'[1]
                 KnownOp::Index(idx) if (idx as usize) < value.len() => {
+                    self.changed = true;
                     return if idx < 0 {
                         *undefined(span)
                     } else {
@@ -127,7 +137,7 @@ impl SimplifyExpr {
                             has_escape: false,
                             kind: Default::default(),
                         }))
-                    }
+                    };
                 }
                 _ => Expr::Member(MemberExpr {
                     obj: ExprOrSuper::Expr(Box::new(obj)),
@@ -153,6 +163,7 @@ impl SimplifyExpr {
                     });
                 }
 
+                self.changed = true;
                 Expr::Lit(Lit::Num(Number {
                     value: elems.len() as _,
                     span,
@@ -260,7 +271,7 @@ impl SimplifyExpr {
 
             // { foo: true }['foo']
             Expr::Object(ObjectLit { mut props, span }) => match op {
-                KnownOp::IndexStr(key) if is_literal(&props) => {
+                KnownOp::IndexStr(key) if is_literal(&props) && key != *"yield" => {
                     // do nothing if spread exists
                     let has_spread = props.iter().any(|prop| match prop {
                         PropOrSpread::Spread(..) => true,
@@ -289,12 +300,13 @@ impl SimplifyExpr {
                         },
                         _ => unreachable!(),
                     });
+                    let idx = idx.map(|idx| props.len() - 1 - idx);
                     //
 
                     match idx {
                         Some(i) => {
                             let v = props.remove(i);
-
+                            self.changed = true;
                             preserve_effects(
                                 span,
                                 match v {
@@ -348,7 +360,7 @@ impl SimplifyExpr {
                 match $v {
                     Known(v) => {
                         // TODO: Optimize
-
+                        self.changed = true;
                         return make_bool_expr(span, v, {
                             iter::once(left).chain(iter::once(right))
                         });
@@ -359,6 +371,7 @@ impl SimplifyExpr {
             (number, $v:expr) => {{
                 match $v {
                     Known(v) => {
+                        self.changed = true;
                         return preserve_effects(
                             span,
                             Expr::Lit(Lit::Num(Number { value: v, span })),
@@ -378,6 +391,7 @@ impl SimplifyExpr {
                     if let (Known(l), Known(r)) = (left.as_string(), right.as_string()) {
                         let mut l = l.into_owned();
                         l.push_str(&r);
+                        self.changed = true;
                         return Expr::Lit(Lit::Str(Str {
                             value: l.into(),
                             span,
@@ -407,6 +421,7 @@ impl SimplifyExpr {
                             if !left.may_have_side_effects() && !right.may_have_side_effects() {
                                 if let (Known(l), Known(r)) = (left.as_string(), right.as_string())
                                 {
+                                    self.changed = true;
                                     return Expr::Lit(Lit::Str(Str {
                                         value: format!("{}{}", l, r).into(),
                                         span,
@@ -434,6 +449,7 @@ impl SimplifyExpr {
                                 left, right, span, ..
                             }) => match self.perform_arithmetic_op(op!(bin, "+"), &left, &right) {
                                 Known(v) => {
+                                    self.changed = true;
                                     return preserve_effects(
                                         span,
                                         Expr::Lit(Lit::Num(Number { value: v, span })),
@@ -464,10 +480,12 @@ impl SimplifyExpr {
                             // 1 && $right
                             right
                         } else {
+                            self.changed = true;
                             // 0 && $right
                             return *left;
                         }
                     } else if val {
+                        self.changed = true;
                         // 1 || $right
                         return *left;
                     } else {
@@ -476,8 +494,10 @@ impl SimplifyExpr {
                     };
 
                     return if !left.may_have_side_effects() {
+                        self.changed = true;
                         *node
                     } else {
+                        self.changed = true;
                         let seq = SeqExpr {
                             span,
                             exprs: vec![left, node],
@@ -541,10 +561,12 @@ impl SimplifyExpr {
 
                 // Non-object types are never instances.
                 if is_non_obj(&left) {
+                    self.changed = true;
                     return make_bool_expr(span, false, iter::once(right));
                 }
 
                 if is_obj(&left) && right.is_ident_ref_to(js_word!("Object")) {
+                    self.changed = true;
                     return make_bool_expr(span, true, iter::once(left));
                 }
 
@@ -630,6 +652,7 @@ impl SimplifyExpr {
                 {
                     if left_op == op {
                         if let Known(value) = self.perform_arithmetic_op(op, &left_rhs, &right) {
+                            self.changed = true;
                             return Expr::Bin(BinExpr {
                                 span,
                                 left: left_lhs,
@@ -705,6 +728,8 @@ impl SimplifyExpr {
             }
         };
 
+        self.changed = true;
+
         Expr::Lit(Lit::Str(Str {
             span,
             value: val.into(),
@@ -720,12 +745,35 @@ impl SimplifyExpr {
             op!("typeof") if !may_have_side_effects => {
                 return self.try_fold_typeof(UnaryExpr { span, op, arg });
             }
-            op!("!") => match arg.as_bool() {
-                (_, Known(val)) => return make_bool_expr(span, !val, iter::once(arg)),
-                _ => return Expr::Unary(UnaryExpr { op, arg, span }),
-            },
+            op!("!") => {
+                match &*arg {
+                    // Don't expand booleans.
+                    Expr::Lit(Lit::Num(..)) => return Expr::Unary(UnaryExpr { op, arg, span }),
+
+                    // Don't remove ! from negated iifes.
+                    Expr::Call(call) => match &call.callee {
+                        ExprOrSuper::Expr(callee) => match &**callee {
+                            Expr::Fn(..) => {
+                                return Expr::Unary(UnaryExpr { op, arg, span });
+                            }
+                            _ => {}
+                        },
+                        _ => {}
+                    },
+                    _ => {}
+                }
+
+                match arg.as_bool() {
+                    (_, Known(val)) => {
+                        self.changed = true;
+                        return make_bool_expr(span, !val, iter::once(arg));
+                    }
+                    _ => return Expr::Unary(UnaryExpr { op, arg, span }),
+                }
+            }
             op!(unary, "+") => match arg.as_number() {
                 Known(v) => {
+                    self.changed = true;
                     return preserve_effects(
                         span,
                         Expr::Lit(Lit::Num(Number { value: v, span })),
@@ -744,8 +792,12 @@ impl SimplifyExpr {
                 Expr::Ident(Ident {
                     sym: js_word!("NaN"),
                     ..
-                }) => return *arg,
+                }) => {
+                    self.changed = true;
+                    return *arg;
+                }
                 Expr::Lit(Lit::Num(Number { value: f, .. })) => {
+                    self.changed = true;
                     return Expr::Lit(Lit::Num(Number { value: -f, span }));
                 }
                 _ => {
@@ -755,6 +807,14 @@ impl SimplifyExpr {
                 }
             },
             op!("void") if !may_have_side_effects => {
+                match &*arg {
+                    Expr::Lit(Lit::Num(Number { value, .. })) if *value == 0.0 => {
+                        return Expr::Unary(UnaryExpr { op, arg, span })
+                    }
+                    _ => {}
+                }
+                self.changed = true;
+
                 return Expr::Unary(UnaryExpr {
                     op: op!("void"),
                     arg: Box::new(Expr::Lit(Lit::Num(Number {
@@ -768,6 +828,7 @@ impl SimplifyExpr {
             op!("~") => {
                 if let Known(value) = arg.as_number() {
                     if value.fract() == 0.0 {
+                        self.changed = true;
                         return Expr::Lit(Lit::Num(Number {
                             span,
                             value: if value < 0.0 {
@@ -802,11 +863,15 @@ impl SimplifyExpr {
                     Known($value)
                 } else {
                     let new_len = format!("{}", $value).len();
-                    let orig_len = right.span().hi() - left.span().lo();
-                    if new_len <= orig_len.0 as usize {
-                        Known($value)
+                    if right.span().hi() > left.span().lo() {
+                        let orig_len = right.span().hi() - left.span().lo();
+                        if new_len <= orig_len.0 as usize {
+                            Known($value)
+                        } else {
+                            Unknown
+                        }
                     } else {
-                        Unknown
+                        Known($value)
                     }
                 }
             }};
@@ -863,10 +928,12 @@ impl SimplifyExpr {
                 // advantage of that without some kind of non-NaN proof.  So the special cases
                 // here only deal with 1*x
                 if Known(1.0) == lv {
+                    self.changed = true;
                     // TODO: cloneTree()
                     return rv;
                 }
                 if Known(1.0) == rv {
+                    self.changed = true;
                     // TODO: cloneTree()
                     return lv;
                 }
@@ -1090,7 +1157,26 @@ impl Fold for SimplifyExpr {
         n
     }
 
+    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+        let old = self.is_modifying;
+        self.is_modifying = true;
+        let left = n.left.fold_with(self);
+        self.is_modifying = old;
+
+        self.is_modifying = false;
+        let right = n.right.fold_with(self);
+        self.is_modifying = old;
+
+        AssignExpr { left, right, ..n }
+    }
+
     fn fold_expr(&mut self, expr: Expr) -> Expr {
+        match expr {
+            Expr::Unary(UnaryExpr {
+                op: op!("delete"), ..
+            }) => return expr,
+            _ => {}
+        }
         // fold children before doing something more.
         let expr = expr.fold_children_with(self);
 
@@ -1099,7 +1185,10 @@ impl Fold for SimplifyExpr {
             Expr::Lit(_) | Expr::This(..) => expr,
 
             // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr, .. }) => *expr,
+            Expr::Paren(ParenExpr { expr, .. }) => {
+                self.changed = true;
+                *expr
+            }
 
             Expr::Unary(expr) => self.fold_unary(expr),
             Expr::Bin(expr) => self.fold_bin(expr),
@@ -1113,6 +1202,8 @@ impl Fold for SimplifyExpr {
                 alt,
             }) => match test.as_bool() {
                 (p, Known(val)) => {
+                    self.changed = true;
+
                     let expr_value = if val { cons } else { alt };
                     if p.is_pure() {
                         *expr_value
@@ -1151,7 +1242,10 @@ impl Fold for SimplifyExpr {
                         Some(ExprOrSpread {
                             spread: Some(..),
                             expr,
-                        }) if expr.is_array() => e.extend(expr.array().unwrap().elems),
+                        }) if expr.is_array() => {
+                            self.changed = true;
+                            e.extend(expr.array().unwrap().elems)
+                        }
 
                         _ => e.push(elem),
                     }
@@ -1181,7 +1275,7 @@ impl Fold for SimplifyExpr {
                         _ => ps.push(p),
                     }
                 }
-
+                self.changed = true;
                 ObjectLit { span, props: ps }.into()
             }
 
@@ -1194,6 +1288,7 @@ impl Fold for SimplifyExpr {
                 {
                     let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
                     if let Known(value) = e.as_string() {
+                        self.changed = true;
                         return Expr::Lit(Lit::Str(Str {
                             span: e.span(),
                             value: value.into(),
@@ -1243,6 +1338,8 @@ impl Fold for SimplifyExpr {
     fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e = e.fold_children_with(self);
 
+        let len = e.exprs.len();
+
         let last_expr = e.exprs.pop().expect("SeqExpr.exprs must not be empty");
 
         // Expressions except last one
@@ -1274,6 +1371,8 @@ impl Fold for SimplifyExpr {
 
         exprs.push(last_expr);
         exprs.shrink_to_fit();
+
+        self.changed |= len != exprs.len();
 
         SeqExpr {
             exprs,
@@ -1321,6 +1420,25 @@ impl Fold for SimplifyExpr {
         }
 
         n
+    }
+
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+        let old_is_modifying = self.is_modifying;
+        self.is_modifying = false;
+        let old_is_arg_of_update = self.is_arg_of_update;
+        self.is_arg_of_update = false;
+        let s = s.fold_children_with(self);
+        self.is_arg_of_update = old_is_arg_of_update;
+        self.is_modifying = old_is_modifying;
+        s
+    }
+
+    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+        let old = self.is_modifying;
+        self.is_modifying = true;
+        let arg = n.arg.fold_with(self);
+        self.is_modifying = old;
+        UpdateExpr { arg, ..n }
     }
 }
 

@@ -1,0 +1,7 @@
+{
+    "collapse_vars": true,
+    "hoist_funs": true,
+    "join_vars": true,
+    "sequences": true,
+    "side_effects": true
+}

@@ -1,0 +1,7 @@
+{
+    "hoist_props": true,
+    "reduce_vars": true,
+    "top_retain": ["x", "y"],
+    "toplevel": true,
+    "unused": true
+}

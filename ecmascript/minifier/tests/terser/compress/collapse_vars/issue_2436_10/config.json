@@ -1,0 +1,8 @@
+{
+    "collapse_vars": true,
+    "inline": true,
+    "pure_getters": true,
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

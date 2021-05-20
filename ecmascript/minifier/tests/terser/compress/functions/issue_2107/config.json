@@ -1,0 +1,8 @@
+{
+    "collapse_vars": true,
+    "inline": true,
+    "passes": 3,
+    "sequences": true,
+    "side_effects": true,
+    "unused": true
+}

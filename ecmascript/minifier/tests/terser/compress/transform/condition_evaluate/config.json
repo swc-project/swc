@@ -1,0 +1,6 @@
+{
+    "booleans": true,
+    "dead_code": false,
+    "evaluate": true,
+    "loops": false
+}

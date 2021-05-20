@@ -1,0 +1,4 @@
+clearInterval;
+clearTimeout;
+setInterval;
+setTimeout;
