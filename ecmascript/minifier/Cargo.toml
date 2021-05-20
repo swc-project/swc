@@ -22,6 +22,7 @@ swc_atoms = {version = "0.2", path = "../../atoms"}
 swc_common = {version = "0.10.8", path = "../../common"}
 swc_ecma_ast = {version = "0.45.0", path = "../ast"}
 swc_ecma_codegen = {version = "0.55.0", path = "../codegen"}
+swc_ecma_parser = {version = "0.57.0", path = "../parser"}
 swc_ecma_transforms = {version = "0.50.0", path = "../transforms/", features = ["optimization"]}
 swc_ecma_transforms_base = {version = "0.15.0", path = "../transforms/base"}
 swc_ecma_utils = {version = "0.36.0", path = "../utils"}
@@ -30,6 +31,5 @@ swc_ecma_visit = {version = "0.31.0", path = "../visit"}
 [dev-dependencies]
 ansi_term = "0.12.1"
 pretty_assertions = "0.6.1"
-swc_ecma_parser = {version = "0.57.0", path = "../parser"}
 testing = {version = "0.10.2", path = "../../testing"}
 walkdir = "2.3.1"
