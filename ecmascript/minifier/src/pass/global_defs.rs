@@ -2,17 +2,16 @@ use std::borrow::Cow;
 use swc_common::pass::CompilerPass;
 use swc_common::EqIgnoreSpan;
 use swc_ecma_ast::*;
-use swc_ecma_visit::as_folder;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>) -> impl CompilerPass {
-    as_folder(GlobalDefs { defs })
+pub fn globals_defs(defs: Vec<(Box<Expr>, Lit)>) -> impl VisitMut {
+    GlobalDefs { defs }
 }
 
 struct GlobalDefs {
-    defs: Vec<(Box<Expr>, Box<Expr>)>,
+    defs: Vec<(Box<Expr>, Lit)>,
 }
 
 impl CompilerPass for GlobalDefs {
@@ -26,8 +25,12 @@ impl VisitMut for GlobalDefs {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| pred.eq_ignore_span(&*n)) {
-            *n = *new.clone();
+        if let Some((_, new)) = self
+            .defs
+            .iter()
+            .find(|(pred, _)| (&**pred).eq_ignore_span(&*n))
+        {
+            *n = Expr::Lit(new.clone());
             return;
         }
 
