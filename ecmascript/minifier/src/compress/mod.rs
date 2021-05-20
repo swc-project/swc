@@ -129,15 +129,18 @@ impl VisitMut for Compressor<'_> {
             return;
         }
 
-        dbg!(self.pass);
-
         // Temporary
         if self.pass > 10 {
             panic!("Infinite loop detected")
         }
 
-        let start = dump(&*n);
-        log::trace!("===== Start =====\n{}", start);
+        let start = if cfg!(debug_assertions) {
+            let start = dump(&*n);
+            log::trace!("===== Start =====\n{}", start);
+            start
+        } else {
+            String::new()
+        };
 
         {
             let mut visitor = expr_simplifier();
