@@ -76,11 +76,11 @@ enum TestMangleOptions {
     Normal(MangleOptions),
 }
 
-fn parse_compressor_config(s: &str) -> (bool, CompressOptions) {
+fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
     let c: TerserCompressorOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
-    (c.module, c.into())
+    (c.module, c.into_config(cm))
 }
 
 /// Tests ported from terser.
@@ -94,22 +94,23 @@ fn fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let (_module, config) = parse_compressor_config(&config);
-
-    let mangle = dir.join("mangle.json");
-    let mangle = read_to_string(&mangle).ok();
-    if let Some(mangle) = &mangle {
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Mangle config"),
-            mangle
-        );
-    }
-
-    let mangle: Option<TestMangleOptions> =
-        mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
     testing::run_test2(false, |cm, handler| {
+        let (_module, config) = parse_compressor_config(cm.clone(), &config);
+
+        let mangle = dir.join("mangle.json");
+        let mangle = read_to_string(&mangle).ok();
+        if let Some(mangle) = &mangle {
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Mangle config"),
+                mangle
+            );
+        }
+
+        let mangle: Option<TestMangleOptions> =
+            mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
+
         let fm = cm.load_file(&input).expect("failed to load input.js");
         let comments = SingleThreadedComments::default();
 

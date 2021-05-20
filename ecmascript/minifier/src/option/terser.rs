@@ -6,8 +6,14 @@ use fxhash::FxHashMap;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_atoms::JsWord;
+use swc_common::input::SourceFileInput;
+use swc_common::sync::Lrc;
+use swc_common::FileName;
+use swc_common::SourceMap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_parser::lexer::Lexer;
+use swc_ecma_parser::Parser;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -237,28 +243,47 @@ fn ecma_default() -> TerserEcmaVersion {
     TerserEcmaVersion::Num(5)
 }
 
-impl From<TerserCompressorOptions> for CompressOptions {
-    fn from(c: TerserCompressorOptions) -> Self {
+impl TerserCompressorOptions {
+    pub fn into_config(self, cm: Lrc<SourceMap>) -> CompressOptions {
         CompressOptions {
-            arguments: c.arguments,
-            arrows: c.arrows.unwrap_or(c.defaults),
-            bools: c.booleans.unwrap_or(c.defaults),
-            bools_as_ints: c.booleans_as_integers,
-            collapse_vars: c.collapse_vars.unwrap_or(c.defaults),
-            comparisons: c.comparisons.unwrap_or(c.defaults),
-            computed_props: c.computed_props,
-            conditionals: c.conditionals,
-            dead_code: c.dead_code,
-            directives: c.directives,
-            drop_console: c.drop_console,
-            drop_debugger: c.drop_debugger.unwrap_or(c.defaults),
-            ecma: c.ecma.into(),
-            evaluate: c.evaluate.unwrap_or(c.defaults),
-            expr: c.expression,
-            global_defs: c
+            arguments: self.arguments,
+            arrows: self.arrows.unwrap_or(self.defaults),
+            bools: self.booleans.unwrap_or(self.defaults),
+            bools_as_ints: self.booleans_as_integers,
+            collapse_vars: self.collapse_vars.unwrap_or(self.defaults),
+            comparisons: self.comparisons.unwrap_or(self.defaults),
+            computed_props: self.computed_props,
+            conditionals: self.conditionals,
+            dead_code: self.dead_code,
+            directives: self.directives,
+            drop_console: self.drop_console,
+            drop_debugger: self.drop_debugger.unwrap_or(self.defaults),
+            ecma: self.ecma.into(),
+            evaluate: self.evaluate.unwrap_or(self.defaults),
+            expr: self.expression,
+            global_defs: self
                 .global_defs
                 .into_iter()
                 .map(|(k, v)| {
+                    let k = {
+                        let fm = cm.new_source_file(FileName::Anon, k.to_string());
+
+                        let lexer = Lexer::new(
+                            Default::default(),
+                            Default::default(),
+                            SourceFileInput::from(&*fm),
+                            None,
+                        );
+                        let mut parser = Parser::new_from(lexer);
+
+                        parser.parse_expr().unwrap_or_else(|err| {
+                            panic!(
+                                "failed to parse `global_defs.{}` of minifier options: {:?}",
+                                k, err
+                            )
+                        })
+                    };
+
                     (
                         k,
                         match v {
@@ -284,12 +309,12 @@ impl From<TerserCompressorOptions> for CompressOptions {
                     )
                 })
                 .collect(),
-            hoist_fns: c.hoist_funs,
-            hoist_props: c.hoist_props.unwrap_or(c.defaults),
-            hoist_vars: c.hoist_vars,
-            ie8: c.ie8,
-            if_return: c.if_return.unwrap_or(c.defaults),
-            inline: c
+            hoist_fns: self.hoist_funs,
+            hoist_props: self.hoist_props.unwrap_or(self.defaults),
+            hoist_vars: self.hoist_vars,
+            ie8: self.ie8,
+            if_return: self.if_return.unwrap_or(self.defaults),
+            inline: self
                 .inline
                 .map(|v| match v {
                     TerserInlineOption::Bool(v) => {
@@ -301,19 +326,19 @@ impl From<TerserCompressorOptions> for CompressOptions {
                     }
                     TerserInlineOption::Num(n) => n,
                 })
-                .unwrap_or(if c.defaults { 3 } else { 0 }),
-            join_vars: c.join_vars.unwrap_or(c.defaults),
-            keep_classnames: c.keep_classnames,
-            keep_fargs: c.keep_fargs.unwrap_or(c.defaults),
-            keep_fnames: c.keep_fnames,
-            keep_infinity: c.keep_infinity,
-            loops: c.loops.unwrap_or(c.defaults),
-            negate_iife: c.negate_iife.unwrap_or(c.defaults),
-            passes: c.passes,
-            props: c.properties.unwrap_or(c.defaults),
-            reduce_fns: c.reduce_funcs,
-            reduce_vars: c.reduce_vars,
-            sequences: c
+                .unwrap_or(if self.defaults { 3 } else { 0 }),
+            join_vars: self.join_vars.unwrap_or(self.defaults),
+            keep_classnames: self.keep_classnames,
+            keep_fargs: self.keep_fargs.unwrap_or(self.defaults),
+            keep_fnames: self.keep_fnames,
+            keep_infinity: self.keep_infinity,
+            loops: self.loops.unwrap_or(self.defaults),
+            negate_iife: self.negate_iife.unwrap_or(self.defaults),
+            passes: self.passes,
+            props: self.properties.unwrap_or(self.defaults),
+            reduce_fns: self.reduce_funcs,
+            reduce_vars: self.reduce_vars,
+            sequences: self
                 .sequences
                 .map(|v| match v {
                     TerserSequenceOptions::Bool(v) => {
@@ -325,23 +350,23 @@ impl From<TerserCompressorOptions> for CompressOptions {
                     }
                     TerserSequenceOptions::Num(v) => v,
                 })
-                .unwrap_or(if c.defaults { 3 } else { 0 }),
-            side_effects: c.side_effects.unwrap_or(c.defaults),
-            switches: c.switches,
-            top_retain: c.top_retain.map(From::from).unwrap_or_default(),
-            top_level: c.toplevel.map(From::from),
-            typeofs: c.typeofs.unwrap_or(c.defaults),
-            unsafe_passes: c.unsafe_passes,
-            unsafe_arrows: c.unsafe_arrows,
-            unsafe_comps: c.unsafe_comps,
-            unsafe_function: c.unsafe_function,
-            unsafe_math: c.unsafe_math,
-            unsafe_symbols: c.unsafe_symbols,
-            unsafe_methods: c.unsafe_methods,
-            unsafe_proto: c.unsafe_proto,
-            unsafe_regexp: c.unsafe_regexp,
-            unsafe_undefined: c.unsafe_undefined,
-            unused: c.unused.unwrap_or(c.defaults),
+                .unwrap_or(if self.defaults { 3 } else { 0 }),
+            side_effects: self.side_effects.unwrap_or(self.defaults),
+            switches: self.switches,
+            top_retain: self.top_retain.map(From::from).unwrap_or_default(),
+            top_level: self.toplevel.map(From::from),
+            typeofs: self.typeofs.unwrap_or(self.defaults),
+            unsafe_passes: self.unsafe_passes,
+            unsafe_arrows: self.unsafe_arrows,
+            unsafe_comps: self.unsafe_comps,
+            unsafe_function: self.unsafe_function,
+            unsafe_math: self.unsafe_math,
+            unsafe_symbols: self.unsafe_symbols,
+            unsafe_methods: self.unsafe_methods,
+            unsafe_proto: self.unsafe_proto,
+            unsafe_regexp: self.unsafe_regexp,
+            unsafe_undefined: self.unsafe_undefined,
+            unused: self.unused.unwrap_or(self.defaults),
         }
     }
 }

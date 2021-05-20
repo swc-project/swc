@@ -4,6 +4,7 @@ use serde::Deserialize;
 use serde::Serialize;
 use swc_atoms::JsWord;
 use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::Expr;
 use swc_ecma_ast::Lit;
 
 pub mod terser;
@@ -128,9 +129,9 @@ pub struct CompressOptions {
     #[serde(alias = "expression")]
     pub expr: bool,
 
-    #[serde(default)]
+    #[serde(skip)]
     #[serde(alias = "global_defs")]
-    pub global_defs: FxHashMap<JsWord, Lit>,
+    pub global_defs: FxHashMap<Box<Expr>, Lit>,
 
     #[serde(default)]
     #[serde(alias = "hoist_funs")]
