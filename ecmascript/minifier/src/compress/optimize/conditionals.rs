@@ -40,7 +40,7 @@ impl Optimizer<'_> {
         let lt = bin.left.get_type();
         let rt = bin.right.get_type();
 
-        let lb = bin.left.as_pure_bool();
+        let _lb = bin.left.as_pure_bool();
         let rb = bin.right.as_pure_bool();
 
         if let (Known(Type::Bool), Known(Type::Bool)) = (lt, rt) {

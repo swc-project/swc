@@ -76,7 +76,7 @@ pub(super) fn optimizer<'a>(
         vars_for_inlining: Default::default(),
         vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
-        simple_array_values: Default::default(),
+        _simple_array_values: Default::default(),
         typeofs: Default::default(),
         data: Default::default(),
         ctx: Default::default(),
@@ -159,7 +159,7 @@ struct Optimizer<'a> {
     vars_for_prop_hoisting: FxHashMap<Id, Box<Expr>>,
     /// Used for `hoist_props`.
     simple_props: FxHashMap<(Id, JsWord), Box<Expr>>,
-    simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
+    _simple_array_values: FxHashMap<(Id, usize), Box<Expr>>,
     typeofs: FxHashMap<Id, JsWord>,
     /// This information is created by analyzing identifier usages.
     ///

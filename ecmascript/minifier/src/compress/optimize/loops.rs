@@ -152,7 +152,7 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn drop_if_break(&mut self, s: &ForStmt) {
+    pub(super) fn drop_if_break(&mut self, _s: &ForStmt) {
         if !self.options.loops {
             return;
         }
