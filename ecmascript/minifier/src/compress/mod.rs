@@ -124,19 +124,22 @@ impl VisitMut for Compressor<'_> {
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
-            eprintln!("===== Done =====\n{}", done);
+            log::trace!("===== Done =====\n{}", done);
             return;
         }
-
-        dbg!(self.pass);
 
         // Temporary
         if self.pass > 10 {
             panic!("Infinite loop detected")
         }
 
-        let start = dump(&*n);
-        eprintln!("===== Start =====\n{}", start);
+        let start = if cfg!(debug_assertions) {
+            let start = dump(&*n);
+            log::trace!("===== Start =====\n{}", start);
+            start
+        } else {
+            String::new()
+        };
 
         {
             let mut visitor = expr_simplifier();
@@ -144,7 +147,7 @@ impl VisitMut for Compressor<'_> {
             self.changed |= visitor.changed();
             if visitor.changed() {
                 log::trace!("compressor: Simplified expressions");
-                eprintln!("===== Simplified =====\n{}", dump(&*n));
+                log::trace!("===== Simplified =====\n{}", dump(&*n));
             }
 
             if cfg!(debug_assertions) && !visitor.changed() {
