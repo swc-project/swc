@@ -55,7 +55,20 @@ impl VisitMut for GlobalDefs {
         n.visit_mut_children_with(self);
     }
 
-    /// Noop.
     #[inline]
-    fn visit_mut_update_expr(&mut self, _: &mut UpdateExpr) {}
+    fn visit_mut_update_expr(&mut self, e: &mut UpdateExpr) {
+        match &mut *e.arg {
+            Expr::Ident(..) => {}
+
+            Expr::Member(MemberExpr {
+                computed: false, ..
+            }) => {
+                // TODO: Check for `obj`
+            }
+
+            _ => {
+                e.arg.visit_mut_with(self);
+            }
+        }
+    }
 }
