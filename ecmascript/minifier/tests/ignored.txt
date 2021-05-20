@@ -217,7 +217,6 @@ destructuring/empty_object_destructuring_4/input.js
 destructuring/empty_object_destructuring_misc/input.js
 destructuring/export_function_containing_destructuring_decl/input.js
 destructuring/export_unreferenced_declarations_2/input.js
-destructuring/issue_2140/input.js
 destructuring/issue_3205_2/input.js
 destructuring/issue_3205_3/input.js
 destructuring/issue_3205_4/input.js
