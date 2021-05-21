@@ -7,8 +7,8 @@ use swc_common::comments::Comment;
 use swc_common::comments::CommentKind;
 use swc_common::Mark;
 use swc_common::Span;
-use swc_ecma_ast::Expr;
-use swc_ecma_ast::PropName;
+use swc_ecma_ast::*;
+use swc_ecma_utils::prop_name_eq;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn access_property<'e>(
@@ -16,6 +16,29 @@ impl<'b> Optimizer<'b> {
         expr: &'e mut Expr,
         prop: &JsWord,
     ) -> Option<&'e mut Expr> {
+        match expr {
+            Expr::Object(obj) => {
+                for obj_prop in obj.props.iter_mut() {
+                    match obj_prop {
+                        PropOrSpread::Spread(_) => {}
+                        PropOrSpread::Prop(p) => match &mut **p {
+                            Prop::Shorthand(_) => {}
+                            Prop::KeyValue(p) => {
+                                if prop_name_eq(&p.key, &prop) {
+                                    return Some(&mut *p.value);
+                                }
+                            }
+                            Prop::Assign(_) => {}
+                            Prop::Getter(_) => {}
+                            Prop::Setter(_) => {}
+                            Prop::Method(_) => {}
+                        },
+                    }
+                }
+            }
+            _ => {}
+        }
+
         None
     }
 
