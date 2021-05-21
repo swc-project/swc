@@ -433,8 +433,8 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             kind: Default::default(),
         }))),
 
-        Value::Array(v) => {
-            let elems = v
+        Value::Array(arr) => {
+            let elems = arr
                 .into_iter()
                 .map(value_to_expr)
                 .map(|expr| Some(ExprOrSpread { spread: None, expr }))
@@ -445,8 +445,28 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             }))
         }
 
-        Value::Object(_) => {
-            unreachable!()
+        Value::Object(obj) => {
+            let props = obj
+                .into_iter()
+                .map(|(k, v)| (k, value_to_expr(v)))
+                .map(|(key, value)| KeyValueProp {
+                    key: PropName::Str(Str {
+                        span: DUMMY_SP,
+                        value: key.into(),
+                        has_escape: false,
+                        kind: Default::default(),
+                    }),
+                    value,
+                })
+                .map(Prop::KeyValue)
+                .map(Box::new)
+                .map(PropOrSpread::Prop)
+                .collect();
+
+            Box::new(Expr::Object(ObjectLit {
+                span: DUMMY_SP,
+                props,
+            }))
         }
     }
 }
