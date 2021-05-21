@@ -1580,6 +1580,8 @@ impl VisitMut for Optimizer<'_> {
         if n.computed {
             n.prop.visit_mut_with(self);
         }
+
+        self.handle_known_computed_member_expr(n);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
