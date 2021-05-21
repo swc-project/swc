@@ -74,6 +74,7 @@ big_int/big_int_octal/input.js
 big_int/big_int_positive/input.js
 big_int/regression_big_int_hex_lower_with_e/input.js
 block_scope/do_not_hoist_let/input.js
+block_scope/do_not_remove_anon_blocks_if_they_have_decls/input.js
 block_scope/issue_241/input.js
 block_scope/issue_508/input.js
 block_scope/let_statement/input.js
@@ -131,6 +132,7 @@ collapse_vars/issue_1537_destructuring_for_of/input.js
 collapse_vars/issue_1537_for_of/input.js
 collapse_vars/issue_1605_1/input.js
 collapse_vars/issue_2313_1/input.js
+collapse_vars/issue_2313_2/input.js
 collapse_vars/issue_2319_2/input.js
 collapse_vars/issue_2364_6/input.js
 collapse_vars/issue_2364_7/input.js
@@ -233,6 +235,8 @@ destructuring/destructuring_expressions/input.js
 destructuring/destructuring_letdef_in_loops/input.js
 destructuring/destructuring_objects/input.js
 destructuring/destructuring_objects_trailing_elision/input.js
+destructuring/destructuring_remove_unused_1/input.js
+destructuring/destructuring_remove_unused_2/input.js
 destructuring/destructuring_vardef_in_loops/input.js
 destructuring/empty_object_destructuring_1/input.js
 destructuring/empty_object_destructuring_2/input.js
@@ -242,6 +246,7 @@ destructuring/issue_2044_ecma_5/input.js
 destructuring/issue_2044_ecma_5_beautify/input.js
 destructuring/issue_2044_ecma_6/input.js
 destructuring/issue_2044_ecma_6_beautify/input.js
+destructuring/issue_2140/input.js
 destructuring/issue_3205_1/input.js
 destructuring/issue_t111_4/input.js
 destructuring/nested_destructuring_objects/input.js
@@ -299,6 +304,7 @@ drop_unused/unused_keep_setter_arg/input.js
 drop_unused/unused_nested_function/input.js
 drop_unused/unused_seq_elements/input.js
 drop_unused/unused_var_in_catch/input.js
+drop_unused/used_block_decls_in_catch/input.js
 drop_unused/vardef_value/input.js
 evaluate/Infinity_NaN_undefined_LHS/input.js
 evaluate/and/input.js
@@ -383,6 +389,10 @@ functions/issue_3054/input.js
 functions/no_webkit/input.js
 functions/recursive_inline_1/input.js
 functions/webkit/input.js
+global_defs/issue_1801/input.js
+global_defs/keyword/input.js
+global_defs/mixed/input.js
+global_defs/must_replace/input.js
 harmony/array_literal_with_spread_1/input.js
 harmony/array_literal_with_spread_2a/input.js
 harmony/array_literal_with_spread_3a/input.js
@@ -730,6 +740,7 @@ pure_getters/issue_2313_5/input.js
 pure_getters/issue_2313_7/input.js
 pure_getters/issue_2678/input.js
 pure_getters/issue_2938_1/input.js
+pure_getters/issue_2938_2/input.js
 pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_4/input.js
 reduce_vars/accessor_1/input.js
@@ -758,6 +769,7 @@ reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
+reduce_vars/double_reference/input.js
 reduce_vars/duplicate_lambda_defun_name_2/input.js
 reduce_vars/escape_await/input.js
 reduce_vars/escape_conditional/input.js
