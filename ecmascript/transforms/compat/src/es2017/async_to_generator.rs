@@ -396,6 +396,10 @@ impl Fold for Actual {
 
         n
     }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        n
+    }
 }
 
 /// Hoists super access
