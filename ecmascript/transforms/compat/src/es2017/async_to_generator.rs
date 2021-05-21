@@ -870,6 +870,13 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
 
     assert!(expr.function.is_async);
     expr.function.is_async = false;
+
+    let helper = if expr.function.is_generator {
+        helper!(wrap_async_generator, "wrapAsyncGenerator")
+    } else {
+        helper!(async_to_generator, "asyncToGenerator")
+    };
+
     expr.function.is_generator = true;
 
     let span = expr.span();
@@ -888,7 +895,7 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
 
     Expr::Call(CallExpr {
         span,
-        callee: helper!(async_to_generator, "asyncToGenerator"),
+        callee: helper,
         args: vec![expr.as_arg()],
         type_args: Default::default(),
     })
