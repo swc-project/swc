@@ -4,6 +4,13 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
 impl Optimizer<'_> {
+    /// Converts `{ a: 1 }.a` into `1`.
+    pub(super) fn handle_property_access(&mut self, e: &mut Expr) {
+        if !self.options.props {
+            return;
+        }
+    }
+
     pub(super) fn handle_known_computed_member_expr(&mut self, e: &mut MemberExpr) {
         if !self.options.props || !self.options.evaluate {
             return;
