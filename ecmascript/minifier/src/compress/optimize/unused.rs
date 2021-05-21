@@ -178,6 +178,14 @@ impl Optimizer<'_> {
             }
 
             Pat::Object(obj) => {
+                // If a rest pattern exists, we can't remove anything at current level.
+                if obj.props.iter().any(|p| match p {
+                    ObjectPatProp::Rest(_) => true,
+                    _ => false,
+                }) {
+                    return;
+                }
+
                 for prop in &mut obj.props {
                     match prop {
                         ObjectPatProp::KeyValue(p) => {
