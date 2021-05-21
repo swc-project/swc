@@ -684,28 +684,114 @@ impl Actual {
             _ => return stmt,
         };
 
+        let value = private_ident!("_value");
         let iterator = private_ident!("_iterator");
-        let iteration_error = private_ident!("_didIteratorError");
+        let iterator_error = private_ident!("_iteratorError");
         let step = private_ident!("_step");
         let did_iteration_error = private_ident!("_didIteratorError");
         let iterator_normal_completion = private_ident!("_iteratorNormalCompletion");
+        let err_param = private_ident!("err");
 
-        let try_body = BlockStmt {};
+        let try_body = {
+            let body_span = s.body.span();
+            let orig_body = match *s.body {
+                Stmt::Block(s) => s.stmts,
+                _ => vec![*s.body],
+            };
 
-        let catch_clause = CatchClause {};
+            let mut for_loop_body = vec![];
+
+            match s.left {
+                VarDeclOrPat::VarDecl(v) => {
+                    let var = v.decls.into_iter().next().unwrap();
+                    let var_decl = VarDeclarator {
+                        span: DUMMY_SP,
+                        name: var.name,
+                        init: Some(Box::new(Expr::Ident(value.clone()))),
+                        definite: false,
+                    };
+                    for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vec![var_decl],
+                    })));
+                }
+                VarDeclOrPat::Pat(p) => {
+                    for_loop_body.push(Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(p)),
+                            right: Box::new(Expr::Ident(value.clone())),
+                        })),
+                    }));
+                }
+            }
+
+            for_loop_body.extend(orig_body);
+
+            let for_loop_body = BlockStmt {
+                span: body_span,
+                stmts: for_loop_body,
+            };
+
+            let for_stmt = Stmt::For(ForStmt {});
+
+            BlockStmt {
+                span: body_span,
+                stmts: vec![for_stmt],
+            }
+        };
+
+        let catch_clause = {
+            // _didIteratorError = true;
+            let mark_as_errored = Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(did_iteration_error.clone().into()))),
+                    right: Box::new(Expr::Lit(Lit::Bool(Bool {
+                        span: DUMMY_SP,
+                        value: true,
+                    }))),
+                })),
+            });
+            // _iteratorError = err;
+            let store_error = Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(iterator_error.clone().into()))),
+                    right: Box::new(Expr::Ident(err_param.clone())),
+                })),
+            });
+
+            CatchClause {
+                span: DUMMY_SP,
+                param: Some(Pat::Ident(err_param.clone().into())),
+                body: BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![mark_as_errored, store_error],
+                },
+            }
+        };
 
         let finally_block = {
             let throw_iterator_error = Stmt::Throw(ThrowStmt {
                 span: DUMMY_SP,
-                arg: Box::new(Expr::Ident(iteration_error.clone())),
+                arg: Box::new(Expr::Ident(iterator_error.clone())),
             });
             let throw_iterator_error = Stmt::If(IfStmt {
                 span: DUMMY_SP,
                 test: Box::new(Expr::Ident(did_iteration_error.clone())),
-                cons: Box::new(BlockStmt {
+                cons: Box::new(Stmt::Block(BlockStmt {
                     span: DUMMY_SP,
                     stmts: vec![throw_iterator_error],
-                }),
+                })),
                 alt: None,
             });
 
@@ -717,7 +803,7 @@ impl Actual {
                     delegate: false,
                     arg: Some(Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: iteration_error
+                        callee: iterator_error
                             .clone()
                             .make_member(quote_ident!("return"))
                             .as_callee(),
