@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 
 impl Optimizer<'_> {
     pub(super) fn handle_known_computed_member_expr(&mut self, e: &mut MemberExpr) {
-        if !self.options.props {
+        if !self.options.props || !self.options.evaluate {
             return;
         }
 
@@ -15,7 +15,7 @@ impl Optimizer<'_> {
 
         match &*e.prop {
             Expr::Lit(Lit::Str(s)) => {
-                if s.value == js_word!("") {
+                if s.value == js_word!("") || s.value.starts_with(|c: char| c.is_digit(10)) {
                     return;
                 }
 
