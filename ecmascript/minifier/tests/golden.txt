@@ -393,6 +393,7 @@ global_defs/issue_1801/input.js
 global_defs/keyword/input.js
 global_defs/mixed/input.js
 global_defs/must_replace/input.js
+global_defs/object/input.js
 harmony/array_literal_with_spread_1/input.js
 harmony/array_literal_with_spread_2a/input.js
 harmony/array_literal_with_spread_3a/input.js
