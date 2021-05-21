@@ -87,10 +87,10 @@ impl Optimizer<'_> {
             }
         }
 
-        self.take_pat_if_unused(name);
+        self.take_pat_if_unused(name, value);
     }
 
-    fn take_pat_if_unused(&mut self, name: &mut Pat) {
+    fn take_pat_if_unused(&mut self, name: &mut Pat, mut value: Option<&mut Expr>) {
         match name {
             Pat::Ident(i) => {
                 if self.options.top_retain.contains(&i.id.sym) {
@@ -115,16 +115,21 @@ impl Optimizer<'_> {
                     return;
                 }
             }
+
             Pat::Array(arr) => {
                 // TODO: Use smart logic
                 if self.options.pure_getters != PureGetterOption::Bool(true) {
                     return;
                 }
 
-                for elem in &mut arr.elems {
+                for (idx, elem) in arr.elems.iter_mut().enumerate() {
                     match elem {
                         Some(p) => {
-                            self.take_pat_if_unused(p);
+                            let elem = value
+                                .as_mut()
+                                .and_then(|expr| self.access_numeric_property(expr, idx));
+
+                            self.take_pat_if_unused(p, elem);
                         }
                         None => {}
                     }
@@ -149,7 +154,11 @@ impl Optimizer<'_> {
                                 continue;
                             }
 
-                            self.take_pat_if_unused(&mut p.value);
+                            let prop = value.as_mut().and_then(|value| {
+                                self.access_property_with_prop_name(value, &p.key)
+                            });
+
+                            self.take_pat_if_unused(&mut p.value, prop);
                         }
                         ObjectPatProp::Assign(_) => {}
                         ObjectPatProp::Rest(_) => {}
