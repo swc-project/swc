@@ -668,7 +668,7 @@ impl Actual {
         args: Vec<ExprOrSpread>,
         type_args: Option<TsTypeParamInstantiation>,
     ) -> Expr {
-        if !callee.function.is_async {
+        if !callee.function.is_async || callee.ident.is_some() {
             return Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(Box::new(Expr::Fn(callee))),
