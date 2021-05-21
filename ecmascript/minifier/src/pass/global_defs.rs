@@ -5,6 +5,7 @@ use swc_common::EqIgnoreSpan;
 use swc_common::Mark;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::noop_visit_type;
@@ -65,7 +66,9 @@ impl VisitMut for GlobalDefs {
 
         match n {
             Expr::Ident(i) => {
-                if i.span.ctxt != self.top_level_ctxt {
+                if i.span.ctxt != self.top_level_ctxt
+                    || self.top_level_bindings.contains(&i.to_id())
+                {
                     return;
                 }
             }
@@ -74,7 +77,9 @@ impl VisitMut for GlobalDefs {
                 ..
             }) => match &**obj {
                 Expr::Ident(i) => {
-                    if i.span.ctxt != self.top_level_ctxt {
+                    if i.span.ctxt != self.top_level_ctxt
+                        || self.top_level_bindings.contains(&i.to_id())
+                    {
                         return;
                     }
                 }
