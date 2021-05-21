@@ -998,4 +998,3 @@ impl Visit for FunctionFinder {
         self.found = true
     }
 }
-
