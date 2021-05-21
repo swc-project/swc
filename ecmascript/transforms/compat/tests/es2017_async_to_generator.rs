@@ -1,4 +1,5 @@
 #![feature(test)]
+use crate::es2015::regenerator;
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
@@ -14,8 +15,6 @@ use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
-
-use crate::es2015::regenerator;
 
 struct ParenRemover;
 impl Fold for ParenRemover {
@@ -2422,4 +2421,17 @@ test_exec!(
   }
   return obj.method().then((res) => expect(res).toBe(5))
 "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1722_1,
+    "
+    (async function main() {
+      console.log(1)
+    })();
+    ",
+    "
+    "
 );
