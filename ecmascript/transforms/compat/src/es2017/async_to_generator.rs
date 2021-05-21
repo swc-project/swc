@@ -88,6 +88,33 @@ impl AsyncToGenerator {
 impl Fold for Actual {
     noop_fold_type!();
 
+    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let mut n = n.fold_children_with(self);
+
+        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
+            match callee {
+                Expr::Call(callee_of_callee) => {
+                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                        // We found bind(this).bind(this)
+                        return replace(
+                            callee_of_callee,
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
+                                args: Default::default(),
+                                type_args: Default::default(),
+                            },
+                        );
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        n
+    }
+
     fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
@@ -146,33 +173,6 @@ impl Fold for Actual {
             },
             ..m
         }
-    }
-
-    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
-    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
-        let mut n = n.fold_children_with(self);
-
-        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
-            match callee {
-                Expr::Call(callee_of_callee) => {
-                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                        // We found bind(this).bind(this)
-                        return replace(
-                            callee_of_callee,
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
-                                args: Default::default(),
-                                type_args: Default::default(),
-                            },
-                        );
-                    }
-                }
-                _ => {}
-            }
-        }
-
-        n
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -330,17 +330,6 @@ impl Fold for Actual {
         }
     }
 
-    fn fold_prop(&mut self, n: Prop) -> Prop {
-        let old = self.in_object_prop;
-        self.in_object_prop = true;
-
-        let n = n.fold_children_with(self);
-
-        self.in_object_prop = old;
-
-        n
-    }
-
     fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
         let prop = prop.fold_children_with(self);
 
@@ -395,6 +384,17 @@ impl Fold for Actual {
             },
             ..prop
         }
+    }
+
+    fn fold_prop(&mut self, n: Prop) -> Prop {
+        let old = self.in_object_prop;
+        self.in_object_prop = true;
+
+        let n = n.fold_children_with(self);
+
+        self.in_object_prop = old;
+
+        n
     }
 }
 
