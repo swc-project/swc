@@ -91,6 +91,13 @@ impl Optimizer<'_> {
     }
 
     fn take_pat_if_unused(&mut self, name: &mut Pat, mut value: Option<&mut Expr>) {
+        if !name.is_ident() {
+            // TODO: Use smart logic
+            if self.options.pure_getters != PureGetterOption::Bool(true) {
+                return;
+            }
+        }
+
         match name {
             Pat::Ident(i) => {
                 if self.options.top_retain.contains(&i.id.sym) {
@@ -117,11 +124,6 @@ impl Optimizer<'_> {
             }
 
             Pat::Array(arr) => {
-                // TODO: Use smart logic
-                if self.options.pure_getters != PureGetterOption::Bool(true) {
-                    return;
-                }
-
                 for (idx, elem) in arr.elems.iter_mut().enumerate() {
                     match elem {
                         Some(p) => {
@@ -142,11 +144,6 @@ impl Optimizer<'_> {
             }
 
             Pat::Object(obj) => {
-                // TODO: Use smart logic
-                if self.options.pure_getters != PureGetterOption::Bool(true) {
-                    return;
-                }
-
                 for prop in &mut obj.props {
                     match prop {
                         ObjectPatProp::KeyValue(p) => {
