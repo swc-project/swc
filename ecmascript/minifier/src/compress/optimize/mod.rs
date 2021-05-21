@@ -47,6 +47,7 @@ mod inline;
 mod join_vars;
 mod loops;
 mod ops;
+mod properties;
 mod sequences;
 mod strings;
 mod switches;
