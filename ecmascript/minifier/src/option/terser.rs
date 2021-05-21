@@ -14,6 +14,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
+use swc_ecma_utils::drop_span;
 
 #[derive(Debug, Clone, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -276,7 +277,7 @@ impl TerserCompressorOptions {
                         );
                         let mut parser = Parser::new_from(lexer);
 
-                        parser.parse_expr().unwrap_or_else(|err| {
+                        parser.parse_expr().map(drop_span).unwrap_or_else(|err| {
                             panic!(
                                 "failed to parse `global_defs.{}` of minifier options: {:?}",
                                 k, err
