@@ -92,6 +92,7 @@ impl Optimizer<'_> {
 
     fn take_pat_if_unused(&mut self, name: &mut Pat, mut value: Option<&mut Expr>) {
         let had_value = value.is_some();
+        let can_drop_children = had_value;
 
         if !name.is_ident() {
             // TODO: Use smart logic
@@ -157,7 +158,7 @@ impl Optimizer<'_> {
                                 self.access_property_with_prop_name(value, &p.key)
                             });
 
-                            if had_value && prop.is_none() {
+                            if can_drop_children && prop.is_none() {
                                 continue;
                             }
 
