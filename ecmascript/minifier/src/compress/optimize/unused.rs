@@ -65,6 +65,24 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat) {
+        if !self.options.unused {
+            return;
+        }
+
+        if let Some(scope) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.scopes.get(&self.ctx.scope))
+        {
+            if scope.has_eval_call || scope.has_with_stmt {
+                return;
+            }
+        }
+
+        self.take_pat_if_unused(pat, None)
+    }
+
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
         {

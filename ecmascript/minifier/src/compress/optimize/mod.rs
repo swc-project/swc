@@ -1594,6 +1594,12 @@ impl VisitMut for Optimizer<'_> {
         self.with_ctx(ctx).handle_stmt_likes(stmts);
     }
 
+    fn visit_mut_param(&mut self, n: &mut Param) {
+        n.visit_mut_children_with(self);
+
+        self.drop_unused_param(&mut n.pat);
+    }
+
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
