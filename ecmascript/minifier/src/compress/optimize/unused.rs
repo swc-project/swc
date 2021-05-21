@@ -157,6 +157,10 @@ impl Optimizer<'_> {
                 for (idx, elem) in arr.elems.iter_mut().enumerate() {
                     match elem {
                         Some(p) => {
+                            if p.is_ident() {
+                                continue;
+                            }
+
                             let elem = init
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
