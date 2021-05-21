@@ -23,6 +23,8 @@ pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, top_level_mark: Mark) -> 
 #[derive(Default)]
 struct GlobalDefs {
     defs: Vec<(Box<Expr>, Box<Expr>)>,
+    /// If syntax context of a identifier reference is not top-level, it means
+    /// the reference points a binding (var / fn / class or whatever).
     top_level_ctxt: SyntaxContext,
     /// If a varaible is registered in this variable, it's not a global
     /// constant.
