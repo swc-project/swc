@@ -65,7 +65,7 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, value: Option<&mut Expr>) {
+    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
         {
             return;
@@ -87,15 +87,15 @@ impl Optimizer<'_> {
             }
         }
 
-        if !name.is_ident() && value.is_none() {
+        if !name.is_ident() && init.is_none() {
             return;
         }
 
-        self.take_pat_if_unused(name, value);
+        self.take_pat_if_unused(name, init);
     }
 
-    fn take_pat_if_unused(&mut self, name: &mut Pat, mut value: Option<&mut Expr>) {
-        let had_value = value.is_some();
+    fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
+        let had_value = init.is_some();
         let can_drop_children = had_value;
 
         if !name.is_ident() {
@@ -134,7 +134,7 @@ impl Optimizer<'_> {
                 for (idx, elem) in arr.elems.iter_mut().enumerate() {
                     match elem {
                         Some(p) => {
-                            let elem = value
+                            let elem = init
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
@@ -158,7 +158,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
 
-                            let prop = value.as_mut().and_then(|value| {
+                            let prop = init.as_mut().and_then(|value| {
                                 self.access_property_with_prop_name(value, &p.key)
                             });
 
