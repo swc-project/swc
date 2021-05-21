@@ -87,6 +87,10 @@ impl Optimizer<'_> {
             }
         }
 
+        if !name.is_ident() && value.is_none() {
+            return;
+        }
+
         self.take_pat_if_unused(name, value);
     }
 
