@@ -123,7 +123,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                arr.elems.retain(|elem| match eleme {
+                arr.elems.retain(|elem| match elem {
                     Some(Pat::Invalid(..)) => false,
                     _ => true,
                 })
