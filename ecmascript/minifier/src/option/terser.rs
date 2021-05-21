@@ -283,7 +283,11 @@ impl TerserCompressorOptions {
                             )
                         })
                     };
-                    let key = parse(k.to_string());
+                    let key = parse(if k.starts_with('@') {
+                        k[1..].to_string()
+                    } else {
+                        k.to_string()
+                    });
 
                     (
                         key,
