@@ -46,7 +46,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(&mut var.name, None);
+                    self.drop_unused_vars(&mut var.name, Some(init));
 
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
