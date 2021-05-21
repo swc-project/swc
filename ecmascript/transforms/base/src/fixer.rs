@@ -336,9 +336,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        let ctx = self.ctx;
         self.unwrap_expr(e);
         e.visit_mut_children_with(self);
 
+        self.ctx = ctx;
         self.wrap_with_paren_if_required(e)
     }
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
