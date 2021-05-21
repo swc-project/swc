@@ -13,6 +13,7 @@ version = "0.1.0-beta.0"
 fxhash = "0.2.1"
 log = "0.4"
 once_cell = "1.5.2"
+pretty_assertions = {version = "0.6.1", optional = true}
 regex = "1.5.3"
 retain_mut = "0.1.2"
 serde = {version = "1.0.118", features = ["derive"]}
