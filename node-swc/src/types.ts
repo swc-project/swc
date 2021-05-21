@@ -394,13 +394,13 @@ export interface ReactConfig {
    *
    * Defaults to `React.createElement`.
    */
-  pragma: String;
+  pragma: string;
   /**
    * Replace the component used when compiling JSX fragments.
    *
    * Defaults to `React.Fragment`
    */
-  pragmaFrag: String;
+  pragmaFrag: string;
   /**
    * Toggles whether or not to throw an error if a XML namespaced tag name is used. For example:
    * `<f:image />`
@@ -422,6 +422,21 @@ export interface ReactConfig {
    * Use `Object.assign()` instead of `_extends`. Defaults to false.
    */
   useBuiltins: boolean;
+
+  /**
+   * Enable fast refresh feature for React app
+   */
+  refresh: boolean;
+
+  /**
+   * jsx runtime
+   */
+  runtime: 'automatic' | 'classic'
+
+  /**
+   * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory functions when using `runtime` 'automatic'
+   */
+  importSource: string
 }
 /**
  *  - `import { DEBUG } from '@ember/env-flags';`

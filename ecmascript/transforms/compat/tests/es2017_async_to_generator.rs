@@ -1,4 +1,5 @@
 #![feature(test)]
+use crate::es2015::regenerator;
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
@@ -14,8 +15,6 @@ use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
-
-use crate::es2015::regenerator;
 
 struct ParenRemover;
 impl Fold for ParenRemover {
@@ -151,11 +150,11 @@ test!(
     r#"
 _asyncToGenerator(function*() {
     yield 'ok';
-});
+})();
 
 _asyncToGenerator(function*() {
     yield 'ok';
-});
+})();
 
 (function() {
     var _notIIFE = _asyncToGenerator(function*() {
@@ -2211,7 +2210,7 @@ test!(
         console.log({
             obj
         });
-    });
+    })();
     "
 );
 
@@ -2422,4 +2421,100 @@ test_exec!(
   }
   return obj.method().then((res) => expect(res).toBe(5))
 "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1722_1,
+    "
+    (async function main() {
+      console.log(1)
+    })(foo);
+    ",
+    "
+    (function () {
+      var _main = _asyncToGenerator(function* () {
+        console.log(1);
+      });
+    
+      function main() {
+        return _main.apply(this, arguments);
+      }
+    
+      return main;
+    })()(foo);
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1721_1,
+    "
+    async function main() {
+      for await (const x of lol()) {
+        console.log(x);
+      }
+    }
+    ",
+    "
+    function _main() {
+        _main = _asyncToGenerator(function*() {
+            {
+                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError;
+                try {
+                    for(var _iterator = _asyncIterator(lol()), _step, _value; _step = yield \
+     _iterator.next(), _iteratorNormalCompletion = _step.done, _value = yield _step.value, \
+     !_iteratorNormalCompletion; _iteratorNormalCompletion = true){
+                        const x = _value;
+                        console.log(x);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally{
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return != null) {
+                            yield _iteratorError.return();
+                        }
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+        });
+        return _main.apply(this, arguments);
+    }
+    function main() {
+        return _main.apply(this, arguments);
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1721_2_async_generator,
+    "
+    async function* lol() {
+      yield 1;
+      yield 2;
+    }
+    ",
+    "
+    function _lol() {
+      _lol = _wrapAsyncGenerator(function* () {
+        yield 1;
+        yield 2;
+      });
+      return _lol.apply(this, arguments);
+    }
+
+    function lol() {
+      return _lol.apply(this, arguments);
+    }
+    "
 );

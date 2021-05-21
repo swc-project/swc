@@ -77,4 +77,4 @@ _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return _ctx.stop();
         }
     }, _callee);
-}));
+}))();
