@@ -80,6 +80,11 @@ impl Optimizer<'_> {
             }
         }
 
+        // Preserve `length` of function.
+        if pat.is_ident() {
+            return;
+        }
+
         self.take_pat_if_unused(pat, None)
     }
 
