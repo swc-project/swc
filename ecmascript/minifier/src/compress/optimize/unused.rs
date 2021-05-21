@@ -46,7 +46,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(&mut var.name);
+                    self.drop_unused_vars(&mut var.name, None);
 
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
@@ -60,12 +60,12 @@ impl Optimizer<'_> {
                 }
             },
             None => {
-                self.drop_unused_vars(&mut var.name);
+                self.drop_unused_vars(&mut var.name, var.init.as_deref_mut());
             }
         }
     }
 
-    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
+    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, value: Option<&mut Expr>) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
         {
             return;
