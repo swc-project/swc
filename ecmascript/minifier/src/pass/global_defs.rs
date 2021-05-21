@@ -6,7 +6,7 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-pub fn globals_defs(defs: Vec<(Box<Expr>, Lit)>) -> impl VisitMut {
+pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>) -> impl VisitMut {
     GlobalDefs {
         defs,
         ..Default::default()
@@ -15,7 +15,7 @@ pub fn globals_defs(defs: Vec<(Box<Expr>, Lit)>) -> impl VisitMut {
 
 #[derive(Default)]
 struct GlobalDefs {
-    defs: Vec<(Box<Expr>, Lit)>,
+    defs: Vec<(Box<Expr>, Box<Expr>)>,
     in_lhs_of_assign: bool,
 }
 
@@ -48,7 +48,7 @@ impl VisitMut for GlobalDefs {
             .iter()
             .find(|(pred, _)| (&**pred).eq_ignore_span(&*n))
         {
-            *n = Expr::Lit(new.clone());
+            *n = *new.clone();
             return;
         }
 
