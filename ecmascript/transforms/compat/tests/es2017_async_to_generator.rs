@@ -2464,6 +2464,47 @@ test!(
     }
     ",
     "
-  
+    function _lol() {
+      _lol = _asyncToGenerator(function*() {
+          yield 1;
+          yield 2;
+      });
+      return _lol.apply(this, arguments);
+    }
+    function lol() {
+        return _lol.apply(this, arguments);
+    }
+    function _main() {
+        _main = _asyncToGenerator(function*() {
+            {
+                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError;
+                try {
+                    for(var _iterator = _asyncIterator(lol()), _step, _value; _step = yield \
+     _iterator.next(), _iteratorNormalCompletion = _step.done, _value = yield _step.value, \
+     !_iteratorNormalCompletion; _iteratorNormalCompletion = true){
+                        const x = _value;
+                        console.log(x);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally{
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return != null) {
+                            yield _iteratorError.return();
+                        }
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+        });
+        return _main.apply(this, arguments);
+    }
+    function main() {
+        return _main.apply(this, arguments);
+    }
     "
 );
