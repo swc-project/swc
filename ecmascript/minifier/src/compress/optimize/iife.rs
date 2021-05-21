@@ -160,8 +160,6 @@ impl Optimizer<'_> {
     /// }).x = 10;
     /// ```
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
-        println!("Invoking iife");
-
         if self.options.inline == 0 {
             let skip = match e {
                 Expr::Call(v) => !v.callee.span().is_dummy(),
