@@ -669,11 +669,11 @@ impl Actual {
         type_args: Option<TsTypeParamInstantiation>,
     ) -> Expr {
         if !callee.function.is_async || callee.ident.is_some() {
-            let callee = callee.fold_with(self);
+            let callee = Expr::Fn(callee).fold_with(self);
             let args = args.fold_with(self);
             return Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Fn(callee))),
+                callee: ExprOrSuper::Expr(Box::new(callee)),
                 args,
                 type_args,
             });
@@ -683,11 +683,11 @@ impl Actual {
         if callee.ident.is_some()
             && contains_ident_ref(&callee.function.body, callee.ident.as_ref().unwrap())
         {
-            let callee = callee.fold_with(self);
+            let callee = Expr::Fn(callee).fold_with(self);
             let args = args.fold_with(self);
             return Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Fn(callee))),
+                callee: ExprOrSuper::Expr(Box::new(callee)),
                 args,
                 type_args,
             });
