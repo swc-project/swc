@@ -1,5 +1,6 @@
 use self::{case::CaseHandler, hoist::hoist};
 use std::mem::replace;
+use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -78,7 +79,7 @@ impl Regenerator {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         declare: false,
-                        decls: replace(&mut self.top_level_vars, Default::default()),
+                        decls: take(&mut self.top_level_vars),
                     }))),
                 );
             }
