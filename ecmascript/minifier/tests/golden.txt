@@ -389,9 +389,12 @@ functions/issue_3054/input.js
 functions/no_webkit/input.js
 functions/recursive_inline_1/input.js
 functions/webkit/input.js
+global_defs/conditional_chains/input.js
+global_defs/expanded/input.js
 global_defs/issue_1801/input.js
 global_defs/issue_1986/input.js
 global_defs/issue_2167/input.js
+global_defs/issue_3217/input.js
 global_defs/keyword/input.js
 global_defs/mixed/input.js
 global_defs/must_replace/input.js
