@@ -47,6 +47,7 @@ mod inline;
 mod join_vars;
 mod loops;
 mod ops;
+mod properties;
 mod sequences;
 mod strings;
 mod switches;
@@ -485,6 +486,8 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns [None] if expression is side-effect-free.
+    /// If an expression has a side effect, only side effects are returned.
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
@@ -1411,6 +1414,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.optimize_bools(e);
 
+        self.handle_property_access(e);
+
         self.lift_seqs_of_cond_assign(e);
 
         if self.options.negate_iife {
@@ -1444,6 +1449,21 @@ impl VisitMut for Optimizer<'_> {
             || self.options.side_effects
             || (self.options.sequences() && n.expr.is_seq())
         {
+            // Preserve top-level negated iifes.
+            match &*n.expr {
+                Expr::Unary(unary) => match &*unary.arg {
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(callee),
+                        ..
+                    }) => match &**callee {
+                        Expr::Fn(..) => return,
+                        _ => {}
+                    },
+
+                    _ => {}
+                },
+                _ => {}
+            }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
         }
@@ -1562,6 +1582,8 @@ impl VisitMut for Optimizer<'_> {
         if n.computed {
             n.prop.visit_mut_with(self);
         }
+
+        self.handle_known_computed_member_expr(n);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {

@@ -9,3 +9,7 @@ mv tests/golden_sorted.txt tests/golden.txt
 
 cat tests/ignored.txt | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/ignored_sorted.txt
 mv tests/ignored_sorted.txt tests/ignored.txt
+
+# Don't mark ignored test as golden
+comm -23 tests/golden.txt tests/ignored.txt > tests/nodup.txt
+mv tests/nodup.txt tests/golden.txt

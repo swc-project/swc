@@ -190,6 +190,7 @@ impl SimplifyExpr {
                     });
                 }
 
+                self.changed = true;
                 let idx = match op {
                     KnownOp::Index(i) => i,
                     _ => unreachable!(),

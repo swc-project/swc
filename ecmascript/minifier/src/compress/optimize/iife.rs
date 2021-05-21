@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
 use std::mem::swap;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -160,7 +161,14 @@ impl Optimizer<'_> {
     /// ```
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
         if self.options.inline == 0 {
-            return;
+            let skip = match e {
+                Expr::Call(v) => !v.callee.span().is_dummy(),
+                _ => true,
+            };
+
+            if skip {
+                return;
+            }
         }
 
         if self.ctx.inline_prevented {

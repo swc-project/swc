@@ -16,7 +16,7 @@ if [ -z "$@" ]; then
 
     export RUST_LOG=swc_ecma_minifier=trace
 
-    GOLDEN_ONLY=1 cargo test --test compress
+    GOLDEN_ONLY=1 cargo test --test compress --all-features 
 fi
 
-cargo test --test compress $@
+cargo test --test compress --all-features $@

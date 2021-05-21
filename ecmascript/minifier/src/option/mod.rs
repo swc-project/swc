@@ -3,10 +3,19 @@ use regex::Regex;
 use serde::Deserialize;
 use serde::Serialize;
 use swc_atoms::JsWord;
+use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_ast::Lit;
+use swc_ecma_ast::Expr;
 
 pub mod terser;
+
+/// This is not serializable.
+#[derive(Debug)]
+pub struct ExtraOptions {
+    /// The [Mark] used for `resolver_with_mark`.
+    pub top_level_mark: Mark,
+}
+
 #[derive(Debug, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
@@ -128,9 +137,11 @@ pub struct CompressOptions {
     #[serde(alias = "expression")]
     pub expr: bool,
 
-    #[serde(default)]
+    /// All expressions should have dummy span. Use [swc_ecma_utils::drop_span]
+    /// to remove spans.
+    #[serde(skip)]
     #[serde(alias = "global_defs")]
-    pub global_defs: FxHashMap<JsWord, Lit>,
+    pub global_defs: FxHashMap<Box<Expr>, Box<Expr>>,
 
     #[serde(default)]
     #[serde(alias = "hoist_funs")]

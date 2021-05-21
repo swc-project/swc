@@ -6,9 +6,11 @@
 
 use crate::compress::compressor;
 use crate::hygiene::unique_marker;
+use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
 use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
+use crate::pass::global_defs;
 use crate::pass::hygiene::hygiene_optimizer;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
@@ -34,7 +36,21 @@ pub fn optimize(
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
+    extra: &ExtraOptions,
 ) -> Module {
+    if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
+        // Apply global defs.
+        //
+        // As terser treats `CONFIG['VALUE']` and `CONFIG.VALUE` differently, we don't
+        // have to see if optimized code matches global definition and wecan run
+        // this at startup.
+
+        if !defs.is_empty() {
+            let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
+            m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
+        }
+    }
+
     m.visit_mut_with(&mut unique_marker());
 
     if options.wrap {

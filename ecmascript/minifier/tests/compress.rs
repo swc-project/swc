@@ -14,12 +14,14 @@ use std::process::Command;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
+use swc_common::Mark;
 use swc_common::SourceMap;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
 use swc_ecma_minifier::option::terser::TerserCompressorOptions;
 use swc_ecma_minifier::option::CompressOptions;
+use swc_ecma_minifier::option::ExtraOptions;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::lexer::input::SourceFileInput;
@@ -27,7 +29,7 @@ use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
 use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::hygiene;
-use swc_ecma_transforms::resolver;
+use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::NormalizedOutput;
@@ -76,11 +78,11 @@ enum TestMangleOptions {
     Normal(MangleOptions),
 }
 
-fn parse_compressor_config(s: &str) -> (bool, CompressOptions) {
+fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
     let c: TerserCompressorOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
-    (c.module, c.into())
+    (c.module, c.into_config(cm))
 }
 
 /// Tests ported from terser.
@@ -94,26 +96,29 @@ fn fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
-    let (_module, config) = parse_compressor_config(&config);
-
-    let mangle = dir.join("mangle.json");
-    let mangle = read_to_string(&mangle).ok();
-    if let Some(mangle) = &mangle {
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Mangle config"),
-            mangle
-        );
-    }
-
-    let mangle: Option<TestMangleOptions> =
-        mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
     testing::run_test2(false, |cm, handler| {
+        let (_module, config) = parse_compressor_config(cm.clone(), &config);
+
+        let mangle = dir.join("mangle.json");
+        let mangle = read_to_string(&mangle).ok();
+        if let Some(mangle) = &mangle {
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Mangle config"),
+                mangle
+            );
+        }
+
+        let mangle: Option<TestMangleOptions> =
+            mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
+
         let fm = cm.load_file(&input).expect("failed to load input.js");
         let comments = SingleThreadedComments::default();
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
+
+        let top_level_mark = Mark::fresh(Mark::root());
 
         let lexer = Lexer::new(
             Default::default(),
@@ -121,13 +126,14 @@ fn fixture(input: PathBuf) {
             SourceFileInput::from(&*fm),
             Some(&comments),
         );
+
         let mut parser = Parser::new_from(lexer);
         let program = parser
             .parse_module()
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver()));
+            .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
 
         // Ignore parser errors.
         //
@@ -155,6 +161,7 @@ fn fixture(input: PathBuf) {
                 }),
                 ..Default::default()
             },
+            &ExtraOptions { top_level_mark },
         )
         .fold_with(&mut hygiene())
         .fold_with(&mut fixer(None));

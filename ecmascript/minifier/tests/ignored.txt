@@ -49,7 +49,6 @@ collapse_vars/cascade_switch/input.js
 collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
 collapse_vars/chained_3/input.js
-collapse_vars/collapse_rhs_lhs_2/input.js
 collapse_vars/collapse_vars_arguments/input.js
 collapse_vars/collapse_vars_array/input.js
 collapse_vars/collapse_vars_assignment/input.js
@@ -64,7 +63,6 @@ collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_misc1/input.js
 collapse_vars/collapse_vars_object/input.js
-collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
 collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
@@ -217,7 +215,6 @@ destructuring/empty_object_destructuring_4/input.js
 destructuring/empty_object_destructuring_misc/input.js
 destructuring/export_function_containing_destructuring_decl/input.js
 destructuring/export_unreferenced_declarations_2/input.js
-destructuring/issue_2140/input.js
 destructuring/issue_3205_2/input.js
 destructuring/issue_3205_3/input.js
 destructuring/issue_3205_4/input.js
@@ -278,7 +275,6 @@ drop_unused/issue_1968/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_2105_1/input.js
 drop_unused/issue_2105_2/input.js
-drop_unused/issue_2136_1/input.js
 drop_unused/issue_2136_2/input.js
 drop_unused/issue_2136_3/input.js
 drop_unused/issue_2163/input.js
@@ -327,7 +323,6 @@ evaluate/issue_2231_3/input.js
 evaluate/issue_2535_1/input.js
 evaluate/issue_2535_2/input.js
 evaluate/issue_2535_3/input.js
-evaluate/issue_2822/input.js
 evaluate/issue_2916_2/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_2926_1/input.js
@@ -339,7 +334,6 @@ evaluate/null_conditional_chain_eval/input.js
 evaluate/positive_zero/input.js
 evaluate/pow_sequence_with_parens_exact/input.js
 evaluate/pow_with_number_constants/input.js
-evaluate/prop_function/input.js
 evaluate/prototype_function/input.js
 evaluate/self_comparison_1/input.js
 evaluate/self_comparison_2/input.js
@@ -462,18 +456,7 @@ functions/unsafe_call_3/input.js
 functions/unsafe_call_expansion_1/input.js
 functions/unsafe_call_expansion_2/input.js
 functions/use_before_init_in_loop/input.js
-global_defs/conditional_chains/input.js
-global_defs/expanded/input.js
-global_defs/issue_1801/input.js
-global_defs/issue_1986/input.js
-global_defs/issue_2167/input.js
-global_defs/issue_3217/input.js
-global_defs/keyword/input.js
-global_defs/mixed/input.js
-global_defs/must_replace/input.js
-global_defs/object/input.js
 harmony/array_literal_with_spread_2b/input.js
-harmony/array_literal_with_spread_3b/input.js
 harmony/array_literal_with_spread_4a/input.js
 harmony/array_literal_with_spread_4b/input.js
 harmony/array_spread_of_sequence/input.js
@@ -599,8 +582,6 @@ issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_12/keep_name_of_setter/input.js
 issue_1202/mangle_keep_fnames_false/input.js
 issue_1202/mangle_keep_fnames_true/input.js
-issue_1212/issue_1212_debug_false/input.js
-issue_1212/issue_1212_debug_true/input.js
 issue_126/concatenate_rhs_strings/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
@@ -682,8 +663,6 @@ issue_2001/export_mangle_6/input.js
 issue_203/compress_new_function/input.js
 issue_203/compress_new_function_with_destruct/input.js
 issue_203/compress_new_function_with_destruct_arrows/input.js
-issue_208/do_update_rhs/input.js
-issue_208/mixed/input.js
 issue_22/return_with_no_value_in_if_body/input.js
 issue_229/template_strings/input.js
 issue_269/issue_269_1/input.js
@@ -814,7 +793,6 @@ object/prop_func_to_concise_method_various/input.js
 object/shorthand_properties/input.js
 parameters/default_arguments/input.js
 parameters/destructuring_arguments_3/input.js
-properties/array_hole/input.js
 properties/computed_property/input.js
 properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
@@ -823,12 +801,9 @@ properties/dont_mangle_computed_property_2/input.js
 properties/dot_properties/input.js
 properties/dot_properties_es5/input.js
 properties/evaluate_array_length/input.js
-properties/evaluate_string_length/input.js
-properties/issue_2208_1/input.js
 properties/issue_2208_3/input.js
 properties/issue_2208_4/input.js
 properties/issue_2208_5/input.js
-properties/issue_2208_6/input.js
 properties/issue_2208_7/input.js
 properties/issue_2208_8/input.js
 properties/issue_2208_9/input.js
@@ -1010,7 +985,6 @@ reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_arg_1/input.js
 reduce_vars/obj_arg_2/input.js
 reduce_vars/obj_for_1/input.js
-reduce_vars/obj_var_2/input.js
 reduce_vars/passes/input.js
 reduce_vars/perf_1/input.js
 reduce_vars/perf_3/input.js
@@ -1037,7 +1011,6 @@ reduce_vars/unsafe_evaluate_modified/input.js
 reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
-reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unused_modified/input.js
 reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
@@ -1090,12 +1063,10 @@ template_string/equality/input.js
 template_string/escape_dollar_curly/input.js
 template_string/evaluate_nested_templates/input.js
 template_string/regex_2/input.js
-template_string/sequence_1/input.js
 template_string/sequence_2/input.js
 template_string/side_effects/input.js
 template_string/simple_string/input.js
 template_string/special_chars_in_string/input.js
-template_string/tagged_template_function_inline_4/input.js
 template_string/tagged_template_function_inline_5/input.js
 template_string/tagged_template_parens/input.js
 template_string/template_concattenating_string/input.js
@@ -1103,7 +1074,6 @@ template_string/template_evaluate_undefined/input.js
 template_string/template_literal_plus/input.js
 template_string/template_literal_plus_grouping/input.js
 template_string/template_string_with_predefined_constants/input.js
-transform/booleans_global_defs/input.js
 transform/condition_evaluate/input.js
 transform/if_return/input.js
 transform/label_if_break/input.js
@@ -1111,7 +1081,6 @@ transform/while_if_break/input.js
 try_catch/broken_safari_catch_scope/input.js
 try_catch/broken_safari_catch_scope_caveat/input.js
 try_catch/catch_destructuring_with_sequence/input.js
-typeof/duplicate_lambda_arg_name/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js
 typeof/typeof_defun_1/input.js
