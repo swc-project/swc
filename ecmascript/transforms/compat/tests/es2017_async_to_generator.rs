@@ -2446,3 +2446,24 @@ test!(
     })()(foo);
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1721_1,
+    "
+    async function* lol() {
+      yield 1;
+      yield 2;
+    }
+    
+    async function main() {
+      for await (const x of lol()) {
+        console.log(x);
+      }
+    }
+    ",
+    "
+  
+    "
+);
