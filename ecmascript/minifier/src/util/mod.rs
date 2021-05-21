@@ -245,3 +245,24 @@ where
         module.fold_with(&mut self.visitor)
     }
 }
+
+pub struct DeepThisExprVisitor {
+    found: bool,
+}
+
+impl Visit for DeepThisExprVisitor {
+    noop_visit_type!();
+
+    fn visit_this_expr(&mut self, _: &ThisExpr, _: &dyn Node) {
+        self.found = true;
+    }
+}
+
+pub fn deeply_contains_this_expr<N>(body: &N) -> bool
+where
+    N: VisitWith<DeepThisExprVisitor>,
+{
+    let mut visitor = DeepThisExprVisitor { found: false };
+    body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
+    visitor.found
+}
