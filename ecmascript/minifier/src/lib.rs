@@ -6,6 +6,7 @@
 
 use crate::compress::compressor;
 use crate::hygiene::unique_marker;
+use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
 use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
@@ -35,6 +36,7 @@ pub fn optimize(
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
+    extra: &ExtraOptions,
 ) -> Module {
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
@@ -44,9 +46,8 @@ pub fn optimize(
         // this at startup.
 
         if !defs.is_empty() {
-            m.visit_mut_with(&mut global_defs::globals_defs(
-                defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect(),
-            ));
+            let defs = defs.iter().map(|(k, v)| (k.clone(), v.clone())).collect();
+            m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
     }
 

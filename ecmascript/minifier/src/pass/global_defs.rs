@@ -1,14 +1,21 @@
+use fxhash::FxHashSet;
 use std::borrow::Cow;
 use swc_common::pass::CompilerPass;
 use swc_common::EqIgnoreSpan;
+use swc_common::Mark;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
+use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>) -> impl VisitMut {
+pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>, top_level_mark: Mark) -> impl VisitMut {
     GlobalDefs {
         defs,
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         ..Default::default()
     }
 }
@@ -16,6 +23,12 @@ pub fn globals_defs(defs: Vec<(Box<Expr>, Box<Expr>)>) -> impl VisitMut {
 #[derive(Default)]
 struct GlobalDefs {
     defs: Vec<(Box<Expr>, Box<Expr>)>,
+    top_level_ctxt: SyntaxContext,
+    /// If a varaible is registered in this variable, it's not a global
+    /// constant.
+    ///
+    /// Non-top level bindings are filtered using `top_level_mark`.
+    top_level_bindings: FxHashSet<Id>,
     in_lhs_of_assign: bool,
 }
 
@@ -23,6 +36,11 @@ impl CompilerPass for GlobalDefs {
     fn name() -> Cow<'static, str> {
         Cow::Borrowed("global-defs")
     }
+}
+
+/// Finds top-level bindings.
+impl Visit for GlobalDefs {
+    noop_visit_type!();
 }
 
 /// We use [VisitMut] instead of [swc_ecma_visit::Fold] because it's faster.
@@ -41,6 +59,26 @@ impl VisitMut for GlobalDefs {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         if self.in_lhs_of_assign {
             return;
+        }
+
+        match n {
+            Expr::Ident(i) => {
+                if i.span.ctxt != self.top_level_ctxt {
+                    return;
+                }
+            }
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                ..
+            }) => match &**obj {
+                Expr::Ident(i) => {
+                    if i.span.ctxt != self.top_level_ctxt {
+                        return;
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
         }
 
         if let Some((_, new)) = self

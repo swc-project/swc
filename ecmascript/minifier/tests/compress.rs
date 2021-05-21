@@ -14,12 +14,14 @@ use std::process::Command;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
+use swc_common::Mark;
 use swc_common::SourceMap;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
 use swc_ecma_minifier::option::terser::TerserCompressorOptions;
 use swc_ecma_minifier::option::CompressOptions;
+use swc_ecma_minifier::option::ExtraOptions;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::lexer::input::SourceFileInput;
@@ -27,7 +29,7 @@ use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
 use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::hygiene;
-use swc_ecma_transforms::resolver;
+use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::NormalizedOutput;
@@ -116,19 +118,22 @@ fn fixture(input: PathBuf) {
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
+        let top_level_mark = Mark::fresh(Mark::root());
+
         let lexer = Lexer::new(
             Default::default(),
             Default::default(),
             SourceFileInput::from(&*fm),
             Some(&comments),
         );
+
         let mut parser = Parser::new_from(lexer);
         let program = parser
             .parse_module()
             .map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver()));
+            .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
 
         // Ignore parser errors.
         //
@@ -156,6 +161,7 @@ fn fixture(input: PathBuf) {
                 }),
                 ..Default::default()
             },
+            &ExtraOptions { top_level_mark },
         )
         .fold_with(&mut hygiene())
         .fold_with(&mut fixer(None));
