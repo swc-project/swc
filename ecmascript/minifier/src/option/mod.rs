@@ -137,6 +137,8 @@ pub struct CompressOptions {
     #[serde(alias = "expression")]
     pub expr: bool,
 
+    /// All expressions should have dummy span. Use [swc_ecma_utils::drop_span]
+    /// to remove spans.
     #[serde(skip)]
     #[serde(alias = "global_defs")]
     pub global_defs: FxHashMap<Box<Expr>, Box<Expr>>,
