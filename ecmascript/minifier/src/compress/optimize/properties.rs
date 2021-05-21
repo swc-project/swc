@@ -2,6 +2,7 @@ use crate::compress::optimize::Optimizer;
 use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
+use swc_ecma_utils::contains_this_expr;
 use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
@@ -63,8 +64,12 @@ impl Optimizer<'_> {
             PropOrSpread::Spread(_) => false,
             PropOrSpread::Prop(p) => match &**p {
                 Prop::Shorthand(..) => false,
-                Prop::KeyValue(p) => p.key.is_computed() || p.value.may_have_side_effects(),
-                Prop::Assign(p) => p.value.may_have_side_effects(),
+                Prop::KeyValue(p) => {
+                    p.key.is_computed()
+                        || p.value.may_have_side_effects()
+                        || contains_this_expr(&p.value)
+                }
+                Prop::Assign(p) => p.value.may_have_side_effects() || contains_this_expr(&p.value),
                 Prop::Getter(p) => p.key.is_computed(),
                 Prop::Setter(p) => p.key.is_computed(),
                 Prop::Method(p) => p.key.is_computed(),
