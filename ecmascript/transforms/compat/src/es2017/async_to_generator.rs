@@ -397,6 +397,12 @@ impl Fold for Actual {
         n
     }
 
+    fn fold_stmt(&mut self, n: Stmt) -> Stmt {
+        let n = n.fold_children_with(self);
+
+        self.handle_await_for(n)
+    }
+
     fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
         n
     }
@@ -665,6 +671,118 @@ impl Fold for MethodFolder {
 }
 
 impl Actual {
+    fn handle_await_for(&mut self, stmt: Stmt) -> Stmt {
+        let s = match stmt {
+            Stmt::ForOf(
+                s
+                @
+                ForOfStmt {
+                    await_token: Some(..),
+                    ..
+                },
+            ) => s,
+            _ => return stmt,
+        };
+
+        let iterator = private_ident!("_iterator");
+        let iteration_error = private_ident!("_didIteratorError");
+        let step = private_ident!("_step");
+        let did_iteration_error = private_ident!("_didIteratorError");
+        let iterator_normal_completion = private_ident!("_iteratorNormalCompletion");
+
+        let try_body = BlockStmt {};
+
+        let catch_clause = CatchClause {};
+
+        let finally_block = {
+            let throw_iterator_error = Stmt::Throw(ThrowStmt {
+                span: DUMMY_SP,
+                arg: Box::new(Expr::Ident(iteration_error.clone())),
+            });
+            let throw_iterator_error = Stmt::If(IfStmt {
+                span: DUMMY_SP,
+                test: Box::new(Expr::Ident(did_iteration_error.clone())),
+                cons: Box::new(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![throw_iterator_error],
+                }),
+                alt: None,
+            });
+
+            // yield _iterator.return();
+            let yield_stmt = Stmt::Expr(ExprStmt {
+                span: DUMMY_SP,
+                expr: Box::new(Expr::Yield(YieldExpr {
+                    span: DUMMY_SP,
+                    delegate: false,
+                    arg: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: iteration_error
+                            .clone()
+                            .make_member(quote_ident!("return"))
+                            .as_callee(),
+                        args: Default::default(),
+                        type_args: Default::default(),
+                    }))),
+                })),
+            });
+
+            let conditional_yield = Stmt::If(IfStmt {
+                span: DUMMY_SP,
+                // !_iteratorNormalCompletion && _iterator.return != null
+                test: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("&&"),
+                    // !_iteratorNormalCompletion
+                    left: Box::new(Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("!"),
+                        arg: Box::new(Expr::Ident(iterator_normal_completion.clone())),
+                    })),
+                    // _iterator.return != null
+                    right: Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        op: op!("!="),
+                        left: Box::new(iterator.clone().make_member(quote_ident!("return"))),
+                        right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                    })),
+                })),
+                cons: Box::new(Stmt::Block(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![yield_stmt],
+                })),
+                alt: None,
+            });
+            let body = BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![conditional_yield],
+            };
+
+            let inner_try = Stmt::Try(TryStmt {
+                span: DUMMY_SP,
+                block: body,
+                handler: None,
+                finalizer: Some(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![throw_iterator_error],
+                }),
+            });
+            BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![inner_try],
+            }
+        };
+
+        let try_stmt = TryStmt {
+            span: s.span,
+            block: try_body,
+            handler: Some(catch_clause),
+            finalizer: Some(finally_block),
+        };
+
+        Stmt::Try(try_stmt)
+    }
+
     fn handle_iife(
         &mut self,
         span: Span,
