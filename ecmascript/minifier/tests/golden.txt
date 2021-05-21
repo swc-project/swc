@@ -106,6 +106,7 @@ collapse_vars/collapse_rhs_conditional_1/input.js
 collapse_vars/collapse_rhs_conditional_2/input.js
 collapse_vars/collapse_rhs_function/input.js
 collapse_vars/collapse_rhs_lhs_1/input.js
+collapse_vars/collapse_rhs_lhs_2/input.js
 collapse_vars/collapse_rhs_loop/input.js
 collapse_vars/collapse_rhs_number/input.js
 collapse_vars/collapse_rhs_object/input.js
@@ -116,6 +117,7 @@ collapse_vars/collapse_rhs_this/input.js
 collapse_vars/collapse_rhs_undefined/input.js
 collapse_vars/collapse_rhs_var/input.js
 collapse_vars/collapse_rhs_vardef/input.js
+collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_try/input.js
 collapse_vars/collapse_vars_unary_2/input.js
 collapse_vars/cond_branch_switch/input.js
@@ -274,6 +276,7 @@ drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
+drop_unused/issue_2136_1/input.js
 drop_unused/issue_3146_2/input.js
 drop_unused/issue_805_1/input.js
 drop_unused/issue_805_2/input.js
@@ -322,6 +325,7 @@ evaluate/issue_1964_2/input.js
 evaluate/issue_2207_2/input.js
 evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
+evaluate/issue_2822/input.js
 evaluate/issue_2916_1/input.js
 evaluate/optional_expect_when_expect_stdout_present/input.js
 evaluate/or/input.js
@@ -332,6 +336,7 @@ evaluate/pow_sequence_with_constants_and_parens/input.js
 evaluate/pow_sequence_with_parens/input.js
 evaluate/pow_sequence_with_parens_evaluated/input.js
 evaluate/pow_with_right_side_evaluating_to_unary/input.js
+evaluate/prop_function/input.js
 evaluate/string_case/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
@@ -402,6 +407,7 @@ global_defs/object/input.js
 harmony/array_literal_with_spread_1/input.js
 harmony/array_literal_with_spread_2a/input.js
 harmony/array_literal_with_spread_3a/input.js
+harmony/array_literal_with_spread_3b/input.js
 harmony/arrow_function_parens/input.js
 harmony/arrow_function_parens_2/input.js
 harmony/class_expression_statement/input.js
@@ -508,6 +514,8 @@ issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
 issue_12/keep_name_of_getter/input.js
 issue_12/setter_with_operator_keys/input.js
+issue_1212/issue_1212_debug_false/input.js
+issue_1212/issue_1212_debug_true/input.js
 issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
@@ -543,6 +551,8 @@ issue_2001/export_func_3/input.js
 issue_2001/export_toplevel_1/input.js
 issue_2001/export_toplevel_2/input.js
 issue_208/do_not_update_lhs/input.js
+issue_208/do_update_rhs/input.js
+issue_208/mixed/input.js
 issue_2652/insert_semicolon/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
@@ -696,10 +706,14 @@ properties/accessor_null_undefined/input.js
 properties/accessor_number/input.js
 properties/accessor_string/input.js
 properties/accessor_this/input.js
+properties/array_hole/input.js
+properties/evaluate_string_length/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
 properties/first_256_unicode_chars_as_properties/input.js
+properties/issue_2208_1/input.js
 properties/issue_2208_2/input.js
+properties/issue_2208_6/input.js
 properties/issue_2321/input.js
 properties/issue_2893_1/input.js
 properties/issue_2893_2/input.js
@@ -851,6 +865,7 @@ reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
 reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
+reduce_vars/obj_var_2/input.js
 reduce_vars/perf_5/input.js
 reduce_vars/pure_getters_1/input.js
 reduce_vars/recursive_inlining_5/input.js
@@ -877,6 +892,7 @@ reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
+reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
 reduce_vars/var_assign_3/input.js
@@ -966,11 +982,13 @@ template_string/regex_1/input.js
 template_string/respect_inline_script/input.js
 template_string/return_template_string_with_trailing_backslash/input.js
 template_string/semicolons/input.js
+template_string/sequence_1/input.js
 template_string/tagged_call_with_invalid_escape/input.js
 template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
 template_string/tagged_template_function_inline_2/input.js
 template_string/tagged_template_function_inline_3/input.js
+template_string/tagged_template_function_inline_4/input.js
 template_string/tagged_template_valid_strict_legacy_octal/input.js
 template_string/tagged_template_with_comment/input.js
 template_string/tagged_template_with_ill_formed_unicode_escape/input.js
@@ -987,11 +1005,13 @@ template_string/template_strings_ascii_only/input.js
 template_string/template_strings_without_ascii_only/input.js
 template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
+transform/booleans_global_defs/input.js
 transform/if_else_empty/input.js
 try_catch/issue_452/input.js
 try_catch/parameterless_catch/input.js
 try_catch/parent_scope_of_catch_block_is_not_the_try_block/input.js
 typeof/duplicate_defun_arg_name/input.js
+typeof/duplicate_lambda_arg_name/input.js
 typeof/issue_1668/input.js
 typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
