@@ -150,11 +150,11 @@ test!(
     r#"
 _asyncToGenerator(function*() {
     yield 'ok';
-});
+})();
 
 _asyncToGenerator(function*() {
     yield 'ok';
-});
+})();
 
 (function() {
     var _notIIFE = _asyncToGenerator(function*() {
