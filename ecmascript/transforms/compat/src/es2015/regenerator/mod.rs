@@ -1,5 +1,4 @@
 use self::{case::CaseHandler, hoist::hoist};
-use std::mem::replace;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_common::{Mark, Spanned, DUMMY_SP};
@@ -412,7 +411,7 @@ impl Regenerator {
                             buf.push(Stmt::Decl(Decl::Var(VarDecl {
                                 span: DUMMY_SP,
                                 kind: VarDeclKind::Var,
-                                decls: replace(&mut self.outer_fn_vars, Default::default()),
+                                decls: take(&mut self.outer_fn_vars),
                                 declare: false,
                             })));
                         }
