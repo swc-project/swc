@@ -669,6 +669,7 @@ impl Actual {
         type_args: Option<TsTypeParamInstantiation>,
     ) -> Expr {
         if !callee.function.is_async || callee.ident.is_some() {
+            let callee = callee.fold_with(self);
             return Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(Box::new(Expr::Fn(callee))),
