@@ -1,3 +1,5 @@
+use crate::option::PureGetterOption;
+
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -114,6 +116,11 @@ impl Optimizer<'_> {
                 }
             }
             Pat::Array(arr) => {
+                // TODO: Use smart logic
+                if self.options.pure_getters != PureGetterOption::Bool(true) {
+                    return;
+                }
+
                 for elem in &mut arr.elems {
                     match elem {
                         Some(p) => {
@@ -130,6 +137,11 @@ impl Optimizer<'_> {
             }
 
             Pat::Object(obj) => {
+                // TODO: Use smart logic
+                if self.options.pure_getters != PureGetterOption::Bool(true) {
+                    return;
+                }
+
                 for prop in &mut obj.props {
                     match prop {
                         ObjectPatProp::KeyValue(p) => {
