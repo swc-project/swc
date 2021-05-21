@@ -91,6 +91,8 @@ impl Optimizer<'_> {
     }
 
     fn take_pat_if_unused(&mut self, name: &mut Pat, mut value: Option<&mut Expr>) {
+        let had_value = value.is_some();
+
         if !name.is_ident() {
             // TODO: Use smart logic
             if self.options.pure_getters != PureGetterOption::Bool(true) {
@@ -154,6 +156,10 @@ impl Optimizer<'_> {
                             let prop = value.as_mut().and_then(|value| {
                                 self.access_property_with_prop_name(value, &p.key)
                             });
+
+                            if had_value && prop.is_none() {
+                                continue;
+                            }
 
                             self.take_pat_if_unused(&mut p.value, prop);
                         }
