@@ -283,10 +283,10 @@ impl TerserCompressorOptions {
                             )
                         })
                     };
-                    let k = parse(k.to_string());
+                    let key = parse(k.to_string());
 
                     (
-                        k,
+                        key,
                         match v {
                             Value::Null => Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                             Value::Bool(value) => Box::new(Expr::Lit(Lit::Bool(Bool {
@@ -297,7 +297,18 @@ impl TerserCompressorOptions {
                                 span: DUMMY_SP,
                                 value: v.as_f64().unwrap(),
                             }))),
-                            Value::String(v) => parse(v),
+                            Value::String(v) => {
+                                if k.starts_with('@') {
+                                    parse(v)
+                                } else {
+                                    Box::new(Expr::Lit(Lit::Str(Str {
+                                        span: DUMMY_SP,
+                                        value: v.into(),
+                                        has_escape: false,
+                                        kind: Default::default(),
+                                    })))
+                                }
+                            }
                             Value::Object(_) | Value::Array(_) => {
                                 unreachable!()
                             }
