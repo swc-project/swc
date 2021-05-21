@@ -2428,10 +2428,45 @@ test!(
     |_| async_to_generator(),
     issue_1722_1,
     "
-    (async function main() {
-      console.log(1)
-    })();
-    ",
+  (async function main() {
+    console.log(1)
+  })();
+  ",
     "
+  (function () {
+    var _main = _asyncToGenerator(function* () {
+      console.log(1);
+    });
+  
+    function main() {
+      return _main.apply(this, arguments);
+    }
+  
+    return main;
+  })()(foo);
+  "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1722_2,
     "
+  !async function main() {
+    console.log(1)
+  }();
+  ",
+    "
+  !function () {
+    var _main = _asyncToGenerator(function* () {
+      console.log(1);
+    });
+  
+    function main() {
+      return _main.apply(this, arguments);
+    }
+  
+    return main;
+  }()(foo);
+  "
 );
