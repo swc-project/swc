@@ -2493,3 +2493,28 @@ test!(
     }
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1721_2_async_generator,
+    "
+    async function* lol() {
+      yield 1;
+      yield 2;
+    }
+    ",
+    "
+    function lol() {
+      return _lol.apply(this, arguments);
+    }
+    
+    function _lol() {
+      _lol = _wrapAsyncGenerator(function* () {
+        yield 1;
+        yield 2;
+      });
+      return _lol.apply(this, arguments);
+    }
+    "
+);
