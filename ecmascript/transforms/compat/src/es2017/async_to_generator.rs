@@ -690,8 +690,16 @@ impl Actual {
             .fold_children_with(self);
         }
 
-        return make_fn_ref(callee, self.in_object_prop);
+        let callee = make_fn_ref(callee, self.in_object_prop);
+
+        Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(Box::new(callee)),
+            args,
+            type_args,
+        })
     }
+
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         if f.body.is_none() {
             return f;
