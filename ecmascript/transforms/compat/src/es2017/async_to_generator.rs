@@ -191,7 +191,7 @@ impl Fold for Actual {
                 args,
                 type_args,
             }) if callee.is_fn_expr() => {
-                return self.handle_fn_expr(span, (*callee).fn_expr().unwrap(), args, type_args);
+                return self.handle_iife(span, (*callee).fn_expr().unwrap(), args, type_args);
             }
 
             Expr::Call(CallExpr {
@@ -207,7 +207,7 @@ impl Fold for Actual {
                 _ => false,
             } =>
             {
-                return self.handle_fn_expr(
+                return self.handle_iife(
                     span,
                     (*callee).paren().unwrap().expr.fn_expr().unwrap(),
                     args,
@@ -661,7 +661,7 @@ impl Fold for MethodFolder {
 }
 
 impl Actual {
-    fn handle_fn_expr(
+    fn handle_iife(
         &mut self,
         span: Span,
         callee: FnExpr,
