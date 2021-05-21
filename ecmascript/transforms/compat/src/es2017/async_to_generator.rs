@@ -1302,5 +1302,52 @@ fn handle_await_for(stmt: Stmt) -> Stmt {
         finalizer: Some(finally_block),
     };
 
-    Stmt::Try(try_stmt)
+    let mut stmts = vec![];
+
+    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Var,
+        declare: false,
+        decls: {
+            let mut decls = vec![];
+
+            // var _iteratorNormalCompletion = true;
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(iterator_normal_completion.into()),
+                init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                })))),
+                definite: false,
+            });
+
+            // var _didIteratorError = false;
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(did_iteration_error.into()),
+                init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: false,
+                })))),
+                definite: false,
+            });
+
+            // var _iteratorError;
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(iterator_error.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            decls
+        },
+    })));
+
+    stmts.push(Stmt::Try(try_stmt));
+    Stmt::Block(BlockStmt {
+        span: s.span,
+        stmts,
+    })
 }
