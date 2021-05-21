@@ -4,7 +4,7 @@
 # Note that this is append-only.
 set -eu
 
-cargo test --test compress \
+cargo test --test compress --all-features \
   | grep 'js .\.\. ok$' \
   | sed -e 's!test fixture_terser__compress__!!' \
   | sed -e 's! ... ok!!' \
