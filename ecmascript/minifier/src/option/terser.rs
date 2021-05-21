@@ -287,31 +287,19 @@ impl TerserCompressorOptions {
 
                     (
                         key,
-                        match v {
-                            Value::Null => Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                            Value::Bool(value) => Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: DUMMY_SP,
-                                value,
-                            }))),
-                            Value::Number(v) => Box::new(Expr::Lit(Lit::Num(Number {
-                                span: DUMMY_SP,
-                                value: v.as_f64().unwrap(),
-                            }))),
-                            Value::String(v) => {
-                                if k.starts_with('@') {
-                                    parse(v)
-                                } else {
-                                    Box::new(Expr::Lit(Lit::Str(Str {
-                                        span: DUMMY_SP,
-                                        value: v.into(),
-                                        has_escape: false,
-                                        kind: Default::default(),
-                                    })))
-                                }
-                            }
-                            Value::Object(_) | Value::Array(_) => {
-                                unreachable!()
-                            }
+                        if k.starts_with('@') {
+                            parse(
+                                v.as_str()
+                                    .unwrap_or_else(|| {
+                                        panic!(
+                                            "Value of `global_defs.{}` must be a string literal: ",
+                                            k
+                                        )
+                                    })
+                                    .into(),
+                            )
+                        } else {
+                            value_to_expr(v)
                         },
                     )
                 })
@@ -423,6 +411,29 @@ impl From<TerserTopRetainOption> for Vec<JsWord> {
                 .map(|v| v.into())
                 .collect(),
             TerserTopRetainOption::Seq(v) => v,
+        }
+    }
+}
+
+fn value_to_expr(v: Value) -> Box<Expr> {
+    match v {
+        Value::Null => Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+        Value::Bool(value) => Box::new(Expr::Lit(Lit::Bool(Bool {
+            span: DUMMY_SP,
+            value,
+        }))),
+        Value::Number(v) => Box::new(Expr::Lit(Lit::Num(Number {
+            span: DUMMY_SP,
+            value: v.as_f64().unwrap(),
+        }))),
+        Value::String(v) => Box::new(Expr::Lit(Lit::Str(Str {
+            span: DUMMY_SP,
+            value: v.into(),
+            has_escape: false,
+            kind: Default::default(),
+        }))),
+        Value::Object(_) | Value::Array(_) => {
+            unreachable!()
         }
     }
 }
