@@ -114,9 +114,37 @@ impl VisitMut for GlobalDefs {
     }
 }
 
+/// This is used to detect optional chaining expressions like `a?.b.c` without
+/// allocation.
 fn should_replace(pred: &Expr, node: &Expr) -> bool {
     if pred.eq_ignore_span(node) {
         return true;
+    }
+
+    match (pred, node) {
+        (pred, Expr::OptChain(node)) => {
+            if should_replace(pred, &node.expr) {
+                return true;
+            }
+        }
+
+        (Expr::Member(pred), Expr::Member(node)) => {
+            if pred.computed || node.computed {
+                return false;
+            }
+
+            if !pred.prop.eq_ignore_span(&node.prop) {
+                return false;
+            }
+
+            match (&pred.obj, &node.obj) {
+                (ExprOrSuper::Expr(pred_obj), ExprOrSuper::Expr(node_obj)) => {
+                    return should_replace(pred_obj, node_obj)
+                }
+                _ => {}
+            }
+        }
+        _ => {}
     }
 
     false
