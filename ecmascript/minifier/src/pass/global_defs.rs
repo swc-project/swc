@@ -88,11 +88,7 @@ impl VisitMut for GlobalDefs {
             _ => {}
         }
 
-        if let Some((_, new)) = self
-            .defs
-            .iter()
-            .find(|(pred, _)| (&**pred).eq_ignore_span(&*n))
-        {
+        if let Some((_, new)) = self.defs.iter().find(|(pred, _)| should_replace(&pred, &n)) {
             *n = *new.clone();
             return;
         }
@@ -116,4 +112,12 @@ impl VisitMut for GlobalDefs {
             }
         }
     }
+}
+
+fn should_replace(pred: &Expr, node: &Expr) -> bool {
+    if pred.eq_ignore_span(node) {
+        return true;
+    }
+
+    false
 }
