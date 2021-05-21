@@ -432,7 +432,20 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             has_escape: false,
             kind: Default::default(),
         }))),
-        Value::Object(_) | Value::Array(_) => {
+
+        Value::Array(v) => {
+            let elems = v
+                .into_iter()
+                .map(value_to_expr)
+                .map(|expr| Some(ExprOrSpread { spread: None, expr }))
+                .collect();
+            Box::new(Expr::Array(ArrayLit {
+                span: DUMMY_SP,
+                elems,
+            }))
+        }
+
+        Value::Object(_) => {
             unreachable!()
         }
     }
