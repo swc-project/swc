@@ -1,4 +1,5 @@
 use crate::compress::optimize::Optimizer;
+use swc_atoms::js_word;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
@@ -14,6 +15,10 @@ impl Optimizer<'_> {
 
         match &*e.prop {
             Expr::Lit(Lit::Str(s)) => {
+                if s.value == js_word!("") {
+                    return;
+                }
+
                 self.changed = true;
 
                 e.computed = false;
