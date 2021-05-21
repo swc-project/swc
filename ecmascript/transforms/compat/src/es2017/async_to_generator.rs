@@ -737,7 +737,118 @@ impl Actual {
                 stmts: for_loop_body,
             };
 
-            let for_stmt = Stmt::For(ForStmt {});
+            let mut init_var_decls = vec![];
+            // _iterator = _asyncIterator(lol())
+            init_var_decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(iterator.clone().into()),
+                init: {
+                    let callee = helper!(async_iterator, "asyncIterator");
+
+                    Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee,
+                        args: vec![s.right.as_arg()],
+                        type_args: Default::default(),
+                    })))
+                },
+                definite: false,
+            });
+            init_var_decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(step.clone().into()),
+                init: None,
+                definite: false,
+            });
+            init_var_decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(value.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            let for_stmt = Stmt::For(ForStmt {
+                span: s.span,
+                // var _iterator = _asyncIterator(lol()), _step, _value;
+                init: Some(VarDeclOrExpr::VarDecl(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: init_var_decls,
+                })),
+                // _step = yield _iterator.next(), _iteratorNormalCompletion = _step.done, _value =
+                // yield _step.value, !_iteratorNormalCompletion
+                test: {
+                    let mut exprs = vec![];
+
+                    // _step = yield _iterator.next()
+                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
+                        right: Box::new(Expr::Yield(YieldExpr {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                callee: iterator
+                                    .clone()
+                                    .make_member(quote_ident!("next"))
+                                    .as_callee(),
+                                args: vec![],
+                                type_args: Default::default(),
+                            }))),
+                            delegate: false,
+                        })),
+                    })));
+
+                    // _iteratorNormalCompletion = _step.done
+                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                            iterator_normal_completion.clone().into(),
+                        ))),
+                        right: Box::new(step.clone().make_member(quote_ident!("done"))),
+                    })));
+
+                    // _value = yield _step.value
+                    exprs.push(Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(Pat::Ident(value.clone().into()))),
+                        right: Box::new(Expr::Yield(YieldExpr {
+                            span: DUMMY_SP,
+                            arg: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
+                            delegate: false,
+                        })),
+                    })));
+
+                    // !_iteratorNormalCompletion
+                    exprs.push(Box::new(Expr::Unary(UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("!"),
+                        arg: Box::new(Expr::Ident(iterator_normal_completion.clone())),
+                    })));
+
+                    Some(Box::new(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    })))
+                },
+                // _iteratorNormalCompletion = true
+                update: Some(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                        iterator_normal_completion.clone().into(),
+                    ))),
+                    right: Box::new(Expr::Lit(Lit::Bool(Bool {
+                        span: DUMMY_SP,
+                        value: true,
+                    }))),
+                }))),
+                body: Box::new(Stmt::Block(for_loop_body)),
+            });
 
             BlockStmt {
                 span: body_span,
