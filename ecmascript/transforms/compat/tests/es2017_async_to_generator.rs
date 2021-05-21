@@ -2452,11 +2452,6 @@ test!(
     |_| async_to_generator(),
     issue_1721_1,
     "
-    async function* lol() {
-      yield 1;
-      yield 2;
-    }
-    
     async function main() {
       for await (const x of lol()) {
         console.log(x);
@@ -2464,16 +2459,6 @@ test!(
     }
     ",
     "
-    function _lol() {
-      _lol = _asyncToGenerator(function*() {
-          yield 1;
-          yield 2;
-      });
-      return _lol.apply(this, arguments);
-    }
-    function lol() {
-        return _lol.apply(this, arguments);
-    }
     function _main() {
         _main = _asyncToGenerator(function*() {
             {
