@@ -1,5 +1,7 @@
 //! Compatibility for terser config.
 
+use crate::option::PureGetterOption;
+
 use super::CompressOptions;
 use super::TopLevelOptions;
 use fxhash::FxHashMap;
@@ -336,6 +338,13 @@ impl TerserCompressorOptions {
             negate_iife: self.negate_iife.unwrap_or(self.defaults),
             passes: self.passes,
             props: self.properties.unwrap_or(self.defaults),
+            pure_getters: match self.pure_getters {
+                TerserPureGetterOption::Bool(v) => PureGetterOption::Bool(v),
+                TerserPureGetterOption::Strict => PureGetterOption::Strict,
+                TerserPureGetterOption::Str(v) => {
+                    PureGetterOption::Str(v.split(',').map(From::from).collect())
+                }
+            },
             reduce_fns: self.reduce_funcs,
             reduce_vars: self.reduce_vars,
             sequences: self

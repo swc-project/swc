@@ -73,6 +73,22 @@ pub struct ManglePropertiesOptions {
     pub regex: Option<Regex>,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(untagged)]
+pub enum PureGetterOption {
+    Bool(bool),
+    #[serde(rename = "strict")]
+    Strict,
+    Str(Vec<JsWord>),
+}
+
+impl Default for PureGetterOption {
+    fn default() -> Self {
+        Self::Strict
+    }
+}
+
 /// https://terser.org/docs/api-reference.html#compress-options
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -211,9 +227,9 @@ pub struct CompressOptions {
     #[serde(alias = "properties")]
     pub props: bool,
 
-    #[serde(default = "true_by_default")]
+    #[serde(default)]
     #[serde(alias = "properties")]
-    pub pure_getters: bool,
+    pub pure_getters: PureGetterOption,
 
     // pure_funcs    : null,
     #[serde(default)]
