@@ -866,46 +866,7 @@ impl Actual {
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
-    struct AwaitToYield;
-
-    macro_rules! noop {
-        ($name:ident, $T:path) => {
-            /// Don't recurse into function.
-            fn $name(&mut self, f: $T) -> $T {
-                f
-            }
-        };
-    }
-
-    impl Fold for AwaitToYield {
-        noop_fold_type!();
-
-        noop!(fold_fn_decl, FnDecl);
-        noop!(fold_fn_expr, FnExpr);
-        noop!(fold_constructor, Constructor);
-        noop!(fold_arrow_expr, ArrowExpr);
-
-        fn fold_expr(&mut self, expr: Expr) -> Expr {
-            let expr = expr.fold_children_with(self);
-
-            match expr {
-                Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
-                    span,
-                    delegate: false,
-                    arg: Some(arg),
-                }),
-                _ => expr,
-            }
-        }
-
-        fn fold_stmt(&mut self, s: Stmt) -> Stmt {
-            let s = s.fold_children_with(self);
-
-            handle_await_for(s)
-        }
-    }
-
-    expr.function.body = expr.function.body.fold_with(&mut AwaitToYield);
+    expr.function.body = expr.function.body.fold_with(&mut AsyncFnBodyHandler);
 
     assert!(expr.function.is_async);
     expr.function.is_async = false;
@@ -931,6 +892,45 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
         args: vec![expr.as_arg()],
         type_args: Default::default(),
     })
+}
+
+struct AsyncFnBodyHandler;
+
+macro_rules! noop {
+    ($name:ident, $T:path) => {
+        /// Don't recurse into function.
+        fn $name(&mut self, f: $T) -> $T {
+            f
+        }
+    };
+}
+
+impl Fold for AsyncFnBodyHandler {
+    noop_fold_type!();
+
+    noop!(fold_fn_decl, FnDecl);
+    noop!(fold_fn_expr, FnExpr);
+    noop!(fold_constructor, Constructor);
+    noop!(fold_arrow_expr, ArrowExpr);
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
+                span,
+                delegate: false,
+                arg: Some(arg),
+            }),
+            _ => expr,
+        }
+    }
+
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+        let s = s.fold_children_with(self);
+
+        handle_await_for(s)
+    }
 }
 
 #[derive(Default)]
