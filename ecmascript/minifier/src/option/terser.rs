@@ -265,8 +265,8 @@ impl TerserCompressorOptions {
                 .global_defs
                 .into_iter()
                 .map(|(k, v)| {
-                    let k = {
-                        let fm = cm.new_source_file(FileName::Anon, k.to_string());
+                    let parse = |input: String| {
+                        let fm = cm.new_source_file(FileName::Anon, input);
 
                         let lexer = Lexer::new(
                             Default::default(),
@@ -283,25 +283,21 @@ impl TerserCompressorOptions {
                             )
                         })
                     };
+                    let k = parse(k.to_string());
 
                     (
                         k,
                         match v {
-                            Value::Null => Lit::Null(Null { span: DUMMY_SP }),
-                            Value::Bool(value) => Lit::Bool(Bool {
+                            Value::Null => Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                            Value::Bool(value) => Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,
                                 value,
-                            }),
-                            Value::Number(v) => Lit::Num(Number {
+                            }))),
+                            Value::Number(v) => Box::new(Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: v.as_f64().unwrap(),
-                            }),
-                            Value::String(v) => Lit::Str(Str {
-                                span: DUMMY_SP,
-                                value: v.into(),
-                                has_escape: false,
-                                kind: Default::default(),
-                            }),
+                            }))),
+                            Value::String(v) => parse(v),
                             Value::Object(_) | Value::Array(_) => {
                                 unreachable!()
                             }
