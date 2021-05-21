@@ -211,7 +211,10 @@ pub struct CompressOptions {
     #[serde(alias = "properties")]
     pub props: bool,
 
-    // pure_getters  : !false_by_default && "strict",
+    #[serde(default = "true_by_default")]
+    #[serde(alias = "properties")]
+    pub pure_getters: bool,
+
     // pure_funcs    : null,
     #[serde(default)]
     #[serde(alias = "reduce_funcs")]
