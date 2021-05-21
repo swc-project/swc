@@ -85,6 +85,10 @@ impl Optimizer<'_> {
             }
         }
 
+        self.take_pat_if_unused(name);
+    }
+
+    fn take_pat_if_unused(&mut self, name: &mut Pat) {
         match name {
             Pat::Ident(i) => {
                 if self.options.top_retain.contains(&i.id.sym) {
@@ -108,6 +112,56 @@ impl Optimizer<'_> {
                     name.take();
                     return;
                 }
+            }
+            Pat::Array(arr) => {
+                for elem in &mut arr.elems {
+                    match elem {
+                        Some(p) => {
+                            self.take_pat_if_unused(p);
+                        }
+                        None => {}
+                    }
+                }
+
+                arr.elems.retain(|elem| match eleme {
+                    Some(Pat::Invalid(..)) => false,
+                    _ => true,
+                })
+            }
+
+            Pat::Object(obj) => {
+                for prop in &mut obj.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(p) => {
+                            if p.key.is_computed() {
+                                continue;
+                            }
+
+                            self.take_pat_if_unused(&mut p.value);
+                        }
+                        ObjectPatProp::Assign(_) => {}
+                        ObjectPatProp::Rest(_) => {}
+                    }
+                }
+
+                obj.props.retain(|p| {
+                    match p {
+                        ObjectPatProp::KeyValue(p) => {
+                            if p.value.is_invalid() {
+                                return false;
+                            }
+                        }
+                        ObjectPatProp::Assign(_) => {}
+                        ObjectPatProp::Rest(_) => {}
+                    }
+
+                    true
+                })
+            }
+
+            Pat::Rest(_) => {}
+            Pat::Assign(_) => {
+                // TODO
             }
             _ => {}
         }
