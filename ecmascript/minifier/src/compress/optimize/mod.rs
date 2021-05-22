@@ -1181,6 +1181,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.optimize_bin_operator(n);
 
+        self.optimize_null_or_undefined_cmp(n);
+
         if n.op == op!(bin, "+") {
             if let Known(Type::Str) = n.left.get_type() {
                 self.optimize_expr_in_str_ctx(&mut n.right);

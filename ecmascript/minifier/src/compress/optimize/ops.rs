@@ -13,6 +13,8 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Optimizer<'_> {
+    pub(super) fn optimize_null_or_undefined_cmp(&mut self, e: &mut BinExpr) {}
+
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
     pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {
