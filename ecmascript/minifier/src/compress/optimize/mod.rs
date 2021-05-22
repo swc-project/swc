@@ -1721,7 +1721,7 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_switch_stmt(&mut self, n: &mut SwitchStmt) {
         let ctx = Ctx {
-            inline_prevented: true,
+            inline_prevented: !self.options.switches,
             ..self.ctx
         };
         n.discriminant.visit_mut_with(&mut *self.with_ctx(ctx));
