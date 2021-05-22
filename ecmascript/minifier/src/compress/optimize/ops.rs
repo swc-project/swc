@@ -288,8 +288,8 @@ impl Optimizer<'_> {
         e.right = left.take();
     }
 
+    /// Swap lhs and rhs in certain conditions.
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
-        // Swap lhs and rhs in certain conditions.
         match expr {
             Expr::Bin(test) => {
                 match test.op {
