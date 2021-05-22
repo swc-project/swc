@@ -388,7 +388,44 @@ impl Optimizer<'_> {
         }
     }
 
-    /// 
+    ///
     /// - `Object(1) && 1 && 2` => `Object(1) && 2`.
-    pub(super) fn optimize_bin_and_or(&mut self, e: &mut BinExpr) {}
+    pub(super) fn optimize_bin_and_or(&mut self, e: &mut BinExpr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        match e.op {
+            op!("&&") | op!("||") => {}
+            _ => return,
+        }
+
+        match &mut *e.left {
+            Expr::Bin(left) => {
+                if left.op != e.op {
+                    return;
+                }
+                // Remove rhs of lhs if possible.
+
+                let v = left.right.as_pure_bool();
+                if let Known(v) = v {
+                    // As we used as_pure_bool, we can drop it.
+                    if v && e.op == op!("&&") {
+                        self.changed = true;
+                        log::trace!("Removing `b` from `a && b && c` because b is always truthy");
+
+                        left.right.take();
+                    }
+
+                    if !v && e.op == op!("||") {
+                        self.changed = true;
+                        log::trace!("Removing `b` from `a || b || c` because b is always falsy");
+
+                        left.right.take();
+                    }
+                }
+            }
+            _ => return,
+        }
+    }
 }
