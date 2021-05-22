@@ -1183,6 +1183,10 @@ impl VisitMut for Optimizer<'_> {
             if let Known(Type::Str) = n.left.get_type() {
                 self.optimize_expr_in_str_ctx(&mut n.right);
             }
+
+            if let Known(Type::Str) = n.right.get_type() {
+                self.optimize_expr_in_str_ctx(&mut n.left);
+            }
         }
 
         if n.op == op!(bin, "+") {
