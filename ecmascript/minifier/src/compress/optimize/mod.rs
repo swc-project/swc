@@ -1304,6 +1304,8 @@ impl VisitMut for Optimizer<'_> {
             _ => {}
         }
 
+        self.lift_minus(e);
+
         self.convert_tpl_to_str(e);
 
         self.optimize_str_access_to_arguments(e);
@@ -1793,8 +1795,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-        self.lift_minus(n);
 
         if n.op == op!("!") {
             self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
