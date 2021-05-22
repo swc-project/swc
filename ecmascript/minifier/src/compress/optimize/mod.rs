@@ -131,6 +131,8 @@ struct Ctx {
 
     in_obj_of_non_computed_member: bool,
 
+    in_tpl_expr: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1726,7 +1728,14 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_tpl(&mut self, n: &mut Tpl) {
         debug_assert_eq!(n.exprs.len() + 1, n.quasis.len());
 
-        n.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_tpl_expr: true,
+                ..self.ctx
+            };
+            let mut o = self.with_ctx(ctx);
+            n.visit_mut_children_with(&mut *o);
+        }
 
         n.exprs
             .iter_mut()
