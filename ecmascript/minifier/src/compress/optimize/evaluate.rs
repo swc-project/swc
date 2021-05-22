@@ -160,6 +160,25 @@ impl Optimizer<'_> {
         }
 
         match e {
+            Expr::Bin(bin @ BinExpr { op: op!("**"), .. }) => {
+                let l = bin.left.as_number();
+                let r = bin.right.as_number();
+
+                if let Known(l) = l {
+                    if let Known(r) = r {
+                        self.changed = true;
+                        log::trace!("evaluate: Evaulated `{:?} ** {:?}`", l, r);
+
+                        let value = l.powf(r);
+                        *e = Expr::Lit(Lit::Num(Number {
+                            span: bin.span,
+                            value,
+                        }));
+                        return;
+                    }
+                }
+            }
+
             Expr::Bin(bin @ BinExpr { op: op!("/"), .. }) => {
                 let ln = bin.left.as_number();
 
