@@ -13,9 +13,89 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Optimizer<'_> {
-    /// 
+    ///
     /// - `a === undefined || a === null` => `a == null`
-    pub(super) fn optimize_null_or_undefined_cmp(&mut self, e: &mut BinExpr) {}
+    pub(super) fn optimize_null_or_undefined_cmp(&mut self, e: &mut BinExpr) {
+        if e.op == op!("||") || e.op == op!("&&") {
+            let (cmp, op, left, right) = match &mut *e.left {
+                Expr::Bin(left_bin) => {
+                    if left_bin.op != op!("===") && left_bin.op != op!("!==") {
+                        return;
+                    }
+
+                    if e.op == op!("&&") && left_bin.op == op!("===") {
+                        return;
+                    }
+                    if e.op == op!("||") && left_bin.op == op!("!==") {
+                        return;
+                    }
+
+                    if !left_bin.right.is_ident() {
+                        return;
+                    }
+
+                    let right = match &mut *e.right {
+                        Expr::Bin(right_bin) => {
+                            if right_bin.op != left_bin.op {
+                                return;
+                            }
+
+                            if !right_bin.right.eq_ignore_span(&left_bin.right) {
+                                return;
+                            }
+
+                            &mut *right_bin.left
+                        }
+                        _ => return,
+                    };
+
+                    (
+                        &mut left_bin.right,
+                        left_bin.op,
+                        &mut *left_bin.left,
+                        &mut *right,
+                    )
+                }
+                _ => return,
+            };
+
+            let lt = left.get_type();
+            let rt = right.get_type();
+            if let Known(lt) = lt {
+                if let Known(rt) = rt {
+                    match (lt, rt) {
+                        (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
+                            self.changed = true;
+
+                            if op == op!("===") {
+                                log::trace!(
+                                    "Reducing `!== null || !== undefined` check to `!= null`"
+                                );
+                                *e = BinExpr {
+                                    span: e.span,
+                                    op: op!("=="),
+                                    left: cmp.take(),
+                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                };
+                            } else {
+                                debug_assert_eq!(op, op!("!=="));
+                                log::trace!(
+                                    "Reducing `=== null || === undefined` check to `== null`"
+                                );
+                                *e = BinExpr {
+                                    span: e.span,
+                                    op: op!("!="),
+                                    left: cmp.take(),
+                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                };
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+        }
+    }
 
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
