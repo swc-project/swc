@@ -83,6 +83,19 @@ impl Optimizer<'_> {
     pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
         match n {
             Expr::Lit(Lit::Str(..)) => return,
+            Expr::Paren(e) => {
+                self.optimize_expr_in_str_ctx(&mut e.expr);
+                match &*e.expr {
+                    Expr::Lit(Lit::Str(..)) => {
+                        *n = *e.expr.take();
+                        self.changed = true;
+                        log::trace!("string: Removed a paren in a string context");
+                    }
+                    _ => {}
+                }
+
+                return;
+            }
             _ => {}
         }
 
