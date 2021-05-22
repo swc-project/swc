@@ -425,6 +425,23 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_tagged_tpl(&mut self, e: &mut TaggedTpl) {
+        e.visit_mut_children_with(self);
+
+        match &*e.tag {
+            Expr::Arrow(..)
+            | Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Seq(..)
+            | Expr::Fn(..)
+            | Expr::Assign(..)
+            | Expr::Unary(..) => {
+                self.wrap(&mut e.tag);
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         debug_assert!(self.span_map.is_empty());
         self.span_map.clear();
