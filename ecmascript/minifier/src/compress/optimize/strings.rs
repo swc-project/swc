@@ -1,5 +1,6 @@
 use super::Optimizer;
 use std::mem::take;
+use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -118,7 +119,10 @@ impl Optimizer<'_> {
                         rs.value
                     );
                     let l_str = l_last.cooked.as_mut().unwrap();
-                    l_str.value = format!("{}{}", l_str.value, rs.value).into();
+
+                    let new: JsWord = format!("{}{}", l_str.value, rs.value).into();
+                    l_str.value = new.clone();
+                    l_last.raw.value = new;
 
                     r.take();
                     return;
