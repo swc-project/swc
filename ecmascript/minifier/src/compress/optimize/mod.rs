@@ -1273,6 +1273,17 @@ impl VisitMut for Optimizer<'_> {
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        match e {
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                if left.is_invalid() {
+                    *e = *right.take();
+                } else if right.is_invalid() {
+                    *e = *left.take();
+                }
+            }
+            _ => {}
+        }
+
         self.convert_tpl_to_str(e);
 
         self.optimize_str_access_to_arguments(e);
