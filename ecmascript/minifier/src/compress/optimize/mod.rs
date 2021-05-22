@@ -1174,6 +1174,14 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
+        n.visit_mut_children_with(self);
+
+        if n.op == op!(bin, "+") {
+            self.concat_tpl(&mut n.left, &mut n.right);
+        }
+    }
+
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             stmt_lablled: false,

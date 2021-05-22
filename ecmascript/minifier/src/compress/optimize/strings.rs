@@ -104,4 +104,7 @@ impl Optimizer<'_> {
         tpl.quasis = quasis;
         tpl.exprs = exprs;
     }
+
+    /// Called for binary operations with `+`.
+    pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {}
 }
