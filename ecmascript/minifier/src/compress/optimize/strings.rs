@@ -81,6 +81,9 @@ impl Optimizer<'_> {
             }
 
             Expr::Lit(Lit::Regex(v)) => {
+                if !self.options.side_effects {
+                    return;
+                }
                 self.changed = true;
                 log::trace!(
                     "strings: Converted a regex ({}/{}) into a string literal (in string context)",
