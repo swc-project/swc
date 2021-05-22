@@ -1794,6 +1794,8 @@ impl VisitMut for Optimizer<'_> {
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        self.lift_minus(n);
+
         if n.op == op!("!") {
             self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
         } else if n.op == op!(unary, "+") || n.op == op!(unary, "-") {

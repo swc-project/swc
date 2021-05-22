@@ -15,4 +15,8 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+
+    /// 
+    /// - `1 / -0` => `- 1 / 0`
+    pub(super) fn lift_minus(&mut self, e: &mut Expr) {}
 }
