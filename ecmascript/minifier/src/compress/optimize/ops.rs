@@ -3,6 +3,7 @@ use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
 use swc_common::EqIgnoreSpan;
+use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -16,37 +17,42 @@ impl Optimizer<'_> {
     ///
     /// - `a === undefined || a === null` => `a == null`
     pub(super) fn optimize_null_or_undefined_cmp(&mut self, e: &mut BinExpr) {
-        if e.op == op!("||") || e.op == op!("&&") {
-            let (cmp, op, left, right) = match &mut *e.left {
+        fn opt(
+            span: Span,
+            top_op: BinaryOp,
+            e_left: &mut Expr,
+            e_right: &mut Expr,
+        ) -> Option<BinExpr> {
+            let (cmp, op, left, right) = match &mut *e_left {
                 Expr::Bin(left_bin) => {
                     if left_bin.op != op!("===") && left_bin.op != op!("!==") {
-                        return;
+                        return None;
                     }
 
-                    if e.op == op!("&&") && left_bin.op == op!("===") {
-                        return;
+                    if top_op == op!("&&") && left_bin.op == op!("===") {
+                        return None;
                     }
-                    if e.op == op!("||") && left_bin.op == op!("!==") {
-                        return;
+                    if top_op == op!("||") && left_bin.op == op!("!==") {
+                        return None;
                     }
 
                     if !left_bin.right.is_ident() {
-                        return;
+                        return None;
                     }
 
-                    let right = match &mut *e.right {
+                    let right = match &mut *e_right {
                         Expr::Bin(right_bin) => {
                             if right_bin.op != left_bin.op {
-                                return;
+                                return None;
                             }
 
                             if !right_bin.right.eq_ignore_span(&left_bin.right) {
-                                return;
+                                return None;
                             }
 
                             &mut *right_bin.left
                         }
-                        _ => return,
+                        _ => return None,
                     };
 
                     (
@@ -56,7 +62,7 @@ impl Optimizer<'_> {
                         &mut *right,
                     )
                 }
-                _ => return,
+                _ => return None,
             };
 
             let lt = left.get_type();
@@ -65,34 +71,41 @@ impl Optimizer<'_> {
                 if let Known(rt) = rt {
                     match (lt, rt) {
                         (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
-                            self.changed = true;
-
                             if op == op!("===") {
                                 log::trace!(
                                     "Reducing `!== null || !== undefined` check to `!= null`"
                                 );
-                                *e = BinExpr {
-                                    span: e.span,
+                                return Some(BinExpr {
+                                    span,
                                     op: op!("=="),
                                     left: cmp.take(),
                                     right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                                };
+                                });
                             } else {
-                                debug_assert_eq!(op, op!("!=="));
                                 log::trace!(
                                     "Reducing `=== null || === undefined` check to `== null`"
                                 );
-                                *e = BinExpr {
-                                    span: e.span,
+                                return Some(BinExpr {
+                                    span,
                                     op: op!("!="),
                                     left: cmp.take(),
                                     right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
-                                };
+                                });
                             }
                         }
                         _ => {}
                     }
                 }
+            }
+
+            None
+        }
+
+        if e.op == op!("||") || e.op == op!("&&") {
+            let res = opt(e.span, e.op, &mut e.left, &mut e.right);
+            if let Some(res) = res {
+                self.changed = true;
+                *e = res;
             }
         }
     }
