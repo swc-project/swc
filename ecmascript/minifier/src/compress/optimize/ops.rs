@@ -16,6 +16,10 @@ impl Optimizer<'_> {
     ///
     /// - `'12' === `foo` => '12' == 'foo'`
     pub(super) fn optimize_bin_eq(&mut self, e: &mut BinExpr) {
+        if !self.options.comparisons {
+            return;
+        }
+
         let lt = e.left.get_type();
         let rt = e.right.get_type();
 
