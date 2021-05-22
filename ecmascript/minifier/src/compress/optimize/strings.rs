@@ -88,7 +88,7 @@ impl Optimizer<'_> {
                 }
                 self.changed = true;
                 log::trace!(
-                    "strings: Converted a regex ({}/{}) into a string literal (in string context)",
+                    "strings: Converted a regex (/{}/{}) into a string literal (in string context)",
                     v.exp,
                     v.flags
                 );
