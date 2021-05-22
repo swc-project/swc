@@ -148,6 +148,33 @@ impl Optimizer<'_> {
                     return;
                 }
             }
+
+            (Expr::Tpl(l), Expr::Tpl(rt)) => {
+                // We prepend the last quasis of l to the first quasis of r.
+                // After doing so, we can append all data of r to l.
+
+                {
+                    let l_last = l.quasis.pop().unwrap();
+                    let mut r_first = rt.quasis.first_mut().unwrap();
+
+                    let r_str = r_first.cooked.as_mut().unwrap();
+
+                    let new: JsWord =
+                        format!("{}{}", l_last.cooked.unwrap().value, r_str.value).into();
+                    r_str.value = new.clone();
+                    r_first.raw.value = new;
+                }
+
+                l.quasis.extend(rt.quasis.take());
+                l.exprs.extend(rt.exprs.take());
+                // Remove r
+                r.take();
+
+                debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
+                self.changed = true;
+                log::trace!("strings: Merged to template literals");
+            }
+
             _ => {}
         }
     }
