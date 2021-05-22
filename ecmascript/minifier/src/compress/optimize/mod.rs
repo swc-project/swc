@@ -575,6 +575,7 @@ impl Optimizer<'_> {
                     | BinaryOp::Add
                     | BinaryOp::Sub
                     | BinaryOp::Mul
+                    | BinaryOp::Div
                     | BinaryOp::Mod
                     | BinaryOp::BitOr
                     | BinaryOp::BitXor
