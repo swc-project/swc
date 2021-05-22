@@ -344,6 +344,7 @@ evaluate/issue_2822/input.js
 evaluate/issue_2916_1/input.js
 evaluate/optional_expect_when_expect_stdout_present/input.js
 evaluate/or/input.js
+evaluate/positive_zero/input.js
 evaluate/pow/input.js
 evaluate/pow_mixed/input.js
 evaluate/pow_sequence/input.js
