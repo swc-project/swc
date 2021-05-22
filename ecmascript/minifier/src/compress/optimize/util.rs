@@ -58,8 +58,8 @@ impl<'b> Optimizer<'b> {
 
     pub(super) fn access_numeric_property<'e>(
         &mut self,
-        expr: &'e mut Expr,
-        idx: usize,
+        _expr: &'e mut Expr,
+        _idx: usize,
     ) -> Option<&'e mut Expr> {
         None
     }
