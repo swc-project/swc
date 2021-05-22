@@ -25,22 +25,22 @@ impl Optimizer<'_> {
         }
 
         match e {
-            Expr::Unary(unary) => match &mut *unary.arg {
-                Expr::Bin(arg) => match &mut *arg.right {
+            Expr::Bin(arg) => {
+                if arg.op != op!("*") && arg.op != op!("/") {
+                    return;
+                }
+
+                match &mut *arg.right {
                     Expr::Unary(UnaryExpr {
                         op: op!(unary, "-"),
                         arg: right_arg,
                         ..
                     }) => {
-                        if arg.op != op!("*") && arg.op != op!("/") {
-                            return;
-                        }
-
                         self.changed = true;
                         log::trace!("numbers: Lifting `-`");
 
                         *e = Expr::Unary(UnaryExpr {
-                            span: unary.span,
+                            span: arg.span,
                             op: op!(unary, "-"),
                             arg: Box::new(Expr::Bin(BinExpr {
                                 span: arg.span,
@@ -52,9 +52,8 @@ impl Optimizer<'_> {
                         return;
                     }
                     _ => {}
-                },
-                _ => {}
-            },
+                }
+            }
             _ => {}
         }
     }
