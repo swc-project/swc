@@ -13,9 +13,24 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Optimizer<'_> {
-    /// 
+    ///
     /// - `'12' === `foo` => '12' == 'foo'`
-    pub(super) fn optimize_bin_eq(&mut self, e: &mut BinExpr) {}
+    pub(super) fn optimize_bin_eq(&mut self, e: &mut BinExpr) {
+        let lt = e.left.get_type();
+        let rt = e.right.get_type();
+
+        if e.op == op!("===") {
+            if let Known(lt) = lt {
+                if let Known(rt) = rt {
+                    if lt == rt {
+                        e.op = op!("==");
+                        self.changed = true;
+                        log::trace!("Reduced `===` to `==` because types of operands are identical")
+                    }
+                }
+            }
+        }
+    }
 
     ///
     /// - `1 == 1` => `true`
