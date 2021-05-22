@@ -89,12 +89,37 @@ impl Optimizer<'_> {
         let span = n.span();
         let value = n.as_string();
         if let Known(value) = value {
+            self.changed = true;
+            log::trace!(
+                "strings: Converted an expression into a string literal (in string context)"
+            );
             *n = Expr::Lit(Lit::Str(Str {
                 span,
                 value: value.into(),
                 has_escape: false,
                 kind: Default::default(),
-            }))
+            }));
+            return;
+        }
+
+        match n {
+            Expr::Lit(Lit::Num(v)) => {
+                self.changed = true;
+                log::trace!(
+                    "strings: Converted a numeric literal ({}) into a string literal (in string \
+                     context)",
+                    v.value
+                );
+
+                *n = Expr::Lit(Lit::Str(Str {
+                    span: v.span,
+                    value: format!("{:?}", v.value).into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }));
+                return;
+            }
+            _ => {}
         }
     }
 
