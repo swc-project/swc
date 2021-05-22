@@ -63,4 +63,5 @@ var withTeamsForUser = function(_WrappedComponent) {
         return _class;
     }(Component);
     _class.displayName = "x";
+    return _class;
 };

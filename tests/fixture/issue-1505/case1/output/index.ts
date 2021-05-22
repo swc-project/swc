@@ -59,4 +59,5 @@ export var fn = function() {
         return _class;
     }(MyClass);
     _class.x = 5;
+    return _class;
 };
