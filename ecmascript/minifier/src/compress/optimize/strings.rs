@@ -79,6 +79,24 @@ impl Optimizer<'_> {
                 }));
                 return;
             }
+
+            Expr::Lit(Lit::Regex(v)) => {
+                self.changed = true;
+                log::trace!(
+                    "strings: Converted a regex ({}/{}) into a string literal (in string context)",
+                    v.exp,
+                    v.flags
+                );
+
+                *n = Expr::Lit(Lit::Str(Str {
+                    span: v.span,
+                    value: format!("/{}/{}", v.exp, v.flags).into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }));
+                return;
+            }
+
             _ => {}
         }
     }
