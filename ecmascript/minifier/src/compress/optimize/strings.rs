@@ -108,7 +108,7 @@ impl Optimizer<'_> {
 
     /// Called for binary operations with `+`.
     pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {
-        match (l, &mut *r) {
+        match (&mut *l, &mut *r) {
             (Expr::Tpl(l), Expr::Lit(Lit::Str(rs))) => {
                 // Append
                 if let Some(l_last) = l.quasis.last_mut() {
@@ -125,6 +125,26 @@ impl Optimizer<'_> {
                     l_last.raw.value = new;
 
                     r.take();
+                    return;
+                }
+            }
+
+            (Expr::Lit(Lit::Str(ls)), Expr::Tpl(r)) => {
+                // Append
+                if let Some(r_first) = r.quasis.first_mut() {
+                    self.changed = true;
+
+                    log::trace!(
+                        "template: Prepended a string (`{}`) on lhs of `+` to a template literal",
+                        ls.value
+                    );
+                    let r_str = r_first.cooked.as_mut().unwrap();
+
+                    let new: JsWord = format!("{}{}", ls.value, r_str.value).into();
+                    r_str.value = new.clone();
+                    r_first.raw.value = new;
+
+                    l.take();
                     return;
                 }
             }
