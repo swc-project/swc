@@ -880,6 +880,6 @@ test!(
         };
         for(var i = 1; i < arguments.length; i++)_loop(i);
         return target;
-    };
+    }
     "
 );
