@@ -102,10 +102,27 @@ impl Optimizer<'_> {
         }
 
         if e.op == op!("||") || e.op == op!("&&") {
-            let res = opt(e.span, e.op, &mut e.left, &mut e.right);
-            if let Some(res) = res {
-                self.changed = true;
-                *e = res;
+            {
+                let res = opt(e.span, e.op, &mut e.left, &mut e.right);
+                if let Some(res) = res {
+                    self.changed = true;
+                    *e = res;
+                    return;
+                }
+            }
+
+            match &mut *e.right {
+                Expr::Bin(right) => {
+                    if e.op == right.op {
+                        let res = opt(right.span, right.op, &mut right.left, &mut right.right);
+                        if let Some(res) = res {
+                            self.changed = true;
+                            *right = res;
+                            return;
+                        }
+                    }
+                }
+                _ => {}
             }
         }
     }
