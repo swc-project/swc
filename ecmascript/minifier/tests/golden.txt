@@ -242,6 +242,7 @@ destructuring/destructuring_remove_unused_2/input.js
 destructuring/destructuring_vardef_in_loops/input.js
 destructuring/empty_object_destructuring_1/input.js
 destructuring/empty_object_destructuring_2/input.js
+destructuring/export_function_containing_destructuring_decl/input.js
 destructuring/export_unreferenced_declarations_1/input.js
 destructuring/issue_1886/input.js
 destructuring/issue_2044_ecma_5/input.js
@@ -504,6 +505,7 @@ if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
 if_return/issue_1437_conditionals/input.js
+if_return/issue_2747/input.js
 inline/inline_func_with_name_existing_in_block_scope/input.js
 inline/inline_into_scope_conflict_enclosed/input.js
 inline/noinline_annotation/input.js
