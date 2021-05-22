@@ -1731,6 +1731,11 @@ impl VisitMut for Optimizer<'_> {
         n.cases.visit_mut_with(self);
     }
 
+    /// We don't optimize [Tpl] contained in [TaggedTpl].
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        n.tag.visit_mut_with(self);
+    }
+
     fn visit_mut_throw_stmt(&mut self, n: &mut ThrowStmt) {
         n.visit_mut_children_with(self);
 
