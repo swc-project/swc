@@ -287,7 +287,9 @@ impl Optimizer<'_> {
                 }
 
                 match (&*test.left, &*test.right) {
-                    (&Expr::Ident(..), &Expr::Lit(..)) | (&Expr::Tpl(..), &Expr::Lit(..)) => {
+                    (&Expr::Ident(..), &Expr::Lit(..))
+                    | (&Expr::Unary(..), &Expr::Lit(..))
+                    | (&Expr::Tpl(..), &Expr::Lit(..)) => {
                         self.changed = true;
                         log::trace!("Swapping operands of binary exprssion");
                         swap(&mut test.left, &mut test.right);
