@@ -1050,6 +1050,16 @@ switch/issue_1663/input.js
 switch/issue_1680_2/input.js
 switch/issue_1705_2/input.js
 switch/issue_1705_3/input.js
+template_string/array_join/input.js
+template_string/coerce_to_string/input.js
+template_string/escape_dollar_curly/input.js
+template_string/evaluate_nested_templates/input.js
+template_string/regex_2/input.js
+template_string/side_effects/input.js
+template_string/special_chars_in_string/input.js
+template_string/tagged_template_function_inline_5/input.js
+template_string/template_concattenating_string/input.js
+template_string/template_string_with_predefined_constants/input.js
 transform/condition_evaluate/input.js
 transform/if_return/input.js
 transform/label_if_break/input.js
