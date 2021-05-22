@@ -60,6 +60,11 @@ impl Hoister {
 impl Fold for Hoister {
     noop_fold_type!();
 
+    /// Noop
+    fn fold_function(&mut self, n: Function) -> Function {
+        n
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 

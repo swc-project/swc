@@ -1271,9 +1271,11 @@ impl VisitMut for Strip {
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
         match n {
             BlockStmtOrExpr::Expr(expr) if expr.is_class() => {
+                let span = expr.span();
+
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (decl, extra_exprs) = self.fold_class_as_decl(ident, class);
+                let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
                 let mut stmts = vec![];
                 stmts.push(Stmt::Decl(decl));
                 stmts.extend(
@@ -1282,6 +1284,10 @@ impl VisitMut for Strip {
                         .map(|e| e.into_stmt())
                         .collect::<Vec<_>>(),
                 );
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span,
+                    arg: Some(Box::new(Expr::Ident(ident))),
+                }));
                 *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
                     span: n.span(),
                     stmts,
