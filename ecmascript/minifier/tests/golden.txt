@@ -991,6 +991,8 @@ template_string/respect_inline_script/input.js
 template_string/return_template_string_with_trailing_backslash/input.js
 template_string/semicolons/input.js
 template_string/sequence_1/input.js
+template_string/sequence_2/input.js
+template_string/simple_string/input.js
 template_string/tagged_call_with_invalid_escape/input.js
 template_string/tagged_call_with_invalid_escape_2/input.js
 template_string/tagged_template_function_inline_1/input.js
