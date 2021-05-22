@@ -767,6 +767,13 @@ new/new_statements_3/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
 nullish/nullish_coalescing_boolean_context/input.js
+numbers/evaluate_1/input.js
+numbers/evaluate_2/input.js
+numbers/evaluate_3/input.js
+numbers/evaluate_4/input.js
+numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
+numbers/number_function_transform_with_unsafe_math/input.js
+numbers/unary_binary_parenthesis/input.js
 object/concise_method_to_prop_arrow/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
