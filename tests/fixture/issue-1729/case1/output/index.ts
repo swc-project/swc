@@ -73,5 +73,6 @@ var constructor = createConstructor(function() {
         "use strict";
         _classCallCheck(this, _class);
     };
+    return _class;
 });
 console.log(constructor());
