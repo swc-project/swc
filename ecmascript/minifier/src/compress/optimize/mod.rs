@@ -1796,6 +1796,8 @@ impl VisitMut for Optimizer<'_> {
 
         if n.op == op!("!") {
             self.with_ctx(ctx).optimize_expr_in_bool_ctx(&mut n.arg);
+        } else if n.op == op!(unary, "+") || n.op == op!(unary, "-") {
+            self.with_ctx(ctx).optimize_expr_in_num_ctx(&mut n.arg);
         }
     }
 
