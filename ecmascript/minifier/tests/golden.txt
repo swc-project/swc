@@ -350,6 +350,8 @@ evaluate/pow_sequence/input.js
 evaluate/pow_sequence_with_constants_and_parens/input.js
 evaluate/pow_sequence_with_parens/input.js
 evaluate/pow_sequence_with_parens_evaluated/input.js
+evaluate/pow_sequence_with_parens_exact/input.js
+evaluate/pow_with_number_constants/input.js
 evaluate/pow_with_right_side_evaluating_to_unary/input.js
 evaluate/prop_function/input.js
 evaluate/string_case/input.js
