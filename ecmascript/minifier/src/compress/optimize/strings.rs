@@ -83,7 +83,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Lit(Lit::Regex(v)) => {
-                if !self.options.side_effects {
+                if !self.options.evaluate {
                     return;
                 }
                 self.changed = true;
