@@ -1180,6 +1180,12 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         if n.op == op!(bin, "+") {
+            if let Known(Type::Str) = n.left.get_type() {
+                self.optimize_expr_in_str_ctx(&mut n.right);
+            }
+        }
+
+        if n.op == op!(bin, "+") {
             self.concat_tpl(&mut n.left, &mut n.right);
         }
     }
