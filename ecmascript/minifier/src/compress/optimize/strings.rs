@@ -113,7 +113,10 @@ impl Optimizer<'_> {
                 if let Some(l_last) = l.quasis.last_mut() {
                     self.changed = true;
 
-                    log::trace!("template: Concatted a string on rhs of `+` to a template literal");
+                    log::trace!(
+                        "template: Concatted a string (`{}`) on rhs of `+` to a template literal",
+                        rs.value
+                    );
                     let l_str = l_last.cooked.as_mut().unwrap();
                     l_str.value = format!("{}{}", l_str.value, rs.value).into();
 
