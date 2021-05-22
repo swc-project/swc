@@ -176,6 +176,7 @@ comments/preserve_comments_by_default/input.js
 comments/print_every_comment_only_once/input.js
 comparing/dont_change_in_or_instanceof_expressions/input.js
 comparing/keep_comparisons/input.js
+comparing/self_comparison_2/input.js
 concat_strings/concat_2/input.js
 concat_strings/concat_3/input.js
 concat_strings/concat_4/input.js
