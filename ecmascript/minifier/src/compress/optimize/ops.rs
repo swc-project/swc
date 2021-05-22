@@ -13,6 +13,10 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Optimizer<'_> {
+    /// 
+    /// - `'12' === `foo` => '12' == 'foo'`
+    pub(super) fn optimize_bin_eq(&mut self, e: &mut BinExpr) {}
+
     ///
     /// - `1 == 1` => `true`
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {

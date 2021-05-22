@@ -1179,6 +1179,8 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         n.visit_mut_children_with(self);
 
+        self.optimize_bin_eq(n);
+
         if n.op == op!(bin, "+") {
             if let Known(Type::Str) = n.left.get_type() {
                 self.optimize_expr_in_str_ctx(&mut n.right);
