@@ -4,6 +4,7 @@ use std::mem::swap;
 use swc_atoms::js_word;
 use swc_common::EqIgnoreSpan;
 use swc_common::Span;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -111,13 +112,18 @@ impl Optimizer<'_> {
                 }
             }
 
-            match &mut *e.right {
-                Expr::Bin(right) => {
-                    if e.op == right.op {
-                        let res = opt(right.span, right.op, &mut right.left, &mut right.right);
+            match (&mut *e.left, &mut *e.right) {
+                (Expr::Bin(left), right) => {
+                    if e.op == left.op {
+                        let res = opt(right.span(), e.op, &mut left.right, &mut *right);
                         if let Some(res) = res {
                             self.changed = true;
-                            *right = res;
+                            *e = BinExpr {
+                                span: e.span,
+                                op: e.op,
+                                left: left.left.take(),
+                                right: Box::new(Expr::Bin(res)),
+                            };
                             return;
                         }
                     }
