@@ -1,9 +1,12 @@
 use super::Optimizer;
 use std::mem::take;
 use swc_atoms::JsWord;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Value::Known;
 
 impl Optimizer<'_> {
     /// Converts template literals to string if `exprs` of [Tpl] is empty.
@@ -18,6 +21,63 @@ impl Optimizer<'_> {
                         *e = Expr::Lit(Lit::Str(c.clone()));
                     }
                 }
+            }
+            _ => {}
+        }
+    }
+
+    /// Convert expressions to string literal if possible.
+    pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Lit(Lit::Str(..)) => return,
+            Expr::Paren(e) => {
+                self.optimize_expr_in_str_ctx(&mut e.expr);
+                match &*e.expr {
+                    Expr::Lit(Lit::Str(..)) => {
+                        *n = *e.expr.take();
+                        self.changed = true;
+                        log::trace!("string: Removed a paren in a string context");
+                    }
+                    _ => {}
+                }
+
+                return;
+            }
+            _ => {}
+        }
+
+        let span = n.span();
+        let value = n.as_string();
+        if let Known(value) = value {
+            self.changed = true;
+            log::trace!(
+                "strings: Converted an expression into a string literal (in string context)"
+            );
+            *n = Expr::Lit(Lit::Str(Str {
+                span,
+                value: value.into(),
+                has_escape: false,
+                kind: Default::default(),
+            }));
+            return;
+        }
+
+        match n {
+            Expr::Lit(Lit::Num(v)) => {
+                self.changed = true;
+                log::trace!(
+                    "strings: Converted a numeric literal ({}) into a string literal (in string \
+                     context)",
+                    v.value
+                );
+
+                *n = Expr::Lit(Lit::Str(Str {
+                    span: v.span,
+                    value: format!("{:?}", v.value).into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }));
+                return;
             }
             _ => {}
         }
