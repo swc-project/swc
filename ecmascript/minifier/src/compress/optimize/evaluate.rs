@@ -394,6 +394,9 @@ impl Optimizer<'_> {
         if !self.options.evaluate {
             return;
         }
+        if e.left.is_invalid() || e.right.is_invalid() {
+            return;
+        }
 
         match e.op {
             op!("&&") | op!("||") => {}
@@ -415,6 +418,7 @@ impl Optimizer<'_> {
                         log::trace!("Removing `b` from `a && b && c` because b is always truthy");
 
                         left.right.take();
+                        return;
                     }
 
                     if !v && e.op == op!("||") {
@@ -422,6 +426,7 @@ impl Optimizer<'_> {
                         log::trace!("Removing `b` from `a || b || c` because b is always falsy");
 
                         left.right.take();
+                        return;
                     }
                 }
             }
