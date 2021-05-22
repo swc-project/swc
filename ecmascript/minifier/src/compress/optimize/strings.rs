@@ -1,10 +1,12 @@
 use super::Optimizer;
 use std::mem::take;
+use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Value::Known;
 
@@ -98,6 +100,34 @@ impl Optimizer<'_> {
                     kind: Default::default(),
                 }));
                 return;
+            }
+
+            Expr::Ident(i) => {
+                if !self.options.evaluate || !self.options.reduce_vars {
+                    return;
+                }
+                if self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&i.to_id()))
+                    .map(|v| v.assign_count == 0)
+                    .unwrap_or(false)
+                {
+                    self.changed = true;
+                    log::trace!(
+                        "strings: Converting a reference ({}{:?}) into `undefined` (in string \
+                         context)",
+                        i.sym,
+                        i.span.ctxt
+                    );
+
+                    *n = Expr::Lit(Lit::Str(Str {
+                        span: i.span,
+                        value: js_word!("undefined"),
+                        has_escape: false,
+                        kind: Default::default(),
+                    }));
+                }
             }
 
             _ => {}
