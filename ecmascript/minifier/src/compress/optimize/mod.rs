@@ -1182,6 +1182,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.optimize_bin_operator(n);
 
+        self.optimize_bin_and_or(n);
+
         self.optimize_null_or_undefined_cmp(n);
 
         if n.op == op!(bin, "+") {

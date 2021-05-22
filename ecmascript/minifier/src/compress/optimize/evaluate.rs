@@ -387,4 +387,8 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+
+    /// 
+    /// - `Object(1) && 1 && 2` => `Object(1) && 2`.
+    pub(super) fn optimize_bin_and_or(&mut self, e: &mut BinExpr) {}
 }
