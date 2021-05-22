@@ -106,5 +106,22 @@ impl Optimizer<'_> {
     }
 
     /// Called for binary operations with `+`.
-    pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {}
+    pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {
+        match (l, &mut *r) {
+            (Expr::Tpl(l), Expr::Lit(Lit::Str(rs))) => {
+                // Append
+                if let Some(l_last) = l.quasis.last_mut() {
+                    self.changed = true;
+
+                    log::trace!("template: Concatted a string on rhs of `+` to a template literal");
+                    let l_str = l_last.cooked.as_mut().unwrap();
+                    l_str.value = format!("{}{}", l_str.value, rs.value).into();
+
+                    r.take();
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
 }
