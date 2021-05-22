@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
+use swc_common::EqIgnoreSpan;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -17,6 +18,22 @@ impl Optimizer<'_> {
     pub(super) fn optimize_bin_eq(&mut self, e: &mut BinExpr) {
         if !self.options.comparisons {
             return;
+        }
+
+        if e.op == op!("===") || e.op == op!("==") || e.op == op!("!=") || e.op == op!("!==") {
+            if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
+                self.changed = true;
+                log::trace!("Reducing comparison of same variable ({})", e.op);
+
+                // TODO(kdy1): Create another method and assign to `Expr` instead of using a
+                // hack based on take.
+                e.left = Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: e.span,
+                    value: e.op == op!("===") || e.op == op!("==="),
+                })));
+                e.right.take();
+                return;
+            }
         }
 
         let lt = e.left.get_type();
