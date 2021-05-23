@@ -182,6 +182,7 @@ comparing/issue_2857_4/input.js
 comparing/issue_2857_5/input.js
 comparing/keep_comparisons/input.js
 comparing/self_comparison_2/input.js
+concat_strings/concat_1/input.js
 concat_strings/concat_2/input.js
 concat_strings/concat_3/input.js
 concat_strings/concat_4/input.js
@@ -544,6 +545,7 @@ issue_12/keep_name_of_getter/input.js
 issue_12/setter_with_operator_keys/input.js
 issue_1212/issue_1212_debug_false/input.js
 issue_1212/issue_1212_debug_true/input.js
+issue_126/concatenate_rhs_strings/input.js
 issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
