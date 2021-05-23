@@ -386,7 +386,12 @@ impl Optimizer<'_> {
                     _ => {}
                 }
             }
-            _ => {}
+
+            _ => {
+                if let Known(v) = e.as_number() {
+                    return Some(v);
+                }
+            }
         }
 
         None
