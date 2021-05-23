@@ -1,7 +1,7 @@
-use std::num::FpCategory;
-
 use super::Optimizer;
+use std::num::FpCategory;
 use swc_atoms::js_word;
+use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -130,13 +130,25 @@ impl Optimizer<'_> {
                     match c {
                         Some(v) => {
                             self.changed = true;
-                            log::trace!("evaluate: Evaluated `charCodeAt` of a string literal",);
+                            log::trace!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
+                                v
+                            );
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: call.span,
                                 value: v as usize as f64,
                             }))
                         }
-                        None => {}
+                        None => {
+                            self.changed = true;
+                            log::trace!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                            );
+                            *e = Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                e.span().with_ctxt(SyntaxContext::empty()),
+                            ))
+                        }
                     }
                 }
                 return;
