@@ -22,6 +22,8 @@ impl Optimizer<'_> {
         self.eval_numbers(e);
         self.eval_str_method_call(e);
         self.eval_array_method_call(e);
+
+        self.eval_opt_chain(e);
     }
 
     fn eval_global_vars(&mut self, e: &mut Expr) {
@@ -444,5 +446,12 @@ impl Optimizer<'_> {
             }
             _ => return,
         }
+    }
+
+    fn eval_opt_chain(&mut self, e: &mut Expr) {
+        let opt = match e {
+            Expr::OptChain(e) => e,
+            _ => return,
+        };
     }
 }
