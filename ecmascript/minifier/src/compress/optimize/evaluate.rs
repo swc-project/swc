@@ -1,6 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined_or_null;
-use std::f64::consts::PI;
+use std::f64;
 use std::num::FpCategory;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -331,7 +331,23 @@ impl Optimizer<'_> {
                                         }
                                     }
                                 }
+
                                 "max" => {}
+
+                                "pow" => {
+                                    if args.len() != 2 {
+                                        return None;
+                                    }
+                                    let first = args[0].expr.as_number();
+                                    let second = args[1].expr.as_number();
+
+                                    if let Known(first) = first {
+                                        if let Known(second) = second {
+                                            return Some(first.powf(second));
+                                        }
+                                    }
+                                }
+
                                 _ => {}
                             },
                             _ => {}
@@ -354,7 +370,9 @@ impl Optimizer<'_> {
 
                 match &**obj {
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
-                        "PI" => return Some(PI),
+                        "PI" => return Some(f64::consts::PI),
+                        "E" => return Some(f64::EPSILON),
+                        "LN10" => return Some(f64::consts::LN_10),
                         _ => {}
                     },
                     _ => {}
