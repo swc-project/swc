@@ -2,6 +2,8 @@ use super::Optimizer;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
+use swc_common::EqIgnoreSpan;
+use swc_common::Span;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -13,6 +15,163 @@ use swc_ecma_utils::Value;
 use Value::Known;
 
 impl Optimizer<'_> {
+    ///
+    /// - `a === undefined || a === null` => `a == null`
+    pub(super) fn optimize_null_or_undefined_cmp(&mut self, e: &mut BinExpr) {
+        fn opt(
+            span: Span,
+            top_op: BinaryOp,
+            e_left: &mut Expr,
+            e_right: &mut Expr,
+        ) -> Option<BinExpr> {
+            let (cmp, op, left, right) = match &mut *e_left {
+                Expr::Bin(left_bin) => {
+                    if left_bin.op != op!("===") && left_bin.op != op!("!==") {
+                        return None;
+                    }
+
+                    if top_op == op!("&&") && left_bin.op == op!("===") {
+                        return None;
+                    }
+                    if top_op == op!("||") && left_bin.op == op!("!==") {
+                        return None;
+                    }
+
+                    if !left_bin.right.is_ident() {
+                        return None;
+                    }
+
+                    let right = match &mut *e_right {
+                        Expr::Bin(right_bin) => {
+                            if right_bin.op != left_bin.op {
+                                return None;
+                            }
+
+                            if !right_bin.right.eq_ignore_span(&left_bin.right) {
+                                return None;
+                            }
+
+                            &mut *right_bin.left
+                        }
+                        _ => return None,
+                    };
+
+                    (
+                        &mut left_bin.right,
+                        left_bin.op,
+                        &mut *left_bin.left,
+                        &mut *right,
+                    )
+                }
+                _ => return None,
+            };
+
+            let lt = left.get_type();
+            let rt = right.get_type();
+            if let Known(lt) = lt {
+                if let Known(rt) = rt {
+                    match (lt, rt) {
+                        (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
+                            if op == op!("===") {
+                                log::trace!(
+                                    "Reducing `!== null || !== undefined` check to `!= null`"
+                                );
+                                return Some(BinExpr {
+                                    span,
+                                    op: op!("=="),
+                                    left: cmp.take(),
+                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                });
+                            } else {
+                                log::trace!(
+                                    "Reducing `=== null || === undefined` check to `== null`"
+                                );
+                                return Some(BinExpr {
+                                    span,
+                                    op: op!("!="),
+                                    left: cmp.take(),
+                                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                                });
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+            }
+
+            None
+        }
+
+        if e.op == op!("||") || e.op == op!("&&") {
+            {
+                let res = opt(e.span, e.op, &mut e.left, &mut e.right);
+                if let Some(res) = res {
+                    self.changed = true;
+                    *e = res;
+                    return;
+                }
+            }
+
+            match (&mut *e.left, &mut *e.right) {
+                (Expr::Bin(left), right) => {
+                    if e.op == left.op {
+                        let res = opt(right.span(), e.op, &mut left.right, &mut *right);
+                        if let Some(res) = res {
+                            self.changed = true;
+                            *e = BinExpr {
+                                span: e.span,
+                                op: e.op,
+                                left: left.left.take(),
+                                right: Box::new(Expr::Bin(res)),
+                            };
+                            return;
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    ///
+    /// - `'12' === `foo` => '12' == 'foo'`
+    pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {
+        if !self.options.comparisons {
+            return;
+        }
+
+        if e.op == op!("===") || e.op == op!("==") || e.op == op!("!=") || e.op == op!("!==") {
+            if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
+                self.changed = true;
+                log::trace!("Reducing comparison of same variable ({})", e.op);
+
+                // TODO(kdy1): Create another method and assign to `Expr` instead of using a
+                // hack based on take.
+                e.left = Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: e.span,
+                    value: e.op == op!("===") || e.op == op!("==="),
+                })));
+                e.right.take();
+                return;
+            }
+        }
+
+        let lt = e.left.get_type();
+        let rt = e.right.get_type();
+
+        if e.op == op!("===") {
+            if let Known(lt) = lt {
+                if let Known(rt) = rt {
+                    if lt == rt {
+                        e.op = op!("==");
+                        self.changed = true;
+                        log::trace!("Reduced `===` to `==` because types of operands are identical")
+                    }
+                }
+            }
+        }
+    }
+
     ///
     /// - `1 == 1` => `true`
     pub(super) fn optimize_lit_cmp(&mut self, n: &mut BinExpr) -> Option<Expr> {
@@ -76,25 +235,6 @@ impl Optimizer<'_> {
                 _ => {}
             },
             _ => {}
-        }
-    }
-
-    /// Convert expressions to string literal if possible.
-    pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
-        match n {
-            Expr::Lit(Lit::Str(..)) => return,
-            _ => {}
-        }
-
-        let span = n.span();
-        let value = n.as_string();
-        if let Known(value) = value {
-            *n = Expr::Lit(Lit::Str(Str {
-                span,
-                value: value.into(),
-                has_escape: false,
-                kind: Default::default(),
-            }))
         }
     }
 
@@ -268,17 +408,32 @@ impl Optimizer<'_> {
         e.right = left.take();
     }
 
+    /// Swap lhs and rhs in certain conditions.
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
-        // Swap lhs and rhs in certain conditions.
         match expr {
             Expr::Bin(test) => {
                 match test.op {
-                    op!("==") | op!("!=") | op!("&") | op!("^") | op!("*") => {}
+                    op!("===")
+                    | op!("!==")
+                    | op!("==")
+                    | op!("!=")
+                    | op!("&")
+                    | op!("^")
+                    | op!("|")
+                    | op!("*") => {}
                     _ => return,
                 }
 
                 match (&*test.left, &*test.right) {
-                    (&Expr::Ident(..), &Expr::Lit(..)) => {
+                    (Expr::Ident(..), Expr::Lit(..))
+                    | (
+                        Expr::Ident(..),
+                        Expr::Unary(UnaryExpr {
+                            op: op!("void"), ..
+                        }),
+                    )
+                    | (Expr::Unary(..), Expr::Lit(..))
+                    | (Expr::Tpl(..), Expr::Lit(..)) => {
                         self.changed = true;
                         log::trace!("Swapping operands of binary exprssion");
                         swap(&mut test.left, &mut test.right);

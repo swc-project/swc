@@ -1,3 +1,5 @@
+use crate::option::PureGetterOption;
+
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -44,7 +46,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(&mut var.name);
+                    self.drop_unused_vars(&mut var.name, Some(init));
 
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
@@ -58,12 +60,35 @@ impl Optimizer<'_> {
                 }
             },
             None => {
-                self.drop_unused_vars(&mut var.name);
+                self.drop_unused_vars(&mut var.name, var.init.as_deref_mut());
             }
         }
     }
 
-    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat) {
+    pub(super) fn drop_unused_param(&mut self, pat: &mut Pat) {
+        if !self.options.unused {
+            return;
+        }
+
+        if let Some(scope) = self
+            .data
+            .as_ref()
+            .and_then(|data| data.scopes.get(&self.ctx.scope))
+        {
+            if scope.has_eval_call || scope.has_with_stmt {
+                return;
+            }
+        }
+
+        // Preserve `length` of function.
+        if pat.is_ident() {
+            return;
+        }
+
+        self.take_pat_if_unused(pat, None)
+    }
+
+    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
         {
             return;
@@ -81,6 +106,24 @@ impl Optimizer<'_> {
             .and_then(|data| data.scopes.get(&self.ctx.scope))
         {
             if scope.has_eval_call || scope.has_with_stmt {
+                return;
+            }
+        }
+
+        if !name.is_ident() && init.is_none() {
+            return;
+        }
+
+        self.take_pat_if_unused(name, init);
+    }
+
+    fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
+        let had_value = init.is_some();
+        let can_drop_children = had_value;
+
+        if !name.is_ident() {
+            // TODO: Use smart logic
+            if self.options.pure_getters != PureGetterOption::Bool(true) {
                 return;
             }
         }
@@ -108,6 +151,81 @@ impl Optimizer<'_> {
                     name.take();
                     return;
                 }
+            }
+
+            Pat::Array(arr) => {
+                for (idx, elem) in arr.elems.iter_mut().enumerate() {
+                    match elem {
+                        Some(p) => {
+                            if p.is_ident() {
+                                continue;
+                            }
+
+                            let elem = init
+                                .as_mut()
+                                .and_then(|expr| self.access_numeric_property(expr, idx));
+
+                            self.take_pat_if_unused(p, elem);
+                        }
+                        None => {}
+                    }
+                }
+
+                arr.elems.retain(|elem| match elem {
+                    Some(Pat::Invalid(..)) => false,
+                    _ => true,
+                })
+            }
+
+            Pat::Object(obj) => {
+                // If a rest pattern exists, we can't remove anything at current level.
+                if obj.props.iter().any(|p| match p {
+                    ObjectPatProp::Rest(_) => true,
+                    _ => false,
+                }) {
+                    return;
+                }
+
+                for prop in &mut obj.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(p) => {
+                            if p.key.is_computed() {
+                                continue;
+                            }
+
+                            let prop = init.as_mut().and_then(|value| {
+                                self.access_property_with_prop_name(value, &p.key)
+                            });
+
+                            if can_drop_children && prop.is_none() {
+                                continue;
+                            }
+
+                            self.take_pat_if_unused(&mut p.value, prop);
+                        }
+                        ObjectPatProp::Assign(_) => {}
+                        ObjectPatProp::Rest(_) => {}
+                    }
+                }
+
+                obj.props.retain(|p| {
+                    match p {
+                        ObjectPatProp::KeyValue(p) => {
+                            if p.value.is_invalid() {
+                                return false;
+                            }
+                        }
+                        ObjectPatProp::Assign(_) => {}
+                        ObjectPatProp::Rest(_) => {}
+                    }
+
+                    true
+                })
+            }
+
+            Pat::Rest(_) => {}
+            Pat::Assign(_) => {
+                // TODO
             }
             _ => {}
         }

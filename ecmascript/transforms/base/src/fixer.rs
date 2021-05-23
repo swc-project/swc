@@ -187,7 +187,9 @@ impl VisitMut for Fixer<'_> {
             // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
             // But it should be `(1 + x) * Nan`
             Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
-                if op_of_lhs.precedence() < expr.op.precedence() {
+                if op_of_lhs.precedence() < expr.op.precedence()
+                    || (op_of_lhs.precedence() == expr.op.precedence() && expr.op == op!("**"))
+                {
                     self.wrap(&mut expr.left);
                 }
             }
@@ -423,6 +425,23 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::ForcedExpr { is_var_decl: true };
         node.init.visit_mut_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_tagged_tpl(&mut self, e: &mut TaggedTpl) {
+        e.visit_mut_children_with(self);
+
+        match &*e.tag {
+            Expr::Arrow(..)
+            | Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Seq(..)
+            | Expr::Fn(..)
+            | Expr::Assign(..)
+            | Expr::Unary(..) => {
+                self.wrap(&mut e.tag);
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
@@ -1192,4 +1211,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
 
     identical!(deno_10668_2, "console.log(null && (undefined ?? true))");
+
+    identical!(minifier_003, "(four ** one) ** two");
 }

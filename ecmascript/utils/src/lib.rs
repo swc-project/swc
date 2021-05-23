@@ -1145,7 +1145,7 @@ pub trait ExprExt {
             }
             Expr::OptChain(ref e) => e.expr.may_have_side_effects(),
 
-            Expr::Invalid(..) => unreachable!(),
+            Expr::Invalid(..) => true,
         }
     }
 }
