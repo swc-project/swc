@@ -327,8 +327,8 @@ impl ClassProperties {
 
         let mut typescript_constructor_properties = vec![];
 
-        let constructor_exprs = vec![];
-        let vars = vec![];
+        let mut constructor_exprs = vec![];
+        let mut vars = vec![];
         let mut extra_stmts = vec![];
         let mut private_method_fn_decls = vec![];
         let mut members = vec![];
