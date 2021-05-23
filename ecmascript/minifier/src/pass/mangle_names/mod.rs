@@ -119,6 +119,14 @@ impl VisitMut for Mangler {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_named_export(&mut self, n: &mut NamedExport) {
+        if n.src.is_some() {
+            return;
+        }
+
+        n.visit_mut_children_with(self)
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         n.visit_mut_children_with(self);
 
