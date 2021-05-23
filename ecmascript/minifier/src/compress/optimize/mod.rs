@@ -1270,6 +1270,22 @@ impl VisitMut for Optimizer<'_> {
         self.store_decl_for_inlining(decl);
     }
 
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        match n {
+            DefaultDecl::Class(_) => {}
+            DefaultDecl::Fn(f) => {
+                if !self.options.keep_fargs {
+                    f.function.params.iter_mut().for_each(|param| {
+                        self.take_pat_if_unused(&mut param.pat, None);
+                    })
+                }
+            }
+            DefaultDecl::TsInterfaceDecl(_) => {}
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         let ctx = Ctx {
             is_exported: true,
@@ -1425,6 +1441,16 @@ impl VisitMut for Optimizer<'_> {
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
         }
+    }
+
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        if !self.options.keep_fargs {
+            f.function.params.iter_mut().for_each(|param| {
+                self.take_pat_if_unused(&mut param.pat, None);
+            })
+        }
+
+        f.visit_mut_children_with(self);
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
