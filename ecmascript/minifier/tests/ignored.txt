@@ -155,9 +155,6 @@ collapse_vars/var_side_effects_3/input.js
 comparing/issue_2857_6/input.js
 comparing/keep_comparisons_with_unsafe_comps/input.js
 comparing/self_comparison_1/input.js
-concat_strings/concat_1/input.js
-concat_strings/concat_7/input.js
-concat_strings/concat_8/input.js
 conditionals/cond_7_1/input.js
 conditionals/cond_9/input.js
 conditionals/equality_conditionals_true/input.js
@@ -554,10 +551,8 @@ issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_12/keep_name_of_setter/input.js
 issue_1202/mangle_keep_fnames_false/input.js
 issue_1202/mangle_keep_fnames_true/input.js
-issue_126/concatenate_rhs_strings/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
-issue_1275/string_plus_optimization/input.js
 issue_1321/issue_1321_debug/input.js
 issue_1321/issue_1321_no_debug/input.js
 issue_1321/issue_1321_with_quoted/input.js
@@ -639,7 +634,6 @@ issue_229/template_strings/input.js
 issue_269/issue_269_1/input.js
 issue_269/issue_269_in_scope/input.js
 issue_269/regexp/input.js
-issue_269/strings_concat/input.js
 issue_2719/warn/input.js
 issue_281/collapse_vars_constants/input.js
 issue_281/drop_fargs/input.js
