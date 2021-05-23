@@ -96,11 +96,23 @@ impl Optimizer<'_> {
     }
 
     /// Handle calls on `String` class, like `String.`
-    fn eval_string_static_method_call(&mut self, e: &mut Expr) {}
+    fn eval_string_static_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+    }
 
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
     fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
             return;
         }
 
