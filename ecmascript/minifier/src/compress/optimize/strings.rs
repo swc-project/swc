@@ -327,7 +327,7 @@ impl Optimizer<'_> {
                                     *e = Expr::Bin(BinExpr {
                                         span: bin.span,
                                         op: op!(bin, "+"),
-                                        left: bin.left.take(),
+                                        left: left.left.take(),
                                         right: Box::new(Expr::Lit(Lit::Str(Str {
                                             span: left_span,
                                             value: new_str.into(),
