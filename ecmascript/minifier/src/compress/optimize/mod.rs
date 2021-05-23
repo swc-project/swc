@@ -1274,7 +1274,7 @@ impl VisitMut for Optimizer<'_> {
         match n {
             DefaultDecl::Class(_) => {}
             DefaultDecl::Fn(f) => {
-                if !self.options.keep_fargs {
+                if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
                     f.function.params.iter_mut().for_each(|param| {
                         self.take_pat_if_unused(&mut param.pat, None);
                     })
@@ -1444,7 +1444,7 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
-        if !self.options.keep_fargs {
+        if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
             f.function.params.iter_mut().for_each(|param| {
                 self.take_pat_if_unused(&mut param.pat, None);
             })
