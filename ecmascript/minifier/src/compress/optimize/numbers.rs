@@ -53,7 +53,7 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Lit(Lit::Num(Number { span, value, .. })) => {
-                        if *value <= -0.0 {
+                        if value.is_sign_negative() {
                             self.changed = true;
                             log::trace!("numbers: Lifting `-` in a literal");
 
