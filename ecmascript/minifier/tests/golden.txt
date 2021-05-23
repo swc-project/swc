@@ -342,6 +342,7 @@ evaluate/issue_2231_2/input.js
 evaluate/issue_2535_3/input.js
 evaluate/issue_2822/input.js
 evaluate/issue_2916_1/input.js
+evaluate/negative_zero/input.js
 evaluate/optional_expect_when_expect_stdout_present/input.js
 evaluate/or/input.js
 evaluate/positive_zero/input.js
@@ -550,6 +551,7 @@ issue_1673/side_effects_switch/input.js
 issue_1704/mangle_catch_ie8/input.js
 issue_1704/mangle_catch_redef_3_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_3_toplevel/input.js
+issue_1787/unary_prefix/input.js
 issue_1833/iife_for/input.js
 issue_1833/iife_for_in/input.js
 issue_1833/iife_while/input.js

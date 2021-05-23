@@ -611,7 +611,6 @@ issue_1750/case_1/input.js
 issue_1750/case_2/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
-issue_1787/unary_prefix/input.js
 issue_1833/iife_do/input.js
 issue_1833/label_while/input.js
 issue_2001/export_class_2/input.js
