@@ -382,6 +382,7 @@ export/export_default_anonymous_function_not_call/input.js
 export/export_default_anonymous_generator/input.js
 export/export_default_arrow/input.js
 export/export_default_async_arrow_function/input.js
+export/export_default_seq/input.js
 export/issue_2038_1/input.js
 export/issue_2129/input.js
 export/issue_2131/input.js
