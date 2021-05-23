@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "parser": {
+            "sytnax": "ecmascript",
+            "jsx": true
+        }
+    }
+}
