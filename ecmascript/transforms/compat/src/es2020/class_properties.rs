@@ -327,9 +327,12 @@ impl ClassProperties {
 
         let mut typescript_constructor_properties = vec![];
 
-        let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
-            (vec![], vec![], vec![], vec![], None);
+        let constructor_exprs = vec![];
+        let vars = vec![];
+        let mut extra_stmts = vec![];
         let mut private_method_fn_decls = vec![];
+        let mut members = vec![];
+        let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
         let mut statics = HashSet::default();
