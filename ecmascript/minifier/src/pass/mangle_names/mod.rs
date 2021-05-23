@@ -70,35 +70,18 @@ impl Mangler {
 impl VisitMut for Mangler {
     noop_visit_mut_type!();
 
-    fn visit_mut_module(&mut self, n: &mut Module) {
-        let data = analyze(&*n);
-        self.data = Some(data);
-        self.preserved = idents_to_preserve(self.options.clone(), n);
-        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_script(&mut self, n: &mut Script) {
-        let data = analyze(&*n);
-        self.data = Some(data);
-        self.preserved = idents_to_preserve(self.options.clone(), n);
-        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         self.rename(&mut n.ident);
 
         n.class.visit_mut_with(self);
     }
 
-    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        self.rename(&mut n.ident);
-        n.function.visit_mut_with(self);
-    }
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.exported.is_none() {
+            n.exported = Some(n.orig.clone());
+        }
 
-    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
-        n.body.visit_mut_with(self);
+        self.rename(&mut n.orig);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -112,6 +95,30 @@ impl VisitMut for Mangler {
         }
     }
 
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        self.rename(&mut n.ident);
+        n.function.visit_mut_with(self);
+    }
+
+    fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
+        n.body.visit_mut_with(self);
+    }
+
+    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        n.obj.visit_mut_with(self);
+        if n.computed {
+            n.prop.visit_mut_with(self);
+        }
+    }
+
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        let data = analyze(&*n);
+        self.data = Some(data);
+        self.preserved = idents_to_preserve(self.options.clone(), n);
+        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         n.visit_mut_children_with(self);
 
@@ -123,18 +130,11 @@ impl VisitMut for Mangler {
         }
     }
 
-    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
-        if n.exported.is_none() {
-            n.exported = Some(n.orig.clone());
-        }
-
-        self.rename(&mut n.orig);
-    }
-
-    fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-        if n.computed {
-            n.prop.visit_mut_with(self);
-        }
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        let data = analyze(&*n);
+        self.data = Some(data);
+        self.preserved = idents_to_preserve(self.options.clone(), n);
+        self.preserved_symbols = self.preserved.iter().map(|v| v.0.clone()).collect();
+        n.visit_mut_children_with(self);
     }
 }
