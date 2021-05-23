@@ -375,7 +375,7 @@ impl Optimizer<'_> {
                 match &**obj {
                     Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                         "PI" => return Some(f64::consts::PI),
-                        "E" => return Some(f64::EPSILON),
+                        "E" => return Some(f64::consts::E),
                         "LN10" => return Some(f64::consts::LN_10),
                         _ => {}
                     },
