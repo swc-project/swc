@@ -314,7 +314,7 @@ impl Optimizer<'_> {
                 ..
             }) => {
                 for arg in &*args {
-                    if arg.expr.may_have_side_effects() {
+                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
                         return None;
                     }
                 }
@@ -344,7 +344,41 @@ impl Optimizer<'_> {
                                     return Some(v.sin());
                                 }
 
-                                "max" => {}
+                                "max" => {
+                                    let mut numbers = vec![];
+                                    for arg in args {
+                                        let v = self.eval_as_number(&arg.expr)?;
+                                        if v.is_infinite() || v.is_nan() {
+                                            return None;
+                                        }
+                                        numbers.push(v);
+                                    }
+
+                                    return Some(
+                                        numbers
+                                            .into_iter()
+                                            .max_by(|a, b| a.partial_cmp(b).unwrap())
+                                            .unwrap_or(f64::NEG_INFINITY),
+                                    );
+                                }
+
+                                "min" => {
+                                    let mut numbers = vec![];
+                                    for arg in args {
+                                        let v = self.eval_as_number(&arg.expr)?;
+                                        if v.is_infinite() || v.is_nan() {
+                                            return None;
+                                        }
+                                        numbers.push(v);
+                                    }
+
+                                    return Some(
+                                        numbers
+                                            .into_iter()
+                                            .min_by(|a, b| a.partial_cmp(b).unwrap())
+                                            .unwrap_or(f64::INFINITY),
+                                    );
+                                }
 
                                 "pow" => {
                                     if args.len() != 2 {
