@@ -1892,3 +1892,11 @@ fn is_pure_undefined(e: &Expr) -> bool {
         _ => false,
     }
 }
+
+fn is_pure_undefined_or_null(e: &Expr) -> bool {
+    is_pure_undefined(e)
+        || match e {
+            Expr::Lit(Lit::Null(..)) => true,
+            _ => false,
+        }
+}
