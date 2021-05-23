@@ -466,7 +466,7 @@ impl Optimizer<'_> {
                     self.changed = true;
                     log::trace!(
                         "evaluate: Reduced an optioanl chaining operation because object is \
-                         always null or undefinde"
+                         always null or undefined"
                     );
 
                     *e = *undefined(*span);
@@ -474,7 +474,22 @@ impl Optimizer<'_> {
                 }
             }
 
-            Expr::Call(c) => {}
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            }) => {
+                if is_pure_undefined_or_null(&callee) {
+                    self.changed = true;
+                    log::trace!(
+                        "evaluate: Reduced a call expression with optioanl chaining operation \
+                         because object is always null or undefined"
+                    );
+
+                    *e = *undefined(*span);
+                    return;
+                }
+            }
 
             _ => {}
         }
