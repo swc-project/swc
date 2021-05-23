@@ -1333,6 +1333,8 @@ impl VisitMut for Optimizer<'_> {
             _ => {}
         }
 
+        self.concat_str(e);
+
         self.lift_minus(e);
 
         self.convert_tpl_to_str(e);
