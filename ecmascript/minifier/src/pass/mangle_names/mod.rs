@@ -123,6 +123,14 @@ impl VisitMut for Mangler {
         }
     }
 
+    fn visit_mut_export_named_specifier(&mut self, n: &mut ExportNamedSpecifier) {
+        if n.exported.is_none() {
+            n.exported = Some(n.orig.clone());
+        }
+
+        self.rename(&mut n.orig);
+    }
+
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.obj.visit_mut_with(self);
         if n.computed {
