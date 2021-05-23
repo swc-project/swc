@@ -376,10 +376,12 @@ export/async_func/input.js
 export/beautify/input.js
 export/dynamic_import/input.js
 export/export_default_anonymous_async_function/input.js
+export/export_default_anonymous_async_function_not_call/input.js
 export/export_default_anonymous_class/input.js
 export/export_default_anonymous_function/input.js
 export/export_default_anonymous_function_not_call/input.js
 export/export_default_anonymous_generator/input.js
+export/export_default_anonymous_generator_not_call/input.js
 export/export_default_arrow/input.js
 export/export_default_async_arrow_function/input.js
 export/export_default_seq/input.js
