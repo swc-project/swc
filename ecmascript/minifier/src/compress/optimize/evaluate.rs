@@ -136,7 +136,7 @@ impl Optimizer<'_> {
                                 sym: js_word!("String"),
                                 ..
                             }) => match &*prop.sym {
-                                "fromCharCodeAt" => {
+                                "fromCharCode" => {
                                     if args.len() != 1 {
                                         return;
                                     }
