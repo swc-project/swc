@@ -155,7 +155,6 @@ collapse_vars/var_side_effects_3/input.js
 comparing/issue_2857_6/input.js
 comparing/keep_comparisons_with_unsafe_comps/input.js
 comparing/self_comparison_1/input.js
-concat_strings/concat_1/input.js
 concat_strings/concat_7/input.js
 concat_strings/concat_8/input.js
 conditionals/cond_7_1/input.js
@@ -172,8 +171,6 @@ conditionals/issue_2560/input.js
 conditionals/issue_2994/input.js
 conditionals/ternary_boolean_alternative/input.js
 conditionals/ternary_boolean_consequent/input.js
-const/issue_1191/input.js
-const/issue_1396/input.js
 dead_code/collapse_vars_lvalues_drop_assign/input.js
 dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_2_should_warn/input.js
@@ -311,15 +308,11 @@ evaluate/issue_2535_2/input.js
 evaluate/issue_2916_2/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_2926_1/input.js
-evaluate/issue_2926_2/input.js
 evaluate/issue_2968/input.js
 evaluate/issue_399/input.js
-evaluate/negative_zero/input.js
-evaluate/null_conditional_chain_eval/input.js
 evaluate/prototype_function/input.js
 evaluate/self_comparison_1/input.js
 evaluate/self_comparison_2/input.js
-evaluate/string_charCodeAt/input.js
 evaluate/unsafe_array/input.js
 evaluate/unsafe_charAt/input.js
 evaluate/unsafe_charAt_bad_index/input.js
@@ -335,16 +328,11 @@ evaluate/unsafe_object_nested/input.js
 evaluate/unsafe_object_repeated/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
-export/async_func/input.js
-export/export_default_anonymous_async_function_not_call/input.js
-export/export_default_anonymous_generator_not_call/input.js
 export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
-export/export_default_seq/input.js
 export/issue_2038_2/input.js
 export/issue_2126/input.js
 export/issue_2134_1/input.js
-export/issue_2134_2/input.js
 export/issue_333_toplevel/input.js
 export/module_mangle_export_default_class/input.js
 export/module_mangle_export_default_function/input.js
@@ -563,7 +551,6 @@ issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_12/keep_name_of_setter/input.js
 issue_1202/mangle_keep_fnames_false/input.js
 issue_1202/mangle_keep_fnames_true/input.js
-issue_126/concatenate_rhs_strings/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
 issue_1275/string_plus_optimization/input.js
@@ -628,7 +615,6 @@ issue_1750/case_1/input.js
 issue_1750/case_2/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
-issue_1787/unary_prefix/input.js
 issue_1833/iife_do/input.js
 issue_1833/label_while/input.js
 issue_2001/export_class_2/input.js
@@ -667,13 +653,6 @@ issue_417/test_unexpected_crash/input.js
 issue_417/test_unexpected_crash_2/input.js
 issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
-issue_597/NaN_and_Infinity_must_have_parens_evaluate/input.js
-issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined/input.js
-issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined_evaluate/input.js
-issue_597/beautify_off_1/input.js
-issue_597/beautify_on_1/input.js
-issue_597/issue_1724/input.js
-issue_597/issue_1725/input.js
 issue_611/issue_611/input.js
 issue_637/wrongly_optimized/input.js
 issue_640/cond_5/input.js
@@ -749,7 +728,6 @@ negate_iife/issue_1288_side_effects/input.js
 negate_iife/negate_iife_3_off/input.js
 negate_iife/negate_iife_4/input.js
 negate_iife/negate_iife_5/input.js
-new/call_with_unary_arguments/input.js
 new/new_statements_3/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js

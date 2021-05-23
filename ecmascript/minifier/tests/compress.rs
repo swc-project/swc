@@ -16,6 +16,7 @@ use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::Mark;
 use swc_common::SourceMap;
+use swc_ecma_ast::*;
 use swc_ecma_codegen::text_writer::JsWriter;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize;
@@ -182,7 +183,11 @@ fn fixture(input: PathBuf) {
             let expected = parser.parse_module().map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })?;
-            let expected = expected.fold_with(&mut fixer(None));
+            let mut expected = expected.fold_with(&mut fixer(None));
+            expected.body.retain(|s| match s {
+                ModuleItem::Stmt(Stmt::Empty(..)) => false,
+                _ => true,
+            });
             print(cm.clone(), &[expected])
         };
 

@@ -51,6 +51,28 @@ impl Optimizer<'_> {
                         });
                         return;
                     }
+
+                    Expr::Lit(Lit::Num(Number { span, value, .. })) => {
+                        if value.is_sign_negative() {
+                            self.changed = true;
+                            log::trace!("numbers: Lifting `-` in a literal");
+
+                            *e = Expr::Unary(UnaryExpr {
+                                span: arg.span,
+                                op: op!(unary, "-"),
+                                arg: Box::new(Expr::Bin(BinExpr {
+                                    span: arg.span,
+                                    op: arg.op,
+                                    left: arg.left.take(),
+                                    right: Box::new(Expr::Lit(Lit::Num(Number {
+                                        span: *span,
+                                        value: -*value,
+                                    }))),
+                                })),
+                            });
+                        }
+                    }
+
                     _ => {}
                 }
             }

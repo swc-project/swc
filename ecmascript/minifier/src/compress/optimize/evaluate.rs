@@ -1,7 +1,9 @@
-use std::num::FpCategory;
-
 use super::Optimizer;
+use crate::compress::optimize::is_pure_undefined_or_null;
+use std::f64;
+use std::num::FpCategory;
 use swc_atoms::js_word;
+use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -20,8 +22,14 @@ impl Optimizer<'_> {
         self.eval_global_vars(e);
 
         self.eval_numbers(e);
+
+        self.eval_string_static_method_call(e);
         self.eval_str_method_call(e);
+
         self.eval_array_method_call(e);
+        self.eval_fn_method_call(e);
+
+        self.eval_opt_chain(e);
     }
 
     fn eval_global_vars(&mut self, e: &mut Expr) {
@@ -87,8 +95,95 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Handle calls on `String` class, like `String.`
+    fn eval_string_static_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                //
+
+                for arg in &*args {
+                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                        return;
+                    }
+                }
+
+                match &**callee {
+                    Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(obj),
+                        prop,
+                        computed: false,
+                        ..
+                    }) => {
+                        let prop = match &**prop {
+                            Expr::Ident(i) => i,
+                            _ => return,
+                        };
+
+                        match &**obj {
+                            Expr::Ident(Ident {
+                                sym: js_word!("String"),
+                                ..
+                            }) => match &*prop.sym {
+                                "fromCharCode" => {
+                                    if args.len() != 1 {
+                                        return;
+                                    }
+
+                                    if let Known(char_code) = args[0].expr.as_number() {
+                                        let v = char_code.floor() as u32;
+
+                                        match char::from_u32(v) {
+                                            Some(v) => {
+                                                self.changed = true;
+                                                log::trace!(
+                                                    "evanluate: Evaluated `String.charCodeAt({})` \
+                                                     as `{}`",
+                                                    char_code,
+                                                    v
+                                                );
+                                                *e = Expr::Lit(Lit::Str(Str {
+                                                    span: e.span(),
+                                                    value: v.to_string().into(),
+                                                    has_escape: false,
+                                                    kind: Default::default(),
+                                                }));
+                                                return;
+                                            }
+                                            None => {}
+                                        }
+                                    }
+                                }
+                                _ => {}
+                            },
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+
+    /// Handle calls on string literals, like `'foo'.toUpperCase()`.
     fn eval_str_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
             return;
         }
 
@@ -130,13 +225,25 @@ impl Optimizer<'_> {
                     match c {
                         Some(v) => {
                             self.changed = true;
-                            log::trace!("evaluate: Evaluated `charCodeAt` of a string literal",);
+                            log::trace!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
+                                v
+                            );
                             *e = Expr::Lit(Lit::Num(Number {
                                 span: call.span,
                                 value: v as usize as f64,
                             }))
                         }
-                        None => {}
+                        None => {
+                            self.changed = true;
+                            log::trace!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                            );
+                            *e = Expr::Ident(Ident::new(
+                                js_word!("NaN"),
+                                e.span().with_ctxt(SyntaxContext::empty()),
+                            ))
+                        }
                     }
                 }
                 return;
@@ -159,6 +266,22 @@ impl Optimizer<'_> {
 
         if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
             return;
+        }
+
+        match e {
+            Expr::Call(..) => {
+                if let Some(value) = self.eval_as_number(&e) {
+                    self.changed = true;
+                    log::trace!("evaluate: Evaluated an expression as `{}`", value);
+
+                    *e = Expr::Lit(Lit::Num(Number {
+                        span: e.span(),
+                        value,
+                    }));
+                    return;
+                }
+            }
+            _ => {}
         }
 
         match e {
@@ -255,6 +378,147 @@ impl Optimizer<'_> {
 
             _ => {}
         }
+    }
+
+    /// This method does **not** modifies `e`.
+    ///
+    /// This method is used to test if a whole call can be replaced, while
+    /// preserving standalone constants.
+    fn eval_as_number(&mut self, e: &Expr) -> Option<f64> {
+        match e {
+            Expr::Bin(BinExpr {
+                op: op!(bin, "-"),
+                left,
+                right,
+                ..
+            }) => {
+                let l = self.eval_as_number(&left)?;
+                let r = self.eval_as_number(&right)?;
+
+                return Some(l - r);
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                for arg in &*args {
+                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                        return None;
+                    }
+                }
+
+                match &**callee {
+                    Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(obj),
+                        prop,
+                        computed: false,
+                        ..
+                    }) => {
+                        let prop = match &**prop {
+                            Expr::Ident(i) => i,
+                            _ => return None,
+                        };
+
+                        match &**obj {
+                            Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                                "cos" => {
+                                    let v = self.eval_as_number(&args.first()?.expr)?;
+
+                                    return Some(v.cos());
+                                }
+                                "sin" => {
+                                    let v = self.eval_as_number(&args.first()?.expr)?;
+
+                                    return Some(v.sin());
+                                }
+
+                                "max" => {
+                                    let mut numbers = vec![];
+                                    for arg in args {
+                                        let v = self.eval_as_number(&arg.expr)?;
+                                        if v.is_infinite() || v.is_nan() {
+                                            return None;
+                                        }
+                                        numbers.push(v);
+                                    }
+
+                                    return Some(
+                                        numbers
+                                            .into_iter()
+                                            .max_by(|a, b| a.partial_cmp(b).unwrap())
+                                            .unwrap_or(f64::NEG_INFINITY),
+                                    );
+                                }
+
+                                "min" => {
+                                    let mut numbers = vec![];
+                                    for arg in args {
+                                        let v = self.eval_as_number(&arg.expr)?;
+                                        if v.is_infinite() || v.is_nan() {
+                                            return None;
+                                        }
+                                        numbers.push(v);
+                                    }
+
+                                    return Some(
+                                        numbers
+                                            .into_iter()
+                                            .min_by(|a, b| a.partial_cmp(b).unwrap())
+                                            .unwrap_or(f64::INFINITY),
+                                    );
+                                }
+
+                                "pow" => {
+                                    if args.len() != 2 {
+                                        return None;
+                                    }
+                                    let first = self.eval_as_number(&args[0].expr)?;
+                                    let second = self.eval_as_number(&args[1].expr)?;
+
+                                    return Some(first.powf(second));
+                                }
+
+                                _ => {}
+                            },
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
+            }) => {
+                let prop = match &**prop {
+                    Expr::Ident(i) => i,
+                    _ => return None,
+                };
+
+                match &**obj {
+                    Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                        "PI" => return Some(f64::consts::PI),
+                        "E" => return Some(f64::consts::E),
+                        "LN10" => return Some(f64::consts::LN_10),
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+
+            _ => {
+                if let Known(v) = e.as_number() {
+                    return Some(v);
+                }
+            }
+        }
+
+        None
     }
 
     fn eval_array_method_call(&mut self, e: &mut Expr) {
@@ -388,6 +652,75 @@ impl Optimizer<'_> {
         }
     }
 
+    fn eval_fn_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+
+        let call = match e {
+            Expr::Call(e) => e,
+            _ => return,
+        };
+
+        let has_spread = call.args.iter().any(|arg| arg.spread.is_some());
+
+        for arg in &call.args {
+            if arg.expr.may_have_side_effects() {
+                return;
+            }
+        }
+
+        let callee = match &mut call.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(e) => &mut **e,
+        };
+
+        match callee {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
+            }) => {
+                if obj.may_have_side_effects() {
+                    return;
+                }
+
+                let _f = match &mut **obj {
+                    Expr::Fn(v) => v,
+                    _ => return,
+                };
+
+                let method_name = match &**prop {
+                    Expr::Ident(i) => i,
+                    _ => return,
+                };
+
+                match &*method_name.sym {
+                    "valueOf" => {
+                        if has_spread {
+                            return;
+                        }
+
+                        self.changed = true;
+                        log::trace!(
+                            "evaludate: Reduced `funtion.valueOf()` into a function expression"
+                        );
+
+                        *e = *obj.take();
+                        return;
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+
     ///
     /// - `Object(1) && 1 && 2` => `Object(1) && 2`.
     pub(super) fn optimize_bin_and_or(&mut self, e: &mut BinExpr) {
@@ -431,6 +764,52 @@ impl Optimizer<'_> {
                 }
             }
             _ => return,
+        }
+    }
+
+    fn eval_opt_chain(&mut self, e: &mut Expr) {
+        let opt = match e {
+            Expr::OptChain(e) => e,
+            _ => return,
+        };
+
+        match &mut *opt.expr {
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Expr(obj),
+                ..
+            }) => {
+                //
+                if is_pure_undefined_or_null(&obj) {
+                    self.changed = true;
+                    log::trace!(
+                        "evaluate: Reduced an optioanl chaining operation because object is \
+                         always null or undefined"
+                    );
+
+                    *e = *undefined(*span);
+                    return;
+                }
+            }
+
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                ..
+            }) => {
+                if is_pure_undefined_or_null(&callee) {
+                    self.changed = true;
+                    log::trace!(
+                        "evaluate: Reduced a call expression with optioanl chaining operation \
+                         because object is always null or undefined"
+                    );
+
+                    *e = *undefined(*span);
+                    return;
+                }
+            }
+
+            _ => {}
         }
     }
 }

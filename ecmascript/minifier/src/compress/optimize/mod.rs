@@ -1270,7 +1270,36 @@ impl VisitMut for Optimizer<'_> {
         self.store_decl_for_inlining(decl);
     }
 
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        match n {
+            DefaultDecl::Class(_) => {}
+            DefaultDecl::Fn(f) => {
+                if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
+                    f.function.params.iter_mut().for_each(|param| {
+                        self.take_pat_if_unused(&mut param.pat, None);
+                    })
+                }
+            }
+            DefaultDecl::TsInterfaceDecl(_) => {}
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        match &mut n.decl {
+            Decl::Fn(f) => {
+                // I don't know why, but terser removes parameters from an exported function if
+                // `unused` is true, regardless of keep_fargs or others.
+                if self.options.unused {
+                    f.function.params.iter_mut().for_each(|param| {
+                        self.take_pat_if_unused(&mut param.pat, None);
+                    })
+                }
+            }
+            _ => {}
+        }
+
         let ctx = Ctx {
             is_exported: true,
             ..self.ctx
@@ -1303,6 +1332,8 @@ impl VisitMut for Optimizer<'_> {
             }
             _ => {}
         }
+
+        self.concat_str(e);
 
         self.lift_minus(e);
 
@@ -1425,6 +1456,16 @@ impl VisitMut for Optimizer<'_> {
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
         }
+    }
+
+    fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
+        if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
+            f.function.params.iter_mut().for_each(|param| {
+                self.take_pat_if_unused(&mut param.pat, None);
+            })
+        }
+
+        f.visit_mut_children_with(self);
     }
 
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
@@ -1556,6 +1597,12 @@ impl VisitMut for Optimizer<'_> {
         n.visit_mut_children_with(self);
 
         self.drop_unused_param(&mut n.pat);
+    }
+
+    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|p| !p.pat.is_invalid());
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
@@ -1891,4 +1938,12 @@ fn is_pure_undefined(e: &Expr) -> bool {
 
         _ => false,
     }
+}
+
+fn is_pure_undefined_or_null(e: &Expr) -> bool {
+    is_pure_undefined(e)
+        || match e {
+            Expr::Lit(Lit::Null(..)) => true,
+            _ => false,
+        }
 }

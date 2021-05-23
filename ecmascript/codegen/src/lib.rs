@@ -626,6 +626,10 @@ impl<'a> Emitter<'a> {
                         if value.fract() == 0.0 {
                             return true;
                         }
+                        if span.is_dummy() {
+                            return false;
+                        }
+
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
