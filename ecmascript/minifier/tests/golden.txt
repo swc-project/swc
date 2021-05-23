@@ -601,8 +601,14 @@ issue_427/wrap_func_args/input.js
 issue_59/keep_continue/input.js
 issue_597/NaN_and_Infinity_must_have_parens/input.js
 issue_597/NaN_and_Infinity_must_have_parens_evaluate/input.js
+issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined/input.js
+issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined_evaluate/input.js
+issue_597/beautify_off_1/input.js
 issue_597/beautify_off_2/input.js
+issue_597/beautify_on_1/input.js
 issue_597/beautify_on_2/input.js
+issue_597/issue_1724/input.js
+issue_597/issue_1725/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
