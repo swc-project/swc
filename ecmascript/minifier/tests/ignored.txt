@@ -662,12 +662,6 @@ issue_417/test_unexpected_crash/input.js
 issue_417/test_unexpected_crash_2/input.js
 issue_44/issue_44_valid_ast_1/input.js
 issue_44/issue_44_valid_ast_2/input.js
-issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined/input.js
-issue_597/NaN_and_Infinity_should_not_be_replaced_when_they_are_redefined_evaluate/input.js
-issue_597/beautify_off_1/input.js
-issue_597/beautify_on_1/input.js
-issue_597/issue_1724/input.js
-issue_597/issue_1725/input.js
 issue_611/issue_611/input.js
 issue_637/wrongly_optimized/input.js
 issue_640/cond_5/input.js
