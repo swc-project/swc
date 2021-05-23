@@ -312,7 +312,7 @@ impl Optimizer<'_> {
                     if let Known(Type::Str) = type_of_second {
                         if let Known(Type::Str) = type_of_third {
                             if let Known(second_str) = left.right.as_string() {
-                                if let Known(third_str) = left.right.as_string() {
+                                if let Known(third_str) = bin.right.as_string() {
                                     let new_str = format!("{}{}", second_str, third_str);
                                     let left_span = left.span;
 
