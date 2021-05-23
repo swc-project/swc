@@ -1558,6 +1558,12 @@ impl VisitMut for Optimizer<'_> {
         self.drop_unused_param(&mut n.pat);
     }
 
+    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|p| !p.pat.is_invalid());
+    }
+
     fn visit_mut_prop(&mut self, p: &mut Prop) {
         p.visit_mut_children_with(self);
 
