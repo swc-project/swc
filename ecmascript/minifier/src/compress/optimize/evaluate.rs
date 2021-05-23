@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::compress::optimize::is_pure_undefined_or_null;
 use std::num::FpCategory;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -453,5 +454,29 @@ impl Optimizer<'_> {
             Expr::OptChain(e) => e,
             _ => return,
         };
+
+        match &mut *opt.expr {
+            Expr::Member(MemberExpr {
+                span,
+                obj: ExprOrSuper::Expr(obj),
+                ..
+            }) => {
+                //
+                if is_pure_undefined_or_null(&obj) {
+                    self.changed = true;
+                    log::trace!(
+                        "evaluate: Reduced an optioanl chaining operation because object is \
+                         always null or undefinde"
+                    );
+
+                    *e = *undefined(*span);
+                    return;
+                }
+            }
+
+            Expr::Call(c) => {}
+
+            _ => {}
+        }
     }
 }
