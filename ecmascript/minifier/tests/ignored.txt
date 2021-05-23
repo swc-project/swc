@@ -171,8 +171,6 @@ conditionals/issue_2560/input.js
 conditionals/issue_2994/input.js
 conditionals/ternary_boolean_alternative/input.js
 conditionals/ternary_boolean_consequent/input.js
-const/issue_1191/input.js
-const/issue_1396/input.js
 dead_code/collapse_vars_lvalues_drop_assign/input.js
 dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_2_should_warn/input.js
