@@ -292,6 +292,18 @@ impl Optimizer<'_> {
     /// preserving standalone constants.
     fn eval_as_number(&mut self, e: &Expr) -> Option<f64> {
         match e {
+            Expr::Bin(BinExpr {
+                op: op!(bin, "-"),
+                left,
+                right,
+                ..
+            }) => {
+                let l = self.eval_as_number(&left)?;
+                let r = self.eval_as_number(&right)?;
+
+                return Some(l - r);
+            }
+
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 args,
@@ -318,18 +330,14 @@ impl Optimizer<'_> {
                         match &**obj {
                             Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
                                 "cos" => {
-                                    if let Some(v) = args.first() {
-                                        if let Known(v) = v.expr.as_number() {
-                                            return Some(v.cos());
-                                        }
-                                    }
+                                    let v = self.eval_as_number(&args.first()?.expr)?;
+
+                                    return Some(v.cos());
                                 }
                                 "sin" => {
-                                    if let Some(v) = args.first() {
-                                        if let Known(v) = v.expr.as_number() {
-                                            return Some(v.sin());
-                                        }
-                                    }
+                                    let v = self.eval_as_number(&args.first()?.expr)?;
+
+                                    return Some(v.sin());
                                 }
 
                                 "max" => {}
@@ -338,14 +346,10 @@ impl Optimizer<'_> {
                                     if args.len() != 2 {
                                         return None;
                                     }
-                                    let first = args[0].expr.as_number();
-                                    let second = args[1].expr.as_number();
+                                    let first = self.eval_as_number(&args[0].expr)?;
+                                    let second = self.eval_as_number(&args[1].expr)?;
 
-                                    if let Known(first) = first {
-                                        if let Known(second) = second {
-                                            return Some(first.powf(second));
-                                        }
-                                    }
+                                    return Some(first.powf(second));
                                 }
 
                                 _ => {}
