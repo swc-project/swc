@@ -23,6 +23,7 @@ impl Optimizer<'_> {
         self.eval_numbers(e);
         self.eval_str_method_call(e);
         self.eval_array_method_call(e);
+        self.eval_fn_method_call(e);
 
         self.eval_opt_chain(e);
     }
@@ -395,6 +396,75 @@ impl Optimizer<'_> {
                                 }
                             }
                         }
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn eval_fn_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
+        }
+
+        let call = match e {
+            Expr::Call(e) => e,
+            _ => return,
+        };
+
+        let has_spread = call.args.iter().any(|arg| arg.spread.is_some());
+
+        for arg in &call.args {
+            if arg.expr.may_have_side_effects() {
+                return;
+            }
+        }
+
+        let callee = match &mut call.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(e) => &mut **e,
+        };
+
+        match callee {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
+            }) => {
+                if obj.may_have_side_effects() {
+                    return;
+                }
+
+                let _f = match &mut **obj {
+                    Expr::Fn(v) => v,
+                    _ => return,
+                };
+
+                let method_name = match &**prop {
+                    Expr::Ident(i) => i,
+                    _ => return,
+                };
+
+                match &*method_name.sym {
+                    "valueOf" => {
+                        if has_spread {
+                            return;
+                        }
+
+                        self.changed = true;
+                        log::trace!(
+                            "evaludate: Reduced `funtion.valueOf()` into a function expression"
+                        );
+
+                        *e = *obj.take();
+                        return;
                     }
                     _ => {}
                 }
