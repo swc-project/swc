@@ -121,10 +121,10 @@ impl Optimizer<'_> {
 
                 match &**callee {
                     Expr::Member(MemberExpr {
-                        span,
                         obj: ExprOrSuper::Expr(obj),
                         prop,
                         computed: false,
+                        ..
                     }) => {
                         let prop = match &**prop {
                             Expr::Ident(i) => i,
@@ -136,7 +136,35 @@ impl Optimizer<'_> {
                                 sym: js_word!("String"),
                                 ..
                             }) => match &*prop.sym {
-                                "fromCharCodeAt" => {}
+                                "fromCharCodeAt" => {
+                                    if args.len() != 1 {
+                                        return;
+                                    }
+
+                                    if let Known(char_code) = args[0].expr.as_number() {
+                                        let v = char_code.floor() as u32;
+
+                                        match char::from_u32(v) {
+                                            Some(v) => {
+                                                self.changed = true;
+                                                log::trace!(
+                                                    "evanluate: Evaluated `String.charCodeAt({})` \
+                                                     as `{}`",
+                                                    char_code,
+                                                    v
+                                                );
+                                                *e = Expr::Lit(Lit::Str(Str {
+                                                    span: e.span(),
+                                                    value: v.to_string().into(),
+                                                    has_escape: false,
+                                                    kind: Default::default(),
+                                                }));
+                                                return;
+                                            }
+                                            None => {}
+                                        }
+                                    }
+                                }
                                 _ => {}
                             },
                             _ => {}
