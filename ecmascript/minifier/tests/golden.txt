@@ -210,7 +210,9 @@ conditionals/issue_1645_2/input.js
 conditionals/no_evaluate/input.js
 conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
+const/issue_1191/input.js
 const/issue_1194/input.js
+const/issue_1396/input.js
 const/regexp_literal_not_const/input.js
 const/unused_regexp_literal/input.js
 dead_code/accessor/input.js
