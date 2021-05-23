@@ -731,7 +731,6 @@ negate_iife/issue_1288_side_effects/input.js
 negate_iife/negate_iife_3_off/input.js
 negate_iife/negate_iife_4/input.js
 negate_iife/negate_iife_5/input.js
-new/call_with_unary_arguments/input.js
 new/new_statements_3/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js

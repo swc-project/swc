@@ -357,6 +357,7 @@ evaluate/pow_with_number_constants/input.js
 evaluate/pow_with_right_side_evaluating_to_unary/input.js
 evaluate/prop_function/input.js
 evaluate/string_case/input.js
+evaluate/string_charCodeAt/input.js
 evaluate/unary_prefix/input.js
 evaluate/unsafe_array_bad_index/input.js
 evaluate/unsafe_constant/input.js
@@ -662,6 +663,7 @@ negate_iife/negate_iife_issue_1073/input.js
 negate_iife/negate_iife_nested/input.js
 negate_iife/negate_iife_nested_off/input.js
 negate_iife/sequence_off/input.js
+new/call_with_unary_arguments/input.js
 new/dot_parenthesis_1/input.js
 new/dot_parenthesis_2/input.js
 new/new_constructor_with_unary_arguments/input.js
