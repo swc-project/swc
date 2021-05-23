@@ -1287,6 +1287,19 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
+        match &mut n.decl {
+            Decl::Fn(f) => {
+                // I don't know why, but terser removes parameters from an exported function if
+                // `unused` is true, regardless of keep_fargs or others.
+                if self.options.unused {
+                    f.function.params.iter_mut().for_each(|param| {
+                        self.take_pat_if_unused(&mut param.pat, None);
+                    })
+                }
+            }
+            _ => {}
+        }
+
         let ctx = Ctx {
             is_exported: true,
             ..self.ctx
