@@ -1,11 +1,6 @@
 function foo(a) {
-    console.log(3);
-    console.log(2);
-    console.log(1);
-    console.log(1 & a);
+    return console.log(3), console.log(2), console.log(1), void console.log(1 & a);
 }
 function bar() {
-    const s = "01234567890123456789";
-    console.log(s + s + s + s + s);
-    console.log("abcabcabcabcabc");
+    return console.log("0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"), void console.log("abcabcabcabcabc");
 }
