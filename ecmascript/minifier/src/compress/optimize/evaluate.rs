@@ -269,6 +269,70 @@ impl Optimizer<'_> {
                 }
             }
 
+            Expr::Call(CallExpr {
+                span,
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                for arg in &*args {
+                    if arg.expr.may_have_side_effects() {
+                        return;
+                    }
+                }
+
+                match &mut **callee {
+                    Expr::Member(MemberExpr {
+                        obj: ExprOrSuper::Expr(obj),
+                        prop,
+                        computed: false,
+                        ..
+                    }) => {
+                        let prop = match &**prop {
+                            Expr::Ident(i) => i,
+                            _ => return,
+                        };
+
+                        match &**obj {
+                            Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                                "cos" => {
+                                    if let Some(v) = args.first() {
+                                        if let Known(v) = v.expr.as_number() {
+                                            self.changed = true;
+                                            log::trace!("evaluate: Evaluated `Math.cos({})`", v);
+
+                                            *e = Expr::Lit(Lit::Num(Number {
+                                                span: *span,
+                                                value: v.cos(),
+                                            }));
+                                            return;
+                                        }
+                                    }
+                                }
+                                "sin" => {
+                                    if let Some(v) = args.first() {
+                                        if let Known(v) = v.expr.as_number() {
+                                            self.changed = true;
+                                            log::trace!("evaluate: Evaluated `Math.sin({})`", v);
+
+                                            *e = Expr::Lit(Lit::Num(Number {
+                                                span: *span,
+                                                value: v.sin(),
+                                            }));
+                                            return;
+                                        }
+                                    }
+                                }
+                                "max" => {}
+                                _ => {}
+                            },
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             _ => {}
         }
     }
