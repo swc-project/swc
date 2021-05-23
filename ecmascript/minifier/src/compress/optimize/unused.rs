@@ -81,7 +81,7 @@ impl Optimizer<'_> {
         }
 
         // Preserve `length` of function.
-        if pat.is_ident() && !self.options.keep_fargs {
+        if pat.is_ident() && self.options.keep_fargs {
             return;
         }
 
