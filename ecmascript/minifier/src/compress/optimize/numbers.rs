@@ -51,6 +51,25 @@ impl Optimizer<'_> {
                         });
                         return;
                     }
+
+                    Expr::Lit(Lit::Num(Number { span, value, .. })) => {
+                        if *value < 0.0 {
+                            *e = Expr::Unary(UnaryExpr {
+                                span: arg.span,
+                                op: op!(unary, "-"),
+                                arg: Box::new(Expr::Bin(BinExpr {
+                                    span: arg.span,
+                                    op: arg.op,
+                                    left: arg.left.take(),
+                                    right: Box::new(Expr::Lit(Lit::Num(Number {
+                                        span: *span,
+                                        value: -*value,
+                                    }))),
+                                })),
+                            });
+                        }
+                    }
+
                     _ => {}
                 }
             }
