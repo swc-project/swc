@@ -179,6 +179,22 @@ impl Optimizer<'_> {
         }
 
         match e {
+            Expr::Call(..) => {
+                if let Some(value) = self.eval_as_number(&e) {
+                    self.changed = true;
+                    log::trace!("evaluate: Evaluated an expression as `{}`", value);
+
+                    *e = Expr::Lit(Lit::Num(Number {
+                        span: e.span(),
+                        value,
+                    }));
+                    return;
+                }
+            }
+            _ => {}
+        }
+
+        match e {
             Expr::Bin(bin @ BinExpr { op: op!("**"), .. }) => {
                 let l = bin.left.as_number();
                 let r = bin.right.as_number();
@@ -267,18 +283,6 @@ impl Optimizer<'_> {
                         return;
                     }
                     _ => {}
-                }
-            }
-
-            Expr::Call(..) => {
-                if let Some(value) = self.eval_as_number(&e) {
-                    self.changed = true;
-                    log::trace!("evaluate: Evaluated an expression as `{}`", value);
-
-                    *e = Expr::Lit(Lit::Num(Number {
-                        span: e.span(),
-                        value,
-                    }));
                 }
             }
 
