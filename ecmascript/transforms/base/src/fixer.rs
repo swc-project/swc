@@ -110,7 +110,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() => {
+            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -1216,4 +1216,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(deno_10668_2, "console.log(null && (undefined ?? true))");
 
     identical!(minifier_003, "(four ** one) ** two");
+
+    identical!(minifier_004, "(void 0)(0)");
 }
