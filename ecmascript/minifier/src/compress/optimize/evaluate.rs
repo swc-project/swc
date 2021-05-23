@@ -104,6 +104,49 @@ impl Optimizer<'_> {
         if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
             return;
         }
+
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                //
+
+                for arg in &*args {
+                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                        return;
+                    }
+                }
+
+                match &**callee {
+                    Expr::Member(MemberExpr {
+                        span,
+                        obj: ExprOrSuper::Expr(obj),
+                        prop,
+                        computed: false,
+                    }) => {
+                        let prop = match &**prop {
+                            Expr::Ident(i) => i,
+                            _ => return,
+                        };
+
+                        match &**obj {
+                            Expr::Ident(Ident {
+                                sym: js_word!("String"),
+                                ..
+                            }) => match &*prop.sym {
+                                "fromCharCodeAt" => {}
+                                _ => {}
+                            },
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
     }
 
     /// Handle calls on string literals, like `'foo'.toUpperCase()`.
