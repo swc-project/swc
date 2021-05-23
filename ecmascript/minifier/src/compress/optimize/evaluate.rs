@@ -271,7 +271,7 @@ impl Optimizer<'_> {
             }
 
             Expr::Call(..) => {
-                if let Some(value) = self.eval_constants(&e) {
+                if let Some(value) = self.eval_as_number(&e) {
                     self.changed = true;
                     log::trace!("evaluate: Evaluated an expression as `{}`", value);
 
@@ -290,7 +290,7 @@ impl Optimizer<'_> {
     ///
     /// This method is used to test if a whole call can be replaced, while
     /// preserving standalone constants.
-    fn eval_constants(&mut self, e: &Expr) -> Option<f64> {
+    fn eval_as_number(&mut self, e: &Expr) -> Option<f64> {
         match e {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
