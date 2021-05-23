@@ -1,5 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined_or_null;
+use std::f64::consts::PI;
 use std::num::FpCategory;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -269,19 +270,40 @@ impl Optimizer<'_> {
                 }
             }
 
+            Expr::Call(..) => {
+                if let Some(value) = self.eval_constants(&e) {
+                    self.changed = true;
+                    log::trace!("evaluate: Evaluated an expression as `{}`", value);
+
+                    *e = Expr::Lit(Lit::Num(Number {
+                        span: e.span(),
+                        value,
+                    }));
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    /// This method does **not** modifies `e`.
+    ///
+    /// This method is used to test if a whole call can be replaced, while
+    /// preserving standalone constants.
+    fn eval_constants(&mut self, e: &Expr) -> Option<f64> {
+        match e {
             Expr::Call(CallExpr {
-                span,
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
             }) => {
                 for arg in &*args {
                     if arg.expr.may_have_side_effects() {
-                        return;
+                        return None;
                     }
                 }
 
-                match &mut **callee {
+                match &**callee {
                     Expr::Member(MemberExpr {
                         obj: ExprOrSuper::Expr(obj),
                         prop,
@@ -290,7 +312,7 @@ impl Optimizer<'_> {
                     }) => {
                         let prop = match &**prop {
                             Expr::Ident(i) => i,
-                            _ => return,
+                            _ => return None,
                         };
 
                         match &**obj {
@@ -298,28 +320,14 @@ impl Optimizer<'_> {
                                 "cos" => {
                                     if let Some(v) = args.first() {
                                         if let Known(v) = v.expr.as_number() {
-                                            self.changed = true;
-                                            log::trace!("evaluate: Evaluated `Math.cos({})`", v);
-
-                                            *e = Expr::Lit(Lit::Num(Number {
-                                                span: *span,
-                                                value: v.cos(),
-                                            }));
-                                            return;
+                                            return Some(v.cos());
                                         }
                                     }
                                 }
                                 "sin" => {
                                     if let Some(v) = args.first() {
                                         if let Known(v) = v.expr.as_number() {
-                                            self.changed = true;
-                                            log::trace!("evaluate: Evaluated `Math.sin({})`", v);
-
-                                            *e = Expr::Lit(Lit::Num(Number {
-                                                span: *span,
-                                                value: v.sin(),
-                                            }));
-                                            return;
+                                            return Some(v.sin());
                                         }
                                     }
                                 }
@@ -333,8 +341,29 @@ impl Optimizer<'_> {
                 }
             }
 
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
+            }) => {
+                let prop = match &**prop {
+                    Expr::Ident(i) => i,
+                    _ => return None,
+                };
+
+                match &**obj {
+                    Expr::Ident(obj) if &*obj.sym == "Math" => match &*prop.sym {
+                        "PI" => return Some(PI),
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
             _ => {}
         }
+
+        None
     }
 
     fn eval_array_method_call(&mut self, e: &mut Expr) {
