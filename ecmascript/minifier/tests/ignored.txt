@@ -598,12 +598,6 @@ issue_2001/export_class_2/input.js
 issue_2001/export_default_class_2/input.js
 issue_2001/export_default_func_2/input.js
 issue_2001/export_func_2/input.js
-issue_2001/export_mangle_1/input.js
-issue_2001/export_mangle_2/input.js
-issue_2001/export_mangle_3/input.js
-issue_2001/export_mangle_4/input.js
-issue_2001/export_mangle_5/input.js
-issue_2001/export_mangle_6/input.js
 issue_203/compress_new_function/input.js
 issue_203/compress_new_function_with_destruct/input.js
 issue_203/compress_new_function_with_destruct_arrows/input.js
