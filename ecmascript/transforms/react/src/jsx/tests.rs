@@ -706,7 +706,7 @@ test!(
 "#,
     r#"
 React.createElement("div", {
-  id: "w\xF4w"
+  id: "w\\xf4w"
 });
 React.createElement("div", {
   id: "w"
