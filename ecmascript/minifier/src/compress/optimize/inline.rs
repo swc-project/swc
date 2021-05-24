@@ -397,6 +397,10 @@ impl Optimizer<'_> {
 }
 
 fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
+    if e.is_async {
+        return false;
+    }
+
     fn is_arrow_body_simple_enough(e: &Expr) -> bool {
         match e {
             Expr::Ident(..) | Expr::Lit(..) => return true,
