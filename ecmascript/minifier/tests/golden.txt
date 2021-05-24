@@ -604,6 +604,12 @@ issue_2001/export_default_func_3/input.js
 issue_2001/export_default_func_ref/input.js
 issue_2001/export_func_1/input.js
 issue_2001/export_func_3/input.js
+issue_2001/export_mangle_1/input.js
+issue_2001/export_mangle_2/input.js
+issue_2001/export_mangle_3/input.js
+issue_2001/export_mangle_4/input.js
+issue_2001/export_mangle_5/input.js
+issue_2001/export_mangle_6/input.js
 issue_2001/export_toplevel_1/input.js
 issue_2001/export_toplevel_2/input.js
 issue_208/do_not_update_lhs/input.js
