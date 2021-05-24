@@ -376,6 +376,15 @@ impl Optimizer<'_> {
                 }
                 //
                 if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                    match &*value {
+                        Expr::Lit(..) => {
+                            if self.ctx.is_lhs_of_assign {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    }
+
                     self.changed = true;
                     log::trace!("inline: Replacing a variable with cheap expression");
 
