@@ -1341,20 +1341,24 @@ impl Fold for SimplifyExpr {
             ExprOrSuper::Super(..) => n.callee,
             ExprOrSuper::Expr(e) => match *e {
                 Expr::Seq(mut seq) => {
-                    match seq.exprs.get(0).map(|v| &**v) {
-                        Some(Expr::Lit(Lit::Num(..))) => {}
-                        _ => {
-                            seq.exprs.insert(
-                                0,
-                                Box::new(Expr::Lit(Lit::Num(Number {
-                                    span: DUMMY_SP,
-                                    value: 0.0,
-                                }))),
-                            );
+                    if seq.exprs.len() == 1 {
+                        ExprOrSuper::Expr(seq.exprs.into_iter().next().unwrap().fold_with(self))
+                    } else {
+                        match seq.exprs.get(0).map(|v| &**v) {
+                            Some(Expr::Lit(Lit::Num(..))) => {}
+                            _ => {
+                                seq.exprs.insert(
+                                    0,
+                                    Box::new(Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: 0.0,
+                                    }))),
+                                );
+                            }
                         }
-                    }
 
-                    ExprOrSuper::Expr(Box::new(Expr::Seq(seq.fold_with(self))))
+                        ExprOrSuper::Expr(Box::new(Expr::Seq(seq.fold_with(self))))
+                    }
                 }
                 _ => ExprOrSuper::Expr(e.fold_with(self)),
             },
