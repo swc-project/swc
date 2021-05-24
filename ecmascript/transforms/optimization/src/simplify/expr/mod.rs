@@ -1339,21 +1339,25 @@ impl Fold for SimplifyExpr {
     fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
         let callee = match n.callee {
             ExprOrSuper::Super(..) => n.callee,
-            ExprOrSuper::Expr(mut e) => {
-                match &mut *e {
-                    Expr::Seq(seq) => {
-                        seq.exprs.insert(
-                            0,
-                            Box::new(Expr::Lit(Lit::Num(Number {
-                                span: DUMMY_SP,
-                                value: 0.0,
-                            }))),
-                        );
+            ExprOrSuper::Expr(e) => match *e {
+                Expr::Seq(mut seq) => {
+                    match seq.exprs.get(0).map(|v| &**v) {
+                        Some(Expr::Lit(Lit::Num(..))) => {}
+                        _ => {
+                            seq.exprs.insert(
+                                0,
+                                Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: 0.0,
+                                }))),
+                            );
+                        }
                     }
-                    _ => {}
+
+                    ExprOrSuper::Expr(Box::new(Expr::Seq(seq.fold_with(self))))
                 }
-                ExprOrSuper::Expr(e.fold_with(self))
-            }
+                _ => ExprOrSuper::Expr(e.fold_with(self)),
+            },
         };
 
         CallExpr {
@@ -1411,7 +1415,6 @@ impl Fold for SimplifyExpr {
         }
 
         exprs.push(last_expr);
-        exprs.shrink_to_fit();
 
         self.changed |= len != exprs.len();
 
