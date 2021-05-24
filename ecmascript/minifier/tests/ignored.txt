@@ -428,6 +428,7 @@ harmony/array_literal_with_spread_4a/input.js
 harmony/array_literal_with_spread_4b/input.js
 harmony/array_spread_of_sequence/input.js
 harmony/class_extends/input.js
+harmony/class_name_can_be_mangled/input.js
 harmony/class_name_can_be_preserved_with_reserved/input.js
 harmony/classes_extending_classes_out_of_pure_iifes/input.js
 harmony/default_assign/input.js
@@ -554,6 +555,8 @@ issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1446/typeof_eq_undefined/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
+issue_1446/undefined_redefined/input.js
+issue_1446/undefined_redefined_mangle/input.js
 issue_1447/conditional_false_stray_else_in_loop/input.js
 issue_1447/else_with_empty_block/input.js
 issue_1447/else_with_empty_statement/input.js
@@ -577,12 +580,14 @@ issue_1609/chained_evaluation_2/input.js
 issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
 issue_1639/issue_1639_3/input.js
+issue_1704/mangle_catch_var_ie8/input.js
 issue_1733/function_catch_catch/input.js
 issue_1733/function_catch_catch_ie8/input.js
 issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
+issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
 issue_1833/iife_do/input.js
 issue_1833/label_while/input.js
@@ -942,6 +947,8 @@ rename/function_catch_catch_ie8/input.js
 rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
 rename/issue_2120_1/input.js
+rename/mangle_catch_var/input.js
+rename/mangle_catch_var_ie8/input.js
 return_undefined/return_undefined/input.js
 sequences/call/input.js
 sequences/cascade_assignment_in_return/input.js
