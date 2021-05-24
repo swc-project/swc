@@ -134,6 +134,9 @@ struct Ctx {
 
     in_tpl_expr: bool,
 
+    /// True while handling callee, except an arrow expression in callee.
+    is_this_aware_callee: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -816,7 +819,7 @@ impl Optimizer<'_> {
                             _ => false,
                         };
 
-                        if idx == 0 && is_injected_zero {
+                        if idx == 0 && self.ctx.is_this_aware_callee && is_injected_zero {
                             return Some(*expr.take());
                         }
                         self.ignore_return_value(&mut **expr)
@@ -1229,10 +1232,28 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        e.callee.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_this_aware_callee: match &e.callee {
+                    ExprOrSuper::Super(..) => false,
+                    ExprOrSuper::Expr(e) => match &**e {
+                        Expr::Arrow(..) => false,
+                        _ => true,
+                    },
+                },
+                ..self.ctx
+            };
+            e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
-        // TODO: Prevent inline if callee is unknown.
-        e.args.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_this_aware_callee: false,
+                ..self.ctx
+            };
+            // TODO: Prevent inline if callee is unknown.
+            e.args.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         self.optimize_symbol_call_unsafely(e);
 
@@ -1655,7 +1676,8 @@ impl VisitMut for Optimizer<'_> {
                         Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
                         _ => false,
                     };
-                    let can_remove = !last && (idx != 0 || !is_injected_zero);
+                    let can_remove =
+                        !last && (idx != 0 || !is_injected_zero || !self.ctx.is_this_aware_callee);
 
                     if can_remove {
                         // If negate_iife is true, it's already handled by
