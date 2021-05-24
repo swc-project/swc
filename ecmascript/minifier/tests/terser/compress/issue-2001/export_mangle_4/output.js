@@ -1,5 +1,5 @@
-export default class e {
-    go(e, r) {
-        return e - r + e;
+export default class C {
+    go(a, b) {
+        return a - b + a;
     }
-}
+};

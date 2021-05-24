@@ -1,5 +1,5 @@
 export class C {
-    go(r, e) {
-        return r - e + r;
+    go(a, b) {
+        return a - b + a;
     }
 }
