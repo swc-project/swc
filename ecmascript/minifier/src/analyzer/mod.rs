@@ -328,6 +328,10 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier, _: &dyn Node) {
+        self.report_usage(&n.orig, false)
+    }
+
     fn visit_expr(&mut self, e: &Expr, _: &dyn Node) {
         e.visit_children_with(self);
 
@@ -447,6 +451,13 @@ impl Visit for UsageAnalyzer {
                 _ => {}
             },
         }
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
+        if n.src.is_some() {
+            return;
+        }
+        n.visit_children_with(self);
     }
 
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
