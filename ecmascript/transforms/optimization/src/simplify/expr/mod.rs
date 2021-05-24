@@ -56,6 +56,7 @@ struct SimplifyExpr {
     vars: Vec<VarDeclarator>,
     is_arg_of_update: bool,
     is_modifying: bool,
+    in_callee: bool,
 }
 
 impl CompilerPass for SimplifyExpr {
@@ -1337,6 +1338,9 @@ impl Fold for SimplifyExpr {
 
     /// This is overriden to preserve `this`.
     fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let old_in_callee = self.in_callee;
+
+        self.in_callee = true;
         let callee = match n.callee {
             ExprOrSuper::Super(..) => n.callee,
             ExprOrSuper::Expr(e) => match *e {
@@ -1363,6 +1367,7 @@ impl Fold for SimplifyExpr {
                 _ => ExprOrSuper::Expr(e.fold_with(self)),
             },
         };
+        self.in_callee = old_in_callee;
 
         CallExpr {
             callee,
@@ -1387,7 +1392,7 @@ impl Fold for SimplifyExpr {
                 Expr::Lit(Lit::Num(Number {
                     span: DUMMY_SP,
                     value,
-                })) => {
+                })) if self.in_callee => {
                     if value == 0.0 && exprs.is_empty() {
                         exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
