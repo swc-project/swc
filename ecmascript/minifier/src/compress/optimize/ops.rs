@@ -432,6 +432,12 @@ impl Optimizer<'_> {
                             op: op!("void"), ..
                         }),
                     )
+                    | (
+                        Expr::This(..),
+                        Expr::Unary(UnaryExpr {
+                            op: op!("void"), ..
+                        }),
+                    )
                     | (Expr::Unary(..), Expr::Lit(..))
                     | (Expr::Tpl(..), Expr::Lit(..)) => {
                         self.changed = true;
