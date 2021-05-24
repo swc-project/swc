@@ -1335,6 +1335,34 @@ impl Fold for SimplifyExpr {
         }
     }
 
+    /// This is overriden to preserve `this`.
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let callee = match n.callee {
+            ExprOrSuper::Super(..) => n.callee,
+            ExprOrSuper::Expr(mut e) => {
+                match &mut *e {
+                    Expr::Seq(seq) => {
+                        seq.exprs.insert(
+                            0,
+                            Box::new(Expr::Lit(Lit::Num(Number {
+                                span: DUMMY_SP,
+                                value: 0.0,
+                            }))),
+                        );
+                    }
+                    _ => {}
+                }
+                ExprOrSuper::Expr(e.fold_with(self))
+            }
+        };
+
+        CallExpr {
+            callee,
+            args: n.args.fold_with(self),
+            ..n
+        }
+    }
+
     /// Drops unused values
     fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e = e.fold_children_with(self);
@@ -1348,6 +1376,18 @@ impl Fold for SimplifyExpr {
 
         for expr in e.exprs {
             match *expr {
+                Expr::Lit(Lit::Num(Number {
+                    span: DUMMY_SP,
+                    value,
+                })) => {
+                    if value == 0.0 && exprs.is_empty() {
+                        exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 0.0,
+                        }))));
+                    }
+                }
+
                 // Drop side-effect free nodes.
                 Expr::Lit(_) => {}
 
