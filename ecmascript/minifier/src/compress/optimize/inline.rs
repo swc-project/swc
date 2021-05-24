@@ -94,14 +94,21 @@ impl Optimizer<'_> {
                             _ => false,
                         }
                     {
-                        log::trace!(
-                            "inline: Decided to inline '{}{:?}' because it's simple",
-                            i.id.sym,
-                            i.id.span.ctxt
-                        );
                         if self.options.inline != 0 && !should_preserve {
+                            log::trace!(
+                                "inline: Decided to inline '{}{:?}' because it's simple",
+                                i.id.sym,
+                                i.id.span.ctxt
+                            );
+
                             self.lits.insert(i.to_id(), init.take());
                         } else {
+                            log::trace!(
+                                "inline: Decided to copy '{}{:?}' because it's simple",
+                                i.id.sym,
+                                i.id.span.ctxt
+                            );
+
                             self.lits.insert(i.to_id(), init.clone());
                         }
                         return;
