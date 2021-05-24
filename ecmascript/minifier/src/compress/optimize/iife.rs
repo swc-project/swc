@@ -1,5 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
+use crate::util::make_number;
 use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
@@ -249,7 +250,10 @@ impl Optimizer<'_> {
                     BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
                         log::trace!("inline: Inlining a call to an arrow function");
-                        *e = *body.take();
+                        *e = Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![Box::new(make_number(DUMMY_SP, 0.0)), body.take()],
+                        });
                         return;
                     }
                 }
