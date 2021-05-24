@@ -809,7 +809,18 @@ impl Optimizer<'_> {
                 let mut exprs = seq
                     .exprs
                     .iter_mut()
-                    .filter_map(|expr| self.ignore_return_value(&mut **expr))
+                    .enumerate()
+                    .filter_map(|(idx, expr)| {
+                        let is_injected_zero = match &**expr {
+                            Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
+                            _ => false,
+                        };
+
+                        if idx == 0 && is_injected_zero {
+                            return Some(*expr.take());
+                        }
+                        self.ignore_return_value(&mut **expr)
+                    })
                     .map(Box::new)
                     .collect::<Vec<_>>();
                 if exprs.len() <= 1 {
@@ -1637,9 +1648,16 @@ impl VisitMut for Optimizer<'_> {
             let exprs = n
                 .exprs
                 .iter_mut()
+                .enumerate()
                 .identify_last()
-                .filter_map(|(last, expr)| {
-                    if !last {
+                .filter_map(|(last, (idx, expr))| {
+                    let is_injected_zero = match &**expr {
+                        Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
+                        _ => false,
+                    };
+                    let can_remove = !last && (idx != 0 || !is_injected_zero);
+
+                    if can_remove {
                         // If negate_iife is true, it's already handled by
                         // visit_mut_children_with(self) above.
                         if !self.options.negate_iife {
