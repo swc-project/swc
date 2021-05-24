@@ -1,5 +1,7 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
+use std::collections::HashMap;
+use std::mem::replace;
 use std::mem::swap;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -175,40 +177,67 @@ impl Optimizer<'_> {
             return;
         }
 
-        let expr = match e {
+        let call = match e {
             Expr::Call(v) => v,
             _ => return,
         };
 
-        let callee = match &mut expr.callee {
+        let callee = match &mut call.callee {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
-        if expr.args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+        if call.args.iter().any(|arg| match &*arg.expr {
+            Expr::Member(MemberExpr {
+                computed: false, ..
+            }) => false,
+            _ => arg.expr.may_have_side_effects(),
+        }) {
             return;
         }
 
         match callee {
             Expr::Arrow(f) => {
-                // TODO: Improve this.
-                if !f.params.is_empty() {
+                if f.params.iter().any(|param| !param.is_ident()) {
                     return;
                 }
+
+                match &f.body {
+                    BlockStmtOrExpr::BlockStmt(_) => return,
+                    BlockStmtOrExpr::Expr(body) => match &**body {
+                        Expr::Lit(Lit::Num(..)) => {
+                            if self.ctx.in_obj_of_non_computed_member {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    },
+                }
+                let mut inline_map = HashMap::default();
+                for (idx, param) in f.params.iter().enumerate() {
+                    let arg_val = if let Some(arg) = call.args.get(idx) {
+                        arg.expr.clone()
+                    } else {
+                        undefined(DUMMY_SP)
+                    };
+
+                    match param {
+                        Pat::Ident(param) => {
+                            inline_map.insert(param.id.to_id(), arg_val);
+                        }
+                        _ => {}
+                    }
+                }
+
+                let orig_vars = replace(&mut self.vars_for_inlining, inline_map);
+                f.body.visit_mut_with(self);
+                self.vars_for_inlining = orig_vars;
 
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(_) => {
                         // TODO
                     }
                     BlockStmtOrExpr::Expr(body) => {
-                        match &**body {
-                            Expr::Lit(Lit::Num(..)) => {
-                                if self.ctx.in_obj_of_non_computed_member {
-                                    return;
-                                }
-                            }
-                            _ => {}
-                        }
                         self.changed = true;
                         log::trace!("inline: Inlining a call to an arrow function");
                         *e = *body.take();
