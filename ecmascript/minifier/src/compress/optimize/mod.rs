@@ -1234,7 +1234,10 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         {
             let ctx = Ctx {
-                is_this_aware_callee: is_callee_this_aware(&e.callee),
+                is_this_aware_callee: match &e.callee {
+                    ExprOrSuper::Super(_) => false,
+                    ExprOrSuper::Expr(callee) => is_callee_this_aware(&callee),
+                },
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1992,12 +1995,25 @@ fn is_pure_undefined_or_null(e: &Expr) -> bool {
         }
 }
 
-fn is_callee_this_aware(callee: &ExprOrSuper) -> bool {
-    match &callee {
-        ExprOrSuper::Super(..) => false,
-        ExprOrSuper::Expr(e) => match &**e {
-            Expr::Arrow(..) => false,
-            _ => true,
+/// If true, `0` in `(0, foo.bar)()` is preserved.
+fn is_callee_this_aware(callee: &Expr) -> bool {
+    match &*callee {
+        Expr::Arrow(..) => return false,
+        Expr::Seq(s) => return is_callee_this_aware(s.exprs.last().unwrap()),
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => match &**obj {
+            Expr::Ident(obj) => {
+                if &*obj.sym == "consoole" {
+                    return false;
+                }
+            }
+            _ => {}
         },
+
+        _ => {}
     }
+
+    true
 }
