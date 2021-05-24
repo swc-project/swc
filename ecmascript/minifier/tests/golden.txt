@@ -734,6 +734,7 @@ numbers/keep_numbers/input.js
 numbers/keep_numbers_in_properties_as_is/input.js
 numbers/no_number_function_transform_without_unsafe_math/input.js
 numbers/numeric_separators/input.js
+numbers/unary_binary_parenthesis/input.js
 object/allow_assignments_to_property_values/input.js
 object/computed_property_names/input.js
 object/computed_property_names_evaluated_1/input.js
