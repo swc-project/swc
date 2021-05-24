@@ -94,7 +94,13 @@ impl Optimizer<'_> {
                             _ => false,
                         }
                     {
-                        if self.options.inline != 0 && !should_preserve {
+                        if self.options.inline != 0
+                            && !should_preserve
+                            && match &**init {
+                                Expr::Arrow(..) => false,
+                                _ => true,
+                            }
+                        {
                             log::trace!(
                                 "inline: Decided to inline '{}{:?}' because it's simple",
                                 i.id.sym,
