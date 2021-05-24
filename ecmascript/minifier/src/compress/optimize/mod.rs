@@ -1234,13 +1234,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         {
             let ctx = Ctx {
-                is_this_aware_callee: match &e.callee {
-                    ExprOrSuper::Super(..) => false,
-                    ExprOrSuper::Expr(e) => match &**e {
-                        Expr::Arrow(..) => false,
-                        _ => true,
-                    },
-                },
+                is_this_aware_callee: is_callee_this_aware(&e.callee),
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1996,4 +1990,14 @@ fn is_pure_undefined_or_null(e: &Expr) -> bool {
             Expr::Lit(Lit::Null(..)) => true,
             _ => false,
         }
+}
+
+fn is_callee_this_aware(callee: &ExprOrSuper) -> bool {
+    match &callee {
+        ExprOrSuper::Super(..) => false,
+        ExprOrSuper::Expr(e) => match &**e {
+            Expr::Arrow(..) => false,
+            _ => true,
+        },
+    }
 }
