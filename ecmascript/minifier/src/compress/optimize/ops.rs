@@ -410,7 +410,7 @@ impl Optimizer<'_> {
 
     /// Swap lhs and rhs in certain conditions.
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
-        fn optimize(op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
+        fn is_supported(op: BinaryOp) -> bool {
             match op {
                 op!("===")
                 | op!("!==")
@@ -419,8 +419,14 @@ impl Optimizer<'_> {
                 | op!("&")
                 | op!("^")
                 | op!("|")
-                | op!("*") => {}
-                _ => return false,
+                | op!("*") => true,
+                _ => false,
+            }
+        }
+
+        fn optimize(op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
+            if !is_supported(op) {
+                return false;
             }
 
             match (&*left, &*right) {
