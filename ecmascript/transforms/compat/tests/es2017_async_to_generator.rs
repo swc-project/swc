@@ -2575,5 +2575,40 @@ test!(
     }
     ",
     "
+    var regeneratorRuntime = require('regenerator-runtime');
+    var _marked = regeneratorRuntime.mark(_getThing);
+    const cache = {
+    };
+    function _getThing() {
+        _getThing = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key) {
+            var it;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.t0 = cache[key];
+                        if (_ctx.t0) {
+                            _ctx.next = 4;
+                            break;
+                        }
+                        _ctx.next = 4;
+                        return fetchThing(key);
+                    case 4:
+                        it = _ctx.t0;
+                        return _ctx.abrupt('return', it);
+                    case 6:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }));
+        return _getThing.apply(this, arguments);
+    }
+    function getThing(key) {
+        return _getThing.apply(this, arguments);
+    }
+    function fetchThing(key) {
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+        );
+    }
     "
 );
