@@ -406,6 +406,11 @@ fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
                 ..
             }) => return true,
             Expr::Unary(u) => return is_arrow_body_simple_enough(&u.arg),
+
+            Expr::Bin(b) => {
+                return is_arrow_body_simple_enough(&b.left)
+                    && is_arrow_body_simple_enough(&b.right)
+            }
             _ => {}
         }
 
