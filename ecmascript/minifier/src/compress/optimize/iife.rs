@@ -1,5 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
+use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
 use std::mem::swap;
@@ -10,6 +11,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Id;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
@@ -143,6 +145,15 @@ impl Optimizer<'_> {
         }
     }
 
+    fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    where
+        N: VisitMutWith<Self>,
+    {
+        let orig_vars = replace(&mut self.vars_for_inlining, vars);
+        n.visit_mut_with(self);
+        self.vars_for_inlining = orig_vars;
+    }
+
     /// Fully inlines iife.
     ///
     /// # Example
@@ -229,9 +240,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                let orig_vars = replace(&mut self.vars_for_inlining, inline_map);
-                f.body.visit_mut_with(self);
-                self.vars_for_inlining = orig_vars;
+                self.inline_vars_in_node(&mut f.body, inline_map);
 
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(_) => {
