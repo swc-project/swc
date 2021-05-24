@@ -44,7 +44,7 @@ impl Visit for Preserver {
     fn visit_catch_clause(&mut self, n: &CatchClause, _: &dyn Node) {
         let old = self.should_preserve;
 
-        if self.options.ie8 {
+        if self.options.ie8 && !self.options.top_level {
             self.should_preserve = true;
             n.param.visit_with(&Invalid { span: DUMMY_SP }, self);
         }
