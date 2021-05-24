@@ -397,16 +397,22 @@ impl Optimizer<'_> {
 }
 
 fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
-    match &e.body {
-        BlockStmtOrExpr::Expr(e) => match &**e {
-            Expr::Ident(..) => return true,
+    fn is_arrow_body_simple_enough(e: &Expr) -> bool {
+        match e {
+            Expr::Ident(..) | Expr::Lit(..) => return true,
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(..),
                 computed: false,
                 ..
             }) => return true,
+            Expr::Unary(u) => return is_arrow_body_simple_enough(&u.arg),
             _ => {}
-        },
+        }
+
+        false
+    }
+    match &e.body {
+        BlockStmtOrExpr::Expr(e) => return is_arrow_body_simple_enough(&e),
         _ => {}
     }
 
