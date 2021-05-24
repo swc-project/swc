@@ -1591,6 +1591,11 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
+
+        stmts.retain(|s| match s {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
@@ -1752,6 +1757,11 @@ impl VisitMut for Optimizer<'_> {
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         self.with_ctx(ctx).merge_var_decls(stmts);
+
+        stmts.retain(|s| match s {
+            Stmt::Empty(..) => false,
+            _ => true,
+        });
 
         if stmts.len() == 1 {
             match &stmts[0] {
