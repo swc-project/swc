@@ -97,7 +97,7 @@ impl Optimizer<'_> {
                         if self.options.inline != 0
                             && !should_preserve
                             && match &**init {
-                                Expr::Arrow(..) => false,
+                                Expr::Arrow(..) => self.options.unused,
                                 _ => true,
                             }
                         {
