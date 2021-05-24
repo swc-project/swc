@@ -90,6 +90,7 @@ impl Optimizer<'_> {
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
+                            Expr::Arrow(arr) => is_arrow_simple_enough(arr),
                             _ => false,
                         }
                     {
@@ -380,4 +381,21 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+}
+
+fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
+    match &e.body {
+        BlockStmtOrExpr::Expr(e) => match &**e {
+            Expr::Ident(..) => return true,
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(..),
+                computed: false,
+                ..
+            }) => return true,
+            _ => {}
+        },
+        _ => {}
+    }
+
+    false
 }
