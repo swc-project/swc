@@ -377,7 +377,7 @@ impl Optimizer<'_> {
                 //
                 if let Some(value) = self.lits.get(&i.to_id()).cloned() {
                     match &*value {
-                        Expr::Lit(..) => {
+                        Expr::Lit(Lit::Num(..)) => {
                             if self.ctx.is_lhs_of_assign {
                                 return;
                             }
