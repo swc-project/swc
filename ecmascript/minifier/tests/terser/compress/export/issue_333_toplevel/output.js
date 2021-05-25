@@ -1,4 +1,5 @@
-var _setToString = function () {};
+var _setToString = function() {
+};
 export function baseRest() {
     return _setToString();
 }

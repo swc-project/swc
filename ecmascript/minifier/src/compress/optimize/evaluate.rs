@@ -22,8 +22,9 @@ impl Optimizer<'_> {
         self.eval_global_vars(e);
 
         self.eval_numbers(e);
+        self.eval_number_method_call(e);
 
-        self.eval_string_static_method_call(e);
+        self.eval_known_static_method_call(e);
         self.eval_str_method_call(e);
 
         self.eval_array_method_call(e);
@@ -95,8 +96,9 @@ impl Optimizer<'_> {
         }
     }
 
-    /// Handle calls on `String` class, like `String.`
-    fn eval_string_static_method_call(&mut self, e: &mut Expr) {
+    /// Handle calls on some static classes.
+    /// e.g. `String.fromCharCode`, `Object.keys()`
+    fn eval_known_static_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
         }
@@ -105,71 +107,135 @@ impl Optimizer<'_> {
             return;
         }
 
-        match e {
+        let (span, callee, args) = match e {
             Expr::Call(CallExpr {
+                span,
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
+            }) => (span, callee, args),
+            _ => return,
+        };
+        let span = *span;
+
+        //
+
+        for arg in &*args {
+            if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                return;
+            }
+        }
+
+        match &**callee {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
             }) => {
-                //
+                let prop = match &**prop {
+                    Expr::Ident(i) => i,
+                    _ => return,
+                };
 
-                for arg in &*args {
-                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
-                        return;
-                    }
-                }
-
-                match &**callee {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(obj),
-                        prop,
-                        computed: false,
+                match &**obj {
+                    Expr::Ident(Ident {
+                        sym: js_word!("String"),
                         ..
-                    }) => {
-                        let prop = match &**prop {
-                            Expr::Ident(i) => i,
-                            _ => return,
-                        };
+                    }) => match &*prop.sym {
+                        "fromCharCode" => {
+                            if args.len() != 1 {
+                                return;
+                            }
 
-                        match &**obj {
-                            Expr::Ident(Ident {
-                                sym: js_word!("String"),
-                                ..
-                            }) => match &*prop.sym {
-                                "fromCharCode" => {
-                                    if args.len() != 1 {
+                            if let Known(char_code) = args[0].expr.as_number() {
+                                let v = char_code.floor() as u32;
+
+                                match char::from_u32(v) {
+                                    Some(v) => {
+                                        self.changed = true;
+                                        log::trace!(
+                                            "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                            char_code,
+                                            v
+                                        );
+                                        *e = Expr::Lit(Lit::Str(Str {
+                                            span: e.span(),
+                                            value: v.to_string().into(),
+                                            has_escape: false,
+                                            kind: Default::default(),
+                                        }));
                                         return;
                                     }
+                                    None => {}
+                                }
+                            }
+                        }
+                        _ => {}
+                    },
 
-                                    if let Known(char_code) = args[0].expr.as_number() {
-                                        let v = char_code.floor() as u32;
+                    Expr::Ident(Ident {
+                        sym: js_word!("Object"),
+                        ..
+                    }) => match &*prop.sym {
+                        "keys" => {
+                            if args.len() != 1 {
+                                return;
+                            }
 
-                                        match char::from_u32(v) {
-                                            Some(v) => {
-                                                self.changed = true;
-                                                log::trace!(
-                                                    "evanluate: Evaluated `String.charCodeAt({})` \
-                                                     as `{}`",
-                                                    char_code,
-                                                    v
-                                                );
-                                                *e = Expr::Lit(Lit::Str(Str {
-                                                    span: e.span(),
-                                                    value: v.to_string().into(),
+                            let obj = match &*args[0].expr {
+                                Expr::Object(obj) => obj,
+                                _ => return,
+                            };
+
+                            let mut keys = vec![];
+
+                            for prop in &obj.props {
+                                match prop {
+                                    PropOrSpread::Spread(_) => return,
+                                    PropOrSpread::Prop(p) => match &**p {
+                                        Prop::Shorthand(p) => {
+                                            keys.push(Some(ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                    span: p.span,
+                                                    value: p.sym.clone(),
                                                     has_escape: false,
                                                     kind: Default::default(),
-                                                }));
-                                                return;
-                                            }
-                                            None => {}
+                                                }))),
+                                            }));
                                         }
-                                    }
+                                        Prop::KeyValue(p) => match &p.key {
+                                            PropName::Ident(key) => {
+                                                keys.push(Some(ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                        span: key.span,
+                                                        value: key.sym.clone(),
+                                                        has_escape: false,
+                                                        kind: Default::default(),
+                                                    }))),
+                                                }));
+                                            }
+                                            PropName::Str(key) => {
+                                                keys.push(Some(ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(Expr::Lit(Lit::Str(
+                                                        key.clone(),
+                                                    ))),
+                                                }));
+                                            }
+                                            _ => return,
+                                        },
+                                        _ => return,
+                                    },
                                 }
-                                _ => {}
-                            },
-                            _ => {}
+                            }
+
+                            *e = Expr::Array(ArrayLit { span, elems: keys })
                         }
-                    }
+                        _ => {}
+                    },
                     _ => {}
                 }
             }
@@ -260,6 +326,39 @@ impl Optimizer<'_> {
     }
 
     fn eval_numbers(&mut self, e: &mut Expr) {
+        if self.options.unsafe_passes && self.options.unsafe_math {
+            match e {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                    ..
+                }) => {
+                    if args.len() == 1 && args[0].spread.is_none() {
+                        match &**callee {
+                            Expr::Ident(Ident {
+                                sym: js_word!("Number"),
+                                ..
+                            }) => {
+                                self.changed = true;
+                                log::trace!(
+                                    "evaluate: Reducing a call to `Number` into an unary operation"
+                                );
+
+                                *e = Expr::Unary(UnaryExpr {
+                                    span: *span,
+                                    op: op!(unary, "+"),
+                                    arg: args.take().into_iter().next().unwrap().expr,
+                                });
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+
         if !self.options.evaluate {
             return;
         }
@@ -376,6 +475,65 @@ impl Optimizer<'_> {
                 }
             }
 
+            _ => {}
+        }
+    }
+
+    /// Evaluates method calls of a numeric constant.
+    fn eval_number_method_call(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
+        let (num, method, args) = match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => match &mut **callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(obj),
+                    prop,
+                    computed: false,
+                    ..
+                }) => match &mut **obj {
+                    Expr::Lit(Lit::Num(obj)) => match &mut **prop {
+                        Expr::Ident(prop) => (obj, prop, args),
+                        _ => return,
+                    },
+                    _ => return,
+                },
+                _ => return,
+            },
+            _ => return,
+        };
+
+        if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+            return;
+        }
+
+        match &*method.sym {
+            "toFixed" => {
+                if let Some(precision) = self.eval_as_number(&args[0].expr) {
+                    let precision = precision.floor() as usize;
+                    let value = num_to_fixed(num.value, precision + 1);
+
+                    self.changed = true;
+                    log::trace!(
+                        "evaluate: Evaluating `{}.toFixed({})` as `{}`",
+                        num,
+                        precision,
+                        value
+                    );
+
+                    *e = Expr::Lit(Lit::Str(Str {
+                        span: e.span(),
+                        value: value.into(),
+                        has_escape: false,
+                        kind: Default::default(),
+                    }))
+                }
+            }
             _ => {}
         }
     }
@@ -812,4 +970,33 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+}
+
+/// https://stackoverflow.com/questions/60497397/how-do-you-format-a-float-to-the-first-significant-decimal-and-with-specified-pr
+fn num_to_fixed(float: f64, precision: usize) -> String {
+    // compute absolute value
+    let a = float.abs();
+
+    // if abs value is greater than 1, then precision becomes less than "standard"
+    let precision = if a >= 1. {
+        // reduce by number of digits, minimum 0
+        let n = (1. + a.log10().floor()) as usize;
+        if n <= precision {
+            precision - n
+        } else {
+            0
+        }
+    // if precision is less than 1 (but non-zero), then precision becomes
+    // greater than "standard"
+    } else if a > 0. {
+        // increase number of digits
+        let n = -(1. + a.log10().floor()) as usize;
+        precision + n
+    // special case for 0
+    } else {
+        0
+    };
+
+    // format with the given computed precision
+    format!("{0:.1$}", float, precision)
 }

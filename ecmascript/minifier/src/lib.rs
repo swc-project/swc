@@ -14,6 +14,7 @@ use crate::pass::global_defs;
 use crate::pass::hygiene::hygiene_optimizer;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
+use crate::pass::remove_parens::remove_parens;
 use analyzer::analyze;
 use swc_common::comments::Comments;
 use swc_ecma_ast::Module;
@@ -38,6 +39,8 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
+    m.visit_mut_with(&mut remove_parens());
+
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //

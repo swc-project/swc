@@ -1,5 +1,4 @@
-let e = 1,
-    o = 2;
-export { e as delete };
-export { o as default };
+let a = 1, b = 2;
+export { a as delete };
+export { b as default };
 export { foo as var } from "module.js";

@@ -56,6 +56,7 @@ struct SimplifyExpr {
     vars: Vec<VarDeclarator>,
     is_arg_of_update: bool,
     is_modifying: bool,
+    in_callee: bool,
 }
 
 impl CompilerPass for SimplifyExpr {
@@ -1335,6 +1336,46 @@ impl Fold for SimplifyExpr {
         }
     }
 
+    /// This is overriden to preserve `this`.
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let old_in_callee = self.in_callee;
+
+        self.in_callee = true;
+        let callee = match n.callee {
+            ExprOrSuper::Super(..) => n.callee,
+            ExprOrSuper::Expr(e) => match *e {
+                Expr::Seq(mut seq) => {
+                    if seq.exprs.len() == 1 {
+                        ExprOrSuper::Expr(seq.exprs.into_iter().next().unwrap().fold_with(self))
+                    } else {
+                        match seq.exprs.get(0).map(|v| &**v) {
+                            Some(Expr::Lit(Lit::Num(..))) => {}
+                            _ => {
+                                seq.exprs.insert(
+                                    0,
+                                    Box::new(Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: 0.0,
+                                    }))),
+                                );
+                            }
+                        }
+
+                        ExprOrSuper::Expr(Box::new(Expr::Seq(seq.fold_with(self))))
+                    }
+                }
+                _ => ExprOrSuper::Expr(e.fold_with(self)),
+            },
+        };
+        self.in_callee = old_in_callee;
+
+        CallExpr {
+            callee,
+            args: n.args.fold_with(self),
+            ..n
+        }
+    }
+
     /// Drops unused values
     fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
         let mut e = e.fold_children_with(self);
@@ -1348,6 +1389,18 @@ impl Fold for SimplifyExpr {
 
         for expr in e.exprs {
             match *expr {
+                Expr::Lit(Lit::Num(Number {
+                    span: DUMMY_SP,
+                    value,
+                })) if self.in_callee => {
+                    if value == 0.0 && exprs.is_empty() {
+                        exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 0.0,
+                        }))));
+                    }
+                }
+
                 // Drop side-effect free nodes.
                 Expr::Lit(_) => {}
 
@@ -1371,7 +1424,6 @@ impl Fold for SimplifyExpr {
         }
 
         exprs.push(last_expr);
-        exprs.shrink_to_fit();
 
         self.changed |= len != exprs.len();
 

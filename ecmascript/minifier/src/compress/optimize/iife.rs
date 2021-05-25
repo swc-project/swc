@@ -1,5 +1,9 @@
 use super::Optimizer;
 use crate::compress::optimize::Ctx;
+use crate::util::make_number;
+use fxhash::FxHashMap;
+use std::collections::HashMap;
+use std::mem::replace;
 use std::mem::swap;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -8,6 +12,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::Id;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `negate_iife`.
@@ -141,6 +146,15 @@ impl Optimizer<'_> {
         }
     }
 
+    fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    where
+        N: VisitMutWith<Self>,
+    {
+        let orig_vars = replace(&mut self.vars_for_inlining, vars);
+        n.visit_mut_with(self);
+        self.vars_for_inlining = orig_vars;
+    }
+
     /// Fully inlines iife.
     ///
     /// # Example
@@ -175,43 +189,71 @@ impl Optimizer<'_> {
             return;
         }
 
-        let expr = match e {
+        let call = match e {
             Expr::Call(v) => v,
             _ => return,
         };
 
-        let callee = match &mut expr.callee {
+        let callee = match &mut call.callee {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
-        if expr.args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+        if call.args.iter().any(|arg| match &*arg.expr {
+            Expr::Member(MemberExpr {
+                computed: false, ..
+            }) => false,
+            _ => arg.expr.may_have_side_effects(),
+        }) {
             return;
         }
 
         match callee {
             Expr::Arrow(f) => {
-                // TODO: Improve this.
-                if !f.params.is_empty() {
+                if f.params.iter().any(|param| !param.is_ident()) {
                     return;
                 }
+
+                match &f.body {
+                    BlockStmtOrExpr::BlockStmt(_) => return,
+                    BlockStmtOrExpr::Expr(body) => match &**body {
+                        Expr::Lit(Lit::Num(..)) => {
+                            if self.ctx.in_obj_of_non_computed_member {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    },
+                }
+                let mut inline_map = HashMap::default();
+                for (idx, param) in f.params.iter().enumerate() {
+                    let arg_val = if let Some(arg) = call.args.get(idx) {
+                        arg.expr.clone()
+                    } else {
+                        undefined(DUMMY_SP)
+                    };
+
+                    match param {
+                        Pat::Ident(param) => {
+                            inline_map.insert(param.id.to_id(), arg_val);
+                        }
+                        _ => {}
+                    }
+                }
+
+                self.inline_vars_in_node(&mut f.body, inline_map);
 
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(_) => {
                         // TODO
                     }
                     BlockStmtOrExpr::Expr(body) => {
-                        match &**body {
-                            Expr::Lit(Lit::Num(..)) => {
-                                if self.ctx.in_obj_of_non_computed_member {
-                                    return;
-                                }
-                            }
-                            _ => {}
-                        }
                         self.changed = true;
                         log::trace!("inline: Inlining a call to an arrow function");
-                        *e = *body.take();
+                        *e = Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![Box::new(make_number(DUMMY_SP, 0.0)), body.take()],
+                        });
                         return;
                     }
                 }

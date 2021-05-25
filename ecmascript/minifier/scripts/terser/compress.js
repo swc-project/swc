@@ -106,6 +106,9 @@ async function run_compress_tests() {
                 expect = test.expect_exact;
             }
             fs.writeFileSync(path.join(dir, 'output.js'), expect || '');
+            if (expect) {
+                fs.writeFileSync(path.join(dir, 'output.terser.js'), expect || '');
+            }
             fs.writeFileSync(path.join(dir, 'config.json'), JSON.stringify(test.options, undefined, 4));
             if (test.expect_error && (test.expect || test.expect_exact || test.expect_stdout)) {
                 log("!!! Test cannot have an `expect_error` with other expect clauses\n", {});

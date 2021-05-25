@@ -134,6 +134,9 @@ struct Ctx {
 
     in_tpl_expr: bool,
 
+    /// True while handling callee, except an arrow expression in callee.
+    is_this_aware_callee: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -809,7 +812,18 @@ impl Optimizer<'_> {
                 let mut exprs = seq
                     .exprs
                     .iter_mut()
-                    .filter_map(|expr| self.ignore_return_value(&mut **expr))
+                    .enumerate()
+                    .filter_map(|(idx, expr)| {
+                        let is_injected_zero = match &**expr {
+                            Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
+                            _ => false,
+                        };
+
+                        if idx == 0 && self.ctx.is_this_aware_callee && is_injected_zero {
+                            return Some(*expr.take());
+                        }
+                        self.ignore_return_value(&mut **expr)
+                    })
                     .map(Box::new)
                     .collect::<Vec<_>>();
                 if exprs.len() <= 1 {
@@ -1218,10 +1232,25 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
-        e.callee.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_this_aware_callee: match &e.callee {
+                    ExprOrSuper::Super(_) => false,
+                    ExprOrSuper::Expr(callee) => is_callee_this_aware(&callee),
+                },
+                ..self.ctx
+            };
+            e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
-        // TODO: Prevent inline if callee is unknown.
-        e.args.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_this_aware_callee: false,
+                ..self.ctx
+            };
+            // TODO: Prevent inline if callee is unknown.
+            e.args.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         self.optimize_symbol_call_unsafely(e);
 
@@ -1591,6 +1620,11 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
         self.with_ctx(ctx).handle_stmt_likes(stmts);
+
+        stmts.retain(|s| match s {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
@@ -1632,9 +1666,17 @@ impl VisitMut for Optimizer<'_> {
             let exprs = n
                 .exprs
                 .iter_mut()
+                .enumerate()
                 .identify_last()
-                .filter_map(|(last, expr)| {
-                    if !last {
+                .filter_map(|(last, (idx, expr))| {
+                    let is_injected_zero = match &**expr {
+                        Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
+                        _ => false,
+                    };
+                    let can_remove =
+                        !last && (idx != 0 || !is_injected_zero || !self.ctx.is_this_aware_callee);
+
+                    if can_remove {
                         // If negate_iife is true, it's already handled by
                         // visit_mut_children_with(self) above.
                         if !self.options.negate_iife {
@@ -1752,6 +1794,11 @@ impl VisitMut for Optimizer<'_> {
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         self.with_ctx(ctx).merge_var_decls(stmts);
+
+        stmts.retain(|s| match s {
+            Stmt::Empty(..) => false,
+            _ => true,
+        });
 
         if stmts.len() == 1 {
             match &stmts[0] {
@@ -1946,4 +1993,27 @@ fn is_pure_undefined_or_null(e: &Expr) -> bool {
             Expr::Lit(Lit::Null(..)) => true,
             _ => false,
         }
+}
+
+/// If true, `0` in `(0, foo.bar)()` is preserved.
+fn is_callee_this_aware(callee: &Expr) -> bool {
+    match &*callee {
+        Expr::Arrow(..) => return false,
+        Expr::Seq(s) => return is_callee_this_aware(s.exprs.last().unwrap()),
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => match &**obj {
+            Expr::Ident(obj) => {
+                if &*obj.sym == "consoole" {
+                    return false;
+                }
+            }
+            _ => {}
+        },
+
+        _ => {}
+    }
+
+    true
 }

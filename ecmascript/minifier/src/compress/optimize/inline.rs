@@ -90,17 +90,31 @@ impl Optimizer<'_> {
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
+                            Expr::Arrow(arr) => is_arrow_simple_enough(arr),
                             _ => false,
                         }
                     {
-                        log::trace!(
-                            "inline: Decided to inline '{}{:?}' because it's simple",
-                            i.id.sym,
-                            i.id.span.ctxt
-                        );
-                        if self.options.inline != 0 && !should_preserve {
+                        if self.options.inline != 0
+                            && !should_preserve
+                            && match &**init {
+                                Expr::Arrow(..) => self.options.unused,
+                                _ => true,
+                            }
+                        {
+                            log::trace!(
+                                "inline: Decided to inline '{}{:?}' because it's simple",
+                                i.id.sym,
+                                i.id.span.ctxt
+                            );
+
                             self.lits.insert(i.to_id(), init.take());
                         } else {
+                            log::trace!(
+                                "inline: Decided to copy '{}{:?}' because it's simple",
+                                i.id.sym,
+                                i.id.span.ctxt
+                            );
+
                             self.lits.insert(i.to_id(), init.clone());
                         }
                         return;
@@ -362,6 +376,15 @@ impl Optimizer<'_> {
                 }
                 //
                 if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                    match &*value {
+                        Expr::Lit(Lit::Num(..)) => {
+                            if self.ctx.is_lhs_of_assign {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    }
+
                     self.changed = true;
                     log::trace!("inline: Replacing a variable with cheap expression");
 
@@ -380,4 +403,36 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+}
+
+fn is_arrow_simple_enough(e: &ArrowExpr) -> bool {
+    if e.is_async {
+        return false;
+    }
+
+    fn is_arrow_body_simple_enough(e: &Expr) -> bool {
+        match e {
+            Expr::Ident(..) | Expr::Lit(..) => return true,
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(..),
+                computed: false,
+                ..
+            }) => return true,
+            Expr::Unary(u) => return is_arrow_body_simple_enough(&u.arg),
+
+            Expr::Bin(b) => {
+                return is_arrow_body_simple_enough(&b.left)
+                    && is_arrow_body_simple_enough(&b.right)
+            }
+            _ => {}
+        }
+
+        false
+    }
+    match &e.body {
+        BlockStmtOrExpr::Expr(e) => return is_arrow_body_simple_enough(&e),
+        _ => {}
+    }
+
+    false
 }

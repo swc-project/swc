@@ -410,35 +410,55 @@ impl Optimizer<'_> {
 
     /// Swap lhs and rhs in certain conditions.
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
-        match expr {
-            Expr::Bin(test) => {
-                match test.op {
-                    op!("===")
-                    | op!("!==")
-                    | op!("==")
-                    | op!("!=")
-                    | op!("&")
-                    | op!("^")
-                    | op!("|")
-                    | op!("*") => {}
-                    _ => return,
-                }
+        fn is_supported(op: BinaryOp) -> bool {
+            match op {
+                op!("===")
+                | op!("!==")
+                | op!("==")
+                | op!("!=")
+                | op!("&")
+                | op!("^")
+                | op!("|")
+                | op!("*") => true,
+                _ => false,
+            }
+        }
 
-                match (&*test.left, &*test.right) {
-                    (Expr::Ident(..), Expr::Lit(..))
-                    | (
-                        Expr::Ident(..),
-                        Expr::Unary(UnaryExpr {
-                            op: op!("void"), ..
-                        }),
-                    )
-                    | (Expr::Unary(..), Expr::Lit(..))
-                    | (Expr::Tpl(..), Expr::Lit(..)) => {
-                        self.changed = true;
-                        log::trace!("Swapping operands of binary exprssion");
-                        swap(&mut test.left, &mut test.right);
-                    }
-                    _ => {}
+        fn optimize(op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
+            if !is_supported(op) {
+                return false;
+            }
+
+            match (&*left, &*right) {
+                (Expr::Ident(..), Expr::Lit(..))
+                | (
+                    Expr::Ident(..),
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"), ..
+                    }),
+                )
+                | (
+                    Expr::This(..),
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"), ..
+                    }),
+                )
+                | (Expr::Unary(..), Expr::Lit(..))
+                | (Expr::Tpl(..), Expr::Lit(..)) => {
+                    log::trace!("Swapping operands of binary exprssion");
+                    swap(left, right);
+                    return true;
+                }
+                _ => {}
+            }
+
+            false
+        }
+
+        match expr {
+            Expr::Bin(bin) => {
+                if optimize(bin.op, &mut bin.left, &mut bin.right) {
+                    self.changed = true;
                 }
             }
             _ => {}
