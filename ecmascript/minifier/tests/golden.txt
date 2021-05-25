@@ -1023,6 +1023,7 @@ sequences/issue_2313/input.js
 sequences/lift_sequences_1/input.js
 sequences/lift_sequences_3/input.js
 sequences/lift_sequences_4/input.js
+sequences/lift_sequences_5/input.js
 sequences/lift_sequences_6/input.js
 sequences/limit_1/input.js
 sequences/limit_2/input.js
@@ -1034,6 +1035,7 @@ sequences/negate_iife_for/input.js
 sequences/reassign_const/input.js
 sequences/side_effects/input.js
 sequences/side_effects_cascade_2/input.js
+sequences/unsafe_undefined/input.js
 string_literal/issue_1929/input.js
 string_literal/octal_escape_sequence/input.js
 super/super_can_be_parsed/input.js
