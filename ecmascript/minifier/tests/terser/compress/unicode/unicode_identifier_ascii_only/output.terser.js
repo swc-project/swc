@@ -1,0 +1,1 @@
+var a="hi";var bar="hello";var \u{10000}="testing \u{101111}";
