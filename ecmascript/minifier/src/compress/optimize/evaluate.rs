@@ -451,7 +451,7 @@ impl Optimizer<'_> {
             "toFixed" => {
                 if let Some(precision) = self.eval_as_number(&args[0].expr) {
                     let precision = precision.floor() as usize;
-                    let value = num_to_fixed(num.value, precision);
+                    let value = num_to_fixed(num.value, precision + 1);
 
                     self.changed = true;
                     log::trace!(
