@@ -188,6 +188,8 @@ concat_strings/concat_3/input.js
 concat_strings/concat_4/input.js
 concat_strings/concat_5/input.js
 concat_strings/concat_6/input.js
+concat_strings/concat_7/input.js
+concat_strings/concat_8/input.js
 conditionals/cond_1/input.js
 conditionals/cond_2/input.js
 conditionals/cond_3/input.js
