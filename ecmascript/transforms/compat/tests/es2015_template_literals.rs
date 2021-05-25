@@ -970,3 +970,17 @@ test!(
     ",
     ""
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1742_2,
+    "
+    const obj = {
+      foo() {
+        return this;
+      }
+    }
+    expect(typeof obj.foo`template`).toEqual('function')
+    "
+);
