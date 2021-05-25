@@ -7,6 +7,7 @@ use fxhash::FxHashSet;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {
+    /// `(src, dst)`
     tracked: FxHashSet<(ModuleId, ModuleId)>,
 
     graph: ModuleGraph,
