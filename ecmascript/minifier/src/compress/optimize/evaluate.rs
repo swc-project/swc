@@ -260,14 +260,6 @@ impl Optimizer<'_> {
     }
 
     fn eval_numbers(&mut self, e: &mut Expr) {
-        if !self.options.evaluate {
-            return;
-        }
-
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
-            return;
-        }
-
         if self.options.unsafe_passes && self.options.unsafe_math {
             match e {
                 Expr::Call(CallExpr {
@@ -282,6 +274,11 @@ impl Optimizer<'_> {
                                 sym: js_word!("Number"),
                                 ..
                             }) => {
+                                self.changed = true;
+                                log::trace!(
+                                    "evaluate: Reducing a call to `Number` into an unary operation"
+                                );
+
                                 *e = Expr::Unary(UnaryExpr {
                                     span: *span,
                                     op: op!(unary, "+"),
@@ -294,6 +291,14 @@ impl Optimizer<'_> {
                 }
                 _ => {}
             }
+        }
+
+        if !self.options.evaluate {
+            return;
+        }
+
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+            return;
         }
 
         match e {
