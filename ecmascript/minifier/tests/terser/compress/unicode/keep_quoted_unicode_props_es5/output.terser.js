@@ -1,1 +1,1 @@
-console.log({"Ꞡ":"2139"});
+console.log({ Ꞡ: "2139" });

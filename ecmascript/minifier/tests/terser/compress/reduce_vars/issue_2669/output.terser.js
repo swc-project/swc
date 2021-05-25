@@ -1,1 +1,2 @@
-let foo;console.log(([foo]=["PASS"])&&foo);
+let foo;
+console.log(([foo] = ["PASS"]) && foo);

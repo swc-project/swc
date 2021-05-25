@@ -1,1 +1,2 @@
-eval("let a;");console.log();
+eval("let a;");
+console.log();

@@ -1,1 +1,1 @@
-const{C2:C2=console.log("side effect")}=Object;
+const { C2: C2 = console.log("side effect") } = Object;

@@ -1,1 +1,2 @@
-var foo=123;var obj={foo};
+var foo = 123;
+var obj = { foo };

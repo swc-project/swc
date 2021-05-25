@@ -1,1 +1,2 @@
-var foo;var foobar;
+var foo;
+var foobar;

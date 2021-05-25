@@ -1,1 +1,2 @@
-export function f(){}1;
+export function f() {}
+1;

@@ -1,1 +1,1 @@
-foo||console.log("bar");
+foo || console.log("bar");

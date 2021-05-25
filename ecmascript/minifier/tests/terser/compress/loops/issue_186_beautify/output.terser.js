@@ -1,7 +1,9 @@
 var x = 3;
 
-if (foo()) do {
+if (foo())
     do {
-        alert(x);
-    } while (--x);
-} while (x); else bar();
+        do {
+            alert(x);
+        } while (--x);
+    } while (x);
+else bar();

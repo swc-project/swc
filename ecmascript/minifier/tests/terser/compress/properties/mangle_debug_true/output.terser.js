@@ -1,1 +1,3 @@
-var a={};a._$foo$_="bar";x={_$baz$_:"ban"};
+var a = {};
+a._$foo$_ = "bar";
+x = { _$baz$_: "ban" };

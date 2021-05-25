@@ -1,1 +1,1 @@
-var foo=`foo\n        bar\n        ↂωↂ`;
+var foo = `foo\n        bar\n        ↂωↂ`;

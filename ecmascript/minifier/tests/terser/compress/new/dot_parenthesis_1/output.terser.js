@@ -1,1 +1,1 @@
-console.log(new(Math.random().constructor)instanceof Number);
+console.log(new (Math.random().constructor)() instanceof Number);

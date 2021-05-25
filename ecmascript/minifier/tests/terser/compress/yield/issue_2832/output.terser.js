@@ -1,5 +1,5 @@
 function* gen(i) {
-    const result = yield (x = i, -x);
+    const result = yield ((x = i), -x);
     var x;
     console.log(x);
     console.log(result);

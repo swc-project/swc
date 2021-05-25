@@ -1,1 +1,1 @@
-var x,y;
+var x, y;

@@ -1,1 +1,1 @@
-console.log([{blah:42}].map((({["blah"]:l})=>l)));
+console.log([{ blah: 42 }].map(({ ["blah"]: l }) => l));

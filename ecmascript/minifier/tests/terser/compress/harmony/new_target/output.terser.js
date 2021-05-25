@@ -1,1 +1,2 @@
-new.target;new.target.name;
+new.target;
+new.target.name;

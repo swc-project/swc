@@ -1,1 +1,2 @@
-function a(b,b){}function b({c:test,c:test}){}
+function a(b, b) {}
+function b({ c: test, c: test }) {}

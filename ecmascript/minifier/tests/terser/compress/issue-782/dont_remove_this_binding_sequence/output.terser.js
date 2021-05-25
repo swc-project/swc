@@ -1,1 +1,3 @@
-(0,eval)();logThis();(0,_decorators.logThis)();
+(0, eval)();
+logThis();
+(0, _decorators.logThis)();

@@ -1,1 +1,2 @@
-function f(){}x(),y();
+function f() {}
+x(), y();

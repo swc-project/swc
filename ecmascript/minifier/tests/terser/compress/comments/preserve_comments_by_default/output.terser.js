@@ -1,4 +1,4 @@
-var foo={};
+var foo = {};
 /* @license */
 // @lic
 /**! foo */

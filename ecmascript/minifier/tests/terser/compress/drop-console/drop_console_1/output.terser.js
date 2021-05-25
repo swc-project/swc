@@ -1,1 +1,2 @@
-console.log("foo");console.log.apply(console,arguments);
+console.log("foo");
+console.log.apply(console, arguments);

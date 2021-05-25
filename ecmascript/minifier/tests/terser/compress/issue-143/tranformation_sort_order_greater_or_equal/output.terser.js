@@ -1,1 +1,1 @@
-(a=parseInt("100"))>=a;
+(a = parseInt("100")) >= a;

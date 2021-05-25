@@ -1,1 +1,1 @@
-const mixed=Base?class extends Base{}:class{};
+const mixed = Base ? class extends Base {} : class {};

@@ -1,1 +1,1 @@
-for(;foo();)bar();
+for (; foo(); ) bar();

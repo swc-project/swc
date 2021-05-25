@@ -1,1 +1,3 @@
-unknown&&pass();unknown&&pass();pass();
+unknown && pass();
+unknown && pass();
+pass();

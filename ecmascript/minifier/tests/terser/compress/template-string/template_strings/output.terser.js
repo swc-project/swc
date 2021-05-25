@@ -1,1 +1,4 @@
-``;`xx\`x`;`${foo+2}`;` foo ${bar+`baz ${qux}`}`;
+``;
+`xx\`x`;
+`${foo + 2}`;
+` foo ${bar + `baz ${qux}`}`;

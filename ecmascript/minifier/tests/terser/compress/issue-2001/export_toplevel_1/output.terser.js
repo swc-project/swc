@@ -1,1 +1,2 @@
-export function g(){}export default function h(){}
+export function g() {}
+export default function h() {}

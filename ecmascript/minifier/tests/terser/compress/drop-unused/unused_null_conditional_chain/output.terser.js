@@ -1,1 +1,2 @@
-undefined.i_will_throw;undefined(1);
+undefined.i_will_throw;
+undefined(1);

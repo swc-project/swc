@@ -1,1 +1,1 @@
-console.log(3+ +x);
+console.log(3 + +x);

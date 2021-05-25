@@ -1,1 +1,1 @@
-num=>/\d{11,14}/.test(num);
+(num) => /\d{11,14}/.test(num);

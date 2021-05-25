@@ -1,1 +1,2 @@
-func(a,...rest);func(...all);
+func(a, ...rest);
+func(...all);

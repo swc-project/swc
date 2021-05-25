@@ -1,1 +1,3 @@
-var x={};var y={...x};y.hello="world";
+var x = {};
+var y = { ...x };
+y.hello = "world";

@@ -1,1 +1,4 @@
-(class{});(class NamedClassExpr{});let expr=class AnotherClassExpr{};class C{}
+(class {});
+(class NamedClassExpr {});
+let expr = class AnotherClassExpr {};
+class C {}

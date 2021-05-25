@@ -1,1 +1,2 @@
-var a;console.log(!0);
+var a;
+console.log(!0);

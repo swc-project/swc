@@ -1,1 +1,1 @@
-t?console.log(true):console.log(false);
+t ? console.log(true) : console.log(false);

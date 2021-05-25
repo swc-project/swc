@@ -1,1 +1,1 @@
-console.log("number",false,false,true,true);
+console.log("number", false, false, true, true);

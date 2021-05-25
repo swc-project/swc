@@ -1,1 +1,1 @@
-for(;bar()&&(x(),y(),foo());)baz(),z(),k();
+for (; bar() && (x(), y(), foo()); ) baz(), z(), k();

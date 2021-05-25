@@ -1,1 +1,2 @@
-export function Foo(){}Foo.prototype={};
+export function Foo() {}
+Foo.prototype = {};

@@ -1,1 +1,1 @@
-const goog=goog||{};
+const goog = goog || {};

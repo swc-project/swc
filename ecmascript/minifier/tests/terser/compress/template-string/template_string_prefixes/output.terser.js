@@ -1,1 +1,2 @@
-String.raw`foo`;foo`bar`;
+String.raw`foo`;
+foo`bar`;

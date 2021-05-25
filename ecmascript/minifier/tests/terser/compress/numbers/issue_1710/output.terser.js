@@ -1,1 +1,2 @@
-var x={};console.log((x+=1)+-x);
+var x = {};
+console.log((x += 1) + -x);

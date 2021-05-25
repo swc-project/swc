@@ -1,1 +1,2 @@
-oninstall=e=>false;oninstall=()=>false;
+oninstall = (e) => false;
+oninstall = () => false;

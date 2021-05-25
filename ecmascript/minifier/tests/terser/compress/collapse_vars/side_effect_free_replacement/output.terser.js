@@ -1,1 +1,2 @@
-var b;x(b);
+var b;
+x(b);

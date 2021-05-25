@@ -1,1 +1,1 @@
-f(x+"str","str"+x);
+f(x + "str", "str" + x);

@@ -1,1 +1,2 @@
-var b="PASS";console.log(b);
+var b = "PASS";
+console.log(b);

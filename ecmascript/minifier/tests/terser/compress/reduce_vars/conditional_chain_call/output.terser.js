@@ -1,1 +1,4 @@
-global.a={b:null};let foo="PASS";a.b?.c(foo="FAIL");console.log(foo);
+global.a = { b: null };
+let foo = "PASS";
+a.b?.c((foo = "FAIL"));
+console.log(foo);

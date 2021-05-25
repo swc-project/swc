@@ -1,1 +1,2 @@
-var o={"/rx/":1};console.log(o[/rx/]);
+var o = { "/rx/": 1 };
+console.log(o[/rx/]);

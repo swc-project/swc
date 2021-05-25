@@ -1,1 +1,5 @@
-foo()||bar();bar();bar()||bar();bar();"bar"||bar();
+foo() || bar();
+bar();
+bar() || bar();
+bar();
+"bar" || bar();

@@ -1,1 +1,2 @@
-var o=[];for(var a in o.push("PASS"),o)console.log(o[a]);
+var o = [];
+for (var a in (o.push("PASS"), o)) console.log(o[a]);

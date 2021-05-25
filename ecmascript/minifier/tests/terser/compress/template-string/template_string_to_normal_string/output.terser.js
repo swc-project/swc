@@ -1,1 +1,2 @@
-var foo="This is undefined";var bar="Decimals 1234567890";
+var foo = "This is undefined";
+var bar = "Decimals 1234567890";

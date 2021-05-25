@@ -1,1 +1,2 @@
-class anon extends function(){}{}class named extends function base(){}{}
+class anon extends function () {} {}
+class named extends function base() {} {}

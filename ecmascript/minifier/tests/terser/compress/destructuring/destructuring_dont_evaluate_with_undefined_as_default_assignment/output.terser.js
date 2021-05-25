@@ -1,1 +1,1 @@
-[foo=void 0]=bar;
+[foo = void 0] = bar;

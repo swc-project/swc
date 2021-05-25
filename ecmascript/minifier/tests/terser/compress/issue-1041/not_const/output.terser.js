@@ -1,1 +1,1 @@
-var goog=goog||{};
+var goog = goog || {};

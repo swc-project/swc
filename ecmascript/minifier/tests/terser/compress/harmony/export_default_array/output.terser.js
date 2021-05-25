@@ -1,1 +1,1 @@
-export default[3,foo];
+export default [3, foo];

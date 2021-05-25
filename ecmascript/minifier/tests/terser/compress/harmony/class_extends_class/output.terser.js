@@ -1,1 +1,2 @@
-class anon extends class{}{}class named extends class base{}{}
+class anon extends class {} {}
+class named extends class base {} {}
