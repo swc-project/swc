@@ -5434,3 +5434,48 @@ test_exec!(
   new Foo();
   "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1742_3,
+    "
+    class Foo {
+      #tag() {
+        return this;
+      }
+      
+      #tag2 = this.#tag;
+
+      constructor() {
+        const receiver = this.#tag`tagged template`;
+        expect(receiver).toBe(this);
+
+        const receiver2 = this.#tag2`tagged template`;
+        expect(receiver2).toBe(this);
+      }
+    }
+    new Foo();
+    ",
+    "
+    var _tag = new WeakSet();
+    class Foo {
+        constructor(){
+            _tag.add(this);
+            _tag2.set(this, {
+                writable: true,
+                value: _classPrivateMethodGet(this, _tag, tag)
+            });
+            const receiver = _classPrivateMethodGet(this, _tag, tag).bind(this)`tagged template`;
+            expect(receiver).toBe(this);
+            const receiver2 = _classPrivateFieldGet(this, _tag2).bind(this)`tagged template`;
+            expect(receiver2).toBe(this);
+        }
+    }
+    var _tag2 = new WeakMap();
+    function tag() {
+        return this;
+    }
+    new Foo();
+    "
+);
