@@ -17,8 +17,8 @@
     </a>
 </p>
 <p align="center">
-   <a href="https://travis-ci.com/github/swc-project/swc">
-      <img alt="Travis Status" src="https://img.shields.io/travis/swc-project/swc/master.svg?label=travis&maxAge=43200">
+   <a href="https://github.com/swc-project/swc/actions/workflows/cargo.yml">
+      <img alt="CI Status" src="https://github.com/swc-project/swc/actions/workflows/cargo.yml/badge.svg?event=push">
    </a>
    <a href="https://codecov.io/gh/swc-project/swc">
       <img alt="Coverage" src="https://codecov.io/gh/swc-project/swc/branch/master/graph/badge.svg">
@@ -58,9 +58,9 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
-- [Slackin for swc](https://swc-slackin.herokuapp.com)
-- Giving funds by becoming a sponsor (see below)!
+-   Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
+-   [Slackin for swc](https://swc-slackin.herokuapp.com)
+-   Giving funds by becoming a sponsor (see below)!
 
 ## Open Collective Sponsors
 
