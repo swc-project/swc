@@ -1535,6 +1535,10 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_init_of_for_stmt(s);
 
         self.drop_if_break(s);
+
+        if let Some(test) = &mut s.test {
+            self.optimize_expr_in_bool_ctx(test);
+        }
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -1948,11 +1952,15 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
-        let ctx = Ctx {
-            executed_multiple_time: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                executed_multiple_time: true,
+                ..self.ctx
+            };
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {
