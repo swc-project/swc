@@ -1913,13 +1913,28 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
-        let ctx = Ctx {
-            is_update_arg: false,
-            has_const_ann: self.has_const_ann(n.span),
-            ..self.ctx
-        };
+        {
+            let ctx = Ctx {
+                is_update_arg: false,
+                has_const_ann: self.has_const_ann(n.span),
+                ..self.ctx
+            };
 
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        if n.kind == VarDeclKind::Let {
+            n.decls.iter_mut().for_each(|var| {
+                if let Some(e) = &var.init {
+                    if is_pure_undefined(e) {
+                        self.changed = true;
+                        log::trace!("Dropping explicit initializer which evaluates to `undefined`");
+
+                        var.init = None;
+                    }
+                }
+            });
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
