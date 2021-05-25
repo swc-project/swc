@@ -416,7 +416,7 @@ impl Optimizer<'_> {
 
     /// Evaluates method calls of a numeric constant.
     fn eval_number_method_call(&mut self, e: &mut Expr) {
-        if self.options.evaluate {
+        if !self.options.evaluate {
             return;
         }
 
@@ -433,7 +433,7 @@ impl Optimizer<'_> {
                     ..
                 }) => match &mut **obj {
                     Expr::Lit(Lit::Num(obj)) => match &mut **prop {
-                        Expr::Ident(i) => (obj, i, args),
+                        Expr::Ident(prop) => (obj, prop, args),
                         _ => return,
                     },
                     _ => return,
