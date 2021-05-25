@@ -1106,6 +1106,7 @@ template_string/template_strings_without_ascii_only/input.js
 template_string/template_with_newline/input.js
 transform/booleans_evaluate/input.js
 transform/booleans_global_defs/input.js
+transform/condition_evaluate/input.js
 transform/if_else_empty/input.js
 try_catch/issue_452/input.js
 try_catch/parameterless_catch/input.js
