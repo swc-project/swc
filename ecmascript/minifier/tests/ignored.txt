@@ -155,8 +155,6 @@ collapse_vars/var_side_effects_3/input.js
 comparing/issue_2857_6/input.js
 comparing/keep_comparisons_with_unsafe_comps/input.js
 comparing/self_comparison_1/input.js
-concat_strings/concat_7/input.js
-concat_strings/concat_8/input.js
 conditionals/cond_7_1/input.js
 conditionals/cond_9/input.js
 conditionals/equality_conditionals_true/input.js
