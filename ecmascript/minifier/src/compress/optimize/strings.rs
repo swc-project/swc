@@ -29,6 +29,54 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
+        if !self.options.unsafe_passes {
+            return;
+        }
+
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+                    return;
+                }
+
+                match &**callee {
+                    Expr::Ident(Ident {
+                        sym: js_word!("RegExp"),
+                        ..
+                    }) => {
+                        if args.len() != 1 {
+                            return;
+                        }
+
+                        self.optimize_expr_in_str_ctx(&mut args[0].expr);
+
+                        match &*args[0].expr {
+                            Expr::Lit(Lit::Str(..)) => {
+                                self.changed = true;
+                                log::trace!(
+                                    "strings: Unsafely reduced `RegExp` call in a string context"
+                                );
+
+                                *e = *args[0].expr.take();
+                                return;
+                            }
+
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
+            _ => {}
+        }
+    }
+
     /// Convert expressions to string literal if possible.
     pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
         match n {

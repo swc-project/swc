@@ -234,8 +234,24 @@ impl Optimizer<'_> {
 
                             *e = Expr::Array(ArrayLit { span, elems: keys })
                         }
+
                         _ => {}
                     },
+
+                    Expr::Ident(Ident { sym, .. }) => match &**sym {
+                        "console" => match &*prop.sym {
+                            "log" => {
+                                for arg in args {
+                                    self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
+                                }
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    },
+
                     _ => {}
                 }
             }
