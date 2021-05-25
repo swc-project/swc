@@ -339,6 +339,7 @@ evaluate/issue_1760_1/input.js
 evaluate/issue_1760_2/input.js
 evaluate/issue_1964_1/input.js
 evaluate/issue_1964_2/input.js
+evaluate/issue_2207_1/input.js
 evaluate/issue_2207_2/input.js
 evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
@@ -733,6 +734,7 @@ numbers/issue_1710/input.js
 numbers/keep_numbers/input.js
 numbers/keep_numbers_in_properties_as_is/input.js
 numbers/no_number_function_transform_without_unsafe_math/input.js
+numbers/number_function_transform_with_unsafe_math/input.js
 numbers/numeric_separators/input.js
 numbers/unary_binary_parenthesis/input.js
 object/allow_assignments_to_property_values/input.js
