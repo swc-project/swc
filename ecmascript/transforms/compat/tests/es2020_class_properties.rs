@@ -5,7 +5,7 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
-    es2015::{arrow, block_scoping, classes, function_name},
+    es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentation,
     es2017::async_to_generator,
     es2020::{class_properties, typescript_class_properties},
@@ -5385,4 +5385,52 @@ test!(
         return 1;
     }
     "
+);
+
+test_exec!(
+    syntax(),
+    |_| class_properties(),
+    issue_1742_1,
+    "
+    class Foo {
+      #tag() {
+        return this;
+      }
+      
+      #tag2 = this.#tag;
+
+      constructor() {
+        const receiver = this.#tag`tagged template`;
+        expect(receiver).toBe(this);
+
+        const receiver2 = this.#tag2`tagged template`;
+        expect(receiver2).toBe(this);
+      }
+    }
+    new Foo();
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| chain!(class_properties(), template_literal()),
+    issue_1742_2,
+    "
+  class Foo {
+    #tag() {
+      return this;
+    }
+    
+    #tag2 = this.#tag;
+
+    constructor() {
+      const receiver = this.#tag`tagged template`;
+      expect(receiver).toBe(this);
+
+      const receiver2 = this.#tag2`tagged template`;
+      expect(receiver2).toBe(this);
+    }
+  }
+  new Foo();
+  "
 );
