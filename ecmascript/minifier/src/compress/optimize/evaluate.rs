@@ -107,14 +107,16 @@ impl Optimizer<'_> {
             return;
         }
 
-        let (callee, args) = match e {
+        let (span, callee, args) = match e {
             Expr::Call(CallExpr {
+                span,
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
-            }) => (callee, args),
+            }) => (span, callee, args),
             _ => return,
         };
+        let span = *span;
 
         //
 
@@ -180,6 +182,57 @@ impl Optimizer<'_> {
                             if args.len() != 1 {
                                 return;
                             }
+
+                            let obj = match &*args[0].expr {
+                                Expr::Object(obj) => obj,
+                                _ => return,
+                            };
+
+                            let mut keys = vec![];
+
+                            for prop in &obj.props {
+                                match prop {
+                                    PropOrSpread::Spread(_) => return,
+                                    PropOrSpread::Prop(p) => match &**p {
+                                        Prop::Shorthand(p) => {
+                                            keys.push(Some(ExprOrSpread {
+                                                spread: None,
+                                                expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                    span: p.span,
+                                                    value: p.sym.clone(),
+                                                    has_escape: false,
+                                                    kind: Default::default(),
+                                                }))),
+                                            }));
+                                        }
+                                        Prop::KeyValue(p) => match &p.key {
+                                            PropName::Ident(key) => {
+                                                keys.push(Some(ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                                        span: key.span,
+                                                        value: key.sym.clone(),
+                                                        has_escape: false,
+                                                        kind: Default::default(),
+                                                    }))),
+                                                }));
+                                            }
+                                            PropName::Str(key) => {
+                                                keys.push(Some(ExprOrSpread {
+                                                    spread: None,
+                                                    expr: Box::new(Expr::Lit(Lit::Str(
+                                                        key.clone(),
+                                                    ))),
+                                                }));
+                                            }
+                                            _ => return,
+                                        },
+                                        _ => return,
+                                    },
+                                }
+                            }
+
+                            *e = Expr::Array(ArrayLit { span, elems: keys })
                         }
                         _ => {}
                     },
