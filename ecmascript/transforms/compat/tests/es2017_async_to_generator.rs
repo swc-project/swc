@@ -2518,3 +2518,97 @@ test!(
     }
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1684_1,
+    "
+    const cache = {}
+
+    async function getThing(key) {
+      const it = cache[key] || (await fetchThing(key))
+      return it
+    }
+
+    function fetchThing(key) {
+      return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
+    }
+    ",
+    "
+    const cache = {
+    };
+    function _getThing() {
+        _getThing = _asyncToGenerator(function*(key) {
+            const it = cache[key] || (yield fetchThing(key));
+            return it;
+        });
+        return _getThing.apply(this, arguments);
+    }
+    function getThing(key) {
+        return _getThing.apply(this, arguments);
+    }
+    function fetchThing(key) {
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+        );
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(async_to_generator(), regenerator(top_level_mark))
+    },
+    issue_1684_2,
+    "
+    const cache = {}
+
+    async function getThing(key) {
+      const it = cache[key] || (await fetchThing(key))
+      return it
+    }
+
+    function fetchThing(key) {
+      return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    var _marked = regeneratorRuntime.mark(_getThing);
+    const cache = {
+    };
+    function _getThing() {
+        _getThing = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key) {
+            var it;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.t0 = cache[key];
+                        if (_ctx.t0) {
+                            _ctx.next = 4;
+                            break;
+                        }
+                        _ctx.next = 4;
+                        return fetchThing(key);
+                    case 4:
+                        it = _ctx.t0;
+                        return _ctx.abrupt('return', it);
+                    case 6:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }));
+        return _getThing.apply(this, arguments);
+    }
+    function getThing(key) {
+        return _getThing.apply(this, arguments);
+    }
+    function fetchThing(key) {
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+        );
+    }
+    "
+);
