@@ -1,12 +1,12 @@
 function f(a, b, c) {
     console.log(
-        (b, a == a),
+        a == a,
         a == (b ? a : c),
-        (b, a != a),
+        a != a,
         a != (b ? a : c),
-        (b, a === a),
+        a === a,
         a === (b ? a : c),
-        (b, a !== a),
+        a !== a,
         a !== (b ? a : c)
     );
 }
