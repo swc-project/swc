@@ -268,6 +268,34 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.options.unsafe_passes && self.options.unsafe_math {
+            match e {
+                Expr::Call(CallExpr {
+                    span,
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                    ..
+                }) => {
+                    if args.len() == 1 && args[0].spread.is_none() {
+                        match &**callee {
+                            Expr::Ident(Ident {
+                                sym: js_word!("Number"),
+                                ..
+                            }) => {
+                                *e = Expr::Unary(UnaryExpr {
+                                    span: *span,
+                                    op: op!(unary, "+"),
+                                    arg: args.take().into_iter().next().unwrap().expr,
+                                });
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+
         match e {
             Expr::Call(..) => {
                 if let Some(value) = self.eval_as_number(&e) {
