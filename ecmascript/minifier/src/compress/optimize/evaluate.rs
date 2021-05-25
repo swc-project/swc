@@ -24,7 +24,7 @@ impl Optimizer<'_> {
         self.eval_numbers(e);
         self.eval_number_method_call(e);
 
-        self.eval_string_static_method_call(e);
+        self.eval_known_static_method_call(e);
         self.eval_str_method_call(e);
 
         self.eval_array_method_call(e);
@@ -96,8 +96,9 @@ impl Optimizer<'_> {
         }
     }
 
-    /// Handle calls on `String` class, like `String.`
-    fn eval_string_static_method_call(&mut self, e: &mut Expr) {
+    /// Handle calls on some static classes.
+    /// e.g. `String.fromCharCode`, `Object.keys()`
+    fn eval_known_static_method_call(&mut self, e: &mut Expr) {
         if !self.options.evaluate {
             return;
         }
