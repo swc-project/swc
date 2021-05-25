@@ -107,71 +107,82 @@ impl Optimizer<'_> {
             return;
         }
 
-        match e {
+        let (callee, args) = match e {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
                 args,
                 ..
+            }) => (callee, args),
+            _ => return,
+        };
+
+        //
+
+        for arg in &*args {
+            if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                return;
+            }
+        }
+
+        match &**callee {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
             }) => {
-                //
+                let prop = match &**prop {
+                    Expr::Ident(i) => i,
+                    _ => return,
+                };
 
-                for arg in &*args {
-                    if arg.spread.is_some() || arg.expr.may_have_side_effects() {
-                        return;
-                    }
-                }
-
-                match &**callee {
-                    Expr::Member(MemberExpr {
-                        obj: ExprOrSuper::Expr(obj),
-                        prop,
-                        computed: false,
+                match &**obj {
+                    Expr::Ident(Ident {
+                        sym: js_word!("String"),
                         ..
-                    }) => {
-                        let prop = match &**prop {
-                            Expr::Ident(i) => i,
-                            _ => return,
-                        };
+                    }) => match &*prop.sym {
+                        "fromCharCode" => {
+                            if args.len() != 1 {
+                                return;
+                            }
 
-                        match &**obj {
-                            Expr::Ident(Ident {
-                                sym: js_word!("String"),
-                                ..
-                            }) => match &*prop.sym {
-                                "fromCharCode" => {
-                                    if args.len() != 1 {
+                            if let Known(char_code) = args[0].expr.as_number() {
+                                let v = char_code.floor() as u32;
+
+                                match char::from_u32(v) {
+                                    Some(v) => {
+                                        self.changed = true;
+                                        log::trace!(
+                                            "evanluate: Evaluated `String.charCodeAt({})` as `{}`",
+                                            char_code,
+                                            v
+                                        );
+                                        *e = Expr::Lit(Lit::Str(Str {
+                                            span: e.span(),
+                                            value: v.to_string().into(),
+                                            has_escape: false,
+                                            kind: Default::default(),
+                                        }));
                                         return;
                                     }
-
-                                    if let Known(char_code) = args[0].expr.as_number() {
-                                        let v = char_code.floor() as u32;
-
-                                        match char::from_u32(v) {
-                                            Some(v) => {
-                                                self.changed = true;
-                                                log::trace!(
-                                                    "evanluate: Evaluated `String.charCodeAt({})` \
-                                                     as `{}`",
-                                                    char_code,
-                                                    v
-                                                );
-                                                *e = Expr::Lit(Lit::Str(Str {
-                                                    span: e.span(),
-                                                    value: v.to_string().into(),
-                                                    has_escape: false,
-                                                    kind: Default::default(),
-                                                }));
-                                                return;
-                                            }
-                                            None => {}
-                                        }
-                                    }
+                                    None => {}
                                 }
-                                _ => {}
-                            },
-                            _ => {}
+                            }
                         }
-                    }
+                        _ => {}
+                    },
+
+                    Expr::Ident(Ident {
+                        sym: js_word!("Object"),
+                        ..
+                    }) => match &*prop.sym {
+                        "keys" => {
+                            if args.len() != 1 {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    },
                     _ => {}
                 }
             }
