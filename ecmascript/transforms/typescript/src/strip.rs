@@ -583,7 +583,7 @@ impl Strip {
             e: &TsEnumDecl,
             span: Span,
             values: &mut EnumValues,
-            default: Option<i32>,
+            default: Option<i64>,
             init: Option<&Expr>,
         ) -> Result<TsLit, ()> {
             fn compute_bin(
@@ -747,7 +747,7 @@ impl Strip {
                 .map(|val| {
                     match val {
                         TsLit::Number(n) => {
-                            default = n.value as i32 + 1;
+                            default = n.value as i64 + 1;
                         }
                         _ => {}
                     }
