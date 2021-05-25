@@ -990,6 +990,8 @@ regexp/regexp_1/input.js
 regexp/regexp_2/input.js
 regexp/regexp_simple/input.js
 regexp/regexp_slashes/input.js
+rename/function_catch_catch/input.js
+rename/issue_2120_1/input.js
 rename/issue_2120_2/input.js
 rename/mangle_catch/input.js
 rename/mangle_catch_ie8/input.js

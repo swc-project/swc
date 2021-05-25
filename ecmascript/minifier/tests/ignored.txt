@@ -931,6 +931,11 @@ reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
+rename/function_catch_catch_ie8/input.js
+rename/function_iife_catch/input.js
+rename/function_iife_catch_ie8/input.js
+rename/mangle_catch_var/input.js
+rename/mangle_catch_var_ie8/input.js
 return_undefined/return_undefined/input.js
 sequences/call/input.js
 sequences/cascade_assignment_in_return/input.js
