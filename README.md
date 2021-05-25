@@ -17,8 +17,8 @@
     </a>
 </p>
 <p align="center">
-   <a href="https://travis-ci.com/github/swc-project/swc">
-      <img alt="Travis Status" src="https://img.shields.io/travis/swc-project/swc/master.svg?label=travis&maxAge=43200">
+   <a href="https://github.com/swc-project/swc/actions/workflows/cargo.yml">
+      <img alt="CI Status" src="https://github.com/swc-project/swc/actions/workflows/cargo.yml/badge.svg?event=push">
    </a>
    <a href="https://codecov.io/gh/swc-project/swc">
       <img alt="Coverage" src="https://codecov.io/gh/swc-project/swc/branch/master/graph/badge.svg">
@@ -58,9 +58,9 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
-- [Slackin for swc](https://swc-slackin.herokuapp.com)
-- Giving funds by becoming a sponsor (see below)!
+-   Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
+-   [Slackin for swc](https://swc-slackin.herokuapp.com)
+-   Giving funds by becoming a sponsor (see below)!
 
 ## Open Collective Sponsors
 
@@ -68,17 +68,17 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 <h2 id="gold-sponsers" align="center">Gold Sponsors</h2>
 <a href="https://opencollective.com/swc">
-    <img src="https://opencollective.com/swc/tiers/gold-sponsers.svg?avatarHeight=64">
+    <img src="https://opencollective.com/swc/tiers/gold-sponsors.svg?avatarHeight=64">
 </a>
 
 <h2 id="silver-sponsers" align="center">Silver Sponsors</h2>
 <a href="https://opencollective.com/swc">
-    <img src="https://opencollective.com/swc/tiers/silver-sponsers.svg?avatarHeight=64">
+    <img src="https://opencollective.com/swc/tiers/silver-sponsors.svg?avatarHeight=64">
 </a>
 
 <h2 id="bronze-sponsers" align="center">Bronze Sponsors</h2>
 <a href="https://opencollective.com/swc">
-    <img src="https://opencollective.com/swc/tiers/bronze-sponsers.svg?avatarHeight=64">
+    <img src="https://opencollective.com/swc/tiers/bronze-sponsors.svg?avatarHeight=64">
 </a>
 
 <h2 id="backers" align="center">Backers</h2>

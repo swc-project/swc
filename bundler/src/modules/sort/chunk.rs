@@ -72,6 +72,11 @@ fn toposort_real_modules<'a>(
 
     let mut chunks = vec![];
 
+    log::debug!(
+        "Topologically sorting modules based on the dependency graph: ({} items)",
+        modules.len()
+    );
+
     let start = Instant::now();
     let sorted_ids = toposort_real_module_ids(queue, graph, &cycles).collect::<Vec<_>>();
     let end = Instant::now();
