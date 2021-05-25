@@ -97,7 +97,11 @@ where
 
             // Prevent infinite loops.
             if builder.tracked.insert((module_id, src.module_id)) {
+                dbg!(&path, src.module_id, cycle_rpos);
+
                 self.add_to_graph(builder, src.module_id, path);
+            } else {
+                dbg!(&path, src.module_id, cycle_rpos);
             }
         }
 
