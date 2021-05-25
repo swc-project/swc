@@ -966,7 +966,7 @@ test!(
     function foo() {
       return this;
     }
-    foo#`template`
+    foo`template`
     ",
     ""
 );
