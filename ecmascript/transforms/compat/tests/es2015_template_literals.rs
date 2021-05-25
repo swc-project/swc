@@ -968,7 +968,21 @@ test!(
     }
     foo`template`
     ",
-    ""
+    "
+    function _templateObject() {
+      const data = _taggedTemplateLiteral([
+          'template'
+      ]);
+      _templateObject = function() {
+          return data;
+      };
+      return data;
+    }
+    function foo() {
+        return this;
+    }
+    foo(_templateObject());
+    "
 );
 
 test_exec!(
@@ -981,6 +995,6 @@ test_exec!(
         return this;
       }
     }
-    expect(typeof obj.foo`template`).toEqual('function')
+    expect(typeof obj.foo`template`).toEqual('object')
     "
 );
