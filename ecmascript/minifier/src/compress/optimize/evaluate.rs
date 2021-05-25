@@ -22,6 +22,7 @@ impl Optimizer<'_> {
         self.eval_global_vars(e);
 
         self.eval_numbers(e);
+        self.eval_number_method_call(e);
 
         self.eval_string_static_method_call(e);
         self.eval_str_method_call(e);
@@ -409,6 +410,45 @@ impl Optimizer<'_> {
                 }
             }
 
+            _ => {}
+        }
+    }
+
+    /// Evaluates method calls of a numeric constant.
+    fn eval_number_method_call(&mut self, e: &mut Expr) {
+        if self.options.evaluate {
+            return;
+        }
+
+        let (num, method, args) = match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => match &mut **callee {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(obj),
+                    prop,
+                    computed: false,
+                    ..
+                }) => match &mut **obj {
+                    Expr::Lit(Lit::Num(obj)) => match &mut **prop {
+                        Expr::Ident(i) => (obj, i, args),
+                        _ => return,
+                    },
+                    _ => return,
+                },
+                _ => return,
+            },
+            _ => return,
+        };
+
+        if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+            return;
+        }
+
+        match &*method.sym {
+            "toFixed" => {}
             _ => {}
         }
     }
