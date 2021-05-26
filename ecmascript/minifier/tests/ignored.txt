@@ -673,16 +673,6 @@ numbers/evaluate_2/input.js
 numbers/evaluate_3/input.js
 numbers/evaluate_4/input.js
 numbers/hex_numbers_in_parentheses_for_prototype_functions/input.js
-object/concise_method_to_prop_arrow/input.js
-object/concise_methods_and_mangle_props/input.js
-object/dont_join_repeat_object_keys/input.js
-object/getter_setter_mangler/input.js
-object/prop_arrow_with_nested_this/input.js
-object/prop_arrow_with_this/input.js
-object/prop_func_to_async_concise_method/input.js
-object/prop_func_to_concise_method/input.js
-object/prop_func_to_concise_method_various/input.js
-object/shorthand_properties/input.js
 parameters/default_arguments/input.js
 parameters/destructuring_arguments_3/input.js
 properties/computed_property/input.js
