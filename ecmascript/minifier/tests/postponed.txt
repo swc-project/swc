@@ -1,3 +1,6 @@
+arrays/constant_join/input.js
+arrays/constant_join_2/input.js
+arrays/constant_join_3/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
