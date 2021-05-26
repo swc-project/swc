@@ -422,6 +422,8 @@ impl Optimizer<'_> {
                 return;
             }
 
+            // TODO: Partial join
+
             return;
         }
 
