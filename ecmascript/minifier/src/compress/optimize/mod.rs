@@ -424,6 +424,66 @@ impl Optimizer<'_> {
 
             // TODO: Partial join
 
+            if arr
+                .elems
+                .iter()
+                .filter_map(|v| v.as_ref())
+                .any(|v| match &*v.expr {
+                    e if is_pure_undefined(e) => false,
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
+                        _ => true,
+                    },
+                    // This can change behavior
+                    Expr::Ident(..) => false,
+                    _ => true,
+                })
+            {
+                return;
+            }
+
+            let sep = Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: separator,
+                has_escape: false,
+                kind: Default::default(),
+            })));
+            let mut res = Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: js_word!(""),
+                has_escape: false,
+                kind: Default::default(),
+            }));
+
+            fn add(to: &mut Expr, right: Box<Expr>) {
+                let lhs = to.take();
+                *to = Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(lhs),
+                    op: op!(bin, "+"),
+                    right,
+                });
+            }
+
+            for (last, elem) in arr.elems.take().into_iter().identify_last() {
+                match elem {
+                    Some(ExprOrSpread { spread: None, expr }) => match &*expr {
+                        e if is_pure_undefined(e) => {}
+                        Expr::Lit(Lit::Null(..)) => {}
+                        _ => {
+                            add(&mut res, expr);
+                        }
+                    },
+                    _ => {}
+                }
+
+                if !last {
+                    add(&mut res, sep.clone());
+                }
+            }
+
+            *e = res;
+
             return;
         }
 
