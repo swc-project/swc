@@ -424,23 +424,21 @@ impl Optimizer<'_> {
                 has_escape: false,
                 kind: Default::default(),
             })));
-            let mut res = None;
+            let mut res = Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: js_word!(""),
+                has_escape: false,
+                kind: Default::default(),
+            }));
 
-            fn add(to: &mut Option<Expr>, right: Box<Expr>) {
-                match to {
-                    Some(expr) => {
-                        let lhs = expr.take();
-                        *expr = Expr::Bin(BinExpr {
-                            span: DUMMY_SP,
-                            left: Box::new(lhs),
-                            op: op!(bin, "+"),
-                            right,
-                        });
-                    }
-                    None => {
-                        *to = Some(*right);
-                    }
-                }
+            fn add(to: &mut Expr, right: Box<Expr>) {
+                let lhs = to.take();
+                *to = Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(lhs),
+                    op: op!(bin, "+"),
+                    right,
+                });
             }
 
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
@@ -456,14 +454,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            *e = res.unwrap_or_else(|| {
-                Expr::Lit(Lit::Str(Str {
-                    span: call.span(),
-                    value: js_word!(""),
-                    has_escape: false,
-                    kind: Default::default(),
-                }))
-            });
+            *e = res;
 
             return;
         }
