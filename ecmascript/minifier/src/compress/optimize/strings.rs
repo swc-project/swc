@@ -446,4 +446,15 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+
+    pub(super) fn optimize_array_join(&mut self, e: &mut Expr) {
+        let (callee, args) = match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => (&mut **callee, args),
+            _ => return,
+        };
+    }
 }
