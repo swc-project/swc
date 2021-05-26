@@ -385,33 +385,31 @@ impl Optimizer<'_> {
             }) => match obj {
                 ExprOrSuper::Super(_) => return,
                 ExprOrSuper::Expr(obj) => match &mut **obj {
-                    Expr::Array(arr) => {
-                        if arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
-                            v.spread.is_some()
-                                || match &*v.expr {
-                                    e if is_pure_undefined(e) => false,
-                                    Expr::Lit(lit) => match lit {
-                                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                                        _ => true,
-                                    },
-                                    _ => true,
-                                }
-                        }) {
-                            return;
-                        }
-
-                        match &**prop {
-                            Expr::Ident(i) if i.sym == *"join" => {}
-                            _ => return,
-                        }
-
-                        arr
-                    }
+                    Expr::Array(arr) => match &**prop {
+                        Expr::Ident(i) if i.sym == *"join" => arr,
+                        _ => return,
+                    },
                     _ => return,
                 },
             },
             _ => return,
         };
+
+        let cannot_join_as_str_lit = arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
+            v.spread.is_some()
+                || match &*v.expr {
+                    e if is_pure_undefined(e) => false,
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
+                        _ => true,
+                    },
+                    _ => true,
+                }
+        });
+
+        if cannot_join_as_str_lit {
+            return;
+        }
 
         let mut res = String::new();
         for (last, elem) in arr.elems.iter().identify_last() {
