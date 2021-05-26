@@ -223,6 +223,7 @@ fn fixture(input: PathBuf) {
                 )
             }
 
+            println!("{}", input.display());
             let actual = String::from_utf8_lossy(&output.stdout);
             assert_eq!(
                 DebugUsingDisplay(&actual),
