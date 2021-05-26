@@ -345,28 +345,28 @@ impl Optimizer<'_> {
         // Now we can compress it to an assigment
     }
 
-    fn compress_array_join(&mut self, n: &mut Expr) {
-        let e = match n {
+    fn compress_array_join(&mut self, e: &mut Expr) {
+        let call = match e {
             Expr::Call(e) => e,
             _ => return,
         };
 
-        let callee = match &mut e.callee {
+        let callee = match &mut call.callee {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(callee) => &mut **callee,
         };
 
-        let separator = if e.args.is_empty() {
+        let separator = if call.args.is_empty() {
             ",".into()
-        } else if e.args.len() == 1 {
-            if e.args[0].spread.is_some() {
+        } else if call.args.len() == 1 {
+            if call.args[0].spread.is_some() {
                 return;
             }
 
-            if is_pure_undefined(&e.args[0].expr) {
+            if is_pure_undefined(&call.args[0].expr) {
                 ",".into()
             } else {
-                match &*e.args[0].expr {
+                match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
                     Expr::Lit(Lit::Null(..)) => js_word!("null"),
                     _ => return,
@@ -395,19 +395,76 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        let cannot_join_as_str_lit = arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
-            v.spread.is_some()
-                || match &*v.expr {
-                    e if is_pure_undefined(e) => false,
-                    Expr::Lit(lit) => match lit {
-                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                        _ => true,
-                    },
+        if arr.elems.iter().any(|elem| match elem {
+            Some(ExprOrSpread {
+                spread: Some(..), ..
+            }) => true,
+            _ => false,
+        }) {
+            return;
+        }
+
+        let cannot_join_as_str_lit = arr
+            .elems
+            .iter()
+            .filter_map(|v| v.as_ref())
+            .any(|v| match &*v.expr {
+                e if is_pure_undefined(e) => false,
+                Expr::Lit(lit) => match lit {
+                    Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
                     _ => true,
-                }
-        });
+                },
+                _ => true,
+            });
 
         if cannot_join_as_str_lit {
+            let sep = Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: separator,
+                has_escape: false,
+                kind: Default::default(),
+            })));
+            let mut res = None;
+
+            fn add(to: &mut Option<Expr>, right: Box<Expr>) {
+                match to {
+                    Some(expr) => {
+                        let lhs = expr.take();
+                        *expr = Expr::Bin(BinExpr {
+                            span: DUMMY_SP,
+                            left: Box::new(lhs),
+                            op: op!(bin, "+"),
+                            right,
+                        });
+                    }
+                    None => {
+                        *to = Some(*right);
+                    }
+                }
+            }
+
+            for (last, elem) in arr.elems.take().into_iter().identify_last() {
+                match elem {
+                    Some(ExprOrSpread { spread: None, expr }) => {
+                        add(&mut res, expr);
+                    }
+                    _ => {}
+                }
+
+                if !last {
+                    add(&mut res, sep.clone());
+                }
+            }
+
+            *e = res.unwrap_or_else(|| {
+                Expr::Lit(Lit::Str(Str {
+                    span: call.span(),
+                    value: js_word!(""),
+                    has_escape: false,
+                    kind: Default::default(),
+                }))
+            });
+
             return;
         }
 
@@ -442,8 +499,8 @@ impl Optimizer<'_> {
         log::trace!("Compressing array.join()");
 
         self.changed = true;
-        *n = Expr::Lit(Lit::Str(Str {
-            span: e.span,
+        *e = Expr::Lit(Lit::Str(Str {
+            span: call.span,
             value: res.into(),
             has_escape: false,
             kind: Default::default(),
