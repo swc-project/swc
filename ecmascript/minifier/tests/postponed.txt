@@ -1,3 +1,9 @@
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
+template_string/array_join/input.js
+template_string/coerce_to_string/input.js
+template_string/side_effects/input.js
+template_string/tagged_template_function_inline_5/input.js
+template_string/template_concattenating_string/input.js
+template_string/template_string_with_predefined_constants/input.js
