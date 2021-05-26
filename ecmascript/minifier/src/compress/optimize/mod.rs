@@ -95,6 +95,8 @@ struct Ctx {
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
 
+    var_kind: Option<VarDeclKind>,
+
     /// `true` if we should not inline values.
     inline_prevented: bool,
     /// `true` if we are in the strict mode. This will be set to `true` for
@@ -1918,6 +1920,7 @@ impl VisitMut for Optimizer<'_> {
             let ctx = Ctx {
                 is_update_arg: false,
                 has_const_ann: self.has_const_ann(n.span),
+                var_kind: Some(n.kind),
                 ..self.ctx
             };
 
