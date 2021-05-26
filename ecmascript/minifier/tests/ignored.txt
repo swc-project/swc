@@ -383,6 +383,7 @@ functions/issue_3016_2_ie8/input.js
 functions/issue_3016_3/input.js
 functions/issue_3016_3_ie8/input.js
 functions/issue_3018/input.js
+functions/issue_3054/input.js
 functions/issue_3076/input.js
 functions/issue_3125/input.js
 functions/issue_3166/input.js
@@ -772,6 +773,7 @@ pure_funcs/issue_2705_3/input.js
 pure_funcs/issue_2705_4/input.js
 pure_funcs/issue_2705_5/input.js
 pure_funcs/issue_2705_6/input.js
+pure_funcs/issue_3065_1/input.js
 pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_3065_3/input.js

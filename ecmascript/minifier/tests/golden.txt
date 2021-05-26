@@ -432,7 +432,6 @@ functions/issue_2663_1/input.js
 functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js
 functions/issue_2737_2/input.js
-functions/issue_3054/input.js
 functions/no_webkit/input.js
 functions/recursive_inline_1/input.js
 functions/webkit/input.js
@@ -821,7 +820,6 @@ properties/mangle_private_properties/input.js
 properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
 pure_funcs/assign/input.js
-pure_funcs/issue_3065_1/input.js
 pure_getters/chained/input.js
 pure_getters/collapse_rhs_call/input.js
 pure_getters/collapse_rhs_false/input.js
