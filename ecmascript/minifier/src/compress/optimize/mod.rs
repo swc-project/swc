@@ -418,6 +418,10 @@ impl Optimizer<'_> {
             });
 
         if cannot_join_as_str_lit {
+            if !self.options.unsafe_passes {
+                return;
+            }
+
             let sep = Box::new(Expr::Lit(Lit::Str(Str {
                 span: DUMMY_SP,
                 value: separator,
@@ -443,9 +447,13 @@ impl Optimizer<'_> {
 
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 match elem {
-                    Some(ExprOrSpread { spread: None, expr }) => {
-                        add(&mut res, expr);
-                    }
+                    Some(ExprOrSpread { spread: None, expr }) => match &*expr {
+                        e if is_pure_undefined(e) => {}
+                        Expr::Lit(Lit::Null(..)) => {}
+                        _ => {
+                            add(&mut res, expr);
+                        }
+                    },
                     _ => {}
                 }
 
