@@ -323,8 +323,6 @@ export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
 export/issue_2126/input.js
 export/issue_2134_1/input.js
-export/module_mangle_export_default_class/input.js
-export/module_mangle_export_default_function/input.js
 export/name_cache_do_not_mangle_export_class_name/input.js
 export/name_cache_do_not_mangle_export_const_name/input.js
 export/name_cache_do_not_mangle_export_destructuring_name/input.js
@@ -341,8 +339,6 @@ functions/avoid_generating_duplicate_functions_compared_together_2/input.js
 functions/avoid_generating_duplicate_functions_compared_together_3/input.js
 functions/avoid_generating_duplicate_functions_compared_together_4/input.js
 functions/drop_lone_use_strict_arrows_2/input.js
-functions/duplicate_arg_var/input.js
-functions/duplicate_argnames/input.js
 functions/empty_body/input.js
 functions/hoist_funs/input.js
 functions/hoist_funs_strict/input.js
