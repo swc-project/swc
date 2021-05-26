@@ -1220,6 +1220,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             stmt_lablled: false,
             scope: n.span.ctxt,
+            top_level: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
