@@ -434,7 +434,7 @@ impl Optimizer<'_> {
                         Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
                         _ => true,
                     },
-                    // This can change behavior
+                    // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
                     _ => true,
                 })
