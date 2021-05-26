@@ -31,8 +31,6 @@ impl Optimizer<'_> {
         self.eval_array_method_call(e);
         self.eval_fn_method_call(e);
 
-        self.optimize_array_join(e);
-
         self.eval_opt_chain(e);
     }
 
