@@ -30,10 +30,6 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
-        if !self.options.unsafe_passes {
-            return;
-        }
-
         match e {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
@@ -48,7 +44,7 @@ impl Optimizer<'_> {
                     Expr::Ident(Ident {
                         sym: js_word!("RegExp"),
                         ..
-                    }) => {
+                    }) if self.options.unsafe_regexp => {
                         if args.len() != 1 {
                             return;
                         }
