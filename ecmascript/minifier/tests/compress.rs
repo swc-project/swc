@@ -35,24 +35,24 @@ use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::NormalizedOutput;
 
+fn load_txt(filename: &str) -> Vec<String> {
+    let lines = read_to_string(filename).unwrap();
+    lines
+        .lines()
+        .filter(|v| !v.trim().is_empty())
+        .map(|v| v.to_string())
+        .collect()
+}
+
 fn is_ignored(path: &Path) -> bool {
     static IGNORED: Lazy<Vec<String>> = Lazy::new(|| {
-        let lines = read_to_string("tests/ignored.txt").unwrap();
-        lines
-            .lines()
-            .filter(|v| !v.trim().is_empty())
-            .map(|v| v.to_string())
+        load_txt("tests/ignored.txt")
+            .into_iter()
+            .chain(load_txt("tests/postponed.txt"))
             .collect()
     });
 
-    static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| {
-        let lines = read_to_string("tests/golden.txt").unwrap();
-        lines
-            .lines()
-            .filter(|v| !v.trim().is_empty())
-            .map(|v| v.to_string())
-            .collect()
-    });
+    static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/golden.txt"));
 
     let s = path.to_string_lossy().replace("-", "_").replace("\\", "/");
 
