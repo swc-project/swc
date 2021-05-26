@@ -238,6 +238,7 @@ dead_code/issue_2666/input.js
 dead_code/issue_2701/input.js
 dead_code/issue_2929/input.js
 dead_code/throw_assignment/input.js
+dead_code/try_catch_finally/input.js
 debugger/drop_debugger/input.js
 debugger/keep_debugger/input.js
 defaults/defaults_false_evaluate_true/input.js
@@ -1119,6 +1120,8 @@ transform/booleans_evaluate/input.js
 transform/booleans_global_defs/input.js
 transform/condition_evaluate/input.js
 transform/if_else_empty/input.js
+try_catch/broken_safari_catch_scope/input.js
+try_catch/broken_safari_catch_scope_caveat/input.js
 try_catch/issue_452/input.js
 try_catch/parameterless_catch/input.js
 try_catch/parent_scope_of_catch_block_is_not_the_try_block/input.js
