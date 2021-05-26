@@ -258,6 +258,12 @@ drop_unused/unused_null_conditional_chain/input.js
 drop_unused/used_var_in_catch/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
+evaluate/issue_2535_1/input.js
+evaluate/issue_2916_2/input.js
+evaluate/issue_2968/input.js
+evaluate/unsafe_float_key/input.js
+evaluate/unsafe_float_key_complex/input.js
+evaluate/unsafe_object_accessor/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
 export/export_default_named_async_function/input.js
