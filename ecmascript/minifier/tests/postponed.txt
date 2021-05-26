@@ -19,6 +19,12 @@ class_properties/mangle_class_properties/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
+object/concise_method_to_prop_arrow/input.js
+object/prop_arrow_with_nested_this/input.js
+object/prop_arrow_with_this/input.js
+object/prop_func_to_async_concise_method/input.js
+object/prop_func_to_concise_method/input.js
+object/prop_func_to_concise_method_various/input.js
 template_string/array_join/input.js
 template_string/coerce_to_string/input.js
 template_string/side_effects/input.js
