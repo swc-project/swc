@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# Used to publish MVP.
+#
+# Use this script with test name if the minifier of swc does not break code.
+#
+set -eu
+
+cargo test --test compress --all-features $1 \
+  | grep 'js .\.\. FAILED$' \
+  | sed -e 's!test fixture_terser__compress__!!' \
+  | sed -e 's! ... FAILED!!' \
+  | sed -e 's!__!/!g' \
+  | sed -e 's!_js!.js!' \
+  >> tests/postponed.txt
+
+./scripts/sort.sh
