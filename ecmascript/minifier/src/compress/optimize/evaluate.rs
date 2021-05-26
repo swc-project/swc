@@ -129,6 +129,18 @@ impl Optimizer<'_> {
         }
 
         match &**callee {
+            Expr::Ident(Ident {
+                sym: js_word!("RegExp"),
+                ..
+            }) if self.options.unsafe_regexp => {
+                if args.len() >= 1 {
+                    self.optimize_expr_in_str_ctx(&mut args[0].expr);
+                }
+                if args.len() >= 2 {
+                    self.optimize_expr_in_str_ctx(&mut args[1].expr);
+                }
+            }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(obj),
                 prop,
