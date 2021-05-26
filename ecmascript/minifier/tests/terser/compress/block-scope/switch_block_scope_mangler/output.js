@@ -1,17 +1,17 @@
-var fn = function (e) {
-    switch (e) {
+var fn = function(a) {
+    switch(a){
         case 1:
-            let l = e + 1;
-            let o = e + 4;
-            console.log(l, o);
+            let b = a + 1;
+            let c = a + 4;
+            console.log(b, c);
             break;
         case 2:
-            let n = e + 2;
-            console.log(n);
+            let d = a + 2;
+            console.log(d);
             break;
         default:
-            let c = e + 3;
-            console.log(c);
+            let e = a + 3;
+            console.log(e);
     }
 };
 fn(1);
