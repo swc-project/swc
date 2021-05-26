@@ -476,12 +476,24 @@ impl Optimizer<'_> {
             }) => (&mut **obj, &mut **prop),
             _ => return,
         };
+        if arr.may_have_side_effects() {
+            return;
+        }
+
         let arr = match arr {
             Expr::Array(arr) => arr,
             _ => {
                 return;
             }
         };
+        if arr.elems.iter().any(|elem| match elem {
+            Some(ExprOrSpread {
+                spread: Some(..), ..
+            }) => true,
+            _ => false,
+        }) {
+            return;
+        }
 
         let method_name = match method_name {
             Expr::Ident(i) => i,
@@ -490,7 +502,63 @@ impl Optimizer<'_> {
 
         match &*method_name.sym {
             "join" => {
-                self.optimize_expr_in_str_ctx(&mut args[0].expr);
+                for elem in &mut arr.elems {
+                    match elem {
+                        Some(elem) => {
+                            debug_assert_eq!(elem.spread, None);
+
+                            self.optimize_expr_in_str_ctx(&mut elem.expr);
+                        }
+                        None => {}
+                    }
+                }
+
+                // Join only if all elements are string literals.
+                if arr.elems.iter().any(|elem| match elem {
+                    Some(ExprOrSpread { expr, .. }) => match &**expr {
+                        Expr::Lit(Lit::Str(..)) => false,
+                        _ => true,
+                    },
+                    None => false,
+                }) {
+                    return;
+                }
+
+                let sep = if args.len() == 0 {
+                    ","
+                } else {
+                    self.optimize_expr_in_str_ctx(&mut args[0].expr);
+
+                    match &*args[0].expr {
+                        Expr::Lit(Lit::Str(s)) => &*s.value,
+                        _ => return,
+                    }
+                };
+
+                let mut new = String::new();
+
+                for elem in arr.elems.take() {
+                    match elem {
+                        Some(elem) => match &*elem.expr {
+                            Expr::Lit(Lit::Str(s)) => new.push_str(&s.value),
+                            _ => {
+                                unreachable!()
+                            }
+                        },
+                        None => {}
+                    }
+
+                    new.push_str(&sep);
+                }
+
+                self.changed = true;
+                log::trace!("string: Reducing `Array.join` call into a string literal");
+                *e = Expr::Lit(Lit::Str(Str {
+                    span: e.span(),
+                    value: new.into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }))
             }
             _ => {}
         }
