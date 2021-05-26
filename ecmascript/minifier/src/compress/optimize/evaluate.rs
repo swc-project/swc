@@ -1,4 +1,5 @@
 use super::Optimizer;
+use super::DISABLE_BUGGY_PASSES;
 use crate::compress::optimize::is_pure_undefined_or_null;
 use std::f64;
 use std::num::FpCategory;
@@ -138,6 +139,11 @@ impl Optimizer<'_> {
                 }
                 if args.len() >= 2 {
                     self.optimize_expr_in_str_ctx(&mut args[1].expr);
+                }
+
+                // Disable
+                if DISABLE_BUGGY_PASSES {
+                    return;
                 }
 
                 match args.len() {

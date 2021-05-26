@@ -56,6 +56,8 @@ mod unsafes;
 mod unused;
 mod util;
 
+const DISABLE_BUGGY_PASSES: bool = true;
+
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
     options: CompressOptions,
