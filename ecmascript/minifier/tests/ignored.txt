@@ -264,6 +264,13 @@ evaluate/issue_2968/input.js
 evaluate/unsafe_float_key/input.js
 evaluate/unsafe_float_key_complex/input.js
 evaluate/unsafe_object_accessor/input.js
+expansions/avoid_spread_getset_object/input.js
+expansions/avoid_spread_hole/input.js
+export/export_default_named_async_function/input.js
+export/export_default_named_generator/input.js
+export/issue_2134_1/input.js
+export/module_mangle_export_default_class/input.js
+export/module_mangle_export_default_function/input.js
 functions/avoid_generating_duplicate_functions_compared_together/input.js
 functions/avoid_generating_duplicate_functions_compared_together_2/input.js
 functions/avoid_generating_duplicate_functions_compared_together_3/input.js

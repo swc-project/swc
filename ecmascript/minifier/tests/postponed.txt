@@ -45,6 +45,7 @@ evaluate/unsafe_object/input.js
 evaluate/unsafe_object_complex/input.js
 evaluate/unsafe_object_nested/input.js
 evaluate/unsafe_object_repeated/input.js
+export/issue_2126/input.js
 export/name_cache_do_not_mangle_export_class_name/input.js
 export/name_cache_do_not_mangle_export_const_name/input.js
 export/name_cache_do_not_mangle_export_destructuring_name/input.js
