@@ -1,6 +1,16 @@
 arrays/constant_join/input.js
 arrays/constant_join_2/input.js
 arrays/constant_join_3/input.js
+arrays/index/input.js
+arrays/index_length/input.js
+arrow/async_function_expression/input.js
+arrow/async_object_literal/input.js
+arrow/concise_methods_with_computed_property2/input.js
+arrow/export_default_object_expression/input.js
+arrow/issue_2136_2/input.js
+arrow/issue_2136_3/input.js
+arrow/issue_27/input.js
+arrow/issue_3092b/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
