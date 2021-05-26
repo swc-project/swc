@@ -79,6 +79,8 @@ block_scope/drop_undefined_vardef/input.js
 block_scope/issue_241/input.js
 block_scope/issue_508/input.js
 block_scope/let_statement/input.js
+block_scope/regression_block_scope_resolves/input.js
+block_scope/switch_block_scope_mangler/input.js
 blocks/issue_1664/input.js
 blocks/issue_1672_for/input.js
 blocks/issue_1672_for_strict/input.js
