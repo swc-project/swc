@@ -308,7 +308,12 @@ impl Optimizer<'_> {
 
                         Stmt::Return(stmt) => {
                             let span = stmt.span;
-                            *e = *stmt.arg.unwrap_or_else(|| undefined(span));
+                            let val = *stmt.arg.unwrap_or_else(|| undefined(span));
+                            exprs.push(Box::new(val));
+                            *e = Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs,
+                            });
                             return;
                         }
                         _ => {}
