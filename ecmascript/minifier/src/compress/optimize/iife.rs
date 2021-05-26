@@ -214,8 +214,17 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                match &f.body {
-                    BlockStmtOrExpr::BlockStmt(_) => return,
+                match &mut f.body {
+                    BlockStmtOrExpr::BlockStmt(body) => {
+                        let new = self.inline_fn_like(body);
+                        if let Some(new) = new {
+                            self.changed = true;
+                            log::trace!("inline: Inlining a function call (arrow)");
+
+                            *e = new;
+                        }
+                        return;
+                    }
                     BlockStmtOrExpr::Expr(body) => match &**body {
                         Expr::Lit(Lit::Num(..)) => {
                             if self.ctx.in_obj_of_non_computed_member {
@@ -277,67 +286,73 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if !body.stmts.iter().all(|stmt| match stmt {
-                    Stmt::Expr(..) => true,
-                    Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                        Some(Expr::Lit(Lit::Num(..))) => {
-                            if self.ctx.in_obj_of_non_computed_member {
-                                false
-                            } else {
-                                true
-                            }
-                        }
-                        _ => true,
-                    },
-                    _ => false,
-                }) {
-                    return;
+                let new = self.inline_fn_like(body);
+                if let Some(new) = new {
+                    self.changed = true;
+                    log::trace!("inline: Inlining a function call");
+
+                    *e = new;
                 }
-
-                self.changed = true;
-
-                log::trace!("inline: Inlining a function call");
 
                 //
-                let mut exprs = vec![];
-                for stmt in body.stmts.take() {
-                    match stmt {
-                        Stmt::Expr(stmt) => {
-                            exprs.push(stmt.expr);
-                        }
-
-                        Stmt::Return(stmt) => {
-                            let span = stmt.span;
-                            let val = *stmt.arg.unwrap_or_else(|| undefined(span));
-                            exprs.push(Box::new(val));
-                            *e = Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs,
-                            });
-                            return;
-                        }
-                        _ => {}
-                    }
-                }
-
-                if let Some(last) = exprs.last_mut() {
-                    *last = Box::new(Expr::Unary(UnaryExpr {
-                        span: DUMMY_SP,
-                        op: op!("void"),
-                        arg: last.take(),
-                    }));
-                } else {
-                    *e = *undefined(f.function.span);
-                    return;
-                }
-
-                *e = Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs,
-                })
             }
             _ => {}
         }
+    }
+
+    fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
+        if !body.stmts.iter().all(|stmt| match stmt {
+            Stmt::Expr(..) => true,
+            Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
+                Some(Expr::Lit(Lit::Num(..))) => {
+                    if self.ctx.in_obj_of_non_computed_member {
+                        false
+                    } else {
+                        true
+                    }
+                }
+                _ => true,
+            },
+            _ => false,
+        }) {
+            return None;
+        }
+
+        let mut exprs = vec![];
+        for stmt in body.stmts.take() {
+            match stmt {
+                Stmt::Expr(stmt) => {
+                    exprs.push(stmt.expr);
+                }
+
+                Stmt::Return(stmt) => {
+                    let span = stmt.span;
+                    let val = *stmt.arg.unwrap_or_else(|| undefined(span));
+                    exprs.push(Box::new(val));
+
+                    return Some(Expr::Seq(SeqExpr {
+                        span: DUMMY_SP,
+                        exprs,
+                    }));
+                }
+                _ => {}
+            }
+        }
+
+        if let Some(last) = exprs.last_mut() {
+            *last = Box::new(Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("void"),
+                arg: last.take(),
+            }));
+        } else {
+            return Some(*undefined(body.span));
+        }
+
+        Some(Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        }))
     }
 
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {
