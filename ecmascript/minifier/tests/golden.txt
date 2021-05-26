@@ -241,9 +241,12 @@ dead_code/throw_assignment/input.js
 dead_code/try_catch_finally/input.js
 debugger/drop_debugger/input.js
 debugger/keep_debugger/input.js
+defaults/defaults_false/input.js
 defaults/defaults_false_evaluate_true/input.js
 defaults/defaults_true/input.js
 defaults/defaults_true_conditionals_false/input.js
+defaults/defaults_true_evaluate_false/input.js
+defaults/defaults_undefined/input.js
 destructuring/destructure_empty_array_1/input.js
 destructuring/destructure_empty_array_2/input.js
 destructuring/destructuring_arrays/input.js
@@ -774,6 +777,7 @@ object/property_with_operator_value/input.js
 object/property_with_unprintable/input.js
 object/property_with_unprintable_ascii_only/input.js
 object/property_with_unprintable_ascii_only_static/input.js
+object/shorthand_properties/input.js
 object/use_shorthand_opportunity/input.js
 object/variable_as_computed_property/input.js
 parameters/accept_destructuring_async_word_with_default/input.js
