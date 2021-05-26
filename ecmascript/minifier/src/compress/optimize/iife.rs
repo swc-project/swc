@@ -194,6 +194,10 @@ impl Optimizer<'_> {
             _ => return,
         };
 
+        if self.has_noinline(call.span) {
+            return;
+        }
+
         let callee = match &mut call.callee {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(e) => &mut **e,
