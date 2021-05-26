@@ -6,9 +6,6 @@ arguments/replace_index/input.js
 arguments/replace_index_keep_fargs/input.js
 arguments/replace_index_strict/input.js
 array_constructor/array_constructor_unsafe/input.js
-arrays/constant_join/input.js
-arrays/constant_join_2/input.js
-arrays/constant_join_3/input.js
 arrays/for_loop/input.js
 arrays/index/input.js
 arrays/index_length/input.js
