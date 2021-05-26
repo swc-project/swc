@@ -11,6 +11,13 @@ arrow/issue_2136_2/input.js
 arrow/issue_2136_3/input.js
 arrow/issue_27/input.js
 arrow/issue_3092b/input.js
+arrow/issue_485_crashing_1530/input.js
+ascii/ascii_only_false/input.js
+ascii/ascii_only_true/input.js
+block_scope/issue_334/input.js
+block_scope/remove_unused_in_global_block/input.js
+class_properties/class_expression_constant/input.js
+class_properties/mangle_class_properties/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
