@@ -448,6 +448,10 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn optimize_array_join(&mut self, e: &mut Expr) {
+        if !self.options.evaluate {
+            return;
+        }
+
         let (callee, args) = match e {
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(callee),
@@ -456,5 +460,39 @@ impl Optimizer<'_> {
             }) => (&mut **callee, args),
             _ => return,
         };
+
+        for arg in &*args {
+            if arg.spread.is_some() || arg.expr.may_have_side_effects() {
+                return;
+            }
+        }
+
+        let (arr, method_name) = match callee {
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: false,
+                ..
+            }) => (&mut **obj, &mut **prop),
+            _ => return,
+        };
+        let arr = match arr {
+            Expr::Array(arr) => arr,
+            _ => {
+                return;
+            }
+        };
+
+        let method_name = match method_name {
+            Expr::Ident(i) => i,
+            _ => return,
+        };
+
+        match &*method_name.sym {
+            "join" => {
+                self.optimize_expr_in_str_ctx(&mut args[0].expr);
+            }
+            _ => {}
+        }
     }
 }
