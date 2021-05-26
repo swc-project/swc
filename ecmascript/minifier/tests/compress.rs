@@ -201,6 +201,8 @@ fn fixture(input: PathBuf) {
             expected
         );
 
+        println!("{}", input.display());
+
         if let Ok(expected_stdout) = read_to_string(dir.join("expected.stdout")) {
             eprintln!(
                 "---- {} -----\n{}",
@@ -223,7 +225,6 @@ fn fixture(input: PathBuf) {
                 )
             }
 
-            println!("{}", input.display());
             let actual = String::from_utf8_lossy(&output.stdout);
             assert_eq!(
                 DebugUsingDisplay(&actual),
