@@ -16,6 +16,11 @@ ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
 class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties/input.js
+conditionals/ifs_6/input.js
+conditionals/ifs_same_consequent/input.js
+conditionals/issue_1154/input.js
+conditionals/issue_2560/input.js
+conditionals/issue_2994/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
