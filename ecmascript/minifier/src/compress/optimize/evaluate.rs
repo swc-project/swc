@@ -139,6 +139,43 @@ impl Optimizer<'_> {
                 if args.len() >= 2 {
                     self.optimize_expr_in_str_ctx(&mut args[1].expr);
                 }
+
+                match args.len() {
+                    0 => return,
+                    1 => match &*args[0].expr {
+                        Expr::Lit(Lit::Str(exp)) => {
+                            self.changed = true;
+                            log::trace!(
+                                "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
+                                exp.value
+                            );
+
+                            *e = Expr::Lit(Lit::Regex(Regex {
+                                span,
+                                exp: exp.value.clone(),
+                                flags: js_word!(""),
+                            }));
+                        }
+                        _ => {}
+                    },
+                    _ => match (&*args[0].expr, &*args[1].expr) {
+                        (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) => {
+                            self.changed = true;
+                            log::trace!(
+                                "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
+                                exp.value,
+                                flags.value
+                            );
+
+                            *e = Expr::Lit(Lit::Regex(Regex {
+                                span,
+                                exp: exp.value.clone(),
+                                flags: flags.value.clone(),
+                            }));
+                        }
+                        _ => {}
+                    },
+                }
             }
 
             Expr::Member(MemberExpr {
