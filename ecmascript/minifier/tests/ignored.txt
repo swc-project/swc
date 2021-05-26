@@ -181,7 +181,6 @@ dead_code/issue_2860_1/input.js
 dead_code/issue_2860_2/input.js
 dead_code/issue_718/input.js
 dead_code/return_assignment/input.js
-dead_code/try_catch_finally/input.js
 dead_code/unsafe_builtin/input.js
 defaults/defaults_false/input.js
 defaults/defaults_true_evaluate_false/input.js
@@ -966,9 +965,6 @@ template_string/template_string_with_predefined_constants/input.js
 transform/if_return/input.js
 transform/label_if_break/input.js
 transform/while_if_break/input.js
-try_catch/broken_safari_catch_scope/input.js
-try_catch/broken_safari_catch_scope_caveat/input.js
-try_catch/catch_destructuring_with_sequence/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js
 typeof/typeof_defun_1/input.js
