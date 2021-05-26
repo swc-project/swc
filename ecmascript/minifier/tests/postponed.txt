@@ -21,6 +21,12 @@ conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
 conditionals/issue_2560/input.js
 conditionals/issue_2994/input.js
+dead_code/collapse_vars_lvalues_drop_assign/input.js
+dead_code/collapse_vars_misc1/input.js
+dead_code/dead_code_2_should_warn/input.js
+dead_code/dead_code_2_should_warn_strict/input.js
+dead_code/issue_2692/input.js
+dead_code/return_assignment/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2919/input.js
 evaluate/issue_399/input.js
