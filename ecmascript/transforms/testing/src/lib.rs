@@ -391,6 +391,12 @@ where
             Command::new(&jest_path)
         };
 
+        let path = if cfg!(target_os = "windows") {
+            path.canonicalize().unwrap()
+        } else {
+            path.to_path_buf()
+        };
+
         let status = base_cmd
             .args(&["--testMatch", &format!("{}", path.display())])
             .current_dir(root)
