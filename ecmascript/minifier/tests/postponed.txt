@@ -122,6 +122,8 @@ reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
+reduce_vars/lvalues_def_1/input.js
+reduce_vars/lvalues_def_2/input.js
 reduce_vars/pure_getters_2/input.js
 reduce_vars/pure_getters_3/input.js
 reduce_vars/recursive_inlining_1/input.js
