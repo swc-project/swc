@@ -57,6 +57,15 @@ export/name_cache_import_star_as_name_from_module/input.js
 export/name_cache_mangle_export_default_class/input.js
 export/name_cache_mangle_export_default_function/input.js
 export/name_cache_mangle_local_import_and_export_aliases/input.js
+functions/drop_lone_use_strict_arrows_2/input.js
+functions/empty_body/input.js
+functions/hoist_funs/input.js
+functions/hoist_funs_strict/input.js
+functions/inline_loop_1/input.js
+functions/inline_loop_2/input.js
+functions/issue_2428/input.js
+functions/non_ascii_function_identifier_name/input.js
+functions/recursive_inline_2/input.js
 object/concise_method_to_prop_arrow/input.js
 object/prop_arrow_with_nested_this/input.js
 object/prop_arrow_with_this/input.js
