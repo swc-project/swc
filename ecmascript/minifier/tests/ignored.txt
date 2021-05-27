@@ -12,6 +12,9 @@ class_properties/static_property_side_effects/input.js
 classes/pure_prop_assignment_for_classes/input.js
 collapse_vars/collapse_vars_arguments/input.js
 collapse_vars/issue_2437_1/input.js
+reduce_vars/conditional_chain_certain_part/input.js
+reduce_vars/defun_catch_4/input.js
+reduce_vars/defun_catch_5/input.js
 reduce_vars/unsafe_evaluate_escaped/input.js
 reduce_vars/unsafe_evaluate_modified/input.js
 regexp/unsafe_slashes/input.js
