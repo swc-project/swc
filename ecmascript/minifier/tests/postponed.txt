@@ -97,6 +97,7 @@ ie8/issue_2120_1/input.js
 ie8/issue_2254_1/input.js
 ie8/issue_2254_2/input.js
 ie8/reduce_vars/input.js
+issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1588/screw_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
