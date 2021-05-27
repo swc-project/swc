@@ -1,6 +1,5 @@
 arguments/duplicate_parameter_with_arguments/input.js
 arguments/modified_strict/input.js
-array_constructor/array_constructor_unsafe/input.js
 arrays/constant_join/input.js
 arrays/constant_join_2/input.js
 arrays/constant_join_3/input.js

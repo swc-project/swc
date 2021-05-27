@@ -3,3 +3,4 @@ arguments/arguments_and_destructuring_3/input.js
 arguments/replace_index/input.js
 arguments/replace_index_keep_fargs/input.js
 arguments/replace_index_strict/input.js
+array_constructor/array_constructor_unsafe/input.js
