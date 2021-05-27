@@ -103,6 +103,7 @@ object/prop_func_to_concise_method_various/input.js
 rename/function_catch_catch_ie8/input.js
 rename/function_iife_catch_ie8/input.js
 rename/mangle_catch_var_ie8/input.js
+sequences/for_init_var/input.js
 switch/issue_1663/input.js
 template_string/array_join/input.js
 template_string/coerce_to_string/input.js
