@@ -41,7 +41,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
 
                 _ => {
-                    if cur.is_line_break() {
+                    if cur.is_line_terminator() {
                         out.push_str(self.input.slice(chunk_start, cur_pos));
                         match self.read_jsx_new_line(true)? {
                             Either::Left(s) => out.push_str(s),
@@ -171,7 +171,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 out.push(self.read_jsx_entity()?);
                 chunk_start = self.input.cur_pos();
-            } else if ch.is_line_break() {
+            } else if ch.is_line_terminator() {
                 out.push_str(self.input.slice(chunk_start, cur_pos));
                 match self.read_jsx_new_line(false)? {
                     Either::Left(s) => out.push_str(s),

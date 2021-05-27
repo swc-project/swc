@@ -911,7 +911,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_break() {
+                if c.is_line_terminator() {
                     l.error(start, SyntaxError::UnterminatedRegxp)?;
                 }
 
@@ -963,7 +963,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
         self.input.bump();
         self.input.bump();
-        let s = self.input.uncons_while(|c| !c.is_line_break());
+        let s = self.input.uncons_while(|c| !c.is_line_terminator());
         Ok(Some(s.into()))
     }
 
@@ -1016,7 +1016,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 }
                 raw = wrapped.0.unwrap();
-            } else if c.is_line_break() {
+            } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
                     raw.push('\r');
