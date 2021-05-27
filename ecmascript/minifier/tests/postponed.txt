@@ -116,6 +116,14 @@ object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
 object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
+pure_getters/impure_getter_2/input.js
+pure_getters/issue_2838/input.js
+pure_getters/issue_2938_3/input.js
+pure_getters/issue_2938_4/input.js
+pure_getters/set_immutable_1/input.js
+pure_getters/set_immutable_6/input.js
+pure_getters/set_mutable_1/input.js
+pure_getters/set_mutable_2/input.js
 reduce_vars/accessor_2/input.js
 reduce_vars/chained_assignments/input.js
 reduce_vars/defun_call/input.js
