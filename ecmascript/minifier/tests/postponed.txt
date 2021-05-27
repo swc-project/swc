@@ -116,6 +116,8 @@ object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
 object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
+pure_funcs/issue_3065_3/input.js
+pure_funcs/issue_3065_4/input.js
 pure_getters/impure_getter_2/input.js
 pure_getters/issue_2838/input.js
 pure_getters/issue_2938_3/input.js
