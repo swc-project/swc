@@ -270,6 +270,11 @@ export interface JscConfig {
    * Defaults to `es3` (which enableds **all** pass).
    */
   target?: JscTarget;
+
+  /**
+   * Keep class names.
+   */
+  keepClassNames?: boolean
 }
 
 export type JscTarget =
