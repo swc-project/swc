@@ -1,4 +1,3 @@
-arguments/arguments_and_destructuring_3/input.js
 arguments/duplicate_parameter_with_arguments/input.js
 arguments/modified_strict/input.js
 arguments/replace_index/input.js
