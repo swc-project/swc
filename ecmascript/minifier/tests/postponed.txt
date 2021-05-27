@@ -109,6 +109,10 @@ object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
 object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
+reduce_vars/recursive_inlining_1/input.js
+reduce_vars/recursive_inlining_2/input.js
+reduce_vars/recursive_inlining_3/input.js
+reduce_vars/recursive_inlining_4/input.js
 reduce_vars/unsafe_evaluate_array_1/input.js
 reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
