@@ -1,1 +1,1 @@
-void console.log("pass".toUpperCase());
+console.log("pass".toUpperCase());
