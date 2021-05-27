@@ -5,3 +5,5 @@ class Foo {
         return this.bar + Foo.zzz;
     }
 }
+
+console.log(new Foo().toString())
