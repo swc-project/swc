@@ -152,6 +152,56 @@ fn run(
     Some(output)
 }
 
+/// Tests used to prevent regressions.
+#[testing::fixture("compress/exec/**/input.js")]
+fn base_exec(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = dir.join("config.json");
+    let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output = output.expect("Parsing in base test should not fail");
+        let output = print(cm.clone(), &[output]);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+
+        println!("{}", input.display());
+
+        // We should compare stdout instead.
+        let actual_output = Command::new("node")
+            .arg("-e")
+            .arg(&output)
+            .output()
+            .expect("failed to execute output of minifier");
+
+        if !actual_output.status.success() {
+            panic!(
+                "failed to execute output of minifier:\n{}\n{}",
+                String::from_utf8_lossy(&actual_output.stdout),
+                String::from_utf8_lossy(&actual_output.stderr)
+            )
+        }
+
+        let actual_output = String::from_utf8_lossy(&actual_output.stdout).to_string();
+        let actual_output = NormalizedOutput::from(actual_output);
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Output"),
+            actual_output
+        );
+
+        actual_output
+            .compare_to_file(dir.join("expected.stdout"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 /// Tests ported from terser.
 #[testing::fixture("terser/compress/**/input.js")]
 fn fixture(input: PathBuf) {
