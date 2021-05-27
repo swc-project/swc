@@ -13,3 +13,5 @@ classes/pure_prop_assignment_for_classes/input.js
 sequences/lift_sequences_2/input.js
 switch/issue_1680_2/input.js
 switch/issue_1705_3/input.js
+template_string/escape_dollar_curly/input.js
+template_string/special_chars_in_string/input.js
