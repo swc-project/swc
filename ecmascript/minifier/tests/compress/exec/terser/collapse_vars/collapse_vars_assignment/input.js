@@ -35,3 +35,10 @@ function f6(c) {
     var a = 3 / c;
     return log((b += a));
 }
+
+f1(1)
+f2(1)
+f3(1)
+f4(1)
+f5(1)
+f6(1)
