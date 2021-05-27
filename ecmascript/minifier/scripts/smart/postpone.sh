@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -eu
 
+find tests/compress/exec -name output.js | xargs -L 1 rm
+find tests/compress/exec -name output.terser.js | xargs -L 1 rm
+find tests/compress/exec -name mangle.json | xargs -L 1 rm
+
 ./scripts/run.sh \
     | grep 'base_exec_compress__exec__terser__' \
     | grep '__input_js ... ok' \
