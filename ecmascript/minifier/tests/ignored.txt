@@ -15,3 +15,5 @@ switch/issue_1680_2/input.js
 switch/issue_1705_3/input.js
 template_string/escape_dollar_curly/input.js
 template_string/special_chars_in_string/input.js
+transform/if_return/input.js
+transform/while_if_break/input.js
