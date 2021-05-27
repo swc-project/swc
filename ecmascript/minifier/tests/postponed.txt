@@ -122,11 +122,15 @@ reduce_vars/recursive_inlining_1/input.js
 reduce_vars/recursive_inlining_2/input.js
 reduce_vars/recursive_inlining_3/input.js
 reduce_vars/recursive_inlining_4/input.js
+reduce_vars/side_effects_assign/input.js
+reduce_vars/unsafe_evaluate/input.js
 reduce_vars/unsafe_evaluate_array_1/input.js
 reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
 reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_2/input.js
+reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
+reduce_vars/unused_modified/input.js
 reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
 rename/function_catch_catch_ie8/input.js
