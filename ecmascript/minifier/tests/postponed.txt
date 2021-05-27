@@ -68,6 +68,7 @@ dead_code/dead_code_2_should_warn/input.js
 dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2692/input.js
+dead_code/issue_2860_1/input.js
 dead_code/return_assignment/input.js
 drop_unused/unused_null_conditional_chain/input.js
 evaluate/issue_2207_3/input.js
