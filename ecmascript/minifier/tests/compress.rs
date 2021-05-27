@@ -152,6 +152,24 @@ fn run(
     Some(output)
 }
 
+fn stdout_of(code: &str) -> String {
+    let actual_output = Command::new("node")
+        .arg("-e")
+        .arg(&code)
+        .output()
+        .expect("failed to execute output of minifier");
+
+    if !actual_output.status.success() {
+        panic!(
+            "failed to execute output of minifier:\n{}\n{}",
+            String::from_utf8_lossy(&actual_output.stdout),
+            String::from_utf8_lossy(&actual_output.stderr)
+        )
+    }
+
+    String::from_utf8_lossy(&actual_output.stdout).to_string()
+}
+
 /// Tests used to prevent regressions.
 #[testing::fixture("compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
@@ -161,41 +179,24 @@ fn base_exec(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
+        let input_src = read_to_string(&input).expect("failed to read input.js as a string");
+
         let output = run(cm.clone(), &handler, &input, &config, None);
         let output = output.expect("Parsing in base test should not fail");
         let output = print(cm.clone(), &[output]);
 
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Optimized code"),
+            output
+        );
 
         println!("{}", input.display());
 
-        // We should compare stdout instead.
-        let actual_output = Command::new("node")
-            .arg("-e")
-            .arg(&output)
-            .output()
-            .expect("failed to execute output of minifier");
+        let expected_output = stdout_of(&input_src);
+        let actual_output = stdout_of(&output);
 
-        if !actual_output.status.success() {
-            panic!(
-                "failed to execute output of minifier:\n{}\n{}",
-                String::from_utf8_lossy(&actual_output.stdout),
-                String::from_utf8_lossy(&actual_output.stderr)
-            )
-        }
-
-        let actual_output = String::from_utf8_lossy(&actual_output.stdout).to_string();
-        let actual_output = NormalizedOutput::from(actual_output);
-
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Output"),
-            actual_output
-        );
-
-        actual_output
-            .compare_to_file(dir.join("expected.stdout"))
-            .unwrap();
+        assert_eq!(actual_output, expected_output);
 
         Ok(())
     })
