@@ -6,6 +6,10 @@
 #
 set -eu
 
+find tests/compress/exec -name output.js | xargs -L 1 rm
+find tests/compress/exec -name output.terser.js | xargs -L 1 rm
+find tests/compress/exec -name mangle.json | xargs -L 1 rm
+
 cargo test --test compress --all-features ${1-''} \
   | grep 'terser__compress' \
   | grep 'js .\.\. FAILED$' \
