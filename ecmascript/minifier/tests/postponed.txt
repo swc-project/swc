@@ -93,6 +93,7 @@ issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1588/screw_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
 issue_1733/function_catch_catch_ie8/input.js
+issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
 object/concise_method_to_prop_arrow/input.js
 object/prop_arrow_with_nested_this/input.js
@@ -106,6 +107,7 @@ reduce_vars/unsafe_evaluate_array_4/input.js
 reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_2/input.js
 rename/function_catch_catch_ie8/input.js
+rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
 rename/mangle_catch_var/input.js
 rename/mangle_catch_var_ie8/input.js
