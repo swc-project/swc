@@ -13,6 +13,7 @@ on: [push, pull_request]
 #      - 'trying'
 
 env:
+  CI: 1
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
 
@@ -80,7 +81,7 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v3
+          key: ${{ runner.os }}-cargo-v4
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
@@ -204,7 +205,7 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v3
+          key: ${{ runner.os }}-cargo-v4
 
       - name: Run cargo test
         run: |
