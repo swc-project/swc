@@ -17,6 +17,7 @@ reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/unsafe_evaluate_escaped/input.js
 reduce_vars/unsafe_evaluate_modified/input.js
+reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 sequences/lift_sequences_2/input.js
 switch/issue_1680_2/input.js
