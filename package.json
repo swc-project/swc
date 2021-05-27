@@ -72,6 +72,7 @@
         "axios": "^0.21.1",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
         "browserslist": "^4.16.5",
+        "core-js": "^2.6.11",
         "jest": "^27.0.1",
         "lodash": "^4.17.21",
         "progress": "^2.0.3",
