@@ -17,6 +17,7 @@ collapse_vars/issue_2437_1/input.js
 reduce_vars/conditional_chain_certain_part/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
+reduce_vars/issue_2836/input.js
 reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_arg_1/input.js
 reduce_vars/obj_arg_2/input.js
