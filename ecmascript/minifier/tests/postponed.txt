@@ -140,6 +140,7 @@ issue_1733/function_iife_catch_ie8/input.js
 loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
 loops/issue_2740_5/input.js
+negate_iife/issue_1254_negate_iife_true/input.js
 object/concise_method_to_prop_arrow/input.js
 object/prop_arrow_with_nested_this/input.js
 object/prop_arrow_with_this/input.js
