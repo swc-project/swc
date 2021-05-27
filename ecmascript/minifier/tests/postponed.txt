@@ -130,6 +130,8 @@ reduce_vars/issue_2423_1/input.js
 reduce_vars/issue_2423_3/input.js
 reduce_vars/issue_2423_5/input.js
 reduce_vars/issue_2423_6/input.js
+reduce_vars/issue_2440_eval_1/input.js
+reduce_vars/issue_2440_with_1/input.js
 reduce_vars/issue_2449/input.js
 reduce_vars/issue_2450_5/input.js
 reduce_vars/issue_2485/input.js
