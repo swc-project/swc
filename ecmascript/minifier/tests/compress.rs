@@ -12,6 +12,7 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use swc_common::comments::SingleThreadedComments;
+use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
 use swc_common::FileName;
 use swc_common::Mark;
@@ -86,6 +87,71 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOption
     (c.module, c.into_config(cm))
 }
 
+fn run(
+    cm: Lrc<SourceMap>,
+    handler: &Handler,
+    input: &Path,
+    config: &str,
+    mangle: Option<TestMangleOptions>,
+) -> Option<Module> {
+    let (_module, config) = parse_compressor_config(cm.clone(), &config);
+
+    let fm = cm.load_file(&input).expect("failed to load input.js");
+    let comments = SingleThreadedComments::default();
+
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
+
+    let top_level_mark = Mark::fresh(Mark::root());
+
+    let lexer = Lexer::new(
+        Default::default(),
+        Default::default(),
+        SourceFileInput::from(&*fm),
+        Some(&comments),
+    );
+
+    let mut parser = Parser::new_from(lexer);
+    let program = parser
+        .parse_module()
+        .map_err(|err| {
+            err.into_diagnostic(&handler).emit();
+        })
+        .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
+
+    // Ignore parser errors.
+    //
+    // This is typically related to strict mode caused by module context.
+    let program = match program {
+        Ok(v) => v,
+        _ => return None,
+    };
+
+    let output = optimize(
+        program,
+        Some(&comments),
+        None,
+        &MinifyOptions {
+            compress: Some(config),
+            mangle: mangle.and_then(|v| match v {
+                TestMangleOptions::Bool(v) => {
+                    if v {
+                        Some(Default::default())
+                    } else {
+                        None
+                    }
+                }
+                TestMangleOptions::Normal(v) => Some(v),
+            }),
+            ..Default::default()
+        },
+        &ExtraOptions { top_level_mark },
+    )
+    .fold_with(&mut hygiene())
+    .fold_with(&mut fixer(None));
+
+    Some(output)
+}
+
 /// Tests ported from terser.
 #[testing::fixture("terser/compress/**/input.js")]
 fn fixture(input: PathBuf) {
@@ -99,8 +165,6 @@ fn fixture(input: PathBuf) {
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
-        let (_module, config) = parse_compressor_config(cm.clone(), &config);
-
         let mangle = dir.join("mangle.json");
         let mangle = read_to_string(&mangle).ok();
         if let Some(mangle) = &mangle {
@@ -114,58 +178,11 @@ fn fixture(input: PathBuf) {
         let mangle: Option<TestMangleOptions> =
             mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
-        let fm = cm.load_file(&input).expect("failed to load input.js");
-        let comments = SingleThreadedComments::default();
-
-        eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
-
-        let top_level_mark = Mark::fresh(Mark::root());
-
-        let lexer = Lexer::new(
-            Default::default(),
-            Default::default(),
-            SourceFileInput::from(&*fm),
-            Some(&comments),
-        );
-
-        let mut parser = Parser::new_from(lexer);
-        let program = parser
-            .parse_module()
-            .map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })
-            .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)));
-
-        // Ignore parser errors.
-        //
-        // This is typically related to strict mode caused by module context.
-        let program = match program {
-            Ok(v) => v,
-            _ => return Ok(()),
+        let output = run(cm.clone(), &handler, &input, &config, mangle);
+        let output = match output {
+            Some(v) => v,
+            None => return Ok(()),
         };
-
-        let output = optimize(
-            program,
-            Some(&comments),
-            None,
-            &MinifyOptions {
-                compress: Some(config),
-                mangle: mangle.and_then(|v| match v {
-                    TestMangleOptions::Bool(v) => {
-                        if v {
-                            Some(Default::default())
-                        } else {
-                            None
-                        }
-                    }
-                    TestMangleOptions::Normal(v) => Some(v),
-                }),
-                ..Default::default()
-            },
-            &ExtraOptions { top_level_mark },
-        )
-        .fold_with(&mut hygiene())
-        .fold_with(&mut fixer(None));
         let output = print(cm.clone(), &[output]);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
