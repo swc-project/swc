@@ -578,6 +578,10 @@ impl<'a, I: Tokens> Parser<I> {
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
 
+            if declare {
+                self.emit_err(self.input.prev_span(), SyntaxError::TS1031);
+            }
+
             if readonly.is_some() {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
             }
