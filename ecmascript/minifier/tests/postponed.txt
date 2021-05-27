@@ -119,6 +119,13 @@ object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
 object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
+properties/computed_property/input.js
+properties/dont_mangle_computed_property_1/input.js
+properties/dont_mangle_computed_property_2/input.js
+properties/issue_2208_4/input.js
+properties/issue_2208_5/input.js
+properties/issue_2208_7/input.js
+properties/issue_2208_9/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
 pure_getters/impure_getter_2/input.js

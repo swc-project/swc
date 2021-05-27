@@ -1,0 +1,7 @@
+{
+    "ecma": 2015,
+    "inline": true,
+    "properties": true,
+    "side_effects": true,
+    "unsafe_arrows": true
+}
