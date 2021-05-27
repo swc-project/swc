@@ -5,7 +5,6 @@ arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
 asm/asm_mixed/input.js
 async/async_inline/input.js
-block_scope/issue_334/input.js
 block_scope/remove_unused_in_global_block/input.js
 class_properties/class_expression_properties_side_effects/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js

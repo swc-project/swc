@@ -21,6 +21,7 @@ arrow/issue_3092b/input.js
 arrow/issue_485_crashing_1530/input.js
 ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
+block_scope/issue_334/input.js
 class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties/input.js
 conditionals/ifs_6/input.js
