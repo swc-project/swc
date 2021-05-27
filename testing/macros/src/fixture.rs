@@ -1,11 +1,10 @@
-use std::path::Component;
-
 use anyhow::{Context, Error};
 use glob::glob;
 use pmutil::q;
 use proc_macro2::{SourceFile, Span};
 use regex::Regex;
 use relative_path::RelativePath;
+use std::path::Component;
 use syn::{
     parse::{Parse, ParseStream},
     Ident, ItemFn, Lit, LitStr, Meta, NestedMeta, Token,
@@ -139,6 +138,7 @@ pub fn expand(test_file: &SourceFile, callee: &Ident, attr: Config) -> Result<Ve
             path_for_name
                 .to_string_lossy()
                 .replace("\\", "__")
+                .replace(" ", "_")
                 .replace("/", "__")
                 .replace(".", "_")
                 .replace("-", "_")

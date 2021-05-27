@@ -195,6 +195,7 @@ fn base_exec(input: PathBuf) {
 
         let expected_output = stdout_of(&input_src);
         let actual_output = stdout_of(&output);
+        assert_ne!(actual_output, "");
 
         assert_eq!(actual_output, expected_output);
 
