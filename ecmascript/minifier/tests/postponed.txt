@@ -97,6 +97,12 @@ ie8/issue_2120_1/input.js
 ie8/issue_2254_1/input.js
 ie8/issue_2254_2/input.js
 ie8/reduce_vars/input.js
+issue_1105/Infinity_in_with_scope/input.js
+issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/input.js
+issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/input.js
+issue_1105/check_drop_unused_in_peer_function/input.js
+issue_1105/compress_with_with_in_other_scope/input.js
+issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1588/screw_ie8/input.js
