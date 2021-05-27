@@ -9,3 +9,6 @@ function f1() {
     a.b = 2;
     console.log(a.b + 3);
 }
+
+f0()
+f1()
