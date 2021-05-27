@@ -131,7 +131,6 @@ reduce_vars/escape_expansion/input.js
 reduce_vars/escape_local_sequence/input.js
 reduce_vars/escaped_prop_3/input.js
 reduce_vars/iife/input.js
-reduce_vars/iife_eval_2/input.js
 reduce_vars/iife_new/input.js
 reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2420_1/input.js

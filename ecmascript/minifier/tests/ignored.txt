@@ -26,6 +26,7 @@ reduce_vars/escaped_prop_2/input.js
 reduce_vars/func_arg_1/input.js
 reduce_vars/func_arg_2/input.js
 reduce_vars/func_modified/input.js
+reduce_vars/iife_eval_2/input.js
 reduce_vars/inner_var_for_1/input.js
 reduce_vars/inner_var_for_2/input.js
 reduce_vars/inner_var_for_in_1/input.js
