@@ -136,7 +136,6 @@ rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
 rename/mangle_catch_var/input.js
 rename/mangle_catch_var_ie8/input.js
-return_undefined/return_undefined/input.js
 sequences/for_init_var/input.js
 sequences/forin/input.js
 sequences/func_def_1/input.js
