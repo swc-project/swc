@@ -14,3 +14,7 @@ function f2() {
     a.push(2);
     console.log(a.length);
 }
+
+console.log(f0())
+console.log(f1())
+console.log(f2())
