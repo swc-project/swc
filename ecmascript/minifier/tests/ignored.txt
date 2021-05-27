@@ -113,6 +113,12 @@ loops/drop_if_else_break_4/input.js
 loops/issue_2740_6/input.js
 loops/issue_2740_7/input.js
 loops/issue_2740_8/input.js
+negate_iife/issue_1254_negate_iife_nested/input.js
+negate_iife/issue_1288/input.js
+negate_iife/issue_1288_side_effects/input.js
+negate_iife/negate_iife_3_off/input.js
+negate_iife/negate_iife_4/input.js
+negate_iife/negate_iife_5/input.js
 object/concise_methods_and_mangle_props/input.js
 object/dont_join_repeat_object_keys/input.js
 object/getter_setter_mangler/input.js
