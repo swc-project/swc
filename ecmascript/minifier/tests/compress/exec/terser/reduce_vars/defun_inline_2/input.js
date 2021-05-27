@@ -7,3 +7,5 @@ function f() {
     }
     return g(2) + h();
 }
+
+console.log(f())

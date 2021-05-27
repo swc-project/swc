@@ -7,3 +7,6 @@ function f() {
         return a;
     }
 }
+
+
+console.log(f())
