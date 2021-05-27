@@ -123,6 +123,7 @@ reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
+reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2420_1/input.js
 reduce_vars/issue_2420_2/input.js
 reduce_vars/issue_2420_3/input.js
