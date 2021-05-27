@@ -118,6 +118,7 @@ object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
 reduce_vars/accessor_2/input.js
 reduce_vars/chained_assignments/input.js
+reduce_vars/defun_call/input.js
 reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
@@ -125,6 +126,11 @@ reduce_vars/defun_catch_6/input.js
 reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_1/input.js
 reduce_vars/issue_2799_2/input.js
+reduce_vars/issue_2860_1/input.js
+reduce_vars/issue_3110_3/input.js
+reduce_vars/issue_3113_1/input.js
+reduce_vars/issue_3113_2/input.js
+reduce_vars/issue_3140_4/input.js
 reduce_vars/lvalues_def_1/input.js
 reduce_vars/lvalues_def_2/input.js
 reduce_vars/modified/input.js
