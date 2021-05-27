@@ -434,6 +434,8 @@ functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
 functions/issue_2647_1/input.js
+functions/issue_2647_2/input.js
+functions/issue_2647_3/input.js
 functions/issue_2663_1/input.js
 functions/issue_2663_3/input.js
 functions/issue_2737_1/input.js

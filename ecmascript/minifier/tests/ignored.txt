@@ -310,8 +310,6 @@ functions/issue_2630_2/input.js
 functions/issue_2630_3/input.js
 functions/issue_2630_4/input.js
 functions/issue_2630_5/input.js
-functions/issue_2647_2/input.js
-functions/issue_2647_3/input.js
 functions/issue_2657/input.js
 functions/issue_2663_2/input.js
 functions/issue_2783/input.js
