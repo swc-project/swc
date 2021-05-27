@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "jest": "^23.6.0",
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.1",
     "regenerator-runtime": "^0.11.0"
   }
 }
