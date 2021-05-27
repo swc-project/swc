@@ -126,6 +126,7 @@ reduce_vars/lvalues_def_1/input.js
 reduce_vars/lvalues_def_2/input.js
 reduce_vars/modified/input.js
 reduce_vars/obj_for_1/input.js
+reduce_vars/passes/input.js
 reduce_vars/perf_1/input.js
 reduce_vars/perf_3/input.js
 reduce_vars/perf_7/input.js
