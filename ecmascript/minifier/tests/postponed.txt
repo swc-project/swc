@@ -44,6 +44,7 @@ dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2692/input.js
 dead_code/return_assignment/input.js
+drop_unused/unused_null_conditional_chain/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2535_2/input.js
 evaluate/issue_2919/input.js
@@ -111,6 +112,12 @@ object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
 reduce_vars/accessor_2/input.js
 reduce_vars/chained_assignments/input.js
+reduce_vars/defun_catch_1/input.js
+reduce_vars/defun_catch_2/input.js
+reduce_vars/defun_catch_3/input.js
+reduce_vars/defun_catch_6/input.js
+reduce_vars/defun_inline_1/input.js
+reduce_vars/defun_inline_2/input.js
 reduce_vars/recursive_inlining_1/input.js
 reduce_vars/recursive_inlining_2/input.js
 reduce_vars/recursive_inlining_3/input.js
