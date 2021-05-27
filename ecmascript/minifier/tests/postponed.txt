@@ -150,6 +150,7 @@ properties/join_object_assignments_void_0/input.js
 properties/literal_duplicate_key_side_effects/input.js
 properties/prop_side_effects_1/input.js
 properties/prop_side_effects_2/input.js
+properties/sub_properties/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
 pure_getters/impure_getter_2/input.js
