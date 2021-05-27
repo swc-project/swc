@@ -1,0 +1,5 @@
+{
+    "dead_code": true,
+    "loops": true,
+    "passes": 2
+}
