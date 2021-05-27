@@ -25,6 +25,11 @@ loops/drop_if_else_break_4/input.js
 loops/issue_2740_6/input.js
 loops/issue_2740_7/input.js
 loops/issue_2740_8/input.js
+object/concise_methods_and_mangle_props/input.js
+object/dont_join_repeat_object_keys/input.js
+object/getter_setter_mangler/input.js
+parameters/default_arguments/input.js
+parameters/destructuring_arguments_3/input.js
 properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
 properties/dot_properties/input.js
