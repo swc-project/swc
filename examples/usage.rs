@@ -7,6 +7,8 @@ use swc_common::{
 
 fn main() {
     let cm = Arc::<SourceMap>::default();
+    
+    // Note: with_tty_emitter requires swc_common with feature tty-emitter.
     let handler = Arc::new(Handler::with_tty_emitter(
         ColorConfig::Auto,
         true,
