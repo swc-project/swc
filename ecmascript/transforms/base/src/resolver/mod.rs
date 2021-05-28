@@ -8,7 +8,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 #[cfg(test)]
 mod tests;
 
-const LOG: bool = false;
+const LOG: bool = true;
 
 /// See [resolver_with_mark] for docs.
 pub fn resolver() -> impl 'static + Fold {
@@ -211,7 +211,8 @@ impl<'a> Resolver<'a> {
     fn modify(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
             eprintln!(
-                "resolver: Binding {}{:?} {:?}",
+                "resolver: Binding (type = {}) {}{:?} {:?}",
+                self.in_type,
                 ident.sym,
                 ident.span.ctxt(),
                 kind
