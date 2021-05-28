@@ -5,6 +5,7 @@
 set -eu
 
 cargo test --test compress --all-features \
+  | grep 'terser__compress' \
   | grep 'js .\.\. ok$' \
   | sed -e 's!test fixture_terser__compress__!!' \
   | sed -e 's! ... ok!!' \
