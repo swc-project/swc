@@ -358,6 +358,8 @@ impl Optimizer<'_> {
 
             Stmt::Expr(..) => true,
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
+                Some(Expr::Await(..)) => false,
+
                 Some(Expr::Lit(Lit::Num(..))) => {
                     if self.ctx.in_obj_of_non_computed_member {
                         false
