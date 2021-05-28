@@ -9,6 +9,7 @@ use swc_common::Mark;
 use swc_common::Span;
 use swc_ecma_ast::*;
 use swc_ecma_utils::prop_name_eq;
+use swc_ecma_utils::ExprExt;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn access_property<'e>(
@@ -178,4 +179,49 @@ impl Drop for WithCtx<'_, '_> {
     fn drop(&mut self) {
         self.reducer.ctx = self.orig_ctx;
     }
+}
+
+pub(crate) fn class_has_side_effect(c: &Class) -> bool {
+    if let Some(e) = &c.super_class {
+        if e.may_have_side_effects() {
+            return true;
+        }
+    }
+
+    for m in &c.body {
+        match m {
+            ClassMember::Method(p) => {
+                if let PropName::Computed(key) = &p.key {
+                    if key.expr.may_have_side_effects() {
+                        return true;
+                    }
+                }
+            }
+
+            ClassMember::ClassProp(p) => {
+                if p.computed {
+                    if p.key.may_have_side_effects() {
+                        return true;
+                    }
+                }
+
+                if let Some(v) = &p.value {
+                    if v.may_have_side_effects() {
+                        return true;
+                    }
+                }
+            }
+            ClassMember::PrivateProp(p) => {
+                if let Some(v) = &p.value {
+                    if v.may_have_side_effects() {
+                        return true;
+                    }
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    false
 }

@@ -1,3 +1,4 @@
+use crate::compress::optimize::util::class_has_side_effect;
 use crate::option::PureGetterOption;
 
 use super::Optimizer;
@@ -253,6 +254,15 @@ impl Optimizer<'_> {
             if scope.has_eval_call || scope.has_with_stmt {
                 return;
             }
+        }
+
+        match decl {
+            Decl::Class(c) => {
+                if class_has_side_effect(&c.class) {
+                    return;
+                }
+            }
+            _ => {}
         }
 
         match decl {

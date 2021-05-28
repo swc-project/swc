@@ -1,3 +1,5 @@
+use crate::compress::optimize::util::class_has_side_effect;
+
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -309,54 +311,7 @@ impl Optimizer<'_> {
                 && !usage.used_in_loop
             {
                 match decl {
-                    Decl::Class(ClassDecl {
-                        class:
-                            Class {
-                                super_class: Some(super_class),
-                                body,
-                                ..
-                            },
-                        ..
-                    }) => {
-                        if super_class.may_have_side_effects() {
-                            return;
-                        }
-
-                        for m in &*body {
-                            match m {
-                                ClassMember::Method(p) => {
-                                    if let PropName::Computed(key) = &p.key {
-                                        if key.expr.may_have_side_effects() {
-                                            return;
-                                        }
-                                    }
-                                }
-
-                                ClassMember::ClassProp(p) => {
-                                    if p.computed {
-                                        if p.key.may_have_side_effects() {
-                                            return;
-                                        }
-                                    }
-
-                                    if let Some(v) = &p.value {
-                                        if v.may_have_side_effects() {
-                                            return;
-                                        }
-                                    }
-                                }
-                                ClassMember::PrivateProp(p) => {
-                                    if let Some(v) = &p.value {
-                                        if v.may_have_side_effects() {
-                                            return;
-                                        }
-                                    }
-                                }
-
-                                _ => {}
-                            }
-                        }
-                    }
+                    Decl::Class(ClassDecl { class, .. }) => if class_has_side_effect(&class) {},
                     _ => {}
                 }
 
