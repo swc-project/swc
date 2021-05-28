@@ -48,7 +48,10 @@ where
     P: Fold,
 {
     let dir = input.parent().unwrap();
-    let output = dir.join("output.js");
+    let output = dir.join(format!(
+        "output.{}",
+        input.extension().unwrap().to_string_lossy(),
+    ));
 
     run_test2(false, |cm, _| {
         let fm = cm.load_file(input).unwrap();
