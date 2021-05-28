@@ -160,6 +160,13 @@ evaluate/issue_2535_1/input.js
 evaluate/issue_2916_2/input.js
 evaluate/issue_2968/input.js
 evaluate/unsafe_object_accessor/input.js
+expansions/avoid_spread_getset_object/input.js
+expansions/avoid_spread_hole/input.js
+export/export_default_named_async_function/input.js
+export/export_default_named_generator/input.js
+export/issue_2134_1/input.js
+export/module_mangle_export_default_class/input.js
+export/module_mangle_export_default_function/input.js
 functions/avoid_generating_duplicate_functions_compared_together/input.js
 functions/avoid_generating_duplicate_functions_compared_together_2/input.js
 functions/avoid_generating_duplicate_functions_compared_together_3/input.js
@@ -207,6 +214,15 @@ harmony/module_mangle_scope/input.js
 harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
 harmony/regression_cannot_use_of/input.js
+hoist_props/issue_851_hoist_to_conflicting_name/input.js
+identity/inline_identity_async/input.js
+if_return/if_if_return_return/input.js
+if_return/if_return_4/input.js
+if_return/if_return_5/input.js
+if_return/if_return_7/input.js
+if_return/if_return_same_value/input.js
+if_return/if_var_return/input.js
+if_return/issue_512/input.js
 inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
 inline/dont_inline_funcs_into_default_param/input.js
 inline/dont_inline_funcs_into_default_param_2/input.js
@@ -332,6 +348,7 @@ negate_iife/issue_1288_side_effects/input.js
 negate_iife/negate_iife_3_off/input.js
 negate_iife/negate_iife_4/input.js
 negate_iife/negate_iife_5/input.js
+new/new_statements_3/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
 nullish/nullish_coalescing_boolean_context/input.js
@@ -409,6 +426,8 @@ pure_getters/strict/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
+pure_globals/globals_whose_access_is_pure/input.js
+pure_globals/window_access_is_impure/input.js
 reduce_vars/conditional_chain_certain_part/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
@@ -456,6 +475,7 @@ reduce_vars/unsafe_evaluate_escaped/input.js
 reduce_vars/unsafe_evaluate_modified/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
+return_undefined/return_undefined/input.js
 sequences/call/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/for_sequences/input.js
