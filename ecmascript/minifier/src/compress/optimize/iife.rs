@@ -141,7 +141,10 @@ impl Optimizer<'_> {
                         inline_prevented: false,
                         ..self.ctx
                     };
-                    callee.function.visit_mut_with(&mut *self.with_ctx(ctx));
+                    callee
+                        .function
+                        .body
+                        .visit_mut_with(&mut *self.with_ctx(ctx));
 
                     // TODO: Drop arguments if all usage is inlined. (We
                     // should preserve parameters)
