@@ -23,4 +23,4 @@ if [ -z "$@" ]; then
     SWC_RUN=0 GOLDEN_ONLY=1 cargo test --test compress --all-features 
 fi
 
-cargo test --test compress --all-features $@
+SKIP_GOLDEN=1 cargo test --test compress --all-features $@

@@ -64,7 +64,13 @@ fn is_ignored(path: &Path) -> bool {
         return true;
     }
 
-    if let Ok(one) = env::var("GOLDEN_ONLY").or_else(|_| env::var("CI")) {
+    if env::var("SKIP_GOLDEN").unwrap_or_default() == "1" {
+        if IGNORED.iter().any(|ignored| s.contains(&**ignored)) {
+            return true;
+        }
+    }
+
+    if let Ok(one) = env::var("GOLDEN_ONLY") {
         if one == "1" {
             if GOLDEN.iter().all(|golden| !s.contains(&**golden)) {
                 return true;
