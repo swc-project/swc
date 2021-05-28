@@ -123,6 +123,24 @@ impl Optimizer<'_> {
         match &mut e.callee {
             ExprOrSuper::Super(_) => {}
             ExprOrSuper::Expr(callee) => match &mut **callee {
+                Expr::Arrow(callee) => {
+                    let mut vars = HashMap::default();
+                    // We check for parameter and argument
+                    for (idx, param) in callee.params.iter().enumerate() {
+                        let arg = e.args.get(idx).map(|v| &v.expr);
+                        if let Pat::Ident(param) = &param {
+                            if let Some(arg) = arg {
+                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                                if should_be_inlined {
+                                    vars.insert(param.to_id(), arg.clone());
+                                }
+                            }
+                        }
+                    }
+
+                    self.inline_vars_in_node(&mut callee.body, vars);
+                }
+
                 Expr::Fn(callee) => {
                     // We check for parameter and argument
                     for (idx, param) in callee.function.params.iter().enumerate() {
@@ -158,8 +176,12 @@ impl Optimizer<'_> {
     where
         N: VisitMutWith<Self>,
     {
+        let ctx = Ctx {
+            inline_prevented: false,
+            ..self.ctx
+        };
         let orig_vars = replace(&mut self.vars_for_inlining, vars);
-        n.visit_mut_with(self);
+        n.visit_mut_with(&mut *self.with_ctx(ctx));
         self.vars_for_inlining = orig_vars;
     }
 
