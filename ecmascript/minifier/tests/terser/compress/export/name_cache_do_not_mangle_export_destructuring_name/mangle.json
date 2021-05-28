@@ -1,0 +1,4 @@
+{
+    "cache": { "props": { "$add": "_$ADD$_", "$sub": "_$SUB$_" } },
+    "module": true
+}

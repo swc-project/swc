@@ -13,7 +13,10 @@ use swc_ecma_transforms_typescript::strip::strip_with_config;
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
-    strip()
+    strip_with_config(strip::Config {
+        no_empty_export: true,
+        ..Default::default()
+    })
 }
 
 macro_rules! to {
@@ -197,7 +200,7 @@ const dict = {};"
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| chain!(strip(), resolver()),
+    |_| chain!(tr(), resolver()),
     issue_392_2,
     "
 import { PlainObject } from 'simplytyped';
@@ -209,7 +212,7 @@ const dict = {};"
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_461,
     "for (let x in ['']) {
   (x => 0)(x);
@@ -222,7 +225,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_1,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
@@ -233,7 +236,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_2,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
@@ -244,7 +247,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_3,
     "tView.firstCreatePass ?
       getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode",
@@ -253,7 +256,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_4,
     "a ? b : c",
     "a ? b : c"
@@ -261,7 +264,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_5,
     "a ? b : c as T",
     "a ? b : c"
@@ -269,7 +272,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_6,
     "a.b ? c() : d.e[f] as T",
     "a.b ? c() : d.e[f];"
@@ -277,7 +280,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_468_7,
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
@@ -285,7 +288,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     enum_simple,
     "enum Foo{ a }",
     "
@@ -298,7 +301,7 @@ var Foo;
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     enum_str,
     "enum State {
   closed = 'closed',
@@ -320,7 +323,7 @@ var State;
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     enum_key_value,
     "enum StateNum {
   closed = 'cl0',
@@ -340,7 +343,7 @@ var StateNum;
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     enum_export_str,
     "export enum State {
   closed = 'closed',
@@ -361,7 +364,7 @@ test!(
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_640,
     "import { Handler } from 'aws-lambda';
 export const handler: Handler = async (event, context) => {};",
@@ -371,7 +374,7 @@ export const handler: Handler = async (event, context) => {};",
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
-    |_| strip(),
+    |_| tr(),
     issue_656,
     "export const x = { text: 'hello' } as const;",
     "export const x = { text: 'hello' };",
@@ -834,7 +837,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        strip()
+        tr()
     ),
     issue_960_1,
     "
@@ -899,7 +902,7 @@ test_exec!(
             legacy: true,
             ..Default::default()
         }),
-        strip()
+        tr()
     ),
     issue_960_2,
     "function DefineAction() { return function(_a, _b, c) { return c } }
@@ -3071,7 +3074,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| strip(),
+    |_| tr(),
     deno_7413_1,
     "
     import { a } from './foo';
@@ -3086,7 +3089,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| strip(),
+    |_| tr(),
     deno_7413_2,
     "
     import './foo';
@@ -3102,9 +3105,11 @@ test!(
         ..Default::default()
     }),
     |_| {
-        let mut config = strip::Config::default();
-        config.import_not_used_as_values = strip::ImportsNotUsedAsValues::Preserve;
-        strip_with_config(config)
+        strip_with_config(strip::Config {
+            no_empty_export: true,
+            import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
+            ..Default::default()
+        })
     },
     deno_7413_3,
     "
@@ -3122,7 +3127,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| strip(),
+    |_| tr(),
     issue_1124,
     "
     import { Type } from './types';
@@ -3136,7 +3141,7 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(strip(), async_to_generator()),
+    |_| chain!(tr(), async_to_generator()),
     issue_1235_1,
     "
     class Service {
@@ -3167,7 +3172,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), optional_chaining()),
+    |_| chain!(tr(), optional_chaining()),
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
@@ -3181,7 +3186,7 @@ test!(
     Syntax::Typescript(TsConfig {
         ..Default::default()
     }),
-    |_| chain!(strip(), nullish_coalescing()),
+    |_| chain!(tr(), nullish_coalescing()),
     issue_1123_1,
     r#"
     interface SuperSubmission {
@@ -3234,10 +3239,10 @@ test!(
         ..Default::default()
     }),
     |_| chain!(
-        strip_with_config({
-            let mut config = strip::Config::default();
-            config.use_define_for_class_fields = true;
-            config
+        strip_with_config(strip::Config {
+            use_define_for_class_fields: true,
+            no_empty_export: true,
+            ..Default::default()
         }),
         class_properties()
     ),
@@ -3269,7 +3274,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(resolver(), decorators(Default::default()), strip()),
+    |_| chain!(resolver(), decorators(Default::default()), tr()),
     issue_367,
     "
 
@@ -3514,6 +3519,7 @@ test_with_config!(
     issue_1472_1_define,
     strip::Config {
         use_define_for_class_fields: true,
+        no_empty_export: true,
         ..Default::default()
     },
     "
@@ -3539,6 +3545,7 @@ test_with_config!(
 test_with_config!(
     issue_1472_1_no_define,
     strip::Config {
+        no_empty_export: true,
         use_define_for_class_fields: false,
         ..Default::default()
     },

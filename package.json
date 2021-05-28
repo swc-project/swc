@@ -1,87 +1,89 @@
 {
-  "name": "@swc/core",
-  "version": "1.2.58",
-  "description": "Super-fast alternative for babel",
-  "homepage": "https://swc.rs",
-  "main": "./index.js",
-  "author": "강동윤 <kdy1997.dev@gmail.com>",
-  "license": "MIT",
-  "keywords": [
-    "swc",
-    "spack",
-    "babel",
-    "typescript",
-    "rust",
-    "webpack",
-    "tsc"
-  ],
-  "engines": {
-    "node": ">=10"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/swc-project/swc.git"
-  },
-  "bugs": {
-    "url": "https://github.com/swc-project/swc/issues"
-  },
-  "napi": {
-    "name": "swc",
-    "triples": {
-      "defaults": true,
-      "additional": [
-        "x86_64-unknown-linux-musl",
-        "i686-pc-windows-msvc",
-        "aarch64-unknown-linux-gnu",
-        "armv7-unknown-linux-gnueabihf",
-        "aarch64-apple-darwin",
-        "aarch64-linux-android"
-      ]
+    "name": "@swc/core",
+    "version": "1.2.59",
+    "description": "Super-fast alternative for babel",
+    "homepage": "https://swc.rs",
+    "main": "./index.js",
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "MIT",
+    "keywords": [
+        "swc",
+        "spack",
+        "babel",
+        "typescript",
+        "rust",
+        "webpack",
+        "tsc"
+    ],
+    "engines": {
+        "node": ">=10"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "napi": {
+        "name": "swc",
+        "triples": {
+            "defaults": true,
+            "additional": [
+                "x86_64-unknown-linux-musl",
+                "i686-pc-windows-msvc",
+                "aarch64-unknown-linux-gnu",
+                "armv7-unknown-linux-gnueabihf",
+                "aarch64-apple-darwin",
+                "aarch64-linux-android",
+                "x86_64-unknown-freebsd"
+            ]
+        }
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "dependencies": {
+        "@node-rs/helper": "^1.0.0"
+    },
+    "types": "./lib/index.d.ts",
+    "scripts": {
+        "artifacts": "napi artifacts --dist scripts/npm",
+        "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
+        "build": "tsc -d && napi build --platform --release --cargo-name node --cargo-flags=\"-p node\"",
+        "build:dev": "tsc -d && napi build --platform --cargo-name node --cargo-flags=\"-p node\"",
+        "test": "jest node-swc/__tests__",
+        "version": "napi version -p scripts/npm"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.13.16",
+        "@babel/plugin-proposal-class-properties": "^7.13.0",
+        "@babel/plugin-proposal-decorators": "^7.13.15",
+        "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+        "@babel/preset-env": "^7.13.15",
+        "@babel/preset-react": "^7.13.13",
+        "@babel/preset-typescript": "^7.13.0",
+        "@babel/types": "^7.14.0",
+        "@napi-rs/cli": "^1.0.4",
+        "@swc/helpers": "^0.2.10",
+        "@types/browserslist": "^4.15.0",
+        "@types/jest": "^26.0.23",
+        "@types/node": "^14.14.41",
+        "axios": "^0.21.1",
+        "babel-plugin-transform-node-env-inline": "^0.4.3",
+        "browserslist": "^4.16.5",
+        "core-js": "^2.6.11",
+        "jest": "^27.0.1",
+        "lodash": "^4.17.21",
+        "progress": "^2.0.3",
+        "source-map": "^0.7.3",
+        "source-map-support": "^0.5.19",
+        "sourcemap-validator": "^1.1.1",
+        "typescript": "^4.2.0-beta"
+    },
+    "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/swc"
     }
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
-  "dependencies": {
-    "@node-rs/helper": "^1.0.0"
-  },
-  "types": "./lib/index.d.ts",
-  "scripts": {
-    "artifacts": "napi artifacts --dist scripts/npm",
-    "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
-    "build": "tsc -d && napi build --platform --release --cargo-name node --cargo-flags=\"-p node\"",
-    "build:dev": "tsc -d && napi build --platform --cargo-name node --cargo-flags=\"-p node\"",
-    "test": "jest node-swc/__tests__",
-    "version": "napi version -p scripts/npm"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.13.16",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/plugin-proposal-decorators": "^7.13.15",
-    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
-    "@babel/preset-env": "^7.13.15",
-    "@babel/preset-react": "^7.13.13",
-    "@babel/preset-typescript": "^7.13.0",
-    "@babel/types": "^7.14.0",
-    "@napi-rs/cli": "^1.0.4",
-    "@swc/helpers": "^0.2.10",
-    "@types/browserslist": "^4.15.0",
-    "@types/jest": "^25.2.3",
-    "@types/node": "^14.14.41",
-    "axios": "^0.21.1",
-    "babel-plugin-transform-node-env-inline": "^0.4.3",
-    "browserslist": "^4.16.5",
-    "jest": "^23.6.0",
-    "lodash": "^4.17.21",
-    "progress": "^2.0.3",
-    "source-map": "^0.7.3",
-    "source-map-support": "^0.5.19",
-    "sourcemap-validator": "^1.1.1",
-    "typescript": "^4.2.0-beta"
-  },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/swc"
-  }
 }

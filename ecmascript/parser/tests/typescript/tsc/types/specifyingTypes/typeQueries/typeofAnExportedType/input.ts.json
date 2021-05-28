@@ -1334,6 +1334,7 @@
       },
       "declare": false,
       "isExport": true,
+      "isTypeOnly": false,
       "id": {
         "type": "Identifier",
         "span": {

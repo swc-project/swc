@@ -47,13 +47,20 @@ fn ts_transform() -> impl Fold {
             legacy: true,
             ..Default::default()
         }),
-        strip(),
+        simple_strip(),
     )
+}
+
+fn simple_strip() -> impl Fold {
+    strip::strip_with_config(strip::Config {
+        no_empty_export: true,
+        ..Default::default()
+    })
 }
 
 /// Folder for `transformation_*` tests
 fn transformation() -> impl Fold {
-    chain!(decorators(Default::default()), strip(),)
+    chain!(decorators(Default::default()), simple_strip(),)
 }
 
 // transformation_declaration
@@ -2037,7 +2044,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        strip()
+        simple_strip()
     ),
     legacy_regression_10264,
     r#"
@@ -4275,7 +4282,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        strip()
+        simple_strip()
     ),
     issue_823_1,
     "import {Debounce} from 'lodash-decorators';
@@ -4315,7 +4322,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        strip(),
+        simple_strip(),
         // classes(Some(t.comments.clone())),
     ),
     issue_823_2,
@@ -4357,7 +4364,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        strip(),
+        simple_strip(),
         classes(Some(t.comments.clone())),
     ),
     issue_823_3,
@@ -4607,7 +4614,7 @@ test!(
             legacy: true,
             ..Default::default()
         }),
-        strip(),
+        simple_strip(),
     ),
     issue_879_1,
     "export default class X {

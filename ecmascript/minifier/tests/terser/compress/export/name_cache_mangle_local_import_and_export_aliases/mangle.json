@@ -1,0 +1,13 @@
+{
+    "cache": {
+        "props": {
+            "$foo": "_$FOO$_",
+            "$bar": "_$BAR$_",
+            "$qux": "_$QUX$_",
+            "$cat": "_$CAT$_",
+            "$dog": "_$DOG$_",
+            "$bird": "_$BIRD$_"
+        }
+    },
+    "module": true
+}

@@ -110,7 +110,7 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::Callee { is_new: false };
         node.callee.visit_mut_with(self);
         match &mut node.callee {
-            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() => {
+            ExprOrSuper::Expr(e) if e.is_cond() || e.is_bin() || e.is_lit() || e.is_unary() => {
                 self.wrap(&mut **e);
             }
             _ => {}
@@ -170,7 +170,9 @@ impl VisitMut for Fixer<'_> {
                             self.wrap(&mut expr.right);
                         }
                     }
-                } else if op_of_rhs.precedence() <= expr.op.precedence() {
+                } else if op_of_rhs.precedence() <= expr.op.precedence()
+                    || (*op_of_rhs == op!("&&") && expr.op == op!("??"))
+                {
                     self.wrap(&mut expr.right);
                 }
             }
@@ -185,7 +187,9 @@ impl VisitMut for Fixer<'_> {
             // While simplifying, (1 + x) * Nan becomes `1 + x * Nan`.
             // But it should be `(1 + x) * Nan`
             Expr::Bin(BinExpr { op: op_of_lhs, .. }) => {
-                if op_of_lhs.precedence() < expr.op.precedence() {
+                if op_of_lhs.precedence() < expr.op.precedence()
+                    || (op_of_lhs.precedence() == expr.op.precedence() && expr.op == op!("**"))
+                {
                     self.wrap(&mut expr.left);
                 }
             }
@@ -274,6 +278,11 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match *n.arg {
+            // Don't wrap
+            Expr::Bin(BinExpr { op: op!("*"), .. })
+            | Expr::Bin(BinExpr { op: op!("%"), .. })
+            | Expr::Bin(BinExpr { op: op!("/"), .. }) => {}
+
             Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
@@ -334,9 +343,11 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        let ctx = self.ctx;
         self.unwrap_expr(e);
         e.visit_mut_children_with(self);
 
+        self.ctx = ctx;
         self.wrap_with_paren_if_required(e)
     }
     fn visit_mut_expr_or_spread(&mut self, e: &mut ExprOrSpread) {
@@ -419,6 +430,23 @@ impl VisitMut for Fixer<'_> {
         self.ctx = Context::ForcedExpr { is_var_decl: true };
         node.init.visit_mut_with(self);
         self.ctx = old;
+    }
+
+    fn visit_mut_tagged_tpl(&mut self, e: &mut TaggedTpl) {
+        e.visit_mut_children_with(self);
+
+        match &*e.tag {
+            Expr::Arrow(..)
+            | Expr::Cond(..)
+            | Expr::Bin(..)
+            | Expr::Seq(..)
+            | Expr::Fn(..)
+            | Expr::Assign(..)
+            | Expr::Unary(..) => {
+                self.wrap(&mut e.tag);
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
@@ -1184,4 +1212,12 @@ var store = global[SHARED] || (global[SHARED] = {});
         deno_10487_2,
         "class MultiVector extends (options.baseType||Float32Array) {}"
     );
+
+    identical!(deno_10668_1, "console.log(null ?? (undefined && true))");
+
+    identical!(deno_10668_2, "console.log(null && (undefined ?? true))");
+
+    identical!(minifier_003, "(four ** one) ** two");
+
+    identical!(minifier_004, "(void 0)(0)");
 }

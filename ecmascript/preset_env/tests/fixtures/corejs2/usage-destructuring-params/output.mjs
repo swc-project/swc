@@ -1,3 +1,3 @@
 function a(param) {
-  var [b, c] = param;
+    var [b, c] = param;
 }

@@ -1,4 +1,5 @@
 #![feature(test)]
+use crate::es2015::regenerator;
 use swc_common::{chain, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_parser::Syntax;
@@ -14,8 +15,6 @@ use swc_ecma_transforms_compat::es2020::class_properties;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::{Fold, FoldWith};
-
-use crate::es2015::regenerator;
 
 struct ParenRemover;
 impl Fold for ParenRemover {
@@ -151,11 +150,11 @@ test!(
     r#"
 _asyncToGenerator(function*() {
     yield 'ok';
-});
+})();
 
 _asyncToGenerator(function*() {
     yield 'ok';
-});
+})();
 
 (function() {
     var _notIIFE = _asyncToGenerator(function*() {
@@ -2211,7 +2210,7 @@ test!(
         console.log({
             obj
         });
-    });
+    })();
     "
 );
 
@@ -2422,4 +2421,194 @@ test_exec!(
   }
   return obj.method().then((res) => expect(res).toBe(5))
 "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1722_1,
+    "
+    (async function main() {
+      console.log(1)
+    })(foo);
+    ",
+    "
+    (function () {
+      var _main = _asyncToGenerator(function* () {
+        console.log(1);
+      });
+    
+      function main() {
+        return _main.apply(this, arguments);
+      }
+    
+      return main;
+    })()(foo);
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1721_1,
+    "
+    async function main() {
+      for await (const x of lol()) {
+        console.log(x);
+      }
+    }
+    ",
+    "
+    function _main() {
+        _main = _asyncToGenerator(function*() {
+            {
+                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError;
+                try {
+                    for(var _iterator = _asyncIterator(lol()), _step, _value; _step = yield \
+     _iterator.next(), _iteratorNormalCompletion = _step.done, _value = yield _step.value, \
+     !_iteratorNormalCompletion; _iteratorNormalCompletion = true){
+                        const x = _value;
+                        console.log(x);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally{
+                    try {
+                        if (!_iteratorNormalCompletion && _iterator.return != null) {
+                            yield _iteratorError.return();
+                        }
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+            }
+        });
+        return _main.apply(this, arguments);
+    }
+    function main() {
+        return _main.apply(this, arguments);
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1721_2_async_generator,
+    "
+    async function* lol() {
+      yield 1;
+      yield 2;
+    }
+    ",
+    "
+    function _lol() {
+      _lol = _wrapAsyncGenerator(function* () {
+        yield 1;
+        yield 2;
+      });
+      return _lol.apply(this, arguments);
+    }
+
+    function lol() {
+      return _lol.apply(this, arguments);
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| async_to_generator(),
+    issue_1684_1,
+    "
+    const cache = {}
+
+    async function getThing(key) {
+      const it = cache[key] || (await fetchThing(key))
+      return it
+    }
+
+    function fetchThing(key) {
+      return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
+    }
+    ",
+    "
+    const cache = {
+    };
+    function _getThing() {
+        _getThing = _asyncToGenerator(function*(key) {
+            const it = cache[key] || (yield fetchThing(key));
+            return it;
+        });
+        return _getThing.apply(this, arguments);
+    }
+    function getThing(key) {
+        return _getThing.apply(this, arguments);
+    }
+    function fetchThing(key) {
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+        );
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let top_level_mark = Mark::fresh(Mark::root());
+        chain!(async_to_generator(), regenerator(top_level_mark))
+    },
+    issue_1684_2,
+    "
+    const cache = {}
+
+    async function getThing(key) {
+      const it = cache[key] || (await fetchThing(key))
+      return it
+    }
+
+    function fetchThing(key) {
+      return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    var _marked = regeneratorRuntime.mark(_getThing);
+    const cache = {
+    };
+    function _getThing() {
+        _getThing = _asyncToGenerator(regeneratorRuntime.mark(function _callee(key) {
+            var it;
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.t0 = cache[key];
+                        if (_ctx.t0) {
+                            _ctx.next = 4;
+                            break;
+                        }
+                        _ctx.next = 4;
+                        return fetchThing(key);
+                    case 4:
+                        it = _ctx.t0;
+                        return _ctx.abrupt('return', it);
+                    case 6:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        }));
+        return _getThing.apply(this, arguments);
+    }
+    function getThing(key) {
+        return _getThing.apply(this, arguments);
+    }
+    function fetchThing(key) {
+        return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val
+        );
+    }
+    "
 );

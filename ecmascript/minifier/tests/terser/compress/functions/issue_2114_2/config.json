@@ -1,0 +1,9 @@
+{
+    "collapse_vars": true,
+    "if_return": true,
+    "inline": true,
+    "keep_fargs": false,
+    "passes": 2,
+    "side_effects": true,
+    "unused": true
+}

@@ -17,8 +17,8 @@
     </a>
 </p>
 <p align="center">
-   <a href="https://travis-ci.com/github/swc-project/swc">
-      <img alt="Travis Status" src="https://img.shields.io/travis/swc-project/swc/master.svg?label=travis&maxAge=43200">
+   <a href="https://github.com/swc-project/swc/actions/workflows/cargo.yml">
+      <img alt="CI Status" src="https://github.com/swc-project/swc/actions/workflows/cargo.yml/badge.svg?event=push">
    </a>
    <a href="https://codecov.io/gh/swc-project/swc">
       <img alt="Coverage" src="https://codecov.io/gh/swc-project/swc/branch/master/graph/badge.svg">
@@ -37,17 +37,7 @@ Please see [comparison with babel](https://swc.rs/docs/comparison-babel).
 
 # Performance
 
-The lower bound of the speedup compared to babel is **18**. The benchmarks were run on Macbook pro, dual core, 2.3GHz Intel Core i5, 16 GB ram
-
-|                    |              performance               |
-| ------------------ | :------------------------------------: |
-| swc (es3)          |  761 ops/sec ±0.23% (89 runs sampled)  |
-| swc (es2015)       |  800 ops/sec ±1.02% (87 runs sampled)  |
-| swc (es2016)       | 2123 ops/sec ±0.84% (88 runs sampled)  |
-| swc (es2017)       | 2131 ops/sec ±1.13% (90 runs sampled)  |
-| swc (es2018)       | 2981 ops/sec ±0.25% (90 runs sampled)  |
-| swc-optimize (es3) |  712 ops/sec ±0.21% (86 runs sampled)  |
-| babel              | 41.75 ops/sec ±8.07% (56 runs sampled) |
+Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the website.
 
 <h2 align="center">Supporting swc</h2>
 
@@ -68,9 +58,9 @@ The lower bound of the speedup compared to babel is **18**. The benchmarks were 
 
 swc is a community-driven project, and is maintained by a group of [volunteers](https://opencollective.com/swc#team). If you'd like to help support the future of the project, please consider:
 
-- Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
-- [Slackin for swc](https://swc-slackin.herokuapp.com)
-- Giving funds by becoming a sponsor (see below)!
+-   Giving developer time on the project. (Message us on [Github discussions](https://github.com/swc-project/swc/discussions) (preferred) or [Slack](https://swc-org.slack.com/) for guidance!)
+-   [Slackin for swc](https://swc-slackin.herokuapp.com)
+-   Giving funds by becoming a sponsor (see below)!
 
 ## Open Collective Sponsors
 
@@ -78,17 +68,17 @@ Become a sponsor and get your logo on our README on Github with a link to your s
 
 <h2 id="gold-sponsers" align="center">Gold Sponsors</h2>
 <a href="https://opencollective.com/swc">
-    <img src="https://opencollective.com/swc/tiers/gold-sponsers.svg?avatarHeight=64">
+    <img src="https://opencollective.com/swc/tiers/gold-sponsors.svg?avatarHeight=64">
 </a>
 
 <h2 id="silver-sponsers" align="center">Silver Sponsors</h2>
 <a href="https://opencollective.com/swc">
-    <img src="https://opencollective.com/swc/tiers/silver-sponsers.svg?avatarHeight=64">
+    <img src="https://opencollective.com/swc/tiers/silver-sponsors.svg?avatarHeight=64">
 </a>
 
 <h2 id="bronze-sponsers" align="center">Bronze Sponsors</h2>
 <a href="https://opencollective.com/swc">
-    <img src="https://opencollective.com/swc/tiers/bronze-sponsers.svg?avatarHeight=64">
+    <img src="https://opencollective.com/swc/tiers/bronze-sponsors.svg?avatarHeight=64">
 </a>
 
 <h2 id="backers" align="center">Backers</h2>

@@ -254,8 +254,8 @@ impl CaseHandler<'_> {
         has_leaping_children: bool,
         child: Expr,
         ignore_child_result: bool,
-    ) {
-        let result = self.explode_expr(child, ignore_child_result);
+    ) -> Expr {
+        let mut result = self.explode_expr(child, ignore_child_result);
 
         if ignore_child_result {
             // Side effects already emitted above.
@@ -272,8 +272,13 @@ impl CaseHandler<'_> {
             // matter (and thus we do not need a temporary variable) is when the
             // result in question is a Literal value.
             let temp_var = temp_var.unwrap_or_else(|| self.make_var());
-            self.emit_assign(temp_var, result);
+
+            // emitAssign of js regenerator transform returns lhs
+            self.emit_assign(temp_var.clone(), result);
+            result = temp_var;
         }
+
+        result
     }
 
     fn explode_expr(&mut self, e: Expr, ignore_result: bool) -> Expr {
@@ -562,7 +567,12 @@ impl CaseHandler<'_> {
                     Some(self.make_var())
                 };
 
-                let left = e.left.map(|e| self.explode_expr(e, false));
+                let left = Box::new(self.explode_expr_via_temp_var(
+                    result.clone(),
+                    has_leaping_children,
+                    *e.left,
+                    false,
+                ));
 
                 match e.op {
                     op!("&&") => self.jump_if_not(left.clone(), after),

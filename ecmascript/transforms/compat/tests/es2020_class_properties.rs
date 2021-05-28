@@ -5,7 +5,7 @@ use swc_common::chain;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
-    es2015::{arrow, block_scoping, classes, function_name},
+    es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentation,
     es2017::async_to_generator,
     es2020::{class_properties, typescript_class_properties},
@@ -5247,5 +5247,235 @@ test!(
         run() {
         }
     });
+    "
+);
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1694_1,
+    "
+    class MyClass {
+        #get() {
+            return 1
+        }
+        constructor() {
+            this.#get(foo);
+        }
+    }
+    ",
+    "
+    var _get = new WeakSet();
+    class MyClass {
+        constructor(){
+            _get.add(this);
+            _classPrivateMethodGet(this, _get, get).call(this, foo);
+        }
+    }
+    function get() {
+        return 1;
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1694_2,
+    "
+class MyClass {
+    static #get() {
+        return 1
+    }
+    constructor() {
+        MyClass.#get(foo);
+    }
+}
+",
+    "
+  var _get = new WeakSet();
+  class MyClass {
+      constructor(){
+          _get.add(this);
+          _classStaticPrivateMethodGet(MyClass, MyClass, get).call(MyClass, foo);
+      }
+  }
+  function get() {
+      return 1;
+  }
+  "
+);
+
+test!(
+    syntax(),
+    |_| chain!(class_properties(), async_to_generator()),
+    issue_1702_1,
+    "
+    class Foo {
+      #y;
+      static #z = 3;
+    
+      constructor() {
+        this.x = 1;
+        this.#y = 2;
+        this.#sssss();
+      }
+    
+      #sssss() {
+        console.log(this.x, this.#y, Foo.#z);
+      }
+    }
+    
+    const instance = new Foo();
+    ",
+    "
+    var _sssss = new WeakSet();
+    class Foo {
+        constructor(){
+            _y.set(this, {
+                writable: true,
+                value: void 0
+            });
+            _sssss.add(this);
+            this.x = 1;
+            _classPrivateFieldSet(this, _y, 2);
+            _classPrivateMethodGet(this, _sssss, sssss).call(this);
+        }
+    }
+    var _y = new WeakMap();
+    var _z = {
+        writable: true,
+        value: 3
+    };
+    function sssss() {
+        console.log(this.x, _classPrivateFieldGet(this, _y), _classStaticPrivateFieldSpecGet(Foo, \
+     Foo, _z));
+    }
+    const instance = new Foo();
+    "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1711_1,
+    "
+    class Foo {
+      #value() {
+        return 1;
+      }
+      // #value = 1;
+    
+      get(target) {
+        return target.#value;
+      }
+    }
+    ",
+    "
+    var _value = new WeakSet();
+    class Foo {
+        get(target) {
+            return _classPrivateMethodGet(target, _value, value);
+        }
+        constructor(){
+            _value.add(this);
+        }
+    }
+    function value() {
+        return 1;
+    }
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| class_properties(),
+    issue_1742_1,
+    "
+    class Foo {
+      #tag() {
+        return this;
+      }
+      
+      #tag2 = this.#tag;
+
+      constructor() {
+        const receiver = this.#tag`tagged template`;
+        expect(receiver).toBe(this);
+
+        const receiver2 = this.#tag2`tagged template`;
+        expect(receiver2).toBe(this);
+      }
+    }
+    new Foo();
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| chain!(class_properties(), template_literal()),
+    issue_1742_2,
+    "
+  class Foo {
+    #tag() {
+      return this;
+    }
+    
+    #tag2 = this.#tag;
+
+    constructor() {
+      const receiver = this.#tag`tagged template`;
+      expect(receiver).toBe(this);
+
+      const receiver2 = this.#tag2`tagged template`;
+      expect(receiver2).toBe(this);
+    }
+  }
+  new Foo();
+  "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1742_3,
+    "
+    class Foo {
+      #tag() {
+        return this;
+      }
+      
+      #tag2 = this.#tag;
+
+      constructor() {
+        const receiver = this.#tag`tagged template`;
+        expect(receiver).toBe(this);
+
+        const receiver2 = this.#tag2`tagged template`;
+        expect(receiver2).toBe(this);
+      }
+    }
+    new Foo();
+    ",
+    "
+    var _tag = new WeakSet();
+    class Foo {
+        constructor(){
+            _tag.add(this);
+            _tag2.set(this, {
+                writable: true,
+                value: _classPrivateMethodGet(this, _tag, tag)
+            });
+            const receiver = _classPrivateMethodGet(this, _tag, tag).bind(this)`tagged template`;
+            expect(receiver).toBe(this);
+            const receiver2 = _classPrivateFieldGet(this, _tag2).bind(this)`tagged template`;
+            expect(receiver2).toBe(this);
+        }
+    }
+    var _tag2 = new WeakMap();
+    function tag() {
+        return this;
+    }
+    new Foo();
     "
 );

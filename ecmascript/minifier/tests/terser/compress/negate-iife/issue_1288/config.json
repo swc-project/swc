@@ -1,0 +1,5 @@
+{
+    "conditionals": true,
+    "negate_iife": true,
+    "side_effects": false
+}

@@ -1,0 +1,10 @@
+{
+    "conditionals": true,
+    "dead_code": true,
+    "evaluate": true,
+    "global_defs": {
+        "@isDevMode": "function(){}"
+    },
+    "passes": 2,
+    "side_effects": true
+}

@@ -360,8 +360,6 @@ impl<'a, I: Tokens> Parser<I> {
                     false,
                     false,
                 );
-            } else if accessibility.is_none() {
-                self.emit_err(self.input.prev_span(), SyntaxError::TS1031);
             }
         }
 

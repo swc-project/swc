@@ -1,0 +1,6 @@
+{
+    "keep_fnames": false,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "unused": true
+}

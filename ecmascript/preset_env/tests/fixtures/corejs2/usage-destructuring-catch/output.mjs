@@ -1,5 +1,5 @@
 try {
-  a();
+    a();
 } catch (param) {
     var [b, c] = param;
 }

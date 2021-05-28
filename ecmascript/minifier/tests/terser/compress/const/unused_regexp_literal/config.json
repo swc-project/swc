@@ -1,0 +1,14 @@
+{
+    "evaluate": true,
+    "booleans": true,
+    "comparisons": true,
+    "dead_code": true,
+    "conditionals": true,
+    "side_effects": true,
+    "unused": true,
+    "hoist_funs": true,
+    "if_return": true,
+    "join_vars": true,
+    "sequences": false,
+    "collapse_vars": false
+}

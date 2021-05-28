@@ -373,6 +373,7 @@
             },
             "declare": false,
             "isExport": false,
+            "isTypeOnly": false,
             "id": {
               "type": "Identifier",
               "span": {
@@ -703,6 +704,7 @@
             },
             "declare": false,
             "isExport": false,
+            "isTypeOnly": false,
             "id": {
               "type": "Identifier",
               "span": {

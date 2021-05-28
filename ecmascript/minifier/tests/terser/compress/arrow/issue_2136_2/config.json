@@ -1,0 +1,8 @@
+{
+    "arrows": true,
+    "collapse_vars": true,
+    "ecma": 2015,
+    "inline": true,
+    "side_effects": true,
+    "unused": true
+}

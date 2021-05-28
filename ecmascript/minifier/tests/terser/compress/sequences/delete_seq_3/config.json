@@ -1,0 +1,5 @@
+{
+    "booleans": true,
+    "keep_infinity": true,
+    "side_effects": true
+}

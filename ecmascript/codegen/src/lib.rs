@@ -432,7 +432,7 @@ impl<'a> Emitter<'a> {
             self.wr.write_str_lit(num.span, "Infinity")?;
         } else {
             if num.value.is_sign_negative() && num.value == 0.0 {
-                self.wr.write_str_lit(num.span, "-0.0")?;
+                self.wr.write_str_lit(num.span, "-0")?;
             } else {
                 self.wr.write_str_lit(num.span, &format!("{}", num.value))?;
             }
@@ -626,6 +626,10 @@ impl<'a> Emitter<'a> {
                         if value.fract() == 0.0 {
                             return true;
                         }
+                        if span.is_dummy() {
+                            return false;
+                        }
+
                         // check if numeric literal is a decimal literal that was originally written
                         // with a dot
                         if let Ok(text) = self.cm.span_to_snippet(span) {
@@ -1217,7 +1221,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         self.wr
-            .write_str_lit(node.span, &unescape(&node.raw.value))?;
+            .write_str_lit(node.span, &unescape_tpl_lit(&node.raw.value))?;
         return Ok(());
     }
 
@@ -2352,7 +2356,7 @@ where
     }
 }
 
-fn unescape(s: &str) -> String {
+fn unescape_tpl_lit(s: &str) -> String {
     fn read_escaped(
         radix: u32,
         len: Option<usize>,
@@ -2403,12 +2407,16 @@ fn unescape(s: &str) -> String {
     }
 
     let mut result = String::with_capacity(s.len() * 6 / 5);
-    let mut chars = s.chars();
+    let mut chars = s.chars().peekable();
 
     while let Some(c) = chars.next() {
         if c != '\\' {
             match c {
                 '\r' => {
+                    if chars.peek().map(|&v| v) == Some('\n') {
+                        continue;
+                    }
+
                     result.push_str("\\r");
                 }
                 '\n' => {
@@ -2495,15 +2503,19 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             }
 
             _ => {
-                let escaped = c.escape_unicode().to_string();
+                if target >= EsVersion::Es2015 {
+                    let escaped = c.escape_unicode().to_string();
 
-                if escaped.starts_with('\\') {
-                    buf.push_str("\\u");
-                    if escaped.len() == 8 {
-                        buf.push_str(&escaped[3..=6]);
-                    } else {
-                        buf.push_str(&escaped[2..]);
+                    if escaped.starts_with('\\') {
+                        buf.push_str("\\u");
+                        if escaped.len() == 8 {
+                            buf.push_str(&escaped[3..=6]);
+                        } else {
+                            buf.push_str(&escaped[2..]);
+                        }
                     }
+                } else {
+                    buf.push(c);
                 }
             }
         }

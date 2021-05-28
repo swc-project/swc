@@ -1633,6 +1633,7 @@ define!({
         pub span: Span,
         pub declare: bool,
         pub is_export: bool,
+        pub is_type_only: bool,
         pub id: Ident,
         pub module_ref: TsModuleRef,
     }

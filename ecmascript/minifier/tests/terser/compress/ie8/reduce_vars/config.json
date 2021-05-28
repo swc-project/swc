@@ -1,0 +1,7 @@
+{
+    "evaluate": true,
+    "ie8": true,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "unused": true
+}

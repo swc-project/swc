@@ -4,7 +4,7 @@ on:
   create:
     tags:
       - v*
-
+    
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
@@ -301,6 +301,54 @@ jobs:
           name: bindings
           path: swc.*.node
 
+  build-freebsd:
+    runs-on: macos-latest
+    name: Build FreeBSD
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      id: build
+      uses: vmactions/freebsd-vm@v0.1.4
+      env:
+        DEBUG: 'napi:*'
+        RUSTUP_HOME: /usr/local/rustup
+        CARGO_HOME: /usr/local/cargo
+        RUSTUP_IO_THREADS: 1
+      with:
+        envs: 'DEBUG RUSTUP_HOME CARGO_HOME RUSTUP_IO_THREADS'
+        usesh: true
+        mem: 3000
+        prepare: |
+          pkg install -y curl node yarn npm
+          curl https://sh.rustup.rs -sSf --output rustup.sh
+          sh rustup.sh -y --profile minimal --default-toolchain stable
+          export PATH="/usr/local/cargo/bin:$PATH"
+          echo "~~~~ rustc --version ~~~~"
+          rustc --version
+          echo "~~~~ node -v ~~~~"
+          node -v
+          echo "~~~~ yarn --version ~~~~"
+          yarn --version
+        run: |
+          export PATH="/usr/local/cargo/bin:$PATH"
+          pwd
+          ls -lah
+          whoami
+          env
+          freebsd-version
+          npm i
+          cargo build --release -p node
+          yarn build
+          npm test
+    - name: 'List files'
+      run: ls -la
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: bindings
+        path: swc.*.node
+
   publish:
     name: npm
     runs-on: ubuntu-latest
@@ -312,6 +360,7 @@ jobs:
       - build-linux-aarch64
       - build-apple-silicon
       - build-android-aarch64
+      - build-freebsd
     steps:
       - uses: actions/checkout@v2
 

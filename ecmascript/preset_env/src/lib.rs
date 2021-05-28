@@ -81,8 +81,11 @@ where
         bugfixes::template_literal_caching()
     );
 
+    // Proposals
+
     // ES2020
 
+    let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
     let pass = add!(pass, NullishCoalescing, es2020::nullish_coalescing());
     let pass = add!(pass, OptionalChaining, es2020::optional_chaining());
     let pass = add!(pass, ClassProperties, es2020::class_properties());
@@ -186,6 +189,12 @@ where
 pub struct BrowserData<T: Default> {
     #[serde(default)]
     pub chrome: T,
+    #[serde(default)]
+    pub and_chr: T,
+    #[serde(default)]
+    pub and_ff: T,
+    #[serde(default)]
+    pub op_mob: T,
     #[serde(default)]
     pub ie: T,
     #[serde(default)]

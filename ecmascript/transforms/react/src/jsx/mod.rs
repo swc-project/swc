@@ -3,6 +3,7 @@ use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::fmt::Write;
 use std::iter::once;
 use std::{iter, mem};
 use string_enum::StringEnum;
@@ -683,22 +684,19 @@ where
         let value = a
             .value
             .map(|v| match v {
+                JSXAttrValue::Lit(Lit::Str(s)) => Box::new(Expr::Lit(Lit::Str(Str {
+                    span: s.span,
+                    value: transform_jsx_attr_str(&s.value).into(),
+                    has_escape: false,
+                    kind: Default::default(),
+                }))),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     expr: JSXExpr::Expr(e),
                     ..
                 }) => e,
                 JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
                 JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
-                JSXAttrValue::Lit(mut lit) => {
-                    match &mut lit {
-                        Lit::Str(s) => {
-                            s.kind = Default::default();
-                        }
-                        _ => {}
-                    }
-
-                    Box::new(lit.into())
-                }
+                JSXAttrValue::Lit(lit) => Box::new(lit.into()),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
                     expr: JSXExpr::JSXEmptyExpr(_),
@@ -1078,6 +1076,12 @@ fn jsx_text_to_str(t: JsWord) -> JsWord {
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
+        JSXAttrValue::Lit(Lit::Str(s)) => Box::new(Expr::Lit(Lit::Str(Str {
+            span: s.span,
+            value: transform_jsx_attr_str(&s.value).into(),
+            has_escape: false,
+            kind: Default::default(),
+        }))),
         JSXAttrValue::Lit(lit) => Box::new(lit.into()),
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,
@@ -1105,4 +1109,56 @@ fn count_children(children: &[JSXElementChild]) -> usize {
             JSXElementChild::JSXFragment(_) => true,
         })
         .count()
+}
+
+fn transform_jsx_attr_str(v: &str) -> String {
+    let single_quote = false;
+    let mut buf = String::with_capacity(v.len());
+
+    for c in v.chars() {
+        match c {
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            '\n' => buf.push_str("\\n"),
+            '\r' => buf.push_str("\\r"),
+            '\t' => buf.push_str("\\t"),
+            '\u{000b}' => buf.push_str("\\v"),
+            '\0' => buf.push_str("\\x00"),
+
+            '\\' => buf.push_str("\\\\"),
+
+            '\'' if single_quote => buf.push_str("\\'"),
+            '"' if !single_quote => buf.push_str("\\\""),
+
+            '\x01'..='\x0f' => {
+                let _ = write!(buf, "\\x0{:x}", c as u8);
+            }
+            '\x10'..='\x1f' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            '\x20'..='\x7e' => {
+                //
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                let _ = write!(buf, "\\x{:x}", c as u8);
+            }
+
+            _ => {
+                let escaped = c.escape_unicode().to_string();
+
+                if escaped.starts_with('\\') {
+                    buf.push_str("\\u");
+                    if escaped.len() == 8 {
+                        buf.push_str(&escaped[3..=6]);
+                    } else {
+                        buf.push_str(&escaped[2..]);
+                    }
+                }
+            }
+        }
+    }
+
+    buf
 }

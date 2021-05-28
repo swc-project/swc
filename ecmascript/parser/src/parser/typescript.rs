@@ -973,6 +973,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         is_export: bool,
+        is_type_only: bool,
     ) -> PResult<TsImportEqualsDecl> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -986,6 +987,7 @@ impl<I: Tokens> Parser<I> {
             declare: false,
             id,
             is_export,
+            is_type_only,
             module_ref,
         })
     }

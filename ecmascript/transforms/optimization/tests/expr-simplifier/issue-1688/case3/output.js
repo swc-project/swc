@@ -1,0 +1,3 @@
+({
+    notafunction: null
+}).notafunction?.();

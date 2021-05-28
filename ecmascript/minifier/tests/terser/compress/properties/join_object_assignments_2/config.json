@@ -1,0 +1,9 @@
+{
+    "evaluate": true,
+    "hoist_props": true,
+    "join_vars": true,
+    "passes": 3,
+    "reduce_vars": true,
+    "toplevel": true,
+    "unused": true
+}

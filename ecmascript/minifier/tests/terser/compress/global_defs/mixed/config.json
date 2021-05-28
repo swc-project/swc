@@ -1,0 +1,8 @@
+{
+    "evaluate": true,
+    "global_defs": {
+        "CONFIG.VALUE": 42,
+        "FOO.BAR": "moo"
+    },
+    "properties": true
+}

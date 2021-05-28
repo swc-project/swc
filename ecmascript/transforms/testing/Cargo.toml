@@ -6,7 +6,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_testing"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.14.0"
+version = "0.15.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -15,11 +15,11 @@ ansi_term = "0.12.1"
 serde = "1"
 serde_json = "1"
 swc_common = {version = "0.10.16", path = "../../../common"}
-swc_ecma_ast = {version = "0.44.0", path = "../../ast"}
-swc_ecma_codegen = {version = "0.54.0", path = "../../codegen"}
-swc_ecma_parser = {version = "0.56.0", path = "../../parser"}
-swc_ecma_transforms_base = {version = "0.14.0", path = "../base"}
-swc_ecma_utils = {version = "0.35.0", path = "../../utils"}
-swc_ecma_visit = {version = "0.30.0", path = "../../visit"}
+swc_ecma_ast = {version = "0.45.0", path = "../../ast"}
+swc_ecma_codegen = {version = "0.55.0", path = "../../codegen"}
+swc_ecma_parser = {version = "0.57.0", path = "../../parser"}
+swc_ecma_transforms_base = {version = "0.15.0", path = "../base"}
+swc_ecma_utils = {version = "0.36.0", path = "../../utils"}
+swc_ecma_visit = {version = "0.31.0", path = "../../visit"}
 tempfile = "3.1.0"
 testing = {version = "0.10.5", path = "../../../testing"}

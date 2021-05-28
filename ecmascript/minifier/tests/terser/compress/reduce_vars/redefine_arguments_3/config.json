@@ -1,0 +1,11 @@
+{
+    "evaluate": true,
+    "inline": true,
+    "keep_fargs": false,
+    "passes": 3,
+    "reduce_funcs": true,
+    "reduce_vars": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true
+}

@@ -45,7 +45,9 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, '=') {
             return self
-                .parse_ts_import_equals_decl(start, false)
+                .parse_ts_import_equals_decl(
+                    start, /* is_export */ false, /* is_type_only */ false,
+                )
                 .map(ModuleDecl::from)
                 .map(ModuleItem::from);
         }
@@ -81,6 +83,15 @@ impl<'a, I: Tokens> Parser<I> {
 
         if type_only {
             assert_and_bump!(self, "type");
+
+            if is!(self, IdentRef) && peeked_is!(self, '=') {
+                return self
+                    .parse_ts_import_equals_decl(
+                        start, /* is_export */ false, /* is_type_only */ true,
+                    )
+                    .map(ModuleDecl::from)
+                    .map(ModuleItem::from);
+            }
         }
 
         let mut specifiers = vec![];
@@ -262,7 +273,9 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!(self, "import") {
                 // export import A = B
                 return self
-                    .parse_ts_import_equals_decl(start, /* is_export */ true)
+                    .parse_ts_import_equals_decl(
+                        start, /* is_export */ true, /* is_type_only */ false,
+                    )
                     .map(From::from);
             }
 

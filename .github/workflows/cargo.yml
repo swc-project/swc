@@ -13,6 +13,7 @@ on: [push, pull_request]
 #      - 'trying'
 
 env:
+  CI: 1
   CARGO_INCREMENTAL: 0
   RUST_LOG: "debug"
 
@@ -80,7 +81,7 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v3
+          key: ${{ runner.os }}-cargo-v4
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --color always --all --all-targets
@@ -117,6 +118,7 @@ jobs:
           - swc_ecma_dep_graph
           - swc_ecma_ext_transforms
           - swc_ecma_loader
+          - swc_ecma_minifier
           - swc_ecma_parser
           - swc_ecma_preset_env
           - swc_ecma_transforms
@@ -203,7 +205,7 @@ jobs:
             ~/.cargo/
             target
             Cargo.lock
-          key: ${{ runner.os }}-cargo-v3
+          key: ${{ runner.os }}-cargo-v4
 
       - name: Run cargo test
         run: |
