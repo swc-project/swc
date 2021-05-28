@@ -161,7 +161,7 @@ fn stdout_of(code: &str) -> String {
 
     if !actual_output.status.success() {
         panic!(
-            "failed to execute output of minifier:\n{}\n{}",
+            "failed to execute:\n{}\n{}",
             String::from_utf8_lossy(&actual_output.stdout),
             String::from_utf8_lossy(&actual_output.stderr)
         )
