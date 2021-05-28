@@ -134,6 +134,8 @@ impl Optimizer<'_> {
                                 if should_be_inlined {
                                     vars.insert(param.to_id(), arg.clone());
                                 }
+                            } else {
+                                vars.insert(param.to_id(), undefined(param.span()));
                             }
                         }
                     }
@@ -401,6 +403,11 @@ impl Optimizer<'_> {
         match arg {
             Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
+                op: op!("void"),
+                arg,
+                ..
+            })
+            | Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => self.can_be_inlined_for_iife(&arg),
             _ => false,
