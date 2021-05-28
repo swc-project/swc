@@ -1,4 +1,7 @@
 use ansi_term::Color;
+use anyhow::bail;
+use anyhow::Context;
+use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use std::env;
@@ -152,22 +155,22 @@ fn run(
     Some(output)
 }
 
-fn stdout_of(code: &str) -> String {
+fn stdout_of(code: &str) -> Result<String, Error> {
     let actual_output = Command::new("node")
         .arg("-e")
         .arg(&code)
         .output()
-        .expect("failed to execute output of minifier");
+        .context("failed to execute output of minifier")?;
 
     if !actual_output.status.success() {
-        panic!(
+        bail!(
             "failed to execute:\n{}\n{}",
             String::from_utf8_lossy(&actual_output.stdout),
             String::from_utf8_lossy(&actual_output.stderr)
         )
     }
 
-    String::from_utf8_lossy(&actual_output.stdout).to_string()
+    Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
 /// Tests used to prevent regressions.
@@ -193,8 +196,8 @@ fn base_exec(input: PathBuf) {
 
         println!("{}", input.display());
 
-        let expected_output = stdout_of(&input_src);
-        let actual_output = stdout_of(&output);
+        let expected_output = stdout_of(&input_src).unwrap();
+        let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
         assert_ne!(actual_output, "");
 
         assert_eq!(actual_output, expected_output);
