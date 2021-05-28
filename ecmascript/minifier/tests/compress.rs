@@ -282,22 +282,7 @@ fn fixture(input: PathBuf) {
                 expected_stdout
             );
 
-            // We should compare stdout instead.
-            let output = Command::new("node")
-                .arg("-e")
-                .arg(&output)
-                .output()
-                .expect("failed to execute output of minifier");
-
-            if !output.status.success() {
-                panic!(
-                    "failed to execute output of minifier:\n{}\n{}",
-                    String::from_utf8_lossy(&output.stdout),
-                    String::from_utf8_lossy(&output.stderr)
-                )
-            }
-
-            let actual = String::from_utf8_lossy(&output.stdout);
+            let actual = stdout_of(&output).expect("failed to execute the optimized code");
             assert_eq!(
                 DebugUsingDisplay(&actual),
                 DebugUsingDisplay(&expected_stdout)
