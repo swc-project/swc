@@ -402,6 +402,7 @@ impl Optimizer<'_> {
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {
         match arg {
             Expr::Lit(..) => true,
+
             Expr::Unary(UnaryExpr {
                 op: op!("void"),
                 arg,
@@ -410,11 +411,24 @@ impl Optimizer<'_> {
             | Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => self.can_be_inlined_for_iife(&arg),
+
+            Expr::Ident(..) => true,
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(obj),
                 computed: false,
                 ..
             }) => self.can_be_inlined_for_iife(&obj),
+
+            Expr::Bin(BinExpr {
+                op, left, right, ..
+            }) => match op {
+                op!(bin, "+") | op!("*") => {
+                    self.can_be_inlined_for_iife(&left) && self.can_be_inlined_for_iife(&right)
+                }
+                _ => false,
+            },
+
             _ => false,
         }
     }
