@@ -788,7 +788,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
-        self.in_type = false;
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         s.local.visit_mut_with(self);
