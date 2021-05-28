@@ -102,6 +102,10 @@ dead_code/issue_2749/input.js
 dead_code/issue_2860_2/input.js
 dead_code/issue_718/input.js
 dead_code/unsafe_builtin/input.js
+labels/labels_1/input.js
+labels/labels_2/input.js
+labels/labels_7/input.js
+labels/labels_9/input.js
 loops/drop_if_break_1/input.js
 loops/drop_if_break_2/input.js
 loops/drop_if_break_3/input.js
