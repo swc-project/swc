@@ -2018,7 +2018,26 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
-        var.visit_mut_children_with(self);
+        {
+            let prevent_inline = match &var.name {
+                Pat::Ident(BindingIdent {
+                    id:
+                        Ident {
+                            sym: js_word!("arguments"),
+                            ..
+                        },
+                    ..
+                }) => true,
+                _ => false,
+            };
+
+            let ctx = Ctx {
+                inline_prevented: self.ctx.inline_prevented || prevent_inline,
+                ..self.ctx
+            };
+
+            var.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
