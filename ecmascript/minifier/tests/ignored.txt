@@ -1,9 +1,6 @@
 arguments/duplicate_parameter_with_arguments/input.js
 arguments/modified_strict/input.js
 asm/asm_mixed/input.js
-class_properties/class_expression_properties_side_effects/input.js
-class_properties/static_means_execution/input.js
-class_properties/static_property_side_effects/input.js
 classes/pure_prop_assignment_for_classes/input.js
 collapse_vars/assignment/input.js
 collapse_vars/cascade_call/input.js
