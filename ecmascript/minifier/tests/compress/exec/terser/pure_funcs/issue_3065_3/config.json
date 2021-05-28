@@ -1,0 +1,7 @@
+{
+    "pure_funcs": ["debug"],
+    "reduce_vars": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true
+}

@@ -1,0 +1,10 @@
+{
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "reduce_vars": true,
+    "side_effects": true,
+    "toplevel": true,
+    "typeofs": true,
+    "unused": true
+}

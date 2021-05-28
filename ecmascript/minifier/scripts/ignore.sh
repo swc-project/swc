@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
-cargo test --test compress --all-features $1 \
+cargo test --test compress --all-features ${1-''} \
+  | grep 'terser__compress' \
   | grep 'js .\.\. FAILED$' \
   | sed -e 's!test fixture_terser__compress__!!' \
   | sed -e 's! ... FAILED!!' \
