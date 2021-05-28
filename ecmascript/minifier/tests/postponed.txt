@@ -270,7 +270,6 @@ ie8/issue_2120_1/input.js
 ie8/issue_2254_1/input.js
 ie8/issue_2254_2/input.js
 ie8/reduce_vars/input.js
-inline/inline_within_extends_2/input.js
 issue_1034/non_hoisted_function_after_return_2a_strict/input.js
 issue_1034/non_hoisted_function_after_return_2b_strict/input.js
 issue_1034/non_hoisted_function_after_return_strict/input.js
