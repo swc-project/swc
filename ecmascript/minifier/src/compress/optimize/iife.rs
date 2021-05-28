@@ -467,6 +467,14 @@ impl Optimizer<'_> {
                 true
             }
 
+            Expr::Arrow(ArrowExpr {
+                params,
+                body: BlockStmtOrExpr::Expr(body),
+                is_async: false,
+                is_generator: false,
+                ..
+            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(&body),
+
             _ => false,
         }
     }
