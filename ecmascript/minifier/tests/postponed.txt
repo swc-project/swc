@@ -248,10 +248,14 @@ hoist_props/issue_3046/input.js
 hoist_props/name_collision_1/input.js
 hoist_props/name_collision_2/input.js
 hoist_props/name_collision_3/input.js
+hoist_props/new_this/input.js
 hoist_props/toplevel_const/input.js
 hoist_props/toplevel_let/input.js
 hoist_props/toplevel_var/input.js
 hoist_props/undefined_key/input.js
+identity/inline_identity_duplicate_arg_var/input.js
+identity/inline_identity_extra_params/input.js
+identity/inline_identity_function/input.js
 ie8/do_screw_try_catch/input.js
 ie8/do_screw_try_catch_undefined/input.js
 ie8/dont_screw_try_catch/input.js
@@ -299,6 +303,8 @@ issue_1704/mangle_catch_var_ie8/input.js
 issue_1733/function_catch_catch_ie8/input.js
 issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
+issue_1770/mangle_props/input.js
+issue_1770/numeric_literal/input.js
 issue_281/drop_fargs/input.js
 issue_281/keep_fargs/input.js
 issue_281/pure_annotation_1/input.js
@@ -316,6 +322,7 @@ keep_names/drop_fnames/input.js
 keep_names/keep_some_classnames/input.js
 keep_names/keep_some_fnames/input.js
 keep_names/keep_some_fnames_reduce/input.js
+keep_quoted_strict/keep_quoted_strict/input.js
 labels/labels_3/input.js
 labels/labels_4/input.js
 labels/labels_6/input.js
