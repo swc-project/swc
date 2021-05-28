@@ -162,6 +162,10 @@ issue_1704/mangle_catch_var_ie8/input.js
 issue_1733/function_catch_catch_ie8/input.js
 issue_1733/function_iife_catch/input.js
 issue_1733/function_iife_catch_ie8/input.js
+issue_t120/issue_t120_4/input.js
+issue_t120/issue_t120_5/input.js
+issue_t292/no_flatten_with_arg_colliding_with_arg_value_inner_scope/input.js
+issue_t292/no_flatten_with_var_colliding_with_arg_value_inner_scope/input.js
 labels/labels_3/input.js
 labels/labels_4/input.js
 labels/labels_6/input.js
