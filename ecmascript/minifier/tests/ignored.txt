@@ -196,6 +196,15 @@ harmony/module_mangle_scope/input.js
 harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
 harmony/regression_cannot_use_of/input.js
+inline/do_not_repeat_when_variable_larger_than_inlined_node/input.js
+inline/dont_inline_funcs_into_default_param/input.js
+inline/dont_inline_funcs_into_default_param_2/input.js
+inline/inline_annotation/input.js
+inline/inline_annotation_2/input.js
+inline/inline_into_scope_conflict/input.js
+inline/inline_into_scope_conflict_enclosed_2/input.js
+inline/inline_within_extends_1/input.js
+inline/issue_308/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
