@@ -4,6 +4,8 @@
 # Note that this is append-only.
 set -eu
 
+export SWC_RUN=0
+
 cargo test --test compress --all-features \
   | grep 'terser__compress' \
   | grep 'js .\.\. ok$' \
