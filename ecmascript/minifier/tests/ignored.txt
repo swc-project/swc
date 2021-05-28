@@ -131,6 +131,17 @@ harmony/module_mangle_scope/input.js
 harmony/object_rest_spread/input.js
 harmony/object_spread_of_sequence/input.js
 harmony/regression_cannot_use_of/input.js
+issue_640/cond_5/input.js
+issue_640/conditional/input.js
+issue_640/dead_code_const_annotation_regex/input.js
+issue_640/drop_console_2/input.js
+issue_640/iife/input.js
+issue_640/limit_1/input.js
+issue_640/negate_iife_1/input.js
+issue_640/negate_iife_3/input.js
+issue_640/negate_iife_4/input.js
+issue_640/negate_iife_5/input.js
+issue_640/wrongly_optimized/input.js
 issue_t120/issue_t120_1/input.js
 issue_t120/issue_t120_2/input.js
 issue_t120/issue_t120_3/input.js
