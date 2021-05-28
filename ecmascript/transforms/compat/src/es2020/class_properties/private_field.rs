@@ -354,6 +354,40 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                 })
             }
 
+            // Actuall this is a call and we should bind `this`.
+            Expr::TaggedTpl(TaggedTpl {
+                span,
+                tag,
+                tpl,
+                type_params,
+            }) if tag.is_member() => {
+                let tag = tag.member().unwrap().fold_with(self);
+                let tpl = tpl.fold_with(self);
+
+                let (e, this) = self.fold_private_get(tag, None);
+
+                if let Some(this) = this {
+                    Expr::TaggedTpl(TaggedTpl {
+                        span,
+                        tag: Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: e.make_member(quote_ident!("bind")).as_callee(),
+                            args: vec![this.as_arg()],
+                            type_args: Default::default(),
+                        })),
+                        tpl,
+                        type_params,
+                    })
+                } else {
+                    Expr::TaggedTpl(TaggedTpl {
+                        span,
+                        tag: Box::new(e),
+                        tpl,
+                        type_params,
+                    })
+                }
+            }
+
             Expr::Call(CallExpr {
                 span,
                 callee: ExprOrSuper::Expr(callee),
@@ -379,7 +413,6 @@ impl<'a> Fold for FieldAccessFolder<'a> {
                         args,
                         type_args,
                     })
-                    .fold_children_with(self)
                 }
             }
             Expr::Member(e) => {

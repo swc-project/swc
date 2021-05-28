@@ -10,8 +10,6 @@ import {
 export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
 import { loadBinding } from "@node-rs/helper";
-import * as babel from '@babel/types';
-import { BabelifyOptions } from './babel';
 
 const bindings = loadBinding(__dirname, "swc", "@swc/core")
 

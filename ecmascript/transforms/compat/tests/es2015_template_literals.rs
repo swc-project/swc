@@ -957,3 +957,44 @@ test!(
     "const a = \"\\r\\n\";",
     "const a = \"\\r\\n\";"
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1742_1,
+    "
+    function foo() {
+      return this;
+    }
+    foo`template`
+    ",
+    "
+    function _templateObject() {
+      const data = _taggedTemplateLiteral([
+          'template'
+      ]);
+      _templateObject = function() {
+          return data;
+      };
+      return data;
+    }
+    function foo() {
+        return this;
+    }
+    foo(_templateObject());
+    "
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1742_2,
+    "
+    const obj = {
+      foo() {
+        return this;
+      }
+    }
+    expect(typeof obj.foo`template`).toEqual('object')
+    "
+);

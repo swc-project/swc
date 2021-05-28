@@ -211,7 +211,8 @@ impl<'a> Resolver<'a> {
     fn modify(&mut self, ident: &mut Ident, kind: Option<VarDeclKind>) {
         if cfg!(debug_assertions) && LOG {
             eprintln!(
-                "resolver: Binding {}{:?} {:?}",
+                "resolver: Binding (type = {}) {}{:?} {:?}",
+                self.in_type,
                 ident.sym,
                 ident.span.ctxt(),
                 kind
@@ -410,6 +411,18 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
 
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        if n.type_only {
+            if !self.handle_types {
+                return;
+            }
+        }
+
+        self.ident_type = IdentType::Binding;
+        self.in_type = n.type_only;
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(self.mark);
 
@@ -445,11 +458,17 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
         let ident_type = self.ident_type;
         let in_type = self.in_type;
+
+        self.in_type = true;
+        self.ident_type = IdentType::Ref;
         i.type_ann.visit_mut_with(self);
+
+        self.in_type = false;
+        self.ident_type = ident_type;
+        i.id.visit_mut_with(self);
+
         self.in_type = in_type;
         self.ident_type = ident_type;
-
-        i.id.visit_mut_with(self);
     }
 
     fn visit_mut_block_stmt(&mut self, block: &mut BlockStmt) {
@@ -769,7 +788,6 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_import_named_specifier(&mut self, s: &mut ImportNamedSpecifier) {
-        self.in_type = false;
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         s.local.visit_mut_with(self);
