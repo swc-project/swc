@@ -1,3 +1,3 @@
 class T {
-    m1(): string;
+    declare m1(): string;
 }
