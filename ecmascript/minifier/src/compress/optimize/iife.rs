@@ -7,6 +7,7 @@ use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
 use std::mem::swap;
+use swc_common::pass::Either;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -120,57 +121,64 @@ impl Optimizer<'_> {
             return;
         }
 
-        match &mut e.callee {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(callee) => match &mut **callee {
-                Expr::Arrow(callee) => {
-                    let mut vars = HashMap::default();
-                    // We check for parameter and argument
-                    for (idx, param) in callee.params.iter().enumerate() {
-                        let arg = e.args.get(idx).map(|v| &v.expr);
-                        if let Pat::Ident(param) = &param {
-                            if let Some(arg) = arg {
-                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
-                                if should_be_inlined {
-                                    vars.insert(param.to_id(), arg.clone());
-                                }
-                            } else {
-                                vars.insert(param.to_id(), undefined(param.span()));
-                            }
-                        }
-                    }
+        let callee = match &mut e.callee {
+            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Expr(e) => &mut **e,
+        };
 
-                    self.inline_vars_in_node(&mut callee.body, vars);
-                }
-
-                Expr::Fn(callee) => {
-                    // We check for parameter and argument
-                    for (idx, param) in callee.function.params.iter().enumerate() {
-                        let arg = e.args.get(idx).map(|v| &v.expr);
-                        if let Pat::Ident(param) = &param.pat {
-                            if let Some(arg) = arg {
-                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
-                                if should_be_inlined {
-                                    self.lits.insert(param.to_id(), arg.clone());
-                                }
-                            }
-                        }
-                    }
-
-                    let ctx = Ctx {
-                        inline_prevented: false,
-                        ..self.ctx
-                    };
+        fn find_params(callee: &Expr) -> Option<Vec<&Pat>> {
+            match callee {
+                Expr::Arrow(callee) => Some(callee.params.iter().collect()),
+                Expr::Fn(callee) => Some(
                     callee
                         .function
-                        .body
-                        .visit_mut_with(&mut *self.with_ctx(ctx));
+                        .params
+                        .iter()
+                        .map(|param| &param.pat)
+                        .collect(),
+                ),
+                _ => return None,
+            }
+        }
 
-                    // TODO: Drop arguments if all usage is inlined. (We
-                    // should preserve parameters)
+        fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
+            match callee {
+                Expr::Arrow(e) => match &mut e.body {
+                    BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
+                    BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
+                },
+                Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
+                _ => None,
+            }
+        }
+
+        let params = find_params(&callee);
+        if let Some(params) = params {
+            let mut vars = HashMap::default();
+            // We check for parameter and argument
+            for (idx, param) in params.iter().enumerate() {
+                let arg = e.args.get(idx).map(|v| &v.expr);
+                if let Pat::Ident(param) = &param {
+                    if let Some(arg) = arg {
+                        let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                        if should_be_inlined {
+                            vars.insert(param.to_id(), arg.clone());
+                        }
+                    } else {
+                        vars.insert(param.to_id(), undefined(param.span()));
+                    }
+                }
+            }
+
+            match find_body(callee) {
+                Some(Either::Left(body)) => {
+                    self.inline_vars_in_node(body, vars);
+                }
+                Some(Either::Right(body)) => {
+                    self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
-            },
+            }
         }
     }
 
