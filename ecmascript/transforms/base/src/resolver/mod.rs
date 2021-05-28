@@ -410,6 +410,17 @@ impl<'a> VisitMut for Resolver<'a> {
     typed!(visit_mut_ts_type_predicate, TsTypePredicate);
     typed_ref!(visit_mut_ts_this_type_or_ident, TsThisTypeOrIdent);
 
+    fn visit_mut_import_decl(&mut self, n: &mut ImportDecl) {
+        if n.type_only {
+            if !self.handle_types {
+                return;
+            }
+        }
+
+        self.in_type = n.type_only;
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_arrow_expr(&mut self, e: &mut ArrowExpr) {
         let child_mark = Mark::fresh(self.mark);
 
