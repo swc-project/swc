@@ -3051,3 +3051,17 @@ to_ts!(
     A.B.C.func();
     "
 );
+
+to_ts!(
+    deno_lint_705,
+    "
+    import type { Foo } from "./foo.ts";
+    //            ^^^ <---- (a)
+    function _bar(...Foo: Foo) {
+    //                    ^^^ <---- (b)
+        console.log(Foo);
+    }
+"
+    ,
+    ""
+);
