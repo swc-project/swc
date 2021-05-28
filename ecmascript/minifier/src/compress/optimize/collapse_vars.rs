@@ -133,6 +133,11 @@ impl Optimizer<'_> {
                                     // Objects are handled by other passes.
                                     return None;
                                 }
+                                Expr::Arrow(..) | Expr::Fn(..) => {
+                                    // Handled by other passes
+                                    return None;
+                                }
+
                                 _ => {
                                     let mut chekcer = InlinabiltyChecker { can_inline: true };
                                     last.init
