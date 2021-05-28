@@ -354,6 +354,8 @@ impl Optimizer<'_> {
 
     fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
         if !body.stmts.iter().all(|stmt| match stmt {
+            Stmt::Expr(e) if e.expr.is_await_expr() => false,
+
             Stmt::Expr(..) => true,
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
                 Some(Expr::Lit(Lit::Num(..))) => {
