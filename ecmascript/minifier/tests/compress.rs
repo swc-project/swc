@@ -65,7 +65,7 @@ fn is_ignored(path: &Path) -> bool {
     }
 
     if env::var("SKIP_GOLDEN").unwrap_or_default() == "1" {
-        if IGNORED.iter().any(|ignored| s.contains(&**ignored)) {
+        if GOLDEN.iter().any(|ignored| s.contains(&**ignored)) {
             return true;
         }
     }
