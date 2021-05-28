@@ -410,6 +410,11 @@ impl Optimizer<'_> {
             | Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => self.can_be_inlined_for_iife(&arg),
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                computed: false,
+                ..
+            }) => self.can_be_inlined_for_iife(&obj),
             _ => false,
         }
     }
