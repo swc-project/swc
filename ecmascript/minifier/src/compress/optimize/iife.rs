@@ -429,6 +429,36 @@ impl Optimizer<'_> {
                 _ => false,
             },
 
+            Expr::Object(ObjectLit { props, .. }) => {
+                for prop in props {
+                    match prop {
+                        PropOrSpread::Spread(_) => return false,
+                        PropOrSpread::Prop(p) => match &**p {
+                            Prop::Shorthand(_) => {}
+                            Prop::KeyValue(kv) => {
+                                if let PropName::Computed(key) = &kv.key {
+                                    if !self.can_be_inlined_for_iife(&key.expr) {
+                                        return false;
+                                    }
+                                }
+
+                                if !self.can_be_inlined_for_iife(&kv.value) {
+                                    return false;
+                                }
+                            }
+                            Prop::Assign(p) => {
+                                if !self.can_be_inlined_for_iife(&p.value) {
+                                    return false;
+                                }
+                            }
+                            _ => return false,
+                        },
+                    }
+                }
+
+                true
+            }
+
             _ => false,
         }
     }
