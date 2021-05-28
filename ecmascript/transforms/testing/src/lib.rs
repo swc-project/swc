@@ -391,6 +391,11 @@ where
             Command::new(&jest_path)
         };
 
+        // I hate windows.
+        if cfg!(target_os = "windows") && env::var("CI").is_ok() {
+            base_cmd.arg("--passWithNoTests");
+        }
+
         let status = base_cmd
             .args(&["--testMatch", &format!("{}", path.display())])
             .current_dir(root)
