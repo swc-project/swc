@@ -3055,13 +3055,12 @@ to_ts!(
 to_ts!(
     deno_lint_705,
     "
-    import type { Foo } from "./foo.ts";
+    import type { Foo } from './foo.ts';
     //            ^^^ <---- (a)
     function _bar(...Foo: Foo) {
     //                    ^^^ <---- (b)
         console.log(Foo);
     }
-"
-    ,
+",
     ""
 );
