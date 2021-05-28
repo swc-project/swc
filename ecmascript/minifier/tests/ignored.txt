@@ -215,6 +215,7 @@ issue_1052/defun_if_return/input.js
 issue_1052/multiple_functions/input.js
 issue_1052/not_hoisted_when_already_nested/input.js
 issue_1052/single_function/input.js
+issue_12/keep_name_of_setter/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
 issue_1431/level_one/input.js
@@ -229,6 +230,10 @@ issue_1446/undefined_redefined_mangle/input.js
 issue_1447/else_with_empty_block/input.js
 issue_1447/else_with_empty_statement/input.js
 issue_1569/inner_reference/input.js
+issue_44/issue_44_valid_ast_1/input.js
+issue_44/issue_44_valid_ast_2/input.js
+issue_611/issue_611/input.js
+issue_637/wrongly_optimized/input.js
 issue_640/cond_5/input.js
 issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
@@ -240,6 +245,18 @@ issue_640/negate_iife_3/input.js
 issue_640/negate_iife_4/input.js
 issue_640/negate_iife_5/input.js
 issue_640/wrongly_optimized/input.js
+issue_751/negate_booleans_1/input.js
+issue_782/dont_remove_this_binding_sequence/input.js
+issue_782/remove_redundant_sequence_items/input.js
+issue_913/keep_var_for_in/input.js
+issue_973/this_binding_collapse_vars/input.js
+issue_973/this_binding_conditionals/input.js
+issue_973/this_binding_sequences/input.js
+issue_973/this_binding_side_effects/input.js
+issue_976/eval_mangle/input.js
+issue_976/eval_unused/input.js
+issue_979/issue979_reported/input.js
+issue_979/issue979_test_negated_is_best/input.js
 issue_t120/issue_t120_1/input.js
 issue_t120/issue_t120_2/input.js
 issue_t120/issue_t120_3/input.js
