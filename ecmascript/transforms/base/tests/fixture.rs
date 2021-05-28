@@ -75,14 +75,14 @@ where
     .unwrap();
 }
 
-#[fixture("fixture/resolver/**/input.js")]
+#[fixture("resolver/**/input.js")]
 fn test_resolver(input: PathBuf) {
     run(Syntax::default(), &input, || {
         chain!(resolver(), hygiene(), fixer(None))
     });
 }
 
-#[fixture("fixture/ts-resolver/**/input.ts")]
+#[fixture("ts-resolver/**/input.ts")]
 fn test_ts_resolver(input: PathBuf) {
     run(Syntax::Typescript(Default::default()), &input, || {
         let top_level_mark = Mark::fresh(Mark::root());
