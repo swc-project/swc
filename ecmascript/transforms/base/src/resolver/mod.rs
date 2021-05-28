@@ -418,6 +418,7 @@ impl<'a> VisitMut for Resolver<'a> {
             }
         }
 
+        self.ident_type = IdentType::Binding;
         self.in_type = n.type_only;
         n.visit_mut_children_with(self);
     }
