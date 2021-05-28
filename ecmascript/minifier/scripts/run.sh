@@ -20,7 +20,7 @@ cargo test --test compress base_exec --all-features
 if [ -z "$@" ]; then
     ./scripts/sort.sh
 
-    GOLDEN_ONLY=1 cargo test --test compress --all-features 
+    SWC_RUN=0 GOLDEN_ONLY=1 cargo test --test compress --all-features 
 fi
 
 cargo test --test compress --all-features $@
