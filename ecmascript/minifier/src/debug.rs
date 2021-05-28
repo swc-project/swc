@@ -109,5 +109,5 @@ pub(crate) fn invoke(module: &Module) {
         );
     }
 
-    eprintln!("[SWC_RUN]\n{}", String::from_utf8_lossy(&output.stdout))
+    log::debug!("[SWC_RUN]\n{}", String::from_utf8_lossy(&output.stdout))
 }
