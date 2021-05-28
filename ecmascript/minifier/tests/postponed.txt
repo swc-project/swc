@@ -259,6 +259,7 @@ ie8/issue_2120_1/input.js
 ie8/issue_2254_1/input.js
 ie8/issue_2254_2/input.js
 ie8/reduce_vars/input.js
+inline/inline_within_extends_2/input.js
 issue_1105/Infinity_in_with_scope/input.js
 issue_1105/assorted_Infinity_NaN_undefined_in_with_scope/input.js
 issue_1105/assorted_Infinity_NaN_undefined_in_with_scope_keep_infinity/input.js
