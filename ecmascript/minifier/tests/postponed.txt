@@ -166,6 +166,11 @@ issue_t120/issue_t120_4/input.js
 issue_t120/issue_t120_5/input.js
 issue_t292/no_flatten_with_arg_colliding_with_arg_value_inner_scope/input.js
 issue_t292/no_flatten_with_var_colliding_with_arg_value_inner_scope/input.js
+keep_names/drop_classnames/input.js
+keep_names/drop_fnames/input.js
+keep_names/keep_some_classnames/input.js
+keep_names/keep_some_fnames/input.js
+keep_names/keep_some_fnames_reduce/input.js
 labels/labels_3/input.js
 labels/labels_4/input.js
 labels/labels_6/input.js
