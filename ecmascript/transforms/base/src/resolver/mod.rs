@@ -505,7 +505,7 @@ impl<'a> VisitMut for Resolver<'a> {
         c.param.visit_mut_with(&mut folder);
         folder.ident_type = IdentType::Ref;
 
-        c.body.visit_mut_with(&mut folder);
+        c.body.visit_mut_children_with(&mut folder);
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
