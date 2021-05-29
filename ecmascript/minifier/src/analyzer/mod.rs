@@ -78,8 +78,6 @@ pub(crate) struct VarUsageInfo {
     /// Indicates a variable or function is overrided without using it.
     pub overriden_without_used: bool,
 
-    pub top_level: bool,
-
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
 }
@@ -199,7 +197,6 @@ impl UsageAnalyzer {
 
     fn report(&mut self, i: Id, is_assign: bool, dejavu: &mut FxHashSet<Id>) {
         let is_first = dejavu.is_empty();
-        let top_level = self.ctx.top_level;
 
         if !dejavu.insert(i.clone()) {
             return;
@@ -207,7 +204,6 @@ impl UsageAnalyzer {
 
         let e = self.data.vars.entry(i).or_insert_with(|| VarUsageInfo {
             used_above_decl: true,
-            top_level,
             ..Default::default()
         });
 
@@ -237,8 +233,6 @@ impl UsageAnalyzer {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
-        let top_level = self.ctx.top_level;
-
         let v = self
             .data
             .vars
@@ -246,7 +240,6 @@ impl UsageAnalyzer {
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
                 var_kind: kind,
-                top_level,
                 ..Default::default()
             });
 
@@ -478,16 +471,6 @@ impl Visit for UsageAnalyzer {
         }
     }
 
-    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
-        for n in n {
-            let ctx = Ctx {
-                top_level: true,
-                ..self.ctx
-            };
-            n.visit_with(n, &mut *self.with_ctx(ctx));
-        }
-    }
-
     fn visit_named_export(&mut self, n: &NamedExport, _: &dyn Node) {
         if n.src.is_some() {
             return;
@@ -580,16 +563,6 @@ impl Visit for UsageAnalyzer {
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
-    }
-
-    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
-        for n in n {
-            let ctx = Ctx {
-                top_level: false,
-                ..self.ctx
-            };
-            n.visit_with(n, &mut *self.with_ctx(ctx));
-        }
     }
 
     fn visit_switch_case(&mut self, n: &SwitchCase, _: &dyn Node) {
