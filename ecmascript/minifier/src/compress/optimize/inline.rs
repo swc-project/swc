@@ -54,7 +54,7 @@ impl Optimizer<'_> {
                         return;
                     }
 
-                    if self.options.reduce_vars && self.options.typeofs && !usage.mutated {
+                    if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
                                 self.typeofs.insert(i.to_id(), js_word!("function"));
