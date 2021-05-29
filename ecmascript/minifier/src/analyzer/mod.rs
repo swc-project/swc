@@ -1,4 +1,5 @@
 use self::ctx::Ctx;
+use crate::util::idents_used_by;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
@@ -35,7 +36,7 @@ where
 
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
-    /// # of reference to this identifier.
+    /// The number of reference to this identifier.
     pub ref_count: usize,
 
     /// `true` if a varaible is conditionally initialized.
@@ -188,7 +189,11 @@ impl UsageAnalyzer {
         ret
     }
 
-    fn report(&mut self, i: Id, is_assign: bool) {
+    fn report(&mut self, i: Id, is_assign: bool, dejavu: &mut FxHashSet<Id>) {
+        if !dejavu.insert(i.clone()) {
+            return;
+        }
+
         let e = self.data.vars.entry(i).or_insert_with(|| VarUsageInfo {
             used_above_decl: true,
             ..Default::default()
@@ -202,7 +207,7 @@ impl UsageAnalyzer {
             e.assign_count += 1;
 
             for other in e.infects.clone() {
-                self.report(other, true)
+                self.report(other, true, dejavu)
             }
         } else {
             e.usage_count += 1;
@@ -210,7 +215,7 @@ impl UsageAnalyzer {
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        self.report(i.to_id(), is_assign)
+        self.report(i.to_id(), is_assign, &mut Default::default())
     }
 
     fn declare_decl(
@@ -588,13 +593,24 @@ impl Visit for UsageAnalyzer {
 
         for decl in &n.decls {
             match (&decl.name, decl.init.as_deref()) {
-                (Pat::Ident(var), Some(Expr::Ident(init))) => {
-                    self.data
-                        .vars
-                        .entry(init.to_id())
-                        .or_default()
-                        .infects
-                        .push(var.to_id());
+                (Pat::Ident(var), Some(init)) => {
+                    let used_idents = idents_used_by(init);
+
+                    for id in used_idents {
+                        self.data
+                            .vars
+                            .entry(id.clone())
+                            .or_default()
+                            .infects
+                            .push(var.to_id());
+
+                        self.data
+                            .vars
+                            .entry(var.to_id())
+                            .or_default()
+                            .infects
+                            .push(id);
+                    }
                 }
                 _ => {}
             }
