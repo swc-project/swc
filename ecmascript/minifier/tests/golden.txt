@@ -899,6 +899,8 @@ reduce_vars/iife_eval_1/input.js
 reduce_vars/iife_func_side_effects/input.js
 reduce_vars/immutable/input.js
 reduce_vars/inner_var_catch/input.js
+reduce_vars/inner_var_for_1/input.js
+reduce_vars/inner_var_for_in_1/input.js
 reduce_vars/inner_var_for_in_2/input.js
 reduce_vars/inner_var_if/input.js
 reduce_vars/issue_1533_1/input.js
