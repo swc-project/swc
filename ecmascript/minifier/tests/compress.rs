@@ -111,12 +111,22 @@ fn run(
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
     if env::var("SWC_RUN").unwrap_or_default() == "1" {
-        if let Ok(stdout) = stdout_of(&fm.src) {
-            eprintln!(
-                "---- {} -----\n{}",
-                Color::Green.paint("Stdout (expected)"),
-                stdout
-            );
+        let stdout = stdout_of(&fm.src);
+        match stdout {
+            Ok(stdout) => {
+                eprintln!(
+                    "---- {} -----\n{}",
+                    Color::Green.paint("Stdout (expected)"),
+                    stdout
+                );
+            }
+            Err(err) => {
+                eprintln!(
+                    "---- {} -----\n{:?}",
+                    Color::Green.paint("Error (of orignal source code)"),
+                    err
+                );
+            }
         }
     }
 
