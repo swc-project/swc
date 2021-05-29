@@ -2659,6 +2659,10 @@ fn escape_with_source<'s>(
 /// spans of string literals created from [TplElement] do not have `starting`
 /// quote.
 fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
+    if span.is_dummy() {
+        return None;
+    }
+
     let start = cm.lookup_byte_offset(span.lo);
     let end = cm.lookup_byte_offset(span.hi);
 

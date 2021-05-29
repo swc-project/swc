@@ -56,6 +56,8 @@ mod unsafes;
 mod unused;
 mod util;
 
+const DISABLE_BUGGY_PASSES: bool = true;
+
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
     options: CompressOptions,
@@ -94,6 +96,8 @@ pub(super) fn optimizer<'a>(
 struct Ctx {
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
+
+    var_kind: Option<VarDeclKind>,
 
     /// `true` if we should not inline values.
     inline_prevented: bool,
@@ -341,28 +345,28 @@ impl Optimizer<'_> {
         // Now we can compress it to an assigment
     }
 
-    fn compress_array_join(&mut self, n: &mut Expr) {
-        let e = match n {
+    fn compress_array_join(&mut self, e: &mut Expr) {
+        let call = match e {
             Expr::Call(e) => e,
             _ => return,
         };
 
-        let callee = match &mut e.callee {
+        let callee = match &mut call.callee {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(callee) => &mut **callee,
         };
 
-        let separator = if e.args.is_empty() {
+        let separator = if call.args.is_empty() {
             ",".into()
-        } else if e.args.len() == 1 {
-            if e.args[0].spread.is_some() {
+        } else if call.args.len() == 1 {
+            if call.args[0].spread.is_some() {
                 return;
             }
 
-            if is_pure_undefined(&e.args[0].expr) {
+            if is_pure_undefined(&call.args[0].expr) {
                 ",".into()
             } else {
-                match &*e.args[0].expr {
+                match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
                     Expr::Lit(Lit::Null(..)) => js_word!("null"),
                     _ => return,
@@ -381,33 +385,107 @@ impl Optimizer<'_> {
             }) => match obj {
                 ExprOrSuper::Super(_) => return,
                 ExprOrSuper::Expr(obj) => match &mut **obj {
-                    Expr::Array(arr) => {
-                        if arr.elems.iter().filter_map(|v| v.as_ref()).any(|v| {
-                            v.spread.is_some()
-                                || match &*v.expr {
-                                    e if is_pure_undefined(e) => false,
-                                    Expr::Lit(lit) => match lit {
-                                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
-                                        _ => true,
-                                    },
-                                    _ => true,
-                                }
-                        }) {
-                            return;
-                        }
-
-                        match &**prop {
-                            Expr::Ident(i) if i.sym == *"join" => {}
-                            _ => return,
-                        }
-
-                        arr
-                    }
+                    Expr::Array(arr) => match &**prop {
+                        Expr::Ident(i) if i.sym == *"join" => arr,
+                        _ => return,
+                    },
                     _ => return,
                 },
             },
             _ => return,
         };
+
+        if arr.elems.iter().any(|elem| match elem {
+            Some(ExprOrSpread {
+                spread: Some(..), ..
+            }) => true,
+            _ => false,
+        }) {
+            return;
+        }
+
+        let cannot_join_as_str_lit = arr
+            .elems
+            .iter()
+            .filter_map(|v| v.as_ref())
+            .any(|v| match &*v.expr {
+                e if is_pure_undefined(e) => false,
+                Expr::Lit(lit) => match lit {
+                    Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
+                    _ => true,
+                },
+                _ => true,
+            });
+
+        if cannot_join_as_str_lit {
+            if !self.options.unsafe_passes {
+                return;
+            }
+
+            // TODO: Partial join
+
+            if arr
+                .elems
+                .iter()
+                .filter_map(|v| v.as_ref())
+                .any(|v| match &*v.expr {
+                    e if is_pure_undefined(e) => false,
+                    Expr::Lit(lit) => match lit {
+                        Lit::Str(..) | Lit::Num(..) | Lit::Null(..) => false,
+                        _ => true,
+                    },
+                    // This can change behavior if the value is `undefined` or `null`.
+                    Expr::Ident(..) => false,
+                    _ => true,
+                })
+            {
+                return;
+            }
+
+            let sep = Box::new(Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: separator,
+                has_escape: false,
+                kind: Default::default(),
+            })));
+            let mut res = Expr::Lit(Lit::Str(Str {
+                span: DUMMY_SP,
+                value: js_word!(""),
+                has_escape: false,
+                kind: Default::default(),
+            }));
+
+            fn add(to: &mut Expr, right: Box<Expr>) {
+                let lhs = to.take();
+                *to = Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(lhs),
+                    op: op!(bin, "+"),
+                    right,
+                });
+            }
+
+            for (last, elem) in arr.elems.take().into_iter().identify_last() {
+                match elem {
+                    Some(ExprOrSpread { spread: None, expr }) => match &*expr {
+                        e if is_pure_undefined(e) => {}
+                        Expr::Lit(Lit::Null(..)) => {}
+                        _ => {
+                            add(&mut res, expr);
+                        }
+                    },
+                    _ => {}
+                }
+
+                if !last {
+                    add(&mut res, sep.clone());
+                }
+            }
+
+            *e = res;
+
+            return;
+        }
 
         let mut res = String::new();
         for (last, elem) in arr.elems.iter().identify_last() {
@@ -440,8 +518,8 @@ impl Optimizer<'_> {
         log::trace!("Compressing array.join()");
 
         self.changed = true;
-        *n = Expr::Lit(Lit::Str(Str {
-            span: e.span,
+        *e = Expr::Lit(Lit::Str(Str {
+            span: call.span,
             value: res.into(),
             has_escape: false,
             kind: Default::default(),
@@ -1220,6 +1298,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = Ctx {
             stmt_lablled: false,
             scope: n.span.ctxt,
+            top_level: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1405,6 +1484,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.drop_logical_operands(e);
 
+        self.drop_useless_addition_of_str(e);
+
         self.inline(e);
 
         match e {
@@ -1535,6 +1616,10 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_init_of_for_stmt(s);
 
         self.drop_if_break(s);
+
+        if let Some(test) = &mut s.test {
+            self.optimize_expr_in_bool_ctx(test);
+        }
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
@@ -1907,17 +1992,52 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
-        let ctx = Ctx {
-            is_update_arg: false,
-            has_const_ann: self.has_const_ann(n.span),
-            ..self.ctx
-        };
+        {
+            let ctx = Ctx {
+                is_update_arg: false,
+                has_const_ann: self.has_const_ann(n.span),
+                var_kind: Some(n.kind),
+                ..self.ctx
+            };
 
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        if n.kind == VarDeclKind::Let {
+            n.decls.iter_mut().for_each(|var| {
+                if let Some(e) = &var.init {
+                    if is_pure_undefined(e) {
+                        self.changed = true;
+                        log::trace!("Dropping explicit initializer which evaluates to `undefined`");
+
+                        var.init = None;
+                    }
+                }
+            });
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, var: &mut VarDeclarator) {
-        var.visit_mut_children_with(self);
+        {
+            let prevent_inline = match &var.name {
+                Pat::Ident(BindingIdent {
+                    id:
+                        Ident {
+                            sym: js_word!("arguments"),
+                            ..
+                        },
+                    ..
+                }) => true,
+                _ => false,
+            };
+
+            let ctx = Ctx {
+                inline_prevented: self.ctx.inline_prevented || prevent_inline,
+                ..self.ctx
+            };
+
+            var.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
@@ -1948,11 +2068,15 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_while_stmt(&mut self, n: &mut WhileStmt) {
-        let ctx = Ctx {
-            executed_multiple_time: true,
-            ..self.ctx
-        };
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        {
+            let ctx = Ctx {
+                executed_multiple_time: true,
+                ..self.ctx
+            };
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 
     fn visit_mut_yield_expr(&mut self, n: &mut YieldExpr) {

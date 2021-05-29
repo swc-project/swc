@@ -29,6 +29,54 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn optimize_expr_in_str_ctx_unsafely(&mut self, e: &mut Expr) {
+        if !self.options.unsafe_passes {
+            return;
+        }
+
+        match e {
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                if args.iter().any(|arg| arg.expr.may_have_side_effects()) {
+                    return;
+                }
+
+                match &**callee {
+                    Expr::Ident(Ident {
+                        sym: js_word!("RegExp"),
+                        ..
+                    }) if self.options.unsafe_regexp => {
+                        if args.len() != 1 {
+                            return;
+                        }
+
+                        self.optimize_expr_in_str_ctx(&mut args[0].expr);
+
+                        match &*args[0].expr {
+                            Expr::Lit(Lit::Str(..)) => {
+                                self.changed = true;
+                                log::trace!(
+                                    "strings: Unsafely reduced `RegExp` call in a string context"
+                                );
+
+                                *e = *args[0].expr.take();
+                                return;
+                            }
+
+                            _ => {}
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
+            _ => {}
+        }
+    }
+
     /// Convert expressions to string literal if possible.
     pub(super) fn optimize_expr_in_str_ctx(&mut self, n: &mut Expr) {
         match n {
@@ -343,6 +391,58 @@ impl Optimizer<'_> {
                 }
                 _ => {}
             },
+            _ => {}
+        }
+    }
+
+    pub(super) fn drop_useless_addition_of_str(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Bin(BinExpr {
+                op: op!(bin, "+"),
+                left,
+                right,
+                ..
+            }) => {
+                let lt = left.get_type();
+                let rt = right.get_type();
+                if let Known(Type::Str) = lt {
+                    if let Known(Type::Str) = rt {
+                        match &**left {
+                            Expr::Lit(Lit::Str(Str {
+                                value: js_word!(""),
+                                ..
+                            })) => {
+                                self.changed = true;
+                                log::trace!(
+                                    "string: Dropping empty string literal (in lhs) because it \
+                                     does not changes type"
+                                );
+
+                                *e = *right.take();
+                                return;
+                            }
+                            _ => {}
+                        }
+
+                        match &**right {
+                            Expr::Lit(Lit::Str(Str {
+                                value: js_word!(""),
+                                ..
+                            })) => {
+                                self.changed = true;
+                                log::trace!(
+                                    "string: Dropping empty string literal (in rhs) because it \
+                                     does not changes type"
+                                );
+
+                                *e = *left.take();
+                                return;
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
             _ => {}
         }
     }

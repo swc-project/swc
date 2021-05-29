@@ -2,12 +2,12 @@ var o = 0;
 function f() {
     try {
         throw 1;
-    } catch (c) {
+    } catch (a) {
         try {
             throw 2;
-        } catch (o) {
-            var o = 3;
-            console.log(o);
+        } catch (b) {
+            var b = 3;
+            console.log(b);
         }
     }
     console.log(o);

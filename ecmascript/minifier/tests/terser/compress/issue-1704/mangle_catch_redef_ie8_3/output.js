@@ -2,7 +2,7 @@ var o = "PASS";
 try {
     throw 0;
 } catch (o) {
-    (function() {
+    (function () {
         function a() {
             o = "FAIL";
         }

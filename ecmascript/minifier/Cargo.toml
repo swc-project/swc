@@ -9,6 +9,9 @@ name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.2.2-beta.0"
 
+[features]
+debug = []
+
 [dependencies]
 fxhash = "0.2.1"
 log = "0.4"
@@ -31,6 +34,7 @@ swc_ecma_visit = {version = "0.31.0", path = "../visit"}
 
 [dev-dependencies]
 ansi_term = "0.12.1"
+anyhow = "1"
 pretty_assertions = "0.6.1"
 testing = {version = "0.10.2", path = "../../testing"}
 walkdir = "2.3.1"

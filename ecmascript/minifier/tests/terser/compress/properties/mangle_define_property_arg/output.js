@@ -1,7 +1,7 @@
 var some_prop = "propname";
 
 const object = {
-  a: some_prop,
+    a: some_prop,
 };
 
 const non_global_console = console;

@@ -35,7 +35,8 @@
                 "aarch64-unknown-linux-gnu",
                 "armv7-unknown-linux-gnueabihf",
                 "aarch64-apple-darwin",
-                "aarch64-linux-android"
+                "aarch64-linux-android",
+                "x86_64-unknown-freebsd"
             ]
         }
     },
@@ -72,6 +73,7 @@
         "axios": "^0.21.1",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
         "browserslist": "^4.16.5",
+        "core-js": "^2.6.11",
         "jest": "^27.0.1",
         "lodash": "^4.17.21",
         "progress": "^2.0.3",

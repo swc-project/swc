@@ -13,10 +13,14 @@ set -eu
 
 export RUST_LOG=swc_ecma_minifier=trace
 
+# To prevent regression, we run base test before real tests.
+touch tests/compress.rs
+cargo test --test compress base_exec --all-features 
+
 if [ -z "$@" ]; then
     ./scripts/sort.sh
 
-    GOLDEN_ONLY=1 cargo test --test compress --all-features 
+    SWC_RUN=0 GOLDEN_ONLY=1 cargo test --test compress --all-features 
 fi
 
-cargo test --test compress --all-features $@
+SKIP_GOLDEN=1 cargo test --test compress --all-features $@

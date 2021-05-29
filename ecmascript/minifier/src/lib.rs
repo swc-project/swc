@@ -1,5 +1,13 @@
 //! Javascript minifier implemented in rust.
 //!
+//! # Cargo features
+//!
+//! ## `debug`
+//!
+//! If you enable this cargo feature and set the environemnt variable named
+//! `SWC_RUN` to `1`, the minifier will validate the code using node before each
+//! step.
+//!
 //! Note: Passes should be visited only with [Module] and it's an error to feed
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
