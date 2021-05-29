@@ -118,6 +118,15 @@ mod tests {
     }
 
     #[test]
+    fn issue_1764() {
+        assert_min(
+            "class Hoge {};
+class HogeFuga extends Hoge {};",
+            "class Hoge{};class HogeFuga extends Hoge {};",
+        );
+    }
+
+    #[test]
     fn single_argument_arrow_expression() {
         assert_min("function* f(){ yield x => x}", "function*f(){yield x=>x}");
         assert_min(
