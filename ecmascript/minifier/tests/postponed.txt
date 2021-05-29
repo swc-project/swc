@@ -408,7 +408,10 @@ reduce_vars/duplicate_lambda_defun_name_1/input.js
 reduce_vars/escape_expansion/input.js
 reduce_vars/escape_local_sequence/input.js
 reduce_vars/escaped_prop_3/input.js
+reduce_vars/func_arg_1/input.js
+reduce_vars/func_arg_2/input.js
 reduce_vars/iife/input.js
+reduce_vars/iife_eval_2/input.js
 reduce_vars/iife_new/input.js
 reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2420_1/input.js
@@ -438,6 +441,8 @@ reduce_vars/issue_3140_4/input.js
 reduce_vars/lvalues_def_1/input.js
 reduce_vars/lvalues_def_2/input.js
 reduce_vars/modified/input.js
+reduce_vars/obj_arg_1/input.js
+reduce_vars/obj_arg_2/input.js
 reduce_vars/obj_for_1/input.js
 reduce_vars/passes/input.js
 reduce_vars/perf_1/input.js
@@ -457,6 +462,8 @@ reduce_vars/unsafe_evaluate/input.js
 reduce_vars/unsafe_evaluate_array_1/input.js
 reduce_vars/unsafe_evaluate_array_2/input.js
 reduce_vars/unsafe_evaluate_array_4/input.js
+reduce_vars/unsafe_evaluate_escaped/input.js
+reduce_vars/unsafe_evaluate_modified/input.js
 reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_2/input.js
 reduce_vars/unsafe_evaluate_side_effect_free_1/input.js
