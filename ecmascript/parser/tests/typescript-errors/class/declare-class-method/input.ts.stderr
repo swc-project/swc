@@ -1,0 +1,6 @@
+error: `declare` modifier cannot appear on a class element
+ --> $DIR/tests/typescript-errors/class/declare-class-method/input.ts:2:5
+  |
+2 |     declare m1(): string;
+  |     ^^^^^^^
+

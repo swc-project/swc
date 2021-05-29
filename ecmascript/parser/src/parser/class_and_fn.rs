@@ -316,7 +316,7 @@ impl<'a, I: Tokens> Parser<I> {
         // Allow `private declare`.
         let declare = declare || self.syntax().typescript() && eat!(self, "declare");
 
-        if declare {
+        let declare_token = if declare {
             // Handle declare(){}
             if self.is_class_method()? {
                 let key = Either::Right(PropName::Ident(Ident::new(
@@ -360,8 +360,12 @@ impl<'a, I: Tokens> Parser<I> {
                     false,
                     false,
                 );
+            } else {
+                Some(span!(self, start))
             }
-        }
+        } else {
+            None
+        };
 
         let static_token = {
             let start = cur_pos!(self);
@@ -423,7 +427,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         self.parse_class_member_with_is_static(
             start,
-            declare,
+            declare_token,
             accessibility,
             static_token,
             decorators,
@@ -434,7 +438,7 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_class_member_with_is_static(
         &mut self,
         start: BytePos,
-        declare: bool,
+        declare_token: Option<Span>,
         accessibility: Option<Accessibility>,
         static_token: Option<Span>,
         decorators: Vec<Decorator>,
@@ -445,6 +449,7 @@ impl<'a, I: Tokens> Parser<I> {
         let mut is_override = false;
         let mut readonly = None;
         let mut modifier_span = None;
+        let declare = declare_token.is_some();
         while let Some(modifier) =
             self.parse_ts_modifier(&["abstract", "readonly", "override", "static"])?
         {
@@ -577,6 +582,11 @@ impl<'a, I: Tokens> Parser<I> {
             // handle a(){} / get(){} / set(){} / async(){}
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
+
+            match declare_token {
+                Some(token) => self.emit_err(token, SyntaxError::TS1031),
+                None => {}
+            }
 
             if readonly.is_some() {
                 syntax_error!(self, span!(self, start), SyntaxError::ReadOnlyMethod);
