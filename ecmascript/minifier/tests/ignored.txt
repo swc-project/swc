@@ -60,8 +60,6 @@ collapse_vars/issue_2436_2/input.js
 collapse_vars/issue_2436_3/input.js
 collapse_vars/issue_2436_4/input.js
 collapse_vars/issue_2436_5/input.js
-collapse_vars/issue_2436_6/input.js
-collapse_vars/issue_2436_7/input.js
 collapse_vars/issue_2436_8/input.js
 collapse_vars/issue_2436_9/input.js
 collapse_vars/issue_2437/input.js
@@ -78,7 +76,6 @@ collapse_vars/pure_getters_chain/input.js
 collapse_vars/recursive_function_replacement/input.js
 collapse_vars/ref_scope/input.js
 collapse_vars/replace_all_var_scope/input.js
-collapse_vars/side_effect_free_replacement/input.js
 collapse_vars/switch_case_1/input.js
 collapse_vars/toplevel_single_reference/input.js
 collapse_vars/undeclared/input.js
@@ -150,7 +147,6 @@ drop_unused/used_var_in_catch/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/issue_2535_1/input.js
-evaluate/issue_2916_2/input.js
 evaluate/issue_2968/input.js
 evaluate/unsafe_object_accessor/input.js
 expansions/avoid_spread_getset_object/input.js
@@ -172,7 +168,6 @@ functions/issue_2084/input.js
 functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
 functions/issue_2601_1/input.js
-functions/issue_2601_2/input.js
 functions/issue_2604_1/input.js
 functions/issue_2604_2/input.js
 functions/issue_2620_1/input.js
@@ -181,7 +176,6 @@ functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
 functions/issue_3016_3/input.js
 functions/issue_3018/input.js
-functions/issue_3054/input.js
 functions/issue_3076/input.js
 functions/issue_3166/input.js
 functions/issue_485_crashing_1530/input.js
@@ -222,7 +216,6 @@ inline/dont_inline_funcs_into_default_param_2/input.js
 inline/inline_annotation/input.js
 inline/inline_annotation_2/input.js
 inline/inline_into_scope_conflict/input.js
-inline/inline_into_scope_conflict_enclosed_2/input.js
 inline/inline_within_extends_1/input.js
 inline/issue_308/input.js
 issue_1034/non_hoisted_function_after_return/input.js
@@ -428,8 +421,6 @@ reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_redefine/input.js
-reduce_vars/escaped_prop_1/input.js
-reduce_vars/escaped_prop_2/input.js
 reduce_vars/func_arg_1/input.js
 reduce_vars/func_arg_2/input.js
 reduce_vars/func_modified/input.js
@@ -451,7 +442,6 @@ reduce_vars/issue_1865/input.js
 reduce_vars/issue_2442/input.js
 reduce_vars/issue_2836/input.js
 reduce_vars/issue_2860_2/input.js
-reduce_vars/issue_2916/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
 reduce_vars/issue_3140_3/input.js
@@ -462,13 +452,16 @@ reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_arg_1/input.js
 reduce_vars/obj_arg_2/input.js
 reduce_vars/redefine_farg_1/input.js
-reduce_vars/reduce_class_with_side_effects_in_properties/input.js
 reduce_vars/reduce_vars/input.js
 reduce_vars/unsafe_evaluate_escaped/input.js
 reduce_vars/unsafe_evaluate_modified/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 return_undefined/return_undefined/input.js
+sequences/cascade_assignment_in_return/input.js
+sequences/for_sequences/input.js
+sequences/hoist_decl/input.js
+sequences/hoist_defun/input.js
 sequences/issue_1758/input.js
 sequences/issue_27/input.js
 sequences/lift_sequences_2/input.js
