@@ -110,6 +110,16 @@ fn run(
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
+    if env::var("SWC_RUN").unwrap_or_default() == "1" {
+        if let Ok(stdout) = stdout_of(&fm.src) {
+            eprintln!(
+                "---- {} -----\n{}",
+                Color::Green.paint("Stdout (expected)"),
+                stdout
+            );
+        }
+    }
+
     let top_level_mark = Mark::fresh(Mark::root());
 
     let lexer = Lexer::new(
