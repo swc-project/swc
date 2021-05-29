@@ -91,6 +91,7 @@ blocks/keep_some_blocks/input.js
 blocks/remove_blocks/input.js
 class_properties/basic_class_properties/input.js
 class_properties/class_expression_not_constant/input.js
+class_properties/class_expression_properties_side_effects/input.js
 class_properties/computed_class_properties/input.js
 class_properties/static_class_properties_side_effects/input.js
 class_properties/static_property_side_effects/input.js
