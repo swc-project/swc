@@ -606,12 +606,15 @@ impl Optimizer<'_> {
                         },
                         ClassMember::ClassProp(ClassProp {
                             key,
-                            computed: true,
+                            computed,
                             is_static,
                             value,
                             ..
                         }) => {
-                            exprs.extend(self.ignore_return_value(key).map(Box::new));
+                            if *computed {
+                                exprs.extend(self.ignore_return_value(key).map(Box::new));
+                            }
+
                             if *is_static {
                                 if let Some(v) = value {
                                     exprs.extend(self.ignore_return_value(v).map(Box::new));
