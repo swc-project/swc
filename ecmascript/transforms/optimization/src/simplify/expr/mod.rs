@@ -1389,7 +1389,17 @@ impl Fold for SimplifyExpr {
 
         for expr in e.exprs {
             match *expr {
+                Expr::Lit(Lit::Num(n)) if self.in_callee && n.value == 0.0 => {
+                    if exprs.is_empty() {
+                        exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 0.0,
+                        }))));
+                    }
+                }
+
                 Expr::Lit(..) | Expr::Ident(..) if self.in_callee => {
+                    self.changed = true;
                     if exprs.is_empty() {
                         exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
