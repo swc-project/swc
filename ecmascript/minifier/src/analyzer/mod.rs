@@ -546,6 +546,18 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_switch_case(&mut self, n: &SwitchCase, _: &dyn Node) {
+        n.test.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_try_stmt(&mut self, n: &TryStmt, _: &dyn Node) {
         let ctx = Ctx {
             in_cond: true,
