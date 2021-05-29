@@ -498,8 +498,7 @@ impl Optimizer<'_> {
                 log::trace!("Optimizing: e && true => !!e");
 
                 if rb {
-                    self.negate(&mut bin.left);
-                    self.negate(&mut bin.left);
+                    self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
                 }
             }

@@ -1,20 +1,15 @@
-(function () {
+(function() {
     if (1) {
-        let e;
-        const o = 1;
-        class t {}
+        let a;
+        const b = 1;
+        class c {
+        }
     }
     if (1) {
-        let e;
-        const o = 2;
-        class t {}
+        let d;
+        const e = 2;
+        class f {
+        }
     }
-    console.log(
-        typeof x,
-        typeof y,
-        typeof Zee,
-        typeof ex,
-        typeof why,
-        typeof Zi
-    );
+    console.log(typeof x, typeof y, typeof Zee, typeof ex, typeof why, typeof Zi);
 })();

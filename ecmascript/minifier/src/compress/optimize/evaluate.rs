@@ -1,4 +1,5 @@
 use super::Optimizer;
+use super::DISABLE_BUGGY_PASSES;
 use crate::compress::optimize::is_pure_undefined_or_null;
 use std::f64;
 use std::num::FpCategory;
@@ -127,6 +128,60 @@ impl Optimizer<'_> {
         }
 
         match &**callee {
+            Expr::Ident(Ident {
+                sym: js_word!("RegExp"),
+                ..
+            }) if self.options.unsafe_regexp => {
+                if args.len() >= 1 {
+                    self.optimize_expr_in_str_ctx(&mut args[0].expr);
+                }
+                if args.len() >= 2 {
+                    self.optimize_expr_in_str_ctx(&mut args[1].expr);
+                }
+
+                // Disable
+                if DISABLE_BUGGY_PASSES {
+                    return;
+                }
+
+                match args.len() {
+                    0 => return,
+                    1 => match &*args[0].expr {
+                        Expr::Lit(Lit::Str(exp)) => {
+                            self.changed = true;
+                            log::trace!(
+                                "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
+                                exp.value
+                            );
+
+                            *e = Expr::Lit(Lit::Regex(Regex {
+                                span,
+                                exp: exp.value.clone(),
+                                flags: js_word!(""),
+                            }));
+                        }
+                        _ => {}
+                    },
+                    _ => match (&*args[0].expr, &*args[1].expr) {
+                        (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) => {
+                            self.changed = true;
+                            log::trace!(
+                                "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
+                                exp.value,
+                                flags.value
+                            );
+
+                            *e = Expr::Lit(Lit::Regex(Regex {
+                                span,
+                                exp: exp.value.clone(),
+                                flags: flags.value.clone(),
+                            }));
+                        }
+                        _ => {}
+                    },
+                }
+            }
+
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(obj),
                 prop,
@@ -234,8 +289,24 @@ impl Optimizer<'_> {
 
                             *e = Expr::Array(ArrayLit { span, elems: keys })
                         }
+
                         _ => {}
                     },
+
+                    Expr::Ident(Ident { sym, .. }) => match &**sym {
+                        "console" => match &*prop.sym {
+                            "log" => {
+                                for arg in args {
+                                    self.optimize_expr_in_str_ctx_unsafely(&mut arg.expr);
+                                }
+                            }
+
+                            _ => {}
+                        },
+
+                        _ => {}
+                    },
+
                     _ => {}
                 }
             }

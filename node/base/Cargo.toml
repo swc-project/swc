@@ -14,7 +14,7 @@ version = "0.1.0"
 dashmap = "4.0.2"
 swc_common = {version = "0.10", path = "../../common"}
 
-[target.'cfg(all(unix, not(target_env = "musl"), not(target_arch = "aarch64")))'.dependencies]
+[target.'cfg(all(unix, not(target_env = "musl"), not(target_os = "freebsd"), not(target_arch = "arm"), not(target_arch = "aarch64")))'.dependencies]
 jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
 [target.'cfg(windows)'.dependencies]

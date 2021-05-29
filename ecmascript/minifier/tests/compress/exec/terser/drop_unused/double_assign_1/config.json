@@ -1,0 +1,6 @@
+{
+    "passes": 2,
+    "reduce_vars": true,
+    "side_effects": true,
+    "unused": true
+}

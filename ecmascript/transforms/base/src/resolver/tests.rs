@@ -164,22 +164,6 @@ fn test_mark_for() {
 }
 
 to!(
-    basic_no_usage,
-    "
-        let foo;
-        {
-            let foo;
-        }
-        ",
-    "
-        let foo;
-        {
-            let foo1;
-        }
-        "
-);
-
-to!(
     class_nested_var,
     "
         var ConstructorScoping = function ConstructorScoping() {

@@ -3,4 +3,4 @@ function bar() {
 }
 var x = 3;
 do bar();
-while (x)
+while (x);

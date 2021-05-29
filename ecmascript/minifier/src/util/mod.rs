@@ -1,3 +1,4 @@
+use fxhash::FxHashSet;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
 use swc_common::Mark;
@@ -5,6 +6,8 @@ use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::noop_visit_type;
@@ -270,4 +273,34 @@ where
     let mut visitor = DeepThisExprVisitor { found: false };
     body.visit_with(&Invalid { span: DUMMY_SP } as _, &mut visitor);
     visitor.found
+}
+
+#[derive(Default)]
+pub(crate) struct IdentUsageCollector {
+    ids: FxHashSet<Id>,
+}
+
+impl Visit for IdentUsageCollector {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        self.ids.insert(n.to_id());
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
+    }
+}
+
+pub(crate) fn idents_used_by<N>(n: &N) -> FxHashSet<Id>
+where
+    N: VisitWith<IdentUsageCollector>,
+{
+    let mut v = IdentUsageCollector::default();
+    n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+    v.ids
 }

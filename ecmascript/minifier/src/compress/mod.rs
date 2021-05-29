@@ -3,6 +3,7 @@ use self::hoist_decls::DeclHoisterConfig;
 use self::optimize::optimizer;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
+use crate::debug::invoke;
 use crate::option::CompressOptions;
 use crate::util::Optional;
 #[cfg(feature = "pretty_assertions")]
@@ -181,6 +182,8 @@ impl VisitMut for Compressor<'_> {
         }
 
         n.visit_mut_children_with(self);
+
+        invoke(&*n);
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
