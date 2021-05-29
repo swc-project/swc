@@ -6,6 +6,7 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::contains_ident_ref;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
@@ -387,6 +388,34 @@ impl Optimizer<'_> {
                     *name = None;
                 }
             }
+        }
+    }
+
+    /// `var Parser = function Parser() {};` => `var Parser = function () {}`
+    pub(super) fn remove_duplicate_names(&mut self, v: &mut VarDeclarator) {
+        if !self.options.unused {
+            return;
+        }
+
+        match v.init.as_deref_mut() {
+            Some(Expr::Fn(f)) => {
+                if f.ident.is_none() {
+                    return;
+                }
+
+                if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
+                    return;
+                }
+
+                self.changed = true;
+                log::trace!(
+                    "unused: Removing the name of a function expression because it's not used by \
+                     it'"
+                );
+                f.ident = None;
+            }
+
+            _ => {}
         }
     }
 }

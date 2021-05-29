@@ -2049,6 +2049,8 @@ impl VisitMut for Optimizer<'_> {
             var.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        self.remove_duplicate_names(var);
+
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
 
