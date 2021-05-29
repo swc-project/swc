@@ -29,6 +29,7 @@ block_scope/issue_334/input.js
 class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
+class_properties/static_means_execution/input.js
 collapse_vars/cascade_forin/input.js
 collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
