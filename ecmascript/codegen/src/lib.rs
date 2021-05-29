@@ -835,6 +835,7 @@ impl<'a> Emitter<'a> {
     #[emitter]
     fn emit_class_trailing(&mut self, node: &Class) -> Result {
         if node.super_class.is_some() {
+            space!();
             keyword!("extends");
             space!();
             emit!(node.super_class);
