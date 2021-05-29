@@ -823,10 +823,6 @@ impl<'a> Emitter<'a> {
             space!();
             emit!(i);
             emit!(node.class.type_params);
-
-            formatting_space!();
-        } else {
-            space!();
         }
 
         self.emit_class_trailing(&node.class)?;
@@ -839,9 +835,9 @@ impl<'a> Emitter<'a> {
             keyword!("extends");
             space!();
             emit!(node.super_class);
-            space!();
         }
 
+        formatting_space!();
         punct!("{");
         self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
         punct!("}");
