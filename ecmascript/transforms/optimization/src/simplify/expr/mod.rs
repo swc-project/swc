@@ -1349,7 +1349,7 @@ impl Fold for SimplifyExpr {
                         ExprOrSuper::Expr(seq.exprs.into_iter().next().unwrap().fold_with(self))
                     } else {
                         match seq.exprs.get(0).map(|v| &**v) {
-                            Some(Expr::Lit(Lit::Num(..))) => {}
+                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                             _ => {
                                 seq.exprs.insert(
                                     0,
