@@ -311,7 +311,11 @@ impl Optimizer<'_> {
                 && !usage.used_in_loop
             {
                 match decl {
-                    Decl::Class(ClassDecl { class, .. }) => if class_has_side_effect(&class) {},
+                    Decl::Class(ClassDecl { class, .. }) => {
+                        if class_has_side_effect(&class) {
+                            return;
+                        }
+                    }
                     _ => {}
                 }
 
