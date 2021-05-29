@@ -454,4 +454,3 @@ template_string/escape_dollar_curly/input.js
 template_string/special_chars_in_string/input.js
 transform/if_return/input.js
 transform/while_if_break/input.js
-typeof/typeof_defun_2/input.js
