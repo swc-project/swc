@@ -415,11 +415,6 @@ pure_getters/unsafe_reduce_vars/input.js
 pure_globals/globals_whose_access_is_pure/input.js
 pure_globals/window_access_is_impure/input.js
 reduce_vars/conditional_chain_certain_part/input.js
-reduce_vars/defun_catch_4/input.js
-reduce_vars/defun_catch_5/input.js
-reduce_vars/defun_inline_1/input.js
-reduce_vars/defun_inline_2/input.js
-reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_redefine/input.js
 reduce_vars/func_arg_1/input.js
 reduce_vars/func_arg_2/input.js
