@@ -51,7 +51,10 @@ pub(crate) struct VarUsageInfo {
     pub assign_count: usize,
     pub usage_count: usize,
 
-    pub reassigned: bool,
+    /// Assigned a completely new value.
+    pub assigned_again: bool,
+    /// Property is modified.
+    pub mutated: bool,
 
     pub has_property_access: bool,
     pub accessed_props: FxHashSet<JsWord>,
@@ -122,7 +125,10 @@ impl ProgramData {
                 Entry::Occupied(mut e) => {
                     e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= var_info.cond_init;
-                    e.get_mut().reassigned |= var_info.reassigned;
+
+                    e.get_mut().assigned_again |= var_info.assigned_again;
+                    e.get_mut().mutated |= var_info.mutated;
+
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().exported |= var_info.exported;
 
@@ -190,6 +196,7 @@ impl UsageAnalyzer {
     }
 
     fn report(&mut self, i: Id, is_assign: bool, dejavu: &mut FxHashSet<Id>) {
+        let is_first = dejavu.is_empty();
         if !dejavu.insert(i.clone()) {
             return;
         }
@@ -200,7 +207,10 @@ impl UsageAnalyzer {
         });
 
         e.ref_count += 1;
-        e.reassigned |= is_assign;
+
+        e.assigned_again |= is_first && is_assign;
+        e.mutated = is_assign;
+
         e.used_in_loop |= self.ctx.in_loop;
 
         if is_assign {
@@ -509,7 +519,8 @@ impl Visit for UsageAnalyzer {
                     }
 
                     if in_left_of_for_loop {
-                        v.reassigned = true;
+                        v.assigned_again = true;
+                        v.mutated = true;
                     }
                 } else {
                     self.report_usage(&i.id, true);
