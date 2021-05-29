@@ -166,6 +166,7 @@ collapse_vars/issue_2974/input.js
 collapse_vars/issue_348/input.js
 collapse_vars/issue_805/input.js
 collapse_vars/may_throw_1/input.js
+collapse_vars/modified/input.js
 collapse_vars/reassign_const_1/input.js
 collapse_vars/reassign_const_2/input.js
 collapse_vars/replace_all_var/input.js
@@ -644,6 +645,7 @@ issue_269/issue_269_dangers/input.js
 issue_281/issue_1254_negate_iife_nested/input.js
 issue_281/issue_1254_negate_iife_true/input.js
 issue_281/issue_1595_3/input.js
+issue_281/modified/input.js
 issue_281/negate_iife_3/input.js
 issue_281/negate_iife_3_off/input.js
 issue_281/negate_iife_4/input.js
@@ -1145,7 +1147,6 @@ typeof/issue_2728_1/input.js
 typeof/issue_2728_2/input.js
 typeof/issue_2728_5/input.js
 typeof/issue_2728_6/input.js
-typeof/typeof_defun_2/input.js
 typeof/typeof_evaluation/input.js
 typeof/typeof_in_boolean_context/input.js
 unicode/ID_continue_with_surrogate_pair/input.js

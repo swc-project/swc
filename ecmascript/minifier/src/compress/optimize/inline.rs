@@ -54,7 +54,7 @@ impl Optimizer<'_> {
                         return;
                     }
 
-                    if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
+                    if self.options.reduce_vars && self.options.typeofs && !usage.mutated {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
                                 self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -81,7 +81,7 @@ impl Optimizer<'_> {
                         || self.options.inline != 0;
 
                     if is_inline_enabled
-                        && !usage.reassigned
+                        && !usage.mutated
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_)
@@ -125,7 +125,7 @@ impl Optimizer<'_> {
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
-                        && !usage.reassigned
+                        && !usage.mutated
                         && usage.ref_count == 1
                     {
                         match &**init {
@@ -212,7 +212,7 @@ impl Optimizer<'_> {
             .as_ref()
             .and_then(|data| data.vars.get(&i.to_id()))
         {
-            if !usage.reassigned {
+            if !usage.mutated {
                 log::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {

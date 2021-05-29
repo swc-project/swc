@@ -18,7 +18,7 @@ impl Optimizer<'_> {
                 if !self
                     .data
                     .as_ref()
-                    .and_then(|data| data.vars.get(&name.to_id()).map(|v| !v.reassigned))
+                    .and_then(|data| data.vars.get(&name.to_id()).map(|v| !v.mutated))
                     .unwrap_or(false)
                 {
                     return;
