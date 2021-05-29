@@ -45,7 +45,7 @@ impl VisitMut for Optimizer {
             None => return,
         };
 
-        if info.is_fn_local {
+        if info.is_fn_local && !info.top_level {
             i.span.ctxt = SyntaxContext::empty();
         }
     }
