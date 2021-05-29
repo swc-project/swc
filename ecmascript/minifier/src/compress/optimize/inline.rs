@@ -212,7 +212,7 @@ impl Optimizer<'_> {
             .as_ref()
             .and_then(|data| data.vars.get(&i.to_id()))
         {
-            if !usage.mutated {
+            if !usage.reassigned {
                 log::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {

@@ -51,7 +51,9 @@ pub(crate) struct VarUsageInfo {
     pub assign_count: usize,
     pub usage_count: usize,
 
+    /// The variable itself is modified.
     pub reassigned: bool,
+    /// The variable itself or a property of it is modified.
     pub mutated: bool,
 
     pub has_property_access: bool,
