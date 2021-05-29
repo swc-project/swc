@@ -323,6 +323,7 @@ impl Visit for UsageAnalyzer {
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _: &dyn Node) {
         let ctx = Ctx {
             in_loop: true,
+            in_cond: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -361,6 +362,7 @@ impl Visit for UsageAnalyzer {
 
             let ctx = Ctx {
                 in_loop: true,
+                in_cond: true,
                 ..child.ctx
             };
             n.body.visit_with(n, &mut *child.with_ctx(ctx))
@@ -379,6 +381,7 @@ impl Visit for UsageAnalyzer {
 
             let ctx = Ctx {
                 in_loop: true,
+                in_cond: true,
                 ..child.ctx
             };
             n.body.visit_with(n, &mut *child.with_ctx(ctx))
@@ -390,6 +393,7 @@ impl Visit for UsageAnalyzer {
 
         let ctx = Ctx {
             in_loop: true,
+            in_cond: true,
             ..self.ctx
         };
 
@@ -611,6 +615,7 @@ impl Visit for UsageAnalyzer {
     fn visit_while_stmt(&mut self, n: &WhileStmt, _: &dyn Node) {
         let ctx = Ctx {
             in_loop: true,
+            in_cond: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
