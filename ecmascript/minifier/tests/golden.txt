@@ -93,6 +93,7 @@ class_properties/basic_class_properties/input.js
 class_properties/class_expression_not_constant/input.js
 class_properties/computed_class_properties/input.js
 class_properties/static_class_properties_side_effects/input.js
+class_properties/static_property_side_effects/input.js
 classes/class_duplication/input.js
 classes/class_duplication_2/input.js
 classes/class_recursive_refs/input.js
@@ -1126,6 +1127,7 @@ transform/booleans_evaluate/input.js
 transform/booleans_global_defs/input.js
 transform/condition_evaluate/input.js
 transform/if_else_empty/input.js
+transform/label_if_break/input.js
 try_catch/broken_safari_catch_scope/input.js
 try_catch/broken_safari_catch_scope_caveat/input.js
 try_catch/issue_452/input.js
