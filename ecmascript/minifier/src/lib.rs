@@ -124,7 +124,7 @@ pub fn optimize(
 
     {
         let data = analyze(&m);
-        m.visit_mut_with(&mut hygiene_optimizer(data));
+        m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
     }
 
     if let Some(ref mut t) = timings {

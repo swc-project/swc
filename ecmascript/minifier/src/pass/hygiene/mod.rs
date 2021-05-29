@@ -1,4 +1,6 @@
 use crate::analyzer::ProgramData;
+use crate::util::has_mark;
+use swc_common::Mark;
 use swc_common::Span;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
@@ -10,12 +12,19 @@ use swc_ecma_visit::VisitMutWith;
 /// Create a hygiene optimizer.
 ///
 /// Hygiene optimizer removes span hygiene without renaming if it's ok to do so.
-pub(crate) fn hygiene_optimizer(data: ProgramData) -> impl 'static + VisitMut {
-    Optimizer { data }
+pub(crate) fn hygiene_optimizer(
+    data: ProgramData,
+    top_level_mark: Mark,
+) -> impl 'static + VisitMut {
+    Optimizer {
+        data,
+        top_level_mark,
+    }
 }
 
 struct Optimizer {
     data: ProgramData,
+    top_level_mark: Mark,
 }
 
 impl Optimizer {
@@ -35,6 +44,10 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.span.ctxt == SyntaxContext::empty() {
+            return;
+        }
+
+        if has_mark(i.span, self.top_level_mark) {
             return;
         }
 
