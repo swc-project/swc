@@ -261,8 +261,12 @@ hoist_props/undefined_key/input.js
 identity/inline_identity_duplicate_arg_var/input.js
 identity/inline_identity_extra_params/input.js
 identity/inline_identity_function/input.js
+ie8/do_screw/input.js
+ie8/do_screw_constants/input.js
 ie8/do_screw_try_catch/input.js
 ie8/do_screw_try_catch_undefined/input.js
+ie8/dont_screw/input.js
+ie8/dont_screw_constants/input.js
 ie8/dont_screw_try_catch/input.js
 ie8/dont_screw_try_catch_undefined/input.js
 ie8/issue_1586_1/input.js
@@ -304,6 +308,8 @@ issue_1588/screw_ie8/input.js
 issue_1588/unsafe_undefined/input.js
 issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
+issue_1704/mangle_catch_redef_1_ie8/input.js
+issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_var_ie8/input.js
 issue_1733/function_catch_catch_ie8/input.js
 issue_1733/function_iife_catch/input.js
@@ -331,6 +337,10 @@ keep_quoted_strict/keep_quoted_strict/input.js
 labels/labels_3/input.js
 labels/labels_4/input.js
 labels/labels_6/input.js
+loops/issue_186_beautify_braces_ie8/input.js
+loops/issue_186_beautify_ie8/input.js
+loops/issue_186_braces_ie8/input.js
+loops/issue_186_ie8/input.js
 loops/issue_2740_3/input.js
 loops/issue_2740_4/input.js
 loops/issue_2740_5/input.js
@@ -456,6 +466,8 @@ reduce_vars/var_assign_2/input.js
 rename/function_catch_catch_ie8/input.js
 rename/function_iife_catch/input.js
 rename/function_iife_catch_ie8/input.js
+rename/mangle_catch_redef_1_ie8/input.js
+rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_var/input.js
 rename/mangle_catch_var_ie8/input.js
 sequences/for_init_var/input.js

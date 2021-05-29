@@ -549,10 +549,6 @@ identity/inline_identity_inner_ref/input.js
 identity/inline_identity_lose_this/input.js
 identity/inline_identity_regression/input.js
 identity/inline_identity_undefined/input.js
-ie8/do_screw/input.js
-ie8/do_screw_constants/input.js
-ie8/dont_screw/input.js
-ie8/dont_screw_constants/input.js
 ie8/issue_2120_2/input.js
 if_return/if_return_1/input.js
 if_return/if_return_2/input.js
@@ -599,11 +595,9 @@ issue_1704/mangle_catch/input.js
 issue_1704/mangle_catch_ie8/input.js
 issue_1704/mangle_catch_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_1/input.js
-issue_1704/mangle_catch_redef_1_ie8/input.js
 issue_1704/mangle_catch_redef_1_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_1_toplevel/input.js
 issue_1704/mangle_catch_redef_2/input.js
-issue_1704/mangle_catch_redef_2_ie8/input.js
 issue_1704/mangle_catch_redef_2_ie8_toplevel/input.js
 issue_1704/mangle_catch_redef_2_toplevel/input.js
 issue_1704/mangle_catch_redef_3/input.js
@@ -709,11 +703,7 @@ loops/issue_1648/input.js
 loops/issue_186/input.js
 loops/issue_186_beautify/input.js
 loops/issue_186_beautify_braces/input.js
-loops/issue_186_beautify_braces_ie8/input.js
-loops/issue_186_beautify_ie8/input.js
 loops/issue_186_braces/input.js
-loops/issue_186_braces_ie8/input.js
-loops/issue_186_ie8/input.js
 loops/issue_2740_1/input.js
 loops/issue_2740_2/input.js
 loops/issue_2904/input.js
@@ -884,6 +874,8 @@ reduce_vars/conditional_nested_3/input.js
 reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
+reduce_vars/defun_catch_4/input.js
+reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_reference/input.js
 reduce_vars/defun_single_use_loop/input.js
 reduce_vars/defun_var_1/input.js
@@ -1017,11 +1009,9 @@ rename/mangle_catch/input.js
 rename/mangle_catch_ie8/input.js
 rename/mangle_catch_ie8_toplevel/input.js
 rename/mangle_catch_redef_1/input.js
-rename/mangle_catch_redef_1_ie8/input.js
 rename/mangle_catch_redef_1_ie8_toplevel/input.js
 rename/mangle_catch_redef_1_toplevel/input.js
 rename/mangle_catch_redef_2/input.js
-rename/mangle_catch_redef_2_ie8/input.js
 rename/mangle_catch_redef_2_ie8_toplevel/input.js
 rename/mangle_catch_redef_2_toplevel/input.js
 rename/mangle_catch_toplevel/input.js
