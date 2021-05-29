@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -eu
 
+export SWC_RUN=0
+
 cargo test --test compress --all-features ${1-''} \
   | grep 'terser__compress' \
   | grep 'js .\.\. FAILED$' \
