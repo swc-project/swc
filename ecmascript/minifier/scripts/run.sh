@@ -14,7 +14,7 @@ set -eu
 export RUST_LOG=swc_ecma_minifier=trace
 
 # To prevent regression, we run base test before real tests.
-./scripts/bash.sh base_exec
+./scripts/base.sh base_exec
 
 if [ -z "$@" ]; then
     ./scripts/sort.sh
