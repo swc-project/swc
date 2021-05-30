@@ -1,6 +1,6 @@
 @decorator
 class Class { }
 
-function decorator(cls: any) {
+function decorator(cls) {
     console.log(cls.name);
 }
