@@ -1,13 +1,14 @@
 use fxhash::{FxHashMap, FxHashSet};
 use std::mem::take;
-use swc_atoms::JsWord;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_utils::Id;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Default)]
 pub(super) struct HygieneAnalyzer {
     cur: ScopeInfo,
+    result: FxHashMap<Id, SyntaxContext>,
 }
 
 #[derive(Default)]
