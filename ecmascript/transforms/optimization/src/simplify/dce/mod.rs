@@ -919,9 +919,10 @@ impl Dce<'_> {
 
     pub fn has_marked_elem<T>(&self, n: &[T]) -> bool
     where
-        T: Spanned,
+        T: Spanned + IsDecorator,
     {
-        n.iter().any(|n| self.is_marked(n.span()))
+        n.iter()
+            .any(|n| T::is_decorator() || self.is_marked(n.span()))
     }
 
     pub fn should_preserve_export(&self, i: &JsWord) -> bool {
@@ -980,3 +981,59 @@ impl Dce<'_> {
         self.decl_dropping_phase = old;
     }
 }
+
+trait IsDecorator {
+    fn is_decorator() -> bool;
+}
+
+impl<T> IsDecorator for Option<T>
+where
+    T: IsDecorator,
+{
+    fn is_decorator() -> bool {
+        T::is_decorator()
+    }
+}
+
+impl<T> IsDecorator for Box<T>
+where
+    T: IsDecorator,
+{
+    fn is_decorator() -> bool {
+        T::is_decorator()
+    }
+}
+
+impl IsDecorator for Decorator {
+    fn is_decorator() -> bool {
+        true
+    }
+}
+
+macro_rules! not_decorator {
+    ($T:ty) => {
+        impl IsDecorator for $T {
+            fn is_decorator() -> bool {
+                false
+            }
+        }
+    };
+
+    ($($T:ty,)*) => {
+        $(
+            not_decorator!($T);
+        )*
+    };
+}
+
+not_decorator!(
+    ExprOrSpread,
+    Pat,
+    ClassMember,
+    ParamOrTsParamProp,
+    PropOrSpread,
+    Prop,
+    SpreadElement,
+    ObjectPatProp,
+    Expr,
+);
