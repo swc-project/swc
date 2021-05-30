@@ -4,6 +4,7 @@ use std::iter;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
@@ -324,9 +325,26 @@ impl Decorators {
             }
         };
 
+        let mut vars = vec![];
+
         macro_rules! fold_method {
             ($method:expr, $fn_name:expr, $key_prop_value:expr) => {{
                 let fn_name = $fn_name;
+                let method = $method;
+
+                let mut folder = SuperFieldAccessFolder {
+                    class_name: &ident,
+                    vars: &mut vars,
+                    constructor_this_mark: None,
+                    is_static: method.is_static,
+                    folding_constructor: true,
+                    in_nested_scope: false,
+                    in_injected_define_property_call: false,
+                    this_alias_mark: None,
+                };
+
+                let method = method.fold_with(&mut folder);
+
                 //   kind: "method",
                 //   key: getKeyJ(),
                 //   value: function () {
@@ -339,7 +357,7 @@ impl Decorators {
                             KeyValueProp {
                                 key: PropName::Ident(quote_ident!("kind")),
                                 value: Box::new(Expr::Lit(Lit::Str(quote_str!(
-                                    match $method.kind {
+                                    match method.kind {
                                         MethodKind::Method => "method",
                                         MethodKind::Getter => "get",
                                         MethodKind::Setter => "set",
@@ -347,7 +365,7 @@ impl Decorators {
                                 )))),
                             },
                         ))))
-                        .chain(if $method.is_static {
+                        .chain(if method.is_static {
                             Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("static")),
                                 value: Box::new(Expr::Lit(Lit::Bool(Bool {
@@ -360,14 +378,14 @@ impl Decorators {
                         })
                         .chain({
                             //
-                            if $method.function.decorators.is_empty() {
+                            if method.function.decorators.is_empty() {
                                 None
                             } else {
                                 Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                     key: PropName::Ident(quote_ident!("decorators")),
                                     value: Box::new(Expr::Array(ArrayLit {
                                         span: DUMMY_SP,
-                                        elems: $method
+                                        elems: method
                                             .function
                                             .decorators
                                             .into_iter()
@@ -392,7 +410,7 @@ impl Decorators {
                                         ident: fn_name.map(IdentExt::private),
                                         function: Function {
                                             decorators: vec![],
-                                            ..$method.function
+                                            ..method.function
                                         },
                                     }
                                     .into(),
@@ -420,7 +438,8 @@ impl Decorators {
                             PropName::Str(ref s) => Some(Ident::new(s.value.clone(), s.span)),
                             _ => None,
                         };
-                        let key_prop_value = Box::new(prop_name_to_expr_value(method.key));
+                        let key_prop_value = Box::new(prop_name_to_expr_value(method.key.clone()));
+
                         fold_method!(method, fn_name, key_prop_value)
                     }
                     ClassMember::PrivateMethod(method) => {
@@ -430,7 +449,7 @@ impl Decorators {
                         );
                         let key_prop_value = Box::new(Expr::Lit(Lit::Str(Str {
                             span: method.key.id.span,
-                            value: method.key.id.sym,
+                            value: method.key.id.sym.clone(),
                             has_escape: false,
                             kind: StrKind::Normal {
                                 contains_quote: false,
