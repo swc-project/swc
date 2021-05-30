@@ -836,6 +836,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
+                in_catch_caluse: false,
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -913,6 +914,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
+                in_catch_caluse: false,
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1260,12 +1262,17 @@ struct Hoister<'a, 'b> {
     kind: Option<VarDeclKind>,
     /// Hoister should not touch let / const in the block.
     in_block: bool,
+    in_catch_caluse: bool,
 }
 
 impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        if self.in_catch_caluse {
+            return;
+        }
+
         self.resolver.in_type = false;
         self.resolver
             .modify(&mut node.ident, Some(VarDeclKind::Var));
@@ -1330,7 +1337,12 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_catch_clause(&mut self, _: &mut CatchClause) {}
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let old = self.in_catch_caluse;
+        self.in_catch_caluse = true;
+        c.body.visit_mut_children_with(self);
+        self.in_catch_caluse = old
+    }
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
