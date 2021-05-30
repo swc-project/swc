@@ -1,3 +1,10 @@
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
+use swc_ecma_utils::ExprFactory;
+
+#[macro_use]
+pub mod macros;
 pub mod super_field;
 
 /// Creates

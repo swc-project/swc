@@ -1,3 +1,5 @@
+/// Not intended for public use.
+#[macro_export]
 macro_rules! fold_only_key {
     () => {
         fn fold_class_member(&mut self, m: ClassMember) -> ClassMember {
