@@ -23,7 +23,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 ///
 /// _get(Child.prototype.__proto__ || Object.getPrototypeOf(Child.prototype),
 /// 'foo', this).call(this, a);
-pub(crate) struct SuperFieldAccessFolder<'a> {
+pub struct SuperFieldAccessFolder<'a> {
     pub class_name: &'a Ident,
 
     pub vars: &'a mut Vec<VarDeclarator>,

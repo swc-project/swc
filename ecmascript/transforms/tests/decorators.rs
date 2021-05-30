@@ -5719,20 +5719,88 @@ test!(
     }),
     issue_1456_1,
     "
-    class MyClass {
-      constructor(@Inject() param1: Injected) {}
+  class MyClass {
+    constructor(@Inject() param1: Injected) {}
+  }
+  ",
+    r#"
+  var _class;
+  var _dec = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
+      typeof Injected === "undefined" ? Object : Injected
+  ]), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = function(target, key) {
+      return Inject()(target, undefined, 0);
+  };
+  let MyClass = _class = _dec2(_class = _dec1(_class = _dec((_class = class MyClass {
+      constructor(param1: Injected){
+      }
+  }) || _class) || _class) || _class) || _class;
+  "#
+);
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        ..Default::default()
+    }),
+    issue_846_1,
+    "
+    class SomeClass {
+      @dec
+      someMethod() {}
+    }
+    
+    class OtherClass extends SomeClass {
+      @dec
+      anotherMethod() {
+        super.someMethod()
+      }
     }
     ",
-    r#"
-    var _class;
-    var _dec = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:paramtypes", [
-        typeof Injected === "undefined" ? Object : Injected
-    ]), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", Function), _dec2 = function(target, key) {
-        return Inject()(target, undefined, 0);
-    };
-    let MyClass = _class = _dec2(_class = _dec1(_class = _dec((_class = class MyClass {
-        constructor(param1: Injected){
-        }
-    }) || _class) || _class) || _class) || _class;
-    "#
+    "
+    let SomeClass = _decorate([], function(_initialize) {
+          class SomeClass {
+              constructor(){
+                  _initialize(this);
+              }
+          }
+          return {
+              F: SomeClass,
+              d: [
+                  {
+                      kind: 'method',
+                      decorators: [
+                          dec
+                      ],
+                      key: 'someMethod',
+                      value: function someMethod() {
+                      }
+                  }
+              ]
+          };
+      });
+      let OtherClass = _decorate([], function(_initialize, _SomeClass) {
+          class OtherClass extends _SomeClass {
+              constructor(...args){
+                  super(...args);
+                  _initialize(this);
+              }
+          }
+          return {
+              F: OtherClass,
+              d: [
+                  {
+                      kind: 'method',
+                      decorators: [
+                          dec
+                      ],
+                      key: 'anotherMethod',
+                      value: function anotherMethod() {
+                          _get(_getPrototypeOf(OtherClass.prototype), 'someMethod', \
+     this).call(this);
+                      }
+                  }
+              ]
+          };
+      }, SomeClass);
+    "
 );

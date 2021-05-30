@@ -1,9 +1,10 @@
-use super::get_prototype_of;
 use std::iter;
 use swc_atoms::JsWord;
 use swc_common::{Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_classes::fold_only_key;
+use swc_ecma_transforms_classes::get_prototype_of;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::noop_visit_type;
