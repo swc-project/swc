@@ -1,10 +1,12 @@
 use either::Either;
 use serde::Deserialize;
 use std::iter;
+use std::mem::take;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
@@ -65,6 +67,7 @@ pub fn decorators(c: Config) -> impl Fold {
         }
         Either::Right(Decorators {
             is_in_strict: false,
+            vars: Default::default(),
         })
     }
 }
@@ -80,6 +83,8 @@ pub struct Config {
 #[derive(Debug, Default)]
 struct Decorators {
     is_in_strict: bool,
+
+    vars: Vec<VarDeclarator>,
 }
 
 impl Fold for Decorators {
@@ -244,12 +249,25 @@ impl Fold for Decorators {
         });
 
         self.is_in_strict = old_strict;
+
+        if !self.vars.is_empty() {
+            prepend(
+                &mut buf,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: take(&mut self.vars),
+                }))),
+            )
+        }
+
         buf
     }
 }
 
 impl Decorators {
-    fn fold_class_inner(&self, ident: Ident, mut class: Class) -> Expr {
+    fn fold_class_inner(&mut self, ident: Ident, mut class: Class) -> Expr {
         let initialize = private_ident!("_initialize");
         let super_class_ident = match class.super_class {
             Some(ref expr) => Some(alias_ident_for(expr, "_super")),
@@ -555,6 +573,8 @@ impl Decorators {
             })
             .map(Some)
             .collect();
+
+        self.vars.extend(vars);
 
         Expr::Call(make_decorate_call(
             class.decorators,
