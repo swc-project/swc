@@ -9,6 +9,8 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
+mod analyzer;
+
 /// Create a hygiene optimizer.
 ///
 /// Hygiene optimizer removes span hygiene without renaming if it's ok to do so.
@@ -59,7 +61,7 @@ impl VisitMut for Optimizer {
         };
 
         if info.is_fn_local {
-            i.span.ctxt = SyntaxContext::empty();
+            i.span.ctxt = SyntaxContext::empty()
         }
     }
 
