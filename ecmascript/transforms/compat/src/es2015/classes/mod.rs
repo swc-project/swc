@@ -29,7 +29,6 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 mod macros;
 mod constructor;
 mod prop_name;
-mod super_field;
 
 pub fn classes<C>(comments: Option<C>) -> impl Fold
 where
@@ -862,20 +861,6 @@ where
             },
         )]
     }
-}
-
-/// Creates
-///
-/// ```js
-/// Child.__proto__ || Object.getPrototypeOf(Child)
-/// ```
-fn get_prototype_of(obj: Expr) -> Expr {
-    Expr::Call(CallExpr {
-        span: DUMMY_SP,
-        callee: helper!(get_prototype_of, "getPrototypeOf"),
-        args: vec![obj.as_arg()],
-        type_args: Default::default(),
-    })
 }
 
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
