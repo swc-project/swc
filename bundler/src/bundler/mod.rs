@@ -13,9 +13,10 @@ mod finalize;
 mod helpers;
 mod import;
 mod keywords;
-mod load;
+pub mod load;
 mod optimize;
 mod scope;
+
 #[cfg(test)]
 pub(crate) mod tests;
 
@@ -92,7 +93,7 @@ where
     /// Used to mark a variable declaration as injected.
     pub(crate) injected_ctxt: SyntaxContext,
 
-    scope: Scope,
+    pub scope: Scope,
 
     hook: Box<dyn 'a + Hook>,
 }

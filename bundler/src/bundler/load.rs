@@ -21,7 +21,7 @@ use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_visit::{noop_visit_type, FoldWith, Node, Visit, VisitWith};
 /// Module after applying transformations.
 #[derive(Debug, Clone)]
-pub(crate) struct TransformedModule {
+pub struct TransformedModule {
     pub id: ModuleId,
     pub fm: Lrc<SourceFile>,
     pub module: Lrc<Module>,
@@ -61,7 +61,7 @@ where
     ///
     /// We apply transforms at this phase to make cache efficient.
     /// As we cache in this phase, changing dependency does not affect cache.
-    pub(super) fn load_transformed(
+    pub fn load_transformed(
         &self,
         file_name: &FileName,
     ) -> Result<Option<TransformedModule>, Error> {
@@ -366,14 +366,14 @@ where
 }
 
 #[derive(Debug, Default)]
-pub(crate) struct Imports {
+pub struct Imports {
     /// If imported ids are empty, it is a side-effect import.
     pub specifiers: Vec<(Source, Vec<Specifier>)>,
 }
 
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
-pub(crate) enum Specifier {
+pub enum Specifier {
     Specific {
         local: Id,
         alias: Option<Id>,
@@ -386,7 +386,7 @@ pub(crate) enum Specifier {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
-pub(crate) struct Source {
+pub struct Source {
     pub is_loaded_synchronously: bool,
     pub is_unconditional: bool,
 

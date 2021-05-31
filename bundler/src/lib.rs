@@ -6,7 +6,7 @@ pub use self::{
     resolve::Resolve,
 };
 
-mod bundler;
+pub mod bundler;
 mod debug;
 mod dep_graph;
 mod hash;
@@ -17,3 +17,5 @@ mod load;
 mod modules;
 mod resolve;
 mod util;
+
+pub use bundler::load::TransformedModule;

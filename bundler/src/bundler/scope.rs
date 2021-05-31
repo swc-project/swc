@@ -7,7 +7,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use swc_common::{sync::Lrc, FileName};
 
 #[derive(Debug, Default)]
-pub(super) struct Scope {
+pub struct Scope {
     pub module_id_gen: ModuleIdGenerator,
 
     loaded_modules: CloneMap<ModuleId, ()>,
