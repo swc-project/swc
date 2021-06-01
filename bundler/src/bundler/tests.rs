@@ -140,7 +140,7 @@ impl TestBuilder {
 
                 for (name, _) in self.files {
                     bundler
-                        .load_transformed(&FileName::Real(name.clone().into()))
+                        .load_transformed(&FileName::Real(name.clone().into()), true)
                         .unwrap();
                 }
 

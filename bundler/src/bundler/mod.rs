@@ -147,7 +147,7 @@ where
             .into_iter()
             .map(|(name, path)| -> Result<_, Error> {
                 let res = self
-                    .load_transformed(&path)
+                    .load_transformed(&path, true)
                     .context("load_transformed failed")?;
                 Ok((name, res))
             })

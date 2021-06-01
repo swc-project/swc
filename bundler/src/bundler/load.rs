@@ -64,6 +64,7 @@ where
     pub(super) fn load_transformed(
         &self,
         file_name: &FileName,
+        recursive: bool,
     ) -> Result<Option<TransformedModule>, Error> {
         self.run(|| {
             log::trace!("load_transformed: ({})", file_name);
@@ -89,18 +90,20 @@ where
             );
             self.scope.store_module(v.clone());
 
-            // Load dependencies and store them in the `Scope`
-            let results = files
-                .into_par_iter()
-                .map(|(_src, path)| {
-                    log::trace!("loading dependency: {}", path);
-                    self.load_transformed(&path)
-                })
-                .collect::<Vec<_>>();
+            if recursive {
+                // Load dependencies and store them in the `Scope`
+                let results = files
+                    .into_par_iter()
+                    .map(|(_src, path)| {
+                        log::trace!("loading dependency: {}", path);
+                        self.load_transformed(&path, recursive)
+                    })
+                    .collect::<Vec<_>>();
 
-            // Do tasks in parallel, and then wait for result
-            for result in results {
-                result?;
+                // Do tasks in parallel, and then wait for result
+                for result in results {
+                    result?;
+                }
             }
 
             Ok(Some(v))

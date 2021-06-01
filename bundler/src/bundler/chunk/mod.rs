@@ -150,7 +150,7 @@ mod tests {
             .run(|t| {
                 let module = t
                     .bundler
-                    .load_transformed(&FileName::Real("main.js".into()))?
+                    .load_transformed(&FileName::Real("main.js".into()), true)?
                     .unwrap();
                 let mut entries = AHashMap::default();
                 entries.insert("main.js".to_string(), module);
