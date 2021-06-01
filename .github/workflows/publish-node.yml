@@ -4,7 +4,7 @@ on:
   create:
     tags:
       - v*
-    
+
 env:
   CARGO_INCREMENTAL: 0
   CI: "1"
@@ -53,7 +53,7 @@ jobs:
 
       - name: Test in lts docker
         if: matrix.os == 'ubuntu-18.04'
-        run: docker run --rm -v $(pwd):/swc -w /swc node:10-slim sh -c "yarn test"
+        run: docker run --rm -v $(pwd):/swc -w /swc node:lts-slim sh -c "yarn test"
 
   build-windows-i686:
     name: stable - windows-i686 - node@14
@@ -100,8 +100,39 @@ jobs:
           name: bindings
           path: swc.*.node
 
+  build-windows-aarch64:
+    name: stable - windows-aarch64 - node@14
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: aarch64-pc-windows-msvc
+
+      - name: Install node dependencies
+        run: npm i
+
+      - name: Build
+        shell: bash
+        run: yarn build --target aarch64-pc-windows-msvc
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+
   build-linux-musl:
-    name: stable - linux-musl - node@10
+    name: stable - linux-musl - node@lts
     runs-on: ubuntu-latest
 
     steps:
@@ -132,7 +163,12 @@ jobs:
 
       - name: "Build"
         run: |
-          docker run --rm -v ~/.cargo/git:/root/.cargo/git -v ~/.cargo/registry:/root/.cargo/registry -v $(pwd):/swc -w /swc builder sh -c "./node_modules/.bin/napi build --platform --cargo-name node --release -c ./package.json --cargo-flags='-p node'"
+          docker run --rm -v $(pwd):/swc -w /swc builder sh -c "npm run build"
+
+      - name: Run tests
+        run: |
+          docker pull node:lts-alpine
+          docker run --rm -v $(pwd):/swc -w /swc node:lts-alpine sh -c "npm i && npm test"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -217,12 +253,79 @@ jobs:
       - name: Cross build aarch64
         run: yarn build --target aarch64-unknown-linux-gnu
 
+      - name: Run tests
+        uses: docker://multiarch/ubuntu-core:arm64-focal
+        with:
+          args: >
+            sh -c "
+              apt-get update && \
+              apt-get install -y ca-certificates gnupg2 curl && \
+              curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+              apt-get install -y nodejs && \
+              npm i && \
+              npm test
+            "
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: bindings
           path: swc.*.node
 
+  build-linux-aarch64-musl:
+    name: stable - aarch64-unknown-linux-musl - node@14
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
+
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          override: true
+          target: aarch64-unknown-linux-musl
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            target/
+          key: aarch64-linux-musl-publish-integration
+
+      - name: Install cross compile toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install gcc-aarch64-linux-gnu -y
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Cross build aarch64
+        run: yarn build --target aarch64-unknown-linux-musl
+
+      - name: Run tests
+        uses: docker://multiarch/alpine:aarch64-latest-stable
+        with:
+          args: >
+            sh -c "sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories && \
+              apk add nodejs npm && \
+              npm i && \
+              npm test
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: bindings
+          path: swc.*.node
+ 
   build-linux-arm7:
     name: stable - arm7-unknown-linux-gnu - node@14
     runs-on: ubuntu-latest
@@ -340,6 +443,9 @@ jobs:
           cargo build --release -p node
           yarn build
           npm test
+          rm -rf node_modules
+          rm -rf target
+
     - name: 'List files'
       run: ls -la
 
@@ -355,12 +461,14 @@ jobs:
     needs:
       - build
       - build-windows-i686
+      - build-windows-aarch64
       - build-linux-musl
       - build-linux-arm7
       - build-linux-aarch64
       - build-apple-silicon
       - build-android-aarch64
       - build-freebsd
+      - build-linux-aarch64-musl
     steps:
       - uses: actions/checkout@v2
 
