@@ -43,6 +43,12 @@ impl HygieneAnalyzer {
 impl VisitMut for HygieneAnalyzer {
     noop_visit_mut_type!();
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        self.with_scope(|a| {
+            n.visit_mut_children_with(a);
+        });
+    }
+
     fn visit_mut_function(&mut self, n: &mut Function) {
         // We add
 
