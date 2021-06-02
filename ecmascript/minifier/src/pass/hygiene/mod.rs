@@ -1,15 +1,18 @@
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
-use crate::analyzer::ScopeData;
-use crate::util::has_mark;
+use crate::pass::hygiene::analyzer::HygieneAnalyzer;
+use crate::pass::hygiene::analyzer::HygieneData;
 use swc_common::Mark;
-use swc_common::Span;
 use swc_common::SyntaxContext;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::VisitWith;
+
+mod analyzer;
 
 pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
     let data = analyze(&*m);
@@ -25,45 +28,18 @@ pub(crate) fn hygiene_optimizer(
 ) -> impl 'static + VisitMut {
     Optimizer {
         data,
+        hygiene: Default::default(),
         top_level_mark,
-        cur_scope: None,
     }
 }
 
 struct Optimizer {
     data: ProgramData,
+    hygiene: HygieneData,
     top_level_mark: Mark,
-    cur_scope: Option<SyntaxContext>,
 }
 
-impl Optimizer {
-    fn scope(&self) -> &ScopeData {
-        match self.cur_scope {
-            Some(v) => self.data.scopes.get(&v).expect("failed to get scope"),
-            None => &self.data.top,
-        }
-    }
-
-    fn with_scope<F, Ret>(&mut self, scope_ctxt: SyntaxContext, op: F) -> Ret
-    where
-        F: FnOnce(&mut Optimizer) -> Ret,
-    {
-        let old = self.cur_scope;
-        self.cur_scope = Some(scope_ctxt);
-
-        let ret = op(self);
-
-        self.cur_scope = old;
-
-        ret
-    }
-
-    /// Registers a binding ident. This is treated as [PatMode::OtherDecl].
-    ///
-    /// If it conflicts
-    #[allow(unused)]
-    fn register_binding_ident(&mut self, i: &mut Ident) {}
-}
+impl Optimizer {}
 
 impl VisitMut for Optimizer {
     noop_visit_mut_type!();
@@ -73,31 +49,10 @@ impl VisitMut for Optimizer {
             return;
         }
 
-        if has_mark(i.span, self.top_level_mark) {
+        if self.hygiene.preserved.contains(&i.to_id())
+            || !self.hygiene.modified.contains(&i.to_id())
+        {
             return;
-        }
-
-        let info = self.data.vars.get(&i.to_id());
-        // Ignore labels.
-        let info = match info {
-            Some(v) => v,
-            None => return,
-        };
-
-        // If multiple variables with same name is declared, skip it.
-        if let Some(decls) = self.scope().declared_symbols.get(&i.sym) {
-            if decls.len() >= 2 {
-                log::trace!(
-                    "hygiene: Preserving hygiene of {}{:?} because it's declared multiple times",
-                    i.sym,
-                    i.span.ctxt
-                );
-                return;
-            }
-        }
-
-        if info.is_fn_local {
-            i.span.ctxt = SyntaxContext::empty().apply_mark(self.top_level_mark);
         }
     }
 
@@ -109,13 +64,16 @@ impl VisitMut for Optimizer {
         }
     }
 
-    fn visit_mut_span(&mut self, span: &mut Span) {
-        span.ctxt = SyntaxContext::empty();
-    }
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        let mut analyzer = HygieneAnalyzer {
+            data: &self.data,
+            hygiene: Default::default(),
+            top_level_mark: self.top_level_mark,
+            cur_scope: None,
+        };
+        n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
+        self.hygiene = analyzer.hygiene;
 
-    fn visit_mut_function(&mut self, n: &mut Function) {
-        self.with_scope(n.span.ctxt, |v| {
-            n.visit_mut_children_with(v);
-        });
+        n.visit_mut_children_with(self);
     }
 }
