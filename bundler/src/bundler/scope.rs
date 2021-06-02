@@ -1,9 +1,7 @@
 use super::load::TransformedModule;
-use crate::{
-    id::{Id, ModuleId, ModuleIdGenerator},
-    util::CloneMap,
-};
+use crate::util::CloneMap;
 use std::sync::atomic::{AtomicBool, Ordering};
+use swc_bundler_analysis::id::{Id, ModuleId, ModuleIdGenerator};
 use swc_common::{sync::Lrc, FileName};
 
 #[derive(Debug, Default)]

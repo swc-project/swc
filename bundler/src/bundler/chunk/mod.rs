@@ -1,7 +1,6 @@
 use super::{load::TransformedModule, Bundler};
 use crate::{
-    bundler::chunk::merge::Ctx, id::ModuleId, load::Load, resolve::Resolve,
-    util::IntoParallelIterator, Bundle,
+    bundler::chunk::merge::Ctx, load::Load, resolve::Resolve, util::IntoParallelIterator, Bundle,
 };
 use ahash::AHashMap;
 use anyhow::{Context, Error};
@@ -10,6 +9,7 @@ use fxhash::FxHashSet;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use std::time::Instant;
+use swc_bundler_analysis::id::ModuleId;
 
 mod cjs;
 mod computed_key;

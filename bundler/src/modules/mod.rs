@@ -1,7 +1,7 @@
-use crate::ModuleId;
 use fxhash::FxHashMap;
 use retain_mut::RetainMut;
 use std::mem::take;
+use swc_bundler_analysis::id::ModuleId;
 use swc_common::SourceMap;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;

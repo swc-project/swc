@@ -1,7 +1,7 @@
-use crate::id::Id;
 use crate::util::MapWithMut;
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
+use swc_bundler_analysis::id::Id;
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::noop_visit_mut_type;

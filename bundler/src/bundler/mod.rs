@@ -1,9 +1,10 @@
 use self::scope::Scope;
-use crate::{Hook, Load, ModuleId, Resolve};
+use crate::{Hook, Load, Resolve};
 use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
+use swc_bundler_analysis::id::ModuleId;
 use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
 

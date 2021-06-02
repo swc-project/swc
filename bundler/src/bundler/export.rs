@@ -1,10 +1,11 @@
-use super::{
-    load::{Source, Specifier},
-    Bundler,
-};
-use crate::{id::Id, load::Load, resolve::Resolve};
+use super::Bundler;
+use crate::{load::Load, resolve::Resolve};
 use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
+use swc_bundler_analysis::{
+    id::Id,
+    specifier::{Source, Specifier},
+};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;

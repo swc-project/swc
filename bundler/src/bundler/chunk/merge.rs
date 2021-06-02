@@ -3,8 +3,7 @@ use crate::dep_graph::ModuleGraph;
 use crate::inline::inline;
 use crate::modules::Modules;
 use crate::{
-    bundler::load::{Imports, TransformedModule},
-    id::{Id, ModuleId},
+    bundler::load::TransformedModule,
     load::Load,
     resolve::Resolve,
     util::{self, CloneMap, ExprExt, VarDeclaratorExt},
@@ -19,6 +18,9 @@ use petgraph::EdgeDirection;
 #[cfg(feature = "concurrent")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
+use swc_bundler_analysis::id::Id;
+use swc_bundler_analysis::id::ModuleId;
+use swc_bundler_analysis::import::Imports;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident};

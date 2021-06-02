@@ -1,9 +1,10 @@
 use crate::dep_graph::ModuleGraph;
-use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::load::TransformedModule, BundleKind, Bundler, Load, Resolve};
 use ahash::AHashMap;
 use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
+use swc_bundler_analysis::id::ModuleId;
 
 #[derive(Debug, Default)]
 struct PlanBuilder {

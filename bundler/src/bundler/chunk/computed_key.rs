@@ -1,8 +1,9 @@
 use crate::modules::Modules;
-use crate::{bundler::chunk::merge::Ctx, Bundler, Load, ModuleId, Resolve};
+use crate::{bundler::chunk::merge::Ctx, Bundler, Load, Resolve};
 use anyhow::{bail, Error};
 use std::mem::take;
 use swc_atoms::js_word;
+use swc_bundler_analysis::id::ModuleId;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, private_ident, ExprFactory};

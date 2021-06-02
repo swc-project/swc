@@ -1,5 +1,4 @@
 use super::graph::Required;
-use crate::id::Id;
 use crate::modules::sort::graph::StmtDepGraph;
 use crate::util::MapWithMut;
 use fxhash::FxHashMap;
@@ -11,6 +10,7 @@ use std::collections::VecDeque;
 use std::iter::from_fn;
 use std::ops::Range;
 use swc_atoms::js_word;
+use swc_bundler_analysis::id::Id;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
 use swc_common::Spanned;

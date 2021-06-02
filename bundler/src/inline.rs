@@ -1,7 +1,7 @@
-use crate::id::Id;
 use crate::modules::Modules;
 use ahash::RandomState;
 use std::collections::HashMap;
+use swc_bundler_analysis::id::Id;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
