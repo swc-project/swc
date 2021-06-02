@@ -23,7 +23,7 @@ pub trait Handler {
     fn supports_cjs(&self) -> bool;
 
     /// Mark a module as common js module.
-    fn mark_as_cjs(&self, id: ModuleId) -> bool;
+    fn mark_as_cjs(&self, id: ModuleId);
 
     /// If we cannot determine the used items, we wrapped them with a function.
     ///
@@ -31,5 +31,5 @@ pub trait Handler {
     /// import * as foo from 'foo'
     /// foo[Math.random()]
     /// ```
-    fn mark_as_wrapping_required(&self, id: ModuleId) -> bool;
+    fn mark_as_wrapping_required(&self, id: ModuleId);
 }

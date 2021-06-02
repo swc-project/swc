@@ -65,24 +65,37 @@ where
     /// The name of the file currently being analyzed.
     pub path: &'a FileName,
     pub handler: &'a H,
+
+    /// Use default value while creation.
     pub top_level: bool,
+
+    /// Use default value while creation.
     pub info: RawImports,
 
+    /// Use default value while creation.
+    ///
     /// HashMap from the local identifier of a namespace import to used
     /// properties.
     pub usages: FxHashMap<Id, Vec<Id>>,
 
+    /// Use default value while creation.
+    ///
     /// While deglobbing, we also marks imported identifiers.
     pub imported_idents: FxHashMap<Id, SyntaxContext>,
 
+    /// Use default value while creation.
     pub deglob_phase: bool,
+
+    /// Use default value while creation.
     pub idents_to_deglob: FxHashSet<Id>,
 
+    /// Use default value (`false`) while creation.
+    ///
     /// `true` while folding objects of a member expression.
     ///
     /// This is used to distinguish usage of `a` in `console.log(a)` and
     /// `a.join()`.
-    in_obj_of_member: bool,
+    pub in_obj_of_member: bool,
 }
 
 impl RawImports {

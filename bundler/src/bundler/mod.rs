@@ -4,7 +4,7 @@ use ahash::AHashMap;
 use anyhow::{Context, Error};
 use std::collections::HashMap;
 use swc_atoms::JsWord;
-use swc_bundler_analysis::id::ModuleId;
+use swc_bundler_analysis::{handler::Handler, id::ModuleId};
 use swc_common::{sync::Lrc, FileName, Globals, Mark, SourceMap, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::Module;
 
@@ -183,5 +183,35 @@ where
         F: FnOnce() -> Ret,
     {
         GLOBALS.set(self.globals, op)
+    }
+}
+
+impl<L, R> Handler for Bundler<'_, L, R>
+where
+    L: Load,
+    R: Resolve,
+{
+    fn is_external_module(&self, module_specifier: &JsWord) -> bool {
+        self.config.external_modules.contains(module_specifier)
+    }
+
+    fn resolve(&self, base: &FileName, src: &JsWord) -> Option<FileName> {
+        self.resolver.resolve(base, src).ok()
+    }
+
+    fn get_module_info(&self, path: &FileName) -> (ModuleId, Mark, Mark) {
+        self.scope.module_id_gen.gen(path)
+    }
+
+    fn supports_cjs(&self) -> bool {
+        self.config.require
+    }
+
+    fn mark_as_cjs(&self, id: ModuleId) {
+        self.scope.mark_as_cjs(id)
+    }
+
+    fn mark_as_wrapping_required(&self, id: ModuleId) {
+        self.scope.mark_as_wrapping_required(id)
     }
 }
