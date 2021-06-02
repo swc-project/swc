@@ -239,7 +239,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.options.top_level() && (self.ctx.top_level || !self.ctx.in_fn_like) {
+        if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
             return;
         }
 
