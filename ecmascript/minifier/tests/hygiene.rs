@@ -11,6 +11,7 @@ use swc_ecma_codegen::Emitter;
 use swc_ecma_minifier::optimize_hygiene;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::run_test2;
@@ -38,6 +39,8 @@ fn identical(input: PathBuf) {
             .map(|module| module.fold_with(&mut resolver_with_mark(top_level_mark)))
             .unwrap();
 
+        let expected = print(cm.clone(), &[drop_span(program.clone())]);
+
         optimize_hygiene(&mut program, top_level_mark);
 
         let program = program
@@ -46,7 +49,7 @@ fn identical(input: PathBuf) {
 
         let actual = print(cm.clone(), &[program]);
 
-        assert_eq!(DebugUsingDisplay(&fm.src), DebugUsingDisplay(&*actual));
+        assert_eq!(DebugUsingDisplay(&*expected), DebugUsingDisplay(&*actual));
 
         Ok(())
     })
