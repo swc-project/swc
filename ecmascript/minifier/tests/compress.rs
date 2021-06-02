@@ -17,6 +17,7 @@ use std::process::Command;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
+use swc_common::EqIgnoreSpan;
 use swc_common::FileName;
 use swc_common::Mark;
 use swc_common::SourceMap;
@@ -260,11 +261,12 @@ fn fixture(input: PathBuf) {
             mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
         let output = run(cm.clone(), &handler, &input, &config, mangle);
-        let output = match output {
+        let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
-        let output = print(cm.clone(), &[output]);
+
+        let output = print(cm.clone(), &[output_module.clone()]);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
@@ -282,6 +284,11 @@ fn fixture(input: PathBuf) {
                 err.into_diagnostic(&handler).emit();
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
+
+            if output_module.eq_ignore_span(&expected) {
+                return Ok(());
+            }
+
             expected.body.retain(|s| match s {
                 ModuleItem::Stmt(Stmt::Empty(..)) => false,
                 _ => true,
