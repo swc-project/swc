@@ -3,6 +3,9 @@ use swc_atoms::JsWord;
 use swc_common::{FileName, Mark};
 
 /// The hook for import / export analysis.
+///
+/// This trait is actaully registry for modules.
+///
 pub trait Handler {
     fn is_external_module(&self, module_specifier: &JsWord) -> bool;
 

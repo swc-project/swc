@@ -1,8 +1,6 @@
 use crate::{
     handler::Handler,
     id::Id,
-    load::Load,
-    resolve::Resolve,
     specifier::{Source, Specifier},
 };
 use fxhash::{FxHashMap, FxHashSet};
@@ -11,7 +9,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::Spanned;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike};
+use swc_ecma_utils::find_ids;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Debug, Default)]
@@ -245,7 +243,7 @@ where
                 ExprOrSuper::Super(_) => return,
                 ExprOrSuper::Expr(obj) => match &**obj {
                     Expr::Ident(obj) => {
-                        if !self.imported_idents.contains_key(&obj.to_id()) {
+                        if !self.imported_idents.contains_key(&obj.clone().into()) {
                             // If it's not imported, just abort the usage analysis.
                             return;
                         }
@@ -253,7 +251,7 @@ where
                         if e.computed {
                             // If a module is accessed with unknown key, we should import
                             // everyrthing from it.
-                            self.add_forced_ns_for(obj.to_id());
+                            self.add_forced_ns_for(obj.clone().into());
                             return;
                         }
 
@@ -295,9 +293,9 @@ where
                         };
 
                         self.usages
-                            .entry(obj.to_id())
+                            .entry(obj.clone().into())
                             .or_default()
-                            .push(prop.to_id());
+                            .push(prop.clone().into());
                     }
                     _ => {}
                 },
@@ -325,7 +323,7 @@ where
             _ => return,
         };
 
-        let usages = self.usages.get(&obj.to_id());
+        let usages = self.usages.get(&obj.clone().into());
 
         match usages {
             Some(..) => {}
@@ -336,27 +334,25 @@ where
             Expr::Ident(v) => v.clone(),
             _ => return,
         };
-        prop.span.ctxt = self.imported_idents.get(&obj.to_id()).copied().unwrap();
+        prop.span.ctxt = self
+            .imported_idents
+            .get(&obj.clone().into())
+            .copied()
+            .unwrap();
 
         *e = Expr::Ident(prop);
     }
 }
 
-impl<L, R> VisitMut for ImportHandler<'_, '_, L, R>
+impl<H> VisitMut for ImportHandler<'_, H>
 where
-    L: Load,
-    R: Resolve,
+    H: Handler,
 {
     noop_visit_mut_type!();
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         // Ignore if it's a core module.
-        if self
-            .handler
-            .config
-            .external_modules
-            .contains(&import.src.value)
-        {
+        if self.handler.is_external_module(&import.src.value) {
             return;
         }
 
@@ -369,7 +365,8 @@ where
                 for specifier in &mut import.specifiers {
                     match specifier {
                         ImportSpecifier::Named(n) => {
-                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
+                            self.imported_idents
+                                .insert(n.local.clone().into(), export_ctxt);
                             match &mut n.imported {
                                 Some(imported) => {
                                     imported.span.ctxt = export_ctxt;
@@ -383,10 +380,11 @@ where
                         }
                         ImportSpecifier::Default(n) => {
                             self.imported_idents
-                                .insert(n.local.to_id(), n.local.span.ctxt);
+                                .insert(n.local.clone().into(), n.local.span.ctxt);
                         }
                         ImportSpecifier::Namespace(n) => {
-                            self.imported_idents.insert(n.local.to_id(), export_ctxt);
+                            self.imported_idents
+                                .insert(n.local.clone().into(), export_ctxt);
                         }
                     }
                 }
@@ -410,7 +408,7 @@ where
                     //
                     let specifiers = self
                         .usages
-                        .get(&ns.local.to_id())
+                        .get(&ns.local.clone().into())
                         .cloned()
                         .map(|ids| {
                             //
@@ -420,7 +418,7 @@ where
                                     self.idents_to_deglob.insert(id.clone());
                                     ImportSpecifier::Named(ImportNamedSpecifier {
                                         span: DUMMY_SP,
-                                        local: Ident::new(id.0, DUMMY_SP.with_ctxt(id.1)),
+                                        local: id.into(),
                                         imported: None,
                                     })
                                 })
@@ -466,7 +464,7 @@ where
                 match &e {
                     Expr::Ident(i) => {
                         if !self.in_obj_of_member {
-                            self.add_forced_ns_for(i.to_id());
+                            self.add_forced_ns_for(i.clone().into());
                             return;
                         }
                     }
