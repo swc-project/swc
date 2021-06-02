@@ -1,3 +1,4 @@
+use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::util::has_mark;
 use swc_common::Mark;
@@ -10,6 +11,11 @@ use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 mod analyzer;
+
+pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
+    let data = analyze(&*m);
+    m.visit_mut_with(&mut hygiene_optimizer(data, top_level_mark))
+}
 
 /// Create a hygiene optimizer.
 ///

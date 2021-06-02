@@ -20,6 +20,7 @@ use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
 use crate::pass::global_defs;
 use crate::pass::hygiene::hygiene_optimizer;
+pub use crate::pass::hygiene::optimize_hygiene;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
 use crate::pass::remove_parens::remove_parens;
