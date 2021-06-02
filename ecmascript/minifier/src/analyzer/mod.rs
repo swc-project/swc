@@ -92,12 +92,19 @@ enum ScopeKind {
 pub(crate) struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
+
+    /// Variables declared in the scope.
+    pub declared_symbols: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
 }
 
 impl ScopeData {
     fn merge(&mut self, other: ScopeData) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
+
+        for (k, v) in other.declared_symbols {
+            self.declared_symbols.entry(k).or_default().extend(v);
+        }
     }
 }
 
@@ -242,6 +249,11 @@ impl UsageAnalyzer {
                 var_kind: kind,
                 ..Default::default()
             });
+        self.scope
+            .declared_symbols
+            .entry(i.sym.clone())
+            .or_default()
+            .insert(i.span.ctxt);
 
         v.declared = true;
         if self.ctx.in_cond && has_init {

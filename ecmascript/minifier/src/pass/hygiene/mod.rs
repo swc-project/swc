@@ -1,5 +1,6 @@
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
+use crate::analyzer::ScopeData;
 use crate::util::has_mark;
 use swc_common::Mark;
 use swc_common::Span;
@@ -27,15 +28,38 @@ pub(crate) fn hygiene_optimizer(
     Optimizer {
         data,
         top_level_mark,
+        cur_scope: None,
     }
 }
 
 struct Optimizer {
     data: ProgramData,
     top_level_mark: Mark,
+    cur_scope: Option<SyntaxContext>,
 }
 
 impl Optimizer {
+    fn scope(&self) -> &ScopeData {
+        match self.cur_scope {
+            Some(v) => self.data.scopes.get(&v).expect("failed to get scope"),
+            None => &self.data.top,
+        }
+    }
+
+    fn with_scope<F, Ret>(&mut self, scope_ctxt: SyntaxContext, op: F) -> Ret
+    where
+        F: FnOnce(&mut Optimizer) -> Ret,
+    {
+        let old = self.cur_scope;
+        self.cur_scope = Some(scope_ctxt);
+
+        let ret = op(self);
+
+        self.cur_scope = old;
+
+        ret
+    }
+
     /// Registers a binding ident. This is treated as [PatMode::OtherDecl].
     ///
     /// If it conflicts
@@ -45,10 +69,6 @@ impl Optimizer {
 
 impl VisitMut for Optimizer {
     noop_visit_mut_type!();
-
-    fn visit_mut_span(&mut self, span: &mut Span) {
-        span.ctxt = SyntaxContext::empty();
-    }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if i.span.ctxt == SyntaxContext::empty() {
@@ -66,6 +86,13 @@ impl VisitMut for Optimizer {
             None => return,
         };
 
+        // If multiple variables with same name is declared, skip it.
+        if let Some(decls) = self.scope().declared_symbols.get(&i.sym) {
+            if decls.len() >= 2 {
+                return;
+            }
+        }
+
         if info.is_fn_local {
             i.span.ctxt = SyntaxContext::empty().apply_mark(self.top_level_mark);
         }
@@ -77,5 +104,15 @@ impl VisitMut for Optimizer {
         if n.computed {
             n.prop.visit_mut_with(self);
         }
+    }
+
+    fn visit_mut_span(&mut self, span: &mut Span) {
+        span.ctxt = SyntaxContext::empty();
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        self.with_scope(n.span.ctxt, |v| {
+            n.visit_mut_children_with(v);
+        });
     }
 }
