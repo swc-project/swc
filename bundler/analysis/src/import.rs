@@ -6,11 +6,13 @@ use crate::{
     specifier::{Source, Specifier},
 };
 use fxhash::{FxHashMap, FxHashSet};
+use retain_mut::RetainMut;
 use swc_atoms::{js_word, JsWord};
+use swc_common::Spanned;
 use swc_common::{FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_ids;
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut};
+use swc_ecma_utils::{find_ids, ident::IdentLike};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Debug, Default)]
 pub struct Imports {
@@ -155,9 +157,7 @@ where
             .iter()
             .find(|import| {
                 import.specifiers.iter().any(|specifier| match specifier {
-                    ImportSpecifier::Namespace(ns) => {
-                        ns.local.sym == id.0 && ns.local.span.ctxt == id.1
-                    }
+                    ImportSpecifier::Namespace(ns) => id == ns.local,
                     _ => false,
                 })
             })
@@ -610,25 +610,25 @@ where
         self.top_level = true;
         items.visit_mut_children_with(self);
 
-        items.retain_mut(|item| match item {
-            ModuleItem::Stmt(Stmt::Empty(..)) => false,
-            ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
-                var.decls.retain(|d| match d.name {
-                    Pat::Invalid(..) => false,
-                    _ => true,
-                });
-
-                if var.decls.is_empty() {
-                    false
-                } else {
-                    true
-                }
-            }
-
-            _ => true,
-        });
-
         if self.deglob_phase {
+            items.retain_mut(|item| match item {
+                ModuleItem::Stmt(Stmt::Empty(..)) => false,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(var))) => {
+                    var.decls.retain(|d| match d.name {
+                        Pat::Invalid(..) => false,
+                        _ => true,
+                    });
+
+                    if var.decls.is_empty() {
+                        false
+                    } else {
+                        true
+                    }
+                }
+
+                _ => true,
+            });
+
             let mut wrapping_required = vec![];
             for import in self.info.imports.iter_mut() {
                 let use_ns = self.info.forced_ns.contains(&import.src.value)
