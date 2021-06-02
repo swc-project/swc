@@ -1,8 +1,8 @@
+use crate::id::Id;
 use crate::id::ModuleId;
 use is_macro::Is;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::Str;
-use swc_ecma_utils::Id;
 
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
