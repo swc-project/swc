@@ -4,12 +4,6 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::Str;
 use swc_ecma_utils::Id;
 
-#[derive(Debug, Default)]
-pub struct Imports {
-    /// If imported ids are empty, it is a side-effect import.
-    pub specifiers: Vec<(Source, Vec<Specifier>)>,
-}
-
 /// Clone is relatively cheap
 #[derive(Debug, Clone, Is)]
 pub enum Specifier {
