@@ -17,5 +17,5 @@ swc_common = {version = "0.10", path = "../../common"}
 [target.'cfg(all(unix, not(target_env = "musl"), not(target_os = "freebsd"), not(target_arch = "arm"), not(target_arch = "aarch64")))'.dependencies]
 jemallocator = {version = "0.3", features = ["disable_initial_exec_tls"]}
 
-[target.'cfg(windows)'.dependencies]
+[target.'cfg(all(windows, not(target_arch = "aarch64")))'.dependencies]
 mimalloc = {version = "0.1"}
