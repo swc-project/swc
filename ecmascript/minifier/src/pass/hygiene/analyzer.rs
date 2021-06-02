@@ -15,7 +15,7 @@ pub(super) struct HygieneAnalyzer<'a> {
     pub cur_scope: Option<SyntaxContext>,
 }
 
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub(super) struct HygieneData {
     /// Has higher precedence over `modified`.
     pub preserved: FxHashSet<Id>,

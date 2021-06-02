@@ -54,6 +54,8 @@ impl VisitMut for Optimizer {
         {
             return;
         }
+
+        i.span.ctxt = SyntaxContext::empty().apply_mark(self.top_level_mark);
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
