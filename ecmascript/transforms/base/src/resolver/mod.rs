@@ -1,6 +1,6 @@
 use crate::scope::{IdentType, ScopeKind};
 use fxhash::FxHashSet;
-use std::{cell::RefCell, collections::HashSet};
+use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -99,11 +99,11 @@ struct Scope<'a> {
     kind: ScopeKind,
 
     /// All declarations in the scope
-    declared_symbols: HashSet<JsWord>,
-    hoisted_symbols: RefCell<HashSet<JsWord>>,
+    declared_symbols: FxHashSet<JsWord>,
+    hoisted_symbols: RefCell<FxHashSet<JsWord>>,
 
     /// All types declared in the scope
-    declared_types: HashSet<JsWord>,
+    declared_types: FxHashSet<JsWord>,
 }
 
 impl<'a> Default for Scope<'a> {
