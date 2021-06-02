@@ -285,9 +285,10 @@ fn fixture(input: PathBuf) {
                 err.into_diagnostic(&handler).emit();
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
+            expected = drop_span(expected);
 
             if output_module.eq_ignore_span(&expected)
-                || drop_span(output_module.clone()) == drop_span(expected.clone())
+                || drop_span(output_module.clone()) == expected
             {
                 return Ok(());
             }
@@ -337,7 +338,9 @@ fn fixture(input: PathBuf) {
             });
         }
 
-        assert_eq!(DebugUsingDisplay(&output), DebugUsingDisplay(&expected));
+        let output_str = print(cm.clone(), &[drop_span(output_module.clone())]);
+
+        assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
 
         Ok(())
     })
