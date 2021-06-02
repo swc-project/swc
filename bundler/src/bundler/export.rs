@@ -1,11 +1,7 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
-use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
-use swc_bundler_analysis::{
-    id::Id,
-    specifier::{Source, Specifier},
-};
+use swc_bundler_analysis::{export::RawExports, id::Id, specifier::Specifier};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_ids;
@@ -37,18 +33,6 @@ where
             v.info
         })
     }
-}
-
-#[derive(Debug, Default)]
-pub(super) struct RawExports {
-    /// Key is None if it's exported from the module itself.
-    pub items: IndexMap<Option<Str>, Vec<Specifier>>,
-}
-
-#[derive(Debug, Default)]
-pub(crate) struct Exports {
-    pub items: Vec<Specifier>,
-    pub reexports: Vec<(Source, Vec<Specifier>)>,
 }
 
 struct ExportFinder<'a, 'b, L, R>

@@ -1,16 +1,13 @@
-use super::{export::Exports, helpers::Helpers, Bundler};
+use super::{helpers::Helpers, Bundler};
 use crate::{
-    bundler::{export::RawExports, import::RawImports},
-    load::ModuleData,
-    util,
-    util::IntoParallelIterator,
-    Load, Resolve,
+    bundler::import::RawImports, load::ModuleData, util, util::IntoParallelIterator, Load, Resolve,
 };
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
 use swc_atoms::js_word;
 use swc_bundler_analysis::{
+    export::{Exports, RawExports},
     id::{Id, ModuleId},
     import::Imports,
     specifier::{Source, Specifier},
