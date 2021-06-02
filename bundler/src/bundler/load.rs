@@ -1,7 +1,5 @@
 use super::{helpers::Helpers, Bundler};
-use crate::{
-    bundler::import::RawImports, load::ModuleData, util, util::IntoParallelIterator, Load, Resolve,
-};
+use crate::{load::ModuleData, util, util::IntoParallelIterator, Load, Resolve};
 use anyhow::{Context, Error};
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
@@ -9,7 +7,7 @@ use swc_atoms::js_word;
 use swc_bundler_analysis::{
     export::{Exports, RawExports},
     id::{Id, ModuleId},
-    import::Imports,
+    import::{Imports, RawImports},
     specifier::{Source, Specifier},
 };
 use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext, DUMMY_SP};

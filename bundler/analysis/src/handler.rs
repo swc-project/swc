@@ -5,7 +5,6 @@ use swc_common::{FileName, Mark};
 /// The hook for import / export analysis.
 ///
 /// This trait is actaully registry for modules.
-///
 pub trait Handler {
     fn is_external_module(&self, module_specifier: &JsWord) -> bool;
 
@@ -22,4 +21,15 @@ pub trait Handler {
 
     /// If this method returns true, analyzer will check for `require` calls.
     fn supports_cjs(&self) -> bool;
+
+    /// Mark a module as common js module.
+    fn mark_as_cjs(&self, id: ModuleId) -> bool;
+
+    /// If we cannot determine the used items, we wrapped them with a function.
+    ///
+    /// ```ts
+    /// import * as foo from 'foo'
+    /// foo[Math.random()]
+    /// ```
+    fn mark_as_wrapping_required(&self, id: ModuleId) -> bool;
 }

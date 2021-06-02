@@ -19,7 +19,7 @@ pub struct Imports {
 }
 
 #[derive(Debug, Default)]
-pub(super) struct RawImports {
+pub struct RawImports {
     /// Unconditional imports. This includes require on top level.
     pub imports: Vec<ImportDecl>,
 
@@ -130,7 +130,7 @@ where
         };
         let (id, _, _) = self.handler.get_module_info(&path);
 
-        self.handler.scope.mark_as_wrapping_required(id);
+        self.handler.mark_as_wrapping_required(id);
     }
 
     fn mark_as_cjs(&self, src: &JsWord) {
@@ -141,7 +141,7 @@ where
         };
         let (id, _, _) = self.handler.get_module_info(&path);
 
-        self.handler.scope.mark_as_cjs(id);
+        self.handler.mark_as_cjs(id);
     }
 
     fn add_forced_ns_for(&mut self, id: Id) {
@@ -179,7 +179,7 @@ where
 
                 match &mut e.callee {
                     ExprOrSuper::Expr(callee)
-                        if self.handler.config.require
+                        if self.handler.supports_cjs()
                             && match &**callee {
                                 Expr::Ident(Ident {
                                     sym: js_word!("require"),
@@ -534,7 +534,7 @@ where
                     callee: ExprOrSuper::Expr(ref mut callee),
                     ref args,
                     ..
-                }) if self.handler.config.require
+                }) if self.handler.supports_cjs()
                     && match &**callee {
                         Expr::Ident(Ident {
                             sym: js_word!("require"),
@@ -553,7 +553,7 @@ where
                         _ => return,
                     };
                     // Ignore core modules.
-                    if self.handler.config.external_modules.contains(&src.value) {
+                    if self.handler.is_external_module(&src.value) {
                         return;
                     }
 
@@ -630,11 +630,7 @@ where
             let mut wrapping_required = vec![];
             for import in self.info.imports.iter_mut() {
                 let use_ns = self.info.forced_ns.contains(&import.src.value)
-                    || self
-                        .handler
-                        .config
-                        .external_modules
-                        .contains(&import.src.value);
+                    || self.handler.is_external_module(&import.src.value);
 
                 if use_ns {
                     wrapping_required.push(import.src.value.clone());

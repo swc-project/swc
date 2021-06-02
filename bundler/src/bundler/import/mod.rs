@@ -1,15 +1,10 @@
 use super::Bundler;
 use crate::{load::Load, resolve::Resolve};
 use anyhow::{Context, Error};
-use fxhash::FxHashMap;
-use fxhash::FxHashSet;
-use retain_mut::RetainMut;
-use swc_atoms::{js_word, JsWord};
-use swc_common::{sync::Lrc, FileName, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_bundler_analysis::import::ImportHandler;
+use swc_bundler_analysis::import::RawImports;
+use swc_common::{sync::Lrc, FileName, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_ids, ident::IdentLike, Id};
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 #[cfg(test)]
@@ -31,7 +26,7 @@ where
             let mut v = ImportHandler {
                 module_ctxt: SyntaxContext::empty().apply_mark(module_local_mark),
                 path,
-                bundler: self,
+                handler: self,
                 top_level: false,
                 info: Default::default(),
                 usages: Default::default(),
