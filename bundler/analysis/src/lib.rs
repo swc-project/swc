@@ -4,6 +4,7 @@
 //! integrate this crate.
 
 pub mod export;
+pub mod handler;
 pub mod id;
 pub mod import;
 pub mod load;

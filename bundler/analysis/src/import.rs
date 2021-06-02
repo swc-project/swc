@@ -1,4 +1,5 @@
 use crate::{
+    handler::Handler,
     id::Id,
     load::Load,
     resolve::Resolve,
@@ -54,16 +55,16 @@ pub(super) struct RawImports {
 ///
 /// This type implements two operation (analysis, deglobbing) to reduce binary
 /// size.
-pub struct ImportHandler<'a, 'b, L, R>
+pub struct ImportHandler<'a, H>
 where
-    L: Load,
-    R: Resolve,
+    H: Handler,
 {
     /// The [SyntaxContext] for the top level module items.
     //// The top level module items includes imported bindings.
     pub module_ctxt: SyntaxContext,
+    /// The name of the file currently being analyzed.
     pub path: &'a FileName,
-    pub bundler: &'a Bundler<'b, L, R>,
+    pub handler: &'a H,
     pub top_level: bool,
     pub info: RawImports,
 
@@ -97,25 +98,19 @@ impl RawImports {
     }
 }
 
-impl<L, R> ImportHandler<'_, '_, L, R>
+impl<H> ImportHandler<'_, H>
 where
-    L: Load,
-    R: Resolve,
+    H: Handler,
 {
     /// Retursn (local, export)
     fn ctxt_for(&self, src: &JsWord) -> Option<(SyntaxContext, SyntaxContext)> {
         // Don't apply mark if it's a core module.
-        if self
-            .bundler
-            .config
-            .external_modules
-            .iter()
-            .any(|v| v == src)
-        {
+        if self.handler.is_external_module(src) {
             return None;
         }
-        let path = self.bundler.resolve(self.path, src).ok()?;
-        let (_, local_mark, export_mark) = self.bundler.scope.module_id_gen.gen(&path);
+
+        let path = self.handler.resolve(self.path, src)?;
+        let (_, local_mark, export_mark) = self.handler.get_module_info(&path);
 
         Some((
             SyntaxContext::empty().apply_mark(local_mark),
@@ -125,34 +120,28 @@ where
 
     fn mark_as_wrapping_required(&self, src: &JsWord) {
         // Don't apply mark if it's a core module.
-        if self
-            .bundler
-            .config
-            .external_modules
-            .iter()
-            .any(|v| v == src)
-        {
+        if self.handler.is_external_module(src) {
             return;
         }
-        let path = self.bundler.resolve(self.path, src);
+        let path = self.handler.resolve(self.path, src);
         let path = match path {
-            Ok(v) => v,
-            Err(_) => return,
+            Some(v) => v,
+            _ => return,
         };
-        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.handler.get_module_info(&path);
 
-        self.bundler.scope.mark_as_wrapping_required(id);
+        self.handler.scope.mark_as_wrapping_required(id);
     }
 
     fn mark_as_cjs(&self, src: &JsWord) {
-        let path = self.bundler.resolve(self.path, src);
+        let path = self.handler.resolve(self.path, src);
         let path = match path {
-            Ok(v) => v,
-            Err(_) => return,
+            Some(v) => v,
+            _ => return,
         };
-        let (id, _, _) = self.bundler.scope.module_id_gen.gen(&path);
+        let (id, _, _) = self.handler.get_module_info(&path);
 
-        self.bundler.scope.mark_as_cjs(id);
+        self.handler.scope.mark_as_cjs(id);
     }
 
     fn add_forced_ns_for(&mut self, id: Id) {
@@ -192,7 +181,7 @@ where
 
                 match &mut e.callee {
                     ExprOrSuper::Expr(callee)
-                        if self.bundler.config.require
+                        if self.handler.config.require
                             && match &**callee {
                                 Expr::Ident(Ident {
                                     sym: js_word!("require"),
@@ -363,7 +352,7 @@ where
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
         // Ignore if it's a core module.
         if self
-            .bundler
+            .handler
             .config
             .external_modules
             .contains(&import.src.value)
@@ -547,7 +536,7 @@ where
                     callee: ExprOrSuper::Expr(ref mut callee),
                     ref args,
                     ..
-                }) if self.bundler.config.require
+                }) if self.handler.config.require
                     && match &**callee {
                         Expr::Ident(Ident {
                             sym: js_word!("require"),
@@ -566,7 +555,7 @@ where
                         _ => return,
                     };
                     // Ignore core modules.
-                    if self.bundler.config.external_modules.contains(&src.value) {
+                    if self.handler.config.external_modules.contains(&src.value) {
                         return;
                     }
 
@@ -644,7 +633,7 @@ where
             for import in self.info.imports.iter_mut() {
                 let use_ns = self.info.forced_ns.contains(&import.src.value)
                     || self
-                        .bundler
+                        .handler
                         .config
                         .external_modules
                         .contains(&import.src.value);
