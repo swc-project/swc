@@ -65,6 +65,8 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        log::info!("hygiene: Analyzing span hygiene");
+
         let mut analyzer = HygieneAnalyzer {
             data: &self.data,
             hygiene: Default::default(),
@@ -73,6 +75,8 @@ impl VisitMut for Optimizer {
         };
         n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         self.hygiene = analyzer.hygiene;
+
+        log::info!("hygiene: Optimizing span hygiene");
 
         n.visit_mut_children_with(self);
     }
