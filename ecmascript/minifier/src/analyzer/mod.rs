@@ -101,10 +101,6 @@ impl ScopeData {
     fn merge(&mut self, other: ScopeData) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
-
-        for (k, v) in other.declared_symbols {
-            self.declared_symbols.entry(k).or_default().extend(v);
-        }
     }
 }
 
