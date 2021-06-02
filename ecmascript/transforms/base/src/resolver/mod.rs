@@ -1352,7 +1352,7 @@ impl VisitMut for Hoister<'_, '_> {
 
         self.catch_param_decls
             .extend(params.into_iter().map(|v| v.0));
-        c.body.visit_mut_children_with(self);
+        c.body.visit_mut_with(self);
 
         self.catch_param_decls = orig;
     }
