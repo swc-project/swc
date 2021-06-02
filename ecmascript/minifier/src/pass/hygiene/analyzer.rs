@@ -62,6 +62,8 @@ impl Visit for HygieneAnalyzer<'_> {
     }
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        log::trace!("hygiene: Handling ({}{:?})", i.sym, i.span.ctxt);
+
         if i.span.ctxt == SyntaxContext::empty() {
             return;
         }
