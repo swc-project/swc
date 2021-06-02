@@ -134,6 +134,8 @@ struct Ctx {
     /// `true` while we are in a function or something simillar.
     in_fn_like: bool,
 
+    in_block: bool,
+
     in_obj_of_non_computed_member: bool,
 
     in_tpl_expr: bool,
@@ -146,6 +148,17 @@ struct Ctx {
 }
 
 impl Ctx {
+    pub fn is_top_level_for_block_level_vars(self) -> bool {
+        if self.top_level {
+            return true;
+        }
+
+        if self.in_fn_like || self.in_block {
+            return false;
+        }
+        true
+    }
+
     pub fn in_top_level(self) -> bool {
         self.top_level || !self.in_fn_like
     }
@@ -1309,6 +1322,7 @@ impl VisitMut for Optimizer<'_> {
             stmt_lablled: false,
             scope: n.span.ctxt,
             top_level: false,
+            in_block: true,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
