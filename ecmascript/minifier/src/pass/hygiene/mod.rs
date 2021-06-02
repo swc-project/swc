@@ -84,6 +84,9 @@ impl VisitMut for Optimizer {
             None => return,
         };
 
+        dbg!(&self.scope().declared_symbols);
+        dbg!(&self.data);
+
         // If multiple variables with same name is declared, skip it.
         if let Some(decls) = self.scope().declared_symbols.get(&i.sym) {
             if decls.len() >= 2 {

@@ -29,7 +29,7 @@ where
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     let top_scope = v.scope;
-    v.data.top.merge(top_scope);
+    v.data.top.merge(top_scope, false);
 
     v.data
 }
@@ -98,9 +98,15 @@ pub(crate) struct ScopeData {
 }
 
 impl ScopeData {
-    fn merge(&mut self, other: ScopeData) {
+    fn merge(&mut self, other: ScopeData, is_child: bool) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
+
+        if !is_child {
+            for (k, v) in other.declared_symbols {
+                self.declared_symbols.entry(k).or_default().extend(v);
+            }
+        }
     }
 }
 
@@ -118,9 +124,9 @@ impl ProgramData {
     fn merge(&mut self, kind: ScopeKind, child: ProgramData) {
         for (ctxt, scope) in child.scopes {
             let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope.clone());
+            self.top.merge(scope.clone(), true);
 
-            to.merge(scope);
+            to.merge(scope, false);
         }
 
         for (id, var_info) in child.vars {
@@ -185,13 +191,11 @@ impl UsageAnalyzer {
         };
 
         let ret = op(&mut child);
+        {
+            let child_scope = child.data.scopes.entry(child_ctxt).or_default();
 
-        child
-            .data
-            .scopes
-            .entry(child_ctxt)
-            .or_default()
-            .merge(child.scope);
+            child_scope.merge(child.scope, false);
+        }
 
         self.data.merge(kind, child.data);
 
