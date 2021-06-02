@@ -6,4 +6,5 @@
 pub mod export;
 pub mod id;
 pub mod import;
+pub mod load;
 pub mod specifier;
