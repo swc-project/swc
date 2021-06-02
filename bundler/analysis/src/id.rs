@@ -25,7 +25,7 @@ impl fmt::Debug for ModuleId {
 }
 
 #[derive(Debug, Default)]
-pub(crate) struct ModuleIdGenerator {
+pub struct ModuleIdGenerator {
     v: AtomicU32,
     /// `(module_id, local_mark, export_mark)`
     cache: Lock<HashMap<FileName, (ModuleId, Mark, Mark)>>,

@@ -2,3 +2,6 @@
 //!
 //! `swc_bundler` uses this crate internally and does not provided any api to
 //! integrate this crate.
+
+pub mod id;
+pub mod imports;
