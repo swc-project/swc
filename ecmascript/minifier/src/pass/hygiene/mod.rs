@@ -87,6 +87,11 @@ impl VisitMut for Optimizer {
         // If multiple variables with same name is declared, skip it.
         if let Some(decls) = self.scope().declared_symbols.get(&i.sym) {
             if decls.len() >= 2 {
+                log::trace!(
+                    "hygiene: Preserving hygiene of {}{:?} because it's declared multiple times",
+                    i.sym,
+                    i.span.ctxt
+                );
                 return;
             }
         }
