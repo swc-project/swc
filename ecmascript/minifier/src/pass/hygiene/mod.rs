@@ -14,7 +14,6 @@ mod analyzer;
 
 pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
     let data = analyze(&*m);
-    dbg!(&data);
     m.visit_mut_with(&mut hygiene_optimizer(data, top_level_mark))
 }
 
