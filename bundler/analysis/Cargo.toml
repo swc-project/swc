@@ -1,0 +1,11 @@
+[package]
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "import/export analysis for the bundler"
+documentation = "https://rustdoc.swc.rs/swc_bundler_analysis/"
+edition = "2018"
+license = "Apache-2.0/MIT"
+name = "swc_bundler_analysis"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
+
+[dependencies]
