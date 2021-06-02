@@ -36,6 +36,7 @@ use swc_ecma_parser::Parser;
 use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::NormalizedOutput;
@@ -285,7 +286,9 @@ fn fixture(input: PathBuf) {
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
 
-            if output_module.eq_ignore_span(&expected) {
+            if output_module.eq_ignore_span(&expected)
+                || drop_span(output_module.clone()) == drop_span(expected.clone())
+            {
                 return Ok(());
             }
 
