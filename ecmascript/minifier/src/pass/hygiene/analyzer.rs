@@ -96,6 +96,11 @@ impl Visit for HygieneAnalyzer<'_> {
         }
 
         if info.is_fn_local {
+            log::trace!(
+                "hygiene: Optimization candidate: {}{:?}",
+                i.sym,
+                i.span.ctxt
+            );
             self.hygiene.modified.insert(i.to_id());
         } else {
             log::trace!(
