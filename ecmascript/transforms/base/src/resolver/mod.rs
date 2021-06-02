@@ -1,8 +1,10 @@
 use crate::scope::{IdentType, ScopeKind};
+use fxhash::FxHashSet;
 use std::{cell::RefCell, collections::HashSet};
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -836,7 +838,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
-                in_catch_caluse: false,
+                catch_param_decls: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -914,7 +916,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
-                in_catch_caluse: false,
+                catch_param_decls: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1262,14 +1264,14 @@ struct Hoister<'a, 'b> {
     kind: Option<VarDeclKind>,
     /// Hoister should not touch let / const in the block.
     in_block: bool,
-    in_catch_caluse: bool,
+    catch_param_decls: FxHashSet<JsWord>,
 }
 
 impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        if self.in_catch_caluse {
+        if self.catch_param_decls.contains(&node.ident.sym) {
             return;
         }
 
@@ -1322,7 +1324,13 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         self.resolver.in_type = false;
         match node {
-            Pat::Ident(i) => self.resolver.modify(&mut i.id, self.kind),
+            Pat::Ident(i) => {
+                if self.catch_param_decls.contains(&i.id.sym) {
+                    return;
+                }
+
+                self.resolver.modify(&mut i.id, self.kind)
+            }
             _ => node.visit_mut_children_with(self),
         }
     }
@@ -1338,10 +1346,15 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
-        let old = self.in_catch_caluse;
-        self.in_catch_caluse = true;
+        let params: Vec<Id> = find_ids(&c.param);
+
+        let orig = self.catch_param_decls.clone();
+
+        self.catch_param_decls
+            .extend(params.into_iter().map(|v| v.0));
         c.body.visit_mut_children_with(self);
-        self.in_catch_caluse = old
+
+        self.catch_param_decls = orig;
     }
 
     #[inline]
