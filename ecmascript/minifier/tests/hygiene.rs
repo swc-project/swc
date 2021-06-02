@@ -12,6 +12,7 @@ use swc_ecma_minifier::optimize_hygiene;
 use swc_ecma_parser::{lexer::Lexer, Parser};
 use swc_ecma_transforms::{fixer, hygiene, resolver_with_mark};
 use swc_ecma_visit::FoldWith;
+use testing::assert_eq;
 use testing::run_test2;
 
 #[testing::fixture("hygiene/identical/**/*.js")]
