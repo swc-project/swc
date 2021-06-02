@@ -75,7 +75,7 @@ impl Visit for HygieneAnalyzer<'_> {
         let info = match info {
             Some(v) => v,
             None => {
-                self.hygiene.preserved.insert(i.to_id());
+                log::trace!("hygiene: No such var: {}{:?}", i.sym, i.span.ctxt);
                 return;
             }
         };
@@ -96,7 +96,11 @@ impl Visit for HygieneAnalyzer<'_> {
         if info.is_fn_local {
             self.hygiene.modified.insert(i.to_id());
         } else {
-            self.hygiene.preserved.insert(i.to_id());
+            log::trace!(
+                "hygiene: Preserving {}{:?} as it is not fn-local",
+                i.sym,
+                i.span.ctxt
+            );
         }
     }
 
