@@ -11,8 +11,6 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-mod analyzer;
-
 pub fn optimize_hygiene(m: &mut Module, top_level_mark: Mark) {
     let data = analyze(&*m);
     m.visit_mut_with(&mut hygiene_optimizer(data, top_level_mark))
