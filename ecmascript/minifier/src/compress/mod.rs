@@ -136,7 +136,7 @@ impl VisitMut for Compressor<'_> {
             panic!("Infinite loop detected")
         }
 
-        let start = if cfg!(debug_assertions) {
+        let start = if cfg!(feature = "debug") {
             let start = dump(&*n);
             log::trace!("===== Start =====\n{}", start);
             start
@@ -150,10 +150,12 @@ impl VisitMut for Compressor<'_> {
             self.changed |= visitor.changed();
             if visitor.changed() {
                 log::trace!("compressor: Simplified expressions");
-                log::trace!("===== Simplified =====\n{}", dump(&*n));
+                if cfg!(feature = "debug") {
+                    log::trace!("===== Simplified =====\n{}", dump(&*n));
+                }
             }
 
-            if cfg!(debug_assertions) && !visitor.changed() {
+            if cfg!(feature = "debug") && !visitor.changed() {
                 let simplified = dump(&*n);
                 if start != simplified {
                     assert_eq!(
@@ -176,8 +178,27 @@ impl VisitMut for Compressor<'_> {
         }
 
         if self.options.conditionals || self.options.dead_code {
+            let start = if cfg!(feature = "debug") {
+                dump(&*n)
+            } else {
+                "".into()
+            };
+
             let mut v = dead_branch_remover();
             n.map_with_mut(|n| n.fold_with(&mut v));
+
+            if cfg!(feature = "debug") {
+                let simplified = dump(&*n);
+
+                if start != simplified {
+                    log::trace!(
+                        "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
+                        start,
+                        simplified
+                    );
+                }
+            }
+
             self.changed |= v.changed();
         }
 
