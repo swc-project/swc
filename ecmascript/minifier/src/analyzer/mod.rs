@@ -217,7 +217,8 @@ impl UsageAnalyzer {
 
         e.ref_count += 1;
         e.reassigned |= is_first && is_assign;
-        e.mutated |= is_assign;
+        // Passing object as a argument is possibly modification.
+        e.mutated |= is_assign || self.ctx.in_call_arg;
         e.used_in_loop |= self.ctx.in_loop;
 
         if is_assign {
