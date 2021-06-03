@@ -1,9 +1,9 @@
 use crate::bundler::tests::suite;
 use ahash::AHashMap;
-use fxhash::FxHashMap;
+use fxhash::{FxHashMap, FxHashSet};
 use std::collections::HashMap;
 
-fn graph(map: FxHashMap<String, String>) {
+fn assert_cycles(map: FxHashMap<String, String>, cycle_entries: Vec<&str>) {
     let mut tester = suite();
 
     for (k, v) in map {
@@ -16,6 +16,15 @@ fn graph(map: FxHashMap<String, String>) {
         let (_plan, _graph, cycles) = tester.bundler.determine_entries(entries).unwrap();
 
         dbg!(&cycles);
+
+        let actual: FxHashSet<_> = cycles.into_iter().flatten().collect();
+
+        let expected: FxHashSet<_> = cycle_entries
+            .iter()
+            .map(|name| tester.module(&name).id)
+            .collect();
+
+        assert_eq!(expected, actual);
 
         Ok(())
     });
@@ -37,7 +46,8 @@ fn deno_10820_1() {
         .to_string(),
     );
 
-    graph(map);
-
-    panic!();
+    assert_cycles(
+        map,
+        vec!["main.js", "data.js", "page1.js", "page2.js", "router.js"],
+    );
 }
