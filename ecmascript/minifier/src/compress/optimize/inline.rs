@@ -270,6 +270,10 @@ impl Optimizer<'_> {
                 return;
             }
 
+            if usage.reassigned {
+                return;
+            }
+
             // Inline very simple functions.
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
