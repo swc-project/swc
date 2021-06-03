@@ -349,7 +349,7 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
             | Stmt::ForOf(..)
             | Stmt::ForIn(..) => true,
 
-            Stmt::Return(..) => !ignore_always,
+            Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) => !ignore_always,
 
             _ => false,
         }
