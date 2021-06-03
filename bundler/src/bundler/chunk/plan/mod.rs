@@ -5,6 +5,9 @@ use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 
+#[cfg(test)]
+mod tests;
+
 #[derive(Debug, Default)]
 struct PlanBuilder {
     /// `(src, dst)`
@@ -97,18 +100,8 @@ where
 
             // Prevent infinite loops.
             if builder.tracked.insert((module_id, src.module_id)) {
+                dbg!(module_id, src.module_id);
                 self.add_to_graph(builder, src.module_id, path);
-            } else {
-                // This is a hack
-                //
-                // TODO(kdy1): Use proper logic for `builder.tracked` and remove this hack.
-                if let Some(cycle) = builder
-                    .cycles
-                    .iter_mut()
-                    .find(|cycle| cycle.contains(&module_id))
-                {
-                    cycle.push(src.module_id);
-                }
             }
         }
 
