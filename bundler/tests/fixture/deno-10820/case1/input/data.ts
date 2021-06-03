@@ -1,4 +1,4 @@
-import { dbPool } from "./webserver.ts";
+import { dbPool } from "./entry.ts";
 
 export function d() {
     dbPool;
