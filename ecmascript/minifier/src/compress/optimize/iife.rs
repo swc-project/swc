@@ -172,9 +172,11 @@ impl Optimizer<'_> {
 
             match find_body(callee) {
                 Some(Either::Left(body)) => {
+                    log::debug!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
+                    log::debug!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
