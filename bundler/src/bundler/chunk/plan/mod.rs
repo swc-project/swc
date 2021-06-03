@@ -82,6 +82,17 @@ where
         let prev_last = *path.last().unwrap();
         // Prevent infinite recursion.
         if !builder.tracked.insert((prev_last, module_id)) {
+            // This is a hack
+            //
+            // TODO(kdy1): Use proper logic for `builder.tracked` and remove this hack.
+            if let Some(cycle) = builder
+                .cycles
+                .iter_mut()
+                .find(|cycle| cycle.contains(&prev_last))
+            {
+                cycle.push(module_id);
+            }
+
             return;
         }
 
