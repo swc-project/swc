@@ -42,7 +42,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, &mut vec![]);
+            self.add_to_graph(&mut builder, module.id, &mut vec![module.id]);
         }
 
         Ok((
