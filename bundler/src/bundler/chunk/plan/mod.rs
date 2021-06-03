@@ -45,7 +45,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, &mut vec![module.id]);
+            self.add_to_graph(&mut builder, module.id, &mut vec![]);
         }
 
         Ok((
@@ -64,6 +64,9 @@ where
         module_id: ModuleId,
         path: &mut Vec<ModuleId>,
     ) {
+        if cfg!(test) {
+            log::debug!("Adding {:?} to the graph (path = {:?})", module_id, path);
+        }
         let visited = builder.all.contains(&module_id);
         let cycle_rpos = if visited {
             path.iter().rposition(|v| *v == module_id)
