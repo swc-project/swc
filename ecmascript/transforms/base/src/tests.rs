@@ -11,14 +11,6 @@ use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
 
-#[derive(PartialEq, Eq)]
-pub(crate) struct DebugUsingDisplay<'a>(pub &'a str);
-impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(self.0, f)
-    }
-}
-
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,

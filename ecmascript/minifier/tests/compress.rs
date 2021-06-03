@@ -5,10 +5,7 @@ use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use std::env;
-use std::fmt;
 use std::fmt::Debug;
-use std::fmt::Display;
-use std::fmt::Formatter;
 use std::fs::read_to_string;
 use std::panic::catch_unwind;
 use std::path::Path;
@@ -39,6 +36,7 @@ use swc_ecma_transforms::resolver_with_mark;
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
+use testing::DebugUsingDisplay;
 use testing::NormalizedOutput;
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -228,7 +226,10 @@ fn base_exec(input: PathBuf) {
         let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
         assert_ne!(actual_output, "");
 
-        assert_eq!(actual_output, expected_output);
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&*expected_output)
+        );
 
         Ok(())
     })
@@ -364,13 +365,4 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
     }
 
     String::from_utf8(buf).unwrap()
-}
-
-#[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(&'a str);
-
-impl<'a> Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(self.0, f)
-    }
 }

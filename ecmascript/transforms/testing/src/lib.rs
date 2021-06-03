@@ -281,14 +281,6 @@ pub fn test_transform<F, P>(
     });
 }
 
-#[derive(PartialEq, Eq)]
-pub struct DebugUsingDisplay<'a>(pub &'a str);
-impl<'a> fmt::Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        fmt::Display::fmt(self.0, f)
-    }
-}
-
 /// Test transformation.
 #[macro_export]
 macro_rules! test {

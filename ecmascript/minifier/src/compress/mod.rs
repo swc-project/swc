@@ -223,7 +223,7 @@ impl VisitMut for Compressor<'_> {
 }
 
 #[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(&'a str);
+struct DebugUsingDisplay<'a>(pub &'a str);
 
 impl<'a> Debug for DebugUsingDisplay<'a> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {

@@ -1,7 +1,3 @@
-use std::fmt;
-use std::fmt::Debug;
-use std::fmt::Display;
-use std::fmt::Formatter;
 use std::path::PathBuf;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
@@ -15,6 +11,7 @@ use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::run_test2;
+use testing::DebugUsingDisplay;
 
 #[testing::fixture("hygiene/identical/**/*.js")]
 fn identical(input: PathBuf) {
@@ -73,13 +70,4 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
     }
 
     String::from_utf8(buf).unwrap()
-}
-
-#[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(&'a str);
-
-impl<'a> Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(self.0, f)
-    }
 }

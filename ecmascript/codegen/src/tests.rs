@@ -3,12 +3,13 @@ use super::*;
 use crate::config::Config;
 use crate::text_writer::omit_trailing_semi;
 use std::{
-    fmt::{self, Debug, Display, Formatter},
+    fmt::Debug,
     io::Write,
     sync::{Arc, RwLock},
 };
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
+use testing::DebugUsingDisplay;
 
 struct Builder {
     cfg: Config,
@@ -627,14 +628,5 @@ impl Write for Buf {
 
     fn flush(&mut self) -> io::Result<()> {
         self.0.write().unwrap().flush()
-    }
-}
-
-#[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(&'a str);
-
-impl<'a> Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(self.0, f)
     }
 }
