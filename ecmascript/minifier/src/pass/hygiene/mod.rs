@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::pass::hygiene::analyzer::HygieneAnalyzer;
@@ -67,7 +69,8 @@ impl VisitMut for Optimizer {
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        log::info!("hygiene: Analyzing span hygiene");
+        log::debug!("hygiene: Analyzing span hygiene");
+        let start = Instant::now();
 
         let mut analyzer = HygieneAnalyzer {
             data: &self.data,
@@ -78,8 +81,13 @@ impl VisitMut for Optimizer {
         n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         self.hygiene = analyzer.hygiene;
 
-        log::info!("hygiene: Optimizing span hygiene");
+        let end = Instant::now();
+        log::trace!("hygiene: Span hygiene analysis took {:?}", end - start);
+        let start = end;
 
+        log::debug!("hygiene: Optimizing span hygiene");
         n.visit_mut_children_with(self);
+        let end = Instant::now();
+        log::trace!("hygiene: Span hygiene optimiation took {:?}", end - start);
     }
 }
