@@ -327,3 +327,13 @@ pub(crate) fn ctxt_has_mark(mut ctxt: SyntaxContext, mark: Mark) -> bool {
 pub(crate) fn has_mark(span: Span, mark: Mark) -> bool {
     ctxt_has_mark(span.ctxt, mark)
 }
+
+pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
+    match s {
+        Stmt::If(..) | Stmt::Switch(..) => true,
+        Stmt::DoWhile(..) | Stmt::While(..) | Stmt::For(..) | Stmt::ForOf(..) | Stmt::ForIn(..) => {
+            true
+        }
+        _ => false,
+    }
+}

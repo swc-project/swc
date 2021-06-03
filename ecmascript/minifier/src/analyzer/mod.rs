@@ -1,4 +1,5 @@
 use self::ctx::Ctx;
+use crate::util::can_end_conditionally;
 use crate::util::idents_used_by;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
@@ -590,15 +591,7 @@ impl Visit for UsageAnalyzer {
 
             n.visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
 
-            had_cond |= match n {
-                Stmt::If(..) | Stmt::Switch(..) => true,
-                Stmt::DoWhile(..)
-                | Stmt::While(..)
-                | Stmt::For(..)
-                | Stmt::ForOf(..)
-                | Stmt::ForIn(..) => true,
-                _ => false,
-            };
+            had_cond |= can_end_conditionally(n);
         }
     }
 
