@@ -37,7 +37,6 @@ impl<'a> Emitter<'a> {
         space!();
         emit!(node.ident);
         emit!(node.class.type_params);
-        formatting_space!();
 
         self.emit_class_trailing(&node.class)?;
     }
@@ -114,6 +113,15 @@ mod tests {
             yield getServiceHosts()
         }",
             "function*foo(){yield getServiceHosts()}",
+        );
+    }
+
+    #[test]
+    fn issue_1764() {
+        assert_min(
+            "class Hoge {};
+class HogeFuga extends Hoge {};",
+            "class Hoge{};class HogeFuga extends Hoge{};",
         );
     }
 

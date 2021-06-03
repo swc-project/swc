@@ -4,7 +4,6 @@ use self::{
     this_in_static::ThisInStaticFolder,
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
-use crate::es2015::classes::SuperFieldAccessFolder;
 use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
@@ -12,6 +11,7 @@ use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
