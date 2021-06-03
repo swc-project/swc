@@ -423,6 +423,7 @@ reduce_vars/issue_1670_1/input.js
 reduce_vars/issue_1670_2/input.js
 reduce_vars/issue_1670_3/input.js
 reduce_vars/issue_1670_4/input.js
+reduce_vars/issue_1670_5/input.js
 reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2420_1/input.js
 reduce_vars/issue_2420_2/input.js
@@ -444,6 +445,7 @@ reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_1/input.js
 reduce_vars/issue_2799_2/input.js
 reduce_vars/issue_2860_1/input.js
+reduce_vars/issue_2860_2/input.js
 reduce_vars/issue_3110_3/input.js
 reduce_vars/issue_3113_1/input.js
 reduce_vars/issue_3113_2/input.js
