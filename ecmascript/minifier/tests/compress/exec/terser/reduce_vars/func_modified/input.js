@@ -14,3 +14,5 @@ function f(a) {
     };
     return a() + b() + c();
 }
+
+console.log(f(1423796))

@@ -5,3 +5,6 @@ function f(a) {
     }
     console.log(t);
 }
+
+f(123123)
+f(0)
