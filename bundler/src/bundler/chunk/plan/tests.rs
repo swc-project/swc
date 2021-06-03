@@ -13,10 +13,8 @@ fn graph(map: FxHashMap<String, String>) {
     tester.run(|tester| {
         let mut entries = AHashMap::default();
         entries.insert("main.js".to_string(), tester.module("main.js"));
-        let (plan, graph, cycles) = tester.bundler.determine_entries(entries).unwrap();
+        let (_plan, _graph, cycles) = tester.bundler.determine_entries(entries).unwrap();
 
-        dbg!(&plan);
-        dbg!(&graph);
         dbg!(&cycles);
 
         Ok(())
