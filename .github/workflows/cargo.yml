@@ -141,6 +141,9 @@ jobs:
           - testing
           - testing_macros
           - wasm
+        exclude:
+          - os: windows-latest
+            crate: spack
 
     steps:
       - name: Handle line endings
