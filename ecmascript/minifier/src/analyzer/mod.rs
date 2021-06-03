@@ -579,6 +579,29 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 
+    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
+        let mut had_cond = false;
+
+        for n in stmts {
+            let ctx = Ctx {
+                in_cond: self.ctx.in_cond || had_cond,
+                ..self.ctx
+            };
+
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+
+            had_cond |= match n {
+                Stmt::If(..) | Stmt::Switch(..) => true,
+                Stmt::DoWhile(..)
+                | Stmt::While(..)
+                | Stmt::For(..)
+                | Stmt::ForOf(..)
+                | Stmt::ForIn(..) => true,
+                _ => false,
+            };
+        }
+    }
+
     fn visit_switch_case(&mut self, n: &SwitchCase, _: &dyn Node) {
         n.test.visit_with(n, self);
 
