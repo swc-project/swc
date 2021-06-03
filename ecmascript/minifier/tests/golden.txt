@@ -415,6 +415,7 @@ export/issue_2038_1/input.js
 export/issue_2038_2/input.js
 export/issue_2129/input.js
 export/issue_2131/input.js
+export/issue_2134_1/input.js
 export/issue_2134_2/input.js
 export/issue_2977/input.js
 export/issue_333/input.js
@@ -906,6 +907,7 @@ reduce_vars/inner_var_for_1/input.js
 reduce_vars/inner_var_for_in_1/input.js
 reduce_vars/inner_var_for_in_2/input.js
 reduce_vars/inner_var_if/input.js
+reduce_vars/inner_var_label/input.js
 reduce_vars/issue_1533_1/input.js
 reduce_vars/issue_1533_2/input.js
 reduce_vars/issue_1595_1/input.js
