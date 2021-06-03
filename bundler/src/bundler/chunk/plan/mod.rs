@@ -6,6 +6,9 @@ use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use swc_bundler_analysis::id::ModuleId;
 
+#[cfg(test)]
+mod tests;
+
 #[derive(Debug, Default)]
 struct PlanBuilder {
     /// `(src, dst)`
@@ -43,7 +46,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, &mut vec![]);
+            self.add_to_graph(&mut builder, module.id, &mut vec![module.id]);
         }
 
         Ok((
@@ -62,6 +65,9 @@ where
         module_id: ModuleId,
         path: &mut Vec<ModuleId>,
     ) {
+        if cfg!(test) {
+            log::debug!("Adding {:?} to the graph (path = {:?})", module_id, path);
+        }
         let visited = builder.all.contains(&module_id);
         let cycle_rpos = if visited {
             path.iter().rposition(|v| *v == module_id)
@@ -72,6 +78,23 @@ where
         if let Some(rpos) = cycle_rpos {
             let cycle = path[rpos..].to_vec();
             builder.cycles.push(cycle);
+        }
+
+        let prev_last = *path.last().unwrap();
+        // Prevent infinite recursion.
+        if !builder.tracked.insert((prev_last, module_id)) {
+            // This is a hack
+            //
+            // TODO(kdy1): Use proper logic for `builder.tracked` and remove this hack.
+            if let Some(cycle) = builder
+                .cycles
+                .iter_mut()
+                .find(|cycle| cycle.contains(&prev_last))
+            {
+                cycle.push(module_id);
+            }
+
+            return;
         }
 
         path.push(module_id);
@@ -96,21 +119,7 @@ where
 
             builder.graph.add_edge(module_id, src.module_id, ());
 
-            // Prevent infinite loops.
-            if builder.tracked.insert((module_id, src.module_id)) {
-                self.add_to_graph(builder, src.module_id, path);
-            } else {
-                // This is a hack
-                //
-                // TODO(kdy1): Use proper logic for `builder.tracked` and remove this hack.
-                if let Some(cycle) = builder
-                    .cycles
-                    .iter_mut()
-                    .find(|cycle| cycle.contains(&module_id))
-                {
-                    cycle.push(src.module_id);
-                }
-            }
+            self.add_to_graph(builder, src.module_id, path);
         }
 
         let res = path.pop();
