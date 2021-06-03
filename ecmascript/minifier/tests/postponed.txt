@@ -405,6 +405,7 @@ reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_label/input.js
+reduce_vars/defun_redefine/input.js
 reduce_vars/defun_var_3/input.js
 reduce_vars/delay_def/input.js
 reduce_vars/duplicate_lambda_defun_name_1/input.js
@@ -413,6 +414,7 @@ reduce_vars/escape_local_sequence/input.js
 reduce_vars/escaped_prop_3/input.js
 reduce_vars/func_arg_1/input.js
 reduce_vars/func_arg_2/input.js
+reduce_vars/func_modified/input.js
 reduce_vars/iife/input.js
 reduce_vars/iife_eval_2/input.js
 reduce_vars/iife_new/input.js
