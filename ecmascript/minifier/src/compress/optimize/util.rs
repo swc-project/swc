@@ -225,3 +225,11 @@ pub(crate) fn class_has_side_effect(c: &Class) -> bool {
 
     false
 }
+
+pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
+    match e {
+        Expr::Lit(..) => return false,
+        Expr::Unary(..) => return false,
+        _ => true,
+    }
+}

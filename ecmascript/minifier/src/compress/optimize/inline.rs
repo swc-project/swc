@@ -1,4 +1,5 @@
 use crate::compress::optimize::util::class_has_side_effect;
+use crate::compress::optimize::util::is_valid_for_lhs;
 
 use super::Optimizer;
 use swc_atoms::js_word;
@@ -388,7 +389,11 @@ impl Optimizer<'_> {
                     log::trace!("inline: Replacing a variable with cheap expression");
 
                     *e = *value;
-                } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                    if self.ctx.is_lhs_of_assign && !is_valid_for_lhs(&value) {
+                        return;
+                    }
+
                     self.changed = true;
                     log::trace!(
                         "inline: Replacing '{}{:?}' with an expression",
@@ -396,7 +401,7 @@ impl Optimizer<'_> {
                         i.span.ctxt
                     );
 
-                    *e = *value;
+                    *e = *value.clone();
                 }
             }
             _ => {}
