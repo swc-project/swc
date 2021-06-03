@@ -1,8 +1,7 @@
-use swc_ecma_ast::VarDeclKind;
-
 use super::UsageAnalyzer;
 use std::ops::Deref;
 use std::ops::DerefMut;
+use swc_ecma_ast::VarDeclKind;
 
 impl UsageAnalyzer {
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
@@ -22,6 +21,10 @@ pub(super) struct Ctx {
     pub in_pat_of_var_decl_with_init: bool,
     pub in_pat_of_param: bool,
     pub in_catch_param: bool,
+
+    /// `true` for arugments of [swc_ecma_ast::Expr::Call] or
+    /// [swc_ecma_ast::Expr::New]
+    pub in_call_arg: bool,
 
     pub in_left_of_for_loop: bool,
 

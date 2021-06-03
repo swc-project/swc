@@ -309,7 +309,14 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
-        n.visit_children_with(self);
+        {
+            n.callee.visit_with(n, self);
+            let ctx = Ctx {
+                in_call_arg: true,
+                ..self.ctx
+            };
+            n.args.visit_with(n, &mut *self.with_ctx(ctx));
+        }
 
         match &n.callee {
             ExprOrSuper::Expr(callee) => match &**callee {
@@ -489,6 +496,17 @@ impl Visit for UsageAnalyzer {
             return;
         }
         n.visit_children_with(self);
+    }
+
+    fn visit_new_expr(&mut self, n: &NewExpr, _: &dyn Node) {
+        {
+            n.callee.visit_with(n, self);
+            let ctx = Ctx {
+                in_call_arg: true,
+                ..self.ctx
+            };
+            n.args.visit_with(n, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
