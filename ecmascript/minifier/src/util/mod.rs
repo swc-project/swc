@@ -341,13 +341,20 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
                         .unwrap_or_default()
             }
 
-            Stmt::Switch(..) => true,
+            Stmt::Switch(s) => s
+                .cases
+                .iter()
+                .any(|case| case.cons.iter().any(|s| can_end(&s, false))),
 
-            Stmt::DoWhile(..)
-            | Stmt::While(..)
-            | Stmt::For(..)
-            | Stmt::ForOf(..)
-            | Stmt::ForIn(..) => true,
+            Stmt::DoWhile(s) => can_end(&s.body, false),
+
+            Stmt::While(s) => can_end(&s.body, false),
+
+            Stmt::For(s) => can_end(&s.body, false),
+
+            Stmt::ForOf(s) => can_end(&s.body, false),
+
+            Stmt::ForIn(s) => can_end(&s.body, false),
 
             Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) => !ignore_always,
 
