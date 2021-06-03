@@ -329,11 +329,31 @@ pub(crate) fn has_mark(span: Span, mark: Mark) -> bool {
 }
 
 pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
-    match s {
-        Stmt::If(..) | Stmt::Switch(..) => true,
-        Stmt::DoWhile(..) | Stmt::While(..) | Stmt::For(..) | Stmt::ForOf(..) | Stmt::ForIn(..) => {
-            true
+    ///
+    ///`ignore_always`: If true, [Stmt::Return] will be ignored.
+    fn can_end(s: &Stmt, ignore_always: bool) -> bool {
+        match s {
+            Stmt::If(s) => {
+                can_end(&s.cons, false)
+                    || s.alt
+                        .as_deref()
+                        .map(|s| can_end(s, false))
+                        .unwrap_or_default()
+            }
+
+            Stmt::Switch(..) => true,
+
+            Stmt::DoWhile(..)
+            | Stmt::While(..)
+            | Stmt::For(..)
+            | Stmt::ForOf(..)
+            | Stmt::ForIn(..) => true,
+
+            Stmt::Return(..) => !ignore_always,
+
+            _ => false,
         }
-        _ => false,
     }
+
+    can_end(s, true)
 }
