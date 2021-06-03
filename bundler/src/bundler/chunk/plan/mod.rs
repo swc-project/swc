@@ -45,7 +45,7 @@ where
                 None => {}
             }
 
-            self.add_to_graph(&mut builder, module.id, &mut vec![]);
+            self.add_to_graph(&mut builder, module.id, &mut vec![module.id]);
         }
 
         Ok((
@@ -79,6 +79,12 @@ where
             builder.cycles.push(cycle);
         }
 
+        let prev_last = *path.last().unwrap();
+        // Prevent infinite recursion.
+        if !builder.tracked.insert((prev_last, module_id)) {
+            return;
+        }
+
         path.push(module_id);
 
         if !visited {
@@ -101,11 +107,7 @@ where
 
             builder.graph.add_edge(module_id, src.module_id, ());
 
-            // Prevent infinite loops.
-            if builder.tracked.insert((module_id, src.module_id)) {
-                dbg!(module_id, src.module_id);
-                self.add_to_graph(builder, src.module_id, path);
-            }
+            self.add_to_graph(builder, src.module_id, path);
         }
 
         let res = path.pop();
