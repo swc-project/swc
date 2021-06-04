@@ -4712,3 +4712,16 @@ test!(
     })();
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1780_1,
+    "
+    export const BIZ = 'biz';
+    export * from './File1';
+    export * from './File2';
+    ",
+    "
+    "
+);
