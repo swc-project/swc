@@ -277,10 +277,7 @@ impl VisitMut for Fixer<'_> {
         n.visit_mut_children_with(self);
         self.ctx = old;
 
-        match *n.arg {
-            // Don't wrap
-            Expr::Bin(BinExpr { op: op!("%"), .. }) | Expr::Bin(BinExpr { op: op!("/"), .. }) => {}
-
+        match &*n.arg {
             Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
@@ -1220,4 +1217,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(minifier_004, "(void 0)(0)");
 
     identical!(issue_1781, "const n = ~~(Math.PI * 10)");
+
+    identical!(issue_1789, "+(+1 / 4)");
 }
