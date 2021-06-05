@@ -277,10 +277,7 @@ impl VisitMut for Fixer<'_> {
         n.visit_mut_children_with(self);
         self.ctx = old;
 
-        match *n.arg {
-            // Don't wrap
-            Expr::Bin(BinExpr { op: op!("%"), .. }) | Expr::Bin(BinExpr { op: op!("/"), .. }) => {}
-
+        match &*n.arg {
             Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
