@@ -1220,4 +1220,6 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(minifier_004, "(void 0)(0)");
 
     identical!(issue_1781, "const n = ~~(Math.PI * 10)");
+
+    identical!(issue_1789, "+(+1 / 4)");
 }
