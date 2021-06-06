@@ -4765,3 +4765,20 @@ test!(
     });
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1757_1,
+    "
+    import 'testlibrary';
+    import { aFunc } from 'testlibrary';
+
+    console.log('aFunc: ', aFunc(1,2));
+    ",
+    "
+    'use strict';
+    var _testlibrary = require('testlibrary');
+    console.log('aFunc: ', (0, _testlibrary).aFunc(1, 2));
+    "
+);
