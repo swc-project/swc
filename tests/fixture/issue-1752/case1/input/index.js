@@ -1,4 +1,4 @@
-async function* generate(): AsyncGenerator {
+async function* generate() {
     const results = await Promise.all([
         Promise.resolve(1),
         Promise.resolve(2),
