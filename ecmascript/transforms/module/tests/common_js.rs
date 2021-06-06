@@ -4765,3 +4765,17 @@ test!(
     });
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1757_1,
+    "
+    import 'testlibrary';
+    import { aFunc } from 'testlibrary';
+
+    console.log('aFunc: ', aFunc(1,2));
+    ",
+    "
+    "
+);
