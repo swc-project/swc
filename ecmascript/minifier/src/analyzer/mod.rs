@@ -211,7 +211,7 @@ impl UsageAnalyzer {
         ret
     }
 
-    fn report(&mut self, i: Id, is_assign: bool, dejavu: &mut FxHashSet<Id>) {
+    fn report(&mut self, i: Id, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
         let is_first = dejavu.is_empty();
 
         if !dejavu.insert(i.clone()) {
@@ -224,12 +224,12 @@ impl UsageAnalyzer {
         });
 
         e.ref_count += 1;
-        e.reassigned |= is_first && is_assign;
+        e.reassigned |= is_first && is_modify;
         // Passing object as a argument is possibly modification.
-        e.mutated |= is_assign || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
+        e.mutated |= is_modify || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
         e.used_in_loop |= self.ctx.in_loop;
 
-        if is_assign {
+        if is_modify {
             e.assign_count += 1;
 
             for other in e.infects.clone() {
