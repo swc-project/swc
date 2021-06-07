@@ -45,6 +45,21 @@ impl VisitMut for SinglePassOptimizer {
         }
     }
 
+    fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
+        n.visit_mut_children_with(self);
+
+        if let Some(usage) = self.data.vars.get(&n.ident.to_id()) {
+            if usage.assign_count > 1 {
+                let v = self.fn_decl_count.entry(n.ident.to_id()).or_default();
+                *v += 1;
+
+                if *v == usage.assign_count {
+                    n.ident.take();
+                }
+            }
+        }
+    }
+
     fn visit_mut_module(&mut self, n: &mut Module) {
         let data = analyze(&*n);
         self.data = data;
