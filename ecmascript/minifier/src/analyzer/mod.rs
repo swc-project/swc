@@ -50,6 +50,7 @@ pub(crate) struct VarUsageInfo {
     pub declared_as_fn_param: bool,
 
     pub assign_count: usize,
+    pub mutation_by_call_count: usize,
     pub usage_count: usize,
 
     /// The variable itself is modified.
@@ -81,6 +82,12 @@ pub(crate) struct VarUsageInfo {
 
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
+}
+
+impl VarUsageInfo {
+    pub fn is_mutated_only_by_one_call(&self) -> bool {
+        self.assign_count == 0 && self.mutation_by_call_count == 1
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -151,6 +158,7 @@ impl ProgramData {
                     // e.get_mut().used_above_decl |= var_info.used_above_decl;
                     e.get_mut().used_in_loop |= var_info.used_in_loop;
                     e.get_mut().assign_count += var_info.assign_count;
+                    e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
                     e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
@@ -228,6 +236,10 @@ impl UsageAnalyzer {
                 self.report(other, true, dejavu)
             }
         } else {
+            if self.ctx.in_call_arg && self.ctx.is_exact_arg {
+                e.mutation_by_call_count += 1;
+            }
+
             e.usage_count += 1;
         }
     }

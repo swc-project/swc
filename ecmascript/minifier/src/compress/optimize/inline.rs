@@ -126,7 +126,7 @@ impl Optimizer<'_> {
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
-                        && !usage.mutated
+                        && (!usage.mutated || usage.is_mutated_only_by_one_call())
                         && usage.ref_count == 1
                     {
                         match &**init {
