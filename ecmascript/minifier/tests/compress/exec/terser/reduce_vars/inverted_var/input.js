@@ -24,7 +24,7 @@ console.log(
     })(),
     (function c() {
         c = 6;
-        return c;
+        return typeof c;
     })(),
     (function c() {
         c = 7;
