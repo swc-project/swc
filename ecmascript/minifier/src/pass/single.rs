@@ -62,7 +62,7 @@ impl VisitMut for SinglePassOptimizer {
                 *v += 1;
 
                 if *v == usage.assign_count {
-                    // n.ident.take();
+                    n.ident.take();
                 }
             }
         }
