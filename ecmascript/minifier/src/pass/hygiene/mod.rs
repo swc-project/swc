@@ -82,12 +82,12 @@ impl VisitMut for Optimizer {
         self.hygiene = analyzer.hygiene;
 
         let end = Instant::now();
-        log::trace!("hygiene: Span hygiene analysis took {:?}", end - start);
+        log::debug!("hygiene: Span hygiene analysis took {:?}", end - start);
         let start = end;
 
         log::debug!("hygiene: Optimizing span hygiene");
         n.visit_mut_children_with(self);
         let end = Instant::now();
-        log::trace!("hygiene: Span hygiene optimiation took {:?}", end - start);
+        log::debug!("hygiene: Span hygiene optimiation took {:?}", end - start);
     }
 }
