@@ -1,7 +1,6 @@
 use crate::fixer::fixer;
 use crate::helpers::HELPERS;
 use crate::hygiene::hygiene_with_config;
-use std::fmt;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
 };

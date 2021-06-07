@@ -6,7 +6,6 @@ use std::mem::replace;
 use std::mem::take;
 use std::rc::Rc;
 use std::{
-    fmt,
     fs::{create_dir_all, remove_dir_all, OpenOptions},
     io::{self, Write},
     path::Path,
@@ -31,6 +30,7 @@ use swc_ecma_visit::{as_folder, Fold, FoldWith};
 use tempfile::tempdir_in;
 use testing::assert_eq;
 use testing::find_executable;
+use testing::DebugUsingDisplay;
 use testing::NormalizedOutput;
 
 pub struct Tester<'a> {
