@@ -172,9 +172,20 @@ impl Optimizer<'_> {
                     if let Some(arg) = arg {
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
+                            log::trace!(
+                                "iife: Trying to inline {}{:?}",
+                                param.id.sym,
+                                param.id.span.ctxt
+                            );
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
+                        log::trace!(
+                            "iife: Trying to inline {}{:?} (undefined)",
+                            param.id.sym,
+                            param.id.span.ctxt
+                        );
+
                         vars.insert(param.to_id(), undefined(param.span()));
                     }
                 }
