@@ -115,6 +115,8 @@ struct Ctx {
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
     in_lhs_of_assign: bool,
+    /// `false` for `d` in `d[0] = foo`.
+    is_exact_lhs_of_assign: bool,
 
     /// `true` for loop bodies and conditions of loops.
     executed_multiple_time: bool,
@@ -1270,6 +1272,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 in_lhs_of_assign: true,
+                is_exact_lhs_of_assign: true,
                 ..self.ctx
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1706,12 +1709,17 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 in_obj_of_non_computed_member: !n.computed,
+                is_exact_lhs_of_assign: false,
                 ..self.ctx
             };
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
         }
         if n.computed {
-            n.prop.visit_mut_with(self);
+            let ctx = Ctx {
+                is_exact_lhs_of_assign: false,
+                ..self.ctx
+            };
+            n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
         self.handle_known_computed_member_expr(n);
