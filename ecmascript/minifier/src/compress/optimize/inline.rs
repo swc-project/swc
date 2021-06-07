@@ -409,7 +409,7 @@ impl Optimizer<'_> {
 
                     *e = *value;
                 } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
-                    if self.ctx.in_lhs_of_assign && !is_valid_for_lhs(&value) {
+                    if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
 
