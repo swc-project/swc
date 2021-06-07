@@ -50,8 +50,6 @@ collapse_vars/issue_2364_2/input.js
 collapse_vars/issue_2364_3/input.js
 collapse_vars/issue_2364_4/input.js
 collapse_vars/issue_2364_5/input.js
-collapse_vars/issue_2364_8/input.js
-collapse_vars/issue_2364_9/input.js
 collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
@@ -68,7 +66,6 @@ collapse_vars/issue_2497/input.js
 collapse_vars/issue_27/input.js
 collapse_vars/issue_2954_2/input.js
 collapse_vars/issue_2954_3/input.js
-collapse_vars/issue_3096/input.js
 collapse_vars/issue_315/input.js
 collapse_vars/noinline_annotation/input.js
 collapse_vars/pure_getters_chain/input.js
@@ -145,13 +142,11 @@ drop_unused/unused_funarg_2/input.js
 drop_unused/var_catch_toplevel/input.js
 drop_unused/variable_refs_outside_unused_class/input.js
 evaluate/issue_2535_1/input.js
-evaluate/issue_2968/input.js
 evaluate/unsafe_object_accessor/input.js
 expansions/avoid_spread_getset_object/input.js
 expansions/avoid_spread_hole/input.js
 export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
-export/issue_2134_1/input.js
 export/module_mangle_export_default_class/input.js
 export/module_mangle_export_default_function/input.js
 functions/avoid_generating_duplicate_functions_compared_together/input.js
@@ -246,7 +241,6 @@ issue_1447/else_with_empty_statement/input.js
 issue_1569/inner_reference/input.js
 issue_1609/chained_evaluation_1/input.js
 issue_1609/chained_evaluation_2/input.js
-issue_1639/issue_1639_3/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
