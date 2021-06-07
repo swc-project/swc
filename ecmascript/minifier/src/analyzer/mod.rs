@@ -224,12 +224,12 @@ impl UsageAnalyzer {
         });
 
         e.ref_count += 1;
-        e.reassigned |= is_first && is_modify;
+        e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
         e.mutated |= is_modify || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
         e.used_in_loop |= self.ctx.in_loop;
 
-        if is_modify {
+        if is_modify && self.ctx.is_exact_reassignment {
             e.assign_count += 1;
 
             for other in e.infects.clone() {
@@ -315,6 +315,7 @@ impl Visit for UsageAnalyzer {
     fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
         let ctx = Ctx {
             in_assign_lhs: true,
+            is_exact_reassignment: true,
             ..self.ctx
         };
         n.left.visit_with(n, &mut *self.with_ctx(ctx));
@@ -489,6 +490,7 @@ impl Visit for UsageAnalyzer {
         {
             let ctx = Ctx {
                 is_exact_arg: false,
+                is_exact_reassignment: false,
                 ..self.ctx
             };
             e.obj
@@ -498,6 +500,7 @@ impl Visit for UsageAnalyzer {
         if e.computed {
             let ctx = Ctx {
                 is_exact_arg: false,
+                is_exact_reassignment: false,
                 ..self.ctx
             };
             e.prop
@@ -671,6 +674,7 @@ impl Visit for UsageAnalyzer {
     fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
         let ctx = Ctx {
             in_update_arg: true,
+            is_exact_reassignment: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));

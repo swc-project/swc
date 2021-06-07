@@ -21,6 +21,8 @@ pub(super) struct Ctx {
     pub in_pat_of_var_decl_with_init: bool,
     pub in_pat_of_param: bool,
     pub in_catch_param: bool,
+    /// `true` for `foo.bar` and `false` for `foo` in `foo.bar++`
+    pub is_exact_reassignment: bool,
 
     /// `true` for arugments of [swc_ecma_ast::Expr::Call] or
     /// [swc_ecma_ast::Expr::New]
