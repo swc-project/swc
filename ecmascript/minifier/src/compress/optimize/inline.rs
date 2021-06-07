@@ -397,7 +397,7 @@ impl Optimizer<'_> {
                 if let Some(value) = self.lits.get(&i.to_id()).cloned() {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
-                            if self.ctx.is_lhs_of_assign {
+                            if self.ctx.in_lhs_of_assign {
                                 return;
                             }
                         }
@@ -409,7 +409,7 @@ impl Optimizer<'_> {
 
                     *e = *value;
                 } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
-                    if self.ctx.is_lhs_of_assign && !is_valid_for_lhs(&value) {
+                    if self.ctx.in_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
 

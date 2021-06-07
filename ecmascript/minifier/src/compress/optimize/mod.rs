@@ -114,7 +114,7 @@ struct Ctx {
     is_delete_arg: bool,
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
-    is_lhs_of_assign: bool,
+    in_lhs_of_assign: bool,
 
     /// `true` for loop bodies and conditions of loops.
     executed_multiple_time: bool,
@@ -1269,7 +1269,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
-                is_lhs_of_assign: true,
+                in_lhs_of_assign: true,
                 ..self.ctx
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -1804,7 +1804,7 @@ impl VisitMut for Optimizer<'_> {
             is_delete_arg: false,
             is_exported: false,
             is_update_arg: false,
-            is_lhs_of_assign: false,
+            in_lhs_of_assign: false,
             in_obj_of_non_computed_member: false,
             ..self.ctx
         };
