@@ -26,6 +26,9 @@ pub(super) struct Ctx {
     /// [swc_ecma_ast::Expr::New]
     pub in_call_arg: bool,
 
+    /// `false` for `array` in `array.length.
+    pub is_exact_arg: bool,
+
     pub in_left_of_for_loop: bool,
 
     pub in_loop: bool,

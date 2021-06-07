@@ -218,7 +218,7 @@ impl UsageAnalyzer {
         e.ref_count += 1;
         e.reassigned |= is_first && is_assign;
         // Passing object as a argument is possibly modification.
-        e.mutated |= is_assign || self.ctx.in_call_arg;
+        e.mutated |= is_assign || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
         e.used_in_loop |= self.ctx.in_loop;
 
         if is_assign {
@@ -319,6 +319,7 @@ impl Visit for UsageAnalyzer {
             n.callee.visit_with(n, self);
             let ctx = Ctx {
                 in_call_arg: true,
+                is_exact_arg: true,
                 ..self.ctx
             };
             n.args.visit_with(n, &mut *self.with_ctx(ctx));
@@ -471,10 +472,22 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(&Invalid { span: DUMMY_SP }, self);
+        {
+            let ctx = Ctx {
+                is_exact_arg: false,
+                ..self.ctx
+            };
+            e.obj
+                .visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+        }
 
         if e.computed {
-            e.prop.visit_with(&Invalid { span: DUMMY_SP }, self);
+            let ctx = Ctx {
+                is_exact_arg: false,
+                ..self.ctx
+            };
+            e.prop
+                .visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
         }
 
         match &e.obj {
@@ -509,6 +522,7 @@ impl Visit for UsageAnalyzer {
             n.callee.visit_with(n, self);
             let ctx = Ctx {
                 in_call_arg: true,
+                is_exact_arg: true,
                 ..self.ctx
             };
             n.args.visit_with(n, &mut *self.with_ctx(ctx));
