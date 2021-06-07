@@ -340,6 +340,12 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                if let Some(i) = &f.ident {
+                    if idents_used_by(&f.function.body).contains(&i.to_id()) {
+                        return;
+                    }
+                }
+
                 if is_param_used_by_body(&f.function.params, &f.function.body) {
                     return;
                 }
