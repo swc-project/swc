@@ -120,9 +120,13 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
-        params.iter_mut().for_each(|param| {
+        for param in params.iter_mut().rev() {
             self.take_pat_if_unused(&mut param.pat, None);
-        })
+
+            if !param.pat.is_invalid() {
+                return;
+            }
+        }
     }
 
     pub(super) fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
