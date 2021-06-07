@@ -91,7 +91,7 @@ impl Optimizer<'_> {
                         || self.options.inline != 0;
 
                     if is_inline_enabled
-                        && !usage.mutated
+                        && (!usage.mutated || usage.is_mutated_only_by_one_call())
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_)
