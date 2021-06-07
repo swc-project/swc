@@ -159,6 +159,16 @@ impl Optimizer<'_> {
             for (idx, param) in params.iter().enumerate() {
                 let arg = e.args.get(idx).map(|v| &v.expr);
                 if let Pat::Ident(param) = &param {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&param.to_id()))
+                    {
+                        if usage.reassigned {
+                            continue;
+                        }
+                    }
+
                     if let Some(arg) = arg {
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
