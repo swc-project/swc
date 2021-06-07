@@ -1,16 +1,16 @@
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub fn remove_parens() -> impl 'static + VisitMut {
-    RemoveParens
+///
+/// - Remove parens.
+pub fn single_pass_optimizer() -> impl VisitMut {
+    SinglePassOptimizer
 }
 
-struct RemoveParens;
+struct SinglePassOptimizer;
 
-impl VisitMut for RemoveParens {
+impl VisitMut for SinglePassOptimizer {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
