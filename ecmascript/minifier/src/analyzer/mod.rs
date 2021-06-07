@@ -412,6 +412,7 @@ impl Visit for UsageAnalyzer {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
+                is_exact_reassignment: true,
                 ..child.ctx
             };
             n.left.visit_with(n, &mut *child.with_ctx(ctx));
@@ -431,6 +432,7 @@ impl Visit for UsageAnalyzer {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
+                is_exact_reassignment: true,
                 ..child.ctx
             };
             n.left.visit_with(n, &mut *child.with_ctx(ctx));
