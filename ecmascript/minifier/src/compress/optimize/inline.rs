@@ -281,6 +281,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.is_exported {
+            return;
+        }
+
         if let Some(usage) = self
             .data
             .as_ref()
