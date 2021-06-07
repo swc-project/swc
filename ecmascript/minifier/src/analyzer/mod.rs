@@ -259,9 +259,11 @@ impl UsageAnalyzer {
             .vars
             .entry(i.to_id())
             .and_modify(|v| {
-                v.mutated = true;
-                v.reassigned = true;
-                v.assign_count += 1;
+                if has_init {
+                    v.mutated = true;
+                    v.reassigned = true;
+                    v.assign_count += 1;
+                }
             })
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
