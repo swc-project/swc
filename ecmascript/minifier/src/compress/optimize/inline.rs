@@ -90,22 +90,9 @@ impl Optimizer<'_> {
                         || self.options.collapse_vars
                         || self.options.inline != 0;
 
+                    // Mutation of properties are ok
                     if is_inline_enabled
-                        && (!usage.mutated
-                            || usage.is_mutated_only_by_one_call()
-                            || (usage.assign_count == 0
-                                && match &**init {
-                                    Expr::Lit(lit) => match lit {
-                                        Lit::Str(_)
-                                        | Lit::Bool(_)
-                                        | Lit::Null(_)
-                                        | Lit::Num(_)
-                                        | Lit::BigInt(_) => true,
-                                        Lit::Regex(_) => self.options.unsafe_regexp,
-                                        _ => false,
-                                    },
-                                    _ => false,
-                                }))
+                        && (!usage.mutated || usage.assign_count == 0)
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_)
