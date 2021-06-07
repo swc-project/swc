@@ -1407,9 +1407,7 @@ impl VisitMut for Optimizer<'_> {
             DefaultDecl::Class(_) => {}
             DefaultDecl::Fn(f) => {
                 if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
-                    f.function.params.iter_mut().for_each(|param| {
-                        self.take_pat_if_unused(&mut param.pat, None);
-                    })
+                    self.drop_unused_params(&mut f.function.params);
                 }
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
@@ -1424,9 +1422,7 @@ impl VisitMut for Optimizer<'_> {
                 // I don't know why, but terser removes parameters from an exported function if
                 // `unused` is true, regardless of keep_fargs or others.
                 if self.options.unused {
-                    f.function.params.iter_mut().for_each(|param| {
-                        self.take_pat_if_unused(&mut param.pat, None);
-                    })
+                    self.drop_unused_params(&mut f.function.params);
                 }
             }
             _ => {}
@@ -1594,9 +1590,7 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
-            f.function.params.iter_mut().for_each(|param| {
-                self.take_pat_if_unused(&mut param.pat, None);
-            })
+            self.drop_unused_params(&mut f.function.params);
         }
 
         f.visit_mut_children_with(self);

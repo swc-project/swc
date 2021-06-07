@@ -119,6 +119,12 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(name, init);
     }
 
+    pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
+        params.iter_mut().for_each(|param| {
+            self.take_pat_if_unused(&mut param.pat, None);
+        })
+    }
+
     pub(super) fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
         let had_value = init.is_some();
         let can_drop_children = had_value;
