@@ -1,6 +1,9 @@
 use crate::analyzer::{analyze, ProgramData};
+use fxhash::FxHashMap;
+use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 ///
@@ -12,10 +15,24 @@ pub fn single_pass_optimizer() -> impl VisitMut {
 #[derive(Debug, Default)]
 struct SinglePassOptimizer {
     data: ProgramData,
+    fn_decl_count: FxHashMap<Id, usize>,
 }
 
 impl VisitMut for SinglePassOptimizer {
     noop_visit_mut_type!();
+
+    fn visit_mut_decl(&mut self, n: &mut Decl) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Decl::Fn(FnDecl { ident, .. }) => {
+                if ident.sym == js_word!("") {
+                    n.take();
+                }
+            }
+            _ => {}
+        }
+    }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -35,10 +52,53 @@ impl VisitMut for SinglePassOptimizer {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_module_item(&mut self, n: &mut ModuleItem) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(var),
+                ..
+            })) if var.decls.is_empty() => {
+                n.take();
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|s| match s {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            _ => true,
+        });
+    }
+
     fn visit_mut_script(&mut self, n: &mut Script) {
         let data = analyze(&*n);
         self.data = data;
 
         n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Stmt::Decl(Decl::Var(var)) if var.decls.is_empty() => {
+                n.take();
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|s| match s {
+            Stmt::Empty(..) => false,
+            _ => true,
+        });
     }
 }
