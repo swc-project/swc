@@ -415,7 +415,6 @@ export/issue_2038_1/input.js
 export/issue_2038_2/input.js
 export/issue_2129/input.js
 export/issue_2131/input.js
-export/issue_2134_1/input.js
 export/issue_2134_2/input.js
 export/issue_2977/input.js
 export/issue_333/input.js
@@ -996,7 +995,6 @@ reduce_vars/unary_delete/input.js
 reduce_vars/unsafe_evaluate_array_3/input.js
 reduce_vars/unsafe_evaluate_array_5/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
-reduce_vars/unsafe_evaluate_side_effect_free_2/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
 reduce_vars/var_assign_3/input.js
