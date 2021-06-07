@@ -24,6 +24,15 @@ impl Optimizer<'_> {
         let should_preserve = (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
 
+        if self
+            .data
+            .as_ref()
+            .map(|v| v.top.has_eval_call)
+            .unwrap_or(false)
+        {
+            return;
+        }
+
         // TODO: Check for side effect between original decl position and inlined
         // position
 
