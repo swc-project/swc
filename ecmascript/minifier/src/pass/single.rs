@@ -1,4 +1,7 @@
-use crate::analyzer::{analyze, ProgramData};
+use crate::{
+    analyzer::{analyze, ProgramData},
+    option::CompressOptions,
+};
 use fxhash::FxHashMap;
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
@@ -8,12 +11,17 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 ///
 /// - Remove parens.
-pub fn single_pass_optimizer() -> impl VisitMut {
-    SinglePassOptimizer::default()
+pub fn single_pass_optimizer(options: CompressOptions) -> impl VisitMut {
+    SinglePassOptimizer {
+        options,
+        data: Default::default(),
+        fn_decl_count: Default::default(),
+    }
 }
 
 #[derive(Debug, Default)]
 struct SinglePassOptimizer {
+    options: CompressOptions,
     data: ProgramData,
     fn_decl_count: FxHashMap<Id, usize>,
 }
@@ -54,7 +62,7 @@ impl VisitMut for SinglePassOptimizer {
                 *v += 1;
 
                 if *v == usage.assign_count {
-                    n.ident.take();
+                    // n.ident.take();
                 }
             }
         }

@@ -48,8 +48,6 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
-    m.visit_mut_with(&mut single_pass_optimizer());
-
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //
@@ -62,6 +60,10 @@ pub fn optimize(
             m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
     }
+
+    m.visit_mut_with(&mut single_pass_optimizer(
+        options.compress.clone().unwrap_or_default(),
+    ));
 
     m.visit_mut_with(&mut unique_marker());
 
