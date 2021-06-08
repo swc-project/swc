@@ -73,6 +73,7 @@ pub(crate) struct VarUsageInfo {
     pub used_in_loop: bool,
 
     pub var_kind: Option<VarDeclKind>,
+    pub var_initialized: bool,
 
     pub declared_as_catch_param: bool,
 
@@ -277,6 +278,7 @@ impl UsageAnalyzer {
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
                 var_kind: kind,
+                var_initialized: has_init,
                 ..Default::default()
             });
         self.scope
