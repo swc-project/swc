@@ -8,6 +8,7 @@ use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_type;
@@ -126,6 +127,9 @@ pub(crate) struct ProgramData {
     pub top: ScopeData,
 
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+
+    /// { dependency: [dependants] }
+    var_deps: FxHashMap<Id, FxHashSet<Id>>,
 }
 
 impl ProgramData {
@@ -177,6 +181,11 @@ impl ProgramData {
                 }
             }
         }
+    }
+
+    /// TODO: Make this recursive
+    pub fn vars_infected_by(&self, id: &Id) -> FxHashSet<Id> {
+        self.var_deps.get(id).cloned().unwrap_or_default()
     }
 }
 
@@ -722,6 +731,17 @@ impl Visit for UsageAnalyzer {
             ..self.ctx
         };
         e.name.visit_with(e, &mut *self.with_ctx(ctx));
+
+        let declared_names: Vec<Id> = find_ids(&e.name);
+        let used_names = idents_used_by(&e.init);
+
+        for used in used_names {
+            self.data
+                .var_deps
+                .entry(used)
+                .or_default()
+                .extend(declared_names.clone());
+        }
 
         e.init.visit_with(e, self);
     }
