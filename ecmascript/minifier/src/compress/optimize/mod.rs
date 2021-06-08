@@ -2101,10 +2101,10 @@ impl VisitMut for Optimizer<'_> {
 
             var.name.visit_mut_with(&mut *self.with_ctx(ctx));
 
+            var.init.visit_mut_with(&mut *self.with_ctx(ctx));
+
             self.vars_accessible_without_side_effect
                 .extend(find_ids(&var.name));
-
-            var.init.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
         self.remove_duplicate_names(var);
