@@ -69,7 +69,8 @@ impl VisitMut for SinglePassOptimizer {
                     let v = self.fn_decl_count.entry(n.ident.to_id()).or_default();
                     *v += 1;
 
-                    if *v == usage.assign_count {
+                    // Remove if variable with same name exists.
+                    if *v == usage.assign_count || usage.var_kind.is_some() {
                         n.ident.take();
                     }
                 }
