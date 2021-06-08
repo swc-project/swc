@@ -735,12 +735,12 @@ impl Visit for UsageAnalyzer {
         let declared_names: Vec<Id> = find_ids(&e.name);
         let used_names = idents_used_by(&e.init);
 
-        for used in used_names {
+        for name in declared_names {
             self.data
                 .var_deps
-                .entry(used)
+                .entry(name)
                 .or_default()
-                .extend(declared_names.clone());
+                .extend(used_names.clone());
         }
 
         e.init.visit_with(e, self);
