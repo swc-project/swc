@@ -19,6 +19,7 @@ use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
@@ -2091,7 +2092,12 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx
             };
 
-            var.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            var.name.visit_mut_with(&mut *self.with_ctx(ctx));
+
+            self.vars_accessible_without_side_effect
+                .extend(find_ids(&var.name));
+
+            var.init.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
         self.remove_duplicate_names(var);
