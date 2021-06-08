@@ -16,6 +16,7 @@ pub fn single_pass_optimizer(options: CompressOptions) -> impl VisitMut {
         options,
         data: Default::default(),
         fn_decl_count: Default::default(),
+        ctx: Default::default(),
     }
 }
 
@@ -24,7 +25,11 @@ struct SinglePassOptimizer {
     options: CompressOptions,
     data: ProgramData,
     fn_decl_count: FxHashMap<Id, usize>,
+    ctx: Ctx,
 }
+
+#[derive(Debug, Default)]
+struct Ctx {}
 
 impl VisitMut for SinglePassOptimizer {
     noop_visit_mut_type!();
