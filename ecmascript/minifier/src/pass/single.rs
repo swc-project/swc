@@ -39,11 +39,13 @@ impl VisitMut for SinglePassOptimizer {
     fn visit_mut_binding_ident(&mut self, n: &mut BindingIdent) {
         n.visit_mut_children_with(self);
 
-        if self.options.dead_code || self.options.unused {
-            if let Some(usage) = self.data.vars.get(&n.id.to_id()) {
-                if usage.assign_count > 1 {
-                    let v = self.fn_decl_count.entry(n.id.to_id()).or_default();
-                    *v += 1;
+        if self.ctx.in_var_pat {
+            if self.options.dead_code || self.options.unused {
+                if let Some(usage) = self.data.vars.get(&n.id.to_id()) {
+                    if usage.assign_count > 1 {
+                        let v = self.fn_decl_count.entry(n.id.to_id()).or_default();
+                        *v += 1;
+                    }
                 }
             }
         }
