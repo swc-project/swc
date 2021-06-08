@@ -566,6 +566,7 @@ impl Visit for UsageAnalyzer {
 
         let ctx = Ctx {
             in_pat_of_param: true,
+            var_decl_kind_of_pat: None,
             ..self.ctx
         };
         n.pat.visit_with(n, &mut *self.with_ctx(ctx));
