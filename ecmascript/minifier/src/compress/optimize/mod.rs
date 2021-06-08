@@ -2045,6 +2045,8 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
