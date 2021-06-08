@@ -1662,6 +1662,7 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_vars = take(&mut self.vars_accessible_without_side_effect);
         {
             let ctx = Ctx {
                 stmt_lablled: false,
@@ -1698,6 +1699,8 @@ impl VisitMut for Optimizer<'_> {
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
         }
+
+        self.vars_accessible_without_side_effect = old_vars;
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
