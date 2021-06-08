@@ -35,6 +35,7 @@ collapse_vars/compound_assignment/input.js
 collapse_vars/double_def_1/input.js
 collapse_vars/double_def_2/input.js
 collapse_vars/for_init/input.js
+collapse_vars/iife_1/input.js
 collapse_vars/iife_2/input.js
 collapse_vars/issue_1537_destructuring_1/input.js
 collapse_vars/issue_1562/input.js
@@ -64,6 +65,7 @@ collapse_vars/issue_2437/input.js
 collapse_vars/issue_2437_1/input.js
 collapse_vars/issue_2497/input.js
 collapse_vars/issue_27/input.js
+collapse_vars/issue_2931/input.js
 collapse_vars/issue_2954_2/input.js
 collapse_vars/issue_2954_3/input.js
 collapse_vars/issue_315/input.js
@@ -393,7 +395,9 @@ pure_getters/issue_2265_1/input.js
 pure_getters/issue_2265_2/input.js
 pure_getters/issue_2265_3/input.js
 pure_getters/issue_2313_6/input.js
+pure_getters/set_immutable_2/input.js
 pure_getters/set_immutable_3/input.js
+pure_getters/set_immutable_4/input.js
 pure_getters/set_immutable_5/input.js
 pure_getters/strict/input.js
 pure_getters/strict_reduce_vars/input.js
@@ -401,6 +405,21 @@ pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
 pure_globals/globals_whose_access_is_pure/input.js
 pure_globals/window_access_is_impure/input.js
+reduce_vars/conditional_chain_certain_part/input.js
+reduce_vars/defun_inline_1/input.js
+reduce_vars/defun_inline_2/input.js
+reduce_vars/defun_var_1/input.js
+reduce_vars/defun_var_2/input.js
+reduce_vars/issue_1595_3/input.js
+reduce_vars/issue_1606/input.js
+reduce_vars/issue_2442/input.js
+reduce_vars/issue_294/input.js
+reduce_vars/issue_308/input.js
+reduce_vars/issue_432_1/input.js
+reduce_vars/issue_432_2/input.js
+reduce_vars/issue_639/input.js
+reduce_vars/named_function_with_recursive_ref_reuse/input.js
+reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
 return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js

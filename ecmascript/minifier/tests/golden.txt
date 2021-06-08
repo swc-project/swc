@@ -130,7 +130,6 @@ collapse_vars/conditional_1/input.js
 collapse_vars/conditional_2/input.js
 collapse_vars/duplicate_argname/input.js
 collapse_vars/ignore_class/input.js
-collapse_vars/iife_1/input.js
 collapse_vars/issue_1537/input.js
 collapse_vars/issue_1537_destructuring_2/input.js
 collapse_vars/issue_1537_destructuring_3/input.js
@@ -162,7 +161,6 @@ collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
 collapse_vars/issue_2914_1/input.js
-collapse_vars/issue_2931/input.js
 collapse_vars/issue_2954_1/input.js
 collapse_vars/issue_2974/input.js
 collapse_vars/issue_3096/input.js
@@ -862,8 +860,6 @@ pure_getters/issue_2313_7/input.js
 pure_getters/issue_2678/input.js
 pure_getters/issue_2938_1/input.js
 pure_getters/issue_2938_2/input.js
-pure_getters/set_immutable_2/input.js
-pure_getters/set_immutable_4/input.js
 reduce_vars/accessor_1/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/array_forin_2/input.js
@@ -888,8 +884,6 @@ reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_reference/input.js
 reduce_vars/defun_single_use_loop/input.js
-reduce_vars/defun_var_1/input.js
-reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def_lhs/input.js
 reduce_vars/do_while/input.js
 reduce_vars/double_reference/input.js
