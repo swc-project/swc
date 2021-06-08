@@ -65,12 +65,17 @@ impl VisitMut for SinglePassOptimizer {
 
         if self.options.dead_code || self.options.unused {
             if let Some(usage) = self.data.vars.get(&n.ident.to_id()) {
+                // Remove if variable with same name exists.
+                if usage.var_kind.is_some() {
+                    n.ident.take();
+                    return;
+                }
+
                 if usage.assign_count > 1 {
                     let v = self.fn_decl_count.entry(n.ident.to_id()).or_default();
                     *v += 1;
 
-                    // Remove if variable with same name exists.
-                    if *v == usage.assign_count || usage.var_kind.is_some() {
+                    if *v == usage.assign_count {
                         n.ident.take();
                     }
                 }
