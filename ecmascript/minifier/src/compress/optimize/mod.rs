@@ -2101,7 +2101,19 @@ impl VisitMut for Optimizer<'_> {
 
             var.name.visit_mut_with(&mut *self.with_ctx(ctx));
 
+            let names: Vec<Id> = find_ids(&var.name);
+
+            for id in &names {
+                if let Some(used_vars) = self.data.as_ref().map(|data| data.vars_infected_by(&id)) {
+                    for used in &used_vars {
+                        self.vars_accessible_without_side_effect.remove(used);
+                    }
+                }
+            }
+
             var.init.visit_mut_with(&mut *self.with_ctx(ctx));
+
+            self.vars_accessible_without_side_effect.extend(names);
         }
 
         self.remove_duplicate_names(var);

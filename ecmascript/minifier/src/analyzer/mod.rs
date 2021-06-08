@@ -178,6 +178,8 @@ impl ProgramData {
             }
         }
     }
+
+    pub fn vars_infected_by(&self, id: &Id) -> Vec<Id> {}
 }
 
 /// This assumes there are no two variable with same name and same span hygiene.
