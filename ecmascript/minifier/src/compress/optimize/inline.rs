@@ -92,7 +92,7 @@ impl Optimizer<'_> {
 
                     // Mutation of properties are ok
                     if is_inline_enabled
-                        && (!usage.mutated || usage.assign_count == 0)
+                        && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_)
