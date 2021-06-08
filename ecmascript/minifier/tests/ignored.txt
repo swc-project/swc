@@ -1,5 +1,3 @@
-arguments/duplicate_parameter_with_arguments/input.js
-arguments/modified_strict/input.js
 asm/asm_mixed/input.js
 block_scope/remove_unused_in_global_block/input.js
 classes/pure_prop_assignment_for_classes/input.js
