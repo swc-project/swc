@@ -28,8 +28,10 @@ struct SinglePassOptimizer {
     ctx: Ctx,
 }
 
-#[derive(Debug, Default)]
-struct Ctx {}
+#[derive(Debug, Default, Clone, Copy)]
+struct Ctx {
+    in_var_pat: bool,
+}
 
 impl VisitMut for SinglePassOptimizer {
     noop_visit_mut_type!();
@@ -130,5 +132,16 @@ impl VisitMut for SinglePassOptimizer {
             Stmt::Empty(..) => false,
             _ => true,
         });
+    }
+
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        let old = self.ctx;
+        self.ctx.in_var_pat = true;
+        n.name.visit_mut_with(self);
+
+        self.ctx.in_var_pat = false;
+        n.init.visit_mut_with(self);
+
+        self.ctx = old;
     }
 }
