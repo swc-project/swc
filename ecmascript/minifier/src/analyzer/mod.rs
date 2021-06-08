@@ -128,7 +128,7 @@ pub(crate) struct ProgramData {
 
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    /// { dependency: [dependants] }
+    /// { dependant: [dependendcies] }
     var_deps: FxHashMap<Id, FxHashSet<Id>>,
 }
 
@@ -184,7 +184,7 @@ impl ProgramData {
     }
 
     /// TODO: Make this recursive
-    pub fn vars_infected_by(&self, id: &Id) -> FxHashSet<Id> {
+    pub fn deps(&self, id: &Id) -> FxHashSet<Id> {
         self.var_deps.get(id).cloned().unwrap_or_default()
     }
 }
