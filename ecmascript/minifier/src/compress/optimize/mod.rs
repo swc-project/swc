@@ -19,7 +19,6 @@ use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
@@ -2101,29 +2100,7 @@ impl VisitMut for Optimizer<'_> {
 
             var.name.visit_mut_with(&mut *self.with_ctx(ctx));
 
-            let mut names: Vec<Id> = find_ids(&var.name);
-
-            for id in names.clone() {
-                if let Some(deps) = self.data.as_ref().map(|data| data.deps(&id)) {
-                    let abort = deps.iter().any(|dep| {
-                        self.data
-                            .as_ref()
-                            .and_then(|data| data.vars.get(dep))
-                            .map(|v| v.reassigned)
-                            .unwrap_or(false)
-                    });
-
-                    if abort {
-                        if let Some(pos) = names.iter().position(|name| *name == id) {
-                            names.remove(pos);
-                        }
-                    }
-                }
-            }
-
             var.init.visit_mut_with(&mut *self.with_ctx(ctx));
-
-            self.vars_accessible_without_side_effect.extend(names);
         }
 
         self.remove_duplicate_names(var);
