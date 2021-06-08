@@ -1286,6 +1286,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
+
+        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
