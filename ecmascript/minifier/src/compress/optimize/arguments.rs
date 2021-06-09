@@ -53,6 +53,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if !self.ctx.can_inline_arguments {
+            return;
+        }
+
         if f.params.iter().any(|param| match param.pat {
             Pat::Ident(BindingIdent {
                 id:

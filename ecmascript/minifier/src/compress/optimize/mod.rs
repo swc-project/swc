@@ -147,6 +147,8 @@ struct Ctx {
     /// True while handling callee, except an arrow expression in callee.
     is_this_aware_callee: bool,
 
+    can_inline_arguments: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1675,6 +1677,7 @@ impl VisitMut for Optimizer<'_> {
                 stmt_lablled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
+                can_inline_arguments: true,
                 ..self.ctx
             };
             let optimizer = &mut *self.with_ctx(ctx);
