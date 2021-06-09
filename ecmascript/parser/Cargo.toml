@@ -16,6 +16,7 @@ default = []
 either = {version = "1.4"}
 enum_kind = {version = "0.2.1", path = "../../macros/enum_kind"}
 fxhash = "0.2.1"
+lexical = {version = "5.2.2", features = ["radix"]}
 log = "0.4"
 num-bigint = "0.2"
 serde = {version = "1", features = ["derive"]}
