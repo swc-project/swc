@@ -8,6 +8,21 @@ pub struct Normalizer {
 }
 
 impl Fold for Normalizer {
+    fn fold_class_members(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
+        node = node.fold_children_with(self);
+
+        if !self.is_test262 {
+            return node;
+        }
+
+        node.retain(|v| match v {
+            ClassMember::Empty(..) => false,
+            _ => true,
+        });
+
+        node
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = e.fold_children_with(self);
 
@@ -93,6 +108,14 @@ impl Fold for Normalizer {
         }
     }
 
+    fn fold_span(&mut self, span: Span) -> Span {
+        if self.drop_span {
+            Span::default()
+        } else {
+            span
+        }
+    }
+
     fn fold_str(&mut self, s: Str) -> Str {
         let span = s.span.fold_with(self);
 
@@ -106,28 +129,5 @@ impl Fold for Normalizer {
         } else {
             Str { span, ..s }
         }
-    }
-
-    fn fold_span(&mut self, span: Span) -> Span {
-        if self.drop_span {
-            Span::default()
-        } else {
-            span
-        }
-    }
-
-    fn fold_class_members(&mut self, mut node: Vec<ClassMember>) -> Vec<ClassMember> {
-        node = node.fold_children_with(self);
-
-        if !self.is_test262 {
-            return node;
-        }
-
-        node.retain(|v| match v {
-            ClassMember::Empty(..) => false,
-            _ => true,
-        });
-
-        node
     }
 }
