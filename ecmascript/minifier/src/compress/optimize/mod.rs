@@ -1282,6 +1282,10 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
+
+            if is_left_access_to_arguments(&e.left) {
+                self.ctx.can_inline_arguments = false;
+            }
         }
         e.right.visit_mut_with(self);
 
@@ -2209,4 +2213,30 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     }
 
     true
+}
+
+fn is_expr_access_to_arguments(l: &Expr) -> bool {
+    match l {
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => match &**obj {
+            Expr::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => true,
+            _ => false,
+        },
+        _ => false,
+    }
+}
+
+fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
+    match l {
+        PatOrExpr::Expr(e) => is_expr_access_to_arguments(&e),
+        PatOrExpr::Pat(pat) => match &**pat {
+            Pat::Expr(e) => is_expr_access_to_arguments(&e),
+            _ => false,
+        },
+    }
 }
