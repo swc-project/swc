@@ -66,8 +66,10 @@ impl<'a, I: Input> Lexer<'a, I> {
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
-                            let val = lexical::parse_radix::<f64, _>(&val_str, 8)
-                                .expect("Does this can really happen?");
+                            let val =
+                                lexical::parse_radix::<f64, _>(&val_str, 8).unwrap_or_else(|err| {
+                                    panic!("failed to parse {} using `lexical`: {:?}", val_str, err)
+                                });
 
                             return self.make_legacy_octal(start, val).map(Either::Left);
                         }
