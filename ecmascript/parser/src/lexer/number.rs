@@ -7,7 +7,7 @@ use crate::error::SyntaxError;
 use either::Either;
 use log::trace;
 use num_bigint::BigInt as BigIntValue;
-use std::{fmt::Write, iter::FusedIterator};
+use std::fmt::Write;
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
@@ -58,20 +58,18 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
                     if val.fract() == 0.0 {
-                        let d = digits(val.round() as u64, 10);
+                        let val_str = val.to_string();
+                        let d = val_str.chars();
 
                         // if it contains '8' or '9', it's decimal.
-                        if d.clone().any(|v| v == 8 || v == 9) {
+                        if d.clone().any(|v| v == '8' || v == '9') {
                             // Continue parsing
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
-                            let val = u64::from_str_radix(&val.to_string(), 8)
+                            let val = lexical::parse_radix::<f64, _>(&val.to_string(), 8)
                                 .expect("Does this can really happen?");
-                            let val = val
-                                .to_string()
-                                .parse()
-                                .expect("failed to parse numeric value as f64");
+
                             return self.make_legacy_octal(start, val).map(Either::Left);
                         }
                     }
@@ -388,46 +386,6 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         return Ok(val);
     }
-}
-
-fn digits(value: u64, radix: u64) -> impl Iterator<Item = u64> + Clone + 'static {
-    debug_assert!(radix > 0);
-
-    #[derive(Clone, Copy)]
-    struct Digits {
-        n: u64,
-        divisor: u64,
-    }
-
-    impl Digits {
-        fn new(n: u64, radix: u64) -> Self {
-            let mut divisor = 1;
-            while n >= divisor * radix {
-                divisor *= radix;
-            }
-
-            Digits { n, divisor }
-        }
-    }
-
-    impl Iterator for Digits {
-        type Item = u64;
-
-        fn next(&mut self) -> Option<u64> {
-            if self.divisor == 0 {
-                None
-            } else {
-                let v = Some(self.n / self.divisor);
-                self.n %= self.divisor;
-                self.divisor /= 10;
-                v
-            }
-        }
-    }
-
-    impl FusedIterator for Digits {}
-
-    Digits::new(value, radix)
 }
 
 #[cfg(test)]
