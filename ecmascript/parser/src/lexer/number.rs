@@ -57,7 +57,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // strict mode hates non-zero decimals starting with zero.
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
-                    if val.fract() < 1e-10 {
+                    if val.fract() == 0.0 {
                         let d = digits(val.round() as u64, 10);
 
                         // if it contains '8' or '9', it's decimal.
