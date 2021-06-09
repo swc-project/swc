@@ -54,6 +54,20 @@ impl Fold for Normalizer {
         }
     }
 
+    fn fold_number(&mut self, n: Number) -> Number {
+        let n = n.fold_children_with(self);
+
+        let val = serde_json::Number::from_f64(n.value);
+        let val = match val {
+            Some(v) => v,
+            None => return n,
+        };
+        match val.as_f64() {
+            Some(value) => Number { value, ..n },
+            None => n,
+        }
+    }
+
     fn fold_pat(&mut self, mut node: Pat) -> Pat {
         node = node.fold_children_with(self);
 
