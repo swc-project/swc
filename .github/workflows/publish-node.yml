@@ -216,7 +216,7 @@ jobs:
 
   build-linux-aarch64:
     name: stable - aarch64-unknown-linux-gnu - node@14
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -274,7 +274,7 @@ jobs:
 
   build-linux-aarch64-musl:
     name: stable - aarch64-unknown-linux-musl - node@14
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -328,7 +328,7 @@ jobs:
  
   build-linux-arm7:
     name: stable - arm7-unknown-linux-gnu - node@14
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - run: docker run --rm --privileged multiarch/qemu-user-static:register --reset
