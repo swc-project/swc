@@ -58,7 +58,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     // e.g. 08.1 is strict mode violation but 0.1 is valid float.
 
                     if val.fract() == 0.0 {
-                        let val_str = val.to_string();
+                        let val_str = s.to_string();
 
                         // if it contains '8' or '9', it's decimal.
                         if not_octal {
