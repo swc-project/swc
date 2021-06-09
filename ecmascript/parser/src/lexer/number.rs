@@ -32,7 +32,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             0f64
         } else {
             // Use read_number_no_dot to support long numbers.
-            let (val, s) = self.read_number_no_dot_as_str(10)?;
+            let (val, s, not_octal) = self.read_number_no_dot_as_str(10)?;
             if self.input.cur() == Some('n') {
                 self.input.bump();
                 return Ok(Either::Right(s));
@@ -59,15 +59,14 @@ impl<'a, I: Input> Lexer<'a, I> {
 
                     if val.fract() == 0.0 {
                         let val_str = val.to_string();
-                        let d = val_str.chars();
 
                         // if it contains '8' or '9', it's decimal.
-                        if d.clone().any(|v| v == '8' || v == '9') {
+                        if not_octal {
                             // Continue parsing
                             self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                         } else {
                             // It's Legacy octal, and we should reinterpret value.
-                            let val = lexical::parse_radix::<f64, _>(&val.to_string(), 8)
+                            let val = lexical::parse_radix::<f64, _>(&val_str, 8)
                                 .expect("Does this can really happen?");
 
                             return self.make_legacy_octal(start, val).map(Either::Left);
@@ -154,7 +153,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         self.bump(); // 0
         self.bump(); // x
 
-        let (val, s) = self.read_number_no_dot_as_str(radix)?;
+        let (val, s, _) = self.read_number_no_dot_as_str(radix)?;
         if self.eat(b'n') {
             return Ok(Either::Right(s));
         }
@@ -194,13 +193,17 @@ impl<'a, I: Input> Lexer<'a, I> {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, BigIntValue)> {
+    ///
+    ///
+    /// Returned bool is `true` is there was `8` or `9`.
+    fn read_number_no_dot_as_str(&mut self, radix: u8) -> LexResult<(f64, BigIntValue, bool)> {
         debug_assert!(
             radix == 2 || radix == 8 || radix == 10 || radix == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
             radix
         );
         let start = self.cur_pos();
+        let mut non_octal = false;
 
         let mut read_any = false;
 
@@ -210,6 +213,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             radix,
             |total, radix, v| {
                 read_any = true;
+
+                if v == 8 || v == 9 {
+                    non_octal = true;
+                }
+
                 (f64::mul_add(total, radix as f64, v as f64), true)
             },
             &mut raw,
@@ -224,6 +232,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             val,
             BigIntValue::parse_bytes(&raw.0.take().unwrap().as_bytes(), radix as _)
                 .expect("failed to parse string as a bigint"),
+            non_octal,
         ))
     }
 
