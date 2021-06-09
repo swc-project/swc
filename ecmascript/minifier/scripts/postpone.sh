@@ -22,7 +22,7 @@ cargo test --test compress --all-features ${1-''} \
   >> tests/postponed_candidates.txt
 
 
-comm -23 tests/postponed_candidates.txt tests/golden.txt > tests/postponed.txt
+comm -23 tests/postponed_candidates.txt tests/golden.txt >> tests/postponed.txt
 rm tests/postponed_candidates.txt
 
 ./scripts/sort.sh
