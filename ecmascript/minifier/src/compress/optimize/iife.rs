@@ -7,6 +7,7 @@ use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
 use std::mem::swap;
+use swc_atoms::js_word;
 use swc_common::pass::Either;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -526,6 +527,12 @@ where
 
     for id in declared {
         if used.contains(&id) {
+            return true;
+        }
+    }
+
+    for (sym, _) in used {
+        if sym == js_word!("arguments") {
             return true;
         }
     }
