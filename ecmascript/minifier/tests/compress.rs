@@ -199,6 +199,38 @@ fn stdout_of(code: &str) -> Result<String, Error> {
     Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
+/// Very small tests used to filter logs
+#[testing::fixture("compress/fixture/**/input.js")]
+fn base_fixture(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = dir.join("config.json");
+    let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()]);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+
+        println!("{}", input.display());
+
+        let output = output.clone();
+
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 /// Tests used to prevent regressions.
 #[testing::fixture("compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
