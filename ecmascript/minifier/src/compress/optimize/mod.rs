@@ -1284,7 +1284,7 @@ impl VisitMut for Optimizer<'_> {
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
             if is_left_access_to_arguments(&e.left) {
-                self.ctx.can_inline_arguments = false;
+                // self.ctx.can_inline_arguments = false;
             }
         }
         e.right.visit_mut_with(self);
