@@ -484,7 +484,7 @@ impl Optimizer<'_> {
         match expr {
             Expr::Bin(e @ BinExpr { op: op!("<="), .. })
             | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
-                if can_swap(&e.left, &e.right) {
+                if self.options.comparisons && can_swap(&e.left, &e.right) {
                     self.changed = true;
                     e.op = if e.op == op!("<=") {
                         op!(">=")
