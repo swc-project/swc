@@ -60,8 +60,11 @@ impl Optimizer<'_> {
         };
 
         // We only care about instant breaks.
-        if !f.body.is_break_stmt() {
-            return;
+        match &*f.body {
+            Stmt::Break(BreakStmt { label: None, .. }) => {}
+            _ => {
+                return;
+            }
         }
 
         self.changed = true;
