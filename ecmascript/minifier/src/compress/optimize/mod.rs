@@ -1709,7 +1709,13 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
-        self.optimize_usage_of_arguments(n);
+        {
+            let ctx = Ctx {
+                can_inline_arguments: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).optimize_usage_of_arguments(n);
+        }
 
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
