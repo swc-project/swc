@@ -432,6 +432,27 @@ impl Optimizer<'_> {
 
     /// Swap lhs and rhs in certain conditions.
     pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
+        fn can_swap(l: &Expr, r: &Expr) -> bool {
+            match (l, r) {
+                (Expr::Ident(..), Expr::Lit(..))
+                | (
+                    Expr::Ident(..),
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"), ..
+                    }),
+                )
+                | (
+                    Expr::This(..),
+                    Expr::Unary(UnaryExpr {
+                        op: op!("void"), ..
+                    }),
+                )
+                | (Expr::Unary(..), Expr::Lit(..))
+                | (Expr::Tpl(..), Expr::Lit(..)) => true,
+                _ => false,
+            }
+        }
+
         fn is_supported(op: BinaryOp) -> bool {
             match op {
                 op!("===")
@@ -451,33 +472,25 @@ impl Optimizer<'_> {
                 return false;
             }
 
-            match (&*left, &*right) {
-                (Expr::Ident(..), Expr::Lit(..))
-                | (
-                    Expr::Ident(..),
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"), ..
-                    }),
-                )
-                | (
-                    Expr::This(..),
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"), ..
-                    }),
-                )
-                | (Expr::Unary(..), Expr::Lit(..))
-                | (Expr::Tpl(..), Expr::Lit(..)) => {
-                    log::trace!("Swapping operands of binary exprssion");
-                    swap(left, right);
-                    return true;
-                }
-                _ => {}
+            if can_swap(&left, &right) {
+                log::trace!("Swapping operands of binary exprssion");
+                swap(left, right);
+                return true;
             }
 
             false
         }
 
         match expr {
+            Expr::Bin(e @ BinExpr { op: op!("<="), .. }) => {
+                if can_swap(&e.left, &e.right) {
+                    self.changed = true;
+                    e.op = op!(">=");
+
+                    swap(&mut e.left, &mut e.right);
+                }
+            }
+
             Expr::Bin(bin) => {
                 if optimize(bin.op, &mut bin.left, &mut bin.right) {
                     self.changed = true;
