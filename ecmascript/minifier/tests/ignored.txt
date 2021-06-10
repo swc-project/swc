@@ -1,4 +1,5 @@
 asm/asm_mixed/input.js
+classes/pure_prop_assignment_for_classes/input.js
 collapse_vars/assignment/input.js
 collapse_vars/cascade_call/input.js
 collapse_vars/cascade_conditional/input.js
