@@ -1274,6 +1274,15 @@ impl Optimizer<'_> {
 impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let ctx = Ctx {
+            can_inline_arguments: true,
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
@@ -1335,9 +1344,9 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             stmt_lablled: false,
-            scope: n.span.ctxt,
             top_level: false,
             in_block: true,
+            scope: n.span.ctxt,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
