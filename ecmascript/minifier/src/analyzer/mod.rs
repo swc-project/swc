@@ -46,6 +46,7 @@ pub(crate) struct VarUsageInfo {
 
     /// `false` if it's only used.
     pub declared: bool,
+    pub declared_count: usize,
 
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
@@ -155,6 +156,7 @@ impl ProgramData {
                     e.get_mut().exported |= var_info.exported;
 
                     e.get_mut().declared |= var_info.declared;
+                    e.get_mut().declared_count += var_info.declared_count;
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
@@ -287,6 +289,7 @@ impl UsageAnalyzer {
             .or_default()
             .insert(i.span.ctxt);
 
+        v.declared_count += 1;
         v.declared = true;
         if self.ctx.in_cond && has_init {
             v.cond_init = true;
