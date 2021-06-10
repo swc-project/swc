@@ -490,6 +490,7 @@ impl Optimizer<'_> {
             | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
                 if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
                     self.changed = true;
+                    log::trace!("comparisons: Swapping operands of {}", e.op);
 
                     e.op = if e.op == op!("<=") {
                         op!(">=")
