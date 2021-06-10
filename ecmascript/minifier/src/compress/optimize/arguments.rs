@@ -5,6 +5,7 @@ use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
@@ -52,7 +53,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if f.params.iter().any(|param| match param.pat {
+        if f.params.iter().any(|param| match &param.pat {
             Pat::Ident(BindingIdent {
                 id:
                     Ident {
@@ -61,7 +62,12 @@ impl Optimizer<'_> {
                     },
                 ..
             }) => true,
-            Pat::Ident(..) => false,
+            Pat::Ident(i) => self
+                .data
+                .as_ref()
+                .and_then(|v| v.vars.get(&i.id.to_id()))
+                .map(|v| v.declared_count >= 2)
+                .unwrap_or(false),
             _ => true,
         }) {
             return;
