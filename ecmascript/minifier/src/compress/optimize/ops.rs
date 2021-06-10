@@ -140,18 +140,16 @@ impl Optimizer<'_> {
             return;
         }
 
-        if e.op == op!("===") || e.op == op!("==") || e.op == op!("!=") || e.op == op!("!==") {
+        if e.op == op!("===") || e.op == op!("!==") {
             if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
                 self.changed = true;
                 log::trace!("Reducing comparison of same variable ({})", e.op);
 
-                // TODO(kdy1): Create another method and assign to `Expr` instead of using a
-                // hack based on take.
-                e.left = Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: e.span,
-                    value: e.op == op!("===") || e.op == op!("==="),
-                })));
-                e.right.take();
+                e.op = if e.op == op!("===") {
+                    op!("==")
+                } else {
+                    op!("!=")
+                };
                 return;
             }
         }
