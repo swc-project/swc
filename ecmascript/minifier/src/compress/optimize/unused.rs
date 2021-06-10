@@ -96,10 +96,21 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            return;
+        // Top-level
+        match self.ctx.var_kind {
+            Some(VarDeclKind::Var) => {
+                if (!self.options.top_level() && self.options.top_retain.is_empty())
+                    && self.ctx.in_top_level()
+                {
+                    return;
+                }
+            }
+            Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
+                if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
+                    return;
+                }
+            }
+            None => {}
         }
 
         if let Some(scope) = self
