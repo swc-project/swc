@@ -88,6 +88,7 @@ pub(super) fn optimizer<'a>(
         done,
         done_ctxt,
         vars_accessible_without_side_effect: Default::default(),
+        label: Default::default(),
     }
 }
 
@@ -202,6 +203,9 @@ struct Optimizer<'a> {
     done_ctxt: SyntaxContext,
 
     vars_accessible_without_side_effect: FxHashSet<Id>,
+
+    /// Closest label.
+    label: Option<Id>,
 }
 
 impl Repeated for Optimizer<'_> {
@@ -1744,7 +1748,10 @@ impl VisitMut for Optimizer<'_> {
             stmt_lablled: true,
             ..self.ctx
         };
+        let old_label = self.label.take();
+        self.label = Some(n.label.to_id());
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.label = old_label;
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
