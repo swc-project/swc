@@ -1,8 +1,7 @@
-use std::iter::repeat_with;
-
-use crate::analyzer::analyze;
-
 use super::Optimizer;
+use crate::analyzer::analyze;
+use crate::compress::optimize::is_left_access_to_arguments;
+use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -53,10 +52,6 @@ impl Optimizer<'_> {
         //     return;
         // }
 
-        if !self.ctx.can_inline_arguments {
-            return;
-        }
-
         if f.params.iter().any(|param| match param.pat {
             Pat::Ident(BindingIdent {
                 id:
@@ -86,6 +81,7 @@ impl Optimizer<'_> {
             params: &mut f.params,
             changed: false,
             keep_fargs: self.options.keep_fargs,
+            prevent: false,
         };
 
         // We visit body two time, to use simpler logic in `inject_params_if_required`
@@ -100,6 +96,7 @@ struct ArgReplacer<'a> {
     params: &'a mut Vec<Param>,
     changed: bool,
     keep_fargs: bool,
+    prevent: bool,
 }
 
 impl ArgReplacer<'_> {
@@ -130,7 +127,19 @@ impl ArgReplacer<'_> {
 impl VisitMut for ArgReplacer<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
+        n.visit_mut_children_with(self);
+
+        if is_left_access_to_arguments(&n.left) {
+            self.prevent = true;
+        }
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
+        if self.prevent {
+            return;
+        }
+
         n.visit_mut_children_with(self);
 
         match n {
@@ -201,6 +210,10 @@ impl VisitMut for ArgReplacer<'_> {
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
+        if self.prevent {
+            return;
+        }
+
         n.obj.visit_mut_with(self);
 
         if n.computed {
