@@ -430,9 +430,11 @@ impl Optimizer<'_> {
         e.right = left.take();
     }
 
-    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr) -> bool {
+    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
         match (l, r) {
-            (Expr::Ident(l), Expr::Ident(r)) => self.options.comparisons && l.sym > r.sym,
+            (Expr::Ident(l), Expr::Ident(r)) => {
+                self.options.comparisons && (is_for_rel || l.sym > r.sym)
+            }
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
@@ -472,7 +474,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if self.can_swap_bin_operands(&left, &right) {
+        if self.can_swap_bin_operands(&left, &right, false) {
             log::trace!("Swapping operands of binary exprssion");
             swap(left, right);
             return true;
@@ -486,8 +488,9 @@ impl Optimizer<'_> {
         match expr {
             Expr::Bin(e @ BinExpr { op: op!("<="), .. })
             | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
-                if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right) {
+                if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
                     self.changed = true;
+
                     e.op = if e.op == op!("<=") {
                         op!(">=")
                     } else {
