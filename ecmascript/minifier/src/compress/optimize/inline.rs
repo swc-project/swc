@@ -64,7 +64,7 @@ impl Optimizer<'_> {
                         return;
                     }
 
-                    if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
+                    if !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
                                 self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -219,10 +219,6 @@ impl Optimizer<'_> {
 
     /// Stores `typeof` of [ClassDecl] and [FnDecl].
     pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
-        if !self.options.reduce_vars || !self.options.typeofs {
-            return;
-        }
-
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
             Decl::Fn(f) => f.ident.clone(),

@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::util::make_bool;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
@@ -138,6 +139,29 @@ impl Optimizer<'_> {
     pub(super) fn optimize_bin_operator(&mut self, e: &mut BinExpr) {
         if !self.options.comparisons {
             return;
+        }
+
+        match e.op {
+            op!("===") | op!("==") | op!("!==") | op!("!=") => {
+                if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
+                    let id: Ident = e.left.clone().ident().unwrap();
+                    if let Some(t) = self.typeofs.get(&id.to_id()) {
+                        match *t {
+                            js_word!("object") | js_word!("function") => {
+                                e.left = Box::new(make_bool(
+                                    e.span,
+                                    e.op == op!("===") || e.op == op!("=="),
+                                ));
+                                e.right.take();
+                                return;
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
+
+            _ => {}
         }
 
         if e.op == op!("===") || e.op == op!("!==") {
