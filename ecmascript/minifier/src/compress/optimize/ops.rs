@@ -482,10 +482,15 @@ impl Optimizer<'_> {
         }
 
         match expr {
-            Expr::Bin(e @ BinExpr { op: op!("<="), .. }) => {
+            Expr::Bin(e @ BinExpr { op: op!("<="), .. })
+            | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
                 if can_swap(&e.left, &e.right) {
                     self.changed = true;
-                    e.op = op!(">=");
+                    e.op = if e.op == op!("<=") {
+                        op!(">=")
+                    } else {
+                        op!(">")
+                    };
 
                     swap(&mut e.left, &mut e.right);
                 }
