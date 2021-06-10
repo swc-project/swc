@@ -62,6 +62,17 @@ impl Optimizer<'_> {
         // We only care about instant breaks.
         match &*f.body {
             Stmt::Break(BreakStmt { label: None, .. }) => {}
+            Stmt::Break(BreakStmt {
+                label: Some(label), ..
+            }) => {
+                if let Some(closest_label) = self.label.clone() {
+                    if closest_label.0 != label.sym {
+                        return;
+                    }
+                } else {
+                    return;
+                }
+            }
             _ => {
                 return;
             }
