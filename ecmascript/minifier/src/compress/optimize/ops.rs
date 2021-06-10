@@ -165,7 +165,7 @@ impl Optimizer<'_> {
         }
 
         if e.op == op!("===") || e.op == op!("!==") {
-            if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
+            if (e.left.is_ident() || e.left.is_member()) && e.left.eq_ignore_span(&e.right) {
                 self.changed = true;
                 log::trace!("Reducing comparison of same variable ({})", e.op);
 
