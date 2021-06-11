@@ -25,3 +25,23 @@ test!(
     (_a = a).b || (_a.b = b);
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    logical_super,
+    "
+    class Foo {
+        method() {
+            return super.f ||= b
+        } 
+    }
+    ",
+    "
+    class Foo {
+        method() {
+          return super.f || (super.f = b);
+        }
+    }
+    "
+);
