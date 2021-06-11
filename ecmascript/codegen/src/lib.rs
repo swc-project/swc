@@ -2479,7 +2479,7 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             '\u{000b}' => buf.push_str("\\v"),
             '\0' => buf.push_str("\\x00"),
 
-            '\\' => buf.push_str("\\"),
+            '\\' => buf.push_str("\\\\"),
 
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\\\""),
