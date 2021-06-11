@@ -2468,8 +2468,9 @@ fn unescape_tpl_lit(s: &str) -> String {
 
 fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> String {
     let mut buf = String::with_capacity(v.len());
+    let mut iter = v.chars().peekable();
 
-    for c in v.chars() {
+    while let Some(c) = iter.next() {
         match c {
             '\u{0008}' => buf.push_str("\\b"),
             '\u{000c}' => buf.push_str("\\f"),
@@ -2479,7 +2480,14 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             '\u{000b}' => buf.push_str("\\v"),
             '\0' => buf.push_str("\\x00"),
 
-            '\\' => buf.push_str("\\\\"),
+            '\\' => {
+                if iter.peek() == Some(&'\0') {
+                    buf.push_str("\\");
+                    iter.next();
+                } else {
+                    buf.push_str("\\\\")
+                }
+            }
 
             '\'' if single_quote => buf.push_str("\\'"),
             '"' if !single_quote => buf.push_str("\\\""),

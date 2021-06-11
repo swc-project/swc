@@ -45,7 +45,7 @@ impl From<u32> for Char {
     }
 }
 
-pub(crate) struct CharIter(SmallVec<[char; 6]>);
+pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
 impl IntoIterator for Char {
     type Item = char;
@@ -68,6 +68,7 @@ impl IntoIterator for Char {
 
                 let mut buf = smallvec![];
                 buf.push('\\');
+                buf.push('\0');
                 buf.push('u');
 
                 if escaped.len() == 8 {
