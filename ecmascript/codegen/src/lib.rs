@@ -2500,7 +2500,24 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
             }
 
             _ => {
-                buf.push(c);
+                if let Some(c) = char::from_u32(u32::from(c)) {
+                    buf.push(c);
+                } else {
+                    if target >= EsVersion::Es2015 {
+                        let escaped = c.escape_unicode().to_string();
+
+                        if escaped.starts_with('\\') {
+                            buf.push_str("\\u");
+                            if escaped.len() == 8 {
+                                buf.push_str(&escaped[3..=6]);
+                            } else {
+                                buf.push_str(&escaped[2..]);
+                            }
+                        }
+                    } else {
+                        buf.push(c);
+                    }
+                }
             }
         }
     }
