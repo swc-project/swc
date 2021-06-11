@@ -698,6 +698,19 @@ test!(
         ..Default::default()
     }),
     |t| tr(t, Default::default()),
+    react_should_escape_unicode_chars_in_attribute,
+    r#"var x = <div id="⌥⌘↑"/>;"#,
+    r#"var x = React.createElement("div", {
+    id: "\u2325\u2318\u2191"
+});"#
+);
+
+test!(
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        jsx: true,
+        ..Default::default()
+    }),
+    |t| tr(t, Default::default()),
     react_should_escape_xhtml_jsxattribute,
     r#"
 <div id="wôw" />;
