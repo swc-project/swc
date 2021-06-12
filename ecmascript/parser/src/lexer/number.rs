@@ -211,7 +211,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let mut raw = Raw(Some(String::new()));
 
-        let val = self.read_digits(
+        self.read_digits(
             radix,
             |total, radix, v| {
                 read_any = true;
@@ -230,9 +230,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.error(start, SyntaxError::ExpectedDigit { radix })?;
         }
 
+        let raw_str = raw.0.take().unwrap();
         Ok((
-            val,
-            BigIntValue::parse_bytes(&raw.0.take().unwrap().as_bytes(), radix as _)
+            lexical::parse_radix(raw_str.as_bytes(), radix as _)
+                .expect("failed to parse float using lexical"),
+            BigIntValue::parse_bytes(raw_str.as_bytes(), radix as _)
                 .expect("failed to parse string as a bigint"),
             non_octal,
         ))
@@ -454,7 +456,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn num_big_many_zero() {
         assert_eq!(
             1_000_000_000_000_000_000_000_000_000_000f64,
@@ -514,6 +515,17 @@ mod tests {
             "10000000000000000000000000000000000000000000000000000"
                 .parse::<BigIntValue>()
                 .unwrap(),
+        );
+    }
+
+    #[test]
+    fn large_float() {
+        const LONG: &str =
+            "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111";
+
+        assert_eq!(
+            lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
+            9.671406556917009e+24
         );
     }
 
