@@ -7,7 +7,7 @@ use self::{
     text_writer::WriteJs,
     util::{SourceMapperExt, SpanExt, StartsWithAlphaNum},
 };
-use std::{fmt::Write, io, sync::Arc};
+use std::{borrow::Cow, fmt::Write, io, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, sync::Lrc, BytePos, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -1461,7 +1461,8 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(ident.span, false)?;
 
         // TODO: span
-        self.wr.write_symbol(ident.span, &ident.sym)?;
+        self.wr
+            .write_symbol(ident.span, &handle_invalid_unicodes(&ident.sym))?;
         if ident.optional {
             punct!("?");
         }
@@ -2690,6 +2691,14 @@ fn is_single_quote(cm: &SourceMap, span: Span) -> Option<bool> {
     }
 
     Some(single_quote)
+}
+
+fn handle_invalid_unicodes(s: &str) -> Cow<str> {
+    if !s.contains("\\\0") {
+        return Cow::Borrowed(s);
+    }
+
+    Cow::Owned(s.replace("\\\0", "\\"))
 }
 
 #[cold]
