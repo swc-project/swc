@@ -122,6 +122,9 @@ pub enum Feature {
     /// `proposal-nullish-coalescing-operator`
     NullishCoalescing,
 
+    /// `proposal-logical-assignment-operators`
+    LogicalAssignmentOperators,
+
     /// `proposal-optional-chaining`
     OptionalChaining,
 

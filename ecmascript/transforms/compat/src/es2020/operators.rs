@@ -27,7 +27,13 @@ impl VisitMut for Operators {
         match e {
             Expr::Assign(AssignExpr {
                 span,
-                op: op!("||="),
+                op: op @ op!("||="),
+                left: PatOrExpr::Expr(left),
+                right,
+            })
+            | Expr::Assign(AssignExpr {
+                span,
+                op: op @ op!("??="),
                 left: PatOrExpr::Expr(left),
                 right,
             }) if left.is_ident() || left.is_member() => {
@@ -109,7 +115,11 @@ impl VisitMut for Operators {
 
                 *e = Expr::Bin(BinExpr {
                     span: *span,
-                    op: op!("||"),
+                    op: if *op == op!("??=") {
+                        op!("??")
+                    } else {
+                        op!("||")
+                    },
                     left: left_expr,
                     right,
                 });
@@ -160,7 +170,7 @@ impl Visit for OperatorFinder {
     noop_visit_type!();
 
     fn visit_assign_op(&mut self, n: &AssignOp, _: &dyn Node) {
-        self.found |= *n == op!("||=");
+        self.found |= *n == op!("||=") || *n == op!("??=");
     }
 }
 

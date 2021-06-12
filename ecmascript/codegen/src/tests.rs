@@ -563,7 +563,7 @@ fn test_escape_without_source() {
     es2020("abcde", "abcde");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
-        "\\x00\\r\\n\\x85\\u2028\\u2029;",
+        "\\x00\\r\\n\\x85\u{2028}\u{2029};",
     );
 
     es2020("\n", "\\n");
@@ -574,9 +574,9 @@ fn test_escape_without_source() {
     es2020("\u{0}", "\\x00");
     es2020("\u{1}", "\\x01");
 
-    es2020("\u{1000}", "\\u1000");
+    es2020("\u{1000}", "\u{1000}");
     es2020("\u{ff}", "\\xff");
-    es2020("\u{10ffff}", "\\u{10ffff}");
+    es2020("\u{10ffff}", "\u{10ffff}");
 }
 
 #[test]
@@ -615,6 +615,30 @@ fn issue_1619_3() {
     assert_eq!(
         escape_without_source("\x00\x31", EsVersion::Es3, true),
         "\\x001"
+    );
+}
+
+fn check_latest(src: &str, expected: &str) {
+    let actual = parse_then_emit(
+        &src,
+        Config { minify: false },
+        Default::default(),
+        EsVersion::latest(),
+    );
+    assert_eq!(expected, actual.trim());
+}
+
+#[test]
+fn invalid_unicode_in_ident() {
+    check_latest("\\ud83d;", "\\ud83d;");
+}
+
+#[test]
+fn test_escape_with_source_str() {
+    check_latest("'\\ud83d'", "'\\ud83d';");
+    check_latest(
+        "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d'",
+        "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d';",
     );
 }
 
