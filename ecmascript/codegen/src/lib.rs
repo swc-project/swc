@@ -2578,6 +2578,12 @@ fn escape_with_source<'s>(
         }
 
         if orig_c == '\\' {
+            if s_iter.as_str().starts_with("\\\0") {
+                for _ in 0..6 {
+                    s_iter.next();
+                }
+            }
+
             buf.push('\\');
             match orig_iter.next() {
                 Some('\\') => {
