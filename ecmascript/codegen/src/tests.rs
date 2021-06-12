@@ -635,7 +635,11 @@ fn invalid_unicode_in_ident() {
 
 #[test]
 fn test_escape_with_source_str() {
-    check_latest("'\\ud83d'", "'\\ud83d'");
+    check_latest("'\\ud83d'", "'\\ud83d';");
+    check_latest(
+        "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d'",
+        "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d';",
+    );
 }
 
 #[derive(Debug, Clone)]
