@@ -211,7 +211,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         let mut raw = Raw(Some(String::new()));
 
-        let val = self.read_digits(
+        self.read_digits(
             radix,
             |total, radix, v| {
                 read_any = true;
@@ -230,9 +230,11 @@ impl<'a, I: Input> Lexer<'a, I> {
             self.error(start, SyntaxError::ExpectedDigit { radix })?;
         }
 
+        let raw_str = raw.0.take().unwrap();
         Ok((
-            val,
-            BigIntValue::parse_bytes(&raw.0.take().unwrap().as_bytes(), radix as _)
+            lexical::parse_radix(raw_str.as_bytes(), radix as _)
+                .expect("failed to parse float using lexical"),
+            BigIntValue::parse_bytes(raw_str.as_bytes(), radix as _)
                 .expect("failed to parse string as a bigint"),
             non_octal,
         ))
