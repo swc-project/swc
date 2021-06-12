@@ -223,7 +223,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
 
                     emitter.emit_module(m).expect("failed to emit module");
                 }
-                unsafe { String::from_utf8_unchecked(buf) }
+                String::from_utf8(buf).expect("invalid utf8 character detected")
             };
 
             let fm = cm

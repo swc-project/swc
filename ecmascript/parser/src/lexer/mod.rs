@@ -45,7 +45,7 @@ impl From<u32> for Char {
     }
 }
 
-pub(crate) struct CharIter(SmallVec<[char; 6]>);
+pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
 impl IntoIterator for Char {
     type Item = char;
@@ -61,16 +61,23 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                smallvec![unsafe { char::from_u32_unchecked(self.0) }]
-                // TODO:
-                //            smallvec![
-                //               '\\',
-                //                'u',
-                //                to_char(((self.0 >> 24) & 0xff) as u8),
-                //                to_char(((self.0 >> 16) & 0xff) as u8),
-                //                to_char(((self.0 >> 8) & 0xff) as u8),
-                //                to_char((self.0 & 0xff) as u8)
-                //             ]
+                let c = unsafe { char::from_u32_unchecked(self.0) };
+                let escaped = c.escape_unicode().to_string();
+
+                debug_assert!(escaped.starts_with("\\"));
+
+                let mut buf = smallvec![];
+                buf.push('\\');
+                buf.push('\0');
+                buf.push('u');
+
+                if escaped.len() == 8 {
+                    buf.extend(escaped[3..=6].chars());
+                } else {
+                    buf.extend(escaped[2..].chars());
+                }
+
+                buf
             }
         })
     }

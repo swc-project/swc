@@ -266,7 +266,7 @@ impl Compiler {
                         .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
-                unsafe { String::from_utf8_unchecked(buf) }
+                String::from_utf8(buf).expect("invalid utf8 characeter detected")
             };
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
