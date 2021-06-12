@@ -128,12 +128,7 @@ impl SimplifyExpr {
                         *undefined(span)
                     } else {
                         Expr::Lit(Lit::Str(Str {
-                            value: value
-                                .chars()
-                                .nth(idx as _)
-                                .unwrap_or_else(|| panic!("failed to index char?"))
-                                .to_string()
-                                .into(),
+                            value: nth_char(&value, idx as _).into(),
                             span,
                             has_escape: false,
                             kind: Default::default(),
@@ -1501,4 +1496,35 @@ where
     I: IntoIterator<Item = Box<Expr>>,
 {
     preserve_effects(span, Expr::Lit(Lit::Bool(Bool { value, span })), orig)
+}
+
+fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
+    if !s.contains("\\\0") {
+        return Cow::Owned(s.chars().nth(idx).unwrap().to_string());
+    }
+
+    let mut iter = s.chars().peekable();
+
+    while let Some(c) = iter.next() {
+        if c == '\\' && iter.peek().copied() == Some('\0') {
+            if idx == 0 {
+                let mut buf = String::new();
+                buf.push_str("\\");
+                buf.extend(iter.take(6));
+                return Cow::Owned(buf);
+            } else {
+                for _ in 0..6 {
+                    dbg!(iter.next());
+                }
+            }
+        }
+
+        if idx == 0 {
+            return Cow::Owned(c.to_string());
+        }
+
+        idx -= 1;
+    }
+
+    unreachable!("string is too short")
 }
