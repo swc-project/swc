@@ -45,3 +45,22 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(),
+    nullish_ident,
+    "a ??= b",
+    "a ?? (a = b);"
+);
+
+test!(
+    syntax(),
+    |_| tr(),
+    nullish_member,
+    "a.b ??= b",
+    "
+    var _a;
+    (_a = a).b ?? (_a.b = b);
+    "
+);
