@@ -517,6 +517,16 @@ mod tests {
         );
     }
 
+    #[test]
+    fn large_float() {
+        assert_eq!(
+            num(
+                "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111",
+            ),
+            9.671406556917009e+24
+        );
+    }
+
     /// Valid even on strict mode.
     const VALID_CASES: &[&str] = &[".0", "0.e-1", "0e8", ".8e1", "0.8e1", "1.18e1"];
     const INVALID_CASES_ON_STRICT: &[&str] = &["08e1", "08.1", "08.8e1", "08", "01"];
