@@ -618,24 +618,24 @@ fn issue_1619_3() {
     );
 }
 
-fn check_escape_with_src(src: &str, expected: &str) {
+fn check_latest(src: &str, expected: &str) {
     let actual = parse_then_emit(
         &src,
         Config { minify: false },
         Default::default(),
         EsVersion::latest(),
     );
-    assert_eq!(expected, actual);
+    assert_eq!(expected, actual.trim());
 }
 
 #[test]
 fn test_escape_with_source_ident() {
-    check_escape_with_src("\\ud83d", "\\ud83d");
+    check_latest("\\ud83d;", "\\ud83d;");
 }
 
 #[test]
 fn test_escape_with_source_str() {
-    check_escape_with_src("'\\ud83d'", "'\\ud83d'");
+    check_latest("'\\ud83d'", "'\\ud83d'");
 }
 
 #[derive(Debug, Clone)]
