@@ -629,7 +629,7 @@ fn check_latest(src: &str, expected: &str) {
 }
 
 #[test]
-fn test_escape_with_source_ident() {
+fn invalid_unicode_in_ident() {
     check_latest("\\ud83d;", "\\ud83d;");
 }
 
