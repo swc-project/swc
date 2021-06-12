@@ -519,7 +519,7 @@ mod tests {
     }
 
     #[test]
-    fn large_float() {
+    fn large_bin_number() {
         const LONG: &str =
             "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111";
 
@@ -527,6 +527,13 @@ mod tests {
             lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
             9.671406556917009e+24
         );
+    }
+
+    #[test]
+    fn large_float_number() {
+        const LONG: &str = "9.671406556917009e+24";
+
+        assert_eq!(num(LONG), 9.671406556917009e+24);
     }
 
     /// Valid even on strict mode.
