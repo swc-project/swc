@@ -618,6 +618,21 @@ fn issue_1619_3() {
     );
 }
 
+#[test]
+fn test_escape_with_source() {
+    fn check(src: &str, expected: &str) {
+        let actual = parse_then_emit(
+            &src,
+            Config { minify: false },
+            Default::default(),
+            EsVersion::latest(),
+        );
+        assert_eq!(expected, actual);
+    }
+
+    check("\\ud83d", "\\ud83d");
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
