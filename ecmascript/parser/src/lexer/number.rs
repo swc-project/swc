@@ -26,6 +26,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         let start = self.cur_pos();
 
         let starts_with_zero = self.cur().unwrap() == '0';
+        let mut raw_val = String::new();
 
         let val = if starts_with_dot {
             // first char is '.'
@@ -37,6 +38,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 self.input.bump();
                 return Ok(Either::Right(s));
             }
+            write!(raw_val, "{}", s).unwrap();
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
@@ -88,6 +90,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         //
         // `.1.a`, `.1e-4.a` are valid,
         if self.cur() == Some('.') {
+            raw_val.push('.');
             self.bump();
             if starts_with_dot {
                 debug_assert!(self.cur().is_some());
@@ -97,15 +100,15 @@ impl<'a, I: Input> Lexer<'a, I> {
             let mut raw = Raw(Some(String::new()));
             // Read numbers after dot
             let dec_val = self.read_int(10, 0, &mut raw)?;
-            val = self.with_buf(|_, s| {
-                write!(s, "{}.", val).unwrap();
-
+            val = {
                 if let Some(..) = dec_val {
-                    s.push_str(&raw.0.as_ref().unwrap());
+                    raw_val.push_str(&raw.0.as_ref().unwrap());
                 }
 
-                Ok(s.parse().expect("failed to parse float using rust's impl"))
-            })?;
+                raw_val
+                    .parse()
+                    .expect("failed to parse float using rust's impl")
+            };
         }
 
         // Handle 'e' and 'E'
@@ -123,6 +126,8 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
             };
 
+            raw_val.push('e');
+
             let positive = if next == '+' || next == '-' {
                 self.bump(); // remove '+', '-'
                 next == '+'
@@ -132,10 +137,12 @@ impl<'a, I: Input> Lexer<'a, I> {
 
             let exp = self.read_number_no_dot(10)?;
             let flag = if positive { '+' } else { '-' };
+
+            raw_val.push(flag);
+            write!(raw_val, "{}", exp).unwrap();
+
             // TODO:
-            val = format!("{}e{}{}", val, flag, exp)
-                .parse()
-                .expect("failed to parse float literal");
+            val = raw_val.parse().expect("failed to parse float literal");
         }
 
         self.ensure_not_ident()?;
@@ -519,7 +526,7 @@ mod tests {
     }
 
     #[test]
-    fn large_float() {
+    fn large_bin_number() {
         const LONG: &str =
             "0B11111111111111111111111111111111111111111111111101001010100000010111110001111111111";
 
@@ -527,6 +534,13 @@ mod tests {
             lex(LONG, |l| l.read_radix_number(2).unwrap().left().unwrap()),
             9.671406556917009e+24
         );
+    }
+
+    #[test]
+    fn large_float_number() {
+        const LONG: &str = "9.671406556917009e+24";
+
+        assert_eq!(num(LONG), 9.671406556917009e+24);
     }
 
     /// Valid even on strict mode.

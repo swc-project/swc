@@ -82,11 +82,17 @@ impl<'a> Emitter<'a> {
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("constructor");
+        keyword!("new");
 
         punct!("(");
         self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
         punct!(")");
+
+        if let Some(type_ann) = &n.type_ann {
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
     }
 
     #[emitter]
