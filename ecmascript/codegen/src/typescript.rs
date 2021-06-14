@@ -571,7 +571,10 @@ impl<'a> Emitter<'a> {
     fn emit_ts_module_ref(&mut self, n: &TsModuleRef) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        unimplemented!("emit_ts_module_ref")
+        match n {
+            TsModuleRef::TsEntityName(n) => emit!(n),
+            TsModuleRef::TsExternalModuleRef(n) => emit!(n),
+        }
     }
 
     #[emitter]
