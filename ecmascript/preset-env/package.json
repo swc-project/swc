@@ -1,0 +1,8 @@
+{
+    "devDependencies": {
+        "browserslist": ">=4.16.5"
+    },
+    "browserslist": [
+        "defaults"
+    ]
+}

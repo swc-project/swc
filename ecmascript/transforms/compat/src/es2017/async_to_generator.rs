@@ -866,7 +866,9 @@ impl Actual {
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
-    expr.function.body = expr.function.body.fold_with(&mut AsyncFnBodyHandler);
+    expr.function.body = expr.function.body.fold_with(&mut AsyncFnBodyHandler {
+        is_async_generator: expr.function.is_generator,
+    });
 
     assert!(expr.function.is_async);
     expr.function.is_async = false;
@@ -901,7 +903,9 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
     })
 }
 
-struct AsyncFnBodyHandler;
+struct AsyncFnBodyHandler {
+    is_async_generator: bool,
+}
 
 macro_rules! noop {
     ($name:ident, $T:path) => {
@@ -924,11 +928,28 @@ impl Fold for AsyncFnBodyHandler {
         let expr = expr.fold_children_with(self);
 
         match expr {
-            Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
-                span,
-                delegate: false,
-                arg: Some(arg),
-            }),
+            Expr::Await(AwaitExpr { span, arg }) => {
+                if self.is_async_generator {
+                    let callee = helper!(await_async_generator, "awaitAsyncGenerator");
+                    let arg = Box::new(Expr::Call(CallExpr {
+                        span,
+                        callee,
+                        args: vec![arg.as_arg()],
+                        type_args: Default::default(),
+                    }));
+                    Expr::Yield(YieldExpr {
+                        span,
+                        delegate: false,
+                        arg: Some(arg),
+                    })
+                } else {
+                    Expr::Yield(YieldExpr {
+                        span,
+                        delegate: false,
+                        arg: Some(arg),
+                    })
+                }
+            }
             _ => expr,
         }
     }

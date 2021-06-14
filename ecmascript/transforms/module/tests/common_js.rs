@@ -1244,12 +1244,15 @@ export * from "black";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _exportNames = {
+};
 
 var _white = require("white");
 var _black = require("black");
 
 Object.keys(_white).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -1260,6 +1263,7 @@ Object.keys(_white).forEach(function (key) {
 
 Object.keys(_black).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -4191,6 +4195,8 @@ export * from './pipes';
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
+    var _exportNames = {
+    };
     require("reflect-metadata");
     var _http = require("./http");
     var _interfaces = require("./interfaces");
@@ -4203,6 +4209,7 @@ export * from './pipes';
     });
     Object.keys(_http).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
+        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
             get: function() {
@@ -4212,6 +4219,7 @@ export * from './pipes';
     });
     Object.keys(_pipes).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
+        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
             get: function() {
@@ -4710,5 +4718,67 @@ test!(
       });
       console.log(example.foo);
     })();
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1780_1,
+    "
+    export const BIZ = 'biz';
+    export * from './File1';
+    export * from './File2';
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
+    var _exportNames = {
+        BIZ: true
+    };
+    exports.BIZ = void 0;
+    var _file1 = require('./File1');
+    var _file2 = require('./File2');
+    const BIZ = 'biz';
+    exports.BIZ = BIZ;
+    Object.keys(_file1).forEach(function(key) {
+        if (key === 'default' || key === '__esModule') return;
+        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+        Object.defineProperty(exports, key, {
+            enumerable: true,
+            get: function() {
+                return _file1[key];
+            }
+        });
+    });
+    Object.keys(_file2).forEach(function(key) {
+        if (key === 'default' || key === '__esModule') return;
+        if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+        Object.defineProperty(exports, key, {
+            enumerable: true,
+            get: function() {
+                return _file2[key];
+            }
+        });
+    });
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1757_1,
+    "
+    import 'testlibrary';
+    import { aFunc } from 'testlibrary';
+
+    console.log('aFunc: ', aFunc(1,2));
+    ",
+    "
+    'use strict';
+    var _testlibrary = require('testlibrary');
+    console.log('aFunc: ', (0, _testlibrary).aFunc(1, 2));
     "
 );
