@@ -217,7 +217,7 @@ impl<'a, I: Input> Lexer<'a, I> {
 
         while let Some(c) = self.cur() {
             self.bump();
-            if c.is_line_break() {
+            if c.is_line_terminator() {
                 self.state.had_line_break = true;
             }
             match c {
@@ -305,7 +305,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                 }
                 return Ok(());
             }
-            if c.is_line_break() {
+            if c.is_line_terminator() {
                 self.state.had_line_break = true;
             }
 
@@ -359,13 +359,26 @@ pub trait CharExt: Copy {
 
     /// See https://tc39.github.io/ecma262/#sec-line-terminators
     #[inline]
-    fn is_line_break(self) -> bool {
+    fn is_line_terminator(self) -> bool {
         let c = match self.to_char() {
             Some(c) => c,
             None => return false,
         };
         match c {
             '\r' | '\n' | '\u{2028}' | '\u{2029}' => true,
+            _ => false,
+        }
+    }
+
+    /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
+    #[inline]
+    fn is_line_break(self) -> bool {
+        let c = match self.to_char() {
+            Some(c) => c,
+            None => return false,
+        };
+        match c {
+            '\r' | '\n' => true,
             _ => false,
         }
     }
@@ -380,7 +393,7 @@ pub trait CharExt: Copy {
         match c {
             '\u{0009}' | '\u{000b}' | '\u{000c}' | '\u{0020}' | '\u{00a0}' | '\u{feff}' => true,
             _ => {
-                if self.is_line_break() {
+                if self.is_line_terminator() {
                     // NOTE: Line terminator is not whitespace.
                     false
                 } else {
