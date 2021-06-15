@@ -1032,7 +1032,7 @@ impl<'a> VisitMut for Resolver<'a> {
             return;
         }
 
-        self.in_type = true;
+        self.in_type = false;
         self.modify(&mut n.id, None);
 
         n.module_ref.visit_mut_with(self);
