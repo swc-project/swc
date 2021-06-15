@@ -247,8 +247,12 @@ impl Optimizer<'_> {
                     | Expr::Bin(BinExpr { op: op!("<"), .. })
                     | Expr::Bin(BinExpr { op: op!(">="), .. })
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                        log::trace!("Optimizing: `!!expr` => `expr`");
-                        *e = *arg.take();
+                        if let Known(Type::Bool) = arg.get_type() {
+                            self.changed = true;
+                            log::trace!("Optimizing: `!!expr` => `expr`");
+                            *e = *arg.take();
+                        }
+
                         return;
                     }
 
