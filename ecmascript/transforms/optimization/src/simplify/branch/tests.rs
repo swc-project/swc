@@ -1780,6 +1780,10 @@ fn issue_1825() {
         }
         ",
         "
+        function p() {
+            throw new Error('Something');
+        }
+        while(p(), 1)console.log('Hello world');
         ",
     );
 }
