@@ -843,13 +843,17 @@ impl Fold for Remover {
             Stmt::While(s) => {
                 if let (purity, Known(v)) = s.test.as_bool() {
                     if v {
-                        Stmt::While(WhileStmt {
-                            test: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: s.test.span(),
-                                value: true,
-                            }))),
-                            ..s
-                        })
+                        if purity.is_pure() {
+                            Stmt::While(WhileStmt {
+                                test: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                    span: s.test.span(),
+                                    value: true,
+                                }))),
+                                ..s
+                            })
+                        } else {
+                            Stmt::While(s)
+                        }
                     } else {
                         let body = s.body.extract_var_ids_as_var();
                         let body = body.map(Decl::Var).map(Stmt::Decl);
