@@ -188,7 +188,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             radix,
             |total, radix, v| {
                 read_any = true;
-                (f64::mul_add(total, radix as f64, v as f64), true)
+                Ok((f64::mul_add(total, radix as f64, v as f64), true))
             },
             &mut Raw(None),
             true,
@@ -227,7 +227,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     non_octal = true;
                 }
 
-                (f64::mul_add(total, radix as f64, v as f64), true)
+                Ok((f64::mul_add(total, radix as f64, v as f64), true))
             },
             &mut raw,
             true,
@@ -269,7 +269,8 @@ impl<'a, I: Input> Lexer<'a, I> {
             |opt: Option<f64>, radix, val| {
                 count += 1;
                 let total = opt.unwrap_or_default() * radix as f64 + val as f64;
-                (Some(total), count != len as u16)
+
+                Ok((Some(total), count != len as u16))
             },
             raw,
             true,
@@ -293,7 +294,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             |opt: Option<u32>, radix, val| {
                 count += 1;
                 let total = opt.unwrap_or_default() * radix as u32 + val as u32;
-                (Some(total), count != len)
+                Ok((Some(total), count != len))
             },
             raw,
             true,
@@ -314,7 +315,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         allow_num_separator: bool,
     ) -> LexResult<Ret>
     where
-        F: FnMut(Ret, u8, u32) -> (Ret, bool),
+        F: FnMut(Ret, u8, u32) -> LexResult<(Ret, bool)>,
         Ret: Copy + Default,
     {
         debug_assert!(
@@ -385,7 +386,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             raw.push(c);
 
             self.bump();
-            let (t, cont) = op(total, radix, val);
+            let (t, cont) = op(total, radix, val)?;
             total = t;
             if !cont {
                 return Ok(total);
