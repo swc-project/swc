@@ -68,3 +68,8 @@ fn parse_program_module_error_01() {
         ",
     );
 }
+
+#[test]
+fn issue_1813() {
+    module("\\u{cccccccccsccccccQcXt[uc(~).const[uctor().const[uctor())tbr())");
+}
