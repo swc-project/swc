@@ -8,6 +8,7 @@ use either::Either;
 use log::trace;
 use num_bigint::BigInt as BigIntValue;
 use std::fmt::Write;
+use swc_common::SyntaxContext;
 
 impl<'a, I: Input> Lexer<'a, I> {
     /// Reads an integer, octal integer, or floating-point number
@@ -288,12 +289,25 @@ impl<'a, I: Input> Lexer<'a, I> {
         len: u8,
         raw: &mut Raw,
     ) -> LexResult<Option<u32>> {
+        let start = self.state.start;
+
         let mut count = 0;
         let v = self.read_digits(
             radix,
             |opt: Option<u32>, radix, val| {
                 count += 1;
-                let total = opt.unwrap_or_default() * radix as u32 + val as u32;
+
+                let total = opt
+                    .unwrap_or_default()
+                    .checked_mul(radix as u32)
+                    .and_then(|v| v.checked_add(val as u32))
+                    .ok_or_else(|| {
+                        let span = Span::new(start, start, SyntaxContext::empty());
+                        Error {
+                            error: Box::new((span, SyntaxError::InvalidUnicodeEscape)),
+                        }
+                    })?;
+
                 Ok((Some(total), count != len))
             },
             raw,
