@@ -320,17 +320,15 @@ impl Scope {
                 .entry(import.src.value.clone())
                 .and_modify(|opt| {
                     if opt.is_none() {
-                        *opt = Some((
-                            private_ident!(local_name_for_src(&import.src.value)),
-                            import.src.span.apply_mark(Mark::fresh(Mark::root())),
-                        ));
+                        let ident =
+                            private_ident!(import.src.span, local_name_for_src(&import.src.value));
+                        *opt = Some((ident.sym, ident.span));
                     }
                 })
                 .or_insert_with(|| {
-                    Some((
-                        private_ident!(local_name_for_src(&import.src.value)),
-                        import.src.span.apply_mark(Mark::fresh(Mark::root())),
-                    ))
+                    let ident =
+                        private_ident!(import.src.span, local_name_for_src(&import.src.value));
+                    Some((ident.sym, ident.span))
                 });
 
             let mut has_non_default = false;
