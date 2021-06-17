@@ -23,9 +23,9 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 pub fn common_js(
     root_mark: Mark,
     config: Config,
-    scopeArg: Option<Rc<RefCell<Scope>>>,
+    scope_arg: Option<Rc<RefCell<Scope>>>,
 ) -> impl Fold {
-    let scope: Rc<RefCell<Scope>> = match scopeArg {
+    let scope: Rc<RefCell<Scope>> = match scope_arg {
         Some(scope) => scope,
         None => Rc::new(RefCell::new(Default::default())),
     };

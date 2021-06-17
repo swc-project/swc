@@ -1,5 +1,4 @@
 use std::cell::RefCell;
-use std::ops::DerefMut;
 use std::rc::Rc;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
@@ -102,9 +101,9 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        let scopeInstance: Scope = Default::default();
-        let scope = Rc::new(RefCell::new(scopeInstance));
-        let ret = chain!(
+        let scope_instance: Scope = Default::default();
+        let scope = Rc::new(RefCell::new(scope_instance));
+        chain!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
             import_analyzer(Rc::clone(&scope)),
@@ -112,8 +111,7 @@ test!(
             common_js(mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
-        );
-        ret
+        )
     },
     issue_389_2,
     "
@@ -4726,7 +4724,17 @@ test!(
 
 test!(
     syntax(),
-    |_| tr(Default::default()),
+    |_| {
+        let scope_instance: Scope = Default::default();
+        let scope = Rc::new(RefCell::new(scope_instance));
+        chain!(
+            import_analyzer(Rc::clone(&scope)),
+            inject_helpers(),
+            common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
+            hygiene(),
+            fixer(None)
+        )
+    },
     issue_1786_1,
     "
     import Foo from 'foo';

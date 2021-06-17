@@ -25,14 +25,14 @@ pub fn amd(config: Config) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),
-        scopeRefCell: RefCell::new(Default::default()),
+        scope: RefCell::new(Default::default()),
         exports: Default::default(),
     }
 }
 struct Amd {
     config: Config,
     in_top_level: bool,
-    scopeRefCell: RefCell<Scope>,
+    scope: RefCell<Scope>,
     exports: Exports,
 }
 
@@ -40,8 +40,8 @@ impl Fold for Amd {
     noop_fold_type!();
 
     fn fold_module(&mut self, module: Module) -> Module {
-        let mut scopeRefMut = self.scopeRefCell.borrow_mut();
-        let scope = scopeRefMut.deref_mut();
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = scope_ref_mut.deref_mut();
         let mut amd = AmdWorker {
             config: &mut self.config,
             in_top_level: self.in_top_level,
