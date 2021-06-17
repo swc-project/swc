@@ -92,10 +92,6 @@ _foo.default.bar = true;
 "
 );
 
-// Create a Fold implementation that:
-// accepts a lambda to return an underlying Fold implementation.
-// on all fold calls, calls the lambda, delegates to the return value, drops the
-// return value.
 test!(
     syntax(),
     |_| {

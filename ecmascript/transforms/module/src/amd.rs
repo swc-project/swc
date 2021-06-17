@@ -5,7 +5,6 @@ use super::util::{
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
-use std::convert::From;
 use std::iter;
 use std::ops::DerefMut;
 use swc_atoms::js_word;
