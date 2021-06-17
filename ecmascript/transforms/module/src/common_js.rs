@@ -4,6 +4,9 @@ use super::util::{
     make_require_call, use_strict, ModulePass, Scope,
 };
 use fxhash::FxHashSet;
+use std::cell::RefCell;
+use std::ops::DerefMut;
+use std::rc::Rc;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -17,11 +20,19 @@ use swc_ecma_utils::IsDirective;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
-pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
+pub fn common_js(
+    root_mark: Mark,
+    config: Config,
+    scopeArg: Option<Rc<RefCell<Scope>>>,
+) -> impl Fold {
+    let scope: Rc<RefCell<Scope>> = match scopeArg {
+        Some(scope) => scope,
+        None => Rc::new(RefCell::new(Default::default())),
+    };
     CommonJs {
         root_mark,
         config,
-        scope: Default::default(),
+        scope,
         in_top_level: Default::default(),
     }
 }
@@ -29,11 +40,34 @@ pub fn common_js(root_mark: Mark, config: Config) -> impl Fold {
 struct CommonJs {
     root_mark: Mark,
     config: Config,
-    scope: Scope,
+    scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
 }
 
 impl Fold for CommonJs {
+    noop_fold_type!();
+
+    fn fold_module(&mut self, module: Module) -> Module {
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = scope_ref_mut.deref_mut();
+        let mut commonjs = CommonJsWorker {
+            root_mark: self.root_mark,
+            config: &mut self.config,
+            scope,
+            in_top_level: self.in_top_level,
+        };
+        commonjs.fold_module(module)
+    }
+}
+
+struct CommonJsWorker<'a> {
+    root_mark: Mark,
+    config: &'a mut Config,
+    scope: &'a mut Scope,
+    in_top_level: bool,
+}
+
+impl Fold for CommonJsWorker<'_> {
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -531,7 +565,6 @@ impl Fold for CommonJs {
             match import {
                 Some(import) => {
                     let ty = self.scope.import_types.get(&src);
-
                     let rhs = match ty {
                         Some(true) if !self.config.no_interop => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -686,17 +719,17 @@ impl Fold for CommonJs {
     mark_as_nested!();
 }
 
-impl ModulePass for CommonJs {
+impl ModulePass for CommonJsWorker<'_> {
     fn config(&self) -> &Config {
         &self.config
     }
 
     fn scope(&self) -> &Scope {
-        &self.scope
+        self.scope
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope
+        self.scope
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {

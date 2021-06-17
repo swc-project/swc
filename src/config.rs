@@ -5,7 +5,9 @@ use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::rc::Rc as RustRc;
 use std::{
+    cell::RefCell,
     collections::{HashMap, HashSet},
     env,
     path::{Path, PathBuf},
@@ -19,7 +21,7 @@ use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::hygiene;
+use swc_ecma_transforms::{hygiene, modules::util::Scope};
 use swc_ecma_transforms::{
     modules,
     optimization::const_modules,
@@ -605,12 +607,15 @@ impl ModuleConfig {
         cm: Arc<SourceMap>,
         root_mark: Mark,
         config: Option<ModuleConfig>,
+        scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
-            Some(ModuleConfig::CommonJs(config)) => {
-                Box::new(modules::common_js::common_js(root_mark, config))
-            }
+            Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
+                root_mark,
+                config,
+                Some(scope),
+            )),
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(cm, root_mark, config)),
             Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(config)),
         }

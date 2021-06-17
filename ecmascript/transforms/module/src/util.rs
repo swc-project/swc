@@ -78,7 +78,7 @@ impl Default for Lazy {
 }
 
 #[derive(Clone, Default)]
-pub(super) struct Scope {
+pub struct Scope {
     /// Map from source file to ident
     ///
     /// e.g.
@@ -914,3 +914,12 @@ macro_rules! mark_as_nested {
         }
     };
 }
+// pub(super) struct Finalizer<'a> {
+//     dtor: &'a dyn FnOnce(),
+// }
+
+// impl Drop for Finalizer<'_> {
+//     fn drop(&mut self) {
+//         (self.dtor)()
+//     }
+// }

@@ -1,4 +1,7 @@
 use super::util::Scope;
+use std::cell::RefCell;
+use std::ops::DerefMut;
+use std::rc::Rc;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -7,25 +10,36 @@ use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::VisitWith;
 use swc_ecma_visit::{noop_fold_type, Fold, Node, Visit};
 
-pub fn import_analyzer() -> impl Fold {
-    ImportAnalyzer {
-        scope: Default::default(),
+pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> ImportAnalyzer {
+    ImportAnalyzer { scope }
+}
+
+pub struct ImportAnalyzer {
+    scope: Rc<RefCell<Scope>>,
+}
+impl Fold for ImportAnalyzer {
+    noop_fold_type!();
+    fn fold_module(&mut self, module: Module) -> Module {
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = scope_ref_mut.deref_mut();
+        let mut import_analyzer = ImportAnalyzerWorker { scope };
+        import_analyzer.fold_module(module)
     }
 }
 
 /// Inject required helpers methods **for** module transform passes.
-struct ImportAnalyzer {
-    scope: Scope,
+pub struct ImportAnalyzerWorker<'a> {
+    scope: &'a mut Scope,
 }
 
-impl Fold for ImportAnalyzer {
+impl Fold for ImportAnalyzerWorker<'_> {
     noop_fold_type!();
 
     fn fold_module(&mut self, module: Module) -> Module {
         self.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
 
-        for (_, ty) in self.scope.import_types.drain() {
-            if ty {
+        for (_, ty) in self.scope.import_types.iter() {
+            if *ty {
                 enable_helper!(interop_require_wildcard);
             } else {
                 enable_helper!(interop_require_default);
@@ -36,7 +50,7 @@ impl Fold for ImportAnalyzer {
     }
 }
 
-impl Visit for ImportAnalyzer {
+impl Visit for ImportAnalyzerWorker<'_> {
     noop_visit_type!();
 
     fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {

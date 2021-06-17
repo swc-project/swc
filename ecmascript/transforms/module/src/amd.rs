@@ -4,7 +4,10 @@ use super::util::{
 };
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
+use std::cell::RefCell;
+use std::convert::From;
 use std::iter;
+use std::ops::DerefMut;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -22,16 +25,38 @@ pub fn amd(config: Config) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),
-        scope: Default::default(),
+        scopeRefCell: RefCell::new(Default::default()),
         exports: Default::default(),
     }
 }
-
 struct Amd {
     config: Config,
     in_top_level: bool,
-    scope: Scope,
+    scopeRefCell: RefCell<Scope>,
     exports: Exports,
+}
+
+impl Fold for Amd {
+    noop_fold_type!();
+
+    fn fold_module(&mut self, module: Module) -> Module {
+        let mut scopeRefMut = self.scopeRefCell.borrow_mut();
+        let scope = scopeRefMut.deref_mut();
+        let mut amd = AmdWorker {
+            config: &mut self.config,
+            in_top_level: self.in_top_level,
+            scope,
+            exports: &mut self.exports,
+        };
+        amd.fold_module(module)
+    }
+}
+
+struct AmdWorker<'a> {
+    config: &'a mut Config,
+    in_top_level: bool,
+    scope: &'a mut Scope,
+    exports: &'a mut Exports,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -44,7 +69,7 @@ pub struct Config {
     pub config: util::Config,
 }
 
-impl Fold for Amd {
+impl<'a> Fold for AmdWorker<'a> {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -615,17 +640,17 @@ impl Fold for Amd {
     mark_as_nested!();
 }
 
-impl ModulePass for Amd {
+impl<'a> ModulePass for AmdWorker<'a> {
     fn config(&self) -> &util::Config {
         &self.config.config
     }
 
     fn scope(&self) -> &Scope {
-        &self.scope
+        self.scope
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope
+        self.scope
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {

@@ -5,6 +5,8 @@ use super::util::{
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
 use fxhash::FxHashSet;
+use std::cell::RefCell;
+use std::ops::DerefMut;
 use swc_atoms::js_word;
 use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -25,7 +27,7 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
         cm,
 
         in_top_level: Default::default(),
-        scope: Default::default(),
+        scopeRefCell: RefCell::new(Default::default()),
         exports: Default::default(),
     }
 }
@@ -35,11 +37,38 @@ struct Umd {
     root_mark: Mark,
     in_top_level: bool,
     config: BuiltConfig,
-    scope: Scope,
+    scopeRefCell: RefCell<Scope>,
     exports: Exports,
 }
 
 impl Fold for Umd {
+    noop_fold_type!();
+
+    fn fold_module(&mut self, module: Module) -> Module {
+        let mut scopeRefMut = self.scopeRefCell.borrow_mut();
+        let scope = scopeRefMut.deref_mut();
+        let mut umd = UmdWorker {
+            cm: &mut self.cm,
+            root_mark: self.root_mark,
+            in_top_level: self.in_top_level,
+            config: &mut self.config,
+            scope,
+            exports: &mut self.exports,
+        };
+        umd.fold_module(module)
+    }
+}
+
+struct UmdWorker<'a> {
+    cm: &'a mut Lrc<SourceMap>,
+    root_mark: Mark,
+    in_top_level: bool,
+    config: &'a mut BuiltConfig,
+    scope: &'a mut Scope,
+    exports: &'a mut Exports,
+}
+
+impl<'a> Fold for UmdWorker<'a> {
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -754,17 +783,17 @@ impl Fold for Umd {
     mark_as_nested!();
 }
 
-impl ModulePass for Umd {
+impl ModulePass for UmdWorker<'_> {
     fn config(&self) -> &util::Config {
         &self.config.config
     }
 
     fn scope(&self) -> &Scope {
-        &self.scope
+        self.scope
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope
+        self.scope
     }
 
     /// ```js

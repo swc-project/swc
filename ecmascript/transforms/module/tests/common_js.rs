@@ -1,3 +1,6 @@
+use std::cell::RefCell;
+use std::ops::DerefMut;
+use std::rc::Rc;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::fixer::fixer;
@@ -18,6 +21,7 @@ use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_module::util::Config;
 use swc_ecma_transforms_module::util::Lazy;
+use swc_ecma_transforms_module::util::Scope;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
@@ -38,7 +42,7 @@ fn ts_syntax() -> Syntax {
 fn tr(config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
 
-    chain!(resolver_with_mark(mark), common_js(mark, config))
+    chain!(resolver_with_mark(mark), common_js(mark, config, None))
 }
 
 test!(
@@ -76,7 +80,7 @@ exports.default = _default;"
 
 test!(
     syntax(),
-    |_| common_js(Mark::fresh(Mark::root()), Default::default()),
+    |_| common_js(Mark::fresh(Mark::root()), Default::default(), None),
     issue_389_1,
     "
 import Foo from 'foo';
@@ -89,20 +93,27 @@ _foo.default.bar = true;
 "
 );
 
+// Create a Fold implementation that:
+// accepts a lambda to return an underlying Fold implementation.
+// on all fold calls, calls the lambda, delegates to the return value, drops the
+// return value.
 test!(
     syntax(),
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        chain!(
+        let scopeInstance: Scope = Default::default();
+        let scope = Rc::new(RefCell::new(scopeInstance));
+        let ret = chain!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
-            import_analyzer(),
+            import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
-            common_js(mark, Default::default()),
+            common_js(mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
-        )
+        );
+        ret
     },
     issue_389_2,
     "
@@ -3885,7 +3896,7 @@ test!(
             resolver_with_mark(mark),
             block_scoped_functions(),
             block_scoping(),
-            common_js(mark, Default::default()),
+            common_js(mark, Default::default(), None),
         )
     },
     issue_396_2,
@@ -4229,7 +4240,7 @@ test!(
         block_scoping(),
         classes(Some(t.comments.clone()),),
         destructuring(Default::default()),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     issue_578_2,
     "
@@ -4291,7 +4302,7 @@ test!(
     syntax(),
     |_| chain!(
         for_of(for_of::Config { assume_array: true }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     for_of_as_array_for_of_import_commonjs,
     r#"
@@ -4322,7 +4333,7 @@ test!(
         resolver(),
         object_rest_spread(),
         destructuring(destructuring::Config { loose: false }),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
     regression_t7178,
     r#"
@@ -4360,7 +4371,7 @@ test!(
         parameters(),
         destructuring(Default::default()),
         block_scoping(),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
     regression_4209,
     r#"
@@ -4414,7 +4425,7 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6647,
     r#"
@@ -4436,7 +4447,7 @@ test!(
     |_| chain!(
         resolver(),
         regenerator(Mark::fresh(Mark::root())),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6733,
     r#"
@@ -4478,7 +4489,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        chain!(regenerator(mark), common_js(mark, Default::default()),)
+        chain!(regenerator(mark), common_js(mark, Default::default(), None),)
     },
     issue_831_2,
     "export function* myGenerator() {
