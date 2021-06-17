@@ -495,7 +495,7 @@ impl Fold for CommonJsWorker<'_> {
 
         // Used only if export * exists
         let exported_names = {
-            if !export_alls.is_empty() && has_export {
+            if (!export_alls.is_empty() && has_export) || export_alls.len() >= 2 {
                 let exported_names = private_ident!("_exportNames");
                 stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,

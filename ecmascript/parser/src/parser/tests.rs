@@ -68,3 +68,16 @@ fn parse_program_module_error_01() {
         ",
     );
 }
+
+#[test]
+fn issue_1813() {
+    test_parser(
+        "\\u{cccccccccsccccccQcXt[uc(~).const[uctor().const[uctor())tbr())",
+        Default::default(),
+        |p| {
+            p.parse_program().expect_err("should fail");
+
+            Ok(())
+        },
+    )
+}

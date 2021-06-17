@@ -318,6 +318,14 @@ impl Scope {
         } else {
             self.imports
                 .entry(import.src.value.clone())
+                .and_modify(|opt| {
+                    if opt.is_none() {
+                        *opt = Some((
+                            local_name_for_src(&import.src.value),
+                            import.src.span.apply_mark(Mark::fresh(Mark::root())),
+                        ));
+                    }
+                })
                 .or_insert_with(|| {
                     Some((
                         local_name_for_src(&import.src.value),

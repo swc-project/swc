@@ -986,6 +986,7 @@ fn test_fold_get_elem2_1() {
     fold("x = 'string'[0]", "x = 's'");
     fold("x = 's'[0]", "x = 's'");
     fold("x = '\\uD83D\\uDCA9'[0]", "x = '\\uD83D'");
+    fold("x = '\\uD83D\\uDCA9'[1]", "x = '\\uDCA9'");
 }
 
 #[test]

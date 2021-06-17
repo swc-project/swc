@@ -112,13 +112,15 @@ pub enum EsVersion {
     Es2019,
     #[serde(rename = "es2020")]
     Es2020,
+    #[serde(rename = "es2021")]
+    Es2021,
 }
 
 impl EsVersion {
-    /// Get the latest version. This is `es2020` for now, but it will be changed
+    /// Get the latest version. This is `es2021` for now, but it will be changed
     /// if a new version of specification is released.
     pub const fn latest() -> Self {
-        EsVersion::Es2020
+        EsVersion::Es2021
     }
 }
 

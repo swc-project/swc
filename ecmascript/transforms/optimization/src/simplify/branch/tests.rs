@@ -1766,3 +1766,24 @@ fn return_function_hoisting() {
         }",
     );
 }
+
+#[test]
+fn issue_1825() {
+    test(
+        "
+        function p(){
+            throw new Error('Something');
+        }
+        
+        while ((p(), 1)) {
+            console.log('Hello world');
+        }
+        ",
+        "
+        function p() {
+            throw new Error('Something');
+        }
+        while(p(), 1)console.log('Hello world');
+        ",
+    );
+}
