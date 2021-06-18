@@ -577,7 +577,10 @@ impl<'a> Emitter<'a> {
     fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("new");
+        {
+            let span = self.cm.span_until_char(node.span, ' ');
+            keyword!(span, "new");
+        }
         space!();
         emit!(node.callee);
 
