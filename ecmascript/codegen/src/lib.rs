@@ -1929,7 +1929,11 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         {
-            let span = Span::new(node.span.lo, node.span.lo, Default::default());
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.lo, node.span.lo + BytePos(1), Default::default())
+            };
             punct!(span, "{");
         }
         self.emit_list(
@@ -1941,7 +1945,11 @@ impl<'a> Emitter<'a> {
         self.emit_leading_comments_of_span(node.span(), true)?;
 
         {
-            let span = Span::new(node.span.hi, node.span.hi, Default::default());
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
+            };
             punct!(span, "}");
         }
     }
