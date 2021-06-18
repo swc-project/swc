@@ -122,8 +122,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn write_semi(&mut self) -> Result {
-        self.write(None, ";")?;
+    fn write_semi(&mut self, span: Option<Span>) -> Result {
+        self.write(span, ";")?;
         Ok(())
     }
     fn write_space(&mut self) -> Result {
@@ -136,8 +136,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn write_operator(&mut self, s: &str) -> Result {
-        self.write(None, s)?;
+    fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result {
+        self.write(span, s)?;
         Ok(())
     }
 
@@ -204,8 +204,8 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
-    fn write_punct(&mut self, s: &'static str) -> Result {
-        self.write(None, s)?;
+    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
+        self.write(span, s)?;
         Ok(())
     }
 

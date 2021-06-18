@@ -37,7 +37,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(increase_indent());
     with_semi!(decrease_indent());
 
-    fn write_semi(&mut self) -> Result {
+    fn write_semi(&mut self, _: Option<Span>) -> Result {
         self.pending_semi = true;
         Ok(())
     }
@@ -45,7 +45,7 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(write_space());
     with_semi!(write_comment(span: Span, s: &str));
     with_semi!(write_keyword(span: Option<Span>, s: &'static str));
-    with_semi!(write_operator(s: &str));
+    with_semi!(write_operator(span: Option<Span>, s: &str));
     with_semi!(write_param(s: &str));
     with_semi!(write_property(s: &str));
     with_semi!(write_line());
@@ -54,16 +54,16 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     with_semi!(write_str(s: &str));
     with_semi!(write_symbol(span: Span, s: &str));
 
-    fn write_punct(&mut self, s: &'static str) -> Result {
+    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
         self.pending_semi = false;
-        Ok(self.inner.write_punct(s)?)
+        Ok(self.inner.write_punct(span, s)?)
     }
 }
 
 impl<W: WriteJs> OmitTrailingSemi<W> {
     fn commit_pending_semi(&mut self) -> Result {
         if self.pending_semi {
-            self.inner.write_punct(";")?;
+            self.inner.write_punct(None, ";")?;
             self.pending_semi = false;
         }
         Ok(())

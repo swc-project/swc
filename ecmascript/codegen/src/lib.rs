@@ -533,7 +533,7 @@ impl<'a> Emitter<'a> {
         match *n.expr {
             Expr::Member(ref e) => {
                 emit!(e.obj);
-                self.wr.write_operator("?.")?;
+                punct!("?.");
 
                 if e.computed {
                     punct!("[");
@@ -545,7 +545,7 @@ impl<'a> Emitter<'a> {
             }
             Expr::Call(ref e) => {
                 emit!(e.callee);
-                self.wr.write_operator("?.")?;
+                punct!("?.");
 
                 punct!("(");
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
@@ -1510,7 +1510,7 @@ impl<'a> Emitter<'a> {
         }
 
         if format.contains(ListFormat::BracketsMask) {
-            self.wr.write_punct(format.opening_bracket())?;
+            self.wr.write_punct(None, format.opening_bracket())?;
 
             if is_empty {
                 self.emit_trailing_comments_of_pos(
@@ -1650,7 +1650,7 @@ impl<'a> Emitter<'a> {
             };
 
             if has_trailing_comma && format.contains(ListFormat::CommaDelimited) {
-                self.wr.write_punct(",")?;
+                punct!(self, ",");
                 formatting_space!(self);
             }
 
@@ -1711,7 +1711,7 @@ impl<'a> Emitter<'a> {
                     true,
                 )?; // Emit leading comments within empty lists
             }
-            self.wr.write_punct(format.closing_bracket())?;
+            self.wr.write_punct(None, format.closing_bracket())?;
         }
 
         Ok(())
@@ -1928,7 +1928,10 @@ impl<'a> Emitter<'a> {
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        punct!("{");
+        {
+            let span = Span::new(node.span.lo, node.span.lo, Default::default());
+            punct!(span, "{");
+        }
         self.emit_list(
             node.span(),
             Some(&node.stmts),
@@ -1937,7 +1940,10 @@ impl<'a> Emitter<'a> {
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        punct!("}");
+        {
+            let span = Span::new(node.span.hi, node.span.hi, Default::default());
+            punct!(span, "}");
+        }
     }
 
     #[emitter]
@@ -2252,18 +2258,18 @@ impl<'a> Emitter<'a> {
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => self.wr.write_punct(",")?,
+            ListFormat::CommaDelimited => self.wr.write_punct(None, ",")?,
             ListFormat::BarDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct("|")?;
+                self.wr.write_punct(None, "|")?;
             }
             ListFormat::AmpersandDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct("&")?;
+                self.wr.write_punct(None, "&")?;
             }
             _ => unreachable!(),
         }
