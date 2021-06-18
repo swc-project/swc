@@ -111,6 +111,7 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
+#[cfg(not(target_os = "windows"))]
 #[testing::fixture("stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
