@@ -156,7 +156,7 @@ fn stacktrace(input_dir: PathBuf) {
                             .expect("failed to capture output of node -e 'generated code'");
 
                         stack_trace
-                            .compare_to_file(output_dir.join("stack trace"))
+                            .compare_to_file(output_dir.join("stacks.txt"))
                             .expect("wrong stack trace");
                     }
                     Err(err) => panic!("Error: {:?}", err),
