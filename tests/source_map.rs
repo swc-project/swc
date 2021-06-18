@@ -1,5 +1,3 @@
-use either::Either;
-use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
