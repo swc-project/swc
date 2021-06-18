@@ -77,7 +77,10 @@ impl<'a> Emitter<'a> {
             space!();
         }
 
-        keyword!(node.kind.as_str());
+        {
+            let span = self.cm.span_until_char(node.span, ' ');
+            keyword!(span, node.kind.as_str());
+        }
         space!();
 
         self.emit_list(

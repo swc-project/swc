@@ -165,6 +165,7 @@ var CanvasElement = /*#__PURE__*/ function(Element2) {
             key: "createFacets",
             value: function createFacets(hidden) {
                 var childElements = this.getChildElements();
+            ///
             }
         }
     ]);
@@ -181,6 +182,7 @@ var ColouredCanvasElement = /*#__PURE__*/ function(CanvasElement1) {
             key: "createFacets",
             value: function createFacets(hidden) {
                 hidden = _get(_getPrototypeOf(ColouredCanvasElement.prototype), "createFacets", this).call(this, hidden); ///
+            ///
             }
         }
     ]);

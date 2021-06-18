@@ -46,3 +46,7 @@ pkg/
 
 yarn.lock
 .idea/
+
+
+# Generated while testing
+*.tmp.js

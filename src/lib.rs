@@ -473,7 +473,7 @@ impl Compiler {
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
             };
-            let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
+            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
             let program = self.parse_js(
                 fm.clone(),
                 config.target,
@@ -502,7 +502,7 @@ impl Compiler {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
-            let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
+            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 

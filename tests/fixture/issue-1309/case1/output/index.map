@@ -1,5 +1,5 @@
 {
-  "mappings": ";;;;;MAEa,GAAG,GAAG,CAAC;QAAP,GAAG,GAAH,GAAG",
+  "mappings": ";;;;;AAEO,KAAK,CAAC,GAAG,GAAG,CAAC;QAAP,GAAG,GAAH,GAAG",
   "names": [],
   "sources": [
     "$DIR/tests/fixture/issue-1309/case1/input/index.ts"
