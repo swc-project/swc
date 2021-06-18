@@ -1,3 +1,5 @@
+use either::Either;
+use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
@@ -118,10 +120,7 @@ fn stacktrace(input_dir: PathBuf) {
                 }
                 println!("File: {}", entry.path().to_string_lossy());
 
-                if !entry.file_name().to_string_lossy().ends_with(".ts")
-                    && !entry.file_name().to_string_lossy().ends_with(".js")
-                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
-                {
+                if !entry.file_name().to_string_lossy().ends_with(".js") {
                     continue;
                 }
 
@@ -129,13 +128,12 @@ fn stacktrace(input_dir: PathBuf) {
 
                 println!("-----Orig:\n{}\n-----", fm.src);
 
-                let expected = Command::new("node")
+                let node_expected = Command::new("node")
                     .arg("-e")
                     .arg(&**fm.src)
                     .output()
+                    .map(extract_node_stack_trace)
                     .expect("failed to capture output of node -e 'reference code'");
-
-                let expected_st = extract_stack_trace(expected);
 
                 match c.process_js_file(
                     fm,
@@ -152,17 +150,16 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let actual = Command::new("node")
+                        let node_actual = Command::new("node")
                             .arg("-e")
                             .arg(&v.code)
                             .arg("-r")
                             .arg("source-map-support/register")
                             .output()
+                            .map(extract_node_stack_trace)
                             .expect("failed to capture output of node -e 'generated code'");
 
-                        let actual_st = extract_stack_trace(actual);
-
-                        assert_eq!(expected_st, actual_st);
+                        assert_eq!(node_expected, node_actual);
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
@@ -177,7 +174,7 @@ fn stacktrace(input_dir: PathBuf) {
 /// Extract stack trace from output of `node -e 'code'`.
 ///
 /// TODO: Use better type.
-fn extract_stack_trace(output: Output) -> Vec<String> {
+fn extract_node_stack_trace(output: Output) -> Vec<String> {
     assert!(
         !output.status.success(),
         "Stack trace tests should fail with stack traces"
@@ -196,8 +193,6 @@ fn extract_stack_trace(output: Output) -> Vec<String> {
         .map(|s| s.replace("    at ", "").replace("\r", ""))
         .collect::<Vec<_>>();
     // println!("{:?}", stacks);
-
-    println!("{}", stacks.join("\n"));
 
     stacks
 }
