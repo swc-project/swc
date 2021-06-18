@@ -12,6 +12,7 @@ use swc::{
     Compiler,
 };
 use testing::assert_eq;
+use testing::NormalizedOutput;
 use testing::{StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -112,6 +113,9 @@ fn issue_706() {
 
 #[testing::fixture("stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
+    let dir = input_dir.parent().unwrap();
+    let output_dir = dir.join("output");
+
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone(), Arc::new(handler));
@@ -131,9 +135,6 @@ fn stacktrace(input_dir: PathBuf) {
 
                 println!("-----Orig:\n{}\n-----", fm.src);
 
-                let node_expected = node_stack_trace(&fm.src)
-                    .expect("failed to get stack trace of a reference file");
-
                 match c.process_js_file(
                     fm,
                     &Options {
@@ -149,10 +150,12 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let node_actual = node_stack_trace(&v.code)
+                        let stack_trace = node_stack_trace(&v.code)
                             .expect("failed to capture output of node -e 'generated code'");
 
-                        assert_eq!(node_expected, node_actual);
+                        stack_trace
+                            .compare_to_file(output_dir.join("stack trace"))
+                            .expect("wrong stack trace");
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
@@ -164,7 +167,7 @@ fn stacktrace(input_dir: PathBuf) {
         .expect("failed");
 }
 
-fn node_stack_trace(code: &str) -> Result<Vec<String>, Error> {
+fn node_stack_trace(code: &str) -> Result<NormalizedOutput, Error> {
     let thread = std::thread::current();
     let test_name = thread.name().expect("test thread should have a name");
 
@@ -187,7 +190,7 @@ fn node_stack_trace(code: &str) -> Result<Vec<String>, Error> {
 /// Extract stack trace from output of `node -e 'code'`.
 ///
 /// TODO: Use better type.
-fn extract_node_stack_trace(output: Output) -> Vec<String> {
+fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     assert!(
         !output.status.success(),
         "Stack trace tests should fail with stack traces"
@@ -197,9 +200,10 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
     //
     let stacks = stderr
         .split(|c| c == '\n')
-        .map(|s| s.replace("    at ", "").replace("\r", ""))
-        .collect::<Vec<_>>();
+        .map(|s| s.trim())
+        .filter(|s| s.starts_with("->"))
+        .collect::<String>();
     // println!("{:?}", stacks);
 
-    stacks
+    stacks.into()
 }
