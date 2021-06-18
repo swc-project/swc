@@ -1211,8 +1211,7 @@ impl<'a> Emitter<'a> {
                 let elem = &tpl.quasis[i / 2];
 
                 if tagged {
-                    self.wr
-                        .write_str_lit(elem.span, &unescape_tpl_lit(&elem.raw.value))?;
+                    self.wr.write_str_lit(elem.span, &elem.raw.value)?;
                 } else {
                     emit!(self, elem);
                 }
