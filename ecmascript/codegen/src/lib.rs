@@ -1208,7 +1208,14 @@ impl<'a> Emitter<'a> {
 
         for i in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if i % 2 == 0 {
-                emit!(self, tpl.quasis[i / 2]);
+                let elem = &tpl.quasis[i / 2];
+
+                if tagged {
+                    self.wr
+                        .write_str_lit(elem.span, &unescape_tpl_lit(&elem.raw.value))?;
+                } else {
+                    emit!(self, elem);
+                }
             } else {
                 punct!(self, "${");
                 emit!(self, tpl.exprs[i / 2]);
