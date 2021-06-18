@@ -4806,6 +4806,10 @@ test!(
     export {Foo} from 'foo';
     ",
     "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+      value: true
+    });
     var _foo = _interopRequireWildcard(require('foo'));
     function _interopRequireWildcard(obj) {
         if (obj && obj.__esModule) {
