@@ -181,8 +181,6 @@ fn node_stack_trace(code: &str) -> Result<Vec<String>, Error> {
         .output()
         .map(extract_node_stack_trace)?;
 
-    dbg!(&stack);
-
     Ok(stack)
 }
 
