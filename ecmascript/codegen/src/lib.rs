@@ -2126,7 +2126,13 @@ impl<'a> Emitter<'a> {
     fn emit_throw_stmt(&mut self, node: &ThrowStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("throw");
+        let throw_span = if node.span.is_dummy() {
+            DUMMY_SP
+        } else {
+            self.cm.span_until_char(node.span, ' ')
+        };
+
+        keyword!(throw_span, "throw");
         space!();
         emit!(node.arg);
         formatting_semi!();
