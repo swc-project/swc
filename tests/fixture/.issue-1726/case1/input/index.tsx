@@ -1,0 +1,1 @@
+const foo = <h1>{bar}</h1>

@@ -1,5 +1,5 @@
 {
-  "mappings": "WAAa,GAAG;WACL,CAAC",
+  "mappings": "OAAO,GAAK,CAAC,GAAG,cAAS,CAAC;WACf,CAAC;AACZ,CAAC",
   "names": [],
   "sources": [
     "$DIR/tests/fixture/issue-1581/case2/input/index.js"

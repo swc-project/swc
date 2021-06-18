@@ -108,9 +108,6 @@ pub struct Options {
     pub env_name: String,
 
     #[serde(default)]
-    pub input_source_map: InputSourceMap,
-
-    #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
 
     #[serde(default)]
@@ -283,7 +280,7 @@ impl Options {
                 .clone()
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
-            input_source_map: self.input_source_map.clone(),
+            input_source_map: self.config.input_source_map.clone(),
         }
     }
 }
@@ -357,6 +354,7 @@ impl Default for Rc {
                 module: None,
                 minify: None,
                 source_maps: None,
+                input_source_map: InputSourceMap::default(),
             },
             Config {
                 env: None,
@@ -376,6 +374,7 @@ impl Default for Rc {
                 module: None,
                 minify: None,
                 source_maps: None,
+                input_source_map: InputSourceMap::default(),
             },
             Config {
                 env: None,
@@ -395,6 +394,7 @@ impl Default for Rc {
                 module: None,
                 minify: None,
                 source_maps: None,
+                input_source_map: InputSourceMap::default(),
             },
         ])
     }
@@ -458,6 +458,9 @@ pub struct Config {
 
     #[serde(default)]
     pub minify: Option<bool>,
+
+    #[serde(default)]
+    pub input_source_map: InputSourceMap,
 
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
