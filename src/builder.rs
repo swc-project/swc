@@ -193,12 +193,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 need_interop_analysis
             ),
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
-            ModuleConfig::build(
-                self.cm.clone(),
-                self.global_mark,
-                module,
-                Rc::clone(&scope)
-            ),
+            ModuleConfig::build(self.cm.clone(), self.global_mark, module, Rc::clone(&scope)),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
                 self.hygiene.is_some()
