@@ -1190,20 +1190,7 @@ impl<'a> Emitter<'a> {
 
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        punct!("`");
-        let i = 0;
-
-        for i in 0..(node.quasis.len() + node.exprs.len()) {
-            if i % 2 == 0 {
-                emit!(node.quasis[i / 2]);
-            } else {
-                punct!("${");
-                emit!(node.exprs[i / 2]);
-                punct!("}");
-            }
-        }
-
-        punct!("`");
+        self.emit_tpl_elem_and_quasis(&node, false)?;
     }
 
     #[emitter]
@@ -1212,7 +1199,26 @@ impl<'a> Emitter<'a> {
 
         emit!(node.tag);
         emit!(node.type_params);
-        emit!(node.tpl);
+        self.emit_tpl_elem_and_quasis(&node.tpl, true)?;
+    }
+
+    fn emit_tpl_elem_and_quasis(&mut self, tpl: &Tpl, tagged: bool) -> Result {
+        punct!(self, "`");
+        let i = 0;
+
+        for i in 0..(tpl.quasis.len() + tpl.exprs.len()) {
+            if i % 2 == 0 {
+                emit!(self, tpl.quasis[i / 2]);
+            } else {
+                punct!(self, "${");
+                emit!(self, tpl.exprs[i / 2]);
+                punct!(self, "}");
+            }
+        }
+
+        punct!(self, "`");
+
+        Ok(())
     }
 
     #[emitter]
