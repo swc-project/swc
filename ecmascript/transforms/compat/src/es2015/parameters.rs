@@ -18,6 +18,8 @@ struct Params;
 
 impl Params {
     fn fold_fn_like(&mut self, ps: Vec<Param>, body: BlockStmt) -> (Vec<Param>, BlockStmt) {
+        let body_span = body.span;
+
         let mut params = vec![];
         let mut decls = vec![];
         let mut unpack_rest = None;
@@ -241,7 +243,7 @@ impl Params {
         (
             params,
             BlockStmt {
-                span: DUMMY_SP,
+                span: body_span,
                 stmts,
             },
         )
