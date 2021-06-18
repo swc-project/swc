@@ -646,7 +646,8 @@ fn test_escape_with_source_str() {
 fn issue_1791() {
     check_latest(
         "f`
-`", "",
+`;", "f`
+`;",
     );
 }
 
