@@ -642,6 +642,14 @@ fn test_escape_with_source_str() {
     );
 }
 
+#[test]
+fn issue_1791() {
+    check_latest(
+        "f`
+`", "",
+    );
+}
+
 #[derive(Debug, Clone)]
 struct Buf(Arc<RwLock<Vec<u8>>>);
 impl Write for Buf {
