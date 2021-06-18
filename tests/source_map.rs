@@ -116,6 +116,8 @@ fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
     let output_dir = dir.join("output");
 
+    let _ = create_dir_all(&output_dir);
+
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone(), Arc::new(handler));
