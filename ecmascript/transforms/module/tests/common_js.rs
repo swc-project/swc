@@ -4833,3 +4833,20 @@ test!(
     console.log('aFunc: ', (0, _testlibrary).aFunc(1, 2));
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1787_1,
+    "
+    import bar from './bar/foo';
+    import baz from './baz/foo';
+    const a = [baz, bar];
+    ",
+    "
+    'use strict';
+    var _foo = _interopRequireDefault(require('./bar/foo'));
+    var _foo1 = _interopRequireDefault(require('./baz/foo'));
+    const a = [_foo1.default, _foo.default];
+    "
+);
