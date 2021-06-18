@@ -1,3 +1,8 @@
+use anyhow::Context;
+use anyhow::Error;
+use std::env::temp_dir;
+use std::fs;
+use std::fs::create_dir_all;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
@@ -126,12 +131,8 @@ fn stacktrace(input_dir: PathBuf) {
 
                 println!("-----Orig:\n{}\n-----", fm.src);
 
-                let node_expected = Command::new("node")
-                    .arg("-e")
-                    .arg(&**fm.src)
-                    .output()
-                    .map(extract_node_stack_trace)
-                    .expect("failed to capture output of node -e 'reference code'");
+                let node_expected = node_stack_trace(&fm.src)
+                    .expect("failed to get stack trace of a reference file");
 
                 match c.process_js_file(
                     fm,
@@ -148,12 +149,7 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let node_actual = Command::new("node")
-                            .arg("-e")
-                            .arg(&v.code)
-                            .arg("--enable-source-maps")
-                            .output()
-                            .map(extract_node_stack_trace)
+                        let node_actual = node_stack_trace(&v.code)
                             .expect("failed to capture output of node -e 'generated code'");
 
                         assert_eq!(node_expected, node_actual);
@@ -166,6 +162,28 @@ fn stacktrace(input_dir: PathBuf) {
         })
         .map(|_| ())
         .expect("failed");
+}
+
+fn node_stack_trace(code: &str) -> Result<Vec<String>, Error> {
+    let thread = std::thread::current();
+    let test_name = thread.name().expect("test thread should have a name");
+
+    let dir = temp_dir().join(test_name);
+
+    let _ = create_dir_all(&dir);
+
+    let test_file = dir.join("eval.js");
+    fs::write(&test_file, code.as_bytes()).context("faailed to write to test js")?;
+
+    let stack = Command::new("node")
+        .arg("--enable-source-maps")
+        .arg(&test_file)
+        .output()
+        .map(extract_node_stack_trace)?;
+
+    dbg!(&stack);
+
+    Ok(stack)
 }
 
 /// Extract stack trace from output of `node -e 'code'`.
