@@ -2031,7 +2031,10 @@ impl<'a> Emitter<'a> {
     fn emit_if_stmt(&mut self, node: &IfStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("if");
+        {
+            let span = self.cm.span_until_char(node.span, ' ');
+            keyword!(span, "if");
+        }
 
         formatting_space!();
         punct!("(");
