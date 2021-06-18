@@ -202,7 +202,9 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
         .split(|c| c == '\n')
         .map(|s| s.trim())
         .filter(|s| s.starts_with("->"))
-        .collect::<String>();
+        .collect::<Vec<_>>();
+
+    let stacks = stacks.join("\n");
     // println!("{:?}", stacks);
 
     stacks.into()
