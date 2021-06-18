@@ -178,12 +178,6 @@ fn extract_node_stack_trace(output: Output) -> Vec<String> {
         "Stack trace tests should fail with stack traces"
     );
 
-    assert_eq!(
-        output.stdout,
-        Vec::<u8>::new(),
-        "Sourcemap test file should not print anything to stdout"
-    );
-
     let stderr = String::from_utf8_lossy(&output.stderr);
     //
     let stacks = stderr
