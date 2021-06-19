@@ -97,7 +97,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        let scope_instance: Scope = Default::default();
+        let scope_instance: Scope = Scope::default();
         let scope = Rc::new(RefCell::new(scope_instance));
         chain!(
             resolver_with_mark(mark),

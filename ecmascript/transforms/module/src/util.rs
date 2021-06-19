@@ -91,11 +91,11 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
+    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
-    pub import_types: HashMap<JsWord, bool>,
+    pub(crate) import_types: HashMap<JsWord, bool>,
 
     /// Map from imported ident to (source file, property name).
     ///
@@ -105,10 +105,10 @@ pub struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub idents: HashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+    pub(crate) idents: HashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
 
     /// Declared variables except const.
-    pub declared_vars: Vec<(JsWord, SyntaxContext)>,
+    pub(crate) declared_vars: Vec<(JsWord, SyntaxContext)>,
 
     /// Maps of exported variables.
     ///
@@ -119,11 +119,11 @@ pub struct Scope {
     ///
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
-    pub exported_vars: HashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+    pub(crate) exported_vars: HashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
 
     /// This is required to handle
     /// `export * from 'foo';`
-    pub lazy_blacklist: HashSet<JsWord>,
+    pub(crate) lazy_blacklist: HashSet<JsWord>,
 }
 
 impl Scope {
