@@ -2304,7 +2304,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Option<Decl>> {
         match value {
             js_word!("abstract") => {
-                if next || is!(self, "class") {
+                if next || (is!(self, "class") && !self.input.had_line_break_before_cur()) {
                     if next {
                         bump!(self);
                     }
