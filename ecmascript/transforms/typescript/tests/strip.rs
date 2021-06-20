@@ -3983,3 +3983,26 @@ to!(
     console.log({ foo: 1 });
     "
 );
+
+to!(
+    pr_1835,
+    r#"
+    import { A } from "./a";
+    import { B } from "./b";
+    import { C } from "./c";
+
+    const { A: AB } = B;
+    const { CB = C } = B;
+
+    console.log(A, AB, CB);
+    "#,
+    r#"
+    import { A } from "./a";
+    import { B } from "./b";
+    import { C } from "./c";
+
+    const { A: AB } = B;
+    const { CB = C } = B;
+
+    console.log(A, AB, CB);"#
+);
