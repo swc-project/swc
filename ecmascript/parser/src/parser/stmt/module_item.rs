@@ -341,7 +341,7 @@ impl<'a, I: Tokens> Parser<I> {
             if self.input.syntax().typescript() {
                 if is!(self, "abstract")
                     && peeked_is!(self, "class")
-                    && !self.input.had_line_break_before_cur()
+                    && !self.input.has_linebreak_between_cur_and_peeked()
                 {
                     let class_start = cur_pos!(self);
                     assert_and_bump!(self, "abstract");
