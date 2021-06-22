@@ -17,8 +17,7 @@ jobs:
             ./cache
             ~/.cargo/
             target
-            Cargo.lock
-          key: ${{ runner.os }}-benchmark
+          key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
       - name: Run benchmark
         run: cargo bench --all --no-run
 
