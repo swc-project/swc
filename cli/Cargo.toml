@@ -7,3 +7,4 @@ version = "0.1.0"
 
 [dependencies]
 swc = {version = "0.24.0", path = "../"}
+swc_common = {version = "0.10.21", path = "../common"}
