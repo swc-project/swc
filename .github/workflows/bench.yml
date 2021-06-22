@@ -36,7 +36,7 @@ jobs:
             ./cache
             ~/.cargo/
             target
-          key: ${{ runner.os }}-release-${{ hashFiles('**/Cargo.toml') }}
+          key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
       - name: Run benchmark
         run: cargo bench --all | tee output.txt
       # Run `github-action-benchmark` action
@@ -49,9 +49,10 @@ jobs:
           output-file-path: output.txt
           # Where the previous data file is stored
           external-data-json-path: ./cache/benchmark-data.json
-          # Workflow will fail when an alert happens
-          fail-on-alert: true
-          # GitHub API token to make a commit comment
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          # Enable alert commit comment
-          comment-on-alert: true
+
+      - name: Push benchmark result
+        # if: github.event_name != 'pull_request'
+        run: |
+          git push 'https://kdy1:${{ secrets.GH_TOKEN }}@github.com/swc-project/raw-data.git' gh-pages:gh-pages
+
+
