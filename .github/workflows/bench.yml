@@ -49,10 +49,10 @@ jobs:
           output-file-path: output.txt
           # Where the previous data file is stored
           external-data-json-path: ./cache/benchmark-data.json
-
-      - name: Push benchmark result
-        # if: github.event_name != 'pull_request'
-        run: |
-          git push 'https://kdy1:${{ secrets.GH_TOKEN }}@github.com/swc-project/raw-data.git' gh-pages:gh-pages
-
-
+          # Workflow will fail when an alert happens
+          fail-on-alert: true
+          # GitHub API token to make a commit comment
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Enable alert commit comment
+          comment-on-alert: true
+          auto-push: true
