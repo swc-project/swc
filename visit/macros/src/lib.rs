@@ -499,7 +499,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::Fold => q!({
-                pub trait FoldWith<V: Fold> {
+                pub trait FoldWith<V: ?Sized + Fold> {
                     fn fold_with(self, v: &mut V) -> Self;
 
                     /// Visit children nodes of self with `v`
@@ -508,7 +508,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> FoldWith<V> for Box<T>
                 where
-                    V: Fold,
+                    V: ?Sized + Fold,
                     T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
@@ -522,7 +522,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             }),
             Mode::VisitMut => q!({
-                pub trait VisitMutWith<V: VisitMut> {
+                pub trait VisitMutWith<V: ?Sized + VisitMut> {
                     fn visit_mut_with(&mut self, v: &mut V);
 
                     fn visit_mut_children_with(&mut self, v: &mut V);
@@ -676,7 +676,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             expr,
                         },
                         {
-                            impl<V: Fold> FoldWith<V> for Type {
+                            impl<V: ?Sized + Fold> FoldWith<V> for Type {
                                 fn fold_with(self, v: &mut V) -> Self {
                                     expr
                                 }

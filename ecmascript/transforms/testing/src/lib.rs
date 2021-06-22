@@ -25,6 +25,7 @@ use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
 use swc_ecma_transforms_base::hygiene;
 use swc_ecma_utils::DropSpan;
 use swc_ecma_utils::HANDLER;
+use swc_ecma_visit::FoldFactory;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
@@ -134,9 +135,9 @@ impl<'a> Tester<'a> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn apply_transform<T: Fold>(
+    pub fn apply_transform<T: Fold + ?Sized>(
         &mut self,
-        mut tr: T,
+        tr: &mut T,
         name: &str,
         syntax: Syntax,
         src: &str,
@@ -159,7 +160,7 @@ impl<'a> Tester<'a> {
         };
 
         let module = module
-            .fold_with(&mut tr)
+            .fold_with(tr)
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
             }))
@@ -193,10 +194,10 @@ impl<'a> Tester<'a> {
     }
 }
 
-fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
+fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl FoldFactory
 where
     F: FnOnce(&mut Tester<'_>) -> P,
-    P: Fold,
+    P: FoldFactory,
 {
     op(tester)
 }
@@ -209,11 +210,11 @@ pub fn test_transform<F, P>(
     _always_ok_if_code_eq: bool,
 ) where
     F: FnOnce(&mut Tester) -> P,
-    P: Fold,
+    P: FoldFactory,
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
+            &mut as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
             }),
             "output.js",
@@ -225,8 +226,9 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = make_tr("actual", tr, tester);
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+        let mut tr_fac = make_tr("actual", tr, tester);
+        let mut tr = tr_fac.get_instance();
+        let actual = tester.apply_transform(&mut *tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -321,10 +323,11 @@ where
     P: Fold,
 {
     Tester::run(|tester| {
-        let tr = make_tr(test_name, tr, tester);
+        let mut tr_fac = make_tr(test_name, tr, tester);
+        let mut tr = tr_fac.get_instance();
 
         let module = tester.apply_transform(
-            tr,
+            &mut *tr,
             "input.js",
             syntax,
             &format!(
@@ -517,10 +520,10 @@ where
         let input_str = read_to_string(input).unwrap();
         println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
 
-        let tr = tr(tester);
+        let mut tr = tr(tester);
 
         let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
+            &mut as_folder(::swc_ecma_utils::DropSpan {
                 preserve_ctxt: true,
             }),
             "output.js",
@@ -538,8 +541,12 @@ where
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual =
-            tester.apply_transform(tr, "input.js", syntax, &read_to_string(&input).unwrap())?;
+        let actual = tester.apply_transform(
+            &mut tr,
+            "input.js",
+            syntax,
+            &read_to_string(&input).unwrap(),
+        )?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {

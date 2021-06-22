@@ -4,8 +4,8 @@ use super::util::{
     make_require_call, use_strict, ModulePass, Scope,
 };
 use fxhash::FxHashSet;
-use std::cell::RefCell;
-use std::ops::DerefMut;
+use std::cell::{RefCell, RefMut};
+use std::ops::{Deref, DerefMut};
 use std::rc::Rc;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
@@ -18,18 +18,20 @@ use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
 use swc_ecma_utils::IsDirective;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
+use swc_ecma_visit::{
+    noop_fold_type, Fold, FoldFactory, FoldWith, OptionallyOwnedRefMut, VisitWith,
+};
 
 pub fn common_js(
     root_mark: Mark,
     config: Config,
     scope_arg: Option<Rc<RefCell<Scope>>>,
-) -> impl Fold {
+) -> impl FoldFactory {
     let scope: Rc<RefCell<Scope>> = match scope_arg {
         Some(scope) => scope,
-        None => Rc::new(RefCell::new(Default::default())),
+        None => Rc::new(RefCell::new(Scope::default())),
     };
-    CommonJs {
+    CommonJsFactory {
         root_mark,
         config,
         scope,
@@ -37,37 +39,33 @@ pub fn common_js(
     }
 }
 
-struct CommonJs {
+struct CommonJsFactory {
     root_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
 }
 
-impl Fold for CommonJs {
-    noop_fold_type!();
-
-    fn fold_module(&mut self, module: Module) -> Module {
-        let mut scope_ref_mut = self.scope.borrow_mut();
-        let scope = scope_ref_mut.deref_mut();
-        let mut commonjs = CommonJsWorker {
+impl FoldFactory for CommonJsFactory {
+    fn get_instance<'a>(&'a mut self) -> OptionallyOwnedRefMut<'a, dyn Fold + 'a> {
+        let commonjs = CommonJs {
             root_mark: self.root_mark,
             config: &mut self.config,
-            scope,
+            scope: self.scope.deref().borrow_mut(),
             in_top_level: self.in_top_level,
         };
-        commonjs.fold_module(module)
+        OptionallyOwnedRefMut::Owned(Box::new(commonjs))
     }
 }
 
-struct CommonJsWorker<'a> {
+struct CommonJs<'a> {
     root_mark: Mark,
     config: &'a mut Config,
-    scope: &'a mut Scope,
+    scope: RefMut<'a, Scope>,
     in_top_level: bool,
 }
 
-impl Fold for CommonJsWorker<'_> {
+impl Fold for CommonJs<'_> {
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -553,8 +551,9 @@ impl Fold for CommonJsWorker<'_> {
             );
         }
 
-        for (src, import) in self.scope.imports.drain(..) {
-            let lazy = if self.scope.lazy_blacklist.contains(&src) {
+        let scope = self.scope.deref_mut();
+        for (src, import) in scope.imports.drain(..) {
+            let lazy = if scope.lazy_blacklist.contains(&src) {
                 false
             } else {
                 self.config.lazy.is_lazy(&src)
@@ -564,7 +563,7 @@ impl Fold for CommonJsWorker<'_> {
 
             match import {
                 Some(import) => {
-                    let ty = self.scope.import_types.get(&src);
+                    let ty = scope.import_types.get(&src);
                     let rhs = match ty {
                         Some(true) if !self.config.no_interop => Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
@@ -719,17 +718,17 @@ impl Fold for CommonJsWorker<'_> {
     mark_as_nested!();
 }
 
-impl ModulePass for CommonJsWorker<'_> {
+impl ModulePass for CommonJs<'_> {
     fn config(&self) -> &Config {
         &self.config
     }
 
     fn scope(&self) -> &Scope {
-        self.scope
+        self.scope.deref()
     }
 
     fn scope_mut(&mut self) -> &mut Scope {
-        self.scope
+        self.scope.deref_mut()
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
