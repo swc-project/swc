@@ -19,7 +19,9 @@ jobs:
             target
           key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
       - name: Build (release)
-        run: npm run build
+        run: |
+          npm i
+          npm run build
 
       - name: Print binary size
         run: ls -al ./target/release/libnode*
