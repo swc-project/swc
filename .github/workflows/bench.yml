@@ -5,8 +5,8 @@ on:
   - pull_request
 
 jobs:
-  build:
-    name: Build
+  binary-size:
+    name: Binary size
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,13 +19,14 @@ jobs:
             target
           key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
       - name: Build (release)
-        run: cargo bench --all --no-run
+        run: npm run build
+
+      - name: Print binary size
+        run: ls -al ./target/release/libnode*
 
   benchmark:
     name: Performance regression check
     runs-on: ubuntu-latest
-    needs:
-      - build
     steps:
       - uses: actions/checkout@v2
       - name: Cache
