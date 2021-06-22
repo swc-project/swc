@@ -18,7 +18,7 @@ jobs:
             ~/.cargo/
             target
           key: ${{ runner.os }}-benchmark-${{ hashFiles('**/Cargo.toml') }}
-      - name: Run benchmark
+      - name: Build (release)
         run: cargo bench --all --no-run
 
   benchmark:
