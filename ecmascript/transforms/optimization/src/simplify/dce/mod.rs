@@ -45,7 +45,7 @@ impl Default for Config<'_> {
     }
 }
 
-pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
+pub fn dce<'a>(config: Config<'a>) -> impl 'a + RepeatedJsPass + VisitMut {
     assert_ne!(
         config.used_mark,
         Mark::root(),
