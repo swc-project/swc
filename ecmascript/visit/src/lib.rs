@@ -33,6 +33,22 @@ where
     }
 }
 
+impl<A, B> VisitMut for AndThen<A, B>
+where
+    A: VisitMut,
+    B: VisitMut,
+{
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        self.first.visit_mut_module(n);
+        self.second.visit_mut_module(n)
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        self.first.visit_mut_script(n);
+        self.second.visit_mut_script(n)
+    }
+}
+
 impl<A, B> Visit for AndThen<A, B>
 where
     A: Visit,
