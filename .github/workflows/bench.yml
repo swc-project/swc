@@ -69,4 +69,6 @@ jobs:
           cd raw-data
           git add -A
           git commit -m 'Update'
+          git config --global user.email "bot@swc.rs"
+          git config --global user.name "The swc bot"
           git push 'https://kdy1:${{ secrets.GH_TKOEN }}@github.com/swc-project/raw-data.git' gh-pages:gh-pages
