@@ -1,6 +1,5 @@
 use super::util::Scope;
 use std::cell::RefCell;
-use std::ops::DerefMut;
 use std::rc::Rc;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
@@ -24,7 +23,7 @@ impl Fold for ImportAnalyzer {
     fn fold_module(&mut self, module: Module) -> Module {
         self.visit_module(&module, &Invalid { span: DUMMY_SP } as _);
 
-        for (_, ty) in self.scope.import_types.iter() {
+        for (_, ty) in self.scope.borrow().import_types.iter() {
             if *ty {
                 enable_helper!(interop_require_wildcard);
             } else {
@@ -42,12 +41,14 @@ impl Visit for ImportAnalyzer {
     fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {
         *self
             .scope
+            .borrow_mut()
             .import_types
             .entry(export.src.value.clone())
             .or_default() = true
     }
 
     fn visit_import_decl(&mut self, import: &ImportDecl, _parent: &dyn Node) {
+        let mut scope = self.scope.borrow_mut();
         if import.specifiers.is_empty() {
             // import 'foo';
             //   -> require('foo');
@@ -58,9 +59,7 @@ impl Visit for ImportAnalyzer {
             }
         {
             if &*import.src.value != "@swc/helpers" {
-                self.scope
-                    .import_types
-                    .insert(import.src.value.clone(), true);
+                scope.import_types.insert(import.src.value.clone(), true);
             }
         } else {
             let mut has_non_default = false;
@@ -70,7 +69,7 @@ impl Visit for ImportAnalyzer {
                         "import * as foo cannot be used with other type of import specifiers"
                     ),
                     ImportSpecifier::Default(_) => {
-                        self.scope
+                        scope
                             .import_types
                             .entry(import.src.value.clone())
                             .or_insert(false);
@@ -88,13 +87,13 @@ impl Visit for ImportAnalyzer {
                         let is_default = name == js_word!("default");
 
                         if is_default {
-                            self.scope
+                            scope
                                 .import_types
                                 .entry(import.src.value.clone())
                                 .or_insert(has_non_default);
                         } else {
                             has_non_default = true;
-                            self.scope
+                            scope
                                 .import_types
                                 .entry(import.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -106,6 +105,7 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_named_export(&mut self, export: &NamedExport, _parent: &dyn Node) {
+        let mut scope = self.scope.borrow_mut();
         for &ExportNamedSpecifier { ref orig, .. } in export.specifiers.iter().map(|e| match *e {
             ExportSpecifier::Named(ref e) => e,
             _ => unreachable!("export default from 'foo'; should be removed by previous pass"),
@@ -114,12 +114,9 @@ impl Visit for ImportAnalyzer {
 
             if let Some(ref src) = export.src {
                 if is_import_default {
-                    self.scope
-                        .import_types
-                        .entry(src.value.clone())
-                        .or_insert(false);
+                    scope.import_types.entry(src.value.clone()).or_insert(false);
                 } else {
-                    self.scope
+                    scope
                         .import_types
                         .entry(src.value.clone())
                         .and_modify(|v| *v = true);
@@ -130,7 +127,7 @@ impl Visit for ImportAnalyzer {
 
     fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
         n.visit_children_with(self);
-
+        let mut scope = self.scope.borrow_mut();
         match &n.callee {
             ExprOrSuper::Expr(callee) => match &**callee {
                 Expr::Ident(callee) => {
@@ -138,11 +135,8 @@ impl Visit for ImportAnalyzer {
                         if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
                             match &**expr {
                                 Expr::Lit(Lit::Str(src)) => {
-                                    *self
-                                        .scope
-                                        .import_types
-                                        .entry(src.value.clone())
-                                        .or_default() = true;
+                                    *scope.import_types.entry(src.value.clone()).or_default() =
+                                        true;
                                 }
                                 _ => {}
                             }
