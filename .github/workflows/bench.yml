@@ -68,7 +68,7 @@ jobs:
           branch: gh-pages
           folder: raw-data
           clean: true
-          git-config-email: github-bot@swc.rs
+          git-config-email: kdy1997.dev@gmail.com
           repository-name: swc-project/raw-data
           commit-message: "Update"
           single-commit: true
