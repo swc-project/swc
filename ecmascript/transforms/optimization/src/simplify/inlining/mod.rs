@@ -33,7 +33,7 @@ pub struct Config {}
 ///
 /// Currently all functions are treated as a black box, and all the pass gives
 /// up inlining variables across a function call or a constructor call.
-pub fn inlining(_: Config) -> impl RepeatedJsPass + 'static {
+pub fn inlining(_: Config) -> impl 'static + RepeatedJsPass + VisitMut {
     as_folder(Inlining {
         phase: Phase::Analysis,
         is_first_run: true,
