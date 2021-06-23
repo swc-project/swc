@@ -19,21 +19,21 @@ pub trait Node: Any {}
 
 impl<T: ?Sized> Node for T where T: Any {}
 
-impl<FactoryA, FactoryB> Fold for AndThen<FactoryA, FactoryB>
+impl<A, B> Fold for AndThen<A, B>
 where
-    FactoryA: FoldFactory,
-    FactoryB: FoldFactory,
+    A: Fold,
+    B: Fold,
 {
     #[inline(always)]
     fn fold_module(&mut self, n: Module) -> Module {
-        let n = self.first.get_instance().fold_module(n);
-        self.second.get_instance().fold_module(n)
+        let n = self.first.fold_module(n);
+        self.second.fold_module(n)
     }
 
     #[inline(always)]
     fn fold_script(&mut self, n: Script) -> Script {
-        let n = self.first.get_instance().fold_script(n);
-        self.second.get_instance().fold_script(n)
+        let n = self.first.fold_script(n);
+        self.second.fold_script(n)
     }
 }
 
@@ -1681,67 +1681,3 @@ define!({
         pub expr: Box<Expr>,
     }
 });
-
-/**
- * Used when a caller will accept a ref, but the callee may sometimes
- * need to give ownership of the referenced data to the caller.
- */
-pub enum OptionallyOwnedRefMut<'a, T>
-where
-    // all references in T must outlive ref_mut_lifetime
-    T: ?Sized + 'a,
-{
-    Owned(Box<T>),
-    RefMut(&'a mut T),
-}
-impl<'a, T> Deref for OptionallyOwnedRefMut<'a, T>
-where
-    T: ?Sized,
-{
-    type Target = T;
-    fn deref(&self) -> &Self::Target {
-        match self {
-            OptionallyOwnedRefMut::Owned(fold) => fold.as_ref(),
-            OptionallyOwnedRefMut::RefMut(fold) => fold,
-        }
-    }
-}
-impl<'a, T> DerefMut for OptionallyOwnedRefMut<'a, T>
-where
-    T: ?Sized,
-{
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        match self {
-            OptionallyOwnedRefMut::Owned(fold) => fold.as_mut(),
-            OptionallyOwnedRefMut::RefMut(fold) => fold,
-        }
-    }
-}
-
-/**
- * Some implementors of Factory will create and return ownership of a new T
- * every time. Some will return a `&mut` to a T that they already own.
- * Some will return a `&mut` to themselves.  For example, a T can be a
- * Factory<T>.  This may seem silly, but it allows code to be refactored to
- * use factories and to still accept non-factories as long as they implement
- * this trait.
- */
-pub trait FoldFactory {
-    fn get_instance<'a>(&'a mut self) -> OptionallyOwnedRefMut<'a, dyn Fold + 'a>;
-}
-
-// Every `Fold` is also a `Factory` that returns a reference to itself
-impl<T> FoldFactory for T
-where
-    T: Fold,
-{
-    fn get_instance<'a>(&'a mut self) -> OptionallyOwnedRefMut<'a, dyn Fold + 'a> {
-        OptionallyOwnedRefMut::RefMut(self)
-    }
-}
-
-impl FoldFactory for Box<dyn FoldFactory> {
-    fn get_instance<'a>(&'a mut self) -> OptionallyOwnedRefMut<'a, dyn Fold + 'a> {
-        (**self).get_instance()
-    }
-}

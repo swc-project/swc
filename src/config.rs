@@ -611,7 +611,7 @@ impl ModuleConfig {
         root_mark: Mark,
         config: Option<ModuleConfig>,
         scope: RustRc<RefCell<Scope>>,
-    ) -> Box<dyn swc_ecma_visit::FoldFactory> {
+    ) -> Box<dyn swc_ecma_visit::Fold> {
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(

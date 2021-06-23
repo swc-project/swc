@@ -3,6 +3,7 @@ use indexmap::IndexMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::{
+    cell::{Ref, RefMut},
     collections::{hash_map::Entry, HashMap, HashSet},
     iter,
 };
@@ -20,8 +21,8 @@ use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
-    fn scope(&self) -> &Scope;
-    fn scope_mut(&mut self) -> &mut Scope;
+    fn scope(&self) -> Ref<Scope>;
+    fn scope_mut(&mut self) -> RefMut<Scope>;
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr;
 }
@@ -403,14 +404,8 @@ impl Scope {
                     folder.config().lazy.is_lazy(&src)
                 };
 
-                let (ident, span) = folder
-                    .scope()
-                    .imports
-                    .get(&src)
-                    .as_ref()
-                    .unwrap()
-                    .as_ref()
-                    .unwrap();
+                let scope = folder.scope();
+                let (ident, span) = scope.imports.get(&src).as_ref().unwrap().as_ref().unwrap();
 
                 let obj = {
                     let ident = Ident::new(ident.clone(), *span);
@@ -443,15 +438,6 @@ impl Scope {
         top_level: bool,
         expr: Expr,
     ) -> Expr {
-        macro_rules! entry {
-            ($i:expr) => {
-                folder
-                    .scope_mut()
-                    .exported_vars
-                    .entry(($i.sym.clone(), $i.span.ctxt()))
-            };
-        }
-
         macro_rules! chain_assign {
             ($entry:expr, $e:expr) => {{
                 let mut e = $e;
@@ -566,7 +552,10 @@ impl Scope {
                 prefix,
             }) if arg.is_ident() => {
                 let arg = arg.ident().unwrap();
-                let entry = entry!(arg);
+                let mut scope = folder.scope_mut();
+                let entry = scope
+                    .exported_vars
+                    .entry((arg.sym.clone(), arg.span.ctxt()));
 
                 match entry {
                     Entry::Occupied(entry) => {
@@ -687,7 +676,10 @@ impl Scope {
                 match expr.left {
                     PatOrExpr::Pat(pat) if pat.is_ident() => {
                         let i = pat.ident().unwrap();
-                        let entry = entry!(i.id);
+                        let mut scope = folder.scope_mut();
+                        let entry = scope
+                            .exported_vars
+                            .entry((i.id.sym.clone(), i.id.span.ctxt()));
 
                         match entry {
                             Entry::Occupied(entry) => {
@@ -712,7 +704,11 @@ impl Scope {
                                     .into_iter()
                                     .map(|var| Ident::new(var.0, var.1))
                                     .filter_map(|i| {
-                                        let entry = match entry!(i) {
+                                        let mut scope = folder.scope_mut();
+                                        let entry = match scope
+                                            .exported_vars
+                                            .entry((i.sym.clone(), i.span.ctxt()))
+                                        {
                                             Entry::Occupied(entry) => entry,
                                             _ => {
                                                 return None;

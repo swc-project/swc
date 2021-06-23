@@ -4,8 +4,7 @@ use super::util::{
     make_require_call, use_strict, ModulePass, Scope,
 };
 use fxhash::FxHashSet;
-use std::cell::{RefCell, RefMut};
-use std::ops::{Deref, DerefMut};
+use std::cell::{Ref, RefCell, RefMut};
 use std::rc::Rc;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
@@ -18,20 +17,18 @@ use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::quote_str;
 use swc_ecma_utils::IsDirective;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
-use swc_ecma_visit::{
-    noop_fold_type, Fold, FoldFactory, FoldWith, OptionallyOwnedRefMut, VisitWith,
-};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(
     root_mark: Mark,
     config: Config,
     scope_arg: Option<Rc<RefCell<Scope>>>,
-) -> impl FoldFactory {
+) -> impl Fold {
     let scope: Rc<RefCell<Scope>> = match scope_arg {
         Some(scope) => scope,
         None => Rc::new(RefCell::new(Scope::default())),
     };
-    CommonJsFactory {
+    CommonJs {
         root_mark,
         config,
         scope,
@@ -39,33 +36,14 @@ pub fn common_js(
     }
 }
 
-struct CommonJsFactory {
+struct CommonJs {
     root_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
 }
 
-impl FoldFactory for CommonJsFactory {
-    fn get_instance<'a>(&'a mut self) -> OptionallyOwnedRefMut<'a, dyn Fold + 'a> {
-        let commonjs = CommonJs {
-            root_mark: self.root_mark,
-            config: &mut self.config,
-            scope: self.scope.deref().borrow_mut(),
-            in_top_level: self.in_top_level,
-        };
-        OptionallyOwnedRefMut::Owned(Box::new(commonjs))
-    }
-}
-
-struct CommonJs<'a> {
-    root_mark: Mark,
-    config: &'a mut Config,
-    scope: RefMut<'a, Scope>,
-    in_top_level: bool,
-}
-
-impl Fold for CommonJs<'_> {
+impl Fold for CommonJs {
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -90,7 +68,7 @@ impl Fold for CommonJs<'_> {
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    self.scope.insert_import(import)
+                    self.scope.borrow_mut().insert_import(import)
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(..))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..))
@@ -103,6 +81,8 @@ impl Fold for CommonJs<'_> {
                         stmts.push(ModuleItem::Stmt(define_es_module(quote_ident!("exports"))));
                     }
 
+                    let mut scope_ref_mut = self.scope.borrow_mut();
+                    let scope = &mut *scope_ref_mut;
                     macro_rules! init_export {
                         ("default") => {{
                             init_export!(js_word!("default"))
@@ -130,9 +110,9 @@ impl Fold for CommonJs<'_> {
                         )) => {}
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(ref export)) => {
-                            self.scope.import_to_export(&export.src, true);
+                            scope.import_to_export(&export.src, true);
 
-                            self.scope
+                            scope
                                 .import_types
                                 .entry(export.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -148,14 +128,18 @@ impl Fold for CommonJs<'_> {
                             ref specifiers,
                             ..
                         })) => {
-                            self.scope.import_to_export(&src, !specifiers.is_empty());
+                            scope.import_to_export(&src, !specifiers.is_empty());
                         }
                         _ => {}
                     }
-
+                    drop(scope);
+                    drop(scope_ref_mut);
                     match item {
                         ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
-                            self.scope.lazy_blacklist.insert(export.src.value.clone());
+                            self.scope
+                                .borrow_mut()
+                                .lazy_blacklist
+                                .insert(export.src.value.clone());
 
                             export_alls.push(export);
                         }
@@ -204,10 +188,11 @@ impl Fold for CommonJs<'_> {
                                 var.clone().fold_with(self),
                             ))));
 
+                            let mut scope = self.scope.borrow_mut();
                             var.decls.visit_with(
                                 &Invalid { span: DUMMY_SP } as _,
                                 &mut VarCollector {
-                                    to: &mut self.scope.declared_vars,
+                                    to: &mut scope.declared_vars,
                                 },
                             );
 
@@ -217,7 +202,7 @@ impl Fold for CommonJs<'_> {
                                 decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                                 for ident in found.drain(..) {
-                                    self.scope
+                                    scope
                                         .exported_vars
                                         .entry((ident.sym.clone(), ident.span.ctxt()))
                                         .or_default()
@@ -238,6 +223,7 @@ impl Fold for CommonJs<'_> {
                                     );
                                 }
                             }
+                            drop(scope);
                         }
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(..)) => {
                             //
@@ -347,12 +333,14 @@ impl Fold for CommonJs<'_> {
 
                         // export { foo } from 'foo';
                         ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
+                            let mut scope = self.scope.borrow_mut();
                             let imported = export.src.clone().map(|src| {
-                                self.scope
-                                    .import_to_export(&src, !export.specifiers.is_empty())
+                                scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
 
                             stmts.reserve(export.specifiers.len());
+
+                            drop(scope);
 
                             for ExportNamedSpecifier { orig, exported, .. } in
                                 export.specifiers.into_iter().map(|e| match e {
@@ -363,27 +351,24 @@ impl Fold for CommonJs<'_> {
                                     ),
                                 })
                             {
+                                let mut scope = self.scope.borrow_mut();
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = orig.to_id();
-                                if self.scope.declared_vars.contains(&key) {
-                                    self.scope
-                                        .exported_vars
-                                        .entry(key.clone())
-                                        .or_default()
-                                        .push(
-                                            exported
-                                                .clone()
-                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                                .unwrap_or_else(|| {
-                                                    (orig.sym.clone(), orig.span.ctxt())
-                                                }),
-                                        );
+                                if scope.declared_vars.contains(&key) {
+                                    scope.exported_vars.entry(key.clone()).or_default().push(
+                                        exported
+                                            .clone()
+                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                            .unwrap_or_else(|| {
+                                                (orig.sym.clone(), orig.span.ctxt())
+                                            }),
+                                    );
                                 }
 
                                 if let Some(ref src) = export.src {
                                     if is_import_default {
-                                        self.scope
+                                        scope
                                             .import_types
                                             .entry(src.value.clone())
                                             .or_insert(false);
@@ -391,19 +376,15 @@ impl Fold for CommonJs<'_> {
                                 }
 
                                 let lazy = if let Some(ref src) = export.src {
-                                    if self.scope.lazy_blacklist.contains(&src.value) {
+                                    if scope.lazy_blacklist.contains(&src.value) {
                                         false
                                     } else {
                                         self.config.lazy.is_lazy(&src.value)
                                     }
                                 } else {
-                                    match self
-                                        .scope
-                                        .idents
-                                        .get(&(orig.sym.clone(), orig.span.ctxt()))
-                                    {
+                                    match scope.idents.get(&(orig.sym.clone(), orig.span.ctxt())) {
                                         Some((ref src, _)) => {
-                                            if self.scope.lazy_blacklist.contains(src) {
+                                            if scope.lazy_blacklist.contains(src) {
                                                 false
                                             } else {
                                                 self.config.lazy.is_lazy(src)
@@ -414,10 +395,11 @@ impl Fold for CommonJs<'_> {
                                 };
 
                                 let is_reexport = export.src.is_some()
-                                    || self
-                                        .scope
+                                    || scope
                                         .idents
                                         .contains_key(&(orig.sym.clone(), orig.span.ctxt()));
+
+                                drop(scope);
 
                                 let old = self.in_top_level;
 
@@ -491,6 +473,8 @@ impl Fold for CommonJs<'_> {
 
         let has_export = !exports.is_empty();
 
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = &mut *scope_ref_mut;
         // Used only if export * exists
         let exported_names = {
             if (!export_alls.is_empty() && has_export) || export_alls.len() >= 2 {
@@ -536,7 +520,7 @@ impl Fold for CommonJs<'_> {
         for export in export_alls {
             // We use extra_stmts because it should be placed *after* import
             // statements.
-            extra_stmts.push(ModuleItem::Stmt(self.scope.handle_export_all(
+            extra_stmts.push(ModuleItem::Stmt(scope.handle_export_all(
                 quote_ident!("exports"),
                 exported_names.clone(),
                 export,
@@ -550,8 +534,7 @@ impl Fold for CommonJs<'_> {
                     .into(),
             );
         }
-
-        let scope = self.scope.deref_mut();
+        let scope = &mut *scope;
         for (src, import) in scope.imports.drain(..) {
             let lazy = if scope.lazy_blacklist.contains(&src) {
                 false
@@ -696,7 +679,7 @@ impl Fold for CommonJs<'_> {
             var.decls.visit_with(
                 &Invalid { span: DUMMY_SP } as _,
                 &mut VarCollector {
-                    to: &mut self.scope.declared_vars,
+                    to: &mut (*(*self.scope).borrow_mut()).declared_vars,
                 },
             );
         }
@@ -708,7 +691,7 @@ impl Fold for CommonJs<'_> {
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
-        self.scope
+        (*(*self.scope).borrow_mut())
             .declared_vars
             .push((node.ident.sym.clone(), node.ident.span.ctxt()));
 
@@ -718,17 +701,17 @@ impl Fold for CommonJs<'_> {
     mark_as_nested!();
 }
 
-impl ModulePass for CommonJs<'_> {
+impl ModulePass for CommonJs {
     fn config(&self) -> &Config {
         &self.config
     }
 
-    fn scope(&self) -> &Scope {
-        self.scope.deref()
+    fn scope(&self) -> Ref<Scope> {
+        self.scope.borrow()
     }
 
-    fn scope_mut(&mut self) -> &mut Scope {
-        self.scope.deref_mut()
+    fn scope_mut(&mut self) -> RefMut<Scope> {
+        self.scope.borrow_mut()
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {
