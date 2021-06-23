@@ -55,4 +55,5 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           # Enable alert commit comment
           comment-on-alert: true
-          auto-push: true
+          comment-always: true
+          alert-comment-cc-users: kdy1
