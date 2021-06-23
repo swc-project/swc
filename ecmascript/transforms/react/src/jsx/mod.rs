@@ -157,7 +157,7 @@ fn parse_classic_option(cm: &SourceMap, name: &str, src: String) -> Box<Expr> {
 /// `@babel/plugin-transform-react-jsx`
 ///
 /// Turn JSX into React function calls
-pub fn jsx<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl Fold
+pub fn jsx<C>(cm: Lrc<SourceMap>, comments: Option<C>, options: Options) -> impl Fold + VisitMut
 where
     C: Comments,
 {

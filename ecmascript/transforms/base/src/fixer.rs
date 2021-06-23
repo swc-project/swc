@@ -4,7 +4,7 @@ use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold {
+pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold + VisitMut {
     as_folder(Fixer {
         comments,
         ctx: Default::default(),
