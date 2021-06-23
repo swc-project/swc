@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use anyhow::Context;
 use anyhow::Error;
 use std::env::temp_dir;
@@ -111,7 +113,7 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
-#[cfg(not(target_os = "windows"))]
+#[cfg(target_os = "node-16-breaks-the-test")]
 #[testing::fixture("stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
     let dir = input_dir.parent().unwrap();
