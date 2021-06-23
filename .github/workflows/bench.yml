@@ -42,6 +42,10 @@ jobs:
       - name: Run benchmark
         run: cargo bench --all | tee output.txt
       # Run `github-action-benchmark` action
+      - name: Clone raw-data
+        run: |
+          git clone 'https://github.com/swc-project/raw-data.git'
+
       - name: Analyze benchmark result
         uses: rhysd/github-action-benchmark@v1
         with:
@@ -49,6 +53,7 @@ jobs:
           tool: "cargo"
           # Where the output from the benchmark tool is stored
           output-file-path: output.txt
+          external-data-json-path: ./raw-data/benchmark-data.json
           # Workflow will fail when an alert happens
           fail-on-alert: true
           # GitHub API token to make a commit comment
@@ -61,4 +66,7 @@ jobs:
 
       - name: Store data
         run: |
+          cd raw-data
+          git add -A
+          git commit -m 'Update'
           git push 'https://kdy1:${{ secrets.GH_TKOEN }}@github.com/swc-project/raw-data.git' gh-pages:gh-pages
