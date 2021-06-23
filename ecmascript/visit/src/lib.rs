@@ -149,6 +149,35 @@ where
     }
 }
 
+macro_rules! delegate {
+    ($name:ident, $T:ty) => {
+        #[inline(always)]
+        fn $name(&mut self, n: &mut $T) {
+            n.visit_mut_with(&mut self.0);
+        }
+    };
+}
+
+/// This only proxies subset of methods.
+impl<V> VisitMut for Folder<V>
+where
+    V: VisitMut,
+{
+    delegate!(visit_mut_ident, Ident);
+    delegate!(visit_mut_span, Span);
+
+    delegate!(visit_mut_expr, Expr);
+    delegate!(visit_mut_decl, Decl);
+    delegate!(visit_mut_stmt, Stmt);
+    delegate!(visit_mut_pat, Pat);
+
+    delegate!(visit_mut_ts_type, TsType);
+
+    delegate!(visit_mut_module, Module);
+    delegate!(visit_mut_script, Script);
+    delegate!(visit_mut_program, Program);
+}
+
 macro_rules! method {
     ($name:ident, $T:ty) => {
         #[inline(always)]
