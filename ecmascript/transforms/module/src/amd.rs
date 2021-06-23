@@ -29,6 +29,7 @@ pub fn amd(config: Config) -> impl Fold {
         exports: Default::default(),
     }
 }
+
 struct Amd {
     config: Config,
     in_top_level: bool,

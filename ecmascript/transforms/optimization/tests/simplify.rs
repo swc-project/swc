@@ -536,8 +536,7 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let scope_instance: Scope = Default::default();
-        let scope = Rc::new(RefCell::new(scope_instance));
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             strip(),
             decorators(Default::default()),

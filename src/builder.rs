@@ -180,8 +180,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             ))
         };
 
-        let scope_instance: Scope = Scope::default();
-        let scope = Rc::new(RefCell::new(scope_instance));
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
             compat_pass,

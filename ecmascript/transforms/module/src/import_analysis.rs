@@ -17,22 +17,8 @@ pub fn import_analyzer(scope: Rc<RefCell<Scope>>) -> ImportAnalyzer {
 pub struct ImportAnalyzer {
     scope: Rc<RefCell<Scope>>,
 }
-impl Fold for ImportAnalyzer {
-    noop_fold_type!();
-    fn fold_module(&mut self, module: Module) -> Module {
-        let mut scope_ref_mut = self.scope.borrow_mut();
-        let scope = scope_ref_mut.deref_mut();
-        let mut import_analyzer = ImportAnalyzerWorker { scope };
-        import_analyzer.fold_module(module)
-    }
-}
-
 /// Inject required helpers methods **for** module transform passes.
-pub struct ImportAnalyzerWorker<'a> {
-    scope: &'a mut Scope,
-}
-
-impl Fold for ImportAnalyzerWorker<'_> {
+impl Fold for ImportAnalyzer {
     noop_fold_type!();
 
     fn fold_module(&mut self, module: Module) -> Module {
@@ -50,7 +36,7 @@ impl Fold for ImportAnalyzerWorker<'_> {
     }
 }
 
-impl Visit for ImportAnalyzerWorker<'_> {
+impl Visit for ImportAnalyzer {
     noop_visit_type!();
 
     fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {

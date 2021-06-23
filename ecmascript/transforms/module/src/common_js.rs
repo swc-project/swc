@@ -19,12 +19,8 @@ use swc_ecma_utils::IsDirective;
 use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
-pub fn common_js(
-    root_mark: Mark,
-    config: Config,
-    scope_arg: Option<Rc<RefCell<Scope>>>,
-) -> impl Fold {
-    let scope: Rc<RefCell<Scope>> = match scope_arg {
+pub fn common_js(root_mark: Mark, config: Config, scope: Option<Rc<RefCell<Scope>>>) -> impl Fold {
+    let scope: Rc<RefCell<Scope>> = match scope {
         Some(scope) => scope,
         None => Rc::new(RefCell::new(Scope::default())),
     };
@@ -679,7 +675,7 @@ impl Fold for CommonJs {
             var.decls.visit_with(
                 &Invalid { span: DUMMY_SP } as _,
                 &mut VarCollector {
-                    to: &mut (*(*self.scope).borrow_mut()).declared_vars,
+                    to: &mut self.scope.borrow_mut().declared_vars,
                 },
             );
         }
@@ -691,7 +687,8 @@ impl Fold for CommonJs {
     }
 
     fn fold_fn_decl(&mut self, node: FnDecl) -> FnDecl {
-        (*(*self.scope).borrow_mut())
+        self.scope
+            .borrow_mut()
             .declared_vars
             .push((node.ident.sym.clone(), node.ident.span.ctxt()));
 

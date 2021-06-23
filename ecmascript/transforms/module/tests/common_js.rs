@@ -97,8 +97,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        let scope_instance: Scope = Scope::default();
-        let scope = Rc::new(RefCell::new(scope_instance));
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
@@ -4790,8 +4789,7 @@ test!(
 test!(
     syntax(),
     |_| {
-        let scope_instance: Scope = Default::default();
-        let scope = Rc::new(RefCell::new(scope_instance));
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             import_analyzer(Rc::clone(&scope)),
             inject_helpers(),

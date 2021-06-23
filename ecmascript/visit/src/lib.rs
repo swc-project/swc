@@ -22,6 +22,7 @@ impl<T: ?Sized> Node for T where T: Any {}
 impl<A, B> Fold for AndThen<A, B>
 where
     A: Fold,
+
     B: Fold,
 {
     #[inline(always)]

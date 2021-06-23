@@ -83,7 +83,7 @@ impl Fold for Umd {
                 }
                 ModuleItem::ModuleDecl(decl) => decl,
             };
-            // cannot borrow scope at this level
+
             match decl {
                 ModuleDecl::Import(import) => self.scope.borrow_mut().insert_import(import),
 
@@ -139,7 +139,7 @@ impl Fold for Umd {
                     }
                     drop(scope);
                     drop(scope_ref_mut);
-                    // cannot borrow scope at this level
+
                     match decl {
                         ModuleDecl::ExportAll(export) => export_alls.push(export),
                         ModuleDecl::ExportDecl(ExportDecl {

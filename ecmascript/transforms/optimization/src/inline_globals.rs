@@ -106,7 +106,7 @@ mod tests {
 
             let mut v = tester
                 .apply_transform(
-                    &mut as_folder(DropSpan {
+                    as_folder(DropSpan {
                         preserve_ctxt: false,
                     }),
                     "global.js",
