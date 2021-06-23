@@ -38,7 +38,7 @@ pub struct Ident {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for Ident {
+impl<'a> arbitrary::Arbitrary<'a> for Ident {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let sym = u.arbitrary::<String>()?;
