@@ -200,6 +200,8 @@ fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     );
 
     let stderr = String::from_utf8_lossy(&output.stderr);
+
+    eprintln!("\n\n\nStderr: {}\n\n\n", stderr);
     //
     let stacks = stderr
         .split(|c| c == '\n')
