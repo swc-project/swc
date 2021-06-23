@@ -56,7 +56,7 @@ jobs:
           # Enable alert commit comment
           comment-on-alert: true
           comment-always: true
-          alert-comment-cc-users: kdy1
+          alert-comment-cc-users: "@kdy1"
 
       - name: Store data
         run: |
