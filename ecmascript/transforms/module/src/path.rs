@@ -88,7 +88,8 @@ where
 
         debug_assert!(
             !rel_path.is_absolute(),
-            "Path should not absolute (in swc repository)"
+            "Path should not be absolute (in swc repository) but found {}",
+            rel_path.display()
         );
 
         {
