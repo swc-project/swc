@@ -1,7 +1,7 @@
 use swc_ecma_ast::ImportDecl;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
 
-pub fn import_assertions() -> impl Fold {
+pub fn import_assertions() -> impl VisitMut + Fold {
     as_folder(ImportAssertions)
 }
 struct ImportAssertions;

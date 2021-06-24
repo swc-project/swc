@@ -246,7 +246,7 @@ define_helpers!(Helpers {
     class_check_private_static_access: (),
 });
 
-pub fn inject_helpers() -> impl Fold {
+pub fn inject_helpers() -> impl Fold + VisitMut {
     as_folder(InjectHelpers)
 }
 

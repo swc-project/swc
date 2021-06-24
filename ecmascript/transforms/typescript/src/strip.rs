@@ -68,7 +68,7 @@ pub struct Config {
     pub no_empty_export: bool,
 }
 
-pub fn strip_with_config(config: Config) -> impl Fold {
+pub fn strip_with_config(config: Config) -> impl Fold + VisitMut {
     as_folder(Strip {
         config,
         ..Default::default()

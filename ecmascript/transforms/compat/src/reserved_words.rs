@@ -7,7 +7,7 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
 };
 
-pub fn reserved_words() -> impl 'static + Fold {
+pub fn reserved_words() -> impl 'static + Fold + VisitMut {
     as_folder(EsReservedWord)
 }
 

@@ -33,6 +33,24 @@
       "implements": []
     },
     {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 21,
+        "end": 29,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 21,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": "abstract",
+        "optional": false
+      }
+    },
+    {
       "type": "ClassDeclaration",
       "identifier": {
         "type": "Identifier",
@@ -46,17 +64,35 @@
       },
       "declare": false,
       "span": {
-        "start": 21,
+        "start": 30,
         "end": 40,
         "ctxt": 0
       },
       "decorators": [],
       "body": [],
       "superClass": null,
-      "isAbstract": true,
+      "isAbstract": false,
       "typeParams": null,
       "superTypeParams": null,
       "implements": []
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 42,
+        "end": 50,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 42,
+          "end": 50,
+          "ctxt": 0
+        },
+        "value": "abstract",
+        "optional": false
+      }
     },
     {
       "type": "ClassDeclaration",
@@ -72,14 +108,14 @@
       },
       "declare": false,
       "span": {
-        "start": 42,
+        "start": 52,
         "end": 62,
         "ctxt": 0
       },
       "decorators": [],
       "body": [],
       "superClass": null,
-      "isAbstract": true,
+      "isAbstract": false,
       "typeParams": null,
       "superTypeParams": null,
       "implements": []
