@@ -67,7 +67,8 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           branch: gh-pages
           folder: raw-data
+          clean: false
+          single-commit: false
           git-config-email: github-bot@swc.rs
           repository-name: swc-project/raw-data
           commit-message: "Update"
-          single-commit: true
