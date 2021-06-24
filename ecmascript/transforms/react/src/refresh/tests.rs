@@ -1,7 +1,7 @@
 use super::*;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_base::{hygiene::hygiene, resolver::resolver_with_mark};
-use swc_ecma_transforms_module::common_js;
+use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};
 
 fn tr(t: &mut Tester) -> impl Fold {
@@ -1095,7 +1095,7 @@ test!(
                 Some(t.comments.clone())
             ),
             resolver_with_mark(mark),
-            common_js(mark, Default::default())
+            common_js(mark, Default::default(), None)
         )
     },
     include_hook_signature_in_commonjs,

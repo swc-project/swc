@@ -1,13 +1,16 @@
+use crate::path::ImportResolver;
+use anyhow::Context;
 use fxhash::FxHashSet;
 use indexmap::IndexMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
 use std::{
+    cell::{Ref, RefMut},
     collections::{hash_map::Entry, HashMap, HashSet},
     iter,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
@@ -20,8 +23,8 @@ use swc_ecma_visit::{Fold, FoldWith, VisitWith};
 
 pub(super) trait ModulePass: Fold {
     fn config(&self) -> &Config;
-    fn scope(&self) -> &Scope;
-    fn scope_mut(&mut self) -> &mut Scope;
+    fn scope(&self) -> Ref<Scope>;
+    fn scope_mut(&mut self) -> RefMut<Scope>;
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr;
 }
@@ -78,7 +81,7 @@ impl Default for Lazy {
 }
 
 #[derive(Clone, Default)]
-pub(super) struct Scope {
+pub struct Scope {
     /// Map from source file to ident
     ///
     /// e.g.
@@ -91,11 +94,11 @@ pub(super) struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
+    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
-    pub import_types: HashMap<JsWord, bool>,
+    pub(crate) import_types: HashMap<JsWord, bool>,
 
     /// Map from imported ident to (source file, property name).
     ///
@@ -105,10 +108,10 @@ pub(super) struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub idents: HashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+    pub(crate) idents: HashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
 
     /// Declared variables except const.
-    pub declared_vars: Vec<(JsWord, SyntaxContext)>,
+    pub(crate) declared_vars: Vec<(JsWord, SyntaxContext)>,
 
     /// Maps of exported variables.
     ///
@@ -119,11 +122,11 @@ pub(super) struct Scope {
     ///
     ///  - `export { a as b }`
     ///   -> `{ a: [b] }`
-    pub exported_vars: HashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
+    pub(crate) exported_vars: HashMap<(JsWord, SyntaxContext), Vec<(JsWord, SyntaxContext)>>,
 
     /// This is required to handle
     /// `export * from 'foo';`
-    pub lazy_blacklist: HashSet<JsWord>,
+    pub(crate) lazy_blacklist: HashSet<JsWord>,
 }
 
 impl Scope {
@@ -403,14 +406,8 @@ impl Scope {
                     folder.config().lazy.is_lazy(&src)
                 };
 
-                let (ident, span) = folder
-                    .scope()
-                    .imports
-                    .get(&src)
-                    .as_ref()
-                    .unwrap()
-                    .as_ref()
-                    .unwrap();
+                let scope = folder.scope();
+                let (ident, span) = scope.imports.get(&src).as_ref().unwrap().as_ref().unwrap();
 
                 let obj = {
                     let ident = Ident::new(ident.clone(), *span);
@@ -443,15 +440,6 @@ impl Scope {
         top_level: bool,
         expr: Expr,
     ) -> Expr {
-        macro_rules! entry {
-            ($i:expr) => {
-                folder
-                    .scope_mut()
-                    .exported_vars
-                    .entry(($i.sym.clone(), $i.span.ctxt()))
-            };
-        }
-
         macro_rules! chain_assign {
             ($entry:expr, $e:expr) => {{
                 let mut e = $e;
@@ -566,7 +554,10 @@ impl Scope {
                 prefix,
             }) if arg.is_ident() => {
                 let arg = arg.ident().unwrap();
-                let entry = entry!(arg);
+                let mut scope = folder.scope_mut();
+                let entry = scope
+                    .exported_vars
+                    .entry((arg.sym.clone(), arg.span.ctxt()));
 
                 match entry {
                     Entry::Occupied(entry) => {
@@ -687,7 +678,10 @@ impl Scope {
                 match expr.left {
                     PatOrExpr::Pat(pat) if pat.is_ident() => {
                         let i = pat.ident().unwrap();
-                        let entry = entry!(i.id);
+                        let mut scope = folder.scope_mut();
+                        let entry = scope
+                            .exported_vars
+                            .entry((i.id.sym.clone(), i.id.span.ctxt()));
 
                         match entry {
                             Entry::Occupied(entry) => {
@@ -712,7 +706,11 @@ impl Scope {
                                     .into_iter()
                                     .map(|var| Ident::new(var.0, var.1))
                                     .filter_map(|i| {
-                                        let entry = match entry!(i) {
+                                        let mut scope = folder.scope_mut();
+                                        let entry = match scope
+                                            .exported_vars
+                                            .entry((i.sym.clone(), i.span.ctxt()))
+                                        {
                                             Entry::Occupied(entry) => entry,
                                             _ => {
                                                 return None;
@@ -741,7 +739,22 @@ impl Scope {
     }
 }
 
-pub(super) fn make_require_call(mark: Mark, src: JsWord) -> Expr {
+pub(super) fn make_require_call<R>(
+    resolver: &Option<(R, FileName)>,
+    mark: Mark,
+    src: JsWord,
+) -> Expr
+where
+    R: ImportResolver,
+{
+    let src = match resolver {
+        Some((resolver, base)) => resolver
+            .resolve_import(&base, &src)
+            .with_context(|| format!("failed to resolve import `{}`", src))
+            .unwrap(),
+        None => src,
+    };
+
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),

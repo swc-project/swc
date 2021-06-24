@@ -1,11 +1,15 @@
-use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
+use crate::config::{CompiledPaths, GlobalPassOption, JscTarget, ModuleConfig};
 use compat::es2020::export_namespace_from;
 use either::Either;
+use std::cell::RefCell;
+use std::rc::Rc;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
+use swc_common::FileName;
 use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::hygiene::hygiene_with_config;
+use swc_ecma_transforms::modules::util::Scope;
 use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, modules, optimization::const_modules, pass::Optional,
     proposals::import_assertions, typescript,
@@ -125,6 +129,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
+        paths: CompiledPaths,
+        base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,
@@ -177,6 +183,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             ))
         };
 
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
             compat_pass,
@@ -184,11 +191,18 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Optional::new(export_namespace_from(), need_interop_analysis),
             // module / helper
             Optional::new(
-                modules::import_analysis::import_analyzer(),
+                modules::import_analysis::import_analyzer(Rc::clone(&scope)),
                 need_interop_analysis
             ),
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
-            ModuleConfig::build(self.cm.clone(), self.global_mark, module),
+            ModuleConfig::build(
+                self.cm.clone(),
+                paths,
+                base,
+                self.global_mark,
+                module,
+                Rc::clone(&scope)
+            ),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
                 self.hygiene.is_some()
