@@ -8,8 +8,10 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
+use crate::path::{ImportResolver, NoopImportResolver};
 use fxhash::FxHashSet;
 use swc_atoms::js_word;
+use swc_common::FileName;
 use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -31,19 +33,52 @@ pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
         in_top_level: Default::default(),
         scope: RefCell::new(Default::default()),
         exports: Default::default(),
+
+        resolver: None::<(NoopImportResolver, _)>,
     }
 }
 
-struct Umd {
+pub fn umd_with_resolver<R>(
+    resolver: R,
+    base: FileName,
+    cm: Lrc<SourceMap>,
+    root_mark: Mark,
+    config: Config,
+) -> impl Fold
+where
+    R: ImportResolver,
+{
+    Umd {
+        config: config.build(cm.clone()),
+        root_mark,
+        cm,
+
+        in_top_level: Default::default(),
+        scope: Default::default(),
+        exports: Default::default(),
+
+        resolver: Some((resolver, base)),
+    }
+}
+
+struct Umd<R>
+where
+    R: ImportResolver,
+{
     cm: Lrc<SourceMap>,
     root_mark: Mark,
     in_top_level: bool,
     config: BuiltConfig,
     scope: RefCell<Scope>,
     exports: Exports,
+
+    resolver: Option<(R, FileName)>,
 }
 
-impl Fold for Umd {
+impl<R> Fold for Umd<R>
+where
+    R: ImportResolver,
+{
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -516,7 +551,8 @@ impl Fold for Umd {
                 decorators: Default::default(),
                 pat: Pat::Ident(ident.clone().into()),
             });
-            factory_args.push(make_require_call(self.root_mark, src.clone()).as_arg());
+            factory_args
+                .push(make_require_call(&self.resolver, self.root_mark, src.clone()).as_arg());
             global_factory_args.push(quote_ident!("global").make_member(global_ident).as_arg());
 
             {
@@ -767,7 +803,10 @@ impl Fold for Umd {
     mark_as_nested!();
 }
 
-impl ModulePass for Umd {
+impl<R> ModulePass for Umd<R>
+where
+    R: ImportResolver,
+{
     fn config(&self) -> &util::Config {
         &self.config.config
     }

@@ -6,12 +6,11 @@ use anyhow::{bail, Error};
 use fxhash::FxHashMap;
 use napi::{CallContext, Env, JsObject, Status, Task};
 use serde::Deserialize;
-use spack::resolvers::NodeResolver;
 use std::{
     panic::{catch_unwind, AssertUnwindSafe},
     sync::Arc,
 };
-use swc::{config::SourceMapsConfig, Compiler, TransformOutput};
+use swc::{config::SourceMapsConfig, resolver::NodeResolver, Compiler, TransformOutput};
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
 use swc_bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve};
@@ -199,7 +198,7 @@ pub(crate) fn bundle(cx: CallContext) -> napi::Result<JsObject> {
             swc: c.clone(),
             config: ConfigItem {
                 loader,
-                resolver: Box::new(NodeResolver::new()) as Box<_>,
+                resolver: Box::new(NodeResolver::default()) as Box<_>,
                 static_items,
             },
         })

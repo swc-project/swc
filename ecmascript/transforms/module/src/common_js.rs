@@ -3,10 +3,12 @@ use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
     make_require_call, use_strict, ModulePass, Scope,
 };
+use crate::path::{ImportResolver, NoopImportResolver};
 use fxhash::FxHashSet;
 use std::cell::{Ref, RefCell, RefMut};
 use std::rc::Rc;
 use swc_atoms::js_word;
+use swc_common::FileName;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -29,17 +31,43 @@ pub fn common_js(root_mark: Mark, config: Config, scope: Option<Rc<RefCell<Scope
         config,
         scope,
         in_top_level: Default::default(),
+        resolver: None::<(NoopImportResolver, _)>,
     }
 }
 
-struct CommonJs {
+pub fn common_js_with_resolver<R>(
+    resolver: R,
+    base: FileName,
+    root_mark: Mark,
+    config: Config,
+) -> impl Fold
+where
+    R: ImportResolver,
+{
+    CommonJs {
+        root_mark,
+        config,
+        scope: Default::default(),
+        in_top_level: Default::default(),
+        resolver: Some((resolver, base)),
+    }
+}
+
+struct CommonJs<P>
+where
+    P: ImportResolver,
+{
     root_mark: Mark,
     config: Config,
     scope: Rc<RefCell<Scope>>,
     in_top_level: bool,
+    resolver: Option<(P, FileName)>,
 }
 
-impl Fold for CommonJs {
+impl<P> Fold for CommonJs<P>
+where
+    P: ImportResolver,
+{
     noop_fold_type!();
 
     fn fold_module_items(&mut self, items: Vec<ModuleItem>) -> Vec<ModuleItem> {
@@ -538,7 +566,7 @@ impl Fold for CommonJs {
                 self.config.lazy.is_lazy(&src)
             };
 
-            let require = make_require_call(self.root_mark, src.clone());
+            let require = make_require_call(&self.resolver, self.root_mark, src.clone());
 
             match import {
                 Some(import) => {
@@ -698,7 +726,10 @@ impl Fold for CommonJs {
     mark_as_nested!();
 }
 
-impl ModulePass for CommonJs {
+impl<P> ModulePass for CommonJs<P>
+where
+    P: ImportResolver,
+{
     fn config(&self) -> &Config {
         &self.config
     }

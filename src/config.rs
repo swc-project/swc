@@ -1,4 +1,4 @@
-use crate::builder::PassBuilder;
+use crate::{builder::PassBuilder, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
@@ -19,9 +19,11 @@ pub use swc_common::chain;
 use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::{hygiene, modules::util::Scope};
+use swc_ecma_transforms::{hygiene, modules::path::NodeImportResolver};
 use swc_ecma_transforms::{
     modules,
     optimization::const_modules,
@@ -173,6 +175,7 @@ impl Options {
     pub fn build<'a>(
         &self,
         cm: &Arc<SourceMap>,
+        base: FileName,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
@@ -188,8 +191,11 @@ impl Options {
             target,
             loose,
             keep_class_names,
+            paths,
         } = config.jsc;
         let target = target.unwrap_or_default();
+
+        let resolver = build_resolver(paths.into_iter().collect());
 
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
@@ -264,7 +270,7 @@ impl Options {
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
-            .finalize(syntax, config.module, comments);
+            .finalize(resolver, base, syntax, config.module, comments);
 
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
@@ -350,6 +356,7 @@ impl Default for Rc {
                     target: Default::default(),
                     loose: false,
                     keep_class_names: false,
+                    ..Default::default()
                 },
                 module: None,
                 minify: None,
@@ -370,6 +377,7 @@ impl Default for Rc {
                     target: Default::default(),
                     loose: false,
                     keep_class_names: false,
+                    ..Default::default()
                 },
                 module: None,
                 minify: None,
@@ -390,6 +398,7 @@ impl Default for Rc {
                     target: Default::default(),
                     loose: false,
                     keep_class_names: false,
+                    ..Default::default()
                 },
                 module: None,
                 minify: None,
@@ -589,7 +598,14 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub keep_class_names: bool,
+
+    #[serde(default)]
+    pub paths: Paths,
 }
+
+/// `paths` sectiob of `tsconfig.json`.
+pub type Paths = HashMap<String, Vec<String>, ahash::RandomState>;
+type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -608,6 +624,8 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
+        resolver: SwcImportResolver,
+        base: FileName,
         root_mark: Mark,
         config: Option<ModuleConfig>,
         scope: RustRc<RefCell<Scope>>,
@@ -621,6 +639,15 @@ impl ModuleConfig {
             )),
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(cm, root_mark, config)),
             Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(config)),
+            Some(ModuleConfig::CommonJs(config)) => Box::new(
+                modules::common_js::common_js_with_resolver(resolver, base, root_mark, config),
+            ),
+            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd_with_resolver(
+                resolver, base, cm, root_mark, config,
+            )),
+            Some(ModuleConfig::Amd(config)) => {
+                Box::new(modules::amd::amd_with_resolver(resolver, base, config))
+            }
         }
     }
 }
@@ -898,4 +925,25 @@ impl Merge for ConstModulesConfig {
     fn merge(&mut self, from: &Self) {
         *self = from.clone()
     }
+}
+
+fn build_resolver(paths: CompiledPaths) -> SwcImportResolver {
+    static CACHE: Lazy<DashMap<CompiledPaths, SwcImportResolver>> =
+        Lazy::new(|| Default::default());
+
+    if let Some(cached) = CACHE.get(&paths) {
+        return (*cached).clone();
+    }
+
+    let r = {
+        let r = TsConfigResolver::new(NodeResolver::default(), ".".into(), paths.clone());
+        let r = CachingResolver::new(40, r);
+
+        let r = NodeImportResolver::new(r);
+        Arc::new(r)
+    };
+
+    CACHE.insert(paths, r.clone());
+
+    r
 }

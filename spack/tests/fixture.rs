@@ -3,7 +3,7 @@
 extern crate test;
 
 use anyhow::Error;
-use spack::{loaders::swc::SwcLoader, resolvers::NodeResolver};
+use spack::loaders::swc::SwcLoader;
 use std::{
     collections::HashMap,
     env,
@@ -12,7 +12,7 @@ use std::{
     path::{Path, PathBuf},
     sync::Arc,
 };
-use swc::config::SourceMapsConfig;
+use swc::{config::SourceMapsConfig, resolver::NodeResolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{FileName, Span, GLOBALS};
@@ -139,7 +139,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         compiler.globals(),
                         cm.clone(),
                         &loader,
-                        NodeResolver::new(),
+                        NodeResolver::default(),
                         Config {
                             require: true,
                             disable_inliner: true,

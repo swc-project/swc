@@ -89,7 +89,7 @@ jobs:
           git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 integration-tests/three-js/repo
 
           swc --sync integration-tests/three-js/repo/ -d integration-tests/three-js/build/
-          # swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/
+          swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/
           # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
 
           (cd integration-tests/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
