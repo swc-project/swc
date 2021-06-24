@@ -131,7 +131,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     pub fn finalize<'cmt>(
         self,
         resolver: SwcImportResolver,
-        base: FileName,
+        base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,

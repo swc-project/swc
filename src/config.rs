@@ -175,7 +175,7 @@ impl Options {
     pub fn build<'a>(
         &self,
         cm: &Arc<SourceMap>,
-        base: FileName,
+        base: &FileName,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
@@ -625,11 +625,18 @@ impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
         resolver: SwcImportResolver,
-        base: FileName,
+        base: &FileName,
         root_mark: Mark,
         config: Option<ModuleConfig>,
         scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
+        let base = match base {
+            FileName::Real(v) => {
+                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
+            }
+            _ => base.clone(),
+        };
+
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => {

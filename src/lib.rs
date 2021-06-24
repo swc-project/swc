@@ -422,7 +422,7 @@ impl Compiler {
 
             let built = opts.build(
                 &self.cm,
-                name.clone(),
+                name,
                 &self.handler,
                 opts.is_module,
                 Some(config),
