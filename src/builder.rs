@@ -1,5 +1,4 @@
-use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
-use crate::SwcImportResolver;
+use crate::config::{CompiledPaths, GlobalPassOption, JscTarget, ModuleConfig};
 use compat::es2020::export_namespace_from;
 use either::Either;
 use std::cell::RefCell;
@@ -130,7 +129,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
-        resolver: SwcImportResolver,
+        paths: CompiledPaths,
         base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
@@ -198,7 +197,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(
                 self.cm.clone(),
-                resolver,
+                paths,
                 base,
                 self.global_mark,
                 module,

@@ -195,8 +195,6 @@ impl Options {
         } = config.jsc;
         let target = target.unwrap_or_default();
 
-        let resolver = build_resolver(paths.into_iter().collect());
-
         let syntax = syntax.unwrap_or_default();
         let mut transform = transform.unwrap_or_default();
 
@@ -270,7 +268,13 @@ impl Options {
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
-            .finalize(resolver, base, syntax, config.module, comments);
+            .finalize(
+                paths.into_iter().collect(),
+                base,
+                syntax,
+                config.module,
+                comments,
+            );
 
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
@@ -605,7 +609,7 @@ pub struct JscConfig {
 
 /// `paths` sectiob of `tsconfig.json`.
 pub type Paths = HashMap<String, Vec<String>, ahash::RandomState>;
-type CompiledPaths = Vec<(String, Vec<String>)>;
+pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -624,7 +628,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
-        resolver: SwcImportResolver,
+        paths: CompiledPaths,
         base: &FileName,
         root_mark: Mark,
         config: Option<ModuleConfig>,
@@ -640,19 +644,43 @@ impl ModuleConfig {
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => {
-                Box::new(modules::common_js::common_js_with_resolver(
-                    resolver,
-                    base,
-                    root_mark,
-                    config,
-                    Some(scope),
-                ))
+                if paths.is_empty() {
+                    Box::new(modules::common_js::common_js(
+                        root_mark,
+                        config,
+                        Some(scope),
+                    ))
+                } else {
+                    let resolver = build_resolver(paths);
+
+                    Box::new(modules::common_js::common_js_with_resolver(
+                        resolver,
+                        base,
+                        root_mark,
+                        config,
+                        Some(scope),
+                    ))
+                }
             }
-            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd_with_resolver(
-                resolver, base, cm, root_mark, config,
-            )),
+            Some(ModuleConfig::Umd(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::umd::umd(cm, root_mark, config))
+                } else {
+                    let resolver = build_resolver(paths);
+
+                    Box::new(modules::umd::umd_with_resolver(
+                        resolver, base, cm, root_mark, config,
+                    ))
+                }
+            }
             Some(ModuleConfig::Amd(config)) => {
-                Box::new(modules::amd::amd_with_resolver(resolver, base, config))
+                if paths.is_empty() {
+                    Box::new(modules::amd::amd(config))
+                } else {
+                    let resolver = build_resolver(paths);
+
+                    Box::new(modules::amd::amd_with_resolver(resolver, base, config))
+                }
             }
         }
     }
