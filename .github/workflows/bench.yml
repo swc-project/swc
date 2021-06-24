@@ -49,7 +49,7 @@ jobs:
           tool: "cargo"
           # Where the output from the benchmark tool is stored
           output-file-path: output.txt
-          external-data-json-path: ./raw-data/$GITHUB_SHA/benchmark-data.json
+          external-data-json-path: ./raw-data/$${{ github.sha }}/benchmark-data.json
           # Workflow will fail when an alert happens
           fail-on-alert: true
           # GitHub API token to make a commit comment
@@ -67,7 +67,8 @@ jobs:
           token: ${{ secrets.GH_TOKEN }}
           branch: gh-pages
           folder: raw-data
+          clean: false
+          single-commit: false
           git-config-email: github-bot@swc.rs
           repository-name: swc-project/raw-data
           commit-message: "Update"
-          single-commit: true

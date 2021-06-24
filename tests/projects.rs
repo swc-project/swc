@@ -185,22 +185,6 @@ fn par_project(dir: &str) {
         .expect("");
 }
 
-#[test]
-#[ignore]
-fn angular_core() {
-    par_project("integration-tests/angular/packages/core/src");
-}
-
-//#[test]
-//fn rxjs() {
-//    par_project("integration-tests/rxjs/repo/src");
-//}
-//
-//#[test]
-//fn webpack() {
-//    par_project("integration-tests/webpack/repo/lib");
-//}
-
 /// should respect modules config in .swcrc
 #[test]
 fn issue_225() {
