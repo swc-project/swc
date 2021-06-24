@@ -247,7 +247,7 @@ jobs:
           branch: gh-pages
           folder: target/doc
           clean: true
-          git-config-email: kdy1997.dev@gmail.com
+          git-config-email: github-bot@swc.rs
           repository-name: swc-project/rustdoc
           commit-message: "Update"
           single-commit: true

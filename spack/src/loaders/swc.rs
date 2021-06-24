@@ -125,7 +125,7 @@ impl Load for SwcLoader {
                                     }
                                 },
                                 external_helpers: true,
-                                ..c.jsc
+                                ..c.jsc.clone()
                             },
                             module: None,
                             minify: Some(false),

@@ -1,3 +1,5 @@
+use crate::path::ImportResolver;
+use anyhow::Context;
 use fxhash::FxHashSet;
 use indexmap::IndexMap;
 use inflector::Inflector;
@@ -8,7 +10,7 @@ use std::{
     iter,
 };
 use swc_atoms::{js_word, JsWord};
-use swc_common::{Mark, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{FileName, Mark, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
@@ -759,7 +761,22 @@ impl Scope {
     }
 }
 
-pub(super) fn make_require_call(mark: Mark, src: JsWord) -> Expr {
+pub(super) fn make_require_call<R>(
+    resolver: &Option<(R, FileName)>,
+    mark: Mark,
+    src: JsWord,
+) -> Expr
+where
+    R: ImportResolver,
+{
+    let src = match resolver {
+        Some((resolver, base)) => resolver
+            .resolve_import(&base, &src)
+            .with_context(|| format!("failed to resolve import `{}`", src))
+            .unwrap(),
+        None => src,
+    };
+
     Expr::Call(CallExpr {
         span: DUMMY_SP,
         callee: quote_ident!(DUMMY_SP.apply_mark(mark), "require").as_callee(),

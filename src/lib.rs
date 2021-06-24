@@ -24,15 +24,24 @@ use swc_common::{
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
+    modules::path::NodeImportResolver,
     pass::noop,
 };
 use swc_ecma_visit::FoldWith;
 
 mod builder;
 pub mod config;
+pub mod resolver {
+    use swc_ecma_loader::resolvers::lru::CachingResolver;
+
+    pub type NodeResolver = CachingResolver<swc_ecma_loader::resolvers::node::NodeResolver>;
+}
+
+type SwcImportResolver = Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeResolver>>>>;
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
@@ -410,8 +419,10 @@ impl Compiler {
                 Some(v) => v,
                 None => return Ok(None),
             };
+
             let built = opts.build(
                 &self.cm,
+                name,
                 &self.handler,
                 opts.is_module,
                 Some(config),

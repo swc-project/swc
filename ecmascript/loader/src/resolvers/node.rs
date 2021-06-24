@@ -2,20 +2,16 @@
 //!
 //! See: https://github.com/goto-bus-stop/node-resolve
 
+use crate::resolve::Resolve;
 use anyhow::{bail, Context, Error};
-use lru::LruCache;
 #[cfg(windows)]
 use normpath::BasePath;
-// use path_slash::{PathBufExt, PathExt};
 use serde::Deserialize;
 use std::{
     fs::File,
     io::BufReader,
     path::{Component, Path, PathBuf},
-    sync::Mutex,
 };
-
-use swc_bundler::Resolve;
 use swc_common::FileName;
 
 // Run `node -p "require('module').builtinModules"`
@@ -99,22 +95,16 @@ struct PackageJson {
     main: Option<String>,
 }
 
+#[derive(Debug, Default)]
 pub struct NodeResolver {
-    cache: Mutex<LruCache<(PathBuf, String), PathBuf>>,
+    _private: (),
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
 
 impl NodeResolver {
-    pub fn new() -> Self {
-        Self {
-            cache: Mutex::new(LruCache::new(40)),
-        }
-    }
-
-    fn wrap(&self, base: &PathBuf, target: &str, path: PathBuf) -> Result<FileName, Error> {
+    fn wrap(&self, path: PathBuf) -> Result<FileName, Error> {
         let path = path.canonicalize().context("failed to canonicalize")?;
-        self.store(base, target, path.clone());
         Ok(FileName::Real(path))
     }
 
@@ -209,16 +199,6 @@ impl NodeResolver {
             None => bail!("not found"),
         }
     }
-
-    fn store(&self, base: &PathBuf, target: &str, result: PathBuf) {
-        let lock = self.cache.lock();
-        match lock {
-            Ok(mut lock) => {
-                lock.put((base.clone(), target.to_string()), result.to_path_buf());
-            }
-            Err(_) => {}
-        }
-    }
 }
 
 impl Resolve for NodeResolver {
@@ -232,18 +212,6 @@ impl Resolve for NodeResolver {
             _ => bail!("node-resolver supports only files"),
         };
 
-        {
-            let lock = self.cache.lock();
-            match lock {
-                Ok(mut lock) => {
-                    //
-                    if let Some(v) = lock.get(&(base.clone(), target.to_string())) {
-                        return Ok(FileName::Real(v.clone()));
-                    }
-                }
-                Err(_) => {}
-            }
-        }
         let target_path = Path::new(target);
 
         if target_path.is_absolute() {
@@ -251,7 +219,7 @@ impl Resolve for NodeResolver {
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
-                .and_then(|p| self.wrap(base, target, p));
+                .and_then(|p| self.wrap(p));
         }
 
         let cwd = &Path::new(".");
@@ -273,10 +241,10 @@ impl Resolve for NodeResolver {
             return self
                 .resolve_as_file(&path)
                 .or_else(|_| self.resolve_as_directory(&path))
-                .and_then(|p| self.wrap(base, target, p));
+                .and_then(|p| self.wrap(p));
         }
 
         self.resolve_node_modules(base_dir, target)
-            .and_then(|p| self.wrap(base, target, p))
+            .and_then(|p| self.wrap(p))
     }
 }
