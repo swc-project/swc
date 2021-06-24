@@ -852,6 +852,7 @@ var _foo = require("foo");
 
 Object.keys(_foo).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _foo[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -937,6 +938,7 @@ var _foo = require("./foo");
 
 Object.keys(_foo).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _foo[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -1253,6 +1255,7 @@ var _black = require("black");
 Object.keys(_white).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _white[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -1264,6 +1267,7 @@ Object.keys(_white).forEach(function (key) {
 Object.keys(_black).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _black[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -2189,6 +2193,7 @@ var _foo = require("foo");
 
 Object.keys(_foo).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _foo[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -3799,6 +3804,7 @@ exports.default = _default;
 Object.keys(_react).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _react[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function () {
@@ -3983,6 +3989,7 @@ Object.defineProperty(exports, '__esModule', {
 var _c = require('c');
 Object.keys(_c).forEach(function(key) {
     if (key === 'default' || key === '__esModule') return;
+    if (key in exports && exports[key] === _c[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
         get: function() {
@@ -4167,6 +4174,7 @@ Object.defineProperty(exports, "Scope", {
 });
 Object.keys(_http).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
+    if (key in exports && exports[key] === _http[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
         get: function() {
@@ -4210,6 +4218,7 @@ export * from './pipes';
     Object.keys(_http).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+        if (key in exports && exports[key] === _http[key]) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
             get: function() {
@@ -4220,6 +4229,7 @@ export * from './pipes';
     Object.keys(_pipes).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+        if (key in exports && exports[key] === _pipes[key]) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
             get: function() {
@@ -4746,6 +4756,7 @@ test!(
     Object.keys(_file1).forEach(function(key) {
         if (key === 'default' || key === '__esModule') return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+        if (key in exports && exports[key] === _file1[key]) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
             get: function() {
@@ -4756,6 +4767,7 @@ test!(
     Object.keys(_file2).forEach(function(key) {
         if (key === 'default' || key === '__esModule') return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+        if (key in exports && exports[key] === _file2[key]) return;
         Object.defineProperty(exports, key, {
             enumerable: true,
             get: function() {

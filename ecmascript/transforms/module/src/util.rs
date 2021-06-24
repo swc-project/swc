@@ -131,6 +131,7 @@ impl Scope {
     /// ```js
     /// Object.keys(_foo).forEach(function (key) {
     ///   if (key === "default" || key === "__esModule") return;
+    ///   if (key in exports && exports[key] === _foo[key]) return;
     ///   Object.defineProperty(exports, key, {
     ///     enumerable: true,
     ///     get: function () {
@@ -213,6 +214,27 @@ impl Scope {
                     } else {
                         None
                     }
+                })
+                .chain({
+                    Some(Stmt::If(IfStmt {
+                        span: DUMMY_SP,
+                        test: Box::new(
+                            key_ident
+                                .clone()
+                                .make_bin(op!("in"), exports.clone())
+                                .make_bin(
+                                    op!("&&"),
+                                    exports.clone().computed_member(key_ident.clone()).make_eq(
+                                        imported.clone().computed_member(key_ident.clone()),
+                                    ),
+                                ),
+                        ),
+                        cons: Box::new(Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: None,
+                        })),
+                        alt: None,
+                    }))
                 })
                 .chain(iter::once(
                     define_property(vec![
