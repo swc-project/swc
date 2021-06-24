@@ -22,10 +22,7 @@ use swc_ecma_utils::{var::VarCollector, DestructuringFinder, ExprFactory};
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config, scope: Option<Rc<RefCell<Scope>>>) -> impl Fold {
-    let scope: Rc<RefCell<Scope>> = match scope {
-        Some(scope) => scope,
-        None => Rc::new(RefCell::new(Scope::default())),
-    };
+    let scope = scope.unwrap_or_default();
     CommonJs {
         root_mark,
         config,
@@ -40,14 +37,17 @@ pub fn common_js_with_resolver<R>(
     base: FileName,
     root_mark: Mark,
     config: Config,
+    scope: Option<Rc<RefCell<Scope>>>,
 ) -> impl Fold
 where
     R: ImportResolver,
 {
+    let scope = scope.unwrap_or_default();
+
     CommonJs {
         root_mark,
         config,
-        scope: Default::default(),
+        scope,
         in_top_level: Default::default(),
         resolver: Some((resolver, base)),
     }

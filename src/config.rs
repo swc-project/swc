@@ -22,8 +22,8 @@ use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::modules::path::NodeImportResolver;
 use swc_ecma_transforms::{hygiene, modules::util::Scope};
-use swc_ecma_transforms::{hygiene, modules::path::NodeImportResolver};
 use swc_ecma_transforms::{
     modules,
     optimization::const_modules,
@@ -632,16 +632,15 @@ impl ModuleConfig {
     ) -> Box<dyn swc_ecma_visit::Fold> {
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
-            Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
-                root_mark,
-                config,
-                Some(scope),
-            )),
-            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(cm, root_mark, config)),
-            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(config)),
-            Some(ModuleConfig::CommonJs(config)) => Box::new(
-                modules::common_js::common_js_with_resolver(resolver, base, root_mark, config),
-            ),
+            Some(ModuleConfig::CommonJs(config)) => {
+                Box::new(modules::common_js::common_js_with_resolver(
+                    resolver,
+                    base,
+                    root_mark,
+                    config,
+                    Some(scope),
+                ))
+            }
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd_with_resolver(
                 resolver, base, cm, root_mark, config,
             )),
