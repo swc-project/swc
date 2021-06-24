@@ -86,6 +86,11 @@ where
             None => return Ok(module_specifier.into()),
         };
 
+        debug_assert!(
+            !rel_path.is_absolute(),
+            "Path should not absolute (in swc repository)"
+        );
+
         {
             // Check for `node_modules`.
 
