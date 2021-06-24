@@ -86,14 +86,6 @@ where
             None => return Ok(module_specifier.into()),
         };
 
-        debug_assert!(
-            !rel_path.is_absolute(),
-            "Path should not be absolute (in swc repository) but found {}\nbase: {}\ntarget: {}",
-            rel_path.display(),
-            base.display(),
-            target.display(),
-        );
-
         {
             // Check for `node_modules`.
 
@@ -111,6 +103,15 @@ where
                 }
             }
         }
+
+        debug_assert!(
+            !rel_path.is_absolute(),
+            "Resolved path should not be absolute (in swc repository) but found {}\nbase: \
+             {}\ntarget: {}",
+            rel_path.display(),
+            base.display(),
+            target.display(),
+        );
 
         let s = rel_path.to_string_lossy();
         let s = if s.starts_with('.') || s.starts_with("/") {
