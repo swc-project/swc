@@ -1,10 +1,11 @@
-use crate::config::{GlobalPassOption, JscTarget, ModuleConfig};
+use crate::config::{CompiledPaths, GlobalPassOption, JscTarget, ModuleConfig};
 use compat::es2020::export_namespace_from;
 use either::Either;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
+use swc_common::FileName;
 use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::hygiene::hygiene_with_config;
@@ -128,6 +129,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
+        paths: CompiledPaths,
+        base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
         comments: Option<&'cmt dyn Comments>,
@@ -192,7 +195,14 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 need_interop_analysis
             ),
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
-            ModuleConfig::build(self.cm.clone(), self.global_mark, module, Rc::clone(&scope)),
+            ModuleConfig::build(
+                self.cm.clone(),
+                paths,
+                base,
+                self.global_mark,
+                module,
+                Rc::clone(&scope)
+            ),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
                 self.hygiene.is_some()

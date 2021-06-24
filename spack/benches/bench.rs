@@ -5,12 +5,12 @@
 extern crate test;
 
 use anyhow::Error;
-use spack::resolvers::NodeResolver;
 use std::{
     collections::HashMap,
     hint::black_box,
     path::{Path, PathBuf},
 };
+use swc::resolver::NodeResolver;
 use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
@@ -39,7 +39,7 @@ fn run_bench(b: &mut Bencher, entry: &Path) {
                     globals,
                     cm.clone(),
                     Loader { cm: cm.clone() },
-                    NodeResolver::new(),
+                    NodeResolver::default(),
                     swc_bundler::Config {
                         ..Default::default()
                     },

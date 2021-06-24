@@ -2,6 +2,8 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
+use crate::path::{ImportResolver, NoopImportResolver};
+use anyhow::Context;
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
 use std::cell::Ref;
@@ -9,6 +11,7 @@ use std::cell::RefCell;
 use std::cell::RefMut;
 use std::iter;
 use swc_atoms::js_word;
+use swc_common::FileName;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -27,14 +30,35 @@ pub fn amd(config: Config) -> impl Fold {
         in_top_level: Default::default(),
         scope: RefCell::new(Default::default()),
         exports: Default::default(),
+
+        resolver: None::<(NoopImportResolver, _)>,
     }
 }
 
-struct Amd {
+pub fn amd_with_resolver<R>(resolver: R, base: FileName, config: Config) -> impl Fold
+where
+    R: ImportResolver,
+{
+    Amd {
+        config,
+        in_top_level: Default::default(),
+        scope: Default::default(),
+        exports: Default::default(),
+
+        resolver: Some((resolver, base)),
+    }
+}
+
+struct Amd<R>
+where
+    R: ImportResolver,
+{
     config: Config,
     in_top_level: bool,
     scope: RefCell<Scope>,
     exports: Exports,
+
+    resolver: Option<(R, FileName)>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -47,7 +71,10 @@ pub struct Config {
     pub config: util::Config,
 }
 
-impl Fold for Amd {
+impl<R> Fold for Amd<R>
+where
+    R: ImportResolver,
+{
     noop_fold_type!();
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -505,9 +532,19 @@ impl Fold for Amd {
             });
             let ident = Ident::new(import.0.clone(), import.1);
 
-            define_deps_arg
-                .elems
-                .push(Some(Lit::Str(quote_str!(src.clone())).as_arg()));
+            {
+                let src = match &self.resolver {
+                    Some((resolver, base)) => resolver
+                        .resolve_import(&base, &src)
+                        .with_context(|| format!("failed to resolve `{}`", src))
+                        .unwrap(),
+                    None => src.clone(),
+                };
+
+                define_deps_arg
+                    .elems
+                    .push(Some(Lit::Str(quote_str!(src)).as_arg()));
+            }
             factory_params.push(Param {
                 span: DUMMY_SP,
                 decorators: Default::default(),
@@ -623,7 +660,10 @@ impl Fold for Amd {
     mark_as_nested!();
 }
 
-impl ModulePass for Amd {
+impl<R> ModulePass for Amd<R>
+where
+    R: ImportResolver,
+{
     fn config(&self) -> &util::Config {
         &self.config.config
     }
