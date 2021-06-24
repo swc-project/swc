@@ -4,6 +4,9 @@ use super::util::{
 };
 use fxhash::FxHashSet;
 use serde::{Deserialize, Serialize};
+use std::cell::Ref;
+use std::cell::RefCell;
+use std::cell::RefMut;
 use std::iter;
 use swc_atoms::js_word;
 use swc_common::{Mark, Span, DUMMY_SP};
@@ -22,7 +25,7 @@ pub fn amd(config: Config) -> impl Fold {
     Amd {
         config,
         in_top_level: Default::default(),
-        scope: Default::default(),
+        scope: RefCell::new(Default::default()),
         exports: Default::default(),
     }
 }
@@ -30,7 +33,7 @@ pub fn amd(config: Config) -> impl Fold {
 struct Amd {
     config: Config,
     in_top_level: bool,
-    scope: Scope,
+    scope: RefCell<Scope>,
     exports: Exports,
 }
 
@@ -80,9 +83,8 @@ impl Fold for Amd {
                 }
                 ModuleItem::ModuleDecl(decl) => decl,
             };
-
             match decl {
-                ModuleDecl::Import(import) => self.scope.insert_import(import),
+                ModuleDecl::Import(import) => self.scope.borrow_mut().insert_import(import),
 
                 ModuleDecl::ExportAll(..)
                 | ModuleDecl::ExportDecl(..)
@@ -120,6 +122,7 @@ impl Fold for Amd {
 
                         ModuleDecl::ExportAll(ref export) => {
                             self.scope
+                                .borrow_mut()
                                 .import_types
                                 .entry(export.src.value.clone())
                                 .and_modify(|v| *v = true);
@@ -177,10 +180,12 @@ impl Fold for Amd {
                         }) => {
                             extra_stmts.push(Stmt::Decl(Decl::Var(var.clone().fold_with(self))));
 
+                            let mut scope_ref_mut = self.scope.borrow_mut();
+                            let scope = &mut *scope_ref_mut;
                             var.decls.visit_with(
                                 &Invalid { span: DUMMY_SP } as _,
                                 &mut VarCollector {
-                                    to: &mut self.scope.declared_vars,
+                                    to: &mut scope.declared_vars,
                                 },
                             );
 
@@ -190,7 +195,7 @@ impl Fold for Amd {
                                 decl.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
 
                                 for ident in found.drain(..) {
-                                    self.scope
+                                    scope
                                         .exported_vars
                                         .entry((ident.sym.clone(), ident.span.ctxt()))
                                         .or_default()
@@ -300,10 +305,13 @@ impl Fold for Amd {
 
                         // export { foo } from 'foo';
                         ModuleDecl::ExportNamed(export) => {
+                            let mut scope_ref_mut = self.scope.borrow_mut();
+                            let scope = &mut *scope_ref_mut;
                             let imported = export.src.clone().map(|src| {
-                                self.scope
-                                    .import_to_export(&src, !export.specifiers.is_empty())
+                                scope.import_to_export(&src, !export.specifiers.is_empty())
                             });
+                            drop(scope);
+                            drop(scope_ref_mut);
 
                             stmts.reserve(export.specifiers.len());
 
@@ -320,33 +328,32 @@ impl Fold for Amd {
                                     ),
                                 })
                             {
+                                let mut scope_ref_mut = self.scope.borrow_mut();
+                                let scope = &mut *scope_ref_mut;
                                 let is_import_default = orig.sym == js_word!("default");
 
                                 let key = (orig.sym.clone(), orig.span.ctxt());
-                                if self.scope.declared_vars.contains(&key) {
-                                    self.scope
-                                        .exported_vars
-                                        .entry(key.clone())
-                                        .or_default()
-                                        .push(
-                                            exported
-                                                .clone()
-                                                .map(|i| (i.sym.clone(), i.span.ctxt()))
-                                                .unwrap_or_else(|| {
-                                                    (orig.sym.clone(), orig.span.ctxt())
-                                                }),
-                                        );
+                                if scope.declared_vars.contains(&key) {
+                                    scope.exported_vars.entry(key.clone()).or_default().push(
+                                        exported
+                                            .clone()
+                                            .map(|i| (i.sym.clone(), i.span.ctxt()))
+                                            .unwrap_or_else(|| {
+                                                (orig.sym.clone(), orig.span.ctxt())
+                                            }),
+                                    );
                                 }
 
                                 if let Some(ref src) = export.src {
                                     if is_import_default {
-                                        self.scope
+                                        scope
                                             .import_types
                                             .entry(src.value.clone())
                                             .or_insert(false);
                                     }
                                 }
-
+                                drop(scope);
+                                drop(scope_ref_mut);
                                 let value = match imported {
                                     Some(ref imported) => Box::new(
                                         imported.clone().unwrap().make_member(orig.clone()),
@@ -421,8 +428,9 @@ impl Fold for Amd {
             span: DUMMY_SP,
             elems: vec![],
         };
-
-        let mut factory_params = Vec::with_capacity(self.scope.imports.len() + 1);
+        let mut scope_ref_mut = self.scope.borrow_mut();
+        let scope = &mut *scope_ref_mut;
+        let mut factory_params = Vec::with_capacity(scope.imports.len() + 1);
         if has_export {
             define_deps_arg
                 .elems
@@ -477,7 +485,7 @@ impl Fold for Amd {
         };
 
         for export in export_alls {
-            stmts.push(self.scope.handle_export_all(
+            stmts.push(scope.handle_export_all(
                 exports_ident.clone(),
                 exported_names.clone(),
                 export,
@@ -488,7 +496,7 @@ impl Fold for Amd {
             stmts.push(initialize_to_undefined(exports_ident, initialized).into_stmt());
         }
 
-        for (src, import) in self.scope.imports.drain(..) {
+        for (src, import) in scope.imports.drain(..) {
             let import = import.unwrap_or_else(|| {
                 (
                     local_name_for_src(&src),
@@ -508,7 +516,7 @@ impl Fold for Amd {
 
             {
                 // handle interop
-                let ty = self.scope.import_types.get(&src);
+                let ty = scope.import_types.get(&src);
 
                 if let Some(&wildcard) = ty {
                     if !self.config.config.no_interop {
@@ -601,7 +609,7 @@ impl Fold for Amd {
             var.decls.visit_with(
                 &Invalid { span: DUMMY_SP } as _,
                 &mut VarCollector {
-                    to: &mut self.scope.declared_vars,
+                    to: &mut self.scope.borrow_mut().declared_vars,
                 },
             );
         }
@@ -620,12 +628,12 @@ impl ModulePass for Amd {
         &self.config.config
     }
 
-    fn scope(&self) -> &Scope {
-        &self.scope
+    fn scope(&self) -> Ref<Scope> {
+        self.scope.borrow()
     }
 
-    fn scope_mut(&mut self) -> &mut Scope {
-        &mut self.scope
+    fn scope_mut(&mut self) -> RefMut<Scope> {
+        self.scope.borrow_mut()
     }
 
     fn make_dynamic_import(&mut self, span: Span, args: Vec<ExprOrSpread>) -> Expr {

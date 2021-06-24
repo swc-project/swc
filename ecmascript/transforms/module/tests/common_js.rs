@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+use std::rc::Rc;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::fixer::fixer;
@@ -18,6 +20,7 @@ use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_module::import_analysis::import_analyzer;
 use swc_ecma_transforms_module::util::Config;
 use swc_ecma_transforms_module::util::Lazy;
+use swc_ecma_transforms_module::util::Scope;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
@@ -38,7 +41,7 @@ fn ts_syntax() -> Syntax {
 fn tr(config: Config) -> impl Fold {
     let mark = Mark::fresh(Mark::root());
 
-    chain!(resolver_with_mark(mark), common_js(mark, config))
+    chain!(resolver_with_mark(mark), common_js(mark, config, None))
 }
 
 test!(
@@ -76,7 +79,7 @@ exports.default = _default;"
 
 test!(
     syntax(),
-    |_| common_js(Mark::fresh(Mark::root()), Default::default()),
+    |_| common_js(Mark::fresh(Mark::root()), Default::default(), None),
     issue_389_1,
     "
 import Foo from 'foo';
@@ -94,12 +97,13 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
+        let scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             resolver_with_mark(mark),
             // Optional::new(typescript::strip(), syntax.typescript()),
-            import_analyzer(),
+            import_analyzer(Rc::clone(&scope)),
             inject_helpers(),
-            common_js(mark, Default::default()),
+            common_js(mark, Default::default(), Some(scope)),
             hygiene(),
             fixer(None)
         )
@@ -3895,7 +3899,7 @@ test!(
             resolver_with_mark(mark),
             block_scoped_functions(),
             block_scoping(),
-            common_js(mark, Default::default()),
+            common_js(mark, Default::default(), None),
         )
     },
     issue_396_2,
@@ -4247,7 +4251,7 @@ test!(
         block_scoping(),
         classes(Some(t.comments.clone()),),
         destructuring(Default::default()),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     issue_578_2,
     "
@@ -4309,7 +4313,7 @@ test!(
     syntax(),
     |_| chain!(
         for_of(for_of::Config { assume_array: true }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     for_of_as_array_for_of_import_commonjs,
     r#"
@@ -4340,7 +4344,7 @@ test!(
         resolver(),
         object_rest_spread(),
         destructuring(destructuring::Config { loose: false }),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
     regression_t7178,
     r#"
@@ -4378,7 +4382,7 @@ test!(
         parameters(),
         destructuring(Default::default()),
         block_scoping(),
-        common_js(Mark::fresh(Mark::root()), Default::default()),
+        common_js(Mark::fresh(Mark::root()), Default::default(), None),
     ),
     regression_4209,
     r#"
@@ -4432,7 +4436,7 @@ test!(
         spread(spread::Config {
             ..Default::default()
         }),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6647,
     r#"
@@ -4454,7 +4458,7 @@ test!(
     |_| chain!(
         resolver(),
         regenerator(Mark::fresh(Mark::root())),
-        common_js(Mark::fresh(Mark::root()), Default::default())
+        common_js(Mark::fresh(Mark::root()), Default::default(), None)
     ),
     regression_6733,
     r#"
@@ -4496,7 +4500,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
 
-        chain!(regenerator(mark), common_js(mark, Default::default()),)
+        chain!(regenerator(mark), common_js(mark, Default::default(), None),)
     },
     issue_831_2,
     "export function* myGenerator() {
@@ -4792,6 +4796,59 @@ test!(
     'use strict';
     var _testlibrary = require('testlibrary');
     console.log('aFunc: ', (0, _testlibrary).aFunc(1, 2));
+    "
+);
+test!(
+    syntax(),
+    |_| {
+        let scope = Rc::new(RefCell::new(Scope::default()));
+        chain!(
+            import_analyzer(Rc::clone(&scope)),
+            inject_helpers(),
+            common_js(Mark::fresh(Mark::root()), Default::default(), Some(scope)),
+            hygiene(),
+            fixer(None)
+        )
+    },
+    issue_1786_1,
+    "
+    import Foo from 'foo';
+    export {Foo} from 'foo';
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+      value: true
+    });
+    var _foo = _interopRequireWildcard(require('foo'));
+    function _interopRequireWildcard(obj) {
+        if (obj && obj.__esModule) {
+            return obj;
+        } else {
+            var newObj = {};
+            if (obj != null) {
+                for(var key in obj) {
+                    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                        var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? \
+     Object.getOwnPropertyDescriptor(obj, key) : {};
+                        if (desc.get || desc.set) {
+                            Object.defineProperty(newObj, key, desc);
+                        } else {
+                            newObj[key] = obj[key];
+                        }
+                    }
+                }
+            }
+            newObj.default = obj;
+            return newObj;
+        }
+    }
+    Object.defineProperty(exports, 'Foo', {
+        enumerable: true,
+        get: function() {
+            return _foo.Foo;
+        }
+    });
     "
 );
 
