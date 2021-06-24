@@ -25,7 +25,8 @@ use test::Bencher;
 fn three_js(b: &mut Bencher) {
     let dir = PathBuf::new()
         .join("..")
-        .join("integration-tests")
+        .join("tests")
+        .join("integration")
         .join("three-js")
         .join("repo");
     run_bench(b, &dir.join("src").join("Three.js"));
