@@ -419,7 +419,6 @@ impl Compiler {
                 Some(v) => v,
                 None => return Ok(None),
             };
-            eprintln!("DEBUG\n\n\n{}\n\n\n=====", name);
 
             let built = opts.build(
                 &self.cm,
