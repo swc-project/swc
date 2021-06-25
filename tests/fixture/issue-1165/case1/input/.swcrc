@@ -1,0 +1,11 @@
+{
+    "jsc": {
+      "parser": {
+        "syntax": "ecmascript",
+        "exportNamespaceFrom": true,
+        "topLevelAwait": true
+      },
+      "target": "es2020"
+    }
+  }
+  

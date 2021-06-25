@@ -1,3 +1,4 @@
 if (a) {
-    b(); // Some comment
+    b() // Some comment
+    ;
 }

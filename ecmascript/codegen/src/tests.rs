@@ -175,7 +175,7 @@ a;",
 
 #[test]
 fn comment_2() {
-    test_from_to("a // foo", "a; // foo");
+    test_from_to("a // foo", "a // foo\n;\n");
 }
 
 #[test]
@@ -186,11 +186,7 @@ fn comment_3() {
 a
 // foo
 b // bar",
-        "// foo
-// bar
-a;
-// foo
-b; // bar",
+        "// foo\n// bar\na;\n// foo\nb // bar\n;\n",
     );
 }
 
