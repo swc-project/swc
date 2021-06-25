@@ -13,7 +13,7 @@ default = []
 fuzzing = ["arbitrary", "swc_common/arbitrary"]
 
 [dependencies]
-arbitrary = {version = "0.4.7", optional = true, features = ["derive"]}
+arbitrary = {version = "1", optional = true, features = ["derive"]}
 is-macro = "0.1"
 num-bigint = {version = "0.2", features = ["serde"]}
 serde = {version = "1.0.88", features = ["derive"]}

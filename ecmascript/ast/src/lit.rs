@@ -44,7 +44,7 @@ pub struct BigInt {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for BigInt {
+impl<'a> arbitrary::Arbitrary<'a> for BigInt {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<usize>()?.into();
@@ -106,7 +106,7 @@ impl Default for StrKind {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for Str {
+impl<'a> arbitrary::Arbitrary<'a> for Str {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<String>()?.into();
@@ -155,7 +155,7 @@ pub struct Regex {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for Regex {
+impl<'a> arbitrary::Arbitrary<'a> for Regex {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let exp = u.arbitrary::<String>()?.into();
