@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs"]
 license = "Apache-2.0/MIT"
 name = "swc_ecma_transforms_react"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.24.0"
+version = "0.25.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
@@ -29,7 +29,7 @@ swc_ecma_visit = {version = "0.33.0", path = "../../visit"}
 
 [dev-dependencies]
 swc_ecma_codegen = {version = "0.60.0", path = "../../codegen/"}
-swc_ecma_transforms_compat = {version = "0.22.0", path = "../compat/"}
-swc_ecma_transforms_module = {version = "0.23.0", path = "../module"}
+swc_ecma_transforms_compat = {version = "0.23.0", path = "../compat/"}
+swc_ecma_transforms_module = {version = "0.24.0", path = "../module"}
 swc_ecma_transforms_testing = {version = "0.20.0", path = "../testing/"}
 testing = {version = "0.10.5", path = "../../../testing"}
