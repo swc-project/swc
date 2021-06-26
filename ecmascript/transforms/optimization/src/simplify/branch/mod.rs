@@ -1172,7 +1172,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             left,
             op,
             right,
-        }) if op != op!("&&") && op != op!("||") => {
+        }) if op != op!("&&") && op != op!("||") && op != op!("??") => {
             let left = ignore_result(*left);
             let right = ignore_result(*right);
 
