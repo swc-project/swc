@@ -14,7 +14,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{chain, comments::Comments, FromVariant, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::{
-    compat::{bugfixes, es2015, es2016, es2017, es2018, es2020, es3},
+    compat::{bugfixes, es2015, es2016, es2017, es2018, es2020, es2021, es3},
     pass::{noop, Optional},
 };
 use swc_ecma_utils::prepend_stmts;
