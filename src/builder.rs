@@ -155,6 +155,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         } else {
             Either::Right(chain!(
                 import_assertions(),
+                Optional::new(compat::es2021::es2021(), self.target < JscTarget::Es2021),
                 Optional::new(compat::es2020::es2020(), self.target < JscTarget::Es2020),
                 Optional::new(typescript::strip(), syntax.typescript()),
                 Optional::new(compat::es2018(), self.target <= JscTarget::Es2018),
