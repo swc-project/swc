@@ -8,7 +8,7 @@ use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Node, Visit, VisitMut, VisitMutWith,
 };
 
-pub fn operators() -> impl Fold + VisitMut {
+pub fn logical_assignments() -> impl Fold + VisitMut {
     as_folder(Operators::default())
 }
 
