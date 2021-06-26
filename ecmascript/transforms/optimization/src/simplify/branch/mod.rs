@@ -1214,7 +1214,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                     }))
                 }
             } else {
-                debug_assert_eq!(op, op!("||"));
+                debug_assert!(op == op!("||") || op == op!("??"));
 
                 let l = left.as_pure_bool();
 
