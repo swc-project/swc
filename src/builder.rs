@@ -129,6 +129,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
     ///  - fixer if enabled
     pub fn finalize<'cmt>(
         self,
+        base_url: String,
         paths: CompiledPaths,
         base: &FileName,
         syntax: Syntax,
@@ -197,6 +198,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(
                 self.cm.clone(),
+                base_url,
                 paths,
                 base,
                 self.global_mark,
