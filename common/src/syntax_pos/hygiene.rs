@@ -29,7 +29,7 @@ use std::{
 pub struct SyntaxContext(u32);
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for SyntaxContext {
+impl<'a> arbitrary::Arbitrary<'a> for SyntaxContext {
     fn arbitrary(_: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         Ok(SyntaxContext::empty())
     }

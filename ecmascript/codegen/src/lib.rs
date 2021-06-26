@@ -112,6 +112,9 @@ impl<'a> Emitter<'a> {
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
         }
+
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+
         self.wr.write_line()?;
     }
 
@@ -524,6 +527,8 @@ impl<'a> Emitter<'a> {
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
         }
+
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
@@ -1740,6 +1745,8 @@ impl<'a> Emitter<'a> {
             Pat::Rest(ref n) => emit!(n),
             Pat::Invalid(..) => invalid_pat(),
         }
+
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]

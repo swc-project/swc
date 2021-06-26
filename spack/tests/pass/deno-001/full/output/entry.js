@@ -307,8 +307,10 @@ class BufReader {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
     constructor(rd1, size1 = DEFAULT_BUF_SIZE){
-        this.r = 0;
-        this.w = 0;
+        this.r // buf read position.
+         = 0;
+        this.w // buf write position.
+         = 0;
         this.eof = false;
         if (size1 < MIN_BUF_SIZE) size1 = MIN_BUF_SIZE;
         this._reset(new Uint8Array(size1), rd1);
