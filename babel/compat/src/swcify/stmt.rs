@@ -17,6 +17,7 @@ use swc_babel_ast::DeclareVariable;
 use swc_babel_ast::DoWhileStatement;
 use swc_babel_ast::EmptyStatement;
 use swc_babel_ast::ExportAllDeclaration;
+use swc_babel_ast::ExportDefaultDeclType;
 use swc_babel_ast::ExportDefaultDeclaration;
 use swc_babel_ast::ExportNamedDeclaration;
 use swc_babel_ast::ExpressionStatement;
@@ -26,8 +27,12 @@ use swc_babel_ast::ForStatement;
 use swc_babel_ast::ForStmtInit;
 use swc_babel_ast::ForStmtLeft;
 use swc_babel_ast::FunctionDeclaration;
+use swc_babel_ast::IdOrString;
 use swc_babel_ast::IfStatement;
+use swc_babel_ast::ImportAttribute;
 use swc_babel_ast::ImportDeclaration;
+use swc_babel_ast::ImportNamespaceSpecifier;
+use swc_babel_ast::ImportSpecifierType;
 use swc_babel_ast::LabeledStatement;
 use swc_babel_ast::ReturnStatement;
 use swc_babel_ast::Statement;
@@ -35,32 +40,48 @@ use swc_babel_ast::SwitchStatement;
 use swc_babel_ast::ThrowStatement;
 use swc_babel_ast::TryStatement;
 use swc_babel_ast::VariableDeclaration;
+use swc_babel_ast::VariableDeclarationKind;
 use swc_babel_ast::VariableDeclarator;
 use swc_babel_ast::WhileStatement;
 use swc_babel_ast::WithStatement;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::BlockStmt;
 use swc_ecma_ast::BreakStmt;
 use swc_ecma_ast::ClassDecl;
+use swc_ecma_ast::ClassExpr;
 use swc_ecma_ast::ContinueStmt;
 use swc_ecma_ast::DebuggerStmt;
 use swc_ecma_ast::Decl;
+use swc_ecma_ast::DefaultDecl;
 use swc_ecma_ast::DoWhileStmt;
 use swc_ecma_ast::EmptyStmt;
 use swc_ecma_ast::ExportAll;
 use swc_ecma_ast::ExportDecl;
 use swc_ecma_ast::ExportDefaultDecl;
+use swc_ecma_ast::ExportDefaultExpr;
+use swc_ecma_ast::Expr;
 use swc_ecma_ast::ExprStmt;
 use swc_ecma_ast::FnDecl;
+use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::ForInStmt;
 use swc_ecma_ast::ForOfStmt;
 use swc_ecma_ast::ForStmt;
 use swc_ecma_ast::IfStmt;
 use swc_ecma_ast::ImportDecl;
+use swc_ecma_ast::ImportNamedSpecifier;
+use swc_ecma_ast::ImportSpecifier;
+use swc_ecma_ast::ImportStarAsSpecifier;
+use swc_ecma_ast::KeyValueProp;
 use swc_ecma_ast::LabeledStmt;
+use swc_ecma_ast::Lit;
 use swc_ecma_ast::ModuleDecl;
 use swc_ecma_ast::ModuleItem;
 use swc_ecma_ast::NamedExport;
+use swc_ecma_ast::ObjectLit;
 use swc_ecma_ast::Pat;
+use swc_ecma_ast::Prop;
+use swc_ecma_ast::PropName;
+use swc_ecma_ast::PropOrSpread;
 use swc_ecma_ast::ReturnStmt;
 use swc_ecma_ast::Stmt;
 use swc_ecma_ast::SwitchStmt;
@@ -71,6 +92,7 @@ use swc_ecma_ast::TsInterfaceDecl;
 use swc_ecma_ast::TsModuleDecl;
 use swc_ecma_ast::TsTypeAliasDecl;
 use swc_ecma_ast::VarDecl;
+use swc_ecma_ast::VarDeclKind;
 use swc_ecma_ast::VarDeclOrExpr;
 use swc_ecma_ast::VarDeclOrPat;
 use swc_ecma_ast::VarDeclarator;
@@ -302,6 +324,7 @@ impl Swcify for LabeledStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         LabeledStmt {
             span: ctx.span(&self.base),
+            label: self.label.swcify(ctx).id,
             body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
@@ -324,6 +347,8 @@ impl Swcify for SwitchStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         SwitchStmt {
             span: ctx.span(&self.base),
+            discriminant: self.discriminant.swcify(ctx),
+            cases: self.cases.swcify(ctx),
         }
     }
 }
@@ -363,7 +388,7 @@ impl Swcify for TryStatement {
         TryStmt {
             span: ctx.span(&self.base),
             block: self.block.swcify(ctx),
-            handler: (),
+            handler: self.handler.swcify(ctx),
             finalizer: self.finalizer.swcify(ctx),
         }
     }
@@ -399,6 +424,13 @@ impl Swcify for VariableDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         VarDecl {
             span: ctx.span(&self.base),
+            kind: match self.kind {
+                VariableDeclarationKind::Var => VarDeclKind::Var,
+                VariableDeclarationKind::Let => VarDeclKind::Let,
+                VariableDeclarationKind::Const => VarDeclKind::Const,
+            },
+            declare: self.declare.unwrap_or_default(),
+            decls: self.declarations.swcify(ctx),
         }
     }
 }
@@ -434,6 +466,8 @@ impl Swcify for WithStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         WithStmt {
             span: ctx.span(&self.base),
+            obj: self.object.swcify(ctx),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
 }
@@ -441,7 +475,13 @@ impl Swcify for WithStatement {
 impl Swcify for ClassDeclaration {
     type Output = ClassDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ClassDecl {
+            ident: self.id.swcify(ctx).id,
+            declare: self.declare.unwrap_or_default(),
+            class: swc_ecma_ast::Class {},
+        }
+    }
 }
 
 impl Swcify for ExportAllDeclaration {
@@ -450,16 +490,83 @@ impl Swcify for ExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
+            src: self.source.swcify(ctx),
+            asserts: self
+                .assertions
+                .swcify(ctx)
+                .map(|props| {
+                    props
+                        .into_iter()
+                        .map(Prop::KeyValue)
+                        .map(Box::new)
+                        .map(PropOrSpread::Prop)
+                        .collect()
+                })
+                .map(|props| ObjectLit {
+                    span: DUMMY_SP,
+                    props,
+                }),
+        }
+    }
+}
+
+impl Swcify for ImportAttribute {
+    type Output = KeyValueProp;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        KeyValueProp {
+            key: self.key.swcify(ctx),
+            value: Box::new(Expr::Lit(Lit::Str(self.value.swcify(ctx)))),
+        }
+    }
+}
+
+impl Swcify for IdOrString {
+    type Output = PropName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            IdOrString::Id(v) => PropName::Ident(v.swcify(ctx).id),
+            IdOrString::String(v) => PropName::Str(v.swcify(ctx)),
         }
     }
 }
 
 impl Swcify for ExportDefaultDeclaration {
-    type Output = ExportDefaultDecl;
+    type Output = ModuleDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        ExportDefaultDecl {
-            span: ctx.span(&self.base),
+        match self.declaration {
+            ExportDefaultDeclType::Func(v) => {
+                let d = v.swcify(ctx);
+                ExportDefaultDecl {
+                    span: ctx.span(&self.base),
+                    decl: DefaultDecl::Fn(FnExpr {
+                        ident: Some(d.ident),
+                        function: d.function,
+                    }),
+                }
+                .into()
+            }
+            ExportDefaultDeclType::Class(v) => {
+                let d = v.swcify(ctx);
+                ExportDefaultDecl {
+                    span: ctx.span(&self.base),
+                    decl: DefaultDecl::Class(ClassExpr {
+                        ident: Some(d.ident),
+                        class: d.class,
+                    }),
+                }
+                .into()
+            }
+            ExportDefaultDeclType::Expr(v) => ExportDefaultExpr {
+                span: ctx.span(&self.base),
+                expr: v.swcify(ctx),
+            }
+            .into(),
+            _ => {
+                todo!("swcify: {:?}", self)
+            }
         }
     }
 }
@@ -480,6 +587,10 @@ impl Swcify for ForOfStatement {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ForOfStmt {
             span: ctx.span(&self.base),
+            await_token: None,
+            left: self.left.swcify(ctx),
+            right: self.right.swcify(ctx),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
 }
@@ -490,6 +601,70 @@ impl Swcify for ImportDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ImportDecl {
             span: ctx.span(&self.base),
+            specifiers: self.specifiers.swcify(ctx),
+            src: self.source.swcify(ctx),
+            type_only: false,
+            asserts: self
+                .assertions
+                .swcify(ctx)
+                .map(|props| {
+                    props
+                        .into_iter()
+                        .map(Prop::KeyValue)
+                        .map(Box::new)
+                        .map(PropOrSpread::Prop)
+                        .collect()
+                })
+                .map(|props| ObjectLit {
+                    span: DUMMY_SP,
+                    props,
+                }),
+        }
+    }
+}
+
+impl Swcify for ImportSpecifierType {
+    type Output = ImportSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ImportSpecifierType::Import(v) => v.swcify(ctx).into(),
+            ImportSpecifierType::Default(v) => v.swcify(ctx).into(),
+            ImportSpecifierType::Namespace(v) => v.swcify(ctx).into(),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::ImportSpecifier {
+    type Output = ImportNamedSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ImportNamedSpecifier {
+            span: ctx.span(&self.base),
+            local: self.local.swcify(ctx).id,
+            imported: Some(self.imported.swcify(ctx).expect_ident()),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::ImportDefaultSpecifier {
+    type Output = swc_ecma_ast::ImportDefaultSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::ImportDefaultSpecifier {
+            span: ctx.span(&self.base),
+            local: self.local.swcify(ctx).id,
+        }
+    }
+}
+
+impl Swcify for ImportNamespaceSpecifier {
+    type Output = ImportStarAsSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ImportStarAsSpecifier {
+            span: ctx.span(&self.base),
+            local: self.local.swcify(ctx).id,
         }
     }
 }
