@@ -21,6 +21,8 @@ use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
 use swc_babel_ast::JSXAttrVal;
 use swc_babel_ast::JSXAttribute;
+use swc_babel_ast::JSXExprContainerExpr;
+use swc_babel_ast::JSXExpressionContainer;
 use swc_babel_ast::JSXMemberExprObject;
 use swc_babel_ast::JSXMemberExpression;
 use swc_babel_ast::JSXSpreadAttribute;
@@ -82,6 +84,8 @@ use swc_ecma_ast::Ident;
 use swc_ecma_ast::JSXAttr;
 use swc_ecma_ast::JSXAttrOrSpread;
 use swc_ecma_ast::JSXAttrValue;
+use swc_ecma_ast::JSXExpr;
+use swc_ecma_ast::JSXExprContainer;
 use swc_ecma_ast::JSXMemberExpr;
 use swc_ecma_ast::JSXObject;
 use swc_ecma_ast::KeyValueProp;
@@ -961,11 +965,42 @@ impl Swcify for JSXAttribute {
 impl Swcify for swc_babel_ast::JSXAttrName {
     type Output = swc_ecma_ast::JSXAttrName;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            swc_babel_ast::JSXAttrName::Id(v) => swc_ecma_ast::JSXAttrName::Ident(v.swcify(ctx)),
+            swc_babel_ast::JSXAttrName::Name(v) => {
+                swc_ecma_ast::JSXAttrName::JSXNamespacedName(v.swcify(ctx))
+            }
+        }
+    }
 }
 
 impl Swcify for JSXAttrVal {
     type Output = JSXAttrValue;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            JSXAttrVal::Element(v) => JSXAttrValue::JSXElement(Box::new(v.swcify(ctx))),
+            JSXAttrVal::Fragment(v) => JSXAttrValue::JSXFragment(v.swcify(ctx)),
+            JSXAttrVal::String(v) => JSXAttrValue::Lit(Lit::Str(v.swcify(ctx))),
+            JSXAttrVal::Expr(v) => JSXAttrValue::JSXExprContainer(v.swcify(ctx)),
+        }
+    }
+}
+
+impl Swcify for JSXExpressionContainer {
+    type Output = JSXExprContainer;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        JSXExprContainer {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for JSXExprContainerExpr {
+    type Output = JSXExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {}
 }

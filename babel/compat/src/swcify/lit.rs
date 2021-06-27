@@ -9,7 +9,6 @@ use swc_babel_ast::NumberLiteral;
 use swc_babel_ast::NumericLiteral;
 use swc_babel_ast::RegExpLiteral;
 use swc_babel_ast::StringLiteral;
-use swc_babel_ast::TemplateElVal;
 use swc_babel_ast::TemplateElement;
 use swc_babel_ast::TemplateLiteral;
 use swc_babel_ast::TemplateLiteralExpr;

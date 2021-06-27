@@ -12,7 +12,6 @@ use swc_babel_ast::DeclareFunction;
 use swc_babel_ast::DeclareInterface;
 use swc_babel_ast::DeclareModule;
 use swc_babel_ast::DeclareModuleExports;
-use swc_babel_ast::DeclareOpaqueType;
 use swc_babel_ast::DeclareTypeAlias;
 use swc_babel_ast::DeclareVariable;
 use swc_babel_ast::DoWhileStatement;
