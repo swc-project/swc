@@ -59,6 +59,7 @@ use swc_ecma_ast::ExportAll;
 use swc_ecma_ast::ExportDecl;
 use swc_ecma_ast::ExportDefaultDecl;
 use swc_ecma_ast::ExportDefaultExpr;
+use swc_ecma_ast::ExportNamedSpecifier;
 use swc_ecma_ast::Expr;
 use swc_ecma_ast::ExprStmt;
 use swc_ecma_ast::FnDecl;
@@ -595,7 +596,7 @@ impl Swcify for ExportNamedDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         NamedExport {
             span: ctx.span(&self.base),
-            specifiers: (),
+            specifiers: self.specifiers.swcify(ctx),
             src: self.source.swcify(ctx),
             type_only: false,
             asserts: self
@@ -613,6 +614,57 @@ impl Swcify for ExportNamedDeclaration {
                     span: DUMMY_SP,
                     props,
                 }),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::ExportSpecifierType {
+    type Output = swc_ecma_ast::ExportSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            swc_babel_ast::ExportSpecifierType::Export(v) => {
+                swc_ecma_ast::ExportSpecifier::from(v.swcify(ctx))
+            }
+            swc_babel_ast::ExportSpecifierType::Default(v) => {
+                swc_ecma_ast::ExportSpecifier::from(v.swcify(ctx))
+            }
+            swc_babel_ast::ExportSpecifierType::Namespace(v) => {
+                swc_ecma_ast::ExportSpecifier::from(v.swcify(ctx))
+            }
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::ExportSpecifier {
+    type Output = ExportNamedSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ExportNamedSpecifier {
+            span: ctx.span(&self.base),
+            orig: self.local.swcify(ctx).id,
+            exported: Some(self.exported.swcify(ctx).expect_ident()),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::ExportDefaultSpecifier {
+    type Output = swc_ecma_ast::ExportDefaultSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::ExportDefaultSpecifier {
+            exported: self.exported.swcify(ctx).id,
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::ExportNamespaceSpecifier {
+    type Output = swc_ecma_ast::ExportNamespaceSpecifier;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::ExportNamespaceSpecifier {
+            span: ctx.span(&self.base),
+            name: self.exported.swcify(ctx).id,
         }
     }
 }
