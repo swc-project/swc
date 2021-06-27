@@ -23,6 +23,8 @@ use swc_babel_ast::ExpressionStatement;
 use swc_babel_ast::ForInStatement;
 use swc_babel_ast::ForOfStatement;
 use swc_babel_ast::ForStatement;
+use swc_babel_ast::ForStmtInit;
+use swc_babel_ast::ForStmtLeft;
 use swc_babel_ast::FunctionDeclaration;
 use swc_babel_ast::IfStatement;
 use swc_babel_ast::ImportDeclaration;
@@ -33,6 +35,7 @@ use swc_babel_ast::SwitchStatement;
 use swc_babel_ast::ThrowStatement;
 use swc_babel_ast::TryStatement;
 use swc_babel_ast::VariableDeclaration;
+use swc_babel_ast::VariableDeclarator;
 use swc_babel_ast::WhileStatement;
 use swc_babel_ast::WithStatement;
 use swc_ecma_ast::BlockStmt;
@@ -57,6 +60,7 @@ use swc_ecma_ast::LabeledStmt;
 use swc_ecma_ast::ModuleDecl;
 use swc_ecma_ast::ModuleItem;
 use swc_ecma_ast::NamedExport;
+use swc_ecma_ast::Pat;
 use swc_ecma_ast::ReturnStmt;
 use swc_ecma_ast::Stmt;
 use swc_ecma_ast::SwitchStmt;
@@ -67,6 +71,9 @@ use swc_ecma_ast::TsInterfaceDecl;
 use swc_ecma_ast::TsModuleDecl;
 use swc_ecma_ast::TsTypeAliasDecl;
 use swc_ecma_ast::VarDecl;
+use swc_ecma_ast::VarDeclOrExpr;
+use swc_ecma_ast::VarDeclOrPat;
+use swc_ecma_ast::VarDeclarator;
 use swc_ecma_ast::WhileStmt;
 use swc_ecma_ast::WithStmt;
 
@@ -149,25 +156,45 @@ impl Swcify for Statement {
 impl Swcify for BreakStatement {
     type Output = BreakStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        BreakStmt {
+            span: ctx.span(&self.base),
+            label: self.label.swcify(ctx).map(|v| v.id),
+        }
+    }
 }
 
 impl Swcify for ContinueStatement {
     type Output = ContinueStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ContinueStmt {
+            span: ctx.span(&self.base),
+            label: self.label.swcify(ctx).map(|v| v.id),
+        }
+    }
 }
 
 impl Swcify for DebuggerStatement {
     type Output = DebuggerStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        DebuggerStmt {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DoWhileStatement {
     type Output = DoWhileStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        DoWhileStmt {
+            span: ctx.span(&self.base),
+            test: self.test.swcify(ctx),
+            body: self.body.swcify(ctx).expect_stmt(),
+        }
+    }
 }
 
 impl Swcify for EmptyStatement {
@@ -194,73 +221,221 @@ impl Swcify for ExpressionStatement {
 impl Swcify for ForInStatement {
     type Output = ForInStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ForInStmt {
+            span: ctx.span(&self.base),
+            left: self.left.swcify(ctx),
+            right: self.right.swcify(ctx),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+        }
+    }
+}
+
+impl Swcify for ForStmtLeft {
+    type Output = VarDeclOrPat;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ForStmtLeft::VarDecl(v) => VarDeclOrPat::VarDecl(v.swcify(ctx)),
+            ForStmtLeft::LVal(v) => VarDeclOrPat::Pat(v.swcify(ctx)),
+        }
+    }
 }
 
 impl Swcify for ForStatement {
     type Output = ForStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ForStmt {
+            span: ctx.span(&self.base),
+            init: self.init.swcify(ctx),
+            test: self.test.swcify(ctx),
+            update: self.update.swcify(ctx),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+        }
+    }
+}
+
+impl Swcify for ForStmtInit {
+    type Output = VarDeclOrExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            ForStmtInit::VarDecl(v) => VarDeclOrExpr::VarDecl(v.swcify(ctx)),
+            ForStmtInit::Expr(v) => VarDeclOrExpr::Expr(v.swcify(ctx)),
+        }
+    }
 }
 
 impl Swcify for FunctionDeclaration {
     type Output = FnDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        FnDecl {
+            ident: self.id.swcify(ctx).map(|v| v.id).unwrap(),
+            declare: false,
+            function: swc_ecma_ast::Function {},
+        }
+    }
 }
 
 impl Swcify for IfStatement {
     type Output = IfStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        IfStmt {
+            span: ctx.span(&self.base),
+            test: self.test.swcify(ctx),
+            cons: Box::new(self.consequent.swcify(ctx).expect_stmt()),
+            alt: self
+                .alternate
+                .swcify(ctx)
+                .map(|v| v.expect_stmt())
+                .map(Box::new),
+        }
+    }
 }
 
 impl Swcify for LabeledStatement {
     type Output = LabeledStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        LabeledStmt {
+            span: ctx.span(&self.base),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
+        }
+    }
 }
 
 impl Swcify for ReturnStatement {
     type Output = ReturnStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ReturnStmt {
+            span: ctx.span(&self.base),
+            arg: self.argument.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for SwitchStatement {
     type Output = SwitchStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        SwitchStmt {
+            span: ctx.span(&self.base),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::SwitchCase {
+    type Output = swc_ecma_ast::SwitchCase;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::SwitchCase {
+            span: ctx.span(&self.base),
+            test: self.test.swcify(ctx),
+            cons: self
+                .consequent
+                .swcify(ctx)
+                .into_iter()
+                .map(|v| v.expect_stmt())
+                .collect(),
+        }
+    }
 }
 
 impl Swcify for ThrowStatement {
     type Output = ThrowStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ThrowStmt {
+            span: ctx.span(&self.base),
+            arg: self.argument.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for TryStatement {
     type Output = TryStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TryStmt {
+            span: ctx.span(&self.base),
+            block: self.block.swcify(ctx),
+            handler: (),
+            finalizer: self.finalizer.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::CatchClause {
+    type Output = swc_ecma_ast::CatchClause;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::CatchClause {
+            span: ctx.span(&self.base),
+            param: self.param.swcify(ctx),
+            body: self.body.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::CatchClauseParam {
+    type Output = Pat;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            swc_babel_ast::CatchClauseParam::Id(v) => Pat::from(v.swcify(ctx)),
+            swc_babel_ast::CatchClauseParam::Array(v) => Pat::from(v.swcify(ctx)),
+            swc_babel_ast::CatchClauseParam::Object(v) => Pat::from(v.swcify(ctx)),
+        }
+    }
 }
 
 impl Swcify for VariableDeclaration {
     type Output = VarDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        VarDecl {
+            span: ctx.span(&self.base),
+        }
+    }
+}
+
+impl Swcify for VariableDeclarator {
+    type Output = VarDeclarator;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        VarDeclarator {
+            span: ctx.span(&self.base),
+            name: self.id.swcify(ctx),
+            init: self.init.swcify(ctx),
+            definite: self.definite.unwrap_or_default(),
+        }
+    }
 }
 
 impl Swcify for WhileStatement {
     type Output = WhileStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        WhileStmt {
+            span: ctx.span(&self.base),
+            test: self.test.swcify(ctx),
+            body: self.body.swcify(ctx).expect_stmt(),
+        }
+    }
 }
 
 impl Swcify for WithStatement {
     type Output = WithStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        WithStmt {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for ClassDeclaration {
@@ -272,31 +447,51 @@ impl Swcify for ClassDeclaration {
 impl Swcify for ExportAllDeclaration {
     type Output = ExportAll;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ExportAll {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for ExportDefaultDeclaration {
     type Output = ExportDefaultDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ExportDefaultDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for ExportNamedDeclaration {
     type Output = NamedExport;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        NamedExport {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for ForOfStatement {
     type Output = ForOfStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ForOfStmt {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for ImportDeclaration {
     type Output = ImportDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ImportDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareClass {
@@ -314,41 +509,69 @@ impl Swcify for DeclareFunction {
 impl Swcify for DeclareInterface {
     type Output = TsInterfaceDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsInterfaceDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareModule {
     type Output = TsModuleDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsModuleDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareModuleExports {
     type Output = TsExportAssignment;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsExportAssignment {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareTypeAlias {
     type Output = TsTypeAliasDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        TsTypeAliasDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareVariable {
     type Output = VarDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        VarDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareExportDeclaration {
     type Output = ExportDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ExportDecl {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for DeclareExportAllDeclaration {
     type Output = ExportAll;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        ExportAll {
+            span: ctx.span(&self.base),
+        }
+    }
 }
