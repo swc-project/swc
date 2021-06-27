@@ -296,7 +296,16 @@ impl Swcify for FunctionDeclaration {
         FnDecl {
             ident: self.id.swcify(ctx).map(|v| v.id).unwrap(),
             declare: false,
-            function: swc_ecma_ast::Function {},
+            function: swc_ecma_ast::Function {
+                params: self.params.swcify(ctx),
+                decorators: Default::default(),
+                span: ctx.span(&self.base),
+                body: Some(self.body.swcify(ctx)),
+                is_generator: false,
+                is_async: self.is_async.unwrap_or_default(),
+                type_params: Default::default(),
+                return_type: Default::default(),
+            },
         }
     }
 }
@@ -479,7 +488,16 @@ impl Swcify for ClassDeclaration {
         ClassDecl {
             ident: self.id.swcify(ctx).id,
             declare: self.declare.unwrap_or_default(),
-            class: swc_ecma_ast::Class {},
+            class: swc_ecma_ast::Class {
+                span: ctx.span(&self.base),
+                decorators: self.decorators.swcify(ctx).unwrap_or_default(),
+                body: self.body.swcify(ctx),
+                super_class: self.super_class.swcify(ctx),
+                is_abstract: self.is_abstract.unwrap_or_default(),
+                type_params: None,
+                super_type_params: None,
+                implements: Default::default(),
+            },
         }
     }
 }
@@ -577,6 +595,24 @@ impl Swcify for ExportNamedDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         NamedExport {
             span: ctx.span(&self.base),
+            specifiers: (),
+            src: self.source.swcify(ctx),
+            type_only: false,
+            asserts: self
+                .assertions
+                .swcify(ctx)
+                .map(|props| {
+                    props
+                        .into_iter()
+                        .map(Prop::KeyValue)
+                        .map(Box::new)
+                        .map(PropOrSpread::Prop)
+                        .collect()
+                })
+                .map(|props| ObjectLit {
+                    span: DUMMY_SP,
+                    props,
+                }),
         }
     }
 }
