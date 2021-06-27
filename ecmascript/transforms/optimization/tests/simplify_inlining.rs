@@ -6,6 +6,14 @@ use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
+use swc_ecma_visit::Fold;
+
+fn simple_strip() -> impl Fold {
+    strip::strip_with_config(strip::Config {
+        no_empty_export: true,
+        ..Default::default()
+    })
+}
 
 macro_rules! to {
     ($name:ident, $src:expr, $expected:expr) => {
@@ -2141,7 +2149,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
     issue_1156_1,
     "
     export interface D {
@@ -2176,7 +2184,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
     issue_1156_2,
     "
     interface D {
@@ -2237,7 +2245,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
     deno_8180_1,
     r#"
     var Status;
@@ -2281,7 +2289,7 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(strip(), resolver(), inlining(Default::default())),
+    |_| chain!(simple_strip(), resolver(), inlining(Default::default())),
     deno_8189_1,
     "
     let A, I = null;

@@ -146,6 +146,20 @@ where
         let results = entries
             .into_iter()
             .map(|(name, path)| -> Result<_, Error> {
+                let path = match path {
+                    FileName::Real(path) => {
+                        if cfg!(target_os = "windows") {
+                            let path = path
+                                .canonicalize()
+                                .context("failed to canonicalize entry")?;
+                            FileName::Real(path)
+                        } else {
+                            FileName::Real(path)
+                        }
+                    }
+                    _ => path,
+                };
+
                 let res = self
                     .load_transformed(&path)
                     .context("load_transformed failed")?;

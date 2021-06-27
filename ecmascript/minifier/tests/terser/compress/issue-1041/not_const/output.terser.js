@@ -1,0 +1,1 @@
+var goog = goog || {};

@@ -1,4 +1,4 @@
-//! es2019 parser
+//! EcmaScript/TypeScript parser for the rust programming language.
 //!
 //! # Features
 //!
@@ -86,6 +86,20 @@
 //! }
 //! ```
 //!
+//! ## Known issues
+//!
+//! ### Null character after `\`
+//!
+//! Becuase [String] of rust should only contain valid utf-8 characters while
+//! javascript allows non-utf8 chraceters, the parser stores invalid utf8
+//! chracters in escpaed form.
+//!
+//! As a result, swc needs a way to distinguish invalid-utf8 code points and
+//! input specified by the user. The parser stores a null chracter right after
+//! `\\` for non-utf8 code points. Note that other parts of swc is aware of this
+//! fact.
+//!
+//! Note that this can be changed at anytime with a breaking change.
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
 

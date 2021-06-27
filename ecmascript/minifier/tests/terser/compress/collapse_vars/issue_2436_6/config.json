@@ -1,0 +1,11 @@
+{
+    "collapse_vars": true,
+    "evaluate": true,
+    "inline": true,
+    "passes": 2,
+    "pure_getters": "strict",
+    "reduce_vars": true,
+    "toplevel": true,
+    "unsafe": true,
+    "unused": true
+}

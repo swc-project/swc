@@ -1,0 +1,4 @@
+{
+    "pure_funcs": ["Math.floor"],
+    "side_effects": true
+}

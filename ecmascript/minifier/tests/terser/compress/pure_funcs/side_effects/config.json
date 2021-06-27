@@ -1,0 +1,4 @@
+{
+    "pure_funcs": ["console.log"],
+    "side_effects": true
+}

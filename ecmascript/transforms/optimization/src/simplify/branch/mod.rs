@@ -474,6 +474,21 @@ impl Fold for Remover {
             }
 
             Stmt::Switch(mut s) => {
+                if s.cases.iter().any(|case| match case.test.as_deref() {
+                    Some(Expr::Update(..)) => true,
+                    _ => false,
+                }) {
+                    return Stmt::Switch(s);
+                }
+                match &*s.discriminant {
+                    Expr::Update(..) => {
+                        if s.cases.len() != 1 {
+                            return Stmt::Switch(s);
+                        }
+                    }
+                    _ => {}
+                }
+
                 let remove_break = |stmts: Vec<Stmt>| {
                     debug_assert!(
                         !has_conditional_stopper(&*stmts) || has_unconditional_stopper(&*stmts)
@@ -828,19 +843,27 @@ impl Fold for Remover {
             Stmt::While(s) => {
                 if let (purity, Known(v)) = s.test.as_bool() {
                     if v {
-                        Stmt::While(WhileStmt {
-                            test: Box::new(Expr::Lit(Lit::Bool(Bool {
-                                span: s.test.span(),
-                                value: true,
-                            }))),
-                            ..s
-                        })
-                    } else {
                         if purity.is_pure() {
-                            Stmt::Empty(EmptyStmt { span: s.span })
+                            Stmt::While(WhileStmt {
+                                test: Box::new(Expr::Lit(Lit::Bool(Bool {
+                                    span: s.test.span(),
+                                    value: true,
+                                }))),
+                                ..s
+                            })
+                        } else {
+                            Stmt::While(s)
+                        }
+                    } else {
+                        let body = s.body.extract_var_ids_as_var();
+                        let body = body.map(Decl::Var).map(Stmt::Decl);
+                        let body = body.unwrap_or_else(|| Stmt::Empty(EmptyStmt { span: s.span }));
+
+                        if purity.is_pure() {
+                            body
                         } else {
                             Stmt::While(WhileStmt {
-                                body: Box::new(Stmt::Empty(EmptyStmt { span: s.span })),
+                                body: Box::new(body),
                                 ..s
                             })
                         }
@@ -916,6 +939,13 @@ impl Fold for Remover {
 
     fn fold_switch_stmt(&mut self, s: SwitchStmt) -> SwitchStmt {
         let s: SwitchStmt = s.fold_children_with(self);
+
+        if s.cases.iter().any(|case| match case.test.as_deref() {
+            Some(Expr::Update(..)) => true,
+            _ => false,
+        }) {
+            return s;
+        }
 
         if s.cases.iter().all(|case| {
             if case.cons.is_empty() {
@@ -1142,7 +1172,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             left,
             op,
             right,
-        }) if op != op!("&&") && op != op!("||") => {
+        }) if op != op!("&&") && op != op!("||") && op != op!("??") => {
             let left = ignore_result(*left);
             let right = ignore_result(*right);
 
@@ -1184,7 +1214,7 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                     }))
                 }
             } else {
-                debug_assert_eq!(op, op!("||"));
+                debug_assert!(op == op!("||") || op == op!("??"));
 
                 let l = left.as_pure_bool();
 
@@ -1211,6 +1241,22 @@ fn ignore_result(e: Expr) -> Option<Expr> {
         }
 
         Expr::Unary(UnaryExpr { span, op, arg }) => match op {
+            // Don't remove ! from negated iifes.
+            op!("!")
+                if match &*arg {
+                    Expr::Call(call) => match &call.callee {
+                        ExprOrSuper::Expr(callee) => match &**callee {
+                            Expr::Fn(..) => true,
+                            _ => false,
+                        },
+                        _ => false,
+                    },
+                    _ => false,
+                } =>
+            {
+                Some(Expr::Unary(UnaryExpr { span, op, arg }))
+            }
+
             op!("void")
             | op!("typeof")
             | op!(unary, "+")

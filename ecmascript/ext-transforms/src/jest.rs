@@ -12,7 +12,7 @@ static HOIST_METHODS: phf::Set<&str> = phf_set![
     "deepUnmock"
 ];
 
-pub fn jest() -> impl Fold {
+pub fn jest() -> impl Fold + VisitMut {
     as_folder(Jest)
 }
 

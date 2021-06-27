@@ -13,6 +13,7 @@ use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_transforms_typescript::strip;
+use swc_ecma_transforms_typescript::strip::strip_with_config;
 use swc_ecma_visit::{Fold, FoldWith};
 use test::{
     test_main, DynTestFn, Options, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType,
@@ -178,7 +179,13 @@ fn correctness_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                         // Parse source
                         let module = parser
                             .parse_typescript_module()
-                            .map(|p| p.fold_with(&mut strip()).fold_with(&mut fixer(None)))
+                            .map(|p| {
+                                p.fold_with(&mut strip_with_config(strip::Config {
+                                    no_empty_export: true,
+                                    ..Default::default()
+                                }))
+                                .fold_with(&mut fixer(None))
+                            })
                             .map_err(|e| {
                                 eprintln!("failed to parse as typescript module");
                                 e.into_diagnostic(handler).emit();

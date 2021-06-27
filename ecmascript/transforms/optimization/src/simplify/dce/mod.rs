@@ -45,7 +45,7 @@ impl Default for Config<'_> {
     }
 }
 
-pub fn dce<'a>(config: Config<'a>) -> impl RepeatedJsPass + 'a {
+pub fn dce<'a>(config: Config<'a>) -> impl 'a + RepeatedJsPass + VisitMut {
     assert_ne!(
         config.used_mark,
         Mark::root(),
@@ -204,6 +204,24 @@ impl VisitMut for Dce<'_> {
     preserve!(visit_mut_break_stmt, BreakStmt);
     preserve!(visit_mut_continue_stmt, ContinueStmt);
 
+    fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.is_marked(node.left.span())
+            || self.is_marked(node.right.span())
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.left);
+            self.mark(&mut node.right);
+        }
+    }
+
     fn visit_mut_block_stmt(&mut self, node: &mut BlockStmt) {
         if self.is_marked(node.span) {
             return;
@@ -213,6 +231,40 @@ impl VisitMut for Dce<'_> {
         if self.marking_phase || node.stmts.iter().any(|stmt| self.is_marked(stmt.span())) {
             node.span = node.span.apply_mark(self.config.used_mark);
             self.mark(&mut node.stmts);
+        }
+    }
+
+    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.is_marked(node.callee.span())
+            || node.args.iter().any(|arg| self.is_marked(arg.expr.span()))
+        {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.callee);
+            self.mark(&mut node.args);
+        }
+    }
+
+    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
+        if self.is_marked(node.span()) {
+            return;
+        }
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase
+            || self.included.contains(&node.ident.to_id())
+            || self.is_marked(node.ident.span())
+            || self.is_marked(node.class.span())
+        {
+            self.mark(&mut node.ident);
+            self.mark(&mut node.class);
         }
     }
 
@@ -500,6 +552,13 @@ impl VisitMut for Dce<'_> {
         }
     }
 
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.visit_mut_stmt_like(n)
+    }
+
+    normal!(visit_mut_throw_stmt, ThrowStmt, arg);
+    normal!(visit_mut_try_stmt, TryStmt, block, handler, finalizer);
+
     fn visit_mut_named_export(&mut self, node: &mut NamedExport) {
         if self.is_marked(node.span) {
             return;
@@ -520,6 +579,26 @@ impl VisitMut for Dce<'_> {
         }
     }
 
+    fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.span = node.span.apply_mark(self.config.used_mark);
+
+        self.mark(&mut node.callee);
+        self.mark(&mut node.args);
+    }
+
+    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        match n {
+            PropName::Computed(_) => n.visit_mut_children_with(self),
+            _ => {}
+        }
+    }
+
     fn visit_mut_return_stmt(&mut self, node: &mut ReturnStmt) {
         if self.is_marked(node.span) {
             return;
@@ -527,6 +606,14 @@ impl VisitMut for Dce<'_> {
 
         node.span = node.span.apply_mark(self.config.used_mark);
         self.mark(&mut node.arg);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        if !self.decl_dropping_phase {
+            n.visit_mut_children_with(self);
+            return;
+        }
+        self.visit_mut_stmt_like(n)
     }
 
     fn visit_mut_switch_case(&mut self, node: &mut SwitchCase) {
@@ -566,8 +653,19 @@ impl VisitMut for Dce<'_> {
         }
     }
 
-    normal!(visit_mut_throw_stmt, ThrowStmt, arg);
-    normal!(visit_mut_try_stmt, TryStmt, block, handler, finalizer);
+    fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
+        if self.is_marked(node.span) {
+            return;
+        }
+
+        node.visit_mut_children_with(self);
+
+        if self.marking_phase || self.is_marked(node.arg.span()) {
+            node.span = node.span.apply_mark(self.config.used_mark);
+
+            self.mark(&mut node.arg);
+        }
+    }
 
     fn visit_mut_update_expr(&mut self, node: &mut UpdateExpr) {
         if self.is_marked(node.span) {
@@ -576,18 +674,6 @@ impl VisitMut for Dce<'_> {
 
         node.span = node.span.apply_mark(self.config.used_mark);
         self.mark(&mut node.arg);
-    }
-
-    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
-        if self.is_marked(d.span) {
-            return;
-        }
-
-        d.visit_mut_children_with(self);
-
-        if self.is_marked(d.name.span()) || self.is_marked(d.init.span()) {
-            d.span = d.span.apply_mark(self.config.used_mark);
-        }
     }
 
     fn visit_mut_var_decl(&mut self, mut var: &mut VarDecl) {
@@ -622,6 +708,18 @@ impl VisitMut for Dce<'_> {
         var.span = var.span.apply_mark(self.config.used_mark);
     }
 
+    fn visit_mut_var_declarator(&mut self, d: &mut VarDeclarator) {
+        if self.is_marked(d.span) {
+            return;
+        }
+
+        d.visit_mut_children_with(self);
+
+        if self.is_marked(d.name.span()) || self.is_marked(d.init.span()) {
+            d.span = d.span.apply_mark(self.config.used_mark);
+        }
+    }
+
     fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
         if self.is_marked(node.span) {
             return;
@@ -634,104 +732,6 @@ impl VisitMut for Dce<'_> {
 
             self.mark(&mut node.test);
             self.mark(&mut node.body);
-        }
-    }
-
-    fn visit_mut_unary_expr(&mut self, node: &mut UnaryExpr) {
-        if self.is_marked(node.span) {
-            return;
-        }
-
-        node.visit_mut_children_with(self);
-
-        if self.marking_phase || self.is_marked(node.arg.span()) {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.arg);
-        }
-    }
-
-    fn visit_mut_bin_expr(&mut self, node: &mut BinExpr) {
-        if self.is_marked(node.span) {
-            return;
-        }
-
-        node.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || self.is_marked(node.left.span())
-            || self.is_marked(node.right.span())
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.left);
-            self.mark(&mut node.right);
-        }
-    }
-
-    fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
-        if self.is_marked(node.span) {
-            return;
-        }
-
-        node.span = node.span.apply_mark(self.config.used_mark);
-
-        self.mark(&mut node.callee);
-        self.mark(&mut node.args);
-    }
-
-    fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        if self.is_marked(node.span) {
-            return;
-        }
-
-        node.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || self.is_marked(node.callee.span())
-            || node.args.iter().any(|arg| self.is_marked(arg.expr.span()))
-        {
-            node.span = node.span.apply_mark(self.config.used_mark);
-
-            self.mark(&mut node.callee);
-            self.mark(&mut node.args);
-        }
-    }
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.visit_mut_stmt_like(n)
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        if !self.decl_dropping_phase {
-            n.visit_mut_children_with(self);
-            return;
-        }
-        self.visit_mut_stmt_like(n)
-    }
-
-    fn visit_mut_private_name(&mut self, _: &mut PrivateName) {}
-
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        match n {
-            PropName::Computed(_) => n.visit_mut_children_with(self),
-            _ => {}
-        }
-    }
-
-    fn visit_mut_class_decl(&mut self, node: &mut ClassDecl) {
-        if self.is_marked(node.span()) {
-            return;
-        }
-        node.visit_mut_children_with(self);
-
-        if self.marking_phase
-            || self.included.contains(&node.ident.to_id())
-            || self.is_marked(node.ident.span())
-            || self.is_marked(node.class.span())
-        {
-            self.mark(&mut node.ident);
-            self.mark(&mut node.class);
         }
     }
 
@@ -919,9 +919,10 @@ impl Dce<'_> {
 
     pub fn has_marked_elem<T>(&self, n: &[T]) -> bool
     where
-        T: Spanned,
+        T: Spanned + IsDecorator,
     {
-        n.iter().any(|n| self.is_marked(n.span()))
+        n.iter()
+            .any(|n| T::is_decorator() || self.is_marked(n.span()))
     }
 
     pub fn should_preserve_export(&self, i: &JsWord) -> bool {
@@ -980,3 +981,59 @@ impl Dce<'_> {
         self.decl_dropping_phase = old;
     }
 }
+
+trait IsDecorator {
+    fn is_decorator() -> bool;
+}
+
+impl<T> IsDecorator for Option<T>
+where
+    T: IsDecorator,
+{
+    fn is_decorator() -> bool {
+        T::is_decorator()
+    }
+}
+
+impl<T> IsDecorator for Box<T>
+where
+    T: IsDecorator,
+{
+    fn is_decorator() -> bool {
+        T::is_decorator()
+    }
+}
+
+impl IsDecorator for Decorator {
+    fn is_decorator() -> bool {
+        true
+    }
+}
+
+macro_rules! not_decorator {
+    ($T:ty) => {
+        impl IsDecorator for $T {
+            fn is_decorator() -> bool {
+                false
+            }
+        }
+    };
+
+    ($($T:ty,)*) => {
+        $(
+            not_decorator!($T);
+        )*
+    };
+}
+
+not_decorator!(
+    ExprOrSpread,
+    Pat,
+    ClassMember,
+    ParamOrTsParamProp,
+    PropOrSpread,
+    Prop,
+    SpreadElement,
+    ObjectPatProp,
+    Expr,
+);

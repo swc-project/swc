@@ -82,11 +82,17 @@ impl<'a> Emitter<'a> {
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        keyword!("constructor");
+        keyword!("new");
 
         punct!("(");
         self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
         punct!(")");
+
+        if let Some(type_ann) = &n.type_ann {
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
     }
 
     #[emitter]
@@ -250,7 +256,17 @@ impl<'a> Emitter<'a> {
         }
 
         keyword!("import");
+        space!();
+
+        if n.is_type_only {
+            keyword!("type");
+            space!();
+        }
+
+        emit!(n.id);
+
         formatting_space!();
+
         punct!("=");
         formatting_space!();
 
@@ -555,7 +571,10 @@ impl<'a> Emitter<'a> {
     fn emit_ts_module_ref(&mut self, n: &TsModuleRef) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        unimplemented!("emit_ts_module_ref")
+        match n {
+            TsModuleRef::TsEntityName(n) => emit!(n),
+            TsModuleRef::TsExternalModuleRef(n) => emit!(n),
+        }
     }
 
     #[emitter]

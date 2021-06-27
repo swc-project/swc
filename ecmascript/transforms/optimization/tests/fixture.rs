@@ -3,6 +3,7 @@ use swc_common::pass::Repeat;
 use swc_ecma_parser::EsConfig;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_optimization::simplify::dce::dce;
+use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_transforms_testing::test_fixture;
 
 #[testing::fixture("dce/**/input.js")]
@@ -11,6 +12,7 @@ fn dce_single_pass(input: PathBuf) {
 
     test_fixture(
         Syntax::Es(EsConfig {
+            decorators: true,
             dynamic_import: true,
             ..Default::default()
         }),
@@ -26,10 +28,26 @@ fn dce_repeated(input: PathBuf) {
 
     test_fixture(
         Syntax::Es(EsConfig {
+            decorators: true,
             dynamic_import: true,
             ..Default::default()
         }),
         &|_| Repeat::new(dce(Default::default())),
+        &input,
+        &output,
+    );
+}
+
+#[testing::fixture("expr-simplifier/**/input.js")]
+fn expr(input: PathBuf) {
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        Syntax::Es(EsConfig {
+            dynamic_import: true,
+            ..Default::default()
+        }),
+        &|_| expr_simplifier(),
         &input,
         &output,
     );

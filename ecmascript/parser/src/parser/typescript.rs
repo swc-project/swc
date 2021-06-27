@@ -973,6 +973,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         is_export: bool,
+        is_type_only: bool,
     ) -> PResult<TsImportEqualsDecl> {
         debug_assert!(self.input.syntax().typescript());
 
@@ -986,6 +987,7 @@ impl<I: Tokens> Parser<I> {
             declare: false,
             id,
             is_export,
+            is_type_only,
             module_ref,
         })
     }
@@ -2302,7 +2304,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Option<Decl>> {
         match value {
             js_word!("abstract") => {
-                if next || is!(self, "class") {
+                if next || (is!(self, "class") && !self.input.had_line_break_before_cur()) {
                     if next {
                         bump!(self);
                     }

@@ -18,6 +18,10 @@ impl Visit for VarCollector<'_> {
 
     fn visit_function(&mut self, _: &Function, _parent: &dyn Node) {}
 
+    fn visit_key_value_pat_prop(&mut self, node: &KeyValuePatProp, _parent: &dyn Node) {
+        node.value.visit_with(node, self);
+    }
+
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         self.to.push((i.sym.clone(), i.span.ctxt()))
     }

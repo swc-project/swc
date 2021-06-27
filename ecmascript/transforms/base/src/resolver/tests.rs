@@ -164,22 +164,6 @@ fn test_mark_for() {
 }
 
 to!(
-    basic_no_usage,
-    "
-        let foo;
-        {
-            let foo;
-        }
-        ",
-    "
-        let foo;
-        {
-            let foo1;
-        }
-        "
-);
-
-to!(
     class_nested_var,
     "
         var ConstructorScoping = function ConstructorScoping() {
@@ -2927,5 +2911,127 @@ to_ts!(
     for (const v__1 of new FooIterator){
         const v__3 = 0;
     }
+    "
+);
+
+to_ts!(
+    ts_local_types_4_1,
+    "
+    function f1() {
+        // Type parameters are in scope in parameters and return types
+        function f<T>(x: T): T {
+            return undefined;
+        }
+    }
+    
+    function f2() {
+        // Local types are not in scope in parameters and return types
+        function f(x: T): T {
+            interface T { }
+            return undefined;
+        }
+    }
+    
+    function f3() {
+        // Type parameters and top-level local types are in same declaration space
+        function f<T>() {
+            interface T { }
+            return undefined;
+        }
+    }
+    ",
+    "
+    function f1() {
+        function f__2<T__3>(x__3: T__3): T__3 {
+            return undefined;
+        }
+    }
+    function f2() {
+        function f__4(x__5: T): T {
+            interface T__5 {
+            }
+            return undefined;
+        }
+    }
+    function f3() {
+        function f__6<T__7>() {
+            interface T__7 {
+            }
+            return undefined;
+        }
+    }
+    "
+);
+
+to_ts!(
+    ts_local_types_4_2,
+    "
+    function f2() {
+        // Local types are not in scope in parameters and return types
+        function f(x: T): T {
+            interface T { }
+            return undefined;
+        }
+    }
+    ",
+    "
+    function f2() {
+        function f__2(x__3: T): T {
+            interface T__3 {
+            }
+            return undefined;
+        }
+    }
+    "
+);
+
+to_ts!(
+    ts_mapped_type_as_clauses_01,
+    "
+    type Lazyify<T> = {
+        [K in keyof T as `get${Capitalize<K & string>}`]: () => T[K]
+    };
+    ",
+    "
+    type Lazyify<T__2> = {
+        [K__2 in keyof T__2]: () => T__2[K__2];
+    };
+    "
+);
+
+to_ts!(
+    ts_async_await_nested_class_es5,
+    "
+    class A {
+        static B = class B {
+            static func2(): Promise<void> {
+                return new Promise((resolve) => { resolve(null); });
+            }
+            static C = class C {
+                static async func() {
+                    await B.func2();
+                }
+            }
+        }
+    }
+    
+    A.B.C.func();
+    ",
+    "
+    class A {
+        static B__0 = class B__2 {
+            static func2(): Promise<void> {
+                return new Promise((resolve__3)=>{
+                    resolve__3(null);
+                });
+            }
+            static C__0 = class C__4 {
+                static async func() {
+                    await B__2.func2();
+                }
+            };
+        };
+    }
+    A.B.C.func();
     "
 );

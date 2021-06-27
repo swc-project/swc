@@ -1,0 +1,3 @@
+if (x) yes();
+else {
+}

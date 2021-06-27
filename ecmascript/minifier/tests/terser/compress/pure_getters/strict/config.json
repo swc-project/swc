@@ -1,0 +1,7 @@
+{
+    "pure_getters": "strict",
+    "reduce_funcs": false,
+    "reduce_vars": false,
+    "side_effects": true,
+    "toplevel": true
+}

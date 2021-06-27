@@ -241,9 +241,12 @@ define_helpers!(Helpers {
     ),
 
     class_private_field_destructure: (),
+
+    class_static_private_method_get: (class_check_private_static_access),
+    class_check_private_static_access: (),
 });
 
-pub fn inject_helpers() -> impl Fold {
+pub fn inject_helpers() -> impl Fold + VisitMut {
     as_folder(InjectHelpers)
 }
 

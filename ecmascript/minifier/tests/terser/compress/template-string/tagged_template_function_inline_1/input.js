@@ -1,0 +1,2 @@
+var tpl = () => {};
+tpl`test`;

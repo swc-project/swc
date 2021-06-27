@@ -1,0 +1,1 @@
+-> $DIR/tests/stacktrace/issue-1685/input/index.js:3:7

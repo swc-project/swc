@@ -34,17 +34,28 @@ macro_rules! keyword {
 }
 
 macro_rules! punct {
+    ($emitter:expr, $sp:expr, ";") => {
+        $emitter.wr.write_semi(Some($sp))?;
+    };
+    ($emitter:expr, $sp:expr, $s:expr) => {
+        $emitter.wr.write_punct(Some($sp), $s)?;
+    };
+
     ($emitter:expr, ";") => {
-        $emitter.wr.write_semi()?;
+        $emitter.wr.write_semi(None)?;
     };
     ($emitter:expr, $s:expr) => {
-        $emitter.wr.write_punct($s)?;
+        $emitter.wr.write_punct(None, $s)?;
     };
 }
 
 macro_rules! operator {
+    ($emitter:expr, $sp:expr, $s:expr) => {
+        $emitter.wr.write_operator(Some($sp), $s)?;
+    };
+
     ($emitter:expr, $s:expr) => {
-        $emitter.wr.write_operator($s)?;
+        $emitter.wr.write_operator(None, $s)?;
     };
 }
 
@@ -81,10 +92,10 @@ macro_rules! formatting_semi {
 /// This macro *always* emits a semicolon, as it's required by the structure we
 /// emit.
 macro_rules! semi {
-    ($emitter:expr) => {
-        $emitter.wr.write_punct(";")?;
+    ($emitter:expr, $sp:expr) => {
+        $emitter.wr.write_punct(Some($sp), ";")?;
     };
-    ($emitter:expr, ) => {
-        $emitter.wr.write_punct(";")?;
+    ($emitter:expr) => {
+        $emitter.wr.write_punct(None, ";")?;
     };
 }

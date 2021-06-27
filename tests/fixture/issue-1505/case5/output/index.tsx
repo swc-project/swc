@@ -55,4 +55,5 @@ var withTeamsForUser = function() {
         return _class;
     }(Component);
     _class.displayName = "x";
+    return _class;
 };

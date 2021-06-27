@@ -45,7 +45,7 @@ impl From<u32> for Char {
     }
 }
 
-pub(crate) struct CharIter(SmallVec<[char; 6]>);
+pub(crate) struct CharIter(SmallVec<[char; 7]>);
 
 impl IntoIterator for Char {
     type Item = char;
@@ -61,16 +61,23 @@ impl IntoIterator for Char {
         CharIter(match char::from_u32(self.0) {
             Some(c) => smallvec![c],
             None => {
-                smallvec![unsafe { char::from_u32_unchecked(self.0) }]
-                // TODO:
-                //            smallvec![
-                //               '\\',
-                //                'u',
-                //                to_char(((self.0 >> 24) & 0xff) as u8),
-                //                to_char(((self.0 >> 16) & 0xff) as u8),
-                //                to_char(((self.0 >> 8) & 0xff) as u8),
-                //                to_char((self.0 & 0xff) as u8)
-                //             ]
+                let c = unsafe { char::from_u32_unchecked(self.0) };
+                let escaped = c.escape_unicode().to_string();
+
+                debug_assert!(escaped.starts_with("\\"));
+
+                let mut buf = smallvec![];
+                buf.push('\\');
+                buf.push('\0');
+                buf.push('u');
+
+                if escaped.len() == 8 {
+                    buf.extend(escaped[3..=6].chars());
+                } else {
+                    buf.extend(escaped[2..].chars());
+                }
+
+                buf
             }
         })
     }
@@ -911,7 +918,7 @@ impl<'a, I: Input> Lexer<'a, I> {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_break() {
+                if c.is_line_terminator() {
                     l.error(start, SyntaxError::UnterminatedRegxp)?;
                 }
 
@@ -963,7 +970,7 @@ impl<'a, I: Input> Lexer<'a, I> {
         }
         self.input.bump();
         self.input.bump();
-        let s = self.input.uncons_while(|c| !c.is_line_break());
+        let s = self.input.uncons_while(|c| !c.is_line_terminator());
         Ok(Some(s.into()))
     }
 
@@ -1016,7 +1023,7 @@ impl<'a, I: Input> Lexer<'a, I> {
                     }
                 }
                 raw = wrapped.0.unwrap();
-            } else if c.is_line_break() {
+            } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
                 let c = if c == '\r' && self.peek() == Some('\n') {
                     raw.push('\r');

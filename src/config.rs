@@ -1,11 +1,13 @@
-use crate::builder::PassBuilder;
+use crate::{builder::PassBuilder, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::rc::Rc as RustRc;
 use std::{
+    cell::RefCell,
     collections::{HashMap, HashSet},
     env,
     path::{Path, PathBuf},
@@ -17,9 +19,11 @@ pub use swc_common::chain;
 use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
-use swc_ecma_transforms::hygiene;
+use swc_ecma_transforms::modules::path::NodeImportResolver;
+use swc_ecma_transforms::{hygiene, modules::util::Scope};
 use swc_ecma_transforms::{
     modules,
     optimization::const_modules,
@@ -106,9 +110,6 @@ pub struct Options {
     pub env_name: String,
 
     #[serde(default)]
-    pub input_source_map: InputSourceMap,
-
-    #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
 
     #[serde(default)]
@@ -174,6 +175,7 @@ impl Options {
     pub fn build<'a>(
         &self,
         cm: &Arc<SourceMap>,
+        base: &FileName,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
@@ -189,6 +191,8 @@ impl Options {
             target,
             loose,
             keep_class_names,
+            base_url,
+            paths,
         } = config.jsc;
         let target = target.unwrap_or_default();
 
@@ -265,7 +269,14 @@ impl Options {
             })
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
-            .finalize(syntax, config.module, comments);
+            .finalize(
+                base_url,
+                paths.into_iter().collect(),
+                base,
+                syntax,
+                config.module,
+                comments,
+            );
 
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
@@ -281,7 +292,7 @@ impl Options {
                 .clone()
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
-            input_source_map: self.input_source_map.clone(),
+            input_source_map: self.config.input_source_map.clone(),
         }
     }
 }
@@ -351,10 +362,12 @@ impl Default for Rc {
                     target: Default::default(),
                     loose: false,
                     keep_class_names: false,
+                    ..Default::default()
                 },
                 module: None,
                 minify: None,
                 source_maps: None,
+                input_source_map: InputSourceMap::default(),
             },
             Config {
                 env: None,
@@ -370,10 +383,12 @@ impl Default for Rc {
                     target: Default::default(),
                     loose: false,
                     keep_class_names: false,
+                    ..Default::default()
                 },
                 module: None,
                 minify: None,
                 source_maps: None,
+                input_source_map: InputSourceMap::default(),
             },
             Config {
                 env: None,
@@ -389,10 +404,12 @@ impl Default for Rc {
                     target: Default::default(),
                     loose: false,
                     keep_class_names: false,
+                    ..Default::default()
                 },
                 module: None,
                 minify: None,
                 source_maps: None,
+                input_source_map: InputSourceMap::default(),
             },
         ])
     }
@@ -456,6 +473,9 @@ pub struct Config {
 
     #[serde(default)]
     pub minify: Option<bool>,
+
+    #[serde(default)]
+    pub input_source_map: InputSourceMap,
 
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
@@ -584,7 +604,17 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub keep_class_names: bool,
+
+    #[serde(default)]
+    pub base_url: String,
+
+    #[serde(default)]
+    pub paths: Paths,
 }
+
+/// `paths` sectiob of `tsconfig.json`.
+pub type Paths = HashMap<String, Vec<String>, ahash::RandomState>;
+pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -603,16 +633,61 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
+        base_url: String,
+        paths: CompiledPaths,
+        base: &FileName,
         root_mark: Mark,
         config: Option<ModuleConfig>,
+        scope: RustRc<RefCell<Scope>>,
     ) -> Box<dyn swc_ecma_visit::Fold> {
+        let base = match base {
+            FileName::Real(v) => {
+                FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
+            }
+            _ => base.clone(),
+        };
+
         match config {
             None | Some(ModuleConfig::Es6) => Box::new(noop()),
             Some(ModuleConfig::CommonJs(config)) => {
-                Box::new(modules::common_js::common_js(root_mark, config))
+                if paths.is_empty() {
+                    Box::new(modules::common_js::common_js(
+                        root_mark,
+                        config,
+                        Some(scope),
+                    ))
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(modules::common_js::common_js_with_resolver(
+                        resolver,
+                        base,
+                        root_mark,
+                        config,
+                        Some(scope),
+                    ))
+                }
             }
-            Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(cm, root_mark, config)),
-            Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(config)),
+            Some(ModuleConfig::Umd(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::umd::umd(cm, root_mark, config))
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(modules::umd::umd_with_resolver(
+                        resolver, base, cm, root_mark, config,
+                    ))
+                }
+            }
+            Some(ModuleConfig::Amd(config)) => {
+                if paths.is_empty() {
+                    Box::new(modules::amd::amd(config))
+                } else {
+                    let resolver = build_resolver(base_url, paths);
+
+                    Box::new(modules::amd::amd_with_resolver(resolver, base, config))
+                }
+            }
         }
     }
 }
@@ -890,4 +965,29 @@ impl Merge for ConstModulesConfig {
     fn merge(&mut self, from: &Self) {
         *self = from.clone()
     }
+}
+
+fn build_resolver(base_url: String, paths: CompiledPaths) -> SwcImportResolver {
+    static CACHE: Lazy<DashMap<(String, CompiledPaths), SwcImportResolver>> =
+        Lazy::new(|| Default::default());
+
+    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
+        return (*cached).clone();
+    }
+
+    let r = {
+        let r = TsConfigResolver::new(
+            NodeResolver::default(),
+            base_url.clone().into(),
+            paths.clone(),
+        );
+        let r = CachingResolver::new(40, r);
+
+        let r = NodeImportResolver::new(r);
+        Arc::new(r)
+    };
+
+    CACHE.insert((base_url, paths), r.clone());
+
+    r
 }

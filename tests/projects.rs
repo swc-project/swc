@@ -185,22 +185,6 @@ fn par_project(dir: &str) {
         .expect("");
 }
 
-#[test]
-#[ignore]
-fn angular_core() {
-    par_project("integration-tests/angular/packages/core/src");
-}
-
-//#[test]
-//fn rxjs() {
-//    par_project("integration-tests/rxjs/repo/src");
-//}
-//
-//#[test]
-//fn webpack() {
-//    par_project("integration-tests/webpack/repo/lib");
-//}
-
 /// should respect modules config in .swcrc
 #[test]
 fn issue_225() {
@@ -336,7 +320,7 @@ fn env_entry_chrome_49() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 76);
+    assert_eq!(f.lines().count(), 78);
 }
 
 #[test]
@@ -348,7 +332,7 @@ fn env_entry_chrome_71() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 5);
+    assert_eq!(f.lines().count(), 7);
 }
 
 #[test]
@@ -360,7 +344,7 @@ fn env_query_chrome_71() {
 
     println!("{}", f);
 
-    assert_eq!(f.lines().count(), 5);
+    assert_eq!(f.lines().count(), 7);
 }
 
 #[test]
@@ -624,6 +608,50 @@ fn issue_1549() {
     println!("{}", output);
 
     assert_eq!(output.to_string(), "var a = \"\\n\";\n");
+}
+
+#[test]
+fn deno_10282_1() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es3),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "var a = \"\\n\";\n");
+}
+
+#[test]
+fn deno_10282_2() {
+    let output = str_with_opt(
+        "const a = `\r\n`;",
+        Options {
+            is_module: true,
+            config: Config {
+                jsc: JscConfig {
+                    target: Some(EsVersion::Es2020),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "const a = `\\n`;\n");
 }
 
 #[testing::fixture("fixture/**/input/")]

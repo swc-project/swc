@@ -15,6 +15,7 @@
       },
       "declare": false,
       "isExport": false,
+      "isTypeOnly": false,
       "id": {
         "type": "Identifier",
         "span": {

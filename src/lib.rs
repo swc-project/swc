@@ -24,15 +24,24 @@ use swc_common::{
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
+use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
+    modules::path::NodeImportResolver,
     pass::noop,
 };
 use swc_ecma_visit::FoldWith;
 
 mod builder;
 pub mod config;
+pub mod resolver {
+    use swc_ecma_loader::resolvers::lru::CachingResolver;
+
+    pub type NodeResolver = CachingResolver<swc_ecma_loader::resolvers::node::NodeResolver>;
+}
+
+type SwcImportResolver = Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeResolver>>>>;
 
 pub struct Compiler {
     /// swc uses rustc's span interning.
@@ -266,7 +275,7 @@ impl Compiler {
                         .context("failed to emit module")?;
                 }
                 // Invalid utf8 is valid in javascript world.
-                unsafe { String::from_utf8_unchecked(buf) }
+                String::from_utf8(buf).expect("invalid utf8 characeter detected")
             };
             let (code, map) = match source_map {
                 SourceMapsConfig::Bool(v) => {
@@ -410,8 +419,10 @@ impl Compiler {
                 Some(v) => v,
                 None => return Ok(None),
             };
+
             let built = opts.build(
                 &self.cm,
+                name,
                 &self.handler,
                 opts.is_module,
                 Some(config),
@@ -473,7 +484,7 @@ impl Compiler {
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
             };
-            let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
+            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
             let program = self.parse_js(
                 fm.clone(),
                 config.target,
@@ -502,7 +513,7 @@ impl Compiler {
         self.run(|| -> Result<_, Error> {
             let loc = self.cm.lookup_char_pos(program.span().lo());
             let fm = loc.file;
-            let orig = self.get_orig_src_map(&fm, &opts.input_source_map)?;
+            let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
 
             let config = self.run(|| self.config_for_file(opts, &fm.name))?;
 

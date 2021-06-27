@@ -1,17 +1,15 @@
 function __spack_require__(mod) {
     var cache;
-    return (function() {
-        if (cache) {
-            return cache;
-        }
-        var module = {
-            exports: {
-            }
-        };
-        mod(module, module.exports);
-        cache = module.exports;
+    if (cache) {
         return cache;
-    })();
+    }
+    var module = {
+        exports: {
+        }
+    };
+    mod(module, module.exports);
+    cache = module.exports;
+    return cache;
 }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
@@ -243,7 +241,8 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         exports1.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
             if (PromiseImpl === void 0) PromiseImpl = Promise;
             var iter = new AsyncIterator(wrap(innerFn, outerFn, self, tryLocsList), PromiseImpl);
-            return exports1.isGeneratorFunction(outerFn) ? iter : iter.next().then(function(result) {
+            return exports1.isGeneratorFunction(outerFn) ? iter // If outerFn is a generator, return the full iterator.
+             : iter.next().then(function(result) {
                 return result.done ? result.value : iter.next();
             });
         };

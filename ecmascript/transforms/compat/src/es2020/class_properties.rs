@@ -4,13 +4,14 @@ use self::{
     this_in_static::ThisInStaticFolder,
     used_name::{UsedNameCollector, UsedNameRenamer},
 };
-use crate::es2015::classes::SuperFieldAccessFolder;
 use std::{collections::HashSet, mem::take};
 use swc_atoms::JsWord;
+use swc_common::SyntaxContext;
 use swc_common::{util::move_map::MoveMap, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
@@ -37,6 +38,7 @@ pub fn class_properties() -> impl Fold {
     ClassProperties {
         typescript: false,
         mark: Mark::root(),
+        method_mark: Mark::root(),
     }
 }
 
@@ -46,6 +48,7 @@ pub fn typescript_class_properties() -> impl Fold {
     ClassProperties {
         typescript: true,
         mark: Mark::root(),
+        method_mark: Mark::root(),
     }
 }
 
@@ -53,6 +56,7 @@ pub fn typescript_class_properties() -> impl Fold {
 struct ClassProperties {
     typescript: bool,
     mark: Mark,
+    method_mark: Mark,
 }
 
 #[fast_path(ShouldWork)]
@@ -317,22 +321,26 @@ impl ClassProperties {
     ) -> (Vec<VarDeclarator>, ClassDecl, Vec<Stmt>) {
         // Create one mark per class
         self.mark = Mark::fresh(Mark::root());
+        self.method_mark = Mark::fresh(Mark::root());
 
         let has_super = class.super_class.is_some();
 
         let mut typescript_constructor_properties = vec![];
 
-        let (mut constructor_exprs, mut vars, mut extra_stmts, mut members, mut constructor) =
-            (vec![], vec![], vec![], vec![], None);
+        let mut constructor_exprs = vec![];
+        let mut vars = vec![];
+        let mut extra_stmts = vec![];
+        let mut private_method_fn_decls = vec![];
+        let mut members = vec![];
+        let mut constructor = None;
         let mut used_names = vec![];
         let mut used_key_names = vec![];
         let mut statics = HashSet::default();
+        let mut private_methods = HashSet::default();
 
         for member in class.body {
             match member {
-                ClassMember::PrivateMethod(..)
-                | ClassMember::Empty(..)
-                | ClassMember::TsIndexSignature(..) => members.push(member),
+                ClassMember::Empty(..) | ClassMember::TsIndexSignature(..) => members.push(member),
 
                 ClassMember::Method(method) => {
                     // we handle computed key here to preserve the execution order
@@ -660,6 +668,64 @@ impl ClassProperties {
 
                     constructor = Some(c);
                 }
+
+                ClassMember::PrivateMethod(method) => {
+                    private_methods.insert(method.key.id.sym.clone());
+
+                    let prop_span = method.span;
+                    let fn_name = Ident::new(
+                        method.key.id.sym.clone(),
+                        method
+                            .span
+                            .with_ctxt(SyntaxContext::empty())
+                            .apply_mark(self.method_mark),
+                    );
+                    if method.is_static {
+                        statics.insert(method.key.id.sym.clone());
+                    }
+
+                    let weak_set_var = Ident::new(
+                        format!("_{}", method.key.id.sym).into(),
+                        // We use `self.mark` for private variables.
+                        method.key.span.apply_mark(self.mark),
+                    );
+                    method.function.visit_with(
+                        &Invalid { span: DUMMY_SP } as _,
+                        &mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        },
+                    );
+
+                    vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        definite: false,
+                        name: Pat::Ident(weak_set_var.clone().into()),
+                        init: Some(Box::new(Expr::from(NewExpr {
+                            span: DUMMY_SP,
+                            callee: Box::new(Expr::Ident(quote_ident!("WeakSet"))),
+                            args: Some(Default::default()),
+                            type_args: Default::default(),
+                        }))),
+                    });
+
+                    // Add `_get.add(this);` to the constructor where `_get` is the name of the weak
+                    // set.
+                    constructor_exprs.push(Box::new(Expr::Call(CallExpr {
+                        span: prop_span,
+                        callee: weak_set_var
+                            .clone()
+                            .make_member(quote_ident!("add"))
+                            .as_callee(),
+                        args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
+                        type_args: Default::default(),
+                    })));
+
+                    private_method_fn_decls.push(Stmt::Decl(Decl::Fn(FnDecl {
+                        ident: fn_name,
+                        function: method.function,
+                        declare: false,
+                    })))
+                }
             }
         }
 
@@ -674,8 +740,20 @@ impl ClassProperties {
             members.push(ClassMember::Constructor(c));
         }
 
+        extra_stmts.extend(private_method_fn_decls.fold_with(&mut FieldAccessFolder {
+            mark: self.mark,
+            method_mark: self.method_mark,
+            private_methods: &private_methods,
+            statics: &statics,
+            vars: vec![],
+            class_name: &ident,
+            in_assign_pat: false,
+        }));
+
         let members = members.fold_with(&mut FieldAccessFolder {
             mark: self.mark,
+            method_mark: self.method_mark,
+            private_methods: &private_methods,
             statics: &statics,
             vars: vec![],
             class_name: &ident,

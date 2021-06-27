@@ -88,6 +88,33 @@ impl AsyncToGenerator {
 impl Fold for Actual {
     noop_fold_type!();
 
+    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
+    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+        let mut n = n.fold_children_with(self);
+
+        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
+            match callee {
+                Expr::Call(callee_of_callee) => {
+                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
+                        // We found bind(this).bind(this)
+                        return replace(
+                            callee_of_callee,
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
+                                args: Default::default(),
+                                type_args: Default::default(),
+                            },
+                        );
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        n
+    }
+
     fn fold_class_method(&mut self, mut m: ClassMethod) -> ClassMethod {
         if m.function.body.is_none() {
             return m;
@@ -148,33 +175,6 @@ impl Fold for Actual {
         }
     }
 
-    /// Removes nested binds like `(function(){}).bind(this).bind(this)`
-    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
-        let mut n = n.fold_children_with(self);
-
-        if let Some(callee) = extract_callee_of_bind_this(&mut n) {
-            match callee {
-                Expr::Call(callee_of_callee) => {
-                    if let Some(..) = extract_callee_of_bind_this(callee_of_callee) {
-                        // We found bind(this).bind(this)
-                        return replace(
-                            callee_of_callee,
-                            CallExpr {
-                                span: DUMMY_SP,
-                                callee: ExprOrSuper::Super(Super { span: DUMMY_SP }),
-                                args: Default::default(),
-                                type_args: Default::default(),
-                            },
-                        );
-                    }
-                }
-                _ => {}
-            }
-        }
-
-        n
-    }
-
     fn fold_expr(&mut self, expr: Expr) -> Expr {
         match expr {
             Expr::Paren(ParenExpr { span, expr }) => {
@@ -191,7 +191,7 @@ impl Fold for Actual {
                 args,
                 type_args,
             }) if callee.is_fn_expr() => {
-                return self.handle_fn_expr(span, (*callee).fn_expr().unwrap(), args, type_args);
+                return self.handle_iife(span, (*callee).fn_expr().unwrap(), args, type_args);
             }
 
             Expr::Call(CallExpr {
@@ -207,7 +207,7 @@ impl Fold for Actual {
                 _ => false,
             } =>
             {
-                return self.handle_fn_expr(
+                return self.handle_iife(
                     span,
                     (*callee).paren().unwrap().expr.fn_expr().unwrap(),
                     args,
@@ -330,17 +330,6 @@ impl Fold for Actual {
         }
     }
 
-    fn fold_prop(&mut self, n: Prop) -> Prop {
-        let old = self.in_object_prop;
-        self.in_object_prop = true;
-
-        let n = n.fold_children_with(self);
-
-        self.in_object_prop = old;
-
-        n
-    }
-
     fn fold_method_prop(&mut self, prop: MethodProp) -> MethodProp {
         let prop = prop.fold_children_with(self);
 
@@ -395,6 +384,21 @@ impl Fold for Actual {
             },
             ..prop
         }
+    }
+
+    fn fold_prop(&mut self, n: Prop) -> Prop {
+        let old = self.in_object_prop;
+        self.in_object_prop = true;
+
+        let n = n.fold_children_with(self);
+
+        self.in_object_prop = old;
+
+        n
+    }
+
+    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+        n
     }
 }
 
@@ -661,17 +665,19 @@ impl Fold for MethodFolder {
 }
 
 impl Actual {
-    fn handle_fn_expr(
+    fn handle_iife(
         &mut self,
         span: Span,
         callee: FnExpr,
         args: Vec<ExprOrSpread>,
         type_args: Option<TsTypeParamInstantiation>,
     ) -> Expr {
-        if !callee.function.is_async {
+        if !callee.function.is_async || callee.ident.is_some() {
+            let callee = Expr::Fn(callee).fold_with(self);
+            let args = args.fold_with(self);
             return Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Fn(callee))),
+                callee: ExprOrSuper::Expr(Box::new(callee)),
                 args,
                 type_args,
             });
@@ -681,17 +687,26 @@ impl Actual {
         if callee.ident.is_some()
             && contains_ident_ref(&callee.function.body, callee.ident.as_ref().unwrap())
         {
+            let callee = Expr::Fn(callee).fold_with(self);
+            let args = args.fold_with(self);
             return Expr::Call(CallExpr {
                 span,
-                callee: ExprOrSuper::Expr(Box::new(Expr::Fn(callee))),
+                callee: ExprOrSuper::Expr(Box::new(callee)),
                 args,
                 type_args,
-            })
-            .fold_children_with(self);
+            });
         }
 
-        return make_fn_ref(callee, self.in_object_prop);
+        let callee = make_fn_ref(callee, self.in_object_prop);
+
+        Expr::Call(CallExpr {
+            span,
+            callee: ExprOrSuper::Expr(Box::new(callee)),
+            args,
+            type_args,
+        })
     }
+
     fn fold_fn(&mut self, raw_ident: Option<Ident>, f: Function, is_decl: bool) -> Function {
         if f.body.is_none() {
             return f;
@@ -851,43 +866,19 @@ impl Actual {
 ///
 /// `_asyncToGenerator(function*() {})` from `async function() {}`;
 fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
-    struct AwaitToYield;
-
-    macro_rules! noop {
-        ($name:ident, $T:path) => {
-            /// Don't recurse into function.
-            fn $name(&mut self, f: $T) -> $T {
-                f
-            }
-        };
-    }
-
-    impl Fold for AwaitToYield {
-        noop_fold_type!();
-
-        noop!(fold_fn_decl, FnDecl);
-        noop!(fold_fn_expr, FnExpr);
-        noop!(fold_constructor, Constructor);
-        noop!(fold_arrow_expr, ArrowExpr);
-
-        fn fold_expr(&mut self, expr: Expr) -> Expr {
-            let expr = expr.fold_children_with(self);
-
-            match expr {
-                Expr::Await(AwaitExpr { span, arg }) => Expr::Yield(YieldExpr {
-                    span,
-                    delegate: false,
-                    arg: Some(arg),
-                }),
-                _ => expr,
-            }
-        }
-    }
-
-    expr.function.body = expr.function.body.fold_with(&mut AwaitToYield);
+    expr.function.body = expr.function.body.fold_with(&mut AsyncFnBodyHandler {
+        is_async_generator: expr.function.is_generator,
+    });
 
     assert!(expr.function.is_async);
     expr.function.is_async = false;
+
+    let helper = if expr.function.is_generator {
+        helper!(wrap_async_generator, "wrapAsyncGenerator")
+    } else {
+        helper!(async_to_generator, "asyncToGenerator")
+    };
+
     expr.function.is_generator = true;
 
     let span = expr.span();
@@ -906,10 +897,68 @@ fn make_fn_ref(mut expr: FnExpr, should_not_bind_this: bool) -> Expr {
 
     Expr::Call(CallExpr {
         span,
-        callee: helper!(async_to_generator, "asyncToGenerator"),
+        callee: helper,
         args: vec![expr.as_arg()],
         type_args: Default::default(),
     })
+}
+
+struct AsyncFnBodyHandler {
+    is_async_generator: bool,
+}
+
+macro_rules! noop {
+    ($name:ident, $T:path) => {
+        /// Don't recurse into function.
+        fn $name(&mut self, f: $T) -> $T {
+            f
+        }
+    };
+}
+
+impl Fold for AsyncFnBodyHandler {
+    noop_fold_type!();
+
+    noop!(fold_fn_decl, FnDecl);
+    noop!(fold_fn_expr, FnExpr);
+    noop!(fold_constructor, Constructor);
+    noop!(fold_arrow_expr, ArrowExpr);
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        let expr = expr.fold_children_with(self);
+
+        match expr {
+            Expr::Await(AwaitExpr { span, arg }) => {
+                if self.is_async_generator {
+                    let callee = helper!(await_async_generator, "awaitAsyncGenerator");
+                    let arg = Box::new(Expr::Call(CallExpr {
+                        span,
+                        callee,
+                        args: vec![arg.as_arg()],
+                        type_args: Default::default(),
+                    }));
+                    Expr::Yield(YieldExpr {
+                        span,
+                        delegate: false,
+                        arg: Some(arg),
+                    })
+                } else {
+                    Expr::Yield(YieldExpr {
+                        span,
+                        delegate: false,
+                        arg: Some(arg),
+                    })
+                }
+            }
+            _ => expr,
+        }
+    }
+
+    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+        let s = s.fold_children_with(self);
+
+        handle_await_for(s)
+    }
 }
 
 #[derive(Default)]
@@ -975,4 +1024,358 @@ fn extract_callee_of_bind_this(n: &mut CallExpr) -> Option<&mut Expr> {
             _ => None,
         },
     }
+}
+
+fn handle_await_for(stmt: Stmt) -> Stmt {
+    let s = match stmt {
+        Stmt::ForOf(
+            s @ ForOfStmt {
+                await_token: Some(..),
+                ..
+            },
+        ) => s,
+        _ => return stmt,
+    };
+
+    let value = private_ident!("_value");
+    let iterator = private_ident!("_iterator");
+    let iterator_error = private_ident!("_iteratorError");
+    let step = private_ident!("_step");
+    let did_iteration_error = private_ident!("_didIteratorError");
+    let iterator_normal_completion = private_ident!("_iteratorNormalCompletion");
+    let err_param = private_ident!("err");
+
+    let try_body = {
+        let body_span = s.body.span();
+        let orig_body = match *s.body {
+            Stmt::Block(s) => s.stmts,
+            _ => vec![*s.body],
+        };
+
+        let mut for_loop_body = vec![];
+
+        match s.left {
+            VarDeclOrPat::VarDecl(v) => {
+                let var = v.decls.into_iter().next().unwrap();
+                let var_decl = VarDeclarator {
+                    span: DUMMY_SP,
+                    name: var.name,
+                    init: Some(Box::new(Expr::Ident(value.clone()))),
+                    definite: false,
+                };
+                for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Const,
+                    declare: false,
+                    decls: vec![var_decl],
+                })));
+            }
+            VarDeclOrPat::Pat(p) => {
+                for_loop_body.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Box::new(Expr::Assign(AssignExpr {
+                        span: DUMMY_SP,
+                        op: op!("="),
+                        left: PatOrExpr::Pat(Box::new(p)),
+                        right: Box::new(Expr::Ident(value.clone())),
+                    })),
+                }));
+            }
+        }
+
+        for_loop_body.extend(orig_body);
+
+        let for_loop_body = BlockStmt {
+            span: body_span,
+            stmts: for_loop_body,
+        };
+
+        let mut init_var_decls = vec![];
+        // _iterator = _asyncIterator(lol())
+        init_var_decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(iterator.clone().into()),
+            init: {
+                let callee = helper!(async_iterator, "asyncIterator");
+
+                Some(Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee,
+                    args: vec![s.right.as_arg()],
+                    type_args: Default::default(),
+                })))
+            },
+            definite: false,
+        });
+        init_var_decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(step.clone().into()),
+            init: None,
+            definite: false,
+        });
+        init_var_decls.push(VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(value.clone().into()),
+            init: None,
+            definite: false,
+        });
+
+        let for_stmt = Stmt::For(ForStmt {
+            span: s.span,
+            // var _iterator = _asyncIterator(lol()), _step, _value;
+            init: Some(VarDeclOrExpr::VarDecl(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: false,
+                decls: init_var_decls,
+            })),
+            // _step = yield _iterator.next(), _iteratorNormalCompletion = _step.done, _value =
+            // yield _step.value, !_iteratorNormalCompletion
+            test: {
+                let mut exprs = vec![];
+
+                // _step = yield _iterator.next()
+                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(step.clone().into()))),
+                    right: Box::new(Expr::Yield(YieldExpr {
+                        span: DUMMY_SP,
+                        arg: Some(Box::new(Expr::Call(CallExpr {
+                            span: DUMMY_SP,
+                            callee: iterator
+                                .clone()
+                                .make_member(quote_ident!("next"))
+                                .as_callee(),
+                            args: vec![],
+                            type_args: Default::default(),
+                        }))),
+                        delegate: false,
+                    })),
+                })));
+
+                // _iteratorNormalCompletion = _step.done
+                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                        iterator_normal_completion.clone().into(),
+                    ))),
+                    right: Box::new(step.clone().make_member(quote_ident!("done"))),
+                })));
+
+                // _value = yield _step.value
+                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(value.clone().into()))),
+                    right: Box::new(Expr::Yield(YieldExpr {
+                        span: DUMMY_SP,
+                        arg: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
+                        delegate: false,
+                    })),
+                })));
+
+                // !_iteratorNormalCompletion
+                exprs.push(Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("!"),
+                    arg: Box::new(Expr::Ident(iterator_normal_completion.clone())),
+                })));
+
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs,
+                })))
+            },
+            // _iteratorNormalCompletion = true
+            update: Some(Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(
+                    iterator_normal_completion.clone().into(),
+                ))),
+                right: Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                }))),
+            }))),
+            body: Box::new(Stmt::Block(for_loop_body)),
+        });
+
+        BlockStmt {
+            span: body_span,
+            stmts: vec![for_stmt],
+        }
+    };
+
+    let catch_clause = {
+        // _didIteratorError = true;
+        let mark_as_errored = Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(did_iteration_error.clone().into()))),
+                right: Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                }))),
+            })),
+        });
+        // _iteratorError = err;
+        let store_error = Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(iterator_error.clone().into()))),
+                right: Box::new(Expr::Ident(err_param.clone())),
+            })),
+        });
+
+        CatchClause {
+            span: DUMMY_SP,
+            param: Some(Pat::Ident(err_param.clone().into())),
+            body: BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![mark_as_errored, store_error],
+            },
+        }
+    };
+
+    let finally_block = {
+        let throw_iterator_error = Stmt::Throw(ThrowStmt {
+            span: DUMMY_SP,
+            arg: Box::new(Expr::Ident(iterator_error.clone())),
+        });
+        let throw_iterator_error = Stmt::If(IfStmt {
+            span: DUMMY_SP,
+            test: Box::new(Expr::Ident(did_iteration_error.clone())),
+            cons: Box::new(Stmt::Block(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![throw_iterator_error],
+            })),
+            alt: None,
+        });
+
+        // yield _iterator.return();
+        let yield_stmt = Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Yield(YieldExpr {
+                span: DUMMY_SP,
+                delegate: false,
+                arg: Some(Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: iterator_error
+                        .clone()
+                        .make_member(quote_ident!("return"))
+                        .as_callee(),
+                    args: Default::default(),
+                    type_args: Default::default(),
+                }))),
+            })),
+        });
+
+        let conditional_yield = Stmt::If(IfStmt {
+            span: DUMMY_SP,
+            // !_iteratorNormalCompletion && _iterator.return != null
+            test: Box::new(Expr::Bin(BinExpr {
+                span: DUMMY_SP,
+                op: op!("&&"),
+                // !_iteratorNormalCompletion
+                left: Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("!"),
+                    arg: Box::new(Expr::Ident(iterator_normal_completion.clone())),
+                })),
+                // _iterator.return != null
+                right: Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    op: op!("!="),
+                    left: Box::new(iterator.clone().make_member(quote_ident!("return"))),
+                    right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
+                })),
+            })),
+            cons: Box::new(Stmt::Block(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![yield_stmt],
+            })),
+            alt: None,
+        });
+        let body = BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![conditional_yield],
+        };
+
+        let inner_try = Stmt::Try(TryStmt {
+            span: DUMMY_SP,
+            block: body,
+            handler: None,
+            finalizer: Some(BlockStmt {
+                span: DUMMY_SP,
+                stmts: vec![throw_iterator_error],
+            }),
+        });
+        BlockStmt {
+            span: DUMMY_SP,
+            stmts: vec![inner_try],
+        }
+    };
+
+    let try_stmt = TryStmt {
+        span: s.span,
+        block: try_body,
+        handler: Some(catch_clause),
+        finalizer: Some(finally_block),
+    };
+
+    let mut stmts = vec![];
+
+    stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+        span: DUMMY_SP,
+        kind: VarDeclKind::Var,
+        declare: false,
+        decls: {
+            let mut decls = vec![];
+
+            // var _iteratorNormalCompletion = true;
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(iterator_normal_completion.into()),
+                init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: true,
+                })))),
+                definite: false,
+            });
+
+            // var _didIteratorError = false;
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(did_iteration_error.into()),
+                init: Some(Box::new(Expr::Lit(Lit::Bool(Bool {
+                    span: DUMMY_SP,
+                    value: false,
+                })))),
+                definite: false,
+            });
+
+            // var _iteratorError;
+            decls.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(iterator_error.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            decls
+        },
+    })));
+
+    stmts.push(Stmt::Try(try_stmt));
+    Stmt::Block(BlockStmt {
+        span: s.span,
+        stmts,
+    })
 }

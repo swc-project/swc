@@ -33,7 +33,7 @@ pub struct Span {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for Span {
+impl<'a> arbitrary::Arbitrary<'a> for Span {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let lo = u.arbitrary::<BytePos>()?;
         let hi = u.arbitrary::<BytePos>()?;

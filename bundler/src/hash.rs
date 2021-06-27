@@ -46,7 +46,7 @@ impl WriteJs for &mut Hasher {
         Ok(())
     }
 
-    fn write_semi(&mut self) -> io::Result<()> {
+    fn write_semi(&mut self, _: Option<Span>) -> io::Result<()> {
         self.w(";");
         Ok(())
     }
@@ -61,7 +61,7 @@ impl WriteJs for &mut Hasher {
         Ok(())
     }
 
-    fn write_operator(&mut self, s: &str) -> io::Result<()> {
+    fn write_operator(&mut self, _: Option<Span>, s: &str) -> io::Result<()> {
         self.w(s);
         Ok(())
     }
@@ -106,7 +106,7 @@ impl WriteJs for &mut Hasher {
         Ok(())
     }
 
-    fn write_punct(&mut self, s: &'static str) -> io::Result<()> {
+    fn write_punct(&mut self, _: Option<Span>, s: &'static str) -> io::Result<()> {
         self.w(s);
         Ok(())
     }

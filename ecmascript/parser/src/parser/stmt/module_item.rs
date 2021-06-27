@@ -45,7 +45,9 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, '=') {
             return self
-                .parse_ts_import_equals_decl(start, false)
+                .parse_ts_import_equals_decl(
+                    start, /* is_export */ false, /* is_type_only */ false,
+                )
                 .map(ModuleDecl::from)
                 .map(ModuleItem::from);
         }
@@ -81,6 +83,15 @@ impl<'a, I: Tokens> Parser<I> {
 
         if type_only {
             assert_and_bump!(self, "type");
+
+            if is!(self, IdentRef) && peeked_is!(self, '=') {
+                return self
+                    .parse_ts_import_equals_decl(
+                        start, /* is_export */ false, /* is_type_only */ true,
+                    )
+                    .map(ModuleDecl::from)
+                    .map(ModuleItem::from);
+            }
         }
 
         let mut specifiers = vec![];
@@ -262,7 +273,9 @@ impl<'a, I: Tokens> Parser<I> {
             if eat!(self, "import") {
                 // export import A = B
                 return self
-                    .parse_ts_import_equals_decl(start, /* is_export */ true)
+                    .parse_ts_import_equals_decl(
+                        start, /* is_export */ true, /* is_type_only */ false,
+                    )
                     .map(From::from);
             }
 
@@ -326,7 +339,10 @@ impl<'a, I: Tokens> Parser<I> {
 
         if !type_only && export_ns.is_none() && eat!(self, "default") {
             if self.input.syntax().typescript() {
-                if is!(self, "abstract") && peeked_is!(self, "class") {
+                if is!(self, "abstract")
+                    && peeked_is!(self, "class")
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
                     let class_start = cur_pos!(self);
                     assert_and_bump!(self, "abstract");
                     let _ = cur!(self, true);
@@ -368,10 +384,10 @@ impl<'a, I: Tokens> Parser<I> {
                 && peeked_is!(self, "function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                let decl = self.parse_default_async_fn(decorators)?;
+                let decl = self.parse_default_async_fn(start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!(self, "function") {
-                let decl = self.parse_default_fn(decorators)?;
+                let decl = self.parse_default_fn(start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if self.input.syntax().export_default_from()
                 && (is!(self, "from") || (is!(self, ',') && peeked_is!(self, '{')))

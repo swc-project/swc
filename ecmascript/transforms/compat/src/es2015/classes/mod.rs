@@ -1,4 +1,3 @@
-pub(crate) use self::super_field::SuperFieldAccessFolder;
 use self::{
     constructor::{
         constructor_fn, make_possible_return_value, replace_this_in_constructor, ConstructorFolder,
@@ -14,6 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::native::is_native;
 use swc_ecma_transforms_base::perf::Check;
+use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::quote_expr;
 use swc_ecma_utils::quote_str;
@@ -25,11 +25,8 @@ use swc_ecma_utils::{private_ident, quote_ident};
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
-#[macro_use]
-mod macros;
 mod constructor;
 mod prop_name;
-mod super_field;
 
 pub fn classes<C>(comments: Option<C>) -> impl Fold
 where
@@ -862,20 +859,6 @@ where
             },
         )]
     }
-}
-
-/// Creates
-///
-/// ```js
-/// Child.__proto__ || Object.getPrototypeOf(Child)
-/// ```
-fn get_prototype_of(obj: Expr) -> Expr {
-    Expr::Call(CallExpr {
-        span: DUMMY_SP,
-        callee: helper!(get_prototype_of, "getPrototypeOf"),
-        args: vec![obj.as_arg()],
-        type_args: Default::default(),
-    })
 }
 
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
