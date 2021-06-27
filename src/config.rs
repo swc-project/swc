@@ -191,6 +191,7 @@ impl Options {
             target,
             loose,
             keep_class_names,
+            base_url,
             paths,
         } = config.jsc;
         let target = target.unwrap_or_default();
@@ -269,6 +270,7 @@ impl Options {
             .fixer(!self.disable_fixer)
             .preset_env(config.env)
             .finalize(
+                base_url,
                 paths.into_iter().collect(),
                 base,
                 syntax,
@@ -604,6 +606,9 @@ pub struct JscConfig {
     pub keep_class_names: bool,
 
     #[serde(default)]
+    pub base_url: String,
+
+    #[serde(default)]
     pub paths: Paths,
 }
 
@@ -628,6 +633,7 @@ pub enum ModuleConfig {
 impl ModuleConfig {
     pub fn build(
         cm: Arc<SourceMap>,
+        base_url: String,
         paths: CompiledPaths,
         base: &FileName,
         root_mark: Mark,
@@ -651,7 +657,7 @@ impl ModuleConfig {
                         Some(scope),
                     ))
                 } else {
-                    let resolver = build_resolver(paths);
+                    let resolver = build_resolver(base_url, paths);
 
                     Box::new(modules::common_js::common_js_with_resolver(
                         resolver,
@@ -666,7 +672,7 @@ impl ModuleConfig {
                 if paths.is_empty() {
                     Box::new(modules::umd::umd(cm, root_mark, config))
                 } else {
-                    let resolver = build_resolver(paths);
+                    let resolver = build_resolver(base_url, paths);
 
                     Box::new(modules::umd::umd_with_resolver(
                         resolver, base, cm, root_mark, config,
@@ -677,7 +683,7 @@ impl ModuleConfig {
                 if paths.is_empty() {
                     Box::new(modules::amd::amd(config))
                 } else {
-                    let resolver = build_resolver(paths);
+                    let resolver = build_resolver(base_url, paths);
 
                     Box::new(modules::amd::amd_with_resolver(resolver, base, config))
                 }
@@ -961,23 +967,27 @@ impl Merge for ConstModulesConfig {
     }
 }
 
-fn build_resolver(paths: CompiledPaths) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<CompiledPaths, SwcImportResolver>> =
+fn build_resolver(base_url: String, paths: CompiledPaths) -> SwcImportResolver {
+    static CACHE: Lazy<DashMap<(String, CompiledPaths), SwcImportResolver>> =
         Lazy::new(|| Default::default());
 
-    if let Some(cached) = CACHE.get(&paths) {
+    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
         return (*cached).clone();
     }
 
     let r = {
-        let r = TsConfigResolver::new(NodeResolver::default(), ".".into(), paths.clone());
+        let r = TsConfigResolver::new(
+            NodeResolver::default(),
+            base_url.clone().into(),
+            paths.clone(),
+        );
         let r = CachingResolver::new(40, r);
 
         let r = NodeImportResolver::new(r);
         Arc::new(r)
     };
 
-    CACHE.insert(paths, r.clone());
+    CACHE.insert((base_url, paths), r.clone());
 
     r
 }
