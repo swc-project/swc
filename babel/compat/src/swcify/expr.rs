@@ -19,6 +19,7 @@ use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
+use swc_babel_ast::JSXAttrVal;
 use swc_babel_ast::JSXAttribute;
 use swc_babel_ast::JSXMemberExprObject;
 use swc_babel_ast::JSXMemberExpression;
@@ -80,6 +81,7 @@ use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::JSXAttr;
 use swc_ecma_ast::JSXAttrOrSpread;
+use swc_ecma_ast::JSXAttrValue;
 use swc_ecma_ast::JSXMemberExpr;
 use swc_ecma_ast::JSXObject;
 use swc_ecma_ast::KeyValueProp;
@@ -958,6 +960,12 @@ impl Swcify for JSXAttribute {
 
 impl Swcify for swc_babel_ast::JSXAttrName {
     type Output = swc_ecma_ast::JSXAttrName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for JSXAttrVal {
+    type Output = JSXAttrValue;
 
     fn swcify(self, ctx: &Context) -> Self::Output {}
 }

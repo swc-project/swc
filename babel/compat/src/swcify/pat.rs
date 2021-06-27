@@ -18,7 +18,7 @@ impl Swcify for LVal {
             LVal::AssignmentPat(e) => e.swcify(ctx).into(),
             LVal::ArrayPat(e) => e.swcify(ctx).into(),
             LVal::ObjectPat(e) => e.swcify(ctx).into(),
-            LVal::TSParamProp(e) => todo!(),
+            LVal::TSParamProp(..) => todo!(),
         }
     }
 }
