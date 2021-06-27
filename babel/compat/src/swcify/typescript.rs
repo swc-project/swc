@@ -114,7 +114,7 @@ impl Swcify for SuperTypeParams {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            SuperTypeParams::Flow(_) => unimplemented!("swc does not support flow types"),
+            SuperTypeParams::Flow(_) => unimplemented!("flow type"),
             SuperTypeParams::TS(v) => v.swcify(ctx),
         }
     }

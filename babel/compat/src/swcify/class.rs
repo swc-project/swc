@@ -29,8 +29,9 @@ impl Swcify for ClassBodyEl {
             ClassBodyEl::PrivateMethod(v) => v.swcify(ctx).into(),
             ClassBodyEl::Prop(v) => v.swcify(ctx).into(),
             ClassBodyEl::PrivateProp(v) => v.swcify(ctx).into(),
-            ClassBodyEl::TSMethod(..) => todo!("typescript"),
-            ClassBodyEl::TSIndex(..) => todo!("typescript"),
+            _ => {
+                unimplemented!("swcify: {:?}", self)
+            }
         }
     }
 }

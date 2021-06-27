@@ -84,9 +84,7 @@ use swc_ecma_ast::NewExpr;
 use swc_ecma_ast::ObjectLit;
 use swc_ecma_ast::OptChainExpr;
 use swc_ecma_ast::ParenExpr;
-use swc_ecma_ast::Pat;
 use swc_ecma_ast::PatOrExpr;
-use swc_ecma_ast::PrivateName;
 use swc_ecma_ast::Prop;
 use swc_ecma_ast::PropName;
 use swc_ecma_ast::PropOrSpread;
@@ -94,7 +92,6 @@ use swc_ecma_ast::SeqExpr;
 use swc_ecma_ast::SpreadElement;
 use swc_ecma_ast::TaggedTpl;
 use swc_ecma_ast::ThisExpr;
-use swc_ecma_ast::Tpl;
 use swc_ecma_ast::TsAsExpr;
 use swc_ecma_ast::TsNonNullExpr;
 use swc_ecma_ast::TsTypeAssertion;
@@ -103,7 +100,6 @@ use swc_ecma_ast::UnaryExpr;
 use swc_ecma_ast::UnaryOp;
 use swc_ecma_ast::UpdateExpr;
 use swc_ecma_ast::YieldExpr;
-use swc_ecma_utils::quote_ident;
 
 use super::Context;
 
@@ -136,16 +132,14 @@ impl Swcify for Expression {
             Expression::ArrowFunc(e) => e.swcify(ctx).into(),
             Expression::Class(e) => e.swcify(ctx).into(),
             Expression::MetaProp(e) => e.swcify(ctx).into(),
-            Expression::Super(e) => unreachable!(),
+            Expression::Super(..) => unreachable!(),
             Expression::TaggedTemplate(e) => e.swcify(ctx).into(),
             Expression::TemplateLiteral(e) => e.swcify(ctx).into(),
             Expression::Yield(e) => e.swcify(ctx).into(),
             Expression::Await(e) => e.swcify(ctx).into(),
-            Expression::Import(e) => unimplemented!("babel: Expression::Import({:?})", e),
             Expression::BigIntLiteral(e) => Expr::Lit(e.swcify(ctx).into()),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
-            Expression::TypeCast(e) => unimplemented!("babel: Expression::TypeCast({:?})", e),
             Expression::JSXElement(e) => Box::new(e.swcify(ctx)).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
             Expression::DecimalLiteral(e) => e.swcify(ctx).into(),
@@ -153,7 +147,7 @@ impl Swcify for Expression {
             Expression::TSTypeAssertion(e) => e.swcify(ctx).into(),
             Expression::TSNonNull(e) => e.swcify(ctx).into(),
             _ => {
-                todo!("importing expr: {:?}", self)
+                unimplemented!("swcify: {:?}", self)
             }
         })
     }
@@ -227,7 +221,7 @@ impl Swcify for BinaryExprLeft {
 impl Swcify for BinaryExprOp {
     type Output = BinaryOp;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         match self {
             BinaryExprOp::Addition => {
                 op!(bin, "+")
@@ -406,7 +400,7 @@ impl Swcify for Identifier {
 impl Swcify for LogicalExprOp {
     type Output = BinaryOp;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         match self {
             LogicalExprOp::Or => {
                 op!("||")
@@ -629,7 +623,7 @@ impl Swcify for UnaryExpression {
 impl Swcify for UnaryExprOp {
     type Output = UnaryOp;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         match self {
             UnaryExprOp::Void => {
                 op!("void")
@@ -858,7 +852,7 @@ impl Swcify for OptionalCallExpression {
 impl Swcify for TypeCastExpression {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow type cast")
     }
 }

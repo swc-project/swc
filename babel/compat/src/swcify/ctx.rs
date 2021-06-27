@@ -12,8 +12,10 @@ use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 
 pub struct Context {
+    #[allow(unused)]
     pub(crate) cm: Arc<SourceMap>,
     pub(crate) fm: Arc<SourceFile>,
+    #[allow(unused)]
     pub(crate) comments: SwcComments,
 }
 
