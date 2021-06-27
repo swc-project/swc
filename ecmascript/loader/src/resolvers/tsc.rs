@@ -94,6 +94,15 @@ where
     R: Resolve,
 {
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
+        if src.starts_with(".") {
+            if src == ".." || src.starts_with("./") || src.starts_with("../") {
+                return self
+                    .inner
+                    .resolve(base, src)
+                    .context("not processed by tsc resolver because it's relative import");
+            }
+        }
+
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {
