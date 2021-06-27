@@ -165,7 +165,7 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 240,
+        "start": 225,
         "end": 499,
         "ctxt": 0
       },
