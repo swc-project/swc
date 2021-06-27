@@ -18,4 +18,8 @@ impl Swcify for BlockStatement {
 
 impl Swcify for Statement {
     type Output = Stmt;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {}
+    }
 }

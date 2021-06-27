@@ -9,15 +9,19 @@ use swc_babel_ast::NumberLiteral;
 use swc_babel_ast::NumericLiteral;
 use swc_babel_ast::RegExpLiteral;
 use swc_babel_ast::StringLiteral;
+use swc_babel_ast::TemplateElement;
 use swc_babel_ast::TemplateLiteral;
+use swc_babel_ast::TemplateLiteralExpr;
 use swc_ecma_ast::BigInt;
 use swc_ecma_ast::Bool;
+use swc_ecma_ast::Expr;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::Null;
 use swc_ecma_ast::Number;
 use swc_ecma_ast::Regex;
 use swc_ecma_ast::Str;
 use swc_ecma_ast::Tpl;
+use swc_ecma_ast::TplElement;
 
 impl Swcify for Literal {
     type Output = Lit;
@@ -113,6 +117,22 @@ impl Swcify for TemplateLiteral {
             exprs: self.expressions.swcify(ctx),
             quasis: self.quasis.swcify(ctx),
         }
+    }
+}
+
+impl Swcify for TemplateLiteralExpr {
+    type Output = Box<Expr>;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for TemplateElement {
+    type Output = TplElement;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
     }
 }
 

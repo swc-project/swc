@@ -4,6 +4,7 @@ use swc_babel_ast::LVal;
 use swc_babel_ast::RestElement;
 use swc_ecma_ast::Expr;
 use swc_ecma_ast::Pat;
+use swc_ecma_ast::RestPat;
 
 impl Swcify for LVal {
     type Output = Pat;
@@ -21,8 +22,18 @@ impl Swcify for LVal {
     }
 }
 
-impl Swcify for RestElement {}
+impl Swcify for RestElement {
+    type Output = RestPat;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
 
 impl Swcify for swc_babel_ast::Param {
     type Output = swc_ecma_ast::Param;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
 }

@@ -75,6 +75,7 @@ use swc_ecma_ast::ExprOrSuper;
 use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
+use swc_ecma_ast::JSXAttrOrSpread;
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
@@ -146,18 +147,15 @@ impl Swcify for Expression {
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
             Expression::TypeCast(e) => unimplemented!("babel: Expression::TypeCast({:?})", e),
-            Expression::JSXElement(e) => e.swcify(ctx).into(),
+            Expression::JSXElement(e) => Box::new(e.swcify(ctx)).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
-            Expression::Bind(e) => e.swcify(ctx).into(),
-            Expression::PipelinePrimaryTopicRef(e) => e.swcify(ctx).into(),
-            Expression::Do(e) => e.swcify(ctx).into(),
-            Expression::Record(e) => e.swcify(ctx).into(),
-            Expression::Tuple(e) => e.swcify(ctx).into(),
             Expression::DecimalLiteral(e) => e.swcify(ctx).into(),
-            Expression::Module(e) => e.swcify(ctx).into(),
             Expression::TSAs(e) => e.swcify(ctx).into(),
             Expression::TSTypeAssertion(e) => e.swcify(ctx).into(),
             Expression::TSNonNull(e) => e.swcify(ctx).into(),
+            _ => {
+                todo!("importing expr: {:?}", self)
+            }
         })
     }
 }
@@ -851,7 +849,7 @@ impl Swcify for OptionalCallExpression {
                     Expression::Super(s) => ExprOrSuper::Super(s.swcify(ctx)),
                     _ => ExprOrSuper::Expr(self.callee.swcify(ctx)),
                 },
-                args: self.arguments.swcify(ctx),
+                args: self.arguments.swcify(ctx).into_iter().flatten().collect(),
                 type_args: self.type_parameters.swcify(ctx),
             })),
         }
@@ -869,13 +867,68 @@ impl Swcify for TypeCastExpression {
 impl Swcify for swc_babel_ast::JSXElement {
     type Output = swc_ecma_ast::JSXElement;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXElement {
+            span: ctx.span(&self.base),
+            opening: self.opening_element.swcify(ctx),
+            children: self.children.swcify(ctx),
+            closing: self.closing_element.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXOpeningElement {
+    type Output = swc_ecma_ast::JSXOpeningElement;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXOpeningElement {
+            span: ctx.span(&self.base),
+            name: self.name.swcify(ctx),
+            attrs: self.attributes.swcify(ctx),
+            self_closing: self.self_closing,
+            type_args: None,
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXElementName {
+    type Output = swc_ecma_ast::JSXElementName;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXOpeningElAttr {
+    type Output = JSXAttrOrSpread;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXElementChild {
+    type Output = swc_ecma_ast::JSXElementChild;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXClosingElement {
+    type Output = swc_ecma_ast::JSXClosingElement;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXFragment {
     type Output = swc_ecma_ast::JSXFragment;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
 }
 
 impl Swcify for BindExpression {
