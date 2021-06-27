@@ -11,8 +11,8 @@ use std::{
 };
 use swc::Compiler;
 use swc_babel_ast::File;
-use swc_babel_compat::normalize::normalize;
-use swc_babel_compat::{Babelify, Context};
+use swc_babel_compat::babelify::normalize::normalize;
+use swc_babel_compat::babelify::{Babelify, Context};
 use swc_common::{
     errors::{ColorConfig, Handler},
     FileName,

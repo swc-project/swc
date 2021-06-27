@@ -1,4 +1,4 @@
-use crate::{Babelify, Context};
+use crate::babelify::{Babelify, Context};
 use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
 use swc_babel_ast::{

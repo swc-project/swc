@@ -1,4 +1,6 @@
-use crate::{extract_class_body_span, Babelify, Context};
+use crate::babelify::extract_class_body_span;
+use crate::babelify::Babelify;
+use crate::babelify::Context;
 use copyless::BoxHelper;
 use serde_json::value::Value;
 use swc_babel_ast::{
