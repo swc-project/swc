@@ -78,6 +78,7 @@ use swc_ecma_ast::ExprOrSuper;
 use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
+use swc_ecma_ast::JSXAttr;
 use swc_ecma_ast::JSXAttrOrSpread;
 use swc_ecma_ast::JSXMemberExpr;
 use swc_ecma_ast::JSXObject;
@@ -945,6 +946,18 @@ impl Swcify for swc_babel_ast::JSXOpeningElAttr {
 
 impl Swcify for JSXAttribute {
     type Output = JSXAttr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        JSXAttr {
+            span: ctx.span(&self.base),
+            name: self.name.swcify(ctx),
+            value: self.value.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXAttrName {
+    type Output = swc_ecma_ast::JSXAttrName;
 
     fn swcify(self, ctx: &Context) -> Self::Output {}
 }
