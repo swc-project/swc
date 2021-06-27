@@ -9,7 +9,7 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 71,
+        "start": 56,
         "end": 88,
         "ctxt": 0
       },
@@ -94,7 +94,7 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 148,
+        "start": 133,
         "end": 175,
         "ctxt": 0
       },
