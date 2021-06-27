@@ -21,6 +21,7 @@ use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
 use swc_babel_ast::JSXAttrVal;
 use swc_babel_ast::JSXAttribute;
+use swc_babel_ast::JSXEmptyExpression;
 use swc_babel_ast::JSXExprContainerExpr;
 use swc_babel_ast::JSXExpressionContainer;
 use swc_babel_ast::JSXMemberExprObject;
@@ -84,6 +85,7 @@ use swc_ecma_ast::Ident;
 use swc_ecma_ast::JSXAttr;
 use swc_ecma_ast::JSXAttrOrSpread;
 use swc_ecma_ast::JSXAttrValue;
+use swc_ecma_ast::JSXEmptyExpr;
 use swc_ecma_ast::JSXExpr;
 use swc_ecma_ast::JSXExprContainer;
 use swc_ecma_ast::JSXMemberExpr;
@@ -1002,7 +1004,22 @@ impl Swcify for JSXExpressionContainer {
 impl Swcify for JSXExprContainerExpr {
     type Output = JSXExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            JSXExprContainerExpr::Empty(v) => JSXExpr::JSXEmptyExpr(v.swcify(ctx)),
+            JSXExprContainerExpr::Expr(v) => JSXExpr::Expr(v.swcify(ctx)),
+        }
+    }
+}
+
+impl Swcify for JSXEmptyExpression {
+    type Output = JSXEmptyExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        JSXEmptyExpr {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for JSXSpreadAttribute {
