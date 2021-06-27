@@ -19,8 +19,10 @@ use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
+use swc_babel_ast::JSXAttribute;
 use swc_babel_ast::JSXMemberExprObject;
 use swc_babel_ast::JSXMemberExpression;
+use swc_babel_ast::JSXSpreadAttribute;
 use swc_babel_ast::LogicalExprOp;
 use swc_babel_ast::LogicalExpression;
 use swc_babel_ast::MemberExprProp;
@@ -932,8 +934,25 @@ impl Swcify for swc_babel_ast::JSXOpeningElAttr {
     type Output = JSXAttrOrSpread;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        match self {}
+        match self {
+            swc_babel_ast::JSXOpeningElAttr::Attr(v) => JSXAttrOrSpread::JSXAttr(v.swcify(ctx)),
+            swc_babel_ast::JSXOpeningElAttr::Spread(v) => {
+                JSXAttrOrSpread::SpreadElement(v.swcify(ctx))
+            }
+        }
     }
+}
+
+impl Swcify for JSXAttribute {
+    type Output = JSXAttr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
+}
+
+impl Swcify for JSXSpreadAttribute {
+    type Output = SpreadElement;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for swc_babel_ast::JSXElementChild {
