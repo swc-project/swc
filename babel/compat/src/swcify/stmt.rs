@@ -192,7 +192,7 @@ impl Swcify for DoWhileStatement {
         DoWhileStmt {
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
-            body: self.body.swcify(ctx).expect_stmt(),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
 }
@@ -423,7 +423,7 @@ impl Swcify for WhileStatement {
         WhileStmt {
             span: ctx.span(&self.base),
             test: self.test.swcify(ctx),
-            body: self.body.swcify(ctx).expect_stmt(),
+            body: Box::new(self.body.swcify(ctx).expect_stmt()),
         }
     }
 }
@@ -497,22 +497,24 @@ impl Swcify for ImportDeclaration {
 impl Swcify for DeclareClass {
     type Output = ClassDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        unimplemented!("flow")
+    }
 }
 
 impl Swcify for DeclareFunction {
     type Output = FnDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        unimplemented!("flow")
+    }
 }
 
 impl Swcify for DeclareInterface {
     type Output = TsInterfaceDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        TsInterfaceDecl {
-            span: ctx.span(&self.base),
-        }
+        unimplemented!("flow")
     }
 }
 
@@ -520,9 +522,7 @@ impl Swcify for DeclareModule {
     type Output = TsModuleDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        TsModuleDecl {
-            span: ctx.span(&self.base),
-        }
+        unimplemented!("flow")
     }
 }
 
@@ -530,9 +530,7 @@ impl Swcify for DeclareModuleExports {
     type Output = TsExportAssignment;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        TsExportAssignment {
-            span: ctx.span(&self.base),
-        }
+        unimplemented!("flow")
     }
 }
 
@@ -540,9 +538,7 @@ impl Swcify for DeclareTypeAlias {
     type Output = TsTypeAliasDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        TsTypeAliasDecl {
-            span: ctx.span(&self.base),
-        }
+        unimplemented!("flow")
     }
 }
 
@@ -550,9 +546,7 @@ impl Swcify for DeclareVariable {
     type Output = VarDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        VarDecl {
-            span: ctx.span(&self.base),
-        }
+        unimplemented!("flow")
     }
 }
 
@@ -560,9 +554,7 @@ impl Swcify for DeclareExportDeclaration {
     type Output = ExportDecl;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        ExportDecl {
-            span: ctx.span(&self.base),
-        }
+        unimplemented!("flow")
     }
 }
 
@@ -572,6 +564,8 @@ impl Swcify for DeclareExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
+            src: self.source.swcify(ctx),
+            asserts: Default::default(),
         }
     }
 }
