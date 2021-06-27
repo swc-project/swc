@@ -36,7 +36,7 @@ impl Swcify for TSTypeParameterInstantiation {
 impl Swcify for FlowType {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unreachable!("swc does not support flow types")
     }
 }
@@ -104,7 +104,7 @@ impl Swcify for TSTypeAnnotation {
 impl Swcify for TSType {
     type Output = Box<TsType>;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         todo!("swc currently does not support importing typescript module from babel")
     }
 }
@@ -123,7 +123,7 @@ impl Swcify for SuperTypeParams {
 impl Swcify for Access {
     type Output = Accessibility;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         match self {
             Access::Public => Accessibility::Public,
             Access::Private => Accessibility::Private,

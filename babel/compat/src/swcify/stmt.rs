@@ -760,7 +760,7 @@ impl Swcify for ImportNamespaceSpecifier {
 impl Swcify for DeclareClass {
     type Output = ClassDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -768,7 +768,7 @@ impl Swcify for DeclareClass {
 impl Swcify for DeclareFunction {
     type Output = FnDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -776,7 +776,7 @@ impl Swcify for DeclareFunction {
 impl Swcify for DeclareInterface {
     type Output = TsInterfaceDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -784,7 +784,7 @@ impl Swcify for DeclareInterface {
 impl Swcify for DeclareModule {
     type Output = TsModuleDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -792,7 +792,7 @@ impl Swcify for DeclareModule {
 impl Swcify for DeclareModuleExports {
     type Output = TsExportAssignment;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -800,7 +800,7 @@ impl Swcify for DeclareModuleExports {
 impl Swcify for DeclareTypeAlias {
     type Output = TsTypeAliasDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -808,7 +808,7 @@ impl Swcify for DeclareTypeAlias {
 impl Swcify for DeclareVariable {
     type Output = VarDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }
@@ -816,7 +816,7 @@ impl Swcify for DeclareVariable {
 impl Swcify for DeclareExportDeclaration {
     type Output = ExportDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         unimplemented!("flow")
     }
 }

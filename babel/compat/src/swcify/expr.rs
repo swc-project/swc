@@ -1042,10 +1042,18 @@ impl Swcify for swc_babel_ast::JSXElementChild {
             swc_babel_ast::JSXElementChild::Text(v) => {
                 swc_ecma_ast::JSXElementChild::JSXText(v.swcify(ctx))
             }
-            swc_babel_ast::JSXElementChild::Expr(v) => todo!(),
-            swc_babel_ast::JSXElementChild::Spread(v) => todo!(),
-            swc_babel_ast::JSXElementChild::Element(v) => todo!(),
-            swc_babel_ast::JSXElementChild::Fragment(v) => todo!(),
+            swc_babel_ast::JSXElementChild::Expr(v) => {
+                swc_ecma_ast::JSXElementChild::from(v.swcify(ctx))
+            }
+            swc_babel_ast::JSXElementChild::Spread(v) => {
+                swc_ecma_ast::JSXElementChild::from(v.swcify(ctx))
+            }
+            swc_babel_ast::JSXElementChild::Element(v) => {
+                swc_ecma_ast::JSXElementChild::from(Box::new(v.swcify(ctx)))
+            }
+            swc_babel_ast::JSXElementChild::Fragment(v) => {
+                swc_ecma_ast::JSXElementChild::from(v.swcify(ctx))
+            }
         }
     }
 }
@@ -1058,6 +1066,17 @@ impl Swcify for swc_babel_ast::JSXText {
             span: ctx.span(&self.base),
             value: self.value,
             raw: js_word!(""),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXSpreadChild {
+    type Output = swc_ecma_ast::JSXSpreadChild;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXSpreadChild {
+            span: ctx.span(&self.base),
+            expr: self.expression.swcify(ctx),
         }
     }
 }
@@ -1109,7 +1128,7 @@ impl Swcify for swc_babel_ast::JSXClosingFragment {
 impl Swcify for BindExpression {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         panic!("swc does not support bind expressions")
     }
 }
@@ -1117,7 +1136,7 @@ impl Swcify for BindExpression {
 impl Swcify for DoExpression {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         panic!("swc does not support do expressions")
     }
 }
@@ -1125,7 +1144,7 @@ impl Swcify for DoExpression {
 impl Swcify for PipelinePrimaryTopicReference {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         panic!("swc does not support `PipelinePrimaryTopicReference`")
     }
 }
@@ -1133,7 +1152,7 @@ impl Swcify for PipelinePrimaryTopicReference {
 impl Swcify for RecordExpression {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         panic!("swc does not support record expressions")
     }
 }
@@ -1141,7 +1160,7 @@ impl Swcify for RecordExpression {
 impl Swcify for TupleExpression {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         panic!("swc does not support tuple expressions")
     }
 }
@@ -1149,7 +1168,7 @@ impl Swcify for TupleExpression {
 impl Swcify for ModuleExpression {
     type Output = !;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
+    fn swcify(self, _: &Context) -> Self::Output {
         panic!("swc does not support module expressions")
     }
 }

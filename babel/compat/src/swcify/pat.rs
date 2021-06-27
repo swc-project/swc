@@ -158,7 +158,15 @@ impl Swcify for swc_babel_ast::Param {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            swc_babel_ast::Param::Id(v) => todo!(),
+            swc_babel_ast::Param::Id(v) => {
+                let pat = v.swcify(ctx);
+
+                swc_ecma_ast::Param {
+                    span: pat.span(),
+                    decorators: Default::default(),
+                    pat: pat.into(),
+                }
+            }
             swc_babel_ast::Param::Pat(v) => {
                 let pat = v.swcify(ctx);
 
@@ -171,9 +179,9 @@ impl Swcify for swc_babel_ast::Param {
             swc_babel_ast::Param::Rest(v) => swc_ecma_ast::Param {
                 span: ctx.span(&v.base),
                 decorators: v.decorators.swcify(ctx).unwrap_or_default(),
-                pat: Pat::from(v.swcify(ctx)),
+                pat: Pat::from(v.argument.swcify(ctx)),
             },
-            swc_babel_ast::Param::TSProp(v) => todo!(),
+            swc_babel_ast::Param::TSProp(..) => todo!(),
         }
     }
 }
