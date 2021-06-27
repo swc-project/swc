@@ -1,4 +1,5 @@
 use crate::swcify::Swcify;
+use swc_atoms::js_word;
 use swc_babel_ast::Arg;
 use swc_babel_ast::ArrayExprEl;
 use swc_babel_ast::ArrayExpression;
@@ -1025,25 +1026,84 @@ impl Swcify for JSXEmptyExpression {
 impl Swcify for JSXSpreadAttribute {
     type Output = SpreadElement;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        SpreadElement {
+            dot3_token: ctx.span(&self.base),
+            expr: self.argument.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXElementChild {
     type Output = swc_ecma_ast::JSXElementChild;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            swc_babel_ast::JSXElementChild::Text(v) => {
+                swc_ecma_ast::JSXElementChild::JSXText(v.swcify(ctx))
+            }
+            swc_babel_ast::JSXElementChild::Expr(v) => todo!(),
+            swc_babel_ast::JSXElementChild::Spread(v) => todo!(),
+            swc_babel_ast::JSXElementChild::Element(v) => todo!(),
+            swc_babel_ast::JSXElementChild::Fragment(v) => todo!(),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXText {
+    type Output = swc_ecma_ast::JSXText;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXText {
+            span: ctx.span(&self.base),
+            value: self.value,
+            raw: js_word!(""),
+        }
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXClosingElement {
     type Output = swc_ecma_ast::JSXClosingElement;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXClosingElement {
+            span: ctx.span(&self.base),
+            name: self.name.swcify(ctx),
+        }
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXFragment {
     type Output = swc_ecma_ast::JSXFragment;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXFragment {
+            span: ctx.span(&self.base),
+            opening: self.opening_fragment.swcify(ctx),
+            children: self.children.swcify(ctx),
+            closing: self.closing_fragment.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXOpeningFragment {
+    type Output = swc_ecma_ast::JSXOpeningFragment;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXOpeningFragment {
+            span: ctx.span(&self.base),
+        }
+    }
+}
+
+impl Swcify for swc_babel_ast::JSXClosingFragment {
+    type Output = swc_ecma_ast::JSXClosingFragment;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        swc_ecma_ast::JSXClosingFragment {
+            span: ctx.span(&self.base),
+        }
+    }
 }
 
 impl Swcify for BindExpression {
