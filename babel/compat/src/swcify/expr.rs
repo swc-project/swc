@@ -19,6 +19,7 @@ use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
+use swc_babel_ast::JSXMemberExpression;
 use swc_babel_ast::LogicalExprOp;
 use swc_babel_ast::LogicalExpression;
 use swc_babel_ast::MemberExprProp;
@@ -75,6 +76,7 @@ use swc_ecma_ast::FnExpr;
 use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::JSXAttrOrSpread;
+use swc_ecma_ast::JSXMemberExpr;
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
@@ -888,8 +890,24 @@ impl Swcify for swc_babel_ast::JSXElementName {
     type Output = swc_ecma_ast::JSXElementName;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
+        match self {
+            swc_babel_ast::JSXElementName::Id(v) => {
+                swc_ecma_ast::JSXElementName::Ident(v.swcify(ctx))
+            }
+            swc_babel_ast::JSXElementName::Expr(v) => {
+                swc_ecma_ast::JSXElementName::JSXMemberExpr(v.swcify(ctx))
+            }
+            swc_babel_ast::JSXElementName::Name(v) => {
+                swc_ecma_ast::JSXElementName::JSXNamespacedName(v.swcify(ctx))
+            }
+        }
     }
+}
+
+impl Swcify for JSXMemberExpression {
+    type Output = JSXMemberExpr;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for swc_babel_ast::JSXOpeningElAttr {
