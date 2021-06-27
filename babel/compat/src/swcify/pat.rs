@@ -1,10 +1,11 @@
 use crate::swcify::Context;
 use crate::swcify::Swcify;
+use swc_babel_ast::ArrayPattern;
+use swc_babel_ast::AssignmentPattern;
 use swc_babel_ast::LVal;
+use swc_babel_ast::ObjectPattern;
 use swc_babel_ast::RestElement;
-use swc_ecma_ast::Expr;
-use swc_ecma_ast::Pat;
-use swc_ecma_ast::RestPat;
+use swc_ecma_ast::*;
 
 impl Swcify for LVal {
     type Output = Pat;
@@ -17,13 +18,37 @@ impl Swcify for LVal {
             LVal::AssignmentPat(e) => e.swcify(ctx).into(),
             LVal::ArrayPat(e) => e.swcify(ctx).into(),
             LVal::ObjectPat(e) => e.swcify(ctx).into(),
-            LVal::TSParamProp(e) => e.swcify(ctx).into(),
+            LVal::TSParamProp(e) => todo!(),
         }
     }
 }
 
 impl Swcify for RestElement {
     type Output = RestPat;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for AssignmentPattern {
+    type Output = AssignPat;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for ArrayPattern {
+    type Output = ArrayPat;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        todo!()
+    }
+}
+
+impl Swcify for ObjectPattern {
+    type Output = ObjectPat;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         todo!()
