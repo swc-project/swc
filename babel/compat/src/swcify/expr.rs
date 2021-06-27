@@ -40,7 +40,6 @@ use swc_babel_ast::PatternLike;
 use swc_babel_ast::PipelinePrimaryTopicReference;
 use swc_babel_ast::RecordExpression;
 use swc_babel_ast::SequenceExpression;
-use swc_babel_ast::Super;
 use swc_babel_ast::TSAsExpression;
 use swc_babel_ast::TSNonNullExpression;
 use swc_babel_ast::TSTypeAssertion;
