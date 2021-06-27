@@ -19,6 +19,7 @@ use swc_babel_ast::Expression;
 use swc_babel_ast::FunctionExpression;
 use swc_babel_ast::Identifier;
 use swc_babel_ast::Import;
+use swc_babel_ast::JSXMemberExprObject;
 use swc_babel_ast::JSXMemberExpression;
 use swc_babel_ast::LogicalExprOp;
 use swc_babel_ast::LogicalExpression;
@@ -77,6 +78,7 @@ use swc_ecma_ast::Function;
 use swc_ecma_ast::Ident;
 use swc_ecma_ast::JSXAttrOrSpread;
 use swc_ecma_ast::JSXMemberExpr;
+use swc_ecma_ast::JSXObject;
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_ast::Lit;
 use swc_ecma_ast::MemberExpr;
@@ -907,13 +909,31 @@ impl Swcify for swc_babel_ast::JSXElementName {
 impl Swcify for JSXMemberExpression {
     type Output = JSXMemberExpr;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        JSXMemberExpr {
+            obj: self.object.swcify(ctx),
+            prop: self.property.swcify(ctx),
+        }
+    }
+}
+
+impl Swcify for JSXMemberExprObject {
+    type Output = JSXObject;
+
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {
+            JSXMemberExprObject::Expr(e) => JSXObject::JSXMemberExpr(Box::new(e.swcify(ctx))),
+            JSXMemberExprObject::Id(e) => JSXObject::Ident(e.swcify(ctx)),
+        }
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXOpeningElAttr {
     type Output = JSXAttrOrSpread;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {}
+    fn swcify(self, ctx: &Context) -> Self::Output {
+        match self {}
+    }
 }
 
 impl Swcify for swc_babel_ast::JSXElementChild {
