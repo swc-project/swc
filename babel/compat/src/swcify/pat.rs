@@ -26,39 +26,29 @@ impl Swcify for LVal {
 impl Swcify for RestElement {
     type Output = RestPat;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for AssignmentPattern {
     type Output = AssignPat;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ArrayPattern {
     type Output = ArrayPat;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ObjectPattern {
     type Output = ObjectPat;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for swc_babel_ast::Param {
     type Output = swc_ecma_ast::Param;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }

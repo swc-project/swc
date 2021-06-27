@@ -913,33 +913,25 @@ impl Swcify for JSXMemberExpression {
 impl Swcify for swc_babel_ast::JSXOpeningElAttr {
     type Output = JSXAttrOrSpread;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for swc_babel_ast::JSXElementChild {
     type Output = swc_ecma_ast::JSXElementChild;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for swc_babel_ast::JSXClosingElement {
     type Output = swc_ecma_ast::JSXClosingElement;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for swc_babel_ast::JSXFragment {
     type Output = swc_ecma_ast::JSXFragment;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for BindExpression {

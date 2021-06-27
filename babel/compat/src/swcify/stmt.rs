@@ -150,33 +150,25 @@ impl Swcify for Statement {
 impl Swcify for BreakStatement {
     type Output = BreakStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ContinueStatement {
     type Output = ContinueStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DebuggerStatement {
     type Output = DebuggerStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DoWhileStatement {
     type Output = DoWhileStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for EmptyStatement {
@@ -203,215 +195,161 @@ impl Swcify for ExpressionStatement {
 impl Swcify for ForInStatement {
     type Output = ForInStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ForStatement {
     type Output = ForStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for FunctionDeclaration {
     type Output = FnDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for IfStatement {
     type Output = IfStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for LabeledStatement {
     type Output = LabeledStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ReturnStatement {
     type Output = ReturnStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for SwitchStatement {
     type Output = SwitchStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ThrowStatement {
     type Output = ThrowStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for TryStatement {
     type Output = TryStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for VariableDeclaration {
     type Output = VarDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for WhileStatement {
     type Output = WhileStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for WithStatement {
     type Output = WithStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ClassDeclaration {
     type Output = ClassDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ExportAllDeclaration {
     type Output = ExportAll;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ExportDefaultDeclaration {
     type Output = ExportDefaultDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ExportNamedDeclaration {
     type Output = NamedExport;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ForOfStatement {
     type Output = ForOfStmt;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for ImportDeclaration {
     type Output = ImportDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareClass {
     type Output = ClassDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareFunction {
     type Output = FnDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareInterface {
     type Output = TsInterfaceDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareModule {
     type Output = TsModuleDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareModuleExports {
     type Output = TsExportAssignment;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareTypeAlias {
     type Output = TsTypeAliasDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareVariable {
     type Output = VarDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareExportDeclaration {
     type Output = ExportDecl;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
 
 impl Swcify for DeclareExportAllDeclaration {
     type Output = ExportAll;
 
-    fn swcify(self, ctx: &Context) -> Self::Output {
-        todo!()
-    }
+    fn swcify(self, ctx: &Context) -> Self::Output {}
 }
