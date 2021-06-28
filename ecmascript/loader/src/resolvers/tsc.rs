@@ -3,7 +3,7 @@ use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use regex::Regex;
-use std::path::PathBuf;
+use std::path::{Component, PathBuf};
 use swc_common::FileName;
 
 #[derive(Debug)]
@@ -94,6 +94,29 @@ where
     R: Resolve,
 {
     fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
+        if src.starts_with(".") {
+            if src == ".." || src.starts_with("./") || src.starts_with("../") {
+                return self
+                    .inner
+                    .resolve(base, src)
+                    .context("not processed by tsc resolver because it's relative import");
+            }
+        }
+
+        match base {
+            FileName::Real(v) => {
+                if v.components().any(|c| match c {
+                    Component::Normal(v) => v == "node_modules",
+                    _ => false,
+                }) {
+                    return self.inner.resolve(base, src).context(
+                        "not processed by tsc resolver because base module is in node_modules",
+                    );
+                }
+            }
+            _ => {}
+        }
+
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
             match from {

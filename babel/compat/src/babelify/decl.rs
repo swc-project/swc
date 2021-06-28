@@ -1,4 +1,4 @@
-use crate::{extract_class_body_span, Babelify, Context};
+use crate::babelify::{extract_class_body_span, Babelify, Context};
 use copyless::BoxHelper;
 use swc_babel_ast::{
     ClassBody, ClassDeclaration, Declaration, FunctionDeclaration, VariableDeclaration,

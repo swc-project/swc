@@ -1,4 +1,4 @@
-use crate::{Babelify, Context};
+use crate::babelify::{Babelify, Context};
 use swc_babel_ast::{BinaryExprOp, LogicalExprOp, UnaryExprOp, UpdateExprOp};
 
 use serde::{Deserialize, Serialize};

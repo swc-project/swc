@@ -1,4 +1,4 @@
-use crate::{Babelify, Context};
+use crate::babelify::{Babelify, Context};
 use serde::{Deserialize, Serialize};
 use swc::SwcComments;
 use swc_babel_ast::{
