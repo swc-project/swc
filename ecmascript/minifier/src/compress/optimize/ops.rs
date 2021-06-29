@@ -566,14 +566,29 @@ impl Optimizer<'_> {
                     _ => return,
                 };
 
-                log::trace!("Optimizing: e && true => !!e");
-
                 if rb {
+                    self.changed = true;
+                    log::trace!("Optimizing: e && true => !!e");
+
                     self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
                 }
             }
-            op!("||") => {}
+            op!("||") => {
+                let rb = bin.right.as_pure_bool();
+                let rb = match rb {
+                    Value::Known(v) => v,
+                    _ => return,
+                };
+
+                if !rb {
+                    self.changed = true;
+                    log::trace!("Optimizing: e || false => !!e");
+
+                    self.negate_twice(&mut bin.left);
+                    *e = *bin.left.take();
+                }
+            }
             _ => {}
         }
     }
