@@ -535,6 +535,15 @@ impl Optimizer<'_> {
         };
 
         match bin.op {
+            op!("&&") | op!("||") => {
+                self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
+                self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
+            }
+
+            _ => {}
+        }
+
+        match bin.op {
             op!("&&") => {
                 let lt = bin.left.get_type();
                 if !in_bool_ctx {
