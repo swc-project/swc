@@ -663,6 +663,24 @@ impl Optimizer<'_> {
 
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
 
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                left,
+                right,
+                ..
+            }) => {
+                let new_r = self.ignore_return_value(right);
+
+                match new_r {
+                    Some(r) => {
+                        *right = Box::new(r);
+                    }
+                    None => return self.ignore_return_value(left),
+                }
+
+                return Some(e.take());
+            }
+
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             }) => return Some(e.take()),
