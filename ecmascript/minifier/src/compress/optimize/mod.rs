@@ -595,6 +595,21 @@ impl Optimizer<'_> {
         }
     }
 
+    fn remove_invalid(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                if left.is_invalid() {
+                    *e = *right.take();
+                    self.remove_invalid(e);
+                } else if right.is_invalid() {
+                    *e = *left.take();
+                    self.remove_invalid(e);
+                }
+            }
+            _ => {}
+        }
+    }
+
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
@@ -1507,16 +1522,7 @@ impl VisitMut for Optimizer<'_> {
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        match e {
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                if left.is_invalid() {
-                    *e = *right.take();
-                } else if right.is_invalid() {
-                    *e = *left.take();
-                }
-            }
-            _ => {}
-        }
+        self.remove_invalid(e);
 
         self.concat_str(e);
 
@@ -1565,6 +1571,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.inline(e);
 
+        self.remove_invalid(e);
+
         match e {
             Expr::Bin(bin) => {
                 let expr = self.optimize_lit_cmp(bin);
@@ -1605,6 +1613,8 @@ impl VisitMut for Optimizer<'_> {
         self.invoke_iife(e);
 
         self.optimize_bangbang(e);
+
+        self.remove_invalid(e);
     }
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
