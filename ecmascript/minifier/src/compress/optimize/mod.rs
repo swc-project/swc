@@ -1538,7 +1538,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.optimize_nullish_coalescing(e);
 
-        self.compress_logical_exprs_as_bang_bang(e);
+        self.compress_logical_exprs_as_bang_bang(e, false);
 
         self.compress_useless_cond_expr(e);
 

@@ -517,11 +517,14 @@ impl Optimizer<'_> {
 
     /// Remove meaningless literals in a binary expressions.
     ///
+    /// # Parameters
+    ///
+    ///  - `in_bool_ctx`: True for expressions casted to bool.
     ///
     /// # Examples
     ///
     /// - `x() && true` => `!!x()`
-    pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr) {
+    pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr, in_bool_ctx: bool) {
         if !self.options.conditionals && !self.options.reduce_vars {
             return;
         }
