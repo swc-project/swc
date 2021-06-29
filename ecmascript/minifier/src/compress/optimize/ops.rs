@@ -537,10 +537,12 @@ impl Optimizer<'_> {
         match bin.op {
             op!("&&") => {
                 let lt = bin.left.get_type();
-                match lt {
-                    // Don't change type
-                    Known(Type::Bool) => {}
-                    _ => return,
+                if !in_bool_ctx {
+                    match lt {
+                        // Don't change type
+                        Known(Type::Bool) => {}
+                        _ => return,
+                    }
                 }
 
                 let rt = bin.right.get_type();
