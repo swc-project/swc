@@ -82,17 +82,17 @@ jobs:
       - name: (swc) three.js
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          mkdir -p integration-tests/three-js
+          mkdir -p tests/integration/three-js
           npm i -g qunit failonlyreporter
 
           # Download three.js
-          git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 integration-tests/three-js/repo
+          git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
 
-          swc --sync integration-tests/three-js/repo/ -d integration-tests/three-js/build/
-          # swc integration-tests/three-js/repo/src/ -d integration-tests/three-js/repo/build/
-          # swc integration-tests/three-js/repo/test/unit/**/*.js -d integration-tests/three-js/repo/test/unit/build/
+          swc --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
+          # swc tests/integration/three-js/repo/src/ -d tests/integration/three-js/repo/build/
+          # swc tests/integration/three-js/repo/test/unit/**/*.js -d tests/integration/three-js/repo/test/unit/build/
 
-          (cd integration-tests/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
+          (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
 
         # terser: contains with statement in test
         # Rome.js: I forgot the cause, but it didn't work.
@@ -100,19 +100,19 @@ jobs:
       - name: (swc) redux
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          mkdir -p integration-tests/redux
+          mkdir -p tests/integration/redux
           npm i -g qunit failonlyreporter
 
           # Download
-          git clone --depth 1 https://github.com/reduxjs/redux.git integration-tests/redux/repo
-          swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/lib/
-          echo "module.exports=require('./index')" > integration-tests/redux/repo/lib/redux.js
-          swc --sync integration-tests/redux/repo/src/ -d integration-tests/redux/repo/test/
-          swc --sync integration-tests/redux/repo/test/ -d integration-tests/redux/repo/test/
+          git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
+          swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
+          echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
+          swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/test/
+          swc --sync tests/integration/redux/repo/test/ -d tests/integration/redux/repo/test/
 
-          (cd integration-tests/redux/repo && npm i)
-          (cd integration-tests/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
+          (cd tests/integration/redux/repo && npm i)
+          (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
       - name: (spack) example react app
         run: |
           export PATH="$PATH:$HOME/npm/bin"
-          (cd spack/integration-tests/react && npm i && npx spack)
+          (cd spack/tests/integration/react && npm i && npx spack)

@@ -112,6 +112,9 @@ impl<'a> Emitter<'a> {
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
         }
+
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+
         self.wr.write_line()?;
     }
 
@@ -524,6 +527,8 @@ impl<'a> Emitter<'a> {
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
         }
+
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
@@ -533,7 +538,7 @@ impl<'a> Emitter<'a> {
         match *n.expr {
             Expr::Member(ref e) => {
                 emit!(e.obj);
-                self.wr.write_operator("?.")?;
+                punct!("?.");
 
                 if e.computed {
                     punct!("[");
@@ -545,7 +550,7 @@ impl<'a> Emitter<'a> {
             }
             Expr::Call(ref e) => {
                 emit!(e.callee);
-                self.wr.write_operator("?.")?;
+                punct!("?.");
 
                 punct!("(");
                 self.emit_expr_or_spreads(n.span(), &e.args, ListFormat::CallExpressionArguments)?;
@@ -577,7 +582,10 @@ impl<'a> Emitter<'a> {
     fn emit_new_expr(&mut self, node: &NewExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("new");
+        {
+            let span = self.cm.span_until_char(node.span, ' ');
+            keyword!(span, "new");
+        }
         space!();
         emit!(node.callee);
 
@@ -1507,7 +1515,7 @@ impl<'a> Emitter<'a> {
         }
 
         if format.contains(ListFormat::BracketsMask) {
-            self.wr.write_punct(format.opening_bracket())?;
+            self.wr.write_punct(None, format.opening_bracket())?;
 
             if is_empty {
                 self.emit_trailing_comments_of_pos(
@@ -1647,7 +1655,7 @@ impl<'a> Emitter<'a> {
             };
 
             if has_trailing_comma && format.contains(ListFormat::CommaDelimited) {
-                self.wr.write_punct(",")?;
+                punct!(self, ",");
                 formatting_space!(self);
             }
 
@@ -1708,7 +1716,7 @@ impl<'a> Emitter<'a> {
                     true,
                 )?; // Emit leading comments within empty lists
             }
-            self.wr.write_punct(format.closing_bracket())?;
+            self.wr.write_punct(None, format.closing_bracket())?;
         }
 
         Ok(())
@@ -1737,6 +1745,8 @@ impl<'a> Emitter<'a> {
             Pat::Rest(ref n) => emit!(n),
             Pat::Invalid(..) => invalid_pat(),
         }
+
+        self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
     }
 
     #[emitter]
@@ -1925,7 +1935,14 @@ impl<'a> Emitter<'a> {
     fn emit_block_stmt(&mut self, node: &BlockStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        punct!("{");
+        {
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.lo, node.span.lo + BytePos(1), Default::default())
+            };
+            punct!(span, "{");
+        }
         self.emit_list(
             node.span(),
             Some(&node.stmts),
@@ -1934,7 +1951,14 @@ impl<'a> Emitter<'a> {
 
         self.emit_leading_comments_of_span(node.span(), true)?;
 
-        punct!("}");
+        {
+            let span = if node.span.is_dummy() {
+                DUMMY_SP
+            } else {
+                Span::new(node.span.hi - BytePos(1), node.span.hi, Default::default())
+            };
+            punct!(span, "}");
+        }
     }
 
     #[emitter]
@@ -2028,7 +2052,10 @@ impl<'a> Emitter<'a> {
     fn emit_if_stmt(&mut self, node: &IfStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("if");
+        {
+            let span = self.cm.span_until_char(node.span, ' ');
+            keyword!(span, "if");
+        }
 
         formatting_space!();
         punct!("(");
@@ -2126,7 +2153,9 @@ impl<'a> Emitter<'a> {
     fn emit_throw_stmt(&mut self, node: &ThrowStmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        keyword!("throw");
+        let throw_span = self.cm.span_until_char(node.span, ' ');
+
+        keyword!(throw_span, "throw");
         space!();
         emit!(node.arg);
         formatting_semi!();
@@ -2244,18 +2273,18 @@ impl<'a> Emitter<'a> {
     fn write_delim(&mut self, f: ListFormat) -> Result {
         match f & ListFormat::DelimitersMask {
             ListFormat::None => {}
-            ListFormat::CommaDelimited => self.wr.write_punct(",")?,
+            ListFormat::CommaDelimited => self.wr.write_punct(None, ",")?,
             ListFormat::BarDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct("|")?;
+                self.wr.write_punct(None, "|")?;
             }
             ListFormat::AmpersandDelimited => {
                 if !self.cfg.minify {
                     self.wr.write_space()?;
                 }
-                self.wr.write_punct("&")?;
+                self.wr.write_punct(None, "&")?;
             }
             _ => unreachable!(),
         }

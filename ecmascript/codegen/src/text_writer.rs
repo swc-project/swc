@@ -28,11 +28,11 @@ pub trait WriteJs {
     fn decrease_indent(&mut self) -> Result;
 
     /// This *may* write semicolon.
-    fn write_semi(&mut self) -> Result;
+    fn write_semi(&mut self, span: Option<Span>) -> Result;
 
     fn write_space(&mut self) -> Result;
     fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result;
-    fn write_operator(&mut self, s: &str) -> Result;
+    fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result;
     fn write_param(&mut self, s: &str) -> Result;
     fn write_property(&mut self, s: &str) -> Result;
 
@@ -46,7 +46,7 @@ pub trait WriteJs {
 
     fn write_symbol(&mut self, span: Span, s: &str) -> Result;
 
-    fn write_punct(&mut self, s: &'static str) -> Result;
+    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result;
 }
 
 impl<W> WriteJs for Box<W>
@@ -60,8 +60,8 @@ where
         (**self).decrease_indent()
     }
 
-    fn write_semi(&mut self) -> Result {
-        (**self).write_semi()
+    fn write_semi(&mut self, span: Option<Span>) -> Result {
+        (**self).write_semi(span)
     }
     fn write_space(&mut self) -> Result {
         (**self).write_space()
@@ -69,8 +69,8 @@ where
     fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result {
         (**self).write_keyword(span, s)
     }
-    fn write_operator(&mut self, s: &str) -> Result {
-        (**self).write_operator(s)
+    fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result {
+        (**self).write_operator(span, s)
     }
     fn write_param(&mut self, s: &str) -> Result {
         (**self).write_param(s)
@@ -102,8 +102,8 @@ where
         (**self).write_comment(span, s)
     }
 
-    fn write_punct(&mut self, s: &'static str) -> Result {
-        (**self).write_punct(s)
+    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
+        (**self).write_punct(span, s)
     }
 
     fn target(&self) -> JscTarget {

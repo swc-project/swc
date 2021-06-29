@@ -103,6 +103,13 @@ pub(super) struct SourceMapFiles {
     stable_id_to_source_file: HashMap<StableSourceFileId, Lrc<SourceFile>>,
 }
 
+/// The interner for spans.
+///
+/// As most spans are simply stored, we store them as interend form.
+///
+///  - Each ast node only stores pointer to actual data ([BytePos]).
+///  - The pointers ([BytePos]) can be converted to file name, line and column
+///    using this struct.
 pub struct SourceMap {
     pub(super) files: Lock<SourceMapFiles>,
     start_pos: AtomicUsize,
@@ -625,7 +632,16 @@ impl SourceMap {
 
     /// Given a `Span`, try to get a shorter span ending before the first
     /// occurrence of `c` `char`
+    ///
+    ///
+    /// # Notes
+    ///
+    /// This method returns a dummy span for a dummy span.
     pub fn span_until_char(&self, sp: Span, c: char) -> Span {
+        if sp.is_dummy() {
+            return sp;
+        }
+
         match self.span_to_snippet(sp) {
             Ok(snippet) => {
                 let snippet = snippet.split(c).nth(0).unwrap_or("").trim_end();
@@ -641,7 +657,15 @@ impl SourceMap {
 
     /// Given a `Span`, try to get a shorter span ending just after the first
     /// occurrence of `char` `c`.
+    ///
+    /// # Notes
+    ///
+    /// This method returns a dummy span for a dummy span.
     pub fn span_through_char(&self, sp: Span, c: char) -> Span {
+        if sp.is_dummy() {
+            return sp;
+        }
+
         if let Ok(snippet) = self.span_to_snippet(sp) {
             if let Some(offset) = snippet.find(c) {
                 return sp.with_hi(BytePos(sp.lo().0 + (offset + c.len_utf8()) as u32));

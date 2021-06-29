@@ -123,6 +123,7 @@ jobs:
           - swc_ecma_preset_env
           - swc_ecma_transforms
           - swc_ecma_transforms_base
+          - swc_ecma_transforms_classes
           - swc_ecma_transforms_compat
           - swc_ecma_transforms_macros
           - swc_ecma_transforms_module
@@ -136,6 +137,7 @@ jobs:
           - swc_ecmascript
           - swc_eq_ignore_macros
           - swc_macros_common
+          - swc_node_base
           - swc_visit
           - swc_visit_macros
           - testing
@@ -154,6 +156,11 @@ jobs:
           git config --system core.eol lf
 
       - uses: actions/checkout@v2
+
+      # Source map format
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -242,7 +249,7 @@ jobs:
           branch: gh-pages
           folder: target/doc
           clean: true
-          git-config-email: kdy1997.dev@gmail.com
+          git-config-email: github-bot@swc.rs
           repository-name: swc-project/rustdoc
           commit-message: "Update"
           single-commit: true

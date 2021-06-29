@@ -10,38 +10,40 @@ impl<'a, I: Tokens> Parser<I> {
     pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
         expect!(self, "async");
-        self.parse_fn(Some(start), vec![])
+        self.parse_fn(None, Some(start), vec![])
     }
 
     /// Parse function expression
     pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_fn(None, vec![])
+        self.parse_fn(None, None, vec![])
     }
 
     pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
         let start = cur_pos!(self);
         expect!(self, "async");
-        self.parse_fn(Some(start), decorators)
+        self.parse_fn(None, Some(start), decorators)
     }
 
     pub(super) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
-        self.parse_fn(None, decorators)
+        self.parse_fn(None, None, decorators)
     }
 
     pub(super) fn parse_default_async_fn(
         &mut self,
+        start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<ExportDefaultDecl> {
-        let start = cur_pos!(self);
+        let start_of_async = cur_pos!(self);
         expect!(self, "async");
-        self.parse_fn(Some(start), decorators)
+        self.parse_fn(Some(start), Some(start_of_async), decorators)
     }
 
     pub(super) fn parse_default_fn(
         &mut self,
+        start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<ExportDefaultDecl> {
-        self.parse_fn(None, decorators)
+        self.parse_fn(Some(start), None, decorators)
     }
 
     pub(super) fn parse_class_decl(
@@ -951,6 +953,7 @@ impl<'a, I: Tokens> Parser<I> {
 
     fn parse_fn<T>(
         &mut self,
+        start_of_output_type: Option<BytePos>,
         start_of_async: Option<BytePos>,
         decorators: Vec<Decorator>,
     ) -> PResult<T>
@@ -1016,7 +1019,11 @@ impl<'a, I: Tokens> Parser<I> {
 
             // let body = p.parse_fn_body(is_async, is_generator)?;
 
-            Ok(T::finish_fn(span!(p, start), ident, f))
+            Ok(T::finish_fn(
+                span!(p, start_of_output_type.unwrap_or(start)),
+                ident,
+                f,
+            ))
         })
     }
 
@@ -1327,7 +1334,7 @@ impl OutputType for Decl {
         i.sym == js_word!("constructor")
     }
 
-    fn finish_fn(span: Span, ident: Ident, function: Function) -> Self {
+    fn finish_fn(_span: Span, ident: Ident, function: Function) -> Self {
         Decl::Fn(FnDecl {
             declare: false,
             ident,

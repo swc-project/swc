@@ -190,7 +190,7 @@ pub fn hygiene() -> impl Fold + 'static {
     hygiene_with_config(Default::default())
 }
 
-pub fn hygiene_with_config(config: Config) -> impl Fold + 'static {
+pub fn hygiene_with_config(config: Config) -> impl 'static + Fold + VisitMut {
     chain!(
         as_folder(Hygiene {
             config,

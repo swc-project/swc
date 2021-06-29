@@ -26,7 +26,7 @@ pub struct Module {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for Module {
+impl<'a> arbitrary::Arbitrary<'a> for Module {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let body = u.arbitrary()?;
@@ -50,7 +50,7 @@ pub struct Script {
 }
 
 #[cfg(feature = "arbitrary")]
-impl arbitrary::Arbitrary for Script {
+impl<'a> arbitrary::Arbitrary<'a> for Script {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let body = u.arbitrary()?;

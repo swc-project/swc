@@ -4,7 +4,7 @@ use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold {
+pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold + VisitMut {
     as_folder(Fixer {
         comments,
         ctx: Default::default(),
@@ -258,6 +258,11 @@ impl VisitMut for Fixer<'_> {
                 || obj.is_class()
                 || obj.is_yield_expr()
                 || obj.is_await_expr()
+                || (obj.is_call()
+                    && match self.ctx {
+                        Context::Callee { is_new: true } => true,
+                        _ => false,
+                    })
                 || match **obj {
                     Expr::New(NewExpr { args: None, .. }) => true,
                     _ => false,
@@ -1020,7 +1025,9 @@ var store = global[SHARED] || (global[SHARED] = {});
 
     identical!(member_cond_expr, "(foo ? 1 : 2).foo");
 
-    identical!(member_new_exp, "(new Foo).foo");
+    identical!(member_new_exp_1, "(new Foo).foo");
+
+    identical!(member_new_exp_2, "new ctor().property");
 
     identical!(member_tagged_tpl, "tag``.foo");
 
@@ -1219,4 +1226,19 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(issue_1781, "const n = ~~(Math.PI * 10)");
 
     identical!(issue_1789, "+(+1 / 4)");
+
+    identical!(new_member_call_1, "new (getObj()).ctor()");
+    test_fixer!(
+        new_member_call_2,
+        "new (getObj().ctor)()",
+        "new (getObj()).ctor()"
+    );
+    test_fixer!(
+        new_member_call_3,
+        "new (x.getObj().ctor)()",
+        "new (x.getObj()).ctor()"
+    );
+    identical!(new_call, "new (getCtor())");
+    test_fixer!(new_member_1, "new obj.ctor()", "new obj.ctor()");
+    test_fixer!(new_member_2, "new (obj.ctor)", "new obj.ctor");
 }

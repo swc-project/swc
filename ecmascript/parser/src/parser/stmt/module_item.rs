@@ -339,7 +339,10 @@ impl<'a, I: Tokens> Parser<I> {
 
         if !type_only && export_ns.is_none() && eat!(self, "default") {
             if self.input.syntax().typescript() {
-                if is!(self, "abstract") && peeked_is!(self, "class") {
+                if is!(self, "abstract")
+                    && peeked_is!(self, "class")
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
                     let class_start = cur_pos!(self);
                     assert_and_bump!(self, "abstract");
                     let _ = cur!(self, true);
@@ -381,10 +384,10 @@ impl<'a, I: Tokens> Parser<I> {
                 && peeked_is!(self, "function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                let decl = self.parse_default_async_fn(decorators)?;
+                let decl = self.parse_default_async_fn(start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if is!(self, "function") {
-                let decl = self.parse_default_fn(decorators)?;
+                let decl = self.parse_default_fn(start, decorators)?;
                 return Ok(ModuleDecl::ExportDefaultDecl(decl));
             } else if self.input.syntax().export_default_from()
                 && (is!(self, "from") || (is!(self, ',') && peeked_is!(self, '{')))

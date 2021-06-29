@@ -33,6 +33,22 @@ where
     }
 }
 
+impl<A, B> VisitMut for AndThen<A, B>
+where
+    A: VisitMut,
+    B: VisitMut,
+{
+    fn visit_mut_module(&mut self, n: &mut Module) {
+        self.first.visit_mut_module(n);
+        self.second.visit_mut_module(n)
+    }
+
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        self.first.visit_mut_script(n);
+        self.second.visit_mut_script(n)
+    }
+}
+
 impl<A, B> Visit for AndThen<A, B>
 where
     A: Visit,
@@ -147,6 +163,35 @@ where
     fn name() -> Cow<'static, str> {
         V::name()
     }
+}
+
+macro_rules! delegate {
+    ($name:ident, $T:ty) => {
+        #[inline(always)]
+        fn $name(&mut self, n: &mut $T) {
+            n.visit_mut_with(&mut self.0);
+        }
+    };
+}
+
+/// This only proxies subset of methods.
+impl<V> VisitMut for Folder<V>
+where
+    V: VisitMut,
+{
+    delegate!(visit_mut_ident, Ident);
+    delegate!(visit_mut_span, Span);
+
+    delegate!(visit_mut_expr, Expr);
+    delegate!(visit_mut_decl, Decl);
+    delegate!(visit_mut_stmt, Stmt);
+    delegate!(visit_mut_pat, Pat);
+
+    delegate!(visit_mut_ts_type, TsType);
+
+    delegate!(visit_mut_module, Module);
+    delegate!(visit_mut_script, Script);
+    delegate!(visit_mut_program, Program);
 }
 
 macro_rules! method {

@@ -8,7 +8,7 @@ use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
-pub fn drop_console() -> impl JsPass {
+pub fn drop_console() -> impl JsPass + VisitMut {
     as_folder(DropConsole { done: false })
 }
 

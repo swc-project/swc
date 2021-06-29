@@ -125,10 +125,11 @@ impl Load for SwcLoader {
                                     }
                                 },
                                 external_helpers: true,
-                                ..c.jsc
+                                ..c.jsc.clone()
                             },
                             module: None,
                             minify: Some(false),
+                            input_source_map: InputSourceMap::Bool(false),
                             ..c.clone()
                         }
                     },
@@ -148,7 +149,6 @@ impl Load for SwcLoader {
                         let s = env::var("NODE_ENV").unwrap_or_else(|_| "development".into());
                         s
                     },
-                    input_source_map: InputSourceMap::Bool(false),
                     source_maps: None,
                     source_file_name: None,
                     source_root: None,

@@ -1,3 +1,10 @@
+#![allow(unused)]
+
+use anyhow::Context;
+use anyhow::Error;
+use std::env::temp_dir;
+use std::fs;
+use std::fs::create_dir_all;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
@@ -7,6 +14,7 @@ use swc::{
     Compiler,
 };
 use testing::assert_eq;
+use testing::NormalizedOutput;
 use testing::{StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -105,8 +113,14 @@ fn issue_706() {
     inline("tests/srcmap/issue-706/index.js").unwrap();
 }
 
+#[cfg(target_os = "node-16-breaks-the-test")]
 #[testing::fixture("stacktrace/**/input/")]
 fn stacktrace(input_dir: PathBuf) {
+    let dir = input_dir.parent().unwrap();
+    let output_dir = dir.join("output");
+
+    let _ = create_dir_all(&output_dir);
+
     Tester::new()
         .print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone(), Arc::new(handler));
@@ -118,24 +132,13 @@ fn stacktrace(input_dir: PathBuf) {
                 }
                 println!("File: {}", entry.path().to_string_lossy());
 
-                if !entry.file_name().to_string_lossy().ends_with(".ts")
-                    && !entry.file_name().to_string_lossy().ends_with(".js")
-                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
-                {
+                if !entry.file_name().to_string_lossy().ends_with(".js") {
                     continue;
                 }
 
                 let fm = cm.load_file(entry.path()).expect("failed to load file");
 
                 println!("-----Orig:\n{}\n-----", fm.src);
-
-                let expected = Command::new("node")
-                    .arg("-e")
-                    .arg(&**fm.src)
-                    .output()
-                    .expect("failed to capture output of node -e 'reference code'");
-
-                let expected_st = extract_stack_trace(expected);
 
                 match c.process_js_file(
                     fm,
@@ -152,17 +155,12 @@ fn stacktrace(input_dir: PathBuf) {
 
                         println!("-----Compiled:\n{}\n-----", v.code);
 
-                        let actual = Command::new("node")
-                            .arg("-e")
-                            .arg(&v.code)
-                            .arg("-r")
-                            .arg("source-map-support/register")
-                            .output()
+                        let stack_trace = node_stack_trace(&v.code)
                             .expect("failed to capture output of node -e 'generated code'");
 
-                        let actual_st = extract_stack_trace(actual);
-
-                        assert_eq!(expected_st, actual_st);
+                        stack_trace
+                            .compare_to_file(output_dir.join("stacks.txt"))
+                            .expect("wrong stack trace");
                     }
                     Err(err) => panic!("Error: {:?}", err),
                 }
@@ -174,30 +172,47 @@ fn stacktrace(input_dir: PathBuf) {
         .expect("failed");
 }
 
+fn node_stack_trace(code: &str) -> Result<NormalizedOutput, Error> {
+    let thread = std::thread::current();
+    let test_name = thread.name().expect("test thread should have a name");
+
+    let dir = temp_dir().join(test_name);
+
+    let _ = create_dir_all(&dir);
+
+    let test_file = dir.join("eval.js");
+    fs::write(&test_file, code.as_bytes()).context("faailed to write to test js")?;
+
+    let stack = Command::new("node")
+        .arg("--enable-source-maps")
+        .arg(&test_file)
+        .output()
+        .map(extract_node_stack_trace)?;
+
+    Ok(stack)
+}
+
 /// Extract stack trace from output of `node -e 'code'`.
 ///
 /// TODO: Use better type.
-fn extract_stack_trace(output: Output) -> Vec<String> {
+fn extract_node_stack_trace(output: Output) -> NormalizedOutput {
     assert!(
         !output.status.success(),
         "Stack trace tests should fail with stack traces"
     );
 
-    assert_eq!(
-        output.stdout,
-        Vec::<u8>::new(),
-        "Sourcemap test file should not print anything to stdout"
-    );
-
     let stderr = String::from_utf8_lossy(&output.stderr);
+
+    eprintln!("\n\n\nStderr: {}\n\n\n", stderr);
     //
     let stacks = stderr
         .split(|c| c == '\n')
-        .map(|s| s.replace("    at ", "").replace("\r", ""))
+        .map(|s| s.trim())
+        .filter(|s| s.starts_with("->"))
         .collect::<Vec<_>>();
+
+    let stacks = stacks.join("\n");
     // println!("{:?}", stacks);
 
-    println!("{}", stacks.join("\n"));
-
-    stacks
+    stacks.into()
 }

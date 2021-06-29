@@ -63,7 +63,7 @@ pub fn resolver() -> impl 'static + Fold {
 /// 5. Found usage of `a` (last line), and determines that it's a
 /// reference to top-level `a`, and change syntax context of `a` on last line to
 /// top-level syntax context.
-pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
+pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold + VisitMut {
     assert_ne!(
         top_level_mark,
         Mark::root(),
@@ -77,7 +77,7 @@ pub fn resolver_with_mark(top_level_mark: Mark) -> impl 'static + Fold {
 }
 
 /// [resolver_with_mark] with typescript support enabled.
-pub fn ts_resolver(top_level_mark: Mark) -> impl 'static + Fold {
+pub fn ts_resolver(top_level_mark: Mark) -> impl 'static + Fold + VisitMut {
     assert_ne!(
         top_level_mark,
         Mark::root(),

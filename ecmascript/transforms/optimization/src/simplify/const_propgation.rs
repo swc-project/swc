@@ -5,7 +5,7 @@ use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// This pass is kind of inliner, but it's far faster.
-pub fn constant_propagation() -> impl 'static + Fold {
+pub fn constant_propagation() -> impl 'static + Fold + VisitMut {
     as_folder(ConstPropagation::default())
 }
 
