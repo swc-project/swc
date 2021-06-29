@@ -46,8 +46,6 @@ async/async_arrow_iife_negate_iife/input.js
 async/async_arrow_wait/input.js
 async/async_class/input.js
 async/async_export/input.js
-async/async_function_declaration/input.js
-async/async_function_expression/input.js
 async/async_generator_class_method/input.js
 async/async_generator_function/input.js
 async/async_generator_object_literal_method/input.js
@@ -156,7 +154,6 @@ collapse_vars/issue_2571_2/input.js
 collapse_vars/issue_2858/input.js
 collapse_vars/issue_2873_1/input.js
 collapse_vars/issue_2873_2/input.js
-collapse_vars/issue_2878/input.js
 collapse_vars/issue_2891_1/input.js
 collapse_vars/issue_2891_2/input.js
 collapse_vars/issue_2908/input.js
@@ -225,6 +222,7 @@ conditionals/ifs_3_should_warn/input.js
 conditionals/ifs_4/input.js
 conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
+conditionals/issue_2535_2/input.js
 conditionals/no_evaluate/input.js
 conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
@@ -354,8 +352,6 @@ evaluate/call_args/input.js
 evaluate/call_args_drop_param/input.js
 evaluate/delete_binary_1/input.js
 evaluate/delete_binary_2/input.js
-evaluate/delete_expr_1/input.js
-evaluate/delete_expr_2/input.js
 evaluate/global_hasOwnProperty/input.js
 evaluate/in_boolean_context/input.js
 evaluate/issue_1649/input.js
@@ -594,6 +590,7 @@ issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
+issue_1639/issue_1639_3/input.js
 issue_1656/f7/input.js
 issue_1673/side_effects_catch/input.js
 issue_1673/side_effects_else/input.js
@@ -677,7 +674,6 @@ issue_597/beautify_off_1/input.js
 issue_597/beautify_off_2/input.js
 issue_597/beautify_on_1/input.js
 issue_597/beautify_on_2/input.js
-issue_597/issue_1724/input.js
 issue_597/issue_1725/input.js
 issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
