@@ -205,6 +205,66 @@ fn base_fixture(input: PathBuf) {
     let config = dir.join("config.json");
     let config = read_to_string(&config).expect("failed to read config.json");
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()]);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+
+        let expected = {
+            let expected = read_to_string(&dir.join("output.js")).unwrap();
+            let fm = cm.new_source_file(FileName::Anon, expected);
+            let lexer = Lexer::new(
+                Default::default(),
+                Default::default(),
+                SourceFileInput::from(&*fm),
+                None,
+            );
+            let mut parser = Parser::new_from(lexer);
+            let expected = parser.parse_module().map_err(|err| {
+                err.into_diagnostic(&handler).emit();
+            })?;
+            let mut expected = expected.fold_with(&mut fixer(None));
+            expected = drop_span(expected);
+
+            if output_module.eq_ignore_span(&expected)
+                || drop_span(output_module.clone()) == expected
+            {
+                return Ok(());
+            }
+
+            expected.body.retain(|s| match s {
+                ModuleItem::Stmt(Stmt::Empty(..)) => false,
+                _ => true,
+            });
+            print(cm.clone(), &[expected])
+        };
+
+        if output == expected {
+            return Ok(());
+        }
+
+        eprintln!(
+            "---- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected
+        );
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
 }
 
 /// Tests used to prevent regressions.
