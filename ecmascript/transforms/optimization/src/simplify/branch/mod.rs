@@ -1213,7 +1213,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 let l = left.as_pure_bool();
 
                 if let Known(l) = l {
-                    Some(Expr::Lit(Lit::Bool(Bool { span, value: l })))
+                    if l {
+                        Some(*right)
+                    } else {
+                        None
+                    }
                 } else {
                     Some(Expr::Bin(BinExpr {
                         span,
