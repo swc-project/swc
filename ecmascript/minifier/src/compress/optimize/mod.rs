@@ -676,8 +676,8 @@ impl Optimizer<'_> {
             //
             // Div is exlcuded because of zero.
             // TOOD: Handle
-            Expr::Bin(BinExpr { op, .. })
-                if match op {
+            Expr::Bin(BinExpr {
+                op:
                     BinaryOp::EqEq
                     | BinaryOp::NotEq
                     | BinaryOp::EqEqEq
@@ -699,12 +699,9 @@ impl Optimizer<'_> {
                     | BinaryOp::BitAnd
                     | BinaryOp::In
                     | BinaryOp::InstanceOf
-                    | BinaryOp::Exp => false,
-                    _ => true,
-                } =>
-            {
-                return Some(e.take())
-            }
+                    | BinaryOp::Exp,
+                ..
+            }) => return Some(e.take()),
 
             // Pure calls can be removed
             Expr::Call(CallExpr {
