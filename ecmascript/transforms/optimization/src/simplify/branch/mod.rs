@@ -1204,16 +1204,16 @@ fn ignore_result(e: Expr) -> Option<Expr> {
             right,
         }) => {
             if op == op!("&&") {
+                let right = if let Some(right) = ignore_result(*right) {
+                    Box::new(right)
+                } else {
+                    return ignore_result(*left);
+                };
+
                 let l = left.as_pure_bool();
 
-                if let Known(true) = l {
-                    let right = if let Some(right) = ignore_result(*right) {
-                        Box::new(right)
-                    } else {
-                        return ignore_result(*left);
-                    };
-
-                    Some(*right)
+                if let Known(l) = l {
+                    Some(Expr::Lit(Lit::Bool(Bool { span, value: l })))
                 } else {
                     Some(Expr::Bin(BinExpr {
                         span,
