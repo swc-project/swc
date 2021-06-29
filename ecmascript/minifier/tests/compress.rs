@@ -199,6 +199,14 @@ fn stdout_of(code: &str) -> Result<String, Error> {
     Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
+#[testing::fixture("compress/fixture/**/input.js")]
+fn base_fixture(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = dir.join("config.json");
+    let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+}
+
 /// Tests used to prevent regressions.
 #[testing::fixture("compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
