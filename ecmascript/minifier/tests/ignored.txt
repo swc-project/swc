@@ -75,6 +75,11 @@ collapse_vars/switch_case_1/input.js
 collapse_vars/toplevel_single_reference/input.js
 collapse_vars/undeclared/input.js
 collapse_vars/unused_orig/input.js
+conditionals/ifs_5/input.js
+conditionals/issue_2535_1/input.js
+conditionals/issue_2535_2/input.js
+conditionals/ternary_boolean_alternative/input.js
+conditionals/ternary_boolean_consequent/input.js
 dead_code/dead_code_const_annotation/input.js
 dead_code/dead_code_const_annotation_complex_scope/input.js
 dead_code/dead_code_const_declaration/input.js
@@ -155,7 +160,6 @@ functions/issue_2601_1/input.js
 functions/issue_2604_1/input.js
 functions/issue_2604_2/input.js
 functions/issue_2620_1/input.js
-functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
 functions/issue_3016_3/input.js
@@ -232,6 +236,7 @@ issue_1447/else_with_empty_statement/input.js
 issue_1569/inner_reference/input.js
 issue_1609/chained_evaluation_1/input.js
 issue_1609/chained_evaluation_2/input.js
+issue_1639/issue_1639_3/input.js
 issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1750/case_2/input.js
@@ -316,7 +321,6 @@ negate_iife/negate_iife_5/input.js
 new/new_statements_3/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
-nullish/nullish_coalescing_boolean_context/input.js
 numbers/evaluate_1/input.js
 numbers/evaluate_2/input.js
 numbers/evaluate_3/input.js

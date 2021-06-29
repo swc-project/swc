@@ -448,6 +448,7 @@ functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
 functions/issue_2601_2/input.js
+functions/issue_2620_2/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
@@ -593,7 +594,6 @@ issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
-issue_1639/issue_1639_3/input.js
 issue_1656/f7/input.js
 issue_1673/side_effects_catch/input.js
 issue_1673/side_effects_else/input.js
@@ -749,6 +749,7 @@ new/new_with_many_parameters/input.js
 new/new_with_rewritten_true_value/input.js
 new/new_with_unary_prefix/input.js
 node_version/eval_let_6/input.js
+nullish/nullish_coalescing_boolean_context/input.js
 nullish/nullish_coalescing_mandatory_parens/input.js
 nullish/nullish_coalescing_parens/input.js
 nullish/simplify_nullish_coalescing/input.js
