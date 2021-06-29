@@ -598,12 +598,17 @@ impl Optimizer<'_> {
     fn remove_invalid(&mut self, e: &mut Expr) {
         match e {
             Expr::Bin(BinExpr { left, right, .. }) => {
+                self.remove_invalid(left);
+                self.remove_invalid(right);
+
                 if left.is_invalid() {
                     *e = *right.take();
                     self.remove_invalid(e);
+                    return;
                 } else if right.is_invalid() {
                     *e = *left.take();
                     self.remove_invalid(e);
+                    return;
                 }
             }
             _ => {}
@@ -1574,8 +1579,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.inline(e);
 
-        self.remove_invalid(e);
-
         match e {
             Expr::Bin(bin) => {
                 let expr = self.optimize_lit_cmp(bin);
@@ -1616,8 +1619,6 @@ impl VisitMut for Optimizer<'_> {
         self.invoke_iife(e);
 
         self.optimize_bangbang(e);
-
-        self.remove_invalid(e);
     }
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
