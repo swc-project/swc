@@ -7,6 +7,7 @@ use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
 use std::mem::swap;
+use swc_atoms::js_word;
 use swc_common::pass::Either;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -159,12 +160,33 @@ impl Optimizer<'_> {
             for (idx, param) in params.iter().enumerate() {
                 let arg = e.args.get(idx).map(|v| &v.expr);
                 if let Pat::Ident(param) = &param {
+                    if let Some(usage) = self
+                        .data
+                        .as_ref()
+                        .and_then(|data| data.vars.get(&param.to_id()))
+                    {
+                        if usage.reassigned {
+                            continue;
+                        }
+                    }
+
                     if let Some(arg) = arg {
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
+                            log::trace!(
+                                "iife: Trying to inline {}{:?}",
+                                param.id.sym,
+                                param.id.span.ctxt
+                            );
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
+                        log::trace!(
+                            "iife: Trying to inline {}{:?} (undefined)",
+                            param.id.sym,
+                            param.id.span.ctxt
+                        );
+
                         vars.insert(param.to_id(), undefined(param.span()));
                     }
                 }
@@ -172,9 +194,11 @@ impl Optimizer<'_> {
 
             match find_body(callee) {
                 Some(Either::Left(body)) => {
+                    log::debug!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
+                    log::debug!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
@@ -328,6 +352,12 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                if let Some(i) = &f.ident {
+                    if idents_used_by(&f.function.body).contains(&i.to_id()) {
+                        return;
+                    }
+                }
+
                 if is_param_used_by_body(&f.function.params, &f.function.body) {
                     return;
                 }
@@ -354,8 +384,12 @@ impl Optimizer<'_> {
 
     fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
         if !body.stmts.iter().all(|stmt| match stmt {
+            Stmt::Expr(e) if e.expr.is_await_expr() => false,
+
             Stmt::Expr(..) => true,
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
+                Some(Expr::Await(..)) => false,
+
                 Some(Expr::Lit(Lit::Num(..))) => {
                     if self.ctx.in_obj_of_non_computed_member {
                         false
@@ -493,6 +527,12 @@ where
 
     for id in declared {
         if used.contains(&id) {
+            return true;
+        }
+    }
+
+    for (sym, _) in used {
+        if sym == js_word!("arguments") {
             return true;
         }
     }

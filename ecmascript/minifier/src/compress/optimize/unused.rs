@@ -1,3 +1,4 @@
+use crate::compress::optimize::util::class_has_side_effect;
 use crate::option::PureGetterOption;
 
 use super::Optimizer;
@@ -5,6 +6,7 @@ use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::contains_ident_ref;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
@@ -94,10 +96,21 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            return;
+        // Top-level
+        match self.ctx.var_kind {
+            Some(VarDeclKind::Var) => {
+                if (!self.options.top_level() && self.options.top_retain.is_empty())
+                    && self.ctx.in_top_level()
+                {
+                    return;
+                }
+            }
+            Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
+                if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
+                    return;
+                }
+            }
+            None => {}
         }
 
         if let Some(scope) = self
@@ -115,6 +128,16 @@ impl Optimizer<'_> {
         }
 
         self.take_pat_if_unused(name, init);
+    }
+
+    pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
+        for param in params.iter_mut().rev() {
+            self.take_pat_if_unused(&mut param.pat, None);
+
+            if !param.pat.is_invalid() {
+                return;
+            }
+        }
     }
 
     pub(super) fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
@@ -237,7 +260,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.options.top_level() && (self.ctx.top_level || !self.ctx.in_fn_like) {
+        if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
             return;
         }
 
@@ -253,6 +276,15 @@ impl Optimizer<'_> {
             if scope.has_eval_call || scope.has_with_stmt {
                 return;
             }
+        }
+
+        match decl {
+            Decl::Class(c) => {
+                if class_has_side_effect(&c.class) {
+                    return;
+                }
+            }
+            _ => {}
         }
 
         match decl {
@@ -377,6 +409,34 @@ impl Optimizer<'_> {
                     *name = None;
                 }
             }
+        }
+    }
+
+    /// `var Parser = function Parser() {};` => `var Parser = function () {}`
+    pub(super) fn remove_duplicate_names(&mut self, v: &mut VarDeclarator) {
+        if !self.options.unused {
+            return;
+        }
+
+        match v.init.as_deref_mut() {
+            Some(Expr::Fn(f)) => {
+                if f.ident.is_none() {
+                    return;
+                }
+
+                if contains_ident_ref(&f.function.body, f.ident.as_ref().unwrap()) {
+                    return;
+                }
+
+                self.changed = true;
+                log::trace!(
+                    "unused: Removing the name of a function expression because it's not used by \
+                     it'"
+                );
+                f.ident = None;
+            }
+
+            _ => {}
         }
     }
 }

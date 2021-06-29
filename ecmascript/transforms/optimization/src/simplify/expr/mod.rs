@@ -1344,7 +1344,7 @@ impl Fold for SimplifyExpr {
                         ExprOrSuper::Expr(seq.exprs.into_iter().next().unwrap().fold_with(self))
                     } else {
                         match seq.exprs.get(0).map(|v| &**v) {
-                            Some(Expr::Lit(Lit::Num(..))) => {}
+                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                             _ => {
                                 seq.exprs.insert(
                                     0,
@@ -1384,11 +1384,18 @@ impl Fold for SimplifyExpr {
 
         for expr in e.exprs {
             match *expr {
-                Expr::Lit(Lit::Num(Number {
-                    span: DUMMY_SP,
-                    value,
-                })) if self.in_callee => {
-                    if value == 0.0 && exprs.is_empty() {
+                Expr::Lit(Lit::Num(n)) if self.in_callee && n.value == 0.0 => {
+                    if exprs.is_empty() {
+                        exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 0.0,
+                        }))));
+                    }
+                }
+
+                Expr::Lit(..) | Expr::Ident(..) if self.in_callee => {
+                    self.changed = true;
+                    if exprs.is_empty() {
                         exprs.push(Box::new(Expr::Lit(Lit::Num(Number {
                             span: DUMMY_SP,
                             value: 0.0,

@@ -1,4 +1,6 @@
 use self::ctx::Ctx;
+use crate::util::can_end_conditionally;
+use crate::util::idents_used_by;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
@@ -6,6 +8,7 @@ use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_type;
@@ -28,14 +31,14 @@ where
     };
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     let top_scope = v.scope;
-    v.data.top.merge(top_scope);
+    v.data.top.merge(top_scope, false);
 
     v.data
 }
 
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
-    /// # of reference to this identifier.
+    /// The number of reference to this identifier.
     pub ref_count: usize,
 
     /// `true` if a varaible is conditionally initialized.
@@ -43,14 +46,19 @@ pub(crate) struct VarUsageInfo {
 
     /// `false` if it's only used.
     pub declared: bool,
+    pub declared_count: usize,
 
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
 
     pub assign_count: usize,
+    pub mutation_by_call_count: usize,
     pub usage_count: usize,
 
+    /// The variable itself is modified.
     pub reassigned: bool,
+    /// The variable itself or a property of it is modified.
+    pub mutated: bool,
 
     pub has_property_access: bool,
     pub accessed_props: FxHashSet<JsWord>,
@@ -66,6 +74,7 @@ pub(crate) struct VarUsageInfo {
     pub used_in_loop: bool,
 
     pub var_kind: Option<VarDeclKind>,
+    pub var_initialized: bool,
 
     pub declared_as_catch_param: bool,
 
@@ -78,6 +87,12 @@ pub(crate) struct VarUsageInfo {
     infects: Vec<Id>,
 }
 
+impl VarUsageInfo {
+    pub fn is_mutated_only_by_one_call(&self) -> bool {
+        self.assign_count == 0 && self.mutation_by_call_count == 1
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ScopeKind {
     Fn,
@@ -88,12 +103,21 @@ enum ScopeKind {
 pub(crate) struct ScopeData {
     pub has_with_stmt: bool,
     pub has_eval_call: bool,
+
+    /// Variables declared in the scope.
+    pub declared_symbols: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
 }
 
 impl ScopeData {
-    fn merge(&mut self, other: ScopeData) {
+    fn merge(&mut self, other: ScopeData, is_child: bool) {
         self.has_with_stmt |= other.has_with_stmt;
         self.has_eval_call |= other.has_eval_call;
+
+        if !is_child {
+            for (k, v) in other.declared_symbols {
+                self.declared_symbols.entry(k).or_default().extend(v);
+            }
+        }
     }
 }
 
@@ -105,15 +129,18 @@ pub(crate) struct ProgramData {
     pub top: ScopeData,
 
     pub scopes: FxHashMap<SyntaxContext, ScopeData>,
+
+    /// { dependant: [dependendcies] }
+    var_deps: FxHashMap<Id, FxHashSet<Id>>,
 }
 
 impl ProgramData {
     fn merge(&mut self, kind: ScopeKind, child: ProgramData) {
         for (ctxt, scope) in child.scopes {
             let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope.clone());
+            self.top.merge(scope.clone(), true);
 
-            to.merge(scope);
+            to.merge(scope, false);
         }
 
         for (id, var_info) in child.vars {
@@ -121,11 +148,15 @@ impl ProgramData {
                 Entry::Occupied(mut e) => {
                     e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= var_info.cond_init;
+
                     e.get_mut().reassigned |= var_info.reassigned;
+                    e.get_mut().mutated |= var_info.mutated;
+
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().exported |= var_info.exported;
 
                     e.get_mut().declared |= var_info.declared;
+                    e.get_mut().declared_count += var_info.declared_count;
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
@@ -134,6 +165,7 @@ impl ProgramData {
                     // e.get_mut().used_above_decl |= var_info.used_above_decl;
                     e.get_mut().used_in_loop |= var_info.used_in_loop;
                     e.get_mut().assign_count += var_info.assign_count;
+                    e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
                     e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
@@ -152,6 +184,12 @@ impl ProgramData {
                 }
             }
         }
+    }
+
+    /// TODO: Make this recursive
+    #[allow(unused)]
+    pub fn deps(&self, id: &Id) -> FxHashSet<Id> {
+        self.var_deps.get(id).cloned().unwrap_or_default()
     }
 }
 
@@ -175,42 +213,52 @@ impl UsageAnalyzer {
         };
 
         let ret = op(&mut child);
+        {
+            let child_scope = child.data.scopes.entry(child_ctxt).or_default();
 
-        child
-            .data
-            .scopes
-            .entry(child_ctxt)
-            .or_default()
-            .merge(child.scope);
+            child_scope.merge(child.scope, false);
+        }
 
         self.data.merge(kind, child.data);
 
         ret
     }
 
-    fn report(&mut self, i: Id, is_assign: bool) {
+    fn report(&mut self, i: Id, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
+        let is_first = dejavu.is_empty();
+
+        if !dejavu.insert(i.clone()) {
+            return;
+        }
+
         let e = self.data.vars.entry(i).or_insert_with(|| VarUsageInfo {
             used_above_decl: true,
             ..Default::default()
         });
 
         e.ref_count += 1;
-        e.reassigned |= is_assign;
+        e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
+        // Passing object as a argument is possibly modification.
+        e.mutated |= is_modify || (self.ctx.in_call_arg && self.ctx.is_exact_arg);
         e.used_in_loop |= self.ctx.in_loop;
 
-        if is_assign {
+        if is_modify && self.ctx.is_exact_reassignment {
             e.assign_count += 1;
 
             for other in e.infects.clone() {
-                self.report(other, true)
+                self.report(other, true, dejavu)
             }
         } else {
+            if self.ctx.in_call_arg && self.ctx.is_exact_arg {
+                e.mutation_by_call_count += 1;
+            }
+
             e.usage_count += 1;
         }
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        self.report(i.to_id(), is_assign)
+        self.report(i.to_id(), is_assign, &mut Default::default())
     }
 
     fn declare_decl(
@@ -223,12 +271,26 @@ impl UsageAnalyzer {
             .data
             .vars
             .entry(i.to_id())
+            .and_modify(|v| {
+                if has_init {
+                    v.mutated = true;
+                    v.reassigned = true;
+                    v.assign_count += 1;
+                }
+            })
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
                 var_kind: kind,
+                var_initialized: has_init,
                 ..Default::default()
             });
+        self.scope
+            .declared_symbols
+            .entry(i.sym.clone())
+            .or_default()
+            .insert(i.span.ctxt);
 
+        v.declared_count += 1;
         v.declared = true;
         if self.ctx.in_cond && has_init {
             v.cond_init = true;
@@ -268,6 +330,7 @@ impl Visit for UsageAnalyzer {
     fn visit_assign_expr(&mut self, n: &AssignExpr, _: &dyn Node) {
         let ctx = Ctx {
             in_assign_lhs: true,
+            is_exact_reassignment: true,
             ..self.ctx
         };
         n.left.visit_with(n, &mut *self.with_ctx(ctx));
@@ -282,7 +345,15 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr, _: &dyn Node) {
-        n.visit_children_with(self);
+        {
+            n.callee.visit_with(n, self);
+            let ctx = Ctx {
+                in_call_arg: true,
+                is_exact_arg: true,
+                ..self.ctx
+            };
+            n.args.visit_with(n, &mut *self.with_ctx(ctx));
+        }
 
         match &n.callee {
             ExprOrSuper::Expr(callee) => match &**callee {
@@ -323,6 +394,7 @@ impl Visit for UsageAnalyzer {
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt, _: &dyn Node) {
         let ctx = Ctx {
             in_loop: true,
+            in_cond: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -355,12 +427,14 @@ impl Visit for UsageAnalyzer {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
+                is_exact_reassignment: true,
                 ..child.ctx
             };
             n.left.visit_with(n, &mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
                 in_loop: true,
+                in_cond: true,
                 ..child.ctx
             };
             n.body.visit_with(n, &mut *child.with_ctx(ctx))
@@ -373,12 +447,14 @@ impl Visit for UsageAnalyzer {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
+                is_exact_reassignment: true,
                 ..child.ctx
             };
             n.left.visit_with(n, &mut *child.with_ctx(ctx));
 
             let ctx = Ctx {
                 in_loop: true,
+                in_cond: true,
                 ..child.ctx
             };
             n.body.visit_with(n, &mut *child.with_ctx(ctx))
@@ -390,6 +466,7 @@ impl Visit for UsageAnalyzer {
 
         let ctx = Ctx {
             in_loop: true,
+            in_cond: true,
             ..self.ctx
         };
 
@@ -427,10 +504,24 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(&Invalid { span: DUMMY_SP }, self);
+        {
+            let ctx = Ctx {
+                is_exact_arg: false,
+                is_exact_reassignment: false,
+                ..self.ctx
+            };
+            e.obj
+                .visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+        }
 
         if e.computed {
-            e.prop.visit_with(&Invalid { span: DUMMY_SP }, self);
+            let ctx = Ctx {
+                is_exact_arg: false,
+                is_exact_reassignment: false,
+                ..self.ctx
+            };
+            e.prop
+                .visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
         }
 
         match &e.obj {
@@ -460,6 +551,18 @@ impl Visit for UsageAnalyzer {
         n.visit_children_with(self);
     }
 
+    fn visit_new_expr(&mut self, n: &NewExpr, _: &dyn Node) {
+        {
+            n.callee.visit_with(n, self);
+            let ctx = Ctx {
+                in_call_arg: true,
+                is_exact_arg: true,
+                ..self.ctx
+            };
+            n.args.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+    }
+
     fn visit_param(&mut self, n: &Param, _: &dyn Node) {
         let ctx = Ctx {
             in_pat_of_param: false,
@@ -469,6 +572,7 @@ impl Visit for UsageAnalyzer {
 
         let ctx = Ctx {
             in_pat_of_param: true,
+            var_decl_kind_of_pat: None,
             ..self.ctx
         };
         n.pat.visit_with(n, &mut *self.with_ctx(ctx));
@@ -501,6 +605,7 @@ impl Visit for UsageAnalyzer {
 
                     if in_left_of_for_loop {
                         v.reassigned = true;
+                        v.mutated = true;
                     }
                 } else {
                     self.report_usage(&i.id, true);
@@ -526,16 +631,18 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_setter_prop(&mut self, n: &SetterProp, _: &dyn Node) {
-        n.key.visit_with(n, self);
-        {
-            let ctx = Ctx {
-                in_pat_of_param: true,
-                ..self.ctx
-            };
-            n.param.visit_with(n, &mut *self.with_ctx(ctx));
-        }
+        self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
+            n.key.visit_with(n, a);
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..a.ctx
+                };
+                n.param.visit_with(n, &mut *a.with_ctx(ctx));
+            }
 
-        n.body.visit_with(n, self);
+            n.body.visit_with(n, a);
+        });
     }
 
     fn visit_stmt(&mut self, n: &Stmt, _: &dyn Node) {
@@ -544,6 +651,33 @@ impl Visit for UsageAnalyzer {
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt], _: &dyn Node) {
+        let mut had_cond = false;
+
+        for n in stmts {
+            let ctx = Ctx {
+                in_cond: self.ctx.in_cond || had_cond,
+                ..self.ctx
+            };
+
+            n.visit_with(&Invalid { span: DUMMY_SP }, &mut *self.with_ctx(ctx));
+
+            had_cond |= can_end_conditionally(n);
+        }
+    }
+
+    fn visit_switch_case(&mut self, n: &SwitchCase, _: &dyn Node) {
+        n.test.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                in_cond: true,
+                ..self.ctx
+            };
+            n.cons.visit_with(n, &mut *self.with_ctx(ctx));
+        }
     }
 
     fn visit_try_stmt(&mut self, n: &TryStmt, _: &dyn Node) {
@@ -558,6 +692,7 @@ impl Visit for UsageAnalyzer {
     fn visit_update_expr(&mut self, n: &UpdateExpr, _: &dyn Node) {
         let ctx = Ctx {
             in_update_arg: true,
+            is_exact_reassignment: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -572,13 +707,24 @@ impl Visit for UsageAnalyzer {
 
         for decl in &n.decls {
             match (&decl.name, decl.init.as_deref()) {
-                (Pat::Ident(var), Some(Expr::Ident(init))) => {
-                    self.data
-                        .vars
-                        .entry(init.to_id())
-                        .or_default()
-                        .infects
-                        .push(var.to_id());
+                (Pat::Ident(var), Some(init)) => {
+                    let used_idents = idents_used_by(init);
+
+                    for id in used_idents {
+                        self.data
+                            .vars
+                            .entry(id.clone())
+                            .or_default()
+                            .infects
+                            .push(var.to_id());
+
+                        self.data
+                            .vars
+                            .entry(var.to_id())
+                            .or_default()
+                            .infects
+                            .push(id);
+                    }
                 }
                 _ => {}
             }
@@ -593,12 +739,24 @@ impl Visit for UsageAnalyzer {
         };
         e.name.visit_with(e, &mut *self.with_ctx(ctx));
 
+        let declared_names: Vec<Id> = find_ids(&e.name);
+        let used_names = idents_used_by(&e.init);
+
+        for name in declared_names {
+            self.data
+                .var_deps
+                .entry(name)
+                .or_default()
+                .extend(used_names.clone());
+        }
+
         e.init.visit_with(e, self);
     }
 
     fn visit_while_stmt(&mut self, n: &WhileStmt, _: &dyn Node) {
         let ctx = Ctx {
             in_loop: true,
+            in_cond: true,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));

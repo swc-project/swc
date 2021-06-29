@@ -5,10 +5,7 @@ use anyhow::Error;
 use once_cell::sync::Lazy;
 use serde::Deserialize;
 use std::env;
-use std::fmt;
 use std::fmt::Debug;
-use std::fmt::Display;
-use std::fmt::Formatter;
 use std::fs::read_to_string;
 use std::panic::catch_unwind;
 use std::path::Path;
@@ -17,6 +14,7 @@ use std::process::Command;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
+use swc_common::EqIgnoreSpan;
 use swc_common::FileName;
 use swc_common::Mark;
 use swc_common::SourceMap;
@@ -35,8 +33,10 @@ use swc_ecma_parser::Parser;
 use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::hygiene;
 use swc_ecma_transforms::resolver_with_mark;
+use swc_ecma_utils::drop_span;
 use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
+use testing::DebugUsingDisplay;
 use testing::NormalizedOutput;
 
 fn load_txt(filename: &str) -> Vec<String> {
@@ -110,6 +110,26 @@ fn run(
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
 
+    if env::var("SWC_RUN").unwrap_or_default() == "1" {
+        let stdout = stdout_of(&fm.src);
+        match stdout {
+            Ok(stdout) => {
+                eprintln!(
+                    "---- {} -----\n{}",
+                    Color::Green.paint("Stdout (expected)"),
+                    stdout
+                );
+            }
+            Err(err) => {
+                eprintln!(
+                    "---- {} -----\n{:?}",
+                    Color::Green.paint("Error (of orignal source code)"),
+                    err
+                );
+            }
+        }
+    }
+
     let top_level_mark = Mark::fresh(Mark::root());
 
     let lexer = Lexer::new(
@@ -179,6 +199,35 @@ fn stdout_of(code: &str) -> Result<String, Error> {
     Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
+#[testing::fixture("compress/fixture/**/input.js")]
+fn base_fixture(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = dir.join("config.json");
+    let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()]);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(dir.join("output.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 /// Tests used to prevent regressions.
 #[testing::fixture("compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
@@ -206,7 +255,10 @@ fn base_exec(input: PathBuf) {
         let actual_output = stdout_of(&output).expect("failed to execute the optimized code");
         assert_ne!(actual_output, "");
 
-        assert_eq!(actual_output, expected_output);
+        assert_eq!(
+            DebugUsingDisplay(&actual_output),
+            DebugUsingDisplay(&*expected_output)
+        );
 
         Ok(())
     })
@@ -240,11 +292,12 @@ fn fixture(input: PathBuf) {
             mangle.map(|s| serde_json::from_str(&s).expect("failed to deserialize mangle.json"));
 
         let output = run(cm.clone(), &handler, &input, &config, mangle);
-        let output = match output {
+        let output_module = match output {
             Some(v) => v,
             None => return Ok(()),
         };
-        let output = print(cm.clone(), &[output]);
+
+        let output = print(cm.clone(), &[output_module.clone()]);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
@@ -262,6 +315,14 @@ fn fixture(input: PathBuf) {
                 err.into_diagnostic(&handler).emit();
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
+            expected = drop_span(expected);
+
+            if output_module.eq_ignore_span(&expected)
+                || drop_span(output_module.clone()) == expected
+            {
+                return Ok(());
+            }
+
             expected.body.retain(|s| match s {
                 ModuleItem::Stmt(Stmt::Empty(..)) => false,
                 _ => true,
@@ -307,7 +368,9 @@ fn fixture(input: PathBuf) {
             });
         }
 
-        assert_eq!(DebugUsingDisplay(&output), DebugUsingDisplay(&expected));
+        let output_str = print(cm.clone(), &[drop_span(output_module.clone())]);
+
+        assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
 
         Ok(())
     })
@@ -331,13 +394,4 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
     }
 
     String::from_utf8(buf).unwrap()
-}
-
-#[derive(PartialEq, Eq)]
-struct DebugUsingDisplay<'a>(&'a str);
-
-impl<'a> Debug for DebugUsingDisplay<'a> {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(self.0, f)
-    }
 }

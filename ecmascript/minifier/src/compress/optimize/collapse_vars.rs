@@ -157,7 +157,7 @@ impl Optimizer<'_> {
                                         .and_then(|data| data.vars.get(&name.to_id()))
                                     {
                                         if var.usage_count != 1
-                                            || var.reassigned
+                                            || var.mutated
                                             || !SimpleUsageFinder::find(&name.id, r)
                                         {
                                             return None;

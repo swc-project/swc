@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::util::make_bool;
 use crate::util::ValueExt;
 use std::mem::swap;
 use swc_atoms::js_word;
@@ -140,18 +141,39 @@ impl Optimizer<'_> {
             return;
         }
 
-        if e.op == op!("===") || e.op == op!("==") || e.op == op!("!=") || e.op == op!("!==") {
-            if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
+        match e.op {
+            op!("===") | op!("==") | op!("!==") | op!("!=") => {
+                if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
+                    let id: Ident = e.left.clone().ident().unwrap();
+                    if let Some(t) = self.typeofs.get(&id.to_id()) {
+                        match *t {
+                            js_word!("object") | js_word!("function") => {
+                                e.left = Box::new(make_bool(
+                                    e.span,
+                                    e.op == op!("===") || e.op == op!("=="),
+                                ));
+                                e.right.take();
+                                return;
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+            }
+
+            _ => {}
+        }
+
+        if e.op == op!("===") || e.op == op!("!==") {
+            if (e.left.is_ident() || e.left.is_member()) && e.left.eq_ignore_span(&e.right) {
                 self.changed = true;
                 log::trace!("Reducing comparison of same variable ({})", e.op);
 
-                // TODO(kdy1): Create another method and assign to `Expr` instead of using a
-                // hack based on take.
-                e.left = Box::new(Expr::Lit(Lit::Bool(Bool {
-                    span: e.span,
-                    value: e.op == op!("===") || e.op == op!("==="),
-                })));
-                e.right.take();
+                e.op = if e.op == op!("===") {
+                    op!("==")
+                } else {
+                    op!("!=")
+                };
                 return;
             }
         }
@@ -225,8 +247,12 @@ impl Optimizer<'_> {
                     | Expr::Bin(BinExpr { op: op!("<"), .. })
                     | Expr::Bin(BinExpr { op: op!(">="), .. })
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                        log::trace!("Optimizing: `!!expr` => `expr`");
-                        *e = *arg.take();
+                        if let Known(Type::Bool) = arg.get_type() {
+                            self.changed = true;
+                            log::trace!("Optimizing: `!!expr` => `expr`");
+                            *e = *arg.take();
+                        }
+
                         return;
                     }
 
@@ -408,8 +434,32 @@ impl Optimizer<'_> {
         e.right = left.take();
     }
 
-    /// Swap lhs and rhs in certain conditions.
-    pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
+    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
+        match (l, r) {
+            (Expr::Ident(l), Expr::Ident(r)) => {
+                self.options.comparisons && (is_for_rel || l.sym > r.sym)
+            }
+
+            (Expr::Ident(..), Expr::Lit(..))
+            | (
+                Expr::Ident(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("void"), ..
+                }),
+            )
+            | (
+                Expr::This(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("void"), ..
+                }),
+            )
+            | (Expr::Unary(..), Expr::Lit(..))
+            | (Expr::Tpl(..), Expr::Lit(..)) => true,
+            _ => false,
+        }
+    }
+
+    fn try_swap_bin(&mut self, op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
         fn is_supported(op: BinaryOp) -> bool {
             match op {
                 op!("===")
@@ -424,40 +474,40 @@ impl Optimizer<'_> {
             }
         }
 
-        fn optimize(op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
-            if !is_supported(op) {
-                return false;
-            }
-
-            match (&*left, &*right) {
-                (Expr::Ident(..), Expr::Lit(..))
-                | (
-                    Expr::Ident(..),
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"), ..
-                    }),
-                )
-                | (
-                    Expr::This(..),
-                    Expr::Unary(UnaryExpr {
-                        op: op!("void"), ..
-                    }),
-                )
-                | (Expr::Unary(..), Expr::Lit(..))
-                | (Expr::Tpl(..), Expr::Lit(..)) => {
-                    log::trace!("Swapping operands of binary exprssion");
-                    swap(left, right);
-                    return true;
-                }
-                _ => {}
-            }
-
-            false
+        if !is_supported(op) {
+            return false;
         }
 
+        if self.can_swap_bin_operands(&left, &right, false) {
+            log::trace!("Swapping operands of binary exprssion");
+            swap(left, right);
+            return true;
+        }
+
+        false
+    }
+
+    /// Swap lhs and rhs in certain conditions.
+    pub(super) fn swap_bin_operands(&mut self, expr: &mut Expr) {
         match expr {
+            Expr::Bin(e @ BinExpr { op: op!("<="), .. })
+            | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
+                if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
+                    self.changed = true;
+                    log::trace!("comparisons: Swapping operands of {}", e.op);
+
+                    e.op = if e.op == op!("<=") {
+                        op!(">=")
+                    } else {
+                        op!(">")
+                    };
+
+                    swap(&mut e.left, &mut e.right);
+                }
+            }
+
             Expr::Bin(bin) => {
-                if optimize(bin.op, &mut bin.left, &mut bin.right) {
+                if self.try_swap_bin(bin.op, &mut bin.left, &mut bin.right) {
                     self.changed = true;
                 }
             }
@@ -467,11 +517,14 @@ impl Optimizer<'_> {
 
     /// Remove meaningless literals in a binary expressions.
     ///
+    /// # Parameters
+    ///
+    ///  - `in_bool_ctx`: True for expressions casted to bool.
     ///
     /// # Examples
     ///
     /// - `x() && true` => `!!x()`
-    pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr) {
+    pub(super) fn compress_logical_exprs_as_bang_bang(&mut self, e: &mut Expr, in_bool_ctx: bool) {
         if !self.options.conditionals && !self.options.reduce_vars {
             return;
         }
@@ -482,27 +535,65 @@ impl Optimizer<'_> {
         };
 
         match bin.op {
-            op!("&&") => {
-                let rt = bin.right.get_type();
-                match rt {
-                    Known(Type::Bool) => {}
-                    _ => return,
-                }
+            op!("&&") | op!("||") => {
+                self.compress_logical_exprs_as_bang_bang(&mut bin.left, true);
+                self.compress_logical_exprs_as_bang_bang(&mut bin.right, true);
+            }
 
+            _ => {}
+        }
+
+        let lt = bin.left.get_type();
+        if !in_bool_ctx {
+            match lt {
+                // Don't change type
+                Known(Type::Bool) => {}
+                _ => return,
+            }
+        }
+
+        let rt = bin.right.get_type();
+        match rt {
+            Known(Type::Bool) => {}
+            _ => return,
+        }
+
+        match bin.op {
+            op!("&&") => {
                 let rb = bin.right.as_pure_bool();
                 let rb = match rb {
                     Value::Known(v) => v,
                     _ => return,
                 };
 
-                log::trace!("Optimizing: e && true => !!e");
-
                 if rb {
+                    self.changed = true;
+                    log::trace!("Optimizing: e && true => !!e");
+
+                    self.negate_twice(&mut bin.left);
+                    *e = *bin.left.take();
+                } else {
+                    self.changed = true;
+                    log::trace!("Optimizing: e && false => e");
+
+                    *e = *bin.left.take();
+                }
+            }
+            op!("||") => {
+                let rb = bin.right.as_pure_bool();
+                let rb = match rb {
+                    Value::Known(v) => v,
+                    _ => return,
+                };
+
+                if !rb {
+                    self.changed = true;
+                    log::trace!("Optimizing: e || false => !!e");
+
                     self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
                 }
             }
-            op!("||") => {}
             _ => {}
         }
     }

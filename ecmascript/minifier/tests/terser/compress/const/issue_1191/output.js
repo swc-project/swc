@@ -1,3 +1,3 @@
 function foo(rot) {
-    return (rot < -5 || rot > 5) && bar(), void baz();
+    return (-5 > rot || rot > 5) && bar(), void baz();
 }
