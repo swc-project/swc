@@ -543,23 +543,23 @@ impl Optimizer<'_> {
             _ => {}
         }
 
+        let lt = bin.left.get_type();
+        if !in_bool_ctx {
+            match lt {
+                // Don't change type
+                Known(Type::Bool) => {}
+                _ => return,
+            }
+        }
+
+        let rt = bin.right.get_type();
+        match rt {
+            Known(Type::Bool) => {}
+            _ => return,
+        }
+
         match bin.op {
             op!("&&") => {
-                let lt = bin.left.get_type();
-                if !in_bool_ctx {
-                    match lt {
-                        // Don't change type
-                        Known(Type::Bool) => {}
-                        _ => return,
-                    }
-                }
-
-                let rt = bin.right.get_type();
-                match rt {
-                    Known(Type::Bool) => {}
-                    _ => return,
-                }
-
                 let rb = bin.right.as_pure_bool();
                 let rb = match rb {
                     Value::Known(v) => v,
