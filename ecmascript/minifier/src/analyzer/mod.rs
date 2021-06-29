@@ -187,6 +187,7 @@ impl ProgramData {
     }
 
     /// TODO: Make this recursive
+    #[allow(unused)]
     pub fn deps(&self, id: &Id) -> FxHashSet<Id> {
         self.var_deps.get(id).cloned().unwrap_or_default()
     }
