@@ -217,45 +217,6 @@ fn base_fixture(input: PathBuf) {
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
-        let expected = {
-            let expected = read_to_string(&dir.join("output.js")).unwrap();
-            let fm = cm.new_source_file(FileName::Anon, expected);
-            let lexer = Lexer::new(
-                Default::default(),
-                Default::default(),
-                SourceFileInput::from(&*fm),
-                None,
-            );
-            let mut parser = Parser::new_from(lexer);
-            let expected = parser.parse_module().map_err(|err| {
-                err.into_diagnostic(&handler).emit();
-            })?;
-            let mut expected = expected.fold_with(&mut fixer(None));
-            expected = drop_span(expected);
-
-            if output_module.eq_ignore_span(&expected)
-                || drop_span(output_module.clone()) == expected
-            {
-                return Ok(());
-            }
-
-            expected.body.retain(|s| match s {
-                ModuleItem::Stmt(Stmt::Empty(..)) => false,
-                _ => true,
-            });
-            print(cm.clone(), &[expected])
-        };
-
-        if output == expected {
-            return Ok(());
-        }
-
-        eprintln!(
-            "---- {} -----\n{}",
-            Color::Green.paint("Expected"),
-            expected
-        );
-
         println!("{}", input.display());
 
         NormalizedOutput::from(output)
