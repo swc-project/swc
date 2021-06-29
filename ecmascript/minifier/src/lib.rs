@@ -20,9 +20,10 @@ use crate::pass::compute_char_freq::compute_char_freq;
 use crate::pass::expand_names::name_expander;
 use crate::pass::global_defs;
 use crate::pass::hygiene::hygiene_optimizer;
+pub use crate::pass::hygiene::optimize_hygiene;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
-use crate::pass::remove_parens::remove_parens;
+use crate::pass::single::single_pass_optimizer;
 use analyzer::analyze;
 use swc_common::comments::Comments;
 use swc_ecma_ast::Module;
@@ -47,8 +48,6 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
-    m.visit_mut_with(&mut remove_parens());
-
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //
@@ -61,6 +60,10 @@ pub fn optimize(
             m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
     }
+
+    m.visit_mut_with(&mut single_pass_optimizer(
+        options.compress.clone().unwrap_or_default(),
+    ));
 
     m.visit_mut_with(&mut unique_marker());
 
@@ -124,7 +127,7 @@ pub fn optimize(
 
     {
         let data = analyze(&m);
-        m.visit_mut_with(&mut hygiene_optimizer(data));
+        m.visit_mut_with(&mut hygiene_optimizer(data, extra.top_level_mark));
     }
 
     if let Some(ref mut t) = timings {

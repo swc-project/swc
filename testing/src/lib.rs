@@ -7,6 +7,8 @@ pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
 use std::collections::HashMap;
 use std::env;
+use std::fmt::Display;
+use std::fmt::Formatter;
 use std::path::PathBuf;
 use std::sync::RwLock;
 use std::{
@@ -280,4 +282,16 @@ pub fn diff(l: &str, r: &str) -> String {
     let cs = Changeset::new(l, r, "\n");
 
     format!("{}", cs)
+}
+
+/// Used for assertions.
+///
+/// Prints string without escpaing special characters on failure.
+#[derive(PartialEq, Eq)]
+pub struct DebugUsingDisplay<'a>(pub &'a str);
+
+impl<'a> Debug for DebugUsingDisplay<'a> {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        Display::fmt(self.0, f)
+    }
 }

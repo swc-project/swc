@@ -1,3 +1,5 @@
-function f() {}
-var o = {};
-console.log(false, true);
+function f() {
+}
+var o = {
+};
+console.log(!1, !0);

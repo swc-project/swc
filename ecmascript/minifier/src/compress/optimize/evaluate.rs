@@ -39,7 +39,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.in_lhs_of_assign {
             return;
         }
 
@@ -104,7 +104,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.in_lhs_of_assign {
             return;
         }
 
@@ -320,7 +320,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.in_lhs_of_assign {
             return;
         }
 
@@ -434,7 +434,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.in_lhs_of_assign {
             return;
         }
 
@@ -755,7 +755,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.in_lhs_of_assign {
             return;
         }
 
@@ -886,7 +886,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.in_lhs_of_assign {
             return;
         }
 

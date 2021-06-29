@@ -1,6 +1,6 @@
 var a = 1;
 !function() {
-    var a1;
+    var a;
     a = 3;
     console.log("PASS");
 }();

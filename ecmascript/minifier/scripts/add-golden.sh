@@ -4,7 +4,10 @@
 # Note that this is append-only.
 set -eu
 
+export SWC_RUN=0
+
 cargo test --test compress --all-features \
+  | grep 'terser__compress' \
   | grep 'js .\.\. ok$' \
   | sed -e 's!test fixture_terser__compress__!!' \
   | sed -e 's! ... ok!!' \

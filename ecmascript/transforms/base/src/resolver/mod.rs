@@ -1,8 +1,10 @@
 use crate::scope::{IdentType, ScopeKind};
-use std::{cell::RefCell, collections::HashSet};
+use fxhash::FxHashSet;
+use std::cell::RefCell;
 use swc_atoms::JsWord;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_utils::{find_ids, Id};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
@@ -97,11 +99,11 @@ struct Scope<'a> {
     kind: ScopeKind,
 
     /// All declarations in the scope
-    declared_symbols: HashSet<JsWord>,
-    hoisted_symbols: RefCell<HashSet<JsWord>>,
+    declared_symbols: FxHashSet<JsWord>,
+    hoisted_symbols: RefCell<FxHashSet<JsWord>>,
 
     /// All types declared in the scope
-    declared_types: HashSet<JsWord>,
+    declared_types: FxHashSet<JsWord>,
 }
 
 impl<'a> Default for Scope<'a> {
@@ -505,7 +507,7 @@ impl<'a> VisitMut for Resolver<'a> {
         c.param.visit_mut_with(&mut folder);
         folder.ident_type = IdentType::Ref;
 
-        c.body.visit_mut_with(&mut folder);
+        c.body.visit_mut_children_with(&mut folder);
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
@@ -836,6 +838,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
+                catch_param_decls: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -913,6 +916,7 @@ impl<'a> VisitMut for Resolver<'a> {
                 resolver: self,
                 kind: None,
                 in_block: false,
+                catch_param_decls: Default::default(),
             };
             stmts.visit_mut_children_with(&mut hoister)
         }
@@ -1260,12 +1264,17 @@ struct Hoister<'a, 'b> {
     kind: Option<VarDeclKind>,
     /// Hoister should not touch let / const in the block.
     in_block: bool,
+    catch_param_decls: FxHashSet<JsWord>,
 }
 
 impl VisitMut for Hoister<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
+        if self.catch_param_decls.contains(&node.ident.sym) {
+            return;
+        }
+
         self.resolver.in_type = false;
         self.resolver
             .modify(&mut node.ident, Some(VarDeclKind::Var));
@@ -1315,7 +1324,13 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_pat(&mut self, node: &mut Pat) {
         self.resolver.in_type = false;
         match node {
-            Pat::Ident(i) => self.resolver.modify(&mut i.id, self.kind),
+            Pat::Ident(i) => {
+                if self.catch_param_decls.contains(&i.id.sym) {
+                    return;
+                }
+
+                self.resolver.modify(&mut i.id, self.kind)
+            }
             _ => node.visit_mut_children_with(self),
         }
     }
@@ -1330,7 +1345,17 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_catch_clause(&mut self, _: &mut CatchClause) {}
+    fn visit_mut_catch_clause(&mut self, c: &mut CatchClause) {
+        let params: Vec<Id> = find_ids(&c.param);
+
+        let orig = self.catch_param_decls.clone();
+
+        self.catch_param_decls
+            .extend(params.into_iter().map(|v| v.0));
+        c.body.visit_mut_with(self);
+
+        self.catch_param_decls = orig;
+    }
 
     #[inline]
     fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}

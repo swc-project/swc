@@ -4,6 +4,7 @@ use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
 use fxhash::FxHashMap;
+use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::fmt::Write;
 use std::mem::take;
@@ -86,6 +87,8 @@ pub(super) fn optimizer<'a>(
         ctx: Default::default(),
         done,
         done_ctxt,
+        vars_accessible_without_side_effect: Default::default(),
+        label: Default::default(),
     }
 }
 
@@ -114,7 +117,9 @@ struct Ctx {
     is_delete_arg: bool,
     /// `true` if we are in `arg` of `++arg` or `--arg`.
     is_update_arg: bool,
-    is_lhs_of_assign: bool,
+    in_lhs_of_assign: bool,
+    /// `false` for `d` in `d[0] = foo`.
+    is_exact_lhs_of_assign: bool,
 
     /// `true` for loop bodies and conditions of loops.
     executed_multiple_time: bool,
@@ -134,6 +139,8 @@ struct Ctx {
     /// `true` while we are in a function or something simillar.
     in_fn_like: bool,
 
+    in_block: bool,
+
     in_obj_of_non_computed_member: bool,
 
     in_tpl_expr: bool,
@@ -141,11 +148,24 @@ struct Ctx {
     /// True while handling callee, except an arrow expression in callee.
     is_this_aware_callee: bool,
 
+    can_inline_arguments: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
 
 impl Ctx {
+    pub fn is_top_level_for_block_level_vars(self) -> bool {
+        if self.top_level {
+            return true;
+        }
+
+        if self.in_fn_like || self.in_block {
+            return false;
+        }
+        true
+    }
+
     pub fn in_top_level(self) -> bool {
         self.top_level || !self.in_fn_like
     }
@@ -181,6 +201,11 @@ struct Optimizer<'a> {
     /// In future: This will be used to `mark` node as done.
     done: Mark,
     done_ctxt: SyntaxContext,
+
+    vars_accessible_without_side_effect: FxHashSet<Id>,
+
+    /// Closest label.
+    label: Option<Id>,
 }
 
 impl Repeated for Optimizer<'_> {
@@ -570,18 +595,41 @@ impl Optimizer<'_> {
         }
     }
 
+    fn remove_invalid(&mut self, e: &mut Expr) {
+        match e {
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.remove_invalid(left);
+                self.remove_invalid(right);
+
+                if left.is_invalid() {
+                    *e = *right.take();
+                    self.remove_invalid(e);
+                    return;
+                } else if right.is_invalid() {
+                    *e = *left.take();
+                    self.remove_invalid(e);
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
-                log::trace!("Dropping unused expr");
+                log::trace!("ignore_return_value: Dropping unused expr");
                 self.changed = true;
                 return None;
             }
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
-                log::trace!("Dropping unused fn expr as it does not have any side effect");
+                log::trace!(
+                    "ignore_return_value: Dropping unused fn expr as it does not have any side \
+                     effect"
+                );
                 self.changed = true;
                 return None;
             }
@@ -606,10 +654,20 @@ impl Optimizer<'_> {
                         },
                         ClassMember::ClassProp(ClassProp {
                             key,
-                            computed: true,
+                            computed,
+                            is_static,
+                            value,
                             ..
                         }) => {
-                            exprs.extend(self.ignore_return_value(key).map(Box::new));
+                            if *computed {
+                                exprs.extend(self.ignore_return_value(key).map(Box::new));
+                            }
+
+                            if *is_static {
+                                if let Some(v) = value {
+                                    exprs.extend(self.ignore_return_value(v).map(Box::new));
+                                }
+                            }
                         }
 
                         _ => {}
@@ -628,6 +686,24 @@ impl Optimizer<'_> {
 
             Expr::Paren(e) => return self.ignore_return_value(&mut e.expr),
 
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                left,
+                right,
+                ..
+            }) => {
+                let new_r = self.ignore_return_value(right);
+
+                match new_r {
+                    Some(r) => {
+                        *right = Box::new(r);
+                    }
+                    None => return self.ignore_return_value(left),
+                }
+
+                return Some(e.take());
+            }
+
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             }) => return Some(e.take()),
@@ -641,8 +717,8 @@ impl Optimizer<'_> {
             //
             // Div is exlcuded because of zero.
             // TOOD: Handle
-            Expr::Bin(BinExpr { op, .. })
-                if match op {
+            Expr::Bin(BinExpr {
+                op:
                     BinaryOp::EqEq
                     | BinaryOp::NotEq
                     | BinaryOp::EqEqEq
@@ -664,12 +740,9 @@ impl Optimizer<'_> {
                     | BinaryOp::BitAnd
                     | BinaryOp::In
                     | BinaryOp::InstanceOf
-                    | BinaryOp::Exp => false,
-                    _ => true,
-                } =>
-            {
-                return Some(e.take())
-            }
+                    | BinaryOp::Exp,
+                ..
+            }) => return Some(e.take()),
 
             // Pure calls can be removed
             Expr::Call(CallExpr {
@@ -1246,18 +1319,34 @@ impl Optimizer<'_> {
 impl VisitMut for Optimizer<'_> {
     noop_visit_mut_type!();
 
+    fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        let ctx = Ctx {
+            can_inline_arguments: true,
+            ..self.ctx
+        };
+
+        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+    }
+
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
             let ctx = Ctx {
-                is_lhs_of_assign: true,
+                in_lhs_of_assign: true,
+                is_exact_lhs_of_assign: true,
                 ..self.ctx
             };
             e.left.visit_mut_with(&mut *self.with_ctx(ctx));
+
+            if is_left_access_to_arguments(&e.left) {
+                // self.ctx.can_inline_arguments = false;
+            }
         }
         e.right.visit_mut_with(self);
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
+
+        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
@@ -1300,8 +1389,9 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         let ctx = Ctx {
             stmt_lablled: false,
-            scope: n.span.ctxt,
             top_level: false,
+            in_block: true,
+            scope: n.span.ctxt,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -1325,6 +1415,15 @@ impl VisitMut for Optimizer<'_> {
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        match &e.callee {
+            ExprOrSuper::Super(_) => {}
+            ExprOrSuper::Expr(e) => {
+                if e.may_have_side_effects() {
+                    self.vars_accessible_without_side_effect.clear();
+                }
+            }
+        }
+
         {
             let ctx = Ctx {
                 is_this_aware_callee: false,
@@ -1337,6 +1436,8 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_symbol_call_unsafely(e);
 
         self.inline_args_of_iife(e);
+
+        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
@@ -1386,9 +1487,7 @@ impl VisitMut for Optimizer<'_> {
             DefaultDecl::Class(_) => {}
             DefaultDecl::Fn(f) => {
                 if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
-                    f.function.params.iter_mut().for_each(|param| {
-                        self.take_pat_if_unused(&mut param.pat, None);
-                    })
+                    self.drop_unused_params(&mut f.function.params);
                 }
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
@@ -1403,9 +1502,7 @@ impl VisitMut for Optimizer<'_> {
                 // I don't know why, but terser removes parameters from an exported function if
                 // `unused` is true, regardless of keep_fargs or others.
                 if self.options.unused {
-                    f.function.params.iter_mut().for_each(|param| {
-                        self.take_pat_if_unused(&mut param.pat, None);
-                    })
+                    self.drop_unused_params(&mut f.function.params);
                 }
             }
             _ => {}
@@ -1433,16 +1530,7 @@ impl VisitMut for Optimizer<'_> {
         };
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        match e {
-            Expr::Bin(BinExpr { left, right, .. }) => {
-                if left.is_invalid() {
-                    *e = *right.take();
-                } else if right.is_invalid() {
-                    *e = *left.take();
-                }
-            }
-            _ => {}
-        }
+        self.remove_invalid(e);
 
         self.concat_str(e);
 
@@ -1479,7 +1567,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.optimize_nullish_coalescing(e);
 
-        self.compress_logical_exprs_as_bang_bang(e);
+        self.compress_logical_exprs_as_bang_bang(e, false);
 
         self.compress_useless_cond_expr(e);
 
@@ -1573,9 +1661,7 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_fn_decl(&mut self, f: &mut FnDecl) {
         if !self.options.keep_fargs && self.options.evaluate && self.options.unused {
-            f.function.params.iter_mut().for_each(|param| {
-                self.take_pat_if_unused(&mut param.pat, None);
-            })
+            self.drop_unused_params(&mut f.function.params);
         }
 
         f.visit_mut_children_with(self);
@@ -1626,6 +1712,7 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
+        let old_vars = take(&mut self.vars_accessible_without_side_effect);
         {
             let ctx = Ctx {
                 stmt_lablled: false,
@@ -1639,6 +1726,7 @@ impl VisitMut for Optimizer<'_> {
                 stmt_lablled: false,
                 in_fn_like: true,
                 scope: n.span.ctxt,
+                can_inline_arguments: true,
                 ..self.ctx
             };
             let optimizer = &mut *self.with_ctx(ctx);
@@ -1657,11 +1745,19 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
-        self.optimize_usage_of_arguments(n);
+        {
+            let ctx = Ctx {
+                can_inline_arguments: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).optimize_usage_of_arguments(n);
+        }
 
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts);
         }
+
+        self.vars_accessible_without_side_effect = old_vars;
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
@@ -1684,19 +1780,27 @@ impl VisitMut for Optimizer<'_> {
             stmt_lablled: true,
             ..self.ctx
         };
+        let old_label = self.label.take();
+        self.label = Some(n.label.to_id());
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        self.label = old_label;
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         {
             let ctx = Ctx {
                 in_obj_of_non_computed_member: !n.computed,
+                is_exact_lhs_of_assign: false,
                 ..self.ctx
             };
             n.obj.visit_mut_with(&mut *self.with_ctx(ctx));
         }
         if n.computed {
-            n.prop.visit_mut_with(self);
+            let ctx = Ctx {
+                is_exact_lhs_of_assign: false,
+                ..self.ctx
+            };
+            n.prop.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
         self.handle_known_computed_member_expr(n);
@@ -1713,6 +1817,20 @@ impl VisitMut for Optimizer<'_> {
             ModuleItem::Stmt(Stmt::Empty(..)) => false,
             _ => true,
         });
+    }
+
+    fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
+        n.callee.visit_mut_with(self);
+
+        if n.callee.may_have_side_effects() {
+            self.vars_accessible_without_side_effect.clear();
+        }
+
+        {
+            n.args.visit_mut_with(self);
+        }
+
+        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_param(&mut self, n: &mut Param) {
@@ -1789,7 +1907,7 @@ impl VisitMut for Optimizer<'_> {
             is_delete_arg: false,
             is_exported: false,
             is_update_arg: false,
-            is_lhs_of_assign: false,
+            in_lhs_of_assign: false,
             in_obj_of_non_computed_member: false,
             ..self.ctx
         };
@@ -1992,6 +2110,8 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
@@ -2039,8 +2159,12 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx
             };
 
-            var.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            var.name.visit_mut_with(&mut *self.with_ctx(ctx));
+
+            var.init.visit_mut_with(&mut *self.with_ctx(ctx));
         }
+
+        self.remove_duplicate_names(var);
 
         self.store_var_for_inining(var);
         self.store_var_for_prop_hoisting(var);
@@ -2143,4 +2267,30 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     }
 
     true
+}
+
+fn is_expr_access_to_arguments(l: &Expr) -> bool {
+    match l {
+        Expr::Member(MemberExpr {
+            obj: ExprOrSuper::Expr(obj),
+            ..
+        }) => match &**obj {
+            Expr::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => true,
+            _ => false,
+        },
+        _ => false,
+    }
+}
+
+fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
+    match l {
+        PatOrExpr::Expr(e) => is_expr_access_to_arguments(&e),
+        PatOrExpr::Pat(pat) => match &**pat {
+            Pat::Expr(e) => is_expr_access_to_arguments(&e),
+            _ => false,
+        },
+    }
 }

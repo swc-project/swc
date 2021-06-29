@@ -621,6 +621,15 @@ impl Fold for Remover {
                     })
                 };
 
+                let are_all_tests_known =
+                    s.cases
+                        .iter()
+                        .map(|case| case.test.as_deref())
+                        .all(|s| match s {
+                            Some(Expr::Lit(..)) | None => true,
+                            _ => false,
+                        });
+
                 let mut var_ids = vec![];
                 if let Some(i) = selected {
                     if !has_conditional_stopper(&s.cases[i].cons) {
@@ -668,7 +677,7 @@ impl Fold for Remover {
                         })
                         .fold_with(self);
                     }
-                } else {
+                } else if are_all_tests_known {
                     match *s.discriminant {
                         Expr::Lit(..) => {
                             let idx = s.cases.iter().position(|v| v.test.is_none());
@@ -1204,7 +1213,11 @@ fn ignore_result(e: Expr) -> Option<Expr> {
                 let l = left.as_pure_bool();
 
                 if let Known(l) = l {
-                    Some(Expr::Lit(Lit::Bool(Bool { span, value: l })))
+                    if l {
+                        Some(*right)
+                    } else {
+                        None
+                    }
                 } else {
                     Some(Expr::Bin(BinExpr {
                         span,

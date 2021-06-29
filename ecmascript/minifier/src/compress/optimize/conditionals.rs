@@ -311,7 +311,7 @@ impl Optimizer<'_> {
                             op: op!("&&"),
                             right: Box::new(alt.take()),
                         }));
-                        self.compress_logical_exprs_as_bang_bang(&mut expr);
+                        self.compress_logical_exprs_as_bang_bang(&mut expr, true);
                         *s = Stmt::Expr(ExprStmt {
                             span: stmt.span,
                             expr,
@@ -326,7 +326,7 @@ impl Optimizer<'_> {
                             op: op!("||"),
                             right: Box::new(alt.take()),
                         }));
-                        self.compress_logical_exprs_as_bang_bang(&mut expr);
+                        self.compress_logical_exprs_as_bang_bang(&mut expr, false);
                         *s = Stmt::Expr(ExprStmt {
                             span: stmt.span,
                             expr,
