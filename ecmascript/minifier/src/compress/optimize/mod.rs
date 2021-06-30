@@ -695,7 +695,12 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let new_r = self.ignore_return_value(right);
+                let ctx = Ctx {
+                    dont_use_negated_iife: self.ctx.dont_use_negated_iife
+                        || self.options.side_effects,
+                    ..self.ctx
+                };
+                let new_r = self.with_ctx(ctx).ignore_return_value(right);
 
                 match new_r {
                     Some(r) => {
