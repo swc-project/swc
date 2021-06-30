@@ -13,12 +13,12 @@ use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::DestructuringFinder;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::{find_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
@@ -87,6 +87,38 @@ impl Optimizer<'_> {
             }
             _ => false,
         }
+    }
+
+    pub(super) fn restore_negated_iife(&mut self, cond: &mut CondExpr) {
+        if !self.ctx.dont_use_negated_iife {
+            return;
+        }
+
+        match &mut *cond.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Call(CallExpr {
+                    span: call_span,
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                    ..
+                }) => match &**callee {
+                    Expr::Fn(..) => {
+                        cond.test = Box::new(Expr::Call(CallExpr {
+                            span: *call_span,
+                            callee: callee.take().as_callee(),
+                            args: args.take(),
+                            type_args: Default::default(),
+                        }));
+                        swap(&mut cond.cons, &mut cond.alt);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+            _ => {}
+        };
     }
 }
 
