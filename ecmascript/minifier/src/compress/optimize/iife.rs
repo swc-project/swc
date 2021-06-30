@@ -54,21 +54,23 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if it did any work.
+    ///
     ///
     /// - `iife ? foo : bar` => `!iife ? bar : foo`
-    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
+    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) -> bool {
         let cond = match e {
             Expr::Cond(v) => v,
-            _ => return,
+            _ => return false,
         };
 
         let test_call = match &mut *cond.test {
             Expr::Call(e) => e,
-            _ => return,
+            _ => return false,
         };
 
         let callee = match &mut test_call.callee {
-            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Super(_) => return false,
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
@@ -81,9 +83,9 @@ impl Optimizer<'_> {
                     arg: cond.test.take(),
                 }));
                 swap(&mut cond.cons, &mut cond.alt);
-                return;
+                return true;
             }
-            _ => {}
+            _ => false,
         }
     }
 }

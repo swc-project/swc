@@ -7,6 +7,7 @@ use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::fmt::Write;
+use std::mem::swap;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
@@ -937,6 +938,34 @@ impl Optimizer<'_> {
             }
 
             Expr::Cond(cond) => {
+                if self.ctx.dont_use_negated_iife {
+                    match &mut *cond.test {
+                        Expr::Unary(UnaryExpr {
+                            op: op!("!"), arg, ..
+                        }) => match &mut **arg {
+                            Expr::Call(CallExpr {
+                                span: call_span,
+                                callee: ExprOrSuper::Expr(callee),
+                                args,
+                                ..
+                            }) => match &**callee {
+                                Expr::Fn(..) => {
+                                    cond.test = Box::new(Expr::Call(CallExpr {
+                                        span: *call_span,
+                                        callee: callee.take().as_callee(),
+                                        args: args.take(),
+                                        type_args: Default::default(),
+                                    }));
+                                    swap(&mut cond.cons, &mut cond.alt);
+                                }
+                                _ => {}
+                            },
+                            _ => {}
+                        },
+                        _ => {}
+                    };
+                }
+
                 let cons_span = cond.cons.span();
                 let alt_span = cond.alt.span();
                 let cons = self.ignore_return_value(&mut cond.cons).map(Box::new);
@@ -1631,10 +1660,12 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
+        let mut need_ignore_return_value = false;
+
         // If negate_iife is true, it's already handled by
         // visit_mut_children_with(self) above.
         if !self.options.negate_iife {
-            self.negate_iife_in_cond(&mut n.expr);
+            need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
         }
 
         self.negate_iife_ignoring_ret(&mut n.expr);
@@ -1648,7 +1679,8 @@ impl VisitMut for Optimizer<'_> {
             return;
         }
 
-        if self.options.unused
+        if need_ignore_return_value
+            || self.options.unused
             || self.options.side_effects
             || (self.options.sequences() && n.expr.is_seq())
         {
