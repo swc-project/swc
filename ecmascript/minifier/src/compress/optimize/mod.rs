@@ -61,7 +61,7 @@ const DISABLE_BUGGY_PASSES: bool = true;
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
-    options: CompressOptions,
+    options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
@@ -175,7 +175,7 @@ struct Optimizer<'a> {
     comments: Option<&'a dyn Comments>,
 
     changed: bool,
-    options: CompressOptions,
+    options: &'a CompressOptions,
 
     /// Statements prepended to the current statement.
     prepend_stmts: Vec<Stmt>,

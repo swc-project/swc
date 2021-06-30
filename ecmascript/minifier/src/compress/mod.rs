@@ -172,7 +172,7 @@ impl VisitMut for Compressor<'_> {
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = optimizer(self.options.clone(), self.comments);
+            let mut visitor = optimizer(self.options, self.comments);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
         }
