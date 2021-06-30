@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub fn single_pass_optimizer(options: CompressOptions) -> impl VisitMut {
+pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
     SinglePassOptimizer {
         options,
         data: Default::default(),

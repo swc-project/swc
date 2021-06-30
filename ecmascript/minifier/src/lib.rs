@@ -23,7 +23,7 @@ use crate::pass::hygiene::hygiene_optimizer;
 pub use crate::pass::hygiene::optimize_hygiene;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
-use crate::pass::precompress::single_pass_optimizer;
+use crate::pass::precompress::precompress_optimizer;
 use analyzer::analyze;
 use swc_common::comments::Comments;
 use swc_ecma_ast::Module;
@@ -61,7 +61,7 @@ pub fn optimize(
         }
     }
 
-    m.visit_mut_with(&mut single_pass_optimizer(
+    m.visit_mut_with(&mut precompress_optimizer(
         options.compress.clone().unwrap_or_default(),
     ));
 
