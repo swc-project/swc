@@ -1638,7 +1638,11 @@ impl VisitMut for Optimizer<'_> {
         // If negate_iife is true, it's already handled by
         // visit_mut_children_with(self) above.
         if !self.options.negate_iife {
-            need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
+            // I(kdy1) don't know why this check if required, but there are two test cases
+            // with `options.expressions` as only difference.
+            if !self.options.expr {
+                need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
+            }
         }
 
         self.negate_iife_ignoring_ret(&mut n.expr);
