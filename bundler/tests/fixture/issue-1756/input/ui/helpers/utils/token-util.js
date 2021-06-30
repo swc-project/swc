@@ -1,1 +1,1 @@
-import './confirm-tx.util';
+import './confirm-tx.util.js';

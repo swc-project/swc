@@ -1,2 +1,2 @@
 import '../../helpers/utils/token-util';
-import './send.constants';
+import './send.constants.js';
