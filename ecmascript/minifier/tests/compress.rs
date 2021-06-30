@@ -228,6 +228,35 @@ fn base_fixture(input: PathBuf) {
     .unwrap()
 }
 
+#[testing::fixture("projects/files/*.js")]
+fn projects(input: PathBuf) {
+    let dir = input.parent().unwrap();
+    let config = dir.join("config.json");
+    let config = read_to_string(&config).expect("failed to read config.json");
+    eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
+
+    testing::run_test2(false, |cm, handler| {
+        let output = run(cm.clone(), &handler, &input, &config, None);
+        let output_module = match output {
+            Some(v) => v,
+            None => return Ok(()),
+        };
+
+        let output = print(cm.clone(), &[output_module.clone()]);
+
+        eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
+
+        println!("{}", input.display());
+
+        NormalizedOutput::from(output)
+            .compare_to_file(input.with_extension("min.js"))
+            .unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}
+
 /// Tests used to prevent regressions.
 #[testing::fixture("compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
