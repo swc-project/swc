@@ -1631,6 +1631,12 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
+        // If negate_iife is true, it's already handled by
+        // visit_mut_children_with(self) above.
+        if !self.options.negate_iife {
+            self.negate_iife_in_cond(&mut n.expr);
+        }
+
         self.negate_iife_ignoring_ret(&mut n.expr);
 
         let is_directive = match &*n.expr {
