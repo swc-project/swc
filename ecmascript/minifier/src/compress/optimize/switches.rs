@@ -215,10 +215,21 @@ impl Optimizer<'_> {
     /// If a case ends with break but content is same with the consequtive case
     /// except the break statement, we merge them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
+        let stop_pos = cases.iter().position(|case| match case.test.as_deref() {
+            Some(Expr::Update(..)) => true,
+            _ => false,
+        });
+
         let mut found = None;
         'l: for (li, l) in cases.iter().enumerate().rev() {
             if l.cons.is_empty() {
                 continue;
+            }
+
+            if let Some(stop_pos) = stop_pos {
+                if li > stop_pos {
+                    continue;
+                }
             }
 
             if let Some(l_last) = l.cons.last() {
