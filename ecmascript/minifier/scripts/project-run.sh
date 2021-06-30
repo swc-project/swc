@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
-set -eu
+set -u
 
 export RUST_LOG=swc_ecma_minifier=trace
 touch tests/compress.rs
 
-UPDATE=1 cargo test --test compress projects -- --nocapture
 UPDATE=1 cargo test --test compress projects -- --nocapture
 
 # Make it easier to compare
