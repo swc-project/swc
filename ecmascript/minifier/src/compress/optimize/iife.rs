@@ -26,7 +26,7 @@ use swc_ecma_visit::VisitWith;
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife || self.ctx.in_bang_arg {
+        if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
             return;
         }
 

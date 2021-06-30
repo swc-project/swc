@@ -130,7 +130,7 @@ struct Ctx {
     /// `true` while handling inner statements of a labelled statement.
     stmt_lablled: bool,
 
-    in_seq_expr: bool,
+    dont_use_negated_iife: bool,
 
     /// `true` while handling top-level export decls.
     is_exported: bool,
@@ -900,6 +900,7 @@ impl Optimizer<'_> {
             }) if (self.options.negate_iife
                 || self.options.reduce_vars
                 || self.options.side_effects)
+                && !self.ctx.dont_use_negated_iife
                 && match &**arg {
                     Expr::Call(arg) => match &arg.callee {
                         ExprOrSuper::Expr(callee) => match &**callee {
@@ -975,7 +976,11 @@ impl Optimizer<'_> {
                         if idx == 0 && self.ctx.is_this_aware_callee && is_injected_zero {
                             return Some(*expr.take());
                         }
-                        self.ignore_return_value(&mut **expr)
+                        let ctx = Ctx {
+                            dont_use_negated_iife: idx != 0,
+                            ..self.ctx
+                        };
+                        self.with_ctx(ctx).ignore_return_value(&mut **expr)
                     })
                     .map(Box::new)
                     .collect::<Vec<_>>();
@@ -1870,7 +1875,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         {
             let ctx = Ctx {
-                in_seq_expr: true,
+                dont_use_negated_iife: true,
                 ..self.ctx
             };
 
