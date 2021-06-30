@@ -23,7 +23,7 @@ use crate::pass::hygiene::hygiene_optimizer;
 pub use crate::pass::hygiene::optimize_hygiene;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
-use crate::pass::single::single_pass_optimizer;
+use crate::pass::precompress::single_pass_optimizer;
 use analyzer::analyze;
 use swc_common::comments::Comments;
 use swc_ecma_ast::Module;

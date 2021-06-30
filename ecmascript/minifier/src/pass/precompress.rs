@@ -9,6 +9,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+/// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
 pub fn single_pass_optimizer(options: CompressOptions) -> impl VisitMut {
