@@ -24,6 +24,7 @@ use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::IsEmpty;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
@@ -770,10 +771,31 @@ impl Optimizer<'_> {
                 return None;
             }
 
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                if args.is_empty() {
+                    match &mut **callee {
+                        Expr::Fn(f) => {
+                            if f.function.body.is_none()
+                                || f.function.body.as_ref().unwrap().is_empty()
+                            {
+                                return None;
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+
+                return Some(e.take());
+            }
+
             Expr::MetaProp(_)
             | Expr::Await(_)
-            | Expr::Call(_)
             | Expr::New(..)
+            | Expr::Call(..)
             | Expr::Yield(_)
             | Expr::Assign(_)
             | Expr::PrivateName(_)
@@ -1660,6 +1682,14 @@ impl VisitMut for Optimizer<'_> {
             || self.options.unused
             || self.options.side_effects
             || (self.options.sequences() && n.expr.is_seq())
+            || (self.options.conditionals
+                && match &*n.expr {
+                    Expr::Bin(BinExpr {
+                        op: op!("||") | op!("&&"),
+                        ..
+                    }) => true,
+                    _ => false,
+                })
         {
             // Preserve top-level negated iifes.
             match &*n.expr {
