@@ -3324,11 +3324,9 @@
                             .pagecontainer({ theme: "none" });
                     },
                     setContainerBackground: function (theme) {
-                        this.element
-                            .parent()
-                            .pagecontainer({
-                                theme: theme || this.options.theme,
-                            });
+                        this.element.parent().pagecontainer({
+                            theme: theme || this.options.theme,
+                        });
                     },
                     keepNativeSelector: function () {
                         var options = this.options,
@@ -4859,18 +4857,16 @@
                 _enhance: function () {
                     this._super(),
                         this.options.dialog &&
-                            this.element
-                                .addClass("ui-dialog")
-                                .wrapInner(
-                                    $("<div/>", {
-                                        role: "dialog",
-                                        class:
-                                            "ui-dialog-contain ui-overlay-shadow" +
-                                            (this.options.corners
-                                                ? " ui-corner-all"
-                                                : ""),
-                                    })
-                                );
+                            this.element.addClass("ui-dialog").wrapInner(
+                                $("<div/>", {
+                                    role: "dialog",
+                                    class:
+                                        "ui-dialog-contain ui-overlay-shadow" +
+                                        (this.options.corners
+                                            ? " ui-corner-all"
+                                            : ""),
+                                })
+                            );
                 },
                 _setOptions: function (options) {
                     var closeButtonLocation,
@@ -4976,16 +4972,14 @@
                 _create: function () {
                     var elem = this.element,
                         opts = this.options;
-                    elem
-                        .addClass("ui-dialog")
-                        .wrapInner(
-                            $("<div/>", {
-                                role: "dialog",
-                                class:
-                                    "ui-dialog-contain ui-overlay-shadow" +
-                                    (opts.corners ? " ui-corner-all" : ""),
-                            })
-                        ),
+                    elem.addClass("ui-dialog").wrapInner(
+                        $("<div/>", {
+                            role: "dialog",
+                            class:
+                                "ui-dialog-contain ui-overlay-shadow" +
+                                (opts.corners ? " ui-corner-all" : ""),
+                        })
+                    ),
                         $.extend(this, {
                             _isCloseable: !1,
                             _inner: elem.children(),
@@ -7872,12 +7866,10 @@
                                         ).handle.get(0).style.left,
                                         10
                                     ) - min;
-                            this.element
-                                .find(".ui-slider-bg")
-                                .css({
-                                    "margin-left": min + "%",
-                                    width: width + "%",
-                                });
+                            this.element.find(".ui-slider-bg").css({
+                                "margin-left": min + "%",
+                                width: width + "%",
+                            });
                         },
                         _setTheme: function (value) {
                             this._inputFirst.slider("option", "theme", value),
@@ -12367,12 +12359,10 @@
                                       "aria-selected": "true",
                                       tabIndex: 0,
                                   }),
-                              this._getPanelForTab(this.active)
-                                  .show()
-                                  .attr({
-                                      "aria-expanded": "true",
-                                      "aria-hidden": "false",
-                                  }))
+                              this._getPanelForTab(this.active).show().attr({
+                                  "aria-expanded": "true",
+                                  "aria-hidden": "false",
+                              }))
                             : this.tabs.eq(0).attr("tabIndex", 0);
                 },
                 _processTabs: function () {
