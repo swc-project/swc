@@ -250,10 +250,6 @@ fn projects(input: PathBuf) {
 
         println!("{}", input.display());
 
-        NormalizedOutput::from(format!("{}", minified_output.len()))
-            .compare_to_file(input.with_extension("size.txt"))
-            .unwrap();
-
         NormalizedOutput::from(output)
             .compare_to_file(input.with_extension("min.js"))
             .unwrap();
