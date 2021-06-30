@@ -1410,27 +1410,29 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
-    fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
-        n.visit_mut_children_with(self);
+    fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        e.visit_mut_children_with(self);
 
-        self.optimize_bin_operator(n);
+        self.compess_bang_in_logiacal_exprs(e);
 
-        self.optimize_bin_and_or(n);
+        self.optimize_bin_operator(e);
 
-        self.optimize_null_or_undefined_cmp(n);
+        self.optimize_bin_and_or(e);
 
-        if n.op == op!(bin, "+") {
-            if let Known(Type::Str) = n.left.get_type() {
-                self.optimize_expr_in_str_ctx(&mut n.right);
+        self.optimize_null_or_undefined_cmp(e);
+
+        if e.op == op!(bin, "+") {
+            if let Known(Type::Str) = e.left.get_type() {
+                self.optimize_expr_in_str_ctx(&mut e.right);
             }
 
-            if let Known(Type::Str) = n.right.get_type() {
-                self.optimize_expr_in_str_ctx(&mut n.left);
+            if let Known(Type::Str) = e.right.get_type() {
+                self.optimize_expr_in_str_ctx(&mut e.left);
             }
         }
 
-        if n.op == op!(bin, "+") {
-            self.concat_tpl(&mut n.left, &mut n.right);
+        if e.op == op!(bin, "+") {
+            self.concat_tpl(&mut e.left, &mut e.right);
         }
     }
 
