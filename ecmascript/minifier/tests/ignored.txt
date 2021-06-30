@@ -424,6 +424,7 @@ sequences/issue_27/input.js
 sequences/lift_sequences_2/input.js
 sequences/side_effects_cascade_1/input.js
 sequences/side_effects_cascade_3/input.js
+switch/issue_1680_2/input.js
 template_string/special_chars_in_string/input.js
 transform/if_return/input.js
 transform/while_if_break/input.js

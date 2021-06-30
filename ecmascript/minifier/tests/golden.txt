@@ -1088,6 +1088,7 @@ switch/issue_1690_2/input.js
 switch/issue_1698/input.js
 switch/issue_1705_1/input.js
 switch/issue_1705_2/input.js
+switch/issue_1705_3/input.js
 switch/issue_1750/input.js
 switch/issue_1758/input.js
 switch/issue_2535/input.js
