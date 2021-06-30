@@ -130,6 +130,8 @@ struct Ctx {
     /// `true` while handling inner statements of a labelled statement.
     stmt_lablled: bool,
 
+    in_seq_expr: bool,
+
     /// `true` while handling top-level export decls.
     is_exported: bool,
 
@@ -1866,7 +1868,14 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        n.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_seq_expr: true,
+                ..self.ctx
+            };
+
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         {
             let exprs = n
