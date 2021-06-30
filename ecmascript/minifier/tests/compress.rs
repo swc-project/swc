@@ -213,7 +213,7 @@ fn base_fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()]);
+        let output = print(cm.clone(), &[output_module.clone()], false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
@@ -242,11 +242,17 @@ fn projects(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()]);
+        let minified_output = print(cm.clone(), &[output_module.clone()], true);
+
+        let output = print(cm.clone(), &[output_module.clone()], false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
         println!("{}", input.display());
+
+        NormalizedOutput::from(format!("{}", minified_output.len()))
+            .compare_to_file(input.with_extension("size.txt"))
+            .unwrap();
 
         NormalizedOutput::from(output)
             .compare_to_file(input.with_extension("min.js"))
@@ -270,7 +276,7 @@ fn base_exec(input: PathBuf) {
 
         let output = run(cm.clone(), &handler, &input, &config, None);
         let output = output.expect("Parsing in base test should not fail");
-        let output = print(cm.clone(), &[output]);
+        let output = print(cm.clone(), &[output], false);
 
         eprintln!(
             "---- {} -----\n{}",
@@ -326,7 +332,7 @@ fn fixture(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()]);
+        let output = print(cm.clone(), &[output_module.clone()], false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
 
@@ -356,7 +362,7 @@ fn fixture(input: PathBuf) {
                 ModuleItem::Stmt(Stmt::Empty(..)) => false,
                 _ => true,
             });
-            print(cm.clone(), &[expected])
+            print(cm.clone(), &[expected], false)
         };
 
         if output == expected {
@@ -397,7 +403,7 @@ fn fixture(input: PathBuf) {
             });
         }
 
-        let output_str = print(cm.clone(), &[drop_span(output_module.clone())]);
+        let output_str = print(cm.clone(), &[drop_span(output_module.clone())], false);
 
         assert_eq!(DebugUsingDisplay(&output_str), DebugUsingDisplay(&expected));
 
@@ -406,12 +412,12 @@ fn fixture(input: PathBuf) {
     .unwrap()
 }
 
-fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N]) -> String {
+fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
     let mut buf = vec![];
 
     {
         let mut emitter = Emitter {
-            cfg: Default::default(),
+            cfg: swc_ecma_codegen::Config { minify },
             cm: cm.clone(),
             comments: None,
             wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)),
