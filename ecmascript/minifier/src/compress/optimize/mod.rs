@@ -966,10 +966,22 @@ impl Optimizer<'_> {
             Expr::Cond(cond) => {
                 self.restore_negated_iife(cond);
 
+                let ctx = Ctx {
+                    dont_use_negated_iife: self.ctx.dont_use_negated_iife
+                        || self.options.side_effects,
+                    ..self.ctx
+                };
+
                 let cons_span = cond.cons.span();
                 let alt_span = cond.alt.span();
-                let cons = self.ignore_return_value(&mut cond.cons).map(Box::new);
-                let alt = self.ignore_return_value(&mut cond.alt).map(Box::new);
+                let cons = self
+                    .with_ctx(ctx)
+                    .ignore_return_value(&mut cond.cons)
+                    .map(Box::new);
+                let alt = self
+                    .with_ctx(ctx)
+                    .ignore_return_value(&mut cond.alt)
+                    .map(Box::new);
 
                 // TODO: Remove if test is side effect free.
 
