@@ -679,6 +679,8 @@ issue_640/drop_value/input.js
 issue_640/issue_1254_negate_iife_nested/input.js
 issue_640/issue_1254_negate_iife_true/input.js
 issue_640/negate_iife_3_off/input.js
+issue_640/negate_iife_4/input.js
+issue_640/negate_iife_5/input.js
 issue_640/negate_iife_5_off/input.js
 issue_751/negate_booleans_2/input.js
 issue_926/template_strings/input.js
@@ -727,8 +729,11 @@ negate_iife/negate_iife_2/input.js
 negate_iife/negate_iife_2_side_effects/input.js
 negate_iife/negate_iife_3/input.js
 negate_iife/negate_iife_3_evaluate/input.js
+negate_iife/negate_iife_3_off/input.js
 negate_iife/negate_iife_3_off_evaluate/input.js
 negate_iife/negate_iife_3_side_effects/input.js
+negate_iife/negate_iife_4/input.js
+negate_iife/negate_iife_5/input.js
 negate_iife/negate_iife_5_off/input.js
 negate_iife/negate_iife_issue_1073/input.js
 negate_iife/negate_iife_nested/input.js

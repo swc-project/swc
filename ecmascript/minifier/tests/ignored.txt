@@ -281,8 +281,6 @@ issue_640/iife/input.js
 issue_640/limit_1/input.js
 issue_640/negate_iife_1/input.js
 issue_640/negate_iife_3/input.js
-issue_640/negate_iife_4/input.js
-issue_640/negate_iife_5/input.js
 issue_640/wrongly_optimized/input.js
 issue_751/negate_booleans_1/input.js
 issue_782/dont_remove_this_binding_sequence/input.js
@@ -316,6 +314,9 @@ loops/drop_if_else_break_1/input.js
 loops/drop_if_else_break_2/input.js
 loops/drop_if_else_break_3/input.js
 loops/drop_if_else_break_4/input.js
+negate_iife/issue_1254_negate_iife_nested/input.js
+negate_iife/issue_1288/input.js
+negate_iife/issue_1288_side_effects/input.js
 new/new_statements_3/input.js
 nullish/conditional_to_nullish_coalescing/input.js
 nullish/conditional_to_nullish_coalescing_2/input.js
