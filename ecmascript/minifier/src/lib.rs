@@ -25,6 +25,7 @@ use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
 use crate::pass::precompress::precompress_optimizer;
 use analyzer::analyze;
+use pass::postcompress::postcompress_optimizer;
 use swc_common::comments::Comments;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
@@ -61,9 +62,9 @@ pub fn optimize(
         }
     }
 
-    m.visit_mut_with(&mut precompress_optimizer(
-        options.compress.clone().unwrap_or_default(),
-    ));
+    if let Some(options) = &options.compress {
+        m.visit_mut_with(&mut precompress_optimizer(options.clone()));
+    }
 
     m.visit_mut_with(&mut unique_marker());
 
@@ -97,6 +98,8 @@ pub fn optimize(
     if let Some(options) = &options.compress {
         m = m.fold_with(&mut compressor(&options, comments));
         // Again, we don't need to validate ast
+
+        m.visit_mut_with(&mut postcompress_optimizer(options));
     }
 
     if let Some(ref mut _t) = timings {

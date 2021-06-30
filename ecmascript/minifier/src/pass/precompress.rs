@@ -13,7 +13,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 ///
 /// - Remove parens.
 pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
-    SinglePassOptimizer {
+    PrecompressOptimizer {
         options,
         data: Default::default(),
         fn_decl_count: Default::default(),
@@ -22,7 +22,7 @@ pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
 }
 
 #[derive(Debug, Default)]
-struct SinglePassOptimizer {
+struct PrecompressOptimizer {
     options: CompressOptions,
     data: ProgramData,
     fn_decl_count: FxHashMap<Id, usize>,
@@ -34,7 +34,7 @@ struct Ctx {
     in_var_pat: bool,
 }
 
-impl VisitMut for SinglePassOptimizer {
+impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {
