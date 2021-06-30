@@ -1,3 +1,4 @@
 {
-    "defaults": true
+    "defaults": true,
+    "if_return": true
 }
