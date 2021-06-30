@@ -242,8 +242,6 @@ fn projects(input: PathBuf) {
             None => return Ok(()),
         };
 
-        let minified_output = print(cm.clone(), &[output_module.clone()], true);
-
         let output = print(cm.clone(), &[output_module.clone()], false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Ouput"), output);
@@ -251,7 +249,12 @@ fn projects(input: PathBuf) {
         println!("{}", input.display());
 
         NormalizedOutput::from(output)
-            .compare_to_file(input.with_extension("min.js"))
+            .compare_to_file(
+                dir.parent()
+                    .unwrap()
+                    .join("output")
+                    .join(input.file_name().unwrap()),
+            )
             .unwrap();
 
         Ok(())

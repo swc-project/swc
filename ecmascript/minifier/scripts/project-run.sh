@@ -7,4 +7,4 @@ touch tests/compress.rs
 UPDATE=1 cargo test --test compress projects -- --nocapture
 
 # Make it easier to compare
-prettier --write tests/projects/files/*.min.js
+prettier --write tests/projects/output
