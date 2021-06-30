@@ -857,7 +857,7 @@
                         ? element
                         : Backbone.$(element)),
                 (this.el = this.$el[0]),
-                delegate !== !1 && this.delegateEvents(),
+                !1 !== delegate && this.delegateEvents(),
                 this
             );
         },
@@ -1187,7 +1187,7 @@
             navigate: function (fragment, options) {
                 if (!History1.started) return !1;
                 options &&
-                    options === !0 &&
+                    !0 === options &&
                     (options = {
                         trigger: !!options,
                     });
