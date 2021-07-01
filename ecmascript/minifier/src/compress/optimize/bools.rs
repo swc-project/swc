@@ -87,7 +87,7 @@ impl Optimizer<'_> {
                     right,
                     ..
                 }) => {
-                    log::trace!("Optimizing ``!(a && b)` as `!a || !b`");
+                    log::trace!("Optimizing `!(a && b)` as `!a || !b`");
                     self.changed = true;
                     *e = Expr::Bin(BinExpr {
                         span: *span,
