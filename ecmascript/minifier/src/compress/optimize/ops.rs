@@ -537,6 +537,13 @@ impl Optimizer<'_> {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
+                match &**arg {
+                    Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
+                        return;
+                    }
+                    _ => {}
+                }
+
                 let new_op = if e.op == op!("&&") {
                     op!("||")
                 } else {
