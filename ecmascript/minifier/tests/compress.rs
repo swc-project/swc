@@ -157,6 +157,7 @@ fn run(
 
     let output = optimize(
         program,
+        cm.clone(),
         Some(&comments),
         None,
         &MinifyOptions {

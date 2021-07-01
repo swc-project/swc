@@ -12,6 +12,12 @@ use swc_ecma_utils::prop_name_eq;
 use swc_ecma_utils::ExprExt;
 
 impl<'b> Optimizer<'b> {
+    pub(super) fn line_col(&self, span: Span) -> String {
+        let loc = self.cm.lookup_char_pos(span.lo);
+
+        format!("{}:{}", loc.line, loc.col_display)
+    }
+
     pub(super) fn access_property<'e>(
         &mut self,
         expr: &'e mut Expr,

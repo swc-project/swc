@@ -13,7 +13,9 @@ use swc_atoms::JsWord;
 use swc_common::comments::Comments;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
+use swc_common::sync::Lrc;
 use swc_common::Mark;
+use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -62,6 +64,7 @@ const DISABLE_BUGGY_PASSES: bool = true;
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
+    cm: Lrc<SourceMap>,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + VisitMut + Repeated {
@@ -73,6 +76,7 @@ pub(super) fn optimizer<'a>(
     let done = Mark::fresh(Mark::root());
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
+        cm,
         comments,
         changed: false,
         options,
@@ -177,6 +181,8 @@ impl Ctx {
 }
 
 struct Optimizer<'a> {
+    cm: Lrc<SourceMap>,
+
     comments: Option<&'a dyn Comments>,
 
     changed: bool,

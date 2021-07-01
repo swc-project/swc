@@ -13,11 +13,12 @@ use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
-use swc_common::chain;
 use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
+use swc_common::sync::Lrc;
+use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
@@ -35,6 +36,7 @@ mod hoist_decls;
 mod optimize;
 
 pub fn compressor<'a>(
+    cm: Lrc<SourceMap>,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + JsPass {
@@ -43,6 +45,7 @@ pub fn compressor<'a>(
         visitor: drop_console(),
     };
     let compressor = Compressor {
+        cm,
         comments,
         options,
         pass: 0,
@@ -57,6 +60,7 @@ pub fn compressor<'a>(
 }
 
 struct Compressor<'a> {
+    cm: Lrc<SourceMap>,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
     changed: bool,
@@ -172,7 +176,7 @@ impl VisitMut for Compressor<'_> {
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = optimizer(self.options, self.comments);
+            let mut visitor = optimizer(self.cm.clone(), self.options, self.comments);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
         }

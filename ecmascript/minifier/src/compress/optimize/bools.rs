@@ -168,8 +168,9 @@ impl Optimizer<'_> {
         // `_ || 'undefined' == typeof require`
         if self.is_negation_efficient(&e.left) && self.is_negation_efficient(&e.right) {
             log::trace!(
-                "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
-                 negation)"
+                "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good \
+                 for negation)",
+                self.line_col(e.span)
             );
 
             e.op = if e.op == op!("&&") {
