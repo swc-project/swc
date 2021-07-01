@@ -20,7 +20,7 @@
     var Events = (Backbone.Events = {
             on: function (name, callback, context) {
                 if (
-                    eventsApi(this, "on", name, [callback, context]) &&
+                    !eventsApi(this, "on", name, [callback, context]) ||
                     !callback
                 )
                     return this;
@@ -36,7 +36,7 @@
             },
             once: function (name, callback, context) {
                 if (
-                    eventsApi(this, "once", name, [callback, context]) &&
+                    !eventsApi(this, "once", name, [callback, context]) ||
                     !callback
                 )
                     return this;
@@ -50,11 +50,11 @@
             off: function (name, callback, context) {
                 var retain, ev, events, names, i, j;
                 if (
-                    this._events &&
+                    !this._events ||
                     !eventsApi(this, "off", name, [callback, context])
                 )
                     return this;
-                if ((name || !callback) && !context)
+                if (!name && !callback && !context)
                     return (this._events = {}), this;
                 for (
                     names = name ? [name] : _.keys(this._events),
@@ -94,7 +94,7 @@
             stopListening: function (obj, name, callback) {
                 var listeningTo = this._listeningTo;
                 if (!listeningTo) return this;
-                var remove = name || !callback;
+                var remove = !name && !callback;
                 (callback || "object" == typeof name) && (callback = this),
                     obj && ((listeningTo = {})[obj._listenId] = obj);
                 for (var id in listeningTo)
@@ -418,7 +418,7 @@
             );
         },
         _validate: function (attrs, options) {
-            if (options.validate && !this.validate) return !0;
+            if (!options.validate || !this.validate) return !0;
             attrs = _.extend({}, this.attributes, attrs);
             var error = (this.validationError =
                 this.validate(attrs, options) || null);
@@ -957,8 +957,7 @@
     var noXhrPatch =
             "undefined" !== typeof window &&
             !!window.ActiveXObject &&
-            window.XMLHttpRequest &&
-            !new XMLHttpRequest().dispatchEvent,
+            (!window.XMLHttpRequest || !new XMLHttpRequest().dispatchEvent),
         methodMap = {
             create: "POST",
             update: "PUT",
@@ -1082,7 +1081,8 @@
                     (this._wantsHashChange = this.options.hashChange !== !1),
                     (this._wantsPushState = !!this.options.pushState),
                     (this._hasPushState = !(
-                        (this.options.pushState && !this.history) ||
+                        !this.options.pushState ||
+                        !this.history ||
                         !this.history.pushState
                     ));
                 var fragment = this.getFragment(),
@@ -1124,7 +1124,7 @@
                     atRoot =
                         loc.pathname.replace(/[^\/]$/, "$&/") === this.root;
                 if (this._wantsHashChange && this._wantsPushState) {
-                    if (this._hasPushState || !atRoot)
+                    if (!this._hasPushState && !atRoot)
                         return (
                             (this.fragment = this.getFragment(null, !0)),
                             this.location.replace(
