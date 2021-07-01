@@ -2,7 +2,7 @@
 set -u
 
 # Prevent regression
-./scripts/run.sh || exit 1
+./scripts/run.sh fixture__ || exit 1
 
 export RUST_LOG=swc_ecma_minifier=trace
 touch tests/compress.rs
