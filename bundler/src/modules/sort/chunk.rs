@@ -165,13 +165,15 @@ fn toposort_real_module_ids<'a>(
     cycles: &'a Vec<Vec<ModuleId>>,
 ) -> impl 'a + Iterator<Item = Vec<ModuleId>> {
     let mut done = FxHashSet::<ModuleId>::default();
+    let mut errored = FxHashSet::<ModuleId>::default();
 
     from_fn(move || {
         while let Some(id) = queue.pop_front() {
             if done.contains(&id) {
                 continue;
             }
-            // dbg!(id);
+
+            dbg!(id);
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
@@ -183,19 +185,22 @@ fn toposort_real_module_ids<'a>(
 
                 // Emit
                 done.insert(id);
+                errored.clear();
                 return Some(vec![id]);
             }
 
-            // dbg!(&deps);
+            dbg!(&deps);
 
             let mut all_modules_in_circle = cycles_for(cycles, id, &mut Default::default());
             all_modules_in_circle.reverse();
+
+            dbg!(&all_modules_in_circle);
 
             if all_modules_in_circle.is_empty() {
                 queue.push_front(id);
 
                 // This module does not have any circular imports.
-                for dep in deps.into_iter().rev() {
+                for dep in deps.iter().copied().rev() {
                     queue.push_front(dep);
                 }
 
@@ -212,23 +217,27 @@ fn toposort_real_module_ids<'a>(
                 })
                 .collect::<Vec<_>>();
 
-            // dbg!(&deps_of_circle);
+            dbg!(&deps_of_circle);
 
             if !deps_of_circle.is_empty() {
-                queue.push_front(id);
+                if errored.insert(id) {
+                    queue.push_front(id);
 
-                // Handle dependencies first.
-                for dep in deps_of_circle.into_iter().rev() {
-                    queue.push_front(dep);
+                    // Handle dependencies first.
+                    for dep in deps_of_circle.iter().copied().rev() {
+                        queue.push_front(dep);
+                    }
+
+                    continue;
                 }
-
-                continue;
+                all_modules_in_circle.extend(deps_of_circle);
             }
 
             // TODO: Add dependants
 
             // Emit
             done.extend(all_modules_in_circle.iter().copied());
+            errored.clear();
             return Some(all_modules_in_circle.into_iter().collect());
         }
 
