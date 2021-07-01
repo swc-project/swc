@@ -10,7 +10,7 @@
     else Backbone = root.Backbone = {};
     Backbone.VERSION = "1.1.0";
     var _ = root._;
-    !_ && "undefined" !== typeof require && (_ = require("underscore")),
+    (_ || "undefined" !== typeof require) && (_ = require("underscore")),
         (Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$),
         (Backbone.noConflict = function () {
             return (root.Backbone = previousBackbone), this;
@@ -75,7 +75,7 @@
                                         callback !== ev.callback._callback) ||
                                         (context && context !== ev.context)) &&
                                         retain.push(ev);
-                        !retain.length && delete this._events[name];
+                        retain.length || delete this._events[name];
                     }
                 return this;
             },
@@ -95,7 +95,7 @@
                 var listeningTo = this._listeningTo;
                 if (!listeningTo) return this;
                 var remove = !name && !callback;
-                !callback && "object" == typeof name && (callback = this),
+                (callback || "object" == typeof name) && (callback = this),
                     obj && ((listeningTo = {})[obj._listenId] = obj);
                 for (var id in listeningTo)
                     (obj = listeningTo[id]),
@@ -165,7 +165,7 @@
                     id = obj._listenId || (obj._listenId = _.uniqueId("l"));
                 return (
                     (listeningTo[id] = obj),
-                    !callback && "object" == typeof name && (callback = this),
+                    (callback || "object" == typeof name) && (callback = this),
                     obj[implementation](name, callback, this),
                     this
                 );
@@ -217,7 +217,7 @@
             (changes = []),
                 this._changing,
                 (this._changing = !0),
-                !this._changing &&
+                this._changing ||
                     ((this._previousAttributes = _.clone(this.attributes)),
                     (this.changed = {})),
                 this.attributes,
@@ -227,8 +227,7 @@
             for (attr in attrs) {
                 if (
                     ((val = attrs[attr]),
-                    !_.isEqual(this.attributes[attr], val) &&
-                        changes.push(attr),
+                    _.isEqual(this.attributes[attr], val) || changes.push(attr),
                     !_.isEqual(this._previousAttributes[attr], val))
                 )
                     this.changed[attr] = val;
@@ -379,7 +378,7 @@
                 ((options.success = function (resp) {
                     (options.wait || model.isNew()) && destroy(),
                         success && success(model, resp, options),
-                        !model.isNew() &&
+                        model.isNew() ||
                             model.trigger("sync", model, resp, options);
                 }),
                 this.isNew())
@@ -387,7 +386,7 @@
                 return options.success(), !1;
             wrapError(this, options);
             var xhr = this.sync("delete", this, options);
-            return !options.wait && destroy(), xhr;
+            return options.wait || destroy(), xhr;
         },
         url: function () {
             var base =
@@ -505,7 +504,7 @@
                     (index = this.indexOf(model)),
                     this.models.splice(index, 1),
                     this.length--,
-                    !options.silent &&
+                    options.silent ||
                         ((options.index = index),
                         model.trigger("remove", model, this, options)),
                     this._removeReference(model);
@@ -537,7 +536,7 @@
                 add = options.add,
                 merge = options.merge,
                 remove = options.remove,
-                order = !sortable && add && remove ? [] : !1;
+                order = (sortable || add) && remove ? [] : !1;
             for (i = 0, l = models.length; l > i; i++) {
                 if (((attrs = models[i]), attrs instanceof Model))
                     id = model = attrs;
@@ -573,7 +572,7 @@
             }
             if (remove) {
                 for (i = 0, l = this.length; l > i; ++i)
-                    !modelMap[(model = this.models[i]).cid] &&
+                    modelMap[(model = this.models[i]).cid] ||
                         toRemove.push(model);
                 toRemove.length && this.remove(toRemove, options);
             }
@@ -622,7 +621,7 @@
                         options
                     )
                 )),
-                !options.silent && this.trigger("reset", this, options),
+                options.silent || this.trigger("reset", this, options),
                 models
             );
         },
@@ -686,7 +685,7 @@
             )
                 this.models = this.sortBy(this.comparator, this);
             else this.models.sort(_.bind(this.comparator, this));
-            return !options.silent && this.trigger("sort", this, options), this;
+            return options.silent || this.trigger("sort", this, options), this;
         },
         pluck: function (attr) {
             return _.invoke(this.models, "get", attr);
@@ -712,7 +711,7 @@
                 !(model = this._prepareModel(model, options)))
             )
                 return !1;
-            !options.wait && this.add(model, options);
+            options.wait || this.add(model, options);
             var success = options.success;
             return (
                 (options.success = function (model, resp, options) {
@@ -734,7 +733,7 @@
         },
         _prepareModel: function (attrs, options) {
             if (attrs instanceof Model)
-                return !attrs.collection && (attrs.collection = this), attrs;
+                return attrs.collection || (attrs.collection = this), attrs;
             (options = options ? _.clone(options) : {}),
                 (options.collection = this);
             var model = new this.model(attrs, options);
@@ -868,7 +867,7 @@
             for (var key in events) {
                 var method = events[key];
                 if (
-                    (!_.isFunction(method) && (method = this[events[key]]),
+                    (_.isFunction(method) || (method = this[events[key]]),
                     !method)
                 )
                     continue;
@@ -912,7 +911,7 @@
                 dataType: "json",
             };
             if (
-                (!options.url &&
+                (options.url ||
                     (params.url = _.result(model, "url") || urlError()),
                 options.data == null &&
                     model &&
@@ -982,9 +981,9 @@
     _.extend(Router.prototype, Events, {
         initialize: function () {},
         route: function (route, name, callback) {
-            !_.isRegExp(route) && (route = this._routeToRegExp(route)),
+            _.isRegExp(route) || (route = this._routeToRegExp(route)),
                 _.isFunction(name) && ((callback = name), (name = "")),
-                !callback && (callback = this[name]);
+                callback || (callback = this[name]);
             var router = this;
             return (
                 Backbone.history.route(route, function (fragment) {
@@ -1059,7 +1058,7 @@
                     ) {
                         fragment = this.location.pathname;
                         var root1 = this.root.replace(trailingSlash, "");
-                        !fragment.indexOf(root1) &&
+                        fragment.indexOf(root1) ||
                             (fragment = fragment.slice(root1.length));
                     } else fragment = this.getHash();
                 }
@@ -1090,7 +1089,8 @@
                     docMode = document.documentMode,
                     oldIE =
                         /msie [\w.]+/.exec(navigator.userAgent.toLowerCase()) &&
-                        (!docMode || 7 >= docMode);
+                        docMode &&
+                        7 >= docMode;
                 if (
                     ((this.root = ("/" + this.root + "/").replace(
                         rootStripper,
@@ -1186,7 +1186,8 @@
             },
             navigate: function (fragment, options) {
                 if (!History1.started) return !1;
-                (!options || !0 === options) &&
+                options &&
+                    !0 === options &&
                     (options = {
                         trigger: !!options,
                     });
@@ -1210,7 +1211,7 @@
                         this.iframe &&
                             fragment !==
                                 this.getFragment(this.getHash(this.iframe)) &&
-                            (!options.replace &&
+                            (options.replace ||
                                 this.iframe.document.open().close(),
                             this._updateHash(
                                 this.iframe.location,
