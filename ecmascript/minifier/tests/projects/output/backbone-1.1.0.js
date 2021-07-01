@@ -205,7 +205,7 @@
             return _.escape(this.get(attr));
         },
         has: function (attr) {
-            return this.get(attr) != null;
+            return null != this.get(attr);
         },
         set: function (key, val, options) {
             var attr, attrs, changes;
