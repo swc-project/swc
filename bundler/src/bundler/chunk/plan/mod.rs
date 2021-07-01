@@ -48,6 +48,8 @@ where
             self.add_to_graph(&mut builder, module.id, &mut vec![module.id]);
         }
 
+        // dbg!(&builder.cycles);
+
         Ok((
             Plan {
                 entries: builder.kinds,
@@ -68,6 +70,8 @@ where
             log::debug!("Adding {:?} to the graph (path = {:?})", module_id, path);
         }
         let visited = builder.all.contains(&module_id);
+        // dbg!(visited);
+        // dbg!(&path);
         let cycle_rpos = if visited {
             path.iter().rposition(|v| *v == module_id)
         } else {
@@ -76,23 +80,13 @@ where
 
         if let Some(rpos) = cycle_rpos {
             let cycle = path[rpos..].to_vec();
+            log::debug!("Found cycle: {:?}", cycle);
             builder.cycles.push(cycle);
         }
 
         let prev_last = *path.last().unwrap();
         // Prevent infinite recursion.
         if !builder.tracked.insert((prev_last, module_id)) {
-            // This is a hack
-            //
-            // TODO(kdy1): Use proper logic for `builder.tracked` and remove this hack.
-            if let Some(cycle) = builder
-                .cycles
-                .iter_mut()
-                .find(|cycle| cycle.contains(&prev_last))
-            {
-                cycle.push(module_id);
-            }
-
             return;
         }
 

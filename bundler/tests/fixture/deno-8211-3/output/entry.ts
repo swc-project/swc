@@ -1,141 +1,37 @@
-const numberingSystems = {
-    arab: "[\u0660-\u0669]",
-    arabext: "[\u06F0-\u06F9]",
-    bali: "[\u1B50-\u1B59]",
-    beng: "[\u09E6-\u09EF]",
-    deva: "[\u0966-\u096F]",
-    fullwide: "[\uFF10-\uFF19]",
-    gujr: "[\u0AE6-\u0AEF]",
-    hanidec: "[〇|一|二|三|四|五|六|七|八|九]",
-    khmr: "[\u17E0-\u17E9]",
-    knda: "[\u0CE6-\u0CEF]",
-    laoo: "[\u0ED0-\u0ED9]",
-    limb: "[\u1946-\u194F]",
-    mlym: "[\u0D66-\u0D6F]",
-    mong: "[\u1810-\u1819]",
-    mymr: "[\u1040-\u1049]",
-    orya: "[\u0B66-\u0B6F]",
-    tamldec: "[\u0BE6-\u0BEF]",
-    telu: "[\u0C66-\u0C6F]",
-    thai: "[\u0E50-\u0E59]",
-    tibt: "[\u0F20-\u0F29]",
-    latn: "\\d"
-};
-const numberingSystemsUTF16 = {
-    arab: [
-        1632,
-        1641
-    ],
-    arabext: [
-        1776,
-        1785
-    ],
-    bali: [
-        6992,
-        7001
-    ],
-    beng: [
-        2534,
-        2543
-    ],
-    deva: [
-        2406,
-        2415
-    ],
-    fullwide: [
-        65296,
-        65303
-    ],
-    gujr: [
-        2790,
-        2799
-    ],
-    khmr: [
-        6112,
-        6121
-    ],
-    knda: [
-        3302,
-        3311
-    ],
-    laoo: [
-        3792,
-        3801
-    ],
-    limb: [
-        6470,
-        6479
-    ],
-    mlym: [
-        3430,
-        3439
-    ],
-    mong: [
-        6160,
-        6169
-    ],
-    mymr: [
-        4160,
-        4169
-    ],
-    orya: [
-        2918,
-        2927
-    ],
-    tamldec: [
-        3046,
-        3055
-    ],
-    telu: [
-        3174,
-        3183
-    ],
-    thai: [
-        3664,
-        3673
-    ],
-    tibt: [
-        3872,
-        3881
-    ]
-};
-const hanidecChars = numberingSystems.hanidec.replace(/[\[|\]]/g, "").split("");
-function parseDigits(str) {
-    let value = parseInt(str, 10);
-    if (isNaN(value)) {
-        value = "";
-        for(let i = 0; i < str.length; i++){
-            const code = str.charCodeAt(i);
-            if (str[i].search(numberingSystems.hanidec) !== -1) {
-                value += hanidecChars.indexOf(str[i]);
-            } else {
-                for(const key in numberingSystemsUTF16){
-                    const [min, max] = numberingSystemsUTF16[key];
-                    if (code >= min && code <= max) {
-                        value += code - min;
-                    }
-                }
-            }
-        }
-        return parseInt(value, 10);
-    } else {
-        return value;
+class LuxonError extends Error {
+}
+class InvalidDateTimeError extends LuxonError {
+    constructor(reason4){
+        super(`Invalid DateTime: ${reason4.toMessage()}`);
     }
 }
-function digitRegex({ numberingSystem  }, append = "") {
-    return new RegExp(`${numberingSystems[numberingSystem || "latn"]}${append}`);
+class InvalidIntervalError extends LuxonError {
+    constructor(reason1){
+        super(`Invalid Interval: ${reason1.toMessage()}`);
+    }
 }
-let intlDTCache = {
-};
-let now = ()=>Date.now()
-, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
+class InvalidDurationError extends LuxonError {
+    constructor(reason2){
+        super(`Invalid Duration: ${reason2.toMessage()}`);
+    }
+}
+class ConflictingSpecificationError extends LuxonError {
+}
+class InvalidUnitError extends LuxonError {
+    constructor(unit1){
+        super(`Invalid unit ${unit1}`);
+    }
+}
+class InvalidArgumentError extends LuxonError {
+}
+class ZoneIsAbstractError extends LuxonError {
+    constructor(){
+        super("Zone is an abstract class");
+    }
+}
 function isUndefined(o) {
     return typeof o === "undefined";
 }
-function stringify(obj) {
-    return JSON.stringify(obj, Object.keys(obj).sort());
-}
-let singleton = null;
 function isNumber(o) {
     return typeof o === "number";
 }
@@ -308,32 +204,6 @@ function signedOffset(offHourStr, offMinuteStr) {
     const offMin = parseInt(offMinuteStr, 10) || 0, offMinSigned = offHour < 0 || Object.is(offHour, -0) ? -offMin : offMin;
     return offHour * 60 + offMinSigned;
 }
-class LuxonError extends Error {
-}
-class InvalidDateTimeError extends LuxonError {
-    constructor(reason4){
-        super(`Invalid DateTime: ${reason4.toMessage()}`);
-    }
-}
-class InvalidIntervalError extends LuxonError {
-    constructor(reason1){
-        super(`Invalid Interval: ${reason1.toMessage()}`);
-    }
-}
-class InvalidDurationError extends LuxonError {
-    constructor(reason2){
-        super(`Invalid Duration: ${reason2.toMessage()}`);
-    }
-}
-class ConflictingSpecificationError extends LuxonError {
-}
-class InvalidUnitError extends LuxonError {
-    constructor(unit1){
-        super(`Invalid unit ${unit1}`);
-    }
-}
-class InvalidArgumentError extends LuxonError {
-}
 function asNumber(value) {
     const numericValue = Number(value);
     if (typeof value === "boolean" || value === "" || Number.isNaN(numericValue)) throw new InvalidArgumentError(`Invalid unit value ${value}`);
@@ -374,754 +244,7 @@ function timeObject(obj) {
     ]);
 }
 const ianaRegex = /[A-Za-z_+-]{1,256}(:?\/[A-Za-z_+-]{1,256}(\/[A-Za-z_+-]{1,256})?)?/;
-const matchingRegex = RegExp(`^${ianaRegex.source}$`);
-class ZoneIsAbstractError extends LuxonError {
-    constructor(){
-        super("Zone is an abstract class");
-    }
-}
-class Zone {
-    get type() {
-        throw new ZoneIsAbstractError();
-    }
-    get name() {
-        throw new ZoneIsAbstractError();
-    }
-    get universal() {
-        throw new ZoneIsAbstractError();
-    }
-    offsetName(ts, opts) {
-        throw new ZoneIsAbstractError();
-    }
-    formatOffset(ts, format) {
-        throw new ZoneIsAbstractError();
-    }
-    offset(ts) {
-        throw new ZoneIsAbstractError();
-    }
-    equals(otherZone) {
-        throw new ZoneIsAbstractError();
-    }
-    get isValid() {
-        throw new ZoneIsAbstractError();
-    }
-}
-const INVALID = "Invalid DateTime";
 const n1 = "numeric", s1 = "short", l = "long";
-let singleton1 = null;
-class FixedOffsetZone extends Zone {
-    static get utcInstance() {
-        if (singleton1 === null) {
-            singleton1 = new FixedOffsetZone(0);
-        }
-        return singleton1;
-    }
-    static instance(offset) {
-        return offset === 0 ? FixedOffsetZone.utcInstance : new FixedOffsetZone(offset);
-    }
-    static parseSpecifier(s) {
-        if (s) {
-            const r = s.match(/^utc(?:([+-]\d{1,2})(?::(\d{2}))?)?$/i);
-            if (r) {
-                return new FixedOffsetZone(signedOffset(r[1], r[2]));
-            }
-        }
-        return null;
-    }
-    constructor(offset1){
-        super();
-        this.fixed = offset1;
-    }
-    get type() {
-        return "fixed";
-    }
-    get name() {
-        return this.fixed === 0 ? "UTC" : `UTC${formatOffset(this.fixed, "narrow")}`;
-    }
-    offsetName() {
-        return this.name;
-    }
-    formatOffset(ts, format) {
-        return formatOffset(this.fixed, format);
-    }
-    get universal() {
-        return true;
-    }
-    offset() {
-        return this.fixed;
-    }
-    equals(otherZone) {
-        return otherZone.type === "fixed" && otherZone.fixed === this.fixed;
-    }
-    get isValid() {
-        return true;
-    }
-}
-let dtfCache = {
-};
-function makeDTF(zone) {
-    if (!dtfCache[zone]) {
-        dtfCache[zone] = new Intl.DateTimeFormat("en-US", {
-            hour12: false,
-            timeZone: zone,
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-        });
-    }
-    return dtfCache[zone];
-}
-const typeToPos = {
-    year: 0,
-    month: 1,
-    day: 2,
-    hour: 3,
-    minute: 4,
-    second: 5
-};
-function hackyOffset(dtf, date) {
-    const formatted = dtf.format(date).replace(/\u200E/g, ""), parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted), [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed;
-    return [
-        fYear,
-        fMonth,
-        fDay,
-        fHour,
-        fMinute,
-        fSecond
-    ];
-}
-function partsOffset(dtf, date) {
-    const formatted = dtf.formatToParts(date), filled = [];
-    for(let i = 0; i < formatted.length; i++){
-        const { type , value  } = formatted[i], pos = typeToPos[type];
-        if (!isUndefined(pos)) {
-            filled[pos] = parseInt(value, 10);
-        }
-    }
-    return filled;
-}
-let ianaZoneCache = {
-};
-class IANAZone extends Zone {
-    static create(name) {
-        if (!ianaZoneCache[name]) {
-            ianaZoneCache[name] = new IANAZone(name);
-        }
-        return ianaZoneCache[name];
-    }
-    static resetCache() {
-        ianaZoneCache = {
-        };
-        dtfCache = {
-        };
-    }
-    static isValidSpecifier(s) {
-        return !!(s && s.match(matchingRegex));
-    }
-    static isValidZone(zone) {
-        try {
-            new Intl.DateTimeFormat("en-US", {
-                timeZone: zone
-            }).format();
-            return true;
-        } catch (e) {
-            return false;
-        }
-    }
-    static parseGMTOffset(specifier) {
-        if (specifier) {
-            const match = specifier.match(/^Etc\/GMT([+-]\d{1,2})$/i);
-            if (match) {
-                return -60 * parseInt(match[1]);
-            }
-        }
-        return null;
-    }
-    constructor(name){
-        super();
-        this.zoneName = name;
-        this.valid = IANAZone.isValidZone(name);
-    }
-    get type() {
-        return "iana";
-    }
-    get name() {
-        return this.zoneName;
-    }
-    get universal() {
-        return false;
-    }
-    offsetName(ts, { format , locale  }) {
-        return parseZoneInfo(ts, format, locale, this.name);
-    }
-    formatOffset(ts, format) {
-        return formatOffset(this.offset(ts), format);
-    }
-    offset(ts) {
-        const date = new Date(ts), dtf = makeDTF(this.name), [year, month, day, hour, minute, second] = dtf.formatToParts ? partsOffset(dtf, date) : hackyOffset(dtf, date), adjustedHour = hour === 24 ? 0 : hour;
-        const asUTC = objToLocalTS({
-            year,
-            month,
-            day,
-            hour: adjustedHour,
-            minute,
-            second,
-            millisecond: 0
-        });
-        let asTS = +date;
-        const over = asTS % 1000;
-        asTS -= over >= 0 ? over : 1000 + over;
-        return (asUTC - asTS) / (60 * 1000);
-    }
-    equals(otherZone) {
-        return otherZone.type === "iana" && otherZone.name === this.name;
-    }
-    get isValid() {
-        return this.valid;
-    }
-}
-class InvalidZone extends Zone {
-    constructor(zoneName){
-        super();
-        this.zoneName = zoneName;
-    }
-    get type() {
-        return "invalid";
-    }
-    get name() {
-        return this.zoneName;
-    }
-    get universal() {
-        return false;
-    }
-    offsetName() {
-        return null;
-    }
-    formatOffset() {
-        return "";
-    }
-    offset() {
-        return NaN;
-    }
-    equals() {
-        return false;
-    }
-    get isValid() {
-        return false;
-    }
-}
-function normalizeZone(input, defaultZone1) {
-    let offset1;
-    if (isUndefined(input) || input === null) {
-        return defaultZone1;
-    } else if (input instanceof Zone) {
-        return input;
-    } else if (isString(input)) {
-        const lowered = input.toLowerCase();
-        if (lowered === "local") return defaultZone1;
-        else if (lowered === "utc" || lowered === "gmt") return FixedOffsetZone.utcInstance;
-        else if ((offset1 = IANAZone.parseGMTOffset(input)) != null) {
-            return FixedOffsetZone.instance(offset1);
-        } else if (IANAZone.isValidSpecifier(lowered)) return IANAZone.create(input);
-        else return FixedOffsetZone.parseSpecifier(lowered) || new InvalidZone(input);
-    } else if (isNumber(input)) {
-        return FixedOffsetZone.instance(input);
-    } else if (typeof input === "object" && input.offset && typeof input.offset === "number") {
-        return input;
-    } else {
-        return new InvalidZone(input);
-    }
-}
-const INVALID1 = "Invalid Duration";
-const INVALID2 = "Invalid Interval";
-class Info {
-    static hasDST(zone = Settings.defaultZone) {
-        const proto = DateTime.local().setZone(zone).set({
-            month: 12
-        });
-        return !zone.universal && proto.offset !== proto.set({
-            month: 6
-        }).offset;
-    }
-    static isValidIANAZone(zone) {
-        return IANAZone.isValidSpecifier(zone) && IANAZone.isValidZone(zone);
-    }
-    static normalizeZone(input) {
-        return normalizeZone(input, Settings.defaultZone);
-    }
-    static months(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, outputCalendar).months(length);
-    }
-    static monthsFormat(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, outputCalendar).months(length, true);
-    }
-    static weekdays(length = "long", { locale =null , numberingSystem =null  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, null).weekdays(length);
-    }
-    static weekdaysFormat(length = "long", { locale =null , numberingSystem =null  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, null).weekdays(length, true);
-    }
-    static meridiems({ locale =null  } = {
-    }) {
-        return Locale.create(locale).meridiems();
-    }
-    static eras(length = "short", { locale =null  } = {
-    }) {
-        return Locale.create(locale, null, "gregory").eras(length);
-    }
-    static features() {
-        let intl = false, intlTokens = false, zones = false, relative = false;
-        if (hasIntl()) {
-            intl = true;
-            intlTokens = hasFormatToParts();
-            relative = hasRelative();
-            try {
-                zones = new Intl.DateTimeFormat("en", {
-                    timeZone: "America/New_York"
-                }).resolvedOptions().timeZone === "America/New_York";
-            } catch (e) {
-                zones = false;
-            }
-        }
-        return {
-            intl,
-            intlTokens,
-            zones,
-            relative
-        };
-    }
-}
-function stringifyTokens(splits, tokenToString) {
-    let s2 = "";
-    for (const token of splits){
-        if (token.literal) {
-            s2 += token.val;
-        } else {
-            s2 += tokenToString(token.val);
-        }
-    }
-    return s2;
-}
-function combineRegexes(...regexes) {
-    const full = regexes.reduce((f, r)=>f + r.source
-    , "");
-    return RegExp(`^${full}$`);
-}
-function combineExtractors(...extractors) {
-    return (m)=>extractors.reduce(([mergedVals, mergedZone, cursor], ex)=>{
-            const [val, zone, next] = ex(m, cursor);
-            return [
-                Object.assign(mergedVals, val),
-                mergedZone || zone,
-                next
-            ];
-        }, [
-            {
-            },
-            null,
-            1
-        ]).slice(0, 2)
-    ;
-}
-function parse(s2, ...patterns) {
-    if (s2 == null) {
-        return [
-            null,
-            null
-        ];
-    }
-    for (const [regex, extractor] of patterns){
-        const m = regex.exec(s2);
-        if (m) {
-            return extractor(m);
-        }
-    }
-    return [
-        null,
-        null
-    ];
-}
-function simpleParse(...keys) {
-    return (match, cursor)=>{
-        const ret = {
-        };
-        let i;
-        for(i = 0; i < keys.length; i++){
-            ret[keys[i]] = parseInteger(match[cursor + i]);
-        }
-        return [
-            ret,
-            null,
-            cursor + i
-        ];
-    };
-}
-const offsetRegex = /(?:(Z)|([+-]\d\d)(?::?(\d\d))?)/, isoTimeBaseRegex = /(\d\d)(?::?(\d\d)(?::?(\d\d)(?:[.,](\d{1,30}))?)?)?/, isoTimeRegex = RegExp(`${isoTimeBaseRegex.source}${offsetRegex.source}?`), isoTimeExtensionRegex = RegExp(`(?:T${isoTimeRegex.source})?`), isoYmdRegex = /([+-]\d{6}|\d{4})(?:-?(\d\d)(?:-?(\d\d))?)?/, isoWeekRegex = /(\d{4})-?W(\d\d)(?:-?(\d))?/, isoOrdinalRegex = /(\d{4})-?(\d{3})/, extractISOWeekData = simpleParse("weekYear", "weekNumber", "weekDay"), extractISOOrdinalData = simpleParse("year", "ordinal"), sqlYmdRegex = /(\d{4})-(\d\d)-(\d\d)/, sqlTimeRegex = RegExp(`${isoTimeBaseRegex.source} ?(?:${offsetRegex.source}|(${ianaRegex.source}))?`), sqlTimeExtensionRegex = RegExp(`(?: ${sqlTimeRegex.source})?`);
-function __int(match, pos, fallback) {
-    const m = match[pos];
-    return isUndefined(m) ? fallback : parseInteger(m);
-}
-function extractISOYmd(match, cursor) {
-    const item = {
-        year: __int(match, cursor),
-        month: __int(match, cursor + 1, 1),
-        day: __int(match, cursor + 2, 1)
-    };
-    return [
-        item,
-        null,
-        cursor + 3
-    ];
-}
-function extractISOTime(match, cursor) {
-    const item = {
-        hour: __int(match, cursor, 0),
-        minute: __int(match, cursor + 1, 0),
-        second: __int(match, cursor + 2, 0),
-        millisecond: parseMillis(match[cursor + 3])
-    };
-    return [
-        item,
-        null,
-        cursor + 4
-    ];
-}
-function extractISOOffset(match, cursor) {
-    const local = !match[cursor] && !match[cursor + 1], fullOffset = signedOffset(match[cursor + 1], match[cursor + 2]), zone = local ? null : FixedOffsetZone.instance(fullOffset);
-    return [
-        {
-        },
-        zone,
-        cursor + 3
-    ];
-}
-function extractIANAZone(match, cursor) {
-    const zone = match[cursor] ? IANAZone.create(match[cursor]) : null;
-    return [
-        {
-        },
-        zone,
-        cursor + 1
-    ];
-}
-const isoDuration = /^-?P(?:(?:(-?\d{1,9})Y)?(?:(-?\d{1,9})M)?(?:(-?\d{1,9})W)?(?:(-?\d{1,9})D)?(?:T(?:(-?\d{1,9})H)?(?:(-?\d{1,9})M)?(?:(-?\d{1,20})(?:[.,](-?\d{1,9}))?S)?)?)$/;
-function extractISODuration(match) {
-    const [s2, yearStr, monthStr, weekStr, dayStr, hourStr, minuteStr, secondStr, millisecondsStr] = match;
-    const hasNegativePrefix = s2[0] === "-";
-    const maybeNegate = (num)=>num && hasNegativePrefix ? -num : num
-    ;
-    return [
-        {
-            years: maybeNegate(parseInteger(yearStr)),
-            months: maybeNegate(parseInteger(monthStr)),
-            weeks: maybeNegate(parseInteger(weekStr)),
-            days: maybeNegate(parseInteger(dayStr)),
-            hours: maybeNegate(parseInteger(hourStr)),
-            minutes: maybeNegate(parseInteger(minuteStr)),
-            seconds: maybeNegate(parseInteger(secondStr)),
-            milliseconds: maybeNegate(parseMillis(millisecondsStr))
-        }
-    ];
-}
-const obsOffsets = {
-    GMT: 0,
-    EDT: -4 * 60,
-    EST: -5 * 60,
-    CDT: -5 * 60,
-    CST: -6 * 60,
-    MDT: -6 * 60,
-    MST: -7 * 60,
-    PDT: -7 * 60,
-    PST: -8 * 60
-};
-const monthsLong = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-];
-const monthsShort = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-];
-const monthsNarrow = [
-    "J",
-    "F",
-    "M",
-    "A",
-    "M",
-    "J",
-    "J",
-    "A",
-    "S",
-    "O",
-    "N",
-    "D"
-];
-function months(length) {
-    switch(length){
-        case "narrow":
-            return monthsNarrow;
-        case "short":
-            return monthsShort;
-        case "long":
-            return monthsLong;
-        case "numeric":
-            return [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7",
-                "8",
-                "9",
-                "10",
-                "11",
-                "12"
-            ];
-        case "2-digit":
-            return [
-                "01",
-                "02",
-                "03",
-                "04",
-                "05",
-                "06",
-                "07",
-                "08",
-                "09",
-                "10",
-                "11",
-                "12"
-            ];
-        default:
-            return null;
-    }
-}
-const weekdaysLong = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-];
-const weekdaysShort = [
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun"
-];
-function fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
-    const result = {
-        year: yearStr.length === 2 ? untruncateYear(parseInteger(yearStr)) : parseInteger(yearStr),
-        month: monthsShort.indexOf(monthStr) + 1,
-        day: parseInteger(dayStr),
-        hour: parseInteger(hourStr),
-        minute: parseInteger(minuteStr)
-    };
-    if (secondStr) result.second = parseInteger(secondStr);
-    if (weekdayStr) {
-        result.weekday = weekdayStr.length > 3 ? weekdaysLong.indexOf(weekdayStr) + 1 : weekdaysShort.indexOf(weekdayStr) + 1;
-    }
-    return result;
-}
-const rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|(?:([+-]\d\d)(\d\d)))$/;
-function extractRFC2822(match) {
-    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr, obsOffset, milOffset, offHourStr, offMinuteStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
-    let offset1;
-    if (obsOffset) {
-        offset1 = obsOffsets[obsOffset];
-    } else if (milOffset) {
-        offset1 = 0;
-    } else {
-        offset1 = signedOffset(offHourStr, offMinuteStr);
-    }
-    return [
-        result,
-        new FixedOffsetZone(offset1)
-    ];
-}
-function preprocessRFC2822(s2) {
-    return s2.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").trim();
-}
-const rfc1123 = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d\d) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4}) (\d\d):(\d\d):(\d\d) GMT$/, rfc850 = /^(Monday|Tuesday|Wedsday|Thursday|Friday|Saturday|Sunday), (\d\d)-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d\d) (\d\d):(\d\d):(\d\d) GMT$/, ascii = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ( \d|\d\d) (\d\d):(\d\d):(\d\d) (\d{4})$/;
-function extractRFC1123Or850(match) {
-    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
-    return [
-        result,
-        FixedOffsetZone.utcInstance
-    ];
-}
-function extractASCII(match) {
-    const [, weekdayStr, monthStr, dayStr, hourStr, minuteStr, secondStr, yearStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
-    return [
-        result,
-        FixedOffsetZone.utcInstance
-    ];
-}
-const isoYmdWithTimeExtensionRegex = combineRegexes(isoYmdRegex, isoTimeExtensionRegex);
-const isoWeekWithTimeExtensionRegex = combineRegexes(isoWeekRegex, isoTimeExtensionRegex);
-const isoOrdinalWithTimeExtensionRegex = combineRegexes(isoOrdinalRegex, isoTimeExtensionRegex);
-const isoTimeCombinedRegex = combineRegexes(isoTimeRegex);
-const extractISOYmdTimeAndOffset = combineExtractors(extractISOYmd, extractISOTime, extractISOOffset);
-const extractISOWeekTimeAndOffset = combineExtractors(extractISOWeekData, extractISOTime, extractISOOffset);
-const extractISOOrdinalDataAndTime = combineExtractors(extractISOOrdinalData, extractISOTime);
-const extractISOTimeAndOffset = combineExtractors(extractISOTime, extractISOOffset);
-function parseISODate(s2) {
-    return parse(s2, [
-        isoYmdWithTimeExtensionRegex,
-        extractISOYmdTimeAndOffset
-    ], [
-        isoWeekWithTimeExtensionRegex,
-        extractISOWeekTimeAndOffset
-    ], [
-        isoOrdinalWithTimeExtensionRegex,
-        extractISOOrdinalDataAndTime
-    ], [
-        isoTimeCombinedRegex,
-        extractISOTimeAndOffset
-    ]);
-}
-function parseRFC2822Date(s2) {
-    return parse(preprocessRFC2822(s2), [
-        rfc2822,
-        extractRFC2822
-    ]);
-}
-function parseHTTPDate(s2) {
-    return parse(s2, [
-        rfc1123,
-        extractRFC1123Or850
-    ], [
-        rfc850,
-        extractRFC1123Or850
-    ], [
-        ascii,
-        extractASCII
-    ]);
-}
-function parseISODuration(s2) {
-    return parse(s2, [
-        isoDuration,
-        extractISODuration
-    ]);
-}
-class Invalid {
-    constructor(reason3, explanation1){
-        this.reason = reason3;
-        this.explanation = explanation1;
-    }
-    toMessage() {
-        if (this.explanation) {
-            return `${this.reason}: ${this.explanation}`;
-        } else {
-            return this.reason;
-        }
-    }
-}
-const weekdaysNarrow = [
-    "M",
-    "T",
-    "W",
-    "T",
-    "F",
-    "S",
-    "S"
-];
-function weekdays(length) {
-    switch(length){
-        case "narrow":
-            return weekdaysNarrow;
-        case "short":
-            return weekdaysShort;
-        case "long":
-            return weekdaysLong;
-        case "numeric":
-            return [
-                "1",
-                "2",
-                "3",
-                "4",
-                "5",
-                "6",
-                "7"
-            ];
-        default:
-            return null;
-    }
-}
-const meridiems = [
-    "AM",
-    "PM"
-];
-const erasLong = [
-    "Before Christ",
-    "Anno Domini"
-];
-const erasShort = [
-    "BC",
-    "AD"
-];
-const erasNarrow = [
-    "B",
-    "A"
-];
-function eras(length) {
-    switch(length){
-        case "narrow":
-            return erasNarrow;
-        case "short":
-            return erasShort;
-        case "long":
-            return erasLong;
-        default:
-            return null;
-    }
-}
-function meridiemForDateTime(dt) {
-    return meridiems[dt.hour < 12 ? 0 : 1];
-}
-function weekdayForDateTime(dt, length) {
-    return weekdays(length)[dt.weekday - 1];
-}
-function monthForDateTime(dt, length) {
-    return months(length)[dt.month - 1];
-}
-function eraForDateTime(dt, length) {
-    return eras(length)[dt.year < 0 ? 0 : 1];
-}
 const DATE_SHORT = {
     year: n1,
     month: n1,
@@ -1269,6 +392,311 @@ const DATETIME_HUGE_WITH_SECONDS = {
     second: n1,
     timeZoneName: l
 };
+function stringify(obj) {
+    return JSON.stringify(obj, Object.keys(obj).sort());
+}
+const monthsLong = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+];
+const monthsShort = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+];
+const monthsNarrow = [
+    "J",
+    "F",
+    "M",
+    "A",
+    "M",
+    "J",
+    "J",
+    "A",
+    "S",
+    "O",
+    "N",
+    "D"
+];
+function months(length) {
+    switch(length){
+        case "narrow":
+            return monthsNarrow;
+        case "short":
+            return monthsShort;
+        case "long":
+            return monthsLong;
+        case "numeric":
+            return [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "10",
+                "11",
+                "12"
+            ];
+        case "2-digit":
+            return [
+                "01",
+                "02",
+                "03",
+                "04",
+                "05",
+                "06",
+                "07",
+                "08",
+                "09",
+                "10",
+                "11",
+                "12"
+            ];
+        default:
+            return null;
+    }
+}
+const weekdaysLong = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+];
+const weekdaysShort = [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri",
+    "Sat",
+    "Sun"
+];
+const weekdaysNarrow = [
+    "M",
+    "T",
+    "W",
+    "T",
+    "F",
+    "S",
+    "S"
+];
+function weekdays(length) {
+    switch(length){
+        case "narrow":
+            return weekdaysNarrow;
+        case "short":
+            return weekdaysShort;
+        case "long":
+            return weekdaysLong;
+        case "numeric":
+            return [
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7"
+            ];
+        default:
+            return null;
+    }
+}
+const meridiems = [
+    "AM",
+    "PM"
+];
+const erasLong = [
+    "Before Christ",
+    "Anno Domini"
+];
+const erasShort = [
+    "BC",
+    "AD"
+];
+const erasNarrow = [
+    "B",
+    "A"
+];
+function eras(length) {
+    switch(length){
+        case "narrow":
+            return erasNarrow;
+        case "short":
+            return erasShort;
+        case "long":
+            return erasLong;
+        default:
+            return null;
+    }
+}
+function meridiemForDateTime(dt) {
+    return meridiems[dt.hour < 12 ? 0 : 1];
+}
+function weekdayForDateTime(dt, length) {
+    return weekdays(length)[dt.weekday - 1];
+}
+function monthForDateTime(dt, length) {
+    return months(length)[dt.month - 1];
+}
+function eraForDateTime(dt, length) {
+    return eras(length)[dt.year < 0 ? 0 : 1];
+}
+function formatRelativeTime(unit1, count, numeric = "always", narrow = false) {
+    const units = {
+        years: [
+            "year",
+            "yr."
+        ],
+        quarters: [
+            "quarter",
+            "qtr."
+        ],
+        months: [
+            "month",
+            "mo."
+        ],
+        weeks: [
+            "week",
+            "wk."
+        ],
+        days: [
+            "day",
+            "day",
+            "days"
+        ],
+        hours: [
+            "hour",
+            "hr."
+        ],
+        minutes: [
+            "minute",
+            "min."
+        ],
+        seconds: [
+            "second",
+            "sec."
+        ]
+    };
+    const lastable = [
+        "hours",
+        "minutes",
+        "seconds"
+    ].indexOf(unit1) === -1;
+    if (numeric === "auto" && lastable) {
+        const isDay = unit1 === "days";
+        switch(count){
+            case 1:
+                return isDay ? "tomorrow" : `next ${units[unit1][0]}`;
+            case -1:
+                return isDay ? "yesterday" : `last ${units[unit1][0]}`;
+            case 0:
+                return isDay ? "today" : `this ${units[unit1][0]}`;
+            default:
+        }
+    }
+    const isInPast = Object.is(count, -0) || count < 0, fmtValue = Math.abs(count), singular = fmtValue === 1, lilUnits = units[unit1], fmtUnit = narrow ? singular ? lilUnits[1] : lilUnits[2] || lilUnits[1] : singular ? units[unit1][0] : unit1;
+    return isInPast ? `${fmtValue} ${fmtUnit} ago` : `in ${fmtValue} ${fmtUnit}`;
+}
+function formatString(knownFormat) {
+    const filtered = pick(knownFormat, [
+        "weekday",
+        "era",
+        "year",
+        "month",
+        "day",
+        "hour",
+        "minute",
+        "second",
+        "timeZoneName",
+        "hour12"
+    ]), key = stringify(filtered), dateTimeHuge = "EEEE, LLLL d, yyyy, h:mm a";
+    switch(key){
+        case stringify(DATE_SHORT):
+            return "M/d/yyyy";
+        case stringify(DATE_MED):
+            return "LLL d, yyyy";
+        case stringify(DATE_MED_WITH_WEEKDAY):
+            return "EEE, LLL d, yyyy";
+        case stringify(DATE_FULL):
+            return "LLLL d, yyyy";
+        case stringify(DATE_HUGE):
+            return "EEEE, LLLL d, yyyy";
+        case stringify(TIME_SIMPLE):
+            return "h:mm a";
+        case stringify(TIME_WITH_SECONDS):
+            return "h:mm:ss a";
+        case stringify(TIME_WITH_SHORT_OFFSET):
+            return "h:mm a";
+        case stringify(TIME_WITH_LONG_OFFSET):
+            return "h:mm a";
+        case stringify(TIME_24_SIMPLE):
+            return "HH:mm";
+        case stringify(TIME_24_WITH_SECONDS):
+            return "HH:mm:ss";
+        case stringify(TIME_24_WITH_SHORT_OFFSET):
+            return "HH:mm";
+        case stringify(TIME_24_WITH_LONG_OFFSET):
+            return "HH:mm";
+        case stringify(DATETIME_SHORT):
+            return "M/d/yyyy, h:mm a";
+        case stringify(DATETIME_MED):
+            return "LLL d, yyyy, h:mm a";
+        case stringify(DATETIME_FULL):
+            return "LLLL d, yyyy, h:mm a";
+        case stringify(DATETIME_HUGE):
+            return dateTimeHuge;
+        case stringify(DATETIME_SHORT_WITH_SECONDS):
+            return "M/d/yyyy, h:mm:ss a";
+        case stringify(DATETIME_MED_WITH_SECONDS):
+            return "LLL d, yyyy, h:mm:ss a";
+        case stringify(DATETIME_MED_WITH_WEEKDAY):
+            return "EEE, d LLL yyyy, h:mm a";
+        case stringify(DATETIME_FULL_WITH_SECONDS):
+            return "LLLL d, yyyy, h:mm:ss a";
+        case stringify(DATETIME_HUGE_WITH_SECONDS):
+            return "EEEE, LLLL d, yyyy, h:mm:ss a";
+        default:
+            return dateTimeHuge;
+    }
+}
+function stringifyTokens(splits, tokenToString) {
+    let s1 = "";
+    for (const token of splits){
+        if (token.literal) {
+            s1 += token.val;
+        } else {
+            s1 += tokenToString(token.val);
+        }
+    }
+    return s1;
+}
 const macroTokenToFormatOpts = {
     D: DATE_SHORT,
     DD: DATE_MED,
@@ -1599,6 +1027,881 @@ class Formatter {
         , []), collapsed = dur.shiftTo(...realTokens.map(tokenToField).filter((t)=>t
         ));
         return stringifyTokens(tokens, tokenToString(collapsed));
+    }
+}
+class Zone {
+    get type() {
+        throw new ZoneIsAbstractError();
+    }
+    get name() {
+        throw new ZoneIsAbstractError();
+    }
+    get universal() {
+        throw new ZoneIsAbstractError();
+    }
+    offsetName(ts, opts) {
+        throw new ZoneIsAbstractError();
+    }
+    formatOffset(ts, format) {
+        throw new ZoneIsAbstractError();
+    }
+    offset(ts) {
+        throw new ZoneIsAbstractError();
+    }
+    equals(otherZone) {
+        throw new ZoneIsAbstractError();
+    }
+    get isValid() {
+        throw new ZoneIsAbstractError();
+    }
+}
+let singleton = null;
+class FixedOffsetZone extends Zone {
+    static get utcInstance() {
+        if (singleton === null) {
+            singleton = new FixedOffsetZone(0);
+        }
+        return singleton;
+    }
+    static instance(offset) {
+        return offset === 0 ? FixedOffsetZone.utcInstance : new FixedOffsetZone(offset);
+    }
+    static parseSpecifier(s) {
+        if (s) {
+            const r = s.match(/^utc(?:([+-]\d{1,2})(?::(\d{2}))?)?$/i);
+            if (r) {
+                return new FixedOffsetZone(signedOffset(r[1], r[2]));
+            }
+        }
+        return null;
+    }
+    constructor(offset1){
+        super();
+        this.fixed = offset1;
+    }
+    get type() {
+        return "fixed";
+    }
+    get name() {
+        return this.fixed === 0 ? "UTC" : `UTC${formatOffset(this.fixed, "narrow")}`;
+    }
+    offsetName() {
+        return this.name;
+    }
+    formatOffset(ts, format) {
+        return formatOffset(this.fixed, format);
+    }
+    get universal() {
+        return true;
+    }
+    offset() {
+        return this.fixed;
+    }
+    equals(otherZone) {
+        return otherZone.type === "fixed" && otherZone.fixed === this.fixed;
+    }
+    get isValid() {
+        return true;
+    }
+}
+const matchingRegex = RegExp(`^${ianaRegex.source}$`);
+let dtfCache = {
+};
+function makeDTF(zone) {
+    if (!dtfCache[zone]) {
+        dtfCache[zone] = new Intl.DateTimeFormat("en-US", {
+            hour12: false,
+            timeZone: zone,
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit"
+        });
+    }
+    return dtfCache[zone];
+}
+const typeToPos = {
+    year: 0,
+    month: 1,
+    day: 2,
+    hour: 3,
+    minute: 4,
+    second: 5
+};
+function hackyOffset(dtf, date) {
+    const formatted = dtf.format(date).replace(/\u200E/g, ""), parsed = /(\d+)\/(\d+)\/(\d+),? (\d+):(\d+):(\d+)/.exec(formatted), [, fMonth, fDay, fYear, fHour, fMinute, fSecond] = parsed;
+    return [
+        fYear,
+        fMonth,
+        fDay,
+        fHour,
+        fMinute,
+        fSecond
+    ];
+}
+function partsOffset(dtf, date) {
+    const formatted = dtf.formatToParts(date), filled = [];
+    for(let i = 0; i < formatted.length; i++){
+        const { type , value  } = formatted[i], pos = typeToPos[type];
+        if (!isUndefined(pos)) {
+            filled[pos] = parseInt(value, 10);
+        }
+    }
+    return filled;
+}
+let ianaZoneCache = {
+};
+class IANAZone extends Zone {
+    static create(name) {
+        if (!ianaZoneCache[name]) {
+            ianaZoneCache[name] = new IANAZone(name);
+        }
+        return ianaZoneCache[name];
+    }
+    static resetCache() {
+        ianaZoneCache = {
+        };
+        dtfCache = {
+        };
+    }
+    static isValidSpecifier(s) {
+        return !!(s && s.match(matchingRegex));
+    }
+    static isValidZone(zone) {
+        try {
+            new Intl.DateTimeFormat("en-US", {
+                timeZone: zone
+            }).format();
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+    static parseGMTOffset(specifier) {
+        if (specifier) {
+            const match = specifier.match(/^Etc\/GMT([+-]\d{1,2})$/i);
+            if (match) {
+                return -60 * parseInt(match[1]);
+            }
+        }
+        return null;
+    }
+    constructor(name){
+        super();
+        this.zoneName = name;
+        this.valid = IANAZone.isValidZone(name);
+    }
+    get type() {
+        return "iana";
+    }
+    get name() {
+        return this.zoneName;
+    }
+    get universal() {
+        return false;
+    }
+    offsetName(ts, { format , locale  }) {
+        return parseZoneInfo(ts, format, locale, this.name);
+    }
+    formatOffset(ts, format) {
+        return formatOffset(this.offset(ts), format);
+    }
+    offset(ts) {
+        const date = new Date(ts), dtf = makeDTF(this.name), [year, month, day, hour, minute, second] = dtf.formatToParts ? partsOffset(dtf, date) : hackyOffset(dtf, date), adjustedHour = hour === 24 ? 0 : hour;
+        const asUTC = objToLocalTS({
+            year,
+            month,
+            day,
+            hour: adjustedHour,
+            minute,
+            second,
+            millisecond: 0
+        });
+        let asTS = +date;
+        const over = asTS % 1000;
+        asTS -= over >= 0 ? over : 1000 + over;
+        return (asUTC - asTS) / (60 * 1000);
+    }
+    equals(otherZone) {
+        return otherZone.type === "iana" && otherZone.name === this.name;
+    }
+    get isValid() {
+        return this.valid;
+    }
+}
+const numberingSystems = {
+    arab: "[\u0660-\u0669]",
+    arabext: "[\u06F0-\u06F9]",
+    bali: "[\u1B50-\u1B59]",
+    beng: "[\u09E6-\u09EF]",
+    deva: "[\u0966-\u096F]",
+    fullwide: "[\uFF10-\uFF19]",
+    gujr: "[\u0AE6-\u0AEF]",
+    hanidec: "[〇|一|二|三|四|五|六|七|八|九]",
+    khmr: "[\u17E0-\u17E9]",
+    knda: "[\u0CE6-\u0CEF]",
+    laoo: "[\u0ED0-\u0ED9]",
+    limb: "[\u1946-\u194F]",
+    mlym: "[\u0D66-\u0D6F]",
+    mong: "[\u1810-\u1819]",
+    mymr: "[\u1040-\u1049]",
+    orya: "[\u0B66-\u0B6F]",
+    tamldec: "[\u0BE6-\u0BEF]",
+    telu: "[\u0C66-\u0C6F]",
+    thai: "[\u0E50-\u0E59]",
+    tibt: "[\u0F20-\u0F29]",
+    latn: "\\d"
+};
+const numberingSystemsUTF16 = {
+    arab: [
+        1632,
+        1641
+    ],
+    arabext: [
+        1776,
+        1785
+    ],
+    bali: [
+        6992,
+        7001
+    ],
+    beng: [
+        2534,
+        2543
+    ],
+    deva: [
+        2406,
+        2415
+    ],
+    fullwide: [
+        65296,
+        65303
+    ],
+    gujr: [
+        2790,
+        2799
+    ],
+    khmr: [
+        6112,
+        6121
+    ],
+    knda: [
+        3302,
+        3311
+    ],
+    laoo: [
+        3792,
+        3801
+    ],
+    limb: [
+        6470,
+        6479
+    ],
+    mlym: [
+        3430,
+        3439
+    ],
+    mong: [
+        6160,
+        6169
+    ],
+    mymr: [
+        4160,
+        4169
+    ],
+    orya: [
+        2918,
+        2927
+    ],
+    tamldec: [
+        3046,
+        3055
+    ],
+    telu: [
+        3174,
+        3183
+    ],
+    thai: [
+        3664,
+        3673
+    ],
+    tibt: [
+        3872,
+        3881
+    ]
+};
+const hanidecChars = numberingSystems.hanidec.replace(/[\[|\]]/g, "").split("");
+function parseDigits(str) {
+    let value = parseInt(str, 10);
+    if (isNaN(value)) {
+        value = "";
+        for(let i = 0; i < str.length; i++){
+            const code = str.charCodeAt(i);
+            if (str[i].search(numberingSystems.hanidec) !== -1) {
+                value += hanidecChars.indexOf(str[i]);
+            } else {
+                for(const key in numberingSystemsUTF16){
+                    const [min, max] = numberingSystemsUTF16[key];
+                    if (code >= min && code <= max) {
+                        value += code - min;
+                    }
+                }
+            }
+        }
+        return parseInt(value, 10);
+    } else {
+        return value;
+    }
+}
+function digitRegex({ numberingSystem  }, append = "") {
+    return new RegExp(`${numberingSystems[numberingSystem || "latn"]}${append}`);
+}
+class InvalidZone extends Zone {
+    constructor(zoneName){
+        super();
+        this.zoneName = zoneName;
+    }
+    get type() {
+        return "invalid";
+    }
+    get name() {
+        return this.zoneName;
+    }
+    get universal() {
+        return false;
+    }
+    offsetName() {
+        return null;
+    }
+    formatOffset() {
+        return "";
+    }
+    offset() {
+        return NaN;
+    }
+    equals() {
+        return false;
+    }
+    get isValid() {
+        return false;
+    }
+}
+function normalizeZone(input, defaultZone) {
+    let offset1;
+    if (isUndefined(input) || input === null) {
+        return defaultZone;
+    } else if (input instanceof Zone) {
+        return input;
+    } else if (isString(input)) {
+        const lowered = input.toLowerCase();
+        if (lowered === "local") return defaultZone;
+        else if (lowered === "utc" || lowered === "gmt") return FixedOffsetZone.utcInstance;
+        else if ((offset1 = IANAZone.parseGMTOffset(input)) != null) {
+            return FixedOffsetZone.instance(offset1);
+        } else if (IANAZone.isValidSpecifier(lowered)) return IANAZone.create(input);
+        else return FixedOffsetZone.parseSpecifier(lowered) || new InvalidZone(input);
+    } else if (isNumber(input)) {
+        return FixedOffsetZone.instance(input);
+    } else if (typeof input === "object" && input.offset && typeof input.offset === "number") {
+        return input;
+    } else {
+        return new InvalidZone(input);
+    }
+}
+class Invalid {
+    constructor(reason3, explanation1){
+        this.reason = reason3;
+        this.explanation = explanation1;
+    }
+    toMessage() {
+        if (this.explanation) {
+            return `${this.reason}: ${this.explanation}`;
+        } else {
+            return this.reason;
+        }
+    }
+}
+let singleton1 = null;
+class LocalZone extends Zone {
+    static get instance() {
+        if (singleton1 === null) {
+            singleton1 = new LocalZone();
+        }
+        return singleton1;
+    }
+    get type() {
+        return "local";
+    }
+    get name() {
+        if (hasIntl()) {
+            return new Intl.DateTimeFormat().resolvedOptions().timeZone;
+        } else return "local";
+    }
+    get universal() {
+        return false;
+    }
+    offsetName(ts, { format , locale  }) {
+        return parseZoneInfo(ts, format, locale);
+    }
+    formatOffset(ts, format) {
+        return formatOffset(this.offset(ts), format);
+    }
+    offset(ts) {
+        return -new Date(ts).getTimezoneOffset();
+    }
+    equals(otherZone) {
+        return otherZone.type === "local";
+    }
+    get isValid() {
+        return true;
+    }
+}
+function combineRegexes(...regexes) {
+    const full = regexes.reduce((f, r)=>f + r.source
+    , "");
+    return RegExp(`^${full}$`);
+}
+function combineExtractors(...extractors) {
+    return (m)=>extractors.reduce(([mergedVals, mergedZone, cursor], ex)=>{
+            const [val, zone, next] = ex(m, cursor);
+            return [
+                Object.assign(mergedVals, val),
+                mergedZone || zone,
+                next
+            ];
+        }, [
+            {
+            },
+            null,
+            1
+        ]).slice(0, 2)
+    ;
+}
+function parse(s2, ...patterns) {
+    if (s2 == null) {
+        return [
+            null,
+            null
+        ];
+    }
+    for (const [regex, extractor] of patterns){
+        const m = regex.exec(s2);
+        if (m) {
+            return extractor(m);
+        }
+    }
+    return [
+        null,
+        null
+    ];
+}
+function simpleParse(...keys) {
+    return (match, cursor)=>{
+        const ret = {
+        };
+        let i;
+        for(i = 0; i < keys.length; i++){
+            ret[keys[i]] = parseInteger(match[cursor + i]);
+        }
+        return [
+            ret,
+            null,
+            cursor + i
+        ];
+    };
+}
+const offsetRegex = /(?:(Z)|([+-]\d\d)(?::?(\d\d))?)/, isoTimeBaseRegex = /(\d\d)(?::?(\d\d)(?::?(\d\d)(?:[.,](\d{1,30}))?)?)?/, isoTimeRegex = RegExp(`${isoTimeBaseRegex.source}${offsetRegex.source}?`), isoTimeExtensionRegex = RegExp(`(?:T${isoTimeRegex.source})?`), isoYmdRegex = /([+-]\d{6}|\d{4})(?:-?(\d\d)(?:-?(\d\d))?)?/, isoWeekRegex = /(\d{4})-?W(\d\d)(?:-?(\d))?/, isoOrdinalRegex = /(\d{4})-?(\d{3})/, extractISOWeekData = simpleParse("weekYear", "weekNumber", "weekDay"), extractISOOrdinalData = simpleParse("year", "ordinal"), sqlYmdRegex = /(\d{4})-(\d\d)-(\d\d)/, sqlTimeRegex = RegExp(`${isoTimeBaseRegex.source} ?(?:${offsetRegex.source}|(${ianaRegex.source}))?`), sqlTimeExtensionRegex = RegExp(`(?: ${sqlTimeRegex.source})?`);
+function __int(match, pos, fallback) {
+    const m = match[pos];
+    return isUndefined(m) ? fallback : parseInteger(m);
+}
+function extractISOYmd(match, cursor) {
+    const item = {
+        year: __int(match, cursor),
+        month: __int(match, cursor + 1, 1),
+        day: __int(match, cursor + 2, 1)
+    };
+    return [
+        item,
+        null,
+        cursor + 3
+    ];
+}
+function extractISOTime(match, cursor) {
+    const item = {
+        hour: __int(match, cursor, 0),
+        minute: __int(match, cursor + 1, 0),
+        second: __int(match, cursor + 2, 0),
+        millisecond: parseMillis(match[cursor + 3])
+    };
+    return [
+        item,
+        null,
+        cursor + 4
+    ];
+}
+function extractISOOffset(match, cursor) {
+    const local = !match[cursor] && !match[cursor + 1], fullOffset = signedOffset(match[cursor + 1], match[cursor + 2]), zone = local ? null : FixedOffsetZone.instance(fullOffset);
+    return [
+        {
+        },
+        zone,
+        cursor + 3
+    ];
+}
+function extractIANAZone(match, cursor) {
+    const zone = match[cursor] ? IANAZone.create(match[cursor]) : null;
+    return [
+        {
+        },
+        zone,
+        cursor + 1
+    ];
+}
+const isoDuration = /^-?P(?:(?:(-?\d{1,9})Y)?(?:(-?\d{1,9})M)?(?:(-?\d{1,9})W)?(?:(-?\d{1,9})D)?(?:T(?:(-?\d{1,9})H)?(?:(-?\d{1,9})M)?(?:(-?\d{1,20})(?:[.,](-?\d{1,9}))?S)?)?)$/;
+function extractISODuration(match) {
+    const [s2, yearStr, monthStr, weekStr, dayStr, hourStr, minuteStr, secondStr, millisecondsStr] = match;
+    const hasNegativePrefix = s2[0] === "-";
+    const maybeNegate = (num)=>num && hasNegativePrefix ? -num : num
+    ;
+    return [
+        {
+            years: maybeNegate(parseInteger(yearStr)),
+            months: maybeNegate(parseInteger(monthStr)),
+            weeks: maybeNegate(parseInteger(weekStr)),
+            days: maybeNegate(parseInteger(dayStr)),
+            hours: maybeNegate(parseInteger(hourStr)),
+            minutes: maybeNegate(parseInteger(minuteStr)),
+            seconds: maybeNegate(parseInteger(secondStr)),
+            milliseconds: maybeNegate(parseMillis(millisecondsStr))
+        }
+    ];
+}
+const obsOffsets = {
+    GMT: 0,
+    EDT: -4 * 60,
+    EST: -5 * 60,
+    CDT: -5 * 60,
+    CST: -6 * 60,
+    MDT: -6 * 60,
+    MST: -7 * 60,
+    PDT: -7 * 60,
+    PST: -8 * 60
+};
+function fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr) {
+    const result = {
+        year: yearStr.length === 2 ? untruncateYear(parseInteger(yearStr)) : parseInteger(yearStr),
+        month: monthsShort.indexOf(monthStr) + 1,
+        day: parseInteger(dayStr),
+        hour: parseInteger(hourStr),
+        minute: parseInteger(minuteStr)
+    };
+    if (secondStr) result.second = parseInteger(secondStr);
+    if (weekdayStr) {
+        result.weekday = weekdayStr.length > 3 ? weekdaysLong.indexOf(weekdayStr) + 1 : weekdaysShort.indexOf(weekdayStr) + 1;
+    }
+    return result;
+}
+const rfc2822 = /^(?:(Mon|Tue|Wed|Thu|Fri|Sat|Sun),\s)?(\d{1,2})\s(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s(\d{2,4})\s(\d\d):(\d\d)(?::(\d\d))?\s(?:(UT|GMT|[ECMP][SD]T)|([Zz])|(?:([+-]\d\d)(\d\d)))$/;
+function extractRFC2822(match) {
+    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr, obsOffset, milOffset, offHourStr, offMinuteStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
+    let offset1;
+    if (obsOffset) {
+        offset1 = obsOffsets[obsOffset];
+    } else if (milOffset) {
+        offset1 = 0;
+    } else {
+        offset1 = signedOffset(offHourStr, offMinuteStr);
+    }
+    return [
+        result,
+        new FixedOffsetZone(offset1)
+    ];
+}
+function preprocessRFC2822(s2) {
+    return s2.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").trim();
+}
+const rfc1123 = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d\d) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) (\d{4}) (\d\d):(\d\d):(\d\d) GMT$/, rfc850 = /^(Monday|Tuesday|Wedsday|Thursday|Friday|Saturday|Sunday), (\d\d)-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-(\d\d) (\d\d):(\d\d):(\d\d) GMT$/, ascii = /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun) (Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec) ( \d|\d\d) (\d\d):(\d\d):(\d\d) (\d{4})$/;
+function extractRFC1123Or850(match) {
+    const [, weekdayStr, dayStr, monthStr, yearStr, hourStr, minuteStr, secondStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
+    return [
+        result,
+        FixedOffsetZone.utcInstance
+    ];
+}
+function extractASCII(match) {
+    const [, weekdayStr, monthStr, dayStr, hourStr, minuteStr, secondStr, yearStr] = match, result = fromStrings(weekdayStr, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr);
+    return [
+        result,
+        FixedOffsetZone.utcInstance
+    ];
+}
+const isoYmdWithTimeExtensionRegex = combineRegexes(isoYmdRegex, isoTimeExtensionRegex);
+const isoWeekWithTimeExtensionRegex = combineRegexes(isoWeekRegex, isoTimeExtensionRegex);
+const isoOrdinalWithTimeExtensionRegex = combineRegexes(isoOrdinalRegex, isoTimeExtensionRegex);
+const isoTimeCombinedRegex = combineRegexes(isoTimeRegex);
+const extractISOYmdTimeAndOffset = combineExtractors(extractISOYmd, extractISOTime, extractISOOffset);
+const extractISOWeekTimeAndOffset = combineExtractors(extractISOWeekData, extractISOTime, extractISOOffset);
+const extractISOOrdinalDataAndTime = combineExtractors(extractISOOrdinalData, extractISOTime);
+const extractISOTimeAndOffset = combineExtractors(extractISOTime, extractISOOffset);
+function parseISODate(s2) {
+    return parse(s2, [
+        isoYmdWithTimeExtensionRegex,
+        extractISOYmdTimeAndOffset
+    ], [
+        isoWeekWithTimeExtensionRegex,
+        extractISOWeekTimeAndOffset
+    ], [
+        isoOrdinalWithTimeExtensionRegex,
+        extractISOOrdinalDataAndTime
+    ], [
+        isoTimeCombinedRegex,
+        extractISOTimeAndOffset
+    ]);
+}
+function parseRFC2822Date(s2) {
+    return parse(preprocessRFC2822(s2), [
+        rfc2822,
+        extractRFC2822
+    ]);
+}
+function parseHTTPDate(s2) {
+    return parse(s2, [
+        rfc1123,
+        extractRFC1123Or850
+    ], [
+        rfc850,
+        extractRFC1123Or850
+    ], [
+        ascii,
+        extractASCII
+    ]);
+}
+function parseISODuration(s2) {
+    return parse(s2, [
+        isoDuration,
+        extractISODuration
+    ]);
+}
+const sqlYmdWithTimeExtensionRegex = combineRegexes(sqlYmdRegex, sqlTimeExtensionRegex);
+const sqlTimeCombinedRegex = combineRegexes(sqlTimeRegex);
+const extractISOYmdTimeOffsetAndIANAZone = combineExtractors(extractISOYmd, extractISOTime, extractISOOffset, extractIANAZone);
+const extractISOTimeOffsetAndIANAZone = combineExtractors(extractISOTime, extractISOOffset, extractIANAZone);
+function parseSQL(s2) {
+    return parse(s2, [
+        sqlYmdWithTimeExtensionRegex,
+        extractISOYmdTimeOffsetAndIANAZone
+    ], [
+        sqlTimeCombinedRegex,
+        extractISOTimeOffsetAndIANAZone
+    ]);
+}
+const nonLeapLadder = [
+    0,
+    31,
+    59,
+    90,
+    120,
+    151,
+    181,
+    212,
+    243,
+    273,
+    304,
+    334
+], leapLadder = [
+    0,
+    31,
+    60,
+    91,
+    121,
+    152,
+    182,
+    213,
+    244,
+    274,
+    305,
+    335
+];
+function unitOutOfRange(unit1, value) {
+    return new Invalid("unit out of range", `you specified ${value} (of type ${typeof value}) as a ${unit1}, which is invalid`);
+}
+function dayOfWeek(year, month, day) {
+    const js = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
+    return js === 0 ? 7 : js;
+}
+function computeOrdinal(year, month, day) {
+    return day + (isLeapYear(year) ? leapLadder : nonLeapLadder)[month - 1];
+}
+function uncomputeOrdinal(year, ordinal) {
+    const table = isLeapYear(year) ? leapLadder : nonLeapLadder, month0 = table.findIndex((i)=>i < ordinal
+    ), day = ordinal - table[month0];
+    return {
+        month: month0 + 1,
+        day
+    };
+}
+function gregorianToWeek(gregObj) {
+    const { year , month , day  } = gregObj, ordinal = computeOrdinal(year, month, day), weekday = dayOfWeek(year, month, day);
+    let weekNumber = Math.floor((ordinal - weekday + 10) / 7), weekYear;
+    if (weekNumber < 1) {
+        weekYear = year - 1;
+        weekNumber = weeksInWeekYear(weekYear);
+    } else if (weekNumber > weeksInWeekYear(year)) {
+        weekYear = year + 1;
+        weekNumber = 1;
+    } else {
+        weekYear = year;
+    }
+    return Object.assign({
+        weekYear,
+        weekNumber,
+        weekday
+    }, timeObject(gregObj));
+}
+function weekToGregorian(weekData) {
+    const { weekYear , weekNumber , weekday  } = weekData, weekdayOfJan4 = dayOfWeek(weekYear, 1, 4), yearInDays = daysInYear(weekYear);
+    let ordinal = weekNumber * 7 + weekday - weekdayOfJan4 - 3, year;
+    if (ordinal < 1) {
+        year = weekYear - 1;
+        ordinal += daysInYear(year);
+    } else if (ordinal > yearInDays) {
+        year = weekYear + 1;
+        ordinal -= daysInYear(weekYear);
+    } else {
+        year = weekYear;
+    }
+    const { month , day  } = uncomputeOrdinal(year, ordinal);
+    return Object.assign({
+        year,
+        month,
+        day
+    }, timeObject(weekData));
+}
+function gregorianToOrdinal(gregData) {
+    const { year , month , day  } = gregData, ordinal = computeOrdinal(year, month, day);
+    return Object.assign({
+        year,
+        ordinal
+    }, timeObject(gregData));
+}
+function ordinalToGregorian(ordinalData) {
+    const { year , ordinal  } = ordinalData, { month , day  } = uncomputeOrdinal(year, ordinal);
+    return Object.assign({
+        year,
+        month,
+        day
+    }, timeObject(ordinalData));
+}
+function hasInvalidWeekData(obj) {
+    const validYear = isInteger(obj.weekYear), validWeek = integerBetween(obj.weekNumber, 1, weeksInWeekYear(obj.weekYear)), validWeekday = integerBetween(obj.weekday, 1, 7);
+    if (!validYear) {
+        return unitOutOfRange("weekYear", obj.weekYear);
+    } else if (!validWeek) {
+        return unitOutOfRange("week", obj.week);
+    } else if (!validWeekday) {
+        return unitOutOfRange("weekday", obj.weekday);
+    } else return false;
+}
+function hasInvalidOrdinalData(obj) {
+    const validYear = isInteger(obj.year), validOrdinal = integerBetween(obj.ordinal, 1, daysInYear(obj.year));
+    if (!validYear) {
+        return unitOutOfRange("year", obj.year);
+    } else if (!validOrdinal) {
+        return unitOutOfRange("ordinal", obj.ordinal);
+    } else return false;
+}
+function hasInvalidGregorianData(obj) {
+    const validYear = isInteger(obj.year), validMonth = integerBetween(obj.month, 1, 12), validDay = integerBetween(obj.day, 1, daysInMonth(obj.year, obj.month));
+    if (!validYear) {
+        return unitOutOfRange("year", obj.year);
+    } else if (!validMonth) {
+        return unitOutOfRange("month", obj.month);
+    } else if (!validDay) {
+        return unitOutOfRange("day", obj.day);
+    } else return false;
+}
+function hasInvalidTimeData(obj) {
+    const { hour , minute , second , millisecond  } = obj;
+    const validHour = integerBetween(hour, 0, 23) || hour === 24 && minute === 0 && second === 0 && millisecond === 0, validMinute = integerBetween(minute, 0, 59), validSecond = integerBetween(second, 0, 59), validMillisecond = integerBetween(millisecond, 0, 999);
+    if (!validHour) {
+        return unitOutOfRange("hour", hour);
+    } else if (!validMinute) {
+        return unitOutOfRange("minute", minute);
+    } else if (!validSecond) {
+        return unitOutOfRange("second", second);
+    } else if (!validMillisecond) {
+        return unitOutOfRange("millisecond", millisecond);
+    } else return false;
+}
+const INVALID = "Invalid DateTime";
+const INVALID1 = "Invalid Duration";
+let intlDTCache = {
+};
+let now = ()=>Date.now()
+, defaultZone = null, defaultLocale = null, defaultNumberingSystem = null, defaultOutputCalendar = null, throwOnInvalid = false;
+const INVALID2 = "Invalid Interval";
+class Info {
+    static hasDST(zone = Settings.defaultZone) {
+        const proto = DateTime.local().setZone(zone).set({
+            month: 12
+        });
+        return !zone.universal && proto.offset !== proto.set({
+            month: 6
+        }).offset;
+    }
+    static isValidIANAZone(zone) {
+        return IANAZone.isValidSpecifier(zone) && IANAZone.isValidZone(zone);
+    }
+    static normalizeZone(input) {
+        return normalizeZone(input, Settings.defaultZone);
+    }
+    static months(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, outputCalendar).months(length);
+    }
+    static monthsFormat(length = "long", { locale =null , numberingSystem =null , outputCalendar ="gregory"  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, outputCalendar).months(length, true);
+    }
+    static weekdays(length = "long", { locale =null , numberingSystem =null  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, null).weekdays(length);
+    }
+    static weekdaysFormat(length = "long", { locale =null , numberingSystem =null  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, null).weekdays(length, true);
+    }
+    static meridiems({ locale =null  } = {
+    }) {
+        return Locale.create(locale).meridiems();
+    }
+    static eras(length = "short", { locale =null  } = {
+    }) {
+        return Locale.create(locale, null, "gregory").eras(length);
+    }
+    static features() {
+        let intl = false, intlTokens = false, zones = false, relative = false;
+        if (hasIntl()) {
+            intl = true;
+            intlTokens = hasFormatToParts();
+            relative = hasRelative();
+            try {
+                zones = new Intl.DateTimeFormat("en", {
+                    timeZone: "America/New_York"
+                }).resolvedOptions().timeZone === "America/New_York";
+            } catch (e) {
+                zones = false;
+            }
+        }
+        return {
+            intl,
+            intlTokens,
+            zones,
+            relative
+        };
     }
 }
 const lowOrderMatrix = {
@@ -2031,679 +2334,15 @@ function dayDiff(earlier, later) {
     return Math.floor(Duration.fromMillis(ms).as("days"));
 }
 const MISSING_FTP = "missing Intl.DateTimeFormat.formatToParts support";
-const nonLeapLadder = [
-    0,
-    31,
-    59,
-    90,
-    120,
-    151,
-    181,
-    212,
-    243,
-    273,
-    304,
-    334
-], leapLadder = [
-    0,
-    31,
-    60,
-    91,
-    121,
-    152,
-    182,
-    213,
-    244,
-    274,
-    305,
-    335
-];
-function getCachedDTF(locString, opts = {
-}) {
-    const key = JSON.stringify([
-        locString,
-        opts
-    ]);
-    let dtf = intlDTCache[key];
-    if (!dtf) {
-        dtf = new Intl.DateTimeFormat(locString, opts);
-        intlDTCache[key] = dtf;
-    }
-    return dtf;
-}
-let intlNumCache = {
-};
-function getCachedINF(locString, opts = {
-}) {
-    const key = JSON.stringify([
-        locString,
-        opts
-    ]);
-    let inf = intlNumCache[key];
-    if (!inf) {
-        inf = new Intl.NumberFormat(locString, opts);
-        intlNumCache[key] = inf;
-    }
-    return inf;
-}
-let intlRelCache = {
-};
-function getCachedRTF(locString, opts = {
-}) {
-    const { base , ...cacheKeyOpts } = opts;
-    const key = JSON.stringify([
-        locString,
-        cacheKeyOpts
-    ]);
-    let inf = intlRelCache[key];
-    if (!inf) {
-        inf = new Intl.RelativeTimeFormat(locString, opts);
-        intlRelCache[key] = inf;
-    }
-    return inf;
-}
-let sysLocaleCache = null;
-function systemLocale() {
-    if (sysLocaleCache) {
-        return sysLocaleCache;
-    } else if (hasIntl()) {
-        const computedSys = new Intl.DateTimeFormat().resolvedOptions().locale;
-        sysLocaleCache = !computedSys || computedSys === "und" ? "en-US" : computedSys;
-        return sysLocaleCache;
-    } else {
-        sysLocaleCache = "en-US";
-        return sysLocaleCache;
-    }
-}
-function parseLocaleString(localeStr) {
-    const uIndex = localeStr.indexOf("-u-");
-    if (uIndex === -1) {
-        return [
-            localeStr
-        ];
-    } else {
-        let options;
-        const smaller = localeStr.substring(0, uIndex);
-        try {
-            options = getCachedDTF(localeStr).resolvedOptions();
-        } catch (e) {
-            options = getCachedDTF(smaller).resolvedOptions();
-        }
-        const { numberingSystem , calendar  } = options;
-        return [
-            smaller,
-            numberingSystem,
-            calendar
-        ];
-    }
-}
-function intlConfigString(localeStr, numberingSystem, outputCalendar) {
-    if (hasIntl()) {
-        if (outputCalendar || numberingSystem) {
-            localeStr += "-u";
-            if (outputCalendar) {
-                localeStr += `-ca-${outputCalendar}`;
-            }
-            if (numberingSystem) {
-                localeStr += `-nu-${numberingSystem}`;
-            }
-            return localeStr;
-        } else {
-            return localeStr;
-        }
-    } else {
-        return [];
-    }
-}
-function mapMonths(f) {
-    const ms = [];
-    for(let i = 1; i <= 12; i++){
-        const dt = DateTime.utc(2016, i, 1);
-        ms.push(f(dt));
-    }
-    return ms;
-}
-function mapWeekdays(f) {
-    const ms = [];
-    for(let i = 1; i <= 7; i++){
-        const dt = DateTime.utc(2016, 11, 13 + i);
-        ms.push(f(dt));
-    }
-    return ms;
-}
-function listStuff(loc, length, defaultOK, englishFn, intlFn) {
-    const mode = loc.listingMode(defaultOK);
-    if (mode === "error") {
-        return null;
-    } else if (mode === "en") {
-        return englishFn(length);
-    } else {
-        return intlFn(length);
-    }
-}
-function supportsFastNumbers(loc) {
-    if (loc.numberingSystem && loc.numberingSystem !== "latn") {
-        return false;
-    } else {
-        return loc.numberingSystem === "latn" || !loc.locale || loc.locale.startsWith("en") || hasIntl() && new Intl.DateTimeFormat(loc.intl).resolvedOptions().numberingSystem === "latn";
-    }
-}
-class PolyNumberFormatter {
-    constructor(intl, forceSimple, opts3){
-        this.padTo = opts3.padTo || 0;
-        this.floor = opts3.floor || false;
-        if (!forceSimple && hasIntl()) {
-            const intlOpts = {
-                useGrouping: false
-            };
-            if (opts3.padTo > 0) intlOpts.minimumIntegerDigits = opts3.padTo;
-            this.inf = getCachedINF(intl, intlOpts);
-        }
-    }
-    format(i) {
-        if (this.inf) {
-            const fixed = this.floor ? Math.floor(i) : i;
-            return this.inf.format(fixed);
-        } else {
-            const fixed = this.floor ? Math.floor(i) : roundTo(i, 3);
-            return padStart(fixed, this.padTo);
-        }
-    }
-}
-function formatRelativeTime(unit2, count, numeric = "always", narrow = false) {
-    const units = {
-        years: [
-            "year",
-            "yr."
-        ],
-        quarters: [
-            "quarter",
-            "qtr."
-        ],
-        months: [
-            "month",
-            "mo."
-        ],
-        weeks: [
-            "week",
-            "wk."
-        ],
-        days: [
-            "day",
-            "day",
-            "days"
-        ],
-        hours: [
-            "hour",
-            "hr."
-        ],
-        minutes: [
-            "minute",
-            "min."
-        ],
-        seconds: [
-            "second",
-            "sec."
-        ]
-    };
-    const lastable = [
-        "hours",
-        "minutes",
-        "seconds"
-    ].indexOf(unit2) === -1;
-    if (numeric === "auto" && lastable) {
-        const isDay = unit2 === "days";
-        switch(count){
-            case 1:
-                return isDay ? "tomorrow" : `next ${units[unit2][0]}`;
-            case -1:
-                return isDay ? "yesterday" : `last ${units[unit2][0]}`;
-            case 0:
-                return isDay ? "today" : `this ${units[unit2][0]}`;
-            default:
-        }
-    }
-    const isInPast = Object.is(count, -0) || count < 0, fmtValue = Math.abs(count), singular = fmtValue === 1, lilUnits = units[unit2], fmtUnit = narrow ? singular ? lilUnits[1] : lilUnits[2] || lilUnits[1] : singular ? units[unit2][0] : unit2;
-    return isInPast ? `${fmtValue} ${fmtUnit} ago` : `in ${fmtValue} ${fmtUnit}`;
-}
-function formatString(knownFormat) {
-    const filtered = pick(knownFormat, [
-        "weekday",
-        "era",
-        "year",
-        "month",
-        "day",
-        "hour",
-        "minute",
-        "second",
-        "timeZoneName",
-        "hour12"
-    ]), key = stringify(filtered), dateTimeHuge = "EEEE, LLLL d, yyyy, h:mm a";
-    switch(key){
-        case stringify(DATE_SHORT):
-            return "M/d/yyyy";
-        case stringify(DATE_MED):
-            return "LLL d, yyyy";
-        case stringify(DATE_MED_WITH_WEEKDAY):
-            return "EEE, LLL d, yyyy";
-        case stringify(DATE_FULL):
-            return "LLLL d, yyyy";
-        case stringify(DATE_HUGE):
-            return "EEEE, LLLL d, yyyy";
-        case stringify(TIME_SIMPLE):
-            return "h:mm a";
-        case stringify(TIME_WITH_SECONDS):
-            return "h:mm:ss a";
-        case stringify(TIME_WITH_SHORT_OFFSET):
-            return "h:mm a";
-        case stringify(TIME_WITH_LONG_OFFSET):
-            return "h:mm a";
-        case stringify(TIME_24_SIMPLE):
-            return "HH:mm";
-        case stringify(TIME_24_WITH_SECONDS):
-            return "HH:mm:ss";
-        case stringify(TIME_24_WITH_SHORT_OFFSET):
-            return "HH:mm";
-        case stringify(TIME_24_WITH_LONG_OFFSET):
-            return "HH:mm";
-        case stringify(DATETIME_SHORT):
-            return "M/d/yyyy, h:mm a";
-        case stringify(DATETIME_MED):
-            return "LLL d, yyyy, h:mm a";
-        case stringify(DATETIME_FULL):
-            return "LLLL d, yyyy, h:mm a";
-        case stringify(DATETIME_HUGE):
-            return dateTimeHuge;
-        case stringify(DATETIME_SHORT_WITH_SECONDS):
-            return "M/d/yyyy, h:mm:ss a";
-        case stringify(DATETIME_MED_WITH_SECONDS):
-            return "LLL d, yyyy, h:mm:ss a";
-        case stringify(DATETIME_MED_WITH_WEEKDAY):
-            return "EEE, d LLL yyyy, h:mm a";
-        case stringify(DATETIME_FULL_WITH_SECONDS):
-            return "LLLL d, yyyy, h:mm:ss a";
-        case stringify(DATETIME_HUGE_WITH_SECONDS):
-            return "EEEE, LLLL d, yyyy, h:mm:ss a";
-        default:
-            return dateTimeHuge;
-    }
-}
-class PolyDateFormatter {
-    constructor(dt1, intl1, opts1){
-        this.opts = opts1;
-        this.hasIntl = hasIntl();
-        let z1;
-        if (dt1.zone.universal && this.hasIntl) {
-            z1 = "UTC";
-            if (opts1.timeZoneName) {
-                this.dt = dt1;
-            } else {
-                this.dt = dt1.offset === 0 ? dt1 : DateTime.fromMillis(dt1.ts + dt1.offset * 60 * 1000);
-            }
-        } else if (dt1.zone.type === "local") {
-            this.dt = dt1;
-        } else {
-            this.dt = dt1;
-            z1 = dt1.zone.name;
-        }
-        if (this.hasIntl) {
-            const intlOpts = Object.assign({
-            }, this.opts);
-            if (z1) {
-                intlOpts.timeZone = z1;
-            }
-            this.dtf = getCachedDTF(intl1, intlOpts);
-        }
-    }
-    format() {
-        if (this.hasIntl) {
-            return this.dtf.format(this.dt.toJSDate());
-        } else {
-            const tokenFormat = formatString(this.opts), loc = Locale.create("en-US");
-            return Formatter.create(loc).formatDateTimeFromString(this.dt, tokenFormat);
-        }
-    }
-    formatToParts() {
-        if (this.hasIntl && hasFormatToParts()) {
-            return this.dtf.formatToParts(this.dt.toJSDate());
-        } else {
-            return [];
-        }
-    }
-    resolvedOptions() {
-        if (this.hasIntl) {
-            return this.dtf.resolvedOptions();
-        } else {
-            return {
-                locale: "en-US",
-                numberingSystem: "latn",
-                outputCalendar: "gregory"
-            };
-        }
-    }
-}
-class PolyRelFormatter {
-    constructor(intl2, isEnglish, opts2){
-        this.opts = Object.assign({
-            style: "long"
-        }, opts2);
-        if (!isEnglish && hasRelative()) {
-            this.rtf = getCachedRTF(intl2, opts2);
-        }
-    }
-    format(count, unit) {
-        if (this.rtf) {
-            return this.rtf.format(count, unit);
-        } else {
-            return formatRelativeTime(unit, count, this.opts.numeric, this.opts.style !== "long");
-        }
-    }
-    formatToParts(count, unit) {
-        if (this.rtf) {
-            return this.rtf.formatToParts(count, unit);
-        } else {
-            return [];
-        }
-    }
-}
-class Locale {
-    static fromOpts(opts) {
-        return Locale.create(opts.locale, opts.numberingSystem, opts.outputCalendar, opts.defaultToEN);
-    }
-    static create(locale, numberingSystem, outputCalendar, defaultToEN = false) {
-        const specifiedLocale = locale || Settings.defaultLocale, localeR = specifiedLocale || (defaultToEN ? "en-US" : systemLocale()), numberingSystemR = numberingSystem || Settings.defaultNumberingSystem, outputCalendarR = outputCalendar || Settings.defaultOutputCalendar;
-        return new Locale(localeR, numberingSystemR, outputCalendarR, specifiedLocale);
-    }
-    static resetCache() {
-        sysLocaleCache = null;
-        intlDTCache = {
-        };
-        intlNumCache = {
-        };
-        intlRelCache = {
-        };
-    }
-    static fromObject({ locale , numberingSystem , outputCalendar  } = {
-    }) {
-        return Locale.create(locale, numberingSystem, outputCalendar);
-    }
-    constructor(locale2, numbering, outputCalendar1, specifiedLocale){
-        const [parsedLocale, parsedNumberingSystem, parsedOutputCalendar] = parseLocaleString(locale2);
-        this.locale = parsedLocale;
-        this.numberingSystem = numbering || parsedNumberingSystem || null;
-        this.outputCalendar = outputCalendar1 || parsedOutputCalendar || null;
-        this.intl = intlConfigString(this.locale, this.numberingSystem, this.outputCalendar);
-        this.weekdaysCache = {
-            format: {
-            },
-            standalone: {
-            }
-        };
-        this.monthsCache = {
-            format: {
-            },
-            standalone: {
-            }
-        };
-        this.meridiemCache = null;
-        this.eraCache = {
-        };
-        this.specifiedLocale = specifiedLocale;
-        this.fastNumbersCached = null;
-    }
-    get fastNumbers() {
-        if (this.fastNumbersCached == null) {
-            this.fastNumbersCached = supportsFastNumbers(this);
-        }
-        return this.fastNumbersCached;
-    }
-    listingMode(defaultOK = true) {
-        const intl3 = hasIntl(), hasFTP = intl3 && hasFormatToParts(), isActuallyEn = this.isEnglish(), hasNoWeirdness = (this.numberingSystem === null || this.numberingSystem === "latn") && (this.outputCalendar === null || this.outputCalendar === "gregory");
-        if (!hasFTP && !(isActuallyEn && hasNoWeirdness) && !defaultOK) {
-            return "error";
-        } else if (!hasFTP || isActuallyEn && hasNoWeirdness) {
-            return "en";
-        } else {
-            return "intl";
-        }
-    }
-    clone(alts) {
-        if (!alts || Object.getOwnPropertyNames(alts).length === 0) {
-            return this;
-        } else {
-            return Locale.create(alts.locale || this.specifiedLocale, alts.numberingSystem || this.numberingSystem, alts.outputCalendar || this.outputCalendar, alts.defaultToEN || false);
-        }
-    }
-    redefaultToEN(alts = {
-    }) {
-        return this.clone(Object.assign({
-        }, alts, {
-            defaultToEN: true
-        }));
-    }
-    redefaultToSystem(alts = {
-    }) {
-        return this.clone(Object.assign({
-        }, alts, {
-            defaultToEN: false
-        }));
-    }
-    months(length, format = false, defaultOK = true) {
-        return listStuff(this, length, defaultOK, months, ()=>{
-            const intl3 = format ? {
-                month: length,
-                day: "numeric"
-            } : {
-                month: length
-            }, formatStr = format ? "format" : "standalone";
-            if (!this.monthsCache[formatStr][length]) {
-                this.monthsCache[formatStr][length] = mapMonths((dt1)=>this.extract(dt1, intl3, "month")
-                );
-            }
-            return this.monthsCache[formatStr][length];
-        });
-    }
-    weekdays(length, format = false, defaultOK = true) {
-        return listStuff(this, length, defaultOK, weekdays, ()=>{
-            const intl3 = format ? {
-                weekday: length,
-                year: "numeric",
-                month: "long",
-                day: "numeric"
-            } : {
-                weekday: length
-            }, formatStr = format ? "format" : "standalone";
-            if (!this.weekdaysCache[formatStr][length]) {
-                this.weekdaysCache[formatStr][length] = mapWeekdays((dt1)=>this.extract(dt1, intl3, "weekday")
-                );
-            }
-            return this.weekdaysCache[formatStr][length];
-        });
-    }
-    meridiems(defaultOK = true) {
-        return listStuff(this, undefined, defaultOK, ()=>meridiems
-        , ()=>{
-            if (!this.meridiemCache) {
-                const intl3 = {
-                    hour: "numeric",
-                    hour12: true
-                };
-                this.meridiemCache = [
-                    DateTime.utc(2016, 11, 13, 9),
-                    DateTime.utc(2016, 11, 13, 19)
-                ].map((dt1)=>this.extract(dt1, intl3, "dayperiod")
-                );
-            }
-            return this.meridiemCache;
-        });
-    }
-    eras(length, defaultOK = true) {
-        return listStuff(this, length, defaultOK, eras, ()=>{
-            const intl3 = {
-                era: length
-            };
-            if (!this.eraCache[length]) {
-                this.eraCache[length] = [
-                    DateTime.utc(-40, 1, 1),
-                    DateTime.utc(2017, 1, 1)
-                ].map((dt1)=>this.extract(dt1, intl3, "era")
-                );
-            }
-            return this.eraCache[length];
-        });
-    }
-    extract(dt, intlOpts, field) {
-        const df = this.dtFormatter(dt, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field
-        );
-        return matching ? matching.value : null;
-    }
-    numberFormatter(opts = {
-    }) {
-        return new PolyNumberFormatter(this.intl, opts.forceSimple || this.fastNumbers, opts);
-    }
-    dtFormatter(dt, intlOpts = {
-    }) {
-        return new PolyDateFormatter(dt, this.intl, intlOpts);
-    }
-    relFormatter(opts = {
-    }) {
-        return new PolyRelFormatter(this.intl, this.isEnglish(), opts);
-    }
-    isEnglish() {
-        return this.locale === "en" || this.locale.toLowerCase() === "en-us" || hasIntl() && new Intl.DateTimeFormat(this.intl).resolvedOptions().locale.startsWith("en-us");
-    }
-    equals(other) {
-        return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
-    }
-}
-class LocalZone extends Zone {
-    static get instance() {
-        if (singleton === null) {
-            singleton = new LocalZone();
-        }
-        return singleton;
-    }
-    get type() {
-        return "local";
-    }
-    get name() {
-        if (hasIntl()) {
-            return new Intl.DateTimeFormat().resolvedOptions().timeZone;
-        } else return "local";
-    }
-    get universal() {
-        return false;
-    }
-    offsetName(ts, { format , locale  }) {
-        return parseZoneInfo(ts, format, locale);
-    }
-    formatOffset(ts, format) {
-        return formatOffset(this.offset(ts), format);
-    }
-    offset(ts) {
-        return -new Date(ts).getTimezoneOffset();
-    }
-    equals(otherZone) {
-        return otherZone.type === "local";
-    }
-    get isValid() {
-        return true;
-    }
-}
-class Settings {
-    static get now() {
-        return now;
-    }
-    static set now(n) {
-        now = n;
-    }
-    static get defaultZoneName() {
-        return Settings.defaultZone.name;
-    }
-    static set defaultZoneName(z) {
-        if (!z) {
-            defaultZone = null;
-        } else {
-            defaultZone = normalizeZone(z);
-        }
-    }
-    static get defaultZone() {
-        return defaultZone || LocalZone.instance;
-    }
-    static get defaultLocale() {
-        return defaultLocale;
-    }
-    static set defaultLocale(locale) {
-        defaultLocale = locale;
-    }
-    static get defaultNumberingSystem() {
-        return defaultNumberingSystem;
-    }
-    static set defaultNumberingSystem(numberingSystem) {
-        defaultNumberingSystem = numberingSystem;
-    }
-    static get defaultOutputCalendar() {
-        return defaultOutputCalendar;
-    }
-    static set defaultOutputCalendar(outputCalendar) {
-        defaultOutputCalendar = outputCalendar;
-    }
-    static get throwOnInvalid() {
-        return throwOnInvalid;
-    }
-    static set throwOnInvalid(t) {
-        throwOnInvalid = t;
-    }
-    static resetCaches() {
-        Locale.resetCache();
-        IANAZone.resetCache();
-    }
-}
 const MAX_DATE = 8640000000000000;
 function unsupportedZone(zone) {
     return new Invalid("unsupported zone", `the zone "${zone.name}" is not supported`);
 }
-function unitOutOfRange(unit2, value) {
-    return new Invalid("unit out of range", `you specified ${value} (of type ${typeof value}) as a ${unit2}, which is invalid`);
-}
-function dayOfWeek(year, month, day) {
-    const js = new Date(Date.UTC(year, month - 1, day)).getUTCDay();
-    return js === 0 ? 7 : js;
-}
-function computeOrdinal(year, month, day) {
-    return day + (isLeapYear(year) ? leapLadder : nonLeapLadder)[month - 1];
-}
-function uncomputeOrdinal(year, ordinal) {
-    const table = isLeapYear(year) ? leapLadder : nonLeapLadder, month0 = table.findIndex((i)=>i < ordinal
-    ), day = ordinal - table[month0];
-    return {
-        month: month0 + 1,
-        day
-    };
-}
-function gregorianToWeek(gregObj) {
-    const { year , month , day  } = gregObj, ordinal = computeOrdinal(year, month, day), weekday = dayOfWeek(year, month, day);
-    let weekNumber = Math.floor((ordinal - weekday + 10) / 7), weekYear;
-    if (weekNumber < 1) {
-        weekYear = year - 1;
-        weekNumber = weeksInWeekYear(weekYear);
-    } else if (weekNumber > weeksInWeekYear(year)) {
-        weekYear = year + 1;
-        weekNumber = 1;
-    } else {
-        weekYear = year;
+function possiblyCachedWeekData(dt) {
+    if (dt.weekData === null) {
+        dt.weekData = gregorianToWeek(dt.c);
     }
-    return Object.assign({
-        weekYear,
-        weekNumber,
-        weekday
-    }, timeObject(gregObj));
-}
-function possiblyCachedWeekData(dt2) {
-    if (dt2.weekData === null) {
-        dt2.weekData = gregorianToWeek(dt2.c);
-    }
-    return dt2.weekData;
+    return dt.weekData;
 }
 function clone1(inst, alts) {
     const current = {
@@ -2784,10 +2423,10 @@ function adjustTime(inst, dur) {
         o
     };
 }
-function parseDataToDateTime(parsed, parsedZone, opts4, format, text) {
-    const { setZone , zone  } = opts4;
+function parseDataToDateTime(parsed, parsedZone, opts, format, text) {
+    const { setZone , zone  } = opts;
     if (parsed && Object.keys(parsed).length !== 0) {
-        const interpretationZone = parsedZone || zone, inst = DateTime.fromObject(Object.assign(parsed, opts4, {
+        const interpretationZone = parsedZone || zone, inst = DateTime.fromObject(Object.assign(parsed, opts, {
             zone: interpretationZone,
             setZone: undefined
         }));
@@ -2796,17 +2435,17 @@ function parseDataToDateTime(parsed, parsedZone, opts4, format, text) {
         return DateTime.invalid(new Invalid("unparsable", `the input "${text}" can't be parsed as ${format}`));
     }
 }
-function toTechFormat(dt2, format, allowZ = true) {
-    return dt2.isValid ? Formatter.create(Locale.create("en-US"), {
+function toTechFormat(dt, format, allowZ = true) {
+    return dt.isValid ? Formatter.create(Locale.create("en-US"), {
         allowZ,
         forceSimple: true
-    }).formatDateTimeFromString(dt2, format) : null;
+    }).formatDateTimeFromString(dt, format) : null;
 }
-function toTechTimeFormat(dt2, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
+function toTechTimeFormat(dt, { suppressSeconds =false , suppressMilliseconds =false , includeOffset , includeZone =false , spaceZone =false , format ="extended"  }) {
     let fmt = format === "basic" ? "HHmm" : "HH:mm";
-    if (!suppressSeconds || dt2.second !== 0 || dt2.millisecond !== 0) {
+    if (!suppressSeconds || dt.second !== 0 || dt.millisecond !== 0) {
         fmt += format === "basic" ? "ss" : ":ss";
-        if (!suppressMilliseconds || dt2.millisecond !== 0) {
+        if (!suppressMilliseconds || dt.millisecond !== 0) {
             fmt += ".SSS";
         }
     }
@@ -2818,7 +2457,7 @@ function toTechTimeFormat(dt2, { suppressSeconds =false , suppressMilliseconds =
     } else if (includeOffset) {
         fmt += format === "basic" ? "ZZZ" : "ZZ";
     }
-    return toTechFormat(dt2, fmt);
+    return toTechFormat(dt, fmt);
 }
 const defaultUnitValues = {
     month: 1,
@@ -2895,81 +2534,6 @@ function normalizeUnit(unit2) {
     if (!normalized) throw new InvalidUnitError(unit2);
     return normalized;
 }
-function weekToGregorian(weekData) {
-    const { weekYear , weekNumber , weekday  } = weekData, weekdayOfJan4 = dayOfWeek(weekYear, 1, 4), yearInDays = daysInYear(weekYear);
-    let ordinal = weekNumber * 7 + weekday - weekdayOfJan4 - 3, year;
-    if (ordinal < 1) {
-        year = weekYear - 1;
-        ordinal += daysInYear(year);
-    } else if (ordinal > yearInDays) {
-        year = weekYear + 1;
-        ordinal -= daysInYear(weekYear);
-    } else {
-        year = weekYear;
-    }
-    const { month , day  } = uncomputeOrdinal(year, ordinal);
-    return Object.assign({
-        year,
-        month,
-        day
-    }, timeObject(weekData));
-}
-function gregorianToOrdinal(gregData) {
-    const { year , month , day  } = gregData, ordinal = computeOrdinal(year, month, day);
-    return Object.assign({
-        year,
-        ordinal
-    }, timeObject(gregData));
-}
-function ordinalToGregorian(ordinalData) {
-    const { year , ordinal  } = ordinalData, { month , day  } = uncomputeOrdinal(year, ordinal);
-    return Object.assign({
-        year,
-        month,
-        day
-    }, timeObject(ordinalData));
-}
-function hasInvalidWeekData(obj) {
-    const validYear = isInteger(obj.weekYear), validWeek = integerBetween(obj.weekNumber, 1, weeksInWeekYear(obj.weekYear)), validWeekday = integerBetween(obj.weekday, 1, 7);
-    if (!validYear) {
-        return unitOutOfRange("weekYear", obj.weekYear);
-    } else if (!validWeek) {
-        return unitOutOfRange("week", obj.week);
-    } else if (!validWeekday) {
-        return unitOutOfRange("weekday", obj.weekday);
-    } else return false;
-}
-function hasInvalidOrdinalData(obj) {
-    const validYear = isInteger(obj.year), validOrdinal = integerBetween(obj.ordinal, 1, daysInYear(obj.year));
-    if (!validYear) {
-        return unitOutOfRange("year", obj.year);
-    } else if (!validOrdinal) {
-        return unitOutOfRange("ordinal", obj.ordinal);
-    } else return false;
-}
-function hasInvalidGregorianData(obj) {
-    const validYear = isInteger(obj.year), validMonth = integerBetween(obj.month, 1, 12), validDay = integerBetween(obj.day, 1, daysInMonth(obj.year, obj.month));
-    if (!validYear) {
-        return unitOutOfRange("year", obj.year);
-    } else if (!validMonth) {
-        return unitOutOfRange("month", obj.month);
-    } else if (!validDay) {
-        return unitOutOfRange("day", obj.day);
-    } else return false;
-}
-function hasInvalidTimeData(obj) {
-    const { hour , minute , second , millisecond  } = obj;
-    const validHour = integerBetween(hour, 0, 23) || hour === 24 && minute === 0 && second === 0 && millisecond === 0, validMinute = integerBetween(minute, 0, 59), validSecond = integerBetween(second, 0, 59), validMillisecond = integerBetween(millisecond, 0, 999);
-    if (!validHour) {
-        return unitOutOfRange("hour", hour);
-    } else if (!validMinute) {
-        return unitOutOfRange("minute", minute);
-    } else if (!validSecond) {
-        return unitOutOfRange("second", second);
-    } else if (!validMillisecond) {
-        return unitOutOfRange("millisecond", millisecond);
-    } else return false;
-}
 function quickDT(obj, zone) {
     for (const u of orderedUnits1){
         if (isUndefined(obj[u])) {
@@ -2987,13 +2551,13 @@ function quickDT(obj, zone) {
         o
     });
 }
-function diffRelative(start, end, opts4) {
-    const round = isUndefined(opts4.round) ? true : opts4.round, format = (c, unit2)=>{
-        c = roundTo(c, round || opts4.calendary ? 0 : 2, true);
-        const formatter = end.loc.clone(opts4).relFormatter(opts4);
+function diffRelative(start, end, opts) {
+    const round = isUndefined(opts.round) ? true : opts.round, format = (c, unit2)=>{
+        c = roundTo(c, round || opts.calendary ? 0 : 2, true);
+        const formatter = end.loc.clone(opts).relFormatter(opts);
         return formatter.format(c, unit2);
     }, differ = (unit2)=>{
-        if (opts4.calendary) {
+        if (opts.calendary) {
             if (!end.hasSame(start, unit2)) {
                 return end.startOf(unit2).diff(start.startOf(unit2), unit2).get(unit2);
             } else return 0;
@@ -3001,29 +2565,27 @@ function diffRelative(start, end, opts4) {
             return end.diff(start, unit2).get(unit2);
         }
     };
-    if (opts4.unit) {
-        return format(differ(opts4.unit), opts4.unit);
+    if (opts.unit) {
+        return format(differ(opts.unit), opts.unit);
     }
-    for (const unit2 of opts4.units){
+    for (const unit2 of opts.units){
         const count = differ(unit2);
         if (Math.abs(count) >= 1) {
             return format(count, unit2);
         }
     }
-    return format(0, opts4.units[opts4.units.length - 1]);
+    return format(0, opts.units[opts.units.length - 1]);
 }
-const sqlYmdWithTimeExtensionRegex = combineRegexes(sqlYmdRegex, sqlTimeExtensionRegex);
-const sqlTimeCombinedRegex = combineRegexes(sqlTimeRegex);
-const extractISOYmdTimeOffsetAndIANAZone = combineExtractors(extractISOYmd, extractISOTime, extractISOOffset, extractIANAZone);
-const extractISOTimeOffsetAndIANAZone = combineExtractors(extractISOTime, extractISOOffset, extractIANAZone);
-function parseSQL(s2) {
-    return parse(s2, [
-        sqlYmdWithTimeExtensionRegex,
-        extractISOYmdTimeOffsetAndIANAZone
-    ], [
-        sqlTimeCombinedRegex,
-        extractISOTimeOffsetAndIANAZone
-    ]);
+function friendlyDuration(durationish) {
+    if (isNumber(durationish)) {
+        return Duration.fromMillis(durationish);
+    } else if (Duration.isDuration(durationish)) {
+        return durationish;
+    } else if (typeof durationish === "object") {
+        return Duration.fromObject(durationish);
+    } else {
+        throw new InvalidArgumentError(`Unknown duration argument ${durationish} of type ${typeof durationish}`);
+    }
 }
 class DateTime {
     constructor(config1){
@@ -3208,8 +2770,8 @@ class DateTime {
         if (isUndefined(text) || isUndefined(fmt)) {
             throw new InvalidArgumentError("fromFormat requires an input string and a format");
         }
-        const { locale: locale3 = null , numberingSystem =null  } = opts, localeToUse = Locale.fromOpts({
-            locale: locale3,
+        const { locale: locale2 = null , numberingSystem =null  } = opts, localeToUse = Locale.fromOpts({
+            locale: locale2,
             numberingSystem,
             defaultToEN: true
         }), [vals, parsedZone, invalid1] = parseFromTokens(localeToUse, text, fmt);
@@ -3378,9 +2940,9 @@ class DateTime {
     }
     resolvedLocaleOpts(opts = {
     }) {
-        const { locale: locale3 , numberingSystem , calendar  } = Formatter.create(this.loc.clone(opts), opts).resolvedOptions(this);
+        const { locale: locale2 , numberingSystem , calendar  } = Formatter.create(this.loc.clone(opts), opts).resolvedOptions(this);
         return {
-            locale: locale3,
+            locale: locale2,
             numberingSystem,
             outputCalendar: calendar
         };
@@ -3670,8 +3232,8 @@ class DateTime {
     }
     static fromFormatExplain(text, fmt, options = {
     }) {
-        const { locale: locale3 = null , numberingSystem =null  } = options, localeToUse = Locale.fromOpts({
-            locale: locale3,
+        const { locale: locale2 = null , numberingSystem =null  } = options, localeToUse = Locale.fromOpts({
+            locale: locale2,
             numberingSystem,
             defaultToEN: true
         });
@@ -3759,15 +3321,453 @@ function friendlyDateTime(dateTimeish) {
         throw new InvalidArgumentError(`Unknown datetime argument: ${dateTimeish}, of type ${typeof dateTimeish}`);
     }
 }
-function friendlyDuration(durationish) {
-    if (isNumber(durationish)) {
-        return Duration.fromMillis(durationish);
-    } else if (Duration.isDuration(durationish)) {
-        return durationish;
-    } else if (typeof durationish === "object") {
-        return Duration.fromObject(durationish);
+function getCachedDTF(locString, opts = {
+}) {
+    const key = JSON.stringify([
+        locString,
+        opts
+    ]);
+    let dtf = intlDTCache[key];
+    if (!dtf) {
+        dtf = new Intl.DateTimeFormat(locString, opts);
+        intlDTCache[key] = dtf;
+    }
+    return dtf;
+}
+let intlNumCache = {
+};
+function getCachedINF(locString, opts = {
+}) {
+    const key = JSON.stringify([
+        locString,
+        opts
+    ]);
+    let inf = intlNumCache[key];
+    if (!inf) {
+        inf = new Intl.NumberFormat(locString, opts);
+        intlNumCache[key] = inf;
+    }
+    return inf;
+}
+let intlRelCache = {
+};
+function getCachedRTF(locString, opts = {
+}) {
+    const { base , ...cacheKeyOpts } = opts;
+    const key = JSON.stringify([
+        locString,
+        cacheKeyOpts
+    ]);
+    let inf = intlRelCache[key];
+    if (!inf) {
+        inf = new Intl.RelativeTimeFormat(locString, opts);
+        intlRelCache[key] = inf;
+    }
+    return inf;
+}
+let sysLocaleCache = null;
+function systemLocale() {
+    if (sysLocaleCache) {
+        return sysLocaleCache;
+    } else if (hasIntl()) {
+        const computedSys = new Intl.DateTimeFormat().resolvedOptions().locale;
+        sysLocaleCache = !computedSys || computedSys === "und" ? "en-US" : computedSys;
+        return sysLocaleCache;
     } else {
-        throw new InvalidArgumentError(`Unknown duration argument ${durationish} of type ${typeof durationish}`);
+        sysLocaleCache = "en-US";
+        return sysLocaleCache;
+    }
+}
+function parseLocaleString(localeStr) {
+    const uIndex = localeStr.indexOf("-u-");
+    if (uIndex === -1) {
+        return [
+            localeStr
+        ];
+    } else {
+        let options;
+        const smaller = localeStr.substring(0, uIndex);
+        try {
+            options = getCachedDTF(localeStr).resolvedOptions();
+        } catch (e) {
+            options = getCachedDTF(smaller).resolvedOptions();
+        }
+        const { numberingSystem , calendar  } = options;
+        return [
+            smaller,
+            numberingSystem,
+            calendar
+        ];
+    }
+}
+function intlConfigString(localeStr, numberingSystem, outputCalendar) {
+    if (hasIntl()) {
+        if (outputCalendar || numberingSystem) {
+            localeStr += "-u";
+            if (outputCalendar) {
+                localeStr += `-ca-${outputCalendar}`;
+            }
+            if (numberingSystem) {
+                localeStr += `-nu-${numberingSystem}`;
+            }
+            return localeStr;
+        } else {
+            return localeStr;
+        }
+    } else {
+        return [];
+    }
+}
+function mapMonths(f) {
+    const ms = [];
+    for(let i = 1; i <= 12; i++){
+        const dt = DateTime.utc(2016, i, 1);
+        ms.push(f(dt));
+    }
+    return ms;
+}
+function mapWeekdays(f) {
+    const ms = [];
+    for(let i = 1; i <= 7; i++){
+        const dt = DateTime.utc(2016, 11, 13 + i);
+        ms.push(f(dt));
+    }
+    return ms;
+}
+function listStuff(loc, length, defaultOK, englishFn, intlFn) {
+    const mode = loc.listingMode(defaultOK);
+    if (mode === "error") {
+        return null;
+    } else if (mode === "en") {
+        return englishFn(length);
+    } else {
+        return intlFn(length);
+    }
+}
+function supportsFastNumbers(loc) {
+    if (loc.numberingSystem && loc.numberingSystem !== "latn") {
+        return false;
+    } else {
+        return loc.numberingSystem === "latn" || !loc.locale || loc.locale.startsWith("en") || hasIntl() && new Intl.DateTimeFormat(loc.intl).resolvedOptions().numberingSystem === "latn";
+    }
+}
+class PolyNumberFormatter {
+    constructor(intl, forceSimple, opts3){
+        this.padTo = opts3.padTo || 0;
+        this.floor = opts3.floor || false;
+        if (!forceSimple && hasIntl()) {
+            const intlOpts = {
+                useGrouping: false
+            };
+            if (opts3.padTo > 0) intlOpts.minimumIntegerDigits = opts3.padTo;
+            this.inf = getCachedINF(intl, intlOpts);
+        }
+    }
+    format(i) {
+        if (this.inf) {
+            const fixed = this.floor ? Math.floor(i) : i;
+            return this.inf.format(fixed);
+        } else {
+            const fixed = this.floor ? Math.floor(i) : roundTo(i, 3);
+            return padStart(fixed, this.padTo);
+        }
+    }
+}
+class PolyDateFormatter {
+    constructor(dt1, intl1, opts1){
+        this.opts = opts1;
+        this.hasIntl = hasIntl();
+        let z1;
+        if (dt1.zone.universal && this.hasIntl) {
+            z1 = "UTC";
+            if (opts1.timeZoneName) {
+                this.dt = dt1;
+            } else {
+                this.dt = dt1.offset === 0 ? dt1 : DateTime.fromMillis(dt1.ts + dt1.offset * 60 * 1000);
+            }
+        } else if (dt1.zone.type === "local") {
+            this.dt = dt1;
+        } else {
+            this.dt = dt1;
+            z1 = dt1.zone.name;
+        }
+        if (this.hasIntl) {
+            const intlOpts = Object.assign({
+            }, this.opts);
+            if (z1) {
+                intlOpts.timeZone = z1;
+            }
+            this.dtf = getCachedDTF(intl1, intlOpts);
+        }
+    }
+    format() {
+        if (this.hasIntl) {
+            return this.dtf.format(this.dt.toJSDate());
+        } else {
+            const tokenFormat = formatString(this.opts), loc = Locale.create("en-US");
+            return Formatter.create(loc).formatDateTimeFromString(this.dt, tokenFormat);
+        }
+    }
+    formatToParts() {
+        if (this.hasIntl && hasFormatToParts()) {
+            return this.dtf.formatToParts(this.dt.toJSDate());
+        } else {
+            return [];
+        }
+    }
+    resolvedOptions() {
+        if (this.hasIntl) {
+            return this.dtf.resolvedOptions();
+        } else {
+            return {
+                locale: "en-US",
+                numberingSystem: "latn",
+                outputCalendar: "gregory"
+            };
+        }
+    }
+}
+class PolyRelFormatter {
+    constructor(intl2, isEnglish, opts2){
+        this.opts = Object.assign({
+            style: "long"
+        }, opts2);
+        if (!isEnglish && hasRelative()) {
+            this.rtf = getCachedRTF(intl2, opts2);
+        }
+    }
+    format(count, unit) {
+        if (this.rtf) {
+            return this.rtf.format(count, unit);
+        } else {
+            return formatRelativeTime(unit, count, this.opts.numeric, this.opts.style !== "long");
+        }
+    }
+    formatToParts(count, unit) {
+        if (this.rtf) {
+            return this.rtf.formatToParts(count, unit);
+        } else {
+            return [];
+        }
+    }
+}
+class Locale {
+    static fromOpts(opts) {
+        return Locale.create(opts.locale, opts.numberingSystem, opts.outputCalendar, opts.defaultToEN);
+    }
+    static create(locale, numberingSystem, outputCalendar, defaultToEN = false) {
+        const specifiedLocale = locale || Settings.defaultLocale, localeR = specifiedLocale || (defaultToEN ? "en-US" : systemLocale()), numberingSystemR = numberingSystem || Settings.defaultNumberingSystem, outputCalendarR = outputCalendar || Settings.defaultOutputCalendar;
+        return new Locale(localeR, numberingSystemR, outputCalendarR, specifiedLocale);
+    }
+    static resetCache() {
+        sysLocaleCache = null;
+        intlDTCache = {
+        };
+        intlNumCache = {
+        };
+        intlRelCache = {
+        };
+    }
+    static fromObject({ locale , numberingSystem , outputCalendar  } = {
+    }) {
+        return Locale.create(locale, numberingSystem, outputCalendar);
+    }
+    constructor(locale2, numbering, outputCalendar1, specifiedLocale){
+        const [parsedLocale, parsedNumberingSystem, parsedOutputCalendar] = parseLocaleString(locale2);
+        this.locale = parsedLocale;
+        this.numberingSystem = numbering || parsedNumberingSystem || null;
+        this.outputCalendar = outputCalendar1 || parsedOutputCalendar || null;
+        this.intl = intlConfigString(this.locale, this.numberingSystem, this.outputCalendar);
+        this.weekdaysCache = {
+            format: {
+            },
+            standalone: {
+            }
+        };
+        this.monthsCache = {
+            format: {
+            },
+            standalone: {
+            }
+        };
+        this.meridiemCache = null;
+        this.eraCache = {
+        };
+        this.specifiedLocale = specifiedLocale;
+        this.fastNumbersCached = null;
+    }
+    get fastNumbers() {
+        if (this.fastNumbersCached == null) {
+            this.fastNumbersCached = supportsFastNumbers(this);
+        }
+        return this.fastNumbersCached;
+    }
+    listingMode(defaultOK = true) {
+        const intl3 = hasIntl(), hasFTP = intl3 && hasFormatToParts(), isActuallyEn = this.isEnglish(), hasNoWeirdness = (this.numberingSystem === null || this.numberingSystem === "latn") && (this.outputCalendar === null || this.outputCalendar === "gregory");
+        if (!hasFTP && !(isActuallyEn && hasNoWeirdness) && !defaultOK) {
+            return "error";
+        } else if (!hasFTP || isActuallyEn && hasNoWeirdness) {
+            return "en";
+        } else {
+            return "intl";
+        }
+    }
+    clone(alts) {
+        if (!alts || Object.getOwnPropertyNames(alts).length === 0) {
+            return this;
+        } else {
+            return Locale.create(alts.locale || this.specifiedLocale, alts.numberingSystem || this.numberingSystem, alts.outputCalendar || this.outputCalendar, alts.defaultToEN || false);
+        }
+    }
+    redefaultToEN(alts = {
+    }) {
+        return this.clone(Object.assign({
+        }, alts, {
+            defaultToEN: true
+        }));
+    }
+    redefaultToSystem(alts = {
+    }) {
+        return this.clone(Object.assign({
+        }, alts, {
+            defaultToEN: false
+        }));
+    }
+    months(length, format = false, defaultOK = true) {
+        return listStuff(this, length, defaultOK, months, ()=>{
+            const intl3 = format ? {
+                month: length,
+                day: "numeric"
+            } : {
+                month: length
+            }, formatStr = format ? "format" : "standalone";
+            if (!this.monthsCache[formatStr][length]) {
+                this.monthsCache[formatStr][length] = mapMonths((dt1)=>this.extract(dt1, intl3, "month")
+                );
+            }
+            return this.monthsCache[formatStr][length];
+        });
+    }
+    weekdays(length, format = false, defaultOK = true) {
+        return listStuff(this, length, defaultOK, weekdays, ()=>{
+            const intl3 = format ? {
+                weekday: length,
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            } : {
+                weekday: length
+            }, formatStr = format ? "format" : "standalone";
+            if (!this.weekdaysCache[formatStr][length]) {
+                this.weekdaysCache[formatStr][length] = mapWeekdays((dt1)=>this.extract(dt1, intl3, "weekday")
+                );
+            }
+            return this.weekdaysCache[formatStr][length];
+        });
+    }
+    meridiems(defaultOK = true) {
+        return listStuff(this, undefined, defaultOK, ()=>meridiems
+        , ()=>{
+            if (!this.meridiemCache) {
+                const intl3 = {
+                    hour: "numeric",
+                    hour12: true
+                };
+                this.meridiemCache = [
+                    DateTime.utc(2016, 11, 13, 9),
+                    DateTime.utc(2016, 11, 13, 19)
+                ].map((dt1)=>this.extract(dt1, intl3, "dayperiod")
+                );
+            }
+            return this.meridiemCache;
+        });
+    }
+    eras(length, defaultOK = true) {
+        return listStuff(this, length, defaultOK, eras, ()=>{
+            const intl3 = {
+                era: length
+            };
+            if (!this.eraCache[length]) {
+                this.eraCache[length] = [
+                    DateTime.utc(-40, 1, 1),
+                    DateTime.utc(2017, 1, 1)
+                ].map((dt1)=>this.extract(dt1, intl3, "era")
+                );
+            }
+            return this.eraCache[length];
+        });
+    }
+    extract(dt, intlOpts, field) {
+        const df = this.dtFormatter(dt, intlOpts), results = df.formatToParts(), matching = results.find((m)=>m.type.toLowerCase() === field
+        );
+        return matching ? matching.value : null;
+    }
+    numberFormatter(opts = {
+    }) {
+        return new PolyNumberFormatter(this.intl, opts.forceSimple || this.fastNumbers, opts);
+    }
+    dtFormatter(dt, intlOpts = {
+    }) {
+        return new PolyDateFormatter(dt, this.intl, intlOpts);
+    }
+    relFormatter(opts = {
+    }) {
+        return new PolyRelFormatter(this.intl, this.isEnglish(), opts);
+    }
+    isEnglish() {
+        return this.locale === "en" || this.locale.toLowerCase() === "en-us" || hasIntl() && new Intl.DateTimeFormat(this.intl).resolvedOptions().locale.startsWith("en-us");
+    }
+    equals(other) {
+        return this.locale === other.locale && this.numberingSystem === other.numberingSystem && this.outputCalendar === other.outputCalendar;
+    }
+}
+class Settings {
+    static get now() {
+        return now;
+    }
+    static set now(n) {
+        now = n;
+    }
+    static get defaultZoneName() {
+        return Settings.defaultZone.name;
+    }
+    static set defaultZoneName(z) {
+        if (!z) {
+            defaultZone = null;
+        } else {
+            defaultZone = normalizeZone(z);
+        }
+    }
+    static get defaultZone() {
+        return defaultZone || LocalZone.instance;
+    }
+    static get defaultLocale() {
+        return defaultLocale;
+    }
+    static set defaultLocale(locale) {
+        defaultLocale = locale;
+    }
+    static get defaultNumberingSystem() {
+        return defaultNumberingSystem;
+    }
+    static set defaultNumberingSystem(numberingSystem) {
+        defaultNumberingSystem = numberingSystem;
+    }
+    static get defaultOutputCalendar() {
+        return defaultOutputCalendar;
+    }
+    static set defaultOutputCalendar(outputCalendar) {
+        defaultOutputCalendar = outputCalendar;
+    }
+    static get throwOnInvalid() {
+        return throwOnInvalid;
+    }
+    static set throwOnInvalid(t) {
+        throwOnInvalid = t;
+    }
+    static resetCaches() {
+        Locale.resetCache();
+        IANAZone.resetCache();
     }
 }
 function validateStartEnd(start, end) {

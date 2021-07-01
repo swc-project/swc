@@ -1,6 +1,6 @@
-const b = 2;
 class A {
 }
+const b = 2;
 console.log(b, A);
 const a = 1;
 console.log(a, A);
