@@ -161,6 +161,17 @@ class LimitedReader {
         return n;
     }
 }
+const osType = (()=>{
+    if (globalThis.Deno != null) {
+        return Deno.build.os;
+    }
+    const navigator = globalThis.navigator;
+    if (navigator?.appVersion?.includes?.("Win") ?? false) {
+        return "windows";
+    }
+    return "linux";
+})();
+const isWindows = osType === "windows";
 const CHAR_FORWARD_SLASH = 47;
 function assertPath(path) {
     if (typeof path !== "string") {
@@ -237,17 +248,6 @@ function _format(sep, pathObject) {
     if (dir === pathObject.root) return dir + base;
     return dir + sep + base;
 }
-const osType = (()=>{
-    if (globalThis.Deno != null) {
-        return Deno.build.os;
-    }
-    const navigator = globalThis.navigator;
-    if (navigator?.appVersion?.includes?.("Win") ?? false) {
-        return "windows";
-    }
-    return "linux";
-})();
-const isWindows = osType === "windows";
 const sep = "\\";
 const delimiter = ";";
 function resolve(...pathSegments) {
