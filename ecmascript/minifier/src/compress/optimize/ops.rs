@@ -516,6 +516,8 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn compess_bang_in_logiacal_exprs(&mut self, e: &mut BinExpr) {}
+
     /// Remove meaningless literals in a binary expressions.
     ///
     /// # Parameters
