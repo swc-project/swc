@@ -698,6 +698,38 @@ impl Optimizer<'_> {
             return;
         }
         //
+
+        let mut new_stmts = vec![];
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => match stmt {
+                    Stmt::If(IfStmt {
+                        span,
+                        test,
+                        cons,
+                        alt: Some(alt),
+                        ..
+                    }) if always_terminates(&cons) => {
+                        new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
+                            span,
+                            test,
+                            cons,
+                            alt: None,
+                        })));
+                        new_stmts.push(T::from_stmt(*alt));
+                    }
+                    _ => {
+                        new_stmts.push(T::from_stmt(stmt));
+                    }
+                },
+                Err(stmt) => new_stmts.push(stmt),
+            }
+        }
+
+        self.changed = true;
+        log::trace!("conditionals: Dropped useless `else` token");
+        *stmts = new_stmts;
     }
 }
 
