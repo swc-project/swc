@@ -448,6 +448,7 @@ impl Optimizer<'_> {
                     ..
                 }),
             )
+            | (Expr::Call(..), Expr::Lit(Lit::Null(..)))
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
