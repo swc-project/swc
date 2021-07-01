@@ -132,6 +132,9 @@ fn parse_module_export_default_class_span() {
     } else {
         panic!("expected ExportDefaultDecl");
     }
+}
+
+#[test]
 fn issue_1878() {
     use super::*;
     use crate::TsConfig;
