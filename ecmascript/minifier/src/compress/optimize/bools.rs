@@ -210,12 +210,14 @@ impl Optimizer<'_> {
 
         match (l, r) {
             (
-                Expr::Bin(BinExpr { op: op!("!=="), .. }),
-                Expr::Bin(BinExpr { op: op!("==="), .. }),
-            )
-            | (
-                Expr::Bin(BinExpr { op: op!("==="), .. }),
-                Expr::Bin(BinExpr { op: op!("!=="), .. }),
+                Expr::Bin(BinExpr {
+                    op: op!("===") | op!("!=="),
+                    ..
+                }),
+                Expr::Bin(BinExpr {
+                    op: op!("===") | op!("!=="),
+                    ..
+                }),
             ) => false,
 
             _ => is(l) && is(r),
