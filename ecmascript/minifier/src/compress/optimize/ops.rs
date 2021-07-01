@@ -444,7 +444,8 @@ impl Optimizer<'_> {
             | (
                 Expr::Ident(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void") | op!("!"),
+                    ..
                 }),
             )
             | (
