@@ -279,9 +279,9 @@ impl Optimizer<'_> {
     /// TODO: Handle special cases like !1 or !0
     pub(super) fn negate(&mut self, e: &mut Expr) {
         self.changed = true;
-        let arg = Box::new(e.take());
+        let mut arg = Box::new(e.take());
 
-        match e {
+        match &mut *arg {
             Expr::Bin(bin @ BinExpr { op: op!("=="), .. })
             | Expr::Bin(bin @ BinExpr { op: op!("!="), .. })
             | Expr::Bin(bin @ BinExpr { op: op!("==="), .. })
@@ -305,6 +305,7 @@ impl Optimizer<'_> {
                 };
                 self.changed = true;
                 log::trace!("negate: binary");
+                *e = *arg;
                 return;
             }
 
@@ -325,7 +326,13 @@ impl Optimizer<'_> {
                     *e = *arg.take();
                     return;
                 }
-                _ => {}
+                _ => {
+                    if self.ctx.in_bool_ctx {
+                        log::trace!("negate: !expr => expr (in bool context)");
+                        *e = *arg.take();
+                        return;
+                    }
+                }
             },
             _ => {}
         }

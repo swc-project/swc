@@ -101,6 +101,8 @@ struct Ctx {
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
 
+    in_bool_ctx: bool,
+
     var_kind: Option<VarDeclKind>,
 
     /// `true` if we should not inline values.
