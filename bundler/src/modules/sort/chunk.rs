@@ -173,7 +173,7 @@ fn toposort_real_module_ids<'a>(
                 continue;
             }
 
-            dbg!(id);
+            // dbg!(id);
 
             let deps = graph
                 .neighbors_directed(id, Outgoing)
@@ -189,12 +189,12 @@ fn toposort_real_module_ids<'a>(
                 return Some(vec![id]);
             }
 
-            dbg!(&deps);
+            // dbg!(&deps);
 
             let mut all_modules_in_circle = cycles_for(cycles, id, &mut Default::default());
             all_modules_in_circle.reverse();
 
-            dbg!(&all_modules_in_circle);
+            // dbg!(&all_modules_in_circle);
 
             if all_modules_in_circle.is_empty() {
                 queue.push_front(id);
@@ -217,7 +217,7 @@ fn toposort_real_module_ids<'a>(
                 })
                 .collect::<Vec<_>>();
 
-            dbg!(&deps_of_circle);
+            // dbg!(&deps_of_circle);
 
             if !deps_of_circle.is_empty() {
                 if errored.insert(id) {
@@ -230,6 +230,7 @@ fn toposort_real_module_ids<'a>(
 
                     continue;
                 }
+                log::info!("Using slow, fallback logic for topological sorting");
                 all_modules_in_circle.extend(deps_of_circle);
             }
 
