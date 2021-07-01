@@ -685,6 +685,19 @@ impl Optimizer<'_> {
     where
         T: StmtLike,
     {
+        // Find an if statement with else token.
+        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::If(IfStmt {
+                cons,
+                alt: Some(..),
+                ..
+            })) => always_terminates(cons),
+            _ => false,
+        });
+        if !need_work {
+            return;
+        }
+        //
     }
 }
 
