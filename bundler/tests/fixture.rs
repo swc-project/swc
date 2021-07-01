@@ -259,6 +259,7 @@ fn do_test(entry: &DirEntry, entries: HashMap<String, FileName>, inline: bool) {
     .expect("failed to process a module");
 }
 
+#[cfg(not(windows))]
 #[test]
 fn pass() {
     let args: Vec<_> = env::args().collect();
