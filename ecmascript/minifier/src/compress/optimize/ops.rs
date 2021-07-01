@@ -537,13 +537,18 @@ impl Optimizer<'_> {
                     _ => {}
                 }
 
+                // FIXME: This is wrong
+
                 let new_op = if e.op == op!("&&") {
+                    log::trace!("(!a && b) => (a || b)");
+
                     op!("||")
                 } else {
+                    log::trace!("(!a || b) => (a && b)");
+
                     op!("&&")
                 };
 
-                log::trace!("(!a {} b) => (a {}  b)", e.op, new_op);
                 self.changed = true;
                 e.left = arg.take();
                 e.op = new_op;
