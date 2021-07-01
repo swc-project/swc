@@ -676,6 +676,16 @@ impl Optimizer<'_> {
             _ => None,
         }
     }
+
+    /// if (foo) return bar()
+    /// else baz()
+    ///
+    /// `else` token can be removed from the code above.
+    pub(super) fn drop_else_token<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+    }
 }
 
 fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
@@ -695,5 +705,14 @@ fn is_simple_lhs(l: &PatOrExpr) -> bool {
             Pat::Ident(_) => return true,
             _ => false,
         },
+    }
+}
+
+fn always_terminates(s: &Stmt) -> bool {
+    match s {
+        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
+
+        // TODO: If, Switch
+        _ => false,
     }
 }
