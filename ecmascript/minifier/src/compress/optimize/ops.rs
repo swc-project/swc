@@ -525,6 +525,13 @@ impl Optimizer<'_> {
             _ => return,
         }
 
+        match &*e.right {
+            Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
+                return;
+            }
+            _ => {}
+        }
+
         match &mut *e.left {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
