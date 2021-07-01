@@ -14,58 +14,6 @@ use swc_ecma_utils::Value::Unknown;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
-    /// Disabled because it can change semantics.
-    ///
-    /// - `!foo || bar();` => `foo && bar();`
-    /// - `!foo && bar();` => `foo || bar();`
-    pub(super) fn compress_logical_exprs_with_negated_lhs(&mut self, e: &mut Expr) {
-        if !self.options.bools || true {
-            return;
-        }
-
-        match e {
-            Expr::Bin(BinExpr {
-                span,
-                op: op @ op!("||"),
-                left,
-                right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                span,
-                op: op @ op!("&&"),
-                left,
-                right,
-                ..
-            }) => match &mut **left {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => {
-                    if *op == op!("&&") {
-                        log::trace!("booleans: Compressing `!foo && bar` as `foo || bar`");
-                    } else {
-                        log::trace!("booleans: Compressing `!foo || bar` as `foo && bar`");
-                    }
-                    self.changed = true;
-                    *e = Expr::Bin(BinExpr {
-                        span: *span,
-                        left: arg.take(),
-                        op: if *op == op!("&&") {
-                            op!("||")
-                        } else {
-                            op!("&&")
-                        },
-                        right: right.take(),
-                    });
-                    return;
-                }
-                _ => {}
-            },
-
-            _ => {}
-        }
-    }
-
     ///
     /// - `!condition() || !-3.5` => `!condition()`
     ///

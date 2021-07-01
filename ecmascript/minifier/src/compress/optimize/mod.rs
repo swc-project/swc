@@ -1648,8 +1648,6 @@ impl VisitMut for Optimizer<'_> {
         self.handle_negated_seq(e);
         self.compress_array_join(e);
 
-        self.compress_logical_exprs_with_negated_lhs(e);
-
         self.remove_useless_pipes(e);
 
         self.optimize_bools(e);
