@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -u
 
+# Prevent regression
+./scripts/run.sh
+
 export RUST_LOG=swc_ecma_minifier=trace
 touch tests/compress.rs
 
