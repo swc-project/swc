@@ -1,1 +1,1 @@
-import '../../store/actions';
+import '../../store/actions.js';
