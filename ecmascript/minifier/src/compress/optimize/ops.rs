@@ -444,11 +444,9 @@ impl Optimizer<'_> {
             | (
                 Expr::Ident(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void") | op!("!"),
-                    ..
+                    op: op!("void"), ..
                 }),
             )
-            | (Expr::Call(..), Expr::Lit(Lit::Null(..)))
             | (
                 Expr::This(..),
                 Expr::Unary(UnaryExpr {
@@ -512,48 +510,6 @@ impl Optimizer<'_> {
                 if self.try_swap_bin(bin.op, &mut bin.left, &mut bin.right) {
                     self.changed = true;
                 }
-            }
-            _ => {}
-        }
-    }
-
-    ///
-    ///  - `!a && b` => `a || b`
-    pub(super) fn compess_bang_in_logiacal_exprs(&mut self, e: &mut BinExpr) {
-        match e.op {
-            op!("||") | op!("&&") => {}
-
-            _ => return,
-        }
-
-        match &*e.right {
-            Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
-                return;
-            }
-            _ => {}
-        }
-
-        match &mut *e.left {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => {
-                match &**arg {
-                    Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
-                        return;
-                    }
-                    _ => {}
-                }
-
-                let new_op = if e.op == op!("&&") {
-                    op!("||")
-                } else {
-                    op!("&&")
-                };
-
-                log::trace!("(!a {} b) => (a {}  b)", e.op, new_op);
-                self.changed = true;
-                e.left = arg.take();
-                e.op = new_op;
             }
             _ => {}
         }
