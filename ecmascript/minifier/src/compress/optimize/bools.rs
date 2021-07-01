@@ -166,7 +166,7 @@ impl Optimizer<'_> {
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        if self.is_negation_efficient(&e.left) && self.is_negation_efficient(&e.right) {
+        if self.is_negation_efficient(&e.left, &e.right) {
             log::trace!(
                 "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good \
                  for negation)",
@@ -194,14 +194,31 @@ impl Optimizer<'_> {
         }
     }
 
-    fn is_negation_efficient(&self, e: &Expr) -> bool {
-        match e {
-            Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
-            Expr::Bin(BinExpr {
-                op: op!("!==") | op!("==="),
-                ..
-            }) => true,
-            _ => false,
+    fn is_negation_efficient(&self, l: &Expr, r: &Expr) -> bool {
+        fn is(e: &Expr) -> bool {
+            match e {
+                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
+
+                Expr::Bin(BinExpr {
+                    op: op!("!==") | op!("==="),
+                    ..
+                }) => true,
+
+                _ => false,
+            }
+        }
+
+        match (l, r) {
+            (
+                Expr::Bin(BinExpr { op: op!("!=="), .. }),
+                Expr::Bin(BinExpr { op: op!("==="), .. }),
+            )
+            | (
+                Expr::Bin(BinExpr { op: op!("==="), .. }),
+                Expr::Bin(BinExpr { op: op!("!=="), .. }),
+            ) => false,
+
+            _ => is(l) && is(r),
         }
     }
 
