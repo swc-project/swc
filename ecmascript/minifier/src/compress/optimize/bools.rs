@@ -1,5 +1,5 @@
 use super::Optimizer;
-use crate::compress::optimize::is_pure_undefined;
+use crate::compress::optimize::{is_pure_undefined, Ctx};
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -108,6 +108,99 @@ impl Optimizer<'_> {
                 _ => {}
             },
             _ => {}
+        }
+    }
+
+    pub(super) fn negate_bin(&mut self, e: &mut BinExpr) {
+        match e.op {
+            op!("&&") | op!("||") => {}
+            _ => return,
+        }
+
+        match &mut *e.left {
+            Expr::Bin(
+                left
+                @
+                BinExpr {
+                    op: op!("||") | op!("&&"),
+                    ..
+                },
+            ) => {
+                // (!a && !b) && a = b()
+                //
+                // =>
+                //
+                // a || b || a = b()
+                if left.op == e.op {
+                    if self.negate_bin_elem(&mut *left) {
+                        e.op = left.op
+                    }
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    /// Returns true if it's negated.
+    pub(super) fn negate_bin_elem(&mut self, e: &mut BinExpr) -> bool {
+        match e.op {
+            op!("&&") | op!("||") => {}
+            _ => return false,
+        }
+
+        if let Known(Type::Bool) = e.left.get_type() {
+        } else {
+            // Don't change type.
+            return false;
+        }
+
+        if let Known(Type::Bool) = e.right.get_type() {
+        } else {
+            // Don't change type.
+            return false;
+        }
+
+        // `!_ && 'undefined' !== typeof require`
+        //
+        //  =>
+        //
+        // `_ || 'undefined' == typeof require`
+        if self.is_negation_efficient(&e.left) && self.is_negation_efficient(&e.right) {
+            log::trace!(
+                "bools: Negating: (!a && !b) => !(a || b) (because both expression are good for \
+                 negation)"
+            );
+
+            e.op = if e.op == op!("&&") {
+                op!("||")
+            } else {
+                op!("&&")
+            };
+
+            let ctx = Ctx {
+                in_bool_ctx: true,
+                ..self.ctx
+            };
+
+            self.changed = true;
+            self.with_ctx(ctx).negate(&mut e.left);
+            self.with_ctx(ctx).negate(&mut e.right);
+
+            true
+        } else {
+            false
+        }
+    }
+
+    fn is_negation_efficient(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
+            Expr::Bin(BinExpr {
+                op: op!("!==") | op!("==="),
+                ..
+            }) => true,
+            _ => false,
         }
     }
 
