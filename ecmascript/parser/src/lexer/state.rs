@@ -194,9 +194,8 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         {
                             let comments = self.comments.as_mut().unwrap();
 
-                            // if the file had no tokens, then treat any comments in the
-                            // leading comments buffer will be leading. Otherwise,
-                            // treat them as trailing.
+                            // if the file had no tokens, then treat any comments in the leading
+                            // comments buffer as leading. Otherwise treat them as trailing.
                             if was_first {
                                 comments.add_leading(last, c);
                             } else {
