@@ -495,11 +495,12 @@ impl SimplifyExpr {
                         *node
                     } else {
                         self.changed = true;
-                        let seq = SeqExpr {
+                        let mut seq = SeqExpr {
                             span,
                             exprs: vec![left, node],
-                        }
-                        .visit_mut_with(self);
+                        };
+
+                        seq.visit_mut_with(self);
 
                         Expr::Seq(seq)
                     };
@@ -1167,7 +1168,7 @@ impl VisitMut for SimplifyExpr {
         match expr {
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
-            }) => return expr,
+            }) => return,
             _ => {}
         }
         // fold children before doing something more.
