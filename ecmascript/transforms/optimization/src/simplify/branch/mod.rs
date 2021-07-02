@@ -19,8 +19,8 @@ use swc_ecma_utils::IsEmpty;
 use swc_ecma_utils::StmtExt;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value::Known;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, VisitMut};
+use swc_ecma_visit::{Node, Visit, VisitWith};
 
 #[cfg(test)]
 mod tests;
@@ -28,7 +28,7 @@ mod tests;
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
-pub fn dead_branch_remover() -> impl RepeatedJsPass + 'static {
+pub fn dead_branch_remover() -> impl RepeatedJsPass + VisitMut + 'static {
     Remover::default()
 }
 
@@ -54,8 +54,8 @@ struct Remover {
     normal_block: bool,
 }
 
-impl Fold for Remover {
-    noop_fold_type!();
+impl VisitMut for Remover {
+    noop_visit_mut_type!();
 
     fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
         let mut p: ArrayPat = p.fold_children_with(self);
