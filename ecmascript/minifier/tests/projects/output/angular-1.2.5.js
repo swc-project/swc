@@ -1278,20 +1278,18 @@
             clone: jqLiteClone,
             triggerHandler: function (element, eventName, eventData) {
                 var eventFns = (jqLiteExpandoStore(element, "events") || {})[eventName];
-                return (
-                    (eventData ||= []),
-                    void forEach(eventFns, function (fn) {
-                        fn.apply(
-                            element,
-                            [
-                                {
-                                    preventDefault: noop,
-                                    stopPropagation: noop,
-                                },
-                            ].concat(eventData),
-                        );
-                    })
-                );
+                (eventData ||= []),
+                forEach(eventFns, function (fn) {
+                    fn.apply(
+                        element,
+                        [
+                            {
+                                preventDefault: noop,
+                                stopPropagation: noop,
+                            },
+                        ].concat(eventData),
+                    );
+                });
             },
         },
         function (fn, name) {
