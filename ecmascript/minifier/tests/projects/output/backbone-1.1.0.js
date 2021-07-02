@@ -58,7 +58,7 @@
                     callback !== ev.callback._callback) ||
                     (context && context !== ev.context)) &&
                     retain.push(ev);
-                        !retain.length && delete this._events[name];
+                        retain.length || delete this._events[name];
                     }
                 return this;
             },
@@ -525,7 +525,7 @@
             }
             if (remove) {
                 for (i = 0, l = this.length; l > i; ++i)
-                    !modelMap[(model = this.models[i]).cid] && toRemove.push(model);
+                    modelMap[(model = this.models[i]).cid] || toRemove.push(model);
                 toRemove.length && this.remove(toRemove, options);
             }
             if (toAdd.length || (order && order.length)) {
@@ -660,7 +660,7 @@
                 !(model = this._prepareModel(model, options)))
             )
                 return !1;
-            !options.wait && this.add(model, options);
+            options.wait || this.add(model, options);
             var success = options.success;
             return (
                 (options.success = function (model, resp, options) {
@@ -982,7 +982,7 @@
                 if (this._hasPushState || !this._wantsHashChange || forcePushState) {
                     fragment = this.location.pathname;
                     var root1 = this.root.replace(trailingSlash, "");
-                    !fragment.indexOf(root1) &&
+                    fragment.indexOf(root1) ||
               (fragment = fragment.slice(root1.length));
                 } else fragment = this.getHash();
             }
