@@ -355,7 +355,9 @@ impl VisitMut for Remover {
 
                         self.changed = true;
 
-                        return Stmt::Block(BlockStmt { span, stmts }).visit_mut_with(self);
+                        let mut block = Stmt::Block(BlockStmt { span, stmts });
+                        block.visit_mut_with(self);
+                        return block;
                     }
 
                     let alt = match &alt {
@@ -567,11 +569,12 @@ impl VisitMut for Remover {
                             prepend(&mut stmts, expr.into_stmt());
                         }
 
-                        return Stmt::Block(BlockStmt {
+                        let mut block = Stmt::Block(BlockStmt {
                             span: s.span,
                             stmts,
-                        })
-                        .visit_mut_with(self);
+                        });
+                        block.visit_mut_with(self);
+                        return block;
                     }
 
                     let mut non_constant_case_idx = None;
@@ -670,11 +673,12 @@ impl VisitMut for Remover {
                                 );
                             }
 
-                            return Stmt::Block(BlockStmt {
+                            let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
-                            })
-                            .visit_mut_with(self);
+                            });
+                            block.visit_mut_with(self);
+                            return block;
                         }
                     } else if are_all_tests_known {
                         match *s.discriminant {
