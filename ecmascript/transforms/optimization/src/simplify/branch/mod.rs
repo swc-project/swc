@@ -224,8 +224,8 @@ impl VisitMut for Remover {
         p
     }
 
-    fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.visit_mut_children_with(self);
+    fn visit_mut_object_pat_prop(&mut self, p: &mut ObjectPatProp) {
+        p.visit_mut_children_with(self);
 
         match p {
             ObjectPatProp::Assign(AssignPatProp {
@@ -255,8 +255,8 @@ impl VisitMut for Remover {
         p
     }
 
-    fn fold_pat(&mut self, p: Pat) -> Pat {
-        let p = p.visit_mut_children_with(self);
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
+        p.visit_mut_children_with(self);
 
         match p {
             Pat::Assign(p)
@@ -288,21 +288,19 @@ impl VisitMut for Remover {
         p
     }
 
-    fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e: SeqExpr = e.visit_mut_children_with(self);
+    fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
+        e.visit_mut_children_with(self);
         if e.exprs.is_empty() {
-            return e;
+            return;
         }
 
         let last = e.exprs.pop().unwrap();
         let mut exprs = e.exprs.move_flat_map(|e| ignore_result(*e).map(Box::new));
         exprs.push(last);
-
-        SeqExpr { exprs, ..e }
     }
 
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.visit_mut_children_with(self);
+    fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
+        stmt.visit_mut_children_with(self);
 
         match stmt {
             Stmt::If(IfStmt {
@@ -946,8 +944,8 @@ impl VisitMut for Remover {
         }
     }
 
-    fn fold_switch_stmt(&mut self, s: SwitchStmt) -> SwitchStmt {
-        let s: SwitchStmt = s.visit_mut_children_with(self);
+    fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
+        s.visit_mut_children_with(self);
 
         if s.cases.iter().any(|case| match case.test.as_deref() {
             Some(Expr::Update(..)) => true,
