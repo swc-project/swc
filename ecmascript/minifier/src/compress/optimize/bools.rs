@@ -229,8 +229,8 @@ impl Optimizer<'_> {
             _ => {
                 is(l)
                     && ((is_return_value_ignored
-                        && match r {
-                            Expr::Call(..) | Expr::Member(..) => true,
+                        && match l {
+                            Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
                             _ => false,
                         })
                         || is(r))
