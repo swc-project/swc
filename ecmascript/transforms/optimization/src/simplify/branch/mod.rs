@@ -77,8 +77,6 @@ impl VisitMut for Remover {
         if let Some(i) = preserved {
             p.elems.drain(i..);
         }
-
-        ArrayPat { ..p }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -90,15 +88,16 @@ impl VisitMut for Remover {
                 left: PatOrExpr::Pat(l),
                 right: r,
                 ..
-            }) if match &*l {
-                Pat::Ident(l) => match &*r {
+            }) if match &**l {
+                Pat::Ident(l) => match &**r {
                     Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
                     _ => false,
                 },
                 _ => false,
             } =>
             {
-                return Expr::Ident(r.ident().unwrap())
+                *e = Expr::Ident(r.ident().unwrap());
+                return;
             }
 
             Expr::Assign(AssignExpr {
