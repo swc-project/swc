@@ -991,9 +991,9 @@ impl Remover {
         let mut new_stmts = Vec::with_capacity(stmts.len());
 
         let mut iter = stmts.take().into_iter();
-        while let Some(stmt_like) = iter.next() {
+        while let Some(mut stmt_like) = iter.next() {
             self.normal_block = true;
-            let stmt_like = stmt_like.visit_mut_with(self);
+            stmt_like.visit_mut_with(self);
             self.normal_block = false;
 
             let stmt_like = match stmt_like.try_into_stmt() {
