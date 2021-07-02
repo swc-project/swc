@@ -26,7 +26,7 @@ use swc_ecma_utils::StringType;
 use swc_ecma_utils::SymbolType;
 use swc_ecma_utils::UndefinedType;
 use swc_ecma_utils::Value;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMut};
+use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut};
 use Value::Known;
 use Value::Unknown;
 
@@ -1145,14 +1145,12 @@ impl SimplifyExpr {
     }
 }
 
-impl Fold for SimplifyExpr {
-    noop_fold_type!();
+impl VisitMut for SimplifyExpr {
+    noop_visit_mut_type!();
 
     /// Currently noop
     #[inline]
-    fn fold_opt_chain_expr(&mut self, n: OptChainExpr) -> OptChainExpr {
-        n
-    }
+    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {}
 
     fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
         let old = self.is_modifying;
