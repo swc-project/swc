@@ -226,7 +226,15 @@ impl Optimizer<'_> {
                 }),
             ) => false,
 
-            _ => is(l) && (is_return_value_ignored || is(r)),
+            _ => {
+                is(l)
+                    && ((is_return_value_ignored
+                        && match r {
+                            Expr::Call(..) | Expr::Member(..) => true,
+                            _ => false,
+                        })
+                        || is(r))
+            }
         }
     }
 
