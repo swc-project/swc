@@ -79,12 +79,12 @@ impl Optimizer<'_> {
             let ends_with_mergable = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::Return(..)) | Some(Stmt::Expr(..)) => true,
+                    Some(Stmt::Return(..) | Stmt::Expr(..)) => true,
                     _ => false,
                 })
                 .unwrap();
 
-            if stmts.len() - start == 1 && !ends_with_mergable {
+            if stmts.len() - start == 1 || !ends_with_mergable {
                 return;
             }
 
