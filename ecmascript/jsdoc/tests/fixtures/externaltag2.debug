@@ -1,1 +1,212 @@
-[]
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    34,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Namespace provided by the browser.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        8,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            8,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('external' type=dynamic),
+                },
+                tag: External(
+                    ExternalTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                8,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    14,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('XMLHttpRequest' type=static),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        3,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            3,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('see' type=inline),
+                },
+                tag: See(
+                    SeeTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                3,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    47,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('https://developer.mozilla.org/en/xmlhttprequest' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                134,
+            ),
+            hi: BytePos(
+                134,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    134,
+                ),
+                hi: BytePos(
+                    209,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Extends the built in XMLHttpRequest to send data encoded with a secret key.' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        134,
+                    ),
+                    hi: BytePos(
+                        139,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            134,
+                        ),
+                        hi: BytePos(
+                            139,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('class' type=static),
+                },
+                tag: Class(
+                    ClassTag {
+                        span: Span {
+                            lo: BytePos(
+                                134,
+                            ),
+                            hi: BytePos(
+                                139,
+                            ),
+                            ctxt: #0,
+                        },
+                        ty: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        134,
+                                    ),
+                                    hi: BytePos(
+                                        150,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('EncryptedRequest' type=dynamic),
+                            },
+                        ),
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        134,
+                                    ),
+                                    hi: BytePos(
+                                        166,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('@extends external:XMLHttpRequest' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+]

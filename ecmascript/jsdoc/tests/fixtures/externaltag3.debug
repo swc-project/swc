@@ -1,1 +1,399 @@
-[]
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    30,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('The built in string object.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        8,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            8,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('external' type=dynamic),
+                },
+                tag: External(
+                    ExternalTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                8,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    8,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{String}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        3,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            3,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('see' type=inline),
+                },
+                tag: See(
+                    SeeTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                3,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    90,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{@link https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String String}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                161,
+            ),
+            hi: BytePos(
+                161,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    161,
+                ),
+                hi: BytePos(
+                    205,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Adds a new method to the built-in string.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        161,
+                    ),
+                    hi: BytePos(
+                        169,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            161,
+                        ),
+                        hi: BytePos(
+                            169,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('function' type=static),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                161,
+                            ),
+                            hi: BytePos(
+                                169,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        161,
+                                    ),
+                                    hi: BytePos(
+                                        182,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('external:String#rot13' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        161,
+                    ),
+                    hi: BytePos(
+                        168,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            161,
+                        ),
+                        hi: BytePos(
+                            168,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('example' type=inline),
+                },
+                tag: Example(
+                    ExampleTag {
+                        span: Span {
+                            lo: BytePos(
+                                161,
+                            ),
+                            hi: BytePos(
+                                168,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    161,
+                                ),
+                                hi: BytePos(
+                                    257,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('* var greeting = new String('hello world');
+                             * console.log( greeting.rot13() ); // uryyb jbeyq
+                             ' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                358,
+            ),
+            hi: BytePos(
+                358,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    358,
+                ),
+                hi: BytePos(
+                    358,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('' type=static),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        358,
+                    ),
+                    hi: BytePos(
+                        366,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            358,
+                        ),
+                        hi: BytePos(
+                            366,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('external' type=dynamic),
+                },
+                tag: External(
+                    ExternalTag {
+                        span: Span {
+                            lo: BytePos(
+                                358,
+                            ),
+                            hi: BytePos(
+                                366,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    358,
+                                ),
+                                hi: BytePos(
+                                    373,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{"foo.bar.baz"}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                397,
+            ),
+            hi: BytePos(
+                397,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    397,
+                ),
+                hi: BytePos(
+                    410,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Blah blah
+              *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        397,
+                    ),
+                    hi: BytePos(
+                        405,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            397,
+                        ),
+                        hi: BytePos(
+                            405,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('function' type=static),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                397,
+                            ),
+                            hi: BytePos(
+                                405,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        397,
+                                    ),
+                                    hi: BytePos(
+                                        424,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('external:"foo.bar.baz"#blah' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+]
