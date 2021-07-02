@@ -283,8 +283,6 @@ impl VisitMut for Remover {
 
             _ => {}
         }
-
-        p
     }
 
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
@@ -430,7 +428,9 @@ impl VisitMut for Remover {
                         && !is_block_scoped_stuff(&stmts[0])
                         && stmt_depth(&stmts[0]) <= 1
                     {
-                        stmts.into_iter().next().unwrap().visit_mut_with(self)
+                        let mut v = stmts.into_iter().next().unwrap();
+                        v.visit_mut_with(self);
+                        v
                     } else {
                         Stmt::Block(BlockStmt { span, stmts })
                     }
