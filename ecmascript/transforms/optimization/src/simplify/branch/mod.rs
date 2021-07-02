@@ -6,7 +6,7 @@ use swc_common::{
     Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::pass::RepeatedJsPass;
+use swc_ecma_transforms_base::{ext::MapWithMut, pass::RepeatedJsPass};
 use swc_ecma_utils::extract_var_ids;
 use swc_ecma_utils::is_literal;
 use swc_ecma_utils::prepend;
@@ -96,7 +96,7 @@ impl VisitMut for Remover {
                 _ => false,
             } =>
             {
-                *e = Expr::Ident(r.ident().unwrap());
+                *e = Expr::Ident(r.take().ident().unwrap());
                 return;
             }
 
@@ -105,12 +105,13 @@ impl VisitMut for Remover {
                 left: PatOrExpr::Pat(left),
                 right,
                 ..
-            }) if match &*left {
+            }) if match &**left {
                 Pat::Array(arr) => arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()),
                 _ => false,
             } =>
             {
-                return *right;
+                *e = *right.take();
+                return;
             }
 
             Expr::Assign(AssignExpr {
@@ -118,12 +119,13 @@ impl VisitMut for Remover {
                 left: PatOrExpr::Pat(left),
                 right,
                 ..
-            }) if match &*left {
+            }) if match &**left {
                 Pat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
-                return *right;
+                *e = *right.take();
+                return;
             }
 
             Expr::Cond(e)
