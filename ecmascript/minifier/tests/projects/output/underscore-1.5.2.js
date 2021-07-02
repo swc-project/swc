@@ -200,7 +200,7 @@
             !iterator &&
         _.isArray(obj) &&
         obj[0] === +obj[0] &&
-        obj.length < 65535
+        65535 > obj.length
         )
             return Math.max.apply(Math, obj);
         if (!iterator && _.isEmpty(obj)) return -(1 / 0);
@@ -227,7 +227,7 @@
             !iterator &&
         _.isArray(obj) &&
         obj[0] === +obj[0] &&
-        obj.length < 65535
+        65535 > obj.length
         )
             return Math.min.apply(Math, obj);
         if (!iterator && _.isEmpty(obj)) return 1 / 0;
@@ -263,7 +263,7 @@
         );
     }),
     (_.sample = function (obj, n, guard) {
-        if (arguments.length < 2 || guard) return obj[_.random(obj.length - 1)];
+        if (2 > arguments.length || guard) return obj[_.random(obj.length - 1)];
         return _.shuffle(obj).slice(0, Math.max(0, n));
     });
     var lookupIterator = function (value) {
@@ -457,7 +457,7 @@
         return -1;
     }),
     (_.range = function (start, stop, step) {
-        arguments.length <= 1 && ((stop = start || 0), (start = 0)),
+        1 >= arguments.length && ((stop = start || 0), (start = 0)),
         (step = arguments[2] || 1);
         for (
             var length = Math.max(Math.ceil((stop - start) / step), 0),
@@ -499,7 +499,7 @@
     }),
     (_.bindAll = function (obj) {
         var funcs = slice.call(arguments, 1);
-        if (funcs.length === 0)
+        if (0 === funcs.length)
             throw new Error("bindAll must be passed function names");
         return (
             each(funcs, function (f) {
@@ -756,12 +756,12 @@
     }),
     (_.isEmpty = function (obj) {
         if (null == obj) return !0;
-        if (_.isArray(obj) || _.isString(obj)) return obj.length === 0;
+        if (_.isArray(obj) || _.isString(obj)) return 0 === obj.length;
         for (var key in obj) if (_.has(obj, key)) return !1;
         return !0;
     }),
     (_.isElement = function (obj) {
-        return !(!obj || obj.nodeType !== 1);
+        return !(!obj || 1 !== obj.nodeType);
     }),
     (_.isArray =
       nativeIsArray ||
@@ -962,7 +962,7 @@
                 return (
                     ArrayProto[name].apply(obj, arguments),
                     ("shift" == name || "splice" == name) &&
-              obj.length === 0 &&
+              0 === obj.length &&
               delete obj[0],
                     result.call(this, obj)
                 );

@@ -371,7 +371,7 @@
             return new this.constructor(this.attributes);
         },
         isNew: function () {
-            return this.id == null;
+            return null == this.id;
         },
         isValid: function (options) {
             return this._validate(
@@ -519,7 +519,7 @@
                     toAdd.push(model),
                     model.on("all", this._onModelEvent, this),
                     (this._byId[model.cid] = model),
-                    model.id != null && (this._byId[model.id] = model);
+                    null != model.id && (this._byId[model.id] = model);
                 }
                 order && order.push(existing || model);
             }
@@ -699,7 +699,7 @@
             model &&
           event === "change:" + model.idAttribute &&
           (delete this._byId[model.previous(model.idAttribute)],
-          model.id != null && (this._byId[model.id] = model)),
+          null != model.id && (this._byId[model.id] = model)),
             this.trigger.apply(this, arguments);
         },
     }),
@@ -849,7 +849,7 @@
         };
         if (
             (!options.url && (params.url = _.result(model, "url") || urlError()),
-            options.data == null &&
+            null == options.data &&
           model &&
           ("create" === method || "update" === method || "patch" === method) &&
           ((params.contentType = "application/json"),
@@ -876,8 +876,8 @@
                     return beforeSend.apply(this, arguments);
             };
         }
-        params.type === "GET" || options.emulateJSON || (params.processData = !1),
-        params.type === "PATCH" &&
+        "GET" === params.type || options.emulateJSON || (params.processData = !1),
+        "PATCH" === params.type &&
           noXhrPatch &&
           (params.xhr = function () {
               return new ActiveXObject("Microsoft.XMLHTTP");

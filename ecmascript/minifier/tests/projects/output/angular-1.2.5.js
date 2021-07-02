@@ -76,7 +76,7 @@
     function isArrayLike(obj) {
         if (null == obj || isWindow(obj)) return !1;
         var length = obj.length;
-        if (obj.nodeType === 1 && length) return !0;
+        if (1 === obj.nodeType && length) return !0;
         return (
             isString(obj) ||
       isArray(obj) ||
@@ -222,7 +222,7 @@
         nodeName_ = function (element) {
             return (
                 (element = element.nodeName ? element : element[0]),
-                element.scopeName && element.scopeName != "HTML"
+                element.scopeName && "HTML" != element.scopeName
                     ? uppercase(element.scopeName + ":" + element.nodeName)
                     : element.nodeName
             );
@@ -390,7 +390,7 @@
         return isString(json) ? JSON.parse(json) : json;
     }
     function toBoolean(value) {
-        if (value && value.length !== 0) {
+        if (value && 0 !== value.length) {
             var v = lowercase("" + value);
             value = !(
                 "f" == v ||
@@ -915,7 +915,7 @@
                     if (fired) return;
                     (fired = !0), fn();
                 }
-                if (document.readyState === "complete") setTimeout(trigger);
+                if ("complete" === document.readyState) setTimeout(trigger);
                 else
                     this.on("DOMContentLoaded", trigger),
                     JQLite(window).on("load", trigger);
@@ -1044,7 +1044,7 @@
                             forEach(element.options, function (option) {
                                 option.selected && result.push(option.value || option.text);
                             }),
-                            result.length === 0 ? null : result
+                            0 === result.length ? null : result
                         );
                     }
                     return element.value;
@@ -1068,7 +1068,7 @@
                 var i, key;
                 if (
                     fn !== jqLiteEmpty &&
-          (fn.length == 2 && fn !== jqLiteHasClass && fn !== jqLiteController
+          (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController
               ? arg1
               : arg2) === void 0
                 ) {
@@ -1159,12 +1159,12 @@
                   document.body.contains ||
                   document.body.compareDocumentPosition
                       ? function (a, b) {
-                          var adown = a.nodeType === 9 ? a.documentElement : a,
+                          var adown = 9 === a.nodeType ? a.documentElement : a,
                               bup = b && b.parentNode;
                           return (
                               a === bup ||
                           (bup &&
-                            bup.nodeType === 1 &&
+                            1 === bup.nodeType &&
                             !!(adown.contains
                                 ? adown.contains(bup)
                                 : a.compareDocumentPosition &&
@@ -1213,7 +1213,7 @@
                 var children = [];
                 return (
                     forEach(element.childNodes, function (element) {
-                        element.nodeType === 1 && children.push(element);
+                        1 === element.nodeType && children.push(element);
                     }),
                     children
                 );
@@ -1223,12 +1223,12 @@
             },
             append: function (element, node) {
                 forEach(new JQLite(node), function (child) {
-                    (element.nodeType === 1 || element.nodeType === 11) &&
+                    (1 === element.nodeType || 11 === element.nodeType) &&
             element.appendChild(child);
                 });
             },
             prepend: function (element, node) {
-                if (element.nodeType === 1) {
+                if (1 === element.nodeType) {
                     var index = element.firstChild;
                     forEach(new JQLite(node), function (child) {
                         element.insertBefore(child, index);
@@ -1262,11 +1262,11 @@
             },
             parent: function (element) {
                 var parent = element.parentNode;
-                return parent && parent.nodeType !== 11 ? parent : null;
+                return parent && 11 !== parent.nodeType ? parent : null;
             },
             next: function (element) {
                 if (element.nextElementSibling) return element.nextElementSibling;
-                for (var elm = element.nextSibling; null != elm && elm.nodeType !== 1; )
+                for (var elm = element.nextSibling; null != elm && 1 !== elm.nodeType; )
                     elm = elm.nextSibling;
                 return elm;
             },
@@ -2073,7 +2073,7 @@
                     !($compileNodes instanceof jqLite) &&
               ($compileNodes = jqLite($compileNodes)),
                     forEach($compileNodes, function (node, index) {
-                        node.nodeType == 3 &&
+                        3 == node.nodeType &&
                   node.nodeValue.match(/\S+/) &&
                   ($compileNodes[index] = node = jqLite(node)
                       .wrap("<span></span>")
@@ -2097,7 +2097,7 @@
                         });
                         for (var i = 0, ii = $linkNode.length; ii > i; i++) {
                             var node = $linkNode[i];
-                            (node.nodeType == 1 || node.nodeType == 9) &&
+                            (1 == node.nodeType || 9 == node.nodeType) &&
                   $linkNode.eq(i).data("$scope", scope);
                         }
                         return (
@@ -2365,7 +2365,7 @@
                                     attrStart,
                                     attrEnd,
                                 );
-                            node.nodeType == 1 &&
+                            1 == node.nodeType &&
                   (node.hasAttribute(attrStart) && depth++,
                   node.hasAttribute(attrEnd) && depth--),
                             nodes.push(node),
@@ -2520,7 +2520,7 @@
                                         "<div>" + trim(directiveValue) + "</div>",
                                     ).contents()),
                                     (compileNode = $template[0]),
-                                    $template.length != 1 || compileNode.nodeType !== 1)
+                                    1 != $template.length || 1 !== compileNode.nodeType)
                                 )
                                     throw $compileMinErr(
                                         "tplrt",
@@ -2847,7 +2847,7 @@
                         for (
                             newIsolateScopeDirective &&
                   (newIsolateScopeDirective.template ||
-                    newIsolateScopeDirective.templateUrl === null) &&
+                    null === newIsolateScopeDirective.templateUrl) &&
                   (scopeToChild = isolateScope),
                             childLinkFn &&
                     childLinkFn(
@@ -2880,7 +2880,7 @@
                         function controllersBoundTransclude(scope1, cloneAttachFn) {
                             var transcludeControllers;
                             return (
-                                arguments.length < 2 &&
+                                2 > arguments.length &&
                     ((cloneAttachFn = scope1), (scope1 = void 0)),
                                 hasElementTranscludeDirective &&
                     (transcludeControllers = elementControllers),
@@ -3003,7 +3003,7 @@
                                             "<div>" + trim(content) + "</div>",
                                         ).contents()),
                                         (compileNode = $template[0]),
-                                        $template.length != 1 || compileNode.nodeType !== 1)
+                                        1 != $template.length || 1 !== compileNode.nodeType)
                                     )
                                         throw $compileMinErr(
                                             "tplrt",
@@ -3607,7 +3607,7 @@
                         promise.then(removePendingReq, removePendingReq),
                         (config.cache || defaults.cache) &&
               config.cache !== !1 &&
-              config.method == "GET" &&
+              "GET" == config.method &&
               (cache = isObject(config.cache)
                   ? config.cache
                   : isObject(defaults.cache)
@@ -3761,7 +3761,7 @@
                     isDefined(value) && xhr.setRequestHeader(key, value);
                 }),
                 (xhr.onreadystatechange = function () {
-                    if (xhr.readyState == 4) {
+                    if (4 == xhr.readyState) {
                         var responseHeaders = null,
                             response = null;
                         -1 !== status &&
@@ -4274,7 +4274,7 @@
                 ($location = new LocationMode(appBase, "#" + hashPrefix)),
                 $location.$$parse($location.$$rewrite(initialUrl)),
                 $rootElement.on("click", function (event) {
-                    if (event.ctrlKey || event.metaKey || event.which == 2) return;
+                    if (event.ctrlKey || event.metaKey || 2 == event.which) return;
                     for (
                         var elm = jqLite(event.target);
                         lowercase(elm[0].nodeName) !== "a";
@@ -4842,11 +4842,11 @@
                 token.json && ((primary.constant = !0), (primary.literal = !0));
             }
             for (var next, context; (next = this.expect("(", "[", ".")); )
-                if (next.text === "(")
+                if ("(" === next.text)
                     (primary = this.functionCall(primary, context)), (context = null);
-                else if (next.text === "[")
+                else if ("[" === next.text)
                     (context = primary), (primary = this.objectIndex(primary));
-                else if (next.text === ".")
+                else if ("." === next.text)
                     (context = primary), (primary = this.fieldAccess(primary));
                 else this.throwError("IMPOSSIBLE");
             return primary;
@@ -4942,7 +4942,7 @@
               statements.push(this.filterChain()),
                     !this.expect(";"))
                 )
-                    return statements.length === 1
+                    return 1 === statements.length
                         ? statements[0]
                         : function (self, locals) {
                             for (var value, i = 0; i < statements.length; i++) {
@@ -6364,7 +6364,7 @@
             "$sniffer",
             "$sceDelegate",
             function ($parse, $sniffer, $sceDelegate) {
-                if (enabled && $sniffer.msie && $sniffer.msieDocumentMode < 8)
+                if (enabled && $sniffer.msie && 8 > $sniffer.msieDocumentMode)
                     throw $sceMinErr(
                         "iequirks",
                         "Strict Contextual Escaping does not support Internet Explorer version < 9 in quirks mode.  You can fix this by adding the text <!doctype html> to the top of your HTML document.  See http://docs.angularjs.org/api/ng.$sce for more information.",
@@ -7682,7 +7682,7 @@
                                         restrict: "E",
                                         terminal: !0,
                                         compile: function (element, attr) {
-                                            if (attr.type == "text/ng-template") {
+                                            if ("text/ng-template" == attr.type) {
                                                 var templateUrl = attr.id,
                                                     text = element[0].text;
                                                 $templateCache.put(templateUrl, text);
@@ -8165,7 +8165,7 @@
                                             option.selected),
                                         );
                                                             else {
-                                                                if (option.id === "" && nullOption)
+                                                                if ("" === option.id && nullOption)
                                                                     element = nullOption;
                                                                 else
                                                                     (element = optionTemplate.clone())
