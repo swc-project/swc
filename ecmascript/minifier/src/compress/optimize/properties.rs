@@ -113,7 +113,16 @@ impl Optimizer<'_> {
 
         match &*e.prop {
             Expr::Lit(Lit::Str(s)) => {
-                if s.value == js_word!("") || s.value.starts_with(|c: char| c.is_digit(10)) {
+                if s.value == js_word!("")
+                    || s.value.starts_with(|c: char| c.is_digit(10))
+                    || s.value.contains(|c: char| match c {
+                        '0'..='9' => false,
+                        'a'..='z' => false,
+                        'A'..='Z' => false,
+                        '$' => false,
+                        _ => true,
+                    })
+                {
                     return;
                 }
 

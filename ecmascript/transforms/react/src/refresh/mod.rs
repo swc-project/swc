@@ -789,6 +789,10 @@ impl<C: Comments> Fold for Refresh<C> {
         n
     }
 
+    fn fold_ts_module_decl(&mut self, n: TsModuleDecl) -> TsModuleDecl {
+        n
+    }
+
     fn fold_module_items(&mut self, module_items: Vec<ModuleItem>) -> Vec<ModuleItem> {
         if !self.enable {
             return module_items;

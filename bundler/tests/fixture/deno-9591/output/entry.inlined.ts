@@ -259,6 +259,8 @@ if (globalThis.Deno != null) {
     NATIVE_OS = "windows";
 }
 const isWindows = NATIVE_OS == "windows";
+const SEP = isWindows ? "\\" : "/";
+const SEP_PATTERN = isWindows ? /[\\/]+/ : /\/+/;
 function assertPath(path) {
     if (typeof path !== "string") {
         throw new TypeError(`Path must be a string. Received ${JSON.stringify(path)}`);
@@ -1304,6 +1306,27 @@ const mod2 = function() {
         toFileUrl: toFileUrl1
     };
 }();
+function common(paths, sep2 = SEP) {
+    const [first = "", ...remaining] = paths;
+    if (first === "" || remaining.length === 0) {
+        return first.substring(0, first.lastIndexOf(sep2) + 1);
+    }
+    const parts = first.split(sep2);
+    let endOfPrefix = parts.length;
+    for (const path of remaining){
+        const compare = path.split(sep2);
+        for(let i = 0; i < endOfPrefix; i++){
+            if (compare[i] !== parts[i]) {
+                endOfPrefix = i;
+            }
+        }
+        if (endOfPrefix === 0) {
+            return "";
+        }
+    }
+    const prefix = parts.slice(0, endOfPrefix).join(sep2);
+    return prefix.endsWith(sep2) ? prefix : `${prefix}${sep2}`;
+}
 const path = isWindows ? mod1 : mod2;
 const regExpEscapeChars = [
     "!",
@@ -1321,30 +1344,7 @@ const regExpEscapeChars = [
     "{",
     "|"
 ];
-const SEP = isWindows ? "\\" : "/";
-function common(paths, sep2 = SEP) {
-    const [first = "", ...remaining] = paths;
-    if (first === "" || remaining.length === 0) {
-        return first.substring(0, first.lastIndexOf(sep2) + 1);
-    }
-    const parts = first.split(sep2);
-    let endOfPrefix = parts.length;
-    for (const path1 of remaining){
-        const compare = path1.split(sep2);
-        for(let i = 0; i < endOfPrefix; i++){
-            if (compare[i] !== parts[i]) {
-                endOfPrefix = i;
-            }
-        }
-        if (endOfPrefix === 0) {
-            return "";
-        }
-    }
-    const prefix = parts.slice(0, endOfPrefix).join(sep2);
-    return prefix.endsWith(sep2) ? prefix : `${prefix}${sep2}`;
-}
 const { basename: basename2 , delimiter: delimiter2 , dirname: dirname2 , extname: extname2 , format: format2 , fromFileUrl: fromFileUrl2 , isAbsolute: isAbsolute2 , join: join2 , normalize: normalize2 , parse: parse3 , relative: relative2 , resolve: resolve2 , sep: sep2 , toFileUrl: toFileUrl2 , toNamespacedPath: toNamespacedPath2 ,  } = path;
-const SEP_PATTERN = isWindows ? /[\\/]+/ : /\/+/;
 const rangeEscapeChars = [
     "-",
     "\\",
