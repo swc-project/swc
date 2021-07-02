@@ -26,7 +26,7 @@ use swc_ecma_utils::StringType;
 use swc_ecma_utils::SymbolType;
 use swc_ecma_utils::UndefinedType;
 use swc_ecma_utils::Value;
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, FoldWith, VisitMut};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::Known;
 use Value::Unknown;
 
@@ -46,7 +46,7 @@ macro_rules! try_val {
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
 pub fn expr_simplifier() -> impl RepeatedJsPass + VisitMut + 'static {
-    SimplifyExpr::default()
+    as_folder(SimplifyExpr::default())
 }
 
 #[derive(Debug, Default)]
@@ -499,7 +499,7 @@ impl SimplifyExpr {
                             span,
                             exprs: vec![left, node],
                         }
-                        .fold_with(self);
+                        .visit_mut_with(self);
 
                         Expr::Seq(seq)
                     };
@@ -1152,17 +1152,15 @@ impl VisitMut for SimplifyExpr {
     #[inline]
     fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {}
 
-    fn fold_assign_expr(&mut self, n: AssignExpr) -> AssignExpr {
+    fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.is_modifying;
         self.is_modifying = true;
-        let left = n.left.fold_with(self);
+        n.left.visit_mut_with(self);
         self.is_modifying = old;
 
         self.is_modifying = false;
-        let right = n.right.fold_with(self);
+        n.right.visit_mut_with(self);
         self.is_modifying = old;
-
-        AssignExpr { left, right, ..n }
     }
 
     fn fold_expr(&mut self, expr: Expr) -> Expr {
@@ -1173,7 +1171,7 @@ impl VisitMut for SimplifyExpr {
             _ => {}
         }
         // fold children before doing something more.
-        let expr = expr.fold_children_with(self);
+        let expr = expr.visit_mut_children_with(self);
 
         match expr {
             // Do nothing.
@@ -1306,7 +1304,7 @@ impl VisitMut for SimplifyExpr {
         match p {
             Pat::Assign(a) => AssignPat {
                 right: {
-                    let default = a.right.fold_with(self);
+                    let default = a.right.visit_mut_with(self);
                     if default.is_undefined()
                         || match *default {
                             Expr::Unary(UnaryExpr {
@@ -1339,7 +1337,9 @@ impl VisitMut for SimplifyExpr {
             ExprOrSuper::Expr(e) => match *e {
                 Expr::Seq(mut seq) => {
                     if seq.exprs.len() == 1 {
-                        ExprOrSuper::Expr(seq.exprs.into_iter().next().unwrap().fold_with(self))
+                        ExprOrSuper::Expr(
+                            seq.exprs.into_iter().next().unwrap().visit_mut_with(self),
+                        )
                     } else {
                         match seq.exprs.get(0).map(|v| &**v) {
                             Some(Expr::Lit(..) | Expr::Ident(..)) => {}
@@ -1354,24 +1354,24 @@ impl VisitMut for SimplifyExpr {
                             }
                         }
 
-                        ExprOrSuper::Expr(Box::new(Expr::Seq(seq.fold_with(self))))
+                        ExprOrSuper::Expr(Box::new(Expr::Seq(seq.visit_mut_with(self))))
                     }
                 }
-                _ => ExprOrSuper::Expr(e.fold_with(self)),
+                _ => ExprOrSuper::Expr(e.visit_mut_with(self)),
             },
         };
         self.in_callee = old_in_callee;
 
         CallExpr {
             callee,
-            args: n.args.fold_with(self),
+            args: n.args.visit_mut_with(self),
             ..n
         }
     }
 
     /// Drops unused values
     fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e = e.fold_children_with(self);
+        let mut e = e.visit_mut_children_with(self);
 
         let len = e.exprs.len();
 
@@ -1436,7 +1436,7 @@ impl VisitMut for SimplifyExpr {
     fn fold_stmts(&mut self, mut n: Vec<Stmt>) -> Vec<Stmt> {
         let mut child = Self::default();
 
-        n = n.fold_children_with(&mut child);
+        n = n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
 
         if !child.vars.is_empty() {
@@ -1457,7 +1457,7 @@ impl VisitMut for SimplifyExpr {
     fn fold_module_items(&mut self, mut n: Vec<ModuleItem>) -> Vec<ModuleItem> {
         let mut child = Self::default();
 
-        n = n.fold_children_with(&mut child);
+        n = n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
 
         if !child.vars.is_empty() {
@@ -1480,7 +1480,7 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = false;
         let old_is_arg_of_update = self.is_arg_of_update;
         self.is_arg_of_update = false;
-        let s = s.fold_children_with(self);
+        let s = s.visit_mut_children_with(self);
         self.is_arg_of_update = old_is_arg_of_update;
         self.is_modifying = old_is_modifying;
         s
@@ -1489,7 +1489,7 @@ impl VisitMut for SimplifyExpr {
     fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
         let old = self.is_modifying;
         self.is_modifying = true;
-        let arg = n.arg.fold_with(self);
+        let arg = n.arg.visit_mut_with(self);
         self.is_modifying = old;
         UpdateExpr { arg, ..n }
     }
