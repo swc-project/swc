@@ -136,7 +136,7 @@ impl VisitMut for Compressor<'_> {
         }
 
         // Temporary
-        if self.pass > 10 {
+        if self.pass > 100 {
             panic!("Infinite loop detected")
         }
 
