@@ -1,0 +1,18 @@
+{
+    "parser": "babel-eslint",
+    "rules": {
+        "indent": [
+            1,
+            4
+        ],
+        "semi": [
+            1,
+            "always"
+        ],
+        "space-unary-ops": 2,
+        "no-undef": "off",
+        "consistent-return": "off",
+        "no-prototype-builtins": "off",
+        "no-cond-assign": "off"
+    }
+}
