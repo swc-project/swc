@@ -1056,6 +1056,10 @@ impl Optimizer<'_> {
                         }
                     }
 
+                    if exprs.is_empty() {
+                        return None;
+                    }
+
                     return Some(Expr::Seq(SeqExpr {
                         span: seq.span,
                         exprs,
