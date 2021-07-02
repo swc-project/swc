@@ -1,5 +1,6 @@
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
+use crate::util::idents_used_by;
 
 use super::Optimizer;
 use swc_atoms::js_word;
@@ -399,7 +400,20 @@ impl Optimizer<'_> {
                     return;
                 }
                 //
-                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                if let Some(value) = self
+                    .lits
+                    .get(&i.to_id())
+                    .and_then(|v| {
+                        // Prevent infinite recursion.
+                        let ids = idents_used_by(&**v);
+                        if ids.contains(&i.to_id()) {
+                            None
+                        } else {
+                            Some(v)
+                        }
+                    })
+                    .cloned()
+                {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
                             if self.ctx.in_lhs_of_assign {
