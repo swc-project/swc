@@ -1324,7 +1324,7 @@ impl VisitMut for SimplifyExpr {
                     return;
                 }
             }
-            _ => p,
+            _ => {}
         }
     }
 
