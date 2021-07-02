@@ -518,7 +518,7 @@ Array.implement({
         return this.length ? this[Number.random(0, this.length - 1)] : null;
     },
     include: function (item) {
-        return !this.contains(item) && this.push(item), this;
+        return this.contains(item) || this.push(item), this;
     },
     combine: function (array) {
         for (var i = 0, l = array.length; l > i; i++) this.include(array[i]);
@@ -1076,7 +1076,7 @@ Hash.alias({
             document[name] = method;
         }),
         (document.html = document.documentElement),
-        !document.head &&
+        document.head ||
         (document.head = document.getElementsByTagName("head")[0]),
         document.execCommand)
     )
@@ -1180,7 +1180,7 @@ Hash.alias({
 (function () {
     var _keys = {},
         DOMEvent = (this.DOMEvent = new Type("DOMEvent", function (event, win) {
-            if ((!win && (win = window), (event ||= win.event), event.$extended))
+            if ((win || (win = window), (event ||= win.event), event.$extended))
                 return event;
             (this.event = event),
             (this.$extended = !0),
@@ -2155,7 +2155,7 @@ function () {
     (local.getUIDXML = function (node) {
         var uid = node.getAttribute(this.uidk);
         return (
-            !uid && ((uid = this.uidx++), node.setAttribute(this.uidk, uid)), uid
+            uid || ((uid = this.uidx++), node.setAttribute(this.uidk, uid)), uid
         );
     }),
     (local.getUIDHTML = function (node) {
@@ -2345,7 +2345,7 @@ function () {
                     ) {
                         if (((children = node.all[id]), !children)) return;
                         for (
-                            !children[0] && (children = [children]), i = 0;
+                            children[0] || (children = [children]), i = 0;
                             (item = children[i++]);
 
                         ) {
@@ -2388,7 +2388,7 @@ function () {
                 )
                     break getByTag;
                 for (
-                    !this.brokenStarGEBTN && (tag = null), i = 0;
+                    this.brokenStarGEBTN || (tag = null), i = 0;
                     (item = children[i++]);
 
                 )
@@ -2659,7 +2659,7 @@ var Element1 = function (tag, props) {
     var konstructor = Element1.Constructors[tag];
     if (konstructor) return konstructor(props);
     if ("string" != typeof tag) return document.id(tag).set(props);
-    if ((!props && (props = {}), !/^[\w-]+$/.test(tag))) {
+    if ((props || (props = {}), !/^[\w-]+$/.test(tag))) {
         var parsed = Slick.parse(tag).expressions[0][0];
         (tag = "*" == parsed.tag ? "div" : parsed.tag),
         parsed.id && null == props.id && (props.id = parsed.id);
@@ -3272,7 +3272,7 @@ Elements.alias("extend", "append"),
         },
         addClass: function (className) {
             return (
-                !this.hasClass(className) &&
+                this.hasClass(className) ||
             (this.className = (this.className + " " + className).clean()),
                 this
             );
@@ -3405,7 +3405,7 @@ Elements.alias("extend", "append"),
             ) {
                 var node = ce[i],
                     element = te[i];
-                if ((!keepid && node.removeAttribute("id"), node.clearAttributes)) {
+                if ((keepid || node.removeAttribute("id"), node.clearAttributes)) {
                     if (
                         (node.clearAttributes(),
                         node.mergeAttributes(element),
@@ -3545,7 +3545,7 @@ Elements.alias("extend", "append"),
                         wrapper = document.createElement("div"),
                         target = wrapper;
                     for (
-                        !supportsHTML5Elements && fragment.appendChild(wrapper),
+                        supportsHTML5Elements || fragment.appendChild(wrapper),
                         wrapper.innerHTML = [wrap[1], html, wrap[2]]
                             .flatten()
                             .join("");
@@ -3857,7 +3857,7 @@ Elements.alias("extend", "append"),
             addEvent: function (type, fn) {
                 var events = this.retrieve("events", {});
                 if (
-                    (!events[type] &&
+                    (events[type] ||
               (events[type] = {
                   keys: [],
                   values: [],
@@ -4199,7 +4199,7 @@ Elements.alias("extend", "append"),
                             target && bubbleUp(self, match, fn, event, target);
                         };
                 return (
-                    !stored && (stored = {}),
+                    stored || (stored = {}),
                     (stored[uid] = {
                         match: _match,
                         fn: _fn,
@@ -4853,7 +4853,7 @@ Element1.alias({
     get: function () {
         var tween = this.retrieve("tween");
         return (
-            !tween &&
+            tween ||
           ((tween = new Fx.Tween(this, {
               link: "cancel",
           })),
@@ -4962,7 +4962,7 @@ Element1.implement({
     get: function () {
         var morph = this.retrieve("morph");
         return (
-            !morph &&
+            morph ||
           ((morph = new Fx.Morph(this, {
               link: "cancel",
           })),
@@ -5297,7 +5297,7 @@ Fx.Transitions.extend({
         get: function () {
             var send = this.retrieve("send");
             return (
-                !send &&
+                send ||
               ((send = new Request1({
                   data: this,
                   link: "cancel",
@@ -5372,7 +5372,7 @@ Fx.Transitions.extend({
     get: function () {
         var load = this.retrieve("load");
         return (
-            !load &&
+            load ||
           ((load = new Request.HTML({
               data: this,
               link: "cancel",

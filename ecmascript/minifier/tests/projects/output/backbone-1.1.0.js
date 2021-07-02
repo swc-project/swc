@@ -202,7 +202,7 @@
             for (attr in attrs) {
                 if (
                     ((val = attrs[attr]),
-                    !_.isEqual(this.attributes[attr], val) && changes.push(attr),
+                    _.isEqual(this.attributes[attr], val) || changes.push(attr),
                     !_.isEqual(this._previousAttributes[attr], val))
                 )
                     this.changed[attr] = val;
@@ -350,7 +350,7 @@
                 return options.success(), !1;
             wrapError(this, options);
             var xhr = this.sync("delete", this, options);
-            return !options.wait && destroy(), xhr;
+            return options.wait || destroy(), xhr;
         },
         url: function () {
             var base =
@@ -571,7 +571,7 @@
                         options,
                     ),
                 )),
-                !options.silent && this.trigger("reset", this, options),
+                options.silent || this.trigger("reset", this, options),
                 models
             );
         },
@@ -634,7 +634,7 @@
             )
                 this.models = this.sortBy(this.comparator, this);
             else this.models.sort(_.bind(this.comparator, this));
-            return !options.silent && this.trigger("sort", this, options), this;
+            return options.silent || this.trigger("sort", this, options), this;
         },
         pluck: function (attr) {
             return _.invoke(this.models, "get", attr);
@@ -682,7 +682,7 @@
         },
         _prepareModel: function (attrs, options) {
             if (attrs instanceof Model)
-                return !attrs.collection && (attrs.collection = this), attrs;
+                return attrs.collection || (attrs.collection = this), attrs;
             (options = options ? _.clone(options) : {}), (options.collection = this);
             var model = new this.model(attrs, options);
             if (!model.validationError) return model;
@@ -809,7 +809,7 @@
             this.undelegateEvents();
             for (var key in events) {
                 var method = events[key];
-                if ((!_.isFunction(method) && (method = this[events[key]]), !method))
+                if ((_.isFunction(method) || (method = this[events[key]]), !method))
                     continue;
                 var match = key.match(delegateEventSplitter),
                     eventName = match[1],
@@ -848,7 +848,7 @@
             dataType: "json",
         };
         if (
-            (!options.url && (params.url = _.result(model, "url") || urlError()),
+            (options.url || (params.url = _.result(model, "url") || urlError()),
             null == options.data &&
           model &&
           ("create" === method || "update" === method || "patch" === method) &&
@@ -1113,7 +1113,7 @@
                 this._updateHash(this.location, fragment, options.replace),
                 this.iframe &&
               fragment !== this.getFragment(this.getHash(this.iframe)) &&
-              (!options.replace && this.iframe.document.open().close(),
+              (options.replace || this.iframe.document.open().close(),
               this._updateHash(
                   this.iframe.location,
                   fragment,

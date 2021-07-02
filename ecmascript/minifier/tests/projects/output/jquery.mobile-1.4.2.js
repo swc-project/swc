@@ -610,7 +610,7 @@
                 if (
                     ((name = name.split(".")[1]),
                     (fullName = namespace + "-" + name),
-                    !prototype && ((prototype = base), (base = jQuery.Widget)),
+                    prototype || ((prototype = base), (base = jQuery.Widget)),
                     (jQuery.expr[":"][fullName.toLowerCase()] = function (elem) {
                         return !!jQuery.data(elem, fullName);
                     }),
@@ -3260,7 +3260,7 @@
                         (page = all
                             .find(":jqmData(role='page'), :jqmData(role='dialog')")
                             .first()),
-                        !page.length &&
+                        page.length ||
               (page = jQuery(
                   "<div data-" +
                   this._getNs() +
@@ -3396,7 +3396,7 @@
                         return (
                             this._enhance(content, settings.role),
                             deferred.resolve(absUrl, settings, content),
-                            !settings.prefetch && this._getBase().set(url),
+                            settings.prefetch || this._getBase().set(url),
                             void 0
                         );
                     if (
@@ -3684,7 +3684,7 @@
                         newPageTitle &&
               pageTitle === document.title &&
               (pageTitle = newPageTitle),
-                        !toPage.jqmData("title") && toPage.jqmData("title", pageTitle),
+                        toPage.jqmData("title") || toPage.jqmData("title", pageTitle),
                         (settings.transition =
               settings.transition ||
               (historyDir && !activeIsInitialPage
@@ -3841,7 +3841,7 @@
                 ($lastVClicked && $lastVClicked.attr("formaction")) ||
                 $form.attr("action")),
                         (method = ($form.attr("method") || "get").toLowerCase()),
-                        !url &&
+                        url ||
                 ((url = jQuery.mobile.getClosestBaseUrl($form)),
                 "get" === method &&
                   (url = jQuery.mobile.path.parseUrl(url).hrefNoSearch),
@@ -3859,21 +3859,19 @@
                     )
                         return !1;
                     return (
-                        !calculateOnly &&
+                        calculateOnly ||
                 ((formData = $form.serializeArray()),
-                $lastVClicked &&
-                  $lastVClicked[0].form === $form[0] &&
-                  ((vclickedName = $lastVClicked.attr("name")),
-                  vclickedName &&
-                    (jQuery.each(formData, function (key, value) {
-                        if (value.name === vclickedName)
-                            return (vclickedName = ""), !1;
-                    }),
-                    vclickedName &&
-                      formData.push({
-                          name: vclickedName,
-                          value: $lastVClicked.attr("value"),
-                      }))),
+                $lastVClicked[0].form,
+                $form[0],
+                (vclickedName = $lastVClicked.attr("name")),
+                jQuery.each(formData, function (key, value) {
+                    if (value.name === vclickedName)
+                        return (vclickedName = ""), !1;
+                }),
+                formData.push({
+                    name: vclickedName,
+                    value: $lastVClicked.attr("value"),
+                }),
                 (ret = {
                     url: url,
                     options: {
@@ -6419,7 +6417,7 @@
             var popup;
             function getPopup() {
                 return (
-                    !popup &&
+                    popup ||
             (popup = jQuery("<div></div>", {
                 class: "ui-slider-popup ui-shadow ui-corner-all",
             })),
@@ -7725,7 +7723,7 @@
                             cy: windowCoordinates.cy - this._tolerance.t - this._tolerance.b,
                         };
                     return (
-                        !infoOnly && this._ui.container.css("max-width", rectangle.cx),
+                        infoOnly || this._ui.container.css("max-width", rectangle.cx),
                         (menuSize = {
                             cx: this._ui.container.outerWidth(!0),
                             cy: this._ui.container.outerHeight(!0),
@@ -9297,7 +9295,7 @@
                     header = $el.hasClass("ui-header"),
                     offset = Math.abs($el.offset().top - this.window.scrollTop());
                 return (
-                    !header &&
+                    header ||
             (offset =
               Math.round(offset - this.window.height() + $el.outerHeight()) -
               60),
@@ -9553,7 +9551,7 @@
                             .removeAttr("style")
                             .css(best.posProp, best.posVal)
                             .show(),
-                        !ieHack &&
+                        ieHack ||
               ((elOffset = this.element.offset()),
               (bgRef[params[best.dir].fst] = ar.ct.offset()),
               (bgRef[params[best.dir].snd] = {
@@ -9732,7 +9730,7 @@
           " ui-body-" +
           (this.options.theme ? this.options.theme : "inherit");
                 return (
-                    !!this.options.positionFixed &&
+                    this.options.positionFixed &&
             (panelClasses += " " + this.options.classes.panelFixed),
                     panelClasses
                 );
@@ -10542,7 +10540,7 @@
                         self._syncTextInputOptions(options);
                     };
                 })(this, this._widget._setOptions))),
-                        !!this._widget &&
+                        this._widget &&
                 (this._syncTextInputOptions(this._widget.options),
                 this._widget.widgetName === "listview" &&
                   ((this._widget.options.hideDividers = !0),
@@ -11335,7 +11333,7 @@
                         ),
                         hashPage = document.getElementById(hash);
                     if (
-                        (!$pages.length &&
+                        ($pages.length ||
                 ($pages = jQuery("body")
                     .wrapInner(
                         "<div data-" + jQuery.mobile.ns + "role='page'></div>",

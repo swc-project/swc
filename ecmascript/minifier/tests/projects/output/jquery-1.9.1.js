@@ -453,7 +453,7 @@
                 for (i in key) jQuery.access(elems, fn, i, key[i], !0, emptyGet, raw);
             } else if (void 0 !== value) {
                 if (
-                    ((chainable = !0), !jQuery.isFunction(value) && (raw = !0), bulk)
+                    ((chainable = !0), jQuery.isFunction(value) || (raw = !0), bulk)
                 ) {
                     if (raw) fn.call(elems, value), (fn = null);
                     else
@@ -632,7 +632,7 @@
                     return !list;
                 },
                 lock: function () {
-                    return (stack = void 0), !memory && self.disable(), this;
+                    return (stack = void 0), memory || self.disable(), this;
                 },
                 locked: function () {
                     return !stack;
@@ -774,7 +774,7 @@
                             .progress(updateFunc(i, progressContexts, progressValues));
                     else --remaining;
             return (
-                !remaining && deferred.resolveWith(resolveContexts, resolveValues),
+                remaining || deferred.resolveWith(resolveContexts, resolveValues),
                 deferred.promise()
             );
         },
@@ -950,7 +950,7 @@
             else id = internalKey;
         }
         if (
-            (!cache[id] &&
+            (cache[id] ||
         ((cache[id] = {}), !isNode && (cache[id].toJSON = jQuery.noop)),
             "object" == typeof name || "function" == typeof name)
         ) {
@@ -959,9 +959,8 @@
         }
         if (
             ((thisCache = cache[id]),
-            !pvt &&
-        (!thisCache.data && (thisCache.data = {}),
-        (thisCache = thisCache.data)),
+            pvt ||
+        (thisCache.data || (thisCache.data = {}), (thisCache = thisCache.data)),
             void 0 !== data && (thisCache[jQuery.camelCase(name)] = data),
             getByName)
         )
@@ -1457,7 +1456,7 @@
                                 this.selected =
                     jQuery.inArray(jQuery(this).val(), values) >= 0;
                             }),
-                        !values.length && (elem.selectedIndex = -1),
+                        values.length || (elem.selectedIndex = -1),
                         values
                     );
                 },
@@ -1648,7 +1647,7 @@
           set: function (elem, value, name) {
               var ret = elem.getAttributeNode(name);
               return (
-                  !ret &&
+                  ret ||
               elem.setAttributeNode(
                   (ret = elem.ownerDocument.createAttribute(name)),
               ),
@@ -1757,10 +1756,10 @@
           ((handleObjIn = handleObjIn.handler),
           handleObjIn.handler,
           handleObjIn.selector),
-                !handleObjIn.handler.guid &&
+                handleObjIn.handler.guid ||
             (handleObjIn.handler.guid = jQuery.guid++),
-                !(events = elemData.events) && (events = elemData.events = {}),
-                !(eventHandle = elemData.handle) &&
+                (events = elemData.events) || (events = elemData.events = {}),
+                (eventHandle = elemData.handle) ||
             ((eventHandle = elemData.handle = function (e) {
                 return !e || jQuery.event.triggered !== e.type
                     ? jQuery.event.dispatch.apply(eventHandle.elem, arguments)
@@ -1917,7 +1916,7 @@
                     ? new RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)")
                     : null),
                 (event.result = void 0),
-                !event.target && (event.target = elem),
+                event.target || (event.target = elem),
                 (data = null == data ? [event] : jQuery.makeArray(data, [event])),
                 (special = jQuery.event.special[type] || {}),
                 !onlyHandlers &&
@@ -2062,7 +2061,7 @@
                 originalEvent = event,
                 fixHook = this.fixHooks[type];
             for (
-                !fixHook &&
+                fixHook ||
           (this.fixHooks[type] = fixHook = /^(?:mouse|contextmenu)|click/.test(
               type,
           )
@@ -2078,7 +2077,7 @@
             )
                 (prop = copy[i]), (event[prop] = originalEvent[prop]);
             return (
-                !event.target && (event.target = originalEvent.srcElement || document),
+                event.target || (event.target = originalEvent.srcElement || document),
                 event.target.nodeType === 3 && (event.target = event.target.parentNode),
                 (event.metaKey = !!event.metaKey),
                 fixHook.filter ? fixHook.filter(event, originalEvent) : event
@@ -2997,7 +2996,7 @@
             var val;
             if (
                 ((elem.ownerDocument || elem) !== document1 && setDocument(elem),
-                !documentIsXML && (name = name.toLowerCase()),
+                documentIsXML || (name = name.toLowerCase()),
                 (val = Expr.attrHandle[name]))
             )
                 return val(elem);
@@ -3377,7 +3376,7 @@
                 }),
                 lang: markFunction(function (lang) {
                     return (
-                        !ridentifier.test(lang || "") &&
+                        ridentifier.test(lang || "") ||
                   Sizzle.error("unsupported lang: " + lang),
                         (lang = lang.replace(runescape, funescape).toLowerCase()),
                         function (elem) {
@@ -3844,7 +3843,7 @@
                 elementMatchers = [],
                 cached = compilerCache[selector + " "];
             if (!cached) {
-                for (!group && (group = tokenize(selector)), i = group.length; i--; )
+                for (group || (group = tokenize(selector)), i = group.length; i--; )
                     if (((cached = matcherFromTokens(group[i])), cached[expando]))
                         setMatchers.push(cached);
                     else elementMatchers.push(cached);
@@ -4092,7 +4091,7 @@
             jQuery.fn[name] = function (until, selector) {
                 var ret = jQuery.map(this, fn, until);
                 return (
-                    !/Until$/.test(name) && (selector = until),
+                    /Until$/.test(name) || (selector = until),
                     selector &&
             "string" == typeof selector &&
             (ret = jQuery.filter(selector, ret)),
@@ -4711,7 +4710,7 @@
                 }
             for (
                 tmp && safe.removeChild(tmp),
-                !jQuery.support.appendChecked &&
+                jQuery.support.appendChecked ||
             jQuery.grep(getAll(nodes, "input"), fixDefaultChecked),
                 i = 0;
                 (elem = nodes[i++]);
@@ -5109,7 +5108,7 @@
     function css_defaultDisplay(nodeName) {
         var display = elemdisplay[nodeName];
         return (
-            !display &&
+            display ||
         ((display = actualDisplay(
             nodeName,
             (iframe[0].contentWindow || iframe[0].contentDocument).document,
@@ -5633,7 +5632,7 @@
                     setRequestHeader: function (name, value) {
                         var lname = name.toLowerCase();
                         return (
-                            !state &&
+                            state ||
                   ((name = requestHeadersNames[lname] =
                     requestHeadersNames[lname] || name),
                   (requestHeaders[name] = value)),
@@ -5641,7 +5640,7 @@
                         );
                     },
                     overrideMimeType: function (type) {
-                        return !state && (s.mimeType = type), this;
+                        return state || (s.mimeType = type), this;
                     },
                     statusCode: function (map) {
                         var code;
@@ -6018,7 +6017,7 @@
             return (
                 (s.converters["script json"] = function () {
                     return (
-                        !responseContainer &&
+                        responseContainer ||
                 jQuery.error(callbackName + " was not called"),
                         responseContainer[0]
                     );
@@ -6134,7 +6133,7 @@
                       else
                           (handle = ++xhrId),
                           xhrOnUnloadAbort &&
-                    (!xhrCallbacks &&
+                    (xhrCallbacks ||
                       ((xhrCallbacks = {}),
                       jQuery(window).unload(xhrOnUnloadAbort)),
                     (xhrCallbacks[handle] = callback)),
@@ -6355,7 +6354,7 @@
             handled = [];
         if (
             (elem.nodeType && isHidden(elem),
-            !opts.queue &&
+            opts.queue ||
         ((hooks = jQuery._queueHooks(elem, "fx")),
         null == hooks.unqueued &&
           ((hooks.unqueued = 0),

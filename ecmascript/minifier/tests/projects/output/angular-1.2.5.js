@@ -1100,15 +1100,15 @@
     function createEventHandler(element, events) {
         var eventHandler = function (event, type) {
             if (
-                (!event.preventDefault &&
+                (event.preventDefault ||
           (event.preventDefault = function () {
               event.returnValue = !1;
           }),
-                !event.stopPropagation &&
+                event.stopPropagation ||
           (event.stopPropagation = function () {
               event.cancelBubble = !0;
           }),
-                !event.target && (event.target = event.srcElement || document),
+                event.target || (event.target = event.srcElement || document),
                 isUndefined(event.defaultPrevented) &&
           ((event.preventDefault = function () {
               (event.defaultPrevented = !0), event.preventDefault.call(event);
@@ -1535,7 +1535,7 @@
                             : getService(key),
                     );
                 }
-                return !fn.$inject && (fn = fn[$inject.length]), fn.apply(self, args);
+                return fn.$inject || (fn = fn[$inject.length]), fn.apply(self, args);
             }
             return {
                 invoke: invoke,
@@ -1818,7 +1818,7 @@
               });
                         if ((refresh(lruEntry), isUndefined(value))) return;
                         return (
-                            !(key in data) && size++,
+                            key in data || size++,
                             (data[key] = value),
                             size > capacity && this.remove(staleEnd.key),
                             value
@@ -2457,7 +2457,7 @@
                         ) {
                             if (
                                 ((hasTranscludeDirective = !0),
-                                !directive.$$tlb &&
+                                directive.$$tlb ||
                     (assertNoDuplicate(
                         "transclusion",
                         nonTlbTranscludeDirective,
@@ -3351,7 +3351,7 @@
     function headersGetter(headers) {
         var headersObj = isObject(headers) ? headers : void 0;
         return function (name) {
-            if ((!headersObj && (headersObj = parseHeaders(headers)), name))
+            if ((headersObj || (headersObj = parseHeaders(headers)), name))
                 return headersObj[lowercase(name)] || null;
             return headersObj;
         };
@@ -3879,7 +3879,7 @@
                             index != length && parts.push(text.substring(index)),
                             (index = length);
                     if (
-                        (!(length = parts.length) && (parts.push(""), (length = 1)),
+                        ((length = parts.length) || (parts.push(""), (length = 1)),
                         trustedContext && parts.length > 1)
                     )
                         throw $interpolateMinErr(
@@ -4981,7 +4981,7 @@
                 token;
             if ((token = this.expect("=")))
                 return (
-                    !left.assign &&
+                    left.assign ||
               this.throwError(
                   "implies assignment but [" +
                   this.text.substring(0, token.index) +
@@ -5104,7 +5104,7 @@
                   v.then &&
                   parser.options.unwrapPromises &&
                   ((p = v),
-                  !("$$v" in v) &&
+                  "$$v" in v ||
                     ((p.$$v = void 0),
                     p.then(function (val) {
                         p.$$v = val;
@@ -5215,7 +5215,7 @@
             obj.then &&
           options.unwrapPromises &&
           (promiseWarning(fullExp),
-          !("$$v" in obj) &&
+          "$$v" in obj ||
             obj.then(function (val) {
                 obj.$$v = val;
             }),
@@ -5273,7 +5273,7 @@
                         pathVal &&
                 pathVal.then &&
                 (promiseWarning(fullExp),
-                !("$$v" in pathVal) &&
+                "$$v" in pathVal ||
                   ((promise = pathVal),
                   (promise.$$v = void 0),
                   promise.then(function (val) {
@@ -5288,7 +5288,7 @@
                         pathVal &&
                 pathVal.then &&
                 (promiseWarning(fullExp),
-                !("$$v" in pathVal) &&
+                "$$v" in pathVal ||
                   ((promise = pathVal),
                   (promise.$$v = void 0),
                   promise.then(function (val) {
@@ -5303,7 +5303,7 @@
                         pathVal &&
                 pathVal.then &&
                 (promiseWarning(fullExp),
-                !("$$v" in pathVal) &&
+                "$$v" in pathVal ||
                   ((promise = pathVal),
                   (promise.$$v = void 0),
                   promise.then(function (val) {
@@ -5318,7 +5318,7 @@
                         pathVal &&
                 pathVal.then &&
                 (promiseWarning(fullExp),
-                !("$$v" in pathVal) &&
+                "$$v" in pathVal ||
                   ((promise = pathVal),
                   (promise.$$v = void 0),
                   promise.then(function (val) {
@@ -5333,7 +5333,7 @@
                         pathVal &&
                 pathVal.then &&
                 (promiseWarning(fullExp),
-                !("$$v" in pathVal) &&
+                "$$v" in pathVal ||
                   ((promise = pathVal),
                   (promise.$$v = void 0),
                   promise.then(function (val) {
@@ -5787,7 +5787,7 @@
                             };
                         return (
                             (lastDirtyWatch = null),
-                            !isFunction(listener) &&
+                            isFunction(listener) ||
                   (watcher.fn = function (newVal, oldVal, scope) {
                       compileToFn(listener || noop, "listener")(scope);
                   }),
@@ -5797,7 +5797,7 @@
                       watcher.fn.call(this, newVal, oldVal, scope),
                       arrayRemove(array, watcher);
                   }),
-                            !array && (array = scope.$$watchers = []),
+                            array || (array = scope.$$watchers = []),
                             array.unshift(watcher),
                             function () {
                                 arrayRemove(array, watcher);
@@ -5915,7 +5915,7 @@
                                                     ),
                                                     5 > ttl &&
                                 ((logIdx = 4 - ttl),
-                                !watchLog[logIdx] && (watchLog[logIdx] = []),
+                                watchLog[logIdx] || (watchLog[logIdx] = []),
                                 (logMsg = isFunction(watch.exp)
                                     ? "fn: " +
                                     (watch.exp.name || watch.exp.toString())
@@ -6017,7 +6017,7 @@
                     $on: function (name, listener) {
                         var namedListeners = this.$$listeners[name];
                         return (
-                            !namedListeners &&
+                            namedListeners ||
                   (this.$$listeners[name] = namedListeners = []),
                             namedListeners.push(listener),
                             function () {
@@ -7081,7 +7081,7 @@
             (arrayRemove(queue, control),
             !queue.length &&
               (invalidCount--,
-              !invalidCount &&
+              invalidCount ||
                 (toggleValidCss(isValid),
                 (form.$valid = !0),
                 (form.$invalid = !1)),
@@ -7089,7 +7089,7 @@
               toggleValidCss(!0, validationToken),
               parentForm.$setValidity(validationToken, !0, form)));
             else {
-                if ((!invalidCount && toggleValidCss(isValid), queue)) {
+                if ((invalidCount || toggleValidCss(isValid), queue)) {
                     if (includes(queue, control)) return;
                 } else
                     (errors[validationToken] = queue = []),
@@ -8049,8 +8049,8 @@
                                                             ((locals[valueName] = values[key]),
                                                             (optionGroupName =
                                     groupByFn(scope1, locals) || ""),
-                                                            !(optionGroup =
-                                    optionGroups[optionGroupName]) &&
+                                                            (optionGroup =
+                                    optionGroups[optionGroupName]) ||
                                     ((optionGroup = optionGroups[
                                         optionGroupName
                                     ] = []),
@@ -8499,7 +8499,7 @@
                                                     var value = parseFloat(scope.$eval(numberExp));
                                                     if (!isNaN(value))
                                                         return (
-                                                            !(value in whens) &&
+                                                            value in whens ||
                                       (value = $locale.pluralCat(
                                           value - offset,
                                       )),

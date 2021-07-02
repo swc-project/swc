@@ -571,7 +571,7 @@
                 },
                 callNow = immediate && !timeout;
             return (
-                !timeout && (timeout = setTimeout(later, wait)),
+                timeout || (timeout = setTimeout(later, wait)),
                 callNow && (result = func.apply(context, args)),
                 result
             );
