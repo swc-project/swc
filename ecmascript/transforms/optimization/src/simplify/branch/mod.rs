@@ -160,26 +160,28 @@ impl VisitMut for Remover {
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         s.visit_mut_children_with(self);
 
-        ForStmt {
-            init: s.init.and_then(|e| match e {
-                VarDeclOrExpr::Expr(e) => ignore_result(*e).map(Box::new).map(VarDeclOrExpr::from),
-                _ => Some(e),
-            }),
-            update: s.update.and_then(|e| ignore_result(*e).map(Box::new)),
-            test: s.test.and_then(|e| {
-                let span = e.span();
-                if let Known(value) = e.as_pure_bool() {
-                    return if value {
-                        None
-                    } else {
-                        Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))))
-                    };
-                }
+        s.init = s.init.take().and_then(|e| match e {
+            VarDeclOrExpr::Expr(e) => ignore_result(*e).map(Box::new).map(VarDeclOrExpr::from),
+            _ => Some(e),
+        });
 
-                Some(e)
-            }),
-            ..s
-        }
+        s.update = s
+            .update
+            .take()
+            .and_then(|e| ignore_result(*e).map(Box::new));
+
+        s.test = s.test.take().and_then(|e| {
+            let span = e.span();
+            if let Known(value) = e.as_pure_bool() {
+                return if value {
+                    None
+                } else {
+                    Some(Box::new(Expr::Lit(Lit::Bool(Bool { span, value: false }))))
+                };
+            }
+
+            Some(e)
+        });
     }
 
     fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
@@ -292,8 +294,13 @@ impl VisitMut for Remover {
         }
 
         let last = e.exprs.pop().unwrap();
-        let mut exprs = e.exprs.move_flat_map(|e| ignore_result(*e).map(Box::new));
+        let mut exprs = e
+            .exprs
+            .take()
+            .move_flat_map(|e| ignore_result(*e).map(Box::new));
         exprs.push(last);
+
+        e.exprs = exprs;
     }
 
     fn visit_mut_stmt(&mut self, stmt: &mut Stmt) {
@@ -1055,8 +1062,8 @@ impl Remover {
 
                             let stmt_like = T::from_stmt(stmt);
                             new_stmts.push(stmt_like);
-
-                            return new_stmts;
+                            *stmts = new_stmts;
+                            return;
                         }
 
                         Stmt::Block(BlockStmt {
