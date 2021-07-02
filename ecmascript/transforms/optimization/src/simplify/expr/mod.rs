@@ -1151,7 +1151,7 @@ impl VisitMut for SimplifyExpr {
 
     /// Currently noop
     #[inline]
-    fn visit_mut_opt_chain_expr(&mut self, n: &mut OptChainExpr) {}
+    fn visit_mut_opt_chain_expr(&mut self, _: &mut OptChainExpr) {}
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.is_modifying;
@@ -1320,7 +1320,7 @@ impl VisitMut for SimplifyExpr {
                         _ => false,
                     }
                 {
-                    *p = *a.left;
+                    *p = *a.left.take();
                     return;
                 }
             }
@@ -1338,7 +1338,7 @@ impl VisitMut for SimplifyExpr {
             ExprOrSuper::Expr(e) => match &mut **e {
                 Expr::Seq(seq) => {
                     if seq.exprs.len() == 1 {
-                        let mut expr = seq.exprs.into_iter().next().unwrap();
+                        let mut expr = seq.exprs.take().into_iter().next().unwrap();
                         expr.visit_mut_with(self);
                         *e = expr;
                     } else {
@@ -1379,7 +1379,7 @@ impl VisitMut for SimplifyExpr {
         // Expressions except last one
         let mut exprs = Vec::with_capacity(e.exprs.len() + 1);
 
-        for expr in e.exprs {
+        for expr in e.exprs.take() {
             match *expr {
                 Expr::Lit(Lit::Num(n)) if self.in_callee && n.value == 0.0 => {
                     if exprs.is_empty() {
@@ -1440,7 +1440,7 @@ impl VisitMut for SimplifyExpr {
 
         if !child.vars.is_empty() {
             prepend(
-                &mut n,
+                n,
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -1459,7 +1459,7 @@ impl VisitMut for SimplifyExpr {
 
         if !child.vars.is_empty() {
             prepend(
-                &mut n,
+                n,
                 ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
