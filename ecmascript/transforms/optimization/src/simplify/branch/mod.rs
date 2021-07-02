@@ -190,7 +190,7 @@ impl VisitMut for Remover {
             ObjectPatProp::Rest(..) => true,
             _ => false,
         }) {
-            return p;
+            return;
         }
 
         fn is_computed(k: &PropName) -> bool {
@@ -220,8 +220,6 @@ impl VisitMut for Remover {
             }
             _ => true,
         });
-
-        p
     }
 
     fn visit_mut_object_pat_prop(&mut self, p: &mut ObjectPatProp) {
@@ -242,17 +240,16 @@ impl VisitMut for Remover {
                     _ => false,
                 } =>
             {
-                return ObjectPatProp::Assign(AssignPatProp {
-                    span,
-                    key,
+                *p = ObjectPatProp::Assign(AssignPatProp {
+                    span: *span,
+                    key: key.take(),
                     value: None,
                 });
+                return;
             }
 
             _ => {}
         }
-
-        p
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
