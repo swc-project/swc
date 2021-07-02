@@ -1470,23 +1470,21 @@ impl VisitMut for SimplifyExpr {
         }
     }
 
-    fn fold_stmt(&mut self, s: Stmt) -> Stmt {
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let old_is_modifying = self.is_modifying;
         self.is_modifying = false;
         let old_is_arg_of_update = self.is_arg_of_update;
         self.is_arg_of_update = false;
-        let s = s.visit_mut_children_with(self);
+        s.visit_mut_children_with(self);
         self.is_arg_of_update = old_is_arg_of_update;
         self.is_modifying = old_is_modifying;
-        s
     }
 
-    fn fold_update_expr(&mut self, n: UpdateExpr) -> UpdateExpr {
+    fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
         let old = self.is_modifying;
         self.is_modifying = true;
-        let arg = n.arg.visit_mut_with(self);
+        n.arg.visit_mut_with(self);
         self.is_modifying = old;
-        UpdateExpr { arg, ..n }
     }
 }
 
