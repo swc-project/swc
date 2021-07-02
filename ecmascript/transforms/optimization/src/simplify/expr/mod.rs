@@ -26,7 +26,7 @@ use swc_ecma_utils::StringType;
 use swc_ecma_utils::SymbolType;
 use swc_ecma_utils::UndefinedType;
 use swc_ecma_utils::Value;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
+use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitMut};
 use Value::Known;
 use Value::Unknown;
 
@@ -45,7 +45,7 @@ macro_rules! try_val {
 /// Not intended for general use. Use [simplifier] instead.
 ///
 /// Ported from `PeepholeFoldConstants` of google closure compiler.
-pub fn expr_simplifier() -> impl RepeatedJsPass + 'static {
+pub fn expr_simplifier() -> impl RepeatedJsPass + VisitMut + 'static {
     SimplifyExpr::default()
 }
 
