@@ -1500,6 +1500,13 @@ impl VisitMut for SimplifyExpr {
         n.arg.visit_mut_with(self);
         self.is_modifying = old;
     }
+
+    fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
+        let old = self.is_modifying;
+        self.is_modifying = true;
+        n.visit_mut_children_with(self);
+        self.is_modifying = old;
+    }
 }
 
 /// make a new boolean expression preserving side effects, if any.
