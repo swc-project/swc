@@ -1051,17 +1051,16 @@ impl Remover {
                             return new_stmts;
                         }
 
-                        Stmt::Block(BlockStmt { span, stmts, .. }) => {
+                        Stmt::Block(BlockStmt {
+                            span, mut stmts, ..
+                        }) => {
                             if stmts.len() == 0 {
                                 continue;
                             }
 
                             if !is_ok_to_inline_block(&stmts) {
-                                BlockStmt {
-                                    span,
-                                    stmts: stmts.visit_mut_with(self),
-                                }
-                                .into()
+                                stmts.visit_mut_with(self);
+                                BlockStmt { span, stmts }.into()
                             } else {
                                 new_stmts.extend(
                                     stmts
