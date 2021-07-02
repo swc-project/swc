@@ -1432,10 +1432,10 @@ impl VisitMut for SimplifyExpr {
         }
     }
 
-    fn fold_stmts(&mut self, mut n: Vec<Stmt>) -> Vec<Stmt> {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let mut child = Self::default();
 
-        n = n.visit_mut_children_with(&mut child);
+        n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
 
         if !child.vars.is_empty() {
@@ -1449,14 +1449,12 @@ impl VisitMut for SimplifyExpr {
                 })),
             );
         }
-
-        n
     }
 
-    fn fold_module_items(&mut self, mut n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         let mut child = Self::default();
 
-        n = n.visit_mut_children_with(&mut child);
+        n.visit_mut_children_with(&mut child);
         self.changed |= child.changed;
 
         if !child.vars.is_empty() {
@@ -1470,8 +1468,6 @@ impl VisitMut for SimplifyExpr {
                 }))),
             );
         }
-
-        n
     }
 
     fn fold_stmt(&mut self, s: Stmt) -> Stmt {
