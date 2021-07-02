@@ -19,7 +19,7 @@ use swc_ecma_utils::IsEmpty;
 use swc_ecma_utils::StmtExt;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value::Known;
-use swc_ecma_visit::{noop_visit_mut_type, noop_visit_type, VisitMut};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, noop_visit_type, VisitMut, VisitMutWith};
 use swc_ecma_visit::{Node, Visit, VisitWith};
 
 #[cfg(test)]
@@ -29,7 +29,7 @@ mod tests;
 ///
 /// Ported from `PeepholeRemoveDeadCode` of google closure compiler.
 pub fn dead_branch_remover() -> impl RepeatedJsPass + VisitMut + 'static {
-    Remover::default()
+    as_folder(Remover::default())
 }
 
 impl CompilerPass for Remover {
@@ -970,11 +970,11 @@ impl VisitMut for Remover {
         s
     }
 
-    fn fold_module_items(&mut self, n: Vec<ModuleItem>) -> Vec<ModuleItem> {
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         self.fold_stmt_like(n)
     }
 
-    fn fold_stmts(&mut self, n: Vec<Stmt>) -> Vec<Stmt> {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.fold_stmt_like(n)
     }
 }
@@ -982,7 +982,7 @@ impl VisitMut for Remover {
 impl Remover {
     fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
     where
-        T: StmtLike + VisitWith<Hoister> + FoldWith<Self>,
+        T: StmtLike + VisitWith<Hoister> + VisitMutWith<Self>,
     {
         let is_block_stmt = self.normal_block;
         self.normal_block = false;
