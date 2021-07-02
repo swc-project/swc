@@ -6,7 +6,7 @@ use swc_common::{
     Span, Spanned,
 };
 use swc_ecma_ast::{Ident, Lit, *};
-use swc_ecma_transforms_base::ext::ExprRefExt;
+use swc_ecma_transforms_base::ext::{ExprRefExt, MapWithMut};
 use swc_ecma_transforms_base::pass::RepeatedJsPass;
 use swc_ecma_utils::alias_ident_for;
 use swc_ecma_utils::extract_side_effects_to;
@@ -1163,7 +1163,7 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = old;
     }
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
@@ -1171,133 +1171,137 @@ impl VisitMut for SimplifyExpr {
             _ => {}
         }
         // fold children before doing something more.
-        let expr = expr.visit_mut_children_with(self);
+        expr.visit_mut_children_with(self);
 
-        match expr {
-            // Do nothing.
-            Expr::Lit(_) | Expr::This(..) => expr,
+        expr.map_with_mut(|expr| {
+            match expr {
+                // Do nothing.
+                Expr::Lit(_) | Expr::This(..) => expr,
 
-            // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr, .. }) => {
-                self.changed = true;
-                *expr
-            }
-
-            Expr::Unary(expr) => self.fold_unary(expr),
-            Expr::Bin(expr) => self.fold_bin(expr),
-
-            Expr::Member(e) => self.fold_member_expr(e),
-
-            Expr::Cond(CondExpr {
-                span,
-                test,
-                cons,
-                alt,
-            }) => match test.as_bool() {
-                (p, Known(val)) => {
+                // Remove parenthesis. This may break ast, but it will be fixed up later.
+                Expr::Paren(ParenExpr { expr, .. }) => {
                     self.changed = true;
-
-                    let expr_value = if val { cons } else { alt };
-                    if p.is_pure() {
-                        *expr_value
-                    } else {
-                        Expr::Seq(SeqExpr {
-                            span,
-                            exprs: vec![test, expr_value],
-                        })
-                    }
+                    *expr
                 }
-                _ => Expr::Cond(CondExpr {
+
+                Expr::Unary(expr) => self.fold_unary(expr),
+                Expr::Bin(expr) => self.fold_bin(expr),
+
+                Expr::Member(e) => self.fold_member_expr(e),
+
+                Expr::Cond(CondExpr {
                     span,
                     test,
                     cons,
                     alt,
-                }),
-            },
-
-            // Simplify sequence expression.
-            Expr::Seq(SeqExpr { span, exprs }) => {
-                if exprs.len() == 1 {
-                    //TODO: Respan
-                    *exprs.into_iter().next().unwrap()
-                } else {
-                    assert!(!exprs.is_empty(), "sequence expression should not be empty");
-                    //TODO: remove unused
-                    Expr::Seq(SeqExpr { span, exprs })
-                }
-            }
-
-            Expr::Array(ArrayLit { span, elems, .. }) => {
-                let mut e = Vec::with_capacity(elems.len());
-
-                for elem in elems {
-                    match elem {
-                        Some(ExprOrSpread {
-                            spread: Some(..),
-                            expr,
-                        }) if expr.is_array() => {
-                            self.changed = true;
-                            e.extend(expr.array().unwrap().elems)
-                        }
-
-                        _ => e.push(elem),
-                    }
-                }
-
-                ArrayLit { span, elems: e }.into()
-            }
-
-            Expr::Object(ObjectLit { span, props, .. }) => {
-                let should_work = props.iter().any(|p| match &*p {
-                    PropOrSpread::Spread(..) => true,
-                    _ => false,
-                });
-                if !should_work {
-                    return ObjectLit { span, props }.into();
-                }
-
-                let mut ps = Vec::with_capacity(props.len());
-
-                for p in props {
-                    match p {
-                        PropOrSpread::Spread(SpreadElement { expr, .. }) if expr.is_object() => {
-                            let props = expr.object().unwrap().props;
-                            ps.extend(props)
-                        }
-
-                        _ => ps.push(p),
-                    }
-                }
-                self.changed = true;
-                ObjectLit { span, props: ps }.into()
-            }
-
-            Expr::New(e) => {
-                if e.callee.is_ident_ref_to(js_word!("String"))
-                    && e.args.is_some()
-                    && e.args.as_ref().unwrap().len() == 1
-                    && e.args.as_ref().unwrap()[0].spread.is_none()
-                    && is_literal(&e.args.as_ref().unwrap()[0].expr)
-                {
-                    let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
-                    if let Known(value) = e.as_string() {
+                }) => match test.as_bool() {
+                    (p, Known(val)) => {
                         self.changed = true;
-                        return Expr::Lit(Lit::Str(Str {
-                            span: e.span(),
-                            value: value.into(),
-                            has_escape: false,
-                            kind: Default::default(),
-                        }));
+
+                        let expr_value = if val { cons } else { alt };
+                        if p.is_pure() {
+                            *expr_value
+                        } else {
+                            Expr::Seq(SeqExpr {
+                                span,
+                                exprs: vec![test, expr_value],
+                            })
+                        }
                     }
-                    unreachable!()
+                    _ => Expr::Cond(CondExpr {
+                        span,
+                        test,
+                        cons,
+                        alt,
+                    }),
+                },
+
+                // Simplify sequence expression.
+                Expr::Seq(SeqExpr { span, exprs }) => {
+                    if exprs.len() == 1 {
+                        //TODO: Respan
+                        *exprs.into_iter().next().unwrap()
+                    } else {
+                        assert!(!exprs.is_empty(), "sequence expression should not be empty");
+                        //TODO: remove unused
+                        Expr::Seq(SeqExpr { span, exprs })
+                    }
                 }
 
-                return NewExpr { ..e }.into();
-            }
+                Expr::Array(ArrayLit { span, elems, .. }) => {
+                    let mut e = Vec::with_capacity(elems.len());
 
-            // be conservative.
-            _ => expr,
-        }
+                    for elem in elems {
+                        match elem {
+                            Some(ExprOrSpread {
+                                spread: Some(..),
+                                expr,
+                            }) if expr.is_array() => {
+                                self.changed = true;
+                                e.extend(expr.array().unwrap().elems)
+                            }
+
+                            _ => e.push(elem),
+                        }
+                    }
+
+                    ArrayLit { span, elems: e }.into()
+                }
+
+                Expr::Object(ObjectLit { span, props, .. }) => {
+                    let should_work = props.iter().any(|p| match &*p {
+                        PropOrSpread::Spread(..) => true,
+                        _ => false,
+                    });
+                    if !should_work {
+                        return ObjectLit { span, props }.into();
+                    }
+
+                    let mut ps = Vec::with_capacity(props.len());
+
+                    for p in props {
+                        match p {
+                            PropOrSpread::Spread(SpreadElement { expr, .. })
+                                if expr.is_object() =>
+                            {
+                                let props = expr.object().unwrap().props;
+                                ps.extend(props)
+                            }
+
+                            _ => ps.push(p),
+                        }
+                    }
+                    self.changed = true;
+                    ObjectLit { span, props: ps }.into()
+                }
+
+                Expr::New(e) => {
+                    if e.callee.is_ident_ref_to(js_word!("String"))
+                        && e.args.is_some()
+                        && e.args.as_ref().unwrap().len() == 1
+                        && e.args.as_ref().unwrap()[0].spread.is_none()
+                        && is_literal(&e.args.as_ref().unwrap()[0].expr)
+                    {
+                        let e = &*e.args.into_iter().next().unwrap().pop().unwrap().expr;
+                        if let Known(value) = e.as_string() {
+                            self.changed = true;
+                            return Expr::Lit(Lit::Str(Str {
+                                span: e.span(),
+                                value: value.into(),
+                                has_escape: false,
+                                kind: Default::default(),
+                            }));
+                        }
+                        unreachable!()
+                    }
+
+                    return NewExpr { ..e }.into();
+                }
+
+                // be conservative.
+                _ => expr,
+            }
+        })
     }
 
     fn fold_pat(&mut self, p: Pat) -> Pat {
