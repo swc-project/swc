@@ -58,7 +58,7 @@ impl VisitMut for Remover {
     noop_visit_mut_type!();
 
     fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
-        let mut p: ArrayPat = p.fold_children_with(self);
+        let mut p: ArrayPat = p.visit_mut_children_with(self);
 
         let mut preserved = None;
         let len = p.elems.len();
@@ -82,7 +82,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.fold_children_with(self);
+        let e: Expr = e.visit_mut_children_with(self);
 
         match e {
             Expr::Assign(AssignExpr {
@@ -158,7 +158,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_for_stmt(&mut self, s: ForStmt) -> ForStmt {
-        let s = s.fold_children_with(self);
+        let s = s.visit_mut_children_with(self);
 
         ForStmt {
             init: s.init.and_then(|e| match e {
@@ -183,7 +183,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
-        let mut p = p.fold_children_with(self);
+        let mut p = p.visit_mut_children_with(self);
 
         // Don't remove if there exists a rest pattern
         if p.props.iter().any(|p| match p {
@@ -225,7 +225,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_object_pat_prop(&mut self, p: ObjectPatProp) -> ObjectPatProp {
-        let p = p.fold_children_with(self);
+        let p = p.visit_mut_children_with(self);
 
         match p {
             ObjectPatProp::Assign(AssignPatProp {
@@ -256,7 +256,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_pat(&mut self, p: Pat) -> Pat {
-        let p = p.fold_children_with(self);
+        let p = p.visit_mut_children_with(self);
 
         match p {
             Pat::Assign(p)
@@ -289,7 +289,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e: SeqExpr = e.fold_children_with(self);
+        let mut e: SeqExpr = e.visit_mut_children_with(self);
         if e.exprs.is_empty() {
             return e;
         }
@@ -302,7 +302,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children_with(self);
+        let stmt = stmt.visit_mut_children_with(self);
 
         match stmt {
             Stmt::If(IfStmt {
@@ -359,7 +359,7 @@ impl VisitMut for Remover {
 
                     self.changed = true;
 
-                    return Stmt::Block(BlockStmt { span, stmts }).fold_with(self);
+                    return Stmt::Block(BlockStmt { span, stmts }).visit_mut_with(self);
                 }
 
                 let alt = match &alt {
@@ -432,7 +432,7 @@ impl VisitMut for Remover {
                     && !is_block_scoped_stuff(&stmts[0])
                     && stmt_depth(&stmts[0]) <= 1
                 {
-                    stmts.into_iter().next().unwrap().fold_with(self)
+                    stmts.into_iter().next().unwrap().visit_mut_with(self)
                 } else {
                     Stmt::Block(BlockStmt { span, stmts })
                 }
@@ -572,7 +572,7 @@ impl VisitMut for Remover {
                         span: s.span,
                         stmts,
                     })
-                    .fold_with(self);
+                    .visit_mut_with(self);
                 }
 
                 let mut non_constant_case_idx = None;
@@ -675,7 +675,7 @@ impl VisitMut for Remover {
                             span: s.span,
                             stmts,
                         })
-                        .fold_with(self);
+                        .visit_mut_with(self);
                     }
                 } else if are_all_tests_known {
                     match *s.discriminant {
@@ -690,7 +690,7 @@ impl VisitMut for Remover {
                                         span: s.span,
                                         stmts,
                                     })
-                                    .fold_with(self);
+                                    .visit_mut_with(self);
                                 }
                             }
                         }
@@ -770,7 +770,7 @@ impl VisitMut for Remover {
                             span: s.span,
                             stmts,
                         })
-                        .fold_with(self);
+                        .visit_mut_with(self);
                     }
                 }
 
@@ -902,13 +902,13 @@ impl VisitMut for Remover {
                             BlockStmt {
                                 span: s.span,
                                 stmts: vec![
-                                    prepare_loop_body_for_inlining(*s.body).fold_with(self),
+                                    prepare_loop_body_for_inlining(*s.body).visit_mut_with(self),
                                     test.into_stmt(),
                                 ],
                             }
                             .into()
                         } else {
-                            prepare_loop_body_for_inlining(*s.body).fold_with(self)
+                            prepare_loop_body_for_inlining(*s.body).visit_mut_with(self)
                         }
                     }
                 } else {
@@ -947,7 +947,7 @@ impl VisitMut for Remover {
     }
 
     fn fold_switch_stmt(&mut self, s: SwitchStmt) -> SwitchStmt {
-        let s: SwitchStmt = s.fold_children_with(self);
+        let s: SwitchStmt = s.visit_mut_children_with(self);
 
         if s.cases.iter().any(|case| match case.test.as_deref() {
             Some(Expr::Update(..)) => true,
@@ -994,7 +994,7 @@ impl Remover {
         let mut iter = stmts.into_iter();
         while let Some(stmt_like) = iter.next() {
             self.normal_block = true;
-            let stmt_like = stmt_like.fold_with(self);
+            let stmt_like = stmt_like.visit_mut_with(self);
             self.normal_block = false;
 
             let stmt_like = match stmt_like.try_into_stmt() {
@@ -1060,7 +1060,7 @@ impl Remover {
                             if !is_ok_to_inline_block(&stmts) {
                                 BlockStmt {
                                     span,
-                                    stmts: stmts.fold_with(self),
+                                    stmts: stmts.visit_mut_with(self),
                                 }
                                 .into()
                             } else {
