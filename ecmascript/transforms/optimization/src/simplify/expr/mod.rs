@@ -1369,8 +1369,8 @@ impl VisitMut for SimplifyExpr {
     }
 
     /// Drops unused values
-    fn fold_seq_expr(&mut self, e: SeqExpr) -> SeqExpr {
-        let mut e = e.visit_mut_children_with(self);
+    fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
+        e.visit_mut_children_with(self);
 
         let len = e.exprs.len();
 
@@ -1426,7 +1426,7 @@ impl VisitMut for SimplifyExpr {
 
         self.changed |= len != exprs.len();
 
-        SeqExpr {
+        *e = SeqExpr {
             exprs,
             span: e.span,
         }
