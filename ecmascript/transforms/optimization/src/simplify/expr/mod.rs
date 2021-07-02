@@ -1329,18 +1329,18 @@ impl VisitMut for SimplifyExpr {
     }
 
     /// This is overriden to preserve `this`.
-    fn fold_call_expr(&mut self, n: CallExpr) -> CallExpr {
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         let old_in_callee = self.in_callee;
 
         self.in_callee = true;
-        let callee = match n.callee {
-            ExprOrSuper::Super(..) => n.callee,
-            ExprOrSuper::Expr(e) => match *e {
-                Expr::Seq(mut seq) => {
+        match &mut n.callee {
+            ExprOrSuper::Super(..) => {}
+            ExprOrSuper::Expr(e) => match &mut **e {
+                Expr::Seq(seq) => {
                     if seq.exprs.len() == 1 {
-                        ExprOrSuper::Expr(
-                            seq.exprs.into_iter().next().unwrap().visit_mut_with(self),
-                        )
+                        let mut expr = seq.exprs.into_iter().next().unwrap();
+                        expr.visit_mut_with(self);
+                        *e = expr;
                     } else {
                         match seq.exprs.get(0).map(|v| &**v) {
                             Some(Expr::Lit(..) | Expr::Ident(..)) => {}
@@ -1355,19 +1355,17 @@ impl VisitMut for SimplifyExpr {
                             }
                         }
 
-                        ExprOrSuper::Expr(Box::new(Expr::Seq(seq.visit_mut_with(self))))
+                        seq.visit_mut_with(self);
                     }
                 }
-                _ => ExprOrSuper::Expr(e.visit_mut_with(self)),
+                _ => {
+                    e.visit_mut_with(self);
+                }
             },
-        };
+        }
         self.in_callee = old_in_callee;
 
-        CallExpr {
-            callee,
-            args: n.args.visit_mut_with(self),
-            ..n
-        }
+        n.args.visit_mut_with(self);
     }
 
     /// Drops unused values
