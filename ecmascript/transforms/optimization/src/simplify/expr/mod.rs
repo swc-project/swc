@@ -1149,10 +1149,6 @@ impl SimplifyExpr {
 impl VisitMut for SimplifyExpr {
     noop_visit_mut_type!();
 
-    /// Currently noop
-    #[inline]
-    fn visit_mut_opt_chain_expr(&mut self, _: &mut OptChainExpr) {}
-
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         let old = self.is_modifying;
         self.is_modifying = true;
@@ -1162,6 +1158,46 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = false;
         n.right.visit_mut_with(self);
         self.is_modifying = old;
+    }
+
+    /// This is overriden to preserve `this`.
+    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
+        let old_in_callee = self.in_callee;
+
+        self.in_callee = true;
+        match &mut n.callee {
+            ExprOrSuper::Super(..) => {}
+            ExprOrSuper::Expr(e) => match &mut **e {
+                Expr::Seq(seq) => {
+                    if seq.exprs.len() == 1 {
+                        let mut expr = seq.exprs.take().into_iter().next().unwrap();
+                        expr.visit_mut_with(self);
+                        *e = expr;
+                    } else {
+                        match seq.exprs.get(0).map(|v| &**v) {
+                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
+                            _ => {
+                                seq.exprs.insert(
+                                    0,
+                                    Box::new(Expr::Lit(Lit::Num(Number {
+                                        span: DUMMY_SP,
+                                        value: 0.0,
+                                    }))),
+                                );
+                            }
+                        }
+
+                        seq.visit_mut_with(self);
+                    }
+                }
+                _ => {
+                    e.visit_mut_with(self);
+                }
+            },
+        }
+        self.in_callee = old_in_callee;
+
+        n.args.visit_mut_with(self);
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
@@ -1319,6 +1355,29 @@ impl VisitMut for SimplifyExpr {
         })
     }
 
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        let mut child = Self::default();
+
+        n.visit_mut_children_with(&mut child);
+        self.changed |= child.changed;
+
+        if !child.vars.is_empty() {
+            prepend(
+                n,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: child.vars,
+                }))),
+            );
+        }
+    }
+
+    /// Currently noop
+    #[inline]
+    fn visit_mut_opt_chain_expr(&mut self, _: &mut OptChainExpr) {}
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);
 
@@ -1340,46 +1399,6 @@ impl VisitMut for SimplifyExpr {
             }
             _ => {}
         }
-    }
-
-    /// This is overriden to preserve `this`.
-    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
-        let old_in_callee = self.in_callee;
-
-        self.in_callee = true;
-        match &mut n.callee {
-            ExprOrSuper::Super(..) => {}
-            ExprOrSuper::Expr(e) => match &mut **e {
-                Expr::Seq(seq) => {
-                    if seq.exprs.len() == 1 {
-                        let mut expr = seq.exprs.take().into_iter().next().unwrap();
-                        expr.visit_mut_with(self);
-                        *e = expr;
-                    } else {
-                        match seq.exprs.get(0).map(|v| &**v) {
-                            Some(Expr::Lit(..) | Expr::Ident(..)) => {}
-                            _ => {
-                                seq.exprs.insert(
-                                    0,
-                                    Box::new(Expr::Lit(Lit::Num(Number {
-                                        span: DUMMY_SP,
-                                        value: 0.0,
-                                    }))),
-                                );
-                            }
-                        }
-
-                        seq.visit_mut_with(self);
-                    }
-                }
-                _ => {
-                    e.visit_mut_with(self);
-                }
-            },
-        }
-        self.in_callee = old_in_callee;
-
-        n.args.visit_mut_with(self);
     }
 
     /// Drops unused values
@@ -1446,6 +1465,16 @@ impl VisitMut for SimplifyExpr {
         }
     }
 
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        let old_is_modifying = self.is_modifying;
+        self.is_modifying = false;
+        let old_is_arg_of_update = self.is_arg_of_update;
+        self.is_arg_of_update = false;
+        s.visit_mut_children_with(self);
+        self.is_arg_of_update = old_is_arg_of_update;
+        self.is_modifying = old_is_modifying;
+    }
+
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         let mut child = Self::default();
 
@@ -1463,35 +1492,6 @@ impl VisitMut for SimplifyExpr {
                 })),
             );
         }
-    }
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let mut child = Self::default();
-
-        n.visit_mut_children_with(&mut child);
-        self.changed |= child.changed;
-
-        if !child.vars.is_empty() {
-            prepend(
-                n,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: false,
-                    decls: child.vars,
-                }))),
-            );
-        }
-    }
-
-    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        let old_is_modifying = self.is_modifying;
-        self.is_modifying = false;
-        let old_is_arg_of_update = self.is_arg_of_update;
-        self.is_arg_of_update = false;
-        s.visit_mut_children_with(self);
-        self.is_arg_of_update = old_is_arg_of_update;
-        self.is_modifying = old_is_modifying;
     }
 
     fn visit_mut_update_expr(&mut self, n: &mut UpdateExpr) {
