@@ -184,6 +184,10 @@ impl VisitMut for Remover {
         });
     }
 
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.fold_stmt_like(n)
+    }
+
     fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
         p.visit_mut_children_with(self);
 
@@ -961,6 +965,10 @@ impl VisitMut for Remover {
         })
     }
 
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.fold_stmt_like(n)
+    }
+
     fn visit_mut_switch_stmt(&mut self, s: &mut SwitchStmt) {
         s.visit_mut_children_with(self);
 
@@ -984,14 +992,6 @@ impl VisitMut for Remover {
             s.cases.clear();
             return;
         }
-    }
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.fold_stmt_like(n)
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.fold_stmt_like(n)
     }
 }
 
