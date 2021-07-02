@@ -137,7 +137,7 @@ impl VisitMut for Compressor<'_> {
 
         // Temporary
         if self.pass > 100 {
-            panic!("Infinite loop detected")
+            panic!("Infinite loop detected (current pass = {})", self.pass)
         }
 
         let start = if cfg!(feature = "debug") {
