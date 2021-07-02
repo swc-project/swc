@@ -1174,17 +1174,31 @@ impl VisitMut for SimplifyExpr {
         // fold children before doing something more.
         expr.visit_mut_children_with(self);
 
+        match expr {
+            // Do nothing.
+            Expr::Lit(_) | Expr::This(..) => return,
+
+            // Remove parenthesis. This may break ast, but it will be fixed up later.
+            Expr::Paren(ParenExpr { expr: e, .. }) => {
+                self.changed = true;
+                *expr = *e.take();
+                return;
+            }
+
+            Expr::Unary(..)
+            | Expr::Bin(..)
+            | Expr::Member(..)
+            | Expr::Cond(..)
+            | Expr::Seq(..)
+            | Expr::Array(..)
+            | Expr::Object(..)
+            | Expr::New(..) => {}
+
+            _ => return,
+        }
+
         expr.map_with_mut(|expr| {
             match expr {
-                // Do nothing.
-                Expr::Lit(_) | Expr::This(..) => expr,
-
-                // Remove parenthesis. This may break ast, but it will be fixed up later.
-                Expr::Paren(ParenExpr { expr, .. }) => {
-                    self.changed = true;
-                    *expr
-                }
-
                 Expr::Unary(expr) => self.fold_unary(expr),
                 Expr::Bin(expr) => self.fold_bin(expr),
 
