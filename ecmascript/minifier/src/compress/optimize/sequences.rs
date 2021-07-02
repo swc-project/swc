@@ -260,6 +260,13 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Break assignments in sequences.
+    pub(super) fn break_assignments_in_seqs<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+    }
+
     /// Lift sequence expressions in an assign expression.
     ///
     /// - `(a = (f, 4)) => (f, a = 4)`

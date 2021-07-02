@@ -291,6 +291,8 @@ impl Optimizer<'_> {
 
         self.drop_else_token(stmts);
 
+        self.break_assignments_in_seqs(stmts);
+
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
