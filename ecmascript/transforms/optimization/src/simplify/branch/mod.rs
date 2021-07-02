@@ -128,10 +128,10 @@ impl VisitMut for Remover {
                 return;
             }
 
-            Expr::Cond(e)
-                if !e.test.may_have_side_effects()
-                    && (e.cons.is_undefined()
-                        || match *e.cons {
+            Expr::Cond(cond)
+                if !cond.test.may_have_side_effects()
+                    && (cond.cons.is_undefined()
+                        || match *cond.cons {
                             Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
@@ -139,8 +139,8 @@ impl VisitMut for Remover {
                             }) if !arg.may_have_side_effects() => true,
                             _ => false,
                         })
-                    && (e.alt.is_undefined()
-                        || match *e.alt {
+                    && (cond.alt.is_undefined()
+                        || match *cond.alt {
                             Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
@@ -149,13 +149,12 @@ impl VisitMut for Remover {
                             _ => false,
                         }) =>
             {
-                return *e.cons
+                *e = *cond.cons.take();
+                return;
             }
 
             _ => {}
         }
-
-        e
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
