@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
+use std::fmt;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -36,24 +37,30 @@ impl Optimizer<'_> {
     /// ```
     pub(super) fn merge_if_returns<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + fmt::Debug,
         Vec<T>: VisitWith<ReturnFinder>,
     {
-        if !self.options.if_return || stmts.is_empty() {
+        if !self.options.if_return || stmts.len() <= 1 {
             return;
         }
 
         {
             let return_count = count_leaping_returns(&*stmts);
 
-            let ends_with_if = stmts
+            // There's no return statment so merging requires injecting unnecessary `void 0`
+            if return_count == 0 {
+                return;
+            }
+
+            let no_need_to_work = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::If(..)) => true,
+                    Some(Stmt::If(..) | Stmt::Return(..) | Stmt::Expr(..)) => true,
                     _ => false,
                 })
                 .unwrap();
-            if return_count <= 1 && ends_with_if {
+
+            if return_count == 1 && no_need_to_work {
                 return;
             }
         }
@@ -75,7 +82,7 @@ impl Optimizer<'_> {
                 })
                 .unwrap();
 
-            if stmts.len() - start == 1 && ends_with_mergable {
+            if stmts.len() - start == 1 && !ends_with_mergable {
                 return;
             }
 
