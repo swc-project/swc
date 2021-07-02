@@ -111,7 +111,7 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn negate_bin(&mut self, e: &mut BinExpr) {
+    pub(super) fn optimize_bang_in_nested_logical_ops(&mut self, e: &mut BinExpr) {
         match e.op {
             op!("&&") | op!("||") => {}
             _ => return,
@@ -132,7 +132,7 @@ impl Optimizer<'_> {
                 //
                 // a || b || a = b()
                 if left.op == e.op {
-                    if self.negate_bin_elem(&mut *left) {
+                    if self.optimize_bang_within_logical_ops(&mut *left, false) {
                         e.op = left.op
                     }
                 }
@@ -143,7 +143,11 @@ impl Optimizer<'_> {
     }
 
     /// Returns true if it's negated.
-    pub(super) fn negate_bin_elem(&mut self, e: &mut BinExpr) -> bool {
+    pub(super) fn optimize_bang_within_logical_ops(
+        &mut self,
+        e: &mut BinExpr,
+        is_return_value_ignored: bool,
+    ) -> bool {
         match e.op {
             op!("&&") | op!("||") => {}
             _ => return false,
@@ -155,10 +159,12 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if let Known(Type::Bool) = e.right.get_type() {
-        } else {
-            // Don't change type.
-            return false;
+        if !is_return_value_ignored {
+            if let Known(Type::Bool) = e.right.get_type() {
+            } else {
+                // Don't change type.
+                return false;
+            }
         }
 
         // `!_ && 'undefined' !== typeof require`
@@ -166,7 +172,7 @@ impl Optimizer<'_> {
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        if self.is_negation_efficient(&e.left, &e.right) {
+        if self.is_negation_efficient(&e.left, &e.right, is_return_value_ignored) {
             log::trace!(
                 "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good \
                  for negation)",
@@ -194,7 +200,7 @@ impl Optimizer<'_> {
         }
     }
 
-    fn is_negation_efficient(&self, l: &Expr, r: &Expr) -> bool {
+    fn is_negation_efficient(&self, l: &Expr, r: &Expr, is_return_value_ignored: bool) -> bool {
         fn is(e: &Expr) -> bool {
             match e {
                 Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
@@ -220,7 +226,7 @@ impl Optimizer<'_> {
                 }),
             ) => false,
 
-            _ => is(l) && is(r),
+            _ => is(l) && (is_return_value_ignored || is(r)),
         }
     }
 

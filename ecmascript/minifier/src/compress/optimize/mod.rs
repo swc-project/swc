@@ -1431,7 +1431,7 @@ impl VisitMut for Optimizer<'_> {
 
         self.optimize_bin_and_or(n);
 
-        self.negate_bin(n);
+        self.optimize_bang_in_nested_logical_ops(n);
 
         self.optimize_null_or_undefined_cmp(n);
 
@@ -1707,6 +1707,13 @@ impl VisitMut for Optimizer<'_> {
 
         if is_directive {
             return;
+        }
+
+        match &mut *n.expr {
+            Expr::Bin(e) => {
+                self.optimize_bang_within_logical_ops(e, true);
+            }
+            _ => {}
         }
 
         if need_ignore_return_value
