@@ -57,8 +57,8 @@ struct Remover {
 impl VisitMut for Remover {
     noop_visit_mut_type!();
 
-    fn fold_array_pat(&mut self, p: ArrayPat) -> ArrayPat {
-        let mut p: ArrayPat = p.visit_mut_children_with(self);
+    fn visit_mut_array_pat(&mut self, p: &mut ArrayPat) {
+        p.visit_mut_children_with(self);
 
         let mut preserved = None;
         let len = p.elems.len();
@@ -81,8 +81,8 @@ impl VisitMut for Remover {
         ArrayPat { ..p }
     }
 
-    fn fold_expr(&mut self, e: Expr) -> Expr {
-        let e: Expr = e.visit_mut_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
 
         match e {
             Expr::Assign(AssignExpr {
@@ -157,8 +157,8 @@ impl VisitMut for Remover {
         e
     }
 
-    fn fold_for_stmt(&mut self, s: ForStmt) -> ForStmt {
-        let s = s.visit_mut_children_with(self);
+    fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        s.visit_mut_children_with(self);
 
         ForStmt {
             init: s.init.and_then(|e| match e {
@@ -182,8 +182,8 @@ impl VisitMut for Remover {
         }
     }
 
-    fn fold_object_pat(&mut self, p: ObjectPat) -> ObjectPat {
-        let mut p = p.visit_mut_children_with(self);
+    fn visit_mut_object_pat(&mut self, p: &mut ObjectPat) {
+        p.visit_mut_children_with(self);
 
         // Don't remove if there exists a rest pattern
         if p.props.iter().any(|p| match p {
