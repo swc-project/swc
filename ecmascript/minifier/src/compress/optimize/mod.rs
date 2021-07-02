@@ -1716,7 +1716,8 @@ impl VisitMut for Optimizer<'_> {
                 self.optimize_bang_within_logical_ops(e, true);
             }
             Expr::Seq(e) => {
-                for e in &mut e.exprs {
+                // Non-last items are handled by visit_mut_seq_expr
+                if let Some(e) = e.exprs.last_mut() {
                     match &mut **e {
                         Expr::Bin(e) => {
                             self.optimize_bang_within_logical_ops(e, true);
@@ -1988,6 +1989,7 @@ impl VisitMut for Optimizer<'_> {
                         Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
                         _ => false,
                     };
+
                     let can_remove =
                         !last && (idx != 0 || !is_injected_zero || !self.ctx.is_this_aware_callee);
 
@@ -2005,6 +2007,17 @@ impl VisitMut for Optimizer<'_> {
                 })
                 .collect::<Vec<_>>();
             n.exprs = exprs;
+        }
+
+        for (last, e) in n.exprs.iter_mut().identify_last() {
+            if !last {
+                match &mut **e {
+                    Expr::Bin(e) => {
+                        self.optimize_bang_within_logical_ops(e, true);
+                    }
+                    _ => {}
+                }
+            }
         }
 
         self.lift_seqs_of_assign(n);
