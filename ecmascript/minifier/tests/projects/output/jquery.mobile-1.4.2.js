@@ -193,7 +193,7 @@
                 },
                 uniqueId: function () {
                     return this.each(function () {
-                        !this.id && (this.id = "ui-id-" + ++uuid);
+                        this.id || (this.id = "ui-id-" + ++uuid);
                     });
                 },
                 removeUniqueId: function () {
@@ -473,7 +473,7 @@
                             }
                             e = e.parentNode;
                         }
-                        !excluded && ($newSet = $newSet.add($element));
+                        excluded || ($newSet = $newSet.add($element));
                     }
                     return $newSet;
                 },
@@ -994,7 +994,7 @@
                         event.originalEvent)
                     )
                         for (prop in event.originalEvent)
-                            !(prop in event) && (event[prop] = event.originalEvent[prop]);
+                            prop in event || (event[prop] = event.originalEvent[prop]);
                     return (
                         this.element.trigger(event, data),
                         !(
@@ -1210,7 +1210,7 @@
               (function () {
                   var iframe, iframe_src;
                   (self.start = function () {
-                      !iframe &&
+                      iframe ||
                     ((iframe_src = jQuery.fn.hashchange.src),
                     (iframe_src += get_fragment()),
                     (iframe = jQuery('<iframe tabindex="-1" title="empty"/>')
@@ -2363,7 +2363,7 @@
                 var realType = eventType.substr(1);
                 return {
                     setup: function () {
-                        !hasVirtualBindings(this) &&
+                        hasVirtualBindings(this) ||
               jQuery.data(this, "virtualMouseBindings", {});
                         var bindings = jQuery.data(this, "virtualMouseBindings");
                         (bindings[eventType] = !0),
@@ -3890,7 +3890,7 @@
                 };
                 jQuery.mobile.document.delegate("form", "submit", function (event) {
                     var formData;
-                    !event.isDefaultPrevented() &&
+                    event.isDefaultPrevented() ||
               ((formData = getAjaxFormData(jQuery(this))),
               formData &&
                 (jQuery.mobile.changePage(formData.url, formData.options),
@@ -5068,11 +5068,9 @@
                 }),
                 $navbar.delegate("a", "vclick", function () {
                     var activeBtn = jQuery(this);
-                    !(
-                        activeBtn.hasClass("ui-state-disabled") ||
+                    activeBtn.hasClass("ui-state-disabled") ||
               activeBtn.hasClass("ui-disabled") ||
-              activeBtn.hasClass(jQuery.mobile.activeBtnClass)
-                    ) &&
+              activeBtn.hasClass(jQuery.mobile.activeBtnClass) ||
               ($navbtns.removeClass(jQuery.mobile.activeBtnClass),
               activeBtn.addClass(jQuery.mobile.activeBtnClass),
               jQuery(document).one("pagehide", function () {
@@ -5373,7 +5371,7 @@
                                 hideDivider &&
                   (item.className = item.className + " ui-screen-hidden"),
                                 (hideDivider = !0);
-                            else !item.className.match(rhidden) && (hideDivider = !1);
+                            else item.className.match(rhidden) || (hideDivider = !1);
                 },
             });
         })(jQuery),
@@ -5638,7 +5636,7 @@
                                     .removeClass("ui-btn-icon-" + currentOptions.iconpos)
                                     .addClass("ui-btn-icon-" + options.iconpos);
                             else
-                                !hasIcon &&
+                                hasIcon ||
                   label.removeClass("ui-btn-icon-" + currentOptions.iconpos);
                             this._super(options);
                         },
@@ -5790,7 +5788,7 @@
               (jQuery.mobile.zoom.locked = !1));
                     },
                     restore: function () {
-                        !disabledInitially &&
+                        disabledInitially ||
               (meta.attr("content", initialContent),
               (jQuery.mobile.zoom.enabled = !0));
                     },
@@ -6106,7 +6104,7 @@
                     },
                     _controlChange: function (event) {
                         if (this._trigger("controlchange", event) === !1) return !1;
-                        !this.mouseMoved && this.refresh(this._value(), !0);
+                        this.mouseMoved || this.refresh(this._value(), !0);
                     },
                     _controlKeyup: function () {
                         this.refresh(this._value(), !0, !0);
@@ -7548,7 +7546,7 @@
                 },
                 _resizeTimeout: function () {
                     if (this._isOpen)
-                        !this._expectResizeEvent() &&
+                        this._expectResizeEvent() ||
               (this._ui.container.hasClass("ui-popup-hidden") &&
                 (this._ui.container.removeClass(
                     "ui-popup-hidden ui-popup-truncate",
@@ -7701,7 +7699,7 @@
                             ar.length)
                         ) {
                         case 1:
-                            !isNaN(ar[0]) && (tol.t = tol.r = tol.b = tol.l = ar[0]);
+                            isNaN(ar[0]) || (tol.t = tol.r = tol.b = tol.l = ar[0]);
                             break;
                         case 2:
                             !isNaN(ar[0]) && (tol.t = tol.b = ar[0]),
@@ -9748,7 +9746,7 @@
                     return event.preventDefault(), this.close(), !1;
             },
             _handleCloseClick: function (event) {
-                !event.isDefaultPrevented() && this.close();
+                event.isDefaultPrevented() || this.close();
             },
             _bindCloseEvents: function () {
                 this._on(this._closeLink, {
@@ -10261,7 +10259,7 @@
             },
             _create: function () {
                 if ((this._super(), this.options.mode !== "reflow")) return;
-                !this.options.enhanced &&
+                this.options.enhanced ||
           (this.element.addClass(this.options.classes.reflowTable),
           this._updateReflow());
             },
@@ -10518,7 +10516,7 @@
                             if (this._setWidget(elem.data("mobile-" + widgetName))) break;
                             createHandlers[widgetName + "create"] = "_handleCreate";
                         }
-                    !this._widget && this._on(elem, createHandlers);
+                    this._widget || this._on(elem, createHandlers);
                 },
                 _handleCreate: function (evt) {
                     this._setWidget(
@@ -11306,7 +11304,7 @@
             (x > 7 || (((z > 6 && 8 > y) || (8 > z && y > 6)) && x > 5)))
                 )
                     zoom.enabled && zoom.disable();
-                else !zoom.enabled && zoom.enable();
+                else zoom.enabled || zoom.enable();
             }
             jQuery.mobile.document.on("mobileinit", function () {
                 jQuery.mobile.iosorientationfixEnabled &&
@@ -11346,7 +11344,7 @@
                     .children(0)),
                         $pages.each(function () {
                             var $this = jQuery(this);
-                            !$this[0].getAttribute("data-" + jQuery.mobile.ns + "url") &&
+                            $this[0].getAttribute("data-" + jQuery.mobile.ns + "url") ||
                   $this.attr(
                       "data-" + jQuery.mobile.ns + "url",
                       $this.attr("id") || location.pathname + location.search,

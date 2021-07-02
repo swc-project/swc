@@ -659,7 +659,7 @@ Number.alias("each", "times"),
 (function (math) {
     var methods = {};
     math.each(function (name) {
-        !Number[name] &&
+        Number[name] ||
         (methods[name] = function () {
             return Math[name].apply(null, [this].concat(Array.from(arguments)));
         });
@@ -2742,7 +2742,7 @@ var IFrame = new Type("IFrame", function () {
         if (nodes && nodes.length)
             for (var uniques = {}, node, i = 0; (node = nodes[i++]); ) {
                 var uid = Slick.uidOf(node);
-                !uniques[uid] && ((uniques[uid] = !0), this.push(node));
+                uniques[uid] || ((uniques[uid] = !0), this.push(node));
             }
     });
 (Elements.prototype = {
@@ -4131,7 +4131,7 @@ Elements.alias("extend", "append"),
                 },
             };
         };
-    !eventListenerSupport &&
+    eventListenerSupport ||
       Object.append(map, {
           submit: formObserver("submit"),
           reset: formObserver("reset"),
@@ -4366,7 +4366,7 @@ Elements.alias("extend", "append"),
                     (position.y += element.offsetTop),
                     Browser.firefox)
                 ) {
-                    !borderBox(element) &&
+                    borderBox(element) ||
               ((position.x += leftBorder(element)),
               (position.y += topBorder(element)));
                     var parent = element.parentNode;
@@ -4906,7 +4906,7 @@ Element1.implement({
         return this;
     },
     highlight: function (start, end) {
-        !end &&
+        end ||
         ((end = this.retrieve(
             "highlight:original",
             this.getStyle("background-color"),
@@ -5217,7 +5217,7 @@ Fx.Transitions.extend({
                     this.headers["Content-type"] =
               "application/x-www-form-urlencoded" + encoding;
                 }
-                !url && (url = document.location.pathname);
+                url || (url = document.location.pathname);
                 var trimPosition = url.lastIndexOf("/");
                 trimPosition > -1 &&
             (trimPosition = url.indexOf("#")) > -1 &&

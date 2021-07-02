@@ -1338,7 +1338,7 @@
     function annotate(fn) {
         var $inject, fnText, argDecl, last;
         if ("function" == typeof fn)
-            !($inject = fn.$inject) &&
+            ($inject = fn.$inject) ||
         (($inject = []),
         fn.length &&
           ((fnText = fn.toString().replace(STRIP_COMMENTS, "")),
@@ -2046,7 +2046,7 @@
                         return (
                             listeners.push(fn),
                             $rootScope.$evalAsync(function () {
-                                !listeners.$$inter && fn(attrs[key]);
+                                listeners.$$inter || fn(attrs[key]);
                             }),
                             fn
                         );
@@ -2232,7 +2232,7 @@
                 function createBoundTranscludeFn(scope, transcludeFn) {
                     return function (transcludedScope, cloneFn, controllers) {
                         var scopeCreated = !1;
-                        !transcludedScope &&
+                        transcludedScope ||
                 ((transcludedScope = scope.$new()),
                 (transcludedScope.$$transcluded = !0),
                 (scopeCreated = !0));
@@ -4899,7 +4899,7 @@
             return !1;
         },
         consume: function (e1) {
-            !this.expect(e1) &&
+            this.expect(e1) ||
           this.throwError("is unexpected, expecting [" + e1 + "]", this.peek());
         },
         unaryFn: function (fn, right) {
@@ -6501,7 +6501,7 @@
                             } finally {
                                 delete deferreds[promise.$$timeoutId];
                             }
-                            !skipApply && $rootScope.$apply();
+                            skipApply || $rootScope.$apply();
                         }, delay)),
                         (promise.$$timeoutId = timeoutId),
                         (deferreds[timeoutId] = deferred),
@@ -6989,7 +6989,7 @@
                 )
                     return function (scope, element1) {
                         element1.on("click", function (event) {
-                            !element1.attr("href") && event.preventDefault();
+                            element1.attr("href") || event.preventDefault();
                         });
                     };
             },
@@ -7201,7 +7201,7 @@
         else {
             var timeout,
                 deferListener = function () {
-                    !timeout &&
+                    timeout ||
             (timeout = $browser.defer(function () {
                 listener(), (timeout = null);
             }));
@@ -7457,7 +7457,7 @@
                                 var newClasses = flattenClasses(newVal || "");
                                 if (!oldVal) attr.$addClass(newClasses);
                                 else
-                                    !equals(newVal, oldVal) &&
+                                    equals(newVal, oldVal) ||
                     attr.$updateClass(newClasses, flattenClasses(oldVal));
                             }
                             oldVal = copy(newVal);
@@ -7859,7 +7859,7 @@
                                                     );
                                                 }),
                                                 scope1.$watch(function () {
-                                                    !equals(lastView, ctrl.$viewValue) &&
+                                                    equals(lastView, ctrl.$viewValue) ||
                                   ((lastView = copy(ctrl.$viewValue)),
                                   ctrl.$render());
                                                 }),
@@ -8096,7 +8096,7 @@
                                                                 selected: !selectedSet,
                                                             });
                                                         else
-                                                            !selectedSet &&
+                                                            selectedSet ||
                                     optionGroups[""].unshift({
                                         id: "?",
                                         label: "",
@@ -8211,8 +8211,7 @@
                                                     element.text(),
                                                     !0,
                                                 );
-                                                !interpolateFn &&
-                              attr.$set("value", element.text());
+                                                interpolateFn || attr.$set("value", element.text());
                                             }
                                             return function (scope, element, attr1) {
                                                 var parent = element.parent(),
@@ -8329,7 +8328,7 @@
                                             var block, childScope;
                                             $scope.$watch($attr.ngIf, function (value) {
                                                 if (toBoolean(value))
-                                                    !childScope &&
+                                                    childScope ||
                                 ((childScope = $scope.$new()),
                                 $transclude(childScope, function (clone) {
                                     (clone[
@@ -9133,7 +9132,7 @@
         angularInit(document, bootstrap);
     });
 })(window, document),
-!angular.$$csp() &&
+angular.$$csp() ||
     angular
         .element(document)
         .find("head")

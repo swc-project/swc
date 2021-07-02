@@ -752,7 +752,7 @@
                             progressValues === values)
                         )
                             deferred.notifyWith(contexts, values);
-                        else !--remaining && deferred.resolveWith(contexts, values);
+                        else --remaining || deferred.resolveWith(contexts, values);
                     };
                 },
                 progressValues,
@@ -1207,7 +1207,7 @@
                 elements = this,
                 i = this.length,
                 resolve = function () {
-                    !--count && defer.resolveWith(elements, [elements]);
+                    --count || defer.resolveWith(elements, [elements]);
                 };
             for (
                 "string" !== typeof type && ((obj = type), (type = void 0)),
@@ -2691,7 +2691,7 @@
                             );
                         } catch (qsaError) {
                         } finally {
-                            !old && context.removeAttribute("id");
+                            old || context.removeAttribute("id");
                         }
                 }
             }
@@ -3818,7 +3818,8 @@
                         if (seed) {
                             if (matchedCount > 0)
                                 for (; i--; )
-                                    !(unmatched[i] || setMatched[i]) &&
+                                    unmatched[i] ||
+                      setMatched[i] ||
                       (setMatched[i] = arr.pop.call(results));
                             setMatched = condense(setMatched);
                         }
@@ -4262,7 +4263,7 @@
         unwrap: function () {
             return this.parent()
                 .each(function () {
-                    !jQuery.nodeName(this, "body") &&
+                    jQuery.nodeName(this, "body") ||
               jQuery(this).replaceWith(this.childNodes);
                 })
                 .end();
@@ -4814,7 +4815,7 @@
                 css_defaultDisplay(elem.nodeName),
             ));
             else
-                !values[index] &&
+                values[index] ||
           ((hidden = isHidden(elem)),
           ((elem.style.display && elem.style.display !== "none") || !hidden) &&
             jQuery._data(
@@ -5859,7 +5860,7 @@
                     finalDataType = type;
                     break;
                 }
-                !firstDataType && (firstDataType = type);
+                firstDataType || (firstDataType = type);
             }
             finalDataType ||= firstDataType;
         }
@@ -6121,7 +6122,7 @@
                                       }
                                   }
                               } catch (firefoxAccessException) {
-                                  !isAbort && complete(-1, firefoxAccessException);
+                                  isAbort || complete(-1, firefoxAccessException);
                               }
                               responses &&
                     complete(status, statusText, responses, responseHeaders);
@@ -6322,7 +6323,7 @@
             ) {
                 (value = hooks.expand(value)), delete props[name];
                 for (index in value)
-                    !(index in props) &&
+                    index in props ||
             ((props[index] = value[index]), (specialEasing[index] = easing));
             } else specialEasing[name] = easing;
     }
@@ -6360,7 +6361,7 @@
           ((hooks.unqueued = 0),
           hooks.empty.fire,
           (hooks.empty.fire = function () {
-              !hooks.unqueued && hooks.empty.fire();
+              hooks.unqueued || hooks.empty.fire();
           })),
         hooks.unqueued++,
         anim.always(function () {
@@ -6701,7 +6702,7 @@
     }),
     (jQuery.fx.interval = 13),
     (jQuery.fx.start = function () {
-        !timerId && (timerId = setInterval(jQuery.fx.tick, jQuery.fx.interval));
+        timerId || (timerId = setInterval(jQuery.fx.tick, jQuery.fx.interval));
     }),
     (jQuery.fx.stop = function () {
         clearInterval(timerId), (timerId = null);

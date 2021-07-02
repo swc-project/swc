@@ -673,7 +673,7 @@
     (_.omit = function (obj) {
         var copy = {},
             keys = concat.apply(ArrayProto, slice.call(arguments, 1));
-        for (var key in obj) !_.contains(keys, key) && (copy[key] = obj[key]);
+        for (var key in obj) _.contains(keys, key) || (copy[key] = obj[key]);
         return copy;
     }),
     (_.defaults = function (obj) {
