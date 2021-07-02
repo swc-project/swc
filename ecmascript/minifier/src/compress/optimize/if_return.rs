@@ -52,15 +52,17 @@ impl Optimizer<'_> {
                 return;
             }
 
-            let no_need_to_work = stmts
+            let may_need_work = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::If(..) | Stmt::Return(..) | Stmt::Expr(..)) => true,
+                    Some(Stmt::If(..)) => true,
                     _ => false,
                 })
                 .unwrap();
 
-            if return_count == 1 && no_need_to_work {
+            // TODO: Find correct condition
+
+            if return_count == 1 {
                 return;
             }
         }
