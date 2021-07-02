@@ -567,7 +567,7 @@
                     if (wait > last) timeout = setTimeout(later, wait - last);
                     else
                         (timeout = null),
-                        !immediate && (result = func.apply(context, args));
+                        immediate || (result = func.apply(context, args));
                 },
                 callNow = immediate && !timeout;
             return (
@@ -779,7 +779,7 @@
             };
         },
     ),
-    !_.isArguments(arguments) &&
+    _.isArguments(arguments) ||
       (_.isArguments = function (obj) {
           return !(!obj || !_.has(obj, "callee"));
       }),
@@ -927,7 +927,7 @@
             },
         ),
         (source += "';\n"),
-        !settings.variable && (source = "with(obj||{}){\n" + source + "}\n"),
+        settings.variable || (source = "with(obj||{}){\n" + source + "}\n"),
         (source =
         "var __t,__p='',__j=Array.prototype.join,print=function(){__p+=__j.call(arguments,'');};\n" +
         source +

@@ -1050,7 +1050,7 @@
                     ) {
                         for (elem.attributes; i < elem.attributes.length; i++)
                             (name = elem.attributes[i].name),
-                            !name.indexOf("data-") &&
+                            name.indexOf("data-") ||
                     ((name = jQuery.camelCase(name.slice(5))),
                     dataAttr(elem, name, data[name]));
                         jQuery._data(elem, "parsedAttrs", !0);
@@ -1634,7 +1634,7 @@
               else return nodeHook && nodeHook.set(elem, value, name);
           },
       }),
-    !getSetAttribute &&
+    getSetAttribute ||
       ((nodeHook = jQuery.valHooks.button = {
           get: function (elem, name) {
               var ret = elem.getAttributeNode(name);
@@ -1672,7 +1672,7 @@
               },
           });
       })),
-    !jQuery.support.hrefNormalized &&
+    jQuery.support.hrefNormalized ||
       (jQuery.each(["href", "src", "width", "height"], function (i, name) {
           jQuery.attrHooks[name] = jQuery.extend(jQuery.attrHooks[name], {
               get: function (elem) {
@@ -1688,7 +1688,7 @@
               },
           };
       })),
-    !jQuery.support.style &&
+    jQuery.support.style ||
       (jQuery.attrHooks.style = {
           get: function (elem) {
               return elem.style.cssText || void 0;
@@ -1697,7 +1697,7 @@
               return (elem.style.cssText = value + "");
           },
       }),
-    !jQuery.support.optSelected &&
+    jQuery.support.optSelected ||
       (jQuery.propHooks.selected = jQuery.extend(jQuery.propHooks.selected, {
           get: function (elem) {
               var parent = elem.parentNode;
@@ -1709,8 +1709,8 @@
               );
           },
       })),
-    !jQuery.support.enctype && (jQuery.propFix.enctype = "encoding"),
-    !jQuery.support.checkOn &&
+    jQuery.support.enctype || (jQuery.propFix.enctype = "encoding"),
+    jQuery.support.checkOn ||
       jQuery.each(["radio", "checkbox"], function () {
           jQuery.valHooks[this] = {
               get: function (elem) {
@@ -2266,7 +2266,7 @@
             };
         },
     ),
-    !jQuery.support.submitBubbles &&
+    jQuery.support.submitBubbles ||
       (jQuery.event.special.submit = {
           setup: function () {
               if (jQuery.nodeName(this, "form")) return !1;
@@ -2301,7 +2301,7 @@
               jQuery.event.remove(this, "._submit");
           },
       }),
-    !jQuery.support.changeBubbles &&
+    jQuery.support.changeBubbles ||
       (jQuery.event.special.change = {
           setup: function () {
               if (rformElems.test(this.nodeName))
@@ -2353,7 +2353,7 @@
               );
           },
       }),
-    !jQuery.support.focusinBubbles &&
+    jQuery.support.focusinBubbles ||
       jQuery.each(
           {
               focus: "focusin",
@@ -2853,20 +2853,20 @@
               (assert(function (div) {
                   (div.innerHTML =
                   "<select><option selected=''></option></select>"),
-                  !div.querySelectorAll("[selected]").length &&
+                  div.querySelectorAll("[selected]").length ||
                     rbuggyQSA.push(
                         "\\[" +
                         whitespace +
                         "*(?:checked|disabled|ismap|multiple|readonly|selected|value)",
                     ),
-                  !div.querySelectorAll(":checked").length &&
+                  div.querySelectorAll(":checked").length ||
                     rbuggyQSA.push(":checked");
               }),
               assert(function (div) {
                   (div.innerHTML = "<input type='hidden' i=''/>"),
                   div.querySelectorAll("[i^='']").length &&
                     rbuggyQSA.push("[*^$]=" + whitespace + "*(?:\"\"|'')"),
-                  !div.querySelectorAll(":enabled").length &&
+                  div.querySelectorAll(":enabled").length ||
                     rbuggyQSA.push(":enabled", ":disabled"),
                   div.querySelectorAll("*,:x"),
                   rbuggyQSA.push(",.*:");
@@ -3119,7 +3119,7 @@
                         ((match[1] = match[1].toLowerCase()),
                         match[1].slice(0, 3) === "nth")
                     )
-                        !match[3] && Sizzle.error(match[0]),
+                        match[3] || Sizzle.error(match[0]),
                         (match[4] = +(match[4]
                             ? match[5] + (match[6] || 1)
                             : 2 * (match[3] === "even" || match[3] === "odd"))),
@@ -5182,7 +5182,7 @@
             },
         };
     }),
-    !jQuery.support.opacity &&
+    jQuery.support.opacity ||
       (jQuery.cssHooks.opacity = {
           get: function (elem, computed) {
               return /opacity\s*=\s*([^)]*)/.test(
@@ -5221,7 +5221,7 @@
           },
       }),
     jQuery(function () {
-        !jQuery.support.reliableMarginRight &&
+        jQuery.support.reliableMarginRight ||
         (jQuery.cssHooks.marginRight = {
             get: function (elem, computed) {
                 if (computed)
@@ -5285,7 +5285,7 @@
                     return expanded;
                 },
             }),
-            !rmargin.test(prefix) &&
+            rmargin.test(prefix) ||
             (jQuery.cssHooks[prefix + suffix].set = setPositiveNumber);
         },
     );
@@ -5700,7 +5700,7 @@
             (s.type = s.type.toUpperCase()),
             (s.hasContent = !/^(?:GET|HEAD)$/.test(s.type)),
             (cacheURL = s.url),
-            !s.hasContent &&
+            s.hasContent ||
             (s.data &&
               ((cacheURL = s.url +=
                 (ajax_rquery.test(cacheURL) ? "&" : "?") + s.data),
@@ -5800,7 +5800,7 @@
                         isSuccess.data,
                         (error = isSuccess.error),
                         (isSuccess = !error);
-                } else (error = statusText), !statusText && (statusText = "error");
+                } else (error = statusText), statusText || (statusText = "error");
                 if (
                     ((jqXHR.status = 0),
                     (jqXHR.statusText = (nativeStatusText || statusText) + ""),
@@ -6367,7 +6367,7 @@
         anim.always(function () {
             anim.always(function () {
                 hooks.unqueued--,
-                !jQuery.queue(elem, "fx").length && hooks.empty.fire();
+                jQuery.queue(elem, "fx").length || hooks.empty.fire();
             });
         })),
             1 === elem.nodeType && ("height" in props || "width" in props))
@@ -6432,7 +6432,7 @@
                     dataShow.hidden ? dataShow[prop] : 0,
                 )),
                 (orig[prop] = dataShow[prop] || jQuery.style(elem, prop)),
-                !(prop in dataShow) &&
+                prop in dataShow ||
             ((dataShow[prop] = tween.start),
             dataShow.hidden &&
               ((tween.end = tween.start),
@@ -6695,7 +6695,7 @@
         for (fxNow = jQuery.now(); i < timers.length; i++)
             (timer = timers[i]),
             timer() || timers[i] !== timer || timers.splice(i--, 1);
-        !timers.length && jQuery.fx.stop(), (fxNow = void 0);
+        timers.length || jQuery.fx.stop(), (fxNow = void 0);
     }),
     (jQuery.fx.timer = function (timer) {
         timer() && jQuery.timers.push(timer) && jQuery.fx.start();
@@ -6803,7 +6803,7 @@
             else
                 (offsetParent = this.offsetParent()),
                 (offset = this.offset()),
-                !jQuery.nodeName(offsetParent[0], "html") &&
+                jQuery.nodeName(offsetParent[0], "html") ||
               (parentOffset = offsetParent.offset()),
                 (parentOffset.top += jQuery.css(
                     offsetParent[0],

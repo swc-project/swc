@@ -1274,7 +1274,7 @@ Hash.alias({
                     });
                 }
             }
-            !this.client && (this.client = {}), !this.page && (this.page = {});
+            this.client || (this.client = {}), this.page || (this.page = {});
         }));
     DOMEvent.implement({
         stop: function () {
@@ -1557,7 +1557,7 @@ function () {
                     j++
                 ) {
                     var cexp = exp[j];
-                    !cexp.reverseCombinator && (cexp.reverseCombinator = " "),
+                    cexp.reverseCombinator || (cexp.reverseCombinator = " "),
                     (cexp.combinator = cexp.reverseCombinator),
                     delete cexp.reverseCombinator;
                 }
@@ -1626,8 +1626,8 @@ function () {
         else if (id) currentParsed.id = id.replace(reUnescape, "");
         else if (className)
             (className = className.replace(reUnescape, "")),
-            !currentParsed.classList && (currentParsed.classList = []),
-            !currentParsed.classes && (currentParsed.classes = []),
+            currentParsed.classList || (currentParsed.classList = []),
+            currentParsed.classes || (currentParsed.classes = []),
             currentParsed.classList.push(className),
             currentParsed.classes.push({
                 value: className,
@@ -1638,7 +1638,7 @@ function () {
             (pseudoClassValue = pseudoClassValue
                 ? pseudoClassValue.replace(reUnescape, "")
                 : null),
-            !currentParsed.pseudos && (currentParsed.pseudos = []),
+            currentParsed.pseudos || (currentParsed.pseudos = []),
             currentParsed.pseudos.push({
                 key: pseudoClass.replace(reUnescape, ""),
                 value: pseudoClassValue,
@@ -1688,11 +1688,11 @@ function () {
           (test = function () {
               return !1;
           }),
-            !test &&
+            test ||
             (test = function (value) {
                 return value && regexp1.test(value);
             }),
-            !currentParsed.attributes && (currentParsed.attributes = []),
+            currentParsed.attributes || (currentParsed.attributes = []),
             currentParsed.attributes.push({
                 key: attributeKey,
                 operator: attributeOperator,
@@ -1707,7 +1707,7 @@ function () {
         return parse(expression);
     }),
     (Slick.escapeRegExp = escapeRegExp),
-    !this.Slick && (this.Slick = Slick);
+    this.Slick || (this.Slick = Slick);
 }.apply("undefined" != typeof exports ? exports : this),
 function () {
     var local = {},
@@ -2653,7 +2653,7 @@ function () {
     (Slick.uidOf = function (node) {
         return local.getUIDHTML(node);
     }),
-    !this.Slick && (this.Slick = Slick);
+    this.Slick || (this.Slick = Slick);
 }.apply("undefined" != typeof exports ? exports : this);
 var Element1 = function (tag, props) {
     var konstructor = Element1.Constructors[tag];
@@ -2703,7 +2703,7 @@ new Type("Element", Element1).mirror(function (name) {
     }),
     Elements.implement(obj);
 }),
-!Browser.Element &&
+Browser.Element ||
     ((Element1.parent = Object),
     (Element1.Prototype = {
         $constructor: Element1,
@@ -2934,8 +2934,8 @@ Elements.alias("extend", "append"),
             return Slick.contains(this, element);
         },
     };
-    !document.contains && Document.implement(contains),
-    !document.createElement("div").contains && Element1.implement(contains),
+    document.contains || Document.implement(contains),
+    document.createElement("div").contains || Element1.implement(contains),
     Element1.implement("hasChild", function (element) {
         return this !== element && this.contains(element);
     }),
@@ -3554,7 +3554,7 @@ Elements.alias("extend", "append"),
                     )
                         target = target.firstChild;
                     this.empty().adopt(target.childNodes),
-                    !supportsHTML5Elements && fragment.removeChild(wrapper),
+                    supportsHTML5Elements || fragment.removeChild(wrapper),
                     (wrapper = null);
                 }
             );
@@ -3643,7 +3643,7 @@ Elements.alias("extend", "append"),
                     (style.filter = reAlpha.test(filter)
                         ? filter.replace(reAlpha, opacity)
                         : filter + opacity),
-                    !style.filter && style.removeAttribute("filter");
+                    style.filter || style.removeAttribute("filter");
                 }
                 : setVisibility,
         getOpacity = hasOpacity
@@ -4036,7 +4036,7 @@ Elements.alias("extend", "append"),
             condition: check,
         });
     }
-    !window.addEventListener &&
+    window.addEventListener ||
       ((Element1.NativeEvents.propertychange = 2),
       (Element1.Events.change = {
           base: function () {
@@ -4602,8 +4602,7 @@ Element1.alias({
                     this.frames == this.frame)
                 )
                     this.fireEvent("complete", this.subject),
-                    !this.callChain() &&
-                this.fireEvent("chainComplete", this.subject);
+                    this.callChain() || this.fireEvent("chainComplete", this.subject);
                 else this.fireEvent("stop", this.subject);
             }
             return this;
@@ -4651,7 +4650,7 @@ Element1.alias({
         pushInstance = function (fps) {
             var list = instances[fps] || (instances[fps] = []);
             list.push(this),
-            !timers[fps] &&
+            timers[fps] ||
             (timers[fps] = function () {
                 for (var now = Date.now(), i = this.length; i--; ) {
                     var instance = this[i];
@@ -4895,7 +4894,7 @@ Element1.implement({
         default:
             method = "start";
         }
-        !toggle && this.eliminate("fade:flag"), fade[method].apply(fade, args);
+        toggle || this.eliminate("fade:flag"), fade[method].apply(fade, args);
         var to = args[args.length - 1];
         if ("set" == method || 0 != to)
             this.setStyle("visibility", 0 == to ? "hidden" : "visible");
@@ -5572,7 +5571,7 @@ var Cookie = new Class({
             return !1;
         },
         poll = function () {
-            clearTimeout(timer), !check() && (timer = setTimeout(poll, 10));
+            clearTimeout(timer), check() || (timer = setTimeout(poll, 10));
         };
     document.addListener("DOMContentLoaded", domready);
     var doScrollWorks = function () {

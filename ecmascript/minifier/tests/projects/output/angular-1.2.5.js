@@ -819,7 +819,7 @@
         var expandoId = element[jqName],
             expandoStore = jqCache[expandoId || -1];
         if (isDefined(value))
-            !expandoStore &&
+            expandoStore ||
         ((element[jqName] = expandoId = jqNextId()),
         (expandoStore = jqCache[expandoId] = {})),
             (expandoStore[key] = value);
@@ -1144,8 +1144,8 @@
                     );
                 var events = jqLiteExpandoStore(element, "events"),
                     handle = jqLiteExpandoStore(element, "handle");
-                !events && jqLiteExpandoStore(element, "events", (events = {})),
-                !handle &&
+                events || jqLiteExpandoStore(element, "events", (events = {})),
+                handle ||
             jqLiteExpandoStore(
                 element,
                 "handle",
@@ -1905,7 +1905,7 @@
         (this.directive = function registerDirective(name, directiveFactory) {
             if ((assertNotHasOwnProperty(name, "directive"), isString(name)))
                 assertArg(directiveFactory, "directiveFactory"),
-                !hasDirectives.hasOwnProperty(name) &&
+                hasDirectives.hasOwnProperty(name) ||
             ((hasDirectives[name] = []),
             $provide.factory(name + "Directive", [
                 "$injector",
@@ -2017,7 +2017,7 @@
                             this.$attr[key] = attrName;
                         else
                             (attrName = this.$attr[key]),
-                            !attrName &&
+                            attrName ||
                     (this.$attr[key] = attrName = snake_case(key, "-"));
                         if (
                             ((nodeName = nodeName_(this.$$element)),
@@ -2070,7 +2070,7 @@
                     ignoreDirective,
                     previousCompileContext,
                 ) {
-                    !($compileNodes instanceof jqLite) &&
+                    $compileNodes instanceof jqLite ||
               ($compileNodes = jqLite($compileNodes)),
                     forEach($compileNodes, function (node, index) {
                         3 == node.nodeType &&
@@ -2812,7 +2812,7 @@
                         (elementControllers[
                             directive1.name
                         ] = controllerInstance),
-                        !hasElementTranscludeDirective &&
+                        hasElementTranscludeDirective ||
                           attrs.$$element.data(
                               "$" + directive1.name + "Controller",
                               controllerInstance,
@@ -3651,7 +3651,7 @@
                             else cache.remove(url);
                         }
                         resolvePromise(response, status, headersString),
-                        !$rootScope.$$phase && $rootScope.$apply();
+                        $rootScope.$$phase || $rootScope.$apply();
                     }
                     function resolvePromise(response, status, headers) {
                         (status = Math.max(status, 0)),
@@ -3673,7 +3673,7 @@
                     return (
                         forEachSorted(params, function (value, key) {
                             if (null === value || isUndefined(value)) return;
-                            !isArray(value) && (value = [value]),
+                            isArray(value) || (value = [value]),
                             forEach(value, function (v) {
                                 isObject(v) && (v = toJson(v)),
                                 parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
@@ -3954,7 +3954,7 @@
                   (deferred.resolve(iteration),
                   clearInterval(promise.$$intervalId),
                   delete intervals[promise.$$intervalId]),
-                            !skipApply && $rootScope.$apply();
+                            skipApply || $rootScope.$apply();
                         }, delay)),
                         (intervals[promise.$$intervalId] = deferred),
                         promise
@@ -4098,7 +4098,7 @@
                     appBaseNoFile,
                 );
             parseAppUrl(pathUrl, this, appBase),
-            !this.$$path && (this.$$path = "/"),
+            this.$$path || (this.$$path = "/"),
             this.$$compose();
         }),
         (this.$$compose = function () {
@@ -4312,7 +4312,7 @@
                             var oldUrl = $location.absUrl();
                             $location.$$parse(newUrl), afterLocationChange(oldUrl);
                         }),
-                        !$rootScope.$$phase && $rootScope.$digest();
+                        $rootScope.$$phase || $rootScope.$digest();
                     }
                 });
                 var changeCounter = 0;
@@ -4762,7 +4762,7 @@
                 if (((rawString += ch), escape)) {
                     if ("u" === ch) {
                         var hex = this.text.substring(this.index + 1, this.index + 5);
-                        !hex.match(/[\da-f]{4}/i) &&
+                        hex.match(/[\da-f]{4}/i) ||
               this.throwError("Invalid unicode escape [\\u" + hex + "]"),
                         (this.index += 4),
                         (string += String.fromCharCode(parseInt(hex, 16)));
@@ -4838,7 +4838,7 @@
             else {
                 var token = this.expect();
                 (primary = token.fn),
-                !primary && this.throwError("not a primary expression", token),
+                primary || this.throwError("not a primary expression", token),
                 token.json && ((primary.constant = !0), (primary.literal = !0));
             }
             for (var next, context; (next = this.expect("(", "[", ".")); )
@@ -5155,7 +5155,7 @@
                 do {
                     var elementFn = this.expression();
                     elementFns.push(elementFn),
-                    !elementFn.constant && (allConstant = !1);
+                    elementFn.constant || (allConstant = !1);
                 } while (this.expect(","));
             return (
                 this.consume("]"),
@@ -5185,7 +5185,7 @@
                         key: key,
                         value: value,
                     }),
-                    !value.constant && (allConstant = !1);
+                    value.constant || (allConstant = !1);
                 } while (this.expect(","));
             return (
                 this.consume("}"),
@@ -5210,7 +5210,7 @@
         for (var element = path.split("."), key, i = 0; element.length > 1; i++) {
             key = ensureSafeMemberName(element.shift(), fullExp);
             var propertyObj = obj[key];
-            !propertyObj && ((propertyObj = {}), (obj[key] = propertyObj)),
+            propertyObj || ((propertyObj = {}), (obj[key] = propertyObj)),
             (obj = propertyObj),
             obj.then &&
           options.unwrapPromises &&
@@ -5710,7 +5710,7 @@
                             function (value) {
                                 if (results.hasOwnProperty(key)) return;
                                 (results[key] = value),
-                                !--counter && deferred.resolve(results);
+                                --counter || deferred.resolve(results);
                             },
                             function (reason) {
                                 if (results.hasOwnProperty(key)) return;
@@ -6376,7 +6376,7 @@
                 (sce.trustAs = $sceDelegate.trustAs),
                 (sce.getTrusted = $sceDelegate.getTrusted),
                 (sce.valueOf = $sceDelegate.valueOf),
-                !enabled &&
+                enabled ||
               ((sce.trustAs = sce.getTrusted = function (type, value) {
                   return value;
               }),
@@ -6437,7 +6437,7 @@
                   vendorPrefix.substr(1));
                             break;
                         }
-                    !vendorPrefix &&
+                    vendorPrefix ||
             (vendorPrefix = "WebkitOpacity" in bodyStyle && "webkit"),
                     (transitions = !!(
                         "transition" in bodyStyle ||
@@ -7351,8 +7351,8 @@
     function checkboxInputType(scope, element, attr, ctrl) {
         var trueValue = attr.ngTrueValue,
             falseValue = attr.ngFalseValue;
-        !isString(trueValue) && (trueValue = !0),
-        !isString(falseValue) && (falseValue = !1),
+        isString(trueValue) || (trueValue = !0),
+        isString(falseValue) || (falseValue = !1),
         element.on("click", function () {
             scope.$apply(function () {
                 ctrl.$setViewValue(element[0].checked);
@@ -8715,7 +8715,7 @@
                                                     )),
                                                     (childScope.$odd = !(childScope.$even =
                                   (1 & index) == 0)),
-                                                    !block.scope &&
+                                                    block.scope ||
                                   $transclude(childScope, function (clone) {
                                       (clone[
                                           clone.length++
@@ -8894,7 +8894,7 @@
                                                 if ($error[validationErrorKey] === !isValid) return;
                                                 if (isValid)
                                                     $error[validationErrorKey] && invalidCount--,
-                                                    !invalidCount &&
+                                                    invalidCount ||
                                   (toggleValidCss(!0),
                                   (this.$valid = !0),
                                   (this.$invalid = !1));

@@ -193,7 +193,7 @@
             (changes = []),
             this._changing,
             (this._changing = !0),
-            !this._changing &&
+            this._changing ||
           ((this._previousAttributes = _.clone(this.attributes)),
           (this.changed = {})),
             this.attributes,
@@ -343,7 +343,7 @@
                 ((options.success = function (resp) {
                     (options.wait || model.isNew()) && destroy(),
                     success && success(model, resp, options),
-                    !model.isNew() && model.trigger("sync", model, resp, options);
+                    model.isNew() || model.trigger("sync", model, resp, options);
                 }),
                 this.isNew())
             )
@@ -464,7 +464,7 @@
                 (index = this.indexOf(model)),
                 this.models.splice(index, 1),
                 this.length--,
-                !options.silent &&
+                options.silent ||
             ((options.index = index),
             model.trigger("remove", model, this, options)),
                 this._removeReference(model);
@@ -913,9 +913,9 @@
     _.extend(Router.prototype, Events, {
         initialize: function () {},
         route: function (route, name, callback) {
-            !_.isRegExp(route) && (route = this._routeToRegExp(route)),
+            _.isRegExp(route) || (route = this._routeToRegExp(route)),
             _.isFunction(name) && ((callback = name), (name = "")),
-            !callback && (callback = this[name]);
+            callback || (callback = this[name]);
             var router = this;
             return (
                 Backbone.history.route(route, function (fragment) {

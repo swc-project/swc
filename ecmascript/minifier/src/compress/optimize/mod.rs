@@ -1715,6 +1715,16 @@ impl VisitMut for Optimizer<'_> {
             Expr::Bin(e) => {
                 self.optimize_bang_within_logical_ops(e, true);
             }
+            Expr::Seq(e) => {
+                for e in &mut e.exprs {
+                    match &mut **e {
+                        Expr::Bin(e) => {
+                            self.optimize_bang_within_logical_ops(e, true);
+                        }
+                        _ => {}
+                    }
+                }
+            }
             _ => {}
         }
 
