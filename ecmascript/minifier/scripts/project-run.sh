@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -eu
 
+# Temporary
+export RUST_MIN_STACK=$((16*1024*1024))
+
 # Prevent regression
 ./scripts/run.sh fixture_terser__compress__
 
