@@ -234,7 +234,7 @@ impl VisitMut for Remover {
                 key,
                 value: Some(expr),
             }) if expr.is_undefined()
-                || match *expr {
+                || match **expr {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
                         ref arg,
@@ -981,16 +981,16 @@ impl VisitMut for Remover {
 }
 
 impl Remover {
-    fn fold_stmt_like<T>(&mut self, stmts: Vec<T>) -> Vec<T>
+    fn fold_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + VisitWith<Hoister> + VisitMutWith<Self>,
     {
         let is_block_stmt = self.normal_block;
         self.normal_block = false;
 
-        let mut buf = Vec::with_capacity(stmts.len());
+        let mut new_stmts = Vec::with_capacity(stmts.len());
 
-        let mut iter = stmts.into_iter();
+        let mut iter = stmts.take().into_iter();
         while let Some(stmt_like) = iter.next() {
             self.normal_block = true;
             let stmt_like = stmt_like.visit_mut_with(self);
@@ -1030,12 +1030,12 @@ impl Remover {
                                         });
                                         decls.extend(ids);
                                     }
-                                    Err(item) => buf.push(item),
+                                    Err(item) => new_stmts.push(item),
                                 }
                             }
 
                             if !decls.is_empty() {
-                                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                                     span: DUMMY_SP,
                                     kind: VarDeclKind::Var,
                                     decls,
@@ -1043,12 +1043,12 @@ impl Remover {
                                 }))));
                             }
 
-                            buf.extend(hoisted_fns);
+                            new_stmts.extend(hoisted_fns);
 
                             let stmt_like = T::from_stmt(stmt);
-                            buf.push(stmt_like);
+                            new_stmts.push(stmt_like);
 
-                            return buf;
+                            return new_stmts;
                         }
 
                         Stmt::Block(BlockStmt { span, stmts, .. }) => {
@@ -1063,7 +1063,7 @@ impl Remover {
                                 }
                                 .into()
                             } else {
-                                buf.extend(
+                                new_stmts.extend(
                                     stmts
                                         .into_iter()
                                         .filter(|s| match s {
@@ -1091,7 +1091,7 @@ impl Remover {
                                         let expr = ignore_result(*test);
 
                                         if let Some(expr) = expr {
-                                            buf.push(T::from_stmt(Stmt::Expr(ExprStmt {
+                                            new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                                 span: DUMMY_SP,
                                                 expr: Box::new(expr),
                                             })));
@@ -1103,13 +1103,13 @@ impl Remover {
                                         if let Some(var) =
                                             alt.and_then(|alt| alt.extract_var_ids_as_var())
                                         {
-                                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
+                                            new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
                                         }
                                         *cons
                                     } else {
                                         // Hoist vars from cons
                                         if let Some(var) = cons.extract_var_ids_as_var() {
-                                            buf.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
+                                            new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))))
                                         }
                                         match alt {
                                             Some(alt) => *alt,
@@ -1134,10 +1134,10 @@ impl Remover {
                 Err(stmt_like) => stmt_like,
             };
 
-            buf.push(stmt_like);
+            new_stmts.push(stmt_like);
         }
 
-        buf
+        *stmts = new_stmts
     }
 }
 
