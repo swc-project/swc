@@ -157,7 +157,8 @@ var YUI = function () {
                     RegExp.leftContext || src.slice(0, src.indexOf(match[0]))),
                   (filter = match[3]),
                   match[1] && (path += "?" + match[1]),
-                  (path = { filter: filter, path: path })),
+                  (path = { filter: filter,
+                      path: path })),
                                 path
                             );
                         },
@@ -269,7 +270,10 @@ var YUI = function () {
                 inst,
                 i,
                 env = YUI.Env,
-                mod = { name: name, fn: fn, version: version, details: details },
+                mod = { name: name,
+                    fn: fn,
+                    version: version,
+                    details: details },
                 applied = {},
                 versions = env.versions;
             for (i in ((env.mods[name] = mod),
@@ -513,7 +517,8 @@ var YUI = function () {
                 handleLoader = function (fromLoader) {
                     var redo,
                         origMissing,
-                        response = fromLoader || { success: !0, msg: "not dynamic" },
+                        response = fromLoader || { success: !0,
+                            msg: "not dynamic" },
                         ret = !0,
                         data = response.data;
                     (Y._loading = !1),
@@ -1490,8 +1495,10 @@ YUI.add(
                 doc: Y.config.linkDoc || Y.config.doc,
                 pollInterval: 50,
             },
-            jsOptions: { autopurge: !0, doc: Y.config.scriptDoc || Y.config.doc },
-            options: { attributes: { charset: "utf-8" }, purgethreshold: 20 },
+            jsOptions: { autopurge: !0,
+                doc: Y.config.scriptDoc || Y.config.doc },
+            options: { attributes: { charset: "utf-8" },
+                purgethreshold: 20 },
             REGEX_CSS: /\.css(?:[?;].*)?$/i,
             REGEX_JS: /\.js(?:[?;].*)?$/i,
             _insertCache: {},
@@ -1606,7 +1613,8 @@ YUI.add(
                     (options._onFinish = Get._onTransactionFinish),
                     this._env || this._getEnv(),
                     (transaction = this._getTransaction(urls, options)),
-                    this._queue.push({ callback: callback, transaction: transaction }),
+                    this._queue.push({ callback: callback,
+                        transaction: transaction }),
                     this._next(),
                     transaction
                 );
@@ -1710,7 +1718,8 @@ YUI.add(
               (CUSTOM_ATTRS =
                 "a" === testEl.className
                     ? {}
-                    : { for: "htmlFor", class: "className" })),
+                    : { for: "htmlFor",
+                        class: "className" })),
                 attrs))
                     attrs.hasOwnProperty(attr) &&
                 node.setAttribute(CUSTOM_ATTRS[attr] || attr, attrs[attr]);
@@ -1887,7 +1896,8 @@ YUI.add(
                 var options = this.options;
                 err &&
               ((req.error = err),
-              this.errors.push({ error: err, request: req })),
+              this.errors.push({ error: err,
+                  request: req })),
                 (req.node._yuiget_finished = req.finished = !0),
                 options.onProgress &&
                 options.onProgress.call(
@@ -2290,7 +2300,10 @@ YUI.add(
     "yui-log",
     function (Y, NAME) {
         var INSTANCE = Y,
-            LEVELS = { debug: 1, info: 2, warn: 4, error: 8 };
+            LEVELS = { debug: 1,
+                info: 2,
+                warn: 4,
+                error: 8 };
         (INSTANCE.log = function (msg, cat, src, silent) {
             var bail,
                 excl,
@@ -2327,7 +2340,9 @@ YUI.add(
                 (publisher !== Y ||
                   publisher.getEvent("yui:log") ||
                   publisher.publish("yui:log", { broadcast: 2 }),
-                publisher.fire("yui:log", { msg: msg, cat: cat, src: src })))),
+                publisher.fire("yui:log", { msg: msg,
+                    cat: cat,
+                    src: src })))),
                 Y
             );
         }),
@@ -2568,9 +2583,12 @@ YUI.add(
             },
             REGEX_CSS: /\.css(?:[?;].*)?$/i,
             FILTER_DEFS: {
-                RAW: { searchExp: "-min\\.js", replaceStr: ".js" },
-                DEBUG: { searchExp: "-min\\.js", replaceStr: "-debug.js" },
-                COVERAGE: { searchExp: "-min\\.js", replaceStr: "-coverage.js" },
+                RAW: { searchExp: "-min\\.js",
+                    replaceStr: ".js" },
+                DEBUG: { searchExp: "-min\\.js",
+                    replaceStr: "-debug.js" },
+                COVERAGE: { searchExp: "-min\\.js",
+                    replaceStr: "-coverage.js" },
             },
             _inspectPage: function () {
                 var v, m, req, mr, i;
@@ -2732,7 +2750,8 @@ YUI.add(
             },
             addAlias: function (use, name) {
                 (YUI.Env.aliases[name] = use),
-                this.addModule({ name: name, use: use });
+                this.addModule({ name: name,
+                    use: use });
             },
             addGroup: function (o, name) {
                 var i,
@@ -2752,13 +2771,15 @@ YUI.add(
                     for (i in mods)
                         mods.hasOwnProperty(i) &&
                   ("string" == typeof (v = mods[i]) &&
-                    (v = { name: i, fullpath: v }),
+                    (v = { name: i,
+                        fullpath: v }),
                   (v.group = name),
                   this.addModule(v, i));
             },
             addModule: function (o, name) {
                 (name = name || o.name),
-                "string" == typeof o && (o = { name: name, fullpath: o });
+                "string" == typeof o && (o = { name: name,
+                    fullpath: o });
                 var subs,
                     i,
                     l,
@@ -3356,7 +3377,8 @@ YUI.add(
                     for (i = 0; i < e.data.length; i++)
                         e.data[i] = this.getModule(e.data[i].name);
                 this.onProgress &&
-              this.onProgress.call(this.context, { name: e.url, data: e.data });
+              this.onProgress.call(this.context, { name: e.url,
+                  data: e.data });
             },
             _onFailure: function (o) {
                 for (
@@ -3605,7 +3627,10 @@ YUI.add(
                     resCombos = {},
                     self = this,
                     inserted = self.ignoreRegistered ? {} : self.inserted,
-                    resolved = { js: [], jsMods: [], css: [], cssMods: [] },
+                    resolved = { js: [],
+                        jsMods: [],
+                        css: [],
+                        cssMods: [] },
                     type = self.loadType || "js";
                 for (
                     (self.skin.overrides ||
@@ -3622,7 +3647,8 @@ YUI.add(
                         ? self._filter(m.fullpath, s[i])
                         : self._url(m.path, s[i], group.base || m.base)),
                     (m.attributes || !1 === m.async) &&
-                      ((url = { url: url, async: m.async }),
+                      ((url = { url: url,
+                          async: m.async }),
                       m.attributes && (url.attributes = m.attributes)),
                     resolved[m.type].push(url),
                     resolved[m.type + "Mods"].push(m));
@@ -4099,7 +4125,8 @@ YUI.add(
                 requires: ["yui-log", "widget"],
                 skinnable: !0,
             },
-            "console-filters": { requires: ["plugin", "console"], skinnable: !0 },
+            "console-filters": { requires: ["plugin", "console"],
+                skinnable: !0 },
             controller: { use: ["router"] },
             cookie: { requires: ["yui-base"] },
             "createlink-base": { requires: ["editor-base"] },
@@ -4128,8 +4155,10 @@ YUI.add(
             cssbutton: { type: "css" },
             cssfonts: { type: "css" },
             "cssfonts-context": { type: "css" },
-            cssgrids: { optional: ["cssnormalize"], type: "css" },
-            "cssgrids-base": { optional: ["cssnormalize"], type: "css" },
+            cssgrids: { optional: ["cssnormalize"],
+                type: "css" },
+            "cssgrids-base": { optional: ["cssnormalize"],
+                type: "css" },
             "cssgrids-responsive": {
                 optional: ["cssnormalize"],
                 requires: ["cssgrids", "cssgrids-responsive-base"],
@@ -4815,7 +4844,9 @@ YUI.add(
             },
             "io-form": { requires: ["io-base", "node-base"] },
             "io-nodejs": {
-                condition: { name: "io-nodejs", trigger: "io-base", ua: "nodejs" },
+                condition: { name: "io-nodejs",
+                    trigger: "io-base",
+                    ua: "nodejs" },
                 requires: ["io-base"],
             },
             "io-queue": { requires: ["io-base", "queue-promote"] },
@@ -5171,7 +5202,8 @@ YUI.add(
             sortable: { requires: ["dd-delegate", "dd-drop-plugin", "dd-proxy"] },
             "sortable-scroll": { requires: ["dd-scroll", "sortable"] },
             stylesheet: { requires: ["yui-base"] },
-            substitute: { optional: ["dump"], requires: ["yui-base"] },
+            substitute: { optional: ["dump"],
+                requires: ["yui-base"] },
             swf: { requires: ["event-custom", "node", "swfdetect", "escape"] },
             swfdetect: { requires: ["yui-base"] },
             tabview: {
@@ -5312,7 +5344,8 @@ YUI.add(
             "widget-position-align": { requires: ["widget-position"] },
             "widget-position-constrain": { requires: ["widget-position"] },
             "widget-skin": { requires: ["widget-base"] },
-            "widget-stack": { requires: ["base-build", "widget"], skinnable: !0 },
+            "widget-stack": { requires: ["base-build", "widget"],
+                skinnable: !0 },
             "widget-stdmod": { requires: ["base-build", "widget"] },
             "widget-uievents": {
                 requires: ["node-event-delegate", "widget-base"],

@@ -12,7 +12,7 @@ touch tests/compress.rs
 UPDATE=1 cargo test --test compress projects || true
 
 # Make it easier to compare
-# prettier --write tests/projects/output
+prettier --write tests/projects/output
 yarn run eslint --fix ./tests/projects/output/
 
 ls -al ./tests/projects/output

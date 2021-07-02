@@ -399,7 +399,8 @@
                 ($.event.special.scrollstart.enabled = !1),
                 setTimeout(function () {
                     window.scrollTo(0, ypos),
-                    $.mobile.document.trigger("silentscroll", { x: 0, y: ypos });
+                    $.mobile.document.trigger("silentscroll", { x: 0,
+                        y: ypos });
                 }, 20),
                 setTimeout(function () {
                     $.event.special.scrollstart.enabled = !0;
@@ -778,7 +779,8 @@
             widgetName: "widget",
             widgetEventPrefix: "",
             defaultElement: "<div>",
-            options: { disabled: !1, create: null },
+            options: { disabled: !1,
+                create: null },
             _createWidget: function (options, element) {
                 (element = $(element || this.defaultElement || this)[0]),
                 (this.element = $(element)),
@@ -996,7 +998,8 @@
             },
         }),
         $.each(
-            { show: "fadeIn", hide: "fadeOut" },
+            { show: "fadeIn",
+                hide: "fadeOut" },
             function (method, defaultEffect) {
                 $.Widget.prototype["_" + method] = function (
                     element,
@@ -1058,7 +1061,10 @@
     (function ($) {
         var $html = $("html");
         $.widget("mobile.loader", {
-            options: { theme: "a", textVisible: !1, html: "", text: "loading" },
+            options: { theme: "a",
+                textVisible: !1,
+                html: "",
+                text: "loading" },
             defaultHtml:
           "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
             fakeFixLoader: function () {
@@ -1249,7 +1255,8 @@
                 docElem.insertBefore(fakeBody, refNode),
                 (bool = 42 === div.offsetWidth),
                 docElem.removeChild(fakeBody),
-                { matches: bool, media: q }
+                { matches: bool,
+                    media: q }
             );
         })),
         ($.mobile.media = function (q) {
@@ -1905,7 +1912,8 @@
                     hash = path.isPath(url) ? path.stripHash(url) : url;
                 return (
                     (href = path.squash(url)),
-                    (state = $.extend({ hash: hash, url: href }, data)),
+                    (state = $.extend({ hash: hash,
+                        url: href }, data)),
                     window.history.replaceState(
                         state,
                         state.title || document.title,
@@ -1947,7 +1955,9 @@
                 (window.location.hash = hash),
                 (this.preventHashAssignPopState = !1),
                 (state = $.extend(
-                    { url: href, hash: hash, title: document.title },
+                    { url: href,
+                        hash: hash,
+                        title: document.title },
                     data,
                 )),
                 isPopStateEvent &&
@@ -2016,7 +2026,8 @@
                             (event.hashchangeState.direction = direction);
                         },
                         missing: function () {
-                            history.add(hash, { hash: hash, title: document.title });
+                            history.add(hash, { hash: hash,
+                                title: document.title });
                         },
                     });
                 }
@@ -2035,7 +2046,8 @@
         $.mobile.navigate.history.add(loc.href, { hash: loc.hash });
     })(jQuery),
     (function ($, undefined) {
-        var props = { animation: {}, transition: {} },
+        var props = { animation: {},
+                transition: {} },
             testElement = document.createElement("a"),
             vendorPrefixes = ["", "webkit-", "moz-", "o-"];
         $.each(["animation", "transition"], function (i, test) {
@@ -2480,7 +2492,8 @@
                         ? ((x -= winPageX), (y -= winPageY))
                         : (y < event.pageY - winPageY || x < event.pageX - winPageX) &&
                   ((x = event.pageX - winPageX), (y = event.pageY - winPageY)),
-                    { x: x, y: y }
+                    { x: x,
+                        y: y }
                 );
             },
             start: function (event) {
@@ -2648,7 +2661,8 @@
             wh,
             win = $(window),
             event_name = "orientationchange",
-            portrait_map = { 0: !0, 180: !0 };
+            portrait_map = { 0: !0,
+                180: !0 };
         function handler() {
             var orientation = get_orientation();
             orientation !== last_orientation &&
@@ -2663,7 +2677,8 @@
         ((initial_orientation_is_landscape && initial_orientation_is_default) ||
           (!initial_orientation_is_landscape &&
             !initial_orientation_is_default)) &&
-          (portrait_map = { "-90": !0, 90: !0 })),
+          (portrait_map = { "-90": !0,
+              90: !0 })),
         ($.event.special.orientationchange = $.extend(
             {},
             $.event.special.orientationchange,
@@ -3177,7 +3192,8 @@
                 return (
                     (page || this.element).trigger(deprecatedEvent, data),
                     this.element.trigger(newEvent, data),
-                    { deprecatedEvent: deprecatedEvent, event: newEvent }
+                    { deprecatedEvent: deprecatedEvent,
+                        event: newEvent }
                 );
             },
             _loadSuccess: function (absUrl, triggerData, settings, deferred) {
@@ -3330,7 +3346,8 @@
               (to[0] === from[0] && (samePage = !0),
               this._triggerWithDeprecated(
                   prefix + "hide",
-                  { nextPage: to, samePage: samePage },
+                  { nextPage: to,
+                      samePage: samePage },
                   from,
               )),
                 this._triggerWithDeprecated(
@@ -3390,7 +3407,8 @@
             _triggerPageBeforeChange: function (to, triggerData, settings) {
                 var pbcEvent = new $.Event("pagebeforechange");
                 return (
-                    $.extend(triggerData, { toPage: to, options: settings }),
+                    $.extend(triggerData, { toPage: to,
+                        options: settings }),
                     "string" === $.type(to)
                         ? (triggerData.absUrl = $.mobile.path.makeUrlAbsolute(
                             to,
@@ -4785,7 +4803,11 @@
                     $this = $(this),
                     o = $.extend({ grid: null }, options),
                     $kids = $this.children(),
-                    gridCols = { solo: 1, a: 2, b: 3, c: 4, d: 5 },
+                    gridCols = { solo: 1,
+                        a: 2,
+                        b: 3,
+                        c: 4,
+                        d: 5 },
                     grid = o.grid;
                 if (!grid)
                     if ($kids.length <= 5)
@@ -4818,7 +4840,8 @@
     })(jQuery),
     (function ($, undefined) {
         $.widget("mobile.navbar", {
-            options: { iconpos: "top", grid: null },
+            options: { iconpos: "top",
+                grid: null },
             _create: function () {
                 var $navbar = this.element,
                     $navbtns = $navbar.find("a"),
@@ -5583,7 +5606,8 @@
                 }),
                 this._autoCorrect(),
                 options.enhanced || this._enhance(),
-                this._on({ focus: "_handleFocus", blur: "_handleBlur" });
+                this._on({ focus: "_handleFocus",
+                    blur: "_handleBlur" });
             },
             refresh: function () {
                 this.setOptions({ disabled: this.element.is(":disabled") });
@@ -6161,7 +6185,8 @@
     (function ($, undefined) {
         var popup;
         $.widget("mobile.slider", $.mobile.slider, {
-            options: { popupEnabled: !1, showValue: !1 },
+            options: { popupEnabled: !1,
+                showValue: !1 },
             _create: function () {
                 this._super(),
                 $.extend(this, {
@@ -6615,7 +6640,8 @@
                   ) - min;
                         this.element
                             .find(".ui-slider-bg")
-                            .css({ "margin-left": min + "%", width: width + "%" });
+                            .css({ "margin-left": min + "%",
+                                width: width + "%" });
                     },
                     _setTheme: function (value) {
                         this._inputFirst.slider("option", "theme", value),
@@ -6652,7 +6678,8 @@
     })(jQuery),
     (function ($, undefined) {
         $.widget("mobile.textinput", $.mobile.textinput, {
-            options: { clearBtn: !1, clearBtnText: "Clear text" },
+            options: { clearBtn: !1,
+                clearBtnText: "Clear text" },
             _create: function () {
                 this._super(),
                 (this.options.clearBtn || this.isSearch) && this._addClearBtn();
@@ -6731,7 +6758,8 @@
     })(jQuery),
     (function ($, undefined) {
         $.widget("mobile.textinput", $.mobile.textinput, {
-            options: { autogrow: !0, keyupTimeoutBuffer: 100 },
+            options: { autogrow: !0,
+                keyupTimeoutBuffer: 100 },
             _create: function () {
                 this._super(),
                 this.options.autogrow && this.isTextarea && this._autogrow();
@@ -6790,7 +6818,9 @@
                     scrollTop = this.window.scrollTop();
                 (this.keyupTimeout = 0),
                 "onpage" in this.element[0] ||
-              this.element.css({ height: 0, "min-height": 0, "max-height": 0 }),
+              this.element.css({ height: 0,
+                  "min-height": 0,
+                  "max-height": 0 }),
                 (scrollHeight = this.element[0].scrollHeight),
                 (clientHeight = this.element[0].clientHeight),
                 (height =
@@ -7382,7 +7412,10 @@
             },
             _setTolerance: function (value) {
                 var ar,
-                    tol = { t: 30, r: 15, b: 30, l: 15 };
+                    tol = { t: 30,
+                        r: 15,
+                        b: 30,
+                        l: 15 };
                 if (undefined !== value)
                     switch (
                         ((ar = String(value).split(",")),
@@ -7526,7 +7559,8 @@
               (x = windowCoordinates.cx / 2 + windowCoordinates.x),
                     ("number" !== $.type(y) || isNaN(y)) &&
               (y = windowCoordinates.cy / 2 + windowCoordinates.y),
-                    { x: x, y: y }
+                    { x: x,
+                        y: y }
                 );
             },
             _reposition: function (openOptions) {
@@ -7841,8 +7875,10 @@
             _handleListFocus: function (e) {
                 var params =
             "focusin" === e.type
-                ? { tabindex: "0", event: "vmouseover" }
-                : { tabindex: "-1", event: "vmouseout" };
+                ? { tabindex: "0",
+                    event: "vmouseover" }
+                : { tabindex: "-1",
+                    event: "vmouseout" };
                 $(e.target).attr("tabindex", params.tabindex).trigger(params.event);
             },
             _handleListKeydown: function (event) {
@@ -8317,7 +8353,8 @@
                 if (
                     ((el = this[idx]),
                     (data = overwriteClasses
-                        ? { alreadyEnhanced: !1, unknownClasses: [] }
+                        ? { alreadyEnhanced: !1,
+                            unknownClasses: [] }
                         : classNameToOptions(el.className)),
                     (retrievedOptions = $.extend(
                         {},
@@ -8387,7 +8424,8 @@
                           [widgetName]();
                             }, this),
                         ),
-                        $.extend(this, { _ui: null, _initialRefresh: !0 }),
+                        $.extend(this, { _ui: null,
+                            _initialRefresh: !0 }),
                         opts.enhanced
                             ? (this._ui = {
                                 groupLegend: elem
@@ -8626,7 +8664,8 @@
                 this.element
                     .children("h1, h2, h3, h4, h5, h6")
                     .addClass("ui-title")
-                    .attr({ role: "heading", "aria-level": "1" });
+                    .attr({ role: "heading",
+                        "aria-level": "1" });
             },
         });
     })(jQuery),
@@ -8971,7 +9010,10 @@
                             gd = clone.eq(0),
                             ct = clone.eq(1),
                             ar = ct.children();
-                        return { arEls: ct.add(gd), gd: gd, ct: ct, ar: ar };
+                        return { arEls: ct.add(gd),
+                            gd: gd,
+                            ct: ct,
+                            ar: ar };
                     })();
                 return (
                     (theme = this._themeClassFromOption("ui-body-", opts.theme)),
@@ -9038,13 +9080,18 @@
                     ar = this._ui.arrow,
                     state = {
                         clampInfo: this._clampPopupWidth(!clamp),
-                        arFull: { cx: ar.ct.width(), cy: ar.ct.height() },
-                        guideDims: { cx: ar.gd.width(), cy: ar.gd.height() },
+                        arFull: { cx: ar.ct.width(),
+                            cy: ar.ct.height() },
+                        guideDims: { cx: ar.gd.width(),
+                            cy: ar.gd.height() },
                         guideOffset: ar.gd.offset(),
                     };
                 return (
                     (offset = this.element.offset()),
-                    ar.gd.css({ left: 0, top: 0, right: 0, bottom: 0 }),
+                    ar.gd.css({ left: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0 }),
                     (gdOffset = ar.gd.offset()),
                     (state.contentBox = {
                         x: gdOffset.left - offset.left,
@@ -9609,11 +9656,13 @@
     })(jQuery),
     (function ($, undefined) {
         $.widget("mobile.table", {
-            options: { classes: { table: "ui-table" }, enhanced: !1 },
+            options: { classes: { table: "ui-table" },
+                enhanced: !1 },
             _create: function () {
                 this.options.enhanced ||
             this.element.addClass(this.options.classes.table),
-                $.extend(this, { headers: undefined, allHeaders: undefined }),
+                $.extend(this, { headers: undefined,
+                    allHeaders: undefined }),
                 this._refresh(!0);
             },
             _setHeaders: function () {
@@ -9884,7 +9933,8 @@
             },
             _create: function () {
                 var opts = this.options;
-                $.extend(this, { _search: null, _timer: 0 }),
+                $.extend(this, { _search: null,
+                    _timer: 0 }),
                 this._setInput(opts.input),
                 opts.enhanced ||
               this._filterItems(
@@ -10031,7 +10081,8 @@
             );
         }),
         $.widget("mobile.filterable", $.mobile.filterable, {
-            options: { filterPlaceholder: "Filter items...", filterTheme: null },
+            options: { filterPlaceholder: "Filter items...",
+                filterTheme: null },
             _create: function () {
                 var idx,
                     widgetName,
@@ -10403,18 +10454,22 @@
                 this._setupHeightStyle(this.options.heightStyle),
                 this.tabs
                     .not(this.active)
-                    .attr({ "aria-selected": "false", tabIndex: -1 }),
+                    .attr({ "aria-selected": "false",
+                        tabIndex: -1 }),
                 this.panels
                     .not(this._getPanelForTab(this.active))
                     .hide()
-                    .attr({ "aria-expanded": "false", "aria-hidden": "true" }),
+                    .attr({ "aria-expanded": "false",
+                        "aria-hidden": "true" }),
                 this.active.length
                     ? (this.active
                         .addClass("ui-tabs-active ui-state-active")
-                        .attr({ "aria-selected": "true", tabIndex: 0 }),
+                        .attr({ "aria-selected": "true",
+                            tabIndex: 0 }),
                     this._getPanelForTab(this.active)
                         .show()
-                        .attr({ "aria-expanded": "true", "aria-hidden": "false" }))
+                        .attr({ "aria-expanded": "true",
+                            "aria-hidden": "false" }))
                     : this.tabs.eq(0).attr("tabIndex", 0);
             },
             _processTabs: function () {
@@ -10427,13 +10482,15 @@
                 (this.tabs = this.tablist
                     .find("> li:has(a[href])")
                     .addClass("ui-state-default ui-corner-top")
-                    .attr({ role: "tab", tabIndex: -1 })),
+                    .attr({ role: "tab",
+                        tabIndex: -1 })),
                 (this.anchors = this.tabs
                     .map(function () {
                         return $("a", this)[0];
                     })
                     .addClass("ui-tabs-anchor")
-                    .attr({ role: "presentation", tabIndex: -1 })),
+                    .attr({ role: "presentation",
+                        tabIndex: -1 })),
                 (this.panels = $()),
                 this.anchors.each(function (i, anchor) {
                     var selector,
@@ -10599,7 +10656,8 @@
                         .removeClass("ui-tabs-active ui-state-active"),
                     toHide.hide(),
                     show()),
-                toHide.attr({ "aria-expanded": "false", "aria-hidden": "true" }),
+                toHide.attr({ "aria-expanded": "false",
+                    "aria-hidden": "true" }),
                 eventData.oldTab.attr("aria-selected", "false"),
                 toShow.length && toHide.length
                     ? eventData.oldTab.attr("tabIndex", -1)
@@ -10609,8 +10667,10 @@
                         return 0 === $(this).attr("tabIndex");
                     })
                     .attr("tabIndex", -1),
-                toShow.attr({ "aria-expanded": "true", "aria-hidden": "false" }),
-                eventData.newTab.attr({ "aria-selected": "true", tabIndex: 0 });
+                toShow.attr({ "aria-expanded": "true",
+                    "aria-hidden": "false" }),
+                eventData.newTab.attr({ "aria-selected": "true",
+                    tabIndex: 0 });
             },
             _activate: function (index) {
                 var anchor,
@@ -10718,7 +10778,8 @@
                     tab = this.tabs.eq(index),
                     anchor = tab.find(".ui-tabs-anchor"),
                     panel = this._getPanelForTab(tab),
-                    eventData = { tab: tab, panel: panel };
+                    eventData = { tab: tab,
+                        panel: panel };
                 isLocal(anchor[0]) ||
             ((this.xhr = $.ajax(this._ajaxSettings(anchor, event, eventData))),
             this.xhr &&
@@ -10749,7 +10810,8 @@
                         return that._trigger(
                             "beforeLoad",
                             event,
-                            $.extend({ jqXHR: jqXHR, ajaxSettings: settings }, eventData),
+                            $.extend({ jqXHR: jqXHR,
+                                ajaxSettings: settings }, eventData),
                         );
                     },
                 };

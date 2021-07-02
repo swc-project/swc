@@ -974,7 +974,8 @@ Hash.implement({
     },
 }),
 (Hash.extend = Object.append),
-Hash.alias({ indexOf: "keyOf", contains: "hasValue" }),
+Hash.alias({ indexOf: "keyOf",
+    contains: "hasValue" }),
 (function () {
     var XMLHTTP,
         MSXML2,
@@ -1282,8 +1283,10 @@ Hash.alias({ indexOf: "keyOf", contains: "hasValue" }),
                 var touches = (this.touches = event.touches);
                 if (touches && touches[0]) {
                     var touch = touches[0];
-                    (this.page = { x: touch.pageX, y: touch.pageY }),
-                    (this.client = { x: touch.clientX, y: touch.clientY });
+                    (this.page = { x: touch.pageX,
+                        y: touch.pageY }),
+                    (this.client = { x: touch.clientX,
+                        y: touch.clientY });
                 }
             }
             this.client || (this.client = {}), this.page || (this.page = {});
@@ -1397,7 +1400,9 @@ var Event = DOMEvent;
                             return (
                                 (this.$caller = current), (this.caller = caller), result
                             );
-                        }.extend({ $owner: self, $origin: method, $name: key });
+                        }.extend({ $owner: self,
+                            $origin: method,
+                            $name: key });
                         return wrapper;
                     })(this, key, value);
             } else Object.merge(this.prototype, key, value);
@@ -2205,12 +2210,16 @@ function () {
         return (
             (parsed =
             "n" == special
-                ? { a: a, b: b }
+                ? { a: a,
+                    b: b }
                 : "odd" == special
-                    ? { a: 2, b: 1 }
+                    ? { a: 2,
+                        b: 1 }
                     : "even" == special
-                        ? { a: 2, b: 0 }
-                        : { a: 0, b: a }),
+                        ? { a: 2,
+                            b: 0 }
+                        : { a: 0,
+                            b: a }),
             (this.cacheNTH[argument] = parsed)
         );
     }),
@@ -2835,7 +2844,9 @@ Elements.alias("extend", "append"),
 (function () {
     var createElementAcceptsHTML,
         splice = Array.prototype.splice,
-        object = { 0: 0, 1: 1, length: 2 };
+        object = { 0: 0,
+            1: 1,
+            length: 2 };
     splice.call(object, 1, 1),
     1 == object[1] &&
         Elements.implement(
@@ -2998,7 +3009,9 @@ Elements.alias("extend", "append"),
         return expression;
     };
     Object.forEach(
-        { getNext: "~", getPrevious: "!~", getParent: "!" },
+        { getNext: "~",
+            getPrevious: "!~",
+            getParent: "!" },
         function (combinator, method) {
             Element.implement(method, function (expression) {
                 return this.getElement(injectCombinator(expression, combinator));
@@ -3399,7 +3412,9 @@ Elements.alias("extend", "append"),
                 item
             );
         },
-        formProps = { input: "checked", option: "selected", textarea: "value" };
+        formProps = { input: "checked",
+            option: "selected",
+            textarea: "value" };
     Element.implement({
         destroy: function () {
             var children = clean(this).getElementsByTagName("*");
@@ -3880,7 +3895,8 @@ Elements.alias("extend", "append"),
             addEvent: function (type, fn) {
                 var events = this.retrieve("events", {});
                 if (
-                    (events[type] || (events[type] = { keys: [], values: [] }),
+                    (events[type] || (events[type] = { keys: [],
+                        values: [] }),
                     events[type].keys.contains(fn))
                 )
                     return this;
@@ -4042,8 +4058,10 @@ Elements.alias("extend", "append"),
             !this.contains(related))
             );
         };
-        (Element.Events.mouseenter = { base: "mouseover", condition: check }),
-        (Element.Events.mouseleave = { base: "mouseout", condition: check });
+        (Element.Events.mouseenter = { base: "mouseover",
+            condition: check }),
+        (Element.Events.mouseleave = { base: "mouseout",
+            condition: check });
     }
     window.addEventListener ||
       ((Element.NativeEvents.propertychange = 2),
@@ -4080,7 +4098,8 @@ Elements.alias("extend", "append"),
                 base: "focus" + (eventListenerSupport ? "" : "in"),
                 capture: !0,
             },
-            blur: { base: eventListenerSupport ? "blur" : "focusout", capture: !0 },
+            blur: { base: eventListenerSupport ? "blur" : "focusout",
+                capture: !0 },
         },
         _key = "$delegation:",
         formObserver = function (type) {
@@ -4099,7 +4118,8 @@ Elements.alias("extend", "append"),
                   : event.target.getParent("form");
                     if (form) {
                         var listeners = self.retrieve(_key + type + "listeners", {}),
-                            listener = listeners[uid] || { forms: [], fns: [] },
+                            listener = listeners[uid] || { forms: [],
+                                fns: [] },
                             forms = listener.forms,
                             fns = listener.fns;
                         if (-1 == forms.indexOf(form)) {
@@ -4201,7 +4221,9 @@ Elements.alias("extend", "append"),
                         };
                 return (
                     stored || (stored = {}),
-                    (stored[uid] = { match: _match, fn: _fn, delegator: delegator }),
+                    (stored[uid] = { match: _match,
+                        fn: _fn,
+                        delegator: delegator }),
                     (storage[_type] = stored),
                     addEvent.call(this, type, delegator, _map.capture)
                 );
@@ -4270,21 +4292,25 @@ Elements.alias("extend", "append"),
         getSize: function () {
             return isBody(this)
                 ? this.getWindow().getSize()
-                : { x: this.offsetWidth, y: this.offsetHeight };
+                : { x: this.offsetWidth,
+                    y: this.offsetHeight };
         },
         getScrollSize: function () {
             return isBody(this)
                 ? this.getWindow().getScrollSize()
-                : { x: this.scrollWidth, y: this.scrollHeight };
+                : { x: this.scrollWidth,
+                    y: this.scrollHeight };
         },
         getScroll: function () {
             return isBody(this)
                 ? this.getWindow().getScroll()
-                : { x: this.scrollLeft, y: this.scrollTop };
+                : { x: this.scrollLeft,
+                    y: this.scrollTop };
         },
         getScrolls: function () {
             for (
-                var element = this.parentNode, position = { x: 0, y: 0 };
+                var element = this.parentNode, position = { x: 0,
+                    y: 0 };
                 element && !isBody(element);
 
             )
@@ -4338,7 +4364,8 @@ Elements.alias("extend", "append"),
                 };
             }
             var element = this,
-                position = { x: 0, y: 0 };
+                position = { x: 0,
+                    y: 0 };
             if (isBody(this)) return position;
             for (; element && !isBody(element); ) {
                 if (
@@ -4371,7 +4398,8 @@ Elements.alias("extend", "append"),
         getPosition: function (relative) {
             var offset = this.getOffsets(),
                 scroll = this.getScrolls(),
-                position = { x: offset.x - scroll.x, y: offset.y - scroll.y };
+                position = { x: offset.x - scroll.x,
+                    y: offset.y - scroll.y };
             if (relative && (relative = document.id(relative))) {
                 var relativePosition = relative.getPosition();
                 return {
@@ -4410,7 +4438,8 @@ Elements.alias("extend", "append"),
     [Document, Window].invoke("implement", {
         getSize: function () {
             var doc = getCompatElement(this);
-            return { x: doc.clientWidth, y: doc.clientHeight };
+            return { x: doc.clientWidth,
+                y: doc.clientHeight };
         },
         getScroll: function () {
             var win = this.getWindow(),
@@ -4430,7 +4459,8 @@ Elements.alias("extend", "append"),
             };
         },
         getPosition: function () {
-            return { x: 0, y: 0 };
+            return { x: 0,
+                y: 0 };
         },
         getCoordinates: function () {
             var size = this.getSize();
@@ -4609,7 +4639,9 @@ Element.alias({ position: "setPosition" }),
     (Fx.compute = function (from, to, delta) {
         return (to - from) * delta + from;
     }),
-    (Fx.Durations = { short: 250, normal: 500, long: 1e3 });
+    (Fx.Durations = { short: 250,
+        normal: 500,
+        long: 1e3 });
     var instances = {},
         timers = {},
         loop = function () {
@@ -4659,7 +4691,8 @@ Element.alias({ position: "setPosition" }),
                 element.setStyle(property, from + unit);
             }
         }
-        return { from: this.parse(from), to: this.parse(to) };
+        return { from: this.parse(from),
+            to: this.parse(to) };
     },
     parse: function (value) {
         return (value =
@@ -4673,10 +4706,12 @@ Element.alias({ position: "setPosition" }),
                     if (!found) {
                         var parsed = parser.parse(val);
                         (parsed || 0 === parsed) &&
-                (found = { value: parsed, parser: parser });
+                (found = { value: parsed,
+                    parser: parser });
                     }
                 }),
-                (found = found || { value: val, parser: Fx.CSS.Parsers.String })
+                (found = found || { value: val,
+                    parser: Fx.CSS.Parsers.String })
             );
         });
     },
@@ -5137,7 +5172,9 @@ Fx.Transitions.extend({
             (options = { data: options });
                 var old = this.options,
                     data = (options = Object.append(
-                        { data: old.data, url: old.url, method: old.method },
+                        { data: old.data,
+                            url: old.url,
+                            method: old.method },
                         options,
                     )).data,
                     url = String(options.url),
@@ -5259,7 +5296,8 @@ Fx.Transitions.extend({
         send: function (url) {
             var sender = this.get("send");
             return (
-                sender.send({ data: this, url: url || sender.options.url }), this
+                sender.send({ data: this,
+                    url: url || sender.options.url }), this
             );
         },
     });
@@ -5330,14 +5368,16 @@ Element.implement({
     load: function () {
         return (
             this.get("load").send(
-                Array.link(arguments, { data: Type.isObject, url: Type.isString }),
+                Array.link(arguments, { data: Type.isObject,
+                    url: Type.isString }),
             ),
             this
         );
     },
 }),
 "undefined" == typeof JSON && (this.JSON = {}),
-(JSON = new Hash({ stringify: JSON.stringify, parse: JSON.parse })),
+(JSON = new Hash({ stringify: JSON.stringify,
+    parse: JSON.parse })),
 (function () {
     var special = {
             "\b": "\\b",
@@ -5575,7 +5615,8 @@ var Cookie = new Class({
                 vars = options.vars,
                 callBacks = options.callBacks,
                 properties = Object.append(
-                    { height: options.height, width: options.width },
+                    { height: options.height,
+                        width: options.width },
                     options.properties,
                 ),
                 self = this;

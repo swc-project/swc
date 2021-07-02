@@ -849,7 +849,9 @@
             support.noCloneEvent = !1;
         }),
         div.cloneNode(!0).click()),
-        { submit: !0, change: !0, focusin: !0 }))
+        { submit: !0,
+            change: !0,
+            focusin: !0 }))
             div.setAttribute((eventName = "on" + i), "t"),
             (support[i + "Bubbles"] =
             eventName in window || !1 === div.attributes[eventName].expando);
@@ -2009,7 +2011,8 @@
                     : jQuery.find(sel, this, null, [cur]).length),
                             matches[sel] && matches.push(handleObj);
                         matches.length &&
-              handlerQueue.push({ elem: cur, handlers: matches });
+              handlerQueue.push({ elem: cur,
+                  handlers: matches });
                     }
             return (
                 delegateCount < handlers.length &&
@@ -2195,7 +2198,8 @@
         },
     }),
     jQuery.each(
-        { mouseenter: "mouseover", mouseleave: "mouseout" },
+        { mouseenter: "mouseover",
+            mouseleave: "mouseout" },
         function (orig, fix) {
             jQuery.event.special[orig] = {
                 delegateType: fix,
@@ -2305,7 +2309,8 @@
           },
       }),
     jQuery.support.focusinBubbles ||
-      jQuery.each({ focus: "focusin", blur: "focusout" }, function (orig, fix) {
+      jQuery.each({ focus: "focusin",
+          blur: "focusout" }, function (orig, fix) {
           var attaches = 0,
               handler = function (event) {
                   jQuery.event.simulate(
@@ -3082,9 +3087,11 @@
             match: matchExpr,
             find: {},
             relative: {
-                ">": { dir: "parentNode", first: !0 },
+                ">": { dir: "parentNode",
+                    first: !0 },
                 " ": { dir: "parentNode" },
-                "+": { dir: "previousSibling", first: !0 },
+                "+": { dir: "previousSibling",
+                    first: !0 },
                 "~": { dir: "previousSibling" },
             },
             preFilter: {
@@ -3476,9 +3483,14 @@
                 }),
             },
         }),
-        { radio: !0, checkbox: !0, file: !0, password: !0, image: !0 }))
+        { radio: !0,
+            checkbox: !0,
+            file: !0,
+            password: !0,
+            image: !0 }))
             Expr.pseudos[i] = createInputPseudo(i);
-        for (i in { submit: !0, reset: !0 })
+        for (i in { submit: !0,
+            reset: !0 })
             Expr.pseudos[i] = createButtonPseudo(i);
         function tokenize(selector, parseOnly) {
             var matched,
@@ -3501,13 +3513,16 @@
                 (matched = !1),
                 (match = rcombinators.exec(soFar)) &&
             ((matched = match.shift()),
-            tokens.push({ value: matched, type: match[0].replace(rtrim, " ") }),
+            tokens.push({ value: matched,
+                type: match[0].replace(rtrim, " ") }),
             (soFar = soFar.slice(matched.length))),
                 Expr.filter))
                     !(match = matchExpr[type].exec(soFar)) ||
               (preFilters[type] && !(match = preFilters[type](match))) ||
               ((matched = match.shift()),
-              tokens.push({ value: matched, type: type, matches: match }),
+              tokens.push({ value: matched,
+                  type: type,
+                  matches: match }),
               (soFar = soFar.slice(matched.length)));
                 if (!matched) break;
             }
@@ -3825,7 +3840,10 @@
         rparentsprev = /^(?:parents|prev(?:Until|All))/,
         isSimple = /^.[^:#\[\.,]*$/,
         rneedsContext = jQuery.expr.match.needsContext,
-        guaranteedUnique = { children: !0, contents: !0, next: !0, prev: !0 };
+        guaranteedUnique = { children: !0,
+            contents: !0,
+            next: !0,
+            prev: !0 };
     function sibling(cur, dir) {
         do {
             cur = cur[dir];
@@ -4647,8 +4665,11 @@
         rnumnonpx = new RegExp("^(" + core_pnum + ")(?!px)[a-z%]+$", "i"),
         rrelNum = new RegExp("^([+-])=(" + core_pnum + ")", "i"),
         elemdisplay = { BODY: "block" },
-        cssShow = { position: "absolute", visibility: "hidden", display: "block" },
-        cssNormalTransform = { letterSpacing: 0, fontWeight: 400 },
+        cssShow = { position: "absolute",
+            visibility: "hidden",
+            display: "block" },
+        cssNormalTransform = { letterSpacing: 0,
+            fontWeight: 400 },
         cssExpand = ["Top", "Right", "Bottom", "Left"],
         cssPrefixes = ["Webkit", "O", "Moz", "ms"];
     function vendorPropName(style, name) {
@@ -5103,7 +5124,9 @@
           return !jQuery.expr.filters.hidden(elem);
       })),
     jQuery.each(
-        { margin: "", padding: "", border: "Width" },
+        { margin: "",
+            padding: "",
+            border: "Width" },
         function (prefix, suffix) {
             (jQuery.cssHooks[prefix + suffix] = {
                 expand: function (value) {
@@ -5171,9 +5194,11 @@
                         ? null
                         : jQuery.isArray(val)
                             ? jQuery.map(val, function (val) {
-                                return { name: elem.name, value: val.replace(rCRLF, "\r\n") };
+                                return { name: elem.name,
+                                    value: val.replace(rCRLF, "\r\n") };
                             })
-                            : { name: elem.name, value: val.replace(rCRLF, "\r\n") };
+                            : { name: elem.name,
+                                value: val.replace(rCRLF, "\r\n") };
                 })
                 .get();
         },
@@ -5314,7 +5339,10 @@
                 : params && "object" == typeof params && (type = "POST"),
             self.length > 0 &&
           jQuery
-              .ajax({ url: url, type: type, dataType: "html", data: params })
+              .ajax({ url: url,
+                  type: type,
+                  dataType: "html",
+                  data: params })
               .done(function (responseText) {
                   (response = arguments),
                   self.html(
@@ -5388,15 +5416,19 @@
                 xml: "application/xml, text/xml",
                 json: "application/json, text/javascript",
             },
-            contents: { xml: /xml/, html: /html/, json: /json/ },
-            responseFields: { xml: "responseXML", text: "responseText" },
+            contents: { xml: /xml/,
+                html: /html/,
+                json: /json/ },
+            responseFields: { xml: "responseXML",
+                text: "responseText" },
             converters: {
                 "* text": window.String,
                 "text html": !0,
                 "text json": jQuery.parseJSON,
                 "text xml": jQuery.parseXML,
             },
-            flatOptions: { url: !0, context: !0 },
+            flatOptions: { url: !0,
+                context: !0 },
         },
         ajaxSetup: function (target, settings) {
             return settings
@@ -5551,7 +5583,9 @@
           (!1 === s.beforeSend.call(callbackContext, jqXHR, s) || 2 === state)
             )
                 return jqXHR.abort();
-            for (i in ((strAbort = "abort"), { success: 1, error: 1, complete: 1 }))
+            for (i in ((strAbort = "abort"), { success: 1,
+                error: 1,
+                complete: 1 }))
                 jqXHR[i](s[i]);
             if (
                 (transport = inspectPrefiltersOrTransports(
@@ -5697,7 +5731,8 @@
                                     }
                                     prev = current;
                                 }
-                            return { state: "success", data: response };
+                            return { state: "success",
+                                data: response };
                         })(s, response)).state),
                         (success = isSuccess.data),
                         (isSuccess = !(error = isSuccess.error))))
@@ -6484,7 +6519,9 @@
     (jQuery.fx.stop = function () {
         clearInterval(timerId), (timerId = null);
     }),
-    (jQuery.fx.speeds = { slow: 600, fast: 200, _default: 400 }),
+    (jQuery.fx.speeds = { slow: 600,
+        fast: 200,
+        _default: 400 }),
     (jQuery.fx.step = {}),
     jQuery.expr &&
       jQuery.expr.filters &&
@@ -6502,7 +6539,8 @@
                 });
         var docElem,
             win,
-            box = { top: 0, left: 0 },
+            box = { top: 0,
+                left: 0 },
             elem = this[0],
             doc = elem && elem.ownerDocument;
         return doc
@@ -6558,7 +6596,8 @@
             if (this[0]) {
                 var offsetParent,
                     offset,
-                    parentOffset = { top: 0, left: 0 },
+                    parentOffset = { top: 0,
+                        left: 0 },
                     elem = this[0];
                 return (
                     "fixed" === jQuery.css(elem, "position")
@@ -6605,7 +6644,8 @@
         },
     }),
     jQuery.each(
-        { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" },
+        { scrollLeft: "pageXOffset",
+            scrollTop: "pageYOffset" },
         function (method, prop) {
             var top = /Y/.test(prop);
             jQuery.fn[method] = function (val) {
@@ -6634,9 +6674,12 @@
             };
         },
     ),
-    jQuery.each({ Height: "height", Width: "width" }, function (name, type) {
+    jQuery.each({ Height: "height",
+        Width: "width" }, function (name, type) {
         jQuery.each(
-            { padding: "inner" + name, content: type, "": "outer" + name },
+            { padding: "inner" + name,
+                content: type,
+                "": "outer" + name },
             function (defaultExtra, funcName) {
                 jQuery.fn[funcName] = function (margin, value) {
                     var chainable =

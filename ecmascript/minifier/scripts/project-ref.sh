@@ -16,5 +16,5 @@ run mootools-1.4.5.js
 run underscore-1.5.2.js
 run yui-3.12.0.js
 
-# prettier --write tests/projects/refs/
+prettier --write tests/projects/refs/
 yarn run eslint --fix ./tests/projects/refs/

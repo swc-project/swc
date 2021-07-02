@@ -129,7 +129,8 @@
             }
         };
     _.each(
-        { listenTo: "on", listenToOnce: "once" },
+        { listenTo: "on",
+            listenToOnce: "once" },
         function (implementation, method) {
             Events[method] = function (obj, name, callback) {
                 return (
@@ -390,8 +391,11 @@
             this.initialize.apply(this, arguments),
             models && this.reset(models, _.extend({ silent: !0 }, options));
         }),
-        setOptions = { add: !0, remove: !0, merge: !0 },
-        addOptions = { add: !0, remove: !1 };
+        setOptions = { add: !0,
+            remove: !0,
+            merge: !0 },
+        addOptions = { add: !0,
+            remove: !1 };
     _.extend(Collection.prototype, Events, {
         model: Model,
         initialize: function () {},
@@ -775,7 +779,8 @@
             emulateHTTP: Backbone.emulateHTTP,
             emulateJSON: Backbone.emulateJSON,
         });
-        var params = { type: type, dataType: "json" };
+        var params = { type: type,
+            dataType: "json" };
         if (
             (options.url || (params.url = _.result(model, "url") || urlError()),
             null != options.data ||
@@ -981,7 +986,8 @@
             (History.started = !1);
         },
         route: function (route, callback) {
-            this.handlers.unshift({ route: route, callback: callback });
+            this.handlers.unshift({ route: route,
+                callback: callback });
         },
         checkUrl: function (e) {
             var current = this.getFragment();

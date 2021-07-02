@@ -2,17 +2,23 @@
     "parser": "babel-eslint",
     "rules": {
         "indent": [
-            1,
+            "error",
             4
         ],
         "semi": [
-            1,
+            "error",
             "always"
         ],
         "space-unary-ops": 2,
         "no-undef": "off",
         "consistent-return": "off",
         "no-prototype-builtins": "off",
-        "no-cond-assign": "off"
+        "no-cond-assign": "off",
+        "object-property-newline": [
+            "error",
+            {
+                "allowAllPropertiesOnSameLine": false
+            }
+        ]
     }
 }

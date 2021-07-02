@@ -1098,7 +1098,8 @@
                             events[type] = [];
                             onFn(
                                 element,
-                                { mouseleave: "mouseout", mouseenter: "mouseover" }[type],
+                                { mouseleave: "mouseout",
+                                    mouseenter: "mouseover" }[type],
                                 function (event) {
                                     var related = event.relatedTarget;
                                     (related &&
@@ -1202,7 +1203,8 @@
                     eventName
                 ];
                 eventData = eventData || [];
-                var event = [{ preventDefault: noop, stopPropagation: noop }];
+                var event = [{ preventDefault: noop,
+                    stopPropagation: noop }];
                 forEach(eventFns, function (fn) {
                     fn.apply(element, event.concat(eventData));
                 });
@@ -3606,7 +3608,8 @@
                     (function (names) {
                         forEach(arguments, function (name) {
                             $http[name] = function (url, config) {
-                                return $http(extend(config || {}, { method: name, url: url }));
+                                return $http(extend(config || {}, { method: name,
+                                    url: url }));
                             };
                         });
                     })("get", "delete", "head", "jsonp"),
@@ -3614,7 +3617,9 @@
                         forEach(arguments, function (name) {
                             $http[name] = function (url, data, config) {
                                 return $http(
-                                    extend(config || {}, { method: name, url: url, data: data }),
+                                    extend(config || {}, { method: name,
+                                        url: url,
+                                        data: data }),
                                 );
                             };
                         });
@@ -3984,7 +3989,9 @@
         };
     }
     var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/,
-        DEFAULT_PORTS = { http: 80, https: 443, ftp: 21 },
+        DEFAULT_PORTS = { http: 80,
+            https: 443,
+            ftp: 21 },
         $locationMinErr = minErr("$location");
     function encodePath(path) {
         for (var segments = path.split("/"), i = segments.length; i--; )
@@ -4516,10 +4523,14 @@
                         fn2 = OPERATORS[ch2],
                         fn3 = OPERATORS[ch3];
                     fn3
-                        ? (this.tokens.push({ index: this.index, text: ch3, fn: fn3 }),
+                        ? (this.tokens.push({ index: this.index,
+                            text: ch3,
+                            fn: fn3 }),
                         (this.index += 3))
                         : fn2
-                            ? (this.tokens.push({ index: this.index, text: ch2, fn: fn2 }),
+                            ? (this.tokens.push({ index: this.index,
+                                text: ch2,
+                                fn: fn2 }),
                             (this.index += 2))
                             : fn
                                 ? (this.tokens.push({
@@ -4662,7 +4673,8 @@
                     if (!this.isWhitespace(ch)) break;
                     peekIndex++;
                 }
-            var token = { index: start, text: ident };
+            var token = { index: start,
+                text: ident };
             if (OPERATORS.hasOwnProperty(ident))
                 (token.fn = OPERATORS[ident]), (token.json = OPERATORS[ident]);
             else {
@@ -4680,8 +4692,12 @@
             }
             this.tokens.push(token),
             methodName &&
-          (this.tokens.push({ index: lastDot, text: ".", json: !1 }),
-          this.tokens.push({ index: lastDot + 1, text: methodName, json: !1 }));
+          (this.tokens.push({ index: lastDot,
+              text: ".",
+              json: !1 }),
+          this.tokens.push({ index: lastDot + 1,
+              text: methodName,
+              json: !1 }));
         },
         readString: function (quote) {
             var start = this.index;
@@ -4764,7 +4780,8 @@
             json &&
             ((this.assignment = this.logicalOR),
             (this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function () {
-                this.throwError("is not valid json", { text: text, index: 0 });
+                this.throwError("is not valid json", { text: text,
+                    index: 0 });
             }));
             var value = json ? this.primary() : this.statements();
             return (
@@ -5114,7 +5131,8 @@
                             array.push(elementFns[i](self, locals));
                         return array;
                     },
-                    { literal: !0, constant: allConstant },
+                    { literal: !0,
+                        constant: allConstant },
                 )
             );
         },
@@ -5127,7 +5145,8 @@
                         key = token.string || token.text;
                     this.consume(":");
                     var value = this.expression();
-                    keyValues.push({ key: key, value: value }),
+                    keyValues.push({ key: key,
+                        value: value }),
                     value.constant || (allConstant = !1);
                 } while (this.expect(","));
             return (
@@ -5140,7 +5159,8 @@
                         }
                         return object;
                     },
-                    { literal: !0, constant: allConstant },
+                    { literal: !0,
+                        constant: allConstant },
                 )
             );
         },
@@ -5299,7 +5319,9 @@
     }
     function $ParseProvider() {
         var cache = {},
-            $parseOptions = { csp: !1, unwrapPromises: !1, logPromiseWarnings: !0 };
+            $parseOptions = { csp: !1,
+                unwrapPromises: !1,
+                logPromiseWarnings: !0 };
         (this.unwrapPromises = function (value) {
             return isDefined(value)
                 ? (($parseOptions.unwrapPromises = !!value), this)
@@ -5605,7 +5627,10 @@
                             deferred.promise
                         );
                     }
-                    return { defer: defer, reject: reject, when: when, all: all };
+                    return { defer: defer,
+                        reject: reject,
+                        when: when,
+                        all: all };
                 })(function (callback) {
                     $rootScope.$evalAsync(callback);
                 }, $exceptionHandler);
@@ -5873,7 +5898,8 @@
                 $browser.defer(function () {
                     $rootScope.$$asyncQueue.length && $rootScope.$digest();
                 }),
-                        this.$$asyncQueue.push({ scope: this, expression: expr });
+                        this.$$asyncQueue.push({ scope: this,
+                            expression: expr });
                     },
                     $$postDigest: function (fn) {
                         this.$$postDigestQueue.push(fn);
@@ -7561,7 +7587,9 @@
         }),
         ngControllerDirective = [
             function () {
-                return { scope: !0, controller: "@", priority: 500 };
+                return { scope: !0,
+                    controller: "@",
+                    priority: 500 };
             },
         ],
         ngEventDirectives = {};
@@ -7713,7 +7741,8 @@
                 };
             },
         }),
-        ngNonBindableDirective = ngDirective({ terminal: !0, priority: 1e3 }),
+        ngNonBindableDirective = ngDirective({ terminal: !0,
+            priority: 1e3 }),
         ngPluralizeDirective = [
             "$locale",
             "$interpolate",
@@ -8078,7 +8107,8 @@
             require: "^ngSwitch",
             link: function (scope, element, attr, ctrl, $transclude) {
                 (ctrl.cases["?"] = ctrl.cases["?"] || []),
-                ctrl.cases["?"].push({ transclude: $transclude, element: element });
+                ctrl.cases["?"].push({ transclude: $transclude,
+                    element: element });
             },
         }),
         ngTranscludeDirective = ngDirective({
@@ -8234,7 +8264,8 @@
                                         valuesFn = $parse(match[7]),
                                         trackFn = match[8] ? $parse(match[8]) : null,
                                         optionGroupsCache = [
-                                            [{ element: selectElement, label: "" }],
+                                            [{ element: selectElement,
+                                                label: "" }],
                                         ];
                                     nullOption &&
                       ($compile(nullOption)(scope),
@@ -8538,7 +8569,8 @@
         optionDirective = [
             "$interpolate",
             function ($interpolate) {
-                var nullSelectCtrl = { addOption: noop, removeOption: noop };
+                var nullSelectCtrl = { addOption: noop,
+                    removeOption: noop };
                 return {
                     restrict: "E",
                     priority: 100,
@@ -8570,7 +8602,8 @@
                 };
             },
         ],
-        styleDirective = valueFn({ restrict: "E", terminal: !0 });
+        styleDirective = valueFn({ restrict: "E",
+            terminal: !0 });
     (jQuery = window.jQuery)
         ? ((jqLite = jQuery),
         extend(jQuery.fn, {
