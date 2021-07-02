@@ -689,11 +689,12 @@ impl VisitMut for Remover {
                                         let stmts = s.cases.remove(i).cons;
                                         let stmts = remove_break(stmts);
 
-                                        return Stmt::Block(BlockStmt {
+                                        let mut block = Stmt::Block(BlockStmt {
                                             span: s.span,
                                             stmts,
-                                        })
-                                        .visit_mut_with(self);
+                                        });
+                                        block.visit_mut_with(self);
+                                        return block;
                                     }
                                 }
                             }
@@ -770,11 +771,12 @@ impl VisitMut for Remover {
                         {
                             let stmts = s.cases.pop().unwrap().cons;
                             let stmts = remove_break(stmts);
-                            return Stmt::Block(BlockStmt {
+                            let mut block = Stmt::Block(BlockStmt {
                                 span: s.span,
                                 stmts,
-                            })
-                            .visit_mut_with(self);
+                            });
+                            block.visit_mut_with(self);
+                            return block;
                         }
                     }
 
@@ -903,18 +905,17 @@ impl VisitMut for Remover {
                                 body: s.body,
                             })
                         } else {
+                            let mut body = prepare_loop_body_for_inlining(*s.body);
+                            body.visit_mut_with(self);
+
                             if let Some(test) = ignore_result(*s.test) {
                                 BlockStmt {
                                     span: s.span,
-                                    stmts: vec![
-                                        prepare_loop_body_for_inlining(*s.body)
-                                            .visit_mut_with(self),
-                                        test.into_stmt(),
-                                    ],
+                                    stmts: vec![body, test.into_stmt()],
                                 }
                                 .into()
                             } else {
-                                prepare_loop_body_for_inlining(*s.body).visit_mut_with(self)
+                                body
                             }
                         }
                     } else {
