@@ -1305,29 +1305,25 @@ impl VisitMut for SimplifyExpr {
         })
     }
 
-    fn fold_pat(&mut self, p: Pat) -> Pat {
-        match p {
-            Pat::Assign(a) => AssignPat {
-                right: {
-                    let default = a.right.visit_mut_with(self);
-                    if default.is_undefined()
-                        || match *default {
-                            Expr::Unary(UnaryExpr {
-                                op: op!("void"),
-                                ref arg,
-                                ..
-                            }) => !arg.may_have_side_effects(),
-                            _ => false,
-                        }
-                    {
-                        return *a.left;
-                    }
+    fn visit_mut_pat(&mut self, p: &mut Pat) {
+        p.visit_mut_children_with(self);
 
-                    default
-                },
-                ..a
+        match p {
+            Pat::Assign(a) => {
+                if a.right.is_undefined()
+                    || match *a.right {
+                        Expr::Unary(UnaryExpr {
+                            op: op!("void"),
+                            ref arg,
+                            ..
+                        }) => !arg.may_have_side_effects(),
+                        _ => false,
+                    }
+                {
+                    *p = *a.left;
+                    return;
+                }
             }
-            .into(),
             _ => p,
         }
     }
