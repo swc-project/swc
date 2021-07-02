@@ -259,9 +259,9 @@ impl VisitMut for Remover {
         p.visit_mut_children_with(self);
 
         match p {
-            Pat::Assign(p)
-                if p.right.is_undefined()
-                    || match *p.right {
+            Pat::Assign(assign)
+                if assign.right.is_undefined()
+                    || match *assign.right {
                         Expr::Unary(UnaryExpr {
                             op: op!("void"),
                             ref arg,
@@ -270,16 +270,18 @@ impl VisitMut for Remover {
                         _ => false,
                     } =>
             {
-                return *p.left;
+                *p = *assign.left.take();
+                return;
             }
 
-            Pat::Assign(p)
-                if match *p.left {
+            Pat::Assign(assign)
+                if match *assign.left {
                     Pat::Object(ref o) => o.props.is_empty(),
                     _ => false,
-                } && p.right.is_number() =>
+                } && assign.right.is_number() =>
             {
-                return *p.left;
+                *p = *assign.left.take();
+                return;
             }
 
             _ => {}
