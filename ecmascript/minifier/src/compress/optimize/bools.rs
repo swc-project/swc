@@ -146,7 +146,7 @@ impl Optimizer<'_> {
     pub(super) fn optimize_bang_within_logical_ops(
         &mut self,
         e: &mut BinExpr,
-        is_return_value_ignored: bool,
+        is_type_of_return_ignored: bool,
     ) -> bool {
         match e.op {
             op!("&&") | op!("||") => {}
@@ -159,7 +159,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if !is_return_value_ignored {
+        if !is_type_of_return_ignored {
             if let Known(Type::Bool) = e.right.get_type() {
             } else {
                 // Don't change type.
@@ -172,7 +172,7 @@ impl Optimizer<'_> {
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        if self.is_negation_efficient(&e.left, &e.right, is_return_value_ignored) {
+        if self.is_negation_efficient(&e.left, &e.right, is_type_of_return_ignored) {
             log::trace!(
                 "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good \
                  for negation)",
