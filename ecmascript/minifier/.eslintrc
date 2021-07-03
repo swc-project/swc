@@ -23,6 +23,10 @@
             {
                 "allowAllPropertiesOnSameLine": false
             }
+        ],
+        "function-call-argument-newline": [
+            "error",
+            "always"
         ]
     }
 }
