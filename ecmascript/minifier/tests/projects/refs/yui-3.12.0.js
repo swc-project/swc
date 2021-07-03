@@ -9,7 +9,8 @@ var YUI = function () {
         },
         gconf = "undefined" != typeof YUI_config && YUI_config;
     if (
-        (instanceOf(Y, YUI)
+        (instanceOf(Y,
+            YUI)
             ? (Y._init(),
             YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig),
             gconf && Y.applyConfig(gconf),
@@ -43,20 +44,28 @@ var YUI = function () {
         time = new Date().getTime(),
         add = function (el, type, fn, capture) {
             el && el.addEventListener
-                ? el.addEventListener(type, fn, capture)
-                : el && el.attachEvent && el.attachEvent("on" + type, fn);
+                ? el.addEventListener(type,
+                    fn,
+                    capture)
+                : el && el.attachEvent && el.attachEvent("on" + type,
+                    fn);
         },
         remove = function (el, type, fn, capture) {
             if (el && el.removeEventListener)
                 try {
-                    el.removeEventListener(type, fn, capture);
+                    el.removeEventListener(type,
+                        fn,
+                        capture);
                 } catch (ex) {}
-            else el && el.detachEvent && el.detachEvent("on" + type, fn);
+            else el && el.detachEvent && el.detachEvent("on" + type,
+                fn);
         },
         handleLoad = function () {
             (YUI.Env.windowLoaded = !0),
             (YUI.Env.DOMReady = !0),
-            hasWin && remove(window, "load", handleLoad);
+            hasWin && remove(window,
+                "load",
+                handleLoad);
         },
         getLoader = function (Y, o) {
             var loader = Y.Env._loader,
@@ -70,8 +79,10 @@ var YUI = function () {
                     (loader.required = []),
                     (loader.loadType = null))
                     : ((loader = new Y.Loader(Y.config)), (Y.Env._loader = loader)),
-                mods && mods.loader && (lCore = [].concat(lCore, YUI.Env.loaderExtras)),
-                (YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core, lCore))),
+                mods && mods.loader && (lCore = [].concat(lCore,
+                    YUI.Env.loaderExtras)),
+                (YUI.Env.core = Y.Array.dedupe([].concat(YUI.Env.core,
+                    lCore))),
                 loader
             );
         },
@@ -99,11 +110,14 @@ var YUI = function () {
                 o.hasOwnProperty(name) &&
           ((attr = o[name]),
           mods && "modules" == name
-              ? clobber(mods, attr)
+              ? clobber(mods,
+                  attr)
               : aliases && "aliases" == name
-                  ? clobber(aliases, attr)
+                  ? clobber(aliases,
+                      attr)
                   : groups && "groups" == name
-                      ? clobber(groups, attr)
+                      ? clobber(groups,
+                          attr)
                       : "win" == name
                           ? ((config[name] = (attr && attr.contentWindow) || attr),
                           (config.doc = config[name] ? config[name].document : null))
@@ -154,7 +168,8 @@ var YUI = function () {
                             return (
                                 match &&
                   ((path =
-                    RegExp.leftContext || src.slice(0, src.indexOf(match[0]))),
+                    RegExp.leftContext || src.slice(0,
+                        src.indexOf(match[0]))),
                   (filter = match[3]),
                   match[1] && (path += "?" + match[1]),
                   (path = { filter: filter,
@@ -174,7 +189,8 @@ var YUI = function () {
                   for (i = 0, len = nodes.length; i < len; ++i)
                       if (
                           (src = nodes[i].src) &&
-                    (parsed = Y.Env.parseBasePath(src, pattern))
+                    (parsed = Y.Env.parseBasePath(src,
+                        pattern))
                       ) {
                           (filter = parsed.filter), (path = parsed.path);
                           break;
@@ -193,7 +209,8 @@ var YUI = function () {
               Env._yidx +
               "_" +
               time
-                    ).replace(/[^a-z0-9_]+/g, "_"));
+                    ).replace(/[^a-z0-9_]+/g,
+                        "_"));
                 else if (YUI._YUI) {
                     for (prop in ((G_ENV = YUI._YUI.Env),
                     (Env._yidx += G_ENV._yidx),
@@ -223,7 +240,8 @@ var YUI = function () {
                 (YUI.Env.cssStampEl = el.firstChild),
                 doc.body
                     ? doc.body.appendChild(YUI.Env.cssStampEl)
-                    : docEl.insertBefore(YUI.Env.cssStampEl, docEl.firstChild))
+                    : docEl.insertBefore(YUI.Env.cssStampEl,
+                        docEl.firstChild))
                 : doc &&
             doc.getElementById("yui3-css-stamp") &&
             !YUI.Env.cssStampEl &&
@@ -247,7 +265,9 @@ var YUI = function () {
         },
         applyTo: function (id, method, args) {
             if (!(method in APPLY_TO_AUTH))
-                return this.log(method + ": applyTo not allowed", "warn", "yui"), null;
+                return this.log(method + ": applyTo not allowed",
+                    "warn",
+                    "yui"), null;
             var nest,
                 m,
                 i,
@@ -259,8 +279,11 @@ var YUI = function () {
                     i += 1
                 )
                     (m = m[nest[i]]) ||
-            this.log("applyTo not found: " + method, "warn", "yui");
-                return m && m.apply(instance, args);
+            this.log("applyTo not found: " + method,
+                "warn",
+                "yui");
+                return m && m.apply(instance,
+                    args);
             }
             return null;
         },
@@ -285,7 +308,8 @@ var YUI = function () {
             ((applied[inst.id] = !0),
             (loader = inst.Env._loader) &&
               ((loader.moduleInfo[name] && !loader.moduleInfo[name].temp) ||
-                loader.addModule(details, name))));
+                loader.addModule(details,
+                    name))));
             return this;
         },
         _attach: function (r, moot) {
@@ -331,7 +355,8 @@ var YUI = function () {
                     "warn",
                     "yui",
                 ),
-                Y.Env._missed.splice(j, 1));
+                Y.Env._missed.splice(j,
+                    1));
                         if (loader && cache && cache[name] && cache[name].temp) {
                             for (j in (loader.getRequires(cache[name]),
                             (req = []),
@@ -355,16 +380,21 @@ var YUI = function () {
                         if (after)
                             for (j = 0; j < after.length; j++)
                                 if (!done[after[j]]) {
-                                    if (!Y._attach(after, !0)) return !1;
+                                    if (!Y._attach(after,
+                                        !0)) return !1;
                                     break;
                                 }
                         if (mod.fn)
-                            if (Y.config.throwFail) mod.fn(Y, name);
+                            if (Y.config.throwFail) mod.fn(Y,
+                                name);
                             else
                                 try {
-                                    mod.fn(Y, name);
+                                    mod.fn(Y,
+                                        name);
                                 } catch (e) {
-                                    return Y.error("Attach error: " + name, e, name), !1;
+                                    return Y.error("Attach error: " + name,
+                                        e,
+                                        name), !1;
                                 }
                         if (use)
                             for (j = 0; j < use.length; j++)
@@ -382,7 +412,9 @@ var YUI = function () {
                 -1 === name.indexOf("css") &&
                 (Y.Env._missed.push(name),
                 (Y.Env._missed = Y.Array.dedupe(Y.Env._missed)),
-                Y.message("NOT loaded: " + name, "warn", "yui"));
+                Y.message("NOT loaded: " + name,
+                    "warn",
+                    "yui"));
                 }
             return !0;
         },
@@ -395,21 +427,24 @@ var YUI = function () {
           mod.push("event-synthetic"),
                 function () {
                     var args = arguments;
-                    Y._use(mod, function () {
-                        Y.on(
-                            until.event,
-                            function () {
-                                (args[1].delayUntil = until.event), cb.apply(Y, args);
-                            },
-                            until.args,
-                        );
-                    });
+                    Y._use(mod,
+                        function () {
+                            Y.on(
+                                until.event,
+                                function () {
+                                    (args[1].delayUntil = until.event), cb.apply(Y,
+                                        args);
+                                },
+                                until.args,
+                            );
+                        });
                 }
             );
         },
         use: function () {
             var name,
-                args = SLICE.call(arguments, 0),
+                args = SLICE.call(arguments,
+                    0),
                 callback = args[args.length - 1],
                 Y = this,
                 i = 0,
@@ -419,7 +454,8 @@ var YUI = function () {
                 (Y.Lang.isFunction(callback)
                     ? (args.pop(),
                     Y.config.delayUntil &&
-              (callback = Y._delayCallback(callback, Y.config.delayUntil)))
+              (callback = Y._delayCallback(callback,
+                  Y.config.delayUntil)))
                     : (callback = null),
                 Y.Lang.isArray(args[0]) && (args = args[0]),
                 Y.config.cacheUse)
@@ -430,21 +466,30 @@ var YUI = function () {
                         break;
                     }
                 if (provisioned)
-                    return args.length, Y._notify(callback, ALREADY_DONE, args), Y;
+                    return args.length, Y._notify(callback,
+                        ALREADY_DONE,
+                        args), Y;
             }
             return (
                 Y._loading
                     ? ((Y._useQueue = Y._useQueue || new Y.Queue()),
                     Y._useQueue.add([args, callback]))
-                    : Y._use(args, function (Y, response) {
-                        Y._notify(callback, response, args);
-                    }),
+                    : Y._use(args,
+                        function (Y, response) {
+                            Y._notify(callback,
+                                response,
+                                args);
+                        }),
                 Y
             );
         },
         _notify: function (callback, response, args) {
             if (!response.success && this.config.loadErrorFn)
-                this.config.loadErrorFn.call(this, this, callback, response, args);
+                this.config.loadErrorFn.call(this,
+                    this,
+                    callback,
+                    response,
+                    args);
             else if (callback)
                 if (
                     (this.Env._missed &&
@@ -453,12 +498,16 @@ var YUI = function () {
             (response.success = !1)),
                     this.config.throwFail)
                 )
-                    callback(this, response);
+                    callback(this,
+                        response);
                 else
                     try {
-                        callback(this, response);
+                        callback(this,
+                            response);
                     } catch (e) {
-                        this.error("use callback error", e, args);
+                        this.error("use callback error",
+                            e,
+                            args);
                     }
         },
         _use: function (args, callback) {
@@ -493,7 +542,8 @@ var YUI = function () {
                         if (aliases) {
                             for (len = names.length, i = 0; i < len; i++)
                                 aliases[names[i]] && !mods[names[i]]
-                                    ? (a = [].concat(a, aliases[names[i]]))
+                                    ? (a = [].concat(a,
+                                        aliases[names[i]]))
                                     : a.push(names[i]);
                             names = a;
                         }
@@ -511,7 +561,8 @@ var YUI = function () {
                           ? (used[name] = !0)
                           : missing.push(name),
                   req && req.length && process(req),
-                  use && use.length && process(use, 1));
+                  use && use.length && process(use,
+                      1));
                     }
                 },
                 handleLoader = function (fromLoader) {
@@ -532,15 +583,21 @@ var YUI = function () {
                 (redo = !1)),
                     redo && data
                         ? ((Y._loading = !0),
-                        Y._use(missing, function () {
-                            Y._attach(data) && Y._notify(callback, response, data);
-                        }))
+                        Y._use(missing,
+                            function () {
+                                Y._attach(data) && Y._notify(callback,
+                                    response,
+                                    data);
+                            }))
                         : (data && (ret = Y._attach(data)),
-                        ret && Y._notify(callback, response, args)),
+                        ret && Y._notify(callback,
+                            response,
+                            args)),
                     Y._useQueue &&
               Y._useQueue.size() &&
               !Y._loading &&
-              Y._use.apply(Y, Y._useQueue.next());
+              Y._use.apply(Y,
+                  Y._useQueue.next());
                 };
             if ("*" === firstArg) {
                 for (i in ((args = []), mods)) mods.hasOwnProperty(i) && args.push(i);
@@ -556,7 +613,8 @@ var YUI = function () {
           ((loader = getLoader(Y)).require(args),
           (loader.ignoreRegistered = !0),
           (loader._boot = !0),
-          loader.calculate(null, fetchCSS ? null : "js"),
+          loader.calculate(null,
+              fetchCSS ? null : "js"),
           (args = loader.sorted),
           (loader._boot = !1)),
                 process(args),
@@ -569,7 +627,8 @@ var YUI = function () {
                     (loader.data = args),
                     (loader.ignoreRegistered = !1),
                     loader.require(missing),
-                    loader.insert(null, fetchCSS ? null : "js"))
+                    loader.insert(null,
+                        fetchCSS ? null : "js"))
                     : boot && len && Y.Get && !Env.bootstrapped
                         ? ((Y._loading = !0),
                         (handleBoot = function () {
@@ -577,14 +636,16 @@ var YUI = function () {
                             (queue.running = !1),
                             (Env.bootstrapped = !0),
                             (G_ENV._bootstrapping = !1),
-                            Y._attach(["loader"]) && Y._use(args, callback);
+                            Y._attach(["loader"]) && Y._use(args,
+                                callback);
                         }),
                         G_ENV._bootstrapping
                             ? queue.add(handleBoot)
                             : ((G_ENV._bootstrapping = !0),
-                            Y.Get.script(config.base + config.loaderPath, {
-                                onEnd: handleBoot,
-                            })))
+                            Y.Get.script(config.base + config.loaderPath,
+                                {
+                                    onEnd: handleBoot,
+                                })))
                         : Y._attach(args) && handleLoader(),
                 Y
             );
@@ -610,10 +671,13 @@ var YUI = function () {
             var ret,
                 Y = this;
             if (
-                (Y.config.errorFn && (ret = Y.config.errorFn.apply(Y, arguments)), !ret)
+                (Y.config.errorFn && (ret = Y.config.errorFn.apply(Y,
+                    arguments)), !ret)
             )
                 throw e || new Error(msg);
-            return Y.message(msg, "error", "" + src), Y;
+            return Y.message(msg,
+                "error",
+                "" + src), Y;
         },
         guid: function (pre) {
             var id = this.Env._guidp + "_" + ++this.Env._uidx;
@@ -652,12 +716,18 @@ var YUI = function () {
     (YUI.applyConfig = function (o) {
         o &&
       (YUI.GlobalConfig &&
-        this.prototype.applyConfig.call(this, YUI.GlobalConfig),
-      this.prototype.applyConfig.call(this, o),
+        this.prototype.applyConfig.call(this,
+            YUI.GlobalConfig),
+      this.prototype.applyConfig.call(this,
+          o),
       (YUI.GlobalConfig = this.config));
     }),
     YUI._init(),
-    hasWin ? add(window, "load", handleLoad) : handleLoad(),
+    hasWin
+        ? add(window,
+            "load",
+            handleLoad)
+        : handleLoad(),
     (YUI.Env.add = add),
     (YUI.Env.remove = remove),
     "object" == typeof exports &&
@@ -753,9 +823,10 @@ YUI.add(
           }),
         (L.sub = function (s, o) {
             return s.replace
-                ? s.replace(SUBREGEX, function (match, key) {
-                    return L.isUndefined(o[key]) ? match : o[key];
-                })
+                ? s.replace(SUBREGEX,
+                    function (match, key) {
+                        return L.isUndefined(o[key]) ? match : o[key];
+                    })
                 : s;
         }),
         (L.trim =
@@ -765,7 +836,8 @@ YUI.add(
               }
               : function (s) {
                   try {
-                      return s.replace(TRIMREGEX, "");
+                      return s.replace(TRIMREGEX,
+                          "");
                   } catch (e) {
                       return s;
                   }
@@ -776,7 +848,8 @@ YUI.add(
                   return s.trimLeft();
               }
               : function (s) {
-                  return s.replace(TRIM_LEFT_REGEX, "");
+                  return s.replace(TRIM_LEFT_REGEX,
+                      "");
               }),
         (L.trimRight =
           L._isNative(STRING_PROTO.trimRight) && !WHITESPACE.trimRight()
@@ -784,7 +857,8 @@ YUI.add(
                   return s.trimRight();
               }
               : function (s) {
-                  return s.replace(TRIM_RIGHT_REGEX, "");
+                  return s.replace(TRIM_RIGHT_REGEX,
+                      "");
               }),
         (L.type = function (o) {
             return (
@@ -800,7 +874,8 @@ YUI.add(
             var len, result;
             if ((startIndex || (startIndex = 0), force || YArray.test(thing)))
                 try {
-                    return Native.slice.call(thing, startIndex);
+                    return Native.slice.call(thing,
+                        startIndex);
                 } catch (ex) {
                     for (
                         result = [], len = thing.length;
@@ -813,7 +888,8 @@ YUI.add(
             return [thing];
         }
         function Queue() {
-            this._init(), this.add.apply(this, arguments);
+            this._init(), this.add.apply(this,
+                arguments);
         }
         (Y.Array = YArray),
         (YArray.dedupe = Lang._isNative(Object.create)
@@ -836,17 +912,23 @@ YUI.add(
                     results = [];
                 for (i = 0, len = array.length; i < len; ++i)
                     (item = array[i]),
-                    hasOwn.call(hash, item) ||
+                    hasOwn.call(hash,
+                        item) ||
                     ((hash[item] = 1), results.push(item));
                 return results;
             }),
         (YArray.each = YArray.forEach = Lang._isNative(Native.forEach)
             ? function (array, fn, thisObj) {
-                return Native.forEach.call(array || [], fn, thisObj || Y), Y;
+                return Native.forEach.call(array || [],
+                    fn,
+                    thisObj || Y), Y;
             }
             : function (array, fn, thisObj) {
                 for (var i = 0, len = (array && array.length) || 0; i < len; ++i)
-                    i in array && fn.call(thisObj || Y, array[i], i, array);
+                    i in array && fn.call(thisObj || Y,
+                        array[i],
+                        i,
+                        array);
                 return Y;
             }),
         (YArray.hash = function (keys, values) {
@@ -861,7 +943,9 @@ YUI.add(
         }),
         (YArray.indexOf = Lang._isNative(Native.indexOf)
             ? function (array, value, from) {
-                return Native.indexOf.call(array, value, from);
+                return Native.indexOf.call(array,
+                    value,
+                    from);
             }
             : function (array, value, from) {
                 var len = array.length;
@@ -882,11 +966,16 @@ YUI.add(
         }),
         (YArray.some = Lang._isNative(Native.some)
             ? function (array, fn, thisObj) {
-                return Native.some.call(array, fn, thisObj);
+                return Native.some.call(array,
+                    fn,
+                    thisObj);
             }
             : function (array, fn, thisObj) {
                 for (var i = 0, len = array.length; i < len; ++i)
-                    if (i in array && fn.call(thisObj, array[i], i, array))
+                    if (i in array && fn.call(thisObj,
+                        array[i],
+                        i,
+                        array))
                         return !0;
                 return !1;
             }),
@@ -914,7 +1003,8 @@ YUI.add(
                 return this._q.pop();
             },
             add: function () {
-                return this._q.push.apply(this._q, arguments), this;
+                return this._q.push.apply(this._q,
+                    arguments), this;
             },
             size: function () {
                 return this._q.length;
@@ -930,11 +1020,13 @@ YUI.add(
                 function (arg) {
                     var key =
               arguments.length > 1
-                  ? Array.prototype.join.call(arguments, "__")
+                  ? Array.prototype.join.call(arguments,
+                      "__")
                   : String(arg);
                     return (
                         (!(key in cache) || (refetch && cache[key] == refetch)) &&
-                (cache[key] = source.apply(source, arguments)),
+                (cache[key] = source.apply(source,
+                    arguments)),
                         cache[key]
                     );
                 }
@@ -951,7 +1043,8 @@ YUI.add(
                 ++i
             )
                 for (key in (obj = arguments[i]))
-                    hasOwn.call(obj, key) && (result[key] = obj[key]);
+                    hasOwn.call(obj,
+                        key) && (result[key] = obj[key]);
             return result;
         }),
         (Y.mix = function (
@@ -984,26 +1077,47 @@ YUI.add(
             if (((alwaysOverwrite = overwrite && !merge), whitelist))
                 for (i = 0, len = whitelist.length; i < len; ++i)
                     (key = whitelist[i]),
-                    hasOwn.call(from, key) &&
+                    hasOwn.call(from,
+                        key) &&
                   ((exists = !alwaysOverwrite && key in to),
                   merge &&
                   exists &&
-                  isObject(to[key], !0) &&
-                  isObject(from[key], !0)
-                      ? Y.mix(to[key], from[key], overwrite, null, 0, merge)
+                  isObject(to[key],
+                      !0) &&
+                  isObject(from[key],
+                      !0)
+                      ? Y.mix(to[key],
+                          from[key],
+                          overwrite,
+                          null,
+                          0,
+                          merge)
                       : (!overwrite && exists) || (to[key] = from[key]));
             else {
                 for (key in from)
-                    hasOwn.call(from, key) &&
+                    hasOwn.call(from,
+                        key) &&
                 ((exists = !alwaysOverwrite && key in to),
                 merge &&
                 exists &&
-                isObject(to[key], !0) &&
-                isObject(from[key], !0)
-                    ? Y.mix(to[key], from[key], overwrite, null, 0, merge)
+                isObject(to[key],
+                    !0) &&
+                isObject(from[key],
+                    !0)
+                    ? Y.mix(to[key],
+                        from[key],
+                        overwrite,
+                        null,
+                        0,
+                        merge)
                     : (!overwrite && exists) || (to[key] = from[key]));
                 Y.Object._hasEnumBug &&
-              Y.mix(to, from, overwrite, Y.Object._forceEnum, mode, merge);
+              Y.mix(to,
+                  from,
+                  overwrite,
+                  Y.Object._forceEnum,
+                  mode,
+                  merge);
             }
             return receiver;
         });
@@ -1033,7 +1147,8 @@ YUI.add(
                 "prototype",
             )),
             owns = (O.owns = function (obj, key) {
-                return !!obj && hasOwn.call(obj, key);
+                return !!obj && hasOwn.call(obj,
+                    key);
             });
         (O.hasKey = owns),
         (O.keys =
@@ -1048,11 +1163,14 @@ YUI.add(
                       keys = [];
                   if (hasProtoEnumBug && "function" == typeof obj)
                       for (key in obj)
-                          owns(obj, key) && "prototype" !== key && keys.push(key);
-                  else for (key in obj) owns(obj, key) && keys.push(key);
+                          owns(obj,
+                              key) && "prototype" !== key && keys.push(key);
+                  else for (key in obj) owns(obj,
+                      key) && keys.push(key);
                   if (hasEnumBug)
                       for (i = 0, len = forceEnum.length; i < len; ++i)
-                          owns(obj, (key = forceEnum[i])) && keys.push(key);
+                          owns(obj, (
+                              key = forceEnum[i])) && keys.push(key);
                   return keys;
               }),
         (O.values = function (obj) {
@@ -1072,21 +1190,30 @@ YUI.add(
             }
         }),
         (O.hasValue = function (obj, value) {
-            return Y.Array.indexOf(O.values(obj), value) > -1;
+            return Y.Array.indexOf(O.values(obj),
+                value) > -1;
         }),
         (O.each = function (obj, fn, thisObj, proto) {
             var key;
             for (key in obj)
-                (proto || owns(obj, key)) &&
-              fn.call(thisObj || Y, obj[key], key, obj);
+                (proto || owns(obj,
+                    key)) &&
+              fn.call(thisObj || Y,
+                  obj[key],
+                  key,
+                  obj);
             return Y;
         }),
         (O.some = function (obj, fn, thisObj, proto) {
             var key;
             for (key in obj)
                 if (
-                    (proto || owns(obj, key)) &&
-              fn.call(thisObj || Y, obj[key], key, obj)
+                    (proto || owns(obj,
+                        key)) &&
+              fn.call(thisObj || Y,
+                  obj[key],
+                  key,
+                  obj)
                 )
                     return !0;
             return !1;
@@ -1120,9 +1247,10 @@ YUI.add(
                 numberify = function (s) {
                     var c = 0;
                     return parseFloat(
-                        s.replace(/\./g, function () {
-                            return 1 == c++ ? "" : ".";
-                        }),
+                        s.replace(/\./g,
+                            function () {
+                                return 1 == c++ ? "" : ".";
+                            }),
                     );
                 },
                 win = Y.config.win,
@@ -1185,7 +1313,8 @@ YUI.add(
                     ? ((o.mobile = "Apple"),
                     (m = ua.match(/OS ([^\s]*)/)) &&
                       m[1] &&
-                      (m = numberify(m[1].replace("_", "."))),
+                      (m = numberify(m[1].replace("_",
+                          "."))),
                     (o.ios = m),
                     (o.os = "ios"),
                     (o.ipad = o.ipod = o.iphone = 0),
@@ -1230,7 +1359,8 @@ YUI.add(
                     /Opera Mobi/.test(ua) &&
                       ((o.mobile = "opera"),
                       (m = ua
-                          .replace("Opera Mobi", "")
+                          .replace("Opera Mobi",
+                              "")
                           .match(/Opera ([^\s]*)/)) &&
                         m[1] &&
                         (o.opera = numberify(m[1]))),
@@ -1268,13 +1398,16 @@ YUI.add(
                 aParts = (a + "").split("."),
                 bParts = (b + "").split("."),
                 i = 0,
-                len = Math.max(aParts.length, bParts.length);
+                len = Math.max(aParts.length,
+                    bParts.length);
                 i < len;
                 ++i
             ) {
                 if (
-                    ((aPart = parseInt(aParts[i], 10)),
-                    (bPart = parseInt(bParts[i], 10)),
+                    ((aPart = parseInt(aParts[i],
+                        10)),
+                    (bPart = parseInt(bParts[i],
+                        10)),
                     isNaN(aPart) && (aPart = 0),
                     isNaN(bPart) && (bPart = 0),
                     aPart < bPart)
@@ -1517,19 +1650,29 @@ YUI.add(
                     else
                         for (i = 0, len = this._queue.length; i < len; ++i)
                             if ((item = this._queue[i].transaction).id === id) {
-                                (transaction = item), this._queue.splice(i, 1);
+                                (transaction = item), this._queue.splice(i,
+                                    1);
                                 break;
                             }
                 transaction && transaction.abort();
             },
             css: function (urls, options, callback) {
-                return this._load("css", urls, options, callback);
+                return this._load("css",
+                    urls,
+                    options,
+                    callback);
             },
             js: function (urls, options, callback) {
-                return this._load("js", urls, options, callback);
+                return this._load("js",
+                    urls,
+                    options,
+                    callback);
             },
             load: function (urls, options, callback) {
-                return this._load(null, urls, options, callback);
+                return this._load(null,
+                    urls,
+                    options,
+                    callback);
             },
             _autoPurge: function (threshold) {
                 threshold &&
@@ -1543,11 +1686,13 @@ YUI.add(
                     async:
               (doc && !0 === doc.createElement("script").async) || ua.ie >= 10,
                     cssFail:
-              ua.gecko >= 9 || ua.compareVersions(ua.webkit, 535.24) >= 0,
+              ua.gecko >= 9 || ua.compareVersions(ua.webkit,
+                  535.24) >= 0,
                     cssLoad:
               ((!ua.gecko && !ua.webkit) ||
                 ua.gecko >= 9 ||
-                ua.compareVersions(ua.webkit, 535.24) >= 0) &&
+                ua.compareVersions(ua.webkit,
+                    535.24) >= 0) &&
               !(ua.chrome && ua.chrome <= 18),
                     preservesScriptOrder: !!(
                         ua.gecko ||
@@ -1564,7 +1709,8 @@ YUI.add(
                     requests = [];
                 for (
                     Lang.isArray(urls) || (urls = [urls]),
-                    (options = Y.merge(this.options, options)).attributes = Y.merge(
+                    (options = Y.merge(this.options,
+                        options)).attributes = Y.merge(
                         this.options.attributes,
                         options.attributes,
                     ),
@@ -1579,9 +1725,19 @@ YUI.add(
                         req.url = url;
                     else {
                         if (!url.url) continue;
-                        Y.mix(req, url, !1, null, 0, !0), (url = url.url);
+                        Y.mix(req,
+                            url,
+                            !1,
+                            null,
+                            0,
+                            !0), (url = url.url);
                     }
-                    Y.mix(req, options, !1, null, 0, !0),
+                    Y.mix(req,
+                        options,
+                        !1,
+                        null,
+                        0,
+                        !0),
                     req.type ||
                 (this.REGEX_CSS.test(url)
                     ? (req.type = "css")
@@ -1601,7 +1757,8 @@ YUI.add(
                     req.charset && (req.attributes.charset = req.charset),
                     requests.push(req);
                 }
-                return new Transaction(requests, options);
+                return new Transaction(requests,
+                    options);
             },
             _load: function (type, urls, options, callback) {
                 var transaction;
@@ -1612,7 +1769,8 @@ YUI.add(
                     (options.type = type),
                     (options._onFinish = Get._onTransactionFinish),
                     this._env || this._getEnv(),
-                    (transaction = this._getTransaction(urls, options)),
+                    (transaction = this._getTransaction(urls,
+                        options)),
                     this._queue.push({ callback: callback,
                         transaction: transaction }),
                     this._next(),
@@ -1641,8 +1799,10 @@ YUI.add(
                     node._yuiget_finished &&
               (node.parentNode && node.parentNode.removeChild(node),
               isTransaction &&
-                (index = Y.Array.indexOf(purgeNodes, node)) > -1 &&
-                purgeNodes.splice(index, 1));
+                (index = Y.Array.indexOf(purgeNodes,
+                    node)) > -1 &&
+                purgeNodes.splice(index,
+                    1));
             },
         }),
         (Get.script = Get.js),
@@ -1690,7 +1850,8 @@ YUI.add(
                             self.options.timeout &&
                       (self._timeout = setTimeout(function () {
                           self.abort("Timeout");
-                      }, self.options.timeout)),
+                      },
+                      self.options.timeout)),
                             self._reqsWaiting = requests.length,
                             i = 0,
                             len = requests.length;
@@ -1704,7 +1865,8 @@ YUI.add(
                     }
                 } else
                     callback &&
-                callback(self.errors.length ? self.errors : null, self);
+                callback(self.errors.length ? self.errors : null,
+                    self);
             },
             purge: function () {
                 Get._purge(this.nodes);
@@ -1714,7 +1876,8 @@ YUI.add(
                     testEl,
                     node = doc.createElement(name);
                 for (attr in (CUSTOM_ATTRS ||
-              ((testEl = doc.createElement("div")).setAttribute("class", "a"),
+              ((testEl = doc.createElement("div")).setAttribute("class",
+                  "a"),
               (CUSTOM_ATTRS =
                 "a" === testEl.className
                     ? {}
@@ -1722,7 +1885,8 @@ YUI.add(
                         class: "className" })),
                 attrs))
                     attrs.hasOwnProperty(attr) &&
-                node.setAttribute(CUSTOM_ATTRS[attr] || attr, attrs[attr]);
+                node.setAttribute(CUSTOM_ATTRS[attr] || attr,
+                    attrs[attr]);
                 return node;
             },
             _finish: function () {
@@ -1738,27 +1902,34 @@ YUI.add(
                         i < len;
                         ++i
                     )
-                        this._callbacks[i].call(thisObj, errors, this);
+                        this._callbacks[i].call(thisObj,
+                            errors,
+                            this);
                     (data = this._getEventData()),
                     errors
                         ? (options.onTimeout &&
                       "Timeout" === errors[errors.length - 1].error &&
-                      options.onTimeout.call(thisObj, data),
-                        options.onFailure && options.onFailure.call(thisObj, data))
-                        : options.onSuccess && options.onSuccess.call(thisObj, data),
-                    options.onEnd && options.onEnd.call(thisObj, data),
+                      options.onTimeout.call(thisObj,
+                          data),
+                        options.onFailure && options.onFailure.call(thisObj,
+                            data))
+                        : options.onSuccess && options.onSuccess.call(thisObj,
+                            data),
+                    options.onEnd && options.onEnd.call(thisObj,
+                        data),
                     options._onFinish && options._onFinish();
                 }
             },
             _getEventData: function (req) {
                 return req
-                    ? Y.merge(this, {
-                        abort: this.abort,
-                        purge: this.purge,
-                        request: req,
-                        url: req.url,
-                        win: req.win,
-                    })
+                    ? Y.merge(this,
+                        {
+                            abort: this.abort,
+                            purge: this.purge,
+                            request: req,
+                            url: req.url,
+                            win: req.win,
+                        })
                     : this;
             },
             _getInsertBefore: function (req) {
@@ -1789,10 +1960,12 @@ YUI.add(
                     self = this,
                     ua = Y.UA;
                 function onError() {
-                    self._progress("Failed to load " + req.url, req);
+                    self._progress("Failed to load " + req.url,
+                        req);
                 }
                 function onLoad() {
-                    cssTimeout && clearTimeout(cssTimeout), self._progress(null, req);
+                    cssTimeout && clearTimeout(cssTimeout), self._progress(null,
+                        req);
                 }
                 node ||
               ((nodeType = isScript
@@ -1806,7 +1979,8 @@ YUI.add(
                   req.doc,
               ))),
                 isScript
-                    ? (node.setAttribute("src", req.url),
+                    ? (node.setAttribute("src",
+                        req.url),
                     req.async
                         ? (node.async = !0)
                         : (env.async && (node.async = !1),
@@ -1819,7 +1993,8 @@ YUI.add(
                     '@import "' +
                     req.url +
                     '";')
-                        : node.setAttribute("href", req.url),
+                        : node.setAttribute("href",
+                            req.url),
                 isScript &&
               ua.ie &&
               (ua.ie < 9 ||
@@ -1831,18 +2006,22 @@ YUI.add(
                     : isScript || env.cssLoad
                         ? (ua.ie >= 10
                             ? ((node.onerror = function () {
-                                setTimeout(onError, 0);
+                                setTimeout(onError,
+                                    0);
                             }),
                             (node.onload = function () {
-                                setTimeout(onLoad, 0);
+                                setTimeout(onLoad,
+                                    0);
                             }))
                             : ((node.onerror = onError), (node.onload = onLoad)),
                         env.cssFail ||
                     isScript ||
-                    (cssTimeout = setTimeout(onError, req.timeout || 3e3)))
+                    (cssTimeout = setTimeout(onError,
+                        req.timeout || 3e3)))
                         : this._poll(req),
                 this.nodes.push(node),
-                insertBefore.parentNode.insertBefore(node, insertBefore);
+                insertBefore.parentNode.insertBefore(node,
+                    insertBefore);
             },
             _next: function () {
                 this._pending ||
@@ -1874,22 +2053,27 @@ YUI.add(
 
                             )
                                 if (sheets[j].href === nodeHref) {
-                                    pendingCSS.splice(i, 1),
+                                    pendingCSS.splice(i,
+                                        1),
                                     (i -= 1),
-                                    self._progress(null, req);
+                                    self._progress(null,
+                                        req);
                                     break;
                                 }
                         } else
                             try {
                                 !!req.node.sheet.cssRules,
-                                pendingCSS.splice(i, 1),
+                                pendingCSS.splice(i,
+                                    1),
                                 (i -= 1),
-                                self._progress(null, req);
+                                self._progress(null,
+                                    req);
                             } catch (ex) {}
                     pendingCSS.length &&
                 (self._pollTimer = setTimeout(function () {
                     self._poll.call(self);
-                }, self.options.pollInterval));
+                },
+                self.options.pollInterval));
                 }
             },
             _progress: function (err, req) {
@@ -1920,340 +2104,401 @@ YUI.add(
     "features",
     function (Y, NAME) {
         var feature_tests = {};
-        Y.mix(Y.namespace("Features"), {
-            tests: feature_tests,
-            add: function (cat, name, o) {
-                (feature_tests[cat] = feature_tests[cat] || {}),
-                (feature_tests[cat][name] = o);
-            },
-            all: function (cat, args) {
-                var cat_o = feature_tests[cat],
-                    result = [];
-                return (
-                    cat_o &&
-              Y.Object.each(cat_o, function (v, k) {
-                  result.push(k + ":" + (Y.Features.test(cat, k, args) ? 1 : 0));
-              }),
-                    result.length ? result.join(";") : ""
-                );
-            },
-            test: function (cat, name, args) {
-                args = args || [];
-                var result,
-                    ua,
-                    test,
-                    cat_o = feature_tests[cat],
-                    feature = cat_o && cat_o[name];
-                return (
-                    feature &&
+        Y.mix(Y.namespace("Features"),
+            {
+                tests: feature_tests,
+                add: function (cat, name, o) {
+                    (feature_tests[cat] = feature_tests[cat] || {}),
+                    (feature_tests[cat][name] = o);
+                },
+                all: function (cat, args) {
+                    var cat_o = feature_tests[cat],
+                        result = [];
+                    return (
+                        cat_o &&
+              Y.Object.each(cat_o,
+                  function (v, k) {
+                      result.push(k + ":" + (Y.Features.test(cat,
+                          k,
+                          args)
+                          ? 1
+                          : 0));
+                  }),
+                        result.length ? result.join(";") : ""
+                    );
+                },
+                test: function (cat, name, args) {
+                    args = args || [];
+                    var result,
+                        ua,
+                        test,
+                        cat_o = feature_tests[cat],
+                        feature = cat_o && cat_o[name];
+                    return (
+                        feature &&
               ((result = feature.result),
               Y.Lang.isUndefined(result) &&
                 ((ua = feature.ua) && (result = Y.UA[ua]),
                 !(test = feature.test) ||
                   (ua && !result) ||
-                  (result = test.apply(Y, args)),
+                  (result = test.apply(Y,
+                      args)),
                 (feature.result = result))),
-                    result
-                );
-            },
-        });
+                        result
+                    );
+                },
+            });
         var add = Y.Features.add;
-        add("load", "0", {
-            name: "app-transitions-native",
-            test: function (Y) {
-                var doc = Y.config.doc,
-                    node = doc ? doc.documentElement : null;
-                return (
-                    !(!node || !node.style) &&
+        add("load",
+            "0",
+            {
+                name: "app-transitions-native",
+                test: function (Y) {
+                    var doc = Y.config.doc,
+                        node = doc ? doc.documentElement : null;
+                    return (
+                        !(!node || !node.style) &&
             ("MozTransition" in node.style ||
               "WebkitTransition" in node.style ||
               "transition" in node.style)
-                );
-            },
-            trigger: "app-transitions",
-        }),
-        add("load", "1", {
-            name: "autocomplete-list-keys",
-            test: function (Y) {
-                return !(Y.UA.ios || Y.UA.android);
-            },
-            trigger: "autocomplete-list",
-        }),
-        add("load", "2", {
-            name: "dd-gestures",
-            trigger: "dd-drag",
-            ua: "touchEnabled",
-        }),
-        add("load", "3", {
-            name: "dom-style-ie",
-            test: function (Y) {
-                var testFeature = Y.Features.test,
-                    addFeature = Y.Features.add,
-                    WINDOW = Y.config.win,
-                    DOCUMENT = Y.config.doc;
-                return (
-                    addFeature("style", "computedStyle", {
-                        test: function () {
-                            return WINDOW && "getComputedStyle" in WINDOW;
-                        },
-                    }),
-                    addFeature("style", "opacity", {
-                        test: function () {
-                            return (
-                                DOCUMENT && "opacity" in DOCUMENT.documentElement.style
-                            );
-                        },
-                    }),
-                    !testFeature("style", "opacity") &&
-                !testFeature("style", "computedStyle")
-                );
-            },
-            trigger: "dom-style",
-        }),
-        add("load", "4", {
-            name: "editor-para-ie",
-            trigger: "editor-para",
-            ua: "ie",
-            when: "instead",
-        }),
-        add("load", "5", {
-            name: "event-base-ie",
-            test: function (Y) {
-                var imp = Y.config.doc && Y.config.doc.implementation;
-                return imp && !imp.hasFeature("Events", "2.0");
-            },
-            trigger: "node-base",
-        }),
-        add("load", "6", {
-            name: "graphics-canvas",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    useCanvas =
+                    );
+                },
+                trigger: "app-transitions",
+            }),
+        add("load",
+            "1",
+            {
+                name: "autocomplete-list-keys",
+                test: function (Y) {
+                    return !(Y.UA.ios || Y.UA.android);
+                },
+                trigger: "autocomplete-list",
+            }),
+        add("load",
+            "2",
+            {
+                name: "dd-gestures",
+                trigger: "dd-drag",
+                ua: "touchEnabled",
+            }),
+        add("load",
+            "3",
+            {
+                name: "dom-style-ie",
+                test: function (Y) {
+                    var testFeature = Y.Features.test,
+                        addFeature = Y.Features.add,
+                        WINDOW = Y.config.win,
+                        DOCUMENT = Y.config.doc;
+                    return (
+                        addFeature("style",
+                            "computedStyle",
+                            {
+                                test: function () {
+                                    return WINDOW && "getComputedStyle" in WINDOW;
+                                },
+                            }),
+                        addFeature("style",
+                            "opacity",
+                            {
+                                test: function () {
+                                    return (
+                                        DOCUMENT && "opacity" in DOCUMENT.documentElement.style
+                                    );
+                                },
+                            }),
+                        !testFeature("style",
+                            "opacity") &&
+                !testFeature("style",
+                    "computedStyle")
+                    );
+                },
+                trigger: "dom-style",
+            }),
+        add("load",
+            "4",
+            {
+                name: "editor-para-ie",
+                trigger: "editor-para",
+                ua: "ie",
+                when: "instead",
+            }),
+        add("load",
+            "5",
+            {
+                name: "event-base-ie",
+                test: function (Y) {
+                    var imp = Y.config.doc && Y.config.doc.implementation;
+                    return imp && !imp.hasFeature("Events",
+                        "2.0");
+                },
+                trigger: "node-base",
+            }),
+        add("load",
+            "6",
+            {
+                name: "graphics-canvas",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        useCanvas =
                 Y.config.defaultGraphicEngine &&
                 "canvas" == Y.config.defaultGraphicEngine,
-                    canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                return (
-                    (!(
-                        DOCUMENT &&
+                        canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return (
+                        (!(
+                            DOCUMENT &&
                 DOCUMENT.implementation.hasFeature(
                     "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                     "1.1",
                 )
-                    ) ||
+                        ) ||
                 useCanvas) &&
               canvas &&
               canvas.getContext &&
               canvas.getContext("2d")
-                );
-            },
-            trigger: "graphics",
-        }),
-        add("load", "7", {
-            name: "graphics-canvas-default",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    useCanvas =
+                    );
+                },
+                trigger: "graphics",
+            }),
+        add("load",
+            "7",
+            {
+                name: "graphics-canvas-default",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        useCanvas =
                 Y.config.defaultGraphicEngine &&
                 "canvas" == Y.config.defaultGraphicEngine,
-                    canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                return (
-                    (!(
-                        DOCUMENT &&
+                        canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return (
+                        (!(
+                            DOCUMENT &&
                 DOCUMENT.implementation.hasFeature(
                     "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                     "1.1",
                 )
-                    ) ||
+                        ) ||
                 useCanvas) &&
               canvas &&
               canvas.getContext &&
               canvas.getContext("2d")
-                );
-            },
-            trigger: "graphics",
-        }),
-        add("load", "8", {
-            name: "graphics-svg",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    useSVG =
+                    );
+                },
+                trigger: "graphics",
+            }),
+        add("load",
+            "8",
+            {
+                name: "graphics-svg",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        useSVG =
                 !Y.config.defaultGraphicEngine ||
                 "canvas" != Y.config.defaultGraphicEngine,
-                    canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                return (
-                    DOCUMENT &&
+                        canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return (
+                        DOCUMENT &&
               DOCUMENT.implementation.hasFeature(
                   "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                   "1.1",
               ) &&
               (useSVG || !canvas)
-                );
-            },
-            trigger: "graphics",
-        }),
-        add("load", "9", {
-            name: "graphics-svg-default",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    useSVG =
+                    );
+                },
+                trigger: "graphics",
+            }),
+        add("load",
+            "9",
+            {
+                name: "graphics-svg-default",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        useSVG =
                 !Y.config.defaultGraphicEngine ||
                 "canvas" != Y.config.defaultGraphicEngine,
-                    canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                return (
-                    DOCUMENT &&
+                        canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return (
+                        DOCUMENT &&
               DOCUMENT.implementation.hasFeature(
                   "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                   "1.1",
               ) &&
               (useSVG || !canvas)
-                );
-            },
-            trigger: "graphics",
-        }),
-        add("load", "10", {
-            name: "graphics-vml",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                return (
-                    DOCUMENT &&
+                    );
+                },
+                trigger: "graphics",
+            }),
+        add("load",
+            "10",
+            {
+                name: "graphics-vml",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return (
+                        DOCUMENT &&
               !DOCUMENT.implementation.hasFeature(
                   "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                   "1.1",
               ) &&
               (!canvas || !canvas.getContext || !canvas.getContext("2d"))
-                );
-            },
-            trigger: "graphics",
-        }),
-        add("load", "11", {
-            name: "graphics-vml-default",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                return (
-                    DOCUMENT &&
+                    );
+                },
+                trigger: "graphics",
+            }),
+        add("load",
+            "11",
+            {
+                name: "graphics-vml-default",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                    return (
+                        DOCUMENT &&
               !DOCUMENT.implementation.hasFeature(
                   "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                   "1.1",
               ) &&
               (!canvas || !canvas.getContext || !canvas.getContext("2d"))
-                );
-            },
-            trigger: "graphics",
-        }),
-        add("load", "12", {
-            name: "history-hash-ie",
-            test: function (Y) {
-                var docMode = Y.config.doc && Y.config.doc.documentMode;
-                return (
-                    Y.UA.ie &&
+                    );
+                },
+                trigger: "graphics",
+            }),
+        add("load",
+            "12",
+            {
+                name: "history-hash-ie",
+                test: function (Y) {
+                    var docMode = Y.config.doc && Y.config.doc.documentMode;
+                    return (
+                        Y.UA.ie &&
               (!("onhashchange" in Y.config.win) || !docMode || docMode < 8)
-                );
-            },
-            trigger: "history-hash",
-        }),
-        add("load", "13", {
-            name: "io-nodejs",
-            trigger: "io-base",
-            ua: "nodejs",
-        }),
-        add("load", "14", {
-            name: "json-parse-shim",
-            test: function (Y) {
-                var _JSON = Y.config.global.JSON,
-                    Native =
+                    );
+                },
+                trigger: "history-hash",
+            }),
+        add("load",
+            "13",
+            {
+                name: "io-nodejs",
+                trigger: "io-base",
+                ua: "nodejs",
+            }),
+        add("load",
+            "14",
+            {
+                name: "json-parse-shim",
+                test: function (Y) {
+                    var _JSON = Y.config.global.JSON,
+                        Native =
                 "[object JSON]" === Object.prototype.toString.call(_JSON) &&
                 _JSON,
-                    nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
-                if (nativeSupport)
-                    try {
-                        nativeSupport = Native.parse('{"ok":false}', function (k, v) {
-                            return "ok" === k || v;
-                        }).ok;
-                    } catch (e) {
-                        nativeSupport = !1;
-                    }
-                return !nativeSupport;
-            },
-            trigger: "json-parse",
-        }),
-        add("load", "15", {
-            name: "json-stringify-shim",
-            test: function (Y) {
-                var _JSON = Y.config.global.JSON,
-                    Native =
+                        nativeSupport = !1 !== Y.config.useNativeJSONParse && !!Native;
+                    if (nativeSupport)
+                        try {
+                            nativeSupport = Native.parse('{"ok":false}',
+                                function (k, v) {
+                                    return "ok" === k || v;
+                                }).ok;
+                        } catch (e) {
+                            nativeSupport = !1;
+                        }
+                    return !nativeSupport;
+                },
+                trigger: "json-parse",
+            }),
+        add("load",
+            "15",
+            {
+                name: "json-stringify-shim",
+                test: function (Y) {
+                    var _JSON = Y.config.global.JSON,
+                        Native =
                 "[object JSON]" === Object.prototype.toString.call(_JSON) &&
                 _JSON,
-                    nativeSupport =
+                        nativeSupport =
                 !1 !== Y.config.useNativeJSONStringify && !!Native;
-                if (nativeSupport)
-                    try {
-                        nativeSupport = "0" === Native.stringify(0);
-                    } catch (e) {
-                        nativeSupport = !1;
-                    }
-                return !nativeSupport;
-            },
-            trigger: "json-stringify",
-        }),
-        add("load", "16", {
-            name: "scrollview-base-ie",
-            trigger: "scrollview-base",
-            ua: "ie",
-        }),
-        add("load", "17", {
-            name: "selector-css2",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc;
-                return DOCUMENT && !("querySelectorAll" in DOCUMENT);
-            },
-            trigger: "selector",
-        }),
-        add("load", "18", {
-            name: "transition-timer",
-            test: function (Y) {
-                var DOCUMENT = Y.config.doc,
-                    node = DOCUMENT ? DOCUMENT.documentElement : null,
-                    ret = !0;
-                return (
-                    node &&
+                    if (nativeSupport)
+                        try {
+                            nativeSupport = "0" === Native.stringify(0);
+                        } catch (e) {
+                            nativeSupport = !1;
+                        }
+                    return !nativeSupport;
+                },
+                trigger: "json-stringify",
+            }),
+        add("load",
+            "16",
+            {
+                name: "scrollview-base-ie",
+                trigger: "scrollview-base",
+                ua: "ie",
+            }),
+        add("load",
+            "17",
+            {
+                name: "selector-css2",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc;
+                    return DOCUMENT && !("querySelectorAll" in DOCUMENT);
+                },
+                trigger: "selector",
+            }),
+        add("load",
+            "18",
+            {
+                name: "transition-timer",
+                test: function (Y) {
+                    var DOCUMENT = Y.config.doc,
+                        node = DOCUMENT ? DOCUMENT.documentElement : null,
+                        ret = !0;
+                    return (
+                        node &&
                 node.style &&
                 (ret = !(
                     "MozTransition" in node.style ||
                   "WebkitTransition" in node.style ||
                   "transition" in node.style
                 )),
-                    ret
-                );
-            },
-            trigger: "transition",
-        }),
-        add("load", "19", {
-            name: "widget-base-ie",
-            trigger: "widget-base",
-            ua: "ie",
-        }),
-        add("load", "20", {
-            name: "yql-jsonp",
-            test: function (Y) {
-                return !Y.UA.nodejs && !Y.UA.winjs;
-            },
-            trigger: "yql",
-            when: "after",
-        }),
-        add("load", "21", {
-            name: "yql-nodejs",
-            trigger: "yql",
-            ua: "nodejs",
-            when: "after",
-        }),
-        add("load", "22", {
-            name: "yql-winjs",
-            trigger: "yql",
-            ua: "winjs",
-            when: "after",
-        });
+                        ret
+                    );
+                },
+                trigger: "transition",
+            }),
+        add("load",
+            "19",
+            {
+                name: "widget-base-ie",
+                trigger: "widget-base",
+                ua: "ie",
+            }),
+        add("load",
+            "20",
+            {
+                name: "yql-jsonp",
+                test: function (Y) {
+                    return !Y.UA.nodejs && !Y.UA.winjs;
+                },
+                trigger: "yql",
+                when: "after",
+            }),
+        add("load",
+            "21",
+            {
+                name: "yql-nodejs",
+                trigger: "yql",
+                ua: "nodejs",
+                when: "after",
+            }),
+        add("load",
+            "22",
+            {
+                name: "yql-winjs",
+                trigger: "yql",
+                ua: "winjs",
+                when: "after",
+            });
     },
     "3.12.0",
     { requires: ["yui-base"] },
@@ -2262,36 +2507,39 @@ YUI.add(
     "intl-base",
     function (Y, NAME) {
         var SPLIT_REGEX = /[, ]/;
-        Y.mix(Y.namespace("Intl"), {
-            lookupBestLang: function (preferredLanguages, availableLanguages) {
-                var i, language, result, index;
-                function scan(language) {
-                    var i;
-                    for (i = 0; i < availableLanguages.length; i += 1)
-                        if (
-                            language.toLowerCase() === availableLanguages[i].toLowerCase()
-                        )
-                            return availableLanguages[i];
-                }
-                for (
-                    Y.Lang.isString(preferredLanguages) &&
+        Y.mix(Y.namespace("Intl"),
+            {
+                lookupBestLang: function (preferredLanguages, availableLanguages) {
+                    var i, language, result, index;
+                    function scan(language) {
+                        var i;
+                        for (i = 0; i < availableLanguages.length; i += 1)
+                            if (
+                                language.toLowerCase() === availableLanguages[i].toLowerCase()
+                            )
+                                return availableLanguages[i];
+                    }
+                    for (
+                        Y.Lang.isString(preferredLanguages) &&
               (preferredLanguages = preferredLanguages.split(SPLIT_REGEX)),
-                    i = 0;
-                    i < preferredLanguages.length;
-                    i += 1
-                )
-                    if ((language = preferredLanguages[i]) && "*" !== language)
-                        for (; language.length > 0; ) {
-                            if ((result = scan(language))) return result;
-                            if (!((index = language.lastIndexOf("-")) >= 0)) break;
-                            (language = language.substring(0, index)),
-                            index >= 2 &&
+                        i = 0;
+                        i < preferredLanguages.length;
+                        i += 1
+                    )
+                        if ((language = preferredLanguages[i]) && "*" !== language)
+                            for (; language.length > 0; ) {
+                                if ((result = scan(language))) return result;
+                                if (!((index = language.lastIndexOf("-")) >= 0)) break;
+                                (language = language.substring(0,
+                                    index)),
+                                index >= 2 &&
                     "-" === language.charAt(index - 2) &&
-                    (language = language.substring(0, index - 2));
-                        }
-                return "";
-            },
-        });
+                    (language = language.substring(0,
+                        index - 2));
+                            }
+                    return "";
+                },
+            });
     },
     "3.12.0",
     { requires: ["yui-base"] },
@@ -2330,7 +2578,10 @@ YUI.add(
               (c.useBrowserConsole &&
                 ((m = src ? src + ": " + msg : msg),
                 Y.Lang.isFunction(c.logFn)
-                    ? c.logFn.call(Y, msg, cat, src)
+                    ? c.logFn.call(Y,
+                        msg,
+                        cat,
+                        src)
                     : "undefined" != typeof console && console.log
                         ? ((f = cat && console[cat] && cat in LEVELS ? cat : "log"),
                         console[f](m))
@@ -2339,15 +2590,18 @@ YUI.add(
                 !silent &&
                 (publisher !== Y ||
                   publisher.getEvent("yui:log") ||
-                  publisher.publish("yui:log", { broadcast: 2 }),
-                publisher.fire("yui:log", { msg: msg,
-                    cat: cat,
-                    src: src })))),
+                  publisher.publish("yui:log",
+                      { broadcast: 2 }),
+                publisher.fire("yui:log",
+                    { msg: msg,
+                        cat: cat,
+                        src: src })))),
                 Y
             );
         }),
         (INSTANCE.message = function () {
-            return INSTANCE.log.apply(INSTANCE, arguments);
+            return INSTANCE.log.apply(INSTANCE,
+                arguments);
         });
     },
     "3.12.0",
@@ -2366,12 +2620,18 @@ YUI.add(
                 wrapper = function () {
                     cancelled ||
               (method.apply
-                  ? method.apply(o, data || NO_ARGS)
-                  : method(data[0], data[1], data[2], data[3]));
+                  ? method.apply(o,
+                      data || NO_ARGS)
+                  : method(data[0],
+                      data[1],
+                      data[2],
+                      data[3]));
                 },
                 id = periodic
-                    ? setInterval(wrapper, when)
-                    : setTimeout(wrapper, when);
+                    ? setInterval(wrapper,
+                        when)
+                    : setTimeout(wrapper,
+                        when);
             return {
                 id: id,
                 interval: periodic,
@@ -2457,7 +2717,8 @@ YUI.add(
                         configFn: function (me) {
                             /-skin|reset|fonts|grids|base/.test(me.name) &&
                     ((me.type = "css"),
-                    (me.path = me.path.replace(/\.js/, ".css")),
+                    (me.path = me.path.replace(/\.js/,
+                        ".css")),
                     (me.path = me.path.replace(
                         /\/yui2-skin/,
                         "/assets/skins/sam/yui2-skin",
@@ -2506,7 +2767,8 @@ YUI.add(
             (this.base = Y.Env.meta.base + Y.Env.meta.root),
             (this.comboBase = Y.Env.meta.comboBase),
             (this.combine =
-              o.base && o.base.indexOf(this.comboBase.substr(0, 20)) > -1),
+              o.base && o.base.indexOf(this.comboBase.substr(0,
+                  20)) > -1),
             (this.comboSep = "&"),
             (this.maxURLLength = 1024),
             (this.ignoreRegistered = o.ignoreRegistered),
@@ -2553,7 +2815,8 @@ YUI.add(
                   (this.conditions[i] = Y.merge(cache[i]));
                 } else
                     for (i in defaults)
-                        defaults.hasOwnProperty(i) && this.addModule(defaults[i], i);
+                        defaults.hasOwnProperty(i) && this.addModule(defaults[i],
+                            i);
             },
             _resetModules: function () {
                 var i, o, mod, name, details;
@@ -2578,7 +2841,8 @@ YUI.add(
                         delete mod.langCache,
                         delete mod.skinCache,
                         mod.skinnable &&
-                    this._addSkin(this.skin.defaultSkin, mod.name);
+                    this._addSkin(this.skin.defaultSkin,
+                        mod.name);
                     }
             },
             REGEX_CSS: /\.css(?:[?;].*)?$/i,
@@ -2609,7 +2873,8 @@ YUI.add(
                     req &&
                     mr.length !== req.length &&
                     delete m.expanded
-                    : (m = this.addModule(v.details, i)),
+                    : (m = this.addModule(v.details,
+                        i)),
                 (m._inspected = !0));
             },
             _requires: function (mod1, mod2) {
@@ -2629,10 +2894,12 @@ YUI.add(
                 if ((after_map = other.after_map) && mod1 in after_map) return !1;
                 if ((s = info[mod2] && info[mod2].supersedes))
                     for (i = 0; i < s.length; i++)
-                        if (this._requires(mod1, s[i])) return !0;
+                        if (this._requires(mod1,
+                            s[i])) return !0;
                 if ((s = info[mod1] && info[mod1].supersedes))
                     for (i = 0; i < s.length; i++)
-                        if (this._requires(mod2, s[i])) return !1;
+                        if (this._requires(mod2,
+                            s[i])) return !1;
                 return (
                     !(!rm || !(mod2 in rm)) ||
               !(!m.ext || m.type !== CSS || other.ext || other.type !== CSS)
@@ -2657,32 +2924,41 @@ YUI.add(
                                 "string" == typeof val &&
                       ((self.skin.defaultSkin = o.skin),
                       (val = { defaultSkin: val })),
-                                Y.mix(self.skin, val, !0);
+                                Y.mix(self.skin,
+                                    val,
+                                    !0);
                             else if ("groups" === i) {
                                 for (j in val)
                                     if (
                                         val.hasOwnProperty(j) &&
                         ((groupName = j),
                         (group = val[j]),
-                        self.addGroup(group, groupName),
+                        self.addGroup(group,
+                            groupName),
                         group.aliases)
                                     )
                                         for (a in group.aliases)
                                             group.aliases.hasOwnProperty(a) &&
-                            self.addAlias(group.aliases[a], a);
+                            self.addAlias(group.aliases[a],
+                                a);
                             } else if ("modules" === i)
                                 for (j in val)
-                                    val.hasOwnProperty(j) && self.addModule(val[j], j);
+                                    val.hasOwnProperty(j) && self.addModule(val[j],
+                                        j);
                             else if ("aliases" === i)
                                 for (j in val)
-                                    val.hasOwnProperty(j) && self.addAlias(val[j], j);
+                                    val.hasOwnProperty(j) && self.addAlias(val[j],
+                                        j);
                             else
                                 "gallery" === i
                                     ? this.groups.gallery.update &&
-                        this.groups.gallery.update(val, o)
+                        this.groups.gallery.update(val,
+                            o)
                                     : "yui2" === i || "2in3" === i
                                         ? this.groups.yui2.update &&
-                        this.groups.yui2.update(o["2in3"], o.yui2, o)
+                        this.groups.yui2.update(o["2in3"],
+                            o.yui2,
+                            o)
                                         : (self[i] = val);
                 if (
                     ((f = self.filter),
@@ -2690,7 +2966,8 @@ YUI.add(
                 ((f = f.toUpperCase()),
                 (self.filterName = f),
                 (self.filter = self.FILTER_DEFS[f]),
-                "DEBUG" === f && self.require("yui-log", "dump")),
+                "DEBUG" === f && self.require("yui-log",
+                    "dump")),
                     self.filterName &&
                 self.coverage &&
                 "COVERAGE" === self.filterName &&
@@ -2700,12 +2977,14 @@ YUI.add(
                     for (i = 0; i < self.coverage.length; i++)
                         (mod = self.coverage[i]),
                         self.moduleInfo[mod] && self.moduleInfo[mod].use
-                            ? (mods = [].concat(mods, self.moduleInfo[mod].use))
+                            ? (mods = [].concat(mods,
+                                self.moduleInfo[mod].use))
                             : mods.push(mod);
                     (self.filters = self.filters || {}),
-                    Y.Array.each(mods, function (mod) {
-                        self.filters[mod] = self.FILTER_DEFS.COVERAGE;
-                    }),
+                    Y.Array.each(mods,
+                        function (mod) {
+                            self.filters[mod] = self.FILTER_DEFS.COVERAGE;
+                        }),
                     (self.filterName = "RAW"),
                     (self.filter = self.FILTER_DEFS[self.filterName]);
                 }
@@ -2724,7 +3003,8 @@ YUI.add(
                     ext = info[mod] && info[mod].ext;
                 return (
                     mod &&
-                (info[(name = this.formatSkin(skin, mod))] ||
+                (info[(name = this.formatSkin(skin,
+                    mod))] ||
                   ((pkg = (mdef = info[mod]).pkg || mod),
                   (nmod = {
                       skin: !0,
@@ -2744,7 +3024,8 @@ YUI.add(
                   }),
                   mdef.base && (nmod.base = mdef.base),
                   mdef.configFn && (nmod.configFn = mdef.configFn),
-                  this.addModule(nmod, name))),
+                  this.addModule(nmod,
+                      name))),
                     name
                 );
             },
@@ -2774,7 +3055,8 @@ YUI.add(
                     (v = { name: i,
                         fullpath: v }),
                   (v.group = name),
-                  this.addModule(v, i));
+                  this.addModule(v,
+                      i));
             },
             addModule: function (o, name) {
                 (name = name || o.name),
@@ -2806,7 +3088,8 @@ YUI.add(
                 if (
                     (this.moduleInfo[name] &&
                 this.moduleInfo[name].temp &&
-                (o = Y.merge(this.moduleInfo[name], o)),
+                (o = Y.merge(this.moduleInfo[name],
+                    o)),
                     (o.name = name),
                     !o || !o.name)
                 )
@@ -2817,7 +3100,9 @@ YUI.add(
                 (p = o.path || o.fullpath) &&
                   this.REGEX_CSS.test(p) &&
                   (o.type = CSS)),
-                    o.path || o.fullpath || (o.path = _path(name, name, o.type)),
+                    o.path || o.fullpath || (o.path = _path(name,
+                        name,
+                        o.type)),
                     (o.supersedes = o.supersedes || o.use),
                     (o.ext = "ext" in o ? o.ext : !this._internal),
                     (subs = o.submodules),
@@ -2845,7 +3130,8 @@ YUI.add(
                     o.skinnable &&
                 o.ext &&
                 o.temp &&
-                ((skinname = this._addSkin(this.skin.defaultSkin, name)),
+                ((skinname = this._addSkin(this.skin.defaultSkin,
+                    name)),
                 o.requires.unshift(skinname)),
                     o.requires.length &&
                 (o.requires = this.filterRequires(o.requires) || []),
@@ -2853,18 +3139,24 @@ YUI.add(
                 )
                     for (langs = yArray(o.lang), j = 0; j < langs.length; j++)
                         (lang = langs[j]),
-                        (packName = this.getLangPackName(lang, name)),
+                        (packName = this.getLangPackName(lang,
+                            name)),
                         (smod = this.moduleInfo[packName]) ||
-                    (smod = this._addLangPack(lang, o, packName));
+                    (smod = this._addLangPack(lang,
+                        o,
+                        packName));
                 if (subs) {
                     for (i in ((sup = o.supersedes || []), (l = 0), subs))
                         if (subs.hasOwnProperty(i)) {
                             if (
-                                (((s = subs[i]).path = s.path || _path(name, i, o.type)),
+                                (((s = subs[i]).path = s.path || _path(name,
+                                    i,
+                                    o.type)),
                                 (s.pkg = name),
                                 (s.group = o.group),
                                 s.supersedes && (sup = sup.concat(s.supersedes)),
-                                (smod = this.addModule(s, i)),
+                                (smod = this.addModule(s,
+                                    i)),
                                 sup.push(i),
                                 smod.skinnable)
                             ) {
@@ -2873,43 +3165,63 @@ YUI.add(
                                     (overrides = this.skin.overrides) && overrides[i])
                                 )
                                     for (j = 0; j < overrides[i].length; j++)
-                                        (skinname = this._addSkin(overrides[i][j], i, name)),
+                                        (skinname = this._addSkin(overrides[i][j],
+                                            i,
+                                            name)),
                                         sup.push(skinname);
-                                (skinname = this._addSkin(this.skin.defaultSkin, i, name)),
+                                (skinname = this._addSkin(this.skin.defaultSkin,
+                                    i,
+                                    name)),
                                 sup.push(skinname);
                             }
                             if (s.lang && s.lang.length)
                                 for (langs = yArray(s.lang), j = 0; j < langs.length; j++)
                                     (lang = langs[j]),
-                                    (packName = this.getLangPackName(lang, name)),
-                                    (supName = this.getLangPackName(lang, i)),
+                                    (packName = this.getLangPackName(lang,
+                                        name)),
+                                    (supName = this.getLangPackName(lang,
+                                        i)),
                                     (smod = this.moduleInfo[packName]) ||
-                          (smod = this._addLangPack(lang, o, packName)),
+                          (smod = this._addLangPack(lang,
+                              o,
+                              packName)),
                                     supName in
                           (flatSup = flatSup || yArray.hash(smod.supersedes)) ||
                           smod.supersedes.push(supName),
                                     (o.lang = o.lang || []),
                                     lang in (flatLang = flatLang || yArray.hash(o.lang)) ||
                           o.lang.push(lang),
-                                    (packName = this.getLangPackName("", name)),
-                                    (supName = this.getLangPackName("", i)),
+                                    (packName = this.getLangPackName("",
+                                        name)),
+                                    (supName = this.getLangPackName("",
+                                        i)),
                                     (smod = this.moduleInfo[packName]) ||
-                          (smod = this._addLangPack(lang, o, packName)),
+                          (smod = this._addLangPack(lang,
+                              o,
+                              packName)),
                                     supName in flatSup || smod.supersedes.push(supName);
                             l++;
                         }
                     (o.supersedes = yArray.dedupe(sup)),
-                    this.allowRollup && (o.rollup = l < 4 ? l : Math.min(l - 1, 4));
+                    this.allowRollup && (o.rollup = l < 4
+                        ? l
+                        : Math.min(l - 1,
+                            4));
                 }
                 if ((plugins = o.plugins))
                     for (i in plugins)
                         plugins.hasOwnProperty(i) &&
                   (((plug = plugins[i]).pkg = name),
-                  (plug.path = plug.path || _path(name, i, o.type)),
+                  (plug.path = plug.path || _path(name,
+                      i,
+                      o.type)),
                   (plug.requires = plug.requires || []),
                   (plug.group = o.group),
-                  this.addModule(plug, i),
-                  o.skinnable && this._addSkin(this.skin.defaultSkin, i, name));
+                  this.addModule(plug,
+                      i),
+                  o.skinnable && this._addSkin(this.skin.defaultSkin,
+                      i,
+                      name));
                 if (o.condition)
                     for (
                         t = o.condition.trigger,
@@ -2993,7 +3305,8 @@ YUI.add(
                     m.use &&
                     m.name !== mod.name
                                     ? (c = Y.Array.dedupe(
-                                        [].concat(c, this.filterRequires(m.use)),
+                                        [].concat(c,
+                                            this.filterRequires(m.use)),
                                     ))
                                     : c.push(mod.use[o]);
                         else c.push(r[i]);
@@ -3032,7 +3345,8 @@ YUI.add(
                     (mod.temp &&
                 adddef &&
                 ((old_mod = mod),
-                ((mod = this.addModule(adddef, name)).group = old_mod.group),
+                ((mod = this.addModule(adddef,
+                    name)).group = old_mod.group),
                 (mod.pkg = old_mod.pkg),
                 delete mod.expanded),
                     (reparse = !(
@@ -3089,14 +3403,15 @@ YUI.add(
                         }
                 if ((cond = this.conditions[name]))
                     if (((mod._parsed = !1), testresults && ftests))
-                        oeach(testresults, function (result, id) {
-                            var condmod = ftests[id].name;
-                            hash[condmod] ||
+                        oeach(testresults,
+                            function (result, id) {
+                                var condmod = ftests[id].name;
+                                hash[condmod] ||
                     ftests[id].trigger !== name ||
                     (result &&
                       ftests[id] &&
                       ((hash[condmod] = !0), d.push(condmod)));
-                        });
+                            });
                     else
                         for (i in cond)
                             if (
@@ -3105,7 +3420,8 @@ YUI.add(
                     (def = cond[i]) &&
                     ((!def.ua && !def.test) ||
                       (def.ua && Y.UA[def.ua]) ||
-                      (def.test && def.test(Y, r))) &&
+                      (def.test && def.test(Y,
+                          r))) &&
                     ((hash[i] = !0), d.push(i), (m = this.getModule(i)))
                             )
                                 for (add = this.getRequires(m), j = 0; j < add.length; j++)
@@ -3113,7 +3429,8 @@ YUI.add(
                 if (mod.skinnable) {
                     for (i in ((skindef = this.skin.overrides), YUI.Env.aliases))
                         YUI.Env.aliases.hasOwnProperty(i) &&
-                  Y.Array.indexOf(YUI.Env.aliases[i], name) > -1 &&
+                  Y.Array.indexOf(YUI.Env.aliases[i],
+                      name) > -1 &&
                   (skinpar = i);
                     if (skindef && (skindef[name] || (skinpar && skindef[skinpar])))
                         for (
@@ -3123,11 +3440,15 @@ YUI.add(
                             i < skindef[skinname].length;
                             i++
                         )
-                            (skinmod = this._addSkin(skindef[skinname][i], name)),
-                            this.isCSSLoaded(skinmod, this._boot) || d.push(skinmod);
+                            (skinmod = this._addSkin(skindef[skinname][i],
+                                name)),
+                            this.isCSSLoaded(skinmod,
+                                this._boot) || d.push(skinmod);
                     else
-                        (skinmod = this._addSkin(this.skin.defaultSkin, name)),
-                        this.isCSSLoaded(skinmod, this._boot) || d.push(skinmod);
+                        (skinmod = this._addSkin(this.skin.defaultSkin,
+                            name)),
+                        this.isCSSLoaded(skinmod,
+                            this._boot) || d.push(skinmod);
                 }
                 return (
                     (mod._parsed = !1),
@@ -3135,8 +3456,10 @@ YUI.add(
                 (mod.lang &&
                   !mod.langPack &&
                   Y.Intl &&
-                  ((lang = Y.Intl.lookupBestLang(this.lang || "", mod.lang)),
-                  (packName = this.getLangPackName(lang, name)) &&
+                  ((lang = Y.Intl.lookupBestLang(this.lang || "",
+                      mod.lang)),
+                  (packName = this.getLangPackName(lang,
+                      name)) &&
                     d.unshift(packName)),
                 d.unshift("intl")),
                     (mod.expanded_map = yArray.hash(d)),
@@ -3159,7 +3482,8 @@ YUI.add(
                     ? mod
                     : ((el.className = name),
                     style ||
-                  (style = Y.config.doc.defaultView.getComputedStyle(el, null)),
+                  (style = Y.config.doc.defaultView.getComputedStyle(el,
+                      null)),
                     style && "none" === style.display && (ret = !0),
                     (el.className = ""),
                     (YUI.Env._cssLoaded[name] = ret),
@@ -3177,7 +3501,8 @@ YUI.add(
                     yArray.each(
                         s,
                         function (v) {
-                            Y.mix(o, this.getProvides(v));
+                            Y.mix(o,
+                                this.getProvides(v));
                         },
                         this,
                     ),
@@ -3201,7 +3526,10 @@ YUI.add(
                 return (
                     this.moduleInfo[packName] ||
                 ((conf = {
-                    path: _path(m.pkg || name, packName, JS, !0),
+                    path: _path(m.pkg || name,
+                        packName,
+                        JS,
+                        !0),
                     intl: !0,
                     langPack: !0,
                     ext: m.ext,
@@ -3211,7 +3539,8 @@ YUI.add(
                 m.root && (conf.root = m.root),
                 m.base && (conf.base = m.base),
                 m.configFn && (conf.configFn = m.configFn),
-                this.addModule(conf, packName),
+                this.addModule(conf,
+                    packName),
                 lang &&
                   ((Y.Env.lang = Y.Env.lang || {}),
                   (Y.Env.lang[lang] = Y.Env.lang[lang] || {}),
@@ -3232,17 +3561,24 @@ YUI.add(
                 (m = info[name]) &&
                 ((m.requires = yArray.dedupe(m.requires)),
                 m.lang &&
-                  ((packName = this.getLangPackName("", name)),
-                  this._addLangPack(null, m, packName)));
+                  ((packName = this.getLangPackName("",
+                      name)),
+                  this._addLangPack(null,
+                      m,
+                      packName)));
                 for (j in ((l = {}),
-                this.ignoreRegistered || Y.mix(l, GLOBAL_ENV.mods),
-                this.ignore && Y.mix(l, yArray.hash(this.ignore)),
+                this.ignoreRegistered || Y.mix(l,
+                    GLOBAL_ENV.mods),
+                this.ignore && Y.mix(l,
+                    yArray.hash(this.ignore)),
                 l))
-                    l.hasOwnProperty(j) && Y.mix(l, this.getProvides(j));
+                    l.hasOwnProperty(j) && Y.mix(l,
+                        this.getProvides(j));
                 if (this.force)
                     for (i = 0; i < this.force.length; i++)
                         this.force[i] in l && delete l[this.force[i]];
-                Y.mix(this.loaded, l), (this._init = !0);
+                Y.mix(this.loaded,
+                    l), (this._init = !0);
             },
             getLangPackName: function (lang, mname) {
                 return "lang/" + mname + (lang ? "_" + lang : "");
@@ -3264,9 +3600,11 @@ YUI.add(
                     ((expound = m.expound) &&
                       ((r[expound] = this.getModule(expound)),
                       (reqs = this.getRequires(r[expound])),
-                      Y.mix(r, yArray.hash(reqs))),
+                      Y.mix(r,
+                          yArray.hash(reqs))),
                     (reqs = this.getRequires(m)),
-                    Y.mix(r, yArray.hash(reqs)))));
+                    Y.mix(r,
+                        yArray.hash(reqs)))));
             },
             _patternTest: function (mname, pname) {
                 return mname.indexOf(pname) > -1;
@@ -3283,7 +3621,8 @@ YUI.add(
                         if (
                             patterns.hasOwnProperty(pname) &&
                   ((p = patterns[pname]).test || (p.test = this._patternTest),
-                  p.test(mname, pname))
+                  p.test(mname,
+                      pname))
                         ) {
                             found = p;
                             break;
@@ -3297,8 +3636,11 @@ YUI.add(
                   ((m.configFn = found.configFn), m.configFn(m))
                         : found &&
                   (p.action
-                      ? p.action.call(this, mname, pname)
-                      : ((m = this.addModule(Y.merge(found), mname)),
+                      ? p.action.call(this,
+                          mname,
+                          pname)
+                      : ((m = this.addModule(Y.merge(found),
+                          mname)),
                       found.configFn && (m.configFn = found.configFn),
                       (m.temp = !0))),
                     m
@@ -3332,11 +3674,12 @@ YUI.add(
                 _queue.running = !1;
                 var onEnd = this.onEnd;
                 onEnd &&
-              onEnd.call(this.context, {
-                  msg: msg,
-                  data: this.data,
-                  success: success,
-              }),
+              onEnd.call(this.context,
+                  {
+                      msg: msg,
+                      data: this.data,
+                      success: success,
+                  }),
                 this._continue();
             },
             _onSuccess: function () {
@@ -3357,19 +3700,22 @@ YUI.add(
                 mod.type === JS &&
                 !(i in YUI.Env.mods)
                     ? failed.push(i)
-                    : Y.mix(this.loaded, this.getProvides(i)));
+                    : Y.mix(this.loaded,
+                        this.getProvides(i)));
                 (fn = this.onSuccess),
                 (msg = failed.length ? "notregistered" : "success"),
                 (success = !failed.length),
                 fn &&
-                fn.call(this.context, {
-                    msg: msg,
-                    data: this.data,
-                    success: success,
-                    failed: failed,
-                    skipped: skipped,
-                }),
-                this._finish(msg, success);
+                fn.call(this.context,
+                    {
+                        msg: msg,
+                        data: this.data,
+                        success: success,
+                        failed: failed,
+                        skipped: skipped,
+                    }),
+                this._finish(msg,
+                    success);
             },
             _onProgress: function (e) {
                 var i;
@@ -3377,8 +3723,9 @@ YUI.add(
                     for (i = 0; i < e.data.length; i++)
                         e.data[i] = this.getModule(e.data[i].name);
                 this.onProgress &&
-              this.onProgress.call(this.context, { name: e.url,
-                  data: e.data });
+              this.onProgress.call(this.context,
+                  { name: e.url,
+                      data: e.data });
             },
             _onFailure: function (o) {
                 for (
@@ -3389,22 +3736,25 @@ YUI.add(
                     msg.push(o.errors[i].error);
                 (msg = msg.join(",")),
                 f &&
-                f.call(this.context, {
-                    msg: msg,
-                    data: this.data,
-                    success: !1,
-                }),
-                this._finish(msg, !1);
+                f.call(this.context,
+                    {
+                        msg: msg,
+                        data: this.data,
+                        success: !1,
+                    }),
+                this._finish(msg,
+                    !1);
             },
             _onTimeout: function (transaction) {
                 var f = this.onTimeout;
                 f &&
-              f.call(this.context, {
-                  msg: "timeout",
-                  data: this.data,
-                  success: !1,
-                  transaction: transaction,
-              });
+              f.call(this.context,
+                  {
+                      msg: "timeout",
+                      data: this.data,
+                      success: !1,
+                      transaction: transaction,
+                  });
             },
             _sort: function () {
                 for (
@@ -3423,9 +3773,13 @@ YUI.add(
                 ) {
                     for (l = s.length, moved = !1, j = p; j < l; j++) {
                         for (a = s[j], k = j + 1; k < l; k++)
-                            if (!done[(doneKey = a + s[k])] && this._requires(a, s[k])) {
-                                (b = s.splice(k, 1)),
-                                s.splice(j, 0, b[0]),
+                            if (!done[(doneKey = a + s[k])] && this._requires(a,
+                                s[k])) {
+                                (b = s.splice(k,
+                                    1)),
+                                s.splice(j,
+                                    0,
+                                    b[0]),
                                 (done[doneKey] = !0),
                                 (moved = !0);
                                 break;
@@ -3502,7 +3856,8 @@ YUI.add(
                                     (d = null), self._insert();
                                 }
                             }
-                            d && d.fn && ((fn = d.fn), delete d.fn, fn.call(self, d));
+                            d && d.fn && ((fn = d.fn), delete d.fn, fn.call(self,
+                                d));
                         }
                     }),
                     (this._loading = !0),
@@ -3510,57 +3865,67 @@ YUI.add(
                 )
                     return (actions = -1), void complete({ fn: self._onSuccess });
                 modules.css.length &&
-              Y.Get.css(modules.css, {
-                  data: modules.cssMods,
-                  attributes: self.cssAttributes,
-                  insertBefore: self.insertBefore,
-                  charset: self.charset,
-                  timeout: self.timeout,
-                  context: self,
-                  onProgress: function (e) {
-                      self._onProgress.call(self, e);
-                  },
-                  onTimeout: function (d) {
-                      self._onTimeout.call(self, d);
-                  },
-                  onSuccess: function (d) {
-                      (d.type = "success"),
-                      (d.fn = self._onSuccess),
-                      complete.call(self, d);
-                  },
-                  onFailure: function (d) {
-                      (d.type = "failure"),
-                      (d.fn = self._onFailure),
-                      complete.call(self, d);
-                  },
-              }),
+              Y.Get.css(modules.css,
+                  {
+                      data: modules.cssMods,
+                      attributes: self.cssAttributes,
+                      insertBefore: self.insertBefore,
+                      charset: self.charset,
+                      timeout: self.timeout,
+                      context: self,
+                      onProgress: function (e) {
+                          self._onProgress.call(self,
+                              e);
+                      },
+                      onTimeout: function (d) {
+                          self._onTimeout.call(self,
+                              d);
+                      },
+                      onSuccess: function (d) {
+                          (d.type = "success"),
+                          (d.fn = self._onSuccess),
+                          complete.call(self,
+                              d);
+                      },
+                      onFailure: function (d) {
+                          (d.type = "failure"),
+                          (d.fn = self._onFailure),
+                          complete.call(self,
+                              d);
+                      },
+                  }),
                 modules.js.length &&
-                Y.Get.js(modules.js, {
-                    data: modules.jsMods,
-                    insertBefore: self.insertBefore,
-                    attributes: self.jsAttributes,
-                    charset: self.charset,
-                    timeout: self.timeout,
-                    autopurge: !1,
-                    context: self,
-                    async: self.async,
-                    onProgress: function (e) {
-                        self._onProgress.call(self, e);
-                    },
-                    onTimeout: function (d) {
-                        self._onTimeout.call(self, d);
-                    },
-                    onSuccess: function (d) {
-                        (d.type = "success"),
-                        (d.fn = self._onSuccess),
-                        complete.call(self, d);
-                    },
-                    onFailure: function (d) {
-                        (d.type = "failure"),
-                        (d.fn = self._onFailure),
-                        complete.call(self, d);
-                    },
-                });
+                Y.Get.js(modules.js,
+                    {
+                        data: modules.jsMods,
+                        insertBefore: self.insertBefore,
+                        attributes: self.jsAttributes,
+                        charset: self.charset,
+                        timeout: self.timeout,
+                        autopurge: !1,
+                        context: self,
+                        async: self.async,
+                        onProgress: function (e) {
+                            self._onProgress.call(self,
+                                e);
+                        },
+                        onTimeout: function (d) {
+                            self._onTimeout.call(self,
+                                d);
+                        },
+                        onSuccess: function (d) {
+                            (d.type = "success"),
+                            (d.fn = self._onSuccess),
+                            complete.call(self,
+                                d);
+                        },
+                        onFailure: function (d) {
+                            (d.type = "failure"),
+                            (d.fn = self._onFailure),
+                            complete.call(self,
+                                d);
+                        },
+                    });
             },
             _continue: function () {
                 !_queue.running &&
@@ -3573,7 +3938,10 @@ YUI.add(
                 delete copy.require,
                 delete copy.dirty,
                 _queue.add(function () {
-                    self._insert(copy, o, type, skipsort);
+                    self._insert(copy,
+                        o,
+                        type,
+                        skipsort);
                 }),
                 this._continue();
             },
@@ -3596,12 +3964,15 @@ YUI.add(
                       ? this.FILTER_DEFS[modFilter.toUpperCase()] || null
                       : modFilter),
                 f &&
-                  (u = u.replace(new RegExp(f.searchExp, "g"), f.replaceStr))),
+                  (u = u.replace(new RegExp(f.searchExp,
+                      "g"),
+                  f.replaceStr))),
                     u
                 );
             },
             _url: function (path, name, base) {
-                return this._filter((base || this.base || "") + path, name);
+                return this._filter((base || this.base || "") + path,
+                    name);
             },
             resolve: function (calc, s) {
                 var len,
@@ -3644,8 +4015,11 @@ YUI.add(
                       (group = (m.group && self.groups[m.group]) || NOT_FOUND)
                           .async && (m.async = group.async),
                     (url = m.fullpath
-                        ? self._filter(m.fullpath, s[i])
-                        : self._url(m.path, s[i], group.base || m.base)),
+                        ? self._filter(m.fullpath,
+                            s[i])
+                        : self._url(m.path,
+                            s[i],
+                            group.base || m.base)),
                     (m.attributes || !1 === m.async) &&
                       ((url = { url: url,
                           async: m.async }),
@@ -3707,7 +4081,8 @@ YUI.add(
                         (frag =
                           (L.isValue(m.root) ? m.root : self.root) +
                           (m.path || m.fullpath)),
-                        (frag = self._filter(frag, m.name)),
+                        (frag = self._filter(frag,
+                            m.name)),
                         resCombos[j][m.type].push(frag),
                         resCombos[j][m.type + "Mods"].push(m)));
                 for (j in resCombos)
@@ -3745,11 +4120,15 @@ YUI.add(
                                         u.length &&
                           ((tmpBase = base + u.join(comboSep)),
                           resolved[type].push(
-                              self._filter(tmpBase, null, resCombos[base].group),
+                              self._filter(tmpBase,
+                                  null,
+                                  resCombos[base].group),
                           ));
                                     } else
                                         resolved[type].push(
-                                            self._filter(tmpBase, null, resCombos[base].group),
+                                            self._filter(tmpBase,
+                                                null,
+                                                resCombos[base].group),
                                         );
                                 resolved[type + "Mods"] = resolved[type + "Mods"].concat(
                                     mods,
@@ -3763,7 +4142,8 @@ YUI.add(
                         out = self.resolve(!0);
                     (self.data = out),
                     (self.onEnd = function () {
-                        cb.apply(self.context || self, arguments);
+                        cb.apply(self.context || self,
+                            arguments);
                     }),
                     self.insert();
                 }
@@ -3830,1575 +4210,1586 @@ YUI.add(
     "loader-yui3",
     function (Y, NAME) {
         (YUI.Env[Y.version].modules = YUI.Env[Y.version].modules || {}),
-        Y.mix(YUI.Env[Y.version].modules, {
-            "align-plugin": { requires: ["node-screen", "node-pluginhost"] },
-            anim: {
-                use: [
-                    "anim-base",
-                    "anim-color",
-                    "anim-curve",
-                    "anim-easing",
-                    "anim-node-plugin",
-                    "anim-scroll",
-                    "anim-xy",
-                ],
-            },
-            "anim-base": { requires: ["base-base", "node-style"] },
-            "anim-color": { requires: ["anim-base"] },
-            "anim-curve": { requires: ["anim-xy"] },
-            "anim-easing": { requires: ["anim-base"] },
-            "anim-node-plugin": { requires: ["node-pluginhost", "anim-base"] },
-            "anim-scroll": { requires: ["anim-base"] },
-            "anim-shape": {
-                requires: ["anim-base", "anim-easing", "anim-color", "matrix"],
-            },
-            "anim-shape-transform": { use: ["anim-shape"] },
-            "anim-xy": { requires: ["anim-base", "node-screen"] },
-            app: {
-                use: [
-                    "app-base",
-                    "app-content",
-                    "app-transitions",
-                    "lazy-model-list",
-                    "model",
-                    "model-list",
-                    "model-sync-rest",
-                    "router",
-                    "view",
-                    "view-node-map",
-                ],
-            },
-            "app-base": {
-                requires: ["classnamemanager", "pjax-base", "router", "view"],
-            },
-            "app-content": { requires: ["app-base", "pjax-content"] },
-            "app-transitions": { requires: ["app-base"] },
-            "app-transitions-css": { type: "css" },
-            "app-transitions-native": {
-                condition: {
-                    name: "app-transitions-native",
-                    test: function (Y) {
-                        var doc = Y.config.doc,
-                            node = doc ? doc.documentElement : null;
-                        return (
-                            !(!node || !node.style) &&
+        Y.mix(YUI.Env[Y.version].modules,
+            {
+                "align-plugin": { requires: ["node-screen", "node-pluginhost"] },
+                anim: {
+                    use: [
+                        "anim-base",
+                        "anim-color",
+                        "anim-curve",
+                        "anim-easing",
+                        "anim-node-plugin",
+                        "anim-scroll",
+                        "anim-xy",
+                    ],
+                },
+                "anim-base": { requires: ["base-base", "node-style"] },
+                "anim-color": { requires: ["anim-base"] },
+                "anim-curve": { requires: ["anim-xy"] },
+                "anim-easing": { requires: ["anim-base"] },
+                "anim-node-plugin": { requires: ["node-pluginhost", "anim-base"] },
+                "anim-scroll": { requires: ["anim-base"] },
+                "anim-shape": {
+                    requires: ["anim-base", "anim-easing", "anim-color", "matrix"],
+                },
+                "anim-shape-transform": { use: ["anim-shape"] },
+                "anim-xy": { requires: ["anim-base", "node-screen"] },
+                app: {
+                    use: [
+                        "app-base",
+                        "app-content",
+                        "app-transitions",
+                        "lazy-model-list",
+                        "model",
+                        "model-list",
+                        "model-sync-rest",
+                        "router",
+                        "view",
+                        "view-node-map",
+                    ],
+                },
+                "app-base": {
+                    requires: ["classnamemanager", "pjax-base", "router", "view"],
+                },
+                "app-content": { requires: ["app-base", "pjax-content"] },
+                "app-transitions": { requires: ["app-base"] },
+                "app-transitions-css": { type: "css" },
+                "app-transitions-native": {
+                    condition: {
+                        name: "app-transitions-native",
+                        test: function (Y) {
+                            var doc = Y.config.doc,
+                                node = doc ? doc.documentElement : null;
+                            return (
+                                !(!node || !node.style) &&
                   ("MozTransition" in node.style ||
                     "WebkitTransition" in node.style ||
                     "transition" in node.style)
-                        );
+                            );
+                        },
+                        trigger: "app-transitions",
                     },
-                    trigger: "app-transitions",
+                    requires: [
+                        "app-transitions",
+                        "app-transitions-css",
+                        "parallel",
+                        "transition",
+                    ],
                 },
-                requires: [
-                    "app-transitions",
-                    "app-transitions-css",
-                    "parallel",
-                    "transition",
-                ],
-            },
-            "array-extras": { requires: ["yui-base"] },
-            "array-invoke": { requires: ["yui-base"] },
-            arraylist: { requires: ["yui-base"] },
-            "arraylist-add": { requires: ["arraylist"] },
-            "arraylist-filter": { requires: ["arraylist"] },
-            arraysort: { requires: ["yui-base"] },
-            "async-queue": { requires: ["event-custom"] },
-            attribute: { use: ["attribute-base", "attribute-complex"] },
-            "attribute-base": {
-                requires: [
-                    "attribute-core",
-                    "attribute-observable",
-                    "attribute-extras",
-                ],
-            },
-            "attribute-complex": { requires: ["attribute-base"] },
-            "attribute-core": { requires: ["oop"] },
-            "attribute-events": { use: ["attribute-observable"] },
-            "attribute-extras": { requires: ["oop"] },
-            "attribute-observable": { requires: ["event-custom"] },
-            autocomplete: {
-                use: [
-                    "autocomplete-base",
-                    "autocomplete-sources",
-                    "autocomplete-list",
-                    "autocomplete-plugin",
-                ],
-            },
-            "autocomplete-base": {
-                optional: ["autocomplete-sources"],
-                requires: [
-                    "array-extras",
-                    "base-build",
-                    "escape",
-                    "event-valuechange",
-                    "node-base",
-                ],
-            },
-            "autocomplete-filters": {
-                requires: ["array-extras", "text-wordbreak"],
-            },
-            "autocomplete-filters-accentfold": {
-                requires: ["array-extras", "text-accentfold", "text-wordbreak"],
-            },
-            "autocomplete-highlighters": {
-                requires: ["array-extras", "highlight-base"],
-            },
-            "autocomplete-highlighters-accentfold": {
-                requires: ["array-extras", "highlight-accentfold"],
-            },
-            "autocomplete-list": {
-                after: ["autocomplete-sources"],
-                lang: ["en", "es", "hu", "it"],
-                requires: [
-                    "autocomplete-base",
-                    "event-resize",
-                    "node-screen",
-                    "selector-css3",
-                    "shim-plugin",
-                    "widget",
-                    "widget-position",
-                    "widget-position-align",
-                ],
-                skinnable: !0,
-            },
-            "autocomplete-list-keys": {
-                condition: {
-                    name: "autocomplete-list-keys",
-                    test: function (Y) {
-                        return !(Y.UA.ios || Y.UA.android);
+                "array-extras": { requires: ["yui-base"] },
+                "array-invoke": { requires: ["yui-base"] },
+                arraylist: { requires: ["yui-base"] },
+                "arraylist-add": { requires: ["arraylist"] },
+                "arraylist-filter": { requires: ["arraylist"] },
+                arraysort: { requires: ["yui-base"] },
+                "async-queue": { requires: ["event-custom"] },
+                attribute: { use: ["attribute-base", "attribute-complex"] },
+                "attribute-base": {
+                    requires: [
+                        "attribute-core",
+                        "attribute-observable",
+                        "attribute-extras",
+                    ],
+                },
+                "attribute-complex": { requires: ["attribute-base"] },
+                "attribute-core": { requires: ["oop"] },
+                "attribute-events": { use: ["attribute-observable"] },
+                "attribute-extras": { requires: ["oop"] },
+                "attribute-observable": { requires: ["event-custom"] },
+                autocomplete: {
+                    use: [
+                        "autocomplete-base",
+                        "autocomplete-sources",
+                        "autocomplete-list",
+                        "autocomplete-plugin",
+                    ],
+                },
+                "autocomplete-base": {
+                    optional: ["autocomplete-sources"],
+                    requires: [
+                        "array-extras",
+                        "base-build",
+                        "escape",
+                        "event-valuechange",
+                        "node-base",
+                    ],
+                },
+                "autocomplete-filters": {
+                    requires: ["array-extras", "text-wordbreak"],
+                },
+                "autocomplete-filters-accentfold": {
+                    requires: ["array-extras", "text-accentfold", "text-wordbreak"],
+                },
+                "autocomplete-highlighters": {
+                    requires: ["array-extras", "highlight-base"],
+                },
+                "autocomplete-highlighters-accentfold": {
+                    requires: ["array-extras", "highlight-accentfold"],
+                },
+                "autocomplete-list": {
+                    after: ["autocomplete-sources"],
+                    lang: ["en", "es", "hu", "it"],
+                    requires: [
+                        "autocomplete-base",
+                        "event-resize",
+                        "node-screen",
+                        "selector-css3",
+                        "shim-plugin",
+                        "widget",
+                        "widget-position",
+                        "widget-position-align",
+                    ],
+                    skinnable: !0,
+                },
+                "autocomplete-list-keys": {
+                    condition: {
+                        name: "autocomplete-list-keys",
+                        test: function (Y) {
+                            return !(Y.UA.ios || Y.UA.android);
+                        },
+                        trigger: "autocomplete-list",
                     },
-                    trigger: "autocomplete-list",
+                    requires: ["autocomplete-list", "base-build"],
                 },
-                requires: ["autocomplete-list", "base-build"],
-            },
-            "autocomplete-plugin": {
-                requires: ["autocomplete-list", "node-pluginhost"],
-            },
-            "autocomplete-sources": {
-                optional: ["io-base", "json-parse", "jsonp", "yql"],
-                requires: ["autocomplete-base"],
-            },
-            axes: {
-                use: ["axis-numeric", "axis-category", "axis-time", "axis-stacked"],
-            },
-            "axes-base": {
-                use: [
-                    "axis-numeric-base",
-                    "axis-category-base",
-                    "axis-time-base",
-                    "axis-stacked-base",
-                ],
-            },
-            axis: {
-                requires: [
-                    "dom",
-                    "widget",
-                    "widget-position",
-                    "widget-stack",
-                    "graphics",
-                    "axis-base",
-                ],
-            },
-            "axis-base": {
-                requires: [
-                    "classnamemanager",
-                    "datatype-number",
-                    "datatype-date",
-                    "base",
-                    "event-custom",
-                ],
-            },
-            "axis-category": { requires: ["axis", "axis-category-base"] },
-            "axis-category-base": { requires: ["axis-base"] },
-            "axis-numeric": { requires: ["axis", "axis-numeric-base"] },
-            "axis-numeric-base": { requires: ["axis-base"] },
-            "axis-stacked": { requires: ["axis-numeric", "axis-stacked-base"] },
-            "axis-stacked-base": { requires: ["axis-numeric-base"] },
-            "axis-time": { requires: ["axis", "axis-time-base"] },
-            "axis-time-base": { requires: ["axis-base"] },
-            base: { use: ["base-base", "base-pluginhost", "base-build"] },
-            "base-base": {
-                requires: ["attribute-base", "base-core", "base-observable"],
-            },
-            "base-build": { requires: ["base-base"] },
-            "base-core": { requires: ["attribute-core"] },
-            "base-observable": { requires: ["attribute-observable"] },
-            "base-pluginhost": { requires: ["base-base", "pluginhost"] },
-            button: { requires: ["button-core", "cssbutton", "widget"] },
-            "button-core": {
-                requires: ["attribute-core", "classnamemanager", "node-base"],
-            },
-            "button-group": {
-                requires: ["button-plugin", "cssbutton", "widget"],
-            },
-            "button-plugin": {
-                requires: ["button-core", "cssbutton", "node-pluginhost"],
-            },
-            cache: { use: ["cache-base", "cache-offline", "cache-plugin"] },
-            "cache-base": { requires: ["base"] },
-            "cache-offline": { requires: ["cache-base", "json"] },
-            "cache-plugin": { requires: ["plugin", "cache-base"] },
-            calendar: {
-                requires: ["calendar-base", "calendarnavigator"],
-                skinnable: !0,
-            },
-            "calendar-base": {
-                lang: [
-                    "de",
-                    "en",
-                    "es",
-                    "es-AR",
-                    "fr",
-                    "hu",
-                    "it",
-                    "ja",
-                    "nb-NO",
-                    "nl",
-                    "pt-BR",
-                    "ru",
-                    "zh-Hans",
-                    "zh-Hans-CN",
-                    "zh-Hant",
-                    "zh-Hant-HK",
-                    "zh-HANT-TW",
-                ],
-                requires: [
-                    "widget",
-                    "datatype-date",
-                    "datatype-date-math",
-                    "cssgrids",
-                ],
-                skinnable: !0,
-            },
-            calendarnavigator: {
-                requires: ["plugin", "classnamemanager", "datatype-date", "node"],
-                skinnable: !0,
-            },
-            charts: { use: ["charts-base"] },
-            "charts-base": {
-                requires: [
-                    "dom",
-                    "event-mouseenter",
-                    "event-touch",
-                    "graphics-group",
-                    "axes",
-                    "series-pie",
-                    "series-line",
-                    "series-marker",
-                    "series-area",
-                    "series-spline",
-                    "series-column",
-                    "series-bar",
-                    "series-areaspline",
-                    "series-combo",
-                    "series-combospline",
-                    "series-line-stacked",
-                    "series-marker-stacked",
-                    "series-area-stacked",
-                    "series-spline-stacked",
-                    "series-column-stacked",
-                    "series-bar-stacked",
-                    "series-areaspline-stacked",
-                    "series-combo-stacked",
-                    "series-combospline-stacked",
-                ],
-            },
-            "charts-legend": { requires: ["charts-base"] },
-            classnamemanager: { requires: ["yui-base"] },
-            "clickable-rail": { requires: ["slider-base"] },
-            collection: {
-                use: [
-                    "array-extras",
-                    "arraylist",
-                    "arraylist-add",
-                    "arraylist-filter",
-                    "array-invoke",
-                ],
-            },
-            color: { use: ["color-base", "color-hsl", "color-harmony"] },
-            "color-base": { requires: ["yui-base"] },
-            "color-harmony": { requires: ["color-hsl"] },
-            "color-hsl": { requires: ["color-base"] },
-            "color-hsv": { requires: ["color-base"] },
-            console: {
-                lang: ["en", "es", "hu", "it", "ja"],
-                requires: ["yui-log", "widget"],
-                skinnable: !0,
-            },
-            "console-filters": { requires: ["plugin", "console"],
-                skinnable: !0 },
-            controller: { use: ["router"] },
-            cookie: { requires: ["yui-base"] },
-            "createlink-base": { requires: ["editor-base"] },
-            cssbase: {
-                after: [
-                    "cssreset",
-                    "cssfonts",
-                    "cssgrids",
-                    "cssreset-context",
-                    "cssfonts-context",
-                    "cssgrids-context",
-                ],
-                type: "css",
-            },
-            "cssbase-context": {
-                after: [
-                    "cssreset",
-                    "cssfonts",
-                    "cssgrids",
-                    "cssreset-context",
-                    "cssfonts-context",
-                    "cssgrids-context",
-                ],
-                type: "css",
-            },
-            cssbutton: { type: "css" },
-            cssfonts: { type: "css" },
-            "cssfonts-context": { type: "css" },
-            cssgrids: { optional: ["cssnormalize"],
-                type: "css" },
-            "cssgrids-base": { optional: ["cssnormalize"],
-                type: "css" },
-            "cssgrids-responsive": {
-                optional: ["cssnormalize"],
-                requires: ["cssgrids", "cssgrids-responsive-base"],
-                type: "css",
-            },
-            "cssgrids-units": {
-                optional: ["cssnormalize"],
-                requires: ["cssgrids-base"],
-                type: "css",
-            },
-            cssnormalize: { type: "css" },
-            "cssnormalize-context": { type: "css" },
-            cssreset: { type: "css" },
-            "cssreset-context": { type: "css" },
-            dataschema: {
-                use: [
-                    "dataschema-base",
-                    "dataschema-json",
-                    "dataschema-xml",
-                    "dataschema-array",
-                    "dataschema-text",
-                ],
-            },
-            "dataschema-array": { requires: ["dataschema-base"] },
-            "dataschema-base": { requires: ["base"] },
-            "dataschema-json": { requires: ["dataschema-base", "json"] },
-            "dataschema-text": { requires: ["dataschema-base"] },
-            "dataschema-xml": { requires: ["dataschema-base"] },
-            datasource: {
-                use: [
-                    "datasource-local",
-                    "datasource-io",
-                    "datasource-get",
-                    "datasource-function",
-                    "datasource-cache",
-                    "datasource-jsonschema",
-                    "datasource-xmlschema",
-                    "datasource-arrayschema",
-                    "datasource-textschema",
-                    "datasource-polling",
-                ],
-            },
-            "datasource-arrayschema": {
-                requires: ["datasource-local", "plugin", "dataschema-array"],
-            },
-            "datasource-cache": {
-                requires: ["datasource-local", "plugin", "cache-base"],
-            },
-            "datasource-function": { requires: ["datasource-local"] },
-            "datasource-get": { requires: ["datasource-local", "get"] },
-            "datasource-io": { requires: ["datasource-local", "io-base"] },
-            "datasource-jsonschema": {
-                requires: ["datasource-local", "plugin", "dataschema-json"],
-            },
-            "datasource-local": { requires: ["base"] },
-            "datasource-polling": { requires: ["datasource-local"] },
-            "datasource-textschema": {
-                requires: ["datasource-local", "plugin", "dataschema-text"],
-            },
-            "datasource-xmlschema": {
-                requires: [
-                    "datasource-local",
-                    "plugin",
-                    "datatype-xml",
-                    "dataschema-xml",
-                ],
-            },
-            datatable: {
-                use: [
-                    "datatable-core",
-                    "datatable-table",
-                    "datatable-head",
-                    "datatable-body",
-                    "datatable-base",
-                    "datatable-column-widths",
-                    "datatable-message",
-                    "datatable-mutable",
-                    "datatable-sort",
-                    "datatable-datasource",
-                ],
-            },
-            "datatable-base": {
-                requires: [
-                    "datatable-core",
-                    "datatable-table",
-                    "datatable-head",
-                    "datatable-body",
-                    "base-build",
-                    "widget",
-                ],
-                skinnable: !0,
-            },
-            "datatable-body": {
-                requires: ["datatable-core", "view", "classnamemanager"],
-            },
-            "datatable-column-widths": { requires: ["datatable-base"] },
-            "datatable-core": {
-                requires: ["escape", "model-list", "node-event-delegate"],
-            },
-            "datatable-datasource": {
-                requires: ["datatable-base", "plugin", "datasource-local"],
-            },
-            "datatable-foot": { requires: ["datatable-core", "view"] },
-            "datatable-formatters": {
-                requires: [
-                    "datatable-body",
-                    "datatype-number-format",
-                    "datatype-date-format",
-                    "escape",
-                ],
-            },
-            "datatable-head": {
-                requires: ["datatable-core", "view", "classnamemanager"],
-            },
-            "datatable-message": {
-                lang: ["en", "fr", "es", "hu", "it"],
-                requires: ["datatable-base"],
-                skinnable: !0,
-            },
-            "datatable-mutable": { requires: ["datatable-base"] },
-            "datatable-paginator": {
-                lang: ["en"],
-                requires: [
-                    "model",
-                    "view",
-                    "paginator-core",
-                    "datatable-foot",
-                    "datatable-paginator-templates",
-                ],
-                skinnable: !0,
-            },
-            "datatable-paginator-templates": { requires: ["template"] },
-            "datatable-scroll": {
-                requires: [
-                    "datatable-base",
-                    "datatable-column-widths",
-                    "dom-screen",
-                ],
-                skinnable: !0,
-            },
-            "datatable-sort": {
-                lang: ["en", "fr", "es", "hu"],
-                requires: ["datatable-base"],
-                skinnable: !0,
-            },
-            "datatable-table": {
-                requires: [
-                    "datatable-core",
-                    "datatable-head",
-                    "datatable-body",
-                    "view",
-                    "classnamemanager",
-                ],
-            },
-            datatype: {
-                use: ["datatype-date", "datatype-number", "datatype-xml"],
-            },
-            "datatype-date": {
-                use: [
-                    "datatype-date-parse",
-                    "datatype-date-format",
-                    "datatype-date-math",
-                ],
-            },
-            "datatype-date-format": {
-                lang: [
-                    "ar",
-                    "ar-JO",
-                    "ca",
-                    "ca-ES",
-                    "da",
-                    "da-DK",
-                    "de",
-                    "de-AT",
-                    "de-DE",
-                    "el",
-                    "el-GR",
-                    "en",
-                    "en-AU",
-                    "en-CA",
-                    "en-GB",
-                    "en-IE",
-                    "en-IN",
-                    "en-JO",
-                    "en-MY",
-                    "en-NZ",
-                    "en-PH",
-                    "en-SG",
-                    "en-US",
-                    "es",
-                    "es-AR",
-                    "es-BO",
-                    "es-CL",
-                    "es-CO",
-                    "es-EC",
-                    "es-ES",
-                    "es-MX",
-                    "es-PE",
-                    "es-PY",
-                    "es-US",
-                    "es-UY",
-                    "es-VE",
-                    "fi",
-                    "fi-FI",
-                    "fr",
-                    "fr-BE",
-                    "fr-CA",
-                    "fr-FR",
-                    "hi",
-                    "hi-IN",
-                    "hu",
-                    "id",
-                    "id-ID",
-                    "it",
-                    "it-IT",
-                    "ja",
-                    "ja-JP",
-                    "ko",
-                    "ko-KR",
-                    "ms",
-                    "ms-MY",
-                    "nb",
-                    "nb-NO",
-                    "nl",
-                    "nl-BE",
-                    "nl-NL",
-                    "pl",
-                    "pl-PL",
-                    "pt",
-                    "pt-BR",
-                    "ro",
-                    "ro-RO",
-                    "ru",
-                    "ru-RU",
-                    "sv",
-                    "sv-SE",
-                    "th",
-                    "th-TH",
-                    "tr",
-                    "tr-TR",
-                    "vi",
-                    "vi-VN",
-                    "zh-Hans",
-                    "zh-Hans-CN",
-                    "zh-Hant",
-                    "zh-Hant-HK",
-                    "zh-Hant-TW",
-                ],
-            },
-            "datatype-date-math": { requires: ["yui-base"] },
-            "datatype-date-parse": {},
-            "datatype-number": {
-                use: ["datatype-number-parse", "datatype-number-format"],
-            },
-            "datatype-number-format": {},
-            "datatype-number-parse": {},
-            "datatype-xml": {
-                use: ["datatype-xml-parse", "datatype-xml-format"],
-            },
-            "datatype-xml-format": {},
-            "datatype-xml-parse": {},
-            dd: {
-                use: [
-                    "dd-ddm-base",
-                    "dd-ddm",
-                    "dd-ddm-drop",
-                    "dd-drag",
-                    "dd-proxy",
-                    "dd-constrain",
-                    "dd-drop",
-                    "dd-scroll",
-                    "dd-delegate",
-                ],
-            },
-            "dd-constrain": { requires: ["dd-drag"] },
-            "dd-ddm": { requires: ["dd-ddm-base", "event-resize"] },
-            "dd-ddm-base": {
-                requires: ["node", "base", "yui-throttle", "classnamemanager"],
-            },
-            "dd-ddm-drop": { requires: ["dd-ddm"] },
-            "dd-delegate": {
-                requires: ["dd-drag", "dd-drop-plugin", "event-mouseenter"],
-            },
-            "dd-drag": { requires: ["dd-ddm-base"] },
-            "dd-drop": { requires: ["dd-drag", "dd-ddm-drop"] },
-            "dd-drop-plugin": { requires: ["dd-drop"] },
-            "dd-gestures": {
-                condition: {
-                    name: "dd-gestures",
-                    trigger: "dd-drag",
-                    ua: "touchEnabled",
+                "autocomplete-plugin": {
+                    requires: ["autocomplete-list", "node-pluginhost"],
                 },
-                requires: ["dd-drag", "event-synthetic", "event-gestures"],
-            },
-            "dd-plugin": {
-                optional: ["dd-constrain", "dd-proxy"],
-                requires: ["dd-drag"],
-            },
-            "dd-proxy": { requires: ["dd-drag"] },
-            "dd-scroll": { requires: ["dd-drag"] },
-            dial: {
-                lang: ["en", "es", "hu"],
-                requires: [
-                    "widget",
-                    "dd-drag",
-                    "event-mouseenter",
-                    "event-move",
-                    "event-key",
-                    "transition",
-                    "intl",
-                ],
-                skinnable: !0,
-            },
-            dom: {
-                use: [
-                    "dom-base",
-                    "dom-screen",
-                    "dom-style",
-                    "selector-native",
-                    "selector",
-                ],
-            },
-            "dom-base": { requires: ["dom-core"] },
-            "dom-core": { requires: ["oop", "features"] },
-            "dom-deprecated": { requires: ["dom-base"] },
-            "dom-screen": { requires: ["dom-base", "dom-style"] },
-            "dom-style": { requires: ["dom-base", "color-base"] },
-            "dom-style-ie": {
-                condition: {
-                    name: "dom-style-ie",
-                    test: function (Y) {
-                        var testFeature = Y.Features.test,
-                            addFeature = Y.Features.add,
-                            WINDOW = Y.config.win,
-                            DOCUMENT = Y.config.doc;
-                        return (
-                            addFeature("style", "computedStyle", {
-                                test: function () {
-                                    return WINDOW && "getComputedStyle" in WINDOW;
-                                },
-                            }),
-                            addFeature("style", "opacity", {
-                                test: function () {
-                                    return (
-                                        DOCUMENT && "opacity" in DOCUMENT.documentElement.style
-                                    );
-                                },
-                            }),
-                            !testFeature("style", "opacity") &&
-                    !testFeature("style", "computedStyle")
-                        );
+                "autocomplete-sources": {
+                    optional: ["io-base", "json-parse", "jsonp", "yql"],
+                    requires: ["autocomplete-base"],
+                },
+                axes: {
+                    use: ["axis-numeric", "axis-category", "axis-time", "axis-stacked"],
+                },
+                "axes-base": {
+                    use: [
+                        "axis-numeric-base",
+                        "axis-category-base",
+                        "axis-time-base",
+                        "axis-stacked-base",
+                    ],
+                },
+                axis: {
+                    requires: [
+                        "dom",
+                        "widget",
+                        "widget-position",
+                        "widget-stack",
+                        "graphics",
+                        "axis-base",
+                    ],
+                },
+                "axis-base": {
+                    requires: [
+                        "classnamemanager",
+                        "datatype-number",
+                        "datatype-date",
+                        "base",
+                        "event-custom",
+                    ],
+                },
+                "axis-category": { requires: ["axis", "axis-category-base"] },
+                "axis-category-base": { requires: ["axis-base"] },
+                "axis-numeric": { requires: ["axis", "axis-numeric-base"] },
+                "axis-numeric-base": { requires: ["axis-base"] },
+                "axis-stacked": { requires: ["axis-numeric", "axis-stacked-base"] },
+                "axis-stacked-base": { requires: ["axis-numeric-base"] },
+                "axis-time": { requires: ["axis", "axis-time-base"] },
+                "axis-time-base": { requires: ["axis-base"] },
+                base: { use: ["base-base", "base-pluginhost", "base-build"] },
+                "base-base": {
+                    requires: ["attribute-base", "base-core", "base-observable"],
+                },
+                "base-build": { requires: ["base-base"] },
+                "base-core": { requires: ["attribute-core"] },
+                "base-observable": { requires: ["attribute-observable"] },
+                "base-pluginhost": { requires: ["base-base", "pluginhost"] },
+                button: { requires: ["button-core", "cssbutton", "widget"] },
+                "button-core": {
+                    requires: ["attribute-core", "classnamemanager", "node-base"],
+                },
+                "button-group": {
+                    requires: ["button-plugin", "cssbutton", "widget"],
+                },
+                "button-plugin": {
+                    requires: ["button-core", "cssbutton", "node-pluginhost"],
+                },
+                cache: { use: ["cache-base", "cache-offline", "cache-plugin"] },
+                "cache-base": { requires: ["base"] },
+                "cache-offline": { requires: ["cache-base", "json"] },
+                "cache-plugin": { requires: ["plugin", "cache-base"] },
+                calendar: {
+                    requires: ["calendar-base", "calendarnavigator"],
+                    skinnable: !0,
+                },
+                "calendar-base": {
+                    lang: [
+                        "de",
+                        "en",
+                        "es",
+                        "es-AR",
+                        "fr",
+                        "hu",
+                        "it",
+                        "ja",
+                        "nb-NO",
+                        "nl",
+                        "pt-BR",
+                        "ru",
+                        "zh-Hans",
+                        "zh-Hans-CN",
+                        "zh-Hant",
+                        "zh-Hant-HK",
+                        "zh-HANT-TW",
+                    ],
+                    requires: [
+                        "widget",
+                        "datatype-date",
+                        "datatype-date-math",
+                        "cssgrids",
+                    ],
+                    skinnable: !0,
+                },
+                calendarnavigator: {
+                    requires: ["plugin", "classnamemanager", "datatype-date", "node"],
+                    skinnable: !0,
+                },
+                charts: { use: ["charts-base"] },
+                "charts-base": {
+                    requires: [
+                        "dom",
+                        "event-mouseenter",
+                        "event-touch",
+                        "graphics-group",
+                        "axes",
+                        "series-pie",
+                        "series-line",
+                        "series-marker",
+                        "series-area",
+                        "series-spline",
+                        "series-column",
+                        "series-bar",
+                        "series-areaspline",
+                        "series-combo",
+                        "series-combospline",
+                        "series-line-stacked",
+                        "series-marker-stacked",
+                        "series-area-stacked",
+                        "series-spline-stacked",
+                        "series-column-stacked",
+                        "series-bar-stacked",
+                        "series-areaspline-stacked",
+                        "series-combo-stacked",
+                        "series-combospline-stacked",
+                    ],
+                },
+                "charts-legend": { requires: ["charts-base"] },
+                classnamemanager: { requires: ["yui-base"] },
+                "clickable-rail": { requires: ["slider-base"] },
+                collection: {
+                    use: [
+                        "array-extras",
+                        "arraylist",
+                        "arraylist-add",
+                        "arraylist-filter",
+                        "array-invoke",
+                    ],
+                },
+                color: { use: ["color-base", "color-hsl", "color-harmony"] },
+                "color-base": { requires: ["yui-base"] },
+                "color-harmony": { requires: ["color-hsl"] },
+                "color-hsl": { requires: ["color-base"] },
+                "color-hsv": { requires: ["color-base"] },
+                console: {
+                    lang: ["en", "es", "hu", "it", "ja"],
+                    requires: ["yui-log", "widget"],
+                    skinnable: !0,
+                },
+                "console-filters": { requires: ["plugin", "console"],
+                    skinnable: !0 },
+                controller: { use: ["router"] },
+                cookie: { requires: ["yui-base"] },
+                "createlink-base": { requires: ["editor-base"] },
+                cssbase: {
+                    after: [
+                        "cssreset",
+                        "cssfonts",
+                        "cssgrids",
+                        "cssreset-context",
+                        "cssfonts-context",
+                        "cssgrids-context",
+                    ],
+                    type: "css",
+                },
+                "cssbase-context": {
+                    after: [
+                        "cssreset",
+                        "cssfonts",
+                        "cssgrids",
+                        "cssreset-context",
+                        "cssfonts-context",
+                        "cssgrids-context",
+                    ],
+                    type: "css",
+                },
+                cssbutton: { type: "css" },
+                cssfonts: { type: "css" },
+                "cssfonts-context": { type: "css" },
+                cssgrids: { optional: ["cssnormalize"],
+                    type: "css" },
+                "cssgrids-base": { optional: ["cssnormalize"],
+                    type: "css" },
+                "cssgrids-responsive": {
+                    optional: ["cssnormalize"],
+                    requires: ["cssgrids", "cssgrids-responsive-base"],
+                    type: "css",
+                },
+                "cssgrids-units": {
+                    optional: ["cssnormalize"],
+                    requires: ["cssgrids-base"],
+                    type: "css",
+                },
+                cssnormalize: { type: "css" },
+                "cssnormalize-context": { type: "css" },
+                cssreset: { type: "css" },
+                "cssreset-context": { type: "css" },
+                dataschema: {
+                    use: [
+                        "dataschema-base",
+                        "dataschema-json",
+                        "dataschema-xml",
+                        "dataschema-array",
+                        "dataschema-text",
+                    ],
+                },
+                "dataschema-array": { requires: ["dataschema-base"] },
+                "dataschema-base": { requires: ["base"] },
+                "dataschema-json": { requires: ["dataschema-base", "json"] },
+                "dataschema-text": { requires: ["dataschema-base"] },
+                "dataschema-xml": { requires: ["dataschema-base"] },
+                datasource: {
+                    use: [
+                        "datasource-local",
+                        "datasource-io",
+                        "datasource-get",
+                        "datasource-function",
+                        "datasource-cache",
+                        "datasource-jsonschema",
+                        "datasource-xmlschema",
+                        "datasource-arrayschema",
+                        "datasource-textschema",
+                        "datasource-polling",
+                    ],
+                },
+                "datasource-arrayschema": {
+                    requires: ["datasource-local", "plugin", "dataschema-array"],
+                },
+                "datasource-cache": {
+                    requires: ["datasource-local", "plugin", "cache-base"],
+                },
+                "datasource-function": { requires: ["datasource-local"] },
+                "datasource-get": { requires: ["datasource-local", "get"] },
+                "datasource-io": { requires: ["datasource-local", "io-base"] },
+                "datasource-jsonschema": {
+                    requires: ["datasource-local", "plugin", "dataschema-json"],
+                },
+                "datasource-local": { requires: ["base"] },
+                "datasource-polling": { requires: ["datasource-local"] },
+                "datasource-textschema": {
+                    requires: ["datasource-local", "plugin", "dataschema-text"],
+                },
+                "datasource-xmlschema": {
+                    requires: [
+                        "datasource-local",
+                        "plugin",
+                        "datatype-xml",
+                        "dataschema-xml",
+                    ],
+                },
+                datatable: {
+                    use: [
+                        "datatable-core",
+                        "datatable-table",
+                        "datatable-head",
+                        "datatable-body",
+                        "datatable-base",
+                        "datatable-column-widths",
+                        "datatable-message",
+                        "datatable-mutable",
+                        "datatable-sort",
+                        "datatable-datasource",
+                    ],
+                },
+                "datatable-base": {
+                    requires: [
+                        "datatable-core",
+                        "datatable-table",
+                        "datatable-head",
+                        "datatable-body",
+                        "base-build",
+                        "widget",
+                    ],
+                    skinnable: !0,
+                },
+                "datatable-body": {
+                    requires: ["datatable-core", "view", "classnamemanager"],
+                },
+                "datatable-column-widths": { requires: ["datatable-base"] },
+                "datatable-core": {
+                    requires: ["escape", "model-list", "node-event-delegate"],
+                },
+                "datatable-datasource": {
+                    requires: ["datatable-base", "plugin", "datasource-local"],
+                },
+                "datatable-foot": { requires: ["datatable-core", "view"] },
+                "datatable-formatters": {
+                    requires: [
+                        "datatable-body",
+                        "datatype-number-format",
+                        "datatype-date-format",
+                        "escape",
+                    ],
+                },
+                "datatable-head": {
+                    requires: ["datatable-core", "view", "classnamemanager"],
+                },
+                "datatable-message": {
+                    lang: ["en", "fr", "es", "hu", "it"],
+                    requires: ["datatable-base"],
+                    skinnable: !0,
+                },
+                "datatable-mutable": { requires: ["datatable-base"] },
+                "datatable-paginator": {
+                    lang: ["en"],
+                    requires: [
+                        "model",
+                        "view",
+                        "paginator-core",
+                        "datatable-foot",
+                        "datatable-paginator-templates",
+                    ],
+                    skinnable: !0,
+                },
+                "datatable-paginator-templates": { requires: ["template"] },
+                "datatable-scroll": {
+                    requires: [
+                        "datatable-base",
+                        "datatable-column-widths",
+                        "dom-screen",
+                    ],
+                    skinnable: !0,
+                },
+                "datatable-sort": {
+                    lang: ["en", "fr", "es", "hu"],
+                    requires: ["datatable-base"],
+                    skinnable: !0,
+                },
+                "datatable-table": {
+                    requires: [
+                        "datatable-core",
+                        "datatable-head",
+                        "datatable-body",
+                        "view",
+                        "classnamemanager",
+                    ],
+                },
+                datatype: {
+                    use: ["datatype-date", "datatype-number", "datatype-xml"],
+                },
+                "datatype-date": {
+                    use: [
+                        "datatype-date-parse",
+                        "datatype-date-format",
+                        "datatype-date-math",
+                    ],
+                },
+                "datatype-date-format": {
+                    lang: [
+                        "ar",
+                        "ar-JO",
+                        "ca",
+                        "ca-ES",
+                        "da",
+                        "da-DK",
+                        "de",
+                        "de-AT",
+                        "de-DE",
+                        "el",
+                        "el-GR",
+                        "en",
+                        "en-AU",
+                        "en-CA",
+                        "en-GB",
+                        "en-IE",
+                        "en-IN",
+                        "en-JO",
+                        "en-MY",
+                        "en-NZ",
+                        "en-PH",
+                        "en-SG",
+                        "en-US",
+                        "es",
+                        "es-AR",
+                        "es-BO",
+                        "es-CL",
+                        "es-CO",
+                        "es-EC",
+                        "es-ES",
+                        "es-MX",
+                        "es-PE",
+                        "es-PY",
+                        "es-US",
+                        "es-UY",
+                        "es-VE",
+                        "fi",
+                        "fi-FI",
+                        "fr",
+                        "fr-BE",
+                        "fr-CA",
+                        "fr-FR",
+                        "hi",
+                        "hi-IN",
+                        "hu",
+                        "id",
+                        "id-ID",
+                        "it",
+                        "it-IT",
+                        "ja",
+                        "ja-JP",
+                        "ko",
+                        "ko-KR",
+                        "ms",
+                        "ms-MY",
+                        "nb",
+                        "nb-NO",
+                        "nl",
+                        "nl-BE",
+                        "nl-NL",
+                        "pl",
+                        "pl-PL",
+                        "pt",
+                        "pt-BR",
+                        "ro",
+                        "ro-RO",
+                        "ru",
+                        "ru-RU",
+                        "sv",
+                        "sv-SE",
+                        "th",
+                        "th-TH",
+                        "tr",
+                        "tr-TR",
+                        "vi",
+                        "vi-VN",
+                        "zh-Hans",
+                        "zh-Hans-CN",
+                        "zh-Hant",
+                        "zh-Hant-HK",
+                        "zh-Hant-TW",
+                    ],
+                },
+                "datatype-date-math": { requires: ["yui-base"] },
+                "datatype-date-parse": {},
+                "datatype-number": {
+                    use: ["datatype-number-parse", "datatype-number-format"],
+                },
+                "datatype-number-format": {},
+                "datatype-number-parse": {},
+                "datatype-xml": {
+                    use: ["datatype-xml-parse", "datatype-xml-format"],
+                },
+                "datatype-xml-format": {},
+                "datatype-xml-parse": {},
+                dd: {
+                    use: [
+                        "dd-ddm-base",
+                        "dd-ddm",
+                        "dd-ddm-drop",
+                        "dd-drag",
+                        "dd-proxy",
+                        "dd-constrain",
+                        "dd-drop",
+                        "dd-scroll",
+                        "dd-delegate",
+                    ],
+                },
+                "dd-constrain": { requires: ["dd-drag"] },
+                "dd-ddm": { requires: ["dd-ddm-base", "event-resize"] },
+                "dd-ddm-base": {
+                    requires: ["node", "base", "yui-throttle", "classnamemanager"],
+                },
+                "dd-ddm-drop": { requires: ["dd-ddm"] },
+                "dd-delegate": {
+                    requires: ["dd-drag", "dd-drop-plugin", "event-mouseenter"],
+                },
+                "dd-drag": { requires: ["dd-ddm-base"] },
+                "dd-drop": { requires: ["dd-drag", "dd-ddm-drop"] },
+                "dd-drop-plugin": { requires: ["dd-drop"] },
+                "dd-gestures": {
+                    condition: {
+                        name: "dd-gestures",
+                        trigger: "dd-drag",
+                        ua: "touchEnabled",
                     },
-                    trigger: "dom-style",
+                    requires: ["dd-drag", "event-synthetic", "event-gestures"],
                 },
-                requires: ["dom-style"],
-            },
-            dump: { requires: ["yui-base"] },
-            editor: {
-                use: [
-                    "frame",
-                    "editor-selection",
-                    "exec-command",
-                    "editor-base",
-                    "editor-para",
-                    "editor-br",
-                    "editor-bidi",
-                    "editor-tab",
-                    "createlink-base",
-                ],
-            },
-            "editor-base": {
-                requires: [
-                    "base",
-                    "frame",
-                    "node",
-                    "exec-command",
-                    "editor-selection",
-                ],
-            },
-            "editor-bidi": { requires: ["editor-base"] },
-            "editor-br": { requires: ["editor-base"] },
-            "editor-lists": { requires: ["editor-base"] },
-            "editor-para": { requires: ["editor-para-base"] },
-            "editor-para-base": { requires: ["editor-base"] },
-            "editor-para-ie": {
-                condition: {
-                    name: "editor-para-ie",
-                    trigger: "editor-para",
-                    ua: "ie",
-                    when: "instead",
+                "dd-plugin": {
+                    optional: ["dd-constrain", "dd-proxy"],
+                    requires: ["dd-drag"],
                 },
-                requires: ["editor-para-base"],
-            },
-            "editor-selection": { requires: ["node"] },
-            "editor-tab": { requires: ["editor-base"] },
-            escape: { requires: ["yui-base"] },
-            event: {
-                after: ["node-base"],
-                use: [
-                    "event-base",
-                    "event-delegate",
-                    "event-synthetic",
-                    "event-mousewheel",
-                    "event-mouseenter",
-                    "event-key",
-                    "event-focus",
-                    "event-resize",
-                    "event-hover",
-                    "event-outside",
-                    "event-touch",
-                    "event-move",
-                    "event-flick",
-                    "event-valuechange",
-                    "event-tap",
-                ],
-            },
-            "event-base": {
-                after: ["node-base"],
-                requires: ["event-custom-base"],
-            },
-            "event-base-ie": {
-                after: ["event-base"],
-                condition: {
-                    name: "event-base-ie",
-                    test: function (Y) {
-                        var imp = Y.config.doc && Y.config.doc.implementation;
-                        return imp && !imp.hasFeature("Events", "2.0");
+                "dd-proxy": { requires: ["dd-drag"] },
+                "dd-scroll": { requires: ["dd-drag"] },
+                dial: {
+                    lang: ["en", "es", "hu"],
+                    requires: [
+                        "widget",
+                        "dd-drag",
+                        "event-mouseenter",
+                        "event-move",
+                        "event-key",
+                        "transition",
+                        "intl",
+                    ],
+                    skinnable: !0,
+                },
+                dom: {
+                    use: [
+                        "dom-base",
+                        "dom-screen",
+                        "dom-style",
+                        "selector-native",
+                        "selector",
+                    ],
+                },
+                "dom-base": { requires: ["dom-core"] },
+                "dom-core": { requires: ["oop", "features"] },
+                "dom-deprecated": { requires: ["dom-base"] },
+                "dom-screen": { requires: ["dom-base", "dom-style"] },
+                "dom-style": { requires: ["dom-base", "color-base"] },
+                "dom-style-ie": {
+                    condition: {
+                        name: "dom-style-ie",
+                        test: function (Y) {
+                            var testFeature = Y.Features.test,
+                                addFeature = Y.Features.add,
+                                WINDOW = Y.config.win,
+                                DOCUMENT = Y.config.doc;
+                            return (
+                                addFeature("style",
+                                    "computedStyle",
+                                    {
+                                        test: function () {
+                                            return WINDOW && "getComputedStyle" in WINDOW;
+                                        },
+                                    }),
+                                addFeature("style",
+                                    "opacity",
+                                    {
+                                        test: function () {
+                                            return (
+                                                DOCUMENT && "opacity" in DOCUMENT.documentElement.style
+                                            );
+                                        },
+                                    }),
+                                !testFeature("style",
+                                    "opacity") &&
+                    !testFeature("style",
+                        "computedStyle")
+                            );
+                        },
+                        trigger: "dom-style",
                     },
-                    trigger: "node-base",
+                    requires: ["dom-style"],
                 },
-                requires: ["node-base"],
-            },
-            "event-contextmenu": { requires: ["event-synthetic", "dom-screen"] },
-            "event-custom": {
-                use: ["event-custom-base", "event-custom-complex"],
-            },
-            "event-custom-base": { requires: ["oop"] },
-            "event-custom-complex": { requires: ["event-custom-base"] },
-            "event-delegate": { requires: ["node-base"] },
-            "event-flick": {
-                requires: ["node-base", "event-touch", "event-synthetic"],
-            },
-            "event-focus": { requires: ["event-synthetic"] },
-            "event-gestures": { use: ["event-flick", "event-move"] },
-            "event-hover": { requires: ["event-mouseenter"] },
-            "event-key": { requires: ["event-synthetic"] },
-            "event-mouseenter": { requires: ["event-synthetic"] },
-            "event-mousewheel": { requires: ["node-base"] },
-            "event-move": {
-                requires: ["node-base", "event-touch", "event-synthetic"],
-            },
-            "event-outside": { requires: ["event-synthetic"] },
-            "event-resize": { requires: ["node-base", "event-synthetic"] },
-            "event-simulate": { requires: ["event-base"] },
-            "event-synthetic": {
-                requires: ["node-base", "event-custom-complex"],
-            },
-            "event-tap": {
-                requires: [
-                    "node-base",
-                    "event-base",
-                    "event-touch",
-                    "event-synthetic",
-                ],
-            },
-            "event-touch": { requires: ["node-base"] },
-            "event-valuechange": { requires: ["event-focus", "event-synthetic"] },
-            "exec-command": { requires: ["frame"] },
-            features: { requires: ["yui-base"] },
-            file: { requires: ["file-flash", "file-html5"] },
-            "file-flash": { requires: ["base"] },
-            "file-html5": { requires: ["base"] },
-            frame: {
-                requires: ["base", "node", "selector-css3", "yui-throttle"],
-            },
-            "gesture-simulate": {
-                requires: ["async-queue", "event-simulate", "node-screen"],
-            },
-            get: { requires: ["yui-base"] },
-            graphics: {
-                requires: [
-                    "node",
-                    "event-custom",
-                    "pluginhost",
-                    "matrix",
-                    "classnamemanager",
-                ],
-            },
-            "graphics-canvas": {
-                condition: {
-                    name: "graphics-canvas",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            useCanvas =
+                dump: { requires: ["yui-base"] },
+                editor: {
+                    use: [
+                        "frame",
+                        "editor-selection",
+                        "exec-command",
+                        "editor-base",
+                        "editor-para",
+                        "editor-br",
+                        "editor-bidi",
+                        "editor-tab",
+                        "createlink-base",
+                    ],
+                },
+                "editor-base": {
+                    requires: [
+                        "base",
+                        "frame",
+                        "node",
+                        "exec-command",
+                        "editor-selection",
+                    ],
+                },
+                "editor-bidi": { requires: ["editor-base"] },
+                "editor-br": { requires: ["editor-base"] },
+                "editor-lists": { requires: ["editor-base"] },
+                "editor-para": { requires: ["editor-para-base"] },
+                "editor-para-base": { requires: ["editor-base"] },
+                "editor-para-ie": {
+                    condition: {
+                        name: "editor-para-ie",
+                        trigger: "editor-para",
+                        ua: "ie",
+                        when: "instead",
+                    },
+                    requires: ["editor-para-base"],
+                },
+                "editor-selection": { requires: ["node"] },
+                "editor-tab": { requires: ["editor-base"] },
+                escape: { requires: ["yui-base"] },
+                event: {
+                    after: ["node-base"],
+                    use: [
+                        "event-base",
+                        "event-delegate",
+                        "event-synthetic",
+                        "event-mousewheel",
+                        "event-mouseenter",
+                        "event-key",
+                        "event-focus",
+                        "event-resize",
+                        "event-hover",
+                        "event-outside",
+                        "event-touch",
+                        "event-move",
+                        "event-flick",
+                        "event-valuechange",
+                        "event-tap",
+                    ],
+                },
+                "event-base": {
+                    after: ["node-base"],
+                    requires: ["event-custom-base"],
+                },
+                "event-base-ie": {
+                    after: ["event-base"],
+                    condition: {
+                        name: "event-base-ie",
+                        test: function (Y) {
+                            var imp = Y.config.doc && Y.config.doc.implementation;
+                            return imp && !imp.hasFeature("Events",
+                                "2.0");
+                        },
+                        trigger: "node-base",
+                    },
+                    requires: ["node-base"],
+                },
+                "event-contextmenu": { requires: ["event-synthetic", "dom-screen"] },
+                "event-custom": {
+                    use: ["event-custom-base", "event-custom-complex"],
+                },
+                "event-custom-base": { requires: ["oop"] },
+                "event-custom-complex": { requires: ["event-custom-base"] },
+                "event-delegate": { requires: ["node-base"] },
+                "event-flick": {
+                    requires: ["node-base", "event-touch", "event-synthetic"],
+                },
+                "event-focus": { requires: ["event-synthetic"] },
+                "event-gestures": { use: ["event-flick", "event-move"] },
+                "event-hover": { requires: ["event-mouseenter"] },
+                "event-key": { requires: ["event-synthetic"] },
+                "event-mouseenter": { requires: ["event-synthetic"] },
+                "event-mousewheel": { requires: ["node-base"] },
+                "event-move": {
+                    requires: ["node-base", "event-touch", "event-synthetic"],
+                },
+                "event-outside": { requires: ["event-synthetic"] },
+                "event-resize": { requires: ["node-base", "event-synthetic"] },
+                "event-simulate": { requires: ["event-base"] },
+                "event-synthetic": {
+                    requires: ["node-base", "event-custom-complex"],
+                },
+                "event-tap": {
+                    requires: [
+                        "node-base",
+                        "event-base",
+                        "event-touch",
+                        "event-synthetic",
+                    ],
+                },
+                "event-touch": { requires: ["node-base"] },
+                "event-valuechange": { requires: ["event-focus", "event-synthetic"] },
+                "exec-command": { requires: ["frame"] },
+                features: { requires: ["yui-base"] },
+                file: { requires: ["file-flash", "file-html5"] },
+                "file-flash": { requires: ["base"] },
+                "file-html5": { requires: ["base"] },
+                frame: {
+                    requires: ["base", "node", "selector-css3", "yui-throttle"],
+                },
+                "gesture-simulate": {
+                    requires: ["async-queue", "event-simulate", "node-screen"],
+                },
+                get: { requires: ["yui-base"] },
+                graphics: {
+                    requires: [
+                        "node",
+                        "event-custom",
+                        "pluginhost",
+                        "matrix",
+                        "classnamemanager",
+                    ],
+                },
+                "graphics-canvas": {
+                    condition: {
+                        name: "graphics-canvas",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                useCanvas =
                     Y.config.defaultGraphicEngine &&
                     "canvas" == Y.config.defaultGraphicEngine,
-                            canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                        return (
-                            (!(
-                                DOCUMENT &&
+                                canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                            return (
+                                (!(
+                                    DOCUMENT &&
                     DOCUMENT.implementation.hasFeature(
                         "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                         "1.1",
                     )
-                            ) ||
+                                ) ||
                     useCanvas) &&
                   canvas &&
                   canvas.getContext &&
                   canvas.getContext("2d")
-                        );
+                            );
+                        },
+                        trigger: "graphics",
                     },
-                    trigger: "graphics",
+                    requires: ["graphics"],
                 },
-                requires: ["graphics"],
-            },
-            "graphics-canvas-default": {
-                condition: {
-                    name: "graphics-canvas-default",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            useCanvas =
+                "graphics-canvas-default": {
+                    condition: {
+                        name: "graphics-canvas-default",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                useCanvas =
                     Y.config.defaultGraphicEngine &&
                     "canvas" == Y.config.defaultGraphicEngine,
-                            canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                        return (
-                            (!(
-                                DOCUMENT &&
+                                canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                            return (
+                                (!(
+                                    DOCUMENT &&
                     DOCUMENT.implementation.hasFeature(
                         "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                         "1.1",
                     )
-                            ) ||
+                                ) ||
                     useCanvas) &&
                   canvas &&
                   canvas.getContext &&
                   canvas.getContext("2d")
-                        );
+                            );
+                        },
+                        trigger: "graphics",
                     },
-                    trigger: "graphics",
                 },
-            },
-            "graphics-group": { requires: ["graphics"] },
-            "graphics-svg": {
-                condition: {
-                    name: "graphics-svg",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            useSVG =
+                "graphics-group": { requires: ["graphics"] },
+                "graphics-svg": {
+                    condition: {
+                        name: "graphics-svg",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                useSVG =
                     !Y.config.defaultGraphicEngine ||
                     "canvas" != Y.config.defaultGraphicEngine,
-                            canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                        return (
-                            DOCUMENT &&
+                                canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                            return (
+                                DOCUMENT &&
                   DOCUMENT.implementation.hasFeature(
                       "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                       "1.1",
                   ) &&
                   (useSVG || !canvas)
-                        );
+                            );
+                        },
+                        trigger: "graphics",
                     },
-                    trigger: "graphics",
+                    requires: ["graphics"],
                 },
-                requires: ["graphics"],
-            },
-            "graphics-svg-default": {
-                condition: {
-                    name: "graphics-svg-default",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            useSVG =
+                "graphics-svg-default": {
+                    condition: {
+                        name: "graphics-svg-default",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                useSVG =
                     !Y.config.defaultGraphicEngine ||
                     "canvas" != Y.config.defaultGraphicEngine,
-                            canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                        return (
-                            DOCUMENT &&
+                                canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                            return (
+                                DOCUMENT &&
                   DOCUMENT.implementation.hasFeature(
                       "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                       "1.1",
                   ) &&
                   (useSVG || !canvas)
-                        );
+                            );
+                        },
+                        trigger: "graphics",
                     },
-                    trigger: "graphics",
                 },
-            },
-            "graphics-vml": {
-                condition: {
-                    name: "graphics-vml",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                        return (
-                            DOCUMENT &&
+                "graphics-vml": {
+                    condition: {
+                        name: "graphics-vml",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                            return (
+                                DOCUMENT &&
                   !DOCUMENT.implementation.hasFeature(
                       "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                       "1.1",
                   ) &&
                   (!canvas || !canvas.getContext || !canvas.getContext("2d"))
-                        );
+                            );
+                        },
+                        trigger: "graphics",
                     },
-                    trigger: "graphics",
+                    requires: ["graphics"],
                 },
-                requires: ["graphics"],
-            },
-            "graphics-vml-default": {
-                condition: {
-                    name: "graphics-vml-default",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            canvas = DOCUMENT && DOCUMENT.createElement("canvas");
-                        return (
-                            DOCUMENT &&
+                "graphics-vml-default": {
+                    condition: {
+                        name: "graphics-vml-default",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                canvas = DOCUMENT && DOCUMENT.createElement("canvas");
+                            return (
+                                DOCUMENT &&
                   !DOCUMENT.implementation.hasFeature(
                       "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                       "1.1",
                   ) &&
                   (!canvas || !canvas.getContext || !canvas.getContext("2d"))
-                        );
+                            );
+                        },
+                        trigger: "graphics",
                     },
-                    trigger: "graphics",
                 },
-            },
-            handlebars: { use: ["handlebars-compiler"] },
-            "handlebars-base": { requires: [] },
-            "handlebars-compiler": { requires: ["handlebars-base"] },
-            highlight: { use: ["highlight-base", "highlight-accentfold"] },
-            "highlight-accentfold": {
-                requires: ["highlight-base", "text-accentfold"],
-            },
-            "highlight-base": {
-                requires: [
-                    "array-extras",
-                    "classnamemanager",
-                    "escape",
-                    "text-wordbreak",
-                ],
-            },
-            history: {
-                use: [
-                    "history-base",
-                    "history-hash",
-                    "history-hash-ie",
-                    "history-html5",
-                ],
-            },
-            "history-base": { requires: ["event-custom-complex"] },
-            "history-hash": {
-                after: ["history-html5"],
-                requires: ["event-synthetic", "history-base", "yui-later"],
-            },
-            "history-hash-ie": {
-                condition: {
-                    name: "history-hash-ie",
-                    test: function (Y) {
-                        var docMode = Y.config.doc && Y.config.doc.documentMode;
-                        return (
-                            Y.UA.ie &&
+                handlebars: { use: ["handlebars-compiler"] },
+                "handlebars-base": { requires: [] },
+                "handlebars-compiler": { requires: ["handlebars-base"] },
+                highlight: { use: ["highlight-base", "highlight-accentfold"] },
+                "highlight-accentfold": {
+                    requires: ["highlight-base", "text-accentfold"],
+                },
+                "highlight-base": {
+                    requires: [
+                        "array-extras",
+                        "classnamemanager",
+                        "escape",
+                        "text-wordbreak",
+                    ],
+                },
+                history: {
+                    use: [
+                        "history-base",
+                        "history-hash",
+                        "history-hash-ie",
+                        "history-html5",
+                    ],
+                },
+                "history-base": { requires: ["event-custom-complex"] },
+                "history-hash": {
+                    after: ["history-html5"],
+                    requires: ["event-synthetic", "history-base", "yui-later"],
+                },
+                "history-hash-ie": {
+                    condition: {
+                        name: "history-hash-ie",
+                        test: function (Y) {
+                            var docMode = Y.config.doc && Y.config.doc.documentMode;
+                            return (
+                                Y.UA.ie &&
                   (!("onhashchange" in Y.config.win) || !docMode || docMode < 8)
-                        );
+                            );
+                        },
+                        trigger: "history-hash",
                     },
-                    trigger: "history-hash",
+                    requires: ["history-hash", "node-base"],
                 },
-                requires: ["history-hash", "node-base"],
-            },
-            "history-html5": {
-                optional: ["json"],
-                requires: ["event-base", "history-base", "node-base"],
-            },
-            imageloader: { requires: ["base-base", "node-style", "node-screen"] },
-            intl: { requires: ["intl-base", "event-custom"] },
-            "intl-base": { requires: ["yui-base"] },
-            io: {
-                use: [
-                    "io-base",
-                    "io-xdr",
-                    "io-form",
-                    "io-upload-iframe",
-                    "io-queue",
-                ],
-            },
-            "io-base": {
-                requires: ["event-custom-base", "querystring-stringify-simple"],
-            },
-            "io-form": { requires: ["io-base", "node-base"] },
-            "io-nodejs": {
-                condition: { name: "io-nodejs",
-                    trigger: "io-base",
-                    ua: "nodejs" },
-                requires: ["io-base"],
-            },
-            "io-queue": { requires: ["io-base", "queue-promote"] },
-            "io-upload-iframe": { requires: ["io-base", "node-base"] },
-            "io-xdr": { requires: ["io-base", "datatype-xml-parse"] },
-            json: { use: ["json-parse", "json-stringify"] },
-            "json-parse": { requires: ["yui-base"] },
-            "json-parse-shim": {
-                condition: {
-                    name: "json-parse-shim",
-                    test: function (Y) {
-                        var _JSON = Y.config.global.JSON,
-                            Native =
+                "history-html5": {
+                    optional: ["json"],
+                    requires: ["event-base", "history-base", "node-base"],
+                },
+                imageloader: { requires: ["base-base", "node-style", "node-screen"] },
+                intl: { requires: ["intl-base", "event-custom"] },
+                "intl-base": { requires: ["yui-base"] },
+                io: {
+                    use: [
+                        "io-base",
+                        "io-xdr",
+                        "io-form",
+                        "io-upload-iframe",
+                        "io-queue",
+                    ],
+                },
+                "io-base": {
+                    requires: ["event-custom-base", "querystring-stringify-simple"],
+                },
+                "io-form": { requires: ["io-base", "node-base"] },
+                "io-nodejs": {
+                    condition: { name: "io-nodejs",
+                        trigger: "io-base",
+                        ua: "nodejs" },
+                    requires: ["io-base"],
+                },
+                "io-queue": { requires: ["io-base", "queue-promote"] },
+                "io-upload-iframe": { requires: ["io-base", "node-base"] },
+                "io-xdr": { requires: ["io-base", "datatype-xml-parse"] },
+                json: { use: ["json-parse", "json-stringify"] },
+                "json-parse": { requires: ["yui-base"] },
+                "json-parse-shim": {
+                    condition: {
+                        name: "json-parse-shim",
+                        test: function (Y) {
+                            var _JSON = Y.config.global.JSON,
+                                Native =
                     "[object JSON]" === Object.prototype.toString.call(_JSON) &&
                     _JSON,
-                            nativeSupport =
+                                nativeSupport =
                     !1 !== Y.config.useNativeJSONParse && !!Native;
-                        if (nativeSupport)
-                            try {
-                                nativeSupport = Native.parse(
-                                    '{"ok":false}',
-                                    function (k, v) {
-                                        return "ok" === k || v;
-                                    },
-                                ).ok;
-                            } catch (e) {
-                                nativeSupport = !1;
-                            }
-                        return !nativeSupport;
+                            if (nativeSupport)
+                                try {
+                                    nativeSupport = Native.parse(
+                                        '{"ok":false}',
+                                        function (k, v) {
+                                            return "ok" === k || v;
+                                        },
+                                    ).ok;
+                                } catch (e) {
+                                    nativeSupport = !1;
+                                }
+                            return !nativeSupport;
+                        },
+                        trigger: "json-parse",
                     },
-                    trigger: "json-parse",
+                    requires: ["json-parse"],
                 },
-                requires: ["json-parse"],
-            },
-            "json-stringify": { requires: ["yui-base"] },
-            "json-stringify-shim": {
-                condition: {
-                    name: "json-stringify-shim",
-                    test: function (Y) {
-                        var _JSON = Y.config.global.JSON,
-                            Native =
+                "json-stringify": { requires: ["yui-base"] },
+                "json-stringify-shim": {
+                    condition: {
+                        name: "json-stringify-shim",
+                        test: function (Y) {
+                            var _JSON = Y.config.global.JSON,
+                                Native =
                     "[object JSON]" === Object.prototype.toString.call(_JSON) &&
                     _JSON,
-                            nativeSupport =
+                                nativeSupport =
                     !1 !== Y.config.useNativeJSONStringify && !!Native;
-                        if (nativeSupport)
-                            try {
-                                nativeSupport = "0" === Native.stringify(0);
-                            } catch (e) {
-                                nativeSupport = !1;
-                            }
-                        return !nativeSupport;
+                            if (nativeSupport)
+                                try {
+                                    nativeSupport = "0" === Native.stringify(0);
+                                } catch (e) {
+                                    nativeSupport = !1;
+                                }
+                            return !nativeSupport;
+                        },
+                        trigger: "json-stringify",
                     },
-                    trigger: "json-stringify",
+                    requires: ["json-stringify"],
                 },
-                requires: ["json-stringify"],
-            },
-            jsonp: { requires: ["get", "oop"] },
-            "jsonp-url": { requires: ["jsonp"] },
-            "lazy-model-list": { requires: ["model-list"] },
-            loader: { use: ["loader-base", "loader-rollup", "loader-yui3"] },
-            "loader-base": { requires: ["get", "features"] },
-            "loader-rollup": { requires: ["loader-base"] },
-            "loader-yui3": { requires: ["loader-base"] },
-            matrix: { requires: ["yui-base"] },
-            model: { requires: ["base-build", "escape", "json-parse"] },
-            "model-list": {
-                requires: [
-                    "array-extras",
-                    "array-invoke",
-                    "arraylist",
-                    "base-build",
-                    "escape",
-                    "json-parse",
-                    "model",
-                ],
-            },
-            "model-sync-rest": {
-                requires: ["model", "io-base", "json-stringify"],
-            },
-            node: {
-                use: [
-                    "node-base",
-                    "node-event-delegate",
-                    "node-pluginhost",
-                    "node-screen",
-                    "node-style",
-                ],
-            },
-            "node-base": {
-                requires: ["event-base", "node-core", "dom-base", "dom-style"],
-            },
-            "node-core": { requires: ["dom-core", "selector"] },
-            "node-deprecated": { requires: ["node-base"] },
-            "node-event-delegate": { requires: ["node-base", "event-delegate"] },
-            "node-event-html5": { requires: ["node-base"] },
-            "node-event-simulate": {
-                requires: ["node-base", "event-simulate", "gesture-simulate"],
-            },
-            "node-flick": {
-                requires: [
-                    "classnamemanager",
-                    "transition",
-                    "event-flick",
-                    "plugin",
-                ],
-                skinnable: !0,
-            },
-            "node-focusmanager": {
-                requires: [
-                    "attribute",
-                    "node",
-                    "plugin",
-                    "node-event-simulate",
-                    "event-key",
-                    "event-focus",
-                ],
-            },
-            "node-load": { requires: ["node-base", "io-base"] },
-            "node-menunav": {
-                requires: [
-                    "node",
-                    "classnamemanager",
-                    "plugin",
-                    "node-focusmanager",
-                ],
-                skinnable: !0,
-            },
-            "node-pluginhost": { requires: ["node-base", "pluginhost"] },
-            "node-screen": { requires: ["dom-screen", "node-base"] },
-            "node-scroll-info": {
-                requires: [
-                    "array-extras",
-                    "base-build",
-                    "event-resize",
-                    "node-pluginhost",
-                    "plugin",
-                    "selector",
-                ],
-            },
-            "node-style": { requires: ["dom-style", "node-base"] },
-            oop: { requires: ["yui-base"] },
-            overlay: {
-                requires: [
-                    "widget",
-                    "widget-stdmod",
-                    "widget-position",
-                    "widget-position-align",
-                    "widget-stack",
-                    "widget-position-constrain",
-                ],
-                skinnable: !0,
-            },
-            paginator: { requires: ["paginator-core"] },
-            "paginator-core": { requires: ["base"] },
-            "paginator-url": { requires: ["paginator"] },
-            panel: {
-                requires: [
-                    "widget",
-                    "widget-autohide",
-                    "widget-buttons",
-                    "widget-modality",
-                    "widget-position",
-                    "widget-position-align",
-                    "widget-position-constrain",
-                    "widget-stack",
-                    "widget-stdmod",
-                ],
-                skinnable: !0,
-            },
-            parallel: { requires: ["yui-base"] },
-            pjax: { requires: ["pjax-base", "pjax-content"] },
-            "pjax-base": {
-                requires: ["classnamemanager", "node-event-delegate", "router"],
-            },
-            "pjax-content": { requires: ["io-base", "node-base", "router"] },
-            "pjax-plugin": { requires: ["node-pluginhost", "pjax", "plugin"] },
-            plugin: { requires: ["base-base"] },
-            pluginhost: { use: ["pluginhost-base", "pluginhost-config"] },
-            "pluginhost-base": { requires: ["yui-base"] },
-            "pluginhost-config": { requires: ["pluginhost-base"] },
-            promise: { requires: ["timers"] },
-            querystring: { use: ["querystring-parse", "querystring-stringify"] },
-            "querystring-parse": { requires: ["yui-base", "array-extras"] },
-            "querystring-parse-simple": { requires: ["yui-base"] },
-            "querystring-stringify": { requires: ["yui-base"] },
-            "querystring-stringify-simple": { requires: ["yui-base"] },
-            "queue-promote": { requires: ["yui-base"] },
-            "range-slider": {
-                requires: ["slider-base", "slider-value-range", "clickable-rail"],
-            },
-            recordset: {
-                use: [
-                    "recordset-base",
-                    "recordset-sort",
-                    "recordset-filter",
-                    "recordset-indexer",
-                ],
-            },
-            "recordset-base": { requires: ["base", "arraylist"] },
-            "recordset-filter": {
-                requires: ["recordset-base", "array-extras", "plugin"],
-            },
-            "recordset-indexer": { requires: ["recordset-base", "plugin"] },
-            "recordset-sort": {
-                requires: ["arraysort", "recordset-base", "plugin"],
-            },
-            resize: { use: ["resize-base", "resize-proxy", "resize-constrain"] },
-            "resize-base": {
-                requires: [
-                    "base",
-                    "widget",
-                    "event",
-                    "oop",
-                    "dd-drag",
-                    "dd-delegate",
-                    "dd-drop",
-                ],
-                skinnable: !0,
-            },
-            "resize-constrain": { requires: ["plugin", "resize-base"] },
-            "resize-plugin": {
-                optional: ["resize-constrain"],
-                requires: ["resize-base", "plugin"],
-            },
-            "resize-proxy": { requires: ["plugin", "resize-base"] },
-            router: {
-                optional: ["querystring-parse"],
-                requires: ["array-extras", "base-build", "history"],
-            },
-            scrollview: {
-                requires: ["scrollview-base", "scrollview-scrollbars"],
-            },
-            "scrollview-base": {
-                requires: [
-                    "widget",
-                    "event-gestures",
-                    "event-mousewheel",
-                    "transition",
-                ],
-                skinnable: !0,
-            },
-            "scrollview-base-ie": {
-                condition: {
-                    name: "scrollview-base-ie",
-                    trigger: "scrollview-base",
-                    ua: "ie",
+                jsonp: { requires: ["get", "oop"] },
+                "jsonp-url": { requires: ["jsonp"] },
+                "lazy-model-list": { requires: ["model-list"] },
+                loader: { use: ["loader-base", "loader-rollup", "loader-yui3"] },
+                "loader-base": { requires: ["get", "features"] },
+                "loader-rollup": { requires: ["loader-base"] },
+                "loader-yui3": { requires: ["loader-base"] },
+                matrix: { requires: ["yui-base"] },
+                model: { requires: ["base-build", "escape", "json-parse"] },
+                "model-list": {
+                    requires: [
+                        "array-extras",
+                        "array-invoke",
+                        "arraylist",
+                        "base-build",
+                        "escape",
+                        "json-parse",
+                        "model",
+                    ],
                 },
-                requires: ["scrollview-base"],
-            },
-            "scrollview-list": {
-                requires: ["plugin", "classnamemanager"],
-                skinnable: !0,
-            },
-            "scrollview-paginator": { requires: ["plugin", "classnamemanager"] },
-            "scrollview-scrollbars": {
-                requires: ["classnamemanager", "transition", "plugin"],
-                skinnable: !0,
-            },
-            selector: { requires: ["selector-native"] },
-            "selector-css2": {
-                condition: {
-                    name: "selector-css2",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc;
-                        return DOCUMENT && !("querySelectorAll" in DOCUMENT);
+                "model-sync-rest": {
+                    requires: ["model", "io-base", "json-stringify"],
+                },
+                node: {
+                    use: [
+                        "node-base",
+                        "node-event-delegate",
+                        "node-pluginhost",
+                        "node-screen",
+                        "node-style",
+                    ],
+                },
+                "node-base": {
+                    requires: ["event-base", "node-core", "dom-base", "dom-style"],
+                },
+                "node-core": { requires: ["dom-core", "selector"] },
+                "node-deprecated": { requires: ["node-base"] },
+                "node-event-delegate": { requires: ["node-base", "event-delegate"] },
+                "node-event-html5": { requires: ["node-base"] },
+                "node-event-simulate": {
+                    requires: ["node-base", "event-simulate", "gesture-simulate"],
+                },
+                "node-flick": {
+                    requires: [
+                        "classnamemanager",
+                        "transition",
+                        "event-flick",
+                        "plugin",
+                    ],
+                    skinnable: !0,
+                },
+                "node-focusmanager": {
+                    requires: [
+                        "attribute",
+                        "node",
+                        "plugin",
+                        "node-event-simulate",
+                        "event-key",
+                        "event-focus",
+                    ],
+                },
+                "node-load": { requires: ["node-base", "io-base"] },
+                "node-menunav": {
+                    requires: [
+                        "node",
+                        "classnamemanager",
+                        "plugin",
+                        "node-focusmanager",
+                    ],
+                    skinnable: !0,
+                },
+                "node-pluginhost": { requires: ["node-base", "pluginhost"] },
+                "node-screen": { requires: ["dom-screen", "node-base"] },
+                "node-scroll-info": {
+                    requires: [
+                        "array-extras",
+                        "base-build",
+                        "event-resize",
+                        "node-pluginhost",
+                        "plugin",
+                        "selector",
+                    ],
+                },
+                "node-style": { requires: ["dom-style", "node-base"] },
+                oop: { requires: ["yui-base"] },
+                overlay: {
+                    requires: [
+                        "widget",
+                        "widget-stdmod",
+                        "widget-position",
+                        "widget-position-align",
+                        "widget-stack",
+                        "widget-position-constrain",
+                    ],
+                    skinnable: !0,
+                },
+                paginator: { requires: ["paginator-core"] },
+                "paginator-core": { requires: ["base"] },
+                "paginator-url": { requires: ["paginator"] },
+                panel: {
+                    requires: [
+                        "widget",
+                        "widget-autohide",
+                        "widget-buttons",
+                        "widget-modality",
+                        "widget-position",
+                        "widget-position-align",
+                        "widget-position-constrain",
+                        "widget-stack",
+                        "widget-stdmod",
+                    ],
+                    skinnable: !0,
+                },
+                parallel: { requires: ["yui-base"] },
+                pjax: { requires: ["pjax-base", "pjax-content"] },
+                "pjax-base": {
+                    requires: ["classnamemanager", "node-event-delegate", "router"],
+                },
+                "pjax-content": { requires: ["io-base", "node-base", "router"] },
+                "pjax-plugin": { requires: ["node-pluginhost", "pjax", "plugin"] },
+                plugin: { requires: ["base-base"] },
+                pluginhost: { use: ["pluginhost-base", "pluginhost-config"] },
+                "pluginhost-base": { requires: ["yui-base"] },
+                "pluginhost-config": { requires: ["pluginhost-base"] },
+                promise: { requires: ["timers"] },
+                querystring: { use: ["querystring-parse", "querystring-stringify"] },
+                "querystring-parse": { requires: ["yui-base", "array-extras"] },
+                "querystring-parse-simple": { requires: ["yui-base"] },
+                "querystring-stringify": { requires: ["yui-base"] },
+                "querystring-stringify-simple": { requires: ["yui-base"] },
+                "queue-promote": { requires: ["yui-base"] },
+                "range-slider": {
+                    requires: ["slider-base", "slider-value-range", "clickable-rail"],
+                },
+                recordset: {
+                    use: [
+                        "recordset-base",
+                        "recordset-sort",
+                        "recordset-filter",
+                        "recordset-indexer",
+                    ],
+                },
+                "recordset-base": { requires: ["base", "arraylist"] },
+                "recordset-filter": {
+                    requires: ["recordset-base", "array-extras", "plugin"],
+                },
+                "recordset-indexer": { requires: ["recordset-base", "plugin"] },
+                "recordset-sort": {
+                    requires: ["arraysort", "recordset-base", "plugin"],
+                },
+                resize: { use: ["resize-base", "resize-proxy", "resize-constrain"] },
+                "resize-base": {
+                    requires: [
+                        "base",
+                        "widget",
+                        "event",
+                        "oop",
+                        "dd-drag",
+                        "dd-delegate",
+                        "dd-drop",
+                    ],
+                    skinnable: !0,
+                },
+                "resize-constrain": { requires: ["plugin", "resize-base"] },
+                "resize-plugin": {
+                    optional: ["resize-constrain"],
+                    requires: ["resize-base", "plugin"],
+                },
+                "resize-proxy": { requires: ["plugin", "resize-base"] },
+                router: {
+                    optional: ["querystring-parse"],
+                    requires: ["array-extras", "base-build", "history"],
+                },
+                scrollview: {
+                    requires: ["scrollview-base", "scrollview-scrollbars"],
+                },
+                "scrollview-base": {
+                    requires: [
+                        "widget",
+                        "event-gestures",
+                        "event-mousewheel",
+                        "transition",
+                    ],
+                    skinnable: !0,
+                },
+                "scrollview-base-ie": {
+                    condition: {
+                        name: "scrollview-base-ie",
+                        trigger: "scrollview-base",
+                        ua: "ie",
                     },
-                    trigger: "selector",
+                    requires: ["scrollview-base"],
                 },
-                requires: ["selector-native"],
-            },
-            "selector-css3": { requires: ["selector-native", "selector-css2"] },
-            "selector-native": { requires: ["dom-base"] },
-            "series-area": { requires: ["series-cartesian", "series-fill-util"] },
-            "series-area-stacked": {
-                requires: ["series-stacked", "series-area"],
-            },
-            "series-areaspline": {
-                requires: ["series-area", "series-curve-util"],
-            },
-            "series-areaspline-stacked": {
-                requires: ["series-stacked", "series-areaspline"],
-            },
-            "series-bar": {
-                requires: ["series-marker", "series-histogram-base"],
-            },
-            "series-bar-stacked": { requires: ["series-stacked", "series-bar"] },
-            "series-base": { requires: ["graphics", "axis-base"] },
-            "series-candlestick": { requires: ["series-range"] },
-            "series-cartesian": { requires: ["series-base"] },
-            "series-column": {
-                requires: ["series-marker", "series-histogram-base"],
-            },
-            "series-column-stacked": {
-                requires: ["series-stacked", "series-column"],
-            },
-            "series-combo": {
-                requires: [
-                    "series-cartesian",
-                    "series-line-util",
-                    "series-plot-util",
-                    "series-fill-util",
-                ],
-            },
-            "series-combo-stacked": {
-                requires: ["series-stacked", "series-combo"],
-            },
-            "series-combospline": {
-                requires: ["series-combo", "series-curve-util"],
-            },
-            "series-combospline-stacked": {
-                requires: ["series-combo-stacked", "series-curve-util"],
-            },
-            "series-curve-util": {},
-            "series-fill-util": {},
-            "series-histogram-base": {
-                requires: ["series-cartesian", "series-plot-util"],
-            },
-            "series-line": { requires: ["series-cartesian", "series-line-util"] },
-            "series-line-stacked": {
-                requires: ["series-stacked", "series-line"],
-            },
-            "series-line-util": {},
-            "series-marker": {
-                requires: ["series-cartesian", "series-plot-util"],
-            },
-            "series-marker-stacked": {
-                requires: ["series-stacked", "series-marker"],
-            },
-            "series-ohlc": { requires: ["series-range"] },
-            "series-pie": { requires: ["series-base", "series-plot-util"] },
-            "series-plot-util": {},
-            "series-range": { requires: ["series-cartesian"] },
-            "series-spline": { requires: ["series-line", "series-curve-util"] },
-            "series-spline-stacked": {
-                requires: ["series-stacked", "series-spline"],
-            },
-            "series-stacked": { requires: ["axis-stacked"] },
-            "shim-plugin": { requires: ["node-style", "node-pluginhost"] },
-            slider: {
-                use: [
-                    "slider-base",
-                    "slider-value-range",
-                    "clickable-rail",
-                    "range-slider",
-                ],
-            },
-            "slider-base": {
-                requires: ["widget", "dd-constrain", "event-key"],
-                skinnable: !0,
-            },
-            "slider-value-range": { requires: ["slider-base"] },
-            sortable: { requires: ["dd-delegate", "dd-drop-plugin", "dd-proxy"] },
-            "sortable-scroll": { requires: ["dd-scroll", "sortable"] },
-            stylesheet: { requires: ["yui-base"] },
-            substitute: { optional: ["dump"],
-                requires: ["yui-base"] },
-            swf: { requires: ["event-custom", "node", "swfdetect", "escape"] },
-            swfdetect: { requires: ["yui-base"] },
-            tabview: {
-                requires: [
-                    "widget",
-                    "widget-parent",
-                    "widget-child",
-                    "tabview-base",
-                    "node-pluginhost",
-                    "node-focusmanager",
-                ],
-                skinnable: !0,
-            },
-            "tabview-base": {
-                requires: ["node-event-delegate", "classnamemanager"],
-            },
-            "tabview-plugin": { requires: ["tabview-base"] },
-            template: { use: ["template-base", "template-micro"] },
-            "template-base": { requires: ["yui-base"] },
-            "template-micro": { requires: ["escape"] },
-            test: {
-                requires: ["event-simulate", "event-custom", "json-stringify"],
-            },
-            "test-console": {
-                requires: ["console-filters", "test", "array-extras"],
-                skinnable: !0,
-            },
-            text: { use: ["text-accentfold", "text-wordbreak"] },
-            "text-accentfold": {
-                requires: ["array-extras", "text-data-accentfold"],
-            },
-            "text-data-accentfold": { requires: ["yui-base"] },
-            "text-data-wordbreak": { requires: ["yui-base"] },
-            "text-wordbreak": {
-                requires: ["array-extras", "text-data-wordbreak"],
-            },
-            timers: { requires: ["yui-base"] },
-            transition: { requires: ["node-style"] },
-            "transition-timer": {
-                condition: {
-                    name: "transition-timer",
-                    test: function (Y) {
-                        var DOCUMENT = Y.config.doc,
-                            node = DOCUMENT ? DOCUMENT.documentElement : null,
-                            ret = !0;
-                        return (
-                            node &&
+                "scrollview-list": {
+                    requires: ["plugin", "classnamemanager"],
+                    skinnable: !0,
+                },
+                "scrollview-paginator": { requires: ["plugin", "classnamemanager"] },
+                "scrollview-scrollbars": {
+                    requires: ["classnamemanager", "transition", "plugin"],
+                    skinnable: !0,
+                },
+                selector: { requires: ["selector-native"] },
+                "selector-css2": {
+                    condition: {
+                        name: "selector-css2",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc;
+                            return DOCUMENT && !("querySelectorAll" in DOCUMENT);
+                        },
+                        trigger: "selector",
+                    },
+                    requires: ["selector-native"],
+                },
+                "selector-css3": { requires: ["selector-native", "selector-css2"] },
+                "selector-native": { requires: ["dom-base"] },
+                "series-area": { requires: ["series-cartesian", "series-fill-util"] },
+                "series-area-stacked": {
+                    requires: ["series-stacked", "series-area"],
+                },
+                "series-areaspline": {
+                    requires: ["series-area", "series-curve-util"],
+                },
+                "series-areaspline-stacked": {
+                    requires: ["series-stacked", "series-areaspline"],
+                },
+                "series-bar": {
+                    requires: ["series-marker", "series-histogram-base"],
+                },
+                "series-bar-stacked": { requires: ["series-stacked", "series-bar"] },
+                "series-base": { requires: ["graphics", "axis-base"] },
+                "series-candlestick": { requires: ["series-range"] },
+                "series-cartesian": { requires: ["series-base"] },
+                "series-column": {
+                    requires: ["series-marker", "series-histogram-base"],
+                },
+                "series-column-stacked": {
+                    requires: ["series-stacked", "series-column"],
+                },
+                "series-combo": {
+                    requires: [
+                        "series-cartesian",
+                        "series-line-util",
+                        "series-plot-util",
+                        "series-fill-util",
+                    ],
+                },
+                "series-combo-stacked": {
+                    requires: ["series-stacked", "series-combo"],
+                },
+                "series-combospline": {
+                    requires: ["series-combo", "series-curve-util"],
+                },
+                "series-combospline-stacked": {
+                    requires: ["series-combo-stacked", "series-curve-util"],
+                },
+                "series-curve-util": {},
+                "series-fill-util": {},
+                "series-histogram-base": {
+                    requires: ["series-cartesian", "series-plot-util"],
+                },
+                "series-line": { requires: ["series-cartesian", "series-line-util"] },
+                "series-line-stacked": {
+                    requires: ["series-stacked", "series-line"],
+                },
+                "series-line-util": {},
+                "series-marker": {
+                    requires: ["series-cartesian", "series-plot-util"],
+                },
+                "series-marker-stacked": {
+                    requires: ["series-stacked", "series-marker"],
+                },
+                "series-ohlc": { requires: ["series-range"] },
+                "series-pie": { requires: ["series-base", "series-plot-util"] },
+                "series-plot-util": {},
+                "series-range": { requires: ["series-cartesian"] },
+                "series-spline": { requires: ["series-line", "series-curve-util"] },
+                "series-spline-stacked": {
+                    requires: ["series-stacked", "series-spline"],
+                },
+                "series-stacked": { requires: ["axis-stacked"] },
+                "shim-plugin": { requires: ["node-style", "node-pluginhost"] },
+                slider: {
+                    use: [
+                        "slider-base",
+                        "slider-value-range",
+                        "clickable-rail",
+                        "range-slider",
+                    ],
+                },
+                "slider-base": {
+                    requires: ["widget", "dd-constrain", "event-key"],
+                    skinnable: !0,
+                },
+                "slider-value-range": { requires: ["slider-base"] },
+                sortable: { requires: ["dd-delegate", "dd-drop-plugin", "dd-proxy"] },
+                "sortable-scroll": { requires: ["dd-scroll", "sortable"] },
+                stylesheet: { requires: ["yui-base"] },
+                substitute: { optional: ["dump"],
+                    requires: ["yui-base"] },
+                swf: { requires: ["event-custom", "node", "swfdetect", "escape"] },
+                swfdetect: { requires: ["yui-base"] },
+                tabview: {
+                    requires: [
+                        "widget",
+                        "widget-parent",
+                        "widget-child",
+                        "tabview-base",
+                        "node-pluginhost",
+                        "node-focusmanager",
+                    ],
+                    skinnable: !0,
+                },
+                "tabview-base": {
+                    requires: ["node-event-delegate", "classnamemanager"],
+                },
+                "tabview-plugin": { requires: ["tabview-base"] },
+                template: { use: ["template-base", "template-micro"] },
+                "template-base": { requires: ["yui-base"] },
+                "template-micro": { requires: ["escape"] },
+                test: {
+                    requires: ["event-simulate", "event-custom", "json-stringify"],
+                },
+                "test-console": {
+                    requires: ["console-filters", "test", "array-extras"],
+                    skinnable: !0,
+                },
+                text: { use: ["text-accentfold", "text-wordbreak"] },
+                "text-accentfold": {
+                    requires: ["array-extras", "text-data-accentfold"],
+                },
+                "text-data-accentfold": { requires: ["yui-base"] },
+                "text-data-wordbreak": { requires: ["yui-base"] },
+                "text-wordbreak": {
+                    requires: ["array-extras", "text-data-wordbreak"],
+                },
+                timers: { requires: ["yui-base"] },
+                transition: { requires: ["node-style"] },
+                "transition-timer": {
+                    condition: {
+                        name: "transition-timer",
+                        test: function (Y) {
+                            var DOCUMENT = Y.config.doc,
+                                node = DOCUMENT ? DOCUMENT.documentElement : null,
+                                ret = !0;
+                            return (
+                                node &&
                     node.style &&
                     (ret = !(
                         "MozTransition" in node.style ||
                       "WebkitTransition" in node.style ||
                       "transition" in node.style
                     )),
-                            ret
-                        );
+                                ret
+                            );
+                        },
+                        trigger: "transition",
                     },
-                    trigger: "transition",
+                    requires: ["transition"],
                 },
-                requires: ["transition"],
-            },
-            tree: { requires: ["base-build", "tree-node"] },
-            "tree-labelable": { requires: ["tree"] },
-            "tree-lazy": { requires: ["base-pluginhost", "plugin", "tree"] },
-            "tree-node": {},
-            "tree-openable": { requires: ["tree"] },
-            "tree-selectable": { requires: ["tree"] },
-            "tree-sortable": { requires: ["tree"] },
-            uploader: { requires: ["uploader-html5", "uploader-flash"] },
-            "uploader-flash": {
-                requires: [
-                    "swf",
-                    "widget",
-                    "base",
-                    "cssbutton",
-                    "node",
-                    "event-custom",
-                    "file-flash",
-                    "uploader-queue",
-                ],
-            },
-            "uploader-html5": {
-                requires: [
-                    "widget",
-                    "node-event-simulate",
-                    "file-html5",
-                    "uploader-queue",
-                ],
-            },
-            "uploader-queue": { requires: ["base"] },
-            view: { requires: ["base-build", "node-event-delegate"] },
-            "view-node-map": { requires: ["view"] },
-            widget: {
-                use: [
-                    "widget-base",
-                    "widget-htmlparser",
-                    "widget-skin",
-                    "widget-uievents",
-                ],
-            },
-            "widget-anim": { requires: ["anim-base", "plugin", "widget"] },
-            "widget-autohide": {
-                requires: ["base-build", "event-key", "event-outside", "widget"],
-            },
-            "widget-base": {
-                requires: [
-                    "attribute",
-                    "base-base",
-                    "base-pluginhost",
-                    "classnamemanager",
-                    "event-focus",
-                    "node-base",
-                    "node-style",
-                ],
-                skinnable: !0,
-            },
-            "widget-base-ie": {
-                condition: {
-                    name: "widget-base-ie",
-                    trigger: "widget-base",
-                    ua: "ie",
+                tree: { requires: ["base-build", "tree-node"] },
+                "tree-labelable": { requires: ["tree"] },
+                "tree-lazy": { requires: ["base-pluginhost", "plugin", "tree"] },
+                "tree-node": {},
+                "tree-openable": { requires: ["tree"] },
+                "tree-selectable": { requires: ["tree"] },
+                "tree-sortable": { requires: ["tree"] },
+                uploader: { requires: ["uploader-html5", "uploader-flash"] },
+                "uploader-flash": {
+                    requires: [
+                        "swf",
+                        "widget",
+                        "base",
+                        "cssbutton",
+                        "node",
+                        "event-custom",
+                        "file-flash",
+                        "uploader-queue",
+                    ],
                 },
-                requires: ["widget-base"],
-            },
-            "widget-buttons": {
-                requires: ["button-plugin", "cssbutton", "widget-stdmod"],
-            },
-            "widget-child": { requires: ["base-build", "widget"] },
-            "widget-htmlparser": { requires: ["widget-base"] },
-            "widget-locale": { requires: ["widget-base"] },
-            "widget-modality": {
-                requires: ["base-build", "event-outside", "widget"],
-                skinnable: !0,
-            },
-            "widget-parent": { requires: ["arraylist", "base-build", "widget"] },
-            "widget-position": {
-                requires: ["base-build", "node-screen", "widget"],
-            },
-            "widget-position-align": { requires: ["widget-position"] },
-            "widget-position-constrain": { requires: ["widget-position"] },
-            "widget-skin": { requires: ["widget-base"] },
-            "widget-stack": { requires: ["base-build", "widget"],
-                skinnable: !0 },
-            "widget-stdmod": { requires: ["base-build", "widget"] },
-            "widget-uievents": {
-                requires: ["node-event-delegate", "widget-base"],
-            },
-            yql: { requires: ["oop"] },
-            "yql-jsonp": {
-                condition: {
-                    name: "yql-jsonp",
-                    test: function (Y) {
-                        return !Y.UA.nodejs && !Y.UA.winjs;
+                "uploader-html5": {
+                    requires: [
+                        "widget",
+                        "node-event-simulate",
+                        "file-html5",
+                        "uploader-queue",
+                    ],
+                },
+                "uploader-queue": { requires: ["base"] },
+                view: { requires: ["base-build", "node-event-delegate"] },
+                "view-node-map": { requires: ["view"] },
+                widget: {
+                    use: [
+                        "widget-base",
+                        "widget-htmlparser",
+                        "widget-skin",
+                        "widget-uievents",
+                    ],
+                },
+                "widget-anim": { requires: ["anim-base", "plugin", "widget"] },
+                "widget-autohide": {
+                    requires: ["base-build", "event-key", "event-outside", "widget"],
+                },
+                "widget-base": {
+                    requires: [
+                        "attribute",
+                        "base-base",
+                        "base-pluginhost",
+                        "classnamemanager",
+                        "event-focus",
+                        "node-base",
+                        "node-style",
+                    ],
+                    skinnable: !0,
+                },
+                "widget-base-ie": {
+                    condition: {
+                        name: "widget-base-ie",
+                        trigger: "widget-base",
+                        ua: "ie",
                     },
-                    trigger: "yql",
-                    when: "after",
+                    requires: ["widget-base"],
                 },
-                requires: ["jsonp", "jsonp-url"],
-            },
-            "yql-nodejs": {
-                condition: {
-                    name: "yql-nodejs",
-                    trigger: "yql",
-                    ua: "nodejs",
-                    when: "after",
+                "widget-buttons": {
+                    requires: ["button-plugin", "cssbutton", "widget-stdmod"],
                 },
-            },
-            "yql-winjs": {
-                condition: {
-                    name: "yql-winjs",
-                    trigger: "yql",
-                    ua: "winjs",
-                    when: "after",
+                "widget-child": { requires: ["base-build", "widget"] },
+                "widget-htmlparser": { requires: ["widget-base"] },
+                "widget-locale": { requires: ["widget-base"] },
+                "widget-modality": {
+                    requires: ["base-build", "event-outside", "widget"],
+                    skinnable: !0,
                 },
-            },
-            yui: {},
-            "yui-base": {},
-            "yui-later": { requires: ["yui-base"] },
-            "yui-log": { requires: ["yui-base"] },
-            "yui-throttle": { requires: ["yui-base"] },
-        }),
+                "widget-parent": { requires: ["arraylist", "base-build", "widget"] },
+                "widget-position": {
+                    requires: ["base-build", "node-screen", "widget"],
+                },
+                "widget-position-align": { requires: ["widget-position"] },
+                "widget-position-constrain": { requires: ["widget-position"] },
+                "widget-skin": { requires: ["widget-base"] },
+                "widget-stack": { requires: ["base-build", "widget"],
+                    skinnable: !0 },
+                "widget-stdmod": { requires: ["base-build", "widget"] },
+                "widget-uievents": {
+                    requires: ["node-event-delegate", "widget-base"],
+                },
+                yql: { requires: ["oop"] },
+                "yql-jsonp": {
+                    condition: {
+                        name: "yql-jsonp",
+                        test: function (Y) {
+                            return !Y.UA.nodejs && !Y.UA.winjs;
+                        },
+                        trigger: "yql",
+                        when: "after",
+                    },
+                    requires: ["jsonp", "jsonp-url"],
+                },
+                "yql-nodejs": {
+                    condition: {
+                        name: "yql-nodejs",
+                        trigger: "yql",
+                        ua: "nodejs",
+                        when: "after",
+                    },
+                },
+                "yql-winjs": {
+                    condition: {
+                        name: "yql-winjs",
+                        trigger: "yql",
+                        ua: "winjs",
+                        when: "after",
+                    },
+                },
+                yui: {},
+                "yui-base": {},
+                "yui-later": { requires: ["yui-base"] },
+                "yui-log": { requires: ["yui-base"] },
+                "yui-throttle": { requires: ["yui-base"] },
+            }),
         (YUI.Env[Y.version].md5 = "fd7c67956df50e445f40d1668dd1dc80");
     },
     "3.12.0",
     { requires: ["loader-base"] },
 ),
-YUI.add("yui", function (Y, NAME) {}, "3.12.0", {
-    use: [
-        "yui-base",
-        "get",
-        "features",
-        "intl-base",
-        "yui-log",
-        "yui-later",
-        "loader-base",
-        "loader-rollup",
-        "loader-yui3",
-    ],
-});
+YUI.add("yui",
+    function (Y, NAME) {},
+    "3.12.0",
+    {
+        use: [
+            "yui-base",
+            "get",
+            "features",
+            "intl-base",
+            "yui-log",
+            "yui-later",
+            "loader-base",
+            "loader-rollup",
+            "loader-yui3",
+        ],
+    });
