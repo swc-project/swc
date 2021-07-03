@@ -514,7 +514,7 @@
                     )
                     : {
                     }),
-                options.parse === void 0 && (options.parse = !0);
+                void 0 === options.parse && (options.parse = !0);
                 var model = this,
                     success = options.success;
                 return (
@@ -587,7 +587,7 @@
             attributes,
             attrs
         )),
-                options.parse === void 0 && (options.parse = !0);
+                void 0 === options.parse && (options.parse = !0);
                 var model = this,
                     success = options.success;
                 return (
@@ -813,7 +813,7 @@
         options || (options = {
         }),
         options.model && (this.model = options.model),
-        options.comparator !== void 0 && (this.comparator = options.comparator),
+        void 0 !== options.comparator && (this.comparator = options.comparator),
         this._reset(
         ),
         this.initialize.apply(
@@ -1244,7 +1244,7 @@
                     )
                     : {
                     }),
-                options.parse === void 0 && (options.parse = !0);
+                void 0 === options.parse && (options.parse = !0);
                 var success = options.success,
                     collection = this;
                 return (

@@ -679,7 +679,7 @@
               "$" !== key.charAt(
                   0
               ) &&
-              o2[key] !== void 0 &&
+              void 0 !== o2[key] &&
               !isFunction(
                   o2[key]
               )
@@ -1860,9 +1860,9 @@
             ? name
             : [name,]; element.length; ) {
             for (var i = 0, ii = names.length; ii > i; i++)
-                if ((value = element.data(
+                if (void 0 !== (value = element.data(
                     names[i]
-                )) !== void 0) return value;
+                ))) return value;
             element = element.parent(
             );
         }
@@ -3640,7 +3640,7 @@
                         index
                     )
                 )),
-                lastCookies[name] === void 0 &&
+                void 0 === lastCookies[name] &&
                   (lastCookies[name] = unescape(
                       cookie.substring(
                           index + 1
@@ -7429,26 +7429,26 @@
             url
         ) {
             var appUrl, prevAppUrl;
-            if ((appUrl = beginsWith(
+            if (void 0 !== (appUrl = beginsWith(
                 appBase,
                 url
-            )) !== void 0) {
+            ))) {
                 if (
                     ((prevAppUrl = appUrl),
-                    (appUrl = beginsWith(
+                    void 0 !== (appUrl = beginsWith(
                         basePrefix,
                         appUrl
-                    )) !== void 0)
+                    )))
                 )
                     return appBaseNoFile + (beginsWith(
                         "/",
                         appUrl
                     ) || appUrl);
                 return appBase + prevAppUrl;
-            } else if ((appUrl = beginsWith(
+            } else if (void 0 !== (appUrl = beginsWith(
                 appBaseNoFile,
                 url
-            )) !== void 0)
+            )))
                 return appBaseNoFile + appUrl;
             else if (appBaseNoFile == url + "/") return appBaseNoFile;
         });
@@ -9567,7 +9567,7 @@
                     obj.$$v = val;
                 }
             ),
-          obj.$$v === void 0 && (obj.$$v = {
+          void 0 === obj.$$v && (obj.$$v = {
           }),
           (obj = obj.$$v));
         }

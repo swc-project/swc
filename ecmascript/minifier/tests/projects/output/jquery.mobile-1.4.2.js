@@ -1647,11 +1647,11 @@
                                 (curOption = curOption[parts[i]]);
                             if (((key = parts.pop(
                             )), void 0 === value))
-                                return curOption[key] === void 0 ? null : curOption[key];
+                                return void 0 === curOption[key] ? null : curOption[key];
                             curOption[key] = value;
                         } else {
                             if (void 0 === value)
-                                return this.options[key] === void 0
+                                return void 0 === this.options[key]
                                     ? null
                                     : this.options[key];
                             options[key] = value;
@@ -2448,7 +2448,7 @@
                         " ",
                     ),
                     v;
-                for (v in props) if (fbCSS[props[v]] !== void 0) return !0;
+                for (v in props) if (void 0 !== fbCSS[props[v]]) return !0;
             }
             var fakeBody = jQuery(
                     "<body>"
@@ -2531,7 +2531,7 @@
                             el
                         );
                         for (t in transforms)
-                            el.style[t] !== void 0 &&
+                            void 0 !== el.style[t] &&
                 ((el.style[t] = "translate3d( 100px, 1px, 1px )"),
                 (ret = window
                     .getComputedStyle(
@@ -3049,7 +3049,7 @@
                     if (!path.isRelativeUrl(
                         relUrl
                     )) return relUrl;
-                    this.documentBase === void 0 && this.documentBase;
+                    void 0 === this.documentBase && this.documentBase;
                     var relObj = path.parseUrl(
                             relUrl
                         ),
@@ -3135,8 +3135,8 @@
                     newPath
                 ) {
                     return (
-                        path.parseLocation(
-                        ).hash === void 0 && path.parseLocation(
+                        void 0 === path.parseLocation(
+                        ).hash && path.parseLocation(
                         ).hash,
                         path
                             .stripHash(
@@ -3889,11 +3889,12 @@
                             j, prefix
                         ) {
                             if (
-                                testElement.style[
-                                    jQuery.camelCase(
-                                        prefix + (0 === i ? test + "-name" : test)
-                                    )
-                                ] !== void 0
+                                void 0 !==
+            testElement.style[
+                jQuery.camelCase(
+                    prefix + (0 === i ? test + "-name" : test)
+                )
+            ]
                             )
                                 return (props[test].prefix = prefix), !1;
                         }
@@ -3909,8 +3910,8 @@
             ));
                 }
             ),
-            (jQuery.support.cssTransitions = props.transition.prefix !== void 0),
-            (jQuery.support.cssAnimations = props.animation.prefix !== void 0),
+            (jQuery.support.cssTransitions = void 0 !== props.transition.prefix),
+            (jQuery.support.cssAnimations = void 0 !== props.animation.prefix),
             jQuery(
                 testElement
             ).remove(
@@ -5269,7 +5270,7 @@
                         name = constructor.prototype.widgetName;
                     return (
                         (constructor.initSelector =
-              constructor.prototype.initSelector !== void 0
+              void 0 !== constructor.prototype.initSelector
                   ? constructor.prototype.initSelector
                   : ":jqmData(role='" + name + "')"),
                         (jQuery.mobile.widgets[name] = constructor),
@@ -5430,7 +5431,7 @@
                     _setOptions: function (
                         o
                     ) {
-                        o.theme !== void 0 &&
+                        void 0 !== o.theme &&
               this.element
                   .removeClass(
                       "ui-page-theme-" + this.options.theme
@@ -5438,7 +5439,7 @@
                   .addClass(
                       "ui-page-theme-" + o.theme
                   ),
-                        o.contentTheme !== void 0 &&
+                        void 0 !== o.contentTheme &&
                 this.element
                     .find(
                         "[data-" + jQuery.mobile.ns + "='content']"
@@ -5551,7 +5552,7 @@
                     _setOptions: function (
                         options
                     ) {
-                        options.theme !== void 0 && "none" !== options.theme
+                        void 0 !== options.theme && "none" !== options.theme
                             ? this.element
                                 .removeClass(
                                     "ui-overlay-" + this.options.theme
@@ -5559,7 +5560,7 @@
                                 .addClass(
                                     "ui-overlay-" + options.theme
                                 )
-                            : options.theme !== void 0 &&
+                            : void 0 !== options.theme &&
               this.element.removeClass(
                   "ui-overlay-" + this.options.theme
               ),
@@ -6120,7 +6121,7 @@
                     ).text(
                     ),
                 )),
-                                    settings.prefetch === void 0 && this._getBase(
+                                    void 0 === settings.prefetch && this._getBase(
                                     ).set(
                                         fileUrl
                                     ),
@@ -6280,7 +6281,7 @@
                             (settings.showLoadMsg && this._showLoading(
                                 settings.loadMsgDelay
                             ),
-                            settings.prefetch === void 0 && this._getBase(
+                            void 0 === settings.prefetch && this._getBase(
                             ).reset(
                             ),
                             !(
@@ -7837,19 +7838,19 @@
                 ) {
                     var closeButtonLocation,
                         currentOpts = this.options;
-                    options.corners !== void 0 &&
+                    void 0 !== options.corners &&
           this._inner.toggleClass(
               "ui-corner-all",
               !!options.corners
           ),
-                    options.overlayTheme !== void 0 &&
+                    void 0 !== options.overlayTheme &&
             jQuery.mobile.activePage[0] === this.element[0] &&
             ((currentOpts.overlayTheme = options.overlayTheme),
             this._handlePageBeforeShow(
             )),
-                    options.closeBtnText !== void 0 &&
+                    void 0 !== options.closeBtnText &&
             (closeButtonLocation = currentOpts.closeBtn),
-                    options.closeBtn !== void 0 &&
+                    void 0 !== options.closeBtn &&
             (closeButtonLocation = options.closeBtn),
                     closeButtonLocation &&
             this._setCloseBtn(
@@ -8018,19 +8019,19 @@
                 ) {
                     var closeButtonLocation,
                         currentOpts = this.options;
-                    options.corners !== void 0 &&
+                    void 0 !== options.corners &&
           this._inner.toggleClass(
               "ui-corner-all",
               !!options.corners
           ),
-                    options.overlayTheme !== void 0 &&
+                    void 0 !== options.overlayTheme &&
             jQuery.mobile.activePage[0] === this.element[0] &&
             ((currentOpts.overlayTheme = options.overlayTheme),
             this._handlePageBeforeShow(
             )),
-                    options.closeBtnText !== void 0 &&
+                    void 0 !== options.closeBtnText &&
             (closeButtonLocation = currentOpts.closeBtn),
-                    options.closeBtn !== void 0 &&
+                    void 0 !== options.closeBtn &&
             (closeButtonLocation = options.closeBtn),
                     closeButtonLocation &&
             this._setCloseBtn(
@@ -8365,7 +8366,7 @@
                             opts = this._getOptions(
                                 options
                             );
-                        options.collapsed !== void 0 &&
+                        void 0 !== options.collapsed &&
             this._handleExpandCollapse(
                 options.collapsed
             ),
@@ -8373,20 +8374,20 @@
                             "ui-collapsible-collapsed"
                         )),
                         isCollapsed
-                            ? opts.expandCueText !== void 0 && status.text(
+                            ? void 0 !== opts.expandCueText && status.text(
                                 opts.expandCueText
                             )
-                            : opts.collapseCueText !== void 0 &&
+                            : void 0 !== opts.collapseCueText &&
                 status.text(
                     opts.collapseCueText
                 ),
                         (hasIcon =
-              opts.collapsedIcon !== void 0
+              void 0 !== opts.collapsedIcon
                   ? opts.collapsedIcon !== !1
                   : currentOpts.collapsedIcon !== !1),
-                        (opts.iconpos !== void 0 ||
-              opts.collapsedIcon !== void 0 ||
-              opts.expandedIcon !== void 0) &&
+                        (void 0 !== opts.iconpos ||
+              void 0 !== opts.collapsedIcon ||
+              void 0 !== opts.expandedIcon) &&
               (anchor.removeClass(
                   [iconposClass(
                       currentOpts.iconpos
@@ -8409,7 +8410,7 @@
                 anchor.addClass(
                     [
                         iconposClass(
-                            opts.iconpos !== void 0
+                            void 0 !== opts.iconpos
                                 ? opts.iconpos
                                 : currentOpts.iconpos,
                         ),
@@ -8418,13 +8419,13 @@
                             isCollapsed
                                 ? [
                                     "ui-icon-" +
-                              (opts.collapsedIcon !== void 0
+                              (void 0 !== opts.collapsedIcon
                                   ? opts.collapsedIcon
                                   : currentOpts.collapsedIcon),
                                 ]
                                 : [
                                     "ui-icon-" +
-                              (opts.expandedIcon !== void 0
+                              (void 0 !== opts.expandedIcon
                                   ? opts.expandedIcon
                                   : currentOpts.expandedIcon),
                                 ],
@@ -8433,7 +8434,7 @@
                             " "
                         ),
                 )),
-                        opts.theme !== void 0 &&
+                        void 0 !== opts.theme &&
               ((oldTheme = this._themeClassFromOption(
                   "ui-btn-",
                   currentOpts.theme,
@@ -8447,7 +8448,7 @@
               ).addClass(
                   newTheme
               )),
-                        opts.contentTheme !== void 0 &&
+                        void 0 !== opts.contentTheme &&
               ((oldTheme = this._themeClassFromOption(
                   "ui-body-",
                   currentOpts.contentTheme,
@@ -8461,7 +8462,7 @@
               ).addClass(
                   newTheme
               )),
-                        opts.inset !== void 0 &&
+                        void 0 !== opts.inset &&
               (elem.toggleClass(
                   "ui-collapsible-inset",
                   opts.inset
@@ -8469,7 +8470,7 @@
               (hasCorners = !(
                   !opts.inset || !(opts.corners || currentOpts.corners)
               ))),
-                        opts.corners !== void 0 &&
+                        void 0 !== opts.corners &&
               (hasCorners = !(
                   !opts.corners || !(opts.inset || currentOpts.inset)
               )),
@@ -8478,7 +8479,7 @@
                   "ui-corner-all",
                   hasCorners
               ),
-                        opts.mini !== void 0 && anchor.toggleClass(
+                        void 0 !== opts.mini && anchor.toggleClass(
                             "ui-mini",
                             opts.mini
                         );
@@ -8777,11 +8778,11 @@
                       .addClass(
                           themeClass
                       ),
-                                options.inset !== void 0 &&
+                                void 0 !== options.inset &&
                   (hasCorners = !(
                       !options.inset || !(options.corners || this.options.corners)
                   )),
-                                options.corners !== void 0 &&
+                                void 0 !== options.corners &&
                   (hasCorners = !(
                       !options.corners || !(options.inset || this.options.inset)
                   )),
@@ -9962,7 +9963,7 @@
                                 ),
                                 hasIcon = this._hasIcon(
                                 );
-                            options.disabled !== void 0 &&
+                            void 0 !== options.disabled &&
                 (this.input.prop(
                     "disabled",
                     !!options.disabled
@@ -9971,12 +9972,12 @@
                     "ui-state-disabled",
                     !!options.disabled
                 )),
-                            options.mini !== void 0 &&
+                            void 0 !== options.mini &&
                   outer.toggleClass(
                       "ui-mini",
                       !!options.mini
                   ),
-                            options.theme !== void 0 &&
+                            void 0 !== options.theme &&
                   label
                       .removeClass(
                           "ui-btn-" + currentOptions.theme
@@ -9984,7 +9985,7 @@
                       .addClass(
                           "ui-btn-" + options.theme
                       ),
-                            options.wrapperClass !== void 0 &&
+                            void 0 !== options.wrapperClass &&
                   outer
                       .removeClass(
                           currentOptions.wrapperClass
@@ -9992,7 +9993,7 @@
                       .addClass(
                           options.wrapperClass
                       ),
-                            options.iconpos !== void 0 && hasIcon
+                            void 0 !== options.iconpos && hasIcon
                                 ? label
                                     .removeClass(
                                         "ui-btn-icon-" + currentOptions.iconpos
@@ -10124,7 +10125,7 @@
                 ) {
                     var outer = this.widget(
                     );
-                    options.theme !== void 0 &&
+                    void 0 !== options.theme &&
           outer
               .removeClass(
                   this.options.theme
@@ -10132,26 +10133,26 @@
               .addClass(
                   "ui-btn-" + options.theme
               ),
-                    options.corners !== void 0 &&
+                    void 0 !== options.corners &&
             outer.toggleClass(
                 "ui-corner-all",
                 options.corners
             ),
-                    options.shadow !== void 0 &&
+                    void 0 !== options.shadow &&
             outer.toggleClass(
                 "ui-shadow",
                 options.shadow
             ),
-                    options.inline !== void 0 &&
+                    void 0 !== options.inline &&
             outer.toggleClass(
                 "ui-btn-inline",
                 options.inline
             ),
-                    options.mini !== void 0 && outer.toggleClass(
+                    void 0 !== options.mini && outer.toggleClass(
                         "ui-mini",
                         options.mini
                     ),
-                    options.disabled !== void 0 &&
+                    void 0 !== options.disabled &&
             (this.element.prop(
                 "disabled",
                 options.disabled
@@ -10160,9 +10161,9 @@
                 "ui-state-disabled",
                 options.disabled
             )),
-                    (options.icon !== void 0 ||
-            options.iconshadow !== void 0 ||
-            options.iconpos !== void 0) &&
+                    (void 0 !== options.icon ||
+            void 0 !== options.iconshadow ||
+            void 0 !== options.iconpos) &&
             outer
                 .removeClass(
                     this._getIconClasses(
@@ -10456,11 +10457,11 @@
                     this._super(
                         options
                     ),
-                    (options.disabled !== void 0 ||
-            options.mini !== void 0 ||
-            options.corners !== void 0 ||
-            options.theme !== void 0 ||
-            options.wrapperClass !== void 0) &&
+                    (void 0 !== options.disabled ||
+            void 0 !== options.mini ||
+            void 0 !== options.corners ||
+            void 0 !== options.theme ||
+            void 0 !== options.wrapperClass) &&
             (outer.removeClass(
                 this.classes.join(
                     " "
@@ -10473,7 +10474,7 @@
                     " "
                 )
             )),
-                    options.disabled !== void 0 &&
+                    void 0 !== options.disabled &&
             this.element.prop(
                 "disabled",
                 !!options.disabled
@@ -10822,24 +10823,24 @@
                     _setOptions: function (
                         options
                     ) {
-                        options.theme !== void 0 && this._setTheme(
+                        void 0 !== options.theme && this._setTheme(
                             options.theme
                         ),
-                        options.trackTheme !== void 0 &&
+                        void 0 !== options.trackTheme &&
                 this._setTrackTheme(
                     options.trackTheme
                 ),
-                        options.corners !== void 0 && this._setCorners(
+                        void 0 !== options.corners && this._setCorners(
                             options.corners
                         ),
-                        options.mini !== void 0 && this._setMini(
+                        void 0 !== options.mini && this._setMini(
                             options.mini
                         ),
-                        options.highlight !== void 0 &&
+                        void 0 !== options.highlight &&
                 this._setHighlight(
                     options.highlight
                 ),
-                        options.disabled !== void 0 &&
+                        void 0 !== options.disabled &&
                 this._setDisabled(
                     options.disabled
                 ),
@@ -10953,7 +10954,7 @@
               !(
                   1 === event.which ||
                 0 === event.which ||
-                event.which === void 0
+                void 0 === event.which
               )
                             ? !1
                             : this._trigger(
@@ -11851,7 +11852,7 @@
                     _setOptions: function (
                         options
                     ) {
-                        if (options.theme !== void 0) {
+                        if (void 0 !== options.theme) {
                             var currentTheme = options.theme ? options.theme : "inherit",
                                 newTheme = options.theme ? options.theme : "inherit";
                             this.widget(
@@ -11863,25 +11864,25 @@
                                     "ui-bar-" + newTheme
                                 );
                         }
-                        options.onText !== void 0 && this.on.text(
+                        void 0 !== options.onText && this.on.text(
                             options.onText
                         ),
-                        options.offText !== void 0 && this.off.text(
+                        void 0 !== options.offText && this.off.text(
                             options.offText
                         ),
-                        options.disabled !== void 0 &&
+                        void 0 !== options.disabled &&
                 this.widget(
                 ).toggleClass(
                     "ui-state-disabled",
                     options.disabled,
                 ),
-                        options.mini !== void 0 &&
+                        void 0 !== options.mini &&
                 this.widget(
                 ).toggleClass(
                     "ui-mini",
                     options.mini
                 ),
-                        options.corners !== void 0 &&
+                        void 0 !== options.corners &&
                 this.widget(
                 ).toggleClass(
                     "ui-corner-all",
@@ -12156,17 +12157,17 @@
                     _setOptions: function (
                         options
                     ) {
-                        options.theme !== void 0 && this._setTheme(
+                        void 0 !== options.theme && this._setTheme(
                             options.theme
                         ),
-                        options.trackTheme !== void 0 &&
+                        void 0 !== options.trackTheme &&
                 this._setTrackTheme(
                     options.trackTheme
                 ),
-                        options.mini !== void 0 && this._setMini(
+                        void 0 !== options.mini && this._setMini(
                             options.mini
                         ),
-                        options.highlight !== void 0 &&
+                        void 0 !== options.highlight &&
                 this._setHighlight(
                     options.highlight
                 ),
@@ -12574,7 +12575,7 @@
                     this._super(
                         options
                     ),
-                    options.clearBtn === void 0 ||
+                    void 0 === options.clearBtn ||
             this.element.is(
                 "textarea, :jqmData(type='range')"
             ) ||
@@ -12583,8 +12584,8 @@
                 )
                 : this._destroyClear(
                 )),
-                    options.clearBtnText !== void 0 &&
-            this._clearBtn !== void 0 &&
+                    void 0 !== options.clearBtnText &&
+            void 0 !== this._clearBtn &&
             this._clearBtn
                 .text(
                     options.clearBtnText
@@ -12801,7 +12802,7 @@
                     this._super(
                         options
                     ),
-                    options.autogrow !== void 0 &&
+                    void 0 !== options.autogrow &&
             this.isTextarea &&
             (options.autogrow
                 ? this._autogrow(
@@ -13746,7 +13747,7 @@
                             theElement = this.element,
                             screen = this._ui.screen;
                         return (
-                            newOptions.wrapperClass !== void 0 &&
+                            void 0 !== newOptions.wrapperClass &&
               this._ui.container
                   .removeClass(
                       currentOptions.wrapperClass
@@ -13754,7 +13755,7 @@
                   .addClass(
                       newOptions.wrapperClass
                   ),
-                            newOptions.theme !== void 0 &&
+                            void 0 !== newOptions.theme &&
               theElement
                   .removeClass(
                       this._themeClassFromOption(
@@ -13768,7 +13769,7 @@
                           newOptions.theme
                       ),
                   ),
-                            newOptions.overlayTheme !== void 0 &&
+                            void 0 !== newOptions.overlayTheme &&
               (screen
                   .removeClass(
                       this._themeClassFromOption(
@@ -13785,26 +13786,26 @@
               this._isOpen && screen.addClass(
                   "in"
               )),
-                            newOptions.shadow !== void 0 &&
+                            void 0 !== newOptions.shadow &&
               theElement.toggleClass(
                   "ui-overlay-shadow",
                   newOptions.shadow
               ),
-                            newOptions.corners !== void 0 &&
+                            void 0 !== newOptions.corners &&
               theElement.toggleClass(
                   "ui-corner-all",
                   newOptions.corners
               ),
-                            newOptions.transition !== void 0 &&
+                            void 0 !== newOptions.transition &&
               !this._currentTransition &&
               this._applyTransition(
                   newOptions.transition
               ),
-                            newOptions.tolerance !== void 0 &&
+                            void 0 !== newOptions.tolerance &&
               this._setTolerance(
                   newOptions.tolerance
               ),
-                            newOptions.disabled !== void 0 &&
+                            void 0 !== newOptions.disabled &&
               newOptions.disabled &&
               this.close(
               ),
@@ -14878,7 +14879,7 @@
                             ),
                             this.refresh(
                             ),
-                            this._origTabIndex === void 0 &&
+                            void 0 === this._origTabIndex &&
                 (this._origTabIndex =
                   null === this.select[0].getAttribute(
                       "tabindex"
@@ -15399,7 +15400,7 @@
                         this.options.nativeMenu ||
             (this.close(
             ),
-            this._origTabIndex !== void 0 &&
+            void 0 !== this._origTabIndex &&
               (this._origTabIndex !== !1
                   ? this.select.attr(
                       "tabindex",
@@ -15568,7 +15569,7 @@
                         !data.alreadyEnhanced)
                     )
                         for (optionKey in defaults)
-                            retrievedOptions[optionKey] === void 0 &&
+                            void 0 === retrievedOptions[optionKey] &&
                 (retrievedOptions[optionKey] = (function (
                 ) {
                     var ret = jQuery.mobile.getAttribute.apply(
@@ -15752,7 +15753,7 @@
                             returnValue,
                             elem = this.element;
                         return (
-                            options.type !== void 0 &&
+                            void 0 !== options.type &&
                 (elem
                     .removeClass(
                         "ui-controlgroup-horizontal ui-controlgroup-vertical",
@@ -15764,7 +15765,7 @@
                           : "vertical"),
                     ),
                 (callRefresh = !0)),
-                            options.theme !== void 0 &&
+                            void 0 !== options.theme &&
                 elem
                     .removeClass(
                         this._themeClassFromOption(
@@ -15776,22 +15777,22 @@
                             options.theme
                         )
                     ),
-                            options.corners !== void 0 &&
+                            void 0 !== options.corners &&
                 elem.toggleClass(
                     "ui-corner-all",
                     options.corners
                 ),
-                            options.mini !== void 0 &&
+                            void 0 !== options.mini &&
                 elem.toggleClass(
                     "ui-mini",
                     options.mini
                 ),
-                            options.shadow !== void 0 &&
+                            void 0 !== options.shadow &&
                 this._ui.childWrapper.toggleClass(
                     "ui-shadow",
                     options.shadow
                 ),
-                            options.excludeInvisible !== void 0 &&
+                            void 0 !== options.excludeInvisible &&
                 ((this.options.excludeInvisible = options.excludeInvisible),
                 (callRefresh = !0)),
                             (returnValue = this._super(
@@ -15923,7 +15924,7 @@
                     o
                 ) {
                     if (
-                        (o.addBackBtn !== void 0 &&
+                        (void 0 !== o.addBackBtn &&
             (this.options.addBackBtn &&
             "header" === this.role &&
             jQuery(
@@ -15950,7 +15951,7 @@
                 .addClass(
                     "ui-btn ui-btn-" + o.backBtnTheme
                 ),
-                        o.backBtnText !== void 0 &&
+                        void 0 !== o.backBtnText &&
             this.element
                 .find(
                     ".ui-toolbar-back-btn .ui-btn-text"
@@ -15958,7 +15959,7 @@
                 .text(
                     o.backBtnText
                 ),
-                        o.theme !== void 0)
+                        void 0 !== o.theme)
                     ) {
                         var currentTheme = this.options.theme
                                 ? this.options.theme
@@ -16150,7 +16151,7 @@
                                 ).eq(
                                     0
                                 );
-                        o.fullscreen !== void 0 &&
+                        void 0 !== o.fullscreen &&
             (o.fullscreen
                 ? (this.element.addClass(
                     "ui-" + this.role + "-fullscreen"
@@ -16318,7 +16319,7 @@
                         );
                     if (this.options.fullscreen) return;
                     (tbPage =
-          (tbPage && tbPage.type === void 0 && tbPage) ||
+          (tbPage && void 0 === tbPage.type && tbPage) ||
           this.page ||
           $el.closest(
               ".ui-page"
@@ -16986,7 +16987,7 @@
                             ret = this._super(
                                 opts
                             );
-                        if ((this._ui.arrow, opts.arrow !== void 0)) {
+                        if ((this._ui.arrow, void 0 !== opts.arrow)) {
                             if (!this._ui.arrow && opts.arrow) {
                                 this._ui.arrow = this._addArrow(
                                 );
@@ -17000,7 +17001,7 @@
                         return (
                             this._ui.arrow,
                             this._ui.arrow &&
-              (opts.theme !== void 0 &&
+              (void 0 !== opts.theme &&
                 ((oldTheme = this._themeClassFromOption(
                     "ui-body-",
                     oldTheme
@@ -17014,7 +17015,7 @@
                 ).addClass(
                     newTheme
                 )),
-              opts.shadow !== void 0 &&
+              void 0 !== opts.shadow &&
                 this._ui.arrow.ar.toggleClass(
                     "ui-overlay-shadow",
                     opts.shadow,
@@ -18567,13 +18568,13 @@
                         options
                     ) {
                         var refilter =
-            options.filterReveal !== void 0 ||
-            options.filterCallback !== void 0 ||
-            options.children !== void 0;
+            void 0 !== options.filterReveal ||
+            void 0 !== options.filterCallback ||
+            void 0 !== options.children;
                         this._super(
                             options
                         ),
-                        options.input !== void 0 &&
+                        void 0 !== options.input &&
               (this._setInput(
                   options.input
               ), (refilter = !0)),
@@ -18818,14 +18819,14 @@
                             options
                         );
                         return (
-                            options.filterPlaceholder !== void 0 &&
+                            void 0 !== options.filterPlaceholder &&
                 this._isSearchInternal(
                 ) &&
                 this._search.attr(
                     "placeholder",
                     options.filterPlaceholder
                 ),
-                            options.filterTheme !== void 0 &&
+                            void 0 !== options.filterTheme &&
                 this._search &&
                 jQuery.mobile.textinput &&
                 this._search.textinput(
@@ -18852,7 +18853,7 @@
                         if (this._isSearchInternal(
                         ) && jQuery.mobile.textinput) {
                             for (idx in jQuery.mobile.textinput.prototype.options)
-                                options[idx] !== void 0 &&
+                                void 0 !== options[idx] &&
                   ("theme" === idx && null != this.options.filterTheme
                       ? (textinputOptions[idx] = this.options.filterTheme)
                       : (textinputOptions[idx] = options[idx]));

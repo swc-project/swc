@@ -152,7 +152,7 @@
                 selector
             );
             return (
-                selector.selector !== void 0 &&
+                void 0 !== selector.selector &&
           ((this.selector = selector.selector),
           (this.context = selector.context)),
                 jQuery.makeArray(
@@ -741,7 +741,7 @@
                     i = first.length,
                     j = 0;
                 if ("number" == typeof l) for (; l > j; j++) first[i++] = second[j];
-                else for (; second[j] !== void 0; ) first[i++] = second[j++];
+                else for (; void 0 !== second[j]; ) first[i++] = second[j++];
                 return (first.length = i), first;
             },
             grep: function (
@@ -2526,10 +2526,10 @@
               )]),
                             hooks &&
               "get" in hooks &&
-              (ret = hooks.get(
+              void 0 !== (ret = hooks.get(
                   elem,
                   "value"
-              )) !== void 0)
+              )))
                         )
                             return ret;
                         return (
@@ -2587,11 +2587,11 @@
               )]),
                             (!hooks ||
               !("set" in hooks) ||
-              hooks.set(
+              void 0 === hooks.set(
                   this,
                   val,
                   "value"
-              ) === void 0) &&
+              )) &&
               (this.value = val);
                         }
                     )
@@ -2720,11 +2720,11 @@
                         hooks &&
             notxml &&
             "set" in hooks &&
-            (ret = hooks.set(
+            void 0 !== (ret = hooks.set(
                 elem,
                 value,
                 name
-            )) !== void 0
+            ))
                     )
                         return ret;
                     else return elem.setAttribute(
@@ -2843,11 +2843,11 @@
                     if (
                         hooks &&
             "set" in hooks &&
-            (ret = hooks.set(
+            void 0 !== (ret = hooks.set(
                 elem,
                 value,
                 name
-            )) !== void 0
+            ))
                     )
                         return ret;
                     return (elem[name] = value);
@@ -3650,7 +3650,7 @@
                         for (matches = [], i = 0; delegateCount > i; i++)
                             (handleObj = handlers[i]),
                             (sel = handleObj.selector + " "),
-                            matches[sel] === void 0 &&
+                            void 0 === matches[sel] &&
                   (matches[sel] = handleObj.needsContext
                       ? jQuery(
                           sel,
@@ -3846,7 +3846,7 @@
                 postDispatch: function (
                     event
                 ) {
-                    event.result !== void 0 &&
+                    void 0 !== event.result &&
             (event.originalEvent.returnValue = event.result);
                 },
             },
@@ -8694,11 +8694,11 @@
               (style[name] = "inherit"),
                         !hooks ||
               !("set" in hooks) ||
-              (value = hooks.set(
+              void 0 !== (value = hooks.set(
                   elem,
                   value,
                   extra
-              )) !== void 0)
+              )))
                     )
                         try {
                             style[name] = value;
@@ -8707,11 +8707,11 @@
                     if (
                         hooks &&
             "get" in hooks &&
-            (ret = hooks.get(
+            void 0 !== (ret = hooks.get(
                 elem,
                 !1,
                 extra
-            )) !== void 0
+            ))
                     )
                         return ret;
                     return style[name];
@@ -9595,7 +9595,7 @@
             flatOptions = jQuery.ajaxSettings.flatOptions || {
             };
         for (key in src)
-            src[key] !== void 0 &&
+            void 0 !== src[key] &&
         ((flatOptions[key]
             ? target
             : deep || (deep = {
@@ -10240,7 +10240,7 @@
         function (
             s
         ) {
-            s.cache === void 0 && (s.cache = !1),
+            void 0 === s.cache && (s.cache = !1),
             s.crossDomain && ((s.type = "GET"), (s.global = !1));
         }
     ),

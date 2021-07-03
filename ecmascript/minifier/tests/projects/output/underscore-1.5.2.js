@@ -1476,7 +1476,7 @@
                 ) {
                     if (source)
                         for (var prop in source)
-                            obj[prop] === void 0 && (obj[prop] = source[prop]);
+                            void 0 === obj[prop] && (obj[prop] = source[prop]);
                 }
             ),
             obj
