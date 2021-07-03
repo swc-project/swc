@@ -64,7 +64,7 @@
                     pushStateEnabled: !0,
                     ignoreContentEnabled: !1,
                     buttonMarkup: {
-                        hoverDelay: 200, 
+                        hoverDelay: 200,
                     },
                     dynamicBaseEnabled: !0,
                     pageContainer: $(
@@ -797,7 +797,7 @@
                                     "silentscroll",
                                     {
                                         x: 0,
-                                        y: ypos, 
+                                        y: ypos,
                                     }
                                 );
                             },
@@ -1515,7 +1515,7 @@
                 defaultElement: "<div>",
                 options: {
                     disabled: !1,
-                    create: null, 
+                    create: null,
                 },
                 _createWidget: function (
                     options, element
@@ -1711,7 +1711,7 @@
                 ) {
                     return this._setOptions(
                         {
-                            disabled: !1, 
+                            disabled: !1,
                         }
                     );
                 },
@@ -1719,7 +1719,7 @@
                 ) {
                     return this._setOptions(
                         {
-                            disabled: !0, 
+                            disabled: !0,
                         }
                     );
                 },
@@ -1927,7 +1927,7 @@
             $.each(
                 {
                     show: "fadeIn",
-                    hide: "fadeOut", 
+                    hide: "fadeOut",
                 },
                 function (
                     method, defaultEffect
@@ -1938,7 +1938,7 @@
                         callback,
                     ) {
                         "string" == typeof options && (options = {
-                            effect: options, 
+                            effect: options,
                         });
                         var hasOptions,
                             effectName = options
@@ -1949,7 +1949,7 @@
                         "number" == typeof (options = options || {
                         }) &&
                 (options = {
-                    duration: options, 
+                    duration: options,
                 }),
                         (hasOptions = !$.isEmptyObject(
                             options
@@ -2043,7 +2043,7 @@
                         theme: "a",
                         textVisible: !1,
                         html: "",
-                        text: "loading", 
+                        text: "loading",
                     },
                     defaultHtml:
           "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
@@ -2406,7 +2406,7 @@
                 ),
                 {
                     matches: bool,
-                    media: q, 
+                    media: q,
                 }
             );
         })),
@@ -2424,7 +2424,7 @@
             $, undefined
         ) {
             var support = {
-                touch: "ontouchend" in document, 
+                touch: "ontouchend" in document,
             };
             ($.mobile.support = $.mobile.support || {
             }),
@@ -2511,7 +2511,7 @@
                 $.mobile,
                 {
                     browser: {
-                    }, 
+                    },
                 }
             ),
             ($.mobile.browser.oldIE = (function (
@@ -2666,7 +2666,7 @@
                 : (base = fauxEle = $(
                     "<base>",
                     {
-                        href: fauxBase, 
+                        href: fauxBase,
                     }
                 ).appendTo(
                     "head",
@@ -2881,7 +2881,7 @@
                         $win.trigger(
                             newEvent,
                             {
-                                state: state, 
+                                state: state,
                             }
                         );
                     },
@@ -2908,7 +2908,7 @@
                     newEvent,
                     {
                         state: event.hashchangeState || {
-                        }, 
+                        },
                     }
                 ));
                 },
@@ -3658,7 +3658,7 @@
                             (state = $.extend(
                                 {
                                     hash: hash,
-                                    url: href, 
+                                    url: href,
                                 },
                                 data
                             )),
@@ -3731,7 +3731,7 @@
                             {
                                 url: href,
                                 hash: hash,
-                                title: document.title, 
+                                title: document.title,
                             },
                             data,
                         )),
@@ -3849,7 +3849,7 @@
                                             hash,
                                             {
                                                 hash: hash,
-                                                title: document.title, 
+                                                title: document.title,
                                             }
                                         );
                                     },
@@ -3884,7 +3884,7 @@
             $.mobile.navigate.history.add(
                 loc.href,
                 {
-                    hash: loc.hash, 
+                    hash: loc.hash,
                 }
             );
         })(
@@ -3897,7 +3897,7 @@
                     animation: {
                     },
                     transition: {
-                    }, 
+                    },
                 },
                 testElement = document.createElement(
                     "a"
@@ -4697,7 +4697,7 @@
                                         $.Event(
                                             "taphold",
                                             {
-                                                target: origTarget, 
+                                                target: origTarget,
                                             }
                                         ),
                                     );
@@ -4751,7 +4751,7 @@
                   ((x = event.pageX - winPageX), (y = event.pageY - winPageY)),
                         {
                             x: x,
-                            y: y, 
+                            y: y,
                         }
                     );
                 },
@@ -4854,7 +4854,7 @@
                         "mobile-events"
                     )) ||
               ((events = {
-                  length: 0, 
+                  length: 0,
               }), $.data(
                   this,
                   "mobile-events",
@@ -5051,7 +5051,7 @@
                 event_name = "orientationchange",
                 portrait_map = {
                     0: !0,
-                    180: !0, 
+                    180: !0,
                 };
             function handler(
             ) {
@@ -5075,7 +5075,7 @@
             !initial_orientation_is_default)) &&
           (portrait_map = {
               "-90": !0,
-              90: !0, 
+              90: !0,
           })),
             ($.event.special.orientationchange = $.extend(
                 {
@@ -5459,7 +5459,7 @@
                             )
                             .pagecontainer(
                                 {
-                                    theme: "none", 
+                                    theme: "none",
                                 }
                             );
                     },
@@ -5471,7 +5471,7 @@
                             )
                             .pagecontainer(
                                 {
-                                    theme: theme || this.options.theme, 
+                                    theme: theme || this.options.theme,
                                 }
                             );
                     },
@@ -5513,7 +5513,7 @@
                 "mobile.pagecontainer",
                 {
                     options: {
-                        theme: "a", 
+                        theme: "a",
                     },
                     initSelector: !1,
                     _create: function (
@@ -5529,12 +5529,12 @@
                         this._on(
                             this.window,
                             {
-                                navigate: "_filterNavigateEvents", 
+                                navigate: "_filterNavigateEvents",
                             }
                         ),
                         this._on(
                             {
-                                pagechange: "_afterContentChange", 
+                                pagechange: "_afterContentChange",
                             }
                         ),
                         this.window.one(
@@ -5585,7 +5585,7 @@
                         this._on(
                             this.window,
                             {
-                                scrollstop: "_delayedRecordScroll", 
+                                scrollstop: "_delayedRecordScroll",
                             }
                         );
                     },
@@ -5846,7 +5846,7 @@
                     ) {
                         return content.page(
                             {
-                                role: role, 
+                                role: role,
                             }
                         );
                     },
@@ -6070,7 +6070,7 @@
                             ),
                             {
                                 deprecatedEvent: deprecatedEvent,
-                                event: newEvent, 
+                                event: newEvent,
                             }
                         );
                     },
@@ -6351,7 +6351,7 @@
                   prefix + "hide",
                   {
                       nextPage: to,
-                      samePage: samePage, 
+                      samePage: samePage,
                   },
                   from,
               )),
@@ -6360,7 +6360,7 @@
                             {
                                 prevPage: from || $(
                                     ""
-                                ), 
+                                ),
                             },
                             to,
                         );
@@ -6481,7 +6481,7 @@
                                 triggerData,
                                 {
                                     toPage: to,
-                                    options: settings, 
+                                    options: settings,
                                 }
                             ),
                             "string" === $.type(
@@ -6622,14 +6622,14 @@
                                         settings.fromHashChange &&
                   $.mobile.navigate.history.direct(
                       {
-                          url: url, 
+                          url: url,
                       }
                   )
                                     )
                                 );
                             toPage.page(
                                 {
-                                    role: settings.role, 
+                                    role: settings.role,
                                 }
                             ),
                             settings.fromHashChange &&
@@ -8111,7 +8111,7 @@
                                 this._on(
                                     btn,
                                     {
-                                        click: "close", 
+                                        click: "close",
                                     }
                                 )),
                         (this._headerCloseButton = btn);
@@ -8697,7 +8697,7 @@
               ":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')",
                         options: $.extend(
                             {
-                                enhanced: !1, 
+                                enhanced: !1,
                             },
                             $.mobile.collapsible.defaults
                         ),
@@ -8730,7 +8730,7 @@
                             $.extend(
                                 this,
                                 {
-                                    _classes: "", 
+                                    _classes: "",
                                 }
                             ),
                             opts.enhanced ||
@@ -8915,7 +8915,7 @@
                             ),
                             o = $.extend(
                                 {
-                                    grid: null, 
+                                    grid: null,
                                 },
                                 options
                             ),
@@ -8926,7 +8926,7 @@
                                 a: 2,
                                 b: 3,
                                 c: 4,
-                                d: 5, 
+                                d: 5,
                             },
                             grid = o.grid;
                         if (!grid)
@@ -8993,7 +8993,7 @@
                 {
                     options: {
                         iconpos: "top",
-                        grid: null, 
+                        grid: null,
                     },
                     _create: function (
                     ) {
@@ -9021,7 +9021,7 @@
                             )
                             .grid(
                                 {
-                                    grid: this.options.grid, 
+                                    grid: this.options.grid,
                                 }
                             ),
                         $navbtns.each(
@@ -9532,7 +9532,7 @@
                 $.mobile.listview,
                 {
                     options: {
-                        hideDividers: !1, 
+                        hideDividers: !1,
                     },
                     _afterListviewRefresh: function (
                     ) {
@@ -10091,7 +10091,7 @@
                             this,
                             {
                                 wrapper: this.element.parent(
-                                ), 
+                                ),
                             }
                         ),
                         this._on(
@@ -10263,7 +10263,7 @@
                         this.options.disabled !== isDisabled &&
               this._setOptions(
                   {
-                      disabled: isDisabled, 
+                      disabled: isDisabled,
                   }
               );
                     },
@@ -10391,7 +10391,7 @@
                         this._on(
                             {
                                 focus: "_handleFocus",
-                                blur: "_handleBlur", 
+                                blur: "_handleBlur",
                             }
                         );
                     },
@@ -10401,7 +10401,7 @@
                             {
                                 disabled: this.element.is(
                                     ":disabled"
-                                ), 
+                                ),
                             }
                         );
                     },
@@ -10832,7 +10832,7 @@
                             this._on(
                                 document,
                                 {
-                                    vmousemove: "_preventDocumentDrag", 
+                                    vmousemove: "_preventDocumentDrag",
                                 }
                             ),
                             this._on(
@@ -10840,7 +10840,7 @@
                                     document
                                 ),
                                 {
-                                    vmouseup: "_sliderVMouseUp", 
+                                    vmouseup: "_sliderVMouseUp",
                                 }
                             ),
                             slider.insertAfter(
@@ -11468,7 +11468,7 @@
                 {
                     options: {
                         popupEnabled: !1,
-                        showValue: !1, 
+                        showValue: !1,
                     },
                     _create: function (
                     ) {
@@ -11489,7 +11489,7 @@
                         this._on(
                             this.handle,
                             {
-                                vmousedown: "_showPopup", 
+                                vmousedown: "_showPopup",
                             }
                         ),
                         this._on(
@@ -11670,7 +11670,7 @@
                             ),
                             this._on(
                                 {
-                                    focus: "_handleInputFocus", 
+                                    focus: "_handleInputFocus",
                                 }
                             ),
                             this.element.is(
@@ -11678,7 +11678,7 @@
                             ) &&
                   this._setOptions(
                       {
-                          disabled: !0, 
+                          disabled: !0,
                       }
                   ),
                             this._on(
@@ -11692,12 +11692,12 @@
                             this._on(
                                 this.on,
                                 {
-                                    keydown: "_keydown", 
+                                    keydown: "_keydown",
                                 }
                             ),
                             this._on(
                                 {
-                                    change: "refresh", 
+                                    change: "refresh",
                                 }
                             );
                         },
@@ -11755,7 +11755,7 @@
                                 on = $(
                                     "<a></a>",
                                     {
-                                        href: "#", 
+                                        href: "#",
                                     }
                                 ),
                                 off = $(
@@ -12090,7 +12090,7 @@
                             ),
                             this._on(
                                 {
-                                    mousedown: "_change", 
+                                    mousedown: "_change",
                                 }
                             ),
                             this._on(
@@ -12104,7 +12104,7 @@
                             this._on(
                                 firstHandle,
                                 {
-                                    vmousedown: "_dragFirstHandle", 
+                                    vmousedown: "_dragFirstHandle",
                                 }
                             );
                         },
@@ -12415,7 +12415,7 @@
                                 .css(
                                     {
                                         "margin-left": min + "%",
-                                        width: width + "%", 
+                                        width: width + "%",
                                     }
                                 );
                         },
@@ -12522,7 +12522,7 @@
                 {
                     options: {
                         clearBtn: !1,
-                        clearBtnText: "Clear text", 
+                        clearBtnText: "Clear text",
                     },
                     _create: function (
                     ) {
@@ -12591,7 +12591,7 @@
                         this._on(
                             this._clearBtn,
                             {
-                                click: "_clearBtnClick", 
+                                click: "_clearBtnClick",
                             }
                         ),
                         this._on(
@@ -12689,7 +12689,7 @@
                 {
                     options: {
                         autogrow: !0,
-                        keyupTimeoutBuffer: 100, 
+                        keyupTimeoutBuffer: 100,
                     },
                     _create: function (
                     ) {
@@ -12800,7 +12800,7 @@
                   {
                       height: 0,
                       "min-height": 0,
-                      "max-height": 0, 
+                      "max-height": 0,
                   }
               ),
                         (scrollHeight = this.element[0].scrollHeight),
@@ -13070,7 +13070,7 @@
                             this._on(
                                 this.button,
                                 {
-                                    keydown: "_handleKeydown", 
+                                    keydown: "_handleKeydown",
                                 }
                             ),
                             this.build(
@@ -13503,7 +13503,7 @@
                         this._on(
                             this._ui.screen,
                             {
-                                vclick: "_eatEventAndClose", 
+                                vclick: "_eatEventAndClose",
                             }
                         ),
                         this._on(
@@ -13526,7 +13526,7 @@
                         this._on(
                             this.document,
                             {
-                                focusin: "_handleDocumentFocusIn", 
+                                focusin: "_handleDocumentFocusIn",
                             }
                         );
                     },
@@ -13686,7 +13686,7 @@
                 ),
                 this.reposition(
                     {
-                        positionTo: "window", 
+                        positionTo: "window",
                     }
                 ),
                 this._ignoreResizeEvents(
@@ -13894,7 +13894,7 @@
                                 t: 30,
                                 r: 15,
                                 b: 30,
-                                l: 15, 
+                                l: 15,
                             };
                         if (undefined !== value)
                             switch (
@@ -14143,7 +14143,7 @@
               (y = windowCoordinates.cy / 2 + windowCoordinates.y),
                             {
                                 x: x,
-                                y: y, 
+                                y: y,
                             }
                         );
                     },
@@ -14542,7 +14542,7 @@
                                     $.mobile.navigate(
                                         url,
                                         {
-                                            role: "dialog", 
+                                            role: "dialog",
                                         }
                                     ),
                                     this))
@@ -14741,11 +14741,11 @@
             "focusin" === e.type
                 ? {
                     tabindex: "0",
-                    event: "vmouseover", 
+                    event: "vmouseover",
                 }
                 : {
                     tabindex: "-1",
-                    event: "vmouseout", 
+                    event: "vmouseout",
                 };
                         $(
                             e.target
@@ -14873,7 +14873,7 @@
                                 )
                                 .popup(
                                     {
-                                        theme: o.overlayTheme, 
+                                        theme: o.overlayTheme,
                                     }
                                 )),
                             (list = $(
@@ -14952,13 +14952,13 @@
                             this._on(
                                 this.select,
                                 {
-                                    focus: "_handleSelectFocus", 
+                                    focus: "_handleSelectFocus",
                                 }
                             ),
                             this._on(
                                 this.button,
                                 {
-                                    vclick: "_handleButtonVclickKeydown", 
+                                    vclick: "_handleButtonVclickKeydown",
                                 }
                             ),
                             this.list.attr(
@@ -15032,13 +15032,13 @@
                             this._on(
                                 this.menuPage,
                                 {
-                                    pagehide: "_handleMenuPageHide", 
+                                    pagehide: "_handleMenuPageHide",
                                 }
                             ),
                             this._on(
                                 this.listbox,
                                 {
-                                    popupafterclose: "close", 
+                                    popupafterclose: "close",
                                 }
                             ),
                             this.isMultiple &&
@@ -15612,7 +15612,7 @@
                         (data = overwriteClasses
                             ? {
                                 alreadyEnhanced: !1,
-                                unknownClasses: [], 
+                                unknownClasses: [],
                             }
                             : classNameToOptions(
                                 el.className
@@ -15729,7 +15729,7 @@
                                 this,
                                 {
                                     _ui: null,
-                                    _initialRefresh: !0, 
+                                    _initialRefresh: !0,
                                 }
                             ),
                             opts.enhanced
@@ -15958,7 +15958,7 @@
             ((page = !1), this._on(
                 this.document,
                 {
-                    pageshow: "refresh", 
+                    pageshow: "refresh",
                 }
             )),
                         $.extend(
@@ -16140,7 +16140,7 @@
                             .attr(
                                 {
                                     role: "heading",
-                                    "aria-level": "1", 
+                                    "aria-level": "1",
                                 }
                             );
                     },
@@ -16305,7 +16305,7 @@
               this._on(
                   this.window,
                   {
-                      throttledresize: "updatePagePadding", 
+                      throttledresize: "updatePagePadding",
                   }
               );
                     },
@@ -16773,7 +16773,7 @@
                 $.mobile.popup,
                 {
                     options: {
-                        arrow: "", 
+                        arrow: "",
                     },
                     _create: function (
                     ) {
@@ -16804,7 +16804,7 @@
                                     ),
                                     gd: gd,
                                     ct: ct,
-                                    ar: ar, 
+                                    ar: ar,
                                 };
                             })(
                             );
@@ -16903,13 +16903,13 @@
                                     cx: ar.ct.width(
                                     ),
                                     cy: ar.ct.height(
-                                    ), 
+                                    ),
                                 },
                                 guideDims: {
                                     cx: ar.gd.width(
                                     ),
                                     cy: ar.gd.height(
-                                    ), 
+                                    ),
                                 },
                                 guideOffset: ar.gd.offset(
                                 ),
@@ -16922,7 +16922,7 @@
                                     left: 0,
                                     top: 0,
                                     right: 0,
-                                    bottom: 0, 
+                                    bottom: 0,
                                 }
                             ),
                             (gdOffset = ar.gd.offset(
@@ -17345,12 +17345,12 @@
                         this._on(
                             this._closeLink,
                             {
-                                click: "_handleCloseClick", 
+                                click: "_handleCloseClick",
                             }
                         ),
                         this._on(
                             {
-                                "click a:jqmData(ajax='false')": "_handleCloseClick", 
+                                "click a:jqmData(ajax='false')": "_handleCloseClick",
                             }
                         );
                     },
@@ -17383,7 +17383,7 @@
                                 window
                             ),
                             {
-                                throttledresize: "_positionPanel", 
+                                throttledresize: "_positionPanel",
                             }
                         );
                     },
@@ -17429,7 +17429,7 @@
                         this._on(
                             "body",
                             {
-                                "click a": "_handleClick", 
+                                "click a": "_handleClick",
                             }
                         );
                     },
@@ -17525,7 +17525,7 @@
               this._on(
                   this.document,
                   {
-                      pageshow: "_getWrapper", 
+                      pageshow: "_getWrapper",
                   }
               ),
                         self._parentPage
@@ -17899,9 +17899,9 @@
                 {
                     options: {
                         classes: {
-                            table: "ui-table", 
+                            table: "ui-table",
                         },
-                        enhanced: !1, 
+                        enhanced: !1,
                     },
                     _create: function (
                     ) {
@@ -17913,7 +17913,7 @@
                             this,
                             {
                                 headers: undefined,
-                                allHeaders: undefined, 
+                                allHeaders: undefined,
                             }
                         ),
                         this._refresh(
@@ -18038,7 +18038,7 @@
               ($.extend(
                   this,
                   {
-                      _menu: null, 
+                      _menu: null,
                   }
               ),
               this.options.enhanced
@@ -18077,13 +18077,13 @@
                         this._on(
                             this.window,
                             {
-                                throttledresize: "_setToggleState", 
+                                throttledresize: "_setToggleState",
                             }
                         ),
                         this._on(
                             this._menu,
                             {
-                                "change input": "_menuInputChange", 
+                                "change input": "_menuInputChange",
                             }
                         );
                     },
@@ -18147,7 +18147,7 @@
                         )
                         .checkboxradio(
                             {
-                                theme: opts.columnPopupTheme, 
+                                theme: opts.columnPopupTheme,
                             }
                         )
                 ).jqmData(
@@ -18480,7 +18480,7 @@
                             this,
                             {
                                 _search: null,
-                                _timer: 0, 
+                                _timer: 0,
                             }
                         ),
                         this._setInput(
@@ -18521,7 +18521,7 @@
                                         "beforefilter",
                                         null,
                                         {
-                                            input: search, 
+                                            input: search,
                                         }
                                     ),
                                     search[0].setAttribute(
@@ -18557,7 +18557,7 @@
                                                 children
                                             )
                                 : {
-                                    length: 0, 
+                                    length: 0,
                                 };
                         return 0 === items.length && (items = elem.children(
                         )), items;
@@ -18610,7 +18610,7 @@
                             "filter",
                             null,
                             {
-                                items: filterItems, 
+                                items: filterItems,
                             }
                         );
                     },
@@ -18743,7 +18743,7 @@
                 {
                     options: {
                         filterPlaceholder: "Filter items...",
-                        filterTheme: null, 
+                        filterTheme: null,
                     },
                     _create: function (
                     ) {
@@ -18764,7 +18764,7 @@
                             $.extend(
                                 this,
                                 {
-                                    _widget: null, 
+                                    _widget: null,
                                 }
                             ),
                             idx = recognizedWidgets.length - 1;
@@ -19424,7 +19424,7 @@
                             .attr(
                                 {
                                     "aria-selected": "false",
-                                    tabIndex: -1, 
+                                    tabIndex: -1,
                                 }
                             ),
                         this.panels
@@ -19438,7 +19438,7 @@
                             .attr(
                                 {
                                     "aria-expanded": "false",
-                                    "aria-hidden": "true", 
+                                    "aria-hidden": "true",
                                 }
                             ),
                         this.active.length
@@ -19449,7 +19449,7 @@
                                 .attr(
                                     {
                                         "aria-selected": "true",
-                                        tabIndex: 0, 
+                                        tabIndex: 0,
                                     }
                                 ),
                             this._getPanelForTab(
@@ -19460,7 +19460,7 @@
                                 .attr(
                                     {
                                         "aria-expanded": "true",
-                                        "aria-hidden": "false", 
+                                        "aria-hidden": "false",
                                     }
                                 ))
                             : this.tabs.eq(
@@ -19492,7 +19492,7 @@
                             .attr(
                                 {
                                     role: "tab",
-                                    tabIndex: -1, 
+                                    tabIndex: -1,
                                 }
                             )),
                         (this.anchors = this.tabs
@@ -19511,7 +19511,7 @@
                             .attr(
                                 {
                                     role: "presentation",
-                                    tabIndex: -1, 
+                                    tabIndex: -1,
                                 }
                             )),
                         (this.panels = $(
@@ -19689,13 +19689,13 @@
                         this._on(
                             this.tabs,
                             {
-                                keydown: "_tabKeydown", 
+                                keydown: "_tabKeydown",
                             }
                         ),
                         this._on(
                             this.panels,
                             {
-                                keydown: "_panelKeydown", 
+                                keydown: "_panelKeydown",
                             }
                         ),
                         this._focusable(
@@ -19934,7 +19934,7 @@
                         toHide.attr(
                             {
                                 "aria-expanded": "false",
-                                "aria-hidden": "true", 
+                                "aria-hidden": "true",
                             }
                         ),
                         eventData.oldTab.attr(
@@ -19965,13 +19965,13 @@
                         toShow.attr(
                             {
                                 "aria-expanded": "true",
-                                "aria-hidden": "false", 
+                                "aria-hidden": "false",
                             }
                         ),
                         eventData.newTab.attr(
                             {
                                 "aria-selected": "true",
-                                tabIndex: 0, 
+                                tabIndex: 0,
                             }
                         );
                     },
@@ -20203,7 +20203,7 @@
                             ),
                             eventData = {
                                 tab: tab,
-                                panel: panel, 
+                                panel: panel,
                             };
                         isLocal(
                             anchor[0]
@@ -20286,7 +20286,7 @@
                                     $.extend(
                                         {
                                             jqXHR: jqXHR,
-                                            ajaxSettings: settings, 
+                                            ajaxSettings: settings,
                                         },
                                         eventData
                                     ),

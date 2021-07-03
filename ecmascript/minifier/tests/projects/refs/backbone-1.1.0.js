@@ -242,7 +242,7 @@
     _.each(
         {
             listenTo: "on",
-            listenToOnce: "once", 
+            listenToOnce: "once",
         },
         function (
             implementation, method
@@ -434,7 +434,7 @@
                         },
                         options,
                         {
-                            unset: !0, 
+                            unset: !0,
                         }
                     )
                 );
@@ -452,7 +452,7 @@
                         },
                         options,
                         {
-                            unset: !0, 
+                            unset: !0,
                         }
                     )
                 );
@@ -561,7 +561,7 @@
                         })[key] = val),
                     (options = _.extend(
                         {
-                            validate: !0, 
+                            validate: !0,
                         },
                         options
                     )),
@@ -749,7 +749,7 @@
                         options || {
                         },
                         {
-                            validate: !0, 
+                            validate: !0,
                         }
                     )
                 );
@@ -778,7 +778,7 @@
             _.extend(
                 options,
                 {
-                    validationError: error, 
+                    validationError: error,
                 }
             ),
         ),
@@ -823,7 +823,7 @@
                 models,
                 _.extend(
                     {
-                        silent: !0, 
+                        silent: !0,
                     },
                     options
                 )
@@ -832,11 +832,11 @@
         setOptions = {
             add: !0,
             remove: !0,
-            merge: !0, 
+            merge: !0,
         },
         addOptions = {
             add: !0,
-            remove: !1, 
+            remove: !1,
         };
     _.extend(
         Collection.prototype,
@@ -872,7 +872,7 @@
                     models,
                     _.extend(
                         {
-                            merge: !1, 
+                            merge: !1,
                         },
                         options,
                         addOptions
@@ -1050,7 +1050,7 @@
                     }
                 if ((sort && this.sort(
                     {
-                        silent: !0, 
+                        silent: !0,
                     }
                 ), !options.silent)) {
                     for (i = 0, l = toAdd.length; i < l; i++)
@@ -1086,7 +1086,7 @@
                         models,
                         _.extend(
                             {
-                                silent: !0, 
+                                silent: !0,
                             },
                             options
                         )
@@ -1106,7 +1106,7 @@
                     model,
                     _.extend(
                         {
-                            at: this.length, 
+                            at: this.length,
                         },
                         options
                     )
@@ -1130,7 +1130,7 @@
                     model,
                     _.extend(
                         {
-                            at: 0, 
+                            at: 0,
                         },
                         options
                     )
@@ -1654,7 +1654,7 @@
         );
         var params = {
             type: type,
-            dataType: "json", 
+            dataType: "json",
         };
         if (
             (options.url || (params.url = _.result(
@@ -1675,7 +1675,7 @@
           ((params.contentType = "application/x-www-form-urlencoded"),
           (params.data = params.data
               ? {
-                  model: params.data, 
+                  model: params.data,
               }
               : {
               })),
@@ -1957,7 +1957,7 @@
                 (History.started = !0),
                 (this.options = _.extend(
                     {
-                        root: "/", 
+                        root: "/",
                     },
                     this.options,
                     options
@@ -2075,7 +2075,7 @@
                 this.handlers.unshift(
                     {
                         route: route,
-                        callback: callback, 
+                        callback: callback,
                     }
                 );
             },
@@ -2127,7 +2127,7 @@
             ) {
                 if (!History.started) return !1;
                 (options && !0 !== options) || (options = {
-                    trigger: !!options, 
+                    trigger: !!options,
                 });
                 var url = this.root + (fragment = this.getFragment(
                     fragment || ""

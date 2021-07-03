@@ -41,7 +41,7 @@
         Function = this.Function,
         enumerables = !0;
     for (var i in {
-        toString: 1, 
+        toString: 1,
     }) enumerables = null;
     enumerables &&
     (enumerables = [
@@ -1977,7 +1977,7 @@ Hash.implement(
 Hash.alias(
     {
         indexOf: "keyOf",
-        contains: "hasValue", 
+        contains: "hasValue",
     }
 ),
 (function (
@@ -2480,11 +2480,11 @@ Hash.alias(
                         var touch = touches[0];
                         (this.page = {
                             x: touch.pageX,
-                            y: touch.pageY, 
+                            y: touch.pageY,
                         }),
                         (this.client = {
                             x: touch.clientX,
-                            y: touch.clientY, 
+                            y: touch.clientY,
                         });
                     }
                 }
@@ -2564,7 +2564,7 @@ var Event = DOMEvent;
                     params,
                     Function
                 ) && (params = {
-                    initialize: params, 
+                    initialize: params,
                 });
                 var newClass = function (
                 ) {
@@ -2678,7 +2678,7 @@ var Event = DOMEvent;
                             {
                                 $owner: self,
                                 $origin: method,
-                                $name: key, 
+                                $name: key,
                             }
                         );
                         return wrapper;
@@ -3964,21 +3964,21 @@ function (
             "n" == special
                 ? {
                     a: a,
-                    b: b, 
+                    b: b,
                 }
                 : "odd" == special
                     ? {
                         a: 2,
-                        b: 1, 
+                        b: 1,
                     }
                     : "even" == special
                         ? {
                             a: 2,
-                            b: 0, 
+                            b: 0,
                         }
                         : {
                             a: 0,
-                            b: a, 
+                            b: a,
                         }),
             (this.cacheNTH[argument] = parsed)
         );
@@ -5025,7 +5025,7 @@ var IFrame = new Type(
             }
     });
 (Elements.prototype = {
-    length: 0, 
+    length: 0,
 }),
 (Elements.parent = Array),
 new Type(
@@ -5136,7 +5136,7 @@ Elements.alias(
         object = {
             0: 0,
             1: 1,
-            length: 2, 
+            length: 2,
         };
     splice.call(
         object,
@@ -5489,7 +5489,7 @@ Elements.alias(
         {
             getNext: "~",
             getPrevious: "!~",
-            getParent: "!", 
+            getParent: "!",
         },
         function (
             combinator, method
@@ -6314,7 +6314,7 @@ Elements.alias(
         formProps = {
             input: "checked",
             option: "selected",
-            textarea: "value", 
+            textarea: "value",
         };
     Element.implement(
         {
@@ -7197,7 +7197,7 @@ Elements.alias(
                     if (
                         (events[type] || (events[type] = {
                             keys: [],
-                            values: [], 
+                            values: [],
                         }),
                         events[type].keys.contains(
                             fn
@@ -7468,7 +7468,7 @@ Elements.alias(
         }),
         (Element.Events = {
             mousewheel: {
-                base: Browser.firefox ? "DOMMouseScroll" : "mousewheel", 
+                base: Browser.firefox ? "DOMMouseScroll" : "mousewheel",
             },
         }),
         "onmouseenter" in document.documentElement)
@@ -7494,11 +7494,11 @@ Elements.alias(
         };
         (Element.Events.mouseenter = {
             base: "mouseover",
-            condition: check, 
+            condition: check,
         }),
         (Element.Events.mouseleave = {
             base: "mouseout",
-            condition: check, 
+            condition: check,
         });
     }
     window.addEventListener ||
@@ -7551,10 +7551,10 @@ Elements.alias(
         },
         map = {
             mouseenter: {
-                base: "mouseover", 
+                base: "mouseover",
             },
             mouseleave: {
-                base: "mouseout", 
+                base: "mouseout",
             },
             focus: {
                 base: "focus" + (eventListenerSupport ? "" : "in"),
@@ -7562,7 +7562,7 @@ Elements.alias(
             },
             blur: {
                 base: eventListenerSupport ? "blur" : "focusout",
-                capture: !0, 
+                capture: !0,
             },
         },
         _key = "$delegation:",
@@ -7605,7 +7605,7 @@ Elements.alias(
                             ),
                             listener = listeners[uid] || {
                                 forms: [],
-                                fns: [], 
+                                fns: [],
                             },
                             forms = listener.forms,
                             fns = listener.fns;
@@ -7832,7 +7832,7 @@ Elements.alias(
                     (stored[uid] = {
                         match: _match,
                         fn: _fn,
-                        delegator: delegator, 
+                        delegator: delegator,
                     }),
                     (storage[_type] = stored),
                     addEvent.call(
@@ -7973,7 +7973,7 @@ Elements.alias(
                     )
                     : {
                         x: this.offsetWidth,
-                        y: this.offsetHeight, 
+                        y: this.offsetHeight,
                     };
             },
             getScrollSize: function (
@@ -7986,7 +7986,7 @@ Elements.alias(
                     )
                     : {
                         x: this.scrollWidth,
-                        y: this.scrollHeight, 
+                        y: this.scrollHeight,
                     };
             },
             getScroll: function (
@@ -7999,7 +7999,7 @@ Elements.alias(
                     )
                     : {
                         x: this.scrollLeft,
-                        y: this.scrollTop, 
+                        y: this.scrollTop,
                     };
             },
             getScrolls: function (
@@ -8007,7 +8007,7 @@ Elements.alias(
                 for (
                     var element = this.parentNode, position = {
                         x: 0,
-                        y: 0, 
+                        y: 0,
                     };
                     element && !isBody(
                         element
@@ -8095,7 +8095,7 @@ Elements.alias(
                 var element = this,
                     position = {
                         x: 0,
-                        y: 0, 
+                        y: 0,
                     };
                 if (isBody(
                     this
@@ -8162,7 +8162,7 @@ Elements.alias(
                     ),
                     position = {
                         x: offset.x - scroll.x,
-                        y: offset.y - scroll.y, 
+                        y: offset.y - scroll.y,
                     };
                 if (relative && (relative = document.id(
                     relative
@@ -8240,7 +8240,7 @@ Elements.alias(
                 );
                 return {
                     x: doc.clientWidth,
-                    y: doc.clientHeight, 
+                    y: doc.clientHeight,
                 };
             },
             getScroll: function (
@@ -8281,7 +8281,7 @@ Elements.alias(
             ) {
                 return {
                     x: 0,
-                    y: 0, 
+                    y: 0,
                 };
             },
             getCoordinates: function (
@@ -8353,7 +8353,7 @@ Elements.alias(
 ),
 Element.alias(
     {
-        position: "setPosition", 
+        position: "setPosition",
     }
 ),
 [Window, Document, Element,].invoke(
@@ -8618,7 +8618,7 @@ Element.alias(
     (Fx.Durations = {
         short: 250,
         normal: 500,
-        long: 1e3, 
+        long: 1e3,
     });
     var instances = {
         },
@@ -8723,7 +8723,7 @@ Element.alias(
                 ),
                 to: this.parse(
                     to
-                ), 
+                ),
             };
         },
         parse: function (
@@ -8760,14 +8760,14 @@ Element.alias(
                                     (parsed || 0 === parsed) &&
                 (found = {
                     value: parsed,
-                    parser: parser, 
+                    parser: parser,
                 });
                                 }
                             }
                         ),
                         (found = found || {
                             value: val,
-                            parser: Fx.CSS.Parsers.String, 
+                            parser: Fx.CSS.Parsers.String,
                         })
                     );
                 }
@@ -9065,7 +9065,7 @@ Element.alias(
           ((tween = new Fx.Tween(
               this,
               {
-                  link: "cancel", 
+                  link: "cancel",
               }
           )),
           this.store(
@@ -9287,7 +9287,7 @@ Element.implement(
           ((morph = new Fx.Morph(
               this,
               {
-                  link: "cancel", 
+                  link: "cancel",
               }
           )),
           this.store(
@@ -9697,14 +9697,14 @@ Fx.Transitions.extend(
                     );
                     ("string" != type && "element" != type) ||
             (options = {
-                data: options, 
+                data: options,
             });
                     var old = this.options,
                         data = (options = Object.append(
                             {
                                 data: old.data,
                                 url: old.url,
-                                method: old.method, 
+                                method: old.method,
                             },
                             options,
                         )).data,
@@ -9865,7 +9865,7 @@ Fx.Transitions.extend(
                 data
             ) {
                 var object = {
-                    method: method, 
+                    method: method,
                 };
                 return null != data && (object.data = data), this.send(
                     object
@@ -9926,7 +9926,7 @@ Fx.Transitions.extend(
                     sender.send(
                         {
                             data: this,
-                            url: url || sender.options.url, 
+                            url: url || sender.options.url,
                         }
                     ), this
                 );
@@ -9944,7 +9944,7 @@ Fx.Transitions.extend(
             evalScripts: !0,
             filter: !1,
             headers: {
-                Accept: "text/html, application/xml, text/xml, */*", 
+                Accept: "text/html, application/xml, text/xml, */*",
             },
         },
         success: function (
@@ -10061,7 +10061,7 @@ Element.implement(
                         arguments,
                         {
                             data: Type.isObject,
-                            url: Type.isString, 
+                            url: Type.isString,
                         }
                     ),
                 ),
@@ -10075,7 +10075,7 @@ Element.implement(
 (JSON = new Hash(
     {
         stringify: JSON.stringify,
-        parse: JSON.parse, 
+        parse: JSON.parse,
     }
 )),
 (function (
@@ -10206,7 +10206,7 @@ Element.implement(
     {
         Extends: Request,
         options: {
-            secure: !0, 
+            secure: !0,
         },
         initialize: function (
             options
@@ -10313,7 +10313,7 @@ var Cookie = new Class(
                         },
                         this.options,
                         {
-                            duration: -1, 
+                            duration: -1,
                         }
                     ),
                 ).write(
@@ -10520,7 +10520,7 @@ var Cookie = new Class(
                     properties = Object.append(
                         {
                             height: options.height,
-                            width: options.width, 
+                            width: options.width,
                         },
                         options.properties,
                     ),

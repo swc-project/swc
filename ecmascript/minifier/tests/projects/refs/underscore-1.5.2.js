@@ -428,7 +428,7 @@
         )) return -1 / 0;
         var result = {
             computed: -1 / 0,
-            value: -1 / 0, 
+            value: -1 / 0,
         };
         return (
             each(
@@ -447,7 +447,7 @@
                     computed > result.computed &&
             (result = {
                 value: value,
-                computed: computed, 
+                computed: computed,
             });
                 }
             ),
@@ -474,7 +474,7 @@
         )) return 1 / 0;
         var result = {
             computed: 1 / 0,
-            value: 1 / 0, 
+            value: 1 / 0,
         };
         return (
             each(
@@ -493,7 +493,7 @@
                     computed < result.computed &&
             (result = {
                 value: value,
-                computed: computed, 
+                computed: computed,
             });
                 }
             ),

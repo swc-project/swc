@@ -39,6 +39,9 @@
         "function-paren-newline": [
             "error",
             "always"
+        ],
+        "no-trailing-spaces": [
+            "error"
         ]
     }
 }
