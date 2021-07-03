@@ -184,40 +184,38 @@
     (_.every = _.all = function (obj, iterator, context) {
         iterator || (iterator = _.identity);
         var result = !0;
-        if (null == obj) return result;
-        if (nativeEvery && obj.every === nativeEvery)
-            return obj.every(iterator,
-                context);
-        return (
-            each(obj,
-                function (value, index, list) {
-                    if (!(result &&= iterator.call(context,
-                        value,
-                        index,
-                        list)))
-                        return breaker;
-                }),
-            !!result
-        );
+        return null == obj
+            ? result
+            : nativeEvery && obj.every === nativeEvery
+                ? obj.every(iterator,
+                    context)
+                : (each(obj,
+                    function (value, index, list) {
+                        if (!(result &&= iterator.call(context,
+                            value,
+                            index,
+                            list)))
+                            return breaker;
+                    }),
+                !!result);
     });
     var any = (_.some = _.any = function (obj, iterator, context) {
         iterator || (iterator = _.identity);
         var result = !1;
-        if (null == obj) return result;
-        if (nativeSome && obj.some === nativeSome)
-            return obj.some(iterator,
-                context);
-        return (
-            each(obj,
-                function (value, index, list) {
-                    if (result || (result = iterator.call(context,
-                        value,
-                        index,
-                        list)))
-                        return breaker;
-                }),
-            !!result
-        );
+        return null == obj
+            ? result
+            : nativeSome && obj.some === nativeSome
+                ? obj.some(iterator,
+                    context)
+                : (each(obj,
+                    function (value, index, list) {
+                        if (result || (result = iterator.call(context,
+                            value,
+                            index,
+                            list)))
+                            return breaker;
+                    }),
+                !!result);
     });
     (_.contains = _.include = function (obj, target) {
         return null == obj
@@ -638,8 +636,7 @@
                 ctor.prototype = null;
                 var result = func.apply(self,
                     args.concat(slice.call(arguments)));
-                if (Object(result) === result) return result;
-                return self;
+                return Object(result) === result ? result : self;
             })
         );
     }),

@@ -293,15 +293,14 @@
             (context ||= document);
             var parsed = rsingleTag.exec(data),
                 scripts = !keepScripts && [];
-            if (parsed) return [context.createElement(parsed[1])];
-            return (
-                (parsed = jQuery.buildFragment([data],
+            return parsed
+                ? [context.createElement(parsed[1])]
+                : ((parsed = jQuery.buildFragment([data],
                     context,
                     scripts)),
                 scripts && jQuery(scripts).remove(),
                 jQuery.merge([],
-                    parsed.childNodes)
-            );
+                    parsed.childNodes));
         },
         parseJSON: function (data) {
             return window.JSON && window.JSON.parse
@@ -1046,35 +1045,32 @@
             isNode = elem.nodeType,
             cache = isNode ? jQuery.cache : elem,
             id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
-        if (
-            (!id || !cache[id] || (!pvt && !cache[id].data)) &&
+        return (!id || !cache[id] || (!pvt && !cache[id].data)) &&
       getByName &&
       void 0 === data
-        )
-            return;
-        return (
-            id ||
-        (isNode
-            ? (elem[internalKey] = id = core_deletedIds.pop() || jQuery.guid++)
-            : (id = internalKey)),
+            ? void 0
+            : (id ||
+          (isNode
+              ? (elem[internalKey] = id = core_deletedIds.pop() || jQuery.guid++)
+              : (id = internalKey)),
             cache[id] ||
-        ((cache[id] = {}), !isNode && (cache[id].toJSON = jQuery.noop)),
+          ((cache[id] = {}), !isNode && (cache[id].toJSON = jQuery.noop)),
             ("object" == typeof name || "function" == typeof name) &&
-        (pvt
-            ? (cache[id] = jQuery.extend(cache[id],
-                name))
-            : (cache[id].data = jQuery.extend(cache[id].data,
-                name))),
+          (pvt
+              ? (cache[id] = jQuery.extend(cache[id],
+                  name))
+              : (cache[id].data = jQuery.extend(cache[id].data,
+                  name))),
             (thisCache = cache[id]),
             pvt ||
-        (thisCache.data || (thisCache.data = {}), (thisCache = thisCache.data)),
+          (thisCache.data || (thisCache.data = {}),
+          (thisCache = thisCache.data)),
             void 0 !== data && (thisCache[jQuery.camelCase(name)] = data),
             getByName
                 ? ((ret = thisCache[name]),
                 null == ret && (ret = thisCache[jQuery.camelCase(name)]))
                 : (ret = thisCache),
-            ret
-        );
+            ret);
     }
     function internalRemoveData(elem, name, pvt) {
         if (!jQuery.acceptData(elem)) return;
@@ -1103,15 +1099,16 @@
                     return;
             }
         }
-        if (!pvt) {
-            if ((delete cache[id].data, !isEmptyDataObject(cache[id]))) return;
-        }
-        isNode
-            ? jQuery.cleanData([elem],
-                !0)
-            : jQuery.support.deleteExpando || cache != cache.window
-                ? delete cache[id]
-                : (cache[id] = null);
+        return !pvt
+            ? (delete cache[id].data, !isEmptyDataObject(cache[id]))
+                ? void 0
+                : void 0
+            : void (isNode
+                ? jQuery.cleanData([elem],
+                    !0)
+                : jQuery.support.deleteExpando || cache != cache.window
+                    ? delete cache[id]
+                    : (cache[id] = null));
     }
     jQuery.extend({
         cache: {},
@@ -6861,14 +6858,12 @@
                     index++
                 )
                     animation.tweens[index].run(percent);
-                if (
-                    (deferred.notifyWith(elem,
-                        [animation, percent, remaining]),
-                    1 > percent && length)
-                )
-                    return remaining;
-                return deferred.resolveWith(elem,
-                    [animation]), !1;
+                return (deferred.notifyWith(elem,
+                    [animation, percent, remaining]),
+                1 > percent && length)
+                    ? remaining
+                    : (deferred.resolveWith(elem,
+                        [animation]), !1);
             },
             animation = deferred.promise({
                 elem: elem,
@@ -7414,25 +7409,24 @@
             },
             elem = this[0],
             doc = elem && elem.ownerDocument;
-        if (!doc) return;
-        if ((doc.documentElement, !jQuery.contains(doc.documentElement,
-            elem)))
-            return box;
-        return (
-            "undefined" !== typeof elem.getBoundingClientRect &&
-          (box = elem.getBoundingClientRect()),
-            (win = getWindow(doc)),
-            {
-                top:
-            box.top +
-            (win.pageYOffset || doc.documentElement.scrollTop) -
-            (doc.documentElement.clientTop || 0),
-                left:
-            box.left +
-            (win.pageXOffset || doc.documentElement.scrollLeft) -
-            (doc.documentElement.clientLeft || 0),
-            }
-        );
+        return !doc
+            ? void 0
+            : (doc.documentElement, !jQuery.contains(doc.documentElement,
+                elem))
+                ? box
+                : ("undefined" !== typeof elem.getBoundingClientRect &&
+            (box = elem.getBoundingClientRect()),
+                (win = getWindow(doc)),
+                {
+                    top:
+              box.top +
+              (win.pageYOffset || doc.documentElement.scrollTop) -
+              (doc.documentElement.clientTop || 0),
+                    left:
+              box.left +
+              (win.pageXOffset || doc.documentElement.scrollLeft) -
+              (doc.documentElement.clientLeft || 0),
+                });
     }),
     (jQuery.offset = {
         setOffset: function (elem, options, i) {

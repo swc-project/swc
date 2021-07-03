@@ -82,13 +82,12 @@
     function isArrayLike(obj) {
         if (null == obj || isWindow(obj)) return !1;
         var length = obj.length;
-        if (1 === obj.nodeType && length) return !0;
-        return (
-            isString(obj) ||
-      isArray(obj) ||
-      0 === length ||
-      ("number" == typeof length && length > 0 && length - 1 in obj)
-        );
+        return 1 === obj.nodeType && length
+            ? !0
+            : isString(obj) ||
+          isArray(obj) ||
+          0 === length ||
+          ("number" == typeof length && length > 0 && length - 1 in obj);
     }
     function forEach(obj, iterator, context) {
         var key;
@@ -678,9 +677,10 @@
             i++
         )
             (key = keys[i]), obj && (obj = (lastInstance = obj)[key]);
-        if (!bindFnToScope && isFunction(obj)) return bind(lastInstance,
-            obj);
-        return obj;
+        return bindFnToScope || !isFunction(obj)
+            ? bind(lastInstance,
+                obj)
+            : obj;
     }
     function getBlockElements(nodes) {
         var startNode = nodes[0],
@@ -6631,21 +6631,19 @@
                     $destroy: function () {
                         if (this.$$destroyed) return;
                         var parent = this.$parent;
-                        if (
-                            (this.$broadcast("$destroy"),
-                            (this.$$destroyed = !0),
-                            this === $rootScope)
-                        )
-                            return;
-                        parent.$$childHead == this &&
-                (parent.$$childHead = this.$$nextSibling),
-                        parent.$$childTail == this &&
-                  (parent.$$childTail = this.$$prevSibling),
-                        this.$$prevSibling &&
-                  (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
-                        this.$$nextSibling &&
-                  (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
-                        (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null);
+                        return (this.$broadcast("$destroy"),
+                        (this.$$destroyed = !0),
+                        this === $rootScope)
+                            ? void 0
+                            : void (parent.$$childHead == this &&
+                    (parent.$$childHead = this.$$nextSibling),
+                            parent.$$childTail == this &&
+                    (parent.$$childTail = this.$$prevSibling),
+                            this.$$prevSibling &&
+                    (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
+                            this.$$nextSibling &&
+                    (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
+                            (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
                     },
                     $eval: function (expr, locals) {
                         return $parse(expr)(this,

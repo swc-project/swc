@@ -2212,27 +2212,23 @@
                                 return;
                             }
                         }
-                        if (
-                            (path.parseLocation().hash,
-                            !event.originalEvent.state && path.parseLocation().hash)
-                        )
-                            return (
-                                (state = this.squash(path.parseLocation().hash)),
-                                this.history.add(state.url,
-                                    state),
-                                (event.historyState = state),
-                                void 0
-                            );
-                        this.history.direct({
-                            url:
-                (event.originalEvent.state || {}).url ||
-                path.parseLocation().hash,
-                            present: function (historyEntry, direction) {
-                                (event.historyState = jQuery.extend({},
-                                    historyEntry)),
-                                (event.historyState.direction = direction);
-                            },
-                        });
+                        return (path.parseLocation().hash,
+                        !event.originalEvent.state && path.parseLocation().hash)
+                            ? ((state = this.squash(path.parseLocation().hash)),
+                            this.history.add(state.url,
+                                state),
+                            (event.historyState = state),
+                            void 0)
+                            : void this.history.direct({
+                                url:
+                    (event.originalEvent.state || {}).url ||
+                    path.parseLocation().hash,
+                                present: function (historyEntry, direction) {
+                                    (event.historyState = jQuery.extend({},
+                                        historyEntry)),
+                                    (event.historyState.direction = direction);
+                                },
+                            });
                     },
                     hashchange: function (event) {
                         var history, hash;

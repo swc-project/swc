@@ -26,8 +26,7 @@
                 if (constructor === object) return !0;
                 constructor = constructor.parent;
             }
-            if (!item.hasOwnProperty) return !1;
-            return item instanceof object;
+            return !item.hasOwnProperty ? !1 : item instanceof object;
         }),
         Function1 = this.Function,
         enumerables = !0;
@@ -881,13 +880,15 @@ Function.implement({
                     return this.apply(options.bind || null,
                         args);
                 };
-                if (options.delay) return setTimeout(returns,
-                    options.delay);
-                if (options.periodical)
-                    return setInterval(returns,
-                        options.periodical);
-                if (options.attempt) return Function.attempt(returns);
-                return returns();
+                return options.delay
+                    ? setTimeout(returns,
+                        options.delay)
+                    : options.periodical
+                        ? setInterval(returns,
+                            options.periodical)
+                        : options.attempt
+                            ? Function.attempt(returns)
+                            : returns();
             }
         );
     },
@@ -1665,9 +1666,9 @@ var Event1 = DOMEvent;
         fireEvent: function (type, args, delay) {
             type = removeOn(type);
             var events = this.$events[type];
-            if (!events) return this;
-            return (
-                (args = Array.from(args)),
+            return !events
+                ? this
+                : ((args = Array.from(args)),
                 events.each(function (fn) {
                     delay
                         ? fn.delay(delay,
@@ -1677,8 +1678,7 @@ var Event1 = DOMEvent;
                             args);
                 },
                 this),
-                this
-            );
+                this);
         },
         removeEvent: function (type, fn) {
             type = removeOn(type);
@@ -2482,11 +2482,15 @@ function () {
             var a = parsed.a,
                 b = parsed.b,
                 pos = this[positions][uid];
-            if (0 == a) return b == pos;
-            if (a > 0) {
-                if (b > pos) return !1;
-            } else if (pos > b) return !1;
-            return (pos - b) % a == 0;
+            return 0 == a
+                ? b == pos
+                : a > 0
+                    ? b > pos
+                        ? !1
+                        : void 0
+                    : pos > b
+                        ? !1
+                        : (pos - b) % a == 0;
         };
     }),
     (local.pushArray = function (
@@ -5448,19 +5452,15 @@ Element1.alias({
                                         return m.toLowerCase();
                                     })
                                 : null;
-                            if (
-                                !selectorText ||
-              !new RegExp("^" + selector.escapeRegExp() + "$").test(
-                  selectorText,
-              )
-                            )
-                                return;
-                            Object.each(Element1.Styles,
-                                function (value, style) {
-                                    if (!rule.style[style] || Element1.ShortStyles[style]) return;
-                                    (value = String(rule.style[style])),
-                                    (to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
-                                });
+                            return selectorText &&
+              new RegExp("^" + selector.escapeRegExp() + "$").test(selectorText)
+                                ? void 0
+                                : void Object.each(Element1.Styles,
+                                    function (value, style) {
+                                        if (!rule.style[style] || Element1.ShortStyles[style]) return;
+                                        (value = String(rule.style[style])),
+                                        (to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                                    });
                         });
                 }),
             (Fx.CSS.Cache[selector] = to)

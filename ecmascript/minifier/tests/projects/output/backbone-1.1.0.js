@@ -480,9 +480,9 @@
                 var error = (this.validationError =
         this.validate(attrs,
             options) || null);
-                if (!error) return !0;
-                return (
-                    this.trigger(
+                return !error
+                    ? !0
+                    : (this.trigger(
                         "invalid",
                         this,
                         error,
@@ -491,8 +491,7 @@
                                 validationError: error,
                             }),
                     ),
-                    !1
-                );
+                    !1);
             },
         }),
     _.each(
@@ -843,11 +842,12 @@
                 (options = options ? _.clone(options) : {}), (options.collection = this);
                 var model = new this.model(attrs,
                     options);
-                if (!model.validationError) return model;
-                return this.trigger("invalid",
-                    this,
-                    model.validationError,
-                    options), !1;
+                return !model.validationError
+                    ? model
+                    : (this.trigger("invalid",
+                        this,
+                        model.validationError,
+                        options), !1);
             },
             _removeReference: function (model) {
                 this === model.collection && delete model.collection,
