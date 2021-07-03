@@ -76,7 +76,8 @@
                         : usePlural && (args = [a]),
                 args)
             ) {
-                result = {};
+                result = {
+                };
                 for (var i = 0; i < args.length; i++)
                     result[args[i]] = self.call(this,
                         args[i]);
@@ -150,7 +151,8 @@
       "[object Function]" != Object.prototype.toString.call(item)
         );
     };
-    var hooks = {},
+    var hooks = {
+        },
         hooksOf = function (object) {
             var type = typeOf(object.prototype);
             return hooks[type] || (hooks[type] = []);
@@ -386,13 +388,15 @@
             return source;
         },
         clone: function (object) {
-            var clone = {};
+            var clone = {
+            };
             for (var key in object) clone[key] = cloneOf(object[key]);
             return clone;
         },
         append: function (original) {
             for (var i = 1, l = arguments.length; l > i; i++) {
-                var extended = arguments[i] || {};
+                var extended = arguments[i] || {
+                };
                 for (var key in extended) original[key] = extended[key];
             }
             return original;
@@ -421,7 +425,8 @@
                 bind);
         },
         getClean: function () {
-            var clean = {};
+            var clean = {
+            };
             for (var key in this)
                 this.hasOwnProperty(key) && (clean[key] = this[key]);
             return clean;
@@ -487,7 +492,8 @@
     }),
     (this.$merge = function () {
         var args = Array.slice(arguments);
-        return args.unshift({}), Object.merge.apply(null,
+        return args.unshift({
+        }), Object.merge.apply(null,
             args);
     }),
     (this.$lambda = Function1.from),
@@ -579,7 +585,8 @@ Array.implement({
     },
     associate: function (keys) {
         for (
-            var obj = {}, length = Math.min(this.length,
+            var obj = {
+                }, length = Math.min(this.length,
                     keys.length), i = 0;
             length > i;
             i++
@@ -588,7 +595,8 @@ Array.implement({
         return obj;
     },
     link: function (object) {
-        for (var result = {}, i = 0, l = this.length; l > i; i++)
+        for (var result = {
+            }, i = 0, l = this.length; l > i; i++)
             for (var key in object)
                 if (object[key](this[i])) {
                     (result[key] = this[i]), delete object[key];
@@ -774,7 +782,8 @@ Number.implement({
 Number.alias("each",
     "times"),
 (function (math) {
-    var methods = {};
+    var methods = {
+    };
     math.each(function (name) {
         Number[name] ||
         (methods[name] = function () {
@@ -867,7 +876,8 @@ delete Function.prototype.bind,
 Function.implement({
     create: function (options) {
         return (
-            (options ||= {}),
+            (options ||= {
+            }),
             function (event) {
                 var args = options.arguments;
                 (args =
@@ -923,14 +933,16 @@ var $try = Function.attempt;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend({
         subset: function (object, keys) {
-            for (var results = {}, i = 0, l = keys.length; l > i; i++) {
+            for (var results = {
+                }, i = 0, l = keys.length; l > i; i++) {
                 var k = keys[i];
                 k in object && (results[k] = object[k]);
             }
             return results;
         },
         map: function (object, fn, bind) {
-            var results = {};
+            var results = {
+            };
             for (var key in object)
                 hasOwnProperty.call(object,
                     key) &&
@@ -941,7 +953,8 @@ var $try = Function.attempt;
             return results;
         },
         filter: function (object, fn, bind) {
-            var results = {};
+            var results = {
+            };
             for (var key in object) {
                 var value = object[key];
                 hasOwnProperty.call(object,
@@ -1016,7 +1029,8 @@ var $try = Function.attempt;
                                 key);
                             break;
                         case "array":
-                            var qs = {};
+                            var qs = {
+                            };
                             value.each(function (val, i) {
                                 qs[i] = val;
                             }),
@@ -1046,7 +1060,8 @@ Hash.implement({
     extend: function (properties) {
         return (
             Hash.each(
-                properties || {},
+                properties || {
+                },
                 function (value, key) {
                     Hash.set(this,
                         key,
@@ -1060,7 +1075,8 @@ Hash.implement({
     combine: function (properties) {
         return (
             Hash.each(
-                properties || {},
+                properties || {
+                },
                 function (value, key) {
                     Hash.include(this,
                         key,
@@ -1158,7 +1174,8 @@ Hash.alias({
                 query: !!document.querySelector,
                 json: !!window.JSON,
             },
-            Plugins: {},
+            Plugins: {
+            },
         });
     (Browser[Browser.name] = !0),
     (Browser[Browser.name + parseInt(Browser.version,
@@ -1311,7 +1328,8 @@ Hash.alias({
             };
         });
     }
-    Browser.Platform.ios && (Browser.Platform.ipod = !0), (Browser.Engine = {});
+    Browser.Platform.ios && (Browser.Platform.ipod = !0), (Browser.Engine = {
+    });
     var setEngine = function (name, version) {
         (Browser.Engine.name = name),
         (Browser.Engine[name + version] = !0),
@@ -1371,7 +1389,8 @@ Hash.alias({
     this.$exec = Browser.exec;
 })(),
 (function () {
-    var _keys = {},
+    var _keys = {
+        },
         DOMEvent = (this.DOMEvent = new Type("DOMEvent",
             function (event, win) {
                 if ((win || (win = window), (event ||= win.event), event.$extended))
@@ -1467,7 +1486,9 @@ Hash.alias({
                         });
                     }
                 }
-                this.client || (this.client = {}), this.page || (this.page = {});
+                this.client || (this.client = {
+                }), this.page || (this.page = {
+                });
             }));
     DOMEvent.implement({
         stop: function () {
@@ -1508,7 +1529,8 @@ Hash.alias({
     });
 })();
 var Event1 = DOMEvent;
-(Event1.Keys = {}),
+(Event1.Keys = {
+}),
 (Event1.Keys = new Hash(Event1.Keys)),
 (function () {
     var Class = (this.Class = new Type("Class",
@@ -1650,7 +1672,8 @@ var Event1 = DOMEvent;
             });
     };
     (this.Events = new Class({
-        $events: {},
+        $events: {
+        },
         addEvent: function (type, fn, internal) {
             return ((type = removeOn(type)), $empty == fn)
                 ? this
@@ -1710,7 +1733,8 @@ var Event1 = DOMEvent;
         setOptions: function () {
             var options = (this.options = Object.merge.apply(
                 null,
-                [{}, this.options].append(arguments),
+                [{
+                }, this.options].append(arguments),
             ));
             if (this.addEvent)
                 for (var option in options) {
@@ -1731,8 +1755,10 @@ function () {
         separatorIndex,
         combinatorIndex,
         reversed,
-        cache = {},
-        reverseCache = {},
+        cache = {
+        },
+        reverseCache = {
+        },
         reUnescape = /\\/g,
         parse = function (expression, isReversed) {
             if (null == expression) return null;
@@ -1944,7 +1970,8 @@ function () {
         }
         return "";
     }
-    var Slick = this.Slick || {};
+    var Slick = this.Slick || {
+    };
     (Slick.parse = function (expression) {
         return parse(expression);
     }),
@@ -1952,8 +1979,10 @@ function () {
     this.Slick || (this.Slick = Slick);
 }.apply("undefined" != typeof exports ? exports : this),
 function () {
-    var local = {},
-        featuresCache = {};
+    var local = {
+        },
+        featuresCache = {
+        };
     (local.isNativeCode = function (fn) {
         return /\{\s*\[native code\]\s*\}/.test("" + fn);
     }),
@@ -1982,7 +2011,8 @@ function () {
             for (feature in features) this[feature] = features[feature];
             return;
         }
-        (features = featuresCache[rootUid] = {}),
+        (features = featuresCache[rootUid] = {
+        }),
         (features.root = root),
         (features.isXMLDocument = this.isXML(document)),
         (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
@@ -2185,7 +2215,8 @@ function () {
         for (feature in features) this[feature] = features[feature];
     });
     var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/,
-        qsaFailExpCache = {};
+        qsaFailExpCache = {
+        };
     (local.search = function (context, expression, append, first) {
         var found = (this.found = first ? null : append || []);
         if (!context) return found;
@@ -2193,7 +2224,8 @@ function () {
         else if (!context.nodeType) return found;
         var parsed,
             i,
-            uniques = (this.uniques = {}),
+            uniques = (this.uniques = {
+            }),
             hasOthers = !(!append || !append.length),
             contextIsDocument = 9 == context.nodeType;
         if (
@@ -2313,10 +2345,14 @@ function () {
             expression))
             return found ? found.push(expression) : (found = expression), found;
         else return found;
-        (this.posNTH = {}),
-        (this.posNTHLast = {}),
-        (this.posNTHType = {}),
-        (this.posNTHTypeLast = {}),
+        (this.posNTH = {
+        }),
+        (this.posNTHLast = {
+        }),
+        (this.posNTHType = {
+        }),
+        (this.posNTHTypeLast = {
+        }),
         (this.push =
           hasOthers ||
           !(first || (1 == parsed.length && parsed.expressions[0].length == 1))
@@ -2354,10 +2390,12 @@ function () {
                     (attributes = currentBit.attributes),
                     (pseudos = currentBit.pseudos),
                     (lastBit = j === currentExpression.length - 1),
-                    (this.bitUniques = {}),
+                    (this.bitUniques = {
+                    }),
                     lastBit
                         ? ((this.uniques = uniques), (this.found = found))
-                        : ((this.uniques = {}), (this.found = [])),
+                        : ((this.uniques = {
+                        }), (this.found = [])),
                     0 === j)
                 ) {
                     if (
@@ -2423,7 +2461,8 @@ function () {
             ? results
             : (results.sort(this.documentSorter), results);
     }),
-    (local.cacheNTH = {}),
+    (local.cacheNTH = {
+    }),
     (local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/),
     (local.parseNTHArgument = function (argument) {
         var parsed = argument.match(this.matchNTH);
@@ -2990,7 +3029,8 @@ function () {
     });
     attributeGetters.MAXLENGTH = attributeGetters.maxLength =
       attributeGetters.maxlength;
-    var Slick = (local.Slick = this.Slick || {});
+    var Slick = (local.Slick = this.Slick || {
+    });
     (Slick.version = "1.1.7"),
     (Slick.search = function (context, expression, append) {
         return local.search(context,
@@ -3061,7 +3101,8 @@ var Element1 = function (tag, props) {
     var konstructor = Element1.Constructors[tag];
     if (konstructor) return konstructor(props);
     if ("string" != typeof tag) return document.id(tag).set(props);
-    if ((props || (props = {}), !/^[\w-]+$/.test(tag))) {
+    if ((props || (props = {
+    }), !/^[\w-]+$/.test(tag))) {
         var parsed = Slick.parse(tag).expressions[0][0];
         (tag = "*" == parsed.tag ? "div" : parsed.tag),
         parsed.id && null == props.id && (props.id = parsed.id);
@@ -3090,7 +3131,8 @@ Browser.Element &&
 new Type("Element",
     Element1).mirror(function (name) {
     if (Array.prototype[name]) return;
-    var obj = {};
+    var obj = {
+    };
     (obj[name] = function () {
         for (
             var results = [],
@@ -3119,7 +3161,8 @@ Browser.Element ||
     Element1.mirror(function (name, method) {
         Element1.Prototype[name] = method;
     })),
-(Element1.Constructors = {}),
+(Element1.Constructors = {
+}),
 (Element1.Constructors = new Hash());
 var IFrame = new Type("IFrame",
         function () {
@@ -3130,7 +3173,8 @@ var IFrame = new Type("IFrame",
                             return null != obj;
                         },
                     }),
-                props = params.properties || {},
+                props = params.properties || {
+                },
                 iframe;
             params.iframe && (iframe = document.id(params.iframe)),
             delete props.onload,
@@ -3154,7 +3198,8 @@ var IFrame = new Type("IFrame",
         }),
     Elements = (this.Elements = function (nodes) {
         if (nodes && nodes.length)
-            for (var uniques = {}, node, i = 0; (node = nodes[i++]); ) {
+            for (var uniques = {
+                }, node, i = 0; (node = nodes[i++]); ) {
                 var uid = Slick.uidOf(node);
                 uniques[uid] || ((uniques[uid] = !0), this.push(node));
             }
@@ -3386,7 +3431,8 @@ Elements.alias("extend",
             return this !== element && this.contains(element);
         }),
     (function (search, find, match) {
-        this.Selectors = {};
+        this.Selectors = {
+        };
         var pseudos = (this.Selectors.Pseudo = new Hash()),
             addSlickPseudos = function () {
                 for (var name in pseudos)
@@ -3553,7 +3599,8 @@ Elements.alias("extend",
     Object.each(inserters,
         function (inserter, where) {
             where = where.capitalize();
-            var methods = {};
+            var methods = {
+            };
             (methods["inject" + where] = function (el) {
                 return inserter(this,
                     document.id(el,
@@ -3566,9 +3613,12 @@ Elements.alias("extend",
             }),
             Element1.implement(methods);
         });
-    var propertyGetters = {},
-        propertySetters = {},
-        properties = {};
+    var propertyGetters = {
+        },
+        propertySetters = {
+        },
+        properties = {
+        };
     Array.forEach(
         [
             "type",
@@ -3620,7 +3670,8 @@ Elements.alias("extend",
             "autoplay",
             "loop",
         ],
-        booleans = {};
+        booleans = {
+        };
     Array.forEach(bools,
         function (bool) {
             var lower = bool.toLowerCase();
@@ -3692,7 +3743,8 @@ Elements.alias("extend",
             else {
                 if (pollutesGetAttribute)
                     var attributeWhiteList = this.retrieve("$attributeWhiteList",
-                        {});
+                        {
+                        });
                 null == value
                     ? (this.removeAttribute(name),
                     pollutesGetAttribute && delete attributeWhiteList[name])
@@ -3714,7 +3766,8 @@ Elements.alias("extend",
             if (pollutesGetAttribute) {
                 var attr = this.getAttributeNode(name),
                     attributeWhiteList = this.retrieve("$attributeWhiteList",
-                        {});
+                        {
+                        });
                 if (!attr) return null;
                 if (attr.expando && !attributeWhiteList[name]) {
                     var outer = this.outerHTML;
@@ -3881,10 +3934,13 @@ Elements.alias("extend",
             );
         },
     });
-    var collected = {},
-        storage = {},
+    var collected = {
+        },
+        storage = {
+        },
         get = function (uid) {
-            return storage[uid] || (storage[uid] = {});
+            return storage[uid] || (storage[uid] = {
+            });
         },
         clean = function (item) {
             var uid = item.uniqueNumber;
@@ -4003,7 +4059,8 @@ Elements.alias("extend",
                     clean),
                 window.CollectGarbage && CollectGarbage();
             }),
-    (Element1.Properties = {}),
+    (Element1.Properties = {
+    }),
     (Element1.Properties = new Hash()),
     (Element1.Properties.style = {
         set: function (style) {
@@ -4308,7 +4365,8 @@ Elements.alias("extend",
             return this;
         },
         getStyles: function () {
-            var result = {};
+            var result = {
+            };
             return (
                 Array.flatten(arguments).each(function (key) {
                     result[key] = this.getStyle(key);
@@ -4369,12 +4427,18 @@ Elements.alias("extend",
     }),
     (Element1.Styles = new Hash(Element1.Styles)),
     (Element1.ShortStyles = {
-        margin: {},
-        padding: {},
-        border: {},
-        borderWidth: {},
-        borderStyle: {},
-        borderColor: {},
+        margin: {
+        },
+        padding: {
+        },
+        border: {
+        },
+        borderWidth: {
+        },
+        borderStyle: {
+        },
+        borderColor: {
+        },
     }),
     ["Top", "Right", "Bottom", "Left"].each(function (direction) {
         var Short = Element1.ShortStyles,
@@ -4388,7 +4452,8 @@ Elements.alias("extend",
         var bdw = bd + "Width",
             bds = bd + "Style",
             bdc = bd + "Color";
-        (Short[bd] = {}),
+        (Short[bd] = {
+        }),
         (Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px"),
         (Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@"),
         (Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)");
@@ -4405,7 +4470,8 @@ Elements.alias("extend",
             {
                 addEvent: function (type, fn) {
                     var events = this.retrieve("events",
-                        {});
+                        {
+                        });
                     if (
                         (events[type] ||
               (events[type] = {
@@ -4665,7 +4731,8 @@ Elements.alias("extend",
                 base: "focusin",
                 remove: function (self, uid) {
                     var list = self.retrieve(_key + type + "listeners",
-                        {})[uid];
+                        {
+                        })[uid];
                     if (list && list.forms)
                         for (var i = list.forms.length; i--; )
                             list.forms[i].removeEvent(type,
@@ -4678,7 +4745,8 @@ Elements.alias("extend",
                   : event.target.getParent("form");
                     if (!form) return;
                     var listeners = self.retrieve(_key + type + "listeners",
-                            {}),
+                            {
+                            }),
                         listener = listeners[uid] || {
                             forms: [],
                             fns: [],
@@ -4768,7 +4836,8 @@ Elements.alias("extend",
         delegation = {
             addEvent: function (type, match, fn) {
                 var storage = this.retrieve("$delegates",
-                        {}),
+                        {
+                        }),
                     stored = storage[type];
                 if (stored)
                     for (var _uid in stored)
@@ -4777,7 +4846,8 @@ Elements.alias("extend",
                 var _type = type,
                     _match = match,
                     _fn = fn,
-                    _map = map[type] || {};
+                    _map = map[type] || {
+                    };
                 (type = _map.base || _type),
                 (match = function (target) {
                     return Slick.match(target,
@@ -4817,7 +4887,8 @@ Elements.alias("extend",
                                 target);
                         };
                 return (
-                    stored || (stored = {}),
+                    stored || (stored = {
+                    }),
                     (stored[uid] = {
                         match: _match,
                         fn: _fn,
@@ -4832,13 +4903,15 @@ Elements.alias("extend",
             },
             removeEvent: function (type, match, fn, _uid) {
                 var storage = this.retrieve("$delegates",
-                        {}),
+                        {
+                        }),
                     stored = storage[type];
                 if (!stored) return this;
                 if (_uid) {
                     var _type = type,
                         delegator = stored[_uid].delegator,
-                        _map = map[type] || {};
+                        _map = map[type] || {
+                        };
                     return (
                         (type = _map.base || _type),
                         _map.remove && _map.remove(this,
@@ -5316,8 +5389,10 @@ Element1.alias({
         normal: 500,
         long: 1000,
     });
-    var instances = {},
-        timers = {},
+    var instances = {
+        },
+        timers = {
+        },
         pushInstance = function (fps) {
             var list = instances[fps] || (instances[fps] = []);
             list.push(this),
@@ -5436,7 +5511,8 @@ Element1.alias({
     },
     search: function (selector) {
         if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
-        var to = {};
+        var to = {
+        };
         return (
             Array.each(document.styleSheets,
                 function (sheet, j) {
@@ -5468,7 +5544,8 @@ Element1.alias({
         );
     },
 })),
-(Fx.CSS.Cache = {}),
+(Fx.CSS.Cache = {
+}),
 (Fx.CSS.Parsers = {
     Color: {
         parse: function (value) {
@@ -5646,7 +5723,8 @@ Element1.implement({
         return this;
     },
     compute: function (from, to, delta) {
-        var now = {};
+        var now = {
+        };
         for (var p in from) now[p] = this.parent(from[p],
             to[p],
             delta);
@@ -5655,8 +5733,10 @@ Element1.implement({
     start: function (properties) {
         if (!this.check(properties)) return this;
         "string" == typeof properties && (properties = this.search(properties));
-        var from = {},
-            to = {};
+        var from = {
+            },
+            to = {
+            };
         for (var p in properties) {
             var parsed = this.prepare(this.element,
                 p,
@@ -6012,7 +6092,8 @@ Fx.Transitions.extend({
                 );
             },
         })),
-        methods = {};
+        methods = {
+        };
     ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE"].each(
         function (method) {
             methods[method] = function (data) {
@@ -6138,7 +6219,8 @@ Element1.implement({
         );
     },
 }),
-"undefined" == typeof JSON && (this.JSON = {}),
+"undefined" == typeof JSON && (this.JSON = {
+}),
 (JSON = new Hash({
     stringify: JSON.stringify,
     parse: JSON.parse,
@@ -6282,11 +6364,12 @@ var Cookie = new Class({
         return (
             new Cookie(
                 this.key,
-                Object.merge({},
-                    this.options,
-                    {
-                        duration: -1,
-                    }),
+                Object.merge({
+                },
+                this.options,
+                {
+                    duration: -1,
+                }),
             ).write(""),
             this
         );
@@ -6381,15 +6464,18 @@ var Cookie = new Class({
             height: 1,
             width: 1,
             container: null,
-            properties: {},
+            properties: {
+            },
             params: {
                 quality: "high",
                 allowScriptAccess: "always",
                 wMode: "window",
                 swLiveConnect: !0,
             },
-            callBacks: {},
-            vars: {},
+            callBacks: {
+            },
+            vars: {
+            },
         },
         toElement: function () {
             return this.object;
@@ -6400,7 +6486,8 @@ var Cookie = new Class({
             (options = this.options);
             var id = (this.id = options.id || this.instance),
                 container = document.id(options.container);
-            Swiff.CallBacks[this.instance] = {};
+            Swiff.CallBacks[this.instance] = {
+            };
             var params = options.params,
                 vars = options.vars,
                 callBacks = options.callBacks,
@@ -6460,7 +6547,8 @@ var Cookie = new Class({
                 [this.toElement()].append(arguments));
         },
     }));
-    (Swiff.CallBacks = {}),
+    (Swiff.CallBacks = {
+    }),
     (Swiff.remote = function (obj, fn) {
         var rs = obj.CallFunction(
             '<invoke name="' +

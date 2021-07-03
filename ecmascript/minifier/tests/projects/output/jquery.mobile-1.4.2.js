@@ -12,7 +12,8 @@
 })(this,
     document,
     function (jQuery, window, document, undefined) {
-        (jQuery.mobile = {}),
+        (jQuery.mobile = {
+        }),
         jQuery.extend(jQuery.mobile,
             {
                 version: "1.4.2",
@@ -44,7 +45,8 @@
                 dialogHashKey: "&ui-state=dialog",
             }),
         (function ($, window1, undefined) {
-            var nsNormalizeDict = {},
+            var nsNormalizeDict = {
+                },
                 oldFind = jQuery.find,
                 jqmDataRE = /:jqmData\(([^)]*)\)/g;
             jQuery.extend(jQuery.mobile,
@@ -137,7 +139,8 @@
             this),
         (function ($, undefined) {
             var uuid = 0;
-            (jQuery.ui = jQuery.ui || {}),
+            (jQuery.ui = jQuery.ui || {
+            }),
             jQuery.extend(jQuery.ui,
                 {
                     version: "c0ab71056b936627e8a7821f03c044aec6280a40",
@@ -444,7 +447,8 @@
                     window: jQuery(window1),
                     document: jQuery(document),
                     keyCode: jQuery.ui.keyCode,
-                    behaviors: {},
+                    behaviors: {
+                    },
                     silentScroll: function (ypos) {
                         "number" !== jQuery.type(ypos) &&
             (ypos = jQuery.mobile.defaultHomeScroll),
@@ -594,7 +598,8 @@
                 },
                 enhanceWithin: function () {
                     var index,
-                        widgetElements = {},
+                        widgetElements = {
+                        },
                         keepNative = jQuery.mobile.page.prototype.keepNativeSelector();
                     jQuery.mobile.nojs && jQuery.mobile.nojs(this),
                     jQuery.mobile.links && jQuery.mobile.links(this),
@@ -681,7 +686,8 @@
                     existingConstructor,
                     constructor,
                     basePrototype,
-                    proxiedPrototype = {},
+                    proxiedPrototype = {
+                    },
                     namespace = name.split(".")[0];
                 return (
                     (name = name.split(".")[1]),
@@ -691,7 +697,8 @@
                         return !!jQuery.data(elem,
                             fullName);
                     }),
-                    (jQuery[namespace] = jQuery[namespace] || {}),
+                    (jQuery[namespace] = jQuery[namespace] || {
+                    }),
                     (existingConstructor = jQuery[namespace][name]),
                     (constructor = jQuery[namespace][name] = function (
                         options,
@@ -706,13 +713,15 @@
                         existingConstructor,
                         {
                             version: prototype.version,
-                            _proto: jQuery.extend({},
-                                prototype),
+                            _proto: jQuery.extend({
+                            },
+                            prototype),
                             _childConstructors: [],
                         }),
                     (basePrototype = new base()),
                     (basePrototype.options = jQuery.widget.extend(
-                        {},
+                        {
+                        },
                         basePrototype.options,
                     )),
                     jQuery.each(prototype,
@@ -797,11 +806,13 @@
                   void 0 !== value &&
                   (jQuery.isPlainObject(value)
                       ? (target[key] = jQuery.isPlainObject(target[key])
-                          ? jQuery.widget.extend({},
-                              target[key],
-                              value)
-                          : jQuery.widget.extend({},
-                              value))
+                          ? jQuery.widget.extend({
+                          },
+                          target[key],
+                          value)
+                          : jQuery.widget.extend({
+                          },
+                          value))
                       : (target[key] = value));
                 return target;
             }),
@@ -861,7 +872,8 @@
                                 var instance = jQuery.data(this,
                                     fullName);
                                 instance
-                                    ? instance.option(options || {})._init()
+                                    ? instance.option(options || {
+                                    })._init()
                                     : jQuery.data(this,
                                         fullName,
                                         new object(options,
@@ -887,7 +899,8 @@
                     (this.uuid = uuid++),
                     (this.eventNamespace = "." + this.widgetName + this.uuid),
                     (this.options = jQuery.widget.extend(
-                        {},
+                        {
+                        },
                         this.options,
                         this._getCreateOptions(),
                         options,
@@ -950,25 +963,29 @@
                         curOption,
                         i;
                     if (0 === arguments.length)
-                        return jQuery.widget.extend({},
-                            this.options);
+                        return jQuery.widget.extend({
+                        },
+                        this.options);
                     if ("string" == typeof key) {
                         if (
-                            ((options = {}),
+                            ((options = {
+                            }),
                             (parts = key.split(".")),
                             (key = parts.shift()),
                             parts.length)
                         ) {
                             for (
                                 curOption = options[key] = jQuery.widget.extend(
-                                    {},
+                                    {
+                                    },
                                     this.options[key],
                                 ),
                                 i = 0;
                                 i < parts.length - 1;
                                 i++
                             )
-                                (curOption[parts[i]] = curOption[parts[i]] || {}),
+                                (curOption[parts[i]] = curOption[parts[i]] || {
+                                }),
                                 (curOption = curOption[parts[i]]);
                             if (((key = parts.pop()), void 0 === value))
                                 return curOption[key] === void 0 ? null : curOption[key];
@@ -1099,7 +1116,8 @@
                     var prop,
                         callback = this.options[type];
                     if (
-                        ((data ||= {}),
+                        ((data ||= {
+                        }),
                         (event = jQuery.Event(event)),
                         (event.type = (type === this.widgetEventPrefix
                             ? type
@@ -1144,7 +1162,8 @@
                                 : !0 === options || "number" == typeof options
                                     ? defaultEffect
                                     : options.effect || defaultEffect;
-                        (options ||= {}),
+                        (options ||= {
+                        }),
                         "number" == typeof options &&
                   (options = {
                       duration: options,
@@ -1179,7 +1198,8 @@
                         var option,
                             value,
                             elem = this.element[0],
-                            options = {};
+                            options = {
+                            };
                         if (!jQuery.mobile.getAttribute(elem,
                             "defaults"))
                             for (option in this.options)
@@ -1239,9 +1259,10 @@
                         var message, loadSettings;
                         this.resetHtml(),
                         "object" === jQuery.type(theme)
-                            ? ((loadSettings = jQuery.extend({},
-                                this.options,
-                                theme)),
+                            ? ((loadSettings = jQuery.extend({
+                            },
+                            this.options,
+                            theme)),
                             (theme = loadSettings.theme))
                             : ((loadSettings = this.options), (theme ||= loadSettings.theme)),
                         (message =
@@ -1312,7 +1333,8 @@
                     },
                 })),
             (fake_onhashchange = (function () {
-                var self = {},
+                var self = {
+                    },
                     timeout_id,
                     last_hash = get_fragment(),
                     fn_retval = function (val) {
@@ -1427,7 +1449,8 @@
             var support = {
                 touch: "ontouchend" in document,
             };
-            (jQuery.mobile.support = jQuery.mobile.support || {}),
+            (jQuery.mobile.support = jQuery.mobile.support || {
+            }),
             jQuery.extend(jQuery.support,
                 support),
             jQuery.extend(jQuery.mobile.support,
@@ -1451,12 +1474,14 @@
                 vendors = ["Webkit", "Moz", "O"],
                 operamini =
           window.operamini &&
-          "[object OperaMini]" === {}.toString.call(window.operamini),
+          "[object OperaMini]" === {
+          }.toString.call(window.operamini),
                 bb = window.blackberry && !propExists("-webkit-transform"),
                 nokiaLTE7_3;
             jQuery.extend(jQuery.mobile,
                 {
-                    browser: {},
+                    browser: {
+                    },
                 }),
             (jQuery.mobile.browser.oldIE = (function () {
                 var v = 3,
@@ -1518,7 +1543,8 @@
                 wkversion &&
                 534 > wkversion) ||
               (w.operamini &&
-                "[object OperaMini]" === {}.toString.call(w.operamini)) ||
+                "[object OperaMini]" === {
+                }.toString.call(w.operamini)) ||
               (operammobilematch && 7458 > omversion) ||
               (ua.indexOf("Android") > -1 && wkversion && 533 > wkversion) ||
               (ffversion && 6 > ffversion) ||
@@ -1665,7 +1691,8 @@
                 popstate: function (event) {
                     var newEvent = new jQuery.Event("navigate"),
                         beforeNavigate = new jQuery.Event("beforenavigate"),
-                        state = event.originalEvent.state || {};
+                        state = event.originalEvent.state || {
+                        };
                     if (
                         ((beforeNavigate.originalEvent = event),
                         $win.trigger(beforeNavigate),
@@ -1695,7 +1722,8 @@
                     (newEvent.originalEvent = event),
                     $win.trigger(newEvent,
                         {
-                            state: event.hashchangeState || {},
+                            state: event.hashchangeState || {
+                            },
                         });
                 },
                 setup: function () {
@@ -1727,8 +1755,9 @@
                 },
                 getDocumentUrl: function (asParsedObject) {
                     return asParsedObject
-                        ? jQuery.extend({},
-                            path.documentUrl)
+                        ? jQuery.extend({
+                        },
+                        path.documentUrl)
                         : path.documentUrl.href;
                 },
                 parseLocation: function () {
@@ -1999,8 +2028,9 @@
           path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash),
             (path.getDocumentBase = function (asParsedObject) {
                 return asParsedObject
-                    ? jQuery.extend({},
-                        path.documentBase)
+                    ? jQuery.extend({
+                    },
+                    path.documentBase)
                     : path.documentBase.href;
             }),
             jQuery.extend(jQuery.mobile,
@@ -2027,7 +2057,8 @@
                     return this.stack[this.activeIndex - 1];
                 },
                 add: function (url, data) {
-                    (data ||= {}),
+                    (data ||= {
+                    }),
                     this.getNext() && this.clearForward(),
                     data.hash &&
             -1 === data.hash.indexOf("#") &&
@@ -2221,11 +2252,13 @@
                             void 0)
                             : void this.history.direct({
                                 url:
-                    (event.originalEvent.state || {}).url ||
+                    (event.originalEvent.state || {
+                    }).url ||
                     path.parseLocation().hash,
                                 present: function (historyEntry, direction) {
-                                    (event.historyState = jQuery.extend({},
-                                        historyEntry)),
+                                    (event.historyState = jQuery.extend({
+                                    },
+                                    historyEntry)),
                                     (event.historyState.direction = direction);
                                 },
                             });
@@ -2244,8 +2277,9 @@
                                 this.history.direct({
                                     url: hash,
                                     present: function (historyEntry, direction) {
-                                        (event.hashchangeState = jQuery.extend({},
-                                            historyEntry)),
+                                        (event.hashchangeState = jQuery.extend({
+                                        },
+                                        historyEntry)),
                                         (event.hashchangeState.direction = direction);
                                     },
                                     missing: function () {
@@ -2277,8 +2311,10 @@
         })(jQuery),
         (function ($, undefined) {
             var props = {
-                    animation: {},
-                    transition: {},
+                    animation: {
+                    },
+                    transition: {
+                    },
                 },
                 testElement = document.createElement("a");
             jQuery.each(["animation", "transition"],
@@ -2349,7 +2385,8 @@
                     ? jQuery.event.mouseHooks.props
                     : [],
                 mouseEventProps = jQuery.event.props.concat(mouseHookProps),
-                activeDocHandlers = {},
+                activeDocHandlers = {
+                },
                 resetTimerID = 0,
                 startX = 0,
                 startY = 0,
@@ -2413,7 +2450,8 @@
                 return event;
             }
             function getVirtualBindingFlags(element) {
-                for (var flags = {}, b, k; element; ) {
+                for (var flags = {
+                    }, b, k; element; ) {
                     b = jQuery.data(element,
                         "virtualMouseBindings");
                     for (k in b) b[k] && (flags[k] = flags.hasVirtualBinding = !0);
@@ -2583,7 +2621,8 @@
                         hasVirtualBindings(this) ||
               jQuery.data(this,
                   "virtualMouseBindings",
-                  {});
+                  {
+                  });
                         var bindings = jQuery.data(this,
                             "virtualMouseBindings");
                         (bindings[eventType] = !0),
@@ -2888,7 +2927,8 @@
                     var events,
                         thisObject = this,
                         $this = jQuery(thisObject),
-                        context = {};
+                        context = {
+                        };
                     (events = jQuery.data(this,
                         "mobile-events")),
                     events ||
@@ -3033,7 +3073,8 @@
               90: !0,
           })),
             (jQuery.event.special.orientationchange = jQuery.extend(
-                {},
+                {
+                },
                 jQuery.event.special.orientationchange,
                 {
                     setup: function () {
@@ -3140,7 +3181,8 @@
             jQuery.mobile.base = base;
         })(jQuery),
         (function ($, undefined) {
-            jQuery.mobile.widgets = {};
+            jQuery.mobile.widgets = {
+            };
             var originalWidget = jQuery.widget,
                 keepNativeFactoryDefault = jQuery.mobile.keepNative;
             (jQuery.widget = (function (orig) {
@@ -3470,7 +3512,8 @@
                             (jQuery.extend(changePageOptions,
                                 data,
                                 {
-                                    transition: (history.getLast() || {}).transition || transition,
+                                    transition: (history.getLast() || {
+                                    }).transition || transition,
                                 }),
                             history.activeIndex > 0 &&
               to.indexOf(jQuery.mobile.dialogHashKey) > -1 &&
@@ -3687,9 +3730,10 @@
                     },
                     load: function (url, options) {
                         var deferred = (options && options.deferred) || jQuery.Deferred(),
-                            settings = jQuery.extend({},
-                                this._loadDefaults,
-                                options),
+                            settings = jQuery.extend({
+                            },
+                            this._loadDefaults,
+                            options),
                             content = null,
                             absUrl = jQuery.mobile.path.makeUrlAbsolute(
                                 url,
@@ -3911,11 +3955,13 @@
                             return;
                         }
                         var settings = jQuery.extend(
-                                {},
+                                {
+                                },
                                 jQuery.mobile.changePage.defaults,
                                 options,
                             ),
-                            triggerData = {};
+                            triggerData = {
+                            };
                         return ((settings.fromPage = settings.fromPage || this.activePage),
                         !this._triggerPageBeforeChange(
                             triggerData.toPage,
@@ -4129,7 +4175,8 @@
             (jQuery.mobile.loadPage = function (url, opts) {
                 var container;
                 return (
-                    (opts ||= {}),
+                    (opts ||= {
+                    }),
                     (container = opts.pageContainer || jQuery.mobile.pageContainer),
                     (opts.deferred = jQuery.Deferred()),
                     container.pagecontainer("load",
@@ -4619,7 +4666,8 @@
         }),
         (jQuery.mobile.defaultTransitionHandler =
       jQuery.mobile.transitionHandlers.sequential),
-        (jQuery.mobile.transitionFallbacks = {}),
+        (jQuery.mobile.transitionFallbacks = {
+        }),
         (jQuery.mobile._maybeDegradeTransition = function (transition) {
             return (
                 transition &&
@@ -4806,9 +4854,11 @@
                         );
                     $target.length &&
           !$target.jqmData("transition") &&
-          ((attrs = {}),
+          ((attrs = {
+          }),
           (attrs["data-" + jQuery.mobile.ns + "transition"] =
-            (jQuery.mobile.navigate.history.getActive() || {}).transition ||
+            (jQuery.mobile.navigate.history.getActive() || {
+            }).transition ||
             jQuery.mobile.defaultDialogTransition),
           (attrs["data-" + jQuery.mobile.ns + "direction"] = "reverse"),
           $target.attr(attrs));
@@ -4971,8 +5021,9 @@
                         var key,
                             accordion = this._ui.accordion,
                             accordionWidget = this._ui.accordionWidget;
-                        (options = jQuery.extend({},
-                            options)),
+                        (options = jQuery.extend({
+                        },
+                        options)),
                         accordion.length &&
               !accordionWidget &&
               (this._ui.accordionWidget = accordionWidget = accordion.data(
@@ -5547,7 +5598,8 @@
                             lcName,
                             ucName,
                         ) {
-                            var dict = {};
+                            var dict = {
+                            };
                             for (dict[lcName] = dict[ucName] = !0; ele; ) {
                                 if (dict[ele.nodeName]) return ele;
                                 ele = ele[nextProp];
@@ -5583,7 +5635,8 @@
                         },
                         _getChildrenByTagName: function (ele, lcName, ucName) {
                             var results = [],
-                                dict = {};
+                                dict = {
+                                };
                             for (
                                 dict[lcName] = dict[ucName] = !0, ele = ele.firstChild;
                                 ele;
@@ -5620,7 +5673,8 @@
                                 ol = !!jQuery.nodeName($list[0],
                                     "ol"),
                                 start = $list.attr("start"),
-                                itemClassDict = {},
+                                itemClassDict = {
+                                },
                                 countBubbles = $list.find(".ui-li-count"),
                                 countTheme =
                   getAttr($list[0],
@@ -6197,9 +6251,10 @@
             outer
                 .removeClass(this._getIconClasses(this.options))
                 .addClass(
-                    this._getIconClasses(jQuery.extend({},
-                        this.options,
-                        options)),
+                    this._getIconClasses(jQuery.extend({
+                    },
+                    this.options,
+                    options)),
                 ),
                     this._super(options);
                 },
@@ -6229,7 +6284,8 @@
                     initialContent,
                 );
             jQuery.mobile.zoom = jQuery.extend(
-                {},
+                {
+                },
                 {
                     enabled: !disabledInitially,
                     locked: !1,
@@ -8515,9 +8571,10 @@
                         this._trigger("afteropen");
                     },
                     _open: function (options) {
-                        var openOptions = jQuery.extend({},
-                                this.options,
-                                options),
+                        var openOptions = jQuery.extend({
+                            },
+                            this.options,
+                            options),
                             androidBlacklist = (function () {
                                 var ua = navigator.userAgent,
                                     wkmatch = ua.match(/AppleWebKit\/([0-9\.]+)/),
@@ -9362,8 +9419,12 @@
                             }
                             : classNameToOptions(el.className)),
                         (retrievedOptions = jQuery.extend(
-                            {},
-                            data.alreadyEnhanced ? data.options : {},
+                            {
+                            },
+                            data.alreadyEnhanced
+                                ? data.options
+                                : {
+                                },
                             options,
                         )),
                         !data.alreadyEnhanced)
@@ -9380,9 +9441,10 @@
                         camelCase2Hyphenated),
                 ));
                     (el.className = optionsToClasses(
-                        jQuery.extend({},
-                            defaults,
-                            retrievedOptions),
+                        jQuery.extend({
+                        },
+                        defaults,
+                        retrievedOptions),
                         data.unknownClasses,
                     ).join(" ")),
                     "button" !== el.tagName.toLowerCase() &&
@@ -10074,8 +10136,10 @@
                         var result,
                             r,
                             diff,
-                            desiredForArrow = {},
-                            tip = {};
+                            desiredForArrow = {
+                            },
+                            tip = {
+                            };
                         return s.arFull[p.dimKey] > s.guideDims[p.dimKey]
                             ? best
                             : ((desiredForArrow[p.fst] =
@@ -10176,7 +10240,8 @@
                         return !ar
                             ? this._super(desired)
                             : (ar.arEls.show(),
-                            (bgRef = {}),
+                            (bgRef = {
+                            }),
                             (state = this._getPlacementState(!0)),
                             (params = {
                                 l: {
@@ -11243,7 +11308,8 @@
                                 "controlgroup",
                                 "listview",
                             ],
-                            createHandlers = {};
+                            createHandlers = {
+                            };
                         for (
                             this._super(),
                             jQuery.extend(this,
@@ -11313,7 +11379,8 @@
                     _setInput: function (selector) {
                         var opts = this.options,
                             updatePlaceholder = !0,
-                            textinputOpts = {};
+                            textinputOpts = {
+                            };
                         if (!selector) {
                             if (this._isSearchInternal()) return;
                             (updatePlaceholder = !1),
@@ -11365,7 +11432,8 @@
                     },
                     _syncTextInputOptions: function (options) {
                         var idx,
-                            textinputOptions = {};
+                            textinputOptions = {
+                            };
                         if (this._isSearchInternal() && jQuery.mobile.textinput) {
                             for (idx in jQuery.mobile.textinput.prototype.options)
                                 options[idx] !== void 0 &&

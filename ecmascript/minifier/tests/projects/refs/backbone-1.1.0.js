@@ -5,7 +5,10 @@
         array = [],
         slice = array.slice;
     (Backbone =
-    "undefined" != typeof exports ? exports : (root.Backbone = {})).VERSION =
+    "undefined" != typeof exports
+        ? exports
+        : (root.Backbone = {
+        })).VERSION =
     "1.1.0";
     var _ = root._;
     _ || "undefined" == typeof require || (_ = require("underscore")),
@@ -21,7 +24,8 @@
                     "on",
                     name,
                     [callback, context]) && callback
-                    ? (this._events || (this._events = {}),
+                    ? (this._events || (this._events = {
+                    }),
                     (this._events[name] || (this._events[name] = [])).push({
                         callback: callback,
                         context: context,
@@ -53,7 +57,8 @@
                     name,
                     [callback, context]))
                     return this;
-                if (!name && !callback && !context) return (this._events = {}), this;
+                if (!name && !callback && !context) return (this._events = {
+                }), this;
                 for (
                     i = 0, l = (names = name ? [name] : _.keys(this._events)).length;
                     i < l;
@@ -97,7 +102,8 @@
                 for (var id in (callback ||
           "object" != typeof name ||
           (callback = this),
-                obj && ((listeningTo = {})[obj._listenId] = obj),
+                obj && ((listeningTo = {
+                })[obj._listenId] = obj),
                 listeningTo))
                     (obj = listeningTo[id]).off(name,
                         callback,
@@ -159,12 +165,15 @@
             }
         };
     _.each(
-        { listenTo: "on",
-            listenToOnce: "once" },
+        {
+            listenTo: "on",
+            listenToOnce: "once" 
+        },
         function (implementation, method) {
             Events[method] = function (obj, name, callback) {
                 return (
-                    ((this._listeningTo || (this._listeningTo = {}))[
+                    ((this._listeningTo || (this._listeningTo = {
+                    }))[
                         obj._listenId || (obj._listenId = _.uniqueId("l"))
                     ] = obj),
                     callback || "object" != typeof name || (callback = this),
@@ -181,20 +190,26 @@
     _.extend(Backbone,
         Events);
     var Model = (Backbone.Model = function (attributes, options) {
-        var attrs = attributes || {};
-        options || (options = {}),
+        var attrs = attributes || {
+        };
+        options || (options = {
+        }),
         (this.cid = _.uniqueId("c")),
-        (this.attributes = {}),
+        (this.attributes = {
+        }),
         options.collection && (this.collection = options.collection),
         options.parse && (attrs = this.parse(attrs,
-            options) || {}),
-        (attrs = _.defaults({},
-            attrs,
-            _.result(this,
-                "defaults"))),
+            options) || {
+        }),
+        (attrs = _.defaults({
+        },
+        attrs,
+        _.result(this,
+            "defaults"))),
         this.set(attrs,
             options),
-        (this.changed = {}),
+        (this.changed = {
+        }),
         this.initialize.apply(this,
             arguments);
     });
@@ -227,8 +242,10 @@
                 if (
                     ("object" == typeof key
                         ? ((attrs = key), (options = val))
-                        : ((attrs = {})[key] = val),
-                    options || (options = {}),
+                        : ((attrs = {
+                        })[key] = val),
+                    options || (options = {
+                    }),
                     !this._validate(attrs,
                         options))
                 )
@@ -240,7 +257,8 @@
                 (this._changing = !0),
                 changing ||
         ((this._previousAttributes = _.clone(this.attributes)),
-        (this.changed = {})),
+        (this.changed = {
+        })),
                 (current = this.attributes),
                 (prev = this._previousAttributes),
                 this.idAttribute in attrs && (this.id = attrs[this.idAttribute]),
@@ -274,17 +292,24 @@
             unset: function (attr, options) {
                 return this.set(attr,
                     void 0,
-                    _.extend({},
-                        options,
-                        { unset: !0 }));
+                    _.extend({
+                    },
+                    options,
+                    {
+                        unset: !0 
+                    }));
             },
             clear: function (options) {
-                var attrs = {};
+                var attrs = {
+                };
                 for (var key in this.attributes) attrs[key] = void 0;
                 return this.set(attrs,
-                    _.extend({},
-                        options,
-                        { unset: !0 }));
+                    _.extend({
+                    },
+                    options,
+                    {
+                        unset: !0 
+                    }));
             },
             hasChanged: function (attr) {
                 return null == attr
@@ -300,7 +325,8 @@
                 for (var attr in diff)
                     _.isEqual(old[attr], (
                         val = diff[attr])) ||
-          ((changed || (changed = {}))[attr] = val);
+          ((changed || (changed = {
+          }))[attr] = val);
                 return changed;
             },
             previous: function (attr) {
@@ -312,7 +338,10 @@
                 return _.clone(this._previousAttributes);
             },
             fetch: function (options) {
-                void 0 === (options = options ? _.clone(options) : {}).parse &&
+                void 0 === (options = options
+                    ? _.clone(options)
+                    : {
+                    }).parse &&
         (options.parse = !0);
                 var model = this,
                     success = options.success;
@@ -344,9 +373,12 @@
                 if (
                     (null == key || "object" == typeof key
                         ? ((attrs = key), (options = val))
-                        : ((attrs = {})[key] = val),
-                    (options = _.extend({ validate: !0 },
-                        options)),
+                        : ((attrs = {
+                        })[key] = val),
+                    (options = _.extend({
+                        validate: !0 
+                    },
+                    options)),
                     attrs && !options.wait)
                 ) {
                     if (!this.set(attrs,
@@ -355,9 +387,10 @@
                     options)) return !1;
                 attrs &&
         options.wait &&
-        (this.attributes = _.extend({},
-            attributes,
-            attrs)),
+        (this.attributes = _.extend({
+        },
+        attributes,
+        attrs)),
                 void 0 === options.parse && (options.parse = !0);
                 var model = this,
                     success = options.success;
@@ -367,8 +400,9 @@
                         var serverAttrs = model.parse(resp,
                             options);
                         if (
-                            (options.wait && (serverAttrs = _.extend(attrs || {},
-                                serverAttrs)),
+                            (options.wait && (serverAttrs = _.extend(attrs || {
+                            },
+                            serverAttrs)),
                             _.isObject(serverAttrs) && !model.set(serverAttrs,
                                 options))
                         )
@@ -397,7 +431,10 @@
                 );
             },
             destroy: function (options) {
-                options = options ? _.clone(options) : {};
+                options = options
+                    ? _.clone(options)
+                    : {
+                    };
                 var model = this,
                     success = options.success,
                     destroy = function () {
@@ -450,15 +487,20 @@
                 return null == this.id;
             },
             isValid: function (options) {
-                return this._validate({},
-                    _.extend(options || {},
-                        { validate: !0 }));
+                return this._validate({
+                },
+                _.extend(options || {
+                },
+                {
+                    validate: !0 
+                }));
             },
             _validate: function (attrs, options) {
                 if (!options.validate || !this.validate) return !0;
-                attrs = _.extend({},
-                    this.attributes,
-                    attrs);
+                attrs = _.extend({
+                },
+                this.attributes,
+                attrs);
                 var error = (this.validationError =
         this.validate(attrs,
             options) || null);
@@ -469,7 +511,9 @@
             this,
             error,
             _.extend(options,
-                { validationError: error }),
+                {
+                    validationError: error 
+                }),
         ),
         !1)
                 );
@@ -486,21 +530,28 @@
         },
     );
     var Collection = (Backbone.Collection = function (models, options) {
-            options || (options = {}),
+            options || (options = {
+            }),
             options.model && (this.model = options.model),
             void 0 !== options.comparator && (this.comparator = options.comparator),
             this._reset(),
             this.initialize.apply(this,
                 arguments),
             models && this.reset(models,
-                _.extend({ silent: !0 },
-                    options));
+                _.extend({
+                    silent: !0 
+                },
+                options));
         }),
-        setOptions = { add: !0,
+        setOptions = {
+            add: !0,
             remove: !0,
-            merge: !0 },
-        addOptions = { add: !0,
-            remove: !1 };
+            merge: !0 
+        },
+        addOptions = {
+            add: !0,
+            remove: !1 
+        };
     _.extend(Collection.prototype,
         Events,
         {
@@ -517,9 +568,11 @@
             },
             add: function (models, options) {
                 return this.set(models,
-                    _.extend({ merge: !1 },
-                        options,
-                        addOptions));
+                    _.extend({
+                        merge: !1 
+                    },
+                    options,
+                    addOptions));
             },
             remove: function (models, options) {
                 var i,
@@ -528,7 +581,8 @@
                     model,
                     singular = !_.isArray(models);
                 for (
-                    options || (options = {}),
+                    options || (options = {
+                    }),
                     i = 0,
                     l = (models = singular ? [models] : _.clone(models)).length;
                     i < l;
@@ -551,9 +605,10 @@
                 return singular ? models[0] : models;
             },
             set: function (models, options) {
-                (options = _.defaults({},
-                    options,
-                    setOptions)).parse &&
+                (options = _.defaults({
+                },
+                options,
+                setOptions)).parse &&
         (models = this.parse(models,
             options));
                 var i,
@@ -571,7 +626,8 @@
                     sortAttr = _.isString(this.comparator) ? this.comparator : null,
                     toAdd = [],
                     toRemove = [],
-                    modelMap = {},
+                    modelMap = {
+                    },
                     add = options.add,
                     merge = options.merge,
                     remove = options.remove,
@@ -629,7 +685,9 @@
                         for (i = 0, l = orderedModels.length; i < l; i++)
                             this.models.push(orderedModels[i]);
                     }
-                if ((sort && this.sort({ silent: !0 }), !options.silent)) {
+                if ((sort && this.sort({
+                    silent: !0 
+                }), !options.silent)) {
                     for (i = 0, l = toAdd.length; i < l; i++)
                         (model = toAdd[i]).trigger("add",
                             model,
@@ -643,15 +701,18 @@
                 return singular ? models[0] : models;
             },
             reset: function (models, options) {
-                options || (options = {});
+                options || (options = {
+                });
                 for (var i = 0, l = this.models.length; i < l; i++)
                     this._removeReference(this.models[i]);
                 return (
                     (options.previousModels = this.models),
                     this._reset(),
                     (models = this.add(models,
-                        _.extend({ silent: !0 },
-                            options))),
+                        _.extend({
+                            silent: !0 
+                        },
+                        options))),
                     options.silent || this.trigger("reset",
                         this,
                         options),
@@ -660,8 +721,10 @@
             },
             push: function (model, options) {
                 return this.add(model,
-                    _.extend({ at: this.length },
-                        options));
+                    _.extend({
+                        at: this.length 
+                    },
+                    options));
             },
             pop: function (options) {
                 var model = this.at(this.length - 1);
@@ -670,8 +733,10 @@
             },
             unshift: function (model, options) {
                 return this.add(model,
-                    _.extend({ at: 0 },
-                        options));
+                    _.extend({
+                        at: 0 
+                    },
+                    options));
             },
             shift: function (options) {
                 var model = this.at(0);
@@ -707,7 +772,8 @@
                 if (!this.comparator)
                     throw new Error("Cannot sort a set without a comparator");
                 return (
-                    options || (options = {}),
+                    options || (options = {
+                    }),
                     _.isString(this.comparator) || 1 === this.comparator.length
                         ? (this.models = this.sortBy(this.comparator,
                             this))
@@ -725,7 +791,10 @@
                     attr);
             },
             fetch: function (options) {
-                void 0 === (options = options ? _.clone(options) : {}).parse &&
+                void 0 === (options = options
+                    ? _.clone(options)
+                    : {
+                    }).parse &&
         (options.parse = !0);
                 var success = options.success,
                     collection = this;
@@ -751,7 +820,10 @@
             },
             create: function (model, options) {
                 if (
-                    ((options = options ? _.clone(options) : {}),
+                    ((options = options
+                        ? _.clone(options)
+                        : {
+                        }),
                     !(model = this._prepareModel(model,
                         options)))
                 )
@@ -780,12 +852,16 @@
                 return new this.constructor(this.models);
             },
             _reset: function () {
-                (this.length = 0), (this.models = []), (this._byId = {});
+                (this.length = 0), (this.models = []), (this._byId = {
+                });
             },
             _prepareModel: function (attrs, options) {
                 if (attrs instanceof Model)
                     return attrs.collection || (attrs.collection = this), attrs;
-                (options = options ? _.clone(options) : {}).collection = this;
+                (options = options
+                    ? _.clone(options)
+                    : {
+                    }).collection = this;
                 var model = new this.model(attrs,
                     options);
                 return model.validationError
@@ -879,7 +955,8 @@
         });
     var View = (Backbone.View = function (options) {
             (this.cid = _.uniqueId("view")),
-            options || (options = {}),
+            options || (options = {
+            }),
             _.extend(this,
                 _.pick(options,
                     viewOptions)),
@@ -953,9 +1030,10 @@
                     "el"),
                 !1);
                 else {
-                    var attrs = _.extend({},
-                        _.result(this,
-                            "attributes"));
+                    var attrs = _.extend({
+                    },
+                    _.result(this,
+                        "attributes"));
                     this.id && (attrs.id = _.result(this,
                         "id")),
                     this.className && (attrs.class = _.result(this,
@@ -969,13 +1047,16 @@
         }),
     (Backbone.sync = function (method, model, options) {
         var type = methodMap[method];
-        _.defaults(options || (options = {}),
-            {
-                emulateHTTP: Backbone.emulateHTTP,
-                emulateJSON: Backbone.emulateJSON,
-            });
-        var params = { type: type,
-            dataType: "json" };
+        _.defaults(options || (options = {
+        }),
+        {
+            emulateHTTP: Backbone.emulateHTTP,
+            emulateJSON: Backbone.emulateJSON,
+        });
+        var params = {
+            type: type,
+            dataType: "json" 
+        };
         if (
             (options.url || (params.url = _.result(model,
                 "url") || urlError()),
@@ -988,7 +1069,12 @@
           ))),
             options.emulateJSON &&
           ((params.contentType = "application/x-www-form-urlencoded"),
-          (params.data = params.data ? { model: params.data } : {})),
+          (params.data = params.data
+              ? {
+                  model: params.data 
+              }
+              : {
+              })),
             options.emulateHTTP &&
           ("PUT" === type || "DELETE" === type || "PATCH" === type))
         ) {
@@ -1034,7 +1120,8 @@
             arguments);
     };
     var Router = (Backbone.Router = function (options) {
-            options || (options = {}),
+            options || (options = {
+            }),
             options.routes && (this.routes = options.routes),
             this._bindRoutes(),
             this.initialize.apply(this,
@@ -1150,9 +1237,11 @@
                 if (History.started)
                     throw new Error("Backbone.history has already been started");
                 (History.started = !0),
-                (this.options = _.extend({ root: "/" },
-                    this.options,
-                    options)),
+                (this.options = _.extend({
+                    root: "/" 
+                },
+                this.options,
+                options)),
                 (this.root = this.options.root),
                 (this._wantsHashChange = !1 !== this.options.hashChange),
                 (this._wantsPushState = !!this.options.pushState),
@@ -1207,7 +1296,8 @@
             ((this.fragment = this.getHash().replace(routeStripper,
                 "")),
             this.history.replaceState(
-                {},
+                {
+                },
                 document.title,
                 this.root + this.fragment + loc.search,
             ));
@@ -1224,8 +1314,10 @@
                 (History.started = !1);
             },
             route: function (route, callback) {
-                this.handlers.unshift({ route: route,
-                    callback: callback });
+                this.handlers.unshift({
+                    route: route,
+                    callback: callback 
+                });
             },
             checkUrl: function (e) {
                 var current = this.getFragment();
@@ -1250,7 +1342,9 @@
             },
             navigate: function (fragment, options) {
                 if (!History.started) return !1;
-                (options && !0 !== options) || (options = { trigger: !!options });
+                (options && !0 !== options) || (options = {
+                    trigger: !!options 
+                });
                 var url = this.root + (fragment = this.getFragment(fragment || ""));
                 if (
                     ((fragment = fragment.replace(pathStripper,
@@ -1264,7 +1358,8 @@
                         this._hasPushState)
                     )
                         this.history[options.replace ? "replaceState" : "pushState"](
-                            {},
+                            {
+                            },
                             document.title,
                             url,
                         );

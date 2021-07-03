@@ -30,7 +30,9 @@
         }),
         Function = this.Function,
         enumerables = !0;
-    for (var i in { toString: 1 }) enumerables = null;
+    for (var i in {
+        toString: 1 
+    }) enumerables = null;
     enumerables &&
     (enumerables = [
         "hasOwnProperty",
@@ -73,7 +75,8 @@
                         : usePlural && (args = [a]),
                 args)
             ) {
-                result = {};
+                result = {
+                };
                 for (var i = 0; i < args.length; i++)
                     result[args[i]] = self.call(this,
                         args[i]);
@@ -148,7 +151,8 @@
       "[object Function]" != toString.call(item)
         );
     };
-    var hooks = {},
+    var hooks = {
+        },
         hooksOf = function (object) {
             var type = typeOf(object.prototype);
             return hooks[type] || (hooks[type] = []);
@@ -387,13 +391,15 @@
             return source;
         },
         clone: function (object) {
-            var clone = {};
+            var clone = {
+            };
             for (var key in object) clone[key] = cloneOf(object[key]);
             return clone;
         },
         append: function (original) {
             for (var i = 1, l = arguments.length; i < l; i++) {
-                var extended = arguments[i] || {};
+                var extended = arguments[i] || {
+                };
                 for (var key in extended) original[key] = extended[key];
             }
             return original;
@@ -424,7 +430,8 @@
                 bind);
         },
         getClean: function () {
-            var clean = {};
+            var clean = {
+            };
             for (var key in this)
                 this.hasOwnProperty(key) && (clean[key] = this[key]);
             return clean;
@@ -491,7 +498,8 @@
     }),
     (this.$merge = function () {
         var args = Array.slice(arguments);
-        return args.unshift({}), Object.merge.apply(null,
+        return args.unshift({
+        }), Object.merge.apply(null,
             args);
     }),
     (this.$lambda = Function.from),
@@ -583,7 +591,8 @@ Array.implement({
     },
     associate: function (keys) {
         for (
-            var obj = {}, length = Math.min(this.length,
+            var obj = {
+                }, length = Math.min(this.length,
                     keys.length), i = 0;
             i < length;
             i++
@@ -592,7 +601,8 @@ Array.implement({
         return obj;
     },
     link: function (object) {
-        for (var result = {}, i = 0, l = this.length; i < l; i++)
+        for (var result = {
+            }, i = 0, l = this.length; i < l; i++)
             for (var key in object)
                 if (object[key](this[i])) {
                     (result[key] = this[i]), delete object[key];
@@ -778,7 +788,8 @@ Number.implement({
 Number.alias("each",
     "times"),
 (function (math) {
-    var methods = {};
+    var methods = {
+    };
     [
         "abs",
         "acos",
@@ -873,7 +884,8 @@ Function.implement({
     create: function (options) {
         var self = this;
         return (
-            (options = options || {}),
+            (options = options || {
+            }),
             function (event) {
                 var args = options.arguments;
                 (args =
@@ -931,14 +943,16 @@ var $try = Function.attempt;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend({
         subset: function (object, keys) {
-            for (var results = {}, i = 0, l = keys.length; i < l; i++) {
+            for (var results = {
+                }, i = 0, l = keys.length; i < l; i++) {
                 var k = keys[i];
                 k in object && (results[k] = object[k]);
             }
             return results;
         },
         map: function (object, fn, bind) {
-            var results = {};
+            var results = {
+            };
             for (var key in object)
                 hasOwnProperty.call(object,
                     key) &&
@@ -949,7 +963,8 @@ var $try = Function.attempt;
             return results;
         },
         filter: function (object, fn, bind) {
-            var results = {};
+            var results = {
+            };
             for (var key in object) {
                 var value = object[key];
                 hasOwnProperty.call(object,
@@ -1023,7 +1038,8 @@ var $try = Function.attempt;
                                 key);
                             break;
                         case "array":
-                            var qs = {};
+                            var qs = {
+                            };
                             value.each(function (val, i) {
                                 qs[i] = val;
                             }),
@@ -1053,7 +1069,8 @@ Hash.implement({
     extend: function (properties) {
         return (
             Hash.each(
-                properties || {},
+                properties || {
+                },
                 function (value, key) {
                     Hash.set(this,
                         key,
@@ -1067,7 +1084,8 @@ Hash.implement({
     combine: function (properties) {
         return (
             Hash.each(
-                properties || {},
+                properties || {
+                },
                 function (value, key) {
                     Hash.include(this,
                         key,
@@ -1136,8 +1154,10 @@ Hash.implement({
     },
 }),
 (Hash.extend = Object.append),
-Hash.alias({ indexOf: "keyOf",
-    contains: "hasValue" }),
+Hash.alias({
+    indexOf: "keyOf",
+    contains: "hasValue" 
+}),
 (function () {
     var XMLHTTP,
         MSXML2,
@@ -1166,7 +1186,8 @@ Hash.alias({ indexOf: "keyOf",
                 query: !!document.querySelector,
                 json: !!window.JSON,
             },
-            Plugins: {},
+            Plugins: {
+            },
         });
     (Browser[Browser.name] = !0),
     (Browser[Browser.name + parseInt(Browser.version,
@@ -1318,7 +1339,8 @@ Hash.alias({ indexOf: "keyOf",
             };
         });
     }
-    Browser.Platform.ios && (Browser.Platform.ipod = !0), (Browser.Engine = {});
+    Browser.Platform.ios && (Browser.Platform.ipod = !0), (Browser.Engine = {
+    });
     var setEngine = function (name, version) {
         (Browser.Engine.name = name),
         (Browser.Engine[name + version] = !0),
@@ -1385,7 +1407,8 @@ Hash.alias({ indexOf: "keyOf",
     this.$exec = Browser.exec;
 })(),
 (function () {
-    var _keys = {},
+    var _keys = {
+        },
         DOMEvent = (this.DOMEvent = new Type("DOMEvent",
             function (event, win) {
                 if ((win || (win = window), (event = event || win.event).$extended))
@@ -1471,13 +1494,19 @@ Hash.alias({ indexOf: "keyOf",
                     var touches = (this.touches = event.touches);
                     if (touches && touches[0]) {
                         var touch = touches[0];
-                        (this.page = { x: touch.pageX,
-                            y: touch.pageY }),
-                        (this.client = { x: touch.clientX,
-                            y: touch.clientY });
+                        (this.page = {
+                            x: touch.pageX,
+                            y: touch.pageY 
+                        }),
+                        (this.client = {
+                            x: touch.clientX,
+                            y: touch.clientY 
+                        });
                     }
                 }
-                this.client || (this.client = {}), this.page || (this.page = {});
+                this.client || (this.client = {
+                }), this.page || (this.page = {
+                });
             }));
     DOMEvent.implement({
         stop: function () {
@@ -1518,13 +1547,16 @@ Hash.alias({ indexOf: "keyOf",
     });
 })();
 var Event = DOMEvent;
-(Event.Keys = {}),
+(Event.Keys = {
+}),
 (Event.Keys = new Hash(Event.Keys)),
 (function () {
     var Class = (this.Class = new Type("Class",
             function (params) {
                 instanceOf(params,
-                    Function) && (params = { initialize: params });
+                    Function) && (params = {
+                    initialize: params 
+                });
                 var newClass = function () {
                     if ((reset(this), newClass.$prototyping)) return this;
                     this.$caller = null;
@@ -1594,9 +1626,11 @@ var Event = DOMEvent;
                             return (
                                 (this.$caller = current), (this.caller = caller), result
                             );
-                        }.extend({ $owner: self,
+                        }.extend({
+                            $owner: self,
                             $origin: method,
-                            $name: key });
+                            $name: key 
+                        });
                         return wrapper;
                     })(this,
                         key,
@@ -1653,7 +1687,8 @@ var Event = DOMEvent;
             });
     };
     (this.Events = new Class({
-        $events: {},
+        $events: {
+        },
         addEvent: function (type, fn, internal) {
             return (
                 (type = removeOn(type)),
@@ -1713,7 +1748,8 @@ var Event = DOMEvent;
         setOptions: function () {
             var options = (this.options = Object.merge.apply(
                 null,
-                [{}, this.options].append(arguments),
+                [{
+                }, this.options].append(arguments),
             ));
             if (this.addEvent)
                 for (var option in options)
@@ -1731,8 +1767,10 @@ function () {
         separatorIndex,
         combinatorIndex,
         reversed,
-        cache = {},
-        reverseCache = {},
+        cache = {
+        },
+        reverseCache = {
+        },
         reUnescape = /\\/g,
         parse = function (expression, isReversed) {
             if (null == expression) return null;
@@ -1944,7 +1982,8 @@ function () {
         }
         return "";
     }
-    var Slick = this.Slick || {};
+    var Slick = this.Slick || {
+    };
     (Slick.parse = function (expression) {
         return parse(expression);
     }),
@@ -1952,8 +1991,10 @@ function () {
     this.Slick || (this.Slick = Slick);
 }.apply("undefined" != typeof exports ? exports : this),
 function () {
-    var local = {},
-        featuresCache = {},
+    var local = {
+        },
+        featuresCache = {
+        },
         toString = Object.prototype.toString;
     (local.isNativeCode = function (fn) {
         return /\{\s*\[native code\]\s*\}/.test("" + fn);
@@ -1989,7 +2030,8 @@ function () {
                     brokenSecondClassNameGEBCN,
                     cachedGetElementsByClassName,
                     brokenFormAttributeGetter;
-                ((features = featuresCache[rootUid] = {}).root = root),
+                ((features = featuresCache[rootUid] = {
+                }).root = root),
                 (features.isXMLDocument = this.isXML(document)),
                 (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
                 var selected,
@@ -2196,7 +2238,8 @@ function () {
     });
     var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/,
         reEmptyAttribute = /\[.+[*$^]=(?:""|'')?\]/,
-        qsaFailExpCache = {};
+        qsaFailExpCache = {
+        };
     (local.search = function (context, expression, append, first) {
         var found = (this.found = first ? null : append || []);
         if (!context) return found;
@@ -2214,7 +2257,8 @@ function () {
             classes,
             attributes,
             pseudos,
-            uniques = (this.uniques = {}),
+            uniques = (this.uniques = {
+            }),
             hasOthers = !(!append || !append.length),
             contextIsDocument = 9 == context.nodeType;
         if (
@@ -2338,10 +2382,14 @@ function () {
                     : found;
             parsed = expression;
         }
-        (this.posNTH = {}),
-        (this.posNTHLast = {}),
-        (this.posNTHType = {}),
-        (this.posNTHTypeLast = {}),
+        (this.posNTH = {
+        }),
+        (this.posNTHLast = {
+        }),
+        (this.posNTHType = {
+        }),
+        (this.posNTHTypeLast = {
+        }),
         (this.push =
           !hasOthers &&
           (first || (1 == parsed.length && 1 == parsed.expressions[0].length))
@@ -2367,10 +2415,12 @@ function () {
                     (attributes = currentBit.attributes),
                     (pseudos = currentBit.pseudos),
                     (lastBit = j === currentExpression.length - 1),
-                    (this.bitUniques = {}),
+                    (this.bitUniques = {
+                    }),
                     lastBit
                         ? ((this.uniques = uniques), (this.found = found))
-                        : ((this.uniques = {}), (this.found = [])),
+                        : ((this.uniques = {
+                        }), (this.found = [])),
                     0 === j)
                 ) {
                     if (
@@ -2436,7 +2486,8 @@ function () {
             ? (results.sort(this.documentSorter), results)
             : results;
     }),
-    (local.cacheNTH = {}),
+    (local.cacheNTH = {
+    }),
     (local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/),
     (local.parseNTHArgument = function (argument) {
         var parsed = argument.match(this.matchNTH);
@@ -2448,16 +2499,24 @@ function () {
         return (
             (parsed =
             "n" == special
-                ? { a: a,
-                    b: b }
+                ? {
+                    a: a,
+                    b: b 
+                }
                 : "odd" == special
-                    ? { a: 2,
-                        b: 1 }
+                    ? {
+                        a: 2,
+                        b: 1 
+                    }
                     : "even" == special
-                        ? { a: 2,
-                            b: 0 }
-                        : { a: 0,
-                            b: a }),
+                        ? {
+                            a: 2,
+                            b: 0 
+                        }
+                        : {
+                            a: 0,
+                            b: a 
+                        }),
             (this.cacheNTH[argument] = parsed)
         );
     }),
@@ -2982,7 +3041,8 @@ function () {
     });
     attributeGetters.MAXLENGTH = attributeGetters.maxLength =
       attributeGetters.maxlength;
-    var Slick = (local.Slick = this.Slick || {});
+    var Slick = (local.Slick = this.Slick || {
+    });
     (Slick.version = "1.1.7"),
     (Slick.search = function (context, expression, append) {
         return local.search(context,
@@ -3054,7 +3114,8 @@ var Element = function (tag, props) {
     var konstructor = Element.Constructors[tag];
     if (konstructor) return konstructor(props);
     if ("string" != typeof tag) return document.id(tag).set(props);
-    if ((props || (props = {}), !/^[\w-]+$/.test(tag))) {
+    if ((props || (props = {
+    }), !/^[\w-]+$/.test(tag))) {
         var parsed = Slick.parse(tag).expressions[0][0];
         (tag = "*" == parsed.tag ? "div" : parsed.tag),
         parsed.id && null == props.id && (props.id = parsed.id);
@@ -3084,7 +3145,8 @@ Browser.Element &&
 new Type("Element",
     Element).mirror(function (name) {
     if (!Array.prototype[name]) {
-        var obj = {};
+        var obj = {
+        };
         (obj[name] = function () {
             for (
                 var results = [],
@@ -3114,7 +3176,8 @@ Browser.Element ||
     Element.mirror(function (name, method) {
         Element.Prototype[name] = method;
     })),
-(Element.Constructors = {}),
+(Element.Constructors = {
+}),
 (Element.Constructors = new Hash());
 var IFrame = new Type("IFrame",
         function () {
@@ -3126,7 +3189,8 @@ var IFrame = new Type("IFrame",
                             return null != obj;
                         },
                     }),
-                props = params.properties || {};
+                props = params.properties || {
+                };
             params.iframe && (iframe = document.id(params.iframe));
             var onload = props.onload || function () {};
             delete props.onload,
@@ -3150,12 +3214,15 @@ var IFrame = new Type("IFrame",
         }),
     Elements = (this.Elements = function (nodes) {
         if (nodes && nodes.length)
-            for (var node, uniques = {}, i = 0; (node = nodes[i++]); ) {
+            for (var node, uniques = {
+                }, i = 0; (node = nodes[i++]); ) {
                 var uid = Slick.uidOf(node);
                 uniques[uid] || ((uniques[uid] = !0), this.push(node));
             }
     });
-(Elements.prototype = { length: 0 }),
+(Elements.prototype = {
+    length: 0 
+}),
 (Elements.parent = Array),
 new Type("Elements",
     Elements).implement({
@@ -3217,9 +3284,11 @@ Elements.alias("extend",
 (function () {
     var createElementAcceptsHTML,
         splice = Array.prototype.splice,
-        object = { 0: 0,
+        object = {
+            0: 0,
             1: 1,
-            length: 2 };
+            length: 2 
+        };
     splice.call(object,
         1,
         1),
@@ -3373,7 +3442,8 @@ Elements.alias("extend",
             return this !== element && this.contains(element);
         }),
     (function (search, find, match) {
-        this.Selectors = {};
+        this.Selectors = {
+        };
         var pseudos = (this.Selectors.Pseudo = new Hash()),
             addSlickPseudos = function () {
                 for (var name in pseudos)
@@ -3415,9 +3485,11 @@ Elements.alias("extend",
         return expression;
     };
     Object.forEach(
-        { getNext: "~",
+        {
+            getNext: "~",
             getPrevious: "!~",
-            getParent: "!" },
+            getParent: "!" 
+        },
         function (combinator, method) {
             Element.implement(method,
                 function (expression) {
@@ -3535,7 +3607,8 @@ Elements.alias("extend",
     (inserters.inside = inserters.bottom),
     Object.each(inserters,
         function (inserter, where) {
-            var methods = {};
+            var methods = {
+            };
             (methods["inject" + (where = where.capitalize())] = function (el) {
                 return inserter(this,
                     document.id(el,
@@ -3548,9 +3621,12 @@ Elements.alias("extend",
             }),
             Element.implement(methods);
         });
-    var propertyGetters = {},
-        propertySetters = {},
-        properties = {};
+    var propertyGetters = {
+        },
+        propertySetters = {
+        },
+        properties = {
+        };
     Array.forEach(
         [
             "type",
@@ -3583,7 +3659,8 @@ Elements.alias("extend",
                 return node[real];
             });
         });
-    var booleans = {};
+    var booleans = {
+    };
     Array.forEach(
         [
             "compact",
@@ -3676,7 +3753,8 @@ Elements.alias("extend",
             else {
                 if (pollutesGetAttribute)
                     var attributeWhiteList = this.retrieve("$attributeWhiteList",
-                        {});
+                        {
+                        });
                 null == value
                     ? (this.removeAttribute(name),
                     pollutesGetAttribute && delete attributeWhiteList[name])
@@ -3698,7 +3776,8 @@ Elements.alias("extend",
             if (pollutesGetAttribute) {
                 var attr = this.getAttributeNode(name),
                     attributeWhiteList = this.retrieve("$attributeWhiteList",
-                        {});
+                        {
+                        });
                 if (!attr) return null;
                 if (attr.expando && !attributeWhiteList[name]) {
                     var outer = this.outerHTML;
@@ -3864,10 +3943,13 @@ Elements.alias("extend",
             );
         },
     });
-    var collected = {},
-        storage = {},
+    var collected = {
+        },
+        storage = {
+        },
         get = function (uid) {
-            return storage[uid] || (storage[uid] = {});
+            return storage[uid] || (storage[uid] = {
+            });
         },
         clean = function (item) {
             var uid = item.uniqueNumber;
@@ -3878,9 +3960,11 @@ Elements.alias("extend",
                 item
             );
         },
-        formProps = { input: "checked",
+        formProps = {
+            input: "checked",
             option: "selected",
-            textarea: "value" };
+            textarea: "value" 
+        };
     Element.implement({
         destroy: function () {
             var children = clean(this).getElementsByTagName("*");
@@ -3989,7 +4073,8 @@ Elements.alias("extend",
                     clean),
                 window.CollectGarbage && CollectGarbage();
             }),
-    (Element.Properties = {}),
+    (Element.Properties = {
+    }),
     (Element.Properties = new Hash()),
     (Element.Properties.style = {
         set: function (style) {
@@ -4290,7 +4375,8 @@ Elements.alias("extend",
             return this;
         },
         getStyles: function () {
-            var result = {};
+            var result = {
+            };
             return (
                 Array.flatten(arguments).each(function (key) {
                     result[key] = this.getStyle(key);
@@ -4351,12 +4437,18 @@ Elements.alias("extend",
     }),
     (Element.Styles = new Hash(Element.Styles)),
     (Element.ShortStyles = {
-        margin: {},
-        padding: {},
-        border: {},
-        borderWidth: {},
-        borderStyle: {},
-        borderColor: {},
+        margin: {
+        },
+        padding: {
+        },
+        border: {
+        },
+        borderWidth: {
+        },
+        borderStyle: {
+        },
+        borderColor: {
+        },
     }),
     ["Top", "Right", "Bottom", "Left"].each(function (direction) {
         var Short = Element.ShortStyles,
@@ -4370,7 +4462,8 @@ Elements.alias("extend",
         var bdw = bd + "Width",
             bds = bd + "Style",
             bdc = bd + "Color";
-        (Short[bd] = {}),
+        (Short[bd] = {
+        }),
         (Short.borderWidth[bdw] = Short[bd][bdw] = All[bdw] = "@px"),
         (Short.borderStyle[bds] = Short[bd][bds] = All[bds] = "@"),
         (Short.borderColor[bdc] = Short[bd][bdc] = All[bdc] = "rgb(@, @, @)");
@@ -4387,10 +4480,13 @@ Elements.alias("extend",
             {
                 addEvent: function (type, fn) {
                     var events = this.retrieve("events",
-                        {});
+                        {
+                        });
                     if (
-                        (events[type] || (events[type] = { keys: [],
-                            values: [] }),
+                        (events[type] || (events[type] = {
+                            keys: [],
+                            values: [] 
+                        }),
                         events[type].keys.contains(fn))
                     )
                         return this;
@@ -4563,7 +4659,9 @@ Elements.alias("extend",
             scroll: 1,
         }),
         (Element.Events = {
-            mousewheel: { base: Browser.firefox ? "DOMMouseScroll" : "mousewheel" },
+            mousewheel: {
+                base: Browser.firefox ? "DOMMouseScroll" : "mousewheel" 
+            },
         }),
         "onmouseenter" in document.documentElement)
     )
@@ -4580,10 +4678,14 @@ Elements.alias("extend",
             !this.contains(related))
             );
         };
-        (Element.Events.mouseenter = { base: "mouseover",
-            condition: check }),
-        (Element.Events.mouseleave = { base: "mouseout",
-            condition: check });
+        (Element.Events.mouseenter = {
+            base: "mouseover",
+            condition: check 
+        }),
+        (Element.Events.mouseleave = {
+            base: "mouseout",
+            condition: check 
+        });
     }
     window.addEventListener ||
       ((Element.NativeEvents.propertychange = 2),
@@ -4617,14 +4719,20 @@ Elements.alias("extend",
             }
         },
         map = {
-            mouseenter: { base: "mouseover" },
-            mouseleave: { base: "mouseout" },
+            mouseenter: {
+                base: "mouseover" 
+            },
+            mouseleave: {
+                base: "mouseout" 
+            },
             focus: {
                 base: "focus" + (eventListenerSupport ? "" : "in"),
                 capture: !0,
             },
-            blur: { base: eventListenerSupport ? "blur" : "focusout",
-                capture: !0 },
+            blur: {
+                base: eventListenerSupport ? "blur" : "focusout",
+                capture: !0 
+            },
         },
         _key = "$delegation:",
         formObserver = function (type) {
@@ -4632,7 +4740,8 @@ Elements.alias("extend",
                 base: "focusin",
                 remove: function (self, uid) {
                     var list = self.retrieve(_key + type + "listeners",
-                        {})[uid];
+                        {
+                        })[uid];
                     if (list && list.forms)
                         for (var i = list.forms.length; i--; )
                             list.forms[i].removeEvent(type,
@@ -4645,9 +4754,12 @@ Elements.alias("extend",
                   : event.target.getParent("form");
                     if (form) {
                         var listeners = self.retrieve(_key + type + "listeners",
-                                {}),
-                            listener = listeners[uid] || { forms: [],
-                                fns: [] },
+                                {
+                                }),
+                            listener = listeners[uid] || {
+                                forms: [],
+                                fns: [] 
+                            },
                             forms = listener.forms,
                             fns = listener.fns;
                         if (-1 == forms.indexOf(form)) {
@@ -4735,7 +4847,8 @@ Elements.alias("extend",
         delegation = {
             addEvent: function (type, match, fn) {
                 var storage = this.retrieve("$delegates",
-                        {}),
+                        {
+                        }),
                     stored = storage[type];
                 if (stored)
                     for (var _uid in stored)
@@ -4744,7 +4857,8 @@ Elements.alias("extend",
                 var _type = type,
                     _match = match,
                     _fn = fn,
-                    _map = map[type] || {};
+                    _map = map[type] || {
+                    };
                 (type = _map.base || _type),
                 (match = function (target) {
                     return Slick.match(target,
@@ -4784,10 +4898,13 @@ Elements.alias("extend",
                                 target);
                         };
                 return (
-                    stored || (stored = {}),
-                    (stored[uid] = { match: _match,
+                    stored || (stored = {
+                    }),
+                    (stored[uid] = {
+                        match: _match,
                         fn: _fn,
-                        delegator: delegator }),
+                        delegator: delegator 
+                    }),
                     (storage[_type] = stored),
                     addEvent.call(this,
                         type,
@@ -4799,13 +4916,15 @@ Elements.alias("extend",
                 var __uid,
                     s,
                     storage = this.retrieve("$delegates",
-                        {}),
+                        {
+                        }),
                     stored = storage[type];
                 if (!stored) return this;
                 if (_uid) {
                     var _type = type,
                         delegator = stored[_uid].delegator,
-                        _map = map[type] || {};
+                        _map = map[type] || {
+                        };
                     return (
                         (type = _map.base || _type),
                         _map.remove && _map.remove(this,
@@ -4872,25 +4991,33 @@ Elements.alias("extend",
         getSize: function () {
             return isBody(this)
                 ? this.getWindow().getSize()
-                : { x: this.offsetWidth,
-                    y: this.offsetHeight };
+                : {
+                    x: this.offsetWidth,
+                    y: this.offsetHeight 
+                };
         },
         getScrollSize: function () {
             return isBody(this)
                 ? this.getWindow().getScrollSize()
-                : { x: this.scrollWidth,
-                    y: this.scrollHeight };
+                : {
+                    x: this.scrollWidth,
+                    y: this.scrollHeight 
+                };
         },
         getScroll: function () {
             return isBody(this)
                 ? this.getWindow().getScroll()
-                : { x: this.scrollLeft,
-                    y: this.scrollTop };
+                : {
+                    x: this.scrollLeft,
+                    y: this.scrollTop 
+                };
         },
         getScrolls: function () {
             for (
-                var element = this.parentNode, position = { x: 0,
-                    y: 0 };
+                var element = this.parentNode, position = {
+                    x: 0,
+                    y: 0 
+                };
                 element && !isBody(element);
 
             )
@@ -4948,8 +5075,10 @@ Elements.alias("extend",
                 };
             }
             var element = this,
-                position = { x: 0,
-                    y: 0 };
+                position = {
+                    x: 0,
+                    y: 0 
+                };
             if (isBody(this)) return position;
             for (; element && !isBody(element); ) {
                 if (
@@ -4983,8 +5112,10 @@ Elements.alias("extend",
         getPosition: function (relative) {
             var offset = this.getOffsets(),
                 scroll = this.getScrolls(),
-                position = { x: offset.x - scroll.x,
-                    y: offset.y - scroll.y };
+                position = {
+                    x: offset.x - scroll.x,
+                    y: offset.y - scroll.y 
+                };
             if (relative && (relative = document.id(relative))) {
                 var relativePosition = relative.getPosition();
                 return {
@@ -5026,8 +5157,10 @@ Elements.alias("extend",
         {
             getSize: function () {
                 var doc = getCompatElement(this);
-                return { x: doc.clientWidth,
-                    y: doc.clientHeight };
+                return {
+                    x: doc.clientWidth,
+                    y: doc.clientHeight 
+                };
             },
             getScroll: function () {
                 var win = this.getWindow(),
@@ -5051,8 +5184,10 @@ Elements.alias("extend",
                 };
             },
             getPosition: function () {
-                return { x: 0,
-                    y: 0 };
+                return {
+                    x: 0,
+                    y: 0 
+                };
             },
             getCoordinates: function () {
                 var size = this.getSize();
@@ -5093,7 +5228,9 @@ Elements.alias("extend",
             : doc.html;
     }
 })(),
-Element.alias({ position: "setPosition" }),
+Element.alias({
+    position: "setPosition" 
+}),
 [Window, Document, Element].invoke("implement",
     {
         getHeight: function () {
@@ -5254,11 +5391,15 @@ Element.alias({ position: "setPosition" }),
     (Fx.compute = function (from, to, delta) {
         return (to - from) * delta + from;
     }),
-    (Fx.Durations = { short: 250,
+    (Fx.Durations = {
+        short: 250,
         normal: 500,
-        long: 1e3 });
-    var instances = {},
-        timers = {},
+        long: 1e3 
+    });
+    var instances = {
+        },
+        timers = {
+        },
         loop = function () {
             for (var now = Date.now(), i = this.length; i--; ) {
                 var instance = this[i];
@@ -5309,8 +5450,10 @@ Element.alias({ position: "setPosition" }),
                     from + unit);
             }
         }
-        return { from: this.parse(from),
-            to: this.parse(to) };
+        return {
+            from: this.parse(from),
+            to: this.parse(to) 
+        };
     },
     parse: function (value) {
         return (value =
@@ -5325,12 +5468,16 @@ Element.alias({ position: "setPosition" }),
                         if (!found) {
                             var parsed = parser.parse(val);
                             (parsed || 0 === parsed) &&
-                (found = { value: parsed,
-                    parser: parser });
+                (found = {
+                    value: parsed,
+                    parser: parser 
+                });
                         }
                     }),
-                (found = found || { value: val,
-                    parser: Fx.CSS.Parsers.String })
+                (found = found || {
+                    value: val,
+                    parser: Fx.CSS.Parsers.String 
+                })
             );
         });
     },
@@ -5368,7 +5515,8 @@ Element.alias({ position: "setPosition" }),
     },
     search: function (selector) {
         if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
-        var to = {},
+        var to = {
+            },
             selectorTest = new RegExp("^" + selector.escapeRegExp() + "$");
         return (
             Array.each(document.styleSheets,
@@ -5408,7 +5556,8 @@ Element.alias({ position: "setPosition" }),
         );
     },
 })),
-(Fx.CSS.Cache = {}),
+(Fx.CSS.Cache = {
+}),
 (Fx.CSS.Parsers = {
     Color: {
         parse: function (value) {
@@ -5489,7 +5638,9 @@ Element.alias({ position: "setPosition" }),
         return (
             tween ||
           ((tween = new Fx.Tween(this,
-              { link: "cancel" })),
+              {
+                  link: "cancel" 
+              })),
           this.store("tween",
               tween)),
             tween
@@ -5588,7 +5739,8 @@ Element.implement({
         return this;
     },
     compute: function (from, to, delta) {
-        var now = {};
+        var now = {
+        };
         for (var p in from) now[p] = this.parent(from[p],
             to[p],
             delta);
@@ -5597,8 +5749,10 @@ Element.implement({
     start: function (properties) {
         if (!this.check(properties)) return this;
         "string" == typeof properties && (properties = this.search(properties));
-        var from = {},
-            to = {};
+        var from = {
+            },
+            to = {
+            };
         for (var p in properties) {
             var parsed = this.prepare(this.element,
                 p,
@@ -5618,7 +5772,9 @@ Element.implement({
         return (
             morph ||
           ((morph = new Fx.Morph(this,
-              { link: "cancel" })),
+              {
+                  link: "cancel" 
+              })),
           this.store("morph",
               morph)),
             morph
@@ -5850,12 +6006,16 @@ Fx.Transitions.extend({
                 (this.running = !0);
                 var type = typeOf(options);
                 ("string" != type && "element" != type) ||
-            (options = { data: options });
+            (options = {
+                data: options 
+            });
                 var old = this.options,
                     data = (options = Object.append(
-                        { data: old.data,
+                        {
+                            data: old.data,
                             url: old.url,
-                            method: old.method },
+                            method: old.method 
+                        },
                         options,
                     )).data,
                     url = String(options.url),
@@ -5948,11 +6108,14 @@ Fx.Transitions.extend({
                 );
             },
         })),
-        methods = {};
+        methods = {
+        };
     ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE"].each(
         function (method) {
             methods[method] = function (data) {
-                var object = { method: method };
+                var object = {
+                    method: method 
+                };
                 return null != data && (object.data = data), this.send(object);
             };
         },
@@ -5982,8 +6145,10 @@ Fx.Transitions.extend({
         send: function (url) {
             var sender = this.get("send");
             return (
-                sender.send({ data: this,
-                    url: url || sender.options.url }), this
+                sender.send({
+                    data: this,
+                    url: url || sender.options.url 
+                }), this
             );
         },
     });
@@ -5995,7 +6160,9 @@ Fx.Transitions.extend({
         append: !1,
         evalScripts: !0,
         filter: !1,
-        headers: { Accept: "text/html, application/xml, text/xml, */*" },
+        headers: {
+            Accept: "text/html, application/xml, text/xml, */*" 
+        },
     },
     success: function (text) {
         var options = this.options,
@@ -6058,16 +6225,21 @@ Element.implement({
         return (
             this.get("load").send(
                 Array.link(arguments,
-                    { data: Type.isObject,
-                        url: Type.isString }),
+                    {
+                        data: Type.isObject,
+                        url: Type.isString 
+                    }),
             ),
             this
         );
     },
 }),
-"undefined" == typeof JSON && (this.JSON = {}),
-(JSON = new Hash({ stringify: JSON.stringify,
-    parse: JSON.parse })),
+"undefined" == typeof JSON && (this.JSON = {
+}),
+(JSON = new Hash({
+    stringify: JSON.stringify,
+    parse: JSON.parse 
+})),
 (function () {
     var special = {
             "\b": "\\b",
@@ -6142,7 +6314,9 @@ Element.implement({
 })(),
 (Request.JSON = new Class({
     Extends: Request,
-    options: { secure: !0 },
+    options: {
+        secure: !0 
+    },
     initialize: function (options) {
         this.parent(options),
         Object.append(this.headers,
@@ -6206,9 +6380,12 @@ var Cookie = new Class({
         return (
             new Cookie(
                 this.key,
-                Object.merge({},
-                    this.options,
-                    { duration: -1 }),
+                Object.merge({
+                },
+                this.options,
+                {
+                    duration: -1 
+                }),
             ).write(""),
             this
         );
@@ -6302,15 +6479,18 @@ var Cookie = new Class({
             height: 1,
             width: 1,
             container: null,
-            properties: {},
+            properties: {
+            },
             params: {
                 quality: "high",
                 allowScriptAccess: "always",
                 wMode: "window",
                 swLiveConnect: !0,
             },
-            callBacks: {},
-            vars: {},
+            callBacks: {
+            },
+            vars: {
+            },
         },
         toElement: function () {
             return this.object;
@@ -6321,13 +6501,16 @@ var Cookie = new Class({
             (options = this.options);
             var id = (this.id = options.id || this.instance),
                 container = document.id(options.container);
-            Swiff.CallBacks[this.instance] = {};
+            Swiff.CallBacks[this.instance] = {
+            };
             var params = options.params,
                 vars = options.vars,
                 callBacks = options.callBacks,
                 properties = Object.append(
-                    { height: options.height,
-                        width: options.width },
+                    {
+                        height: options.height,
+                        width: options.width 
+                    },
                     options.properties,
                 ),
                 self = this;
@@ -6380,7 +6563,8 @@ var Cookie = new Class({
                 [this.toElement()].append(arguments));
         },
     }));
-    (Swiff.CallBacks = {}),
+    (Swiff.CallBacks = {
+    }),
     (Swiff.remote = function (obj, fn) {
         var rs = obj.CallFunction(
             '<invoke name="' +

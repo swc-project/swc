@@ -92,7 +92,8 @@
         push = [].push,
         toString = Object.prototype.toString,
         ngMinErr = minErr("ng"),
-        angular = (window.angular, window.angular || (window.angular = {})),
+        angular = (window.angular, window.angular || (window.angular = {
+        })),
         uid = ["0", "0", "0"];
     function isArrayLike(obj) {
         if (null == obj || isWindow(obj)) return !1;
@@ -178,7 +179,9 @@
     }
     function inherit(parent, extra) {
         return extend(new (extend(function () {},
-            { prototype: parent }))(),
+            {
+                prototype: parent 
+            }))(),
         extra);
     }
     function noop() {}
@@ -293,7 +296,8 @@
                   : isRegExp(source)
                       ? (destination = new RegExp(source.source))
                       : isObject(source) && (destination = copy(source,
-                          {})));
+                          {
+                          })));
         return destination;
     }
     function equals(o1, o2) {
@@ -316,7 +320,8 @@
           isArray(o2)
                 )
                     return !1;
-                for (key in ((keySet = {}), o1))
+                for (key in ((keySet = {
+                }), o1))
                     if ("$" !== key.charAt(0) && !isFunction(o1[key])) {
                         if (!equals(o1[key],
                             o2[key])) return !1;
@@ -446,7 +451,8 @@
     function parseKeyValue(keyValue) {
         var key_value,
             key,
-            obj = {};
+            obj = {
+            };
         return (
             forEach((keyValue || "").split("&"),
                 function (keyValue) {
@@ -656,7 +662,8 @@
         dot: 5,
         codeName: "singularity-expansion",
     };
-    var jqCache = (JQLite.cache = {}),
+    var jqCache = (JQLite.cache = {
+        }),
         jqName = (JQLite.expando = "ng-" + new Date().getTime()),
         jqId = 1,
         addEventListenerFn = window.document.addEventListener
@@ -800,8 +807,9 @@
         if (expandoStore) {
             if (name) return void delete jqCache[expandoId].data[name];
             expandoStore.handle &&
-        (expandoStore.events.$destroy && expandoStore.handle({},
-            "$destroy"),
+        (expandoStore.events.$destroy && expandoStore.handle({
+        },
+        "$destroy"),
         jqLiteOff(element)),
             delete jqCache[expandoId],
             (element[jqName] = undefined);
@@ -813,7 +821,8 @@
         if (!isDefined(value)) return expandoStore && expandoStore[key];
         expandoStore ||
       ((element[jqName] = expandoId = ++jqId),
-      (expandoStore = jqCache[expandoId] = {})),
+      (expandoStore = jqCache[expandoId] = {
+      })),
         (expandoStore[key] = value);
     }
     function jqLiteData(element, key, value) {
@@ -827,7 +836,8 @@
         isSimpleGetter ||
         jqLiteExpandoStore(element,
             "data", (
-                data = {})),
+                data = {
+                })),
             isSetter)
         )
             data[key] = value;
@@ -942,14 +952,16 @@
             sort: [].sort,
             splice: [].splice,
         }),
-        BOOLEAN_ATTR = {};
+        BOOLEAN_ATTR = {
+        };
     forEach(
         "multiple,selected,checked,disabled,readOnly,required,open".split(","),
         function (value) {
             BOOLEAN_ATTR[lowercase(value)] = value;
         },
     );
-    var BOOLEAN_ELEMENTS = {};
+    var BOOLEAN_ELEMENTS = {
+    };
     function getBooleanAttrName(element, name) {
         var booleanAttr = BOOLEAN_ATTR[name.toLowerCase()];
         return booleanAttr && BOOLEAN_ELEMENTS[element.nodeName] && booleanAttr;
@@ -1152,7 +1164,8 @@
                         "handle");
                 events || jqLiteExpandoStore(element,
                     "events", (
-                        events = {})),
+                        events = {
+                        })),
                 handle ||
               jqLiteExpandoStore(
                   element,
@@ -1229,8 +1242,10 @@
                                 events[type] = [];
                                 onFn(
                                     element,
-                                    { mouseleave: "mouseout",
-                                        mouseenter: "mouseover" }[type],
+                                    {
+                                        mouseleave: "mouseout",
+                                        mouseenter: "mouseover" 
+                                    }[type],
                                     function (event) {
                                         var related = event.relatedTarget;
                                         (related &&
@@ -1347,12 +1362,15 @@
             clone: jqLiteClone,
             triggerHandler: function (element, eventName, eventData) {
                 var eventFns = (jqLiteExpandoStore(element,
-                    "events") || {})[
+                    "events") || {
+                })[
                     eventName
                 ];
                 eventData = eventData || [];
-                var event = [{ preventDefault: noop,
-                    stopPropagation: noop }];
+                var event = [{
+                    preventDefault: noop,
+                    stopPropagation: noop 
+                }];
                 forEach(eventFns,
                     function (fn) {
                         fn.apply(element,
@@ -1431,7 +1449,8 @@
         );
     }
     function createInjector(modulesToLoad) {
-        var INSTANTIATING = {},
+        var INSTANTIATING = {
+            },
             path = [],
             loadedModules = new HashMap(),
             providerCache = {
@@ -1484,7 +1503,8 @@
                     );
                 },
             )),
-            instanceCache = {},
+            instanceCache = {
+            },
             instanceInjector = (instanceCache.$injector = createInternalInjector(
                 instanceCache,
                 function (servicename) {
@@ -1581,7 +1601,9 @@
         }
         function factory(name, factoryFn) {
             return provider(name,
-                { $get: factoryFn });
+                {
+                    $get: factoryFn 
+                });
         }
         function createInternalInjector(cache, factory) {
             function getService(serviceName) {
@@ -1712,7 +1734,8 @@
         $AnimateProvider = [
             "$provide",
             function ($provide) {
-                (this.$$selectors = {}),
+                (this.$$selectors = {
+                }),
                 (this.register = function (name, factory) {
                     var key = name + "-animation";
                     if (name && "." != name.charAt(0))
@@ -1792,7 +1815,8 @@
             history = window.history,
             setTimeout = window.setTimeout,
             clearTimeout = window.clearTimeout,
-            pendingDeferIds = {};
+            pendingDeferIds = {
+            };
         self.isMock = !1;
         var outstandingRequestCount = 0,
             outstandingRequestCallbacks = [];
@@ -1902,7 +1926,8 @@
                     "")
                 : "";
         });
-        var lastCookies = {},
+        var lastCookies = {
+            },
             lastCookieString = "",
             cookiePath = self.baseHref();
         (self.cookies = function (name, value) {
@@ -1911,7 +1936,8 @@
                 if (rawDocument.cookie !== lastCookieString)
                     for (
                         cookieArray = (lastCookieString = rawDocument.cookie).split("; "),
-                        lastCookies = {},
+                        lastCookies = {
+                        },
                         i = 0;
                         i < cookieArray.length;
                         i++
@@ -1980,7 +2006,8 @@
     }
     function $CacheFactoryProvider() {
         this.$get = function () {
-            var caches = {};
+            var caches = {
+            };
             function cacheFactory(cacheId, options) {
                 if (cacheId in caches)
                     throw minErr("$cacheFactory")(
@@ -1989,18 +2016,25 @@
                         cacheId,
                     );
                 var size = 0,
-                    stats = extend({},
-                        options,
-                        { id: cacheId }),
-                    data = {},
+                    stats = extend({
+                    },
+                    options,
+                    {
+                        id: cacheId 
+                    }),
+                    data = {
+                    },
                     capacity = (options && options.capacity) || Number.MAX_VALUE,
-                    lruHash = {},
+                    lruHash = {
+                    },
                     freshEnd = null,
                     staleEnd = null;
                 return (caches[cacheId] = {
                     put: function (key, value) {
                         if (
-                            (refresh(lruHash[key] || (lruHash[key] = { key: key })),
+                            (refresh(lruHash[key] || (lruHash[key] = {
+                                key: key 
+                            })),
                             !isUndefined(value))
                         )
                             return (
@@ -2026,9 +2060,11 @@
               size--);
                     },
                     removeAll: function () {
-                        (data = {}),
+                        (data = {
+                        }),
                         (size = 0),
-                        (lruHash = {}),
+                        (lruHash = {
+                        }),
                         (freshEnd = staleEnd = null);
                     },
                     destroy: function () {
@@ -2038,9 +2074,12 @@
                         delete caches[cacheId];
                     },
                     info: function () {
-                        return extend({},
-                            stats,
-                            { size: size });
+                        return extend({
+                        },
+                        stats,
+                        {
+                            size: size 
+                        });
                     },
                 });
                 function refresh(entry) {
@@ -2062,7 +2101,8 @@
             }
             return (
                 (cacheFactory.info = function () {
-                    var info = {};
+                    var info = {
+                    };
                     return (
                         forEach(caches,
                             function (cache, cacheId) {
@@ -2088,7 +2128,8 @@
     }
     var $compileMinErr = minErr("$compile");
     function $CompileProvider($provide, $$sanitizeUriProvider) {
-        var hasDirectives = {},
+        var hasDirectives = {
+            },
             COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/,
             CLASS_DIRECTIVE_REGEXP = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/,
             EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
@@ -2114,7 +2155,9 @@
                                       try {
                                           var directive = $injector.invoke(directiveFactory);
                                           isFunction(directive)
-                                              ? (directive = { compile: valueFn(directive) })
+                                              ? (directive = {
+                                                  compile: valueFn(directive) 
+                                              })
                                               : !directive.compile &&
                               directive.link &&
                               (directive.compile = valueFn(directive.link)),
@@ -2179,7 +2222,8 @@
                 $$sanitizeUri,
             ) {
                 var Attributes = function (element, attr) {
-                    (this.$$element = element), (this.$attr = attr || {});
+                    (this.$$element = element), (this.$attr = attr || {
+                    });
                 };
                 Attributes.prototype = {
                     $normalize: directiveNormalize,
@@ -2237,7 +2281,8 @@
                     },
                     $observe: function (key, fn) {
                         var attrs = this,
-                            $$observers = attrs.$$observers || (attrs.$$observers = {}),
+                            $$observers = attrs.$$observers || (attrs.$$observers = {
+                            }),
                             listeners = $$observers[key] || ($$observers[key] = []);
                         return (
                             listeners.push(fn),
@@ -2624,7 +2669,8 @@
                     postLinkFns,
                     previousCompileContext,
                 ) {
-                    previousCompileContext = previousCompileContext || {};
+                    previousCompileContext = previousCompileContext || {
+                    };
                     for (
                         var newScopeDirective,
                             directive,
@@ -2679,7 +2725,8 @@
                   ((directiveValue = directive.controller),
                   assertNoDuplicate(
                       "'" + directiveName + "' controller",
-                      (controllerDirectives = controllerDirectives || {})[
+                      (controllerDirectives = controllerDirectives || {
+                      })[
                           directiveName
                       ],
                       directive,
@@ -2766,7 +2813,10 @@
                                 replaceWith(jqCollection,
                                     $compileNode,
                                     compileNode);
-                                var newTemplateAttrs = { $attr: {} },
+                                var newTemplateAttrs = {
+                                        $attr: {
+                                        } 
+                                    },
                                     templateDirectives = collectDirectives(
                                         compileNode,
                                         [],
@@ -2857,7 +2907,9 @@
                 (newIsolateScopeDirective === directive ||
                   directive.$$isolateScope) &&
                   (pre = cloneAndAnnotateFn(pre,
-                      { isolateScope: !0 })),
+                      {
+                          isolateScope: !0 
+                      })),
                 preLinkFns.push(pre)),
                         post &&
                   (attrStart &&
@@ -2870,7 +2922,9 @@
                   (newIsolateScopeDirective === directive ||
                     directive.$$isolateScope) &&
                     (post = cloneAndAnnotateFn(post,
-                        { isolateScope: !0 })),
+                        {
+                            isolateScope: !0 
+                        })),
                   postLinkFns.push(post));
                     }
                     function getControllers(require, $element, elementControllers) {
@@ -2929,13 +2983,15 @@
                             controller,
                             isolateScope,
                             transcludeFn,
-                            elementControllers = {};
+                            elementControllers = {
+                            };
                         if (
                             ((attrs =
                   compileNode === linkNode
                       ? templateAttrs
                       : (function (src, dst) {
-                          for (var key in ((dst = dst || {}), src))
+                          for (var key in ((dst = dst || {
+                          }), src))
                               src.hasOwnProperty(key) &&
                             "$$" !== key.substr(0,
                                 2) &&
@@ -3165,7 +3221,9 @@
                 function markDirectivesAsIsolate(directives) {
                     for (var j = 0, jj = directives.length; j < jj; j++)
                         directives[j] = inherit(directives[j],
-                            { $$isolateScope: !0 });
+                            {
+                                $$isolateScope: !0 
+                            });
                 }
                 function addDirective(
                     tDirectives,
@@ -3251,14 +3309,15 @@
                         linkQueue = [],
                         beforeTemplateCompileNode = $compileNode[0],
                         origAsyncDirective = directives.shift(),
-                        derivedSyncDirective = extend({},
-                            origAsyncDirective,
-                            {
-                                templateUrl: null,
-                                transclude: null,
-                                replace: null,
-                                $$originalDirective: origAsyncDirective,
-                            }),
+                        derivedSyncDirective = extend({
+                        },
+                        origAsyncDirective,
+                        {
+                            templateUrl: null,
+                            transclude: null,
+                            replace: null,
+                            $$originalDirective: origAsyncDirective,
+                        }),
                         templateUrl = isFunction(origAsyncDirective.templateUrl)
                             ? origAsyncDirective.templateUrl($compileNode,
                                 tAttrs)
@@ -3292,7 +3351,10 @@
                                             origAsyncDirective.name,
                                             templateUrl,
                                         );
-                                    (tempTemplateAttrs = { $attr: {} }),
+                                    (tempTemplateAttrs = {
+                                        $attr: {
+                                        } 
+                                    }),
                                     replaceWith($rootElement,
                                         $compileNode,
                                         compileNode);
@@ -3431,7 +3493,8 @@
                                 return {
                                     pre: function (scope, element, attr) {
                                         var $$observers =
-                        attr.$$observers || (attr.$$observers = {});
+                        attr.$$observers || (attr.$$observers = {
+                        });
                                         if (EVENT_HANDLER_ATTR_REGEXP.test(name))
                                             throw $compileMinErr(
                                                 "nodomevents",
@@ -3542,7 +3605,8 @@
         return values;
     }
     function $ControllerProvider() {
-        var controllers = {},
+        var controllers = {
+            },
             CNTRL_REG = /^(\S+)(\s+as\s+(\w+))?$/;
         (this.register = function (name, constructor) {
             assertNotHasOwnProperty(name,
@@ -3615,7 +3679,8 @@
         var key,
             val,
             i,
-            parsed = {};
+            parsed = {
+            };
         return headers
             ? (forEach(headers.split("\n"),
                 function (line) {
@@ -3683,7 +3748,9 @@
                     },
                 ],
                 headers: {
-                    common: { Accept: "application/json, text/plain, */*" },
+                    common: {
+                        Accept: "application/json, text/plain, */*" 
+                    },
                     post: CONTENT_TYPE_APPLICATION_JSON,
                     put: CONTENT_TYPE_APPLICATION_JSON,
                     patch: CONTENT_TYPE_APPLICATION_JSON,
@@ -3720,11 +3787,13 @@
                                 lowercaseDefHeaderName,
                                 reqHeaderName,
                                 defHeaders = defaults.headers,
-                                reqHeaders = extend({},
-                                    config.headers);
+                                reqHeaders = extend({
+                                },
+                                config.headers);
                             execHeaders(
                                 (defHeaders = extend(
-                                    {},
+                                    {
+                                    },
                                     defHeaders.common,
                                     defHeaders[lowercase(config.method)],
                                 )),
@@ -3848,7 +3917,8 @@
                                                     )
                                                     : resolvePromise(cachedResp,
                                                         200,
-                                                        {});
+                                                        {
+                                                        });
                                             } else cache.put(url,
                                                 promise);
                                         isUndefined(cachedResp) &&
@@ -3951,15 +4021,16 @@
                         promise
                     );
                     function transformResponse(response) {
-                        var resp = extend({},
-                            response,
-                            {
-                                data: transformData(
-                                    response.data,
-                                    response.headers,
-                                    config.transformResponse,
-                                ),
-                            });
+                        var resp = extend({
+                        },
+                        response,
+                        {
+                            data: transformData(
+                                response.data,
+                                response.headers,
+                                config.transformResponse,
+                            ),
+                        });
                         return isSuccess(response.status) ? resp : $q.reject(resp);
                     }
                 }
@@ -3995,9 +4066,12 @@
                         forEach(arguments,
                             function (name) {
                                 $http[name] = function (url, config) {
-                                    return $http(extend(config || {},
-                                        { method: name,
-                                            url: url }));
+                                    return $http(extend(config || {
+                                    },
+                                    {
+                                        method: name,
+                                        url: url 
+                                    }));
                                 };
                             });
                     })("get",
@@ -4009,10 +4083,13 @@
                             function (name) {
                                 $http[name] = function (url, data, config) {
                                     return $http(
-                                        extend(config || {},
-                                            { method: name,
-                                                url: url,
-                                                data: data }),
+                                        extend(config || {
+                                        },
+                                        {
+                                            method: name,
+                                            url: url,
+                                            data: data 
+                                        }),
                                     );
                                 };
                             });
@@ -4295,7 +4372,8 @@
             "$window",
             "$q",
             function ($rootScope, $window, $q) {
-                var intervals = {};
+                var intervals = {
+                };
                 function interval(fn, delay, count, invokeApply) {
                     var setInterval = $window.setInterval,
                         clearInterval = $window.clearInterval,
@@ -4398,9 +4476,11 @@
         };
     }
     var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/,
-        DEFAULT_PORTS = { http: 80,
+        DEFAULT_PORTS = {
+            http: 80,
             https: 443,
-            ftp: 21 },
+            ftp: 21 
+        },
         $locationMinErr = minErr("$location");
     function encodePath(path) {
         for (var segments = path.split("/"), i = segments.length; i--; )
@@ -4725,7 +4805,8 @@
                     );
                 }
                 function consoleLog(type) {
-                    var console = $window.console || {},
+                    var console = $window.console || {
+                        },
                         logFn = console[type] || console.log || noop;
                     return logFn.apply
                         ? function () {
@@ -4799,7 +4880,8 @@
     };
     var promiseWarning,
         $parseMinErr = minErr("$parse"),
-        promiseWarningCache = {};
+        promiseWarningCache = {
+        };
     function ensureSafeMemberName(name, fullExpression) {
         if ("constructor" === name)
             throw $parseMinErr(
@@ -5010,14 +5092,18 @@
                         fn2 = OPERATORS[ch2],
                         fn3 = OPERATORS[ch3];
                     fn3
-                        ? (this.tokens.push({ index: this.index,
+                        ? (this.tokens.push({
+                            index: this.index,
                             text: ch3,
-                            fn: fn3 }),
+                            fn: fn3 
+                        }),
                         (this.index += 3))
                         : fn2
-                            ? (this.tokens.push({ index: this.index,
+                            ? (this.tokens.push({
+                                index: this.index,
                                 text: ch2,
-                                fn: fn2 }),
+                                fn: fn2 
+                            }),
                             (this.index += 2))
                             : fn
                                 ? (this.tokens.push({
@@ -5162,8 +5248,10 @@
                     if (!this.isWhitespace(ch)) break;
                     peekIndex++;
                 }
-            var token = { index: start,
-                text: ident };
+            var token = {
+                index: start,
+                text: ident 
+            };
             if (OPERATORS.hasOwnProperty(ident))
                 (token.fn = OPERATORS[ident]), (token.json = OPERATORS[ident]);
             else {
@@ -5188,12 +5276,16 @@
             }
             this.tokens.push(token),
             methodName &&
-          (this.tokens.push({ index: lastDot,
+          (this.tokens.push({
+              index: lastDot,
               text: ".",
-              json: !1 }),
-          this.tokens.push({ index: lastDot + 1,
+              json: !1 
+          }),
+          this.tokens.push({
+              index: lastDot + 1,
               text: methodName,
-              json: !1 }));
+              json: !1 
+          }));
         },
         readString: function (quote) {
             var start = this.index;
@@ -5245,12 +5337,14 @@
         (this.lexer = lexer), (this.$filter = $filter), (this.options = options);
     };
     function setter(obj, path, setValue, fullExp, options) {
-        options = options || {};
+        options = options || {
+        };
         for (var key, element = path.split("."), i = 0; element.length > 1; i++) {
             var propertyObj =
         obj[(key = ensureSafeMemberName(element.shift(),
             fullExp))];
-            propertyObj || ((propertyObj = {}), (obj[key] = propertyObj)),
+            propertyObj || ((propertyObj = {
+            }), (obj[key] = propertyObj)),
             (obj = propertyObj).then &&
           options.unwrapPromises &&
           (promiseWarning(fullExp),
@@ -5260,7 +5354,8 @@
                     promise.$$v = val;
                 });
             })(obj),
-          undefined === obj.$$v && (obj.$$v = {}),
+          undefined === obj.$$v && (obj.$$v = {
+          }),
           (obj = obj.$$v));
         }
         return (
@@ -5282,8 +5377,10 @@
             ((this.assignment = this.logicalOR),
             (this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function () {
                 this.throwError("is not valid json",
-                    { text: text,
-                        index: 0 });
+                    {
+                        text: text,
+                        index: 0 
+                    });
             }));
             var value = json ? this.primary() : this.statements();
             return (
@@ -5383,7 +5480,9 @@
                         locals,
                         right);
                 },
-                { constant: right.constant },
+                {
+                    constant: right.constant 
+                },
             );
         },
         ternaryFn: function (left, middle, right) {
@@ -5396,7 +5495,9 @@
                         : right(self,
                             locals);
                 },
-                { constant: left.constant && middle.constant && right.constant },
+                {
+                    constant: left.constant && middle.constant && right.constant 
+                },
             );
         },
         binaryFn: function (left, fn, right) {
@@ -5407,7 +5508,9 @@
                         left,
                         right);
                 },
-                { constant: left.constant && right.constant },
+                {
+                    constant: left.constant && right.constant 
+                },
             );
         },
         statements: function () {
@@ -5715,8 +5818,10 @@
                                 locals));
                         return array;
                     },
-                    { literal: !0,
-                        constant: allConstant },
+                    {
+                        literal: !0,
+                        constant: allConstant 
+                    },
                 )
             );
         },
@@ -5729,28 +5834,34 @@
                         key = token.string || token.text;
                     this.consume(":");
                     var value = this.expression();
-                    keyValues.push({ key: key,
-                        value: value }),
+                    keyValues.push({
+                        key: key,
+                        value: value 
+                    }),
                     value.constant || (allConstant = !1);
                 } while (this.expect(","));
             return (
                 this.consume("}"),
                 extend(
                     function (self, locals) {
-                        for (var object = {}, i = 0; i < keyValues.length; i++) {
+                        for (var object = {
+                            }, i = 0; i < keyValues.length; i++) {
                             var keyValue = keyValues[i];
                             object[keyValue.key] = keyValue.value(self,
                                 locals);
                         }
                         return object;
                     },
-                    { literal: !0,
-                        constant: allConstant },
+                    {
+                        literal: !0,
+                        constant: allConstant 
+                    },
                 )
             );
         },
     });
-    var getterFnCache = {};
+    var getterFnCache = {
+    };
     function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
         return (
             ensureSafeMemberName(key0,
@@ -5917,10 +6028,13 @@
         return "hasOwnProperty" !== path && (getterFnCache[path] = fn), fn;
     }
     function $ParseProvider() {
-        var cache = {},
-            $parseOptions = { csp: !1,
+        var cache = {
+            },
+            $parseOptions = {
+                csp: !1,
                 unwrapPromises: !1,
-                logPromiseWarnings: !0 };
+                logPromiseWarnings: !0 
+            };
         (this.unwrapPromises = function (value) {
             return isDefined(value)
                 ? (($parseOptions.unwrapPromises = !!value), this)
@@ -6217,7 +6331,10 @@
                     function all(promises) {
                         var deferred = defer(),
                             counter = 0,
-                            results = isArray(promises) ? [] : {};
+                            results = isArray(promises)
+                                ? []
+                                : {
+                                };
                         return (
                             forEach(promises,
                                 function (promise, key) {
@@ -6237,10 +6354,12 @@
                             deferred.promise
                         );
                     }
-                    return { defer: defer,
+                    return {
+                        defer: defer,
                         reject: reject,
                         when: when,
-                        all: all };
+                        all: all 
+                    };
                 })(function (callback) {
                     $rootScope.$evalAsync(callback);
                 },
@@ -6268,8 +6387,10 @@
                     (this.$$destroyed = !1),
                     (this.$$asyncQueue = []),
                     (this.$$postDigestQueue = []),
-                    (this.$$listeners = {}),
-                    (this.$$isolateBindings = {});
+                    (this.$$listeners = {
+                    }),
+                    (this.$$isolateBindings = {
+                    });
                 }
                 Scope.prototype = {
                     constructor: Scope,
@@ -6283,7 +6404,8 @@
                                 : (((ChildScope = function () {}).prototype = this),
                                 ((child = new ChildScope()).$id = nextUid())),
                             (child.this = child),
-                            (child.$$listeners = {}),
+                            (child.$$listeners = {
+                            }),
                             (child.$parent = this),
                             (child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null),
                             (child.$$prevSibling = this.$$childTail),
@@ -6339,7 +6461,8 @@
                             changeDetected = 0,
                             objGetter = $parse(obj),
                             internalArray = [],
-                            internalObject = {},
+                            internalObject = {
+                            },
                             oldLength = 0;
                         return this.$watch(
                             function () {
@@ -6358,7 +6481,8 @@
                           (changeDetected++, (oldValue[i] = newValue[i]));
                                     } else {
                                         for (key in (oldValue !== internalObject &&
-                        ((oldValue = internalObject = {}),
+                        ((oldValue = internalObject = {
+                        }),
                         (oldLength = 0),
                         changeDetected++),
                                         (newLength = 0),
@@ -6520,8 +6644,10 @@
                 $browser.defer(function () {
                     $rootScope.$$asyncQueue.length && $rootScope.$digest();
                 }),
-                        this.$$asyncQueue.push({ scope: this,
-                            expression: expr });
+                        this.$$asyncQueue.push({
+                            scope: this,
+                            expression: expr 
+                        });
                     },
                     $$postDigest: function (fn) {
                         this.$$postDigestQueue.push(fn);
@@ -6799,7 +6925,8 @@
                 $injector.has("$sanitize") &&
             (htmlSanitizer = $injector.get("$sanitize"));
                 var trustedValueHolderBase = generateHolderType(),
-                    byType = {};
+                    byType = {
+                    };
                 return (
                     (byType[SCE_CONTEXTS.HTML] = generateHolderType(
                         trustedValueHolderBase,
@@ -6962,14 +7089,18 @@
             function ($window, $document) {
                 var vendorPrefix,
                     match,
-                    eventSupport = {},
+                    eventSupport = {
+                    },
                     android = int(
                         (/android (\d+)/.exec(
-                            lowercase(($window.navigator || {}).userAgent),
+                            lowercase(($window.navigator || {
+                            }).userAgent),
                         ) || [])[1],
                     ),
-                    boxee = /Boxee/i.test(($window.navigator || {}).userAgent),
-                    document = $document[0] || {},
+                    boxee = /Boxee/i.test(($window.navigator || {
+                    }).userAgent),
+                    document = $document[0] || {
+                    },
                     documentMode = document.documentMode,
                     vendorRegex = /^(Moz|webkit|O|ms)(?=[A-Z])/,
                     bodyStyle = document.body && document.body.style,
@@ -7033,7 +7164,8 @@
             "$q",
             "$exceptionHandler",
             function ($rootScope, $browser, $q, $exceptionHandler) {
-                var deferreds = {};
+                var deferreds = {
+                };
                 function timeout(fn, delay, invokeApply) {
                     var timeoutId,
                         deferred = $q.defer(),
@@ -7118,7 +7250,8 @@
     function $FilterProvider($provide) {
         function register(name, factory) {
             if (isObject(name)) {
-                var filters = {};
+                var filters = {
+                };
                 return (
                     forEach(name,
                         function (filter, key) {
@@ -7217,7 +7350,9 @@
             case "boolean":
             case "number":
             case "string":
-                expression = { $: expression };
+                expression = {
+                    $: expression 
+                };
             case "object":
                 for (var key in expression)
                     "$" == key
@@ -7606,7 +7741,9 @@
     }
     function ngDirective(directive) {
         return (
-            isFunction(directive) && (directive = { link: directive }),
+            isFunction(directive) && (directive = {
+                link: directive 
+            }),
             (directive.restrict = directive.restrict || "AC"),
             valueFn(directive)
         );
@@ -7630,7 +7767,8 @@
                     };
             },
         }),
-        ngAttributeAliasDirectives = {};
+        ngAttributeAliasDirectives = {
+        };
     forEach(BOOLEAN_ATTR,
         function (propName, attrName) {
             if ("multiple" != propName) {
@@ -7681,7 +7819,8 @@
         var form = this,
             parentForm = element.parent().controller("form") || nullFormCtrl,
             invalidCount = 0,
-            errors = (form.$error = {}),
+            errors = (form.$error = {
+            }),
             controls = [];
         function toggleValidCss(isValid, validationErrorKey) {
             (validationErrorKey = validationErrorKey
@@ -8139,7 +8278,8 @@
                 var parentForm =
             $element.inheritedData("$formController") || nullFormCtrl,
                     invalidCount = 0,
-                    $error = (this.$error = {});
+                    $error = (this.$error = {
+                    });
                 function toggleValidCss(isValid, validationErrorKey) {
                     (validationErrorKey = validationErrorKey
                         ? "-" + snake_case(validationErrorKey,
@@ -8426,12 +8566,15 @@
         }),
         ngControllerDirective = [
             function () {
-                return { scope: !0,
+                return {
+                    scope: !0,
                     controller: "@",
-                    priority: 500 };
+                    priority: 500 
+                };
             },
         ],
-        ngEventDirectives = {};
+        ngEventDirectives = {
+        };
     forEach(
         "click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste".split(
             " ",
@@ -8449,7 +8592,9 @@
                                     function (event) {
                                         scope.$apply(function () {
                                             fn(scope,
-                                                { $event: event });
+                                                {
+                                                    $event: event 
+                                                });
                                         });
                                     });
                             };
@@ -8480,7 +8625,9 @@
                           (clone[clone.length++] = document.createComment(
                               " end ngIf: " + $attr.ngIf + " ",
                           )),
-                          (block = { clone: clone }),
+                          (block = {
+                              clone: clone 
+                          }),
                           $animate.enter(clone,
                               $element.parent(),
                               $element);
@@ -8532,7 +8679,9 @@
                                     src
                                         ? ($http
                                             .get(src,
-                                                { cache: $templateCache })
+                                                {
+                                                    cache: $templateCache 
+                                                })
                                             .success(function (response) {
                                                 if (thisChangeId === changeCounter) {
                                                     var newScope = scope.$new();
@@ -8589,8 +8738,10 @@
                 };
             },
         }),
-        ngNonBindableDirective = ngDirective({ terminal: !0,
-            priority: 1e3 }),
+        ngNonBindableDirective = ngDirective({
+            terminal: !0,
+            priority: 1e3 
+        }),
         ngPluralizeDirective = [
             "$locale",
             "$interpolate",
@@ -8602,8 +8753,10 @@
                         var numberExp = attr.count,
                             whenExp = attr.$attr.when && element.attr(attr.$attr.when),
                             offset = attr.offset || 0,
-                            whens = scope.$eval(whenExp) || {},
-                            whensExpFns = {},
+                            whens = scope.$eval(whenExp) || {
+                            },
+                            whensExpFns = {
+                            },
                             startSymbol = $interpolate.startSymbol(),
                             endSymbol = $interpolate.endSymbol(),
                             isWhen = /^when(Minus)?(.+)$/;
@@ -8670,7 +8823,9 @@
                             match = expression.match(
                                 /^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?$/,
                             ),
-                            hashFnLocals = { $id: hashKey };
+                            hashFnLocals = {
+                                $id: hashKey 
+                            };
                         if (!match)
                             throw ngRepeatMinErr(
                                 "iexp",
@@ -8708,7 +8863,8 @@
                             );
                         (valueIdentifier = match[3] || match[1]),
                         (keyIdentifier = match[2]);
-                        var lastBlockMap = {};
+                        var lastBlockMap = {
+                        };
                         $scope.$watchCollection(rhs,
                             function (collection) {
                                 var index,
@@ -8724,7 +8880,8 @@
                                     block,
                                     elementsToRemove,
                                     previousNode = $element[0],
-                                    nextBlockMap = {},
+                                    nextBlockMap = {
+                                    },
                                     nextBlockOrder = [];
                                 if (isArrayLike(collection))
                                     (collectionKeys = collection),
@@ -8779,7 +8936,9 @@
                                                     trackById,
                                                 ))
                                             );
-                                        (nextBlockOrder[index] = { id: trackById }),
+                                        (nextBlockOrder[index] = {
+                                            id: trackById 
+                                        }),
                                         (nextBlockMap[trackById] = !1);
                                     }
                                 for (key in lastBlockMap)
@@ -8912,7 +9071,8 @@
                     controller: [
                         "$scope",
                         function () {
-                            this.cases = {};
+                            this.cases = {
+                            };
                         },
                     ],
                     link: function (scope, element, attr, ngSwitchController) {
@@ -8974,8 +9134,10 @@
             require: "^ngSwitch",
             link: function (scope, element, attr, ctrl, $transclude) {
                 (ctrl.cases["?"] = ctrl.cases["?"] || []),
-                ctrl.cases["?"].push({ transclude: $transclude,
-                    element: element });
+                ctrl.cases["?"].push({
+                    transclude: $transclude,
+                    element: element 
+                });
             },
         }),
         ngTranscludeDirective = ngDirective({
@@ -9016,13 +9178,17 @@
             },
         ],
         ngOptionsMinErr = minErr("ngOptions"),
-        ngOptionsDirective = valueFn({ terminal: !0 }),
+        ngOptionsDirective = valueFn({
+            terminal: !0 
+        }),
         selectDirective = [
             "$compile",
             "$parse",
             function ($compile, $parse) {
                 var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
-                    nullModelCtrl = { $setViewValue: noop };
+                    nullModelCtrl = {
+                        $setViewValue: noop 
+                    };
                 return {
                     restrict: "E",
                     require: ["select", "?ngModel"],
@@ -9033,7 +9199,8 @@
                         function ($element, $scope, $attrs) {
                             var unknownOption,
                                 self = this,
-                                optionsMap = {},
+                                optionsMap = {
+                                },
                                 ngModelCtrl = nullModelCtrl;
                             (self.databound = $attrs.ngModel),
                             (self.init = function (
@@ -9138,8 +9305,10 @@
                                         valuesFn = $parse(match[7]),
                                         trackFn = match[8] ? $parse(match[8]) : null,
                                         optionGroupsCache = [
-                                            [{ element: selectElement,
-                                                label: "" }],
+                                            [{
+                                                element: selectElement,
+                                                label: "" 
+                                            }],
                                         ];
                                     nullOption &&
                       ($compile(nullOption)(scope),
@@ -9161,12 +9330,15 @@
                                             lastElement,
                                             element,
                                             label,
-                                            optionGroups = { "": [] },
+                                            optionGroups = {
+                                                "": [] 
+                                            },
                                             optionGroupNames = [""],
                                             modelValue = ctrl.$modelValue,
                                             values = valuesFn(scope) || [],
                                             keys = keyName ? sortedKeys(values) : values,
-                                            locals = {},
+                                            locals = {
+                                            },
                                             selectedSet = !1;
                                         if (multiple)
                                             if (trackFn && isArray(modelValue)) {
@@ -9210,7 +9382,8 @@
                                                 );
                                             else {
                                                 if (trackFn) {
-                                                    var modelCast = {};
+                                                    var modelCast = {
+                                                    };
                                                     (modelCast[valueName] = modelValue),
                                                     (selected =
                                 trackFn(scope,
@@ -9341,7 +9514,8 @@
                                                     groupLength,
                                                     trackIndex,
                                                     collection = valuesFn(scope) || [],
-                                                    locals = {};
+                                                    locals = {
+                                                    };
                                                 if (multiple) {
                                                     for (
                                                         value = [],
@@ -9472,8 +9646,10 @@
         optionDirective = [
             "$interpolate",
             function ($interpolate) {
-                var nullSelectCtrl = { addOption: noop,
-                    removeOption: noop };
+                var nullSelectCtrl = {
+                    addOption: noop,
+                    removeOption: noop 
+                };
                 return {
                     restrict: "E",
                     priority: 100,
@@ -9511,8 +9687,10 @@
                 };
             },
         ],
-        styleDirective = valueFn({ restrict: "E",
-            terminal: !0 });
+        styleDirective = valueFn({
+            restrict: "E",
+            terminal: !0 
+        });
     (jQuery = window.jQuery)
         ? ((jqLite = jQuery),
         extend(jQuery.fn,
@@ -9564,7 +9742,9 @@
                 isDate: isDate,
                 lowercase: lowercase,
                 uppercase: uppercase,
-                callbacks: { counter: 0 },
+                callbacks: {
+                    counter: 0 
+                },
                 $$minErr: minErr,
                 $$csp: csp,
             }),
@@ -9582,7 +9762,8 @@
                 ensure(angular,
                     "module",
                     function () {
-                        var modules = {};
+                        var modules = {
+                        };
                         return function (name, requires, configFn) {
                             return (
                                 (function (name, context) {
@@ -9674,7 +9855,9 @@
             [
                 "$provide",
                 function ($provide) {
-                    $provide.provider({ $$sanitizeUri: $$SanitizeUriProvider }),
+                    $provide.provider({
+                        $$sanitizeUri: $$SanitizeUriProvider 
+                    }),
                     $provide
                         .provider("$compile",
                             $CompileProvider)
@@ -9717,7 +9900,9 @@
                             ngRequired: requiredDirective,
                             ngValue: ngValueDirective,
                         })
-                        .directive({ ngInclude: ngIncludeFillContentDirective })
+                        .directive({
+                            ngInclude: ngIncludeFillContentDirective 
+                        })
                         .directive(ngAttributeAliasDirectives)
                         .directive(ngEventDirectives),
                     $provide.provider({

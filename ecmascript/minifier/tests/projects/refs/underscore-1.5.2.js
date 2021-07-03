@@ -1,7 +1,8 @@
 (function () {
     var root = this,
         previousUnderscore = root._,
-        breaker = {},
+        breaker = {
+        },
         ArrayProto = Array.prototype,
         ObjProto = Object.prototype,
         FuncProto = Function.prototype,
@@ -272,8 +273,10 @@
             return Math.max.apply(Math,
                 obj);
         if (!iterator && _.isEmpty(obj)) return -1 / 0;
-        var result = { computed: -1 / 0,
-            value: -1 / 0 };
+        var result = {
+            computed: -1 / 0,
+            value: -1 / 0 
+        };
         return (
             each(obj,
                 function (value, index, list) {
@@ -284,8 +287,10 @@
                             list)
                         : value;
                     computed > result.computed &&
-            (result = { value: value,
-                computed: computed });
+            (result = {
+                value: value,
+                computed: computed 
+            });
                 }),
             result.value
         );
@@ -300,8 +305,10 @@
             return Math.min.apply(Math,
                 obj);
         if (!iterator && _.isEmpty(obj)) return 1 / 0;
-        var result = { computed: 1 / 0,
-            value: 1 / 0 };
+        var result = {
+            computed: 1 / 0,
+            value: 1 / 0 
+        };
         return (
             each(obj,
                 function (value, index, list) {
@@ -312,8 +319,10 @@
                             list)
                         : value;
                     computed < result.computed &&
-            (result = { value: value,
-                computed: computed });
+            (result = {
+                value: value,
+                computed: computed 
+            });
                 }),
             result.value
         );
@@ -373,7 +382,8 @@
     };
     var group = function (behavior) {
         return function (obj, value, context) {
-            var result = {},
+            var result = {
+                },
                 iterator = null == value ? _.identity : lookupIterator(value);
             return (
                 each(obj,
@@ -561,8 +571,10 @@
         return results;
     }),
     (_.object = function (list, values) {
-        if (null == list) return {};
-        for (var result = {}, i = 0, length = list.length; i < length; i++)
+        if (null == list) return {
+        };
+        for (var result = {
+            }, i = 0, length = list.length; i < length; i++)
             values
                 ? (result[list[i]] = values[i])
                 : (result[list[i][0]] = list[i][1]);
@@ -662,7 +674,8 @@
         );
     }),
     (_.memoize = function (func, hasher) {
-        var memo = {};
+        var memo = {
+        };
         return (
             hasher || (hasher = _.identity),
             function () {
@@ -696,7 +709,8 @@
             result,
             timeout = null,
             previous = 0;
-        options || (options = {});
+        options || (options = {
+        });
         var later = function () {
             (previous = !1 === options.leading ? 0 : new Date()),
             (timeout = null),
@@ -817,7 +831,8 @@
     }),
     (_.invert = function (obj) {
         for (
-            var result = {}, keys = _.keys(obj), i = 0, length = keys.length;
+            var result = {
+                }, keys = _.keys(obj), i = 0, length = keys.length;
             i < length;
             i++
         )
@@ -840,7 +855,8 @@
         );
     }),
     (_.pick = function (obj) {
-        var copy = {},
+        var copy = {
+            },
             keys = concat.apply(ArrayProto,
                 slice.call(arguments,
                     1));
@@ -853,7 +869,8 @@
         );
     }),
     (_.omit = function (obj) {
-        var copy = {},
+        var copy = {
+            },
             keys = concat.apply(ArrayProto,
                 slice.call(arguments,
                     1));
@@ -877,8 +894,9 @@
         return _.isObject(obj)
             ? _.isArray(obj)
                 ? obj.slice()
-                : _.extend({},
-                    obj)
+                : _.extend({
+                },
+                obj)
             : obj;
     }),
     (_.tap = function (obj, interceptor) {
@@ -1103,9 +1121,10 @@
         escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
     (_.template = function (text, data, settings) {
         var render;
-        settings = _.defaults({},
-            settings,
-            _.templateSettings);
+        settings = _.defaults({
+        },
+        settings,
+        _.templateSettings);
         var matcher = new RegExp(
                 [
                     (settings.escape || noMatch).source,

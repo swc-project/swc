@@ -1,7 +1,8 @@
 (function () {
     var root = this,
         previousUnderscore = root._,
-        breaker = {},
+        breaker = {
+        },
         ArrayProto = Array.prototype,
         ObjProto = Object.prototype,
         FuncProto = Function.prototype,
@@ -376,7 +377,8 @@
     };
     var group = function (behavior) {
         return function (obj, value, context) {
-            var result = {};
+            var result = {
+            };
             return (
                 each(obj,
                     function (value1, index) {
@@ -563,8 +565,10 @@
         return results;
     }),
     (_.object = function (list, values) {
-        if (null == list) return {};
-        for (var result = {}, i = 0, length = list.length; length > i; i++)
+        if (null == list) return {
+        };
+        for (var result = {
+            }, i = 0, length = list.length; length > i; i++)
             values
                 ? (result[list[i]] = values[i])
                 : (result[list[i][0]] = list[i][1]);
@@ -664,7 +668,8 @@
         );
     }),
     (_.memoize = function (func, hasher) {
-        var memo = {};
+        var memo = {
+        };
         return (
             hasher || (hasher = _.identity),
             function () {
@@ -699,7 +704,8 @@
             timeout = null,
             previous = 0;
         return (
-            options || (options = {}),
+            options || (options = {
+            }),
             function () {
                 var now = new Date();
                 previous || options.leading !== !1 || (previous = now);
@@ -821,7 +827,8 @@
     }),
     (_.invert = function (obj) {
         for (
-            var result = {}, keys = _.keys(obj), i = 0, length = keys.length;
+            var result = {
+                }, keys = _.keys(obj), i = 0, length = keys.length;
             length > i;
             i++
         )
@@ -844,7 +851,8 @@
         );
     }),
     (_.pick = function (obj) {
-        var copy = {},
+        var copy = {
+            },
             keys = concat.apply(ArrayProto,
                 slice.call(arguments,
                     1));
@@ -857,7 +865,8 @@
         );
     }),
     (_.omit = function (obj) {
-        var copy = {},
+        var copy = {
+            },
             keys = concat.apply(ArrayProto,
                 slice.call(arguments,
                     1));
@@ -882,8 +891,9 @@
             ? obj
             : _.isArray(obj)
                 ? obj.slice()
-                : _.extend({},
-                    obj);
+                : _.extend({
+                },
+                obj);
     }),
     (_.tap = function (obj, interceptor) {
         return interceptor(obj), obj;
@@ -1102,9 +1112,10 @@
         escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
     (_.template = function (text, data, settings) {
         var render;
-        settings = _.defaults({},
-            settings,
-            _.templateSettings);
+        settings = _.defaults({
+        },
+        settings,
+        _.templateSettings);
         var matcher = new RegExp(
                 [
                     (settings.escape || noMatch).source,

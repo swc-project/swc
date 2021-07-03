@@ -27,6 +27,10 @@
         "function-call-argument-newline": [
             "error",
             "always"
+        ],
+        "object-curly-newline": [
+            "error",
+            "always"
         ]
     }
 }

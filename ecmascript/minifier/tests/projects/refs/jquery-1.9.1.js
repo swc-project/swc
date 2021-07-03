@@ -18,7 +18,8 @@
         location = window.location,
         _jQuery = window.jQuery,
         _$ = window.$,
-        class2type = {},
+        class2type = {
+        },
         core_deletedIds = [],
         core_concat = core_deletedIds.concat,
         core_push = core_deletedIds.push,
@@ -202,16 +203,19 @@
             name,
             options,
             clone,
-            target = arguments[0] || {},
+            target = arguments[0] || {
+            },
             i = 1,
             length = arguments.length,
             deep = !1;
         for (
             "boolean" == typeof target &&
-          ((deep = target), (target = arguments[1] || {}), (i = 2)),
+          ((deep = target), (target = arguments[1] || {
+          }), (i = 2)),
             "object" == typeof target ||
             jQuery.isFunction(target) ||
-            (target = {}),
+            (target = {
+            }),
             length === i && ((target = this), --i);
             i < length;
             i++
@@ -227,7 +231,10 @@
                     ? (copyIsArray
                         ? ((copyIsArray = !1),
                         (clone = src && jQuery.isArray(src) ? src : []))
-                        : (clone = src && jQuery.isPlainObject(src) ? src : {}),
+                        : (clone = src && jQuery.isPlainObject(src)
+                            ? src
+                            : {
+                            }),
                     (target[name] = jQuery.extend(deep,
                         clone,
                         copy)))
@@ -607,13 +614,15 @@
         },
     ),
     (rootjQuery = jQuery(document));
-    var optionsCache = {};
+    var optionsCache = {
+    };
     (jQuery.Callbacks = function (options) {
         options =
       "string" == typeof options
           ? optionsCache[options] ||
           (function (options) {
-              var object = (optionsCache[options] = {});
+              var object = (optionsCache[options] = {
+              });
               return (
                   jQuery.each(
                       options.match(core_rnotwhite) || [],
@@ -624,8 +633,9 @@
                   object
               );
           })(options)
-          : jQuery.extend({},
-              options);
+          : jQuery.extend({
+          },
+          options);
         var firing,
             memory,
             fired,
@@ -790,7 +800,8 @@
                             : promise;
                     },
                 },
-                deferred = {};
+                deferred = {
+                };
             return (
                 (promise.pipe = promise.then),
                 jQuery.each(tuples,
@@ -895,7 +906,8 @@
             (a = div.getElementsByTagName("a")[0]),
             !all || !a || !all.length)
         )
-            return {};
+            return {
+            };
         (opt = (select = document.createElement("select")).appendChild(
             document.createElement("option"),
         )),
@@ -958,9 +970,11 @@
                 support.noCloneEvent = !1;
             }),
         div.cloneNode(!0).click()),
-        { submit: !0,
+        {
+            submit: !0,
             change: !0,
-            focusin: !0 }))
+            focusin: !0 
+        }))
             div.setAttribute((eventName = "on" + i),
                 "t"),
             (support[i + "Bubbles"] =
@@ -996,11 +1010,14 @@
             window.getComputedStyle &&
               ((support.pixelPosition =
                 "1%" !== (window.getComputedStyle(div,
-                    null) || {}).top),
+                    null) || {
+                }).top),
               (support.boxSizingReliable =
                 "4px" ===
                 (window.getComputedStyle(div,
-                    null) || { width: "4px" }).width),
+                    null) || {
+                    width: "4px" 
+                }).width),
               ((marginDiv = div.appendChild(
                   document.createElement("div"),
               )).style.cssText = div.style.cssText = divReset),
@@ -1008,7 +1025,8 @@
               (div.style.width = "1px"),
               (support.reliableMarginRight = !parseFloat(
                   (window.getComputedStyle(marginDiv,
-                      null) || {}).marginRight,
+                      null) || {
+                  }).marginRight,
               ))),
             void 0 !== div.style.zoom &&
               ((div.innerHTML = ""),
@@ -1050,7 +1068,8 @@
                   core_deletedIds.pop() || jQuery.guid++)
                 : (id = internalKey)),
                     cache[id] ||
-            ((cache[id] = {}), isNode || (cache[id].toJSON = jQuery.noop)),
+            ((cache[id] = {
+            }), isNode || (cache[id].toJSON = jQuery.noop)),
                     ("object" != typeof name && "function" != typeof name) ||
             (pvt
                 ? (cache[id] = jQuery.extend(cache[id],
@@ -1059,7 +1078,8 @@
                     name))),
                     (thisCache = cache[id]),
                     pvt ||
-            (thisCache.data || (thisCache.data = {}),
+            (thisCache.data || (thisCache.data = {
+            }),
             (thisCache = thisCache.data)),
                     undefined !== data && (thisCache[jQuery.camelCase(name)] = data),
                     getByName
@@ -1141,7 +1161,8 @@
         return !0;
     }
     jQuery.extend({
-        cache: {},
+        cache: {
+        },
         expando: "jQuery" + ("1.9.1" + Math.random()).replace(/\D/g,
             ""),
         noData: {
@@ -1942,7 +1963,8 @@
         return !1;
     }
     (jQuery.event = {
-        global: {},
+        global: {
+        },
         add: function (elem, types, handler, data, selector) {
             var tmp,
                 events,
@@ -1962,7 +1984,8 @@
             ((handler = (handleObjIn = handler).handler),
             (selector = handleObjIn.selector)),
                     handler.guid || (handler.guid = jQuery.guid++),
-                    (events = elemData.events) || (events = elemData.events = {}),
+                    (events = elemData.events) || (events = elemData.events = {
+                    }),
                     (eventHandle = elemData.handle) ||
               ((eventHandle = elemData.handle = function (e) {
                   return void 0 === jQuery ||
@@ -1977,10 +2000,12 @@
                 )
                     (type = origType = (tmp = rtypenamespace.exec(types[t]) || [])[1]),
                     (namespaces = (tmp[2] || "").split(".").sort()),
-                    (special = jQuery.event.special[type] || {}),
+                    (special = jQuery.event.special[type] || {
+                    }),
                     (type =
               (selector ? special.delegateType : special.bindType) || type),
-                    (special = jQuery.event.special[type] || {}),
+                    (special = jQuery.event.special[type] || {
+                    }),
                     (handleObj = jQuery.extend(
                         {
                             type: type,
@@ -2049,7 +2074,8 @@
                         type)
                     ) {
                         for (
-                            special = jQuery.event.special[type] || {},
+                            special = jQuery.event.special[type] || {
+                            },
                             handlers =
                   events[
                       (type =
@@ -2145,7 +2171,8 @@
               ? [event]
               : jQuery.makeArray(data,
                   [event])),
-          (special = jQuery.event.special[type] || {}),
+          (special = jQuery.event.special[type] || {
+          }),
           onlyHandlers ||
             !special.trigger ||
             !1 !== special.trigger.apply(elem,
@@ -2166,7 +2193,8 @@
                     (event.type = i > 1 ? bubbleType : special.bindType || type),
                     (handle =
               (jQuery._data(cur,
-                  "events") || {})[event.type] &&
+                  "events") || {
+              })[event.type] &&
               jQuery._data(cur,
                   "handle")) && handle.apply(cur,
                         data),
@@ -2210,8 +2238,10 @@
                 handlerQueue = [],
                 args = core_slice.call(arguments),
                 handlers = (jQuery._data(this,
-                    "events") || {})[event.type] || [],
-                special = jQuery.event.special[event.type] || {};
+                    "events") || {
+                })[event.type] || [],
+                special = jQuery.event.special[event.type] || {
+                };
             if (
                 ((args[0] = event),
                 (event.delegateTarget = this),
@@ -2238,7 +2268,8 @@
               (event.data = handleObj.data),
               undefined !==
                 (ret = (
-                    (jQuery.event.special[handleObj.origType] || {}).handle ||
+                    (jQuery.event.special[handleObj.origType] || {
+                    }).handle ||
                   handleObj.handler
                 ).apply(matched.elem,
                     args)) &&
@@ -2281,8 +2312,10 @@
                         [cur]).length),
                             matches[sel] && matches.push(handleObj);
                         matches.length &&
-              handlerQueue.push({ elem: cur,
-                  handlers: matches });
+              handlerQueue.push({
+                  elem: cur,
+                  handlers: matches 
+              });
                     }
             return (
                 delegateCount < handlers.length &&
@@ -2307,7 +2340,8 @@
               ? this.mouseHooks
               : rkeyEvent.test(type)
                   ? this.keyHooks
-                  : {}),
+                  : {
+                  }),
                 copy = fixHook.props ? this.props.concat(fixHook.props) : this.props,
                 event = new jQuery.Event(originalEvent),
                 i = copy.length;
@@ -2328,7 +2362,8 @@
         props: "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(
             " ",
         ),
-        fixHooks: {},
+        fixHooks: {
+        },
         keyHooks: {
             props: "char charCode key keyCode".split(" "),
             filter: function (event, original) {
@@ -2377,7 +2412,9 @@
             },
         },
         special: {
-            load: { noBubble: !0 },
+            load: {
+                noBubble: !0 
+            },
             click: {
                 trigger: function () {
                     if (
@@ -2418,7 +2455,8 @@
                 {
                     type: type,
                     isSimulated: !0,
-                    originalEvent: {},
+                    originalEvent: {
+                    },
                 });
             bubble
                 ? jQuery.event.trigger(e,
@@ -2482,8 +2520,10 @@
         },
     }),
     jQuery.each(
-        { mouseenter: "mouseover",
-            mouseleave: "mouseout" },
+        {
+            mouseenter: "mouseover",
+            mouseleave: "mouseout" 
+        },
         function (orig, fix) {
             jQuery.event.special[orig] = {
                 delegateType: fix,
@@ -2625,8 +2665,10 @@
           },
       }),
     jQuery.support.focusinBubbles ||
-      jQuery.each({ focus: "focusin",
-          blur: "focusout" },
+      jQuery.each({
+          focus: "focusin",
+          blur: "focusout" 
+      },
       function (orig, fix) {
           var attaches = 0,
               handler = function (event) {
@@ -2796,7 +2838,8 @@
             sortOrder,
             expando = "sizzle" + -new Date(),
             preferredDoc = window.document,
-            support = {},
+            support = {
+            },
             dirruns = 0,
             done = 0,
             classCache = createCache(),
@@ -3190,7 +3233,8 @@
                   "#" === div.firstChild.getAttribute("href")
                     );
                 })
-                    ? {}
+                    ? {
+                    }
                     : {
                         href: function (elem) {
                             return elem.getAttribute("href",
@@ -3485,14 +3529,23 @@
             cacheLength: 50,
             createPseudo: markFunction,
             match: matchExpr,
-            find: {},
+            find: {
+            },
             relative: {
-                ">": { dir: "parentNode",
-                    first: !0 },
-                " ": { dir: "parentNode" },
-                "+": { dir: "previousSibling",
-                    first: !0 },
-                "~": { dir: "previousSibling" },
+                ">": {
+                    dir: "parentNode",
+                    first: !0 
+                },
+                " ": {
+                    dir: "parentNode" 
+                },
+                "+": {
+                    dir: "previousSibling",
+                    first: !0 
+                },
+                "~": {
+                    dir: "previousSibling" 
+                },
             },
             preFilter: {
                 ATTR: function (match) {
@@ -3655,7 +3708,8 @@
                                         nodeIndex =
                           (cache =
                             (outerCache =
-                              parent[expando] || (parent[expando] = {}))[
+                              parent[expando] || (parent[expando] = {
+                              }))[
                                 type
                             ] || [])[0] === dirruns && cache[1],
                                         diff = cache[0] === dirruns && cache[2],
@@ -3672,7 +3726,8 @@
                                         }
                                 } else if (
                                     useCache &&
-                      (cache = (elem[expando] || (elem[expando] = {}))[type]) &&
+                      (cache = (elem[expando] || (elem[expando] = {
+                      }))[type]) &&
                       cache[0] === dirruns
                                 )
                                     diff = cache[1];
@@ -3688,7 +3743,8 @@
                             : 1 !== node.nodeType) ||
                           !++diff ||
                           (useCache &&
-                            ((node[expando] || (node[expando] = {}))[type] = [
+                            ((node[expando] || (node[expando] = {
+                            }))[type] = [
                                 dirruns,
                                 diff,
                             ]),
@@ -3909,14 +3965,18 @@
                 }),
             },
         }),
-        { radio: !0,
+        {
+            radio: !0,
             checkbox: !0,
             file: !0,
             password: !0,
-            image: !0 }))
+            image: !0 
+        }))
             Expr.pseudos[i] = createInputPseudo(i);
-        for (i in { submit: !0,
-            reset: !0 })
+        for (i in {
+            submit: !0,
+            reset: !0 
+        })
             Expr.pseudos[i] = createButtonPseudo(i);
         function tokenize(selector, parseOnly) {
             var matched,
@@ -3939,17 +3999,21 @@
                 (matched = !1),
                 (match = rcombinators.exec(soFar)) &&
             ((matched = match.shift()),
-            tokens.push({ value: matched,
+            tokens.push({
+                value: matched,
                 type: match[0].replace(rtrim,
-                    " ") }),
+                    " ") 
+            }),
             (soFar = soFar.slice(matched.length))),
                 Expr.filter))
                     !(match = matchExpr[type].exec(soFar)) ||
               (preFilters[type] && !(match = preFilters[type](match))) ||
               ((matched = match.shift()),
-              tokens.push({ value: matched,
+              tokens.push({
+                  value: matched,
                   type: type,
-                  matches: match }),
+                  matches: match 
+              }),
               (soFar = soFar.slice(matched.length)));
                 if (!matched) break;
             }
@@ -3996,7 +4060,8 @@
                             if (1 === elem.nodeType || checkNonElements)
                                 if (
                                     (cache = (outerCache =
-                        elem[expando] || (elem[expando] = {}))[dir]) &&
+                        elem[expando] || (elem[expando] = {
+                        }))[dir]) &&
                       cache[0] === dirkey
                                 ) {
                                     if (!0 === (data = cache[1]) || data === cachedruns)
@@ -4325,10 +4390,12 @@
         rparentsprev = /^(?:parents|prev(?:Until|All))/,
         isSimple = /^.[^:#\[\.,]*$/,
         rneedsContext = jQuery.expr.match.needsContext,
-        guaranteedUnique = { children: !0,
+        guaranteedUnique = {
+            children: !0,
             contents: !0,
             next: !0,
-            prev: !0 };
+            prev: !0 
+        };
     function sibling(cur, dir) {
         do {
             cur = cur[dir];
@@ -4536,8 +4603,9 @@
                     until);
             },
             siblings: function (elem) {
-                return jQuery.sibling((elem.parentNode || {}).firstChild,
-                    elem);
+                return jQuery.sibling((elem.parentNode || {
+                }).firstChild,
+                elem);
             },
             children: function (elem) {
                 return jQuery.sibling(elem.firstChild);
@@ -4660,13 +4728,15 @@
                     oldData),
                 events = oldData.events;
             if (events)
-                for (type in (delete curData.handle, (curData.events = {}), events))
+                for (type in (delete curData.handle, (curData.events = {
+                }), events))
                     for (i = 0, l = events[type].length; i < l; i++)
                         jQuery.event.add(dest,
                             type,
                             events[type][i]);
-            curData.data && (curData.data = jQuery.extend({},
-                curData.data));
+            curData.data && (curData.data = jQuery.extend({
+            },
+            curData.data));
         }
     }
     function fixCloneNodeIssues(src, dest) {
@@ -4892,7 +4962,8 @@
             return jQuery.access(
                 this,
                 function (value) {
-                    var elem = this[0] || {},
+                    var elem = this[0] || {
+                        },
                         i = 0,
                         l = this.length;
                     if (undefined === value)
@@ -4912,7 +4983,8 @@
                             "<$1></$2>");
                         try {
                             for (; i < l; i++)
-                                1 === (elem = this[i] || {}).nodeType &&
+                                1 === (elem = this[i] || {
+                                }).nodeType &&
                     (jQuery.cleanData(getAll(elem,
                         !1)),
                     (elem.innerHTML = value));
@@ -5277,12 +5349,18 @@
             "i"),
         rrelNum = new RegExp("^([+-])=(" + core_pnum + ")",
             "i"),
-        elemdisplay = { BODY: "block" },
-        cssShow = { position: "absolute",
+        elemdisplay = {
+            BODY: "block" 
+        },
+        cssShow = {
+            position: "absolute",
             visibility: "hidden",
-            display: "block" },
-        cssNormalTransform = { letterSpacing: 0,
-            fontWeight: 400 },
+            display: "block" 
+        },
+        cssNormalTransform = {
+            letterSpacing: 0,
+            fontWeight: 400 
+        },
         cssExpand = ["Top", "Right", "Bottom", "Left"],
         cssPrefixes = ["Webkit", "O", "Moz", "ms"];
     function vendorPropName(style, name) {
@@ -5471,7 +5549,8 @@
                 function (elem, name, value) {
                     var len,
                         styles,
-                        map = {},
+                        map = {
+                        },
                         i = 0;
                     if (jQuery.isArray(name)) {
                         for (styles = getStyles(elem), len = name.length; i < len; i++)
@@ -5532,7 +5611,9 @@
             zIndex: !0,
             zoom: !0,
         },
-        cssProps: { float: jQuery.support.cssFloat ? "cssFloat" : "styleFloat" },
+        cssProps: {
+            float: jQuery.support.cssFloat ? "cssFloat" : "styleFloat" 
+        },
         style: function (elem, name, value, extra) {
             if (elem && 3 !== elem.nodeType && 8 !== elem.nodeType && elem.style) {
                 var ret,
@@ -5612,7 +5693,8 @@
         swap: function (elem, options, callback, args) {
             var ret,
                 name,
-                old = {};
+                old = {
+                };
             for (name in options)
                 (old[name] = elem.style[name]), (elem.style[name] = options[name]);
             for (name in ((ret = callback.apply(elem,
@@ -5761,7 +5843,9 @@
             get: function (elem, computed) {
                 if (computed)
                     return jQuery.swap(elem,
-                        { display: "inline-block" },
+                        {
+                            display: "inline-block" 
+                        },
                         curCSS,
                         [
                             elem,
@@ -5803,15 +5887,18 @@
           return !jQuery.expr.filters.hidden(elem);
       })),
     jQuery.each(
-        { margin: "",
+        {
+            margin: "",
             padding: "",
-            border: "Width" },
+            border: "Width" 
+        },
         function (prefix, suffix) {
             (jQuery.cssHooks[prefix + suffix] = {
                 expand: function (value) {
                     for (
                         var i = 0,
-                            expanded = {},
+                            expanded = {
+                            },
                             parts = "string" == typeof value ? value.split(" ") : [value];
                         i < 4;
                         i++
@@ -5881,13 +5968,17 @@
                         : jQuery.isArray(val)
                             ? jQuery.map(val,
                                 function (val) {
-                                    return { name: elem.name,
+                                    return {
+                                        name: elem.name,
                                         value: val.replace(rCRLF,
-                                            "\r\n") };
+                                            "\r\n") 
+                                    };
                                 })
-                            : { name: elem.name,
+                            : {
+                                name: elem.name,
                                 value: val.replace(rCRLF,
-                                    "\r\n") };
+                                    "\r\n") 
+                            };
                 })
                 .get();
         },
@@ -5951,8 +6042,10 @@
         rprotocol = /^\/\//,
         rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
         _load = jQuery.fn.load,
-        prefilters = {},
-        transports = {},
+        prefilters = {
+        },
+        transports = {
+        },
         allTypes = "*/".concat("*");
     try {
         ajaxLocation = location.href;
@@ -5982,7 +6075,8 @@
         originalOptions,
         jqXHR,
     ) {
-        var inspected = {},
+        var inspected = {
+            },
             seekingTransport = structure === transports;
         function inspect(dataType) {
             var selected;
@@ -6015,10 +6109,14 @@
     function ajaxExtend(target, src) {
         var deep,
             key,
-            flatOptions = jQuery.ajaxSettings.flatOptions || {};
+            flatOptions = jQuery.ajaxSettings.flatOptions || {
+            };
         for (key in src)
             undefined !== src[key] &&
-        ((flatOptions[key] ? target : deep || (deep = {}))[key] = src[key]);
+        ((flatOptions[key]
+            ? target
+            : deep || (deep = {
+            }))[key] = src[key]);
         return deep && jQuery.extend(!0,
             target,
             deep), target;
@@ -6042,10 +6140,12 @@
                 : params && "object" == typeof params && (type = "POST"),
             self.length > 0 &&
           jQuery
-              .ajax({ url: url,
+              .ajax({
+                  url: url,
                   type: type,
                   dataType: "html",
-                  data: params })
+                  data: params 
+              })
               .done(function (responseText) {
                   (response = arguments),
                   self.html(
@@ -6102,8 +6202,10 @@
         }),
     jQuery.extend({
         active: 0,
-        lastModified: {},
-        etag: {},
+        lastModified: {
+        },
+        etag: {
+        },
         ajaxSettings: {
             url: ajaxLocation,
             type: "GET",
@@ -6121,19 +6223,25 @@
                 xml: "application/xml, text/xml",
                 json: "application/json, text/javascript",
             },
-            contents: { xml: /xml/,
+            contents: {
+                xml: /xml/,
                 html: /html/,
-                json: /json/ },
-            responseFields: { xml: "responseXML",
-                text: "responseText" },
+                json: /json/ 
+            },
+            responseFields: {
+                xml: "responseXML",
+                text: "responseText" 
+            },
             converters: {
                 "* text": window.String,
                 "text html": !0,
                 "text json": jQuery.parseJSON,
                 "text xml": jQuery.parseXML,
             },
-            flatOptions: { url: !0,
-                context: !0 },
+            flatOptions: {
+                url: !0,
+                context: !0 
+            },
         },
         ajaxSetup: function (target, settings) {
             return settings
@@ -6147,7 +6255,8 @@
         ajaxTransport: addToPrefiltersOrTransports(transports),
         ajax: function (url, options) {
             "object" == typeof url && ((options = url), (url = undefined)),
-            (options = options || {});
+            (options = options || {
+            });
             var parts,
                 i,
                 cacheURL,
@@ -6156,8 +6265,9 @@
                 fireGlobals,
                 transport,
                 responseHeaders,
-                s = jQuery.ajaxSetup({},
-                    options),
+                s = jQuery.ajaxSetup({
+                },
+                options),
                 callbackContext = s.context || s,
                 globalEventContext =
             s.context && (callbackContext.nodeType || callbackContext.jquery)
@@ -6165,9 +6275,12 @@
                 : jQuery.event,
                 deferred = jQuery.Deferred(),
                 completeDeferred = jQuery.Callbacks("once memory"),
-                statusCode = s.statusCode || {},
-                requestHeaders = {},
-                requestHeadersNames = {},
+                statusCode = s.statusCode || {
+                },
+                requestHeaders = {
+                },
+                requestHeadersNames = {
+                },
                 state = 0,
                 strAbort = "canceled",
                 jqXHR = {
@@ -6177,7 +6290,8 @@
                         if (2 === state) {
                             if (!responseHeaders)
                                 for (
-                                    responseHeaders = {};
+                                    responseHeaders = {
+                                    };
                                     (match = rheaders.exec(responseHeadersString));
 
                                 )
@@ -6305,9 +6419,11 @@
               s) || 2 === state)
             )
                 return jqXHR.abort();
-            for (i in ((strAbort = "abort"), { success: 1,
+            for (i in ((strAbort = "abort"), {
+                success: 1,
                 error: 1,
-                complete: 1 }))
+                complete: 1 
+            }))
                 jqXHR[i](s[i]);
             if (
                 (transport = inspectPrefiltersOrTransports(
@@ -6410,7 +6526,8 @@
                                 current,
                                 conv,
                                 tmp,
-                                converters = {},
+                                converters = {
+                                },
                                 i = 0,
                                 dataTypes = s.dataTypes.slice(),
                                 prev = dataTypes[0];
@@ -6463,8 +6580,10 @@
                                     }
                                     prev = current;
                                 }
-                            return { state: "success",
-                                data: response };
+                            return {
+                                state: "success",
+                                data: response 
+                            };
                         })(s,
                             response)).state),
                         (success = isSuccess.data),
@@ -6521,7 +6640,9 @@
             script:
           "text/javascript, application/javascript, application/ecmascript, application/x-ecmascript",
         },
-        contents: { script: /(?:java|ecma)script/ },
+        contents: {
+            script: /(?:java|ecma)script/ 
+        },
         converters: {
             "text script": function (text) {
                 return jQuery.globalEval(text), text;
@@ -6704,7 +6825,8 @@
                                   )
                                       4 !== xhr.readyState && xhr.abort();
                                   else {
-                                      (responses = {}),
+                                      (responses = {
+                                      }),
                                       (status = xhr.status),
                                       (responseHeaders = xhr.getAllResponseHeaders()),
                                       "string" == typeof xhr.responseText &&
@@ -6734,7 +6856,8 @@
                               : ((handle = ++xhrId),
                               xhrOnUnloadAbort &&
                         (xhrCallbacks ||
-                          ((xhrCallbacks = {}),
+                          ((xhrCallbacks = {
+                          }),
                           jQuery(window).unload(xhrOnUnloadAbort)),
                         (xhrCallbacks[handle] = callback)),
                               (xhr.onreadystatechange = callback))
@@ -6765,7 +6888,8 @@
                     oldfire,
                     anim = this,
                     style = elem.style,
-                    orig = {},
+                    orig = {
+                    },
                     handled = [],
                     hidden = elem.nodeType && isHidden(elem);
                 opts.queue ||
@@ -6820,7 +6944,8 @@
                   "fxshow") ||
               jQuery._data(elem,
                   "fxshow",
-                  {})) && (hidden = dataShow.hidden),
+                  {
+                  })) && (hidden = dataShow.hidden),
                     toggle && (dataShow.hidden = !hidden),
                     hidden
                         ? jQuery(elem).show()
@@ -6933,10 +7058,14 @@
             },
             animation = deferred.promise({
                 elem: elem,
-                props: jQuery.extend({},
-                    properties),
+                props: jQuery.extend({
+                },
+                properties),
                 opts: jQuery.extend(!0,
-                    { specialEasing: {} },
+                    {
+                        specialEasing: {
+                        } 
+                    },
                     options),
                 originalProperties: properties,
                 originalOptions: options,
@@ -7048,7 +7177,9 @@
     }
     function genFx(type, includeWidth) {
         var which,
-            attrs = { height: type },
+            attrs = {
+                height: type 
+            },
             i = 0;
         for (includeWidth = includeWidth ? 1 : 0; i < 4; i += 2 - includeWidth)
             attrs["margin" + (which = cssExpand[i])] = attrs[
@@ -7177,10 +7308,12 @@
                     0)
                 .show()
                 .end()
-                .animate({ opacity: to },
-                    speed,
-                    easing,
-                    callback);
+                .animate({
+                    opacity: to 
+                },
+                speed,
+                easing,
+                callback);
         },
         animate: function (prop, speed, easing, callback) {
             var empty = jQuery.isEmptyObject(prop),
@@ -7189,8 +7322,9 @@
                     callback),
                 doAnimation = function () {
                     var anim = Animation(this,
-                        jQuery.extend({},
-                            prop),
+                        jQuery.extend({
+                        },
+                        prop),
                         optall);
                     (doAnimation.finish = function () {
                         anim.stop(!0);
@@ -7282,9 +7416,15 @@
             slideDown: genFx("show"),
             slideUp: genFx("hide"),
             slideToggle: genFx("toggle"),
-            fadeIn: { opacity: "show" },
-            fadeOut: { opacity: "hide" },
-            fadeToggle: { opacity: "toggle" },
+            fadeIn: {
+                opacity: "show" 
+            },
+            fadeOut: {
+                opacity: "hide" 
+            },
+            fadeToggle: {
+                opacity: "toggle" 
+            },
         },
         function (name, props) {
             jQuery.fn[name] = function (speed, easing, callback) {
@@ -7298,8 +7438,9 @@
     (jQuery.speed = function (speed, easing, fn) {
         var opt =
         speed && "object" == typeof speed
-            ? jQuery.extend({},
-                speed)
+            ? jQuery.extend({
+            },
+            speed)
             : {
                 complete:
                 fn || (!fn && easing) || (jQuery.isFunction(speed) && speed),
@@ -7356,10 +7497,13 @@
     (jQuery.fx.stop = function () {
         clearInterval(timerId), (timerId = null);
     }),
-    (jQuery.fx.speeds = { slow: 600,
+    (jQuery.fx.speeds = {
+        slow: 600,
         fast: 200,
-        _default: 400 }),
-    (jQuery.fx.step = {}),
+        _default: 400 
+    }),
+    (jQuery.fx.step = {
+    }),
     jQuery.expr &&
       jQuery.expr.filters &&
       (jQuery.expr.filters.animated = function (elem) {
@@ -7379,8 +7523,10 @@
                 });
         var docElem,
             win,
-            box = { top: 0,
-                left: 0 },
+            box = {
+                top: 0,
+                left: 0 
+            },
             elem = this[0],
             doc = elem && elem.ownerDocument;
         return doc
@@ -7416,8 +7562,10 @@
                     "top"),
                 curCSSLeft = jQuery.css(elem,
                     "left"),
-                props = {},
-                curPosition = {};
+                props = {
+                },
+                curPosition = {
+                };
             ("absolute" === position || "fixed" === position) &&
         jQuery.inArray("auto",
             [curCSSTop, curCSSLeft]) > -1
@@ -7444,8 +7592,10 @@
             if (this[0]) {
                 var offsetParent,
                     offset,
-                    parentOffset = { top: 0,
-                        left: 0 },
+                    parentOffset = {
+                        top: 0,
+                        left: 0 
+                    },
                     elem = this[0];
                 return (
                     "fixed" === jQuery.css(elem,
@@ -7500,8 +7650,10 @@
         },
     }),
     jQuery.each(
-        { scrollLeft: "pageXOffset",
-            scrollTop: "pageYOffset" },
+        {
+            scrollLeft: "pageXOffset",
+            scrollTop: "pageYOffset" 
+        },
         function (method, prop) {
             var top = /Y/.test(prop);
             jQuery.fn[method] = function (val) {
@@ -7530,13 +7682,17 @@
             };
         },
     ),
-    jQuery.each({ Height: "height",
-        Width: "width" },
+    jQuery.each({
+        Height: "height",
+        Width: "width" 
+    },
     function (name, type) {
         jQuery.each(
-            { padding: "inner" + name,
+            {
+                padding: "inner" + name,
                 content: type,
-                "": "outer" + name },
+                "": "outer" + name 
+            },
             function (defaultExtra, funcName) {
                 jQuery.fn[funcName] = function (margin, value) {
                     var chainable =

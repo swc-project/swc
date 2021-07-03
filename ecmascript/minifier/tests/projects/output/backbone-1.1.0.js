@@ -6,7 +6,10 @@
     var slice = array.slice;
     array.splice;
     var Backbone;
-    (Backbone = "undefined" !== typeof exports ? exports : (root.Backbone = {})),
+    (Backbone = "undefined" !== typeof exports
+        ? exports
+        : (root.Backbone = {
+        })),
     (Backbone.VERSION = "1.1.0");
     var _ = root._;
     _ || "undefined" == typeof require || (_ = require("underscore")),
@@ -23,7 +26,8 @@
                     name,
                     [callback, context]) && callback
                     ? this
-                    : (this._events || (this._events = {}),
+                    : (this._events || (this._events = {
+                    }),
                     (this._events[name] || (this._events[name] = [])).push({
                         callback: callback,
                         context: context,
@@ -53,7 +57,8 @@
                     name,
                     [callback, context]))
                     return this;
-                if (!name && !callback && !context) return (this._events = {}), this;
+                if (!name && !callback && !context) return (this._events = {
+                }), this;
                 for (
                     names = name ? [name] : _.keys(this._events), i = 0, names.length;
                     i < names.length;
@@ -95,7 +100,8 @@
                 if (!listeningTo) return this;
                 var remove = !name && !callback;
                 !callback && "object" == typeof name && (callback = this),
-                obj && ((listeningTo = {})[obj._listenId] = obj);
+                obj && ((listeningTo = {
+                })[obj._listenId] = obj);
                 for (var id in listeningTo)
                     (obj = listeningTo[id]),
                     obj.off(name,
@@ -164,7 +170,8 @@
         },
         function (implementation, method) {
             Events[method] = function (obj, name, callback) {
-                var listeningTo = this._listeningTo || (this._listeningTo = {}),
+                var listeningTo = this._listeningTo || (this._listeningTo = {
+                    }),
                     id = obj._listenId || (obj._listenId = _.uniqueId("l"));
                 return (
                     (listeningTo[id] = obj),
@@ -182,20 +189,26 @@
     _.extend(Backbone,
         Events);
     var Model = (Backbone.Model = function (attributes, options) {
-        var attrs = attributes || {};
-        options || (options = {}),
+        var attrs = attributes || {
+        };
+        options || (options = {
+        }),
         (this.cid = _.uniqueId("c")),
-        (this.attributes = {}),
+        (this.attributes = {
+        }),
         options.collection && (this.collection = options.collection),
         options.parse && (attrs = this.parse(attrs,
-            options) || {}),
-        (attrs = _.defaults({},
-            attrs,
-            _.result(this,
-                "defaults"))),
+            options) || {
+        }),
+        (attrs = _.defaults({
+        },
+        attrs,
+        _.result(this,
+            "defaults"))),
         this.set(attrs,
             options),
-        (this.changed = {}),
+        (this.changed = {
+        }),
         this.initialize.apply(this,
             arguments);
     });
@@ -228,8 +241,10 @@
                 if (
                     ("object" == typeof key
                         ? ((attrs = key), (options = val))
-                        : ((attrs = {})[key] = val),
-                    options || (options = {}),
+                        : ((attrs = {
+                        })[key] = val),
+                    options || (options = {
+                    }),
                     !this._validate(attrs,
                         options))
                 )
@@ -239,7 +254,8 @@
                 (this._changing = !0),
                 this._changing ||
           ((this._previousAttributes = _.clone(this.attributes)),
-          (this.changed = {})),
+          (this.changed = {
+          })),
                 this.attributes,
                 this._previousAttributes,
                 this.idAttribute in attrs && (this.id = attrs[this.idAttribute]);
@@ -276,23 +292,26 @@
                 return this.set(
                     attr,
                     void 0,
-                    _.extend({},
-                        options,
-                        {
-                            unset: !0,
-                        }),
+                    _.extend({
+                    },
+                    options,
+                    {
+                        unset: !0,
+                    }),
                 );
             },
             clear: function (options) {
-                var attrs = {};
+                var attrs = {
+                };
                 for (var key in this.attributes) attrs[key] = void 0;
                 return this.set(
                     attrs,
-                    _.extend({},
-                        options,
-                        {
-                            unset: !0,
-                        }),
+                    _.extend({
+                    },
+                    options,
+                    {
+                        unset: !0,
+                    }),
                 );
             },
             hasChanged: function (attr) {
@@ -313,7 +332,8 @@
                         )
                     )
                         continue;
-                    (changed || (changed = {}))[attr] = val;
+                    (changed || (changed = {
+                    }))[attr] = val;
                 }
                 return changed;
             },
@@ -326,7 +346,10 @@
                 return _.clone(this._previousAttributes);
             },
             fetch: function (options) {
-                (options = options ? _.clone(options) : {}),
+                (options = options
+                    ? _.clone(options)
+                    : {
+                    }),
                 options.parse === void 0 && (options.parse = !0);
                 var model = this,
                     success = options.success;
@@ -358,7 +381,8 @@
                 if (
                     (null == key || "object" == typeof key
                         ? ((attrs = key), (options = val))
-                        : ((attrs = {})[key] = val),
+                        : ((attrs = {
+                        })[key] = val),
                     (options = _.extend(
                         {
                             validate: !0,
@@ -373,9 +397,10 @@
                     options)) return !1;
                 attrs &&
         options.wait &&
-        (this.attributes = _.extend({},
-            attributes,
-            attrs)),
+        (this.attributes = _.extend({
+        },
+        attributes,
+        attrs)),
                 options.parse === void 0 && (options.parse = !0);
                 var model = this,
                     success = options.success;
@@ -385,8 +410,9 @@
                         var serverAttrs = model.parse(resp,
                             options);
                         if (
-                            (options.wait && (serverAttrs = _.extend(attrs || {},
-                                serverAttrs)),
+                            (options.wait && (serverAttrs = _.extend(attrs || {
+                            },
+                            serverAttrs)),
                             _.isObject(serverAttrs) && !model.set(serverAttrs,
                                 options))
                         )
@@ -411,7 +437,10 @@
                 );
             },
             destroy: function (options) {
-                options = options ? _.clone(options) : {};
+                options = options
+                    ? _.clone(options)
+                    : {
+                    };
                 var model = this,
                     success = options.success,
                     destroy = function () {
@@ -465,18 +494,21 @@
             },
             isValid: function (options) {
                 return this._validate(
-                    {},
-                    _.extend(options || {},
-                        {
-                            validate: !0,
-                        }),
+                    {
+                    },
+                    _.extend(options || {
+                    },
+                    {
+                        validate: !0,
+                    }),
                 );
             },
             _validate: function (attrs, options) {
                 if (!options.validate || !this.validate) return !0;
-                attrs = _.extend({},
-                    this.attributes,
-                    attrs);
+                attrs = _.extend({
+                },
+                this.attributes,
+                attrs);
                 var error = (this.validationError =
         this.validate(attrs,
             options) || null);
@@ -505,7 +537,8 @@
         },
     );
     var Collection = (Backbone.Collection = function (models, options) {
-        options || (options = {}),
+        options || (options = {
+        }),
         options.model && (this.model = options.model),
         options.comparator !== void 0 && (this.comparator = options.comparator),
         this._reset(),
@@ -554,7 +587,8 @@
             remove: function (models, options) {
                 var singular = !_.isArray(models);
                 (models = singular ? [models] : _.clone(models)),
-                options || (options = {});
+                options || (options = {
+                });
                 var i, index, model;
                 for (i = 0; i < models.length; i++) {
                     if (((model = models[i] = this.get(models[i])), !model)) continue;
@@ -575,13 +609,14 @@
                 return singular ? models[0] : models;
             },
             set: function (models, options) {
-                (options = _.defaults({},
-                    options,
-                    {
-                        add: !0,
-                        remove: !0,
-                        merge: !0,
-                    })),
+                (options = _.defaults({
+                },
+                options,
+                {
+                    add: !0,
+                    remove: !0,
+                    merge: !0,
+                })),
                 options.parse && (models = this.parse(models,
                     options));
                 var singular = !_.isArray(models);
@@ -598,7 +633,8 @@
                     sortAttr = _.isString(this.comparator) ? this.comparator : null,
                     toAdd = [],
                     toRemove = [],
-                    modelMap = {},
+                    modelMap = {
+                    },
                     add = options.add,
                     merge = options.merge,
                     remove = options.remove,
@@ -680,7 +716,8 @@
                 return singular ? models[0] : models;
             },
             reset: function (models, options) {
-                options || (options = {});
+                options || (options = {
+                });
                 for (var i = 0, l = this.models.length; l > i; i++)
                     this._removeReference(this.models[i]);
                 return (
@@ -763,7 +800,8 @@
                 if (!this.comparator)
                     throw new Error("Cannot sort a set without a comparator");
                 return (
-                    options || (options = {}),
+                    options || (options = {
+                    }),
                     _.isString(this.comparator) || this.comparator.length === 1
                         ? (this.models = this.sortBy(this.comparator,
                             this))
@@ -781,7 +819,10 @@
                     attr);
             },
             fetch: function (options) {
-                (options = options ? _.clone(options) : {}),
+                (options = options
+                    ? _.clone(options)
+                    : {
+                    }),
                 options.parse === void 0 && (options.parse = !0);
                 var success = options.success,
                     collection = this;
@@ -806,7 +847,10 @@
             },
             create: function (model, options) {
                 if (
-                    ((options = options ? _.clone(options) : {}),
+                    ((options = options
+                        ? _.clone(options)
+                        : {
+                        }),
                     !(model = this._prepareModel(model,
                         options)))
                 )
@@ -834,12 +878,16 @@
                 return new this.constructor(this.models);
             },
             _reset: function () {
-                (this.length = 0), (this.models = []), (this._byId = {});
+                (this.length = 0), (this.models = []), (this._byId = {
+                });
             },
             _prepareModel: function (attrs, options) {
                 if (attrs instanceof Model)
                     return attrs.collection || (attrs.collection = this), attrs;
-                (options = options ? _.clone(options) : {}), (options.collection = this);
+                (options = options
+                    ? _.clone(options)
+                    : {
+                    }), (options.collection = this);
                 var model = new this.model(attrs,
                     options);
                 return !model.validationError
@@ -934,7 +982,8 @@
         });
     var View = (Backbone.View = function (options) {
             (this.cid = _.uniqueId("view")),
-            options || (options = {}),
+            options || (options = {
+            }),
             _.extend(this,
                 _.pick(options,
                     viewOptions)),
@@ -1006,9 +1055,10 @@
             },
             _ensureElement: function () {
                 if (!this.el) {
-                    var attrs = _.extend({},
-                        _.result(this,
-                            "attributes"));
+                    var attrs = _.extend({
+                    },
+                    _.result(this,
+                        "attributes"));
                     this.id && (attrs.id = _.result(this,
                         "id")),
                     this.className && (attrs.class = _.result(this,
@@ -1024,11 +1074,12 @@
         }),
     (Backbone.sync = function (method, model, options) {
         var type = methodMap[method];
-        _.defaults(options || (options = {}),
-            {
-                emulateHTTP: Backbone.emulateHTTP,
-                emulateJSON: Backbone.emulateJSON,
-            });
+        _.defaults(options || (options = {
+        }),
+        {
+            emulateHTTP: Backbone.emulateHTTP,
+            emulateJSON: Backbone.emulateJSON,
+        });
         var params = {
             type: type,
             dataType: "json",
@@ -1049,7 +1100,8 @@
               ? {
                   model: params.data,
               }
-              : {})),
+              : {
+              })),
             options.emulateHTTP &&
           ("PUT" === type || "DELETE" === type || "PATCH" === type))
         ) {
@@ -1094,7 +1146,8 @@
             arguments);
     };
     var Router = (Backbone.Router = function (options) {
-            options || (options = {}),
+            options || (options = {
+            }),
             options.routes && (this.routes = options.routes),
             this._bindRoutes(),
             this.initialize.apply(this,
@@ -1271,7 +1324,8 @@
             ((this.fragment = this.getHash().replace(routeStripper,
                 "")),
             this.history.replaceState(
-                {},
+                {
+                },
                 document.title,
                 this.root + this.fragment + loc.search,
             ));
@@ -1334,7 +1388,8 @@
                     this._hasPushState)
                 )
                     this.history[options.replace ? "replaceState" : "pushState"](
-                        {},
+                        {
+                        },
                         document.title,
                         url,
                     );
