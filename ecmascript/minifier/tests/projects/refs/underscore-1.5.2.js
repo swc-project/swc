@@ -275,7 +275,7 @@
         if (!iterator && _.isEmpty(obj)) return -1 / 0;
         var result = {
             computed: -1 / 0,
-            value: -1 / 0 
+            value: -1 / 0, 
         };
         return (
             each(obj,
@@ -289,7 +289,7 @@
                     computed > result.computed &&
             (result = {
                 value: value,
-                computed: computed 
+                computed: computed, 
             });
                 }),
             result.value
@@ -307,7 +307,7 @@
         if (!iterator && _.isEmpty(obj)) return 1 / 0;
         var result = {
             computed: 1 / 0,
-            value: 1 / 0 
+            value: 1 / 0, 
         };
         return (
             each(obj,
@@ -321,7 +321,7 @@
                     computed < result.computed &&
             (result = {
                 value: value,
-                computed: computed 
+                computed: computed, 
             });
                 }),
             result.value
@@ -700,7 +700,7 @@
     }),
     (_.defer = function (func) {
         return _.delay.apply(_,
-            [func, 1].concat(slice.call(arguments,
+            [func, 1,].concat(slice.call(arguments,
                 1)));
     }),
     (_.throttle = function (func, wait, options) {
@@ -775,7 +775,7 @@
     }),
     (_.wrap = function (func, wrapper) {
         return function () {
-            var args = [func];
+            var args = [func,];
             return push.apply(args,
                 arguments), wrapper.apply(this,
                 args);
@@ -786,7 +786,7 @@
         return function () {
             for (var args = arguments, i = funcs.length - 1; i >= 0; i--)
                 args = [funcs[i].apply(this,
-                    args)];
+                    args),];
             return args[0];
         };
     }),
@@ -826,7 +826,7 @@
             i < length;
             i++
         )
-            pairs[i] = [keys[i], obj[keys[i]]];
+            pairs[i] = [keys[i], obj[keys[i]],];
         return pairs;
     }),
     (_.invert = function (obj) {
@@ -994,7 +994,7 @@
         return obj === Object(obj);
     }),
     each(
-        ["Arguments", "Function", "String", "Number", "Date", "RegExp"],
+        ["Arguments", "Function", "String", "Number", "Date", "RegExp",],
         function (name) {
             _["is" + name] = function (obj) {
                 return toString.call(obj) == "[object " + name + "]";
@@ -1066,7 +1066,7 @@
         unescape: new RegExp("(" + _.keys(entityMap.unescape).join("|") + ")",
             "g"),
     };
-    _.each(["escape", "unescape"],
+    _.each(["escape", "unescape",],
         function (method) {
             _[method] = function (string) {
                 return null == string
@@ -1088,7 +1088,7 @@
             function (name) {
                 var func = (_[name] = obj[name]);
                 _.prototype[name] = function () {
-                    var args = [this._wrapped];
+                    var args = [this._wrapped,];
                     return (
                         push.apply(args,
                             arguments), result.call(this,
@@ -1191,7 +1191,7 @@
     };
     _.mixin(_),
     each(
-        ["pop", "push", "reverse", "shift", "sort", "splice", "unshift"],
+        ["pop", "push", "reverse", "shift", "sort", "splice", "unshift",],
         function (name) {
             var method = ArrayProto[name];
             _.prototype[name] = function () {
@@ -1208,7 +1208,7 @@
             };
         },
     ),
-    each(["concat", "join", "slice"],
+    each(["concat", "join", "slice",],
         function (name) {
             var method = ArrayProto[name];
             _.prototype[name] = function () {

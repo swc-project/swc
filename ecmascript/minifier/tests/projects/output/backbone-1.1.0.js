@@ -24,7 +24,7 @@
                 return eventsApi(this,
                     "on",
                     name,
-                    [callback, context]) && callback
+                    [callback, context,]) && callback
                     ? this
                     : (this._events || (this._events = {
                     }),
@@ -39,7 +39,7 @@
                 if (!eventsApi(this,
                     "once",
                     name,
-                    [callback, context]) || !callback)
+                    [callback, context,]) || !callback)
                     return this;
                 var once = _.once(function () {
                     this.off(name,
@@ -55,12 +55,12 @@
                 if (!this._events || !eventsApi(this,
                     "off",
                     name,
-                    [callback, context]))
+                    [callback, context,]))
                     return this;
                 if (!name && !callback && !context) return (this._events = {
                 }), this;
                 for (
-                    names = name ? [name] : _.keys(this._events), i = 0, names.length;
+                    names = name ? [name,] : _.keys(this._events), i = 0, names.length;
                     i < names.length;
                     i++
                 )
@@ -117,7 +117,7 @@
             if ("object" == typeof name) {
                 for (var key in name)
                     obj[action].apply(obj,
-                        [key, name[key]].concat(rest));
+                        [key, name[key],].concat(rest));
                 return !1;
             }
             if (eventSplitter.test(name)) {
@@ -127,7 +127,7 @@
                     i++
                 )
                     obj[action].apply(obj,
-                        [names[i]].concat(rest));
+                        [names[i],].concat(rest));
                 return !1;
             }
             return !0;
@@ -527,7 +527,7 @@
             },
         }),
     _.each(
-        ["keys", "values", "pairs", "invert", "pick", "omit"],
+        ["keys", "values", "pairs", "invert", "pick", "omit",],
         function (method) {
             Model.prototype[method] = function () {
                 var args = slice.call(arguments);
@@ -586,7 +586,7 @@
             },
             remove: function (models, options) {
                 var singular = !_.isArray(models);
-                (models = singular ? [models] : _.clone(models)),
+                (models = singular ? [models,] : _.clone(models)),
                 options || (options = {
                 });
                 var i, index, model;
@@ -620,7 +620,7 @@
                 options.parse && (models = this.parse(models,
                     options));
                 var singular = !_.isArray(models);
-                models = singular ? (models ? [models] : []) : _.clone(models);
+                models = singular ? (models ? [models,] : []) : _.clone(models);
                 var i,
                     l,
                     id,
@@ -967,7 +967,7 @@
             };
         },
     ),
-    _.each(["groupBy", "countBy", "sortBy"],
+    _.each(["groupBy", "countBy", "sortBy",],
         function (method) {
             Collection.prototype[method] = function (value, context) {
                 var iterator = _.isFunction(value)
@@ -1174,7 +1174,7 @@
                             callback && callback.apply(router,
                                 args),
                             router.trigger.apply(router,
-                                ["route:" + name].concat(args)),
+                                ["route:" + name,].concat(args)),
                             router.trigger("route",
                                 name,
                                 args),

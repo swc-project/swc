@@ -31,7 +31,7 @@
         Function = this.Function,
         enumerables = !0;
     for (var i in {
-        toString: 1 
+        toString: 1, 
     }) enumerables = null;
     enumerables &&
     (enumerables = [
@@ -72,7 +72,7 @@
                     ? (args = a)
                     : arguments.length > 1
                         ? (args = arguments)
-                        : usePlural && (args = [a]),
+                        : usePlural && (args = [a,]),
                 args)
             ) {
                 result = {
@@ -106,7 +106,7 @@
                 ? "array" == typeOf(item)
                     ? item
                     : slice.call(item)
-                : [item];
+                : [item,];
     }),
     (Number.from = function (item) {
         var number = parseFloat(item);
@@ -281,7 +281,7 @@
             "toPrecision",
         ])("Function",
         Function,
-        ["apply", "call", "bind"])("RegExp",
+        ["apply", "call", "bind",])("RegExp",
         RegExp,
         [
             "exec",
@@ -304,7 +304,7 @@
             "isFrozen",
         ])("Date",
         Date,
-        ["now"]),
+        ["now",]),
     (Object.extend = extend.overloadSetter()),
     Date.extend("now",
         function () {
@@ -405,7 +405,7 @@
             return original;
         },
     }),
-    ["Object", "WhiteSpace", "TextNode", "Collection", "Arguments"].each(
+    ["Object", "WhiteSpace", "TextNode", "Collection", "Arguments",].each(
         function (name) {
             new Type(name);
         },
@@ -811,7 +811,7 @@ Number.alias("each",
         Number[name] ||
         (methods[name] = function () {
             return Math[name].apply(null,
-                [this].concat(Array.from(arguments)));
+                [this,].concat(Array.from(arguments)));
         });
     }),
     Number.implement(methods);
@@ -893,7 +893,7 @@ Function.implement({
                 ? Array.from(args)
                 : Array.slice(arguments,
                     options.event ? 1 : 0)),
-                options.event && (args = [event || window.event].extend(args));
+                options.event && (args = [event || window.event,].extend(args));
                 var returns = function () {
                     return self.apply(options.bind || null,
                         args);
@@ -927,7 +927,7 @@ Function.implement({
             function (event) {
                 return self.apply(
                     bind,
-                    null == args ? arguments : [event].concat(args),
+                    null == args ? arguments : [event,].concat(args),
                 );
             }
         );
@@ -1156,7 +1156,7 @@ Hash.implement({
 (Hash.extend = Object.append),
 Hash.alias({
     indexOf: "keyOf",
-    contains: "hasValue" 
+    contains: "hasValue", 
 }),
 (function () {
     var XMLHTTP,
@@ -1168,7 +1168,7 @@ Hash.alias({
         platform = navigator.platform.toLowerCase(),
         UA = ua.match(
             /(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/,
-        ) || [null, "unknown", 0],
+        ) || [null, "unknown", 0,],
         mode = "ie" == UA[1] && document.documentMode,
         Browser = (this.Browser = {
             extend: Function.prototype.extend,
@@ -1178,7 +1178,7 @@ Hash.alias({
                 name: ua.match(/ip(?:ad|od|hone)/)
                     ? "ios"
                     : (ua.match(/(?:webos|android)/) ||
-                platform.match(/mac|win|linux/) || ["other"])[0],
+                platform.match(/mac|win|linux/) || ["other",])[0],
             },
             Features: {
                 xpath: !!document.evaluate,
@@ -1496,11 +1496,11 @@ Hash.alias({
                         var touch = touches[0];
                         (this.page = {
                             x: touch.pageX,
-                            y: touch.pageY 
+                            y: touch.pageY, 
                         }),
                         (this.client = {
                             x: touch.clientX,
-                            y: touch.clientY 
+                            y: touch.clientY, 
                         });
                     }
                 }
@@ -1555,7 +1555,7 @@ var Event = DOMEvent;
             function (params) {
                 instanceOf(params,
                     Function) && (params = {
-                    initialize: params 
+                    initialize: params, 
                 });
                 var newClass = function () {
                     if ((reset(this), newClass.$prototyping)) return this;
@@ -1629,7 +1629,7 @@ var Event = DOMEvent;
                         }.extend({
                             $owner: self,
                             $origin: method,
-                            $name: key 
+                            $name: key, 
                         });
                         return wrapper;
                     })(this,
@@ -1749,7 +1749,7 @@ var Event = DOMEvent;
             var options = (this.options = Object.merge.apply(
                 null,
                 [{
-                }, this.options].append(arguments),
+                }, this.options,].append(arguments),
             ));
             if (this.addEvent)
                 for (var option in options)
@@ -2501,21 +2501,21 @@ function () {
             "n" == special
                 ? {
                     a: a,
-                    b: b 
+                    b: b, 
                 }
                 : "odd" == special
                     ? {
                         a: 2,
-                        b: 1 
+                        b: 1, 
                     }
                     : "even" == special
                         ? {
                             a: 2,
-                            b: 0 
+                            b: 0, 
                         }
                         : {
                             a: 0,
-                            b: a 
+                            b: a, 
                         }),
             (this.cacheNTH[argument] = parsed)
         );
@@ -2686,7 +2686,7 @@ function () {
                     ) {
                         if (!(children = node.all[id])) return;
                         for (
-                            children[0] || (children = [children]), i = 0;
+                            children[0] || (children = [children,]), i = 0;
                             (item = children[i++]);
 
                         ) {
@@ -3221,7 +3221,7 @@ var IFrame = new Type("IFrame",
             }
     });
 (Elements.prototype = {
-    length: 0 
+    length: 0, 
 }),
 (Elements.parent = Array),
 new Type("Elements",
@@ -3287,7 +3287,7 @@ Elements.alias("extend",
         object = {
             0: 0,
             1: 1,
-            length: 2 
+            length: 2, 
         };
     splice.call(object,
         1,
@@ -3417,7 +3417,7 @@ Elements.alias("extend",
             return this;
         },
     }),
-    [Document, Element].invoke("implement",
+    [Document, Element,].invoke("implement",
         {
             getElements: function (expression) {
                 return Slick.search(this,
@@ -3488,7 +3488,7 @@ Elements.alias("extend",
         {
             getNext: "~",
             getPrevious: "!~",
-            getParent: "!" 
+            getParent: "!", 
         },
         function (combinator, method) {
             Element.implement(method,
@@ -3963,7 +3963,7 @@ Elements.alias("extend",
         formProps = {
             input: "checked",
             option: "selected",
-            textarea: "value" 
+            textarea: "value", 
         };
     Element.implement({
         destroy: function () {
@@ -3981,8 +3981,8 @@ Elements.alias("extend",
             contents = !1 !== contents;
             var i,
                 clone = this.cloneNode(contents),
-                ce = [clone],
-                te = [this];
+                ce = [clone,],
+                te = [this,];
             for (
                 contents &&
             (ce.append(Array.from(clone.getElementsByTagName("*"))),
@@ -4018,7 +4018,7 @@ Elements.alias("extend",
             return document.id(clone);
         },
     }),
-    [Element, Window, Document].invoke("implement",
+    [Element, Window, Document,].invoke("implement",
         {
             addListener: function (type, fn) {
                 if ("unload" == type) {
@@ -4135,14 +4135,14 @@ Elements.alias("extend",
         (Element.Properties.html.set =
           ((set = Element.Properties.html.set),
           ((translations = {
-              table: [1, "<table>", "</table>"],
-              select: [1, "<select>", "</select>"],
-              tbody: [2, "<table><tbody>", "</tbody></table>"],
-              tr: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
+              table: [1, "<table>", "</table>",],
+              select: [1, "<select>", "</select>",],
+              tbody: [2, "<table><tbody>", "</tbody></table>",],
+              tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
           }).thead = translations.tfoot = translations.tbody),
           function (html) {
               var wrap = translations[this.get("tag")];
-              if ((wrap || supportsHTML5Elements || (wrap = [0, "", ""]), !wrap))
+              if ((wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap))
                   return set.call(this,
                       html);
               var level = wrap[0],
@@ -4150,7 +4150,7 @@ Elements.alias("extend",
                   target = wrapper;
               for (
                   supportsHTML5Elements || fragment.appendChild(wrapper),
-                  wrapper.innerHTML = [wrap[1], html, wrap[2]].flatten().join("");
+                  wrapper.innerHTML = [wrap[1], html, wrap[2],].flatten().join("");
                   level--;
 
               )
@@ -4349,8 +4349,8 @@ Elements.alias("extend",
                     var size = 0;
                     return (
                         ("width" == property
-                            ? ["left", "right"]
-                            : ["top", "bottom"]
+                            ? ["left", "right",]
+                            : ["top", "bottom",]
                         ).each(function (value) {
                             size +=
                   this.getStyle("border-" + value + "-width").toInt() +
@@ -4450,10 +4450,10 @@ Elements.alias("extend",
         borderColor: {
         },
     }),
-    ["Top", "Right", "Bottom", "Left"].each(function (direction) {
+    ["Top", "Right", "Bottom", "Left",].each(function (direction) {
         var Short = Element.ShortStyles,
             All = Element.Styles;
-        ["margin", "padding"].each(function (style) {
+        ["margin", "padding",].each(function (style) {
             var sd = style + direction;
             Short[style][sd] = All[sd] = "@px";
         });
@@ -4476,7 +4476,7 @@ Elements.alias("extend",
                 this.addEvents(events);
             },
         }),
-        [Element, Window, Document].invoke("implement",
+        [Element, Window, Document,].invoke("implement",
             {
                 addEvent: function (type, fn) {
                     var events = this.retrieve("events",
@@ -4485,7 +4485,7 @@ Elements.alias("extend",
                     if (
                         (events[type] || (events[type] = {
                             keys: [],
-                            values: [] 
+                            values: [], 
                         }),
                         events[type].keys.contains(fn))
                     )
@@ -4660,7 +4660,7 @@ Elements.alias("extend",
         }),
         (Element.Events = {
             mousewheel: {
-                base: Browser.firefox ? "DOMMouseScroll" : "mousewheel" 
+                base: Browser.firefox ? "DOMMouseScroll" : "mousewheel", 
             },
         }),
         "onmouseenter" in document.documentElement)
@@ -4680,11 +4680,11 @@ Elements.alias("extend",
         };
         (Element.Events.mouseenter = {
             base: "mouseover",
-            condition: check 
+            condition: check, 
         }),
         (Element.Events.mouseleave = {
             base: "mouseout",
-            condition: check 
+            condition: check, 
         });
     }
     window.addEventListener ||
@@ -4720,10 +4720,10 @@ Elements.alias("extend",
         },
         map = {
             mouseenter: {
-                base: "mouseover" 
+                base: "mouseover", 
             },
             mouseleave: {
-                base: "mouseout" 
+                base: "mouseout", 
             },
             focus: {
                 base: "focus" + (eventListenerSupport ? "" : "in"),
@@ -4731,7 +4731,7 @@ Elements.alias("extend",
             },
             blur: {
                 base: eventListenerSupport ? "blur" : "focusout",
-                capture: !0 
+                capture: !0, 
             },
         },
         _key = "$delegation:",
@@ -4758,7 +4758,7 @@ Elements.alias("extend",
                                 }),
                             listener = listeners[uid] || {
                                 forms: [],
-                                fns: [] 
+                                fns: [], 
                             },
                             forms = listener.forms,
                             fns = listener.fns;
@@ -4903,7 +4903,7 @@ Elements.alias("extend",
                     (stored[uid] = {
                         match: _match,
                         fn: _fn,
-                        delegator: delegator 
+                        delegator: delegator, 
                     }),
                     (storage[_type] = stored),
                     addEvent.call(this,
@@ -4957,7 +4957,7 @@ Elements.alias("extend",
                 return this;
             },
         };
-    [Element, Window, Document].invoke("implement",
+    [Element, Window, Document,].invoke("implement",
         {
             addEvent: relay(addEvent,
                 delegation.addEvent),
@@ -4993,7 +4993,7 @@ Elements.alias("extend",
                 ? this.getWindow().getSize()
                 : {
                     x: this.offsetWidth,
-                    y: this.offsetHeight 
+                    y: this.offsetHeight, 
                 };
         },
         getScrollSize: function () {
@@ -5001,7 +5001,7 @@ Elements.alias("extend",
                 ? this.getWindow().getScrollSize()
                 : {
                     x: this.scrollWidth,
-                    y: this.scrollHeight 
+                    y: this.scrollHeight, 
                 };
         },
         getScroll: function () {
@@ -5009,14 +5009,14 @@ Elements.alias("extend",
                 ? this.getWindow().getScroll()
                 : {
                     x: this.scrollLeft,
-                    y: this.scrollTop 
+                    y: this.scrollTop, 
                 };
         },
         getScrolls: function () {
             for (
                 var element = this.parentNode, position = {
                     x: 0,
-                    y: 0 
+                    y: 0, 
                 };
                 element && !isBody(element);
 
@@ -5077,7 +5077,7 @@ Elements.alias("extend",
             var element = this,
                 position = {
                     x: 0,
-                    y: 0 
+                    y: 0, 
                 };
             if (isBody(this)) return position;
             for (; element && !isBody(element); ) {
@@ -5114,7 +5114,7 @@ Elements.alias("extend",
                 scroll = this.getScrolls(),
                 position = {
                     x: offset.x - scroll.x,
-                    y: offset.y - scroll.y 
+                    y: offset.y - scroll.y, 
                 };
             if (relative && (relative = document.id(relative))) {
                 var relativePosition = relative.getPosition();
@@ -5153,13 +5153,13 @@ Elements.alias("extend",
             return this.setStyles(this.computePosition(obj));
         },
     }),
-    [Document, Window].invoke("implement",
+    [Document, Window,].invoke("implement",
         {
             getSize: function () {
                 var doc = getCompatElement(this);
                 return {
                     x: doc.clientWidth,
-                    y: doc.clientHeight 
+                    y: doc.clientHeight, 
                 };
             },
             getScroll: function () {
@@ -5186,7 +5186,7 @@ Elements.alias("extend",
             getPosition: function () {
                 return {
                     x: 0,
-                    y: 0 
+                    y: 0, 
                 };
             },
             getCoordinates: function () {
@@ -5229,9 +5229,9 @@ Elements.alias("extend",
     }
 })(),
 Element.alias({
-    position: "setPosition" 
+    position: "setPosition", 
 }),
-[Window, Document, Element].invoke("implement",
+[Window, Document, Element,].invoke("implement",
     {
         getHeight: function () {
             return this.getSize().y;
@@ -5260,7 +5260,7 @@ Element.alias({
     }),
 (function () {
     var Fx = (this.Fx = new Class({
-        Implements: [Chain, Events, Options],
+        Implements: [Chain, Events, Options,],
         options: {
             fps: 60,
             unit: !1,
@@ -5394,7 +5394,7 @@ Element.alias({
     (Fx.Durations = {
         short: 250,
         normal: 500,
-        long: 1e3 
+        long: 1e3, 
     });
     var instances = {
         },
@@ -5452,7 +5452,7 @@ Element.alias({
         }
         return {
             from: this.parse(from),
-            to: this.parse(to) 
+            to: this.parse(to), 
         };
     },
     parse: function (value) {
@@ -5470,13 +5470,13 @@ Element.alias({
                             (parsed || 0 === parsed) &&
                 (found = {
                     value: parsed,
-                    parser: parser 
+                    parser: parser, 
                 });
                         }
                     }),
                 (found = found || {
                     value: val,
-                    parser: Fx.CSS.Parsers.String 
+                    parser: Fx.CSS.Parsers.String, 
                 })
             );
         });
@@ -5639,7 +5639,7 @@ Element.alias({
             tween ||
           ((tween = new Fx.Tween(this,
               {
-                  link: "cancel" 
+                  link: "cancel", 
               })),
           this.store("tween",
               tween)),
@@ -5657,7 +5657,7 @@ Element.implement({
         var method,
             toggle,
             fade = this.get("tween"),
-            args = ["opacity"].append(arguments);
+            args = ["opacity",].append(arguments);
         switch ((null == args[1] && (args[1] = "toggle"), args[1])) {
         case "in":
             (method = "start"), (args[1] = 1);
@@ -5773,7 +5773,7 @@ Element.implement({
             morph ||
           ((morph = new Fx.Morph(this,
               {
-                  link: "cancel" 
+                  link: "cancel", 
               })),
           this.store("morph",
               morph)),
@@ -5874,7 +5874,7 @@ Fx.Transitions.extend({
         );
     },
 }),
-["Quad", "Cubic", "Quart", "Quint"].each(function (transition, i) {
+["Quad", "Cubic", "Quart", "Quint",].each(function (transition, i) {
     Fx.Transitions[transition] = new Fx.Transition(function (p) {
         return Math.pow(p,
             i + 2);
@@ -5884,7 +5884,7 @@ Fx.Transitions.extend({
     var empty = function () {},
         progressSupport = "onprogress" in new Browser.Request(),
         Request = (this.Request = new Class({
-            Implements: [Chain, Events, Options],
+            Implements: [Chain, Events, Options,],
             options: {
                 url: "",
                 data: "",
@@ -5969,11 +5969,11 @@ Fx.Transitions.extend({
             },
             loadstart: function (event) {
                 this.fireEvent("loadstart",
-                    [event, this.xhr]);
+                    [event, this.xhr,]);
             },
             progress: function (event) {
                 this.fireEvent("progress",
-                    [event, this.xhr]);
+                    [event, this.xhr,]);
             },
             timeout: function () {
                 this.fireEvent("timeout",
@@ -6007,14 +6007,14 @@ Fx.Transitions.extend({
                 var type = typeOf(options);
                 ("string" != type && "element" != type) ||
             (options = {
-                data: options 
+                data: options, 
             });
                 var old = this.options,
                     data = (options = Object.append(
                         {
                             data: old.data,
                             url: old.url,
-                            method: old.method 
+                            method: old.method, 
                         },
                         options,
                     )).data,
@@ -6032,11 +6032,11 @@ Fx.Transitions.extend({
                     var format = "format=" + this.options.format;
                     data = data ? format + "&" + data : format;
                 }
-                if (this.options.emulation && !["get", "post"].contains(method)) {
+                if (this.options.emulation && !["get", "post",].contains(method)) {
                     var _method = "_method=" + method;
                     (data = data ? _method + "&" + data : _method), (method = "post");
                 }
-                if (this.options.urlEncoded && ["post", "put"].contains(method)) {
+                if (this.options.urlEncoded && ["post", "put",].contains(method)) {
                     var encoding = this.options.encoding
                         ? "; charset=" + this.options.encoding
                         : "";
@@ -6078,7 +6078,7 @@ Fx.Transitions.extend({
                                     value);
                             } catch (e) {
                                 this.fireEvent("exception",
-                                    [key, value]);
+                                    [key, value,]);
                             }
                         },
                         this,
@@ -6110,11 +6110,11 @@ Fx.Transitions.extend({
         })),
         methods = {
         };
-    ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE"].each(
+    ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE",].each(
         function (method) {
             methods[method] = function (data) {
                 var object = {
-                    method: method 
+                    method: method, 
                 };
                 return null != data && (object.data = data), this.send(object);
             };
@@ -6147,7 +6147,7 @@ Fx.Transitions.extend({
             return (
                 sender.send({
                     data: this,
-                    url: url || sender.options.url 
+                    url: url || sender.options.url, 
                 }), this
             );
         },
@@ -6161,7 +6161,7 @@ Fx.Transitions.extend({
         evalScripts: !0,
         filter: !1,
         headers: {
-            Accept: "text/html, application/xml, text/xml, */*" 
+            Accept: "text/html, application/xml, text/xml, */*", 
         },
     },
     success: function (text) {
@@ -6227,7 +6227,7 @@ Element.implement({
                 Array.link(arguments,
                     {
                         data: Type.isObject,
-                        url: Type.isString 
+                        url: Type.isString, 
                     }),
             ),
             this
@@ -6238,7 +6238,7 @@ Element.implement({
 }),
 (JSON = new Hash({
     stringify: JSON.stringify,
-    parse: JSON.parse 
+    parse: JSON.parse, 
 })),
 (function () {
     var special = {
@@ -6315,7 +6315,7 @@ Element.implement({
 (Request.JSON = new Class({
     Extends: Request,
     options: {
-        secure: !0 
+        secure: !0, 
     },
     initialize: function (options) {
         this.parent(options),
@@ -6332,7 +6332,7 @@ Element.implement({
                 this.options.secure);
         } catch (error) {
             return void this.fireEvent("error",
-                [text, error]);
+                [text, error,]);
         }
         null == json
             ? this.onFailure()
@@ -6384,7 +6384,7 @@ var Cookie = new Class({
                 },
                 this.options,
                 {
-                    duration: -1 
+                    duration: -1, 
                 }),
             ).write(""),
             this
@@ -6509,7 +6509,7 @@ var Cookie = new Class({
                 properties = Object.append(
                     {
                         height: options.height,
-                        width: options.width 
+                        width: options.width, 
                     },
                     options.properties,
                 ),
@@ -6560,7 +6560,7 @@ var Cookie = new Class({
         },
         remote: function () {
             return Swiff.remote.apply(Swiff,
-                [this.toElement()].append(arguments));
+                [this.toElement(),].append(arguments));
         },
     }));
     (Swiff.CallBacks = {

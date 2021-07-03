@@ -10,7 +10,7 @@
  */
 !(function (root, doc, factory) {
     "function" == typeof define && define.amd
-        ? define(["jquery"],
+        ? define(["jquery",],
             function ($) {
                 return factory($,
                     root,
@@ -48,7 +48,7 @@
                     pushStateEnabled: !0,
                     ignoreContentEnabled: !1,
                     buttonMarkup: {
-                        hoverDelay: 200 
+                        hoverDelay: 200, 
                     },
                     dynamicBaseEnabled: !0,
                     pageContainer: $(),
@@ -313,9 +313,9 @@
                     },
                 }),
             $("<a>").outerWidth(1).jquery ||
-          $.each(["Width", "Height"],
+          $.each(["Width", "Height",],
               function (i, name) {
-                  var side = "Width" === name ? ["Left", "Right"] : ["Top", "Bottom"],
+                  var side = "Width" === name ? ["Left", "Right",] : ["Top", "Bottom",],
                       type = name.toLowerCase(),
                       orig = {
                           innerWidth: $.fn.innerWidth,
@@ -426,7 +426,7 @@
                         proto = $.ui[module].prototype;
                     for (i in set)
                         (proto.plugins[i] = proto.plugins[i] || []),
-                        proto.plugins[i].push([option, set[i]]);
+                        proto.plugins[i].push([option, set[i],]);
                 },
                 call: function (instance, name, args, allowDisconnected) {
                     var i,
@@ -461,7 +461,7 @@
                             $.mobile.document.trigger("silentscroll",
                                 {
                                     x: 0,
-                                    y: ypos 
+                                    y: ypos, 
                                 });
                         },
                         20),
@@ -666,7 +666,7 @@
                 return $.find(expr,
                     null,
                     null,
-                    [node]).length > 0;
+                    [node,]).length > 0;
             });
         })(jQuery,
             this),
@@ -833,7 +833,7 @@
                         (options =
                 !isMethodCall && args.length
                     ? $.widget.extend.apply(null,
-                        [options].concat(args))
+                        [options,].concat(args))
                     : options),
                         isMethodCall
                             ? this.each(function () {
@@ -893,7 +893,7 @@
                 defaultElement: "<div>",
                 options: {
                     disabled: !1,
-                    create: null 
+                    create: null, 
                 },
                 _createWidget: function (options, element) {
                     (element = $(element || this.defaultElement || this)[0]),
@@ -1022,12 +1022,12 @@
                 },
                 enable: function () {
                     return this._setOptions({
-                        disabled: !1 
+                        disabled: !1, 
                     });
                 },
                 disable: function () {
                     return this._setOptions({
-                        disabled: !0 
+                        disabled: !0, 
                     });
                 },
                 _on: function (suppressDisabledCheck, element, handlers) {
@@ -1134,7 +1134,7 @@
                             ($.isFunction(callback) &&
                   !1 ===
                     callback.apply(this.element[0],
-                        [event].concat(data))) ||
+                        [event,].concat(data))) ||
                 event.isDefaultPrevented()
                         )
                     );
@@ -1143,7 +1143,7 @@
             $.each(
                 {
                     show: "fadeIn",
-                    hide: "fadeOut" 
+                    hide: "fadeOut", 
                 },
                 function (method, defaultEffect) {
                     $.Widget.prototype["_" + method] = function (
@@ -1152,7 +1152,7 @@
                         callback,
                     ) {
                         "string" == typeof options && (options = {
-                            effect: options 
+                            effect: options, 
                         });
                         var hasOptions,
                             effectName = options
@@ -1163,7 +1163,7 @@
                         "number" == typeof (options = options || {
                         }) &&
                 (options = {
-                    duration: options 
+                    duration: options, 
                 }),
                         (hasOptions = !$.isEmptyObject(options)),
                         (options.complete = callback),
@@ -1220,7 +1220,7 @@
                         theme: "a",
                         textVisible: !1,
                         html: "",
-                        text: "loading" 
+                        text: "loading", 
                     },
                     defaultHtml:
           "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
@@ -1437,7 +1437,7 @@
                 docElem.removeChild(fakeBody),
                 {
                     matches: bool,
-                    media: q 
+                    media: q, 
                 }
             );
         })),
@@ -1447,7 +1447,7 @@
         })(jQuery),
         (function ($, undefined) {
             var support = {
-                touch: "ontouchend" in document 
+                touch: "ontouchend" in document, 
             };
             ($.mobile.support = $.mobile.support || {
             }),
@@ -1492,7 +1492,7 @@
                 omversion,
                 fakeBody = $("<body>").prependTo("html"),
                 fbCSS = fakeBody[0].style,
-                vendors = ["Webkit", "Moz", "O"],
+                vendors = ["Webkit", "Moz", "O",],
                 webos = "palmGetResource" in window,
                 operamini =
           window.operamini &&
@@ -1502,7 +1502,7 @@
             $.extend($.mobile,
                 {
                     browser: {
-                    } 
+                    }, 
                 }),
             ($.mobile.browser.oldIE = (function () {
                 var v = 3,
@@ -1602,7 +1602,7 @@
                 ? (href = base.attr("href"))
                 : (base = fauxEle = $("<base>",
                     {
-                        href: fauxBase 
+                        href: fauxBase, 
                     }).appendTo(
                     "head",
                 )),
@@ -1723,7 +1723,7 @@
                 setTimeout(function () {
                     $win.trigger(newEvent,
                         {
-                            state: state 
+                            state: state, 
                         });
                 },
                 0));
@@ -1738,7 +1738,7 @@
                 $win.trigger(newEvent,
                     {
                         state: event.hashchangeState || {
-                        } 
+                        }, 
                     }));
                 },
                 setup: function () {
@@ -2165,7 +2165,7 @@
                             (href = path.squash(url)),
                             (state = $.extend({
                                 hash: hash,
-                                url: href 
+                                url: href, 
                             },
                             data)),
                             window.history.replaceState(
@@ -2214,7 +2214,7 @@
                             {
                                 url: href,
                                 hash: hash,
-                                title: document.title 
+                                title: document.title, 
                             },
                             data,
                         )),
@@ -2295,7 +2295,7 @@
                                     history.add(hash,
                                         {
                                             hash: hash,
-                                            title: document.title 
+                                            title: document.title, 
                                         });
                                 },
                             });
@@ -2316,7 +2316,7 @@
             var loc = $.mobile.path.parseLocation();
             $.mobile.navigate.history.add(loc.href,
                 {
-                    hash: loc.hash 
+                    hash: loc.hash, 
                 });
         })(jQuery),
         (function ($, undefined) {
@@ -2324,11 +2324,11 @@
                     animation: {
                     },
                     transition: {
-                    } 
+                    }, 
                 },
                 testElement = document.createElement("a"),
-                vendorPrefixes = ["", "webkit-", "moz-", "o-"];
-            $.each(["animation", "transition"],
+                vendorPrefixes = ["", "webkit-", "moz-", "o-",];
+            $.each(["animation", "transition",],
                 function (i, test) {
                     var testName = 0 === i ? test + "-name" : test;
                     $.each(vendorPrefixes,
@@ -2818,7 +2818,7 @@
                                     "taphold",
                                     $.Event("taphold",
                                         {
-                                            target: origTarget 
+                                            target: origTarget, 
                                         }),
                                 );
                             },
@@ -2848,7 +2848,7 @@
                   ((x = event.pageX - winPageX), (y = event.pageY - winPageY)),
                         {
                             x: x,
-                            y: y 
+                            y: y, 
                         }
                     );
                 },
@@ -2859,7 +2859,7 @@
                         location = $.event.special.swipe.getLocation(data);
                     return {
                         time: new Date().getTime(),
-                        coords: [location.x, location.y],
+                        coords: [location.x, location.y,],
                         origin: $(event.target),
                     };
                 },
@@ -2870,7 +2870,7 @@
                         location = $.event.special.swipe.getLocation(data);
                     return {
                         time: new Date().getTime(),
-                        coords: [location.x, location.y],
+                        coords: [location.x, location.y,],
                     };
                 },
                 handleSwipe: function (start, stop, thisObject, origTarget) {
@@ -2922,7 +2922,7 @@
                     (events = $.data(this,
                         "mobile-events")) ||
               ((events = {
-                  length: 0 
+                  length: 0, 
               }), $.data(this,
                   "mobile-events",
                   events)),
@@ -3041,7 +3041,7 @@
                 event_name = "orientationchange",
                 portrait_map = {
                     0: !0,
-                    180: !0 
+                    180: !0, 
                 };
             function handler() {
                 var orientation = get_orientation();
@@ -3059,7 +3059,7 @@
             !initial_orientation_is_default)) &&
           (portrait_map = {
               "-90": !0,
-              90: !0 
+              90: !0, 
           })),
             ($.event.special.orientationchange = $.extend(
                 {
@@ -3283,14 +3283,14 @@
                         this.element
                             .closest(":mobile-pagecontainer")
                             .pagecontainer({
-                                theme: "none" 
+                                theme: "none", 
                             });
                     },
                     setContainerBackground: function (theme) {
                         this.element
                             .parent()
                             .pagecontainer({
-                                theme: theme || this.options.theme 
+                                theme: theme || this.options.theme, 
                             });
                     },
                     keepNativeSelector: function () {
@@ -3301,9 +3301,9 @@
                             newDefault =
                 keepNativeFactoryDefault === globalValue ? "" : globalValue,
                             oldDefault = "" === newDefault ? optionValue : "";
-                        return (keepNative ? [keepNative] : [])
-                            .concat(newDefault ? [newDefault] : [])
-                            .concat(oldDefault ? [oldDefault] : [])
+                        return (keepNative ? [keepNative,] : [])
+                            .concat(newDefault ? [newDefault,] : [])
+                            .concat(oldDefault ? [oldDefault,] : [])
                             .join(", ");
                     },
                 });
@@ -3312,7 +3312,7 @@
             $.widget("mobile.pagecontainer",
                 {
                     options: {
-                        theme: "a" 
+                        theme: "a", 
                     },
                     initSelector: !1,
                     _create: function () {
@@ -3324,10 +3324,10 @@
                             }),
                         this._on(this.window,
                             {
-                                navigate: "_filterNavigateEvents" 
+                                navigate: "_filterNavigateEvents", 
                             }),
                         this._on({
-                            pagechange: "_afterContentChange" 
+                            pagechange: "_afterContentChange", 
                         }),
                         this.window.one(
                             "navigate",
@@ -3358,7 +3358,7 @@
                             "scrollstop"),
                         this._on(this.window,
                             {
-                                scrollstop: "_delayedRecordScroll" 
+                                scrollstop: "_delayedRecordScroll", 
                             });
                     },
                     _recordScroll: function () {
@@ -3522,7 +3522,7 @@
                     },
                     _enhance: function (content, role) {
                         return content.page({
-                            role: role 
+                            role: role, 
                         });
                     },
                     _include: function (page, settings) {
@@ -3643,7 +3643,7 @@
                                 data),
                             {
                                 deprecatedEvent: deprecatedEvent,
-                                event: newEvent 
+                                event: newEvent, 
                             }
                         );
                     },
@@ -3820,14 +3820,14 @@
                   prefix + "hide",
                   {
                       nextPage: to,
-                      samePage: samePage 
+                      samePage: samePage, 
                   },
                   from,
               )),
                         this._triggerWithDeprecated(
                             prefix + "show",
                             {
-                                prevPage: from || $("") 
+                                prevPage: from || $(""), 
                             },
                             to,
                         );
@@ -3898,7 +3898,7 @@
                             $.extend(triggerData,
                                 {
                                     toPage: to,
-                                    options: settings 
+                                    options: settings, 
                                 }),
                             "string" === $.type(to)
                                 ? (triggerData.absUrl = $.mobile.path.makeUrlAbsolute(
@@ -3950,7 +3950,7 @@
                             cssTransitionDeferred,
                             beforeTransition;
                         if (isPageTransitioning)
-                            pageTransitionQueue.unshift([toPage, settings]);
+                            pageTransitionQueue.unshift([toPage, settings,]);
                         else if (
                             this._triggerPageBeforeChange(toPage,
                                 triggerData,
@@ -3994,12 +3994,12 @@
                                     void (
                                         settings.fromHashChange &&
                   $.mobile.navigate.history.direct({
-                      url: url 
+                      url: url, 
                   })
                                     )
                                 );
                             toPage.page({
-                                role: settings.role 
+                                role: settings.role, 
                             }),
                             settings.fromHashChange &&
                 (historyDir = "back" === settings.direction ? -1 : 1);
@@ -4897,7 +4897,7 @@
                                     .prependTo(dst)),
                                 this._on(btn,
                                     {
-                                        click: "close" 
+                                        click: "close", 
                                     })),
                         (this._headerCloseButton = btn);
                     },
@@ -5097,15 +5097,15 @@
               undefined === opts.collapsedIcon &&
               undefined === opts.expandedIcon) ||
               (anchor.removeClass(
-                  [iconposClass(currentOpts.iconpos)]
+                  [iconposClass(currentOpts.iconpos),]
                       .concat(
                           currentOpts.expandedIcon
-                              ? ["ui-icon-" + currentOpts.expandedIcon]
+                              ? ["ui-icon-" + currentOpts.expandedIcon,]
                               : [],
                       )
                       .concat(
                           currentOpts.collapsedIcon
-                              ? ["ui-icon-" + currentOpts.collapsedIcon]
+                              ? ["ui-icon-" + currentOpts.collapsedIcon,]
                               : [],
                       )
                       .join(" "),
@@ -5282,7 +5282,7 @@
                         initSelector:
               ":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')",
                         options: $.extend({
-                            enhanced: !1 
+                            enhanced: !1, 
                         },
                         $.mobile.collapsible.defaults),
                         _handleCollapsibleExpand: function (event) {
@@ -5303,7 +5303,7 @@
                                 opts = this.options;
                             $.extend(this,
                                 {
-                                    _classes: "" 
+                                    _classes: "", 
                                 }),
                             opts.enhanced ||
                   (elem.addClass(
@@ -5422,7 +5422,7 @@
                         letter,
                         $this = $(this),
                         o = $.extend({
-                            grid: null 
+                            grid: null, 
                         },
                         options),
                         $kids = $this.children(),
@@ -5431,7 +5431,7 @@
                             a: 2,
                             b: 3,
                             c: 4,
-                            d: 5 
+                            d: 5, 
                         },
                         grid = o.grid;
                     if (!grid)
@@ -5468,7 +5468,7 @@
                 {
                     options: {
                         iconpos: "top",
-                        grid: null 
+                        grid: null, 
                     },
                     _create: function () {
                         var $navbar = this.element,
@@ -5483,7 +5483,7 @@
                             .find("ul")
                             .jqmEnhanceable()
                             .grid({
-                                grid: this.options.grid 
+                                grid: this.options.grid, 
                             }),
                         $navbtns.each(function () {
                             var icon = $.mobile.getAttribute(this,
@@ -5807,7 +5807,7 @@
                 $.mobile.listview,
                 {
                     options: {
-                        hideDividers: !1 
+                        hideDividers: !1, 
                     },
                     _afterListviewRefresh: function () {
                         var items,
@@ -6130,7 +6130,7 @@
                         this.options.enhanced || this._enhance(),
                         $.extend(this,
                             {
-                                wrapper: this.element.parent() 
+                                wrapper: this.element.parent(), 
                             }),
                         this._on({
                             focus: function () {
@@ -6227,7 +6227,7 @@
               $(this.wrapper).text(this.element.val()).append(originalElement)),
                         this.options.disabled !== isDisabled &&
               this._setOptions({
-                  disabled: isDisabled 
+                  disabled: isDisabled, 
               });
                     },
                 });
@@ -6314,12 +6314,12 @@
                         options.enhanced || this._enhance(),
                         this._on({
                             focus: "_handleFocus",
-                            blur: "_handleBlur" 
+                            blur: "_handleBlur", 
                         });
                     },
                     refresh: function () {
                         this.setOptions({
-                            disabled: this.element.is(":disabled") 
+                            disabled: this.element.is(":disabled"), 
                         });
                     },
                     _enhance: function () {
@@ -6567,11 +6567,11 @@
                                     !1),
                             this._on(document,
                                 {
-                                    vmousemove: "_preventDocumentDrag" 
+                                    vmousemove: "_preventDocumentDrag", 
                                 }),
                             this._on(slider.add(document),
                                 {
-                                    vmouseup: "_sliderVMouseUp" 
+                                    vmouseup: "_sliderVMouseUp", 
                                 }),
                             slider.insertAfter(control),
                             isToggleSwitch ||
@@ -6947,7 +6947,7 @@
                 {
                     options: {
                         popupEnabled: !1,
-                        showValue: !1 
+                        showValue: !1, 
                     },
                     _create: function () {
                         this._super(),
@@ -6961,7 +6961,7 @@
                             this.options.popupEnabled),
                         this._on(this.handle,
                             {
-                                vmousedown: "_showPopup" 
+                                vmousedown: "_showPopup", 
                             }),
                         this._on(this.slider.add(this.document),
                             {
@@ -7063,11 +7063,11 @@
                             this.element.attr("tabindex",
                                 "-1"),
                             this._on({
-                                focus: "_handleInputFocus" 
+                                focus: "_handleInputFocus", 
                             }),
                             this.element.is(":disabled") &&
                   this._setOptions({
-                      disabled: !0 
+                      disabled: !0, 
                   }),
                             this._on(this.flipswitch,
                                 {
@@ -7077,10 +7077,10 @@
                                 }),
                             this._on(this.on,
                                 {
-                                    keydown: "_keydown" 
+                                    keydown: "_keydown", 
                                 }),
                             this._on({
-                                change: "refresh" 
+                                change: "refresh", 
                             });
                         },
                         _handleInputFocus: function () {
@@ -7112,7 +7112,7 @@
                                 theme = options.theme ? options.theme : "inherit",
                                 on = $("<a></a>",
                                     {
-                                        href: "#" 
+                                        href: "#", 
                                     }),
                                 off = $("<span></span>"),
                                 type = element.get(0).tagName,
@@ -7297,7 +7297,7 @@
                                     keyup: "_change",
                                 }),
                             this._on({
-                                mousedown: "_change" 
+                                mousedown: "_change", 
                             }),
                             this._on(this.element.closest("form"),
                                 {
@@ -7305,7 +7305,7 @@
                                 }),
                             this._on(firstHandle,
                                 {
-                                    vmousedown: "_dragFirstHandle" 
+                                    vmousedown: "_dragFirstHandle", 
                                 });
                         },
                         _handleReset: function () {
@@ -7463,7 +7463,7 @@
                                 .find(".ui-slider-bg")
                                 .css({
                                     "margin-left": min + "%",
-                                    width: width + "%" 
+                                    width: width + "%", 
                                 });
                         },
                         _setTheme: function (value) {
@@ -7522,7 +7522,7 @@
                 {
                     options: {
                         clearBtn: !1,
-                        clearBtnText: "Clear text" 
+                        clearBtnText: "Clear text", 
                     },
                     _create: function () {
                         this._super(),
@@ -7558,7 +7558,7 @@
                     _bindClearEvents: function () {
                         this._on(this._clearBtn,
                             {
-                                click: "_clearBtnClick" 
+                                click: "_clearBtnClick", 
                             }),
                         this._on({
                             keyup: "_toggleClear",
@@ -7614,7 +7614,7 @@
                 {
                     options: {
                         autogrow: !0,
-                        keyupTimeoutBuffer: 100 
+                        keyupTimeoutBuffer: 100, 
                     },
                     _create: function () {
                         this._super(),
@@ -7683,7 +7683,7 @@
               this.element.css({
                   height: 0,
                   "min-height": 0,
-                  "max-height": 0 
+                  "max-height": 0, 
               }),
                         (scrollHeight = this.element[0].scrollHeight),
                         (clientHeight = this.element[0].clientHeight),
@@ -7836,7 +7836,7 @@
                             this._handleFormReset(),
                             this._on(this.button,
                                 {
-                                    keydown: "_handleKeydown" 
+                                    keydown: "_handleKeydown", 
                                 }),
                             this.build();
                         },
@@ -8069,7 +8069,7 @@
                         )._ui.focusElement = this._ui.container),
                         this._on(this._ui.screen,
                             {
-                                vclick: "_eatEventAndClose" 
+                                vclick: "_eatEventAndClose", 
                             }),
                         this._on(this.window,
                             {
@@ -8084,7 +8084,7 @@
                             }),
                         this._on(this.document,
                             {
-                                focusin: "_handleDocumentFocusIn" 
+                                focusin: "_handleDocumentFocusIn", 
                             });
                     },
                     _enhance: function (theElement, myId) {
@@ -8187,7 +8187,7 @@
                     "ui-popup-hidden ui-popup-truncate",
                 ),
                 this.reposition({
-                    positionTo: "window" 
+                    positionTo: "window", 
                 }),
                 this._ignoreResizeEvents()),
               this._resizeScreen(),
@@ -8328,7 +8328,7 @@
                                 t: 30,
                                 r: 15,
                                 b: 30,
-                                l: 15 
+                                l: 15, 
                             };
                         if (undefined !== value)
                             switch (
@@ -8482,7 +8482,7 @@
               (y = windowCoordinates.cy / 2 + windowCoordinates.y),
                             {
                                 x: x,
-                                y: y 
+                                y: y, 
                             }
                         );
                     },
@@ -8720,7 +8720,7 @@
                                     (this.urlAltered = !0),
                                     $.mobile.navigate(url,
                                         {
-                                            role: "dialog" 
+                                            role: "dialog", 
                                         }),
                                     this))
                                 : (self._open(options),
@@ -8830,11 +8830,11 @@
             "focusin" === e.type
                 ? {
                     tabindex: "0",
-                    event: "vmouseover" 
+                    event: "vmouseover", 
                 }
                 : {
                     tabindex: "-1",
-                    event: "vmouseout" 
+                    event: "vmouseout", 
                 };
                         $(e.target).attr("tabindex",
                             params.tabindex).trigger(params.event);
@@ -8931,7 +8931,7 @@
                             )
                                 .insertAfter(this.select)
                                 .popup({
-                                    theme: o.overlayTheme 
+                                    theme: o.overlayTheme, 
                                 })),
                             (list = $(
                                 "<ul class='ui-selectmenu-list' id='" +
@@ -8987,11 +8987,11 @@
                                 "-1"),
                             this._on(this.select,
                                 {
-                                    focus: "_handleSelectFocus" 
+                                    focus: "_handleSelectFocus", 
                                 }),
                             this._on(this.button,
                                 {
-                                    vclick: "_handleButtonVclickKeydown" 
+                                    vclick: "_handleButtonVclickKeydown", 
                                 }),
                             this.list.attr("role",
                                 "listbox"),
@@ -9032,11 +9032,11 @@
                             ),
                             this._on(this.menuPage,
                                 {
-                                    pagehide: "_handleMenuPageHide" 
+                                    pagehide: "_handleMenuPageHide", 
                                 }),
                             this._on(this.listbox,
                                 {
-                                    popupafterclose: "close" 
+                                    popupafterclose: "close", 
                                 }),
                             this.isMultiple &&
                 this._on(this.headerClose,
@@ -9360,7 +9360,7 @@
                         (data = overwriteClasses
                             ? {
                                 alreadyEnhanced: !1,
-                                unknownClasses: [] 
+                                unknownClasses: [], 
                             }
                             : classNameToOptions(el.className)),
                         (retrievedOptions = $.extend(
@@ -9445,7 +9445,7 @@
                             $.extend(this,
                                 {
                                     _ui: null,
-                                    _initialRefresh: !0 
+                                    _initialRefresh: !0, 
                                 }),
                             opts.enhanced
                                 ? (this._ui = {
@@ -9456,7 +9456,7 @@
                                 })
                                 : (this._ui = this._enhance());
                         },
-                        _childWidgets: ["checkboxradio", "selectmenu", "button"],
+                        _childWidgets: ["checkboxradio", "selectmenu", "button",],
                         _themeClassFromOption: function (value) {
                             return value
                                 ? "none" === value
@@ -9598,7 +9598,7 @@
                         0 === page.length &&
             ((page = !1), this._on(this.document,
                 {
-                    pageshow: "refresh" 
+                    pageshow: "refresh", 
                 })),
                         $.extend(this,
                             {
@@ -9697,7 +9697,7 @@
                             .addClass("ui-title")
                             .attr({
                                 role: "heading",
-                                "aria-level": "1" 
+                                "aria-level": "1", 
                             });
                     },
                 });
@@ -9797,7 +9797,7 @@
                         this.options.updatePagePadding &&
               this._on(this.window,
                   {
-                      throttledresize: "updatePagePadding" 
+                      throttledresize: "updatePagePadding", 
                   });
                     },
                     _handlePageBeforeHide: function (e, ui) {
@@ -10054,7 +10054,7 @@
                 $.mobile.popup,
                 {
                     options: {
-                        arrow: "" 
+                        arrow: "", 
                     },
                     _create: function () {
                         var ret = this._super();
@@ -10072,7 +10072,7 @@
                                     arEls: ct.add(gd),
                                     gd: gd,
                                     ct: ct,
-                                    ar: ar 
+                                    ar: ar, 
                                 };
                             })();
                         return (
@@ -10146,11 +10146,11 @@
                                 clampInfo: this._clampPopupWidth(!clamp),
                                 arFull: {
                                     cx: ar.ct.width(),
-                                    cy: ar.ct.height() 
+                                    cy: ar.ct.height(), 
                                 },
                                 guideDims: {
                                     cx: ar.gd.width(),
-                                    cy: ar.gd.height() 
+                                    cy: ar.gd.height(), 
                                 },
                                 guideOffset: ar.gd.offset(),
                             };
@@ -10160,7 +10160,7 @@
                                 left: 0,
                                 top: 0,
                                 right: 0,
-                                bottom: 0 
+                                bottom: 0, 
                             }),
                             (gdOffset = ar.gd.offset()),
                             (state.contentBox = {
@@ -10462,10 +10462,10 @@
                     _bindCloseEvents: function () {
                         this._on(this._closeLink,
                             {
-                                click: "_handleCloseClick" 
+                                click: "_handleCloseClick", 
                             }),
                         this._on({
-                            "click a:jqmData(ajax='false')": "_handleCloseClick" 
+                            "click a:jqmData(ajax='false')": "_handleCloseClick", 
                         });
                     },
                     _positionPanel: function (scrollToTop) {
@@ -10483,7 +10483,7 @@
                     _bindFixListener: function () {
                         this._on($(window),
                             {
-                                throttledresize: "_positionPanel" 
+                                throttledresize: "_positionPanel", 
                             });
                     },
                     _unbindFixListener: function () {
@@ -10510,7 +10510,7 @@
                     _bindLinkListeners: function () {
                         this._on("body",
                             {
-                                "click a": "_handleClick" 
+                                "click a": "_handleClick", 
                             });
                     },
                     _handleClick: function (e) {
@@ -10561,7 +10561,7 @@
               "overlay" === this.options.display ||
               this._on(this.document,
                   {
-                      pageshow: "_getWrapper" 
+                      pageshow: "_getWrapper", 
                   }),
                         self._parentPage
                             ? this.document.on(
@@ -10768,9 +10768,9 @@
                 {
                     options: {
                         classes: {
-                            table: "ui-table" 
+                            table: "ui-table", 
                         },
-                        enhanced: !1 
+                        enhanced: !1, 
                     },
                     _create: function () {
                         this.options.enhanced ||
@@ -10778,7 +10778,7 @@
                         $.extend(this,
                             {
                                 headers: undefined,
-                                allHeaders: undefined 
+                                allHeaders: undefined, 
                             }),
                         this._refresh(!0);
                     },
@@ -10849,7 +10849,7 @@
                         "columntoggle" === this.options.mode &&
               ($.extend(this,
                   {
-                      _menu: null 
+                      _menu: null, 
                   }),
               this.options.enhanced
                   ? ((this._menu = $(
@@ -10872,11 +10872,11 @@
                     _setupEvents: function () {
                         this._on(this.window,
                             {
-                                throttledresize: "_setToggleState" 
+                                throttledresize: "_setToggleState", 
                             }),
                         this._on(this._menu,
                             {
-                                "change input": "_menuInputChange" 
+                                "change input": "_menuInputChange", 
                             });
                     },
                     _addToggles: function (menu, keep) {
@@ -10903,7 +10903,7 @@
                         .appendTo(container)
                         .children(0)
                         .checkboxradio({
-                            theme: opts.columnPopupTheme 
+                            theme: opts.columnPopupTheme, 
                         })
                 ).jqmData("cells",
                     cells));
@@ -11085,7 +11085,7 @@
                         $.extend(this,
                             {
                                 _search: null,
-                                _timer: 0 
+                                _timer: 0, 
                             }),
                         this._setInput(opts.input),
                         opts.enhanced ||
@@ -11111,7 +11111,7 @@
                                 this._trigger("beforefilter",
                                     null,
                                     {
-                                        input: search 
+                                        input: search, 
                                     }),
                                 search[0].setAttribute(
                                     "data-" + $.mobile.ns + "lastval",
@@ -11135,7 +11135,7 @@
                                             ? children
                                             : this.element.find(children)
                                 : {
-                                    length: 0 
+                                    length: 0, 
                                 };
                         return 0 === items.length && (items = elem.children()), items;
                     },
@@ -11172,7 +11172,7 @@
                         this._trigger("filter",
                             null,
                             {
-                                items: filterItems 
+                                items: filterItems, 
                             });
                     },
                     _refreshChildWidget: function () {
@@ -11258,7 +11258,7 @@
                 {
                     options: {
                         filterPlaceholder: "Filter items...",
-                        filterTheme: null 
+                        filterTheme: null, 
                     },
                     _create: function () {
                         var idx,
@@ -11276,7 +11276,7 @@
                             this._super(),
                             $.extend(this,
                                 {
-                                    _widget: null 
+                                    _widget: null, 
                                 }),
                             idx = recognizedWidgets.length - 1;
                             idx > -1;
@@ -11670,27 +11670,27 @@
                             .not(this.active)
                             .attr({
                                 "aria-selected": "false",
-                                tabIndex: -1 
+                                tabIndex: -1, 
                             }),
                         this.panels
                             .not(this._getPanelForTab(this.active))
                             .hide()
                             .attr({
                                 "aria-expanded": "false",
-                                "aria-hidden": "true" 
+                                "aria-hidden": "true", 
                             }),
                         this.active.length
                             ? (this.active
                                 .addClass("ui-tabs-active ui-state-active")
                                 .attr({
                                     "aria-selected": "true",
-                                    tabIndex: 0 
+                                    tabIndex: 0, 
                                 }),
                             this._getPanelForTab(this.active)
                                 .show()
                                 .attr({
                                     "aria-expanded": "true",
-                                    "aria-hidden": "false" 
+                                    "aria-hidden": "false", 
                                 }))
                             : this.tabs.eq(0).attr("tabIndex",
                                 0);
@@ -11708,7 +11708,7 @@
                             .addClass("ui-state-default ui-corner-top")
                             .attr({
                                 role: "tab",
-                                tabIndex: -1 
+                                tabIndex: -1, 
                             })),
                         (this.anchors = this.tabs
                             .map(function () {
@@ -11718,7 +11718,7 @@
                             .addClass("ui-tabs-anchor")
                             .attr({
                                 role: "presentation",
-                                tabIndex: -1 
+                                tabIndex: -1, 
                             })),
                         (this.panels = $()),
                         this.anchors.each(function (i, anchor) {
@@ -11798,11 +11798,11 @@
                             events),
                         this._on(this.tabs,
                             {
-                                keydown: "_tabKeydown" 
+                                keydown: "_tabKeydown", 
                             }),
                         this._on(this.panels,
                             {
-                                keydown: "_panelKeydown" 
+                                keydown: "_panelKeydown", 
                             }),
                         this._focusable(this.tabs),
                         this._hoverable(this.tabs);
@@ -11915,7 +11915,7 @@
                             show()),
                         toHide.attr({
                             "aria-expanded": "false",
-                            "aria-hidden": "true" 
+                            "aria-hidden": "true", 
                         }),
                         eventData.oldTab.attr("aria-selected",
                             "false"),
@@ -11931,11 +11931,11 @@
                         -1),
                         toShow.attr({
                             "aria-expanded": "true",
-                            "aria-hidden": "false" 
+                            "aria-hidden": "false", 
                         }),
                         eventData.newTab.attr({
                             "aria-selected": "true",
-                            tabIndex: 0 
+                            tabIndex: 0, 
                         });
                     },
                     _activate: function (index) {
@@ -12038,9 +12038,9 @@
                                 )
                                     return;
                                 disabled = $.isArray(disabled)
-                                    ? $.merge([index],
+                                    ? $.merge([index,],
                                         disabled).sort()
-                                    : [index];
+                                    : [index,];
                             }
                             this._setupDisabled(disabled);
                         }
@@ -12053,7 +12053,7 @@
                             panel = this._getPanelForTab(tab),
                             eventData = {
                                 tab: tab,
-                                panel: panel 
+                                panel: panel, 
                             };
                         isLocal(anchor[0]) ||
             ((this.xhr = $.ajax(this._ajaxSettings(anchor,
@@ -12095,7 +12095,7 @@
                                     event,
                                     $.extend({
                                         jqXHR: jqXHR,
-                                        ajaxSettings: settings 
+                                        ajaxSettings: settings, 
                                     },
                                     eventData),
                                 );
@@ -12199,7 +12199,7 @@
                                       : location.href,
                               ))
                               : $window.trigger("hashchange",
-                                  [!0])
+                                  [!0,])
                           : ($.mobile.path.isHashValid(location.hash) &&
                       ($.mobile.navigate.history.initialDst = hash.replace(
                           "#",

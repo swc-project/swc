@@ -694,7 +694,7 @@
     }),
     (_.defer = function (func) {
         return _.delay.apply(_,
-            [func, 1].concat(slice.call(arguments,
+            [func, 1,].concat(slice.call(arguments,
                 1)));
     }),
     (_.throttle = function (func, wait, options) {
@@ -771,7 +771,7 @@
     }),
     (_.wrap = function (func, wrapper) {
         return function () {
-            var args = [func];
+            var args = [func,];
             return push.apply(args,
                 arguments), wrapper.apply(this,
                 args);
@@ -782,7 +782,7 @@
         return function () {
             for (var args = arguments, i = funcs.length - 1; i >= 0; i--)
                 args = [funcs[i].apply(this,
-                    args)];
+                    args),];
             return args[0];
         };
     }),
@@ -822,7 +822,7 @@
             length > i;
             i++
         )
-            pairs[i] = [keys[i], obj[keys[i]]];
+            pairs[i] = [keys[i], obj[keys[i]],];
         return pairs;
     }),
     (_.invert = function (obj) {
@@ -990,7 +990,7 @@
         return obj === Object(obj);
     }),
     each(
-        ["Arguments", "Function", "String", "Number", "Date", "RegExp"],
+        ["Arguments", "Function", "String", "Number", "Date", "RegExp",],
         function (name) {
             _["is" + name] = function (obj) {
                 return toString.call(obj) == "[object " + name + "]";
@@ -1056,7 +1056,7 @@
         },
     };
     (entityMap.unescape = _.invert(entityMap.escape)),
-    _.each(["escape", "unescape"],
+    _.each(["escape", "unescape",],
         function (method) {
             _[method] = function (string) {
                 return null == string
@@ -1087,7 +1087,7 @@
         each(_.functions(obj),
             function (name) {
                 _.prototype[name] = function () {
-                    var args = [this._wrapped];
+                    var args = [this._wrapped,];
                     return (
                         push.apply(args,
                             arguments),
@@ -1193,7 +1193,7 @@
     };
     _.mixin(_),
     each(
-        ["pop", "push", "reverse", "shift", "sort", "splice", "unshift"],
+        ["pop", "push", "reverse", "shift", "sort", "splice", "unshift",],
         function (name) {
             _.prototype[name] = function () {
                 var obj = this._wrapped;
@@ -1209,7 +1209,7 @@
             };
         },
     ),
-    each(["concat", "join", "slice"],
+    each(["concat", "join", "slice",],
         function (name) {
             _.prototype[name] = function () {
                 return result.call(

@@ -1,6 +1,6 @@
 !(function (root, doc, factory) {
     "function" == typeof define && define.amd
-        ? define(["jquery"],
+        ? define(["jquery",],
             function ($) {
                 return factory($,
                     root,
@@ -297,7 +297,7 @@
                     },
                 }),
             jQuery("<a>").outerWidth(1).jquery ||
-          jQuery.each(["Width", "Height"],
+          jQuery.each(["Width", "Height",],
               function (i, name) {
                   var type = name.toLowerCase(),
                       orig = {
@@ -309,7 +309,7 @@
                   function reduce(elem, size, border, margin) {
                       return (
                           jQuery.each(
-                              "Width" === name ? ["Left", "Right"] : ["Top", "Bottom"],
+                              "Width" === name ? ["Left", "Right",] : ["Top", "Bottom",],
                               function () {
                                   (size -=
                       parseFloat(jQuery.css(elem,
@@ -422,7 +422,7 @@
                         proto = jQuery.ui[module].prototype;
                     for (i in set)
                         (proto.plugins[i] = proto.plugins[i] || []),
-                        proto.plugins[i].push([option, set[i]]);
+                        proto.plugins[i].push([option, set[i],]);
                 },
                 call: function (instance, name, args, allowDisconnected) {
                     var i,
@@ -666,7 +666,7 @@
                 return jQuery.find(expr,
                     null,
                     null,
-                    [node]).length > 0;
+                    [node,]).length > 0;
             });
         })(jQuery,
             this),
@@ -827,7 +827,7 @@
                         (options =
                 isMethodCall || !args.length
                     ? jQuery.widget.extend.apply(null,
-                        [options].concat(args))
+                        [options,].concat(args))
                     : options),
                         isMethodCall
                             ? this.each(function () {
@@ -1134,7 +1134,7 @@
                         !(
                             (jQuery.isFunction(callback) &&
                   callback.apply(this.element[0],
-                      [event].concat(data)) ===
+                      [event,].concat(data)) ===
                     !1) ||
                 event.isDefaultPrevented()
                         )
@@ -1471,7 +1471,7 @@
             }
             var fakeBody = jQuery("<body>").prependTo("html"),
                 fbCSS = fakeBody[0].style,
-                vendors = ["Webkit", "Moz", "O"],
+                vendors = ["Webkit", "Moz", "O",],
                 operamini =
           window.operamini &&
           "[object OperaMini]" === {
@@ -2317,9 +2317,9 @@
                     },
                 },
                 testElement = document.createElement("a");
-            jQuery.each(["animation", "transition"],
+            jQuery.each(["animation", "transition",],
                 function (i, test) {
-                    jQuery.each(["", "webkit-", "moz-", "o-"],
+                    jQuery.each(["", "webkit-", "moz-", "o-",],
                         function (j, prefix) {
                             if (
                                 testElement.style[
@@ -2869,7 +2869,7 @@
                         location = jQuery.event.special.swipe.getLocation(data);
                     return {
                         time: new Date().getTime(),
-                        coords: [location.x, location.y],
+                        coords: [location.x, location.y,],
                         origin: jQuery(event.target),
                     };
                 },
@@ -2880,7 +2880,7 @@
                         location = jQuery.event.special.swipe.getLocation(data);
                     return {
                         time: new Date().getTime(),
-                        coords: [location.x, location.y],
+                        coords: [location.x, location.y,],
                     };
                 },
                 handleSwipe: function (start, stop, thisObject, origTarget) {
@@ -3315,9 +3315,9 @@
                             newDefault =
                 globalValue === keepNativeFactoryDefault ? "" : globalValue,
                             oldDefault = "" === newDefault ? optionValue : "";
-                        return (keepNative ? [keepNative] : [])
-                            .concat(newDefault ? [newDefault] : [])
-                            .concat(oldDefault ? [oldDefault] : [])
+                        return (keepNative ? [keepNative,] : [])
+                            .concat(newDefault ? [newDefault,] : [])
+                            .concat(oldDefault ? [oldDefault,] : [])
                             .join(", ");
                     },
                 });
@@ -3993,7 +3993,7 @@
                             cssTransitionDeferred,
                             beforeTransition;
                         if (isPageTransitioning) {
-                            pageTransitionQueue.unshift([toPage, settings]);
+                            pageTransitionQueue.unshift([toPage, settings,]);
                             return;
                         }
                         if (!this._triggerPageBeforeChange(toPage,
@@ -5144,15 +5144,15 @@
               opts.collapsedIcon !== void 0 ||
               opts.expandedIcon !== void 0) &&
               (anchor.removeClass(
-                  [iconposClass(currentOpts.iconpos)]
+                  [iconposClass(currentOpts.iconpos),]
                       .concat(
                           currentOpts.expandedIcon
-                              ? ["ui-icon-" + currentOpts.expandedIcon]
+                              ? ["ui-icon-" + currentOpts.expandedIcon,]
                               : [],
                       )
                       .concat(
                           currentOpts.collapsedIcon
-                              ? ["ui-icon-" + currentOpts.collapsedIcon]
+                              ? ["ui-icon-" + currentOpts.collapsedIcon,]
                               : [],
                       )
                       .join(" "),
@@ -9512,7 +9512,7 @@
                             })
                             : (this._ui = this._enhance());
                     },
-                    _childWidgets: ["checkboxradio", "selectmenu", "button"],
+                    _childWidgets: ["checkboxradio", "selectmenu", "button",],
                     _themeClassFromOption: function (value) {
                         return value
                             ? "none" === value
@@ -12076,9 +12076,9 @@
                             )
                                 return;
                             jQuery.isArray(disabled)
-                                ? (disabled = jQuery.merge([index],
+                                ? (disabled = jQuery.merge([index,],
                                     disabled).sort())
-                                : (disabled = [index]);
+                                : (disabled = [index,]);
                         }
                         this._setupDisabled(disabled);
                     },
@@ -12260,7 +12260,7 @@
                                 }))
                             : !jQuery.event.special.navigate.isPushStateEnabled()
                                 ? $window.trigger("hashchange",
-                                    [!0])
+                                    [!0,])
                                 : ((jQuery.mobile.navigate.history.stack = []),
                                 jQuery.mobile.navigate(
                                     jQuery.mobile.path.isPath(location.hash)

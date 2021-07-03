@@ -23,7 +23,7 @@
                 return eventsApi(this,
                     "on",
                     name,
-                    [callback, context]) && callback
+                    [callback, context,]) && callback
                     ? (this._events || (this._events = {
                     }),
                     (this._events[name] || (this._events[name] = [])).push({
@@ -38,7 +38,7 @@
                 if (!eventsApi(this,
                     "once",
                     name,
-                    [callback, context]) || !callback)
+                    [callback, context,]) || !callback)
                     return this;
                 var self = this,
                     once = _.once(function () {
@@ -55,12 +55,12 @@
                 if (!this._events || !eventsApi(this,
                     "off",
                     name,
-                    [callback, context]))
+                    [callback, context,]))
                     return this;
                 if (!name && !callback && !context) return (this._events = {
                 }), this;
                 for (
-                    i = 0, l = (names = name ? [name] : _.keys(this._events)).length;
+                    i = 0, l = (names = name ? [name,] : _.keys(this._events)).length;
                     i < l;
                     i++
                 )
@@ -118,7 +118,7 @@
             if ("object" == typeof name) {
                 for (var key in name)
                     obj[action].apply(obj,
-                        [key, name[key]].concat(rest));
+                        [key, name[key],].concat(rest));
                 return !1;
             }
             if (eventSplitter.test(name)) {
@@ -128,7 +128,7 @@
                     i++
                 )
                     obj[action].apply(obj,
-                        [names[i]].concat(rest));
+                        [names[i],].concat(rest));
                 return !1;
             }
             return !0;
@@ -167,7 +167,7 @@
     _.each(
         {
             listenTo: "on",
-            listenToOnce: "once" 
+            listenToOnce: "once", 
         },
         function (implementation, method) {
             Events[method] = function (obj, name, callback) {
@@ -296,7 +296,7 @@
                     },
                     options,
                     {
-                        unset: !0 
+                        unset: !0, 
                     }));
             },
             clear: function (options) {
@@ -308,7 +308,7 @@
                     },
                     options,
                     {
-                        unset: !0 
+                        unset: !0, 
                     }));
             },
             hasChanged: function (attr) {
@@ -376,7 +376,7 @@
                         : ((attrs = {
                         })[key] = val),
                     (options = _.extend({
-                        validate: !0 
+                        validate: !0, 
                     },
                     options)),
                     attrs && !options.wait)
@@ -492,7 +492,7 @@
                 _.extend(options || {
                 },
                 {
-                    validate: !0 
+                    validate: !0, 
                 }));
             },
             _validate: function (attrs, options) {
@@ -512,7 +512,7 @@
             error,
             _.extend(options,
                 {
-                    validationError: error 
+                    validationError: error, 
                 }),
         ),
         !1)
@@ -520,7 +520,7 @@
             },
         });
     _.each(
-        ["keys", "values", "pairs", "invert", "pick", "omit"],
+        ["keys", "values", "pairs", "invert", "pick", "omit",],
         function (method) {
             Model.prototype[method] = function () {
                 var args = slice.call(arguments);
@@ -539,18 +539,18 @@
                 arguments),
             models && this.reset(models,
                 _.extend({
-                    silent: !0 
+                    silent: !0, 
                 },
                 options));
         }),
         setOptions = {
             add: !0,
             remove: !0,
-            merge: !0 
+            merge: !0, 
         },
         addOptions = {
             add: !0,
-            remove: !1 
+            remove: !1, 
         };
     _.extend(Collection.prototype,
         Events,
@@ -569,7 +569,7 @@
             add: function (models, options) {
                 return this.set(models,
                     _.extend({
-                        merge: !1 
+                        merge: !1, 
                     },
                     options,
                     addOptions));
@@ -584,7 +584,7 @@
                     options || (options = {
                     }),
                     i = 0,
-                    l = (models = singular ? [models] : _.clone(models)).length;
+                    l = (models = singular ? [models,] : _.clone(models)).length;
                     i < l;
                     i++
                 )
@@ -619,7 +619,7 @@
                     existing,
                     sort,
                     singular = !_.isArray(models);
-                models = singular ? (models ? [models] : []) : _.clone(models);
+                models = singular ? (models ? [models,] : []) : _.clone(models);
                 var at = options.at,
                     targetModel = this.model,
                     sortable = this.comparator && null == at && !1 !== options.sort,
@@ -686,7 +686,7 @@
                             this.models.push(orderedModels[i]);
                     }
                 if ((sort && this.sort({
-                    silent: !0 
+                    silent: !0, 
                 }), !options.silent)) {
                     for (i = 0, l = toAdd.length; i < l; i++)
                         (model = toAdd[i]).trigger("add",
@@ -710,7 +710,7 @@
                     this._reset(),
                     (models = this.add(models,
                         _.extend({
-                            silent: !0 
+                            silent: !0, 
                         },
                         options))),
                     options.silent || this.trigger("reset",
@@ -722,7 +722,7 @@
             push: function (model, options) {
                 return this.add(model,
                     _.extend({
-                        at: this.length 
+                        at: this.length, 
                     },
                     options));
             },
@@ -734,7 +734,7 @@
             unshift: function (model, options) {
                 return this.add(model,
                     _.extend({
-                        at: 0 
+                        at: 0, 
                     },
                     options));
             },
@@ -940,7 +940,7 @@
             };
         },
     );
-    _.each(["groupBy", "countBy", "sortBy"],
+    _.each(["groupBy", "countBy", "sortBy",],
         function (method) {
             Collection.prototype[method] = function (value, context) {
                 var iterator = _.isFunction(value)
@@ -1055,7 +1055,7 @@
         });
         var params = {
             type: type,
-            dataType: "json" 
+            dataType: "json", 
         };
         if (
             (options.url || (params.url = _.result(model,
@@ -1071,7 +1071,7 @@
           ((params.contentType = "application/x-www-form-urlencoded"),
           (params.data = params.data
               ? {
-                  model: params.data 
+                  model: params.data, 
               }
               : {
               })),
@@ -1148,7 +1148,7 @@
                             callback && callback.apply(router,
                                 args),
                             router.trigger.apply(router,
-                                ["route:" + name].concat(args)),
+                                ["route:" + name,].concat(args)),
                             router.trigger("route",
                                 name,
                                 args),
@@ -1238,7 +1238,7 @@
                     throw new Error("Backbone.history has already been started");
                 (History.started = !0),
                 (this.options = _.extend({
-                    root: "/" 
+                    root: "/", 
                 },
                 this.options,
                 options)),
@@ -1316,7 +1316,7 @@
             route: function (route, callback) {
                 this.handlers.unshift({
                     route: route,
-                    callback: callback 
+                    callback: callback, 
                 });
             },
             checkUrl: function (e) {
@@ -1343,7 +1343,7 @@
             navigate: function (fragment, options) {
                 if (!History.started) return !1;
                 (options && !0 !== options) || (options = {
-                    trigger: !!options 
+                    trigger: !!options, 
                 });
                 var url = this.root + (fragment = this.getFragment(fragment || ""));
                 if (

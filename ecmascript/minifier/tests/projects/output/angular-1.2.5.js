@@ -74,7 +74,7 @@
         }),
         angularModule,
         nodeName_,
-        uid = ["0", "0", "0"];
+        uid = ["0", "0", "0",];
     (msie = int((/msie (\d+)/.exec(lowercase(navigator.userAgent)) || [])[1])),
     isNaN(msie) &&
       (msie = int(
@@ -507,7 +507,7 @@
                                 ? (obj[key] = val)
                                 : isArray(obj[key])
                                     ? obj[key].push(val)
-                                    : (obj[key] = [obj[key], val]);
+                                    : (obj[key] = [obj[key], val,]);
                         }
                     }
                 }),
@@ -538,10 +538,10 @@
                 pctEncodeSpaces ? "%20" : "+");
     }
     function angularInit(element, bootstrap) {
-        var elements = [element],
+        var elements = [element,],
             appElement,
             module,
-            names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app"];
+            names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app",];
         function append(element1) {
             element1 && elements.push(element1);
         }
@@ -577,7 +577,7 @@
                 }
             }),
         appElement && bootstrap(appElement,
-            module ? [module] : []);
+            module ? [module,] : []);
     }
     function bootstrap(element, modules) {
         var doBootstrap = function () {
@@ -692,7 +692,7 @@
             endNode = nodes[nodes.length - 1];
         if (endNode === startNode) return jqLite(startNode);
         var element = startNode,
-            elements = [element];
+            elements = [element,];
         do {
             if (((element = element.nextSibling), !element)) break;
             elements.push(element);
@@ -838,7 +838,7 @@
         (removePatch.$original = originalJqFn),
         (jQuery.fn[name] = removePatch);
         function removePatch(param) {
-            var list = filterElems && param ? [this.filter(param)] : [this],
+            var list = filterElems && param ? [this.filter(param),] : [this,],
                 fireEvent = dispatchThis,
                 set,
                 setIndex,
@@ -1027,7 +1027,7 @@
             elements =
         !elements.nodeName && isDefined(elements.length) && !isWindow(elements)
             ? elements
-            : [elements];
+            : [elements,];
             for (var i = 0; i < elements.length; i++) root.push(elements[i]);
         }
     }
@@ -1040,7 +1040,7 @@
     function jqLiteInheritedData(element, name, value) {
         (element = jqLite(element)),
         element[0].nodeType == 9 && (element = element.find("html"));
-        for (var names = isArray(name) ? name : [name]; element.length; ) {
+        for (var names = isArray(name) ? name : [name,]; element.length; ) {
             for (var i = 0, ii = names.length; ii > i; i++)
                 if ((value = element.data(names[i])) !== void 0) return value;
             element = element.parent();
@@ -2254,7 +2254,7 @@
         ];
     }
     var $compileMinErr = minErr("$compile");
-    $CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider"];
+    $CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider",];
     function $CompileProvider($provide, $$sanitizeUriProvider) {
         var hasDirectives = {
         };
@@ -4194,7 +4194,7 @@
                         forEachSorted(params,
                             function (value, key) {
                                 if (null === value || isUndefined(value)) return;
-                                isArray(value) || (value = [value]),
+                                isArray(value) || (value = [value,]),
                                 forEach(value,
                                     function (v) {
                                         isObject(v) && (v = toJson(v)),
@@ -4553,7 +4553,7 @@
                         ",",
                     ),
                     SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
-                    AMPMS: ["AM", "PM"],
+                    AMPMS: ["AM", "PM",],
                     medium: "MMM d, y h:mm:ss a",
                     short: "M/d/yy h:mm a",
                     fullDate: "EEEE, MMMM d, y",
@@ -5599,7 +5599,7 @@
                 if ((token = this.expect(":"))) argsFn.push(this.expression());
                 else {
                     var fnInvoke = function (self, locals, input) {
-                        for (var args = [input], i = 0; i < argsFn.length; i++)
+                        for (var args = [input,], i = 0; i < argsFn.length; i++)
                             args.push(argsFn[i](self,
                                 locals));
                         return this.$filter(token.text).apply(self,
@@ -6767,7 +6767,7 @@
                                 },
                                 defaultPrevented: !1,
                             },
-                            listenerArgs = concat([event],
+                            listenerArgs = concat([event,],
                                 arguments,
                                 1),
                             i,
@@ -6810,7 +6810,7 @@
                                 },
                                 defaultPrevented: !1,
                             },
-                            listenerArgs = concat([event],
+                            listenerArgs = concat([event,],
                                 arguments,
                                 1),
                             listeners,
@@ -6957,7 +6957,7 @@
     }
     function $SceDelegateProvider() {
         this.SCE_CONTEXTS = SCE_CONTEXTS;
-        var resourceUrlWhitelist = ["self"],
+        var resourceUrlWhitelist = ["self",],
             resourceUrlBlacklist = [];
         (this.resourceUrlWhitelist = function (value) {
             return (
@@ -7323,7 +7323,7 @@
     function $WindowProvider() {
         this.$get = valueFn(window);
     }
-    $FilterProvider.$inject = ["$provide"];
+    $FilterProvider.$inject = ["$provide",];
     function $FilterProvider($provide) {
         function register(name, factory) {
             if (isObject(name)) {
@@ -7463,7 +7463,7 @@
             return filtered;
         };
     }
-    currencyFilter.$inject = ["$locale"];
+    currencyFilter.$inject = ["$locale",];
     function currencyFilter($locale) {
         var formats = $locale.NUMBER_FORMATS;
         return function (amount, currencySymbol) {
@@ -7480,7 +7480,7 @@
             );
         };
     }
-    numberFilter.$inject = ["$locale"];
+    numberFilter.$inject = ["$locale",];
     function numberFilter($locale) {
         var formats = $locale.NUMBER_FORMATS;
         return function (number, fractionSize) {
@@ -7577,7 +7577,7 @@
             return formats[uppercase(shortForm ? "SHORT" + name : name)][value];
         };
     }
-    dateFilter.$inject = ["$locale"];
+    dateFilter.$inject = ["$locale",];
     function dateFilter($locale) {
         var R_ISO8601_STR = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
         function jsonStringToDate(string) {
@@ -7748,14 +7748,14 @@
             return out;
         };
     }
-    orderByFilter.$inject = ["$parse"];
+    orderByFilter.$inject = ["$parse",];
     function orderByFilter($parse) {
         return function (array, sortPredicate, reverseOrder) {
             if (!isArray(array)) return array;
             if (!sortPredicate) return array;
             (sortPredicate = isArray(sortPredicate)
                 ? sortPredicate
-                : [sortPredicate]),
+                : [sortPredicate,]),
             (sortPredicate = map(sortPredicate,
                 function (predicate) {
                     var descending = !1,
@@ -7857,7 +7857,7 @@
                 };
             };
         }),
-    forEach(["src", "srcset", "href"],
+    forEach(["src", "srcset", "href",],
         function (attrName) {
             var normalized = directiveNormalize("ng-" + attrName);
             ngAttributeAliasDirectives[normalized] = function () {
@@ -7883,7 +7883,7 @@
         $setDirty: noop,
         $setPristine: noop,
     };
-    FormController.$inject = ["$element", "$attrs", "$scope"];
+    FormController.$inject = ["$element", "$attrs", "$scope",];
     function FormController(element, attrs) {
         var form = this,
             parentForm = element.parent().controller("form") || nullFormCtrl,
@@ -8312,7 +8312,7 @@
         DIRTY_CLASS = "ng-dirty",
         ngModelDirective = function () {
             return {
-                require: ["ngModel", "^?form"],
+                require: ["ngModel", "^?form",],
                 controller: [
                     "$scope",
                     "$exceptionHandler",
@@ -9210,7 +9210,7 @@
                 var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/;
                 return {
                     restrict: "E",
-                    require: ["select", "?ngModel"],
+                    require: ["select", "?ngModel",],
                     controller: [
                         "$element",
                         "$scope",
@@ -9481,7 +9481,7 @@
                                 var optionGroups = {
                                         "": [],
                                     },
-                                    optionGroupNames = [""],
+                                    optionGroupNames = ["",],
                                     optionGroupName,
                                     optionGroup,
                                     option,
@@ -9604,7 +9604,7 @@
                                                         optionGroupName),
                                                 label: optionGroup.label,
                                             }),
-                                            (existingOptions = [existingParent]),
+                                            (existingOptions = [existingParent,]),
                                             optionGroupsCache.push(existingOptions),
                                             selectElement.append(existingParent.element))
                                             : ((existingOptions = optionGroupsCache[groupIndex]),
@@ -9785,7 +9785,7 @@
         }
         angularModule(
             "ng",
-            ["ngLocale"],
+            ["ngLocale",],
             [
                 "$provide",
                 function ($provide) {

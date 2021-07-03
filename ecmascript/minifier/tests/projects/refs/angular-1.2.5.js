@@ -94,7 +94,7 @@
         ngMinErr = minErr("ng"),
         angular = (window.angular, window.angular || (window.angular = {
         })),
-        uid = ["0", "0", "0"];
+        uid = ["0", "0", "0",];
     function isArrayLike(obj) {
         if (null == obj || isWindow(obj)) return !1;
         var length = obj.length;
@@ -180,7 +180,7 @@
     function inherit(parent, extra) {
         return extend(new (extend(function () {},
             {
-                prototype: parent 
+                prototype: parent, 
             }))(),
         extra);
     }
@@ -466,7 +466,7 @@
                         obj[key]
                             ? isArray(obj[key])
                                 ? obj[key].push(val)
-                                : (obj[key] = [obj[key], val])
+                                : (obj[key] = [obj[key], val,])
                             : (obj[key] = val);
                     }
                 }),
@@ -648,7 +648,7 @@
             endNode = nodes[nodes.length - 1];
         if (startNode === endNode) return jqLite(startNode);
         var element = startNode,
-            elements = [element];
+            elements = [element,];
         do {
             if (!(element = element.nextSibling)) break;
             elements.push(element);
@@ -713,7 +713,7 @@
                 childIndex,
                 childLength,
                 children,
-                list = filterElems && param ? [this.filter(param)] : [this],
+                list = filterElems && param ? [this.filter(param),] : [this,],
                 fireEvent = dispatchThis;
             if (!getterIfNoArguments || null != param)
                 for (; list.length; )
@@ -896,7 +896,7 @@
         if (elements) {
             elements =
         elements.nodeName || !isDefined(elements.length) || isWindow(elements)
-            ? [elements]
+            ? [elements,]
             : elements;
             for (var i = 0; i < elements.length; i++) root.push(elements[i]);
         }
@@ -910,7 +910,7 @@
     function jqLiteInheritedData(element, name, value) {
         9 == (element = jqLite(element))[0].nodeType &&
       (element = element.find("html"));
-        for (var names = isArray(name) ? name : [name]; element.length; ) {
+        for (var names = isArray(name) ? name : [name,]; element.length; ) {
             for (var i = 0, ii = names.length; i < ii; i++)
                 if (undefined !== (value = element.data(names[i]))) return value;
             element = element.parent();
@@ -1244,7 +1244,7 @@
                                     element,
                                     {
                                         mouseleave: "mouseout",
-                                        mouseenter: "mouseover" 
+                                        mouseenter: "mouseover", 
                                     }[type],
                                     function (event) {
                                         var related = event.relatedTarget;
@@ -1369,8 +1369,8 @@
                 eventData = eventData || [];
                 var event = [{
                     preventDefault: noop,
-                    stopPropagation: noop 
-                }];
+                    stopPropagation: noop, 
+                },];
                 forEach(eventFns,
                     function (fn) {
                         fn.apply(element,
@@ -1602,7 +1602,7 @@
         function factory(name, factoryFn) {
             return provider(name,
                 {
-                    $get: factoryFn 
+                    $get: factoryFn, 
                 });
         }
         function createInternalInjector(cache, factory) {
@@ -2020,7 +2020,7 @@
                     },
                     options,
                     {
-                        id: cacheId 
+                        id: cacheId, 
                     }),
                     data = {
                     },
@@ -2033,7 +2033,7 @@
                     put: function (key, value) {
                         if (
                             (refresh(lruHash[key] || (lruHash[key] = {
-                                key: key 
+                                key: key, 
                             })),
                             !isUndefined(value))
                         )
@@ -2078,7 +2078,7 @@
                         },
                         stats,
                         {
-                            size: size 
+                            size: size, 
                         });
                     },
                 });
@@ -2156,7 +2156,7 @@
                                           var directive = $injector.invoke(directiveFactory);
                                           isFunction(directive)
                                               ? (directive = {
-                                                  compile: valueFn(directive) 
+                                                  compile: valueFn(directive), 
                                               })
                                               : !directive.compile &&
                               directive.link &&
@@ -2815,7 +2815,7 @@
                                     compileNode);
                                 var newTemplateAttrs = {
                                         $attr: {
-                                        } 
+                                        }, 
                                     },
                                     templateDirectives = collectDirectives(
                                         compileNode,
@@ -2908,7 +2908,7 @@
                   directive.$$isolateScope) &&
                   (pre = cloneAndAnnotateFn(pre,
                       {
-                          isolateScope: !0 
+                          isolateScope: !0, 
                       })),
                 preLinkFns.push(pre)),
                         post &&
@@ -2923,7 +2923,7 @@
                     directive.$$isolateScope) &&
                     (post = cloneAndAnnotateFn(post,
                         {
-                            isolateScope: !0 
+                            isolateScope: !0, 
                         })),
                   postLinkFns.push(post));
                     }
@@ -3222,7 +3222,7 @@
                     for (var j = 0, jj = directives.length; j < jj; j++)
                         directives[j] = inherit(directives[j],
                             {
-                                $$isolateScope: !0 
+                                $$isolateScope: !0, 
                             });
                 }
                 function addDirective(
@@ -3353,7 +3353,7 @@
                                         );
                                     (tempTemplateAttrs = {
                                         $attr: {
-                                        } 
+                                        }, 
                                     }),
                                     replaceWith($rootElement,
                                         $compileNode,
@@ -3587,7 +3587,7 @@
             },
         ]);
     }
-    $CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider"];
+    $CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider",];
     var PREFIX_REGEXP = /^(x[\:\-_]|data[\:\-_])/i;
     function directiveNormalize(name) {
         return camelCase(name.replace(PREFIX_REGEXP,
@@ -3749,7 +3749,7 @@
                 ],
                 headers: {
                     common: {
-                        Accept: "application/json, text/plain, */*" 
+                        Accept: "application/json, text/plain, */*", 
                     },
                     post: CONTENT_TYPE_APPLICATION_JSON,
                     put: CONTENT_TYPE_APPLICATION_JSON,
@@ -3873,7 +3873,7 @@
                                                         function (value, key) {
                                                             null === value ||
                               isUndefined(value) ||
-                              (isArray(value) || (value = [value]),
+                              (isArray(value) || (value = [value,]),
                               forEach(value,
                                   function (v) {
                                       isObject(v) && (v = toJson(v)),
@@ -4070,7 +4070,7 @@
                                     },
                                     {
                                         method: name,
-                                        url: url 
+                                        url: url, 
                                     }));
                                 };
                             });
@@ -4088,7 +4088,7 @@
                                         {
                                             method: name,
                                             url: url,
-                                            data: data 
+                                            data: data, 
                                         }),
                                     );
                                 };
@@ -4459,7 +4459,7 @@
                         ",",
                     ),
                     SHORTDAY: "Sun,Mon,Tue,Wed,Thu,Fri,Sat".split(","),
-                    AMPMS: ["AM", "PM"],
+                    AMPMS: ["AM", "PM",],
                     medium: "MMM d, y h:mm:ss a",
                     short: "M/d/yy h:mm a",
                     fullDate: "EEEE, MMMM d, y",
@@ -4479,7 +4479,7 @@
         DEFAULT_PORTS = {
             http: 80,
             https: 443,
-            ftp: 21 
+            ftp: 21, 
         },
         $locationMinErr = minErr("$location");
     function encodePath(path) {
@@ -5095,14 +5095,14 @@
                         ? (this.tokens.push({
                             index: this.index,
                             text: ch3,
-                            fn: fn3 
+                            fn: fn3, 
                         }),
                         (this.index += 3))
                         : fn2
                             ? (this.tokens.push({
                                 index: this.index,
                                 text: ch2,
-                                fn: fn2 
+                                fn: fn2, 
                             }),
                             (this.index += 2))
                             : fn
@@ -5250,7 +5250,7 @@
                 }
             var token = {
                 index: start,
-                text: ident 
+                text: ident, 
             };
             if (OPERATORS.hasOwnProperty(ident))
                 (token.fn = OPERATORS[ident]), (token.json = OPERATORS[ident]);
@@ -5279,12 +5279,12 @@
           (this.tokens.push({
               index: lastDot,
               text: ".",
-              json: !1 
+              json: !1, 
           }),
           this.tokens.push({
               index: lastDot + 1,
               text: methodName,
-              json: !1 
+              json: !1, 
           }));
         },
         readString: function (quote) {
@@ -5379,7 +5379,7 @@
                 this.throwError("is not valid json",
                     {
                         text: text,
-                        index: 0 
+                        index: 0, 
                     });
             }));
             var value = json ? this.primary() : this.statements();
@@ -5481,7 +5481,7 @@
                         right);
                 },
                 {
-                    constant: right.constant 
+                    constant: right.constant, 
                 },
             );
         },
@@ -5496,7 +5496,7 @@
                             locals);
                 },
                 {
-                    constant: left.constant && middle.constant && right.constant 
+                    constant: left.constant && middle.constant && right.constant, 
                 },
             );
         },
@@ -5509,7 +5509,7 @@
                         right);
                 },
                 {
-                    constant: left.constant && right.constant 
+                    constant: left.constant && right.constant, 
                 },
             );
         },
@@ -5551,7 +5551,7 @@
             ) {
                 if (!(token = this.expect(":"))) {
                     var fnInvoke = function (self, locals, input) {
-                        for (var args = [input], i = 0; i < argsFn.length; i++)
+                        for (var args = [input,], i = 0; i < argsFn.length; i++)
                             args.push(argsFn[i](self,
                                 locals));
                         return fn.apply(self,
@@ -5820,7 +5820,7 @@
                     },
                     {
                         literal: !0,
-                        constant: allConstant 
+                        constant: allConstant, 
                     },
                 )
             );
@@ -5836,7 +5836,7 @@
                     var value = this.expression();
                     keyValues.push({
                         key: key,
-                        value: value 
+                        value: value, 
                     }),
                     value.constant || (allConstant = !1);
                 } while (this.expect(","));
@@ -5854,7 +5854,7 @@
                     },
                     {
                         literal: !0,
-                        constant: allConstant 
+                        constant: allConstant, 
                     },
                 )
             );
@@ -6033,7 +6033,7 @@
             $parseOptions = {
                 csp: !1,
                 unwrapPromises: !1,
-                logPromiseWarnings: !0 
+                logPromiseWarnings: !0, 
             };
         (this.unwrapPromises = function (value) {
             return isDefined(value)
@@ -6358,7 +6358,7 @@
                         defer: defer,
                         reject: reject,
                         when: when,
-                        all: all 
+                        all: all, 
                     };
                 })(function (callback) {
                     $rootScope.$evalAsync(callback);
@@ -6646,7 +6646,7 @@
                 }),
                         this.$$asyncQueue.push({
                             scope: this,
-                            expression: expr 
+                            expression: expr, 
                         });
                     },
                     $$postDigest: function (fn) {
@@ -6696,7 +6696,7 @@
                                 },
                                 defaultPrevented: !1,
                             },
-                            listenerArgs = concat([event],
+                            listenerArgs = concat([event,],
                                 arguments,
                                 1);
                         do {
@@ -6737,7 +6737,7 @@
                                 },
                                 defaultPrevented: !1,
                             },
-                            listenerArgs = concat([event],
+                            listenerArgs = concat([event,],
                                 arguments,
                                 1);
                         do {
@@ -6877,7 +6877,7 @@
     }
     function $SceDelegateProvider() {
         this.SCE_CONTEXTS = SCE_CONTEXTS;
-        var resourceUrlWhitelist = ["self"],
+        var resourceUrlWhitelist = ["self",],
             resourceUrlBlacklist = [];
         (this.resourceUrlWhitelist = function (value) {
             return (
@@ -7351,7 +7351,7 @@
             case "number":
             case "string":
                 expression = {
-                    $: expression 
+                    $: expression, 
                 };
             case "object":
                 for (var key in expression)
@@ -7417,9 +7417,9 @@
             );
         };
     }
-    ($FilterProvider.$inject = ["$provide"]),
-    (currencyFilter.$inject = ["$locale"]),
-    (numberFilter.$inject = ["$locale"]);
+    ($FilterProvider.$inject = ["$provide",]),
+    (currencyFilter.$inject = ["$locale",]),
+    (numberFilter.$inject = ["$locale",]);
     function formatNumber(number, pattern, groupSep, decimalSep, fractionSize) {
         if (isNaN(number) || !isFinite(number)) return "";
         var isNegative = number < 0,
@@ -7642,7 +7642,7 @@
                 !0);
         };
     }
-    dateFilter.$inject = ["$locale"];
+    dateFilter.$inject = ["$locale",];
     var lowercaseFilter = valueFn(lowercase),
         uppercaseFilter = valueFn(uppercase);
     function limitToFilter() {
@@ -7680,7 +7680,7 @@
             var iterator, context, results;
             (sortPredicate = isArray(sortPredicate)
                 ? sortPredicate
-                : [sortPredicate]),
+                : [sortPredicate,]),
             (iterator = function (predicate) {
                 var descending = !1,
                     get = predicate || identity;
@@ -7742,13 +7742,13 @@
     function ngDirective(directive) {
         return (
             isFunction(directive) && (directive = {
-                link: directive 
+                link: directive, 
             }),
             (directive.restrict = directive.restrict || "AC"),
             valueFn(directive)
         );
     }
-    orderByFilter.$inject = ["$parse"];
+    orderByFilter.$inject = ["$parse",];
     var htmlAnchorDirective = valueFn({
             restrict: "E",
             compile: function (element, attr) {
@@ -7789,7 +7789,7 @@
                 };
             }
         }),
-    forEach(["src", "srcset", "href"],
+    forEach(["src", "srcset", "href",],
         function (attrName) {
             var normalized = directiveNormalize("ng-" + attrName);
             ngAttributeAliasDirectives[normalized] = function () {
@@ -7910,7 +7910,7 @@
                 });
         });
     }
-    FormController.$inject = ["$element", "$attrs", "$scope"];
+    FormController.$inject = ["$element", "$attrs", "$scope",];
     var formDirectiveFactory = function (isNgForm) {
             return [
                 "$timeout",
@@ -8360,7 +8360,7 @@
         ],
         ngModelDirective = function () {
             return {
-                require: ["ngModel", "^?form"],
+                require: ["ngModel", "^?form",],
                 controller: NgModelController,
                 link: function (scope, element, attr, ctrls) {
                     var modelCtrl = ctrls[0],
@@ -8569,7 +8569,7 @@
                 return {
                     scope: !0,
                     controller: "@",
-                    priority: 500 
+                    priority: 500, 
                 };
             },
         ],
@@ -8593,7 +8593,7 @@
                                         scope.$apply(function () {
                                             fn(scope,
                                                 {
-                                                    $event: event 
+                                                    $event: event, 
                                                 });
                                         });
                                     });
@@ -8626,7 +8626,7 @@
                               " end ngIf: " + $attr.ngIf + " ",
                           )),
                           (block = {
-                              clone: clone 
+                              clone: clone, 
                           }),
                           $animate.enter(clone,
                               $element.parent(),
@@ -8680,7 +8680,7 @@
                                         ? ($http
                                             .get(src,
                                                 {
-                                                    cache: $templateCache 
+                                                    cache: $templateCache, 
                                                 })
                                             .success(function (response) {
                                                 if (thisChangeId === changeCounter) {
@@ -8740,7 +8740,7 @@
         }),
         ngNonBindableDirective = ngDirective({
             terminal: !0,
-            priority: 1e3 
+            priority: 1e3, 
         }),
         ngPluralizeDirective = [
             "$locale",
@@ -8824,7 +8824,7 @@
                                 /^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?$/,
                             ),
                             hashFnLocals = {
-                                $id: hashKey 
+                                $id: hashKey, 
                             };
                         if (!match)
                             throw ngRepeatMinErr(
@@ -8937,7 +8937,7 @@
                                                 ))
                                             );
                                         (nextBlockOrder[index] = {
-                                            id: trackById 
+                                            id: trackById, 
                                         }),
                                         (nextBlockMap[trackById] = !1);
                                     }
@@ -9136,7 +9136,7 @@
                 (ctrl.cases["?"] = ctrl.cases["?"] || []),
                 ctrl.cases["?"].push({
                     transclude: $transclude,
-                    element: element 
+                    element: element, 
                 });
             },
         }),
@@ -9179,7 +9179,7 @@
         ],
         ngOptionsMinErr = minErr("ngOptions"),
         ngOptionsDirective = valueFn({
-            terminal: !0 
+            terminal: !0, 
         }),
         selectDirective = [
             "$compile",
@@ -9187,11 +9187,11 @@
             function ($compile, $parse) {
                 var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
                     nullModelCtrl = {
-                        $setViewValue: noop 
+                        $setViewValue: noop, 
                     };
                 return {
                     restrict: "E",
-                    require: ["select", "?ngModel"],
+                    require: ["select", "?ngModel",],
                     controller: [
                         "$element",
                         "$scope",
@@ -9307,8 +9307,8 @@
                                         optionGroupsCache = [
                                             [{
                                                 element: selectElement,
-                                                label: "" 
-                                            }],
+                                                label: "", 
+                                            },],
                                         ];
                                     nullOption &&
                       ($compile(nullOption)(scope),
@@ -9331,9 +9331,9 @@
                                             element,
                                             label,
                                             optionGroups = {
-                                                "": [] 
+                                                "": [], 
                                             },
-                                            optionGroupNames = [""],
+                                            optionGroupNames = ["",],
                                             modelValue = ctrl.$modelValue,
                                             values = valuesFn(scope) || [],
                                             keys = keyName ? sortedKeys(values) : values,
@@ -9648,7 +9648,7 @@
             function ($interpolate) {
                 var nullSelectCtrl = {
                     addOption: noop,
-                    removeOption: noop 
+                    removeOption: noop, 
                 };
                 return {
                     restrict: "E",
@@ -9689,7 +9689,7 @@
         ],
         styleDirective = valueFn({
             restrict: "E",
-            terminal: !0 
+            terminal: !0, 
         });
     (jQuery = window.jQuery)
         ? ((jqLite = jQuery),
@@ -9743,7 +9743,7 @@
                 lowercase: lowercase,
                 uppercase: uppercase,
                 callbacks: {
-                    counter: 0 
+                    counter: 0, 
                 },
                 $$minErr: minErr,
                 $$csp: csp,
@@ -9851,12 +9851,12 @@
         }
         angularModule(
             "ng",
-            ["ngLocale"],
+            ["ngLocale",],
             [
                 "$provide",
                 function ($provide) {
                     $provide.provider({
-                        $$sanitizeUri: $$SanitizeUriProvider 
+                        $$sanitizeUri: $$SanitizeUriProvider, 
                     }),
                     $provide
                         .provider("$compile",
@@ -9901,7 +9901,7 @@
                             ngValue: ngValueDirective,
                         })
                         .directive({
-                            ngInclude: ngIncludeFillContentDirective 
+                            ngInclude: ngIncludeFillContentDirective, 
                         })
                         .directive(ngAttributeAliasDirectives)
                         .directive(ngEventDirectives),
@@ -9938,8 +9938,8 @@
         !(function (element, bootstrap) {
             var appElement,
                 module,
-                elements = [element],
-                names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app"],
+                elements = [element,],
+                names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app",],
                 NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
             function append(element) {
                 element && elements.push(element);
@@ -9976,7 +9976,7 @@
                     }
                 }),
             appElement && bootstrap(appElement,
-                module ? [module] : []);
+                module ? [module,] : []);
         })(document,
             bootstrap);
     });

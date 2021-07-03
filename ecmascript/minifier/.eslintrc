@@ -31,6 +31,10 @@
         "object-curly-newline": [
             "error",
             "always"
+        ],
+        "comma-dangle": [
+            "error",
+            "always"
         ]
     }
 }

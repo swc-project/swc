@@ -70,7 +70,7 @@ var YUI = function () {
         },
         getLoader = function (Y, o) {
             var loader = Y.Env._loader,
-                lCore = ["loader-base"],
+                lCore = ["loader-base",],
                 mods = YUI.Env.mods;
             return (
                 loader
@@ -91,7 +91,7 @@ var YUI = function () {
             for (var i in s) s.hasOwnProperty(i) && (r[i] = s[i]);
         },
         ALREADY_DONE = {
-            success: !0 
+            success: !0, 
         };
     for (prop in (docEl &&
     -1 == docClass.indexOf("yui3-js-enabled") &&
@@ -150,7 +150,7 @@ var YUI = function () {
                             "loader-rollup",
                             "loader-yui3",
                         ],
-                        loaderExtras: ["loader-rollup", "loader-yui3"],
+                        loaderExtras: ["loader-rollup", "loader-yui3",],
                         mods: {
                         },
                         versions: {
@@ -182,7 +182,7 @@ var YUI = function () {
                   match[1] && (path += "?" + match[1]),
                   (path = {
                       filter: filter,
-                      path: path 
+                      path: path, 
                   })),
                                 path
                             );
@@ -272,7 +272,7 @@ var YUI = function () {
                 extras = Y.config.core || [].concat(YUI.Env.core);
             for (i = 0; i < extras.length; i++)
                 mods[extras[i]] && core.push(extras[i]);
-            Y._attach(["yui-base"]), Y._attach(core), Y.Loader && getLoader(Y);
+            Y._attach(["yui-base",]), Y._attach(core), Y.Loader && getLoader(Y);
         },
         applyTo: function (id, method, args) {
             if (!(method in APPLY_TO_AUTH))
@@ -309,7 +309,7 @@ var YUI = function () {
                     name: name,
                     fn: fn,
                     version: version,
-                    details: details 
+                    details: details, 
                 },
                 applied = {
                 },
@@ -436,13 +436,13 @@ var YUI = function () {
         },
         _delayCallback: function (cb, until) {
             var Y = this,
-                mod = ["event-base"];
+                mod = ["event-base",];
             return (
                 "load" ===
           (until = Y.Lang.isObject(until)
               ? until
               : {
-                  event: until 
+                  event: until, 
               }).event &&
           mod.push("event-synthetic"),
                 function () {
@@ -493,7 +493,7 @@ var YUI = function () {
             return (
                 Y._loading
                     ? ((Y._useQueue = Y._useQueue || new Y.Queue()),
-                    Y._useQueue.add([args, callback]))
+                    Y._useQueue.add([args, callback,]))
                     : Y._use(args,
                         function (Y, response) {
                             Y._notify(callback,
@@ -531,7 +531,7 @@ var YUI = function () {
                     }
         },
         _use: function (args, callback) {
-            this.Array || this._attach(["yui-base"]);
+            this.Array || this._attach(["yui-base",]);
             var len,
                 loader,
                 handleBoot,
@@ -590,7 +590,7 @@ var YUI = function () {
                         origMissing,
                         response = fromLoader || {
                             success: !0,
-                            msg: "not dynamic" 
+                            msg: "not dynamic", 
                         },
                         ret = !0,
                         data = response.data;
@@ -628,7 +628,7 @@ var YUI = function () {
             return (
                 (!mods.loader && !mods["loader-base"]) ||
           Y.Loader ||
-          Y._attach(["loader" + (mods.loader ? "" : "-base")]),
+          Y._attach(["loader" + (mods.loader ? "" : "-base"),]),
                 boot &&
           Y.Loader &&
           args.length &&
@@ -658,7 +658,7 @@ var YUI = function () {
                             (queue.running = !1),
                             (Env.bootstrapped = !0),
                             (G_ENV._bootstrapping = !1),
-                            Y._attach(["loader"]) && Y._use(args,
+                            Y._attach(["loader",]) && Y._use(args,
                                 callback);
                         }),
                         G_ENV._bootstrapping
@@ -911,7 +911,7 @@ YUI.add(
                         result.push(thing[startIndex]);
                     return result;
                 }
-            return [thing];
+            return [thing,];
         }
         function Queue() {
             this._init(), this.add.apply(this,
@@ -1171,7 +1171,7 @@ YUI.add(
                 "valueOf",
             ]),
             hasEnumBug = (O._hasEnumBug = !{
-                valueOf: 0 
+                valueOf: 0, 
             }.propertyIsEnumerable(
                 "valueOf",
             )),
@@ -1459,7 +1459,7 @@ YUI.add(
                 "anim-scroll",
                 "anim-xy",
             ],
-            "anim-shape-transform": ["anim-shape"],
+            "anim-shape-transform": ["anim-shape",],
             app: [
                 "app-base",
                 "app-content",
@@ -1472,24 +1472,24 @@ YUI.add(
                 "view",
                 "view-node-map",
             ],
-            attribute: ["attribute-base", "attribute-complex"],
-            "attribute-events": ["attribute-observable"],
+            attribute: ["attribute-base", "attribute-complex",],
+            "attribute-events": ["attribute-observable",],
             autocomplete: [
                 "autocomplete-base",
                 "autocomplete-sources",
                 "autocomplete-list",
                 "autocomplete-plugin",
             ],
-            axes: ["axis-numeric", "axis-category", "axis-time", "axis-stacked"],
+            axes: ["axis-numeric", "axis-category", "axis-time", "axis-stacked",],
             "axes-base": [
                 "axis-numeric-base",
                 "axis-category-base",
                 "axis-time-base",
                 "axis-stacked-base",
             ],
-            base: ["base-base", "base-pluginhost", "base-build"],
-            cache: ["cache-base", "cache-offline", "cache-plugin"],
-            charts: ["charts-base"],
+            base: ["base-base", "base-pluginhost", "base-build",],
+            cache: ["cache-base", "cache-offline", "cache-plugin",],
+            charts: ["charts-base",],
             collection: [
                 "array-extras",
                 "arraylist",
@@ -1497,8 +1497,8 @@ YUI.add(
                 "arraylist-filter",
                 "array-invoke",
             ],
-            color: ["color-base", "color-hsl", "color-harmony"],
-            controller: ["router"],
+            color: ["color-base", "color-hsl", "color-harmony",],
+            controller: ["router",],
             dataschema: [
                 "dataschema-base",
                 "dataschema-json",
@@ -1530,7 +1530,7 @@ YUI.add(
                 "datatable-sort",
                 "datatable-datasource",
             ],
-            datatype: ["datatype-date", "datatype-number", "datatype-xml"],
+            datatype: ["datatype-date", "datatype-number", "datatype-xml",],
             "datatype-date": [
                 "datatype-date-parse",
                 "datatype-date-format",
@@ -1540,7 +1540,7 @@ YUI.add(
                 "datatype-number-parse",
                 "datatype-number-format",
             ],
-            "datatype-xml": ["datatype-xml-parse", "datatype-xml-format"],
+            "datatype-xml": ["datatype-xml-parse", "datatype-xml-format",],
             dd: [
                 "dd-ddm-base",
                 "dd-ddm",
@@ -1587,19 +1587,19 @@ YUI.add(
                 "event-valuechange",
                 "event-tap",
             ],
-            "event-custom": ["event-custom-base", "event-custom-complex"],
-            "event-gestures": ["event-flick", "event-move"],
-            handlebars: ["handlebars-compiler"],
-            highlight: ["highlight-base", "highlight-accentfold"],
+            "event-custom": ["event-custom-base", "event-custom-complex",],
+            "event-gestures": ["event-flick", "event-move",],
+            handlebars: ["handlebars-compiler",],
+            highlight: ["highlight-base", "highlight-accentfold",],
             history: [
                 "history-base",
                 "history-hash",
                 "history-hash-ie",
                 "history-html5",
             ],
-            io: ["io-base", "io-xdr", "io-form", "io-upload-iframe", "io-queue"],
-            json: ["json-parse", "json-stringify"],
-            loader: ["loader-base", "loader-rollup", "loader-yui3"],
+            io: ["io-base", "io-xdr", "io-form", "io-upload-iframe", "io-queue",],
+            json: ["json-parse", "json-stringify",],
+            loader: ["loader-base", "loader-rollup", "loader-yui3",],
             node: [
                 "node-base",
                 "node-event-delegate",
@@ -1607,23 +1607,23 @@ YUI.add(
                 "node-screen",
                 "node-style",
             ],
-            pluginhost: ["pluginhost-base", "pluginhost-config"],
-            querystring: ["querystring-parse", "querystring-stringify"],
+            pluginhost: ["pluginhost-base", "pluginhost-config",],
+            querystring: ["querystring-parse", "querystring-stringify",],
             recordset: [
                 "recordset-base",
                 "recordset-sort",
                 "recordset-filter",
                 "recordset-indexer",
             ],
-            resize: ["resize-base", "resize-proxy", "resize-constrain"],
+            resize: ["resize-base", "resize-proxy", "resize-constrain",],
             slider: [
                 "slider-base",
                 "slider-value-range",
                 "clickable-rail",
                 "range-slider",
             ],
-            template: ["template-base", "template-micro"],
-            text: ["text-accentfold", "text-wordbreak"],
+            template: ["template-base", "template-micro",],
+            text: ["text-accentfold", "text-wordbreak",],
             widget: [
                 "widget-base",
                 "widget-htmlparser",
@@ -1657,20 +1657,20 @@ YUI.add(
         (Y.Get = Get = {
             cssOptions: {
                 attributes: {
-                    rel: "stylesheet" 
+                    rel: "stylesheet", 
                 },
                 doc: Y.config.linkDoc || Y.config.doc,
                 pollInterval: 50,
             },
             jsOptions: {
                 autopurge: !0,
-                doc: Y.config.scriptDoc || Y.config.doc 
+                doc: Y.config.scriptDoc || Y.config.doc, 
             },
             options: {
                 attributes: {
-                    charset: "utf-8" 
+                    charset: "utf-8", 
                 },
-                purgethreshold: 20 
+                purgethreshold: 20, 
             },
             REGEX_CSS: /\.css(?:[?;].*)?$/i,
             REGEX_JS: /\.js(?:[?;].*)?$/i,
@@ -1749,7 +1749,7 @@ YUI.add(
                     url,
                     requests = [];
                 for (
-                    Lang.isArray(urls) || (urls = [urls]),
+                    Lang.isArray(urls) || (urls = [urls,]),
                     (options = Y.merge(this.options,
                         options)).attributes = Y.merge(
                         this.options.attributes,
@@ -1763,7 +1763,7 @@ YUI.add(
                     if (
                         ((req = {
                             attributes: {
-                            } 
+                            }, 
                         }), "string" == typeof (url = urls[i]))
                     )
                         req.url = url;
@@ -1819,7 +1819,7 @@ YUI.add(
                         options)),
                     this._queue.push({
                         callback: callback,
-                        transaction: transaction 
+                        transaction: transaction, 
                     }),
                     this._next(),
                     transaction
@@ -1877,7 +1877,7 @@ YUI.add(
                 (this._queue = []),
                 (this._reqsWaiting = 0),
                 this.errors.push({
-                    error: msg || "Aborted" 
+                    error: msg || "Aborted", 
                 }),
                 this._finish();
             },
@@ -1934,7 +1934,7 @@ YUI.add(
                     }
                     : {
                         for: "htmlFor",
-                        class: "className" 
+                        class: "className", 
                     })),
                 attrs))
                     attrs.hasOwnProperty(attr) &&
@@ -2135,7 +2135,7 @@ YUI.add(
               ((req.error = err),
               this.errors.push({
                   error: err,
-                  request: req 
+                  request: req, 
               })),
                 (req.node._yuiget_finished = req.finished = !0),
                 options.onProgress &&
@@ -2154,7 +2154,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["yui-base"] 
+        requires: ["yui-base",], 
     },
 ),
 YUI.add(
@@ -2561,7 +2561,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["yui-base"] 
+        requires: ["yui-base",], 
     },
 ),
 YUI.add(
@@ -2604,7 +2604,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["yui-base"] 
+        requires: ["yui-base",], 
     },
 ),
 YUI.add(
@@ -2615,7 +2615,7 @@ YUI.add(
                 debug: 1,
                 info: 2,
                 warn: 4,
-                error: 8 
+                error: 8, 
             };
         (INSTANCE.log = function (msg, cat, src, silent) {
             var bail,
@@ -2657,13 +2657,13 @@ YUI.add(
                   publisher.getEvent("yui:log") ||
                   publisher.publish("yui:log",
                       {
-                          broadcast: 2 
+                          broadcast: 2, 
                       }),
                 publisher.fire("yui:log",
                     {
                         msg: msg,
                         cat: cat,
-                        src: src 
+                        src: src, 
                     })))),
                 Y
             );
@@ -2675,7 +2675,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["yui-base"] 
+        requires: ["yui-base",], 
     },
 ),
 YUI.add(
@@ -2716,7 +2716,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["yui-base"] 
+        requires: ["yui-base",], 
     },
 ),
 YUI.add(
@@ -2783,7 +2783,7 @@ YUI.add(
                     "lang/gallery-": {
                     },
                     "gallerycss-": {
-                        type: "css" 
+                        type: "css", 
                     },
                 },
             }),
@@ -2814,7 +2814,7 @@ YUI.add(
                 META,
                 YUI.Env[VERSION],
                 !1,
-                ["modules", "groups", "skin"],
+                ["modules", "groups", "skin",],
                 0,
                 !0,
             ),
@@ -2944,15 +2944,15 @@ YUI.add(
             FILTER_DEFS: {
                 RAW: {
                     searchExp: "-min\\.js",
-                    replaceStr: ".js" 
+                    replaceStr: ".js", 
                 },
                 DEBUG: {
                     searchExp: "-min\\.js",
-                    replaceStr: "-debug.js" 
+                    replaceStr: "-debug.js", 
                 },
                 COVERAGE: {
                     searchExp: "-min\\.js",
-                    replaceStr: "-coverage.js" 
+                    replaceStr: "-coverage.js", 
                 },
             },
             _inspectPage: function () {
@@ -3025,7 +3025,7 @@ YUI.add(
                                 "string" == typeof val &&
                       ((self.skin.defaultSkin = o.skin),
                       (val = {
-                          defaultSkin: val 
+                          defaultSkin: val, 
                       })),
                                 Y.mix(self.skin,
                                     val,
@@ -3137,7 +3137,7 @@ YUI.add(
                 (YUI.Env.aliases[name] = use),
                 this.addModule({
                     name: name,
-                    use: use 
+                    use: use, 
                 });
             },
             addGroup: function (o, name) {
@@ -3160,7 +3160,7 @@ YUI.add(
                   ("string" == typeof (v = mods[i]) &&
                     (v = {
                         name: i,
-                        fullpath: v 
+                        fullpath: v, 
                     }),
                   (v.group = name),
                   this.addModule(v,
@@ -3170,7 +3170,7 @@ YUI.add(
                 (name = name || o.name),
                 "string" == typeof o && (o = {
                     name: name,
-                    fullpath: o 
+                    fullpath: o, 
                 });
                 var subs,
                     i,
@@ -3336,7 +3336,7 @@ YUI.add(
                     for (
                         t = o.condition.trigger,
                         YUI.Env.aliases[t] && (t = YUI.Env.aliases[t]),
-                        Y.Lang.isArray(t) || (t = [t]),
+                        Y.Lang.isArray(t) || (t = [t,]),
                         i = 0;
                         i < t.length;
                         i++
@@ -3405,7 +3405,7 @@ YUI.add(
             },
             filterRequires: function (r) {
                 if (r) {
-                    Y.Lang.isArray(r) || (r = [r]), (r = Y.Array(r));
+                    Y.Lang.isArray(r) || (r = [r,]), (r = Y.Array(r));
                     var i,
                         mod,
                         o,
@@ -3846,7 +3846,7 @@ YUI.add(
               this.onProgress.call(this.context,
                   {
                       name: e.url,
-                      data: e.data 
+                      data: e.data, 
                   });
             },
             _onFailure: function (o) {
@@ -3989,7 +3989,7 @@ YUI.add(
                     !modules.js.length && !modules.css.length)
                 )
                     return (actions = -1), void complete({
-                        fn: self._onSuccess 
+                        fn: self._onSuccess, 
                     });
                 modules.css.length &&
               Y.Get.css(modules.css,
@@ -4133,7 +4133,7 @@ YUI.add(
                         js: [],
                         jsMods: [],
                         css: [],
-                        cssMods: [] 
+                        cssMods: [], 
                     },
                     type = self.loadType || "js";
                 for (
@@ -4156,7 +4156,7 @@ YUI.add(
                     (m.attributes || !1 === m.async) &&
                       ((url = {
                           url: url,
-                          async: m.async 
+                          async: m.async, 
                       }),
                       m.attributes && (url.attributes = m.attributes)),
                     resolved[m.type].push(url),
@@ -4288,7 +4288,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["get", "features"] 
+        requires: ["get", "features",], 
     },
 ),
 YUI.add(
@@ -4344,7 +4344,7 @@ YUI.add(
     },
     "3.12.0",
     {
-        requires: ["loader-base"] 
+        requires: ["loader-base",], 
     },
 ),
 YUI.add(
@@ -4355,7 +4355,7 @@ YUI.add(
         Y.mix(YUI.Env[Y.version].modules,
             {
                 "align-plugin": {
-                    requires: ["node-screen", "node-pluginhost"] 
+                    requires: ["node-screen", "node-pluginhost",], 
                 },
                 anim: {
                     use: [
@@ -4369,31 +4369,31 @@ YUI.add(
                     ],
                 },
                 "anim-base": {
-                    requires: ["base-base", "node-style"] 
+                    requires: ["base-base", "node-style",], 
                 },
                 "anim-color": {
-                    requires: ["anim-base"] 
+                    requires: ["anim-base",], 
                 },
                 "anim-curve": {
-                    requires: ["anim-xy"] 
+                    requires: ["anim-xy",], 
                 },
                 "anim-easing": {
-                    requires: ["anim-base"] 
+                    requires: ["anim-base",], 
                 },
                 "anim-node-plugin": {
-                    requires: ["node-pluginhost", "anim-base"] 
+                    requires: ["node-pluginhost", "anim-base",], 
                 },
                 "anim-scroll": {
-                    requires: ["anim-base"] 
+                    requires: ["anim-base",], 
                 },
                 "anim-shape": {
-                    requires: ["anim-base", "anim-easing", "anim-color", "matrix"],
+                    requires: ["anim-base", "anim-easing", "anim-color", "matrix",],
                 },
                 "anim-shape-transform": {
-                    use: ["anim-shape"] 
+                    use: ["anim-shape",], 
                 },
                 "anim-xy": {
-                    requires: ["anim-base", "node-screen"] 
+                    requires: ["anim-base", "node-screen",], 
                 },
                 app: {
                     use: [
@@ -4410,16 +4410,16 @@ YUI.add(
                     ],
                 },
                 "app-base": {
-                    requires: ["classnamemanager", "pjax-base", "router", "view"],
+                    requires: ["classnamemanager", "pjax-base", "router", "view",],
                 },
                 "app-content": {
-                    requires: ["app-base", "pjax-content"] 
+                    requires: ["app-base", "pjax-content",], 
                 },
                 "app-transitions": {
-                    requires: ["app-base"] 
+                    requires: ["app-base",], 
                 },
                 "app-transitions-css": {
-                    type: "css" 
+                    type: "css", 
                 },
                 "app-transitions-native": {
                     condition: {
@@ -4444,28 +4444,28 @@ YUI.add(
                     ],
                 },
                 "array-extras": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "array-invoke": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 arraylist: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "arraylist-add": {
-                    requires: ["arraylist"] 
+                    requires: ["arraylist",], 
                 },
                 "arraylist-filter": {
-                    requires: ["arraylist"] 
+                    requires: ["arraylist",], 
                 },
                 arraysort: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "async-queue": {
-                    requires: ["event-custom"] 
+                    requires: ["event-custom",], 
                 },
                 attribute: {
-                    use: ["attribute-base", "attribute-complex"] 
+                    use: ["attribute-base", "attribute-complex",], 
                 },
                 "attribute-base": {
                     requires: [
@@ -4475,19 +4475,19 @@ YUI.add(
                     ],
                 },
                 "attribute-complex": {
-                    requires: ["attribute-base"] 
+                    requires: ["attribute-base",], 
                 },
                 "attribute-core": {
-                    requires: ["oop"] 
+                    requires: ["oop",], 
                 },
                 "attribute-events": {
-                    use: ["attribute-observable"] 
+                    use: ["attribute-observable",], 
                 },
                 "attribute-extras": {
-                    requires: ["oop"] 
+                    requires: ["oop",], 
                 },
                 "attribute-observable": {
-                    requires: ["event-custom"] 
+                    requires: ["event-custom",], 
                 },
                 autocomplete: {
                     use: [
@@ -4498,7 +4498,7 @@ YUI.add(
                     ],
                 },
                 "autocomplete-base": {
-                    optional: ["autocomplete-sources"],
+                    optional: ["autocomplete-sources",],
                     requires: [
                         "array-extras",
                         "base-build",
@@ -4508,20 +4508,20 @@ YUI.add(
                     ],
                 },
                 "autocomplete-filters": {
-                    requires: ["array-extras", "text-wordbreak"],
+                    requires: ["array-extras", "text-wordbreak",],
                 },
                 "autocomplete-filters-accentfold": {
-                    requires: ["array-extras", "text-accentfold", "text-wordbreak"],
+                    requires: ["array-extras", "text-accentfold", "text-wordbreak",],
                 },
                 "autocomplete-highlighters": {
-                    requires: ["array-extras", "highlight-base"],
+                    requires: ["array-extras", "highlight-base",],
                 },
                 "autocomplete-highlighters-accentfold": {
-                    requires: ["array-extras", "highlight-accentfold"],
+                    requires: ["array-extras", "highlight-accentfold",],
                 },
                 "autocomplete-list": {
-                    after: ["autocomplete-sources"],
-                    lang: ["en", "es", "hu", "it"],
+                    after: ["autocomplete-sources",],
+                    lang: ["en", "es", "hu", "it",],
                     requires: [
                         "autocomplete-base",
                         "event-resize",
@@ -4542,17 +4542,17 @@ YUI.add(
                         },
                         trigger: "autocomplete-list",
                     },
-                    requires: ["autocomplete-list", "base-build"],
+                    requires: ["autocomplete-list", "base-build",],
                 },
                 "autocomplete-plugin": {
-                    requires: ["autocomplete-list", "node-pluginhost"],
+                    requires: ["autocomplete-list", "node-pluginhost",],
                 },
                 "autocomplete-sources": {
-                    optional: ["io-base", "json-parse", "jsonp", "yql"],
-                    requires: ["autocomplete-base"],
+                    optional: ["io-base", "json-parse", "jsonp", "yql",],
+                    requires: ["autocomplete-base",],
                 },
                 axes: {
-                    use: ["axis-numeric", "axis-category", "axis-time", "axis-stacked"],
+                    use: ["axis-numeric", "axis-category", "axis-time", "axis-stacked",],
                 },
                 "axes-base": {
                     use: [
@@ -4582,73 +4582,73 @@ YUI.add(
                     ],
                 },
                 "axis-category": {
-                    requires: ["axis", "axis-category-base"] 
+                    requires: ["axis", "axis-category-base",], 
                 },
                 "axis-category-base": {
-                    requires: ["axis-base"] 
+                    requires: ["axis-base",], 
                 },
                 "axis-numeric": {
-                    requires: ["axis", "axis-numeric-base"] 
+                    requires: ["axis", "axis-numeric-base",], 
                 },
                 "axis-numeric-base": {
-                    requires: ["axis-base"] 
+                    requires: ["axis-base",], 
                 },
                 "axis-stacked": {
-                    requires: ["axis-numeric", "axis-stacked-base"] 
+                    requires: ["axis-numeric", "axis-stacked-base",], 
                 },
                 "axis-stacked-base": {
-                    requires: ["axis-numeric-base"] 
+                    requires: ["axis-numeric-base",], 
                 },
                 "axis-time": {
-                    requires: ["axis", "axis-time-base"] 
+                    requires: ["axis", "axis-time-base",], 
                 },
                 "axis-time-base": {
-                    requires: ["axis-base"] 
+                    requires: ["axis-base",], 
                 },
                 base: {
-                    use: ["base-base", "base-pluginhost", "base-build"] 
+                    use: ["base-base", "base-pluginhost", "base-build",], 
                 },
                 "base-base": {
-                    requires: ["attribute-base", "base-core", "base-observable"],
+                    requires: ["attribute-base", "base-core", "base-observable",],
                 },
                 "base-build": {
-                    requires: ["base-base"] 
+                    requires: ["base-base",], 
                 },
                 "base-core": {
-                    requires: ["attribute-core"] 
+                    requires: ["attribute-core",], 
                 },
                 "base-observable": {
-                    requires: ["attribute-observable"] 
+                    requires: ["attribute-observable",], 
                 },
                 "base-pluginhost": {
-                    requires: ["base-base", "pluginhost"] 
+                    requires: ["base-base", "pluginhost",], 
                 },
                 button: {
-                    requires: ["button-core", "cssbutton", "widget"] 
+                    requires: ["button-core", "cssbutton", "widget",], 
                 },
                 "button-core": {
-                    requires: ["attribute-core", "classnamemanager", "node-base"],
+                    requires: ["attribute-core", "classnamemanager", "node-base",],
                 },
                 "button-group": {
-                    requires: ["button-plugin", "cssbutton", "widget"],
+                    requires: ["button-plugin", "cssbutton", "widget",],
                 },
                 "button-plugin": {
-                    requires: ["button-core", "cssbutton", "node-pluginhost"],
+                    requires: ["button-core", "cssbutton", "node-pluginhost",],
                 },
                 cache: {
-                    use: ["cache-base", "cache-offline", "cache-plugin"] 
+                    use: ["cache-base", "cache-offline", "cache-plugin",], 
                 },
                 "cache-base": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 "cache-offline": {
-                    requires: ["cache-base", "json"] 
+                    requires: ["cache-base", "json",], 
                 },
                 "cache-plugin": {
-                    requires: ["plugin", "cache-base"] 
+                    requires: ["plugin", "cache-base",], 
                 },
                 calendar: {
-                    requires: ["calendar-base", "calendarnavigator"],
+                    requires: ["calendar-base", "calendarnavigator",],
                     skinnable: !0,
                 },
                 "calendar-base": {
@@ -4680,11 +4680,11 @@ YUI.add(
                     skinnable: !0,
                 },
                 calendarnavigator: {
-                    requires: ["plugin", "classnamemanager", "datatype-date", "node"],
+                    requires: ["plugin", "classnamemanager", "datatype-date", "node",],
                     skinnable: !0,
                 },
                 charts: {
-                    use: ["charts-base"] 
+                    use: ["charts-base",], 
                 },
                 "charts-base": {
                     requires: [
@@ -4715,13 +4715,13 @@ YUI.add(
                     ],
                 },
                 "charts-legend": {
-                    requires: ["charts-base"] 
+                    requires: ["charts-base",], 
                 },
                 classnamemanager: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "clickable-rail": {
-                    requires: ["slider-base"] 
+                    requires: ["slider-base",], 
                 },
                 collection: {
                     use: [
@@ -4733,37 +4733,37 @@ YUI.add(
                     ],
                 },
                 color: {
-                    use: ["color-base", "color-hsl", "color-harmony"] 
+                    use: ["color-base", "color-hsl", "color-harmony",], 
                 },
                 "color-base": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "color-harmony": {
-                    requires: ["color-hsl"] 
+                    requires: ["color-hsl",], 
                 },
                 "color-hsl": {
-                    requires: ["color-base"] 
+                    requires: ["color-base",], 
                 },
                 "color-hsv": {
-                    requires: ["color-base"] 
+                    requires: ["color-base",], 
                 },
                 console: {
-                    lang: ["en", "es", "hu", "it", "ja"],
-                    requires: ["yui-log", "widget"],
+                    lang: ["en", "es", "hu", "it", "ja",],
+                    requires: ["yui-log", "widget",],
                     skinnable: !0,
                 },
                 "console-filters": {
-                    requires: ["plugin", "console"],
-                    skinnable: !0 
+                    requires: ["plugin", "console",],
+                    skinnable: !0, 
                 },
                 controller: {
-                    use: ["router"] 
+                    use: ["router",], 
                 },
                 cookie: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "createlink-base": {
-                    requires: ["editor-base"] 
+                    requires: ["editor-base",], 
                 },
                 cssbase: {
                     after: [
@@ -4788,43 +4788,43 @@ YUI.add(
                     type: "css",
                 },
                 cssbutton: {
-                    type: "css" 
+                    type: "css", 
                 },
                 cssfonts: {
-                    type: "css" 
+                    type: "css", 
                 },
                 "cssfonts-context": {
-                    type: "css" 
+                    type: "css", 
                 },
                 cssgrids: {
-                    optional: ["cssnormalize"],
-                    type: "css" 
+                    optional: ["cssnormalize",],
+                    type: "css", 
                 },
                 "cssgrids-base": {
-                    optional: ["cssnormalize"],
-                    type: "css" 
+                    optional: ["cssnormalize",],
+                    type: "css", 
                 },
                 "cssgrids-responsive": {
-                    optional: ["cssnormalize"],
-                    requires: ["cssgrids", "cssgrids-responsive-base"],
+                    optional: ["cssnormalize",],
+                    requires: ["cssgrids", "cssgrids-responsive-base",],
                     type: "css",
                 },
                 "cssgrids-units": {
-                    optional: ["cssnormalize"],
-                    requires: ["cssgrids-base"],
+                    optional: ["cssnormalize",],
+                    requires: ["cssgrids-base",],
                     type: "css",
                 },
                 cssnormalize: {
-                    type: "css" 
+                    type: "css", 
                 },
                 "cssnormalize-context": {
-                    type: "css" 
+                    type: "css", 
                 },
                 cssreset: {
-                    type: "css" 
+                    type: "css", 
                 },
                 "cssreset-context": {
-                    type: "css" 
+                    type: "css", 
                 },
                 dataschema: {
                     use: [
@@ -4836,19 +4836,19 @@ YUI.add(
                     ],
                 },
                 "dataschema-array": {
-                    requires: ["dataschema-base"] 
+                    requires: ["dataschema-base",], 
                 },
                 "dataschema-base": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 "dataschema-json": {
-                    requires: ["dataschema-base", "json"] 
+                    requires: ["dataschema-base", "json",], 
                 },
                 "dataschema-text": {
-                    requires: ["dataschema-base"] 
+                    requires: ["dataschema-base",], 
                 },
                 "dataschema-xml": {
-                    requires: ["dataschema-base"] 
+                    requires: ["dataschema-base",], 
                 },
                 datasource: {
                     use: [
@@ -4865,31 +4865,31 @@ YUI.add(
                     ],
                 },
                 "datasource-arrayschema": {
-                    requires: ["datasource-local", "plugin", "dataschema-array"],
+                    requires: ["datasource-local", "plugin", "dataschema-array",],
                 },
                 "datasource-cache": {
-                    requires: ["datasource-local", "plugin", "cache-base"],
+                    requires: ["datasource-local", "plugin", "cache-base",],
                 },
                 "datasource-function": {
-                    requires: ["datasource-local"] 
+                    requires: ["datasource-local",], 
                 },
                 "datasource-get": {
-                    requires: ["datasource-local", "get"] 
+                    requires: ["datasource-local", "get",], 
                 },
                 "datasource-io": {
-                    requires: ["datasource-local", "io-base"] 
+                    requires: ["datasource-local", "io-base",], 
                 },
                 "datasource-jsonschema": {
-                    requires: ["datasource-local", "plugin", "dataschema-json"],
+                    requires: ["datasource-local", "plugin", "dataschema-json",],
                 },
                 "datasource-local": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 "datasource-polling": {
-                    requires: ["datasource-local"] 
+                    requires: ["datasource-local",], 
                 },
                 "datasource-textschema": {
-                    requires: ["datasource-local", "plugin", "dataschema-text"],
+                    requires: ["datasource-local", "plugin", "dataschema-text",],
                 },
                 "datasource-xmlschema": {
                     requires: [
@@ -4925,19 +4925,19 @@ YUI.add(
                     skinnable: !0,
                 },
                 "datatable-body": {
-                    requires: ["datatable-core", "view", "classnamemanager"],
+                    requires: ["datatable-core", "view", "classnamemanager",],
                 },
                 "datatable-column-widths": {
-                    requires: ["datatable-base"] 
+                    requires: ["datatable-base",], 
                 },
                 "datatable-core": {
-                    requires: ["escape", "model-list", "node-event-delegate"],
+                    requires: ["escape", "model-list", "node-event-delegate",],
                 },
                 "datatable-datasource": {
-                    requires: ["datatable-base", "plugin", "datasource-local"],
+                    requires: ["datatable-base", "plugin", "datasource-local",],
                 },
                 "datatable-foot": {
-                    requires: ["datatable-core", "view"] 
+                    requires: ["datatable-core", "view",], 
                 },
                 "datatable-formatters": {
                     requires: [
@@ -4948,18 +4948,18 @@ YUI.add(
                     ],
                 },
                 "datatable-head": {
-                    requires: ["datatable-core", "view", "classnamemanager"],
+                    requires: ["datatable-core", "view", "classnamemanager",],
                 },
                 "datatable-message": {
-                    lang: ["en", "fr", "es", "hu", "it"],
-                    requires: ["datatable-base"],
+                    lang: ["en", "fr", "es", "hu", "it",],
+                    requires: ["datatable-base",],
                     skinnable: !0,
                 },
                 "datatable-mutable": {
-                    requires: ["datatable-base"] 
+                    requires: ["datatable-base",], 
                 },
                 "datatable-paginator": {
-                    lang: ["en"],
+                    lang: ["en",],
                     requires: [
                         "model",
                         "view",
@@ -4970,7 +4970,7 @@ YUI.add(
                     skinnable: !0,
                 },
                 "datatable-paginator-templates": {
-                    requires: ["template"] 
+                    requires: ["template",], 
                 },
                 "datatable-scroll": {
                     requires: [
@@ -4981,8 +4981,8 @@ YUI.add(
                     skinnable: !0,
                 },
                 "datatable-sort": {
-                    lang: ["en", "fr", "es", "hu"],
-                    requires: ["datatable-base"],
+                    lang: ["en", "fr", "es", "hu",],
+                    requires: ["datatable-base",],
                     skinnable: !0,
                 },
                 "datatable-table": {
@@ -4995,7 +4995,7 @@ YUI.add(
                     ],
                 },
                 datatype: {
-                    use: ["datatype-date", "datatype-number", "datatype-xml"],
+                    use: ["datatype-date", "datatype-number", "datatype-xml",],
                 },
                 "datatype-date": {
                     use: [
@@ -5090,19 +5090,19 @@ YUI.add(
                     ],
                 },
                 "datatype-date-math": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "datatype-date-parse": {
                 },
                 "datatype-number": {
-                    use: ["datatype-number-parse", "datatype-number-format"],
+                    use: ["datatype-number-parse", "datatype-number-format",],
                 },
                 "datatype-number-format": {
                 },
                 "datatype-number-parse": {
                 },
                 "datatype-xml": {
-                    use: ["datatype-xml-parse", "datatype-xml-format"],
+                    use: ["datatype-xml-parse", "datatype-xml-format",],
                 },
                 "datatype-xml-format": {
                 },
@@ -5122,28 +5122,28 @@ YUI.add(
                     ],
                 },
                 "dd-constrain": {
-                    requires: ["dd-drag"] 
+                    requires: ["dd-drag",], 
                 },
                 "dd-ddm": {
-                    requires: ["dd-ddm-base", "event-resize"] 
+                    requires: ["dd-ddm-base", "event-resize",], 
                 },
                 "dd-ddm-base": {
-                    requires: ["node", "base", "yui-throttle", "classnamemanager"],
+                    requires: ["node", "base", "yui-throttle", "classnamemanager",],
                 },
                 "dd-ddm-drop": {
-                    requires: ["dd-ddm"] 
+                    requires: ["dd-ddm",], 
                 },
                 "dd-delegate": {
-                    requires: ["dd-drag", "dd-drop-plugin", "event-mouseenter"],
+                    requires: ["dd-drag", "dd-drop-plugin", "event-mouseenter",],
                 },
                 "dd-drag": {
-                    requires: ["dd-ddm-base"] 
+                    requires: ["dd-ddm-base",], 
                 },
                 "dd-drop": {
-                    requires: ["dd-drag", "dd-ddm-drop"] 
+                    requires: ["dd-drag", "dd-ddm-drop",], 
                 },
                 "dd-drop-plugin": {
-                    requires: ["dd-drop"] 
+                    requires: ["dd-drop",], 
                 },
                 "dd-gestures": {
                     condition: {
@@ -5151,20 +5151,20 @@ YUI.add(
                         trigger: "dd-drag",
                         ua: "touchEnabled",
                     },
-                    requires: ["dd-drag", "event-synthetic", "event-gestures"],
+                    requires: ["dd-drag", "event-synthetic", "event-gestures",],
                 },
                 "dd-plugin": {
-                    optional: ["dd-constrain", "dd-proxy"],
-                    requires: ["dd-drag"],
+                    optional: ["dd-constrain", "dd-proxy",],
+                    requires: ["dd-drag",],
                 },
                 "dd-proxy": {
-                    requires: ["dd-drag"] 
+                    requires: ["dd-drag",], 
                 },
                 "dd-scroll": {
-                    requires: ["dd-drag"] 
+                    requires: ["dd-drag",], 
                 },
                 dial: {
-                    lang: ["en", "es", "hu"],
+                    lang: ["en", "es", "hu",],
                     requires: [
                         "widget",
                         "dd-drag",
@@ -5186,19 +5186,19 @@ YUI.add(
                     ],
                 },
                 "dom-base": {
-                    requires: ["dom-core"] 
+                    requires: ["dom-core",], 
                 },
                 "dom-core": {
-                    requires: ["oop", "features"] 
+                    requires: ["oop", "features",], 
                 },
                 "dom-deprecated": {
-                    requires: ["dom-base"] 
+                    requires: ["dom-base",], 
                 },
                 "dom-screen": {
-                    requires: ["dom-base", "dom-style"] 
+                    requires: ["dom-base", "dom-style",], 
                 },
                 "dom-style": {
-                    requires: ["dom-base", "color-base"] 
+                    requires: ["dom-base", "color-base",], 
                 },
                 "dom-style-ie": {
                     condition: {
@@ -5233,10 +5233,10 @@ YUI.add(
                         },
                         trigger: "dom-style",
                     },
-                    requires: ["dom-style"],
+                    requires: ["dom-style",],
                 },
                 dump: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 editor: {
                     use: [
@@ -5261,19 +5261,19 @@ YUI.add(
                     ],
                 },
                 "editor-bidi": {
-                    requires: ["editor-base"] 
+                    requires: ["editor-base",], 
                 },
                 "editor-br": {
-                    requires: ["editor-base"] 
+                    requires: ["editor-base",], 
                 },
                 "editor-lists": {
-                    requires: ["editor-base"] 
+                    requires: ["editor-base",], 
                 },
                 "editor-para": {
-                    requires: ["editor-para-base"] 
+                    requires: ["editor-para-base",], 
                 },
                 "editor-para-base": {
-                    requires: ["editor-base"] 
+                    requires: ["editor-base",], 
                 },
                 "editor-para-ie": {
                     condition: {
@@ -5282,19 +5282,19 @@ YUI.add(
                         ua: "ie",
                         when: "instead",
                     },
-                    requires: ["editor-para-base"],
+                    requires: ["editor-para-base",],
                 },
                 "editor-selection": {
-                    requires: ["node"] 
+                    requires: ["node",], 
                 },
                 "editor-tab": {
-                    requires: ["editor-base"] 
+                    requires: ["editor-base",], 
                 },
                 escape: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 event: {
-                    after: ["node-base"],
+                    after: ["node-base",],
                     use: [
                         "event-base",
                         "event-delegate",
@@ -5314,11 +5314,11 @@ YUI.add(
                     ],
                 },
                 "event-base": {
-                    after: ["node-base"],
-                    requires: ["event-custom-base"],
+                    after: ["node-base",],
+                    requires: ["event-custom-base",],
                 },
                 "event-base-ie": {
-                    after: ["event-base"],
+                    after: ["event-base",],
                     condition: {
                         name: "event-base-ie",
                         test: function (Y) {
@@ -5328,58 +5328,58 @@ YUI.add(
                         },
                         trigger: "node-base",
                     },
-                    requires: ["node-base"],
+                    requires: ["node-base",],
                 },
                 "event-contextmenu": {
-                    requires: ["event-synthetic", "dom-screen"] 
+                    requires: ["event-synthetic", "dom-screen",], 
                 },
                 "event-custom": {
-                    use: ["event-custom-base", "event-custom-complex"],
+                    use: ["event-custom-base", "event-custom-complex",],
                 },
                 "event-custom-base": {
-                    requires: ["oop"] 
+                    requires: ["oop",], 
                 },
                 "event-custom-complex": {
-                    requires: ["event-custom-base"] 
+                    requires: ["event-custom-base",], 
                 },
                 "event-delegate": {
-                    requires: ["node-base"] 
+                    requires: ["node-base",], 
                 },
                 "event-flick": {
-                    requires: ["node-base", "event-touch", "event-synthetic"],
+                    requires: ["node-base", "event-touch", "event-synthetic",],
                 },
                 "event-focus": {
-                    requires: ["event-synthetic"] 
+                    requires: ["event-synthetic",], 
                 },
                 "event-gestures": {
-                    use: ["event-flick", "event-move"] 
+                    use: ["event-flick", "event-move",], 
                 },
                 "event-hover": {
-                    requires: ["event-mouseenter"] 
+                    requires: ["event-mouseenter",], 
                 },
                 "event-key": {
-                    requires: ["event-synthetic"] 
+                    requires: ["event-synthetic",], 
                 },
                 "event-mouseenter": {
-                    requires: ["event-synthetic"] 
+                    requires: ["event-synthetic",], 
                 },
                 "event-mousewheel": {
-                    requires: ["node-base"] 
+                    requires: ["node-base",], 
                 },
                 "event-move": {
-                    requires: ["node-base", "event-touch", "event-synthetic"],
+                    requires: ["node-base", "event-touch", "event-synthetic",],
                 },
                 "event-outside": {
-                    requires: ["event-synthetic"] 
+                    requires: ["event-synthetic",], 
                 },
                 "event-resize": {
-                    requires: ["node-base", "event-synthetic"] 
+                    requires: ["node-base", "event-synthetic",], 
                 },
                 "event-simulate": {
-                    requires: ["event-base"] 
+                    requires: ["event-base",], 
                 },
                 "event-synthetic": {
-                    requires: ["node-base", "event-custom-complex"],
+                    requires: ["node-base", "event-custom-complex",],
                 },
                 "event-tap": {
                     requires: [
@@ -5390,34 +5390,34 @@ YUI.add(
                     ],
                 },
                 "event-touch": {
-                    requires: ["node-base"] 
+                    requires: ["node-base",], 
                 },
                 "event-valuechange": {
-                    requires: ["event-focus", "event-synthetic"] 
+                    requires: ["event-focus", "event-synthetic",], 
                 },
                 "exec-command": {
-                    requires: ["frame"] 
+                    requires: ["frame",], 
                 },
                 features: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 file: {
-                    requires: ["file-flash", "file-html5"] 
+                    requires: ["file-flash", "file-html5",], 
                 },
                 "file-flash": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 "file-html5": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 frame: {
-                    requires: ["base", "node", "selector-css3", "yui-throttle"],
+                    requires: ["base", "node", "selector-css3", "yui-throttle",],
                 },
                 "gesture-simulate": {
-                    requires: ["async-queue", "event-simulate", "node-screen"],
+                    requires: ["async-queue", "event-simulate", "node-screen",],
                 },
                 get: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 graphics: {
                     requires: [
@@ -5453,7 +5453,7 @@ YUI.add(
                         },
                         trigger: "graphics",
                     },
-                    requires: ["graphics"],
+                    requires: ["graphics",],
                 },
                 "graphics-canvas-default": {
                     condition: {
@@ -5482,7 +5482,7 @@ YUI.add(
                     },
                 },
                 "graphics-group": {
-                    requires: ["graphics"] 
+                    requires: ["graphics",], 
                 },
                 "graphics-svg": {
                     condition: {
@@ -5504,7 +5504,7 @@ YUI.add(
                         },
                         trigger: "graphics",
                     },
-                    requires: ["graphics"],
+                    requires: ["graphics",],
                 },
                 "graphics-svg-default": {
                     condition: {
@@ -5544,7 +5544,7 @@ YUI.add(
                         },
                         trigger: "graphics",
                     },
-                    requires: ["graphics"],
+                    requires: ["graphics",],
                 },
                 "graphics-vml-default": {
                     condition: {
@@ -5565,19 +5565,19 @@ YUI.add(
                     },
                 },
                 handlebars: {
-                    use: ["handlebars-compiler"] 
+                    use: ["handlebars-compiler",], 
                 },
                 "handlebars-base": {
-                    requires: [] 
+                    requires: [], 
                 },
                 "handlebars-compiler": {
-                    requires: ["handlebars-base"] 
+                    requires: ["handlebars-base",], 
                 },
                 highlight: {
-                    use: ["highlight-base", "highlight-accentfold"] 
+                    use: ["highlight-base", "highlight-accentfold",], 
                 },
                 "highlight-accentfold": {
-                    requires: ["highlight-base", "text-accentfold"],
+                    requires: ["highlight-base", "text-accentfold",],
                 },
                 "highlight-base": {
                     requires: [
@@ -5596,11 +5596,11 @@ YUI.add(
                     ],
                 },
                 "history-base": {
-                    requires: ["event-custom-complex"] 
+                    requires: ["event-custom-complex",], 
                 },
                 "history-hash": {
-                    after: ["history-html5"],
-                    requires: ["event-synthetic", "history-base", "yui-later"],
+                    after: ["history-html5",],
+                    requires: ["event-synthetic", "history-base", "yui-later",],
                 },
                 "history-hash-ie": {
                     condition: {
@@ -5614,20 +5614,20 @@ YUI.add(
                         },
                         trigger: "history-hash",
                     },
-                    requires: ["history-hash", "node-base"],
+                    requires: ["history-hash", "node-base",],
                 },
                 "history-html5": {
-                    optional: ["json"],
-                    requires: ["event-base", "history-base", "node-base"],
+                    optional: ["json",],
+                    requires: ["event-base", "history-base", "node-base",],
                 },
                 imageloader: {
-                    requires: ["base-base", "node-style", "node-screen"] 
+                    requires: ["base-base", "node-style", "node-screen",], 
                 },
                 intl: {
-                    requires: ["intl-base", "event-custom"] 
+                    requires: ["intl-base", "event-custom",], 
                 },
                 "intl-base": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 io: {
                     use: [
@@ -5639,33 +5639,33 @@ YUI.add(
                     ],
                 },
                 "io-base": {
-                    requires: ["event-custom-base", "querystring-stringify-simple"],
+                    requires: ["event-custom-base", "querystring-stringify-simple",],
                 },
                 "io-form": {
-                    requires: ["io-base", "node-base"] 
+                    requires: ["io-base", "node-base",], 
                 },
                 "io-nodejs": {
                     condition: {
                         name: "io-nodejs",
                         trigger: "io-base",
-                        ua: "nodejs" 
+                        ua: "nodejs", 
                     },
-                    requires: ["io-base"],
+                    requires: ["io-base",],
                 },
                 "io-queue": {
-                    requires: ["io-base", "queue-promote"] 
+                    requires: ["io-base", "queue-promote",], 
                 },
                 "io-upload-iframe": {
-                    requires: ["io-base", "node-base"] 
+                    requires: ["io-base", "node-base",], 
                 },
                 "io-xdr": {
-                    requires: ["io-base", "datatype-xml-parse"] 
+                    requires: ["io-base", "datatype-xml-parse",], 
                 },
                 json: {
-                    use: ["json-parse", "json-stringify"] 
+                    use: ["json-parse", "json-stringify",], 
                 },
                 "json-parse": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "json-parse-shim": {
                     condition: {
@@ -5692,10 +5692,10 @@ YUI.add(
                         },
                         trigger: "json-parse",
                     },
-                    requires: ["json-parse"],
+                    requires: ["json-parse",],
                 },
                 "json-stringify": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "json-stringify-shim": {
                     condition: {
@@ -5717,34 +5717,34 @@ YUI.add(
                         },
                         trigger: "json-stringify",
                     },
-                    requires: ["json-stringify"],
+                    requires: ["json-stringify",],
                 },
                 jsonp: {
-                    requires: ["get", "oop"] 
+                    requires: ["get", "oop",], 
                 },
                 "jsonp-url": {
-                    requires: ["jsonp"] 
+                    requires: ["jsonp",], 
                 },
                 "lazy-model-list": {
-                    requires: ["model-list"] 
+                    requires: ["model-list",], 
                 },
                 loader: {
-                    use: ["loader-base", "loader-rollup", "loader-yui3"] 
+                    use: ["loader-base", "loader-rollup", "loader-yui3",], 
                 },
                 "loader-base": {
-                    requires: ["get", "features"] 
+                    requires: ["get", "features",], 
                 },
                 "loader-rollup": {
-                    requires: ["loader-base"] 
+                    requires: ["loader-base",], 
                 },
                 "loader-yui3": {
-                    requires: ["loader-base"] 
+                    requires: ["loader-base",], 
                 },
                 matrix: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 model: {
-                    requires: ["base-build", "escape", "json-parse"] 
+                    requires: ["base-build", "escape", "json-parse",], 
                 },
                 "model-list": {
                     requires: [
@@ -5758,7 +5758,7 @@ YUI.add(
                     ],
                 },
                 "model-sync-rest": {
-                    requires: ["model", "io-base", "json-stringify"],
+                    requires: ["model", "io-base", "json-stringify",],
                 },
                 node: {
                     use: [
@@ -5770,22 +5770,22 @@ YUI.add(
                     ],
                 },
                 "node-base": {
-                    requires: ["event-base", "node-core", "dom-base", "dom-style"],
+                    requires: ["event-base", "node-core", "dom-base", "dom-style",],
                 },
                 "node-core": {
-                    requires: ["dom-core", "selector"] 
+                    requires: ["dom-core", "selector",], 
                 },
                 "node-deprecated": {
-                    requires: ["node-base"] 
+                    requires: ["node-base",], 
                 },
                 "node-event-delegate": {
-                    requires: ["node-base", "event-delegate"] 
+                    requires: ["node-base", "event-delegate",], 
                 },
                 "node-event-html5": {
-                    requires: ["node-base"] 
+                    requires: ["node-base",], 
                 },
                 "node-event-simulate": {
-                    requires: ["node-base", "event-simulate", "gesture-simulate"],
+                    requires: ["node-base", "event-simulate", "gesture-simulate",],
                 },
                 "node-flick": {
                     requires: [
@@ -5807,7 +5807,7 @@ YUI.add(
                     ],
                 },
                 "node-load": {
-                    requires: ["node-base", "io-base"] 
+                    requires: ["node-base", "io-base",], 
                 },
                 "node-menunav": {
                     requires: [
@@ -5819,10 +5819,10 @@ YUI.add(
                     skinnable: !0,
                 },
                 "node-pluginhost": {
-                    requires: ["node-base", "pluginhost"] 
+                    requires: ["node-base", "pluginhost",], 
                 },
                 "node-screen": {
-                    requires: ["dom-screen", "node-base"] 
+                    requires: ["dom-screen", "node-base",], 
                 },
                 "node-scroll-info": {
                     requires: [
@@ -5835,10 +5835,10 @@ YUI.add(
                     ],
                 },
                 "node-style": {
-                    requires: ["dom-style", "node-base"] 
+                    requires: ["dom-style", "node-base",], 
                 },
                 oop: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 overlay: {
                     requires: [
@@ -5852,13 +5852,13 @@ YUI.add(
                     skinnable: !0,
                 },
                 paginator: {
-                    requires: ["paginator-core"] 
+                    requires: ["paginator-core",], 
                 },
                 "paginator-core": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 "paginator-url": {
-                    requires: ["paginator"] 
+                    requires: ["paginator",], 
                 },
                 panel: {
                     requires: [
@@ -5875,55 +5875,55 @@ YUI.add(
                     skinnable: !0,
                 },
                 parallel: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 pjax: {
-                    requires: ["pjax-base", "pjax-content"] 
+                    requires: ["pjax-base", "pjax-content",], 
                 },
                 "pjax-base": {
-                    requires: ["classnamemanager", "node-event-delegate", "router"],
+                    requires: ["classnamemanager", "node-event-delegate", "router",],
                 },
                 "pjax-content": {
-                    requires: ["io-base", "node-base", "router"] 
+                    requires: ["io-base", "node-base", "router",], 
                 },
                 "pjax-plugin": {
-                    requires: ["node-pluginhost", "pjax", "plugin"] 
+                    requires: ["node-pluginhost", "pjax", "plugin",], 
                 },
                 plugin: {
-                    requires: ["base-base"] 
+                    requires: ["base-base",], 
                 },
                 pluginhost: {
-                    use: ["pluginhost-base", "pluginhost-config"] 
+                    use: ["pluginhost-base", "pluginhost-config",], 
                 },
                 "pluginhost-base": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "pluginhost-config": {
-                    requires: ["pluginhost-base"] 
+                    requires: ["pluginhost-base",], 
                 },
                 promise: {
-                    requires: ["timers"] 
+                    requires: ["timers",], 
                 },
                 querystring: {
-                    use: ["querystring-parse", "querystring-stringify"] 
+                    use: ["querystring-parse", "querystring-stringify",], 
                 },
                 "querystring-parse": {
-                    requires: ["yui-base", "array-extras"] 
+                    requires: ["yui-base", "array-extras",], 
                 },
                 "querystring-parse-simple": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "querystring-stringify": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "querystring-stringify-simple": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "queue-promote": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "range-slider": {
-                    requires: ["slider-base", "slider-value-range", "clickable-rail"],
+                    requires: ["slider-base", "slider-value-range", "clickable-rail",],
                 },
                 recordset: {
                     use: [
@@ -5934,19 +5934,19 @@ YUI.add(
                     ],
                 },
                 "recordset-base": {
-                    requires: ["base", "arraylist"] 
+                    requires: ["base", "arraylist",], 
                 },
                 "recordset-filter": {
-                    requires: ["recordset-base", "array-extras", "plugin"],
+                    requires: ["recordset-base", "array-extras", "plugin",],
                 },
                 "recordset-indexer": {
-                    requires: ["recordset-base", "plugin"] 
+                    requires: ["recordset-base", "plugin",], 
                 },
                 "recordset-sort": {
-                    requires: ["arraysort", "recordset-base", "plugin"],
+                    requires: ["arraysort", "recordset-base", "plugin",],
                 },
                 resize: {
-                    use: ["resize-base", "resize-proxy", "resize-constrain"] 
+                    use: ["resize-base", "resize-proxy", "resize-constrain",], 
                 },
                 "resize-base": {
                     requires: [
@@ -5961,21 +5961,21 @@ YUI.add(
                     skinnable: !0,
                 },
                 "resize-constrain": {
-                    requires: ["plugin", "resize-base"] 
+                    requires: ["plugin", "resize-base",], 
                 },
                 "resize-plugin": {
-                    optional: ["resize-constrain"],
-                    requires: ["resize-base", "plugin"],
+                    optional: ["resize-constrain",],
+                    requires: ["resize-base", "plugin",],
                 },
                 "resize-proxy": {
-                    requires: ["plugin", "resize-base"] 
+                    requires: ["plugin", "resize-base",], 
                 },
                 router: {
-                    optional: ["querystring-parse"],
-                    requires: ["array-extras", "base-build", "history"],
+                    optional: ["querystring-parse",],
+                    requires: ["array-extras", "base-build", "history",],
                 },
                 scrollview: {
-                    requires: ["scrollview-base", "scrollview-scrollbars"],
+                    requires: ["scrollview-base", "scrollview-scrollbars",],
                 },
                 "scrollview-base": {
                     requires: [
@@ -5992,21 +5992,21 @@ YUI.add(
                         trigger: "scrollview-base",
                         ua: "ie",
                     },
-                    requires: ["scrollview-base"],
+                    requires: ["scrollview-base",],
                 },
                 "scrollview-list": {
-                    requires: ["plugin", "classnamemanager"],
+                    requires: ["plugin", "classnamemanager",],
                     skinnable: !0,
                 },
                 "scrollview-paginator": {
-                    requires: ["plugin", "classnamemanager"] 
+                    requires: ["plugin", "classnamemanager",], 
                 },
                 "scrollview-scrollbars": {
-                    requires: ["classnamemanager", "transition", "plugin"],
+                    requires: ["classnamemanager", "transition", "plugin",],
                     skinnable: !0,
                 },
                 selector: {
-                    requires: ["selector-native"] 
+                    requires: ["selector-native",], 
                 },
                 "selector-css2": {
                     condition: {
@@ -6017,46 +6017,46 @@ YUI.add(
                         },
                         trigger: "selector",
                     },
-                    requires: ["selector-native"],
+                    requires: ["selector-native",],
                 },
                 "selector-css3": {
-                    requires: ["selector-native", "selector-css2"] 
+                    requires: ["selector-native", "selector-css2",], 
                 },
                 "selector-native": {
-                    requires: ["dom-base"] 
+                    requires: ["dom-base",], 
                 },
                 "series-area": {
-                    requires: ["series-cartesian", "series-fill-util"] 
+                    requires: ["series-cartesian", "series-fill-util",], 
                 },
                 "series-area-stacked": {
-                    requires: ["series-stacked", "series-area"],
+                    requires: ["series-stacked", "series-area",],
                 },
                 "series-areaspline": {
-                    requires: ["series-area", "series-curve-util"],
+                    requires: ["series-area", "series-curve-util",],
                 },
                 "series-areaspline-stacked": {
-                    requires: ["series-stacked", "series-areaspline"],
+                    requires: ["series-stacked", "series-areaspline",],
                 },
                 "series-bar": {
-                    requires: ["series-marker", "series-histogram-base"],
+                    requires: ["series-marker", "series-histogram-base",],
                 },
                 "series-bar-stacked": {
-                    requires: ["series-stacked", "series-bar"] 
+                    requires: ["series-stacked", "series-bar",], 
                 },
                 "series-base": {
-                    requires: ["graphics", "axis-base"] 
+                    requires: ["graphics", "axis-base",], 
                 },
                 "series-candlestick": {
-                    requires: ["series-range"] 
+                    requires: ["series-range",], 
                 },
                 "series-cartesian": {
-                    requires: ["series-base"] 
+                    requires: ["series-base",], 
                 },
                 "series-column": {
-                    requires: ["series-marker", "series-histogram-base"],
+                    requires: ["series-marker", "series-histogram-base",],
                 },
                 "series-column-stacked": {
-                    requires: ["series-stacked", "series-column"],
+                    requires: ["series-stacked", "series-column",],
                 },
                 "series-combo": {
                     requires: [
@@ -6067,57 +6067,57 @@ YUI.add(
                     ],
                 },
                 "series-combo-stacked": {
-                    requires: ["series-stacked", "series-combo"],
+                    requires: ["series-stacked", "series-combo",],
                 },
                 "series-combospline": {
-                    requires: ["series-combo", "series-curve-util"],
+                    requires: ["series-combo", "series-curve-util",],
                 },
                 "series-combospline-stacked": {
-                    requires: ["series-combo-stacked", "series-curve-util"],
+                    requires: ["series-combo-stacked", "series-curve-util",],
                 },
                 "series-curve-util": {
                 },
                 "series-fill-util": {
                 },
                 "series-histogram-base": {
-                    requires: ["series-cartesian", "series-plot-util"],
+                    requires: ["series-cartesian", "series-plot-util",],
                 },
                 "series-line": {
-                    requires: ["series-cartesian", "series-line-util"] 
+                    requires: ["series-cartesian", "series-line-util",], 
                 },
                 "series-line-stacked": {
-                    requires: ["series-stacked", "series-line"],
+                    requires: ["series-stacked", "series-line",],
                 },
                 "series-line-util": {
                 },
                 "series-marker": {
-                    requires: ["series-cartesian", "series-plot-util"],
+                    requires: ["series-cartesian", "series-plot-util",],
                 },
                 "series-marker-stacked": {
-                    requires: ["series-stacked", "series-marker"],
+                    requires: ["series-stacked", "series-marker",],
                 },
                 "series-ohlc": {
-                    requires: ["series-range"] 
+                    requires: ["series-range",], 
                 },
                 "series-pie": {
-                    requires: ["series-base", "series-plot-util"] 
+                    requires: ["series-base", "series-plot-util",], 
                 },
                 "series-plot-util": {
                 },
                 "series-range": {
-                    requires: ["series-cartesian"] 
+                    requires: ["series-cartesian",], 
                 },
                 "series-spline": {
-                    requires: ["series-line", "series-curve-util"] 
+                    requires: ["series-line", "series-curve-util",], 
                 },
                 "series-spline-stacked": {
-                    requires: ["series-stacked", "series-spline"],
+                    requires: ["series-stacked", "series-spline",],
                 },
                 "series-stacked": {
-                    requires: ["axis-stacked"] 
+                    requires: ["axis-stacked",], 
                 },
                 "shim-plugin": {
-                    requires: ["node-style", "node-pluginhost"] 
+                    requires: ["node-style", "node-pluginhost",], 
                 },
                 slider: {
                     use: [
@@ -6128,30 +6128,30 @@ YUI.add(
                     ],
                 },
                 "slider-base": {
-                    requires: ["widget", "dd-constrain", "event-key"],
+                    requires: ["widget", "dd-constrain", "event-key",],
                     skinnable: !0,
                 },
                 "slider-value-range": {
-                    requires: ["slider-base"] 
+                    requires: ["slider-base",], 
                 },
                 sortable: {
-                    requires: ["dd-delegate", "dd-drop-plugin", "dd-proxy"] 
+                    requires: ["dd-delegate", "dd-drop-plugin", "dd-proxy",], 
                 },
                 "sortable-scroll": {
-                    requires: ["dd-scroll", "sortable"] 
+                    requires: ["dd-scroll", "sortable",], 
                 },
                 stylesheet: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 substitute: {
-                    optional: ["dump"],
-                    requires: ["yui-base"] 
+                    optional: ["dump",],
+                    requires: ["yui-base",], 
                 },
                 swf: {
-                    requires: ["event-custom", "node", "swfdetect", "escape"] 
+                    requires: ["event-custom", "node", "swfdetect", "escape",], 
                 },
                 swfdetect: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 tabview: {
                     requires: [
@@ -6165,47 +6165,47 @@ YUI.add(
                     skinnable: !0,
                 },
                 "tabview-base": {
-                    requires: ["node-event-delegate", "classnamemanager"],
+                    requires: ["node-event-delegate", "classnamemanager",],
                 },
                 "tabview-plugin": {
-                    requires: ["tabview-base"] 
+                    requires: ["tabview-base",], 
                 },
                 template: {
-                    use: ["template-base", "template-micro"] 
+                    use: ["template-base", "template-micro",], 
                 },
                 "template-base": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "template-micro": {
-                    requires: ["escape"] 
+                    requires: ["escape",], 
                 },
                 test: {
-                    requires: ["event-simulate", "event-custom", "json-stringify"],
+                    requires: ["event-simulate", "event-custom", "json-stringify",],
                 },
                 "test-console": {
-                    requires: ["console-filters", "test", "array-extras"],
+                    requires: ["console-filters", "test", "array-extras",],
                     skinnable: !0,
                 },
                 text: {
-                    use: ["text-accentfold", "text-wordbreak"] 
+                    use: ["text-accentfold", "text-wordbreak",], 
                 },
                 "text-accentfold": {
-                    requires: ["array-extras", "text-data-accentfold"],
+                    requires: ["array-extras", "text-data-accentfold",],
                 },
                 "text-data-accentfold": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "text-data-wordbreak": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "text-wordbreak": {
-                    requires: ["array-extras", "text-data-wordbreak"],
+                    requires: ["array-extras", "text-data-wordbreak",],
                 },
                 timers: {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 transition: {
-                    requires: ["node-style"] 
+                    requires: ["node-style",], 
                 },
                 "transition-timer": {
                     condition: {
@@ -6227,30 +6227,30 @@ YUI.add(
                         },
                         trigger: "transition",
                     },
-                    requires: ["transition"],
+                    requires: ["transition",],
                 },
                 tree: {
-                    requires: ["base-build", "tree-node"] 
+                    requires: ["base-build", "tree-node",], 
                 },
                 "tree-labelable": {
-                    requires: ["tree"] 
+                    requires: ["tree",], 
                 },
                 "tree-lazy": {
-                    requires: ["base-pluginhost", "plugin", "tree"] 
+                    requires: ["base-pluginhost", "plugin", "tree",], 
                 },
                 "tree-node": {
                 },
                 "tree-openable": {
-                    requires: ["tree"] 
+                    requires: ["tree",], 
                 },
                 "tree-selectable": {
-                    requires: ["tree"] 
+                    requires: ["tree",], 
                 },
                 "tree-sortable": {
-                    requires: ["tree"] 
+                    requires: ["tree",], 
                 },
                 uploader: {
-                    requires: ["uploader-html5", "uploader-flash"] 
+                    requires: ["uploader-html5", "uploader-flash",], 
                 },
                 "uploader-flash": {
                     requires: [
@@ -6273,13 +6273,13 @@ YUI.add(
                     ],
                 },
                 "uploader-queue": {
-                    requires: ["base"] 
+                    requires: ["base",], 
                 },
                 view: {
-                    requires: ["base-build", "node-event-delegate"] 
+                    requires: ["base-build", "node-event-delegate",], 
                 },
                 "view-node-map": {
-                    requires: ["view"] 
+                    requires: ["view",], 
                 },
                 widget: {
                     use: [
@@ -6290,10 +6290,10 @@ YUI.add(
                     ],
                 },
                 "widget-anim": {
-                    requires: ["anim-base", "plugin", "widget"] 
+                    requires: ["anim-base", "plugin", "widget",], 
                 },
                 "widget-autohide": {
-                    requires: ["base-build", "event-key", "event-outside", "widget"],
+                    requires: ["base-build", "event-key", "event-outside", "widget",],
                 },
                 "widget-base": {
                     requires: [
@@ -6313,51 +6313,51 @@ YUI.add(
                         trigger: "widget-base",
                         ua: "ie",
                     },
-                    requires: ["widget-base"],
+                    requires: ["widget-base",],
                 },
                 "widget-buttons": {
-                    requires: ["button-plugin", "cssbutton", "widget-stdmod"],
+                    requires: ["button-plugin", "cssbutton", "widget-stdmod",],
                 },
                 "widget-child": {
-                    requires: ["base-build", "widget"] 
+                    requires: ["base-build", "widget",], 
                 },
                 "widget-htmlparser": {
-                    requires: ["widget-base"] 
+                    requires: ["widget-base",], 
                 },
                 "widget-locale": {
-                    requires: ["widget-base"] 
+                    requires: ["widget-base",], 
                 },
                 "widget-modality": {
-                    requires: ["base-build", "event-outside", "widget"],
+                    requires: ["base-build", "event-outside", "widget",],
                     skinnable: !0,
                 },
                 "widget-parent": {
-                    requires: ["arraylist", "base-build", "widget"] 
+                    requires: ["arraylist", "base-build", "widget",], 
                 },
                 "widget-position": {
-                    requires: ["base-build", "node-screen", "widget"],
+                    requires: ["base-build", "node-screen", "widget",],
                 },
                 "widget-position-align": {
-                    requires: ["widget-position"] 
+                    requires: ["widget-position",], 
                 },
                 "widget-position-constrain": {
-                    requires: ["widget-position"] 
+                    requires: ["widget-position",], 
                 },
                 "widget-skin": {
-                    requires: ["widget-base"] 
+                    requires: ["widget-base",], 
                 },
                 "widget-stack": {
-                    requires: ["base-build", "widget"],
-                    skinnable: !0 
+                    requires: ["base-build", "widget",],
+                    skinnable: !0, 
                 },
                 "widget-stdmod": {
-                    requires: ["base-build", "widget"] 
+                    requires: ["base-build", "widget",], 
                 },
                 "widget-uievents": {
-                    requires: ["node-event-delegate", "widget-base"],
+                    requires: ["node-event-delegate", "widget-base",],
                 },
                 yql: {
-                    requires: ["oop"] 
+                    requires: ["oop",], 
                 },
                 "yql-jsonp": {
                     condition: {
@@ -6368,7 +6368,7 @@ YUI.add(
                         trigger: "yql",
                         when: "after",
                     },
-                    requires: ["jsonp", "jsonp-url"],
+                    requires: ["jsonp", "jsonp-url",],
                 },
                 "yql-nodejs": {
                     condition: {
@@ -6391,20 +6391,20 @@ YUI.add(
                 "yui-base": {
                 },
                 "yui-later": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "yui-log": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
                 "yui-throttle": {
-                    requires: ["yui-base"] 
+                    requires: ["yui-base",], 
                 },
             }),
         (YUI.Env[Y.version].md5 = "fd7c67956df50e445f40d1668dd1dc80");
     },
     "3.12.0",
     {
-        requires: ["loader-base"] 
+        requires: ["loader-base",], 
     },
 ),
 YUI.add("yui",

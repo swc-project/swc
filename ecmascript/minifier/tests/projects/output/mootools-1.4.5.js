@@ -73,7 +73,7 @@
                     ? (args = a)
                     : arguments.length > 1
                         ? (args = arguments)
-                        : usePlural && (args = [a]),
+                        : usePlural && (args = [a,]),
                 args)
             ) {
                 result = {
@@ -107,7 +107,7 @@
                 ? "array" == typeOf(item)
                     ? item
                     : slice.call(item)
-                : [item];
+                : [item,];
     }),
     (Number.from = function (item) {
         var number = parseFloat(item);
@@ -279,7 +279,7 @@
             "toPrecision",
         ])("Function",
         Function1,
-        ["apply", "call", "bind"])("RegExp",
+        ["apply", "call", "bind",])("RegExp",
         RegExp,
         [
             "exec",
@@ -302,7 +302,7 @@
             "isFrozen",
         ])("Date",
         Date,
-        ["now"]),
+        ["now",]),
     (Object.extend = extend.overloadSetter()),
     Date.extend("now",
         function () {
@@ -402,7 +402,7 @@
             return original;
         },
     }),
-    ["Object", "WhiteSpace", "TextNode", "Collection", "Arguments"].each(
+    ["Object", "WhiteSpace", "TextNode", "Collection", "Arguments",].each(
         function (name) {
             new Type(name);
         },
@@ -788,7 +788,7 @@ Number.alias("each",
         Number[name] ||
         (methods[name] = function () {
             return Math[name].apply(null,
-                [this].concat(Array.from(arguments)));
+                [this,].concat(Array.from(arguments)));
         });
     }),
     Number.implement(methods);
@@ -885,7 +885,7 @@ Function.implement({
                 ? Array.from(args)
                 : Array.slice(arguments,
                     options.event ? 1 : 0)),
-                options.event && (args = [event || window.event].extend(args));
+                options.event && (args = [event || window.event,].extend(args));
                 var returns = function () {
                     return this.apply(options.bind || null,
                         args);
@@ -917,7 +917,7 @@ Function.implement({
             function (event) {
                 return this.apply(
                     bind,
-                    null == args ? arguments : [event].concat(args),
+                    null == args ? arguments : [event,].concat(args),
                 );
             }
         );
@@ -1156,7 +1156,7 @@ Hash.alias({
         platform = navigator.platform.toLowerCase(),
         UA = ua.match(
             /(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/,
-        ) || [null, "unknown", 0],
+        ) || [null, "unknown", 0,],
         mode = UA[1] == "ie" && document.documentMode,
         Browser = (this.Browser = {
             extend: Function.prototype.extend,
@@ -1166,7 +1166,7 @@ Hash.alias({
                 name: ua.match(/ip(?:ad|od|hone)/)
                     ? "ios"
                     : (ua.match(/(?:webos|android)/) ||
-                platform.match(/mac|win|linux/) || ["other"])[0],
+                platform.match(/mac|win|linux/) || ["other",])[0],
             },
             Features: {
                 xpath: !!document.evaluate,
@@ -1734,7 +1734,7 @@ var Event1 = DOMEvent;
             var options = (this.options = Object.merge.apply(
                 null,
                 [{
-                }, this.options].append(arguments),
+                }, this.options,].append(arguments),
             ));
             if (this.addEvent)
                 for (var option in options) {
@@ -2665,7 +2665,7 @@ function () {
                     ) {
                         if (((children = node.all[id]), !children)) return;
                         for (
-                            children[0] || (children = [children]), i = 0;
+                            children[0] || (children = [children,]), i = 0;
                             (item = children[i++]);
 
                         ) {
@@ -3406,7 +3406,7 @@ Elements.alias("extend",
             return this;
         },
     }),
-    [Document, Element1].invoke("implement",
+    [Document, Element1,].invoke("implement",
         {
             getElements: function (expression) {
                 return Slick.search(this,
@@ -3966,8 +3966,8 @@ Elements.alias("extend",
         clone: function (contents, keepid) {
             contents = !1 !== contents;
             var clone = this.cloneNode(contents),
-                ce = [clone],
-                te = [this],
+                ce = [clone,],
+                te = [this,],
                 i;
             for (
                 contents &&
@@ -4004,7 +4004,7 @@ Elements.alias("extend",
             return document.id(clone);
         },
     }),
-    [Element1, Window, Document].invoke("implement",
+    [Element1, Window, Document,].invoke("implement",
         {
             addListener: function (type, fn) {
                 if ("unload" == type) {
@@ -4118,17 +4118,17 @@ Elements.alias("extend",
         !supportsHTML5Elements) &&
         (Element1.Properties.html.set = (function (set) {
             var translations = {
-                table: [1, "<table>", "</table>"],
-                select: [1, "<select>", "</select>"],
-                tbody: [2, "<table><tbody>", "</tbody></table>"],
-                tr: [3, "<table><tbody><tr>", "</tr></tbody></table>"],
+                table: [1, "<table>", "</table>",],
+                select: [1, "<select>", "</select>",],
+                tbody: [2, "<table><tbody>", "</tbody></table>",],
+                tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
             };
             return (
                 (translations.thead = translations.tfoot = translations.tbody),
                 function (html) {
                     var wrap = translations[this.get("tag")];
                     if (
-                        (wrap || supportsHTML5Elements || (wrap = [0, "", ""]), !wrap)
+                        (wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap)
                     )
                         return Element1.Properties.html.set.call(this,
                             html);
@@ -4137,7 +4137,7 @@ Elements.alias("extend",
                         target = wrapper;
                     for (
                         supportsHTML5Elements || fragment.appendChild(wrapper),
-                        wrapper.innerHTML = [wrap[1], html, wrap[2]]
+                        wrapper.innerHTML = [wrap[1], html, wrap[2],]
                             .flatten()
                             .join("");
                         level--;
@@ -4338,7 +4338,7 @@ Elements.alias("extend",
             if (Browser.opera || Browser.ie) {
                 if (/^(height|width)$/.test(property) && !/px$/.test(result)) {
                     var values =
-                "width" == property ? ["left", "right"] : ["top", "bottom"],
+                "width" == property ? ["left", "right",] : ["top", "bottom",],
                         size = 0;
                     return (
                         values.each(function (value) {
@@ -4440,10 +4440,10 @@ Elements.alias("extend",
         borderColor: {
         },
     }),
-    ["Top", "Right", "Bottom", "Left"].each(function (direction) {
+    ["Top", "Right", "Bottom", "Left",].each(function (direction) {
         var Short = Element1.ShortStyles,
             All = Element1.Styles;
-        ["margin", "padding"].each(function (style) {
+        ["margin", "padding",].each(function (style) {
             var sd = style + direction;
             Short[style][sd] = All[sd] = "@px";
         });
@@ -4466,7 +4466,7 @@ Elements.alias("extend",
                 this.addEvents(events);
             },
         }),
-        [Element1, Window, Document].invoke("implement",
+        [Element1, Window, Document,].invoke("implement",
             {
                 addEvent: function (type, fn) {
                     var events = this.retrieve("events",
@@ -4948,7 +4948,7 @@ Elements.alias("extend",
                 return this;
             },
         };
-    [Element1, Window, Document].invoke("implement",
+    [Element1, Window, Document,].invoke("implement",
         {
             addEvent: relay(addEvent,
                 delegation.addEvent),
@@ -5146,7 +5146,7 @@ Elements.alias("extend",
             return this.setStyles(this.computePosition(obj));
         },
     }),
-    [Document, Window].invoke("implement",
+    [Document, Window,].invoke("implement",
         {
             getSize: function () {
                 var doc = getCompatElement(this);
@@ -5224,7 +5224,7 @@ Elements.alias("extend",
 Element1.alias({
     position: "setPosition",
 }),
-[Window, Document, Element1].invoke("implement",
+[Window, Document, Element1,].invoke("implement",
     {
         getHeight: function () {
             return this.getSize().y;
@@ -5253,7 +5253,7 @@ Element1.alias({
     }),
 (function () {
     var Fx = (this.Fx = new Class({
-        Implements: [Chain, Events, Options],
+        Implements: [Chain, Events, Options,],
         options: {
             fps: 60,
             unit: !1,
@@ -5552,7 +5552,7 @@ Element1.alias({
             return value.match(/^#[0-9a-f]{3,6}$/i)
                 ? value.hexToRgb(!0)
                 : (value = value.match(/(\d+),\s*(\d+),\s*(\d+)/))
-                    ? [value[1], value[2], value[3]]
+                    ? [value[1], value[2], value[3],]
                     : !1;
         },
         compute: function (from, to, delta) {
@@ -5642,7 +5642,7 @@ Element1.implement({
     fade: function (how) {
         var fade = this.get("tween"),
             method,
-            args = ["opacity"].append(arguments),
+            args = ["opacity",].append(arguments),
             toggle;
         switch ((args[1] == null && (args[1] = "toggle"), args[1])) {
         case "in":
@@ -5858,7 +5858,7 @@ Fx.Transitions.extend({
         );
     },
 }),
-["Quad", "Cubic", "Quart", "Quint"].each(function (transition, i) {
+["Quad", "Cubic", "Quart", "Quint",].each(function (transition, i) {
     Fx.Transitions[transition] = new Fx.Transition(function (p) {
         return Math.pow(p,
             i + 2);
@@ -5868,7 +5868,7 @@ Fx.Transitions.extend({
     var empty = function () {},
         progressSupport = "onprogress" in new Browser.Request(),
         Request1 = (this.Request = new Class({
-            Implements: [Chain, Events, Options],
+            Implements: [Chain, Events, Options,],
             options: {
                 url: "",
                 data: "",
@@ -5952,11 +5952,11 @@ Fx.Transitions.extend({
             },
             loadstart: function (event) {
                 this.fireEvent("loadstart",
-                    [event, this.xhr]);
+                    [event, this.xhr,]);
             },
             progress: function (event) {
                 this.fireEvent("progress",
-                    [event, this.xhr]);
+                    [event, this.xhr,]);
             },
             timeout: function () {
                 this.fireEvent("timeout",
@@ -6016,11 +6016,11 @@ Fx.Transitions.extend({
                     var format = "format=" + this.options.format;
                     data = data ? format + "&" + data : format;
                 }
-                if (this.options.emulation && !["get", "post"].contains(method)) {
+                if (this.options.emulation && !["get", "post",].contains(method)) {
                     var _method = "_method=" + method;
                     (data = data ? _method + "&" + data : _method), (method = "post");
                 }
-                if (this.options.urlEncoded && ["post", "put"].contains(method)) {
+                if (this.options.urlEncoded && ["post", "put",].contains(method)) {
                     var encoding = this.options.encoding
                         ? "; charset=" + this.options.encoding
                         : "";
@@ -6062,7 +6062,7 @@ Fx.Transitions.extend({
                                     value);
                             } catch (e) {
                                 this.fireEvent("exception",
-                                    [key, value]);
+                                    [key, value,]);
                             }
                         },
                         this,
@@ -6094,7 +6094,7 @@ Fx.Transitions.extend({
         })),
         methods = {
         };
-    ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE"].each(
+    ["get", "post", "put", "delete", "GET", "POST", "PUT", "DELETE",].each(
         function (method) {
             methods[method] = function (data) {
                 var object = {
@@ -6315,7 +6315,7 @@ Element1.implement({
                 this.options.secure);
         } catch (error) {
             this.fireEvent("error",
-                [text, error]);
+                [text, error,]);
             return;
         }
         null == json
@@ -6544,7 +6544,7 @@ var Cookie = new Class({
         },
         remote: function () {
             return Swiff.remote.apply(Swiff,
-                [this.toElement()].append(arguments));
+                [this.toElement(),].append(arguments));
         },
     }));
     (Swiff.CallBacks = {
