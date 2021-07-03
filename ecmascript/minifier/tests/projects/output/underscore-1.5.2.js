@@ -26,13 +26,13 @@
             if (!(this instanceof _)) return new _(obj);
             this._wrapped = obj;
         };
-    if ("undefined" !== typeof exports)
-        "undefined" !== typeof module &&
-      module.exports &&
-      (exports = module.exports = _),
-        (exports._ = _);
-    else root._ = _;
-    _.VERSION = "1.5.2";
+    "undefined" !== typeof exports
+        ? ("undefined" !== typeof module &&
+        module.exports &&
+        (exports = module.exports = _),
+        (exports._ = _))
+        : (root._ = _),
+    (_.VERSION = "1.5.2");
     var each = (_.each = _.forEach = function (obj, iterator, context) {
         if (null == obj) return;
         if (nativeForEach && obj.forEach === nativeForEach)
@@ -71,8 +71,9 @@
             );
         if (
             (each(obj, function (value, index, list) {
-                if (!initial) (memo = value), (initial = !0);
-                else memo = iterator.call(context, memo, value, index, list);
+                !initial
+                    ? ((memo = value), (initial = !0))
+                    : (memo = iterator.call(context, memo, value, index, list));
             }),
             !initial)
         )
@@ -96,9 +97,10 @@
         }
         if (
             (each(obj, function (value, index, list) {
-                if (((index = keys ? keys[--length] : --length), !initial))
-                    (memo = obj[index]), (initial = !0);
-                else memo = iterator.call(context, memo, obj[index], index, list);
+                (index = keys ? keys[--length] : --length),
+                !initial
+                    ? ((memo = obj[index]), (initial = !0))
+                    : (memo = iterator.call(context, memo, obj[index], index, list));
             }),
             !initial)
         )
@@ -366,9 +368,11 @@
             return concat.apply(output, input);
         return (
             each(input, function (value) {
-                if (_.isArray(value) || _.isArguments(value))
-                    shallow ? push.apply(output, value) : flatten(value, shallow, output);
-                else output.push(value);
+                _.isArray(value) || _.isArguments(value)
+                    ? shallow
+                        ? push.apply(output, value)
+                        : flatten(value, shallow, output)
+                    : output.push(value);
             }),
             output
         );
@@ -426,8 +430,9 @@
     (_.object = function (list, values) {
         if (null == list) return {};
         for (var result = {}, i = 0, length = list.length; length > i; i++)
-            if (values) result[list[i]] = values[i];
-            else result[list[i][0]] = list[i][1];
+            values
+                ? (result[list[i]] = values[i])
+                : (result[list[i][0]] = list[i][1]);
         return result;
     }),
     (_.indexOf = function (array, item, isSorted) {
@@ -541,20 +546,23 @@
                 var now = new Date();
                 previous || options.leading !== !1 || (previous = now);
                 var remaining = wait - (now - previous);
-                if (((context = this), (args = arguments), 0 >= remaining))
-                    clearTimeout(timeout),
+                return (
+                    (context = this),
+                    (args = arguments),
+                    0 >= remaining
+                        ? (clearTimeout(timeout),
+                        (timeout = null),
+                        (previous = now),
+                        (result = func.apply(context, args)))
+                        : timeout ||
+                options.trailing === !1 ||
+                (timeout = setTimeout(function () {
+                    (previous = options.leading === !1 ? 0 : new Date()),
                     (timeout = null),
-                    (previous = now),
                     (result = func.apply(context, args));
-                else
-                    timeout ||
-              options.trailing === !1 ||
-              (timeout = setTimeout(function () {
-                  (previous = options.leading === !1 ? 0 : new Date()),
-                  (timeout = null),
-                  (result = func.apply(context, args));
-              }, remaining));
-                return result;
+                }, remaining)),
+                    result
+                );
             }
         );
     }),
@@ -564,10 +572,10 @@
             (context = this), (args = arguments), (timestamp = new Date());
             var later = function () {
                     var last = new Date() - timestamp;
-                    if (wait > last) timeout = setTimeout(later, wait - last);
-                    else
-                        (timeout = null),
-                        immediate || (result = func.apply(context, args));
+                    wait > last
+                        ? (timeout = setTimeout(later, wait - last))
+                        : ((timeout = null),
+                        !immediate && (result = func.apply(context, args)));
                 },
                 callNow = immediate && !timeout;
             return (

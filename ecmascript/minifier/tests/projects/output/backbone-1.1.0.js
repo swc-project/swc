@@ -6,9 +6,8 @@
     var slice = array.slice;
     array.splice;
     var Backbone;
-    if ("undefined" !== typeof exports) Backbone = exports;
-    else Backbone = root.Backbone = {};
-    Backbone.VERSION = "1.1.0";
+    (Backbone = "undefined" !== typeof exports ? exports : (root.Backbone = {})),
+    (Backbone.VERSION = "1.1.0");
     var _ = root._;
     _ || "undefined" == typeof require || (_ = require("underscore")),
     (Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$),
@@ -186,9 +185,13 @@
         set: function (key, val, options) {
             var attr, attrs, changes;
             if (null == key) return this;
-            if ("object" == typeof key) (attrs = key), (options = val);
-            else (attrs = {})[key] = val;
-            if ((options || (options = {}), !this._validate(attrs, options)))
+            if (
+                ("object" == typeof key
+                    ? ((attrs = key), (options = val))
+                    : ((attrs = {})[key] = val),
+                options || (options = {}),
+                !this._validate(attrs, options))
+            )
                 return !1;
             (changes = []),
             this._changing,
@@ -199,18 +202,15 @@
             this.attributes,
             this._previousAttributes,
             this.idAttribute in attrs && (this.id = attrs[this.idAttribute]);
-            for (attr in attrs) {
-                if (
-                    ((val = attrs[attr]),
-                    _.isEqual(this.attributes[attr], val) || changes.push(attr),
-                    !_.isEqual(this._previousAttributes[attr], val))
-                )
-                    this.changed[attr] = val;
-                else delete this.changed[attr];
+            for (attr in attrs)
+                (val = attrs[attr]),
+                _.isEqual(this.attributes[attr], val) || changes.push(attr),
+                !_.isEqual(this._previousAttributes[attr], val)
+                    ? (this.changed[attr] = val)
+                    : delete this.changed[attr],
                 options.unset
                     ? delete this.attributes[attr]
                     : (this.attributes[attr] = val);
-            }
             if (!options.silent) {
                 changes.length && (this._pending = !0);
                 for (var i = 0, l = changes.length; l > i; i++)
@@ -293,10 +293,11 @@
                 method,
                 xhr,
                 attributes = this.attributes;
-            if (null == key || "object" == typeof key) (attrs = key), (options = val);
-            else (attrs = {})[key] = val;
             if (
-                ((options = _.extend(
+                (null == key || "object" == typeof key
+                    ? ((attrs = key), (options = val))
+                    : ((attrs = {})[key] = val),
+                (options = _.extend(
                     {
                         validate: !0,
                     },
@@ -498,9 +499,14 @@
                 remove = options.remove,
                 order = !sortable && add && remove ? [] : !1;
             for (i = 0, l = models.length; l > i; i++) {
-                if (((attrs = models[i]), attrs instanceof Model)) id = model = attrs;
-                else id = attrs[this.model.prototype.idAttribute];
-                if ((existing = this.get(id)))
+                if (
+                    ((attrs = models[i]),
+                    (id =
+            attrs instanceof Model
+                ? (model = attrs)
+                : attrs[this.model.prototype.idAttribute]),
+                    (existing = this.get(id)))
+                )
                     remove && (modelMap[existing.cid] = !0),
                     merge &&
               ((attrs = attrs === model ? model.attributes : attrs),
@@ -628,13 +634,14 @@
         sort: function (options) {
             if (!this.comparator)
                 throw new Error("Cannot sort a set without a comparator");
-            if (
-                (options || (options = {}),
-                _.isString(this.comparator) || this.comparator.length === 1)
-            )
-                this.models = this.sortBy(this.comparator, this);
-            else this.models.sort(_.bind(this.comparator, this));
-            return options.silent || this.trigger("sort", this, options), this;
+            return (
+                options || (options = {}),
+                _.isString(this.comparator) || this.comparator.length === 1
+                    ? (this.models = this.sortBy(this.comparator, this))
+                    : this.models.sort(_.bind(this.comparator, this)),
+                options.silent || this.trigger("sort", this, options),
+                this
+            );
         },
         pluck: function (attr) {
             return _.invoke(this.models, "get", attr);
@@ -814,13 +821,11 @@
                 var match = key.match(delegateEventSplitter),
                     eventName = match[1],
                     selector = match[2];
-                if (
-                    ((method = _.bind(method, this)),
-                    (eventName += ".delegateEvents" + this.cid),
-                    "" === selector)
-                )
-                    this.$el.on(eventName, method);
-                else this.$el.on(eventName, selector, method);
+                (method = _.bind(method, this)),
+                (eventName += ".delegateEvents" + this.cid),
+                "" === selector
+                    ? this.$el.on(eventName, method)
+                    : this.$el.on(eventName, selector, method);
             }
             return this;
         },
@@ -1009,9 +1014,8 @@
                 oldIE =
             /msie [\w.]+/.exec(navigator.userAgent.toLowerCase()) &&
             (!docMode || 7 >= docMode);
-            if (
-                ((this.root = ("/" + this.root + "/").replace(rootStripper, "/")),
-                oldIE &&
+            (this.root = ("/" + this.root + "/").replace(rootStripper, "/")),
+            oldIE &&
             this._wantsHashChange &&
             ((this.iframe = Backbone.$(
                 '<iframe src="javascript:0" tabindex="-1" />',
@@ -1019,18 +1023,16 @@
                 .hide()
                 .appendTo("body")[0].contentWindow),
             this.navigate(fragment)),
-                this._hasPushState)
-            )
-                Backbone.$(window).on("popstate", this.checkUrl);
-            else if (this._wantsHashChange && "onhashchange" in window && !oldIE)
-                Backbone.$(window).on("hashchange", this.checkUrl);
-            else
-                this._wantsHashChange &&
-            (this._checkUrlInterval = setInterval(
-                this.checkUrl,
-                this.interval,
-            ));
-            this.fragment = fragment;
+            this._hasPushState
+                ? Backbone.$(window).on("popstate", this.checkUrl)
+                : this._wantsHashChange && "onhashchange" in window && !oldIE
+                    ? Backbone.$(window).on("hashchange", this.checkUrl)
+                    : this._wantsHashChange &&
+              (this._checkUrlInterval = setInterval(
+                  this.checkUrl,
+                  this.interval,
+              )),
+            (this.fragment = fragment);
             var loc = this.location,
                 atRoot = loc.pathname.replace(/[^\/]$/, "$&/") === this.root;
             if (this._wantsHashChange && this._wantsPushState) {
@@ -1136,12 +1138,12 @@
     ) {
         var parent = this,
             child;
-        if (protoProps && _.has(protoProps, "constructor"))
-            child = protoProps.constructor;
-        else
-            child = function () {
+        (child =
+        protoProps && _.has(protoProps, "constructor")
+            ? protoProps.constructor
+            : function () {
                 return parent.apply(this, arguments);
-            };
+            }),
         _.extend(child, parent, staticProps);
         var Surrogate = function () {
             this.constructor = child;
