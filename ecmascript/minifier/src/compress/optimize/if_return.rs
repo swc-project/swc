@@ -67,9 +67,17 @@ impl Optimizer<'_> {
             }
         }
 
+        let idx_of_not_mergable = stmts.iter().rposition(|stmt| match stmt.as_stmt() {
+            Some(v) => !self.can_merge_stmt_as_if_return(v),
+            None => true,
+        });
+
         {
+            let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
+
             let start = stmts
                 .iter()
+                .skip(skip)
                 .position(|stmt| match stmt.as_stmt() {
                     Some(v) => self.can_merge_stmt_as_if_return(v),
                     None => false,
@@ -84,11 +92,11 @@ impl Optimizer<'_> {
                 })
                 .unwrap();
 
-            if stmts.len() == start + 1 || !ends_with_mergable {
+            if stmts.len() == start + skip + 1 || !ends_with_mergable {
                 return;
             }
 
-            let can_merge = stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
+            let can_merge = stmts.iter().skip(skip).all(|stmt| match stmt.as_stmt() {
                 Some(s) => self.can_merge_stmt_as_if_return(s),
                 _ => false,
             });
@@ -103,7 +111,14 @@ impl Optimizer<'_> {
         let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts.take() {
+        for (idx, stmt) in stmts.take().into_iter().enumerate() {
+            if let Some(not_mergable) = idx_of_not_mergable {
+                if idx < not_mergable {
+                    new.push(stmt);
+                    continue;
+                }
+            }
+
             let stmt = match stmt.try_into_stmt() {
                 Ok(stmt) => {
                     if !self.can_merge_stmt_as_if_return(&stmt) {
