@@ -255,7 +255,9 @@
         },
         isPlainObject: function (obj) {
             if (
-                (obj && jQuery.type(obj) === "object" && obj.nodeType) ||
+                !obj ||
+          jQuery.type(obj) !== "object" ||
+          obj.nodeType ||
           jQuery.isWindow(obj)
             )
                 return !1;
@@ -337,9 +339,9 @@
                 xml = void 0;
             }
             return (
-                xml &&
-            xml.documentElement &&
-            xml.getElementsByTagName("parsererror").length &&
+                (!xml ||
+            !xml.documentElement ||
+            xml.getElementsByTagName("parsererror").length) &&
             jQuery.error("Invalid XML: " + data),
                 xml
             );
@@ -897,7 +899,7 @@
           "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>"),
             (all = div.getElementsByTagName("*")),
             (a = div.getElementsByTagName("a")[0]),
-            all && a && !all.length)
+            !all || !a || !all.length)
         )
             return {};
         (select = document.createElement("select")),
@@ -1045,10 +1047,7 @@
             cache = isNode ? jQuery.cache : elem,
             id = isNode ? elem[internalKey] : elem[internalKey] && internalKey;
         if (
-            id &&
-      cache[id] &&
-      !pvt &&
-      !cache[id].data &&
+            (!id || !cache[id] || (!pvt && !cache[id].data)) &&
       getByName &&
       void 0 === data
         )
@@ -1588,11 +1587,11 @@
                     (hooks =
               jQuery.valHooks[this.type] ||
               jQuery.valHooks[this.nodeName.toLowerCase()]),
-                    hooks &&
-              "set" in hooks &&
+                    (!hooks ||
+              !("set" in hooks) ||
               hooks.set(this,
                   val,
-                  "value") === void 0 &&
+                  "value") === void 0) &&
               (this.value = val);
                 })
             );
@@ -1656,7 +1655,7 @@
                 notxml,
                 ret,
                 nType = elem.nodeType;
-            if ((elem && 3 !== nType && 8 === nType) || 2 === nType) return;
+            if (!elem || 3 === nType || 8 === nType || 2 === nType) return;
             if ("undefined" == typeof elem.getAttribute)
                 return jQuery.prop(elem,
                     name,
@@ -1721,8 +1720,8 @@
             type: {
                 set: function (elem, value) {
                     if (
-                        jQuery.support.radioValue ||
-              "radio" !== value ||
+                        !jQuery.support.radioValue &&
+              "radio" === value &&
               jQuery.nodeName(elem,
                   "input")
                     ) {
@@ -1756,7 +1755,7 @@
                 hooks,
                 notxml,
                 nType = elem.nodeType;
-            if ((elem && 3 !== nType && 8 === nType) || 2 === nType) return;
+            if (!elem || 3 === nType || 8 === nType || 2 === nType) return;
             if (
                 ((notxml = 1 !== nType || !jQuery.isXMLDoc(elem)),
                 notxml &&
@@ -2099,10 +2098,9 @@
                     (mappedTypes || origType === handleObj.origType) &&
               (!handler || handler.guid === handleObj.guid) &&
               (!tmp || tmp.test(handleObj.namespace)) &&
-              selector &&
-              selector !== handleObj.selector &&
-              "**" === selector &&
-              handleObj.selector &&
+              (!selector ||
+                selector === handleObj.selector ||
+                ("**" === selector && handleObj.selector)) &&
               (handlers.splice(j,
                   1),
               handleObj.selector && handlers.delegateCount--,
@@ -2174,7 +2172,7 @@
               data) === !1)
             )
                 return;
-            if (onlyHandlers || special.noBubble || !jQuery.isWindow(elem)) {
+            if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
                 for (
                     bubbleType = special.delegateType || type,
                     !rfocusMorph.test(bubbleType + type) && (cur = cur.parentNode);
@@ -3261,12 +3259,14 @@
                             bup = b && b.parentNode;
                         return (
                             a === bup ||
-                        (bup &&
-                          1 === bup.nodeType &&
-                          !!(adown.contains
+                        !(
+                            !bup ||
+                          1 !== bup.nodeType ||
+                          !(adown.contains
                               ? adown.contains(bup)
                               : a.compareDocumentPosition &&
-                              a.compareDocumentPosition(bup) & 16))
+                              a.compareDocumentPosition(bup) & 16)
+                        )
                         );
                     }
                     : function (a, b) {
@@ -3636,7 +3636,7 @@
                                             )
                                                 return !1;
                                         start = dir =
-                            "only" !== type || start || "nextSibling";
+                            "only" === type && !start && "nextSibling";
                                     }
                                     return !0;
                                 }
@@ -5414,9 +5414,7 @@
         }
         for (index = 0; length > index; index++) {
             if (((elem = elements[index]), !elem.style)) continue;
-            show &&
-        elem.style.display !== "none" &&
-        elem.style.display === "" &&
+            (!show || elem.style.display === "none" || elem.style.display === "") &&
         (elem.style.display = show ? values[index] || "" : "none");
         }
         return elements;
@@ -5491,7 +5489,7 @@
             float: jQuery.support.cssFloat ? "cssFloat" : "styleFloat",
         },
         style: function (elem, name, value, extra) {
-            if ((elem && 3 !== elem.nodeType && 8 === elem.nodeType) || !elem.style)
+            if (!elem || 3 === elem.nodeType || 8 === elem.nodeType || !elem.style)
                 return;
             var ret,
                 type,
@@ -5522,12 +5520,12 @@
                     return;
                 if (
                     ("number" !== type || jQuery.cssNumber[origName] || (value += "px"),
-                    (jQuery.support.clearCloneStyle ||
-              "" !== value ||
-              name.indexOf("background") === 0) &&
+                    !jQuery.support.clearCloneStyle &&
+              "" === value &&
+              name.indexOf("background") === 0 &&
               (style[name] = "inherit"),
-                    hooks &&
-              "set" in hooks &&
+                    !hooks ||
+              !("set" in hooks) ||
               (value = hooks.set(elem,
                   value,
                   extra)) !== void 0)

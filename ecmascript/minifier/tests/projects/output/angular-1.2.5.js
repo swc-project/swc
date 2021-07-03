@@ -369,9 +369,9 @@
                     }
                     for (key in o2)
                         if (
-                            (keySet.hasOwnProperty(key) ||
-                key.charAt(0) === "$" ||
-                o2[key] !== void 0) &&
+                            !keySet.hasOwnProperty(key) &&
+              key.charAt(0) !== "$" &&
+              o2[key] !== void 0 &&
               !isFunction(o2[key])
                         )
                             return !1;
@@ -1323,12 +1323,14 @@
                               bup = b && b.parentNode;
                           return (
                               a === bup ||
-                          (bup &&
-                            1 === bup.nodeType &&
-                            !!(adown.contains
+                          !(
+                              !bup ||
+                            1 !== bup.nodeType ||
+                            !(adown.contains
                                 ? adown.contains(bup)
                                 : a.compareDocumentPosition &&
-                                a.compareDocumentPosition(bup) & 16))
+                                a.compareDocumentPosition(bup) & 16)
+                          )
                           );
                       }
                       : function (a, b) {
@@ -5448,7 +5450,7 @@
             e2 === t ||
             e3 === t ||
             e4 === t ||
-            ((e1 || e2 || !e3) && !e4)
+            (!e1 && !e2 && !e3 && !e4)
                 )
                     return token;
             }
@@ -5892,17 +5894,13 @@
               locals && locals.hasOwnProperty(key0) ? locals : scope;
                     return null == pathVal
                         ? pathVal
-                        : ((pathVal = pathVal[key0]),
-                        key1 && null !== pathVal && void 0 === pathVal)
+                        : ((pathVal = pathVal[key0]), !key1 || null == pathVal)
                             ? pathVal
-                            : ((pathVal = pathVal[key1]),
-                            key2 && null !== pathVal && void 0 === pathVal)
+                            : ((pathVal = pathVal[key1]), !key2 || null == pathVal)
                                 ? pathVal
-                                : ((pathVal = pathVal[key2]),
-                                key3 && null !== pathVal && void 0 === pathVal)
+                                : ((pathVal = pathVal[key2]), !key3 || null == pathVal)
                                     ? pathVal
-                                    : ((pathVal = pathVal[key3]),
-                                    key4 && null !== pathVal && void 0 === pathVal)
+                                    : ((pathVal = pathVal[key3]), !key4 || null == pathVal)
                                         ? pathVal
                                         : (pathVal = pathVal[key4]);
                 }
@@ -5923,7 +5921,7 @@
                         promise.$$v = val;
                     })),
                   (pathVal = pathVal.$$v)),
-                        key1 && null !== pathVal && void 0 === pathVal)
+                        !key1 || null == pathVal)
                             ? pathVal
                             : ((pathVal = pathVal[key1]),
                             pathVal &&
@@ -5936,7 +5934,7 @@
                         promise.$$v = val;
                     })),
                   (pathVal = pathVal.$$v)),
-                            key2 && null !== pathVal && void 0 === pathVal)
+                            !key2 || null == pathVal)
                                 ? pathVal
                                 : ((pathVal = pathVal[key2]),
                                 pathVal &&
@@ -5949,7 +5947,7 @@
                         promise.$$v = val;
                     })),
                   (pathVal = pathVal.$$v)),
-                                key3 && null !== pathVal && void 0 === pathVal)
+                                !key3 || null == pathVal)
                                     ? pathVal
                                     : ((pathVal = pathVal[key3]),
                                     pathVal &&
@@ -5962,7 +5960,7 @@
                         promise.$$v = val;
                     })),
                   (pathVal = pathVal.$$v)),
-                                    key4 && null !== pathVal && void 0 === pathVal)
+                                    !key4 || null == pathVal)
                                         ? pathVal
                                         : ((pathVal = pathVal[key4]),
                                         pathVal &&
@@ -7145,11 +7143,12 @@
               (animations = isString(document1.body.style.webkitAnimation)));
                 }
                 return {
-                    history:
-            $window.history &&
-            $window.history.pushState &&
-            !(4 > android) &&
-            !boxee,
+                    history: !(
+                        !$window.history ||
+            !$window.history.pushState ||
+            4 > android ||
+            !!boxee
+                    ),
                     hashchange:
             "onhashchange" in $window && (!documentMode || documentMode > 7),
                     hasEvent: function (event) {

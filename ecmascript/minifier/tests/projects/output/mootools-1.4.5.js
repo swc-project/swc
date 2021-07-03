@@ -1959,8 +1959,8 @@ function () {
     }),
     (local.isXML = function (document) {
         return (
-            document.xmlVersion ||
-          document.xml ||
+            !!document.xmlVersion ||
+          !!document.xml ||
           Object.prototype.toString.call(document) == "[object XMLDocument]" ||
           (9 == document.nodeType &&
             document.documentElement.nodeName != "HTML")
@@ -3303,7 +3303,9 @@ Elements.alias("extend",
                 element: function (el, nocash) {
                     if (
                         (Slick.uidOf(el),
-                        nocash || el.$family || !/^(?:object|embed)$/i.test(el.tagName))
+                        !nocash &&
+                  !el.$family &&
+                  !/^(?:object|embed)$/i.test(el.tagName))
                     ) {
                         var fireEvent = el.fireEvent;
                         (el._fireEvent = function (type, event) {
@@ -4049,9 +4051,9 @@ Elements.alias("extend",
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
     (tr = null),
-    supportsTableInnerHTML &&
-        supportsTRInnerHTML &&
-        !supportsHTML5Elements &&
+    (!supportsTableInnerHTML ||
+        !supportsTRInnerHTML ||
+        !supportsHTML5Elements) &&
         (Element1.Properties.html.set = (function (set) {
             var translations = {
                 table: [1, "<table>", "</table>"],

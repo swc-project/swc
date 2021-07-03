@@ -920,10 +920,10 @@
             bCtor = b.constructor;
         if (
             aCtor !== bCtor &&
-      _.isFunction(aCtor) &&
-      aCtor instanceof aCtor &&
-      _.isFunction(bCtor) &&
-      !(bCtor instanceof bCtor)
+      (!_.isFunction(aCtor) ||
+        !(aCtor instanceof aCtor) ||
+        !_.isFunction(bCtor) ||
+        !(bCtor instanceof bCtor))
         )
             return !1;
         aStack.push(a), bStack.push(b);

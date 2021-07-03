@@ -234,8 +234,8 @@
                 if ("area" === nodeName) {
                     if (
                         (element.parentNode.name,
-                        element.href &&
-              element.parentNode.name &&
+                        !element.href ||
+              !element.parentNode.name ||
               element.parentNode.nodeName.toLowerCase() !== "map")
                     )
                         return !1;
@@ -468,9 +468,9 @@
                         var url = jQuery(ele).closest(".ui-page").jqmData("url"),
                             base = jQuery.mobile.path.documentBase.hrefNoHash;
                         return (
-                            jQuery.mobile.dynamicBaseEnabled &&
-              url &&
-              !jQuery.mobile.path.isPath(url) &&
+                            (!jQuery.mobile.dynamicBaseEnabled ||
+              !url ||
+              !jQuery.mobile.path.isPath(url)) &&
               (url = base),
                             jQuery.mobile.path.makeUrlAbsolute(url,
                                 base)
@@ -1581,10 +1581,11 @@
                     inlineSVG: function () {
                         var w = window,
                             svg =
-                w.document.createElementNS &&
-                w.document.createElementNS("http://www.w3.org/2000/svg",
-                    "svg")
-                    .createSVGRect &&
+                !!w.document.createElementNS &&
+                !!w.document.createElementNS(
+                    "http://www.w3.org/2000/svg",
+                    "svg",
+                ).createSVGRect &&
                 (!w.opera || navigator.userAgent.indexOf("Chrome") !== -1),
                             support = function (data) {
                                 (!data || !svg) && jQuery("html").addClass("ui-nosvg");
@@ -1972,11 +1973,10 @@
                         fpId = fp && fp[0] ? fp[0].id : void 0;
                     return (
                         samePath &&
-            u.hash &&
-            "#" !== u.hash &&
-            fpId &&
-            u.hash.replace(/^#/,
-                "") === fpId
+            (!u.hash ||
+              "#" === u.hash ||
+              (fpId && u.hash.replace(/^#/,
+                  "") === fpId))
                     );
                 },
                 isPermittedCrossDomainRequest: function (docUrl, reqUrl) {
@@ -2200,8 +2200,8 @@
                             return;
                         }
                         if (
-                            event.originalEvent.state ||
-              this.history.stack.length !== 1 ||
+                            !event.originalEvent.state &&
+              this.history.stack.length === 1 &&
               this.ignoreInitialHashChange
                         ) {
                             if (
@@ -3371,9 +3371,9 @@
                 ? data.state.hash
                 : data.state.url),
                         url || (url = this._getHash()),
-                        url &&
-              "#" !== url &&
-              url.indexOf("#" + jQuery.mobile.path.uiStateKey) === 0 &&
+                        (!url ||
+              "#" === url ||
+              url.indexOf("#" + jQuery.mobile.path.uiStateKey) === 0) &&
               (url = location.href),
                         this._handleNavigate(url,
                             data.state);
@@ -4546,9 +4546,9 @@
                 jQuery.mobile.navigate.history.getActive().lastScroll ||
                 jQuery.mobile.defaultHomeScroll),
                             (none =
-                (jQuery.support.cssTransitions &&
-                  jQuery.support.cssAnimations &&
-                  maxTransitionOverride) ||
+                !jQuery.support.cssTransitions ||
+                !jQuery.support.cssAnimations ||
+                maxTransitionOverride ||
                 !this.name ||
                 "none" === this.name ||
                 Math.max(jQuery.mobile.window.scrollTop(),
@@ -5092,9 +5092,9 @@
               opts.collapsedIcon !== void 0
                   ? opts.collapsedIcon !== !1
                   : currentOpts.collapsedIcon !== !1),
-                        opts.iconpos === void 0 &&
-              opts.collapsedIcon === void 0 &&
-              opts.expandedIcon !== void 0 &&
+                        (opts.iconpos !== void 0 ||
+              opts.collapsedIcon !== void 0 ||
+              opts.expandedIcon !== void 0) &&
               (anchor.removeClass(
                   [iconposClass(currentOpts.iconpos)]
                       .concat(
@@ -6368,11 +6368,11 @@
                 _setOptions: function (options) {
                     var outer = this.widget();
                     this._super(options),
-                    options.disabled === void 0 &&
-            options.mini === void 0 &&
-            options.corners === void 0 &&
-            options.theme === void 0 &&
-            options.wrapperClass !== void 0 &&
+                    (options.disabled !== void 0 ||
+            options.mini !== void 0 ||
+            options.corners !== void 0 ||
+            options.theme !== void 0 ||
+            options.wrapperClass !== void 0) &&
             (outer.removeClass(this.classes.join(" ")),
             (this.classes = this._classesFromOptions()),
             outer.addClass(this.classes.join(" "))),
@@ -8527,12 +8527,12 @@
                                     androidmatch = ua.match(/Android (\d+(?:\.\d+))/),
                                     andversion = !!androidmatch && androidmatch[1],
                                     chromematch = ua.indexOf("Chrome") > -1;
-                                return (
-                                    null !== androidmatch &&
-                "4.0" === andversion &&
-                wkversion &&
-                wkversion > 534.13 &&
-                !chromematch
+                                return !(
+                                    !(null !== androidmatch) ||
+                "4.0" !== andversion ||
+                !wkversion ||
+                !(wkversion > 534.13) ||
+                !!chromematch
                                 );
                             })();
                         this._createPrerequisites(
@@ -9205,9 +9205,9 @@
                   fragment.appendChild(divider),
                   (optGroup = optLabel))),
                             needPlaceholder &&
-                option.getAttribute("value") &&
-                0 !== text.length &&
-                $option.jqmData("placeholder") &&
+                (!option.getAttribute("value") ||
+                  0 === text.length ||
+                  $option.jqmData("placeholder")) &&
                 ((needPlaceholder = !1),
                 (isPlaceholderItem = !0),
                 null === option.getAttribute(dataPlaceholderAttr) &&
@@ -9861,12 +9861,12 @@
                         !notransition &&
           ((this.options.transition &&
             this.options.transition !== "none" &&
-            ("header" !== this.role ||
-              this.options.fullscreen ||
-              scroll > elHeight ||
-              "footer" !== this.role ||
-              this.options.fullscreen ||
-              scroll + viewportHeight < pHeight - elHeight)) ||
+            (("header" === this.role &&
+              !this.options.fullscreen &&
+              scroll > elHeight) ||
+              ("footer" === this.role &&
+                !this.options.fullscreen &&
+                scroll + viewportHeight < pHeight - elHeight))) ||
             this.options.fullscreen)
                     );
                 },
@@ -11188,8 +11188,8 @@
                     },
                     _setOptions: function (options) {
                         var refilter =
-            options.filterReveal === void 0 &&
-            options.filterCallback === void 0 &&
+            options.filterReveal !== void 0 ||
+            options.filterCallback !== void 0 ||
             options.children !== void 0;
                         this._super(options),
                         options.input !== void 0 &&
@@ -11472,7 +11472,9 @@
                             !1 !== active &&
               ((active = this.tabs.index(this.tabs.eq(active))),
               -1 === active && (active = collapsible ? !1 : 0)),
-                            (collapsible || !1 !== active || this.anchors.length) &&
+                            !collapsible &&
+              !1 === active &&
+              this.anchors.length &&
               (active = 0),
                             active
                         );
@@ -12089,8 +12091,8 @@
                 z,
                 aig;
             if (
-                /iPhone|iPad|iPod/.test(navigator.platform) &&
-        /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) &&
+                !/iPhone|iPad|iPod/.test(navigator.platform) ||
+        !/OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) ||
         !(ua.indexOf("AppleWebKit") > -1)
             ) {
                 jQuery.mobile.iosorientationfixEnabled = !1;
@@ -12166,8 +12168,8 @@
                         $window.trigger("pagecontainercreate"),
                         jQuery.mobile.loading("show"),
                         hideRenderingClass(),
-                        jQuery.mobile.hashListeningEnabled &&
-              jQuery.mobile.path.isHashValid(location.hash) &&
+                        !jQuery.mobile.hashListeningEnabled ||
+              !jQuery.mobile.path.isHashValid(location.hash) ||
               !(
                   jQuery(hashPage).is(":jqmData(role='page')") ||
                 jQuery.mobile.path.isPath(hash) ||

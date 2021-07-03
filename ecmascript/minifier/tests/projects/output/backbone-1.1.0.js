@@ -53,7 +53,7 @@
                     name,
                     [callback, context]))
                     return this;
-                if (name || callback || !context) return (this._events = {}), this;
+                if (!name && !callback && !context) return (this._events = {}), this;
                 for (
                     names = name ? [name] : _.keys(this._events), i = 0, names.length;
                     i < names.length;
@@ -1079,10 +1079,9 @@
             options), xhr;
     });
     var noXhrPatch =
-      "undefined" == typeof window ||
-      !window.ActiveXObject ||
-      !window.XMLHttpRequest ||
-      !new XMLHttpRequest().dispatchEvent,
+      "undefined" !== typeof window &&
+      !!window.ActiveXObject &&
+      (!window.XMLHttpRequest || !new XMLHttpRequest().dispatchEvent),
         methodMap = {
             create: "POST",
             update: "PUT",
@@ -1221,8 +1220,11 @@
                 (this.root = this.options.root),
                 (this._wantsHashChange = this.options.hashChange !== !1),
                 (this._wantsPushState = !!this.options.pushState),
-                (this._hasPushState =
-            this.options.pushState && this.history && !!this.history.pushState);
+                (this._hasPushState = !(
+                    !this.options.pushState ||
+            !this.history ||
+            !this.history.pushState
+                ));
                 var fragment = this.getFragment(),
                     docMode = document.documentMode,
                     oldIE =
