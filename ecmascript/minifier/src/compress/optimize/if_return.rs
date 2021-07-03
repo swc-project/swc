@@ -84,7 +84,7 @@ impl Optimizer<'_> {
                 })
                 .unwrap();
 
-            if stmts.len() == start || !ends_with_mergable {
+            if stmts.len() == start + 1 || !ends_with_mergable {
                 return;
             }
 
