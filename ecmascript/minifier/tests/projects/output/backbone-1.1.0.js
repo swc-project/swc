@@ -18,7 +18,7 @@
     (Backbone.emulateJSON = !1);
     var Events = (Backbone.Events = {
             on: function (name, callback, context) {
-                return !eventsApi(this, "on", name, [callback, context]) || !callback
+                return eventsApi(this, "on", name, [callback, context]) && callback
                     ? this
                     : (this._events || (this._events = {}),
                     (this._events[name] || (this._events[name] = [])).push({

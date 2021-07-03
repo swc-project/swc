@@ -6170,7 +6170,7 @@
         }),
         (this.$get = function () {
             return function (uri, isImage) {
-                return !msie || msie >= 8
+                return msie && !(msie >= 8)
                     ? (urlResolve(uri).href,
                     urlResolve(uri).href !== "" &&
                 !urlResolve(uri).href.match(
@@ -7268,7 +7268,7 @@
         ) {
             var minlength = int(attr.ngMinlength),
                 minLengthValidator = function (value) {
-                    return !ctrl.$isEmpty(value) && value.length < minlength
+                    return ctrl.$isEmpty(value) || !(value.length < minlength)
                         ? (ctrl.$setValidity("minlength", !1), void 0)
                         : (ctrl.$setValidity("minlength", !0), value);
                 };
@@ -7278,7 +7278,7 @@
         if (attr.ngMaxlength) {
             var maxlength = int(attr.ngMaxlength),
                 maxLengthValidator = function (value) {
-                    return !ctrl.$isEmpty(value) && value.length > maxlength
+                    return ctrl.$isEmpty(value) || !(value.length > maxlength)
                         ? (ctrl.$setValidity("maxlength", !1), void 0)
                         : (ctrl.$setValidity("maxlength", !0), value);
                 };
@@ -7302,7 +7302,7 @@
             attr.min)
         ) {
             var minValidator = function (value) {
-                return !ctrl.$isEmpty(value) && parseFloat(attr.min) > value
+                return ctrl.$isEmpty(value) || !(parseFloat(attr.min) > value)
                     ? (ctrl.$setValidity("min", !1), void 0)
                     : (ctrl.$setValidity("min", !0), value);
             };
@@ -7310,7 +7310,7 @@
         }
         if (attr.max) {
             var maxValidator = function (value) {
-                return !ctrl.$isEmpty(value) && value > parseFloat(attr.max)
+                return ctrl.$isEmpty(value) || !(value > parseFloat(attr.max))
                     ? (ctrl.$setValidity("max", !1), void 0)
                     : (ctrl.$setValidity("max", !0), value);
             };

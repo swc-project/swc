@@ -717,7 +717,7 @@ Function.implement({
                 this instanceof bound &&
             ((F.prototype = self.prototype), (context = new F()));
                 var result =
-            !args && !length
+            args || length
                 ? self.call(context)
                 : self.apply(
                     context,
@@ -1227,7 +1227,7 @@ Hash.alias({
                 var doc = win.document;
                 if (
                     ((doc =
-              !doc.compatMode || "CSS1Compat" == doc.compatMode
+              doc.compatMode && "CSS1Compat" != doc.compatMode
                   ? doc.html
                   : doc.body),
                     (this.page = {
@@ -1922,7 +1922,7 @@ function () {
                       }),
         (features.documentSorter = root.compareDocumentPosition
             ? function (a, b) {
-                return !a.compareDocumentPosition || !b.compareDocumentPosition
+                return a.compareDocumentPosition && b.compareDocumentPosition
                     ? 0
                     : a.compareDocumentPosition(b) & 4
                         ? -1
@@ -1932,7 +1932,7 @@ function () {
             }
             : "sourceIndex" in root
                 ? function (a, b) {
-                    return !a.sourceIndex || !b.sourceIndex
+                    return a.sourceIndex && b.sourceIndex
                         ? 0
                         : a.sourceIndex - b.sourceIndex;
                 }
@@ -2084,8 +2084,8 @@ function () {
         (this.posNTHType = {}),
         (this.posNTHTypeLast = {}),
         (this.push =
-          !hasOthers &&
-          (first || (1 == parsed.length && parsed.expressions[0].length == 1))
+          hasOthers ||
+          !(first || (1 == parsed.length && parsed.expressions[0].length == 1))
               ? this.pushArray
               : this.pushUID),
         null == found && (found = []);
@@ -2655,9 +2655,9 @@ function () {
         return local.setDocument(node), local.hasAttribute(node, name);
     }),
     (Slick.match = function (node, selector) {
-        return !node || !selector
+        return node && selector
             ? !1
-            : !selector || node === selector
+            : selector && node !== selector
                 ? !0
                 : (local.setDocument(node), local.matchNode(node, selector));
     }),
@@ -3273,7 +3273,7 @@ Elements.alias("extend", "append"),
                 }
             }
             var result = Slick.getAttribute(this, name);
-            return !result && !Slick.hasAttribute(this, name) ? null : result;
+            return result || Slick.hasAttribute(this, name) ? null : result;
         },
         getProperties: function () {
             var args = Array.from(arguments);
@@ -3984,7 +3984,7 @@ Elements.alias("extend", "append"),
             },
             fireEvent: function (type, args, delay) {
                 var events = this.retrieve("events");
-                return !events || !events[type]
+                return events && events[type]
                     ? this
                     : ((args = Array.from(args)),
                     events[type].keys.each(function (fn) {
@@ -4539,7 +4539,7 @@ Elements.alias("extend", "append"),
     }
     function getCompatElement(element) {
         var doc = element.getDocument();
-        return !doc.compatMode || "CSS1Compat" == doc.compatMode
+        return doc.compatMode && "CSS1Compat" != doc.compatMode
             ? doc.html
             : doc.body;
     }

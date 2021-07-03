@@ -1121,7 +1121,7 @@
                     (type = (type || "fx") + "queue"),
                     (queue = jQuery._data(elem, type)),
                     data &&
-            (!queue || jQuery.isArray(data)
+            (queue && !jQuery.isArray(data)
                 ? (queue = jQuery._data(elem, type, jQuery.makeArray(data)))
                 : queue.push(data)),
                     queue || []
@@ -1414,7 +1414,7 @@
             option: {
                 get: function (elem) {
                     var val = elem.attributes.value;
-                    return !val || val.specified ? elem.value : elem.text;
+                    return val && !val.specified ? elem.value : elem.text;
                 },
             },
             select: {
@@ -1509,7 +1509,7 @@
                 for (; (name = attrNames[i++]); )
                     (propName = jQuery.propFix[name] || name),
                     rboolean.test(name)
-                        ? !getSetAttribute && ruseDefault.test(name)
+                        ? getSetAttribute || !ruseDefault.test(name)
                             ? (elem[jQuery.camelCase("default-" + name)] = elem[
                                 propName
                             ] = !1)
@@ -1762,7 +1762,7 @@
                 (events = elemData.events) || (events = elemData.events = {}),
                 (eventHandle = elemData.handle) ||
             ((eventHandle = elemData.handle = function (e) {
-                return !e || jQuery.event.triggered !== e.type
+                return e && jQuery.event.triggered === e.type
                     ? jQuery.event.dispatch.apply(eventHandle.elem, arguments)
                     : void 0;
             }),
@@ -4559,7 +4559,7 @@
                 (elem = elems[i]) != null;
                 i++
             )
-                !tag || jQuery.nodeName(elem, tag)
+                tag && !jQuery.nodeName(elem, tag)
                     ? found.push(elem)
                     : jQuery.merge(found, getAll(elem, tag));
         return void 0 === tag || (tag && jQuery.nodeName(context, tag))
@@ -4656,9 +4656,9 @@
                         )
                             for (
                                 elem =
-                  "table" === tag && !rtbody.test(elem)
+                  "table" !== tag || rtbody.test(elem)
                       ? tmp.firstChild
-                      : wrap[1] === "<table>" && !rtbody.test(elem)
+                      : wrap[1] !== "<table>" || rtbody.test(elem)
                           ? tmp
                           : 0,
                                 j = elem && elem.childNodes.length;
@@ -6247,8 +6247,8 @@
         ((opts.overflow = [style.overflow, style.overflowX, style.overflowY]),
         jQuery.css(elem, "display") === "inline" &&
           jQuery.css(elem, "float") === "none" &&
-          (!jQuery.support.inlineBlockNeedsLayout ||
-          css_defaultDisplay(elem.nodeName) === "inline"
+          (jQuery.support.inlineBlockNeedsLayout &&
+          css_defaultDisplay(elem.nodeName) !== "inline"
               ? (style.display = "inline-block")
               : (style.zoom = 1))),
         opts.overflow &&
@@ -6354,7 +6354,7 @@
             (!tween.elem.style || tween.elem.style[tween.prop] == null)
                     ? tween.elem[tween.prop]
                     : ((result = jQuery.css(tween.elem, tween.prop, "")),
-                    !result || "auto" === result ? 0 : result);
+                    result && "auto" !== result ? 0 : result);
             },
             set: function (tween) {
                 jQuery.fx.step[tween.prop]
