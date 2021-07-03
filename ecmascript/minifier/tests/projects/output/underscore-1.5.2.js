@@ -1,4 +1,5 @@
-(function () {
+(function (
+) {
     var root = this,
         previousUnderscore = root._,
         breaker = {
@@ -22,11 +23,15 @@
         nativeIsArray = Array.isArray,
         nativeKeys = Object.keys,
         nativeBind = FuncProto.bind,
-        _ = function (obj) {
+        _ = function (
+            obj
+        ) {
             return obj instanceof _
                 ? obj
                 : !(this instanceof _)
-                    ? new _(obj)
+                    ? new _(
+                        obj
+                    )
                     : void (this._wrapped = obj);
         };
     "undefined" !== typeof exports
@@ -36,535 +41,909 @@
         (exports._ = _))
         : (root._ = _),
     (_.VERSION = "1.5.2");
-    var each = (_.each = _.forEach = function (obj, iterator, context) {
+    var each = (_.each = _.forEach = function (
+        obj, iterator, context
+    ) {
         if (null == obj) return;
         if (nativeForEach && obj.forEach === nativeForEach)
-            obj.forEach(iterator,
-                context);
+            obj.forEach(
+                iterator,
+                context
+            );
         else if (obj.length === +obj.length)
             for (var i = 0, length = obj.length; length > i; i++)
-                if (iterator.call(context,
+                if (iterator.call(
+                    context,
                     obj[i],
                     i,
-                    obj) === breaker) return;
+                    obj
+                ) === breaker) return;
                 else
                     for (
-                        var keys = _.keys(obj), i = 0, length = keys.length;
+                        var keys = _.keys(
+                                obj
+                            ), i = 0, length = keys.length;
                         length > i;
                         i++
                     )
-                        if (iterator.call(context,
+                        if (iterator.call(
+                            context,
                             obj[keys[i]],
                             keys[i],
-                            obj) === breaker)
+                            obj
+                        ) === breaker)
                             return;
     });
-    (_.map = _.collect = function (obj, iterator, context) {
+    (_.map = _.collect = function (
+        obj, iterator, context
+    ) {
         var results = [];
         return null == obj
             ? results
             : nativeMap && obj.map === nativeMap
-                ? obj.map(iterator,
-                    context)
-                : (each(obj,
-                    function (value, index, list) {
-                        results.push(iterator.call(context,
-                            value,
-                            index,
-                            list));
-                    }),
+                ? obj.map(
+                    iterator,
+                    context
+                )
+                : (each(
+                    obj,
+                    function (
+                        value, index, list
+                    ) {
+                        results.push(
+                            iterator.call(
+                                context,
+                                value,
+                                index,
+                                list
+                            )
+                        );
+                    }
+                ),
                 results);
     }),
-    (_.reduce = _.foldl = _.inject = function (obj, iterator, memo, context) {
+    (_.reduce = _.foldl = _.inject = function (
+        obj, iterator, memo, context
+    ) {
         var initial = arguments.length > 2;
         if (
             (null == obj && (obj = []), nativeReduce && obj.reduce === nativeReduce)
         )
             return (
-                context && (iterator = _.bind(iterator,
-                    context)),
+                context && (iterator = _.bind(
+                    iterator,
+                    context
+                )),
                 initial
-                    ? obj.reduce(iterator,
-                        memo)
-                    : obj.reduce(iterator)
+                    ? obj.reduce(
+                        iterator,
+                        memo
+                    )
+                    : obj.reduce(
+                        iterator
+                    )
             );
         if (
-            (each(obj,
-                function (value, index, list) {
+            (each(
+                obj,
+                function (
+                    value, index, list
+                ) {
                     !initial
                         ? ((memo = value), (initial = !0))
-                        : (memo = iterator.call(context,
+                        : (memo = iterator.call(
+                            context,
                             memo,
                             value,
                             index,
-                            list));
-                }),
+                            list
+                        ));
+                }
+            ),
             !initial)
         )
-            throw new TypeError("Reduce of empty array with no initial value");
+            throw new TypeError(
+                "Reduce of empty array with no initial value"
+            );
         return memo;
     }),
-    (_.reduceRight = _.foldr = function (obj, iterator, memo, context) {
+    (_.reduceRight = _.foldr = function (
+        obj, iterator, memo, context
+    ) {
         var initial = arguments.length > 2;
         if (
             (null == obj && (obj = []),
             nativeReduceRight && obj.reduceRight === nativeReduceRight)
         )
             return (
-                context && (iterator = _.bind(iterator,
-                    context)),
+                context && (iterator = _.bind(
+                    iterator,
+                    context
+                )),
                 initial
-                    ? obj.reduceRight(iterator,
-                        memo)
-                    : obj.reduceRight(iterator)
+                    ? obj.reduceRight(
+                        iterator,
+                        memo
+                    )
+                    : obj.reduceRight(
+                        iterator
+                    )
             );
         var length = obj.length;
         if (length !== +length) {
-            var keys = _.keys(obj);
+            var keys = _.keys(
+                obj
+            );
             length = keys.length;
         }
         if (
-            (each(obj,
-                function (value, index, list) {
+            (each(
+                obj,
+                function (
+                    value, index, list
+                ) {
                     (index = keys ? keys[--length] : --length),
                     !initial
                         ? ((memo = obj[index]), (initial = !0))
-                        : (memo = iterator.call(context,
+                        : (memo = iterator.call(
+                            context,
                             memo,
                             obj[index],
                             index,
-                            list));
-                }),
+                            list
+                        ));
+                }
+            ),
             !initial)
         )
-            throw new TypeError("Reduce of empty array with no initial value");
+            throw new TypeError(
+                "Reduce of empty array with no initial value"
+            );
         return memo;
     }),
-    (_.find = _.detect = function (obj, iterator, context) {
+    (_.find = _.detect = function (
+        obj, iterator, context
+    ) {
         var result;
         return (
-            any(obj,
-                function (value, index, list) {
-                    if (iterator.call(context,
+            any(
+                obj,
+                function (
+                    value, index, list
+                ) {
+                    if (iterator.call(
+                        context,
                         value,
                         index,
-                        list))
+                        list
+                    ))
                         return (result = value), !0;
-                }),
+                }
+            ),
             result
         );
     }),
-    (_.filter = _.select = function (obj, iterator, context) {
+    (_.filter = _.select = function (
+        obj, iterator, context
+    ) {
         var results = [];
         return null == obj
             ? results
             : nativeFilter && obj.filter === nativeFilter
-                ? obj.filter(iterator,
-                    context)
-                : (each(obj,
-                    function (value, index, list) {
-                        iterator.call(context,
+                ? obj.filter(
+                    iterator,
+                    context
+                )
+                : (each(
+                    obj,
+                    function (
+                        value, index, list
+                    ) {
+                        iterator.call(
+                            context,
                             value,
                             index,
-                            list) && results.push(value);
-                    }),
+                            list
+                        ) && results.push(
+                            value
+                        );
+                    }
+                ),
                 results);
     }),
-    (_.reject = function (obj, iterator, context) {
+    (_.reject = function (
+        obj, iterator, context
+    ) {
         return _.filter(
             obj,
-            function (value, index, list) {
-                return !iterator.call(context,
+            function (
+                value, index, list
+            ) {
+                return !iterator.call(
+                    context,
                     value,
                     index,
-                    list);
+                    list
+                );
             },
             context,
         );
     }),
-    (_.every = _.all = function (obj, iterator, context) {
+    (_.every = _.all = function (
+        obj, iterator, context
+    ) {
         iterator || (iterator = _.identity);
         var result = !0;
         return null == obj
             ? result
             : nativeEvery && obj.every === nativeEvery
-                ? obj.every(iterator,
-                    context)
-                : (each(obj,
-                    function (value, index, list) {
-                        if (!(result &&= iterator.call(context,
+                ? obj.every(
+                    iterator,
+                    context
+                )
+                : (each(
+                    obj,
+                    function (
+                        value, index, list
+                    ) {
+                        if (!(result &&= iterator.call(
+                            context,
                             value,
                             index,
-                            list)))
+                            list
+                        )))
                             return breaker;
-                    }),
+                    }
+                ),
                 !!result);
     });
-    var any = (_.some = _.any = function (obj, iterator, context) {
+    var any = (_.some = _.any = function (
+        obj, iterator, context
+    ) {
         iterator || (iterator = _.identity);
         var result = !1;
         return null == obj
             ? result
             : nativeSome && obj.some === nativeSome
-                ? obj.some(iterator,
-                    context)
-                : (each(obj,
-                    function (value, index, list) {
-                        if (result || (result = iterator.call(context,
+                ? obj.some(
+                    iterator,
+                    context
+                )
+                : (each(
+                    obj,
+                    function (
+                        value, index, list
+                    ) {
+                        if (result || (result = iterator.call(
+                            context,
                             value,
                             index,
-                            list)))
+                            list
+                        )))
                             return breaker;
-                    }),
+                    }
+                ),
                 !!result);
     });
-    (_.contains = _.include = function (obj, target) {
+    (_.contains = _.include = function (
+        obj, target
+    ) {
         return null == obj
             ? !1
             : nativeIndexOf && obj.indexOf === nativeIndexOf
-                ? -1 != obj.indexOf(target)
-                : any(obj,
-                    function (value) {
+                ? -1 != obj.indexOf(
+                    target
+                )
+                : any(
+                    obj,
+                    function (
+                        value
+                    ) {
                         return target === value;
-                    });
+                    }
+                );
     }),
-    (_.invoke = function (obj, method) {
-        return _.map(obj,
-            function (value) {
-                return (_.isFunction(method) ? method : value[method]).apply(
+    (_.invoke = function (
+        obj, method
+    ) {
+        return _.map(
+            obj,
+            function (
+                value
+            ) {
+                return (_.isFunction(
+                    method
+                )
+                    ? method
+                    : value[method]).apply(
                     value,
                     args,
                 );
-            });
+            }
+        );
     }),
-    (_.pluck = function (obj, key) {
-        return _.map(obj,
-            function (value) {
+    (_.pluck = function (
+        obj, key
+    ) {
+        return _.map(
+            obj,
+            function (
+                value
+            ) {
                 return value[key];
-            });
+            }
+        );
     }),
-    (_.where = function (obj, attrs, first) {
-        return _.isEmpty(attrs)
+    (_.where = function (
+        obj, attrs, first
+    ) {
+        return _.isEmpty(
+            attrs
+        )
             ? first
                 ? void 0
                 : []
-            : _[first ? "find" : "filter"](obj,
-                function (value) {
+            : _[first ? "find" : "filter"](
+                obj,
+                function (
+                    value
+                ) {
                     for (var key in attrs) if (attrs[key] !== value[key]) return !1;
                     return !0;
-                });
+                }
+            );
     }),
-    (_.findWhere = function (obj, attrs) {
-        return _.where(obj,
+    (_.findWhere = function (
+        obj, attrs
+    ) {
+        return _.where(
+            obj,
             attrs,
-            !0);
+            !0
+        );
     }),
-    (_.max = function (obj, iterator, context) {
+    (_.max = function (
+        obj, iterator, context
+    ) {
         if (
             !iterator &&
-        _.isArray(obj) &&
+        _.isArray(
+            obj
+        ) &&
         obj[0] === +obj[0] &&
         65535 > obj.length
         )
-            return Math.max.apply(Math,
-                obj);
-        if (!iterator && _.isEmpty(obj)) return -(1 / 0);
+            return Math.max.apply(
+                Math,
+                obj
+            );
+        if (!iterator && _.isEmpty(
+            obj
+        )) return -(1 / 0);
         var result = {
             computed: -(1 / 0),
             value: -(1 / 0),
         };
         return (
-            each(obj,
-                function (value, index, list) {
+            each(
+                obj,
+                function (
+                    value, index, list
+                ) {
                     var computed = iterator
-                        ? iterator.call(context,
+                        ? iterator.call(
+                            context,
                             value,
                             index,
-                            list)
+                            list
+                        )
                         : value;
                     computed > result.computed &&
             (result = {
                 value: value,
                 computed: computed,
             });
-                }),
+                }
+            ),
             result.value
         );
     }),
-    (_.min = function (obj, iterator, context) {
+    (_.min = function (
+        obj, iterator, context
+    ) {
         if (
             !iterator &&
-        _.isArray(obj) &&
+        _.isArray(
+            obj
+        ) &&
         obj[0] === +obj[0] &&
         65535 > obj.length
         )
-            return Math.min.apply(Math,
-                obj);
-        if (!iterator && _.isEmpty(obj)) return 1 / 0;
+            return Math.min.apply(
+                Math,
+                obj
+            );
+        if (!iterator && _.isEmpty(
+            obj
+        )) return 1 / 0;
         var result = {
             computed: 1 / 0,
             value: 1 / 0,
         };
         return (
-            each(obj,
-                function (value, index, list) {
+            each(
+                obj,
+                function (
+                    value, index, list
+                ) {
                     var computed = iterator
-                        ? iterator.call(context,
+                        ? iterator.call(
+                            context,
                             value,
                             index,
-                            list)
+                            list
+                        )
                         : value;
                     computed < result.computed &&
             (result = {
                 value: value,
                 computed: computed,
             });
-                }),
+                }
+            ),
             result.value
         );
     }),
-    (_.shuffle = function (obj) {
+    (_.shuffle = function (
+        obj
+    ) {
         var rand,
             index = 0,
             shuffled = [];
         return (
-            each(obj,
-                function (value) {
-                    (rand = _.random(index++)),
+            each(
+                obj,
+                function (
+                    value
+                ) {
+                    (rand = _.random(
+                        index++
+                    )),
                     (shuffled[index - 1] = shuffled[rand]),
                     (shuffled[rand] = value);
-                }),
+                }
+            ),
             shuffled
         );
     }),
-    (_.sample = function (obj, n, guard) {
+    (_.sample = function (
+        obj, n, guard
+    ) {
         return 2 > arguments.length || guard
-            ? obj[_.random(obj.length - 1)]
-            : _.shuffle(obj).slice(0,
-                Math.max(0,
-                    n));
+            ? obj[_.random(
+                obj.length - 1
+            )]
+            : _.shuffle(
+                obj
+            ).slice(
+                0,
+                Math.max(
+                    0,
+                    n
+                )
+            );
     });
-    var lookupIterator = function (value) {
-        return _.isFunction(value)
+    var lookupIterator = function (
+        value
+    ) {
+        return _.isFunction(
+            value
+        )
             ? value
-            : function (obj) {
+            : function (
+                obj
+            ) {
                 return obj[value];
             };
     };
-    _.sortBy = function (obj, value, context) {
+    _.sortBy = function (
+        obj, value, context
+    ) {
         return _.pluck(
-            _.map(obj,
-                function (value1, index, list) {
+            _.map(
+                obj,
+                function (
+                    value1, index, list
+                ) {
                     return {
                         value: value1,
                         index: index,
-                        criteria: lookupIterator(value).call(context,
+                        criteria: lookupIterator(
+                            value
+                        ).call(
+                            context,
                             value1,
                             index,
-                            list),
+                            list
+                        ),
                     };
-                }).sort(function (left, right) {
-                var a = left.criteria,
-                    b = right.criteria;
-                if (a !== b) {
-                    if (a > b || void 0 === a) return 1;
-                    if (b > a || void 0 === b) return -1;
                 }
-                return left.index - right.index;
-            }),
+            ).sort(
+                function (
+                    left, right
+                ) {
+                    var a = left.criteria,
+                        b = right.criteria;
+                    if (a !== b) {
+                        if (a > b || void 0 === a) return 1;
+                        if (b > a || void 0 === b) return -1;
+                    }
+                    return left.index - right.index;
+                }
+            ),
             "value",
         );
     };
-    var group = function (behavior) {
-        return function (obj, value, context) {
+    var group = function (
+        behavior
+    ) {
+        return function (
+            obj, value, context
+        ) {
             var result = {
             };
             return (
-                each(obj,
-                    function (value1, index) {
-                        var key = (null == value ? _.identity : lookupIterator(value)).call(
+                each(
+                    obj,
+                    function (
+                        value1, index
+                    ) {
+                        var key = (null == value
+                            ? _.identity
+                            : lookupIterator(
+                                value
+                            )).call(
                             context,
                             value1,
                             index,
                             obj,
                         );
-                        behavior(result,
+                        behavior(
+                            result,
                             key,
-                            value1);
-                    }),
+                            value1
+                        );
+                    }
+                ),
                 result
             );
         };
     };
-    (_.groupBy = group(function (result, key, value) {
-        (_.has(result,
-            key)
-            ? result[key]
-            : (result[key] = [])).push(value);
-    })),
-    (_.indexBy = group(function (result, key, value) {
-        result[key] = value;
-    })),
-    (_.countBy = group(function (result, key) {
-        _.has(result,
-            key)
-            ? result[key]++
-            : (result[key] = 1);
-    })),
-    (_.sortedIndex = function (array, obj, iterator, context) {
-        iterator = null == iterator ? _.identity : lookupIterator(iterator);
+    (_.groupBy = group(
+        function (
+            result, key, value
+        ) {
+            (_.has(
+                result,
+                key
+            )
+                ? result[key]
+                : (result[key] = [])).push(
+                value
+            );
+        }
+    )),
+    (_.indexBy = group(
+        function (
+            result, key, value
+        ) {
+            result[key] = value;
+        }
+    )),
+    (_.countBy = group(
+        function (
+            result, key
+        ) {
+            _.has(
+                result,
+                key
+            )
+                ? result[key]++
+                : (result[key] = 1);
+        }
+    )),
+    (_.sortedIndex = function (
+        array, obj, iterator, context
+    ) {
+        iterator = null == iterator
+            ? _.identity
+            : lookupIterator(
+                iterator
+            );
         for (
-            var value = iterator.call(context,
-                    obj), low = 0, high = array.length;
+            var value = iterator.call(
+                    context,
+                    obj
+                ), low = 0, high = array.length;
             high > low;
 
         ) {
             var mid = (low + high) >>> 1;
-            iterator.call(context,
-                array[mid]) < value
+            iterator.call(
+                context,
+                array[mid]
+            ) < value
                 ? (low = mid + 1)
                 : (high = mid);
         }
         return low;
     }),
-    (_.toArray = function (obj) {
+    (_.toArray = function (
+        obj
+    ) {
         return !obj
             ? []
-            : _.isArray(obj)
-                ? slice.call(obj)
+            : _.isArray(
+                obj
+            )
+                ? slice.call(
+                    obj
+                )
                 : obj.length === +obj.length
-                    ? _.map(obj,
-                        _.identity)
-                    : _.values(obj);
+                    ? _.map(
+                        obj,
+                        _.identity
+                    )
+                    : _.values(
+                        obj
+                    );
     }),
-    (_.size = function (obj) {
+    (_.size = function (
+        obj
+    ) {
         return null == obj
             ? 0
             : obj.length === +obj.length
                 ? obj.length
-                : _.keys(obj).length;
+                : _.keys(
+                    obj
+                ).length;
     }),
-    (_.first = _.head = _.take = function (array, n, guard) {
+    (_.first = _.head = _.take = function (
+        array, n, guard
+    ) {
         return null == array
             ? void 0
             : null == n || guard
                 ? array[0]
-                : slice.call(array,
+                : slice.call(
+                    array,
                     0,
-                    n);
+                    n
+                );
     }),
-    (_.initial = function (array, n, guard) {
-        return slice.call(array,
+    (_.initial = function (
+        array, n, guard
+    ) {
+        return slice.call(
+            array,
             0,
-            array.length - (null == n || guard ? 1 : n));
+            array.length - (null == n || guard ? 1 : n)
+        );
     }),
-    (_.last = function (array, n, guard) {
+    (_.last = function (
+        array, n, guard
+    ) {
         return null == array
             ? void 0
             : null == n || guard
                 ? array[array.length - 1]
-                : slice.call(array,
-                    Math.max(array.length - n,
-                        0));
+                : slice.call(
+                    array,
+                    Math.max(
+                        array.length - n,
+                        0
+                    )
+                );
     }),
-    (_.rest = _.tail = _.drop = function (array, n, guard) {
-        return slice.call(array,
-            null == n || guard ? 1 : n);
+    (_.rest = _.tail = _.drop = function (
+        array, n, guard
+    ) {
+        return slice.call(
+            array,
+            null == n || guard ? 1 : n
+        );
     }),
-    (_.compact = function (array) {
-        return _.filter(array,
-            _.identity);
+    (_.compact = function (
+        array
+    ) {
+        return _.filter(
+            array,
+            _.identity
+        );
     });
-    var flatten = function (input, shallow, output) {
-        return shallow && _.every(input,
-            _.isArray)
-            ? concat.apply(output,
-                input)
-            : (each(input,
-                function (value) {
-                    _.isArray(value) || _.isArguments(value)
+    var flatten = function (
+        input, shallow, output
+    ) {
+        return shallow && _.every(
+            input,
+            _.isArray
+        )
+            ? concat.apply(
+                output,
+                input
+            )
+            : (each(
+                input,
+                function (
+                    value
+                ) {
+                    _.isArray(
+                        value
+                    ) || _.isArguments(
+                        value
+                    )
                         ? shallow
-                            ? push.apply(output,
-                                value)
-                            : flatten(value,
+                            ? push.apply(
+                                output,
+                                value
+                            )
+                            : flatten(
+                                value,
                                 shallow,
-                                output)
-                        : output.push(value);
-                }),
+                                output
+                            )
+                        : output.push(
+                            value
+                        );
+                }
+            ),
             output);
     };
-    (_.flatten = function (array, shallow) {
-        return flatten(array,
+    (_.flatten = function (
+        array, shallow
+    ) {
+        return flatten(
+            array,
             shallow,
-            []);
+            []
+        );
     }),
-    (_.without = function (array) {
-        return _.difference(array,
-            slice.call(arguments,
-                1));
+    (_.without = function (
+        array
+    ) {
+        return _.difference(
+            array,
+            slice.call(
+                arguments,
+                1
+            )
+        );
     }),
-    (_.uniq = _.unique = function (array, isSorted, iterator, context) {
-        _.isFunction(isSorted) &&
+    (_.uniq = _.unique = function (
+        array, isSorted, iterator, context
+    ) {
+        _.isFunction(
+            isSorted
+        ) &&
         ((context = iterator), (iterator = isSorted), (isSorted = !1));
         var initial = iterator
-                ? _.map(array,
+                ? _.map(
+                    array,
                     iterator,
-                    context)
+                    context
+                )
                 : array,
             results = [],
             seen = [];
         return (
-            each(initial,
-                function (value, index) {
+            each(
+                initial,
+                function (
+                    value, index
+                ) {
                     (isSorted
                         ? !index || seen[seen.length - 1] !== value
-                        : !_.contains(seen,
-                            value)) &&
-            (seen.push(value), results.push(array[index]));
-                }),
+                        : !_.contains(
+                            seen,
+                            value
+                        )) &&
+            (seen.push(
+                value
+            ), results.push(
+                array[index]
+            ));
+                }
+            ),
             results
         );
     }),
-    (_.union = function () {
-        return _.uniq(_.flatten(arguments,
-            !0));
+    (_.union = function (
+    ) {
+        return _.uniq(
+            _.flatten(
+                arguments,
+                !0
+            )
+        );
     }),
-    (_.intersection = function (array) {
-        var rest = slice.call(arguments,
-            1);
-        return _.filter(_.uniq(array),
-            function (item) {
-                return _.every(rest,
-                    function (other) {
-                        return _.indexOf(other,
-                            item) >= 0;
-                    });
-            });
+    (_.intersection = function (
+        array
+    ) {
+        var rest = slice.call(
+            arguments,
+            1
+        );
+        return _.filter(
+            _.uniq(
+                array
+            ),
+            function (
+                item
+            ) {
+                return _.every(
+                    rest,
+                    function (
+                        other
+                    ) {
+                        return _.indexOf(
+                            other,
+                            item
+                        ) >= 0;
+                    }
+                );
+            }
+        );
     }),
-    (_.difference = function (array) {
-        var rest = concat.apply(ArrayProto,
-            slice.call(arguments,
-                1));
-        return _.filter(array,
-            function (value) {
-                return !_.contains(rest,
-                    value);
-            });
+    (_.difference = function (
+        array
+    ) {
+        var rest = concat.apply(
+            ArrayProto,
+            slice.call(
+                arguments,
+                1
+            )
+        );
+        return _.filter(
+            array,
+            function (
+                value
+            ) {
+                return !_.contains(
+                    rest,
+                    value
+                );
+            }
+        );
     }),
-    (_.zip = function () {
+    (_.zip = function (
+    ) {
         for (
-            var length = _.max(_.pluck(arguments,
-                    "length").concat(0)),
-                results = new Array(length),
+            var length = _.max(
+                    _.pluck(
+                        arguments,
+                        "length"
+                    ).concat(
+                        0
+                    )
+                ),
+                results = new Array(
+                    length
+                ),
                 i = 0;
             length > i;
             i++
         )
-            results[i] = _.pluck(arguments,
-                "" + i);
+            results[i] = _.pluck(
+                arguments,
+                "" + i
+            );
         return results;
     }),
-    (_.object = function (list, values) {
+    (_.object = function (
+        list, values
+    ) {
         if (null == list) return {
         };
         for (var result = {
@@ -574,130 +953,231 @@
                 : (result[list[i][0]] = list[i][1]);
         return result;
     }),
-    (_.indexOf = function (array, item, isSorted) {
+    (_.indexOf = function (
+        array, item, isSorted
+    ) {
         if (null == array) return -1;
         var i = 0,
             length = array.length;
         if (isSorted) {
             if ("number" == typeof isSorted)
                 i = 0 > isSorted
-                    ? Math.max(0,
-                        length + isSorted)
+                    ? Math.max(
+                        0,
+                        length + isSorted
+                    )
                     : isSorted;
             else
-                return (i = _.sortedIndex(array,
-                    item)), array[i] === item ? i : -1;
+                return (i = _.sortedIndex(
+                    array,
+                    item
+                )), array[i] === item ? i : -1;
         }
         if (nativeIndexOf && array.indexOf === nativeIndexOf)
-            return array.indexOf(item,
-                isSorted);
+            return array.indexOf(
+                item,
+                isSorted
+            );
         for (; length > i; i++) if (array[i] === item) return i;
         return -1;
     }),
-    (_.lastIndexOf = function (array, item, from) {
+    (_.lastIndexOf = function (
+        array, item, from
+    ) {
         if (null == array) return -1;
         var hasIndex = null != from;
         if (nativeLastIndexOf && array.lastIndexOf === nativeLastIndexOf)
             return hasIndex
-                ? array.lastIndexOf(item,
-                    from)
-                : array.lastIndexOf(item);
+                ? array.lastIndexOf(
+                    item,
+                    from
+                )
+                : array.lastIndexOf(
+                    item
+                );
         for (var i = hasIndex ? from : array.length; i--; )
             if (array[i] === item) return i;
         return -1;
     }),
-    (_.range = function (start, stop, step) {
+    (_.range = function (
+        start, stop, step
+    ) {
         1 >= arguments.length && ((stop = start || 0), (start = 0)),
         (step = arguments[2] || 1);
         for (
-            var length = Math.max(Math.ceil((stop - start) / step),
-                    0),
+            var length = Math.max(
+                    Math.ceil(
+                        (stop - start) / step
+                    ),
+                    0
+                ),
                 idx = 0,
-                range = new Array(length);
+                range = new Array(
+                    length
+                );
             length > idx;
 
         )
             (range[idx++] = start), (start += step);
         return range;
     });
-    var ctor = function () {};
-    (_.bind = function (func, context) {
+    var ctor = function (
+    ) {};
+    (_.bind = function (
+        func, context
+    ) {
         var args, bound;
         if (nativeBind && func.bind === nativeBind)
-            return nativeBind.apply(func,
-                slice.call(arguments,
-                    1));
-        if (!_.isFunction(func)) throw new TypeError();
+            return nativeBind.apply(
+                func,
+                slice.call(
+                    arguments,
+                    1
+                )
+            );
+        if (!_.isFunction(
+            func
+        )) throw new TypeError(
+        );
         return (
-            (args = slice.call(arguments,
-                2)),
-            (bound = function () {
+            (args = slice.call(
+                arguments,
+                2
+            )),
+            (bound = function (
+            ) {
                 if (!(this instanceof bound))
-                    return func.apply(context,
-                        args.concat(slice.call(arguments)));
+                    return func.apply(
+                        context,
+                        args.concat(
+                            slice.call(
+                                arguments
+                            )
+                        )
+                    );
                 ctor.prototype = func.prototype;
-                var self = new ctor();
+                var self = new ctor(
+                );
                 ctor.prototype = null;
-                var result = func.apply(self,
-                    args.concat(slice.call(arguments)));
-                return Object(result) === result ? result : self;
+                var result = func.apply(
+                    self,
+                    args.concat(
+                        slice.call(
+                            arguments
+                        )
+                    )
+                );
+                return Object(
+                    result
+                ) === result
+                    ? result
+                    : self;
             })
         );
     }),
-    (_.partial = function (func) {
-        return function () {
+    (_.partial = function (
+        func
+    ) {
+        return function (
+        ) {
             return func.apply(
                 this,
-                slice.call(arguments,
-                    1).concat(slice.call(arguments)),
+                slice.call(
+                    arguments,
+                    1
+                ).concat(
+                    slice.call(
+                        arguments
+                    )
+                ),
             );
         };
     }),
-    (_.bindAll = function (obj) {
-        var funcs = slice.call(arguments,
-            1);
+    (_.bindAll = function (
+        obj
+    ) {
+        var funcs = slice.call(
+            arguments,
+            1
+        );
         if (0 === funcs.length)
-            throw new Error("bindAll must be passed function names");
+            throw new Error(
+                "bindAll must be passed function names"
+            );
         return (
-            each(funcs,
-                function (f) {
-                    obj[f] = _.bind(obj[f],
-                        obj);
-                }),
+            each(
+                funcs,
+                function (
+                    f
+                ) {
+                    obj[f] = _.bind(
+                        obj[f],
+                        obj
+                    );
+                }
+            ),
             obj
         );
     }),
-    (_.memoize = function (func, hasher) {
+    (_.memoize = function (
+        func, hasher
+    ) {
         var memo = {
         };
         return (
             hasher || (hasher = _.identity),
-            function () {
-                var key = hasher.apply(this,
-                    arguments);
-                return _.has(memo,
-                    key)
+            function (
+            ) {
+                var key = hasher.apply(
+                    this,
+                    arguments
+                );
+                return _.has(
+                    memo,
+                    key
+                )
                     ? memo[key]
-                    : (memo[key] = func.apply(this,
-                        arguments));
+                    : (memo[key] = func.apply(
+                        this,
+                        arguments
+                    ));
             }
         );
     }),
-    (_.delay = function (func, wait) {
-        var args = slice.call(arguments,
-            2);
-        return setTimeout(function () {
-            return func.apply(null,
-                args);
-        },
-        wait);
+    (_.delay = function (
+        func, wait
+    ) {
+        var args = slice.call(
+            arguments,
+            2
+        );
+        return setTimeout(
+            function (
+            ) {
+                return func.apply(
+                    null,
+                    args
+                );
+            },
+            wait
+        );
     }),
-    (_.defer = function (func) {
-        return _.delay.apply(_,
-            [func, 1,].concat(slice.call(arguments,
-                1)));
+    (_.defer = function (
+        func
+    ) {
+        return _.delay.apply(
+            _,
+            [func, 1,].concat(
+                slice.call(
+                    arguments,
+                    1
+                )
+            )
+        );
     }),
-    (_.throttle = function (func, wait, options) {
+    (_.throttle = function (
+        func, wait, options
+    ) {
         var context,
             args,
             result,
@@ -706,106 +1186,171 @@
         return (
             options || (options = {
             }),
-            function () {
-                var now = new Date();
+            function (
+            ) {
+                var now = new Date(
+                );
                 previous || options.leading !== !1 || (previous = now);
                 var remaining = wait - (now - previous);
                 return (
                     (context = this),
                     (args = arguments),
                     0 >= remaining
-                        ? (clearTimeout(timeout),
+                        ? (clearTimeout(
+                            timeout
+                        ),
                         (timeout = null),
                         (previous = now),
-                        (result = func.apply(context,
-                            args)))
+                        (result = func.apply(
+                            context,
+                            args
+                        )))
                         : timeout ||
                 options.trailing === !1 ||
-                (timeout = setTimeout(function () {
-                    (previous = options.leading === !1 ? 0 : new Date()),
-                    (timeout = null),
-                    (result = func.apply(context,
-                        args));
-                },
-                remaining)),
+                (timeout = setTimeout(
+                    function (
+                    ) {
+                        (previous = options.leading === !1
+                            ? 0
+                            : new Date(
+                            )),
+                        (timeout = null),
+                        (result = func.apply(
+                            context,
+                            args
+                        ));
+                    },
+                    remaining
+                )),
                     result
                 );
             }
         );
     }),
-    (_.debounce = function (func, wait, immediate) {
+    (_.debounce = function (
+        func, wait, immediate
+    ) {
         var timeout, args, context, timestamp, result;
-        return function () {
-            (context = this), (args = arguments), (timestamp = new Date());
-            var later = function () {
-                    var last = new Date() - timestamp;
+        return function (
+        ) {
+            (context = this), (args = arguments), (timestamp = new Date(
+            ));
+            var later = function (
+                ) {
+                    var last = new Date(
+                    ) - timestamp;
                     wait > last
-                        ? (timeout = setTimeout(later,
-                            wait - last))
+                        ? (timeout = setTimeout(
+                            later,
+                            wait - last
+                        ))
                         : ((timeout = null),
-                        !immediate && (result = func.apply(context,
-                            args)));
+                        !immediate && (result = func.apply(
+                            context,
+                            args
+                        )));
                 },
                 callNow = immediate && !timeout;
             return (
-                timeout || (timeout = setTimeout(later,
-                    wait)),
-                callNow && (result = func.apply(context,
-                    args)),
+                timeout || (timeout = setTimeout(
+                    later,
+                    wait
+                )),
+                callNow && (result = func.apply(
+                    context,
+                    args
+                )),
                 result
             );
         };
     }),
-    (_.once = function (func) {
+    (_.once = function (
+        func
+    ) {
         var ran = !1,
             memo;
-        return function () {
+        return function (
+        ) {
             return ran
                 ? memo
                 : ((ran = !0),
-                (memo = func.apply(this,
-                    arguments)),
+                (memo = func.apply(
+                    this,
+                    arguments
+                )),
                 (func = null),
                 memo);
         };
     }),
-    (_.wrap = function (func, wrapper) {
-        return function () {
+    (_.wrap = function (
+        func, wrapper
+    ) {
+        return function (
+        ) {
             var args = [func,];
-            return push.apply(args,
-                arguments), wrapper.apply(this,
-                args);
+            return push.apply(
+                args,
+                arguments
+            ), wrapper.apply(
+                this,
+                args
+            );
         };
     }),
-    (_.compose = function () {
+    (_.compose = function (
+    ) {
         var funcs = arguments;
-        return function () {
+        return function (
+        ) {
             for (var args = arguments, i = funcs.length - 1; i >= 0; i--)
-                args = [funcs[i].apply(this,
-                    args),];
+                args = [funcs[i].apply(
+                    this,
+                    args
+                ),];
             return args[0];
         };
     }),
-    (_.after = function (times, func) {
-        return function () {
-            if (--times < 1) return func.apply(this,
-                arguments);
+    (_.after = function (
+        times, func
+    ) {
+        return function (
+        ) {
+            if (--times < 1) return func.apply(
+                this,
+                arguments
+            );
         };
     }),
     (_.keys =
       nativeKeys ||
-      function (obj) {
-          if (obj !== Object(obj)) throw new TypeError("Invalid object");
+      function (
+          obj
+      ) {
+          if (obj !== Object(
+              obj
+          )) throw new TypeError(
+              "Invalid object"
+          );
           var keys = [];
-          for (var key in obj) _.has(obj,
-              key) && keys.push(key);
+          for (var key in obj) _.has(
+              obj,
+              key
+          ) && keys.push(
+              key
+          );
           return keys;
       }),
-    (_.values = function (obj) {
+    (_.values = function (
+        obj
+    ) {
         for (
-            var keys = _.keys(obj),
+            var keys = _.keys(
+                    obj
+                ),
                 length = keys.length,
-                values = new Array(length),
+                values = new Array(
+                    length
+                ),
                 i = 0;
             length > i;
             i++
@@ -813,11 +1358,17 @@
             values[i] = obj[keys[i]];
         return values;
     }),
-    (_.pairs = function (obj) {
+    (_.pairs = function (
+        obj
+    ) {
         for (
-            var keys = _.keys(obj),
+            var keys = _.keys(
+                    obj
+                ),
                 length = keys.length,
-                pairs = new Array(length),
+                pairs = new Array(
+                    length
+                ),
                 i = 0;
             length > i;
             i++
@@ -825,88 +1376,154 @@
             pairs[i] = [keys[i], obj[keys[i]],];
         return pairs;
     }),
-    (_.invert = function (obj) {
+    (_.invert = function (
+        obj
+    ) {
         for (
             var result = {
-                }, keys = _.keys(obj), i = 0, length = keys.length;
+                }, keys = _.keys(
+                    obj
+                ), i = 0, length = keys.length;
             length > i;
             i++
         )
             result[obj[keys[i]]] = keys[i];
         return result;
     }),
-    (_.functions = _.methods = function (obj) {
+    (_.functions = _.methods = function (
+        obj
+    ) {
         var names = [];
-        for (var key in obj) _.isFunction(obj[key]) && names.push(key);
-        return names.sort();
+        for (var key in obj) _.isFunction(
+            obj[key]
+        ) && names.push(
+            key
+        );
+        return names.sort(
+        );
     }),
-    (_.extend = function (obj) {
+    (_.extend = function (
+        obj
+    ) {
         return (
-            each(slice.call(arguments,
-                1),
-            function (source) {
-                if (source) for (var prop in source) obj[prop] = source[prop];
-            }),
+            each(
+                slice.call(
+                    arguments,
+                    1
+                ),
+                function (
+                    source
+                ) {
+                    if (source) for (var prop in source) obj[prop] = source[prop];
+                }
+            ),
             obj
         );
     }),
-    (_.pick = function (obj) {
+    (_.pick = function (
+        obj
+    ) {
         var copy = {
             },
-            keys = concat.apply(ArrayProto,
-                slice.call(arguments,
-                    1));
+            keys = concat.apply(
+                ArrayProto,
+                slice.call(
+                    arguments,
+                    1
+                )
+            );
         return (
-            each(keys,
-                function (key) {
+            each(
+                keys,
+                function (
+                    key
+                ) {
                     key in obj && (copy[key] = obj[key]);
-                }),
+                }
+            ),
             copy
         );
     }),
-    (_.omit = function (obj) {
+    (_.omit = function (
+        obj
+    ) {
         var copy = {
             },
-            keys = concat.apply(ArrayProto,
-                slice.call(arguments,
-                    1));
-        for (var key in obj) _.contains(keys,
-            key) || (copy[key] = obj[key]);
+            keys = concat.apply(
+                ArrayProto,
+                slice.call(
+                    arguments,
+                    1
+                )
+            );
+        for (var key in obj) _.contains(
+            keys,
+            key
+        ) || (copy[key] = obj[key]);
         return copy;
     }),
-    (_.defaults = function (obj) {
+    (_.defaults = function (
+        obj
+    ) {
         return (
-            each(slice.call(arguments,
-                1),
-            function (source) {
-                if (source)
-                    for (var prop in source)
-                        obj[prop] === void 0 && (obj[prop] = source[prop]);
-            }),
+            each(
+                slice.call(
+                    arguments,
+                    1
+                ),
+                function (
+                    source
+                ) {
+                    if (source)
+                        for (var prop in source)
+                            obj[prop] === void 0 && (obj[prop] = source[prop]);
+                }
+            ),
             obj
         );
     }),
-    (_.clone = function (obj) {
-        return !_.isObject(obj)
+    (_.clone = function (
+        obj
+    ) {
+        return !_.isObject(
+            obj
+        )
             ? obj
-            : _.isArray(obj)
-                ? obj.slice()
-                : _.extend({
-                },
-                obj);
+            : _.isArray(
+                obj
+            )
+                ? obj.slice(
+                )
+                : _.extend(
+                    {
+                    },
+                    obj
+                );
     }),
-    (_.tap = function (obj, interceptor) {
-        return interceptor(obj), obj;
+    (_.tap = function (
+        obj, interceptor
+    ) {
+        return interceptor(
+            obj
+        ), obj;
     });
-    var eq = function (a, b, aStack, bStack) {
+    var eq = function (
+        a, b, aStack, bStack
+    ) {
         if (a === b) return 0 !== a || 1 / a == 1 / b;
         if (null == a || null == b) return a === b;
         a instanceof _ && (a = a._wrapped), b instanceof _ && (b = b._wrapped);
-        var className = toString.call(a);
-        if (className != toString.call(b)) return !1;
+        var className = toString.call(
+            a
+        );
+        if (className != toString.call(
+            b
+        )) return !1;
         switch (className) {
         case "[object String]":
-            return a == String(b);
+            return a == String(
+                b
+            );
         case "[object Number]":
             return a != +a ? b != +b : 0 == a ? 1 / a == 1 / b : a == +b;
         case "[object Date]":
@@ -927,123 +1544,219 @@
             bCtor = b.constructor;
         if (
             aCtor !== bCtor &&
-      (!_.isFunction(aCtor) ||
+      (!_.isFunction(
+          aCtor
+      ) ||
         !(aCtor instanceof aCtor) ||
-        !_.isFunction(bCtor) ||
+        !_.isFunction(
+            bCtor
+        ) ||
         !(bCtor instanceof bCtor))
         )
             return !1;
-        aStack.push(a), bStack.push(b);
+        aStack.push(
+            a
+        ), bStack.push(
+            b
+        );
         var size = 0,
             result = !0;
         if ("[object Array]" == className) {
             if (((size = a.length), (result = size == b.length)))
                 for (; size--; )
-                    if (!(result = eq(a[size],
+                    if (!(result = eq(
+                        a[size],
                         b[size],
                         aStack,
-                        bStack))) break;
+                        bStack
+                    ))) break;
         } else {
             for (var key in a)
-                if (_.has(a,
-                    key)) {
+                if (_.has(
+                    a,
+                    key
+                )) {
                     if (
                         (size++,
-                        !(result = _.has(b,
-                            key) && eq(a[key],
+                        !(result = _.has(
+                            b,
+                            key
+                        ) && eq(
+                            a[key],
                             b[key],
                             aStack,
-                            bStack)))
+                            bStack
+                        )))
                     )
                         break;
                 }
             if (result) {
-                for (key in b) if (_.has(b,
-                    key) && !size--) break;
+                for (key in b) if (_.has(
+                    b,
+                    key
+                ) && !size--) break;
                 result = !size;
             }
         }
-        return aStack.pop(), bStack.pop(), result;
+        return aStack.pop(
+        ), bStack.pop(
+        ), result;
     };
-    (_.isEqual = function (a, b) {
-        return eq(a,
+    (_.isEqual = function (
+        a, b
+    ) {
+        return eq(
+            a,
             b,
             [],
-            []);
+            []
+        );
     }),
-    (_.isEmpty = function (obj) {
+    (_.isEmpty = function (
+        obj
+    ) {
         if (null == obj) return !0;
-        if (_.isArray(obj) || _.isString(obj)) return 0 === obj.length;
-        for (var key in obj) if (_.has(obj,
-            key)) return !1;
+        if (_.isArray(
+            obj
+        ) || _.isString(
+            obj
+        )) return 0 === obj.length;
+        for (var key in obj) if (_.has(
+            obj,
+            key
+        )) return !1;
         return !0;
     }),
-    (_.isElement = function (obj) {
+    (_.isElement = function (
+        obj
+    ) {
         return !(!obj || 1 !== obj.nodeType);
     }),
     (_.isArray =
       nativeIsArray ||
-      function (obj) {
-          return "[object Array]" == toString.call(obj);
+      function (
+          obj
+      ) {
+          return "[object Array]" == toString.call(
+              obj
+          );
       }),
-    (_.isObject = function (obj) {
-        return obj === Object(obj);
+    (_.isObject = function (
+        obj
+    ) {
+        return obj === Object(
+            obj
+        );
     }),
     each(
         ["Arguments", "Function", "String", "Number", "Date", "RegExp",],
-        function (name) {
-            _["is" + name] = function (obj) {
-                return toString.call(obj) == "[object " + name + "]";
+        function (
+            name
+        ) {
+            _["is" + name] = function (
+                obj
+            ) {
+                return toString.call(
+                    obj
+                ) == "[object " + name + "]";
             };
         },
     ),
-    _.isArguments(arguments) ||
-      (_.isArguments = function (obj) {
-          return !(!obj || !_.has(obj,
-              "callee"));
+    _.isArguments(
+        arguments
+    ) ||
+      (_.isArguments = function (
+          obj
+      ) {
+          return !(!obj || !_.has(
+              obj,
+              "callee"
+          ));
       }),
     "function" !== typeof /./ &&
-      (_.isFunction = function (obj) {
+      (_.isFunction = function (
+          obj
+      ) {
           return "function" == typeof obj;
       }),
-    (_.isFinite = function (obj) {
-        return isFinite(obj) && !isNaN(parseFloat(obj));
-    }),
-    (_.isNaN = function (obj) {
-        return _.isNumber(obj) && obj != +obj;
-    }),
-    (_.isBoolean = function (obj) {
-        return (
-            !0 === obj || !1 === obj || "[object Boolean]" == toString.call(obj)
+    (_.isFinite = function (
+        obj
+    ) {
+        return isFinite(
+            obj
+        ) && !isNaN(
+            parseFloat(
+                obj
+            )
         );
     }),
-    (_.isNull = function (obj) {
+    (_.isNaN = function (
+        obj
+    ) {
+        return _.isNumber(
+            obj
+        ) && obj != +obj;
+    }),
+    (_.isBoolean = function (
+        obj
+    ) {
+        return (
+            !0 === obj || !1 === obj || "[object Boolean]" == toString.call(
+                obj
+            )
+        );
+    }),
+    (_.isNull = function (
+        obj
+    ) {
         return null === obj;
     }),
-    (_.isUndefined = function (obj) {
+    (_.isUndefined = function (
+        obj
+    ) {
         return void 0 === obj;
     }),
-    (_.has = function (obj, key) {
-        return ObjProto.hasOwnProperty.call(obj,
-            key);
+    (_.has = function (
+        obj, key
+    ) {
+        return ObjProto.hasOwnProperty.call(
+            obj,
+            key
+        );
     }),
-    (_.noConflict = function () {
+    (_.noConflict = function (
+    ) {
         return (root._ = previousUnderscore), this;
     }),
-    (_.identity = function (value) {
+    (_.identity = function (
+        value
+    ) {
         return value;
     }),
-    (_.times = function (n, iterator, context) {
-        for (var accum = Array(Math.max(0,
-                n)), i = 0; n > i; i++)
-            accum[i] = iterator.call(context,
-                i);
+    (_.times = function (
+        n, iterator, context
+    ) {
+        for (var accum = Array(
+                Math.max(
+                    0,
+                    n
+                )
+            ), i = 0; n > i; i++)
+            accum[i] = iterator.call(
+                context,
+                i
+            );
         return accum;
     }),
-    (_.random = function (min, max) {
+    (_.random = function (
+        min, max
+    ) {
         return (
             null == max && ((max = min), (min = 0)),
-            0 + Math.floor(Math.random() * (max - 0 + 1))
+            0 + Math.floor(
+                Math.random(
+                ) * (max - 0 + 1)
+            )
         );
     });
     var entityMap = {
@@ -1055,51 +1768,94 @@
             "'": "&#x27;",
         },
     };
-    (entityMap.unescape = _.invert(entityMap.escape)),
-    _.each(["escape", "unescape",],
-        function (method) {
-            _[method] = function (string) {
+    (entityMap.unescape = _.invert(
+        entityMap.escape
+    )),
+    _.each(
+        ["escape", "unescape",],
+        function (
+            method
+        ) {
+            _[method] = function (
+                string
+            ) {
                 return null == string
                     ? ""
                     : ("" + string).replace(
                         {
                             escape: new RegExp(
-                                "[" + _.keys(entityMap.escape).join("") + "]",
+                                "[" + _.keys(
+                                    entityMap.escape
+                                ).join(
+                                    ""
+                                ) + "]",
                                 "g",
                             ),
                             unescape: new RegExp(
-                                "(" + _.keys(entityMap.unescape).join("|") + ")",
+                                "(" + _.keys(
+                                    entityMap.unescape
+                                ).join(
+                                    "|"
+                                ) + ")",
                                 "g",
                             ),
                         }[method],
-                        function (match) {
+                        function (
+                            match
+                        ) {
                             return entityMap[method][match];
                         },
                     );
             };
-        }),
-    (_.result = function (object, property) {
+        }
+    ),
+    (_.result = function (
+        object, property
+    ) {
         if (null == object) return void 0;
         var value = object[property];
-        return _.isFunction(value) ? value.call(object) : value;
+        return _.isFunction(
+            value
+        )
+            ? value.call(
+                object
+            )
+            : value;
     }),
-    (_.mixin = function (obj) {
-        each(_.functions(obj),
-            function (name) {
-                _.prototype[name] = function () {
+    (_.mixin = function (
+        obj
+    ) {
+        each(
+            _.functions(
+                obj
+            ),
+            function (
+                name
+            ) {
+                _.prototype[name] = function (
+                ) {
                     var args = [this._wrapped,];
                     return (
-                        push.apply(args,
-                            arguments),
-                        result.call(this,
-                            (_[name] = obj[name]).apply(_,
-                                args))
+                        push.apply(
+                            args,
+                            arguments
+                        ),
+                        result.call(
+                            this,
+                            (_[name] = obj[name]).apply(
+                                _,
+                                args
+                            )
+                        )
                     );
                 };
-            });
+            }
+        );
     });
     var idCounter = 0;
-    (_.uniqueId = function (prefix) {
+    (_.uniqueId = function (
+        prefix
+    ) {
         var id = ++idCounter + "";
         return prefix ? prefix + id : id;
     }),
@@ -1110,31 +1866,44 @@
     });
     var noMatch = /(.)^/,
         escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
-    (_.template = function (text, data, settings) {
+    (_.template = function (
+        text, data, settings
+    ) {
         var render;
-        settings = _.defaults({
-        },
-        settings,
-        _.templateSettings);
+        settings = _.defaults(
+            {
+            },
+            settings,
+            _.templateSettings
+        );
         var matcher = new RegExp(
                 [
                     (settings.escape || noMatch).source,
                     (settings.interpolate || noMatch).source,
                     (settings.evaluate || noMatch).source,
-                ].join("|") + "|$",
+                ].join(
+                    "|"
+                ) + "|$",
                 "g",
             ),
             index = 0,
             source = "__p+='";
         text.replace(
             matcher,
-            function (match, escape, interpolate, evaluate, offset) {
+            function (
+                match, escape, interpolate, evaluate, offset
+            ) {
                 return (
                     (source += text
-                        .slice(index,
-                            offset)
-                        .replace(escaper,
-                            function (match) {
+                        .slice(
+                            index,
+                            offset
+                        )
+                        .replace(
+                            escaper,
+                            function (
+                                match
+                            ) {
                                 return (
                                     "\\" +
                 {
@@ -1147,7 +1916,8 @@
                     "\u2029": "u2029",
                 }[match]
                                 );
-                            })),
+                            }
+                        )),
                     escape &&
             (source +=
               "'+\n((__t=(" + escape + "))==null?'':_.escape(__t))+\n'"),
@@ -1166,18 +1936,26 @@
         source +
         "return __p;\n");
         try {
-            render = new Function(settings.variable || "obj",
+            render = new Function(
+                settings.variable || "obj",
                 "_",
-                source);
+                source
+            );
         } catch (e) {
             throw ((e.source = source), e);
         }
-        if (data) return render(data,
-            _);
-        var template = function (data) {
-            return render.call(this,
+        if (data) return render(
+            data,
+            _
+        );
+        var template = function (
+            data
+        ) {
+            return render.call(
+                this,
                 data,
-                _);
+                _
+            );
         };
         return (
             (template.source =
@@ -1185,47 +1963,81 @@
             template
         );
     }),
-    (_.chain = function (obj) {
-        return _(obj).chain();
+    (_.chain = function (
+        obj
+    ) {
+        return _(
+            obj
+        ).chain(
+        );
     });
-    var result = function (obj) {
-        return this._chain ? _(obj).chain() : obj;
+    var result = function (
+        obj
+    ) {
+        return this._chain
+            ? _(
+                obj
+            ).chain(
+            )
+            : obj;
     };
-    _.mixin(_),
+    _.mixin(
+        _
+    ),
     each(
         ["pop", "push", "reverse", "shift", "sort", "splice", "unshift",],
-        function (name) {
-            _.prototype[name] = function () {
+        function (
+            name
+        ) {
+            _.prototype[name] = function (
+            ) {
                 var obj = this._wrapped;
                 return (
-                    ArrayProto[name].apply(obj,
-                        arguments),
+                    ArrayProto[name].apply(
+                        obj,
+                        arguments
+                    ),
                     ("shift" == name || "splice" == name) &&
               0 === obj.length &&
               delete obj[0],
-                    result.call(this,
-                        obj)
+                    result.call(
+                        this,
+                        obj
+                    )
                 );
             };
         },
     ),
-    each(["concat", "join", "slice",],
-        function (name) {
-            _.prototype[name] = function () {
+    each(
+        ["concat", "join", "slice",],
+        function (
+            name
+        ) {
+            _.prototype[name] = function (
+            ) {
                 return result.call(
                     this,
-                    ArrayProto[name].apply(this._wrapped,
-                        arguments),
+                    ArrayProto[name].apply(
+                        this._wrapped,
+                        arguments
+                    ),
                 );
             };
-        }),
-    _.extend(_.prototype,
+        }
+    ),
+    _.extend(
+        _.prototype,
         {
-            chain: function () {
+            chain: function (
+            ) {
                 return (this._chain = !0), this;
             },
-            value: function () {
+            value: function (
+            ) {
                 return this._wrapped;
             },
-        });
-}.call(this));
+        }
+    );
+}.call(
+    this
+));

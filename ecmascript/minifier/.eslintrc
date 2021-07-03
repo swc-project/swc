@@ -35,6 +35,10 @@
         "comma-dangle": [
             "error",
             "always"
+        ],
+        "function-paren-newline": [
+            "error",
+            "always"
         ]
     }
 }
