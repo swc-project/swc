@@ -133,3 +133,31 @@ fn parse_module_export_default_class_span() {
         panic!("expected ExportDefaultDecl");
     }
 }
+
+#[test]
+fn issue_1878() {
+    use super::*;
+    use crate::TsConfig;
+    use swc_common::comments::SingleThreadedComments;
+
+    let c = SingleThreadedComments::default();
+    let s = "
+
+    // test
+";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsConfig {
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+
+    // file with only comments should have the comments
+    // in the leading map instead of the trailing
+    let (leading, trailing) = c.take_all();
+    assert!(trailing.borrow().is_empty());
+    assert_eq!(leading.borrow().len(), 1);
+    assert!(leading.borrow().get(&BytePos(0)).is_some());
+}
