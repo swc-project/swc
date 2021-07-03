@@ -272,10 +272,6 @@ impl Optimizer<'_> {
     /// }
     /// ```
     pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
-        if !self.options.conditionals {
-            return;
-        }
-
         let stmt = match s {
             Stmt::If(v) => v,
             _ => return,
