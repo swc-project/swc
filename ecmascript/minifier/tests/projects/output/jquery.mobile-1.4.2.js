@@ -743,7 +743,7 @@
                     if (
                         !allowDisconnected &&
               (!instance.element[0].parentNode ||
-                instance.element[0].parentNode.nodeType === 11)
+                11 === instance.element[0].parentNode.nodeType)
                     )
                         return;
                     for (i = 0; i < set.length; i++)
@@ -2660,10 +2660,10 @@
                             ),
                             (supports =
                   getComputedStyle &&
-                  getComputedStyle(
+                  "auto" === getComputedStyle(
                       element,
                       ""
-                  ).pointerEvents === "auto"),
+                  ).pointerEvents),
                             documentElement.removeChild(
                                 element
                             ),
@@ -3032,16 +3032,16 @@
                 isRelativeUrl: function (
                     url
                 ) {
-                    return path.parseUrl(
+                    return "" === path.parseUrl(
                         url
-                    ).protocol === "";
+                    ).protocol;
                 },
                 isAbsoluteUrl: function (
                     url
                 ) {
-                    return path.parseUrl(
+                    return "" !== path.parseUrl(
                         url
-                    ).protocol !== "";
+                    ).protocol;
                 },
                 makeUrlAbsolute: function (
                     relUrl, absUrl
@@ -3744,7 +3744,7 @@
                         }
                         if (
                             !event.originalEvent.state &&
-              this.history.stack.length === 1 &&
+              1 === this.history.stack.length &&
               this.ignoreInitialHashChange
                         ) {
                             if (
@@ -3904,7 +3904,7 @@
                     (props[test].event = jQuery.camelCase(
                         props[test].prefix + test + "-end",
                     )),
-                    props[test].prefix === "" &&
+                    "" === props[test].prefix &&
             (props[test].event = props[test].event.toLowerCase(
             ));
                 }
@@ -4373,7 +4373,7 @@
                         (bindings[eventType] = !0),
                         (activeDocHandlers[eventType] =
                 (activeDocHandlers[eventType] || 0) + 1),
-                        activeDocHandlers[eventType] === 1 &&
+                        1 === activeDocHandlers[eventType] &&
                 $document.bind(
                     realType,
                     mouseEventCallback
@@ -5794,7 +5794,7 @@
                             ),
                             history = this._getHistory(
                             ),
-                            transition = history.stack.length === 0 ? "none" : void 0,
+                            transition = 0 === history.stack.length ? "none" : void 0,
                             changePageOptions = {
                                 changeHash: !1,
                                 fromHashChange: !0,
@@ -6627,7 +6627,7 @@
                             (active = jQuery.mobile.navigate.history.getActive(
                             )),
                             (activeIsInitialPage =
-              jQuery.mobile.navigate.history.activeIndex === 0),
+              0 === jQuery.mobile.navigate.history.activeIndex),
                             (historyDir = 0),
                             (pageTitle = document.title),
                             (isDialog =
@@ -6699,7 +6699,7 @@
               ) > -1)
                   ? (url += jQuery.mobile.dialogHashKey)
                   : (url += "#" + jQuery.mobile.dialogHashKey),
-              jQuery.mobile.navigate.history.activeIndex === 0 &&
+              0 === jQuery.mobile.navigate.history.activeIndex &&
                 url === jQuery.mobile.navigate.history.initialDst &&
                 (url += jQuery.mobile.dialogHashKey)),
                         (newPageTitle = !active
@@ -7088,11 +7088,12 @@
                                 )),
                                 !target ||
                     !(
-                        jQuery.mobile.path.parseUrl(
-                            target.getAttribute(
-                                "href"
-                            ) || "#",
-                        ).hash !== "#"
+                        "#" !==
+                      jQuery.mobile.path.parseUrl(
+                          target.getAttribute(
+                              "href"
+                          ) || "#",
+                      ).hash
                     ))
                             )
                                 return;
@@ -8221,7 +8222,7 @@
               ));
                         for (key in options)
                             (options[key] =
-              options[key] != null
+              null != options[key]
                   ? options[key]
                   : accordionWidget
                       ? accordionWidget.options[key]
@@ -10190,7 +10191,7 @@
                             "disabled"
                         );
                     this.options.icon &&
-          this.options.iconpos === "notext" &&
+          "notext" === this.options.iconpos &&
           this.element.attr(
               "title"
           ) &&
@@ -10302,7 +10303,7 @@
                         isSearch = this.element.is(
                             "[type='search'], :jqmData(type='search')",
                         ),
-                        isTextarea = this.element[0].tagName === "TEXTAREA",
+                        isTextarea = "TEXTAREA" === this.element[0].tagName,
                         isRange = this.element.is(
                             "[data-" + (jQuery.mobile.ns || "") + "type='range']",
                         ),
@@ -11096,9 +11097,9 @@
                             )),
                             this.options.highlight &&
                 !this.isToggleSwitch &&
-                this.slider.find(
+                0 === this.slider.find(
                     ".ui-slider-bg"
-                ).length === 0 &&
+                ).length &&
                 (this.valuebg = (function (
                 ) {
                     var bg = document.createElement(
@@ -12765,7 +12766,7 @@
                     )),
                     (borderHeight = borderTop + borderBottom),
                     (height = this.element[0].scrollHeight + borderHeight + 15),
-                    this.element[0].clientHeight === 0 &&
+                    0 === this.element[0].clientHeight &&
             ((paddingTop = parseFloat(
                 this.element.css(
                     "padding-top"
@@ -13403,7 +13404,7 @@
                                 _orientationchangeInProgress: !1,
                             }
                         ),
-                        this._page.length === 0 && (this._page = jQuery(
+                        0 === this._page.length && (this._page = jQuery(
                             "body"
                         )),
                         currentOptions.enhanced
@@ -14480,7 +14481,7 @@
                     jQuery.mobile.path.parseLocation(
                     ).hash +
                     jQuery.mobile.dialogHashKey),
-                                    jQuery.mobile.navigate.history.activeIndex === 0 &&
+                                    0 === jQuery.mobile.navigate.history.activeIndex &&
                 url === jQuery.mobile.navigate.history.initialDst &&
                 (url += jQuery.mobile.dialogHashKey),
                                     this.window.one(
@@ -14572,7 +14573,7 @@
                 function (
                     theEvent, data
                 ) {
-                    data.options.role === "popup" &&
+                    "popup" === data.options.role &&
               (jQuery.mobile.popup.handleLink(
                   data.options.link
               ),
@@ -15511,11 +15512,11 @@
                                 : 0 === classes[idx].indexOf(
                                     "ui-btn-"
                                 ) &&
-                classes[idx].length === 8
+                8 === classes[idx].length
                                     ? ((unknownClass = !1), (o.theme = classes[idx].substring(
                                         7
                                     )))
-                                    : classes[idx] === "ui-btn" &&
+                                    : "ui-btn" === classes[idx] &&
                 ((unknownClass = !1), (alreadyEnhanced = !0)),
                     unknownClass && unknownClasses.push(
                         classes[idx]
@@ -16105,7 +16106,7 @@
                 ) {
                     this._super(
                     ),
-                    this.options.position !== "fixed" ||
+                    "fixed" !== this.options.position ||
             this.options.supportBlacklist(
             ) ||
             this._makeFixed(
@@ -16130,10 +16131,10 @@
                 ) {
                     if (
                         ("fixed" === o.position &&
-            this.options.position !== "fixed" &&
+            "fixed" !== this.options.position &&
             this._makeFixed(
             ),
-                        this.options.position === "fixed" && !this.options.supportBlacklist(
+                        "fixed" === this.options.position && !this.options.supportBlacklist(
                         ))
                     ) {
                         var $page = !!this.page
@@ -16354,7 +16355,7 @@
                     return (
                         !notransition &&
           ((this.options.transition &&
-            this.options.transition !== "none" &&
+            "none" !== this.options.transition &&
             (("header" === this.role &&
               !this.options.fullscreen &&
               scroll > elHeight) ||
@@ -16396,7 +16397,7 @@
                 ) {
                     var $el = this.element,
                         outclass =
-            "out" + (this.options.transition === "slide" ? " reverse" : "");
+            "out" + ("slide" === this.options.transition ? " reverse" : "");
                     this._useTransition(
                         notransition
                     )
@@ -16500,7 +16501,7 @@
                 },
                 _setRelative: function (
                 ) {
-                    this.options.position !== "fixed" &&
+                    "fixed" !== this.options.position &&
           jQuery(
               "[data-" + jQuery.mobile.ns + "role='page']"
           ).css(
@@ -16673,7 +16674,7 @@
             $, undefined
         ) {
             var ieHack =
-        jQuery.mobile.browser.oldIE && jQuery.mobile.browser.oldIE <= 8;
+        jQuery.mobile.browser.oldIE && 8 >= jQuery.mobile.browser.oldIE;
             function getArrow(
             ) {
                 var clone = jQuery(
@@ -17086,7 +17087,7 @@
                             _fixedToolbars: this._getFixedToolbars,
                         }
                     ),
-                    this.options.display !== "overlay" && this._getWrapper(
+                    "overlay" !== this.options.display && this._getWrapper(
                     ),
                     this._addPanelClasses(
                     ),
@@ -17394,7 +17395,7 @@
                             )
                             : self.element;
                     self.options.swipeClose &&
-          (self.options.position === "left"
+          ("left" === self.options.position
               ? area.on(
                   "swipeleft.panel",
                   function (
@@ -17435,7 +17436,7 @@
                             }
                         ),
                     this._parentPage ||
-            this.options.display === "overlay" ||
+            "overlay" === this.options.display ||
             this._on(
                 this.document,
                 {
@@ -17725,12 +17726,13 @@
                   ":mobile-panel"
               ),
           )),
-          otherPanels.not(
-              ".ui-panel-display-overlay"
-          ).not(
-              this.element
-          )
-              .length === 0 && this._wrapper.children(
+          0 ===
+            otherPanels.not(
+                ".ui-panel-display-overlay"
+            ).not(
+                this.element
+            )
+                .length && this._wrapper.children(
           ).unwrap(
           ),
           this._open &&
@@ -17931,7 +17933,7 @@
                 _create: function (
                 ) {
                     if ((this._super(
-                    ), this.options.mode !== "columntoggle")) return;
+                    ), "columntoggle" !== this.options.mode)) return;
                     jQuery.extend(
                         this,
                         {
@@ -18158,7 +18160,7 @@
                 ) {
                     this._super(
                     ),
-                    this.options.mode === "columntoggle" && this._refresh(
+                    "columntoggle" === this.options.mode && this._refresh(
                         !1
                     );
                 },
@@ -18169,7 +18171,7 @@
                         create
                     ),
                     create ||
-            this.options.mode !== "columntoggle" ||
+            "columntoggle" !== this.options.mode ||
             (this._unlockCells(
                 this.element.find(
                     ".ui-table-cell-hidden, .ui-table-cell-visible",
@@ -18230,7 +18232,7 @@
                 _create: function (
                 ) {
                     if ((this._super(
-                    ), this.options.mode !== "reflow")) return;
+                    ), "reflow" !== this.options.mode)) return;
                     this.options.enhanced ||
           (this.element.addClass(
               this.options.classes.reflowTable
@@ -18241,7 +18243,7 @@
                 rebuild: function (
                 ) {
                     this._super(
-                    ), this.options.mode === "reflow" && this._refresh(
+                    ), "reflow" === this.options.mode && this._refresh(
                         !1
                     );
                 },
@@ -18251,7 +18253,7 @@
                     this._super(
                         create
                     ),
-                    create || this.options.mode !== "reflow" || this._updateReflow(
+                    create || "reflow" !== this.options.mode || this._updateReflow(
                     );
                 },
                 _updateReflow: function (
@@ -18693,7 +18695,7 @@
                         type, event, data
                     ) {
                         this._widget &&
-              this._widget.widgetFullName === "mobile-listview" &&
+              "mobile-listview" === this._widget.widgetFullName &&
               "beforefilter" === type &&
               this._widget._trigger(
                   "beforefilter",
@@ -18735,7 +18737,7 @@
                 (this._syncTextInputOptions(
                     this._widget.options
                 ),
-                this._widget.widgetName === "listview" &&
+                "listview" === this._widget.widgetName &&
                   ((this._widget.options.hideDividers = !0),
                   this._widget.element.listview(
                       "refresh"
@@ -18792,7 +18794,7 @@
                                     this.element
                                 ),
                             jQuery.mobile.textinput &&
-                  (this.options.filterTheme != null &&
+                  (null != this.options.filterTheme &&
                     (textinputOpts.theme = opts.filterTheme),
                   selector.textinput(
                       textinputOpts
@@ -18851,7 +18853,7 @@
                         ) && jQuery.mobile.textinput) {
                             for (idx in jQuery.mobile.textinput.prototype.options)
                                 options[idx] !== void 0 &&
-                  ("theme" === idx && this.options.filterTheme != null
+                  ("theme" === idx && null != this.options.filterTheme
                       ? (textinputOptions[idx] = this.options.filterTheme)
                       : (textinputOptions[idx] = options[idx]));
                             this._search.textinput(
@@ -20012,7 +20014,7 @@
                         ),
                         this.panels.show(
                         ),
-                        this.options.heightStyle !== "content" &&
+                        "content" !== this.options.heightStyle &&
               this.panels.css(
                   "height",
                   ""
@@ -20113,7 +20115,7 @@
                             ),
                         )),
                         this.xhr &&
-              this.xhr.statusText !== "canceled" &&
+              "canceled" !== this.xhr.statusText &&
               (tab.addClass(
                   "ui-tabs-loading"
               ),

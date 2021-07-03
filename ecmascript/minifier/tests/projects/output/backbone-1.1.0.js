@@ -1207,7 +1207,7 @@
                     }),
                     _.isString(
                         this.comparator
-                    ) || this.comparator.length === 1
+                    ) || 1 === this.comparator.length
                         ? (this.models = this.sortBy(
                             this.comparator,
                             this

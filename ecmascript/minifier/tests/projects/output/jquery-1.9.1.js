@@ -1489,7 +1489,7 @@
         (a.style.cssText = "top:1px;float:left;opacity:.5"),
         (support = {
             getSetAttribute: "t" !== div.className,
-            leadingWhitespace: div.firstChild.nodeType === 3,
+            leadingWhitespace: 3 === div.firstChild.nodeType,
             tbody: !div.getElementsByTagName(
                 "tbody"
             ).length,
@@ -1514,12 +1514,12 @@
                 "form"
             ).enctype,
             html5Clone:
+            "<:nav></:nav>" !==
             document.createElement(
                 "nav"
             ).cloneNode(
                 !0
-            ).outerHTML !==
-            "<:nav></:nav>",
+            ).outerHTML,
             boxModel: "CSS1Compat" === document.compatMode,
             deleteExpando: !0,
             noCloneEvent: !0,
@@ -1605,7 +1605,7 @@
             (div.cloneNode(
                 !0
             ).style.backgroundClip = ""),
-            (support.clearCloneStyle = div.style.backgroundClip === "content-box"),
+            (support.clearCloneStyle = "content-box" === div.style.backgroundClip),
             jQuery(
                 function (
                 ) {
@@ -1631,11 +1631,11 @@
                         "td"
                     )),
                     (tds[0].style.cssText = "padding:0;margin:0;border:0;display:none"),
-                    (isSupported = tds[0].offsetHeight === 0),
+                    (isSupported = 0 === tds[0].offsetHeight),
                     (tds[0].style.display = ""),
                     (tds[1].style.display = "none"),
                     (support.reliableHiddenOffsets =
-              isSupported && tds[0].offsetHeight === 0),
+              isSupported && 0 === tds[0].offsetHeight),
                     (div.innerHTML = ""),
                     (div.style.cssText =
               "box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;padding:1px;border:1px;display:block;width:4px;margin-top:1%;position:absolute;top:1%;"),
@@ -1643,12 +1643,13 @@
                     (support.doesNotIncludeMarginInBodyOffset = 1 !== body.offsetTop),
                     window.getComputedStyle &&
               ((support.pixelPosition =
-                (window.getComputedStyle(
+                "1%" !== (window.getComputedStyle(
                     div,
                     null
                 ) || {
-                }).top !== "1%"),
+                }).top),
               (support.boxSizingReliable =
+                "4px" ===
                 (
                     window.getComputedStyle(
                         div,
@@ -1656,7 +1657,7 @@
                     ) || {
                         width: "4px",
                     }
-                ).width === "4px"),
+                ).width),
               (marginDiv = div.appendChild(
                   document.createElement(
                       "div"
@@ -2161,11 +2162,11 @@
                                     type
                                 ),
                                 "fx" === type &&
-                  jQuery.queue(
+                  "inprogress" !== jQuery.queue(
                       this,
                       type,
                       data
-                  )[0] !== "inprogress" &&
+                  )[0] &&
                   jQuery.dequeue(
                       this,
                       type
@@ -2496,7 +2497,7 @@
             ) {
                 for (var i = 0, l = this.length; l > i; i++)
                     if (
-                        this[i].nodeType === 1 &&
+                        1 === this[i].nodeType &&
           (" " + this[i].className + " ")
               .replace(
                   rclass,
@@ -3724,7 +3725,7 @@
                 (prop = copy[i]), (event[prop] = originalEvent[prop]);
             return (
                 event.target || (event.target = originalEvent.srcElement || document),
-                event.target.nodeType === 3 && (event.target = event.target.parentNode),
+                3 === event.target.nodeType && (event.target = event.target.parentNode),
                 (event.metaKey = !!event.metaKey),
                 fixHook.filter
                     ? fixHook.filter(
@@ -4079,7 +4080,7 @@
                     function (
                         event
                     ) {
-                        event.originalEvent.propertyName === "checked" &&
+                        "checked" === event.originalEvent.propertyName &&
                       (this._just_changed = !0);
                     },
                 ),
@@ -4812,9 +4813,9 @@
                   ).length)
                             ? !1
                             : ((div.lastChild.className = "e"),
-                            div.getElementsByClassName(
+                            2 === div.getElementsByClassName(
                                 "e"
-                            ).length === 2);
+                            ).length);
                     }
                 )),
                 (support.getByName = assert(
@@ -5142,7 +5143,7 @@
                         ) {
                             if (
                                 1 & compare ||
-                        (a.parentNode && a.parentNode.nodeType === 11)
+                        (a.parentNode && 11 === a.parentNode.nodeType)
                             ) {
                                 if (a === doc || contains(
                                     preferredDoc,
@@ -5245,7 +5246,7 @@
                     if (
                         ret ||
                 support.disconnectedMatch ||
-                (elem.document && elem.document.nodeType !== 11)
+                (elem.document && 11 !== elem.document.nodeType)
                     )
                         return ret;
                 } catch (e) {}
@@ -5450,7 +5451,7 @@
                             runescape,
                             funescape,
                         )),
-                        match[2] === "~=" && (match[3] = " " + match[3] + " "),
+                        "~=" === match[2] && (match[3] = " " + match[3] + " "),
                         match.slice(
                             0,
                             4
@@ -5472,8 +5473,8 @@
                             ),
                             (match[4] = +(match[4]
                                 ? match[5] + (match[6] || 1)
-                                : 2 * (match[3] === "even" || match[3] === "odd"))),
-                            (match[5] = +(match[7] + match[8] || match[3] === "odd")))
+                                : 2 * ("even" === match[3] || "odd" === match[3]))),
+                            (match[5] = +(match[7] + match[8] || "odd" === match[3])))
                             : match[3] && Sizzle.error(
                                 match[0]
                             ),
@@ -6697,7 +6698,7 @@
                             0
                         )),
                         tokens.length > 2 &&
-                (token = tokens[0]).type === "ID" &&
+                "ID" === (token = tokens[0]).type &&
                 9 === context.nodeType &&
                 !documentIsXML &&
                 Expr.relative[tokens[1].type])
@@ -7409,7 +7410,7 @@
                             ) {
                                 for (
                                     var elem = this;
-                                    elem.firstChild && elem.firstChild.nodeType === 1;
+                                    elem.firstChild && 1 === elem.firstChild.nodeType;
 
                                 )
                                     elem = elem.firstChild;
@@ -7811,7 +7812,7 @@
                             this,
                         )),
                         (first = fragment.firstChild),
-                        fragment.childNodes.length === 1 && (fragment = first),
+                        1 === fragment.childNodes.length && (fragment = first),
                         first)
                     ) {
                         for (
@@ -8299,7 +8300,7 @@
                       elem
                   )
                       ? tmp.firstChild
-                      : wrap[1] !== "<table>" || rtbody.test(
+                      : "<table>" !== wrap[1] || rtbody.test(
                           elem
                       )
                           ? tmp
@@ -8490,9 +8491,9 @@
             elem.style.display,
             show
                 ? (values[index] ||
-              elem.style.display !== "none" ||
+              "none" !== elem.style.display ||
               (elem.style.display = ""),
-                elem.style.display === "" &&
+                "" === elem.style.display &&
               isHidden(
                   elem
               ) &&
@@ -8507,7 +8508,7 @@
             ((hidden = isHidden(
                 elem
             )),
-            ((elem.style.display && elem.style.display !== "none") ||
+            ((elem.style.display && "none" !== elem.style.display) ||
               !hidden) &&
               jQuery._data(
                   elem,
@@ -8522,7 +8523,7 @@
         }
         for (index = 0; length > index; index++) {
             if (((elem = elements[index]), !elem.style)) continue;
-            (!show || elem.style.display === "none" || elem.style.display === "") &&
+            (!show || "none" === elem.style.display || "" === elem.style.display) &&
         (elem.style.display = show ? values[index] || "" : "none");
         }
         return elements;
@@ -9523,7 +9524,7 @@
                 for (; (dataType = ("*".match(
                     core_rnotwhite
                 ) || [])[i++]); )
-                    dataType[0] === "+"
+                    "+" === dataType[0]
                         ? ((dataType = dataType.slice(
                             1
                         ) || "*"),
@@ -9941,8 +9942,8 @@
               !(
                   parts[1] !== ajaxLocParts[1] ||
                 parts[2] !== ajaxLocParts[2] ||
-                (parts[3] || (parts[1] === "http:" ? 80 : 443)) !=
-                  (ajaxLocParts[3] || (ajaxLocParts[1] === "http:" ? 80 : 443))
+                (parts[3] || ("http:" === parts[1] ? 80 : 443)) !=
+                  (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))
               )
             ))),
                     s.data &&
@@ -10019,7 +10020,7 @@
                     "Accept",
                     s.dataTypes[0] && s.accepts[s.dataTypes[0]]
                         ? s.accepts[s.dataTypes[0]] +
-                  (s.dataTypes[0] !== "*" ? ", " + allTypes + "; q=0.01" : "")
+                  ("*" !== s.dataTypes[0] ? ", " + allTypes + "; q=0.01" : "")
                         : s.accepts["*"],
                 );
                 for (i in s.headers) jqXHR.setRequestHeader(
@@ -10178,7 +10179,7 @@
             responseFields = s.responseFields;
         for (type in responseFields)
             type in responses && (jqXHR[responseFields[type]] = responses[type]);
-        for (; dataTypes[0] === "*"; )
+        for (; "*" === dataTypes[0]; )
             dataTypes.shift(
             ),
             void 0 === ct &&
@@ -10333,7 +10334,7 @@
                   s.data
               ) &&
               "data");
-            if (jsonProp || s.dataTypes[0] === "jsonp")
+            if (jsonProp || "jsonp" === s.dataTypes[0])
                 return (
                     (callbackName = s.jsonpCallback = jQuery.isFunction(
                         s.jsonpCallback
@@ -11110,8 +11111,8 @@
                 tween
             ) {
                 var result;
-                return tween.elem[tween.prop] != null &&
-            (!tween.elem.style || tween.elem.style[tween.prop] == null)
+                return null != tween.elem[tween.prop] &&
+            (!tween.elem.style || null == tween.elem.style[tween.prop])
                     ? tween.elem[tween.prop]
                     : ((result = jQuery.css(
                         tween.elem,
@@ -11128,7 +11129,7 @@
                         tween
                     )
                     : tween.elem.style &&
-              (tween.elem.style[jQuery.cssProps[tween.prop]] != null ||
+              (null != tween.elem.style[jQuery.cssProps[tween.prop]] ||
                 jQuery.cssHooks[tween.prop])
                         ? jQuery.style(
                             tween.elem,

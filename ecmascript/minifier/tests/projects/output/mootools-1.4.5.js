@@ -264,7 +264,7 @@
             var previous = this.prototype[name];
             (null == previous || !previous.$protected) &&
         (this.prototype[name] = method),
-            this[name] == null &&
+            null == this[name] &&
           "function" == typeOf(
               method
           ) &&
@@ -1069,7 +1069,7 @@ Array.implement(
         pick: function (
         ) {
             for (var i = 0, l = this.length; l > i; i++)
-                if (this[i] != null) return this[i];
+                if (null != this[i]) return this[i];
             return null;
         },
         hexToRgb: function (
@@ -1091,7 +1091,7 @@ Array.implement(
             array
         ) {
             if (3 > this.length) return null;
-            if (4 == this.length && this[3] == 0 && !array) return "transparent";
+            if (4 == this.length && 0 == this[3] && !array) return "transparent";
             for (var hex = [], i = 0; 3 > i; i++) {
                 var bit = (this[i] - 0).toString(
                     16
@@ -1284,7 +1284,7 @@ String.implement(
                         ? match.slice(
                             1
                         )
-                        : object[name] != null
+                        : null != object[name]
                             ? object[name]
                             : "";
                 },
@@ -1901,7 +1901,7 @@ Hash.implement(
         include: function (
             key, value
         ) {
-            return this[key] == null && (this[key] = value), this;
+            return null == this[key] && (this[key] = value), this;
         },
         map: function (
             fn, bind
@@ -1983,12 +1983,12 @@ Hash.alias(
         UA = ua.match(
             /(opera|ie|firefox|chrome|version)[\s\/:]([\w\d\.]+)?.*?(safari|version[\s\/:]([\w\d\.]+)|$)/,
         ) || [null, "unknown", 0,],
-        mode = UA[1] == "ie" && document.documentMode,
+        mode = "ie" == UA[1] && document.documentMode,
         Browser = (this.Browser = {
             extend: Function.prototype.extend,
-            name: UA[1] == "version" ? UA[3] : UA[1],
+            name: "version" == UA[1] ? UA[3] : UA[1],
             version: mode || parseFloat(
-                UA[1] == "opera" && UA[4] ? UA[4] : UA[2]
+                "opera" == UA[1] && UA[4] ? UA[4] : UA[2]
             ),
             Platform: {
                 name: ua.match(
@@ -3249,7 +3249,7 @@ function (
               document
           ) ||
           (9 == document.nodeType &&
-            document.documentElement.nodeName != "HTML")
+            "HTML" != document.documentElement.nodeName)
         );
     }),
     (local.setDocument = function (
@@ -3342,16 +3342,16 @@ function (
                     ).length,
                     (testNode.firstChild.className = "b"),
                     (cachedGetElementsByClassName =
-                  testNode.getElementsByClassName(
+                  2 != testNode.getElementsByClassName(
                       "b"
-                  ).length != 2);
+                  ).length);
                 } catch (e) {}
                 try {
                     (testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>'),
                     (brokenSecondClassNameGEBCN =
-                  testNode.getElementsByClassName(
+                  2 != testNode.getElementsByClassName(
                       "a"
-                  ).length != 2);
+                  ).length);
                 } catch (e) {}
                 features.brokenGEBCN =
               cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
@@ -3379,16 +3379,16 @@ function (
                     (testNode.innerHTML =
                 '<select><option selected="selected">a</option></select>'),
                     (features.brokenCheckedQSA =
-                  testNode.querySelectorAll(
+                  0 == testNode.querySelectorAll(
                       ":checked"
-                  ).length == 0);
+                  ).length);
                 } catch (e) {}
                 try {
                     (testNode.innerHTML = '<a class=""></a>'),
                     (features.brokenEmptyAttributeQSA =
-                  testNode.querySelectorAll(
+                  0 != testNode.querySelectorAll(
                       '[class*=""]'
-                  ).length != 0);
+                  ).length);
                 } catch (e) {}
             }
             try {
@@ -3796,7 +3796,7 @@ function (
         }),
         (this.push =
           hasOthers ||
-          !(first || (1 == parsed.length && parsed.expressions[0].length == 1))
+          !(first || (1 == parsed.length && 1 == parsed.expressions[0].length))
               ? this.pushArray
               : this.pushUID),
         null == found && (found = []);
@@ -4847,7 +4847,7 @@ var Element1 = function (
         var attributes = parsed.attributes;
         if (attributes)
             for (var attr, i = 0, l = attributes.length; l > i; i++) {
-                if (((attr = attributes[i]), props[attr.key] != null)) continue;
+                if (((attr = attributes[i]), null != props[attr.key])) continue;
                 null != attr.value && "=" == attr.operator
                     ? (props[attr.key] = attr.value)
                     : attr.value || attr.operator || (props[attr.key] = !0);
@@ -5121,7 +5121,7 @@ Elements.alias(
         1,
         1
     ),
-    object[1] == 1 &&
+    1 == object[1] &&
         Elements.implement(
             "splice",
             function (
@@ -5155,9 +5155,9 @@ Elements.alias(
     var createElementAcceptsHTML;
     try {
         createElementAcceptsHTML =
-        document.createElement(
+        "x" == document.createElement(
             "<input name=x>"
-        ).name == "x";
+        ).name;
     } catch (e) {}
     var escapeQuotes = function (
         html
@@ -5750,9 +5750,9 @@ Elements.alias(
     ),
     (properties.html = "innerHTML"),
     (properties.text =
-        document.createElement(
+        null == document.createElement(
             "div"
-        ).textContent == null
+        ).textContent
             ? "innerText"
             : "textContent"),
     Object.forEach(
@@ -6552,7 +6552,7 @@ Elements.alias(
         "div"
     );
     div.innerHTML = "<nav></nav>";
-    var supportsHTML5Elements = div.childNodes.length == 1;
+    var supportsHTML5Elements = 1 == div.childNodes.length;
     if (!supportsHTML5Elements)
         for (
             var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(
@@ -6647,7 +6647,7 @@ Elements.alias(
         "form"
     );
     (null.innerHTML = "<select><option>s</option></select>"),
-    null.firstChild.value != "s" &&
+    "s" != null.firstChild.value &&
         (Element1.Properties.value = {
             set: function (
                 value
@@ -6736,7 +6736,7 @@ Elements.alias(
             "div"
         );
     (null.style.color = "red"), (null.style.color = null);
-    var doesNotRemoveStyles = null.style.color == "red";
+    var doesNotRemoveStyles = "red" == null.style.color;
     (el = null),
     (Element1.Properties.styles = {
         set: function (
@@ -6747,8 +6747,8 @@ Elements.alias(
             );
         },
     });
-    var hasOpacity = html.style.opacity != null,
-        hasFilter = html.style.filter != null,
+    var hasOpacity = null != html.style.opacity,
+        hasFilter = null != html.style.filter,
         reAlpha = /alpha\(opacity=([\d.]+)\)/i,
         setVisibility = function (
             element, opacity
@@ -6837,11 +6837,11 @@ Elements.alias(
                     );
                     return (
                         null == opacity &&
-                (opacity = element.style.visibility == "hidden" ? 0 : 1),
+                (opacity = "hidden" == element.style.visibility ? 0 : 1),
                         opacity
                     );
                 },
-        floatName = html.style.cssFloat == null ? "styleFloat" : "cssFloat";
+        floatName = null == html.style.cssFloat ? "styleFloat" : "cssFloat";
     Element1.implement(
         {
             getComputedStyle: function (
@@ -7513,7 +7513,7 @@ Elements.alias(
           ) {
               return (
                   "radio" != this.type ||
-            (event.event.propertyName == "checked" && this.checked)
+            ("checked" == event.event.propertyName && this.checked)
               );
           },
       })),
@@ -7707,7 +7707,7 @@ Elements.alias(
                 var parsed = Slick.parse(
                     type
                 ).expressions[0][0];
-                if (parsed.pseudos[0].key != "relay")
+                if ("relay" != parsed.pseudos[0].key)
                     return old.call(
                         this,
                         type,
@@ -9091,7 +9091,7 @@ Element1.implement(
                     arguments
                 ),
                 toggle;
-            switch ((args[1] == null && (args[1] = "toggle"), args[1])) {
+            switch ((null == args[1] && (args[1] = "toggle"), args[1])) {
             case "in":
                 (method = "start"), (args[1] = 1);
                 break;
@@ -10269,7 +10269,7 @@ var Cookie = new Class(
                 );
                 date.setTime(
                     date.getTime(
-                    ) + this.options.duration * 86400000
+                    ) + 86400000 * this.options.duration
                 ),
                 (value += "; expires=" + date.toGMTString(
                 ));

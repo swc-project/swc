@@ -846,7 +846,7 @@
         ).html(
         );
         try {
-            return element[0].nodeType === 3
+            return 3 === element[0].nodeType
                 ? lowercase(
                     elemHtml
                 )
@@ -1851,7 +1851,7 @@
         (element = jqLite(
             element
         )),
-        element[0].nodeType == 9 && (element = element.find(
+        9 == element[0].nodeType && (element = element.find(
             "html"
         ));
         for (var names = isArray(
@@ -5081,7 +5081,7 @@
                                             LOCAL_REGEXP
                                         ) || [],
                                         attrName = match[3] || scopeName,
-                                        optional = match[2] == "?",
+                                        optional = "?" == match[2],
                                         mode = match[1],
                                         lastValue,
                                         parentGet,
@@ -8333,7 +8333,7 @@
                     this.was(
                         "{,"
                     ) &&
-              json[0] === "{" &&
+              "{" === json[0] &&
               (token = this.tokens[this.tokens.length - 1]) &&
               (token.json = -1 === token.text.indexOf(
                   "."
@@ -8781,7 +8781,7 @@
                 : this.statements(
                 );
             return (
-                this.tokens.length !== 0 &&
+                0 !== this.tokens.length &&
             this.throwError(
                 "is an unexpected token",
                 this.tokens[0]
@@ -8859,7 +8859,7 @@
         },
         peekToken: function (
         ) {
-            if (this.tokens.length === 0)
+            if (0 === this.tokens.length)
                 throw $parseMinErr(
                     "ueoe",
                     "Unexpected end of expression: {0}",
@@ -9381,8 +9381,8 @@
             fn, contextGetter
         ) {
             var argsFn = [];
-            if (this.peekToken(
-            ).text !== ")")
+            if (")" !== this.peekToken(
+            ).text)
                 do argsFn.push(
                     this.expression(
                     )
@@ -9450,8 +9450,8 @@
         ) {
             var elementFns = [],
                 allConstant = !0;
-            if (this.peekToken(
-            ).text !== "]")
+            if ("]" !== this.peekToken(
+            ).text)
                 do {
                     var elementFn = this.expression(
                     );
@@ -9490,8 +9490,8 @@
         ) {
             var keyValues = [],
                 allConstant = !0;
-            if (this.peekToken(
-            ).text !== "}")
+            if ("}" !== this.peekToken(
+            ).text)
                 do {
                     var token = this.expect(
                         ),
@@ -11060,9 +11060,9 @@
                     ? (urlResolve(
                         uri
                     ).href,
-                    urlResolve(
+                    "" !== urlResolve(
                         uri
-                    ).href !== "" &&
+                    ).href &&
                 !urlResolve(
                     uri
                 ).href.match(
@@ -12024,7 +12024,7 @@
             var match = numStr.match(
                 /([\d\.]+)e(-?)(\d+)/
             );
-            match && match[2] == "-" && match[3] > fractionSize + 1
+            match && "-" == match[2] && match[3] > fractionSize + 1
                 ? (numStr = "0")
                 : ((formatedText = numStr), (hasExponent = !0));
         }
@@ -15086,7 +15086,7 @@
                             ii > i;
                             i++
                         )
-                            if (children[i].value === "") {
+                            if ("" === children[i].value) {
                                 emptyOption = nullOption = children.eq(
                                     i
                                 );

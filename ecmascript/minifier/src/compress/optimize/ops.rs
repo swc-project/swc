@@ -443,21 +443,7 @@ impl Optimizer<'_> {
 
     fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
         match (l, r) {
-            (
-                Expr::Member(MemberExpr {
-                    obj: ExprOrSuper::Expr(obj),
-                    computed: false,
-                    ..
-                }),
-                Expr::Lit(..),
-            ) => {
-                if obj.may_have_side_effects() {
-                    return false;
-                }
-                true
-            }
-
-            (Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
+            (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
 
             (Expr::Ident(l), Expr::Ident(r)) => {
                 self.options.comparisons && (is_for_rel || l.sym > r.sym)
