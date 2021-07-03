@@ -220,7 +220,7 @@
                 return _.escape(this.get(attr));
             },
             has: function (attr) {
-                return this.get(attr) != null;
+                return null != this.get(attr);
             },
             set: function (key, val, options) {
                 var attr, attrs, changes;
@@ -451,7 +451,7 @@
                 return this.isNew()
                     ? base
                     : base +
-            (base.charAt(base.length - 1) === "/" ? "" : "/") +
+            ("/" === base.charAt(base.length - 1) ? "" : "/") +
             encodeURIComponent(this.id);
             },
             parse: function (resp, options) {

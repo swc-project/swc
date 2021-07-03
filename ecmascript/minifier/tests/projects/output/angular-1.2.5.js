@@ -203,16 +203,16 @@
         return "number" == typeof value;
     }
     function isDate(value) {
-        return toString.call(value) === "[object Date]";
+        return "[object Date]" === toString.call(value);
     }
     function isArray(value) {
-        return toString.call(value) === "[object Array]";
+        return "[object Array]" === toString.call(value);
     }
     function isFunction(value) {
         return "function" == typeof value;
     }
     function isRegExp(value) {
-        return toString.call(value) === "[object RegExp]";
+        return "[object RegExp]" === toString.call(value);
     }
     function isWindow(obj) {
         return obj && obj.document && obj.location && obj.alert && obj.setInterval;
@@ -221,7 +221,7 @@
         return obj && obj.$evalAsync && obj.$watch;
     }
     function isFile(obj) {
-        return toString.call(obj) === "[object File]";
+        return "[object File]" === toString.call(obj);
     }
     var trim = !String.prototype.trim
         ? function (value) {
@@ -264,8 +264,8 @@
         );
     }
     function includes(array, obj) {
-        return indexOf(array,
-            obj) != -1;
+        return -1 != indexOf(array,
+            obj);
     }
     function indexOf(array, obj) {
         if (array.indexOf) return array.indexOf(obj);
@@ -323,8 +323,8 @@
         dst ||= {};
         for (var key in src)
             src.hasOwnProperty(key) &&
-        key.substr(0,
-            2) !== "$$" &&
+        "$$" !== key.substr(0,
+            2) &&
         (dst[key] = src[key]);
         return dst;
     }
@@ -361,7 +361,7 @@
                         return !1;
                     keySet = {};
                     for (key in o1) {
-                        if (key.charAt(0) === "$" || isFunction(o1[key])) continue;
+                        if ("$" === key.charAt(0) || isFunction(o1[key])) continue;
                         if (!equals(o1[key],
                             o2[key])) return !1;
                         keySet[key] = !0;
@@ -369,7 +369,7 @@
                     for (key in o2)
                         if (
                             !keySet.hasOwnProperty(key) &&
-              key.charAt(0) !== "$" &&
+              "$" !== key.charAt(0) &&
               o2[key] !== void 0 &&
               !isFunction(o2[key])
                         )
@@ -424,7 +424,7 @@
     function toJsonReplacer(key, value) {
         var val = value;
         return (
-            "string" == typeof key && key.charAt(0) === "$"
+            "string" == typeof key && "$" === key.charAt(0)
                 ? (val = void 0)
                 : isWindow(value)
                     ? (val = "$WINDOW")
@@ -863,7 +863,7 @@
     function JQLite(element) {
         if (element instanceof JQLite) return element;
         if (!(this instanceof JQLite)) {
-            if (isString(element) && element.charAt(0) != "<")
+            if (isString(element) && "<" != element.charAt(0))
                 throw jqLiteMinErr(
                     "nosel",
                     "Looking up elements via selectors is not supported by jqLite! See: http://docs.angularjs.org/api/angular.element",
@@ -1005,7 +1005,7 @@
             forEach(cssClasses.split(" "),
                 function (cssClass) {
                     (cssClass = trim(cssClass)),
-                    existingClasses.indexOf(" " + cssClass + " ") === -1 &&
+                    -1 === existingClasses.indexOf(" " + cssClass + " ") &&
             (existingClasses += cssClass + " ");
                 }),
             element.setAttribute("class",
@@ -1182,7 +1182,7 @@
             })(),
             val: function (element, value) {
                 if (isUndefined(value)) {
-                    if (nodeName_(element) === "SELECT" && element.multiple) {
+                    if ("SELECT" === nodeName_(element) && element.multiple) {
                         var result = [];
                         return (
                             forEach(element.options,
@@ -1329,7 +1329,7 @@
                             !(adown.contains
                                 ? adown.contains(bup)
                                 : a.compareDocumentPosition &&
-                                a.compareDocumentPosition(bup) & 16)
+                                16 & a.compareDocumentPosition(bup))
                           )
                           );
                       }
@@ -1699,7 +1699,7 @@
                                 (isArray(module) && (module = module[module.length - 1]),
                                 e.message &&
                 e.stack &&
-                e.stack.indexOf(e.message) == -1 &&
+                -1 == e.stack.indexOf(e.message) &&
                 (e = e.message + "\n" + e.stack),
                                 $injectorMinErr(
                                     "modulerr",
@@ -1803,7 +1803,7 @@
                         forEach(list,
                             function (element) {
                                 result ||
-                  lowercase(element.nodeName) !== "a" ||
+                  "a" !== lowercase(element.nodeName) ||
                   (result = element);
                             }),
                         result
@@ -1844,7 +1844,7 @@
                 (this.$$selectors = {}),
                 (this.register = function (name, factory) {
                     var key = name + "-animation";
-                    if (name && name.charAt(0) != ".")
+                    if (name && "." != name.charAt(0))
                         throw $animateMinErr(
                             "notcsel",
                             "Expecting class selector starting with '.' got '{0}'.",
@@ -3311,7 +3311,7 @@
                                 (directive = directives[i]),
                                 (void 0 === maxPriority ||
                       maxPriority > directive.priority) &&
-                      directive.restrict.indexOf(location) != -1 &&
+                      -1 != directive.restrict.indexOf(location) &&
                       (startAttrName &&
                         (directive = inherit(directive,
                             {
@@ -3331,7 +3331,7 @@
                         $element = dst.$$element;
                     forEach(dst,
                         function (value, key) {
-                            key.charAt(0) != "$" &&
+                            "$" != key.charAt(0) &&
                 (src[key] &&
                   (value += ("style" === key ? ";" : " ") + src[key]),
                 dst.$set(key,
@@ -3351,7 +3351,7 @@
                                         $element.attr("style") + ";" + value,
                                     ),
                                     (dst.style = (dst.style ? dst.style + ";" : "") + value))
-                                    : key.charAt(0) != "$" &&
+                                    : "$" != key.charAt(0) &&
                     !dst.hasOwnProperty(key) &&
                     ((dst[key] = value), (dstAttr[key] = srcAttr[key]));
                         });
@@ -3574,7 +3574,7 @@
                     var interpolateFn = $interpolate(value,
                         !0);
                     if (!interpolateFn) return;
-                    if ("multiple" === name && nodeName_(node) === "SELECT")
+                    if ("multiple" === name && "SELECT" === nodeName_(node))
                         throw $compileMinErr(
                             "selmulti",
                             "Binding to the 'multiple' attribute is not supported. Element: {0}",
@@ -3907,7 +3907,7 @@
                                     isUndefined(config1.data) &&
                     forEach(headers,
                         function (value, header) {
-                            lowercase(header) === "content-type" &&
+                            "content-type" === lowercase(header) &&
                         delete headers[header];
                         }),
                                     isUndefined(config1.withCredentials) &&
@@ -4155,7 +4155,7 @@
                                         parts.push(encodeUriQuery(key) + "=" + encodeUriQuery(v));
                                     });
                             }),
-                        url + (url.indexOf("?") == -1 ? "?" : "&") + parts.join("&")
+                        url + (-1 == url.indexOf("?") ? "?" : "&") + parts.join("&")
                     );
                 }
             },
@@ -4215,7 +4215,7 @@
             if (
                 ($browser.$$incOutstandingRequestCount(),
                 (url ||= $browser.url()),
-                lowercase(method) == "jsonp")
+                "jsonp" == lowercase(method))
             ) {
                 var callbackId = "_" + (callbacks.counter++).toString(36);
                 callbacks[callbackId] = function (data) {
@@ -4543,23 +4543,23 @@
         null);
     }
     function parseAppUrl(relativeUrl, locationObj, appBase) {
-        var prefixed = relativeUrl.charAt(0) !== "/";
+        var prefixed = "/" !== relativeUrl.charAt(0);
         prefixed && (relativeUrl = "/" + relativeUrl);
         var match = urlResolve(relativeUrl,
             appBase);
         (locationObj.$$path = decodeURIComponent(
-            prefixed && match.pathname.charAt(0) === "/"
+            prefixed && "/" === match.pathname.charAt(0)
                 ? match.pathname.substring(1)
                 : match.pathname,
         )),
         (locationObj.$$search = parseKeyValue(match.search)),
         (locationObj.$$hash = decodeURIComponent(match.hash)),
         locationObj.$$path &&
-        locationObj.$$path.charAt(0) != "/" &&
+        "/" != locationObj.$$path.charAt(0) &&
         (locationObj.$$path = "/" + locationObj.$$path);
     }
     function beginsWith(begin, whole) {
-        if (whole.indexOf(begin) === 0) return whole.substr(begin.length);
+        if (0 === whole.indexOf(begin)) return whole.substr(begin.length);
     }
     function stripHash(url) {
         var index = url.indexOf("#");
@@ -4635,7 +4635,7 @@
                 url) || beginsWith(appBaseNoFile,
                 url),
                 withoutHashUrl =
-            withoutBaseUrl.charAt(0) == "#"
+            "#" == withoutBaseUrl.charAt(0)
                 ? beginsWith(hashPrefix,
                     withoutBaseUrl)
                 : this.$$html5
@@ -4660,7 +4660,7 @@
             function removeWindowsDriveName(path, url, base) {
                 var windowsFilePathExp = /^\/?.*?:(\/.*)/,
                     firstPathSegmentMatch;
-                return (url.indexOf(base) === 0 && (url = url.replace(base,
+                return (0 === url.indexOf(base) && (url = url.replace(base,
                     "")),
                 windowsFilePathExp.exec(url))
                     ? path
@@ -4713,7 +4713,7 @@
         port: locationGetter("$$port"),
         path: locationGetterSetter("$$path",
             function (path) {
-                return path.charAt(0) == "/" ? path : "/" + path;
+                return "/" == path.charAt(0) ? path : "/" + path;
             }),
         search: function (search, paramValue) {
             switch (arguments.length) {
@@ -4788,7 +4788,7 @@
                         if (event.ctrlKey || event.metaKey || 2 == event.which) return;
                         for (
                             var elm = jqLite(event.target);
-                            lowercase(elm[0].nodeName) !== "a";
+                            "a" !== lowercase(elm[0].nodeName);
 
                         )
                             if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0])
@@ -4888,7 +4888,7 @@
                         arg instanceof Error &&
                 (arg.stack
                     ? (arg =
-                      arg.message && arg.stack.indexOf(arg.message) === -1
+                      arg.message && -1 === arg.stack.indexOf(arg.message)
                           ? "Error: " + arg.message + "\n" + arg.stack
                           : arg.stack)
                     : arg.sourceURL &&
@@ -5096,7 +5096,7 @@
                     this.was("{,") &&
               json[0] === "{" &&
               (token = this.tokens[this.tokens.length - 1]) &&
-              (token.json = token.text.indexOf(".") === -1);
+              (token.json = -1 === token.text.indexOf("."));
                 else if (this.is("(){}[].,;:?"))
                     this.tokens.push({
                         index: this.index,
@@ -5148,10 +5148,10 @@
             return this.tokens;
         },
         is: function (chars) {
-            return chars.indexOf(this.ch) !== -1;
+            return -1 !== chars.indexOf(this.ch);
         },
         was: function (chars) {
-            return chars.indexOf(this.lastCh) !== -1;
+            return -1 !== chars.indexOf(this.lastCh);
         },
         peek: function (i) {
             var num = i || 1;
@@ -5218,13 +5218,13 @@
                         this.isExpOperator(ch) &&
             peekCh &&
             this.isNumber(peekCh) &&
-            number.charAt(number.length - 1) == "e"
+            "e" == number.charAt(number.length - 1)
                     )
                         number += ch;
                     else if (
                         this.isExpOperator(ch) &&
             (!peekCh || !this.isNumber(peekCh)) &&
-            number.charAt(number.length - 1) == "e"
+            "e" == number.charAt(number.length - 1)
                     )
                         this.throwError("Invalid exponent");
                     else break;
@@ -7239,7 +7239,7 @@
                 hostname: urlParsingNode.hostname,
                 port: urlParsingNode.port,
                 pathname:
-          urlParsingNode.pathname.charAt(0) === "/"
+          "/" === urlParsingNode.pathname.charAt(0)
               ? urlParsingNode.pathname
               : "/" + urlParsingNode.pathname,
             }
@@ -7322,7 +7322,7 @@
                     );
                 });
             var search = function (obj, text) {
-                if ("string" == typeof text && text.charAt(0) === "!")
+                if ("string" == typeof text && "!" === text.charAt(0))
                     return !search(obj,
                         text.substr(1));
                 switch (typeof obj) {
@@ -7338,7 +7338,7 @@
                             text);
                     default:
                         for (var objKey in obj)
-                            if (objKey.charAt(0) !== "$" && search(obj[objKey],
+                            if ("$" !== objKey.charAt(0) && search(obj[objKey],
                                 text))
                                 return !0;
                         break;
@@ -7432,7 +7432,7 @@
             formatedText = "",
             parts = [],
             hasExponent = !1;
-        if (numStr.indexOf("e") !== -1) {
+        if (-1 !== numStr.indexOf("e")) {
             var match = numStr.match(/([\d\.]+)e(-?)(\d+)/);
             match && match[2] == "-" && match[3] > fractionSize + 1
                 ? (numStr = "0")
@@ -7530,7 +7530,7 @@
                 var h = int(match[4] || 0) - tzHour,
                     m = int(match[5] || 0) - tzMin,
                     s = int(match[6] || 0),
-                    ms = Math.round(parseFloat("0." + (match[7] || 0)) * 1000);
+                    ms = Math.round(1000 * parseFloat("0." + (match[7] || 0)));
                 return timeSetter.call(date,
                     h,
                     m,
@@ -7613,7 +7613,7 @@
                             EEE: dateStrGetter("Day",
                                 !0),
                             a: function (date1, formats) {
-                                return date1.getHours() < 12
+                                return 12 > date1.getHours()
                                     ? formats.AMPMS[0]
                                     : formats.AMPMS[1];
                             },
@@ -7692,8 +7692,8 @@
                         get = predicate || identity;
                     return (
                         isString(predicate) &&
-              ((predicate.charAt(0) == "+" || predicate.charAt(0) == "-") &&
-                ((descending = predicate.charAt(0) == "-"),
+              (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) &&
+                ((descending = "-" == predicate.charAt(0)),
                 (predicate = predicate.substring(1))),
               (get = $parse(predicate))),
                         reverseComparator(function (a, b) {
@@ -8843,7 +8843,7 @@
                                     (collectionKeys = []);
                                     for (key in collection)
                                         collection.hasOwnProperty(key) &&
-                    key.charAt(0) != "$" &&
+                    "$" != key.charAt(0) &&
                     collectionKeys.push(key);
                                     collectionKeys.sort();
                                 }
@@ -9443,7 +9443,7 @@
                                     index++
                                 ) {
                                     if (((key = index), keyName)) {
-                                        if (((key = keys[index]), key.charAt(0) === "$")) continue;
+                                        if (((key = keys[index]), "$" === key.charAt(0))) continue;
                                         locals[keyName] = key;
                                     }
                                     if (

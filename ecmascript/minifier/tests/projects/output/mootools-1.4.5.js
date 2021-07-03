@@ -93,7 +93,7 @@
     }.overloadSetter());
     var slice = Array.prototype.slice;
     (Function1.from = function (item) {
-        return typeOf(item) == "function"
+        return "function" == typeOf(item)
             ? item
             : function () {
                 return item;
@@ -103,7 +103,7 @@
         return null == item
             ? []
             : Type.isEnumerable(item) && "string" != typeof item
-                ? typeOf(item) == "array"
+                ? "array" == typeOf(item)
                     ? item
                     : slice.call(item)
                 : [item];
@@ -147,7 +147,7 @@
         return (
             null != item &&
       "number" == typeof item.length &&
-      Object.prototype.toString.call(item) != "[object Function]"
+      "[object Function]" != Object.prototype.toString.call(item)
         );
     };
     var hooks = {},
@@ -159,7 +159,7 @@
             if (method && method.$hidden) return;
             for (var hooks1 = hooksOf(this), i = 0; i < hooks1.length; i++) {
                 var hook = hooks1[i];
-                typeOf(hook) == "type"
+                "type" == typeOf(hook)
                     ? implement.call(hook,
                         name,
                         method)
@@ -171,7 +171,7 @@
             (null == previous || !previous.$protected) &&
         (this.prototype[name] = method),
             this[name] == null &&
-          typeOf(method) == "function" &&
+          "function" == typeOf(method) &&
           extend.call(this,
               name,
               function (item) {
@@ -359,7 +359,7 @@
     var mergeOne = function (source, key, current) {
         switch (typeOf(current)) {
         case "object":
-            typeOf(source[key]) == "object"
+            "object" == typeOf(source[key])
                 ? Object.merge(source[key],
                     current)
                 : (source[key] = Object.clone(current));
@@ -374,7 +374,7 @@
     };
     Object.extend({
         merge: function (source, k, v) {
-            if (typeOf(k) == "string") return mergeOne(source,
+            if ("string" == typeOf(k)) return mergeOne(source,
                 k,
                 v);
             for (var i = 1, l = arguments.length; l > i; i++) {
@@ -410,7 +410,7 @@
         });
     var Hash = (this.Hash = new Type("Hash",
         function (object) {
-            typeOf(object) == "hash" && (object = Object.clone(object.getClean()));
+            "hash" == typeOf(object) && (object = Object.clone(object.getClean()));
             for (var key in object) this[key] = object[key];
             return this;
         }));
@@ -597,8 +597,8 @@ Array.implement({
         return result;
     },
     contains: function (item, from) {
-        return this.indexOf(item,
-            from) != -1;
+        return -1 != this.indexOf(item,
+            from);
     },
     append: function (array) {
         return this.push.apply(this,
@@ -673,7 +673,7 @@ var $pick = function () {
 };
 String.implement({
     test: function (regex, params) {
-        return (typeOf(regex) == "regexp"
+        return ("regexp" == typeOf(regex)
             ? regex
             : new RegExp("" + regex,
                 params)
@@ -734,7 +734,7 @@ String.implement({
         return String(this).replace(
             regexp || /\\?\{([^{}]+)\}/g,
             function (match, name) {
-                return match.charAt(0) == "\\"
+                return "\\" == match.charAt(0)
                     ? match.slice(1)
                     : object[name] != null
                         ? object[name]
@@ -1000,8 +1000,8 @@ var $try = Function.attempt;
             return null;
         },
         contains: function (object, value) {
-            return Object.keyOf(object,
-                value) != null;
+            return null != Object.keyOf(object,
+                value);
         },
         toQueryString: function (object, base) {
             var queryString = [];
@@ -1229,7 +1229,7 @@ Hash.alias({
                 return (
                     !0 === exec
                         ? Browser.exec(scripts)
-                        : typeOf(exec) == "function" && exec(scripts,
+                        : "function" == typeOf(exec) && exec(scripts,
                             text),
                     text
                 );
@@ -1281,7 +1281,7 @@ Hash.alias({
             if (
                 "string" != typeof item &&
           Type.isEnumerable(item) &&
-          typeOf(item) != "array"
+          "array" != typeOf(item)
             ) {
                 for (var i = item.length, array = new Array(i); i--; )
                     array[i] = item[i];
@@ -1389,7 +1389,7 @@ Hash.alias({
 
                 )
                     target = target.parentNode;
-                if (((this.target = document.id(target)), type.indexOf("key") == 0)) {
+                if (((this.target = document.id(target)), 0 == type.indexOf("key"))) {
                     var code = (this.code = event.which || event.keyCode);
                     (this.key = _keys[code] || Object.keyOf(Event1.Keys,
                         code)),
@@ -1404,7 +1404,7 @@ Hash.alias({
           "dblclick" == type ||
           "contextmenu" == type ||
           "DOMMouseScroll" == type ||
-          type.indexOf("mouse") == 0
+          0 == type.indexOf("mouse")
                 ) {
                     var doc = win.document;
                     if (
@@ -1449,7 +1449,7 @@ Hash.alias({
                             related = related.parentNode;
                         this.relatedTarget = document.id(related);
                     }
-                } else if (type.indexOf("touch") == 0 || type.indexOf("gesture") == 0) {
+                } else if (0 == type.indexOf("touch") || 0 == type.indexOf("gesture")) {
                     (this.rotation = event.rotation),
                     (this.scale = event.scale),
                     (this.targetTouches = event.targetTouches),
@@ -1591,7 +1591,7 @@ var Event1 = DOMEvent;
                     value)), null == value))
                     return this;
             }
-            if (typeOf(value) == "function") {
+            if ("function" == typeOf(value)) {
                 if (value.$hidden) return this;
                 this.prototype[key] = retain
                     ? value
@@ -1691,7 +1691,7 @@ var Event1 = DOMEvent;
         },
         removeEvents: function (events) {
             var type;
-            if (typeOf(events) == "object") {
+            if ("object" == typeOf(events)) {
                 for (type in events) this.removeEvent(type,
                     events[type]);
                 return this;
@@ -1715,7 +1715,7 @@ var Event1 = DOMEvent;
             if (this.addEvent)
                 for (var option in options) {
                     if (
-                        typeOf(options[option]) != "function" ||
+                        "function" != typeOf(options[option]) ||
                 !/^on[A-Z]/.test(option)
                     )
                         continue;
@@ -1961,7 +1961,7 @@ function () {
         return (
             !!document.xmlVersion ||
           !!document.xml ||
-          Object.prototype.toString.call(document) == "[object XMLDocument]" ||
+          "[object XMLDocument]" == Object.prototype.toString.call(document) ||
           (9 == document.nodeType &&
             document.documentElement.nodeName != "HTML")
         );
@@ -2012,7 +2012,7 @@ function () {
                 (starSelectsClosed =
                 selected &&
                 !!selected.length &&
-                selected[0].nodeName.charAt(0) == "/");
+                "/" == selected[0].nodeName.charAt(0));
             } catch (e) {}
             features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
             try {
@@ -2044,7 +2044,7 @@ function () {
                     (features.starSelectsClosedQSA =
                   selected &&
                   !!selected.length &&
-                  selected[0].nodeName.charAt(0) == "/");
+                  "/" == selected[0].nodeName.charAt(0));
                 } catch (e) {}
                 try {
                     (testNode.innerHTML = '<a class="MiX"></a>'),
@@ -2068,7 +2068,7 @@ function () {
                 (testNode.innerHTML =
               '<form action="s"><input id="action"/></form>'),
                 (brokenFormAttributeGetter =
-                testNode.firstChild.getAttribute("action") != "s");
+                "s" != testNode.firstChild.getAttribute("action"));
             } catch (e) {}
             if (
                 ((features.nativeMatchesSelector =
@@ -2137,7 +2137,7 @@ function () {
                       ? function (context, node) {
                           return (
                               context === node ||
-                  !!(context.compareDocumentPosition(node) & 16)
+                  !!(16 & context.compareDocumentPosition(node))
                           );
                       }
                       : function (context, node) {
@@ -2150,7 +2150,7 @@ function () {
             ? function (a, b) {
                 return a.compareDocumentPosition && b.compareDocumentPosition
                     ? 0
-                    : a.compareDocumentPosition(b) & 4
+                    : 4 & a.compareDocumentPosition(b)
                         ? -1
                         : a === b
                             ? 0
@@ -3104,7 +3104,7 @@ new Type("Element",
             var element = this[i],
                 result = (results[i] = element[name].apply(element,
                     args));
-            elements &&= typeOf(result) == "element";
+            elements &&= "element" == typeOf(result);
         }
         return elements ? new Elements(results) : results;
     }),
@@ -3171,7 +3171,7 @@ new Type("Elements",
             : new Elements(
                 Array.filter(
                     this,
-                    typeOf(filter) == "string"
+                    "string" == typeOf(filter)
                         ? function (item) {
                             return item.match(filter);
                         }
@@ -3681,7 +3681,7 @@ Elements.alias("extend",
     (input = null);
     var pollutesGetAttribute = (function (div) {
         return (
-            (div.random = "attribute"), div.getAttribute("random") == "attribute"
+            (div.random = "attribute"), "attribute" == div.getAttribute("random")
         );
     })(document.createElement("div"));
     Element1.implement({
@@ -3719,10 +3719,11 @@ Elements.alias("extend",
                 if (attr.expando && !attributeWhiteList[name]) {
                     var outer = this.outerHTML;
                     if (
-                        outer
-                            .substr(0,
-                                outer.search(/\/?['"]?>(?![^<]*<['"])/))
-                            .indexOf(name) < 0
+                        0 >
+              outer
+                  .substr(0,
+                      outer.search(/\/?['"]?>(?![^<]*<['"])/))
+                  .indexOf(name)
                     )
                         return null;
                     attributeWhiteList[name] = !0;
@@ -3862,7 +3863,7 @@ Elements.alias("extend",
                     )
                         return;
                     var value =
-              el1.get("tag") == "select"
+              "select" == el1.get("tag")
                   ? el1.getSelected().map(function (opt) {
                       return document.id(opt).get("value");
                   })
@@ -4024,7 +4025,7 @@ Elements.alias("extend",
         set: function (html) {
             null == html
                 ? (html = "")
-                : typeOf(html) == "array" && (html = html.join("")),
+                : "array" == typeOf(html) && (html = html.join("")),
             (this.innerHTML = html);
         },
         erase: function () {
@@ -4234,14 +4235,14 @@ Elements.alias("extend",
                     ? floatName
                     : property
                 ).camelCase()),
-                typeOf(value) != "string")
+                "string" != typeOf(value))
             ) {
                 var map = (Element1.Styles[property] || "@").split(" ");
                 value = Array.from(value)
                     .map(function (val, i) {
                         return !map[i]
                             ? ""
-                            : typeOf(val) == "number"
+                            : "number" == typeOf(val)
                                 ? map[i].replace("@",
                                     Math.round(val))
                                 : val;
@@ -4486,7 +4487,7 @@ Elements.alias("extend",
                 },
                 removeEvents: function (events) {
                     var type;
-                    if (typeOf(events) == "object") {
+                    if ("object" == typeOf(events)) {
                         for (type in events) this.removeEvent(type,
                             events[type]);
                         return this;
@@ -4599,7 +4600,7 @@ Elements.alias("extend",
                     ? !1
                     : related != this &&
             "xul" != related.prefix &&
-            typeOf(this) != "document" &&
+            "document" != typeOf(this) &&
             !this.contains(related);
         };
         (Element1.Events.mouseenter = {
@@ -4616,7 +4617,7 @@ Elements.alias("extend",
       (Element1.Events.change = {
           base: function () {
               var type = this.type;
-              return this.get("tag") == "input" &&
+              return "input" == this.get("tag") &&
             ("radio" == type || "checkbox" == type)
                   ? "propertychange"
                   : "change";
@@ -4672,7 +4673,7 @@ Elements.alias("extend",
                 },
                 listen: function (self, match, fn, event, target, uid) {
                     var form =
-              target.get("tag") == "form"
+              "form" == target.get("tag")
                   ? target
                   : event.target.getParent("form");
                     if (!form) return;
@@ -4684,7 +4685,7 @@ Elements.alias("extend",
                         },
                         forms = listener.forms,
                         fns = listener.fns;
-                    if (forms.indexOf(form) != -1) return;
+                    if (-1 != forms.indexOf(form)) return;
                     forms.push(form);
                     var _fn = function (event) {
                         bubbleUp(self,
@@ -4735,7 +4736,7 @@ Elements.alias("extend",
         removeEvent = proto.removeEvent,
         relay = function (old, method) {
             return function (type, fn, useCapture) {
-                if (type.indexOf(":relay") == -1)
+                if (-1 == type.indexOf(":relay"))
                     return old.call(this,
                         type,
                         fn,
@@ -4889,8 +4890,8 @@ Elements.alias("extend",
     var brokenOffsetParent = child.offsetParent === element;
     element = child = null;
     var isOffset = function (el) {
-            return styleString(el,
-                "position") != "static" || isBody(el);
+            return "static" != styleString(el,
+                "position") || isBody(el);
         },
         isOffsetStatic = function (el) {
             return isOffset(el) || /^(?:table|td|th)$/i.test(el.tagName);
@@ -4947,13 +4948,13 @@ Elements.alias("extend",
         getOffsetParent: brokenOffsetParent
             ? function () {
                 var element = this;
-                if (isBody(element) || styleString(element,
-                    "position") == "fixed")
+                if (isBody(element) || "fixed" == styleString(element,
+                    "position"))
                     return null;
                 for (
                     var isOffsetCheck =
-                styleString(element,
-                    "position") == "static"
+                "static" == styleString(element,
+                    "position")
                     ? isOffsetStatic
                     : isOffset;
                     (element = element.parentNode);
@@ -4964,8 +4965,8 @@ Elements.alias("extend",
             }
             : function () {
                 var element = this;
-                if (isBody(element) || styleString(element,
-                    "position") == "fixed")
+                if (isBody(element) || "fixed" == styleString(element,
+                    "position"))
                     return null;
                 try {
                     return element.offsetParent;
@@ -4978,8 +4979,8 @@ Elements.alias("extend",
                     html = document.id(this.getDocument().documentElement),
                     htmlScroll = html.getScroll(),
                     elemScrolls = this.getScrolls(),
-                    isFixed = styleString(this,
-                        "position") == "fixed";
+                    isFixed = "fixed" == styleString(this,
+                        "position");
                 return {
                     x:
               bound.left.toInt() +
@@ -5010,8 +5011,8 @@ Elements.alias("extend",
               (position.y += topBorder(element)));
                     var parent = element.parentNode;
                     parent &&
-              styleString(parent,
-                  "overflow") != "visible" &&
+              "visible" != styleString(parent,
+                  "overflow") &&
               ((position.x += leftBorder(parent)),
               (position.y += topBorder(parent)));
                 } else
@@ -5126,8 +5127,8 @@ Elements.alias("extend",
             style).toInt() || 0;
     }
     function borderBox(element) {
-        return styleString(element,
-            "-moz-box-sizing") == "border-box";
+        return "border-box" == styleString(element,
+            "-moz-box-sizing");
     }
     function topBorder(element) {
         return styleNumber(element,
@@ -5348,7 +5349,7 @@ Element1.alias({
         if (null == to) {
             (to = from), (from = element.getStyle(property));
             var unit = this.options.unit;
-            if (unit && from.slice(-unit.length) != unit && parseFloat(from) != 0) {
+            if (unit && from.slice(-unit.length) != unit && 0 != parseFloat(from)) {
                 element.setStyle(property,
                     to + unit);
                 var value = element.getComputedStyle(property);
@@ -5418,7 +5419,7 @@ Element1.alias({
         );
     },
     serve: function (value, unit) {
-        typeOf(value) != "fx:css:value" && (value = this.parse(value));
+        "fx:css:value" != typeOf(value) && (value = this.parse(value));
         var returned = [];
         return (
             value.each(function (bit) {
@@ -5581,7 +5582,7 @@ Element1.implement({
             break;
         case "toggle":
             var flag = this.retrieve("fade:flag",
-                this.getStyle("opacity") == 1);
+                1 == this.getStyle("opacity"));
             (method = "start"),
             (args[1] = flag ? 0 : 1),
             this.store("fade:flag",
@@ -6201,7 +6202,7 @@ Element1.implement({
             return null;
         }),
     (JSON.decode = function (string, secure) {
-        if (!string || typeOf(string) != "string") return null;
+        if (!string || "string" != typeOf(string)) return null;
         if (secure || JSON.secure) {
             if (JSON.parse) return JSON.parse(string);
             if (!JSON.validate(string))

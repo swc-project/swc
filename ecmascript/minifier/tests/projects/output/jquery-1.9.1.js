@@ -55,8 +55,8 @@
             if ("string" == typeof selector) {
                 if (
                     ((match =
-            selector.charAt(0) === "<" &&
-            selector.charAt(selector.length - 1) === ">" &&
+            "<" === selector.charAt(0) &&
+            ">" === selector.charAt(selector.length - 1) &&
             selector.length >= 3
                 ? [null, selector, null]
                 : /^(?:(<[\w\W]+>)[^>]*|#([\w-]*))$/.exec(selector)),
@@ -233,12 +233,12 @@
               jQuery(document).trigger("ready").off("ready"));
         },
         isFunction: function (obj) {
-            return jQuery.type(obj) === "function";
+            return "function" === jQuery.type(obj);
         },
         isArray:
         Array.isArray ||
         function (obj) {
-            return jQuery.type(obj) === "array";
+            return "array" === jQuery.type(obj);
         },
         isWindow: function (obj) {
             return null != obj && obj == obj.window;
@@ -256,7 +256,7 @@
         isPlainObject: function (obj) {
             if (
                 !obj ||
-          jQuery.type(obj) !== "object" ||
+          "object" !== jQuery.type(obj) ||
           obj.nodeType ||
           jQuery.isWindow(obj)
             )
@@ -504,7 +504,7 @@
             var i = 0,
                 length = elems.length,
                 bulk = null == key;
-            if (jQuery.type(key) === "object") {
+            if ("object" === jQuery.type(key)) {
                 chainable = !0;
                 for (i in key) jQuery.access(elems,
                     fn,
@@ -911,7 +911,7 @@
             tbody: !div.getElementsByTagName("tbody").length,
             htmlSerialize: !!div.getElementsByTagName("link").length,
             style: /top/.test(a.getAttribute("style")),
-            hrefNormalized: a.getAttribute("href") === "/a",
+            hrefNormalized: "/a" === a.getAttribute("href"),
             opacity: /^0.5/.test(a.style.opacity),
             cssFloat: !!a.style.cssFloat,
             checkOn: !!input.value,
@@ -941,7 +941,7 @@
         (input = document.createElement("input")),
         input.setAttribute("value",
             ""),
-        (support.input = input.getAttribute("value") === ""),
+        (support.input = "" === input.getAttribute("value")),
         (input.value = "t"),
         input.setAttribute("type",
             "radio"),
@@ -1445,7 +1445,7 @@
                   : " ")))
                     ) {
                         for (; (clazz = classes[j++]); )
-                            cur.indexOf(" " + clazz + " ") < 0 && (cur += clazz + " ");
+                            0 > cur.indexOf(" " + clazz + " ") && (cur += clazz + " ");
                         elem.className = jQuery.trim(cur);
                     }
             return this;
@@ -1621,7 +1621,7 @@
                             (option.selected || i === index) &&
                   (jQuery.support.optDisabled
                       ? !option.disabled
-                      : option.getAttribute("disabled") === null) &&
+                      : null === option.getAttribute("disabled")) &&
                   (!option.parentNode.disabled ||
                     !jQuery.nodeName(option.parentNode,
                         "optgroup")))
@@ -1934,7 +1934,7 @@
           function () {
               jQuery.valHooks[this] = {
                   get: function (elem) {
-                      return elem.getAttribute("value") === null ? "on" : elem.value;
+                      return null === elem.getAttribute("value") ? "on" : elem.value;
                   },
               };
           }),
@@ -2146,7 +2146,7 @@
           ((namespaces = type.split(".")),
           (type = namespaces.shift()),
           namespaces.sort()),
-                (ontype = type.indexOf(":") < 0 && "on" + type),
+                (ontype = 0 > type.indexOf(":") && "on" + type),
                 (event = event[jQuery.expando]
                     ? event
                     : new jQuery.Event(type,
@@ -3018,7 +3018,7 @@
                         (newContext = context),
                         (newSelector = 9 === context.nodeType && selector),
                         1 === context.nodeType &&
-                context.nodeName.toLowerCase() !== "object")
+                "object" !== context.nodeName.toLowerCase())
                     ) {
                         for (
                             groups = tokenize(selector),
@@ -3116,7 +3116,7 @@
                         (div.innerHTML = "<a href='#'></a>"),
                         div.firstChild &&
                     "undefined" !== typeof div.firstChild.getAttribute &&
-                    div.firstChild.getAttribute("href") === "#"
+                    "#" === div.firstChild.getAttribute("href")
                     );
                 })
                     ? {}
@@ -3262,7 +3262,7 @@
                           !(adown.contains
                               ? adown.contains(bup)
                               : a.compareDocumentPosition &&
-                              a.compareDocumentPosition(bup) & 16)
+                              16 & a.compareDocumentPosition(bup))
                         )
                         );
                     }
@@ -3499,8 +3499,8 @@
                 CHILD: function (match) {
                     return (
                         (match[1] = match[1].toLowerCase()),
-                        match[1].slice(0,
-                            3) === "nth"
+                        "nth" === match[1].slice(0,
+                            3)
                             ? (match[3] || Sizzle.error(match[0]),
                             (match[4] = +(match[4]
                                 ? match[5] + (match[6] || 1)
@@ -3587,7 +3587,7 @@
                                     : "!=" === operator
                                         ? check !== result
                                         : "^=" === operator
-                                            ? check && result.indexOf(check) === 0
+                                            ? check && 0 === result.indexOf(check)
                                             : "*=" === operator
                                                 ? check && result.indexOf(check) > -1
                                                 : "$=" === operator
@@ -3602,9 +3602,9 @@
                     };
                 },
                 CHILD: function (type, what, argument, first, last) {
-                    var simple = type.slice(0,
-                            3) !== "nth",
-                        forward = type.slice(-4) !== "last",
+                    var simple = "nth" !== type.slice(0,
+                            3),
+                        forward = "last" !== type.slice(-4),
                         ofType = "of-type" === what;
                     return 1 === first && 0 === last
                         ? function (elem) {
@@ -3795,7 +3795,7 @@
                                 )
                                     return (
                                         (elemLang = elemLang.toLowerCase()),
-                                        elemLang === lang || elemLang.indexOf(lang + "-") === 0
+                                        elemLang === lang || 0 === elemLang.indexOf(lang + "-")
                                     );
                             while ((elem = elem.parentNode) && 1 === elem.nodeType);
                             return !1;
@@ -3864,7 +3864,7 @@
                 text: function (elem) {
                     var attr;
                     return (
-                        elem.nodeName.toLowerCase() === "input" &&
+                        "input" === elem.nodeName.toLowerCase() &&
                 "text" === elem.type &&
                 ((attr = elem.getAttribute("type")) == null ||
                   attr.toLowerCase() === elem.type)
@@ -5228,7 +5228,7 @@
                 i++
             )
                 if (((elem = elems[i]), elem || 0 === elem)) {
-                    if (jQuery.type(elem) === "object")
+                    if ("object" === jQuery.type(elem))
                         jQuery.merge(nodes,
                             elem.nodeType ? [elem] : elem);
                     else if (!/<|&#?\w+;/.test(elem))
@@ -5289,8 +5289,8 @@
                 (elem = nodes[i++]);
 
             ) {
-                if (selection && jQuery.inArray(elem,
-                    selection) !== -1) continue;
+                if (selection && -1 !== jQuery.inArray(elem,
+                    selection)) continue;
                 if (
                     ((contains = jQuery.contains(elem.ownerDocument,
                         elem)),
@@ -5369,8 +5369,8 @@
     function isHidden(elem, el) {
         return (
             (elem = el || elem),
-            jQuery.css(elem,
-                "display") === "none" ||
+            "none" === jQuery.css(elem,
+                "display") ||
         !jQuery.contains(elem.ownerDocument,
             elem)
         );
@@ -5519,7 +5519,7 @@
                     ("number" !== type || jQuery.cssNumber[origName] || (value += "px"),
                     !jQuery.support.clearCloneStyle &&
               "" === value &&
-              name.indexOf("background") === 0 &&
+              0 === name.indexOf("background") &&
               (style[name] = "inherit"),
                     !hooks ||
               !("set" in hooks) ||
@@ -5689,10 +5689,10 @@
             styles = getStyles(elem),
             isBorderBox =
         jQuery.support.boxSizing &&
-        jQuery.css(elem,
+        "border-box" === jQuery.css(elem,
             "boxSizing",
             !1,
-            styles) === "border-box";
+            styles);
         if (0 >= val || null == val) {
             if (
                 ((val = curCSS(elem,
@@ -5794,10 +5794,10 @@
                                 name,
                                 extra,
                                 jQuery.support.boxSizing &&
-                  jQuery.css(elem,
+                  "border-box" === jQuery.css(elem,
                       "boxSizing",
                       !1,
-                      styles) === "border-box",
+                      styles),
                                 styles,
                             )
                             : 0,
@@ -5829,8 +5829,8 @@
               if (
                   ((style.zoom = 1),
                   (value >= 1 || "" === value) &&
-              jQuery.trim(filter.replace(ralpha,
-                  "")) === "" &&
+              "" === jQuery.trim(filter.replace(ralpha,
+                  "")) &&
               style.removeAttribute)
               ) {
                   if (
@@ -6006,7 +6006,7 @@
                             add,
                         );
                 });
-        else if (!traditional && jQuery.type(obj) === "object")
+        else if (!traditional && "object" === jQuery.type(obj))
             for (name in obj)
                 buildParams(prefix + "[" + name + "]",
                     obj[name],
@@ -7014,12 +7014,12 @@
         1 === elem.nodeType &&
         ("height" in props || "width" in props) &&
         ((opts.overflow = [style.overflow, style.overflowX, style.overflowY]),
-        jQuery.css(elem,
-            "display") === "inline" &&
-          jQuery.css(elem,
-              "float") === "none" &&
+        "inline" === jQuery.css(elem,
+            "display") &&
+          "none" === jQuery.css(elem,
+              "float") &&
           (jQuery.support.inlineBlockNeedsLayout &&
-          css_defaultDisplay(elem.nodeName) !== "inline"
+          "inline" !== css_defaultDisplay(elem.nodeName)
               ? (style.display = "inline-block")
               : (style.zoom = 1))),
         opts.overflow &&
@@ -7478,8 +7478,8 @@
                 },
                 elem = this[0];
             return (
-                jQuery.css(elem,
-                    "position") === "fixed"
+                "fixed" === jQuery.css(elem,
+                    "position")
                     ? (offset = elem.getBoundingClientRect())
                     : ((offsetParent = this.offsetParent()),
                     (offset = this.offset()),
@@ -7517,8 +7517,8 @@
                     offsetParent &&
             !jQuery.nodeName(offsetParent,
                 "html") &&
-            jQuery.css(offsetParent,
-                "position") === "static";
+            "static" === jQuery.css(offsetParent,
+                "position");
 
                 )
                     offsetParent = offsetParent.offsetParent;

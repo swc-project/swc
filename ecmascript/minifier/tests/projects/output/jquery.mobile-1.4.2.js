@@ -236,7 +236,7 @@
                         (element.parentNode.name,
                         !element.href ||
               !element.parentNode.name ||
-              element.parentNode.nodeName.toLowerCase() !== "map")
+              "map" !== element.parentNode.nodeName.toLowerCase())
                     )
                         return !1;
                     return (
@@ -259,8 +259,8 @@
               .parents()
               .addBack()
               .filter(function () {
-                  return jQuery.css(this,
-                      "visibility") === "hidden";
+                  return "hidden" === jQuery.css(this,
+                      "visibility");
               }).length
                 );
             }
@@ -446,7 +446,7 @@
                     keyCode: jQuery.ui.keyCode,
                     behaviors: {},
                     silentScroll: function (ypos) {
-                        jQuery.type(ypos) !== "number" &&
+                        "number" !== jQuery.type(ypos) &&
             (ypos = jQuery.mobile.defaultHomeScroll),
                         (jQuery.event.special.scrollstart.enabled = !1),
                         setTimeout(function () {
@@ -835,7 +835,7 @@
                                     );
                                 if (
                                     !jQuery.isFunction(instance[options]) ||
-                      options.charAt(0) === "_"
+                      "_" === options.charAt(0)
                                 )
                                     return jQuery.error(
                                         "no such method '" +
@@ -1238,7 +1238,7 @@
                     show: function (theme, msgText, textonly) {
                         var message, loadSettings;
                         this.resetHtml(),
-                        jQuery.type(theme) === "object"
+                        "object" === jQuery.type(theme)
                             ? ((loadSettings = jQuery.extend({},
                                 this.options,
                                 theme)),
@@ -1451,7 +1451,7 @@
                 vendors = ["Webkit", "Moz", "O"],
                 operamini =
           window.operamini &&
-          {}.toString.call(window.operamini) === "[object OperaMini]",
+          "[object OperaMini]" === {}.toString.call(window.operamini),
                 bb = window.blackberry && !propExists("-webkit-transform"),
                 nokiaLTE7_3;
             jQuery.extend(jQuery.mobile,
@@ -1472,7 +1472,7 @@
             "replaceState" in history &&
             (!(window.navigator.userAgent.indexOf("Firefox") >= 0) ||
               !(window.top !== window)) &&
-            window.navigator.userAgent.search(/CriOS/) === -1,
+            -1 === window.navigator.userAgent.search(/CriOS/),
                     mediaquery: jQuery.mobile.media("only all"),
                     cssPseudoElement: !!propExists("content"),
                     touchOverflow: !!propExists("overflowScrolling"),
@@ -1518,7 +1518,7 @@
                 wkversion &&
                 534 > wkversion) ||
               (w.operamini &&
-                {}.toString.call(w.operamini) === "[object OperaMini]") ||
+                "[object OperaMini]" === {}.toString.call(w.operamini)) ||
               (operammobilematch && 7458 > omversion) ||
               (ua.indexOf("Android") > -1 && wkversion && 533 > wkversion) ||
               (ffversion && 6 > ffversion) ||
@@ -1555,7 +1555,7 @@
                             link[0].href,
                             (base[0].href = href || location.pathname),
                             fauxEle && fauxEle.remove(),
-                            link[0].href.indexOf(fauxBase) === 0
+                            0 === link[0].href.indexOf(fauxBase)
                         );
                     })(),
                     cssPointerEvents: (function () {
@@ -1586,7 +1586,7 @@
                     "http://www.w3.org/2000/svg",
                     "svg",
                 ).createSVGRect &&
-                (!w.opera || navigator.userAgent.indexOf("Chrome") !== -1),
+                (!w.opera || -1 !== navigator.userAgent.indexOf("Chrome")),
                             support = function (data) {
                                 (!data || !svg) && jQuery("html").addClass("ui-nosvg");
                             },
@@ -1617,7 +1617,7 @@
               (jQuery.mobile.browser.oldIE &&
                 jQuery.mobile.browser.oldIE >= 8)) &&
             (jQuery.support.boundingRect ||
-              jQuery.fn.jquery.match(/1\.[0-7+]\.[0-9+]?/) !== null)
+              null !== jQuery.fn.jquery.match(/1\.[0-7+]\.[0-9+]?/))
                 );
             }),
             (jQuery.mobile.ajaxBlacklist =
@@ -1735,7 +1735,7 @@
                     return this.parseUrl(this.getLocation());
                 },
                 parseUrl: function (url) {
-                    if (jQuery.type(url) === "object") return url;
+                    if ("object" === jQuery.type(url)) return url;
                     var matches = path.urlParseRE.exec(url || "") || [];
                     return {
                         href: matches[0] || "",
@@ -1820,7 +1820,7 @@
                     return (
                         u.hrefNoSearch +
             s +
-            (s.charAt(s.length - 1) !== "?" ? "&" : "") +
+            ("?" !== s.charAt(s.length - 1) ? "&" : "") +
             p +
             (u.hash || "")
                     );
@@ -1922,14 +1922,14 @@
                         this.parseUrl(href).search,
                         isPath
                             ? ((path.isPath(preservedHash) ||
-                  preservedHash.replace("#",
-                      "").indexOf(this.uiStateKey) ===
-                    0) &&
+                  0 ===
+                    preservedHash.replace("#",
+                        "").indexOf(this.uiStateKey)) &&
                   (preservedHash = ""),
                             uiState &&
-                  preservedHash.indexOf(this.uiStateKey) === -1 &&
+                  -1 === preservedHash.indexOf(this.uiStateKey) &&
                   (preservedHash += uiState),
-                            preservedHash.indexOf("#") === -1 &&
+                            -1 === preservedHash.indexOf("#") &&
                   "" !== preservedHash &&
                   (preservedHash = "#" + preservedHash),
                             (href = path.parseUrl(href)),
@@ -1945,12 +1945,12 @@
                     );
                 },
                 isPreservableHash: function (hash) {
-                    return hash.replace("#",
-                        "").indexOf(this.uiStateKey) === 0;
+                    return 0 === hash.replace("#",
+                        "").indexOf(this.uiStateKey);
                 },
                 hashToSelector: function (hash) {
-                    var hasHash = hash.substring(0,
-                        1) === "#";
+                    var hasHash = "#" === hash.substring(0,
+                        1);
                     return (
                         hasHash && (hash = hash.substring(1)),
                         (hasHash ? "#" : "") +
@@ -1983,7 +1983,7 @@
                     return (
                         jQuery.mobile.allowCrossDomainPages &&
             ("file:" === docUrl.protocol || "content:" === docUrl.protocol) &&
-            reqUrl.search(/^https?:/) !== -1
+            -1 !== reqUrl.search(/^https?:/)
                     );
                 },
             }),
@@ -2030,7 +2030,7 @@
                     (data ||= {}),
                     this.getNext() && this.clearForward(),
                     data.hash &&
-            data.hash.indexOf("#") === -1 &&
+            -1 === data.hash.indexOf("#") &&
             (data.hash = "#" + data.hash),
                     (data.url = url),
                     this.stack.push(data),
@@ -2316,9 +2316,10 @@
                     ? (void 0 === fallbackTime &&
                 (jQuery(this).context !== document &&
                   (duration =
+                    3000 *
                     parseFloat(
                         jQuery(this).css(props[animationType].duration),
-                    ) * 3000),
+                    )),
                 (0 === duration || void 0 === duration || isNaN(duration)) &&
                   (duration = jQuery.fn.animationComplete.defaultDuration)),
                     (timer = setTimeout(function () {
@@ -2393,7 +2394,7 @@
                     (t.search(/mouse(down|up)|click/) > -1 &&
             !event.which &&
             (event.which = 1),
-                    t.search(/^touch/) !== -1)
+                    -1 !== t.search(/^touch/))
                 ) {
                     if (
                         ((ne = getNativeEvent(event.originalEvent)),
@@ -3186,9 +3187,9 @@
                                 pagebeforeshow: "_handlePageBeforeShow",
                             }),
                         this.element.enhanceWithin(),
-                        jQuery.mobile.getAttribute(this.element[0],
-                            "role") ===
-                "dialog" &&
+                        "dialog" ===
+                jQuery.mobile.getAttribute(this.element[0],
+                    "role") &&
                 jQuery.mobile.dialog &&
                 this.element.dialog();
                     },
@@ -3213,7 +3214,7 @@
                     theme ||
                     self.options.contentTheme ||
                     (self.options.dialog && self.options.theme) ||
-                    (self.element.jqmData("role") === "dialog" &&
+                    ("dialog" === self.element.jqmData("role") &&
                       self.options.theme)),
                                 $this.addClass("ui-content"),
                                 self.options.contentTheme &&
@@ -3369,7 +3370,7 @@
                         url || (url = this._getHash()),
                         (!url ||
               "#" === url ||
-              url.indexOf("#" + jQuery.mobile.path.uiStateKey) === 0) &&
+              0 === url.indexOf("#" + jQuery.mobile.path.uiStateKey)) &&
               (url = location.href),
                         this._handleNavigate(url,
                             data.state);
@@ -3419,7 +3420,7 @@
                     _handleDestination: function (to) {
                         var history;
                         return (
-                            jQuery.type(to) === "string" &&
+                            "string" === jQuery.type(to) &&
               (to = jQuery.mobile.path.stripHash(to)),
                             to &&
               ((history = this._getHistory()),
@@ -3893,7 +3894,7 @@
                                     toPage: to,
                                     options: settings,
                                 }),
-                            jQuery.type(to) === "string"
+                            "string" === jQuery.type(to)
                                 ? (triggerData.absUrl = jQuery.mobile.path.makeUrlAbsolute(
                                     to,
                                     this._findBaseWithDefault(),
@@ -3923,7 +3924,7 @@
                         ))
                             ? void 0
                             : void (triggerData.toPage,
-                            jQuery.type(triggerData.toPage) === "string"
+                            "string" === jQuery.type(triggerData.toPage)
                                 ? ((isPageTransitioning = !0),
                                 this._loadUrl(triggerData.toPage,
                                     triggerData,
@@ -3980,7 +3981,7 @@
                             (pageTitle = document.title),
                             (isDialog =
               ("dialog" === settings.role ||
-                toPage.jqmData("role") === "dialog") &&
+                "dialog" === toPage.jqmData("role")) &&
               toPage.jqmData("dialog") !== !0),
                             settings.fromPage &&
               settings.fromPage[0] === toPage[0] &&
@@ -4005,7 +4006,7 @@
               (historyDir = "back" === settings.direction ? -1 : 1);
                         try {
                             document.activeElement &&
-            document.activeElement.nodeName.toLowerCase() !== "body"
+            "body" !== document.activeElement.nodeName.toLowerCase()
                                 ? jQuery(document.activeElement).blur()
                                 : jQuery("input:focus, textarea:focus, select:focus").blur();
                         } catch (e) {}
@@ -4051,7 +4052,7 @@
                         url &&
               !settings.fromHashChange &&
               (!jQuery.mobile.path.isPath(url) &&
-                url.indexOf("#") < 0 &&
+                0 > url.indexOf("#") &&
                 (url = "#" + url),
               (params = {
                   transition: settings.transition,
@@ -4118,7 +4119,7 @@
                 for (; ele; ) {
                     if (
                         "string" == typeof ele.nodeName &&
-            ele.nodeName.toLowerCase() === "a"
+            "a" === ele.nodeName.toLowerCase()
                     )
                         break;
                     ele = ele.parentNode;
@@ -4230,7 +4231,7 @@
                           type: method,
                           data: jQuery.param(formData),
                           transition: $form.jqmData("transition"),
-                          reverse: $form.jqmData("direction") === "reverse",
+                          reverse: "reverse" === $form.jqmData("direction"),
                           reloadPage: !0,
                       },
                   })),
@@ -4336,7 +4337,7 @@
                             httpCleanup();
                             return;
                         }
-                        if (href.search("#") !== -1) {
+                        if (-1 !== href.search("#")) {
                             if (((href = href.replace(/[^#]*#/,
                                 "")), !href)) {
                                 event.preventDefault();
@@ -4367,7 +4368,7 @@
                         }
                         (transition = $link.jqmData("transition")),
                         (reverse =
-                  $link.jqmData("direction") === "reverse" ||
+                  "reverse" === $link.jqmData("direction") ||
                   $link.jqmData("back")),
                         (role =
                   $link.attr("data-" + jQuery.mobile.ns + "rel") || void 0),
@@ -4391,8 +4392,8 @@
                                 var $link = jQuery(this),
                                     url = $link.attr("href");
                                 url &&
-                      jQuery.inArray(url,
-                          urls) === -1 &&
+                      -1 === jQuery.inArray(url,
+                          urls) &&
                       (urls.push(url),
                       jQuery.mobile.loadPage(url,
                           {
@@ -4631,7 +4632,7 @@
         (jQuery.mobile.getMaxScrollForTransition =
       jQuery.mobile.getMaxScrollForTransition ||
       function () {
-          return jQuery.mobile.getScreenHeight() * 3;
+          return 3 * jQuery.mobile.getScreenHeight();
       }),
         (jQuery.mobile.transitionFallbacks.flip = "fade"),
         (jQuery.mobile.transitionFallbacks.flow = "fade"),
@@ -5647,19 +5648,20 @@
                                 (item = li.eq(pos)),
                                 (itemClass = ""),
                                 (create ||
-                    item[0].className.search(
-                        /\bui-li-static\b|\bui-li-divider\b/,
-                    ) < 0) &&
+                    0 >
+                      item[0].className.search(
+                          /\bui-li-static\b|\bui-li-divider\b/,
+                      )) &&
                     ((a = this._getChildrenByTagName(item[0],
                         "a",
                         "A")),
-                    (isDivider = getAttr(item[0],
-                        "role") === "list-divider"),
+                    (isDivider = "list-divider" === getAttr(item[0],
+                        "role")),
                     (value = item.attr("value")),
                     (itemTheme = getAttr(item[0],
                         "theme")),
                     a.length &&
-                    a[0].className.search(/\bui-btn\b/) < 0 &&
+                    0 > a[0].className.search(/\bui-btn\b/) &&
                     !isDivider
                         ? ((itemIcon = getAttr(item[0],
                             "icon")),
@@ -6808,7 +6810,7 @@
                             ((newval = (percent / 100) * (max - min) + min),
                             (valModStep = (newval - min) % step),
                             (alignValue = newval - valModStep),
-                            Math.abs(valModStep) * 2 >= step &&
+                            2 * Math.abs(valModStep) >= step &&
                 (alignValue += valModStep > 0 ? step : -step),
                             (percentPerStep = 100 / ((max - min) / step)),
                             (newval = parseFloat(alignValue.toFixed(5))),
@@ -8471,9 +8473,9 @@
               ((offset = dst.offset()),
               (x = offset.left + dst.outerWidth() / 2),
               (y = offset.top + dst.outerHeight() / 2)),
-                            (jQuery.type(x) !== "number" || isNaN(x)) &&
+                            ("number" !== jQuery.type(x) || isNaN(x)) &&
               (x = windowCoordinates.cx / 2 + windowCoordinates.x),
-                            (jQuery.type(y) !== "number" || isNaN(y)) &&
+                            ("number" !== jQuery.type(y) || isNaN(y)) &&
               (y = windowCoordinates.cy / 2 + windowCoordinates.y),
                             {
                                 x: x,
@@ -8702,7 +8704,7 @@
                 !currentIsDialog &&
                 jQuery.mobile.navigate.history.activeIndex > 0)
                                     ? (self._open(options), self._bindContainerClose(), this)
-                                    : (url.indexOf(jQuery.mobile.dialogHashKey) !== -1 ||
+                                    : (-1 !== url.indexOf(jQuery.mobile.dialogHashKey) ||
               currentIsDialog
                                         ? (url +=
                     url.indexOf("#") > -1
@@ -8978,7 +8980,7 @@
                             this.refresh(),
                             this._origTabIndex === void 0 &&
                 (this._origTabIndex =
-                  this.select[0].getAttribute("tabindex") === null
+                  null === this.select[0].getAttribute("tabindex")
                       ? !1
                       : this.select.attr("tabindex")),
                             this.select.attr("tabindex",
@@ -9187,7 +9189,7 @@
                                 "#"),
                             anchor.appendChild(document.createTextNode(text)),
                             option.parentNode !== select &&
-                option.parentNode.nodeName.toLowerCase() === "optgroup" &&
+                "optgroup" === option.parentNode.nodeName.toLowerCase() &&
                 ((optLabel = option.parentNode.getAttribute("label")),
                 optGroup !== optLabel &&
                   ((divider = document.createElement("li")),
@@ -9319,13 +9321,13 @@
                     }[classes[idx]]),
                     void 0 !== map
                         ? ((unknownClass = !1), (o[map] = !0))
-                        : classes[idx].indexOf("ui-btn-icon-") === 0
+                        : 0 === classes[idx].indexOf("ui-btn-icon-")
                             ? ((unknownClass = !1),
                             (noIcon = !1),
                             (o.iconpos = classes[idx].substring(12)))
-                            : classes[idx].indexOf("ui-icon-") === 0
+                            : 0 === classes[idx].indexOf("ui-icon-")
                                 ? ((unknownClass = !1), (o.icon = classes[idx].substring(8)))
-                                : classes[idx].indexOf("ui-btn-") === 0 &&
+                                : 0 === classes[idx].indexOf("ui-btn-") &&
                 classes[idx].length === 8
                                     ? ((unknownClass = !1), (o.theme = classes[idx].substring(7)))
                                     : classes[idx] === "ui-btn" &&
@@ -9383,7 +9385,7 @@
                             retrievedOptions),
                         data.unknownClasses,
                     ).join(" ")),
-                    el.tagName.toLowerCase() !== "button" &&
+                    "button" !== el.tagName.toLowerCase() &&
               el.setAttribute("role",
                   "button");
                 }
@@ -10626,7 +10628,7 @@
                                 (self._openedPage = self._page());
                             };
                         self._trigger("beforeopen"),
-                        self._page().jqmData("panel") === "open"
+                        "open" === self._page().jqmData("panel")
                             ? self.document.on("panelclose",
                                 function () {
                                     _openPanel();
@@ -10959,7 +10961,7 @@
                     this._menu.find("input").each(function () {
                         var checkbox = jQuery(this);
                         (this.checked =
-            checkbox.jqmData("cells").eq(0).css("display") === "table-cell"),
+            "table-cell" === checkbox.jqmData("cells").eq(0).css("display")),
                         checkbox.checkboxradio("refresh");
                     });
                 },
@@ -11031,14 +11033,15 @@
         (function ($, undefined) {
             var defaultFilterCallback = function (index, searchValue) {
                 return (
-                    (
-                        "" +
+                    -1 ===
+          (
+              "" +
             (jQuery.mobile.getAttribute(this,
                 "filtertext") ||
               jQuery(this).text())
-                    )
-                        .toLowerCase()
-                        .indexOf(searchValue) === -1
+          )
+              .toLowerCase()
+              .indexOf(searchValue)
                 );
             };
             jQuery.widget("mobile.filterable",
@@ -11566,8 +11569,8 @@
                                 index
                             );
                         }
-                        for (; jQuery.inArray(constrain(),
-                            this.options.disabled) !== -1; )
+                        for (; -1 !== jQuery.inArray(constrain(),
+                            this.options.disabled); )
                             index = goingForward ? index + 1 : index - 1;
                         return index;
                     },
@@ -11732,8 +11735,8 @@
                 ? (disabled = !1)
                 : disabled.length === this.anchors.length && (disabled = !0));
                         for (var i = 0, li; (li = this.tabs[i]); i++)
-                            !0 === disabled || jQuery.inArray(i,
-                                disabled) !== -1
+                            !0 === disabled || -1 !== jQuery.inArray(i,
+                                disabled)
                                 ? jQuery(li)
                                     .addClass("ui-state-disabled")
                                     .attr("aria-disabled",
@@ -11892,7 +11895,7 @@
                             : toShow.length &&
                 this.tabs
                     .filter(function () {
-                        return jQuery(this).attr("tabIndex") === 0;
+                        return 0 === jQuery(this).attr("tabIndex");
                     })
                     .attr("tabIndex",
                         -1),
@@ -12000,8 +12003,8 @@
                         else {
                             if (
                                 ((index = this._getIndex(index)),
-                                jQuery.inArray(index,
-                                    disabled) !== -1)
+                                -1 !== jQuery.inArray(index,
+                                    disabled))
                             )
                                 return;
                             jQuery.isArray(disabled)
@@ -12203,7 +12206,7 @@
                 jQuery.mobile.hideUrlBar && window1.scrollTo(0,
                     1),
                 (jQuery.mobile.defaultHomeScroll =
-              jQuery.support.scrollTop && jQuery.mobile.window.scrollTop() !== 1
+              jQuery.support.scrollTop && 1 !== jQuery.mobile.window.scrollTop()
                   ? 0
                   : 1),
                 jQuery.mobile.autoInitializePage && jQuery.mobile.initializePage(),

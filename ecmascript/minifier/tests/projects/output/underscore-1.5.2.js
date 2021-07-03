@@ -221,7 +221,7 @@
         return null == obj
             ? !1
             : nativeIndexOf && obj.indexOf === nativeIndexOf
-                ? obj.indexOf(target) != -1
+                ? -1 != obj.indexOf(target)
                 : any(obj,
                     function (value) {
                         return target === value;
@@ -974,7 +974,7 @@
     (_.isArray =
       nativeIsArray ||
       function (obj) {
-          return toString.call(obj) == "[object Array]";
+          return "[object Array]" == toString.call(obj);
       }),
     (_.isObject = function (obj) {
         return obj === Object(obj);
@@ -1004,7 +1004,7 @@
     }),
     (_.isBoolean = function (obj) {
         return (
-            !0 === obj || !1 === obj || toString.call(obj) == "[object Boolean]"
+            !0 === obj || !1 === obj || "[object Boolean]" == toString.call(obj)
         );
     }),
     (_.isNull = function (obj) {
