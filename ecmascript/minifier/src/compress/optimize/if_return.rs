@@ -84,7 +84,7 @@ impl Optimizer<'_> {
                 })
                 .unwrap();
 
-            if stmts.len() - start == 1 || !ends_with_mergable {
+            if stmts.len() == start || !ends_with_mergable {
                 return;
             }
 
@@ -287,7 +287,7 @@ impl Optimizer<'_> {
     fn can_merge_stmt_as_if_return(&self, s: &Stmt) -> bool {
         match s {
             Stmt::Expr(..) | Stmt::Return(..) => true,
-            Stmt::If(stmt) if self.options.conditionals => {
+            Stmt::If(stmt) => {
                 self.can_merge_stmt_as_if_return(&stmt.cons)
                     && stmt
                         .alt
