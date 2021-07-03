@@ -18,6 +18,16 @@ use swc_ecma_utils::Value::Known;
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer<'_> {
+    pub(super) fn negate_cond(&mut self, cond: &mut CondExpr) {
+        let negated_test = match &mut *cond.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => &mut **arg,
+
+            _ => return,
+        };
+    }
+
     /// Removes useless operands of an logical expressions.
     pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
