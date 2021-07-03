@@ -41,11 +41,13 @@
           "=" +
           encodeURIComponent(
               (function (obj) {
-                  if ("function" == typeof obj)
-                      return obj.toString().replace(/ \{[\s\S]*$/, "");
-                  if ("undefined" == typeof obj) return "undefined";
-                  if ("string" !== typeof obj) return JSON.stringify(obj);
-                  return obj;
+                  return "function" == typeof obj
+                      ? obj.toString().replace(/ \{[\s\S]*$/, "")
+                      : "undefined" == typeof obj
+                          ? "undefined"
+                          : "string" !== typeof obj
+                              ? JSON.stringify(obj)
+                              : obj;
               })(arguments[i]),
           );
             return new Error(message);
@@ -203,17 +205,15 @@
     function isFile(obj) {
         return toString.call(obj) === "[object File]";
     }
-    var trim = (function () {
-        if (!String.prototype.trim)
-            return function (value) {
-                return isString(value)
-                    ? value.replace(/^\s\s*/, "").replace(/\s\s*$/, "")
-                    : value;
-            };
-        return function (value) {
+    var trim = !String.prototype.trim
+        ? function (value) {
+            return isString(value)
+                ? value.replace(/^\s\s*/, "").replace(/\s\s*$/, "")
+                : value;
+        }
+        : function (value) {
             return isString(value) ? value.trim() : value;
         };
-    })();
     function isElement(node) {
         return !(!node || !(node.nodeName || (node.on && node.find)));
     }
@@ -364,8 +364,8 @@
     }
     function bind(self, fn) {
         var curryArgs = arguments.length > 2 ? sliceArgs(arguments, 2) : [];
-        if (isFunction(fn) && !(fn instanceof RegExp))
-            return curryArgs.length
+        return isFunction(fn) && !(fn instanceof RegExp)
+            ? curryArgs.length
                 ? function () {
                     return arguments.length
                         ? fn.apply(self, curryArgs.concat(slice.call(arguments, 0)))
@@ -373,8 +373,8 @@
                 }
                 : function () {
                     return arguments.length ? fn.apply(self, arguments) : fn.call(self);
-                };
-        return fn;
+                }
+            : fn;
     }
     function toJsonReplacer(key, value) {
         var val = value;
@@ -390,8 +390,9 @@
         );
     }
     function toJson(obj, pretty) {
-        if ("undefined" == typeof obj) return void 0;
-        return JSON.stringify(obj, toJsonReplacer, pretty ? "  " : null);
+        return "undefined" == typeof obj
+            ? void 0
+            : JSON.stringify(obj, toJsonReplacer, pretty ? "  " : null);
     }
     function fromJson(json) {
         return isString(json) ? JSON.parse(json) : json;
@@ -852,12 +853,11 @@
         } else return data;
     }
     function jqLiteHasClass(element, selector) {
-        if (!element.getAttribute) return !1;
-        return (
-            (" " + (element.getAttribute("class") || "") + " ")
+        return !element.getAttribute
+            ? !1
+            : (" " + (element.getAttribute("class") || "") + " ")
                 .replace(/[\n\t]/g, " ")
-                .indexOf(" " + selector + " ") > -1
-        );
+                .indexOf(" " + selector + " ") > -1;
     }
     function jqLiteRemoveClass(element, cssClasses) {
         cssClasses &&
@@ -1281,9 +1281,9 @@
                 return elm;
             },
             find: function (element, selector) {
-                if (element.getElementsByTagName)
-                    return element.getElementsByTagName(selector);
-                return [];
+                return element.getElementsByTagName
+                    ? element.getElementsByTagName(selector)
+                    : [];
             },
             clone: jqLiteClone,
             triggerHandler: function (element, eventName, eventData) {
@@ -1844,14 +1844,12 @@
             );
         }),
         (self.defer.cancel = function (deferId) {
-            if (pendingDeferIds[deferId])
-                return (
-                    delete pendingDeferIds[deferId],
-                    clearTimeout(deferId),
-                    completeOutstandingRequest(noop),
-                    !0
-                );
-            return !1;
+            return pendingDeferIds[deferId]
+                ? (delete pendingDeferIds[deferId],
+                clearTimeout(deferId),
+                completeOutstandingRequest(noop),
+                !0)
+                : !1;
         });
     }
     function $BrowserProvider() {
@@ -1891,18 +1889,16 @@
               (lruHash[key] = {
                   key: key,
               });
-                        if ((refresh(lruEntry), isUndefined(value))) return;
-                        return (
-                            key in data || size++,
+                        return (refresh(lruEntry), isUndefined(value))
+                            ? void 0
+                            : (key in data || size++,
                             (data[key] = value),
                             size > capacity && this.remove(staleEnd.key),
-                            value
-                        );
+                            value);
                     },
                     get: function (key) {
                         var lruEntry = lruHash[key];
-                        if (!lruEntry) return;
-                        return refresh(lruEntry), data[key];
+                        return !lruEntry ? void 0 : (refresh(lruEntry), data[key]);
                     },
                     remove: function (key) {
                         var lruEntry = lruHash[key];
@@ -2025,16 +2021,14 @@
             );
         }),
         (this.aHrefSanitizationWhitelist = function (regexp) {
-            if (isDefined(regexp))
-                return $$sanitizeUriProvider.aHrefSanitizationWhitelist(regexp), this;
-            return $$sanitizeUriProvider.aHrefSanitizationWhitelist();
+            return isDefined(regexp)
+                ? ($$sanitizeUriProvider.aHrefSanitizationWhitelist(regexp), this)
+                : $$sanitizeUriProvider.aHrefSanitizationWhitelist();
         }),
         (this.imgSrcSanitizationWhitelist = function (regexp) {
-            if (isDefined(regexp))
-                return (
-                    $$sanitizeUriProvider.imgSrcSanitizationWhitelist(regexp), this
-                );
-            return $$sanitizeUriProvider.imgSrcSanitizationWhitelist();
+            return isDefined(regexp)
+                ? ($$sanitizeUriProvider.imgSrcSanitizationWhitelist(regexp), this)
+                : $$sanitizeUriProvider.imgSrcSanitizationWhitelist();
         }),
         (this.$get = [
             "$injector",
@@ -3166,9 +3160,13 @@
                 }
                 function byPriority(a, b) {
                     var diff = b.priority - a.priority;
-                    if (0 !== diff) return diff;
-                    if (a.name !== b.name) return a.name < b.name ? -1 : 1;
-                    return a.index - b.index;
+                    return 0 !== diff
+                        ? diff
+                        : a.name !== b.name
+                            ? a.name < b.name
+                                ? -1
+                                : 1
+                            : a.index - b.index;
                 }
                 function assertNoDuplicate(
                     what,
@@ -3389,34 +3387,32 @@
             key,
             val,
             i;
-        if (!headers) return parsed;
-        return (
-            forEach(headers.split("\n"), function (line) {
+        return !headers
+            ? parsed
+            : (forEach(headers.split("\n"), function (line) {
                 (i = line.indexOf(":")),
                 (key = lowercase(trim(line.substr(0, i)))),
                 (val = trim(line.substr(i + 1))),
                 key &&
-            (parsed[key] ? (parsed[key] += ", " + val) : (parsed[key] = val));
+              (parsed[key] ? (parsed[key] += ", " + val) : (parsed[key] = val));
             }),
-            parsed
-        );
+            parsed);
     }
     function headersGetter(headers) {
         var headersObj = isObject(headers) ? headers : void 0;
         return function (name) {
-            if ((headersObj || (headersObj = parseHeaders(headers)), name))
-                return headersObj[lowercase(name)] || null;
-            return headersObj;
+            return (headersObj || (headersObj = parseHeaders(headers)), name)
+                ? headersObj[lowercase(name)] || null
+                : headersObj;
         };
     }
     function transformData(data, headers, fns) {
-        if (isFunction(fns)) return fns(data, headers);
-        return (
-            forEach(fns, function (fn) {
+        return isFunction(fns)
+            ? fns(data, headers)
+            : (forEach(fns, function (fn) {
                 data = fn(data, headers);
             }),
-            data
-        );
+            data);
     }
     function isSuccess(status) {
         return 200 <= status && 300 > status;
@@ -3883,12 +3879,10 @@
         var startSymbol = "{{",
             endSymbol = "}}";
         (this.startSymbol = function (value) {
-            if (value) return (startSymbol = value), this;
-            return startSymbol;
+            return value ? ((startSymbol = value), this) : startSymbol;
         }),
         (this.endSymbol = function (value) {
-            if (value) return (endSymbol = value), this;
-            return endSymbol;
+            return value ? ((endSymbol = value), this) : endSymbol;
         }),
         (this.$get = [
             "$parse",
@@ -4015,14 +4009,12 @@
                 }
                 return (
                     (interval.cancel = function (promise) {
-                        if (promise && promise.$$intervalId in intervals)
-                            return (
-                                intervals[promise.$$intervalId].reject("canceled"),
-                                clearInterval(promise.$$intervalId),
-                                delete intervals[promise.$$intervalId],
-                                !0
-                            );
-                        return !1;
+                        return promise && promise.$$intervalId in intervals
+                            ? (intervals[promise.$$intervalId].reject("canceled"),
+                            clearInterval(promise.$$intervalId),
+                            delete intervals[promise.$$intervalId],
+                            !0)
+                            : !1;
                     }),
                     interval
                 );
@@ -4084,8 +4076,7 @@
                     shortTime: "h:mm a",
                 },
                 pluralCat: function (num) {
-                    if (1 === num) return "one";
-                    return "other";
+                    return 1 === num ? "one" : "other";
                 },
             };
         };
@@ -4204,15 +4195,11 @@
             function removeWindowsDriveName(path, url, base) {
                 var windowsFilePathExp = /^\/?.*?:(\/.*)/,
                     firstPathSegmentMatch;
-                if (
-                    (url.indexOf(base) === 0 && (url = url.replace(base, "")),
-                    windowsFilePathExp.exec(url))
-                )
-                    return path;
-                return (
-                    (firstPathSegmentMatch = windowsFilePathExp.exec(path)),
-                    firstPathSegmentMatch ? firstPathSegmentMatch[1] : path
-                );
+                return (url.indexOf(base) === 0 && (url = url.replace(base, "")),
+                windowsFilePathExp.exec(url))
+                    ? path
+                    : ((firstPathSegmentMatch = windowsFilePathExp.exec(path)),
+                    firstPathSegmentMatch ? firstPathSegmentMatch[1] : path);
             }
         }),
         (this.$$compose = function () {
@@ -4290,20 +4277,19 @@
     }
     function locationGetterSetter(property, preprocess) {
         return function (value) {
-            if (isUndefined(value)) return this[property];
-            return (this[property] = preprocess(value)), this.$$compose(), this;
+            return isUndefined(value)
+                ? this[property]
+                : ((this[property] = preprocess(value)), this.$$compose(), this);
         };
     }
     function $LocationProvider() {
         var hashPrefix = "",
             html5Mode = !1;
         (this.hashPrefix = function (prefix) {
-            if (isDefined(prefix)) return (hashPrefix = prefix), this;
-            return hashPrefix;
+            return isDefined(prefix) ? ((hashPrefix = prefix), this) : hashPrefix;
         }),
         (this.html5Mode = function (mode) {
-            if (isDefined(mode)) return (html5Mode = mode), this;
-            return html5Mode;
+            return isDefined(mode) ? ((html5Mode = mode), this) : html5Mode;
         }),
         (this.$get = [
             "$rootScope",
@@ -4405,8 +4391,7 @@
         var debug = !0,
             self = this;
         (this.debugEnabled = function (flag) {
-            if (isDefined(flag)) return (debug = flag), this;
-            return debug;
+            return isDefined(flag) ? ((debug = flag), this) : debug;
         }),
         (this.$get = [
             "$window",
@@ -4439,8 +4424,8 @@
                 function consoleLog(type) {
                     var console = $window.console || {},
                         logFn = console[type] || console.log || noop;
-                    if (logFn.apply)
-                        return function () {
+                    return logFn.apply
+                        ? function () {
                             var args = [];
                             return (
                                 forEach(arguments, function (arg) {
@@ -4448,10 +4433,10 @@
                                 }),
                                 logFn.apply(console, args)
                             );
+                        }
+                        : function (arg1, arg2) {
+                            logFn(arg1, null == arg2 ? "" : arg2);
                         };
-                    return function (arg1, arg2) {
-                        logFn(arg1, null == arg2 ? "" : arg2);
-                    };
                 }
             },
         ]);
@@ -4937,15 +4922,13 @@
         },
         expect: function (e1, e2, e3, e4) {
             var token = this.peek(e1, e2, e3, e4);
-            if (token)
-                return (
-                    this.json &&
+            return token
+                ? (this.json &&
               !token.json &&
               this.throwError("is not valid json", token),
-                    this.tokens.shift(),
-                    token
-                );
-            return !1;
+                this.tokens.shift(),
+                token)
+                : !1;
         },
         consume: function (e1) {
             this.expect(e1) ||
@@ -5028,21 +5011,19 @@
             var left = this.ternary(),
                 right,
                 token;
-            if ((token = this.expect("=")))
-                return (
-                    left.assign ||
+            return (token = this.expect("="))
+                ? (left.assign ||
               this.throwError(
                   "implies assignment but [" +
                   this.text.substring(0, token.index) +
                   "] can not be assigned to",
                   token,
               ),
-                    (right = this.ternary()),
-                    function (scope, locals) {
-                        return left.assign(scope, right(scope, locals), locals);
-                    }
-                );
-            return left;
+                (right = this.ternary()),
+                function (scope, locals) {
+                    return left.assign(scope, right(scope, locals), locals);
+                })
+                : left;
         },
         ternary: function () {
             var left = this.logicalOR(),
@@ -5107,12 +5088,13 @@
         },
         unary: function () {
             var token;
-            if (this.expect("+")) return this.primary();
-            if ((token = this.expect("-")))
-                return this.binaryFn(Parser.ZERO, token.fn, this.unary());
-            if ((token = this.expect("!")))
-                return this.unaryFn(token.fn, this.unary());
-            return this.primary();
+            return this.expect("+")
+                ? this.primary()
+                : (token = this.expect("-"))
+                    ? this.binaryFn(Parser.ZERO, token.fn, this.unary())
+                    : (token = this.expect("!"))
+                        ? this.unaryFn(token.fn, this.unary())
+                        : this.primary();
         },
         fieldAccess: function (object) {
             var parser = this,
@@ -5146,21 +5128,20 @@
                             i = indexFn(self, locals),
                             v,
                             p;
-                        if (!o) return void 0;
-                        return (
-                            (v = ensureSafeObject(o[i], parser.text)),
+                        return !o
+                            ? void 0
+                            : ((v = ensureSafeObject(o[i], parser.text)),
                             v &&
-                  v.then &&
-                  parser.options.unwrapPromises &&
-                  ((p = v),
-                  "$$v" in v ||
-                    ((p.$$v = void 0),
-                    p.then(function (val) {
-                        p.$$v = val;
-                    })),
-                  (v = v.$$v)),
-                            v
-                        );
+                    v.then &&
+                    parser.options.unwrapPromises &&
+                    ((p = v),
+                    "$$v" in v ||
+                      ((p.$$v = void 0),
+                      p.then(function (val) {
+                          p.$$v = val;
+                      })),
+                    (v = v.$$v)),
+                            v);
                     },
                     {
                         assign: function (self, value, locals) {
@@ -5289,108 +5270,92 @@
                 ? function (scope, locals) {
                     var pathVal =
               locals && locals.hasOwnProperty(key0) ? locals : scope;
-                    if (null == pathVal) return pathVal;
-                    if (
-                        ((pathVal = pathVal[key0]),
+                    return null == pathVal
+                        ? pathVal
+                        : ((pathVal = pathVal[key0]),
                         key1 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    if (
-                        ((pathVal = pathVal[key1]),
-                        key2 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    if (
-                        ((pathVal = pathVal[key2]),
-                        key3 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    if (
-                        ((pathVal = pathVal[key3]),
-                        key4 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    return (pathVal = pathVal[key4]);
+                            ? pathVal
+                            : ((pathVal = pathVal[key1]),
+                            key2 && null !== pathVal && void 0 === pathVal)
+                                ? pathVal
+                                : ((pathVal = pathVal[key2]),
+                                key3 && null !== pathVal && void 0 === pathVal)
+                                    ? pathVal
+                                    : ((pathVal = pathVal[key3]),
+                                    key4 && null !== pathVal && void 0 === pathVal)
+                                        ? pathVal
+                                        : (pathVal = pathVal[key4]);
                 }
                 : function (scope, locals) {
                     var pathVal =
                 locals && locals.hasOwnProperty(key0) ? locals : scope,
                         promise;
-                    if (null == pathVal) return pathVal;
-                    if (
-                        ((pathVal = pathVal[key0]),
+                    return null == pathVal
+                        ? pathVal
+                        : ((pathVal = pathVal[key0]),
                         pathVal &&
-                pathVal.then &&
-                (promiseWarning(fullExp),
-                "$$v" in pathVal ||
-                  ((promise = pathVal),
-                  (promise.$$v = void 0),
-                  promise.then(function (val) {
-                      promise.$$v = val;
-                  })),
-                (pathVal = pathVal.$$v)),
+                  pathVal.then &&
+                  (promiseWarning(fullExp),
+                  "$$v" in pathVal ||
+                    ((promise = pathVal),
+                    (promise.$$v = void 0),
+                    promise.then(function (val) {
+                        promise.$$v = val;
+                    })),
+                  (pathVal = pathVal.$$v)),
                         key1 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    if (
-                        ((pathVal = pathVal[key1]),
-                        pathVal &&
-                pathVal.then &&
-                (promiseWarning(fullExp),
-                "$$v" in pathVal ||
-                  ((promise = pathVal),
-                  (promise.$$v = void 0),
-                  promise.then(function (val) {
-                      promise.$$v = val;
-                  })),
-                (pathVal = pathVal.$$v)),
-                        key2 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    if (
-                        ((pathVal = pathVal[key2]),
-                        pathVal &&
-                pathVal.then &&
-                (promiseWarning(fullExp),
-                "$$v" in pathVal ||
-                  ((promise = pathVal),
-                  (promise.$$v = void 0),
-                  promise.then(function (val) {
-                      promise.$$v = val;
-                  })),
-                (pathVal = pathVal.$$v)),
-                        key3 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    if (
-                        ((pathVal = pathVal[key3]),
-                        pathVal &&
-                pathVal.then &&
-                (promiseWarning(fullExp),
-                "$$v" in pathVal ||
-                  ((promise = pathVal),
-                  (promise.$$v = void 0),
-                  promise.then(function (val) {
-                      promise.$$v = val;
-                  })),
-                (pathVal = pathVal.$$v)),
-                        key4 && null !== pathVal && void 0 === pathVal)
-                    )
-                        return pathVal;
-                    return (
-                        (pathVal = pathVal[key4]),
-                        pathVal &&
-                pathVal.then &&
-                (promiseWarning(fullExp),
-                "$$v" in pathVal ||
-                  ((promise = pathVal),
-                  (promise.$$v = void 0),
-                  promise.then(function (val) {
-                      promise.$$v = val;
-                  })),
-                (pathVal = pathVal.$$v)),
-                        pathVal
-                    );
+                            ? pathVal
+                            : ((pathVal = pathVal[key1]),
+                            pathVal &&
+                  pathVal.then &&
+                  (promiseWarning(fullExp),
+                  "$$v" in pathVal ||
+                    ((promise = pathVal),
+                    (promise.$$v = void 0),
+                    promise.then(function (val) {
+                        promise.$$v = val;
+                    })),
+                  (pathVal = pathVal.$$v)),
+                            key2 && null !== pathVal && void 0 === pathVal)
+                                ? pathVal
+                                : ((pathVal = pathVal[key2]),
+                                pathVal &&
+                  pathVal.then &&
+                  (promiseWarning(fullExp),
+                  "$$v" in pathVal ||
+                    ((promise = pathVal),
+                    (promise.$$v = void 0),
+                    promise.then(function (val) {
+                        promise.$$v = val;
+                    })),
+                  (pathVal = pathVal.$$v)),
+                                key3 && null !== pathVal && void 0 === pathVal)
+                                    ? pathVal
+                                    : ((pathVal = pathVal[key3]),
+                                    pathVal &&
+                  pathVal.then &&
+                  (promiseWarning(fullExp),
+                  "$$v" in pathVal ||
+                    ((promise = pathVal),
+                    (promise.$$v = void 0),
+                    promise.then(function (val) {
+                        promise.$$v = val;
+                    })),
+                  (pathVal = pathVal.$$v)),
+                                    key4 && null !== pathVal && void 0 === pathVal)
+                                        ? pathVal
+                                        : ((pathVal = pathVal[key4]),
+                                        pathVal &&
+                  pathVal.then &&
+                  (promiseWarning(fullExp),
+                  "$$v" in pathVal ||
+                    ((promise = pathVal),
+                    (promise.$$v = void 0),
+                    promise.then(function (val) {
+                        promise.$$v = val;
+                    })),
+                  (pathVal = pathVal.$$v)),
+                                        pathVal);
                 }
         );
     }
@@ -5464,14 +5429,14 @@
                 logPromiseWarnings: !0,
             };
         (this.unwrapPromises = function (value) {
-            if (isDefined(value))
-                return ($parseOptions.unwrapPromises = !!value), this;
-            return $parseOptions.unwrapPromises;
+            return isDefined(value)
+                ? (($parseOptions.unwrapPromises = !!value), this)
+                : $parseOptions.unwrapPromises;
         }),
         (this.logPromiseWarnings = function (value) {
-            if (isDefined(value))
-                return ($parseOptions.logPromiseWarnings = value), this;
-            return $parseOptions.logPromiseWarnings;
+            return isDefined(value)
+                ? (($parseOptions.logPromiseWarnings = value), this)
+                : $parseOptions.logPromiseWarnings;
         }),
         (this.$get = [
             "$filter",
@@ -5631,16 +5596,16 @@
                                 } catch (e) {
                                     return makePromise(e, !1);
                                 }
-                                if (callbackOutput && isFunction(callbackOutput.then))
-                                    return callbackOutput.then(
+                                return callbackOutput && isFunction(callbackOutput.then)
+                                    ? callbackOutput.then(
                                         function () {
                                             return makePromise(value1, isResolved);
                                         },
                                         function (error) {
                                             return makePromise(error, !1);
                                         },
-                                    );
-                                return makePromise(value1, isResolved);
+                                    )
+                                    : makePromise(value1, isResolved);
                             }
                             return this.then(
                                 function (value1) {
@@ -5655,18 +5620,19 @@
                 });
             },
             ref = function (value) {
-                if (value && isFunction(value.then)) return value;
-                return {
-                    then: function (callback) {
-                        var result = defer();
-                        return (
-                            nextTick(function () {
-                                result.resolve(callback(value));
-                            }),
-                            result.promise
-                        );
-                    },
-                };
+                return value && isFunction(value.then)
+                    ? value
+                    : {
+                        then: function (callback) {
+                            var result = defer();
+                            return (
+                                nextTick(function () {
+                                    result.resolve(callback(value));
+                                }),
+                                result.promise
+                            );
+                        },
+                    };
             },
             reject = function (reason) {
                 return {
@@ -6193,29 +6159,28 @@
         var aHrefSanitizationWhitelist = /^\s*(https?|ftp|mailto|tel|file):/,
             imgSrcSanitizationWhitelist = /^\s*(https?|ftp|file):|data:image\//;
         (this.aHrefSanitizationWhitelist = function (regexp) {
-            if (isDefined(regexp)) return (aHrefSanitizationWhitelist = regexp), this;
-            return aHrefSanitizationWhitelist;
+            return isDefined(regexp)
+                ? ((aHrefSanitizationWhitelist = regexp), this)
+                : aHrefSanitizationWhitelist;
         }),
         (this.imgSrcSanitizationWhitelist = function (regexp) {
-            if (isDefined(regexp))
-                return (imgSrcSanitizationWhitelist = regexp), this;
-            return imgSrcSanitizationWhitelist;
+            return isDefined(regexp)
+                ? ((imgSrcSanitizationWhitelist = regexp), this)
+                : imgSrcSanitizationWhitelist;
         }),
         (this.$get = function () {
             return function (uri, isImage) {
-                if (!msie || msie >= 8) {
-                    if (
-                        (urlResolve(uri).href,
-                        urlResolve(uri).href !== "" &&
+                return !msie || msie >= 8
+                    ? (urlResolve(uri).href,
+                    urlResolve(uri).href !== "" &&
                 !urlResolve(uri).href.match(
                     isImage
                         ? imgSrcSanitizationWhitelist
                         : aHrefSanitizationWhitelist,
                 ))
-                    )
-                        return "unsafe:" + urlResolve(uri).href;
-                }
-                return uri;
+                        ? "unsafe:" + urlResolve(uri).href
+                        : void 0
+                    : uri;
             };
         });
     }
@@ -6292,8 +6257,9 @@
                 $injector.has("$sanitize") &&
             (htmlSanitizer = $injector.get("$sanitize"));
                 function matchUrl(matcher, parsedUrl) {
-                    if ("self" === matcher) return urlIsSameOrigin(parsedUrl);
-                    return !!matcher.exec(parsedUrl.href);
+                    return "self" === matcher
+                        ? urlIsSameOrigin(parsedUrl)
+                        : !!matcher.exec(parsedUrl.href);
                 }
                 function isResourceUrlAllowedByPolicy(url) {
                     var parsedUrl = urlResolve(url.toString()),
@@ -6394,9 +6360,9 @@
                             );
                         },
                         valueOf: function (maybeTrusted) {
-                            if (maybeTrusted instanceof trustedValueHolderBase)
-                                return maybeTrusted.$$unwrapTrustedValue();
-                            return maybeTrusted;
+                            return maybeTrusted instanceof trustedValueHolderBase
+                                ? maybeTrusted.$$unwrapTrustedValue()
+                                : maybeTrusted;
                         },
                     }
                 );
@@ -6432,10 +6398,11 @@
               (sce.valueOf = identity)),
                 (sce.parseAs = function (type, expr) {
                     var parsed = $parse(expr);
-                    if (parsed.literal && parsed.constant) return parsed;
-                    return function (self, locals) {
-                        return sce.getTrusted(type, parsed(self, locals));
-                    };
+                    return parsed.literal && parsed.constant
+                        ? parsed
+                        : function (self, locals) {
+                            return sce.getTrusted(type, parsed(self, locals));
+                        };
                 });
                 var parse = sce.parseAs,
                     getTrusted = sce.getTrusted,
@@ -6510,13 +6477,12 @@
                     hashchange:
             "onhashchange" in $window && (!documentMode || documentMode > 7),
                     hasEvent: function (event) {
-                        if ("input" == event && 9 == msie) return !1;
-                        return (
-                            isUndefined(eventSupport[event]) &&
-                (eventSupport[event] =
-                  "on" + event in document1.createElement("div")),
-                            eventSupport[event]
-                        );
+                        return "input" == event && 9 == msie
+                            ? !1
+                            : (isUndefined(eventSupport[event]) &&
+                  (eventSupport[event] =
+                    "on" + event in document1.createElement("div")),
+                            eventSupport[event]);
                     },
                     csp: csp(),
                     vendorPrefix: vendorPrefix,
@@ -6559,13 +6525,11 @@
                 }
                 return (
                     (timeout.cancel = function (promise) {
-                        if (promise && promise.$$timeoutId in deferreds)
-                            return (
-                                deferreds[promise.$$timeoutId].reject("canceled"),
-                                delete deferreds[promise.$$timeoutId],
-                                $browser.defer.cancel(promise.$$timeoutId)
-                            );
-                        return !1;
+                        return promise && promise.$$timeoutId in deferreds
+                            ? (deferreds[promise.$$timeoutId].reject("canceled"),
+                            delete deferreds[promise.$$timeoutId],
+                            $browser.defer.cancel(promise.$$timeoutId))
+                            : !1;
                     }),
                     timeout
                 );
@@ -7274,9 +7238,9 @@
             patternValidator,
             match,
             validate = function (regexp, value) {
-                if (ctrl.$isEmpty(value) || regexp.test(value))
-                    return ctrl.$setValidity("pattern", !0), value;
-                return ctrl.$setValidity("pattern", !1), void 0;
+                return ctrl.$isEmpty(value) || regexp.test(value)
+                    ? (ctrl.$setValidity("pattern", !0), value)
+                    : (ctrl.$setValidity("pattern", !1), void 0);
             };
         if (
             (pattern &&
@@ -7304,9 +7268,9 @@
         ) {
             var minlength = int(attr.ngMinlength),
                 minLengthValidator = function (value) {
-                    if (!ctrl.$isEmpty(value) && value.length < minlength)
-                        return ctrl.$setValidity("minlength", !1), void 0;
-                    return ctrl.$setValidity("minlength", !0), value;
+                    return !ctrl.$isEmpty(value) && value.length < minlength
+                        ? (ctrl.$setValidity("minlength", !1), void 0)
+                        : (ctrl.$setValidity("minlength", !0), value);
                 };
             ctrl.$parsers.push(minLengthValidator),
             ctrl.$formatters.push(minLengthValidator);
@@ -7314,9 +7278,9 @@
         if (attr.ngMaxlength) {
             var maxlength = int(attr.ngMaxlength),
                 maxLengthValidator = function (value) {
-                    if (!ctrl.$isEmpty(value) && value.length > maxlength)
-                        return ctrl.$setValidity("maxlength", !1), void 0;
-                    return ctrl.$setValidity("maxlength", !0), value;
+                    return !ctrl.$isEmpty(value) && value.length > maxlength
+                        ? (ctrl.$setValidity("maxlength", !1), void 0)
+                        : (ctrl.$setValidity("maxlength", !0), value);
                 };
             ctrl.$parsers.push(maxLengthValidator),
             ctrl.$formatters.push(maxLengthValidator);
@@ -7327,12 +7291,10 @@
             (textInputType(scope, element, attr, ctrl, $sniffer, $browser),
             ctrl.$parsers.push(function (value) {
                 var empty = ctrl.$isEmpty(value);
-                if (empty || /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/.test(value))
-                    return (
-                        ctrl.$setValidity("number", !0),
-                        "" === value ? null : empty ? value : parseFloat(value)
-                    );
-                return ctrl.$setValidity("number", !1), void 0;
+                return empty || /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/.test(value)
+                    ? (ctrl.$setValidity("number", !0),
+                    "" === value ? null : empty ? value : parseFloat(value))
+                    : (ctrl.$setValidity("number", !1), void 0);
             }),
             ctrl.$formatters.push(function (value) {
                 return ctrl.$isEmpty(value) ? "" : "" + value;
@@ -7340,51 +7302,45 @@
             attr.min)
         ) {
             var minValidator = function (value) {
-                var min = parseFloat(attr.min);
-                if (!ctrl.$isEmpty(value) && min > value)
-                    return ctrl.$setValidity("min", !1), void 0;
-                return ctrl.$setValidity("min", !0), value;
+                return !ctrl.$isEmpty(value) && parseFloat(attr.min) > value
+                    ? (ctrl.$setValidity("min", !1), void 0)
+                    : (ctrl.$setValidity("min", !0), value);
             };
             ctrl.$parsers.push(minValidator), ctrl.$formatters.push(minValidator);
         }
         if (attr.max) {
             var maxValidator = function (value) {
-                var max = parseFloat(attr.max);
-                if (!ctrl.$isEmpty(value) && value > max)
-                    return ctrl.$setValidity("max", !1), void 0;
-                return ctrl.$setValidity("max", !0), value;
+                return !ctrl.$isEmpty(value) && value > parseFloat(attr.max)
+                    ? (ctrl.$setValidity("max", !1), void 0)
+                    : (ctrl.$setValidity("max", !0), value);
             };
             ctrl.$parsers.push(maxValidator), ctrl.$formatters.push(maxValidator);
         }
         ctrl.$formatters.push(function (value) {
-            if (ctrl.$isEmpty(value) || isNumber(value))
-                return ctrl.$setValidity("number", !0), value;
-            return ctrl.$setValidity("number", !1), void 0;
+            return ctrl.$isEmpty(value) || isNumber(value)
+                ? (ctrl.$setValidity("number", !0), value)
+                : (ctrl.$setValidity("number", !1), void 0);
         });
     }
     function urlInputType(scope, element, attr, ctrl, $sniffer, $browser) {
         textInputType(scope, element, attr, ctrl, $sniffer, $browser);
         var urlValidator = function (value) {
-            if (
-                ctrl.$isEmpty(value) ||
+            return ctrl.$isEmpty(value) ||
         /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/.test(
             value,
         )
-            )
-                return ctrl.$setValidity("url", !0), value;
-            return ctrl.$setValidity("url", !1), void 0;
+                ? (ctrl.$setValidity("url", !0), value)
+                : (ctrl.$setValidity("url", !1), void 0);
         };
         ctrl.$formatters.push(urlValidator), ctrl.$parsers.push(urlValidator);
     }
     function emailInputType(scope, element, attr, ctrl, $sniffer, $browser) {
         textInputType(scope, element, attr, ctrl, $sniffer, $browser);
         var emailValidator = function (value) {
-            if (
-                ctrl.$isEmpty(value) ||
+            return ctrl.$isEmpty(value) ||
         /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/.test(value)
-            )
-                return ctrl.$setValidity("email", !0), value;
-            return ctrl.$setValidity("email", !1), void 0;
+                ? (ctrl.$setValidity("email", !0), value)
+                : (ctrl.$setValidity("email", !1), void 0);
         };
         ctrl.$formatters.push(emailValidator), ctrl.$parsers.push(emailValidator);
     }
@@ -7619,7 +7575,7 @@
                         );
                     }),
                     ctrl.$formatters.push(function (value) {
-                        if (isArray(value)) return value.join(", ");
+                        return isArray(value) ? value.join(", ") : void 0;
                     }),
                     (ctrl.$isEmpty = function (value) {
                         return !value || !value.length;
@@ -7631,15 +7587,15 @@
             return {
                 priority: 100,
                 compile: function (tpl, tplAttr) {
-                    if (/^(true|false|\d+)$/.test(tplAttr.ngValue))
-                        return function (scope, elm, attr) {
+                    return /^(true|false|\d+)$/.test(tplAttr.ngValue)
+                        ? function (scope, elm, attr) {
                             attr.$set("value", scope.$eval(attr.ngValue));
+                        }
+                        : function (scope, elm, attr) {
+                            scope.$watch(attr.ngValue, function (value) {
+                                attr.$set("value", value);
+                            });
                         };
-                    return function (scope, elm, attr) {
-                        scope.$watch(attr.ngValue, function (value) {
-                            attr.$set("value", value);
-                        });
-                    };
                 },
             };
         },
@@ -7902,13 +7858,11 @@
                         scope.$watch(
                             function () {
                                 var value = parseFloat(scope.$eval(numberExp));
-                                if (!isNaN(value))
-                                    return (
-                                        value in whens ||
+                                return !isNaN(value)
+                                    ? (value in whens ||
                         (value = $locale.pluralCat(value - offset)),
-                                        whensExpFns[value](scope, element, !0)
-                                    );
-                                return "";
+                                    whensExpFns[value](scope, element, !0))
+                                    : "";
                             },
                             function (newVal) {
                                 element.text(newVal);

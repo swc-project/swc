@@ -93,12 +93,13 @@
             };
     }),
     (Array.from = function (item) {
-        if (null == item) return [];
-        return Type.isEnumerable(item) && "string" != typeof item
-            ? typeOf(item) == "array"
-                ? item
-                : slice.call(item)
-            : [item];
+        return null == item
+            ? []
+            : Type.isEnumerable(item) && "string" != typeof item
+                ? typeOf(item) == "array"
+                    ? item
+                    : slice.call(item)
+                : [item];
     }),
     (Number.from = function (item) {
         var number = parseFloat(item);
@@ -128,13 +129,12 @@
           }.hide()),
           (object.type = typeCheck));
         }
-        if (null == object) return null;
-        return (
-            object.extend(this),
+        return null == object
+            ? null
+            : (object.extend(this),
             (object.$constructor = Type),
             (object.prototype.$constructor = object),
-            object
-        );
+            object);
     });
     Type.isEnumerable = function (item) {
         return (
@@ -429,8 +429,7 @@
     (this.$time = Date.now),
     (this.$type = function (object) {
         var type = typeOf(object);
-        if ("elements" == type) return "array";
-        return "null" == type ? !1 : type;
+        return "elements" == type ? "array" : "null" == type ? !1 : type;
     }),
     (this.$unlink = function (object) {
         switch (typeOf(object)) {
@@ -633,8 +632,11 @@ String.implement({
         return String(this).replace(
             regexp || /\\?\{([^{}]+)\}/g,
             function (match, name) {
-                if (match.charAt(0) == "\\") return match.slice(1);
-                return object[name] != null ? object[name] : "";
+                return match.charAt(0) == "\\"
+                    ? match.slice(1)
+                    : object[name] != null
+                        ? object[name]
+                        : "";
             },
         );
     },
@@ -1333,12 +1335,11 @@ var Event1 = DOMEvent;
               initialize: params,
           });
             var newClass = function () {
-                if ((reset(this), newClass.$prototyping)) return this;
-                return (
-                    (this.$caller = null),
+                return (reset(this), newClass.$prototyping)
+                    ? this
+                    : ((this.$caller = null),
                     (this.$caller = this.caller = null),
-                    this.initialize ? this.initialize.apply(this, arguments) : this
-                );
+                    this.initialize ? this.initialize.apply(this, arguments) : this);
             }
                 .extend(this)
                 .implement(params);
@@ -1448,12 +1449,11 @@ var Event1 = DOMEvent;
     (this.Events = new Class({
         $events: {},
         addEvent: function (type, fn, internal) {
-            if (((type = removeOn(type)), $empty == fn)) return this;
-            return (
-                (this.$events[type] = (this.$events[type] || []).include(fn)),
+            return ((type = removeOn(type)), $empty == fn)
+                ? this
+                : ((this.$events[type] = (this.$events[type] || []).include(fn)),
                 internal && (fn.internal = !0),
-                this
-            );
+                this);
         },
         addEvents: function (events) {
             for (var type in events) this.addEvent(type, events[type]);
@@ -1548,10 +1548,13 @@ function () {
             );
         },
         reverseCombinator = function (combinator) {
-            if ("!" === combinator) return " ";
-            if (" " === combinator) return "!";
-            if (/^!/.test(combinator)) return combinator.replace(/^!/, "");
-            return "!" + combinator;
+            return "!" === combinator
+                ? " "
+                : " " === combinator
+                    ? "!"
+                    : /^!/.test(combinator)
+                        ? combinator.replace(/^!/, "")
+                        : "!" + combinator;
         },
         reverse = function (expression) {
             for (
@@ -1919,14 +1922,19 @@ function () {
                       }),
         (features.documentSorter = root.compareDocumentPosition
             ? function (a, b) {
-                if (!a.compareDocumentPosition || !b.compareDocumentPosition)
-                    return 0;
-                return a.compareDocumentPosition(b) & 4 ? -1 : a === b ? 0 : 1;
+                return !a.compareDocumentPosition || !b.compareDocumentPosition
+                    ? 0
+                    : a.compareDocumentPosition(b) & 4
+                        ? -1
+                        : a === b
+                            ? 0
+                            : 1;
             }
             : "sourceIndex" in root
                 ? function (a, b) {
-                    if (!a.sourceIndex || !b.sourceIndex) return 0;
-                    return a.sourceIndex - b.sourceIndex;
+                    return !a.sourceIndex || !b.sourceIndex
+                        ? 0
+                        : a.sourceIndex - b.sourceIndex;
                 }
                 : document.createRange
                     ? function (a, b) {
@@ -2176,8 +2184,9 @@ function () {
         return node.uniqueNumber || (node.uniqueNumber = this.uidx++);
     }),
     (local.sort = function (results) {
-        if (!this.documentSorter) return results;
-        return results.sort(this.documentSorter), results;
+        return !this.documentSorter
+            ? results
+            : (results.sort(this.documentSorter), results);
     }),
     (local.cacheNTH = {}),
     (local.matchNTH = /^([+-]?\d*)?([a-z]+)?([+-]\d+)?$/),
@@ -2646,9 +2655,11 @@ function () {
         return local.setDocument(node), local.hasAttribute(node, name);
     }),
     (Slick.match = function (node, selector) {
-        if (!node || !selector) return !1;
-        if (!selector || node === selector) return !0;
-        return local.setDocument(node), local.matchNode(node, selector);
+        return !node || !selector
+            ? !1
+            : !selector || node === selector
+                ? !0
+                : (local.setDocument(node), local.matchNode(node, selector));
     }),
     (Slick.defineAttributeGetter = function (name, fn) {
         return (local.attributeGetters[name] = fn), this;
@@ -2666,11 +2677,11 @@ function () {
     }),
     (Slick.lookupPseudo = function (name) {
         var pseudo = local["pseudo:" + name];
-        if (pseudo)
-            return function (argument) {
+        return pseudo
+            ? function (argument) {
                 return pseudo.call(this, argument);
-            };
-        return null;
+            }
+            : null;
     }),
     (Slick.override = function (regexp2, fn) {
         return local.override(regexp2, fn), this;
@@ -2778,18 +2789,19 @@ var IFrame = new Type("IFrame", function () {
 (Elements.parent = Array),
 new Type("Elements", Elements).implement({
     filter: function (filter, bind) {
-        if (!filter) return this;
-        return new Elements(
-            Array.filter(
-                this,
-                typeOf(filter) == "string"
-                    ? function (item) {
-                        return item.match(filter);
-                    }
-                    : filter,
-                bind,
-            ),
-        );
+        return !filter
+            ? this
+            : new Elements(
+                Array.filter(
+                    this,
+                    typeOf(filter) == "string"
+                        ? function (item) {
+                            return item.match(filter);
+                        }
+                        : filter,
+                    bind,
+                ),
+            );
     }.protect(),
     push: function () {
         for (var length = this.length, i = 0, l = arguments.length; l > i; i++) {
@@ -2916,9 +2928,9 @@ Elements.alias("extend", "append"),
                     return el;
                 },
                 object: function (obj, nocash, doc) {
-                    if (obj.toElement)
-                        return types.element(obj.toElement(doc), nocash);
-                    return null;
+                    return obj.toElement
+                        ? types.element(obj.toElement(doc), nocash)
+                        : null;
                 },
             };
             return (
@@ -3732,10 +3744,11 @@ Elements.alias("extend", "append"),
                 var map = (Element1.Styles[property] || "@").split(" ");
                 value = Array.from(value)
                     .map(function (val, i) {
-                        if (!map[i]) return "";
-                        return typeOf(val) == "number"
-                            ? map[i].replace("@", Math.round(val))
-                            : val;
+                        return !map[i]
+                            ? ""
+                            : typeOf(val) == "number"
+                                ? map[i].replace("@", Math.round(val))
+                                : val;
                     })
                     .join(" ");
             } else value == String(Number(value)) && (value = Math.round(value));
@@ -3905,9 +3918,9 @@ Elements.alias("extend", "append"),
             (custom.onAdd && custom.onAdd.call(this, fn, type),
             custom.condition &&
               (condition = function (event) {
-                  if (custom.condition.call(this, event, type))
-                      return fn.call(this, event);
-                  return !0;
+                  return custom.condition.call(this, event, type)
+                      ? fn.call(this, event)
+                      : !0;
               }),
             custom.base &&
               (realType = Function.from(custom.base).call(this, type)));
@@ -3971,14 +3984,13 @@ Elements.alias("extend", "append"),
             },
             fireEvent: function (type, args, delay) {
                 var events = this.retrieve("events");
-                if (!events || !events[type]) return this;
-                return (
-                    (args = Array.from(args)),
+                return !events || !events[type]
+                    ? this
+                    : ((args = Array.from(args)),
                     events[type].keys.each(function (fn) {
                         delay ? fn.delay(delay, this, args) : fn.apply(this, args);
                     }, this),
-                    this
-                );
+                    this);
             },
             cloneEvents: function (from, type) {
                 from = document.id(from);
@@ -4048,14 +4060,14 @@ Elements.alias("extend", "append"),
     else {
         var check = function (event) {
             var related = event.relatedTarget;
-            if (null == related) return !0;
-            if (!related) return !1;
-            return (
-                related != this &&
-          "xul" != related.prefix &&
-          typeOf(this) != "document" &&
-          !this.contains(related)
-            );
+            return null == related
+                ? !0
+                : !related
+                    ? !1
+                    : related != this &&
+            "xul" != related.prefix &&
+            typeOf(this) != "document" &&
+            !this.contains(related);
         };
         (Element1.Events.mouseenter = {
             base: "mouseover",
@@ -4307,25 +4319,28 @@ Elements.alias("extend", "append"),
             );
         },
         getSize: function () {
-            if (isBody(this)) return this.getWindow().getSize();
-            return {
-                x: this.offsetWidth,
-                y: this.offsetHeight,
-            };
+            return isBody(this)
+                ? this.getWindow().getSize()
+                : {
+                    x: this.offsetWidth,
+                    y: this.offsetHeight,
+                };
         },
         getScrollSize: function () {
-            if (isBody(this)) return this.getWindow().getScrollSize();
-            return {
-                x: this.scrollWidth,
-                y: this.scrollHeight,
-            };
+            return isBody(this)
+                ? this.getWindow().getScrollSize()
+                : {
+                    x: this.scrollWidth,
+                    y: this.scrollHeight,
+                };
         },
         getScroll: function () {
-            if (isBody(this)) return this.getWindow().getScroll();
-            return {
-                x: this.scrollLeft,
-                y: this.scrollTop,
-            };
+            return isBody(this)
+                ? this.getWindow().getScroll()
+                : {
+                    x: this.scrollLeft,
+                    y: this.scrollTop,
+                };
         },
         getScrolls: function () {
             for (
@@ -4824,10 +4839,11 @@ Element1.alias({
 (Fx.CSS.Parsers = {
     Color: {
         parse: function (value) {
-            if (value.match(/^#[0-9a-f]{3,6}$/i)) return value.hexToRgb(!0);
-            return (value = value.match(/(\d+),\s*(\d+),\s*(\d+)/))
-                ? [value[1], value[2], value[3]]
-                : !1;
+            return value.match(/^#[0-9a-f]{3,6}$/i)
+                ? value.hexToRgb(!0)
+                : (value = value.match(/(\d+),\s*(\d+),\s*(\d+)/))
+                    ? [value[1], value[2], value[3]]
+                    : !1;
         },
         compute: function (from, to, delta) {
             return from.map(function (value, i) {
@@ -5154,12 +5170,10 @@ Fx.Transitions.extend({
                 return !!this.running;
             },
             processScripts: function (text) {
-                if (
-                    this.options.evalResponse ||
+                return this.options.evalResponse ||
             /(ecma|java)script/.test(this.getHeader("Content-type"))
-                )
-                    return Browser.exec(text);
-                return text.stripScripts(this.options.evalScripts);
+                    ? Browser.exec(text)
+                    : text.stripScripts(this.options.evalScripts);
             },
             success: function (text, xml) {
                 this.onSuccess(this.processScripts(text), xml);

@@ -18,17 +18,15 @@
     (Backbone.emulateJSON = !1);
     var Events = (Backbone.Events = {
             on: function (name, callback, context) {
-                if (!eventsApi(this, "on", name, [callback, context]) || !callback)
-                    return this;
-                return (
-                    this._events || (this._events = {}),
+                return !eventsApi(this, "on", name, [callback, context]) || !callback
+                    ? this
+                    : (this._events || (this._events = {}),
                     (this._events[name] || (this._events[name] = [])).push({
                         callback: callback,
                         context: context,
                         ctx: context || this,
                     }),
-                    this
-                );
+                    this);
             },
             once: function (name, callback, context) {
                 if (!eventsApi(this, "once", name, [callback, context]) || !callback)
@@ -247,8 +245,9 @@
             );
         },
         hasChanged: function (attr) {
-            if (null == attr) return !_.isEmpty(this.changed);
-            return _.has(this.changed, attr);
+            return null == attr
+                ? !_.isEmpty(this.changed)
+                : _.has(this.changed, attr);
         },
         changedAttributes: function (diff) {
             if (!diff) return this.hasChanged() ? _.clone(this.changed) : !1;
@@ -267,8 +266,9 @@
             return changed;
         },
         previous: function (attr) {
-            if (null == attr || !this._previousAttributes) return null;
-            return this._previousAttributes[attr];
+            return null == attr || !this._previousAttributes
+                ? null
+                : this._previousAttributes[attr];
         },
         previousAttributes: function () {
             return _.clone(this._previousAttributes);
@@ -358,12 +358,11 @@
         _.result(this, "urlRoot") ||
         _.result(this.collection, "url") ||
         urlError();
-            if (this.isNew()) return base;
-            return (
-                base +
-        (base.charAt(base.length - 1) === "/" ? "" : "/") +
-        encodeURIComponent(this.id)
-            );
+            return this.isNew()
+                ? base
+                : base +
+            (base.charAt(base.length - 1) === "/" ? "" : "/") +
+            encodeURIComponent(this.id);
         },
         parse: function (resp, options) {
             return resp;
@@ -615,18 +614,22 @@
             return slice.apply(this.models, arguments);
         },
         get: function (obj) {
-            if (null == obj) return void 0;
-            return this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
+            return null == obj
+                ? void 0
+                : this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
         },
         at: function (index) {
             return this.models[index];
         },
         where: function (attrs, first) {
-            if (_.isEmpty(attrs)) return first ? void 0 : [];
-            return this[first ? "find" : "filter"](function (model) {
-                for (var key in attrs) if (attrs[key] !== model.get(key)) return !1;
-                return !0;
-            });
+            return _.isEmpty(attrs)
+                ? first
+                    ? void 0
+                    : []
+                : this[first ? "find" : "filter"](function (model) {
+                    for (var key in attrs) if (attrs[key] !== model.get(key)) return !1;
+                    return !0;
+                });
         },
         findWhere: function (attrs) {
             return this.where(attrs, !0);
