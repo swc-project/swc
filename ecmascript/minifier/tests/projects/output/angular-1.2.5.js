@@ -4975,9 +4975,9 @@
                         if (isString(
                             require
                         )) {
-                            for (; (value = require.charAt(
+                            for (; "^" == (value = require.charAt(
                                 0
-                            )) == "^" || "?" == value; )
+                            )) || "?" == value; )
                                 (require = require.substr(
                                     1
                                 )),
@@ -7006,14 +7006,15 @@
                         length > index;
 
                     )
-                        (startIndex = text.indexOf(
+                        -1 != (startIndex = text.indexOf(
                             startSymbol,
                             index
-                        )) != -1 &&
-              (endIndex = text.indexOf(
-                  endSymbol,
-                  startIndex + startSymbolLength,
-              )) != -1
+                        )) &&
+              -1 !=
+                (endIndex = text.indexOf(
+                    endSymbol,
+                    startIndex + startSymbolLength,
+                ))
                             ? (index != startIndex &&
                     parts.push(
                         text.substring(

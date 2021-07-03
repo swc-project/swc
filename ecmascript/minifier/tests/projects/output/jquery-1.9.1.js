@@ -296,7 +296,7 @@
             length > i;
             i++
         )
-            if ((options = arguments[i]) != null)
+            if (null != (options = arguments[i]))
                 for (name in options) {
                     if (((src = target[name]), (copy = options[name]), copy === target))
                         continue;
@@ -2734,10 +2734,10 @@
                     hooks &&
           notxml &&
           "get" in hooks &&
-          (ret = hooks.get(
+          null !== (ret = hooks.get(
               elem,
               name
-          )) !== null
+          ))
                 )
                     return ret;
                 else
@@ -2851,10 +2851,10 @@
                         return ret;
                     return (elem[name] = value);
                 } else {
-                    if (hooks && "get" in hooks && (ret = hooks.get(
+                    if (hooks && "get" in hooks && null !== (ret = hooks.get(
                         elem,
                         name
-                    )) !== null)
+                    )))
                         return ret;
                     return elem[name];
                 }
@@ -6018,9 +6018,9 @@
                         "input" === elem.nodeName.toLowerCase(
                         ) &&
                 "text" === elem.type &&
-                ((attr = elem.getAttribute(
+                (null == (attr = elem.getAttribute(
                     "type"
-                )) == null ||
+                )) ||
                   attr.toLowerCase(
                   ) === elem.type)
                     );
@@ -6563,12 +6563,13 @@
                         outermost &&
               ((outermostContext = context !== document1 && context),
               (cachedruns = matcherCachedRuns));
-                        (elem = (seed ||
+                        null !=
+              (elem = (seed ||
                 (byElement &&
                   Expr.find.TAG(
                       "*",
                       (expandContext && context.parentNode) || context,
-                  )))[i]) != null;
+                  )))[i]);
                         i++
                     ) {
                         if (byElement && elem) {
@@ -7572,7 +7573,7 @@
             remove: function (
                 selector, keepData
             ) {
-                for (var elem, i = 0; (elem = this[i]) != null; i++)
+                for (var elem, i = 0; null != (elem = this[i]); i++)
                     (!selector || jQuery.filter(
                         selector,
                         [elem,]
@@ -7601,7 +7602,7 @@
             },
             empty: function (
             ) {
-                for (var elem, i = 0; (elem = this[i]) != null; i++) {
+                for (var elem, i = 0; null != (elem = this[i]); i++) {
                     for (
                         1 === elem.nodeType && jQuery.cleanData(
                             getAll(
@@ -7946,7 +7947,7 @@
     function setGlobalEval(
         elems, refElements
     ) {
-        for (var elem, i = 0; (elem = elems[i]) != null; i++)
+        for (var elem, i = 0; null != (elem = elems[i]); i++)
             jQuery._data(
                 elem,
                 "globalEval",
@@ -8100,7 +8101,7 @@
         if (!found)
             for (
                 found = [], elems = context.childNodes || context;
-                (elem = elems[i]) != null;
+                null != (elem = elems[i]);
                 i++
             )
                 tag && !jQuery.nodeName(
@@ -8176,7 +8177,7 @@
                         ), srcElements = getAll(
                             elem
                         ), i = 0;
-                        (node = srcElements[i]) != null;
+                        null != (node = srcElements[i]);
                         ++i
                     )
                         destElements[i] && fixCloneNodeIssues(
@@ -8191,7 +8192,7 @@
                             ), destElements ||= getAll(
                                 clone
                             ), i = 0;
-                            (node = srcElements[i]) != null;
+                            null != (node = srcElements[i]);
                             i++
                         )
                             cloneCopyEvent(
@@ -8386,7 +8387,7 @@
                         internalKey = jQuery.expando,
                         cache = jQuery.cache,
                         deleteExpando = jQuery.support.deleteExpando;
-                    (elem = elems[i]) != null;
+                    null != (elem = elems[i]);
                     i++
                 )
                     if (acceptData || jQuery.acceptData(

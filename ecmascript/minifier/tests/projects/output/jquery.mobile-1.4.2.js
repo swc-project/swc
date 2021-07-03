@@ -1181,7 +1181,7 @@
             (jQuery.cleanData = function (
                 elems
             ) {
-                for (var i = 0, elem; (elem = elems[i]) != null; i++)
+                for (var i = 0, elem; null != (elem = elems[i]); i++)
                     try {
                         jQuery(
                             elem

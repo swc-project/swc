@@ -1833,8 +1833,8 @@
                     var route, routes = _.keys(
                         this.routes
                     );
-                    (route = routes.pop(
-                    )) != null;
+                    null != (route = routes.pop(
+                    ));
 
                 )
                     this.route(
