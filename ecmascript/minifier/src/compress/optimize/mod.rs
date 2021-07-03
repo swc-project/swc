@@ -634,6 +634,13 @@ impl Optimizer<'_> {
     /// If an expression has a side effect, only side effects are returned.
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         match e {
+            Expr::Bin(e) => {
+                self.optimize_bang_in_nested_logical_ops(e);
+            }
+            _ => {}
+        }
+
+        match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 log::trace!("ignore_return_value: Dropping unused expr");
                 self.changed = true;
@@ -1432,8 +1439,6 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_bin_operator(n);
 
         self.optimize_bin_and_or(n);
-
-        self.optimize_bang_in_nested_logical_ops(n);
 
         self.optimize_null_or_undefined_cmp(n);
 

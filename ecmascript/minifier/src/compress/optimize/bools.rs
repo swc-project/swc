@@ -111,6 +111,7 @@ impl Optimizer<'_> {
         }
     }
 
+    /// This method may modify the return value.
     pub(super) fn optimize_bang_in_nested_logical_ops(&mut self, e: &mut BinExpr) {
         match e.op {
             op!("&&") | op!("||") => {}
