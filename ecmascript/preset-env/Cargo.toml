@@ -5,7 +5,7 @@ documentation = "https://rustdoc.swc.rs/swc_ecma_preset_env/"
 edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecma_preset_env"
-version = "0.27.0"
+version = "0.28.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -21,14 +21,14 @@ st-map = "0.1.2"
 string_enum = {version = "0.3.1", path = "../../macros/string_enum"}
 swc_atoms = {version = "0.2", path = "../../atoms"}
 swc_common = {version = "0.10.16", path = "../../common"}
-swc_ecma_ast = {version = "0.47.0", path = "../ast"}
-swc_ecma_transforms = {version = "0.57.0", path = "../transforms", features = ["compat", "proposal"]}
-swc_ecma_utils = {version = "0.38.0", path = "../utils"}
-swc_ecma_visit = {version = "0.33.0", path = "../visit"}
+swc_ecma_ast = {version = "0.48.0", path = "../ast"}
+swc_ecma_transforms = {version = "0.58.0", path = "../transforms", features = ["compat", "proposal"]}
+swc_ecma_utils = {version = "0.39.0", path = "../utils"}
+swc_ecma_visit = {version = "0.34.0", path = "../visit"}
 walkdir = "2"
 
 [dev-dependencies]
 pretty_assertions = "0.6"
-swc_ecma_codegen = {version = "0.60.0", path = "../codegen"}
-swc_ecma_parser = {version = "0.61.0", path = "../parser"}
+swc_ecma_codegen = {version = "0.61.0", path = "../codegen"}
+swc_ecma_parser = {version = "0.62.0", path = "../parser"}
 testing = {version = "0.10.5", path = "../../testing"}

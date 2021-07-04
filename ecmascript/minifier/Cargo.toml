@@ -7,7 +7,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license = "Apache-2.0/MIT"
 name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.10.1"
+version = "0.11.0"
 
 [features]
 debug = []
@@ -24,13 +24,13 @@ serde_json = "1.0.61"
 serde_regex = "1.1.0"
 swc_atoms = {version = "0.2", path = "../../atoms"}
 swc_common = {version = "0.10.8", path = "../../common"}
-swc_ecma_ast = {version = "0.47.0", path = "../ast"}
-swc_ecma_codegen = {version = "0.60.0", path = "../codegen"}
-swc_ecma_parser = {version = "0.61.0", path = "../parser"}
-swc_ecma_transforms = {version = "0.57.0", path = "../transforms/", features = ["optimization"]}
-swc_ecma_transforms_base = {version = "0.20.0", path = "../transforms/base"}
-swc_ecma_utils = {version = "0.38.0", path = "../utils"}
-swc_ecma_visit = {version = "0.33.0", path = "../visit"}
+swc_ecma_ast = {version = "0.48.0", path = "../ast"}
+swc_ecma_codegen = {version = "0.61.0", path = "../codegen"}
+swc_ecma_parser = {version = "0.62.0", path = "../parser"}
+swc_ecma_transforms = {version = "0.58.0", path = "../transforms/", features = ["optimization"]}
+swc_ecma_transforms_base = {version = "0.21.0", path = "../transforms/base"}
+swc_ecma_utils = {version = "0.39.0", path = "../utils"}
+swc_ecma_visit = {version = "0.34.0", path = "../visit"}
 
 [dev-dependencies]
 ansi_term = "0.12.1"
