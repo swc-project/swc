@@ -5348,7 +5348,7 @@
                     "end": 1973,
                     "ctxt": 0
                   },
-                  "expr": {
+                  "expression": {
                     "type": "TemplateLiteral",
                     "span": {
                       "start": 1955,

@@ -1399,7 +1399,7 @@
                 "end": 674,
                 "ctxt": 0
               },
-              "expr": {
+              "expression": {
                 "type": "ArrayExpression",
                 "span": {
                   "start": 644,
@@ -2899,7 +2899,7 @@
                     "end": 1255,
                     "ctxt": 0
                   },
-                  "expr": {
+                  "expression": {
                     "type": "ArrayExpression",
                     "span": {
                       "start": 1237,
@@ -2956,7 +2956,7 @@
                     "end": 1275,
                     "ctxt": 0
                   },
-                  "expr": {
+                  "expression": {
                     "type": "ArrayExpression",
                     "span": {
                       "start": 1257,

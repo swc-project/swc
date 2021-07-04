@@ -41,7 +41,7 @@
               "end": 23,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "ArrayExpression",
               "span": {
                 "start": 15,

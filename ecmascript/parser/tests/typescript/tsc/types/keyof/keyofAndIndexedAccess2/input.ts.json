@@ -10265,7 +10265,7 @@
               "end": 4323,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "ArrayExpression",
               "span": {
                 "start": 4290,
