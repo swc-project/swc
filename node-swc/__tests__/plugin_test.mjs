@@ -22,7 +22,7 @@ async function toArray(asyncIterator) {
 // We use only subset of tests because it's too slow
 const rootDir = './ecmascript/parser/tests/test262-parser/pass-explicit';
 
-const files = (await toArray(walk(rootDir))).filter(t => t.includes('/a1'));
+const files = (await toArray(walk(rootDir))).filter(t => t.includes('/a'));
 console.log(`Files: ${files.length}`)
 
 console.log(Visitor);
