@@ -30,13 +30,13 @@ mod stmt;
 mod typescript;
 
 #[derive(Clone)]
-pub struct Context {
+pub struct Context<'a> {
     pub fm: Arc<SourceFile>,
     pub cm: Lrc<SourceMap>,
-    pub comments: SwcComments,
+    pub comments: &'a SwcComments,
 }
 
-impl Context {
+impl Context<'_> {
     /// Byte offset starting from the 0. (counted separately for each file)
     fn offset(&self, span: Span) -> (Option<usize>, Option<usize>) {
         // We rename this to feel more comfortable while doing math.

@@ -142,7 +142,7 @@ fn run_test(src: String, expected: String, syntax: Syntax, is_module: bool) {
     let ctx = Context {
         fm,
         cm,
-        comments: compiler.comments().clone(),
+        comments: compiler.comments(),
     };
     let mut ast = swc_ast.babelify(&ctx);
     normalize(&mut ast);
