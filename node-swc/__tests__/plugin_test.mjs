@@ -28,7 +28,7 @@ console.log(`Files: ${files.length}`)
 console.log(Visitor);
 class BaseVisitor extends Visitor.default { }
 
-test.each(files)('test(%s)', async (file, done) => {
+test.each(files)('test(%s)', async (file) => {
     if (!file.endsWith('.js')) {
         console.log(`Ignoring ${file}`)
         return
@@ -59,5 +59,4 @@ test.each(files)('test(%s)', async (file, done) => {
         console.error(e);
     }
 
-    done()
 })
