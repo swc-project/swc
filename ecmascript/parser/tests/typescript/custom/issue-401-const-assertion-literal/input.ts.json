@@ -41,7 +41,7 @@
               "end": 24,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "StringLiteral",
               "span": {
                 "start": 8,

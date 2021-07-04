@@ -41,7 +41,7 @@
               "end": 32,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "ObjectExpression",
               "span": {
                 "start": 15,
