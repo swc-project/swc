@@ -2,7 +2,8 @@ import swc from "../..";
 import Visitor from "../../Visitor";
 import * as fs from 'fs';
 import * as path from 'path';
-
+import { jest } from '@jest/globals'
+jest.setTimeout(5 * 1000)
 
 async function* walk(dir) {
     for await (const d of await fs.promises.opendir(dir)) {
@@ -34,13 +35,17 @@ test.each(files)('test(%s)', async (file, done) => {
     }
 
     console.log(`Validating $${file}`)
-    const ast = await swc.transformFile(file, {
-        syntax: 'ecmascript',
+    const ast = swc.transformFileSync(file, {
+        jsc: {
+            parser: {
+                syntax: 'ecmascript',
+            }
+        },
         isModule: file.includes('module.'),
-        plugin: [(ast) => {
+        plugin: (ast) => {
             const visitor = new BaseVisitor();
             return visitor.visitProgram(ast);
-        }]
+        },
     });
     const filename = path.basename(file);
 
