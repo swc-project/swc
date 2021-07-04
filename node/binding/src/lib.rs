@@ -36,10 +36,10 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
 
 #[module_exports]
 fn init(mut exports: JsObject) -> napi::Result<()> {
-    if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_else(|_| String::new()) == "1" {
-        set_hook(Box::new(|_panic_info| {
+    if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_default() == "1" {
+        set_hook(Box::new(|panic_info| {
             let backtrace = Backtrace::new();
-            println!("Backtrace: {:?}", backtrace);
+            println!("Panic: {:?}\nBacktrace: {:?}", panic_info, backtrace);
         }));
     }
 
