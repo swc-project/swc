@@ -16,6 +16,7 @@ use swc_common::{
     FilePathMapping, SourceMap,
 };
 
+mod babel_ast;
 mod bundle;
 mod parse;
 mod print;
