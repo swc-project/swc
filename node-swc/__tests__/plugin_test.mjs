@@ -114,15 +114,15 @@ const testCodes = [
             foo: 'foo',
           } as const;`,
         output: `export default {
-            foo: 'foo',
-          } as const;`
+            foo: 'foo'
+          };`
     }
 ];
 test.each(testCodes)(`code($s)`, async ({ input, output }) => {
     const { code } = await swc.transform(input, {
         jsc: {
             parser: {
-                syntax: 'ecmascript',
+                syntax: 'typescript',
             },
             target: 'es2021'
         },
