@@ -26,7 +26,6 @@ const files = (await toArray(walk(rootDir))).filter(t => t.includes('/a'));
 console.log(`Files: ${files.length}`)
 
 console.log(Visitor);
-class BaseVisitor extends Visitor.default { }
 
 function assertAllObjectHasTypeFiled(obj) {
     if (Array.isArray(obj)) {
@@ -61,6 +60,39 @@ function assertAllObjectHasTypeFiled(obj) {
     }
 
 }
+
+class BaseVisitor extends Visitor.default {
+    visitExpression(n) {
+        const e = super.visitExpression(n);
+        assertAllObjectHasTypeFiled(e);
+        return e;
+    }
+
+    visitPattern(n) {
+        const e = super.visitPattern(n);
+        assertAllObjectHasTypeFiled(e);
+        return e;
+    }
+
+    visitStatement(n) {
+        const e = super.visitStatement(n);
+        assertAllObjectHasTypeFiled(e);
+        return e;
+    }
+
+    visitFunctionDeclaration(n) {
+        const e = super.visitFunctionDeclaration(n);
+        assertAllObjectHasTypeFiled(e);
+        return e;
+    }
+
+    visitClassMember(n) {
+        const e = super.visitClassMember(n);
+        assertAllObjectHasTypeFiled(e);
+        return e;
+    }
+}
+
 
 test.each(files)('test(%s)', async (file) => {
     if (!file.endsWith('.js')) {
