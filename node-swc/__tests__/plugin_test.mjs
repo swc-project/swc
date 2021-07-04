@@ -1,6 +1,6 @@
-const swc = require("../..");
-const fs = require("fs");
-const path = require("path");
+import swc from "../..";
+import * as fs from 'fs';
+import * as path from 'path';
 
 
 async function* walk(dir) {
@@ -19,7 +19,7 @@ async function toArray(asyncIterator) {
 
 const files = await toArray(walk('./ecmascript/parser/tests/typescript/tsc'));
 
-test.each(files)('test(%s)', (file, done) => {
+test.each(files)('test(%s)', async (file, done) => {
     if (!file.endsWith('.ts') && !file.endsWith('.tsx')) {
         return
     }
