@@ -157,6 +157,7 @@ import {
   YieldExpression,
   Param,
   ExprOrSpread,
+  TsConstAssertion,
 } from "./types";
 
 export default class Visitor {
@@ -1075,6 +1076,8 @@ export default class Visitor {
         return this.visitTsNonNullExpression(n);
       case "TsTypeAssertion":
         return this.visitTsTypeAssertion(n);
+      case "TsConstAssertion":
+        return this.visitTsConstAssertion(n);
       case "UnaryExpression":
         return this.visitUnaryExpression(n);
       case "UpdateExpression":
@@ -1129,6 +1132,12 @@ export default class Visitor {
   visitTsTypeAssertion(n: TsTypeAssertion): Expression {
     n.expression = this.visitExpression(n.expression);
     n.typeAnnotation = this.visitTsType(n.typeAnnotation);
+    return n;
+  }
+
+
+  visitTsConstAssertion(n: TsConstAssertion): Expression {
+    n.expression = this.visitExpression(n.expression);
     return n;
   }
 

@@ -791,6 +791,7 @@ export type Expression =
   | JSXElement
   | JSXFragment
   | TsTypeAssertion
+  | TsConstAssertion
   | TsNonNullExpression
   | TsAsExpression
   | PrivateName
@@ -2124,6 +2125,12 @@ export interface TsTypeAssertion extends ExpressionBase {
 
   expression: Expression;
   typeAnnotation: TsType;
+}
+
+export interface TsConstAssertion extends ExpressionBase {
+  type: "TsConstAssertion";
+
+  expression: Expression;
 }
 
 export interface TsNonNullExpression extends ExpressionBase {
