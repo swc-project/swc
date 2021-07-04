@@ -27,10 +27,10 @@ console.log(`Files: ${files.length}`)
 
 console.log(Visitor);
 
-function assertAllObjectHasTypeFiled(obj) {
+function assertAllObjectHasTypeFiled(obj, desc = '') {
     if (Array.isArray(obj)) {
         for (const item of obj) {
-            assertAllObjectHasTypeFiled(item);
+            assertAllObjectHasTypeFiled(item, `${desc} -> array`);
         }
         return
     }
@@ -47,13 +47,17 @@ function assertAllObjectHasTypeFiled(obj) {
             return;
         }
 
+        if ("params" in obj && "span" in obj && "body" in obj) {
+            return;
+        }
+
         if (!obj.type) {
-            throw new Error(`${JSON.stringify(obj)} should have field 'type'`)
+            throw new Error(`${desc}: ${JSON.stringify(obj)} should have field 'type'`)
         }
 
         for (const key in obj) {
             if (Object.hasOwnProperty.call(obj, key)) {
-                assertAllObjectHasTypeFiled(obj[key])
+                assertAllObjectHasTypeFiled(obj[key], `${desc} -> ${key}`)
             }
         }
 
@@ -93,6 +97,7 @@ class BaseVisitor extends Visitor.default {
     }
 
     visitClassMethod(n) {
+        assertAllObjectHasTypeFiled(n, 'BEFORE');
         const e = super.visitClassMethod(n);
         assertAllObjectHasTypeFiled(e);
         return e;
@@ -107,26 +112,33 @@ test.each(files)('test(%s)', async (file) => {
     }
 
     console.log(`Validating $${file}`)
-    const ast = await swc.transformFile(file, {
+    let astNode;
+    const { code } = await swc.transformFile(file, {
         jsc: {
             parser: {
                 syntax: 'ecmascript',
-            }
+            },
+            target: 'es2021'
         },
         isModule: file.includes('module.'),
         plugin: (ast) => {
-            console.debug(ast);
+            // console.debug(ast);
             const visitor = new BaseVisitor();
             const after = visitor.visitProgram(ast);
 
-            console.debug(after);
+            // console.debug(after);
             assertAllObjectHasTypeFiled(after);
+            astNode = ast;
             return after
         },
     });
     const filename = path.basename(file);
 
-    const { code } = await swc.print(ast);
+    try {
+        await swc.print(astNode);
+    } catch (e) {
+        throw new Error(`${e}: ${JSON.stringify(astNode, null, 4)}`)
+    }
 
     const expected = await fs.promises.readFile(`./ecmascript/codegen/tests/references/${filename}`, { encoding: 'utf8' });
 
