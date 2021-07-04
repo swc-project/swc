@@ -2,11 +2,8 @@
 ) {
     var root = this,
         previousBackbone = root.Backbone,
-        array = [];
-    array.push;
-    var slice = array.slice;
-    array.splice;
-    var Backbone;
+        slice = [].slice,
+        Backbone;
     (Backbone = "undefined" !== typeof exports
         ? exports
         : (root.Backbone = {
