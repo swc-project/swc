@@ -22,7 +22,7 @@ struct BabelifyTask {
 }
 
 impl Task for BabelifyTask {
-    type Output = swc_babel_ast::File;
+    type Output = String;
 
     type JsValue = JsObject;
 
@@ -49,7 +49,13 @@ impl Task for BabelifyTask {
             comments: self.c.comments(),
         };
 
-        Ok(program.babelify(&ctx))
+        let ast = program.babelify(&ctx);
+
+        let s = serde_json::to_string(&ast)
+            .context("failed to serialize")
+            .convert_err()?;
+
+        Ok(s)
     }
 
     fn resolve(self, env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
@@ -105,5 +111,8 @@ pub fn babelify_sync(cx: CallContext) -> napi::Result<JsObject> {
 
     let ast = program.babelify(&ctx);
 
-    cx.env.to_js_value(&ast)?.coerce_to_object()
+    let s = serde_json::to_string(&ast)
+        .context("failed to serialize")
+        .convert_err()?;
+    cx.env.to_js_value(&s)?.coerce_to_object()
 }

@@ -65,12 +65,14 @@ export class Compiler {
   //   }, input, options);
   // }
 
-  babelify(filename: string, input: string, options: ParseOptions): Promise<babel.Program> {
-    return bindings.babelify(filename, input, toBuffer(options));
+  async babelify(filename: string, input: string, options: ParseOptions): Promise<babel.Program> {
+    const str = await bindings.babelify(filename, input, toBuffer(options));
+    return JSON.parse(str)
   }
 
   babelifySync(filename: string, input: string, options: ParseOptions): babel.Program {
-    return bindings.babelifySync(filename, input, toBuffer(options));
+    const str = bindings.babelifySync(filename, input, toBuffer(options));
+    return JSON.parse(str);
   }
 
 
