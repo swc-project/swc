@@ -104,44 +104,70 @@ class BaseVisitor extends Visitor.default {
     }
 }
 
-
-test.each(files)('test(%s)', async (file) => {
-    if (!file.endsWith('.js')) {
-        console.log(`Ignoring ${file}`)
-        return
+const testCodes = [
+    {
+        input: `const arr = [1, 2, 3]`,
+        output: `const arr = [1, 2, 3]`
     }
-
-    console.log(`Validating $${file}`)
-    let astNode;
-    const { code } = await swc.transformFile(file, {
+];
+test.each(testCodes)(`code($s)`, async ({ input, output }) => {
+    const { code } = await swc.transform(input, {
         jsc: {
             parser: {
                 syntax: 'ecmascript',
             },
             target: 'es2021'
         },
-        isModule: file.includes('module.'),
+        isModule: true,
         plugin: (ast) => {
-            // console.debug(ast);
             const visitor = new BaseVisitor();
             const after = visitor.visitProgram(ast);
-
-            // console.debug(after);
             assertAllObjectHasTypeFiled(after);
-            astNode = ast;
             return after
         },
     });
-    const filename = path.basename(file);
 
-    try {
-        await swc.print(astNode);
-    } catch (e) {
-        throw new Error(`${e}: ${JSON.stringify(astNode, null, 4)}`)
-    }
-
-    const expected = await fs.promises.readFile(`./ecmascript/codegen/tests/references/${filename}`, { encoding: 'utf8' });
-
-    expect(code.trim()).toEqual(expected.trim());
-
+    expect(code).toEqual(output)
 })
+
+
+// test.each(files)('test262(%s)', async (file) => {
+//     if (!file.endsWith('.js')) {
+//         console.log(`Ignoring ${file}`)
+//         return
+//     }
+
+//     console.log(`Validating $${file}`)
+//     let astNode;
+//     const { code } = await swc.transformFile(file, {
+//         jsc: {
+//             parser: {
+//                 syntax: 'ecmascript',
+//             },
+//             target: 'es2021'
+//         },
+//         isModule: file.includes('module.'),
+//         plugin: (ast) => {
+//             // console.debug(ast);
+//             const visitor = new BaseVisitor();
+//             const after = visitor.visitProgram(ast);
+
+//             // console.debug(after);
+//             assertAllObjectHasTypeFiled(after);
+//             astNode = ast;
+//             return after
+//         },
+//     });
+//     const filename = path.basename(file);
+
+//     try {
+//         await swc.print(astNode);
+//     } catch (e) {
+//         throw new Error(`${e}: ${JSON.stringify(astNode, null, 4)}`)
+//     }
+
+//     const expected = await fs.promises.readFile(`./ecmascript/codegen/tests/references/${filename}`, { encoding: 'utf8' });
+
+//     expect(code.trim()).toEqual(expected.trim());
+
+// })
