@@ -107,7 +107,15 @@ class BaseVisitor extends Visitor.default {
 const testCodes = [
     {
         input: `const arr = [1, 2, 3]`,
-        output: `const arr = [1, 2, 3]`
+        output: `const arr = [1, 2, 3];`
+    },
+    {
+        input: `export default {
+            foo: 'foo',
+          } as const;`,
+        output: `export default {
+            foo: 'foo',
+          } as const;`
     }
 ];
 test.each(testCodes)(`code($s)`, async ({ input, output }) => {
@@ -127,7 +135,7 @@ test.each(testCodes)(`code($s)`, async ({ input, output }) => {
         },
     });
 
-    expect(code).toEqual(output)
+    expect(code.replace(/[\n\t ]/g, '')).toEqual(output.replace(/[\n\t ]/g, ''))
 })
 
 
