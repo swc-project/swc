@@ -28,6 +28,40 @@ console.log(`Files: ${files.length}`)
 console.log(Visitor);
 class BaseVisitor extends Visitor.default { }
 
+function assertAllObjectHasTypeFiled(obj) {
+    if (Array.isArray(obj)) {
+        for (const item of obj) {
+            assertAllObjectHasTypeFiled(item);
+        }
+        return
+    }
+
+    if (!obj) {
+        return
+    }
+
+    if (typeof obj === 'object') {
+        if (typeof obj.start !== 'undefined' && typeof obj.end !== 'undefined') {
+            return;
+        }
+        if ("spread" in obj) {
+            return;
+        }
+
+        if (!obj.type) {
+            throw new Error(`${JSON.stringify(obj)} should have field 'type'`)
+        }
+
+        for (const key in obj) {
+            if (Object.hasOwnProperty.call(obj, key)) {
+                assertAllObjectHasTypeFiled(obj[key])
+            }
+        }
+
+    }
+
+}
+
 test.each(files)('test(%s)', async (file) => {
     if (!file.endsWith('.js')) {
         console.log(`Ignoring ${file}`)
@@ -43,8 +77,13 @@ test.each(files)('test(%s)', async (file) => {
         },
         isModule: file.includes('module.'),
         plugin: (ast) => {
+            console.debug(ast);
             const visitor = new BaseVisitor();
-            return visitor.visitProgram(ast);
+            const after = visitor.visitProgram(ast);
+
+            console.debug(after);
+            assertAllObjectHasTypeFiled(after);
+            return after
         },
     });
     const filename = path.basename(file);
