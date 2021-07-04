@@ -35,16 +35,12 @@ struct Renamer {
 }
 
 /// This function makes a new private identifier if required.
-fn prepare(i: Ident, force: bool) -> Ident {
-    if i.is_reserved_for_es3() || i.sym == *"await" || i.sym == *"eval" {
+fn prepare(i: Ident) -> Ident {
+    if i.is_reserved() || i.is_reserved_in_strict_mode(true) || i.is_reserved_in_strict_bind() {
         return private_ident!(i.span, format!("_{}", i.sym));
     }
 
-    if force {
-        private_ident!(i.span, i.sym)
-    } else {
-        i
-    }
+    i
 }
 
 impl Fold for FnName {
@@ -78,7 +74,7 @@ impl Fold for FnName {
                 //
                 if let PropName::Ident(ref i) = p.key {
                     Box::new(Expr::Fn(FnExpr {
-                        ident: Some(prepare(i.clone(), false)),
+                        ident: Some(prepare(i.clone())),
                         ..expr
                     }))
                 } else {
@@ -97,7 +93,7 @@ impl Fold for FnName {
         match decl.name {
             Pat::Ident(ref mut ident) => {
                 let mut folder = Renamer {
-                    name: Some(prepare(ident.id.clone(), false)),
+                    name: Some(prepare(ident.id.clone())),
                 };
                 let init = decl.init.fold_with(&mut folder);
 

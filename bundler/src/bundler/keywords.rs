@@ -20,7 +20,7 @@ impl KeywordRenamer {
             return None;
         }
 
-        if !id.is_reserved_for_es3() {
+        if !(id.is_reserved() || id.is_reserved_in_strict_mode(true) || id.is_reserved_in_es3()) {
             return None;
         }
 

@@ -48,7 +48,7 @@ impl Fold for PropertyLiteral {
                 kind,
                 ..
             }) => {
-                if sym.is_reserved_for_es3() || !is_valid_ident(&sym) {
+                if sym.is_reserved() || !is_valid_ident(&sym) {
                     PropName::Str(Str {
                         span,
                         value: sym,
@@ -61,7 +61,7 @@ impl Fold for PropertyLiteral {
             }
             PropName::Ident(i) => {
                 let Ident { sym, span, .. } = i;
-                if sym.is_reserved_for_es3() || sym.contains('-') || sym.contains('.') {
+                if sym.is_reserved() || sym.contains('-') || sym.contains('.') {
                     PropName::Str(Str {
                         span,
                         value: sym,
