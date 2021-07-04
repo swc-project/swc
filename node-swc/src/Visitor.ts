@@ -162,9 +162,15 @@ export default class Visitor {
   visitProgram(n: Program): Program {
     switch (n.type) {
       case "Module":
-        return this.visitModule(n);
+        return {
+          ...this.visitModule(n),
+          type: 'Module',
+        };
       case "Script":
-        return this.visitScript(n);
+        return {
+          ...this.visitScript(n),
+          type: 'Script'
+        }
     }
   }
 
