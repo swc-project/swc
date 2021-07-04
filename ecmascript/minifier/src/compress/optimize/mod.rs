@@ -844,6 +844,10 @@ impl Optimizer<'_> {
                         if usage.var_kind.is_none() {
                             return None;
                         }
+
+                        if !usage.reassigned && usage.no_side_effect_for_member_access {
+                            return None;
+                        }
                     }
                 }
                 _ => {}

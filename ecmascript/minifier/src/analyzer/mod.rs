@@ -83,6 +83,8 @@ pub(crate) struct VarUsageInfo {
     /// Indicates a variable or function is overrided without using it.
     pub overriden_without_used: bool,
 
+    pub no_side_effect_for_member_access: bool,
+
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
 }
