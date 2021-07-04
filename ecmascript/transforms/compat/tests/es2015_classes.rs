@@ -6399,3 +6399,30 @@ test!(
   }());
     "
 );
+
+test!(
+    syntax(),
+    |t| tr(t),
+    issue_1838,
+    r#"
+    class Foo {
+      let() {}
+    }
+"#,
+    r#"
+    let Foo = /*#__PURE__*/ function() {
+      "use strict";
+      function Foo() {
+          _classCallCheck(this, Foo);
+      }
+      _createClass(Foo, [
+          {
+              key: "let",
+              value: function _let() {
+              }
+          }
+      ]);
+      return Foo;
+  }();
+"#
+);

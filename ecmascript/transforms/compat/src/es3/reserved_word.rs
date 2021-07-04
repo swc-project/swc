@@ -75,7 +75,7 @@ fn fold_ident(preserve_import: bool, i: Ident) -> Ident {
         return i;
     }
 
-    if i.is_reserved_for_es3() {
+    if i.is_reserved_in_es3() {
         return Ident {
             sym: format!("_{}", i.sym).into(),
             ..i
