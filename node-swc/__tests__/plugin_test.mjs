@@ -35,28 +35,24 @@ test.each(files)('test(%s)', async (file) => {
     }
 
     console.log(`Validating $${file}`)
-    try {
-        const ast = await swc.transformFile(file, {
-            jsc: {
-                parser: {
-                    syntax: 'ecmascript',
-                }
-            },
-            isModule: file.includes('module.'),
-            plugin: (ast) => {
-                const visitor = new BaseVisitor();
-                return visitor.visitProgram(ast);
-            },
-        });
-        const filename = path.basename(file);
+    const ast = await swc.transformFile(file, {
+        jsc: {
+            parser: {
+                syntax: 'ecmascript',
+            }
+        },
+        isModule: file.includes('module.'),
+        plugin: (ast) => {
+            const visitor = new BaseVisitor();
+            return visitor.visitProgram(ast);
+        },
+    });
+    const filename = path.basename(file);
 
-        const { code } = await swc.print(ast);
+    const { code } = await swc.print(ast);
 
-        const expected = await fs.promises.readFile(`./ecmascript/codegen/tests/references/${filename}`, { encoding: 'utf8' });
+    const expected = await fs.promises.readFile(`./ecmascript/codegen/tests/references/${filename}`, { encoding: 'utf8' });
 
-        expect(code.trim()).toEqual(expected.trim());
-    } catch (e) {
-        console.error(e);
-    }
+    expect(code.trim()).toEqual(expected.trim());
 
 })
