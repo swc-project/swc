@@ -156,6 +156,7 @@ import {
   WithStatement,
   YieldExpression,
   Param,
+  ExprOrSpread,
 } from "./types";
 
 export default class Visitor {
@@ -364,12 +365,18 @@ export default class Visitor {
   }
 
   visitArrayElement(
-    e: Expression | SpreadElement | undefined
-  ): Expression | SpreadElement | undefined {
-    if (e && e.type === "SpreadElement") {
-      return this.visitSpreadElement(e);
+    e: ExprOrSpread | undefined
+  ): ExprOrSpread | undefined {
+    if (e) {
+      return this.visitExprOrSpread(e);
     }
-    return this.visitOptionalExpression(e as Expression | undefined);
+  }
+
+  visitExprOrSpread(e: ExprOrSpread): ExprOrSpread {
+    return {
+      ...e,
+      expression: this.visitExpression(e.expression)
+    }
   }
 
   visitSpreadElement(e: SpreadElement): SpreadElement {

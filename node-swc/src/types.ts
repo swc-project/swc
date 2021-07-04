@@ -814,7 +814,12 @@ export interface ThisExpression extends ExpressionBase {
 export interface ArrayExpression extends ExpressionBase {
   type: "ArrayExpression";
 
-  elements: (Expression | SpreadElement | undefined)[];
+  elements: (ExprOrSpread | undefined)[];
+}
+
+export interface ExprOrSpread {
+  spread?: Span,
+  expression: Expression
 }
 
 export interface ObjectExpression extends ExpressionBase {
