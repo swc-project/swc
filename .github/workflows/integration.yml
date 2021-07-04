@@ -4,7 +4,6 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
-  NODE_OPTIONS: "--experimental-vm-modules npx jest"
 
 jobs:
   publish-test:
@@ -45,6 +44,8 @@ jobs:
 
           npm run build:dev
           npm test
+        env:
+          NODE_OPTIONS: "--experimental-vm-modules npx jest"
 
   integration-test:
     name: swc-cli
