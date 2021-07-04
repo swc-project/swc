@@ -66,11 +66,11 @@ export class Compiler {
   // }
 
   babelify(filename: string, input: string, options: ParseOptions): Promise<babel.Program> {
-    return bindings.babelify(filename, input, options);
+    return bindings.babelify(filename, input, toBuffer(options));
   }
 
   babelifySync(filename: string, input: string, options: ParseOptions): babel.Program {
-    return bindings.babelifySync(filename, input, options);
+    return bindings.babelifySync(filename, input, toBuffer(options));
   }
 
 
@@ -323,6 +323,15 @@ export function transformFile(
 
 export function transformFileSync(path: string, options?: Options): Output {
   return compiler.transformFileSync(path, options);
+}
+
+
+export function babelify(filename: string, input: string, options: ParseOptions): Promise<babel.Program> {
+  return compiler.babelify(filename, input, options);
+}
+
+export function babelifySync(filename: string, input: string, options: ParseOptions): babel.Program {
+  return compiler.babelifySync(filename, input, options);
 }
 
 export function bundle(
