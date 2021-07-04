@@ -75,3 +75,35 @@ pub fn babelify(cx: CallContext) -> napi::Result<JsObject> {
 
     cx.env.spawn(task).map(|t| t.promise_object())
 }
+
+#[js_function(3)]
+pub fn babelify_sync(cx: CallContext) -> napi::Result<JsObject> {
+    let c = get_compiler(&cx);
+    let filename = cx.get::<JsString>(0)?;
+    let input = cx.get::<JsString>(1)?.into_utf8()?.into_owned()?;
+    let parse_options = cx.get_deserialized::<ParseOptions>(2)?;
+
+    let filename = FileName::Real(PathBuf::from(filename.into_utf8()?.into_owned()?));
+
+    let fm = c.cm.new_source_file(filename, input);
+    let program = c
+        .parse_js(
+            fm.clone(),
+            parse_options.target,
+            parse_options.syntax,
+            parse_options.is_module,
+            parse_options.comments,
+        )
+        .context("failed to parse module")
+        .convert_err()?;
+
+    let ctx = babelify::Context {
+        fm,
+        cm: c.cm.clone(),
+        comments: c.comments(),
+    };
+
+    let ast = program.babelify(&ctx);
+
+    cx.env.to_js_value(&ast)?.coerce_to_object()
+}
