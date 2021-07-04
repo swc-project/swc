@@ -2,6 +2,6 @@ var a = "FAIL";
 try {
     throw 1;
 } catch (b) {
-    var c = "PASS";
+    var a = "PASS";
 }
 console.log(a);

@@ -1,3 +1,6 @@
+use crate::compress::optimize::util::class_has_side_effect;
+use crate::compress::optimize::util::is_valid_for_lhs;
+
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -20,6 +23,15 @@ impl Optimizer<'_> {
 
         let should_preserve = (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
+
+        if self
+            .data
+            .as_ref()
+            .map(|v| v.top.has_eval_call)
+            .unwrap_or(false)
+        {
+            return;
+        }
 
         // TODO: Check for side effect between original decl position and inlined
         // position
@@ -52,7 +64,7 @@ impl Optimizer<'_> {
                         return;
                     }
 
-                    if self.options.reduce_vars && self.options.typeofs && !usage.reassigned {
+                    if !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
                                 self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -78,8 +90,9 @@ impl Optimizer<'_> {
                         || self.options.collapse_vars
                         || self.options.inline != 0;
 
+                    // Mutation of properties are ok
                     if is_inline_enabled
-                        && !usage.reassigned
+                        && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
                                 Lit::Str(_)
@@ -123,7 +136,7 @@ impl Optimizer<'_> {
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
-                        && !usage.reassigned
+                        && (!usage.mutated || usage.is_mutated_only_by_one_call())
                         && usage.ref_count == 1
                     {
                         match &**init {
@@ -146,11 +159,25 @@ impl Optimizer<'_> {
                         }
                         match &**init {
                             Expr::Lit(Lit::Regex(..)) => return,
+
+                            Expr::This(..) => {
+                                // Don't inline this if it passes function boundaries.
+                                if !usage.is_fn_local {
+                                    return;
+                                }
+                            }
+
                             _ => {}
                         }
+
                         if init.may_have_side_effects() {
-                            // TODO: Inline partially
-                            return;
+                            if !self
+                                .vars_accessible_without_side_effect
+                                .contains(&i.to_id())
+                            {
+                                // TODO: Inline partially
+                                return;
+                            }
                         }
 
                         log::trace!(
@@ -192,10 +219,6 @@ impl Optimizer<'_> {
 
     /// Stores `typeof` of [ClassDecl] and [FnDecl].
     pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
-        if !self.options.reduce_vars || !self.options.typeofs {
-            return;
-        }
-
         let i = match &*decl {
             Decl::Class(v) => v.ident.clone(),
             Decl::Fn(f) => f.ident.clone(),
@@ -259,12 +282,20 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.is_exported {
+            return;
+        }
+
         if let Some(usage) = self
             .data
             .as_ref()
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if usage.declared_as_catch_param {
+                return;
+            }
+
+            if usage.reassigned {
                 return;
             }
 
@@ -309,15 +340,8 @@ impl Optimizer<'_> {
                 && !usage.used_in_loop
             {
                 match decl {
-                    Decl::Class(ClassDecl {
-                        class:
-                            Class {
-                                super_class: Some(super_class),
-                                ..
-                            },
-                        ..
-                    }) => {
-                        if super_class.may_have_side_effects() {
+                    Decl::Class(ClassDecl { class, .. }) => {
+                        if class_has_side_effect(&class) {
                             return;
                         }
                     }
@@ -378,7 +402,7 @@ impl Optimizer<'_> {
                 if let Some(value) = self.lits.get(&i.to_id()).cloned() {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
-                            if self.ctx.is_lhs_of_assign {
+                            if self.ctx.in_lhs_of_assign {
                                 return;
                             }
                         }
@@ -389,7 +413,11 @@ impl Optimizer<'_> {
                     log::trace!("inline: Replacing a variable with cheap expression");
 
                     *e = *value;
-                } else if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                    if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
+                        return;
+                    }
+
                     self.changed = true;
                     log::trace!(
                         "inline: Replacing '{}{:?}' with an expression",
@@ -397,7 +425,7 @@ impl Optimizer<'_> {
                         i.span.ctxt
                     );
 
-                    *e = *value;
+                    *e = *value.clone();
                 }
             }
             _ => {}

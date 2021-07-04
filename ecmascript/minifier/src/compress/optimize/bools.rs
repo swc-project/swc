@@ -339,6 +339,22 @@ impl Optimizer<'_> {
                 }
             }
 
+            Expr::Bin(BinExpr {
+                op: op!("||"),
+                left,
+                right,
+                ..
+            }) => {
+                // `a || false` => `a` (as it will be casted to boolean anyway)
+
+                if let Known(false) = right.as_pure_bool() {
+                    log::trace!("bools: `expr || false` => `expr` (in bool context)");
+                    self.changed = true;
+                    *n = *left.take();
+                    return;
+                }
+            }
+
             _ => {
                 let span = n.span();
                 let v = n.as_pure_bool();

@@ -5,6 +5,7 @@ find tests/compress/exec -name output.js | xargs -L 1 rm
 find tests/compress/exec -name expected.stdout | xargs -L 1 rm
 find tests/compress/exec -name output.terser.js | xargs -L 1 rm
 find tests/compress/exec -name mangle.json | xargs -L 1 rm
+find tests/compress/exec -empty -type d -delete
 
 ./scripts/run.sh \
     | grep 'base_exec_compress__exec__terser__' \

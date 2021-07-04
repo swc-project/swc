@@ -3,6 +3,7 @@ use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
 use swc_common::Mark;
 use swc_common::Span;
+use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -303,4 +304,63 @@ where
     let mut v = IdentUsageCollector::default();
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     v.ids
+}
+
+pub(crate) fn ctxt_has_mark(mut ctxt: SyntaxContext, mark: Mark) -> bool {
+    debug_assert_ne!(mark, Mark::root());
+
+    loop {
+        if ctxt == SyntaxContext::empty() {
+            return false;
+        }
+
+        let m = ctxt.remove_mark();
+        if m == mark {
+            return true;
+        }
+        if m == Mark::root() {
+            return false;
+        }
+    }
+}
+
+pub(crate) fn has_mark(span: Span, mark: Mark) -> bool {
+    ctxt_has_mark(span.ctxt, mark)
+}
+
+pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
+    ///
+    ///`ignore_always`: If true, [Stmt::Return] will be ignored.
+    fn can_end(s: &Stmt, ignore_always: bool) -> bool {
+        match s {
+            Stmt::If(s) => {
+                can_end(&s.cons, false)
+                    || s.alt
+                        .as_deref()
+                        .map(|s| can_end(s, false))
+                        .unwrap_or_default()
+            }
+
+            Stmt::Switch(s) => s
+                .cases
+                .iter()
+                .any(|case| case.cons.iter().any(|s| can_end(&s, false))),
+
+            Stmt::DoWhile(s) => can_end(&s.body, false),
+
+            Stmt::While(s) => can_end(&s.body, false),
+
+            Stmt::For(s) => can_end(&s.body, false),
+
+            Stmt::ForOf(s) => can_end(&s.body, false),
+
+            Stmt::ForIn(s) => can_end(&s.body, false),
+
+            Stmt::Return(..) | Stmt::Break(..) | Stmt::Continue(..) => !ignore_always,
+
+            _ => false,
+        }
+    }
+
+    can_end(s, true)
 }

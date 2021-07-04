@@ -1,1 +1,448 @@
-[]
+[
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                0,
+            ),
+            hi: BytePos(
+                0,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    0,
+                ),
+                hi: BytePos(
+                    30,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('The built in string object.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        8,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            8,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('external' type=dynamic),
+                },
+                tag: External(
+                    ExternalTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                8,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    6,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('String' type=static),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        0,
+                    ),
+                    hi: BytePos(
+                        3,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            0,
+                        ),
+                        hi: BytePos(
+                            3,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('see' type=inline),
+                },
+                tag: See(
+                    SeeTag {
+                        span: Span {
+                            lo: BytePos(
+                                0,
+                            ),
+                            hi: BytePos(
+                                3,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    0,
+                                ),
+                                hi: BytePos(
+                                    90,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{@link https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String String}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                159,
+            ),
+            hi: BytePos(
+                159,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    159,
+                ),
+                hi: BytePos(
+                    203,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('Adds a new method to the built-in string.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        159,
+                    ),
+                    hi: BytePos(
+                        167,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            159,
+                        ),
+                        hi: BytePos(
+                            167,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('function' type=static),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                159,
+                            ),
+                            hi: BytePos(
+                                167,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        159,
+                                    ),
+                                    hi: BytePos(
+                                        180,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('external:String#rot13' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        159,
+                    ),
+                    hi: BytePos(
+                        166,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            159,
+                        ),
+                        hi: BytePos(
+                            166,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('example' type=inline),
+                },
+                tag: Example(
+                    ExampleTag {
+                        span: Span {
+                            lo: BytePos(
+                                159,
+                            ),
+                            hi: BytePos(
+                                166,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    159,
+                                ),
+                                hi: BytePos(
+                                    255,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('* var greeting = new String('hello world');
+                             * console.log( greeting.rot13() ); // uryyb jbeyq
+                             ' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                356,
+            ),
+            hi: BytePos(
+                356,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    356,
+                ),
+                hi: BytePos(
+                    387,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('The jQuery plugin namespace.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        356,
+                    ),
+                    hi: BytePos(
+                        364,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            356,
+                        ),
+                        hi: BytePos(
+                            364,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('external' type=dynamic),
+                },
+                tag: External(
+                    ExternalTag {
+                        span: Span {
+                            lo: BytePos(
+                                356,
+                            ),
+                            hi: BytePos(
+                                364,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    356,
+                                ),
+                                hi: BytePos(
+                                    367,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('"jQuery.fn"' type=dynamic),
+                        },
+                    },
+                ),
+            },
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        356,
+                    ),
+                    hi: BytePos(
+                        359,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            356,
+                        ),
+                        hi: BytePos(
+                            359,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('see' type=inline),
+                },
+                tag: See(
+                    SeeTag {
+                        span: Span {
+                            lo: BytePos(
+                                356,
+                            ),
+                            hi: BytePos(
+                                359,
+                            ),
+                            ctxt: #0,
+                        },
+                        text: Text {
+                            span: Span {
+                                lo: BytePos(
+                                    356,
+                                ),
+                                hi: BytePos(
+                                    428,
+                                ),
+                                ctxt: #0,
+                            },
+                            value: Atom('{@link http://docs.jquery.com/Plugins/Authoring The jQuery Plugin Guide}' type=dynamic),
+                        },
+                    },
+                ),
+            },
+        ],
+    },
+    JsDoc {
+        span: Span {
+            lo: BytePos(
+                503,
+            ),
+            hi: BytePos(
+                503,
+            ),
+            ctxt: #0,
+        },
+        description: Text {
+            span: Span {
+                lo: BytePos(
+                    503,
+                ),
+                hi: BytePos(
+                    562,
+                ),
+                ctxt: #0,
+            },
+            value: Atom('A jQuery plugin to make stars fly around your home page.
+             *' type=dynamic),
+        },
+        tags: [
+            TagItem {
+                span: Span {
+                    lo: BytePos(
+                        503,
+                    ),
+                    hi: BytePos(
+                        511,
+                    ),
+                    ctxt: #0,
+                },
+                tag_name: Text {
+                    span: Span {
+                        lo: BytePos(
+                            503,
+                        ),
+                        hi: BytePos(
+                            511,
+                        ),
+                        ctxt: #0,
+                    },
+                    value: Atom('function' type=static),
+                },
+                tag: Function(
+                    FunctionTag {
+                        span: Span {
+                            lo: BytePos(
+                                503,
+                            ),
+                            hi: BytePos(
+                                511,
+                            ),
+                            ctxt: #0,
+                        },
+                        name: Some(
+                            Text {
+                                span: Span {
+                                    lo: BytePos(
+                                        503,
+                                    ),
+                                    hi: BytePos(
+                                        533,
+                                    ),
+                                    ctxt: #0,
+                                },
+                                value: Atom('external:"jQuery.fn".starfairy' type=dynamic),
+                            },
+                        ),
+                    },
+                ),
+            },
+        ],
+    },
+]
