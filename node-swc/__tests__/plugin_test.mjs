@@ -116,6 +116,13 @@ const testCodes = [
         output: `export default {
             foo: 'foo'
           };`
+    },
+
+    {
+        input: `const obj = { a: 1, b: 2 };
+        const { a, b } = obj;`,
+        output: `const obj = { a: 1, b: 2 };
+        const { a, b } = obj;`
     }
 ];
 test.each(testCodes)(`code($s)`, async ({ input, output }) => {
