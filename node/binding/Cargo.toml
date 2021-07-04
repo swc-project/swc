@@ -17,6 +17,7 @@ napi-build = {version = "1"}
 [dependencies]
 anyhow = "1"
 backtrace = "0.3"
+dashmap = "4.0.2"
 fxhash = "0.2"
 napi = {version = "1", features = ["napi4", "serde-json"]}
 napi-derive = {version = "1"}
