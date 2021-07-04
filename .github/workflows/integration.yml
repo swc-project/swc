@@ -4,6 +4,7 @@ on: [push, pull_request]
 
 env:
   CARGO_INCREMENTAL: 0
+  NODE_OPTIONS: "--experimental-vm-modules npx jest"
 
 jobs:
   publish-test:
