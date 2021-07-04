@@ -174,6 +174,10 @@ impl ProgramData {
 
                     e.get_mut().infects.extend(var_info.infects);
 
+                    e.get_mut().no_side_effect_for_member_access =
+                        e.get_mut().no_side_effect_for_member_access
+                            && var_info.no_side_effect_for_member_access;
+
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;
@@ -260,7 +264,7 @@ impl UsageAnalyzer {
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        self.report(i.to_id(), is_assign, &mut Default::default())
+        self.report(i.to_id(), is_assign, &mut Default::default());
     }
 
     fn declare_decl(
@@ -269,6 +273,8 @@ impl UsageAnalyzer {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
+        let ctx = self.ctx;
+
         let v = self
             .data
             .vars
@@ -284,6 +290,9 @@ impl UsageAnalyzer {
                 is_fn_local: true,
                 var_kind: kind,
                 var_initialized: has_init,
+                no_side_effect_for_member_access: ctx
+                    .in_var_decl_with_no_side_effect_for_member_access,
+
                 ..Default::default()
             });
         self.scope
@@ -737,6 +746,10 @@ impl Visit for UsageAnalyzer {
         let ctx = Ctx {
             in_pat_of_var_decl: true,
             in_pat_of_var_decl_with_init: e.init.is_some(),
+            in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
+                Some(Expr::Array(..) | Expr::Lit(..)) => true,
+                _ => false,
+            },
             ..self.ctx
         };
         e.name.visit_with(e, &mut *self.with_ctx(ctx));
