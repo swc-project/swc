@@ -17,13 +17,26 @@ async function toArray(asyncIterator) {
     return arr;
 }
 
-const files = await toArray(walk('./ecmascript/parser/tests/typescript/tsc'));
+// We use only subset of tests because it's too slow
+const rootDir = './ecmascript/parser/tests/typescript/tsc/parser/ecmascript5';
+
+const files = await toArray(walk(rootDir));
 
 test.each(files)('test(%s)', async (file, done) => {
     if (!file.endsWith('.ts') && !file.endsWith('.tsx')) {
         return
     }
-    const ast = await swc.parseFile(p);
+    let ast;
+    try {
+        ast = await swc.parseFile(file, {
+            syntax: 'typescript',
+            tsx: file.endsWith('tsx')
+        });
+        console.log(`Validating $${file}`)
+    } catch (e) {
+        // We are not testing parser
+        return
+    }
 
 
     done()
