@@ -1,5 +1,5 @@
 [workspace]
-members = ["css", "css/stylis", "ecmascript", "ecmascript/babel/compat", "ecmascript/jsdoc", "node/binding", "wasm"]
+members = ["css", "css/stylis", "ecmascript", "ecmascript/babel/compat", "ecmascript/jsdoc", "node/binding", "plugin", "wasm"]
 
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
