@@ -91,6 +91,12 @@ class BaseVisitor extends Visitor.default {
         assertAllObjectHasTypeFiled(e);
         return e;
     }
+
+    visitClassMethod(n) {
+        const e = super.visitClassMethod(n);
+        assertAllObjectHasTypeFiled(e);
+        return e;
+    }
 }
 
 
