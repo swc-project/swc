@@ -1008,5 +1008,6 @@ pub enum Accessibility {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsConstAssertion {
     pub span: Span,
+    #[serde(rename = "expression")]
     pub expr: Box<Expr>,
 }
