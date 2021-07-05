@@ -50,7 +50,7 @@ jobs:
           path: swc.*.node
 
       - name: Test bindings
-        run: npm test
+        run: NODE_OPTIONS='--experimental-vm-modules' npm test
 
       - name: Test in lts docker
         if: matrix.os == 'ubuntu-18.04'
