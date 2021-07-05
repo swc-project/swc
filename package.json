@@ -55,7 +55,7 @@
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "build": "tsc -d && napi build --platform --release --cargo-name node --cargo-flags=\"-p node\"",
         "build:dev": "tsc -d && napi build --platform --cargo-name node --cargo-flags=\"-p node\"",
-        "test": "jest node-swc/__tests__",
+        "test": "NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
         "version": "napi version -p scripts/npm"
     },
     "devDependencies": {
