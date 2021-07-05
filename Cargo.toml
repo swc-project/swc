@@ -1,7 +1,16 @@
 cargo-features = ["strip"]
 
 [workspace]
-members = ["ecmascript", "ecmascript/jsdoc", "node/binding", "plugin", "plugin/cli", "wasm"]
+members = [
+  "ecmascript",
+  "ecmascript/jsdoc",
+  "node/binding",
+  "plugin",
+  "plugin/build",
+  "plugin/cli",
+  "plugin/testing",
+  "wasm",
+]
 
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
