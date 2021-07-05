@@ -27,6 +27,8 @@ fn add_test<F: FnOnce() + Send + 'static>(
             ignore,
             should_panic: No,
             allow_fail: false,
+            compile_fail: Default::default(),
+            no_run: Default::default(),
         },
         testfn: DynTestFn(Box::new(f)),
     });

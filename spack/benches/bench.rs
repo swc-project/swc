@@ -1,5 +1,6 @@
 //! This benchmark lives here because I don't want to implement `Resolve` again
 //! and again.
+#![feature(bench_black_box)]
 #![feature(test)]
 
 extern crate test;

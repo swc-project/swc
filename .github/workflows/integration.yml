@@ -43,7 +43,7 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
 
           npm run build:dev
-          NODE_OPTIONS='--experimental-vm-modules npx jest' npm test
+          NODE_OPTIONS='--experimental-vm-modules' npm test
 
   integration-test:
     name: swc-cli

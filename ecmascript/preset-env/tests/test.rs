@@ -160,6 +160,8 @@ fn load() -> Result<Vec<TestDescAndFn>, Error> {
                 name: TestName::DynTestName(name),
                 allow_fail: false,
                 should_panic: ShouldPanic::No,
+                compile_fail: Default::default(),
+                no_run: Default::default(),
             },
             testfn: TestFn::DynTestFn(Box::new(move || {
                 //
