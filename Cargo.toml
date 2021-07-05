@@ -8,6 +8,7 @@ members = [
   "node/binding",
   "plugin",
   "plugin/cli",
+  "plugin/runner",
   "plugin/testing",
   "wasm",
 ]
