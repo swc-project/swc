@@ -43,7 +43,7 @@ jobs:
           export PATH="$PATH:$HOME/npm/bin"
 
           npm run build:dev
-          NODE_OPTIONS='--experimental-vm-modules' npm test
+          npm test
 
   integration-test:
     name: swc-cli
