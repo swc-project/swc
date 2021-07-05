@@ -11,3 +11,7 @@ version = "0.0.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+swc_ecma_ast = "0.48.1"
+swc_ecma_codegen = "0.61.0"
+swc_ecma_utils = "0.39.0"
+swc_ecma_visit = "0.34.0"
