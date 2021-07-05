@@ -1,5 +1,9 @@
 use anyhow::{Context, Error};
-use std::{ffi::CString, os::raw::c_char, path::Path};
+use std::{
+    ffi::{CStr, CString},
+    os::raw::c_char,
+    path::Path,
+};
 use swc_ecma_ast::Program;
 
 type LibFn = unsafe extern "C" fn(*const c_char, *const c_char) -> CString;
@@ -19,13 +23,28 @@ pub fn invoke_plugin_at(filename: &Path, options: &str, ast: &Program) -> Result
                 .context("failed to get function `swc_plugin` from a shared library")?
         };
 
-        let output = func();
+        let json_cstr = CStr::from_bytes_with_nul(ast_json.as_bytes()).with_context(|| {
+            format!(
+                "failed to convert ast json (`{}`) as null-termintated string",
+                options
+            )
+        })?;
+        let opts_cstr = CStr::from_bytes_with_nul(options.as_bytes()).with_context(|| {
+            format!(
+                "failed to convert options (`{}`) as null-termintated string",
+                options
+            )
+        })?;
+
+        let output = func(json_cstr.as_ptr(), opts_cstr.as_ptr());
         let output = output
             .into_string()
             .context("failed to decode output from plugin as utf8 string")?;
 
         let output =
             serde_json::from_str(&output).context("failde to deserialize output from plugin")?;
+
+        Ok(output)
     })()
-    .with_context(|| format!("failed to invoke swc plugin at `{}`", filename.display()))?
+    .with_context(|| format!("failed to invoke swc plugin at `{}`", filename.display()))
 }
