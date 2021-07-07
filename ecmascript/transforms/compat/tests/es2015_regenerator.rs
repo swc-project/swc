@@ -1315,7 +1315,7 @@ test!(
     issue_1799_1,
     "
     export default function Foo() {
-        return <div onClick={async (e) => { await doSomething(); }}></div>
+        return call(async (e) => { await doSomething(); })
     }
     ",
     "
