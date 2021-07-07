@@ -20,6 +20,7 @@ use swc_common::{
     comments::{Comment, Comments},
     errors::Handler,
     input::StringInput,
+    source_map::SourceMapGenConfig,
     BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 use swc_ecma_ast::Program;
@@ -316,6 +317,15 @@ impl Compiler {
             Ok(TransformOutput { code, map })
         })
     }
+}
+
+struct SwcSourceMapConfig<'a> {
+    /// Output path of the `.map` file.
+    output_path: &'a Path,
+}
+
+impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
+    fn file_name_to_source(&self, f: &FileName) -> String {}
 }
 
 /// High-level apis.
