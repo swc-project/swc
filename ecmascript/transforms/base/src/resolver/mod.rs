@@ -511,8 +511,7 @@ impl<'a> VisitMut for Resolver<'a> {
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        self.ident_type = IdentType::Binding;
-        n.ident.visit_mut_with(self);
+        self.modify(&mut n.ident, None);
 
         // Create a child scope. The class name is only accessible within the class.
         let child_mark = Mark::fresh(self.mark);
