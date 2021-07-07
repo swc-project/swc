@@ -30,6 +30,5 @@
         "coreJs": 3,
         "mode": "entry",
         "shippedProposals": true
-    },
-    "sourceMaps": true
+    }
 }
