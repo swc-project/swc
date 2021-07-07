@@ -215,7 +215,7 @@ orders[client.key]?.price;
 var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7;
 foo === null || foo === void 0 ? void 0 : foo.bar;
 (ref = a === null || a === void 0 ? void 0 : a.b.c) === null || ref === void 0 ? void 0 : ref.d.e;
-(ref1 = (ref2 = a.b) === null || ref2 === void 0 ? void 0 : ref2.c.d) === null || ref1 === void 0 ? void 0 : ref1.e;
+(ref2 = (ref1 = a.b) === null || ref1 === void 0 ? void 0 : ref1.c.d) === null || ref2 === void 0 ? void 0 : ref2.e;
 (ref3 = a.b.c) === null || ref3 === void 0 ? void 0 : (ref4 = ref3.d) === null || ref4 === void 0 ? void 0 : ref4.e;
 orders === null || orders === void 0 ? void 0 : orders[0].price;
 orders === null || orders === void 0 ? void 0 : (ref5 = orders[0]) === null || ref5 === void 0 ? void 0 : ref5.price;
@@ -295,9 +295,11 @@ foo?.bar?.().baz
 
 foo?.bar?.()?.baz
 
+foo?.bar()?.()
+
 "#,
     r#"
-var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8;
+var ref, ref1, ref2, ref3, ref4, ref5, ref6, ref7, ref8, ref9;
 foo === null || foo === void 0 ? void 0 : foo(foo);
 foo === null || foo === void 0 ? void 0 : foo.bar();
 (ref = foo.bar) === null || ref === void 0 ? void 0 : ref.call(foo, foo.bar, false);
@@ -307,7 +309,9 @@ foo === null || foo === void 0 ? void 0 : (ref2 = foo()) === null || ref2 === vo
 (ref3 = foo.bar) === null || ref3 === void 0 ? void 0 : ref3.call(foo).baz;
 (ref4 = foo.bar) === null || ref4 === void 0 ? void 0 : (ref5 = ref4.call(foo)) === null || ref5 === void 0 ? void 0 : ref5.baz;
 foo === null || foo === void 0 ? void 0 : (ref6 = foo.bar) === null || ref6 === void 0 ? void 0 : ref6.call(foo).baz;
-foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;"#
+foo === null || foo === void 0 ? void 0 : (ref7 = foo.bar) === null || ref7 === void 0 ? void 0 : (ref8 = ref7.call(foo)) === null || ref8 === void 0 ? void 0 : ref8.baz;
+var _obj = foo === null || foo === void 0 ? void 0 : foo.bar();
+(ref9 = _obj) === null || ref9 === void 0 ? void 0 : ref9.call(_obj);"#
 );
 
 // general_unary_exec
