@@ -1304,33 +1304,6 @@ new G<Foo>();
 );
 
 to_ts!(
-    ts_resolver_class_getter,
-    "
-class G<T> {}
-class Foo {
-    get foo() {
-        class Foo {
-            
-        }
-
-        new G<Foo>();
-    }
-}
-",
-    "
-class G<T> {
-}
-class Foo {
-    get foo() {
-        class Foo__2 {
-        }
-        new G<Foo__2>();
-    }
-}
-    "
-);
-
-to_ts!(
     ts_resolver_nested_interface,
     "
 interface Foo {
