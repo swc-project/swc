@@ -1,10 +1,10 @@
-class G<T> {
+class G<T__2> {
 }
 class Foo {
-    constructor() {
-        class Foo__2 {
+    constructor(){
+        class Foo__3 {
         }
-        new G<Foo__2>();
+        new G<Foo__3>();
     }
 }
 new G<Foo>();

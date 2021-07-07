@@ -1,9 +1,9 @@
-class G<T> {
+class G<T__2> {
 }
 class Foo {
     get foo() {
-        class Foo__2 {
+        class Foo__3 {
         }
-        new G<Foo__2>();
+        new G<Foo__3>();
     }
 }
