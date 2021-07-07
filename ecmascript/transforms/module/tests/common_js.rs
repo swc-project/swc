@@ -4868,3 +4868,17 @@ test!(
     const a = [_foo1.default, _foo.default];
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1799_1,
+    "
+    export default function Foo() {
+      return 500;
+    }
+    ",
+    "
+    
+    "
+);
