@@ -7,7 +7,7 @@ use crate::{
     id::{Id, ModuleId},
     load::Load,
     resolve::Resolve,
-    util::{self, CloneMap, ExprExt, VarDeclaratorExt},
+    util::{CloneMap, ExprExt, VarDeclaratorExt},
     Bundler, Hook, ModuleRecord,
 };
 use anyhow::Error;
@@ -23,14 +23,12 @@ use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_ids, prepend, private_ident};
 use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-use util::CHashSet;
 use EdgeDirection::Outgoing;
 
 pub(super) struct Ctx {
     /// Full dependency graph.
     pub graph: ModuleGraph,
     pub cycles: Vec<Vec<ModuleId>>,
-    pub merged: CHashSet<ModuleId>,
     pub transitive_remap: CloneMap<SyntaxContext, SyntaxContext>,
     pub export_stars_in_wrapped: Lock<FxHashMap<ModuleId, Vec<SyntaxContext>>>,
 }

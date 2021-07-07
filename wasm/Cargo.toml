@@ -2,11 +2,11 @@
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 description = "wasm module for swc"
 edition = "2018"
-license = "Apache-2.0/MIT"
+license = "Apache-2.0 AND MIT"
 name = "wasm"
 publish = false
 repository = "https://github.com/swc-project/swc.git"
-version = "1.2.62"
+version = "1.2.63"
 
 [lib]
 crate-type = ["cdylib"]

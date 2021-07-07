@@ -285,7 +285,8 @@ export type JscTarget =
   | "es2017"
   | "es2018"
   | "es2019"
-  | "es2020";
+  | "es2020"
+  | "es2021";
 
 export type ParserConfig = TsParserConfig | EsParserConfig;
 export interface TsParserConfig {
@@ -790,6 +791,7 @@ export type Expression =
   | JSXElement
   | JSXFragment
   | TsTypeAssertion
+  | TsConstAssertion
   | TsNonNullExpression
   | TsAsExpression
   | PrivateName
@@ -813,7 +815,12 @@ export interface ThisExpression extends ExpressionBase {
 export interface ArrayExpression extends ExpressionBase {
   type: "ArrayExpression";
 
-  elements: (Expression | SpreadElement | undefined)[];
+  elements: (ExprOrSpread | undefined)[];
+}
+
+export interface ExprOrSpread {
+  spread?: Span,
+  expression: Expression
 }
 
 export interface ObjectExpression extends ExpressionBase {
@@ -2118,6 +2125,12 @@ export interface TsTypeAssertion extends ExpressionBase {
 
   expression: Expression;
   typeAnnotation: TsType;
+}
+
+export interface TsConstAssertion extends ExpressionBase {
+  type: "TsConstAssertion";
+
+  expression: Expression;
 }
 
 export interface TsNonNullExpression extends ExpressionBase {

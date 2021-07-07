@@ -924,7 +924,10 @@ fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
     match &mut *e {
         Expr::Fn(f) => {
             if let Some(i) = &mut f.ident {
-                if i.is_reserved_for_es3() {
+                if i.is_reserved()
+                    || i.is_reserved_in_strict_mode(true)
+                    || i.is_reserved_in_strict_bind()
+                {
                     i.sym = format!("_{}", i.sym).into();
                 }
             }

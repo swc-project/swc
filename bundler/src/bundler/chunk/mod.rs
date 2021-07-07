@@ -69,7 +69,6 @@ where
         let ctx = Ctx {
             graph,
             cycles,
-            merged: Default::default(),
             transitive_remap: Default::default(),
             export_stars_in_wrapped: Default::default(),
         };

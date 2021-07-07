@@ -1,10 +1,10 @@
-use super::SimplifyExpr;
+use super::expr_simplifier;
 use swc_ecma_transforms_testing::test_transform;
 
 fn fold(src: &str, expected: &str) {
     test_transform(
         ::swc_ecma_parser::Syntax::default(),
-        |_| SimplifyExpr::default(),
+        |_| expr_simplifier(),
         src,
         expected,
         true,

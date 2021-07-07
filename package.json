@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.2.62",
+    "version": "1.2.63",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -55,7 +55,7 @@
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "build": "tsc -d && napi build --platform --release --cargo-name node --cargo-flags=\"-p node\"",
         "build:dev": "tsc -d && napi build --platform --cargo-name node --cargo-flags=\"-p node\"",
-        "test": "jest node-swc/__tests__",
+        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest node-swc/__tests__",
         "version": "napi version -p scripts/npm"
     },
     "devDependencies": {
@@ -76,6 +76,7 @@
         "babel-plugin-transform-node-env-inline": "^0.4.3",
         "browserslist": "^4.16.5",
         "core-js": "^2.6.11",
+        "cross-env": "^7.0.3",
         "jest": "^27.0.1",
         "lodash": "^4.17.21",
         "progress": "^2.0.3",

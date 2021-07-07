@@ -33,7 +33,12 @@ impl Fold for MemberExprLit {
 
         macro_rules! handle {
             ($sym:expr, $span:expr) => {
-                if $sym.is_reserved_for_es3() || !is_valid_ident(&$sym) {
+                if $sym.is_reserved()
+                    || $sym.is_reserved_in_strict_mode(true)
+                    || $sym.is_reserved_in_es3()
+                    // it's not bind, so you could use eval
+                    || !is_valid_ident(&$sym)
+                {
                     return MemberExpr {
                         computed: true,
                         prop: Box::new(Expr::Lit(Lit::Str(Str {

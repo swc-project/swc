@@ -203,7 +203,7 @@
               "end": 209,
               "ctxt": 0
             },
-            "expr": {
+            "expression": {
               "type": "ObjectExpression",
               "span": {
                 "start": 186,

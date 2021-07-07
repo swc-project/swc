@@ -1,3 +1,4 @@
+console.log('c');
 class A {
     method() {
         return new B();
@@ -5,5 +6,4 @@ class A {
 }
 class B extends A {
 }
-console.log('c');
 console.log(A, B);

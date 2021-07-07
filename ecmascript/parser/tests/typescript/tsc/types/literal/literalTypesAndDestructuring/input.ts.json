@@ -440,7 +440,7 @@
                       "end": 149,
                       "ctxt": 0
                     },
-                    "expr": {
+                    "expression": {
                       "type": "NumericLiteral",
                       "span": {
                         "start": 139,
@@ -762,7 +762,7 @@
                 "end": 236,
                 "ctxt": 0
               },
-              "expr": {
+              "expression": {
                 "type": "NumericLiteral",
                 "span": {
                   "start": 226,
