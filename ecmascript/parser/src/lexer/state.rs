@@ -154,7 +154,6 @@ impl<I: Input> Tokens for Lexer<'_, I> {
 impl<'a, I: Input> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
     fn next(&mut self) -> Option<Self::Item> {
-        let was_first = self.state.is_first;
         let mut start = self.cur_pos();
 
         let res = (|| -> Result<Option<_>, _> {
@@ -194,9 +193,10 @@ impl<'a, I: Input> Iterator for Lexer<'a, I> {
                         {
                             let comments = self.comments.as_mut().unwrap();
 
-                            // if the file had no tokens, then treat any comments in the leading
-                            // comments buffer as leading. Otherwise treat them as trailing.
-                            if was_first {
+                            // if the file had no tokens and no shebang, then treat any
+                            // comments in the leading comments buffer as leading.
+                            // Otherwise treat them as trailing.
+                            if last == BytePos(0) {
                                 comments.add_leading(last, c);
                             } else {
                                 comments.add_trailing(last, c);
