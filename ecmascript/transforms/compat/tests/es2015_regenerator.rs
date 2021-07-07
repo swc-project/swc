@@ -1311,7 +1311,7 @@ test!(
 
 test!(
     Syntax::default(),
-    |_| tr(()),
+    |_| chain!(async_to_generator(), tr(())),
     issue_1799_1,
     "
     export default function Foo() {
