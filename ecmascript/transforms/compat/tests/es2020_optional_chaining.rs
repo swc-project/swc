@@ -712,5 +712,14 @@ test!(
     
     bug();
     ",
-    ""
+    "
+    function bug() {
+        const arrowFn = (arg)=>{
+            var ref;
+            var _object = this.object[arg];
+            return (ref = _object) === null || ref === void 0 ? void 0 : ref.call(_object);
+        };
+    }
+    bug();
+    "
 );
