@@ -8,6 +8,9 @@ name = "swc_common"
 repository = "https://github.com/swc-project/swc.git"
 version = "0.10.21"
 
+[package.metadata.docs.rs]
+all-features = true
+
 [features]
 concurrent = ["parking_lot"]
 default = []
