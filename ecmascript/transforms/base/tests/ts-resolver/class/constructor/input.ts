@@ -5,7 +5,7 @@ class Foo {
 
         }
 
-        new G<Foo__2>();
+        new G<Foo>();
     }
 }
 new G<Foo>();
