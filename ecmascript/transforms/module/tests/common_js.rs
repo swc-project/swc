@@ -4890,3 +4890,24 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1799_2,
+    "
+    export default function () {
+      return 500;
+    }
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
+    exports.default = _default;
+    function _default() {
+        return 500;
+    }
+    "
+);
