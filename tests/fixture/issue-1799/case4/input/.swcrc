@@ -25,10 +25,5 @@
     },
     "module": {
         "type": "commonjs"
-    },
-    "env": {
-        "coreJs": 3,
-        "mode": "entry",
-        "shippedProposals": true
     }
 }
