@@ -1308,3 +1308,17 @@ test!(
     }
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| tr(()),
+    issue_1799_1,
+    "
+    export default function Foo() {
+        return <div onClick={async (e) => { await doSomething(); }}></div>
+    }
+    ",
+    "
+    
+    "
+);
