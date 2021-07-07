@@ -65,6 +65,7 @@ Object.defineProperty(exports, '__esModule', {
     value: true
 });
 exports.input = input;
+exports.default = _default;
 function input(name) {
     return `${name}.md?render`;
 }
@@ -74,7 +75,7 @@ function _default({ name , input: inp  }) {
         input: inp
     };
 }
-exports.default = _default;"
+"
 );
 
 test!(
@@ -1198,8 +1199,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function _default() {}
 exports.default = _default;
+function _default() {}
 
 "#
 );
@@ -4879,6 +4880,13 @@ test!(
     }
     ",
     "
-    
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
+    exports.default = Foo;
+    function Foo() {
+        return 500;
+    }
     "
 );
