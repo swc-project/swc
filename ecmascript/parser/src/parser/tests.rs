@@ -140,24 +140,47 @@ fn issue_1878() {
     use crate::TsConfig;
     use swc_common::comments::SingleThreadedComments;
 
-    let c = SingleThreadedComments::default();
-    let s = "
-
-    // test
-";
-    let _ = super::test_parser_comment(
-        &c,
-        s,
-        Syntax::Typescript(TsConfig {
-            ..Default::default()
-        }),
-        |p| p.parse_typescript_module(),
-    );
-
     // file with only comments should have the comments
     // in the leading map instead of the trailing
-    let (leading, trailing) = c.take_all();
-    assert!(trailing.borrow().is_empty());
-    assert_eq!(leading.borrow().len(), 1);
-    assert!(leading.borrow().get(&BytePos(0)).is_some());
+    {
+        let c = SingleThreadedComments::default();
+        let s = "
+            // test
+        ";
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_typescript_module(),
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(trailing.borrow().is_empty());
+        assert_eq!(leading.borrow().len(), 1);
+        assert!(leading.borrow().get(&BytePos(0)).is_some());
+    }
+
+    // file with shebang and comments should still work with the comments trailing
+    // the shebang
+    {
+        let c = SingleThreadedComments::default();
+        let s = "#!/foo/bar
+            // test
+        ";
+        let _ = super::test_parser_comment(
+            &c,
+            s,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            |p| p.parse_typescript_module(),
+        );
+
+        let (leading, trailing) = c.take_all();
+        assert!(leading.borrow().is_empty());
+        assert_eq!(trailing.borrow().len(), 1);
+        assert!(trailing.borrow().get(&BytePos(10)).is_some());
+    }
 }
