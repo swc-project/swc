@@ -337,7 +337,7 @@ impl OptChaining {
             _ => {}
         }
 
-        match *e.expr.clone() {
+        match *e.expr.clone().fold_children_with(self) {
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(obj),
                 prop,
