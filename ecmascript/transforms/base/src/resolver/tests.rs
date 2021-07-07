@@ -1275,35 +1275,6 @@ identical_ts!(
 );
 
 to_ts!(
-    ts_resolver_class_constructor,
-    "
-class G<T> {}
-class Foo {
-    constructor() {
-        class Foo {
-            
-        }
-
-        new G<Foo__2>();
-    }
-}
-new G<Foo>();
-",
-    "
-class G<T> {
-}
-class Foo {
-    constructor(){
-        class Foo__2 {
-        }
-        new G<Foo__2>();
-    }
-}
-new G<Foo>();
-        "
-);
-
-to_ts!(
     ts_resolver_nested_interface,
     "
 interface Foo {
