@@ -1263,17 +1263,6 @@ identical_ts!(
     "
 );
 
-identical_ts!(
-    ts_resolver_003,
-    "
-    class Foo<T> {}
-    class A {}
-    class B {}
-    new Foo<A>();
-    new Foo<B>();
-    "
-);
-
 to_ts!(
     ts_resolver_nested_interface,
     "
