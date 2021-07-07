@@ -123,7 +123,7 @@ where
                                 ..
                             },
                         )) => {
-                            initialized.insert(js_word!("default"));
+                            // initialized.insert(js_word!("default"));
                         }
 
                         ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(
