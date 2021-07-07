@@ -1342,7 +1342,10 @@ test!(
     Syntax::default(),
     |_| {
         let mark = Mark::fresh(Mark::root());
-        es2015::<SingleThreadedComments>(mark, None, Default::default())
+        chain!(
+            async_to_generator(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default())
+        )
     },
     issue_1799_2,
     "
@@ -1374,6 +1377,7 @@ test!(
     |_| {
         let mark = Mark::fresh(Mark::root());
         chain!(
+            async_to_generator(),
             es2016(),
             es2015::<SingleThreadedComments>(mark, None, Default::default()),
         )
