@@ -32,7 +32,7 @@ impl Fold for OptChaining {
             BlockStmtOrExpr::Expr(e) => {
                 let return_stmt = Stmt::Return(ReturnStmt {
                     span: DUMMY_SP,
-                    arg: e,
+                    arg: Some(e),
                 });
                 BlockStmtOrExpr::BlockStmt(
                     BlockStmt {
