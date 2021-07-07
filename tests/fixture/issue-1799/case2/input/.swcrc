@@ -18,7 +18,7 @@
             "topLevelAwait": false,
             "importMeta": false
         },
-        "target": "es5",
+        "target": "es2015",
         "loose": true,
         "externalHelpers": true,
         "keepClassNames": true
