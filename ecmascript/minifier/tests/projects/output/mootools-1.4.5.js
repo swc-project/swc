@@ -6411,20 +6411,19 @@ Elements.alias(
             addListener: function (
                 type, fn
             ) {
-                if ("unload" == type) {
-                    var old = fn;
-                    fn = function (
-                    ) {
-                        this.removeListener(
-                            "unload",
-                            fn
-                        ), old(
-                        );
-                    };
-                } else collected[Slick.uidOf(
-                    this
-                )] = this;
                 return (
+                    "unload" == type
+                        ? (fn = function (
+                        ) {
+                            this.removeListener(
+                                "unload",
+                                fn
+                            ), old(
+                            );
+                        })
+                        : (collected[Slick.uidOf(
+                            this
+                        )] = this),
                     this.addEventListener
                         ? this.addEventListener(
                             type,
@@ -10513,7 +10512,8 @@ var Cookie = new Class(
                             width: options.width,
                         },
                         options.properties,
-                    );
+                    ),
+                    self = this;
                 for (var callBack in callBacks)
                     (Swiff.CallBacks[this.instance][callBack] = (function (
                         option
@@ -10521,7 +10521,7 @@ var Cookie = new Class(
                         return function (
                         ) {
                             return option.apply(
-                                this.object,
+                                self.object,
                                 arguments
                             );
                         };

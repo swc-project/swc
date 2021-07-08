@@ -1021,11 +1021,6 @@
                     },
                     enhanceWithin: function (
                     ) {
-                        var index,
-                            widgetElements = {
-                            },
-                            keepNative = jQuery.mobile.page.prototype.keepNativeSelector(
-                            );
                         jQuery.mobile.nojs && jQuery.mobile.nojs(
                             this
                         ),
@@ -12952,7 +12947,8 @@
                         this._preExtension(
                         ), (this.button = this._button(
                         ));
-                        var options = this.options,
+                        var self = this,
+                            options = this.options,
                             iconpos = options.icon
                                 ? options.iconpos || this.select.jqmData(
                                     "iconpos"
@@ -13009,7 +13005,7 @@
                         this.select.change(
                             function (
                             ) {
-                                this.refresh(
+                                self.refresh(
                                 ), options.nativeMenu && this.blur(
                                 );
                             }

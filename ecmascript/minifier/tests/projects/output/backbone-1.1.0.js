@@ -52,18 +52,19 @@
                     [callback, context,]
                 ) || !callback)
                     return this;
-                var once = _.once(
-                    function (
-                    ) {
-                        this.off(
-                            name,
-                            once
-                        ), callback.apply(
-                            this,
-                            arguments
-                        );
-                    }
-                );
+                var self = this,
+                    once = _.once(
+                        function (
+                        ) {
+                            self.off(
+                                name,
+                                once
+                            ), callback.apply(
+                                this,
+                                arguments
+                            );
+                        }
+                    );
                 return (once._callback = callback), this.on(
                     name,
                     once,
@@ -1295,12 +1296,13 @@
                     model,
                     options
                 );
-                var success = options.success;
+                var collection = this,
+                    success = options.success;
                 return (
                     (options.success = function (
                         model, resp, options
                     ) {
-                        options.wait && this.add(
+                        options.wait && collection.add(
                             model,
                             options
                         ),
