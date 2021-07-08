@@ -444,13 +444,15 @@ impl Optimizer<'_> {
 
     /// Rules:
     ///  - `l > i` => `i < l`
-    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, _is_for_rel: bool) -> bool {
+    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
         match (l, r) {
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
 
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
                 true
             }
+
+            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
             (Expr::Ident(l), Expr::Ident(r)) => self.options.comparisons && l.sym > r.sym,
 
