@@ -7,6 +7,7 @@ use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::fmt::Write;
+use std::mem::swap;
 use std::mem::take;
 use swc_atoms::js_word;
 use swc_atoms::JsWord;
@@ -1550,7 +1551,9 @@ impl VisitMut for Optimizer<'_> {
 
         match &mut *n.test {
             Expr::Bin(e) => {
-                self.optimize_bang_within_logical_ops(e, true);
+                if self.optimize_bang_within_logical_ops(e, true) {
+                    swap(&mut n.cons, &mut n.alt);
+                }
             }
             _ => {}
         }
