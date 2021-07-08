@@ -1,3 +1,5 @@
+use std::mem::swap;
+
 use super::Optimizer;
 use crate::util::make_bool;
 use crate::util::SpanExt;
@@ -26,6 +28,11 @@ impl Optimizer<'_> {
 
             _ => return,
         };
+
+        self.changed = true;
+        log::trace!("conditionals: `!a ? foo : bar` => `a ? bar : foo`");
+        cond.test = Box::new(negated_test.take());
+        swap(&mut cond.cons, &mut cond.alt);
     }
 
     /// Removes useless operands of an logical expressions.
