@@ -198,9 +198,9 @@ impl Fold for Regenerator {
                     function,
                 );
 
-                return ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                return ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     span,
-                    expr: Box::new(FnExpr { ident, function }.into()),
+                    decl: DefaultDecl::Fn(FnExpr { ident, function }),
                 });
             }
 

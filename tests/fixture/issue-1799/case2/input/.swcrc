@@ -1,0 +1,29 @@
+{
+    "jsc": {
+        "transform": {
+            "hidden": {
+                "jest": true
+            }
+        },
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "dynamicImport": true,
+            "privateMethod": false,
+            "functionBind": false,
+            "exportDefaultFrom": true,
+            "exportNamespaceFrom": true,
+            "decorators": false,
+            "decoratorsBeforeExport": false,
+            "topLevelAwait": false,
+            "importMeta": false
+        },
+        "target": "es2015",
+        "loose": true,
+        "externalHelpers": true,
+        "keepClassNames": true
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}

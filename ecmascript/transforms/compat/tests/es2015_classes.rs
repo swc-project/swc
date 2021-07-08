@@ -6426,3 +6426,21 @@ test!(
   }();
 "#
 );
+
+test!(
+    syntax(),
+    |t| tr(t),
+    issue_1799_1,
+    "
+    export default function Foo() {
+      return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    export default function Foo() {
+      return call(async (e)=>{
+          await doSomething();
+      });
+    }
+    "
+);
