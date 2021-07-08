@@ -352,7 +352,14 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
 
         let rel = pathdiff::diff_paths(&target, base_path);
         match rel {
-            Some(v) => v.to_string_lossy().to_string(),
+            Some(v) => {
+                let s = v.to_string_lossy().to_string();
+                if cfg!(target_os = "windows") {
+                    s.replace("\\", "/");
+                } else {
+                    s
+                }
+            }
             None => f.to_string(),
         }
     }
