@@ -5829,30 +5829,27 @@ test!(
     console.log(new MyClass());
     ",
     "
-  
-    "
-);
-
-test_exec!(
-    ts(),
-    |_| decorators(decorators::Config {
-        legacy: true,
-        emit_metadata: true,
-        ..Default::default()
-    }),
-    issue_1278_2,
-    "
+    var _class, _descriptor, _dec, _dec1;
     function MyDecorator(klass) {
-        return () => {
-            // do something
+        return ()=>{
             console.log(klass);
+        };
+    }
+    let MyClass = ((_class = class MyClass {
+        constructor(){
+            _initializerDefineProperty(this, 'prop', _descriptor, this);
         }
-    }
-
-    class MyClass {
-        @MyDecorator(MyClass) prop: '';
-    }
-
+    }) || _class, _dec = MyDecorator(_class), _dec1 = typeof Reflect !== 'undefined' && typeof \
+     Reflect.metadata === 'function' && Reflect.metadata('design:type', String), _descriptor = \
+     _applyDecoratedDescriptor(_class.prototype, 'prop', [
+        _dec,
+        _dec1
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: void 0
+    }), _class);
     console.log(new MyClass());
     "
 );
