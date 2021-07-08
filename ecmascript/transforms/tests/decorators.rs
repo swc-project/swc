@@ -4442,15 +4442,9 @@ export class Product extends TimestampedEntity {
   public discounts!: Discount[];
 }   
 ",
-    "var _class, _descriptor, _descriptor1, _descriptor2, _descriptor3, _descriptor4, \
-     _descriptor5;
-var _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
-    enum: ProductType
-}), _dec3 = Column(), _dec4 = OneToMany(()=>Order
-, (order)=>order.product
-), _dec5 = OneToMany(()=>Discount
-, (discount)=>discount.product
-), _dec6 = Entity();
+    "var _class, _descriptor, _dec, _descriptor1, _dec1, _descriptor2, _dec2, _descriptor3, \
+     _dec3, _descriptor4, _dec4, _descriptor5, _dec5;
+    var _dec6 = Entity();
 export let Product = _class = _dec6(((_class = class Product extends TimestampedEntity {
     constructor(...args){
         super(...args);
@@ -4461,7 +4455,13 @@ export let Product = _class = _dec6(((_class = class Product extends Timestamped
         _initializerDefineProperty(this, 'orders', _descriptor4, this);
         _initializerDefineProperty(this, 'discounts', _descriptor5, this);
       }
-  }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
+    }) || _class, _dec = PrimaryGeneratedColumn('uuid'), _dec1 = Column(), _dec2 = Column({
+      enum: ProductType
+  }), _dec3 = Column(), _dec4 = OneToMany(()=>Order
+  , (order)=>order.product
+  ), _dec5 = OneToMany(()=>Discount
+  , (discount)=>discount.product
+  ), _descriptor = _applyDecoratedDescriptor(_class.prototype,'id', [
     _dec
 ], {
     configurable: true,
@@ -4517,22 +4517,24 @@ export class Product extends TimestampedEntity {
   public id!: string;
 }
 ",
-    "var _class, _descriptor;
-    var _dec = PrimaryGeneratedColumn(\"uuid\"), _dec1 = Entity();
+    "
+    var _class, _descriptor, _dec;
+    var _dec1 = Entity();
     export let Product = _class = _dec1(((_class = class Product extends TimestampedEntity {
         constructor(...args){
             super(...args);
             _initializerDefineProperty(this, 'id', _descriptor, this);
         }
-    }) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'id', [
-    _dec
-], {
-    configurable: true,
-    enumerable: true,
-    writable: true,
-    initializer: void 0
-}), _class)) || _class;
-"
+    }) || _class, _dec = PrimaryGeneratedColumn('uuid'), _descriptor = \
+     _applyDecoratedDescriptor(_class.prototype, 'id', [
+        _dec
+    ], {
+        configurable: true,
+        enumerable: true,
+        writable: true,
+        initializer: void 0
+    }), _class)) || _class;
+    "
 );
 
 test_exec!(
