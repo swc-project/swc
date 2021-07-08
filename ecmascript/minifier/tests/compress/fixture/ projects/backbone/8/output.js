@@ -1,6 +1,6 @@
 
 function foo() {
-    model.validationError
+    return model.validationError
         ? (this.trigger(
             "invalid",
             this,
