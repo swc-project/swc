@@ -30,8 +30,7 @@
                     name,
                     [callback, context,]
                 ) && callback
-                    ? this
-                    : (this._events || (this._events = {
+                    ? (this._events || (this._events = {
                     }),
                     (this._events[name] || (this._events[name] = [])).push(
                         {
@@ -40,7 +39,8 @@
                             ctx: context || this,
                         }
                     ),
-                    this);
+                    this)
+                    : this;
             },
             once: function (
                 name, callback, context

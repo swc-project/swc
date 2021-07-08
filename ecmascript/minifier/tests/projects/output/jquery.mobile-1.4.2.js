@@ -1402,13 +1402,13 @@
                     return (
                         (options =
                 isMethodCall || !args.length
-                    ? jQuery.widget.extend.apply(
+                    ? options
+                    : jQuery.widget.extend.apply(
                         null,
                         [options,].concat(
                             args
                         )
-                    )
-                    : options),
+                    )),
                         isMethodCall
                             ? this.each(
                                 function (
@@ -1743,14 +1743,14 @@
                           "ui-state-disabled"
                       )
                     )
-                                    ? void 0
-                                    : ("string" == typeof handler
+                                    ? ("string" == typeof handler
                                         ? instance[handler]
                                         : handler
                                     ).apply(
                                         instance,
                                         arguments
-                                    );
+                                    )
+                                    : void 0;
                             }
                             "string" !== typeof handler &&
                   (handlerProxy.guid = handler.guid =
@@ -3798,8 +3798,7 @@
                         ) &&
               !jQuery.event.special.navigate.isPushStateEnabled(
               )
-                            ? void 0
-                            : this.preventNextHashChange
+                            ? this.preventNextHashChange
                                 ? ((this.preventNextHashChange = !1),
                                 event.stopImmediatePropagation(
                                 ),
@@ -3831,7 +3830,8 @@
                                             );
                                         },
                                     }
-                                ));
+                                ))
+                            : void 0;
                     },
                 }
             );
@@ -3923,7 +3923,7 @@
                     duration,
                     that = this,
                     animationType =
-              type && "animation" !== type ? "animation" : "transition";
+              type && "animation" !== type ? "transition" : "animation";
                 return (jQuery.support.cssTransitions &&
             "transition" === animationType) ||
             (jQuery.support.cssAnimations && "animation" === animationType)
@@ -4660,12 +4660,12 @@
                                 clearTapHandlers(
                                 ),
                                 isTaphold || origTarget !== event.target
-                                    ? triggerCustomEvent(
+                                    ? isTaphold && event.stopPropagation(
+                                    )
+                                    : triggerCustomEvent(
                                         thisObject,
                                         "tap",
                                         event
-                                    )
-                                    : isTaphold && event.stopPropagation(
                                     );
                             }
                             $this
@@ -6698,8 +6698,8 @@
               alreadyThere || !(url.indexOf(
                   "#"
               ) > -1)
-                  ? (url += jQuery.mobile.dialogHashKey)
-                  : (url += "#" + jQuery.mobile.dialogHashKey),
+                  ? (url += "#" + jQuery.mobile.dialogHashKey)
+                  : (url += jQuery.mobile.dialogHashKey),
               0 === jQuery.mobile.navigate.history.activeIndex &&
                 url === jQuery.mobile.navigate.history.initialDst &&
                 (url += jQuery.mobile.dialogHashKey)),
@@ -14472,16 +14472,16 @@
                                         jQuery.mobile.dialogHashKey
                                     ) ||
               currentIsDialog
-                                        ? (url +=
+                                        ? (url =
+                    jQuery.mobile.path.parseLocation(
+                    ).hash +
+                    jQuery.mobile.dialogHashKey)
+                                        : (url +=
                     url.indexOf(
                         "#"
                     ) > -1
                         ? jQuery.mobile.dialogHashKey
-                        : "#" + jQuery.mobile.dialogHashKey)
-                                        : (url =
-                    jQuery.mobile.path.parseLocation(
-                    ).hash +
-                    jQuery.mobile.dialogHashKey),
+                        : "#" + jQuery.mobile.dialogHashKey),
                                     0 === jQuery.mobile.navigate.history.activeIndex &&
                 url === jQuery.mobile.navigate.history.initialDst &&
                 (url += jQuery.mobile.dialogHashKey),
@@ -15370,11 +15370,11 @@
                             fragment
                         ),
                         this.isMultiple || placeholder.length
-                            ? this.header.addClass(
-                                "ui-screen-hidden"
-                            )
-                            : this.headerTitle.text(
+                            ? this.headerTitle.text(
                                 this.placeholder
+                            )
+                            : this.header.addClass(
+                                "ui-screen-hidden"
                             ),
                         self.list.listview(
                         );
@@ -16471,19 +16471,7 @@
               )
                   .length &&
               ("focusout" !== e.type || isVisible
-                  ? ((isVisible = !0),
-                  clearTimeout(
-                      delayHide
-                  ),
-                  (delayShow = setTimeout(
-                      function (
-                      ) {
-                          self.show(
-                          );
-                      },
-                      0
-                  )))
-                  : "focusin" === e.type &&
+                  ? "focusin" === e.type &&
                   isVisible &&
                   (clearTimeout(
                       delayShow
@@ -16493,6 +16481,18 @@
                       function (
                       ) {
                           self.hide(
+                          );
+                      },
+                      0
+                  )))
+                  : ((isVisible = !0),
+                  clearTimeout(
+                      delayHide
+                  ),
+                  (delayShow = setTimeout(
+                      function (
+                      ) {
+                          self.show(
                           );
                       },
                       0
@@ -19282,9 +19282,7 @@
                         this._processTabs(
                         ),
                         options.active !== !1 && this.anchors.length
-                            ? ((options.active = !1), (this.active = jQuery(
-                            )))
-                            : this.active.length &&
+                            ? this.active.length &&
                 !jQuery.contains(
                     this.tablist[0],
                     this.active[0]
@@ -19303,7 +19301,9 @@
                                     )
                                 : (options.active = this.tabs.index(
                                     this.active
-                                )),
+                                ))
+                            : ((options.active = !1), (this.active = jQuery(
+                            ))),
                         this._refresh(
                         );
                     },
@@ -20254,9 +20254,9 @@
                 )),
                 window1.orientation ||
           !(x > 7 || (((z > 6 && 8 > y) || (8 > z && y > 6)) && x > 5))
-                    ? zoom.enabled && zoom.disable(
+                    ? !zoom.enabled && zoom.enable(
                     )
-                    : !zoom.enabled && zoom.enable(
+                    : zoom.enabled && zoom.disable(
                     );
             }
             jQuery.mobile.document.on(
@@ -20441,8 +20441,8 @@
                     (jQuery.mobile.defaultHomeScroll =
               jQuery.support.scrollTop && 1 !== jQuery.mobile.window.scrollTop(
               )
-                  ? 0
-                  : 1),
+                  ? 1
+                  : 0),
                     jQuery.mobile.autoInitializePage && jQuery.mobile.initializePage(
                     ),
                     jQuery.mobile.hideUrlBar &&

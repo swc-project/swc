@@ -2055,16 +2055,16 @@
             (queue && !jQuery.isArray(
                 data
             )
-                ? (queue = jQuery._data(
+                ? queue.push(
+                    data
+                )
+                : (queue = jQuery._data(
                     elem,
                     type,
                     jQuery.makeArray(
                         data
                     )
-                ))
-                : queue.push(
-                    data
-                )),
+                ))),
                         queue || []
                     );
             },
@@ -2607,7 +2607,7 @@
                         elem
                     ) {
                         var val = elem.attributes.value;
-                        return val && !val.specified ? elem.value : elem.text;
+                        return val && !val.specified ? elem.text : elem.value;
                     },
                 },
                 select: {
@@ -2768,12 +2768,12 @@
                             ? getSetAttribute || !ruseDefault.test(
                                 name
                             )
-                                ? (elem[jQuery.camelCase(
+                                ? (elem[propName] = !1)
+                                : (elem[jQuery.camelCase(
                                     "default-" + name
                                 )] = elem[
                                     propName
                                 ] = !1)
-                                : (elem[propName] = !1)
                             : jQuery.attr(
                                 elem,
                                 name,
@@ -3199,11 +3199,11 @@
                 e
             ) {
                 return e && jQuery.event.triggered === e.type
-                    ? jQuery.event.dispatch.apply(
+                    ? void 0
+                    : jQuery.event.dispatch.apply(
                         eventHandle.elem,
                         arguments
-                    )
-                    : void 0;
+                    );
             }),
             (eventHandle.elem = null)),
                 types = (types || "").match(
@@ -8109,15 +8109,15 @@
                     elem,
                     tag
                 )
-                    ? found.push(
-                        elem
-                    )
-                    : jQuery.merge(
+                    ? jQuery.merge(
                         found,
                         getAll(
                             elem,
                             tag
                         )
+                    )
+                    : found.push(
+                        elem
                     );
         return void 0 === tag || (tag && jQuery.nodeName(
             context,
@@ -8299,12 +8299,12 @@
                   "table" !== tag || rtbody.test(
                       elem
                   )
-                      ? tmp.firstChild
-                      : "<table>" !== wrap[1] || rtbody.test(
+                      ? "<table>" !== wrap[1] || rtbody.test(
                           elem
                       )
-                          ? tmp
-                          : 0,
+                          ? 0
+                          : tmp
+                      : tmp.firstChild,
                                     j = elem && elem.childNodes.length;
                                     j--;
 
@@ -10945,8 +10945,8 @@
           "inline" !== css_defaultDisplay(
               elem.nodeName
           )
-              ? (style.display = "inline-block")
-              : (style.zoom = 1))),
+              ? (style.zoom = 1)
+              : (style.display = "inline-block"))),
         opts.overflow &&
         ((style.overflow = "hidden"),
         !jQuery.support.shrinkWrapBlocks &&
@@ -11119,7 +11119,7 @@
                         tween.prop,
                         ""
                     )),
-                    result && "auto" !== result ? 0 : result);
+                    result && "auto" !== result ? result : 0);
             },
             set: function (
                 tween

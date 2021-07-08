@@ -1234,11 +1234,11 @@
         return bindFnToScope || !isFunction(
             obj
         )
-            ? bind(
+            ? obj
+            : bind(
                 lastInstance,
                 obj
-            )
-            : obj;
+            );
     }
     function getBlockElements(
         nodes
@@ -11057,7 +11057,8 @@
                 uri, isImage
             ) {
                 return msie && !(msie >= 8)
-                    ? (urlResolve(
+                    ? uri
+                    : (urlResolve(
                         uri
                     ).href,
                     "" !== urlResolve(
@@ -11073,8 +11074,7 @@
                         ? "unsafe:" + urlResolve(
                             uri
                         ).href
-                        : void 0
-                    : uri;
+                        : void 0;
             };
         });
     }
@@ -13143,12 +13143,12 @@
                     ) || !(value.length < minlength)
                         ? (ctrl.$setValidity(
                             "minlength",
-                            !1
-                        ), void 0)
+                            !0
+                        ), value)
                         : (ctrl.$setValidity(
                             "minlength",
-                            !0
-                        ), value);
+                            !1
+                        ), void 0);
                 };
             ctrl.$parsers.push(
                 minLengthValidator
@@ -13169,12 +13169,12 @@
                     ) || !(value.length > maxlength)
                         ? (ctrl.$setValidity(
                             "maxlength",
-                            !1
-                        ), void 0)
+                            !0
+                        ), value)
                         : (ctrl.$setValidity(
                             "maxlength",
-                            !0
-                        ), value);
+                            !1
+                        ), void 0);
                 };
             ctrl.$parsers.push(
                 maxLengthValidator
@@ -13246,12 +13246,12 @@
                 ) > value)
                     ? (ctrl.$setValidity(
                         "min",
-                        !1
-                    ), void 0)
+                        !0
+                    ), value)
                     : (ctrl.$setValidity(
                         "min",
-                        !0
-                    ), value);
+                        !1
+                    ), void 0);
             };
             ctrl.$parsers.push(
                 minValidator
@@ -13270,12 +13270,12 @@
                 ))
                     ? (ctrl.$setValidity(
                         "max",
-                        !1
-                    ), void 0)
+                        !0
+                    ), value)
                     : (ctrl.$setValidity(
                         "max",
-                        !0
-                    ), value);
+                        !1
+                    ), void 0);
             };
             ctrl.$parsers.push(
                 maxValidator

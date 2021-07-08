@@ -1444,10 +1444,7 @@ Function.implement(
             )));
                     var result =
             args || length
-                ? self.call(
-                    context
-                )
-                : self.apply(
+                ? self.apply(
                     context,
                     args && length
                         ? args.concat(
@@ -1456,6 +1453,9 @@ Function.implement(
                             )
                         )
                         : args || arguments,
+                )
+                : self.call(
+                    context
                 );
                     return context == that ? result : context;
                 };
@@ -2400,8 +2400,8 @@ Hash.alias(
                     if (
                         ((doc =
               doc.compatMode && "CSS1Compat" != doc.compatMode
-                  ? doc.html
-                  : doc.body),
+                  ? doc.body
+                  : doc.html),
                         (this.page = {
                             x:
                 null != event.pageX
@@ -3526,22 +3526,22 @@ function (
                 a, b
             ) {
                 return a.compareDocumentPosition && b.compareDocumentPosition
-                    ? 0
-                    : 4 & a.compareDocumentPosition(
+                    ? 4 & a.compareDocumentPosition(
                         b
                     )
                         ? -1
                         : a === b
                             ? 0
-                            : 1;
+                            : 1
+                    : 0;
             }
             : "sourceIndex" in root
                 ? function (
                     a, b
                 ) {
                     return a.sourceIndex && b.sourceIndex
-                        ? 0
-                        : a.sourceIndex - b.sourceIndex;
+                        ? a.sourceIndex - b.sourceIndex
+                        : 0;
                 }
                 : document.createRange
                     ? function (
@@ -3797,8 +3797,8 @@ function (
         (this.push =
           hasOthers ||
           !(first || (1 == parsed.length && 1 == parsed.expressions[0].length))
-              ? this.pushArray
-              : this.pushUID),
+              ? this.pushUID
+              : this.pushArray),
         null == found && (found = []);
         var j,
             m,
@@ -4753,15 +4753,15 @@ function (
         node, selector
     ) {
         return node && selector
-            ? !1
-            : selector && node !== selector
-                ? !0
-                : (local.setDocument(
+            ? selector && node !== selector
+                ? (local.setDocument(
                     node
                 ), local.matchNode(
                     node,
                     selector
-                ));
+                ))
+                : !0
+            : !1;
     }),
     (Slick.defineAttributeGetter = function (
         name, fn
@@ -5989,8 +5989,8 @@ Elements.alias(
                     this,
                     name
                 )
-                    ? null
-                    : result;
+                    ? result
+                    : null;
             },
             getProperties: function (
             ) {
@@ -7362,8 +7362,7 @@ Elements.alias(
                         "events"
                     );
                     return events && events[type]
-                        ? this
-                        : ((args = Array.from(
+                        ? ((args = Array.from(
                             args
                         )),
                         events[type].keys.each(
@@ -7383,7 +7382,8 @@ Elements.alias(
                             },
                             this
                         ),
-                        this);
+                        this)
+                        : this;
                 },
                 cloneEvents: function (
                     from, type
@@ -8340,8 +8340,8 @@ Elements.alias(
         var doc = element.getDocument(
         );
         return doc.compatMode && "CSS1Compat" != doc.compatMode
-            ? doc.html
-            : doc.body;
+            ? doc.body
+            : doc.html;
     }
 })(
 ),
@@ -8882,8 +8882,7 @@ Element1.alias(
               ).test(
                   selectorText
               )
-                                    ? void 0
-                                    : void Object.each(
+                                    ? void Object.each(
                                         Element1.Styles,
                                         function (
                                             value, style
@@ -8899,7 +8898,8 @@ Element1.alias(
                                                 )
                                                 : value);
                                         }
-                                    );
+                                    )
+                                    : void 0;
                             }
                         );
                     }
