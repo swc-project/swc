@@ -35,6 +35,16 @@ impl Optimizer<'_> {
         swap(&mut cond.cons, &mut cond.alt);
     }
 
+    /// This method may change return value.
+    ///
+    /// - `a ? b : false` => `a && b`
+    pub(super) fn compress_cond_to_logical(&mut self, e: &mut Expr) {
+        let cond = match e {
+            Expr::Cond(cond) => cond,
+            _ => return,
+        };
+    }
+
     /// Removes useless operands of an logical expressions.
     pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
         if !self.options.conditionals {

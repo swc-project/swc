@@ -641,6 +641,8 @@ impl Optimizer<'_> {
             _ => {}
         }
 
+        self.compress_cond_to_logical(e);
+
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
                 log::trace!("ignore_return_value: Dropping unused expr");
