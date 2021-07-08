@@ -5746,63 +5746,89 @@ test!(
     }),
     issue_846_1,
     "
-    class SomeClass {
-      @dec
-      someMethod() {}
+  class SomeClass {
+    @dec
+    someMethod() {}
+  }
+  
+  class OtherClass extends SomeClass {
+    @dec
+    anotherMethod() {
+      super.someMethod()
     }
-    
-    class OtherClass extends SomeClass {
-      @dec
-      anotherMethod() {
-        super.someMethod()
-      }
+  }
+  ",
+    "
+  let SomeClass = _decorate([], function(_initialize) {
+        class SomeClass {
+            constructor(){
+                _initialize(this);
+            }
+        }
+        return {
+            F: SomeClass,
+            d: [
+                {
+                    kind: 'method',
+                    decorators: [
+                        dec
+                    ],
+                    key: 'someMethod',
+                    value: function someMethod() {
+                    }
+                }
+            ]
+        };
+    });
+    let OtherClass = _decorate([], function(_initialize, _SomeClass) {
+        class OtherClass extends _SomeClass {
+            constructor(...args){
+                super(...args);
+                _initialize(this);
+            }
+        }
+        return {
+            F: OtherClass,
+            d: [
+                {
+                    kind: 'method',
+                    decorators: [
+                        dec
+                    ],
+                    key: 'anotherMethod',
+                    value: function anotherMethod() {
+                        _get(_getPrototypeOf(OtherClass.prototype), 'someMethod', this).call(this);
+                    }
+                }
+            ]
+        };
+    }, SomeClass);
+  "
+);
+
+test!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1278_1,
+    "
+    function MyDecorator(klass) {
+        return () => {
+            // do something
+            console.log(klass);
+        }
     }
+
+    class MyClass {
+        @MyDecorator(MyClass) prop: '';
+    }
+
+    console.log(new MyClass());
     ",
     "
-    let SomeClass = _decorate([], function(_initialize) {
-          class SomeClass {
-              constructor(){
-                  _initialize(this);
-              }
-          }
-          return {
-              F: SomeClass,
-              d: [
-                  {
-                      kind: 'method',
-                      decorators: [
-                          dec
-                      ],
-                      key: 'someMethod',
-                      value: function someMethod() {
-                      }
-                  }
-              ]
-          };
-      });
-      let OtherClass = _decorate([], function(_initialize, _SomeClass) {
-          class OtherClass extends _SomeClass {
-              constructor(...args){
-                  super(...args);
-                  _initialize(this);
-              }
-          }
-          return {
-              F: OtherClass,
-              d: [
-                  {
-                      kind: 'method',
-                      decorators: [
-                          dec
-                      ],
-                      key: 'anotherMethod',
-                      value: function anotherMethod() {
-                          _get(_getPrototypeOf(OtherClass.prototype), 'someMethod', \
-     this).call(this);
-                      }
-                  }
-              ]
-          };
-      }, SomeClass);
+  
     "
 );
