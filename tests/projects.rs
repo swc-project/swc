@@ -683,6 +683,7 @@ fn tests(dir: PathBuf) {
                     &Options {
                         swcrc: true,
                         is_module: true,
+                        output_path: Some(output.join(entry.file_name())),
 
                         ..Default::default()
                     },

@@ -120,6 +120,9 @@ pub struct Options {
 
     #[serde(default = "default_is_module")]
     pub is_module: bool,
+
+    #[serde(default)]
+    pub output_path: Option<PathBuf>,
 }
 
 impl Options {
@@ -176,6 +179,7 @@ impl Options {
         &self,
         cm: &Arc<SourceMap>,
         base: &FileName,
+        output_path: Option<&Path>,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
@@ -293,6 +297,7 @@ impl Options {
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             input_source_map: self.config.input_source_map.clone(),
+            output_path: output_path.map(|v| v.to_path_buf()),
         }
     }
 }
@@ -582,6 +587,7 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub source_maps: SourceMapsConfig,
     pub input_source_map: InputSourceMap,
     pub is_module: bool,
+    pub output_path: Option<PathBuf>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

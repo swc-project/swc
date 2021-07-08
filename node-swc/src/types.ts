@@ -175,6 +175,12 @@ export interface Options extends Config {
   plugin?: Plugin;
 
   isModule?: boolean;
+
+  /**
+   * Destination path. Note that this value is used only to fix source path
+   * of source map files and swc does not write output to this path.
+   */
+  outputPath?: string
 }
 
 export interface CallerOptions {

@@ -27,6 +27,7 @@ impl Task for PrintTask {
         self.c
             .print(
                 &self.program,
+                self.options.output_path.clone(),
                 self.options.config.jsc.target.unwrap_or(JscTarget::Es2020),
                 self.options
                     .source_maps
@@ -81,6 +82,7 @@ pub fn print_sync(cx: CallContext) -> napi::Result<JsObject> {
     let result = {
         c.print(
             &program,
+            options.output_path,
             codegen_target,
             options
                 .source_maps
