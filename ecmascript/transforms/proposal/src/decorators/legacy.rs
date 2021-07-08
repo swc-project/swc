@@ -4,6 +4,7 @@ use super::DecoratorFinder;
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
+use std::mem::take;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -147,7 +148,7 @@ impl Fold for Legacy {
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    decls: replace(&mut self.uninitialized_vars, Default::default()),
+                    decls: take(&mut self.uninitialized_vars),
                     declare: false,
                 }))
                 .into(),
@@ -157,7 +158,7 @@ impl Fold for Legacy {
         if !self.exports.is_empty() {
             let decl = ModuleDecl::ExportNamed(NamedExport {
                 span: DUMMY_SP,
-                specifiers: replace(&mut self.exports, Default::default()),
+                specifiers: take(&mut self.exports),
                 src: None,
                 type_only: false,
                 asserts: None,
