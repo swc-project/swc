@@ -1357,7 +1357,7 @@
                         inputLength = input.length,
                         key,
                         value;
-                    inputLength > inputIndex;
+                    inputIndex < inputLength;
                     inputIndex++
                 )
                     for (key in input[inputIndex])
@@ -3505,7 +3505,7 @@
                         i,
                         length = this.stack.length,
                         index;
-                    for (i = 0; length > i; i++)
+                    for (i = 0; i < length; i++)
                         if (
                             ((entry = stack[i]),
                             decodeURIComponent(
@@ -4079,7 +4079,7 @@
                       ? ne.changedTouches[0]
                       : void 0))
                     )
-                        for (j = 0, len = touchEventProps.length; len > j; j++)
+                        for (j = 0, len = touchEventProps.length; j < len; j++)
                             (prop = touchEventProps[j]), (event[prop] = touch[prop]);
                 }
                 return event;
@@ -5612,7 +5612,7 @@
             (defaultScroll = this._getDefaultScroll(
             )),
             (active.lastScroll =
-              minScroll > currentScroll ? defaultScroll : currentScroll));
+              currentScroll < minScroll ? defaultScroll : currentScroll));
                     },
                     _delayedRecordScroll: function (
                     ) {
@@ -9125,7 +9125,7 @@
                             var i,
                                 img,
                                 len = containers.length;
-                            for (i = 0; len > i; i++)
+                            for (i = 0; i < len; i++)
                                 (img = jQuery(
                                     this._findFirstElementByTagName(
                                         containers[i].firstChild,
@@ -10706,7 +10706,7 @@
                                 wrapper.className = "ui-slider-inneroffset",
                                 j = 0,
                                 length = domSlider.childNodes.length;
-                                length > j;
+                                j < length;
                                 j++
                             )
                                 wrapper.appendChild(
@@ -10724,7 +10724,7 @@
                                 ),
                                 i = 0,
                                 optionsCount = options.length;
-                                optionsCount > i;
+                                i < optionsCount;
                                 i++
                             )
                                 (side = !i ? "b" : "a"),
@@ -15246,7 +15246,7 @@
                             numOptions = $options.length,
                             select = this.select[0],
                             i = 0;
-                            numOptions > i;
+                            i < numOptions;
                             i++, isPlaceholderItem = !1
                         ) {
                             if (
@@ -18484,7 +18484,7 @@
                                 callback = opts.filterCallback || defaultFilterCallback,
                                 length = filterItems.length,
                                 idx = 0;
-                                length > idx;
+                                idx < length;
                                 idx++
                             )
                                 (dst = callback.call(

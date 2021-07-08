@@ -89,12 +89,12 @@
                         : _.keys(
                             this._events
                         ), i = 0, l = names.length;
-                    l > i;
+                    i < l;
                     i++
                 )
                     if (((name = names[i]), (events = this._events[name]))) {
                         if (((this._events[name] = retain = []), callback || context))
-                            for (j = 0, k = events.length; k > j; j++)
+                            for (j = 0, k = events.length; j < k; j++)
                                 (ev = events[j]),
                                 ((callback &&
                     callback !== ev.callback &&
@@ -179,7 +179,7 @@
                     var names = name.split(
                             eventSplitter
                         ), i = 0, l = names.length;
-                    l > i;
+                    i < l;
                     i++
                 )
                     obj[action].apply(
@@ -401,7 +401,7 @@
                         : (this.attributes[attr] = val);
                 if (!options.silent) {
                     changes.length && (this._pending = !0);
-                    for (var i = 0, l = changes.length; l > i; i++)
+                    for (var i = 0, l = changes.length; i < l; i++)
                         this.trigger(
                             "change:" + changes[i],
                             this,
@@ -886,7 +886,7 @@
                 options || (options = {
                 });
                 var i, l, index, model;
-                for (i = 0, l = models.length; l > i; i++) {
+                for (i = 0, l = models.length; i < l; i++) {
                     if (((model = models[i] = this.get(
                         models[i]
                     )), !model)) continue;
@@ -961,7 +961,7 @@
                     merge = options.merge,
                     remove = options.remove,
                     order = !sortable && add && remove ? [] : !1;
-                for (i = 0, l = models.length; l > i; i++) {
+                for (i = 0, l = models.length; i < l; i++) {
                     if (
                         ((attrs = models[i]),
                         (id =
@@ -1014,7 +1014,7 @@
                     );
                 }
                 if (remove) {
-                    for (i = 0, l = this.length; l > i; ++i)
+                    for (i = 0, l = this.length; i < l; ++i)
                         modelMap[(model = this.models[i]).cid] || toRemove.push(
                             model
                         );
@@ -1027,7 +1027,7 @@
                     if (
                         (sortable && (sort = !0), (this.length += toAdd.length), null != at)
                     )
-                        for (i = 0, l = toAdd.length; l > i; i++)
+                        for (i = 0, l = toAdd.length; i < l; i++)
                             this.models.splice(
                                 at + i,
                                 0,
@@ -1036,7 +1036,7 @@
                     else {
                         order && (this.models.length = 0);
                         var orderedModels = order || toAdd;
-                        for (i = 0, l = orderedModels.length; l > i; i++)
+                        for (i = 0, l = orderedModels.length; i < l; i++)
                             this.models.push(
                                 orderedModels[i]
                             );
@@ -1051,7 +1051,7 @@
           ),
                     !options.silent)
                 ) {
-                    for (i = 0, l = toAdd.length; l > i; i++)
+                    for (i = 0, l = toAdd.length; i < l; i++)
                         (model = toAdd[i]).trigger(
                             "add",
                             model,
@@ -1072,7 +1072,7 @@
             ) {
                 options || (options = {
                 });
-                for (var i = 0, l = this.models.length; l > i; i++)
+                for (var i = 0, l = this.models.length; i < l; i++)
                     this._removeReference(
                         this.models[i]
                     );

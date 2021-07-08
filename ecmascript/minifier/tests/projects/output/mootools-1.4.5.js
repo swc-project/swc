@@ -331,7 +331,7 @@
             name,
             object
         ));
-        for (var i = 0, l = methods.length; l > i; i++) {
+        for (var i = 0, l = methods.length; i < l; i++) {
             var key = methods[i],
                 generic = object[key],
                 proto = prototype[key];
@@ -351,7 +351,7 @@
             if (!prototype.propertyIsEnumerable(
                 methods[0]
             ))
-                for (var i = 0, l = methods.length; l > i; i++)
+                for (var i = 0, l = methods.length; i < l; i++)
                     fn.call(
                         prototype,
                         prototype[methods[i]],
@@ -512,7 +512,7 @@
             forEach: function (
                 fn, bind
             ) {
-                for (var i = 0, l = this.length; l > i; i++)
+                for (var i = 0, l = this.length; i < l; i++)
                     i in this && fn.call(
                         bind,
                         this[i],
@@ -600,7 +600,7 @@
                     k,
                     v
                 );
-                for (var i = 1, l = arguments.length; l > i; i++) {
+                for (var i = 1, l = arguments.length; i < l; i++) {
                     var object = arguments[i];
                     for (var key in object) mergeOne(
                         source,
@@ -623,7 +623,7 @@
             append: function (
                 original
             ) {
-                for (var i = 1, l = arguments.length; l > i; i++) {
+                for (var i = 1, l = arguments.length; i < l; i++) {
                     var extended = arguments[i] || {
                     };
                     for (var key in extended) original[key] = extended[key];
@@ -855,7 +855,7 @@ Array.implement(
         every: function (
             fn, bind
         ) {
-            for (var i = 0, l = this.length >>> 0; l > i; i++)
+            for (var i = 0, l = this.length >>> 0; i < l; i++)
                 if (i in this && !fn.call(
                     bind,
                     this[i],
@@ -867,7 +867,7 @@ Array.implement(
         filter: function (
             fn, bind
         ) {
-            for (var results = [], value, i = 0, l = this.length >>> 0; l > i; i++)
+            for (var results = [], value, i = 0, l = this.length >>> 0; i < l; i++)
                 i in this &&
           ((value = this[i]),
           fn.call(
@@ -891,7 +891,7 @@ Array.implement(
                             length + from
                         )
                         : from || 0;
-                length > i;
+                i < length;
                 i++
             )
                 if (this[i] === item) return i;
@@ -904,7 +904,7 @@ Array.implement(
                 var length = this.length >>> 0, results = Array(
                         length
                     ), i = 0;
-                length > i;
+                i < length;
                 i++
             )
                 i in this && (results[i] = fn.call(
@@ -918,7 +918,7 @@ Array.implement(
         some: function (
             fn, bind
         ) {
-            for (var i = 0, l = this.length >>> 0; l > i; i++)
+            for (var i = 0, l = this.length >>> 0; i < l; i++)
                 if (i in this && fn.call(
                     bind,
                     this[i],
@@ -964,7 +964,7 @@ Array.implement(
                         this.length,
                         keys.length
                     ), i = 0;
-                length > i;
+                i < length;
                 i++
             )
                 obj[keys[i]] = this[i];
@@ -974,7 +974,7 @@ Array.implement(
             object
         ) {
             for (var result = {
-                }, i = 0, l = this.length; l > i; i++)
+                }, i = 0, l = this.length; i < l; i++)
                 for (var key in object)
                     if (object[key](
                         this[i]
@@ -1025,7 +1025,7 @@ Array.implement(
         combine: function (
             array
         ) {
-            for (var i = 0, l = array.length; l > i; i++) this.include(
+            for (var i = 0, l = array.length; i < l; i++) this.include(
                 array[i]
             );
             return this;
@@ -1045,7 +1045,7 @@ Array.implement(
         },
         flatten: function (
         ) {
-            for (var array = [], i = 0, l = this.length; l > i; i++) {
+            for (var array = [], i = 0, l = this.length; i < l; i++) {
                 var type = typeOf(
                     this[i]
                 );
@@ -1068,7 +1068,7 @@ Array.implement(
         },
         pick: function (
         ) {
-            for (var i = 0, l = this.length; l > i; i++)
+            for (var i = 0, l = this.length; i < l; i++)
                 if (null != this[i]) return this[i];
             return null;
         },
@@ -1399,7 +1399,7 @@ Function.extend(
     {
         attempt: function (
         ) {
-            for (var i = 0, l = arguments.length; l > i; i++)
+            for (var i = 0, l = arguments.length; i < l; i++)
                 try {
                     return arguments[i](
                     );
@@ -1612,7 +1612,7 @@ var $try = Function.attempt;
                 object, keys
             ) {
                 for (var results = {
-                    }, i = 0, l = keys.length; l > i; i++) {
+                    }, i = 0, l = keys.length; i < l; i++) {
                     var k = keys[i];
                     k in object && (results[k] = object[k]);
                 }
@@ -3854,7 +3854,7 @@ function (
                     )
                         break search;
                 } else if (first && lastBit)
-                    for (m = 0, n = currentItems.length; n > m; m++)
+                    for (m = 0, n = currentItems.length; m < n; m++)
                         if (
                             (this[combinator](
                                 currentItems[m],
@@ -3869,7 +3869,7 @@ function (
                         )
                             break search;
                         else
-                            for (m = 0, n = currentItems.length; n > m; m++)
+                            for (m = 0, n = currentItems.length; m < n; m++)
                                 this[combinator](
                                     currentItems[m],
                                     tag,
@@ -3999,7 +3999,7 @@ function (
                     ? b > pos
                         ? !1
                         : void 0
-                    : pos > b
+                    : b < pos
                         ? !1
                         : (pos - b) % a == 0;
         };
@@ -4846,7 +4846,7 @@ var Element1 = function (
         parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
         if (attributes)
-            for (var attr, i = 0, l = attributes.length; l > i; i++) {
+            for (var attr, i = 0, l = attributes.length; i < l; i++) {
                 if (((attr = attributes[i]), null != props[attr.key])) continue;
                 null != attr.value && "=" == attr.operator
                     ? (props[attr.key] = attr.value)
@@ -4892,7 +4892,7 @@ new Type(
                     elements = !0,
                     i = 0,
                     l = this.length;
-                l > i;
+                i < l;
                 i++
             ) {
                 var element = this[i],
@@ -5038,7 +5038,7 @@ new Type(
         ),
         push: function (
         ) {
-            for (var length = this.length, i = 0, l = arguments.length; l > i; i++) {
+            for (var length = this.length, i = 0, l = arguments.length; i < l; i++) {
                 var item = document.id(
                     arguments[i]
                 );
@@ -5049,7 +5049,7 @@ new Type(
         ),
         unshift: function (
         ) {
-            for (var items = [], i = 0, l = arguments.length; l > i; i++) {
+            for (var items = [], i = 0, l = arguments.length; i < l; i++) {
                 var item = document.id(
                     arguments[i]
                 );
@@ -5069,7 +5069,7 @@ new Type(
                 var newElements = new Elements(
                         this
                     ), i = 0, l = arguments.length;
-                l > i;
+                i < l;
                 i++
             ) {
                 var item = arguments[i];
@@ -5089,7 +5089,7 @@ new Type(
         append: function (
             collection
         ) {
-            for (var i = 0, l = collection.length; l > i; i++)
+            for (var i = 0, l = collection.length; i < l; i++)
                 this.push(
                     collection[i]
                 );
@@ -5601,7 +5601,7 @@ Elements.alias(
                     var args = Array.flatten(
                             arguments
                         ), i = 0, l = args.length;
-                    l > i;
+                    i < l;
                     i++
                 ) {
                     var item = args[i];
@@ -6123,7 +6123,7 @@ Elements.alias(
                     length = elements.length;
                 length > 1 && (parent = fragment = document.createDocumentFragment(
                 ));
-                for (var i = 0; length > i; i++) {
+                for (var i = 0; i < length; i++) {
                     var element = document.id(
                         elements[i],
                         !0

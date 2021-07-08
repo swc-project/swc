@@ -51,7 +51,7 @@
                 context
             );
         else if (obj.length === +obj.length)
-            for (var i = 0, length = obj.length; length > i; i++)
+            for (var i = 0, length = obj.length; i < length; i++)
                 if (iterator.call(
                     context,
                     obj[i],
@@ -63,7 +63,7 @@
                         var keys = _.keys(
                                 obj
                             ), i = 0, length = keys.length;
-                        length > i;
+                        i < length;
                         i++
                     )
                         if (iterator.call(
@@ -576,7 +576,7 @@
                         b = right.criteria;
                     if (a !== b) {
                         if (a > b || void 0 === a) return 1;
-                        if (b > a || void 0 === b) return -1;
+                        if (a < b || void 0 === b) return -1;
                     }
                     return left.index - right.index;
                 }
@@ -932,7 +932,7 @@
                     length
                 ),
                 i = 0;
-            length > i;
+            i < length;
             i++
         )
             results[i] = _.pluck(
@@ -947,7 +947,7 @@
         if (null == list) return {
         };
         for (var result = {
-            }, i = 0, length = list.length; length > i; i++)
+            }, i = 0, length = list.length; i < length; i++)
             values
                 ? (result[list[i]] = values[i])
                 : (result[list[i][0]] = list[i][1]);
@@ -978,7 +978,7 @@
                 item,
                 isSorted
             );
-        for (; length > i; i++) if (array[i] === item) return i;
+        for (; i < length; i++) if (array[i] === item) return i;
         return -1;
     }),
     (_.lastIndexOf = function (
@@ -1015,7 +1015,7 @@
                 range = new Array(
                     length
                 );
-            length > idx;
+            idx < length;
 
         )
             (range[idx++] = start), (start += step);
@@ -1239,7 +1239,7 @@
                 ) {
                     var last = new Date(
                     ) - timestamp;
-                    wait > last
+                    last < wait
                         ? (timeout = setTimeout(
                             later,
                             wait - last
@@ -1352,7 +1352,7 @@
                     length
                 ),
                 i = 0;
-            length > i;
+            i < length;
             i++
         )
             values[i] = obj[keys[i]];
@@ -1370,7 +1370,7 @@
                     length
                 ),
                 i = 0;
-            length > i;
+            i < length;
             i++
         )
             pairs[i] = [keys[i], obj[keys[i]],];
@@ -1384,7 +1384,7 @@
                 }, keys = _.keys(
                     obj
                 ), i = 0, length = keys.length;
-            length > i;
+            i < length;
             i++
         )
             result[obj[keys[i]]] = keys[i];
@@ -1741,7 +1741,7 @@
                     0,
                     n
                 )
-            ), i = 0; n > i; i++)
+            ), i = 0; i < n; i++)
             accum[i] = iterator.call(
                 context,
                 i

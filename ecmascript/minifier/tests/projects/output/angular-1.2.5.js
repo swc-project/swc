@@ -616,7 +616,7 @@
                         o2
                     )) return !1;
                     if ((length = o1.length) == o2.length) {
-                        for (key = 0; length > key; key++)
+                        for (key = 0; key < length; key++)
                             if (!equals(
                                 o1[key],
                                 o2[key]
@@ -1228,7 +1228,7 @@
                 lastInstance = obj,
                 len = keys.length,
                 i = 0;
-            len > i;
+            i < len;
             i++
         )
             (key = keys[i]), obj && (obj = (lastInstance = obj)[key]);
@@ -1508,7 +1508,7 @@
                     for (
                         set = list.shift(
                         ), setIndex = 0, setLength = set.length;
-                        setLength > setIndex;
+                        setIndex < setLength;
                         setIndex++
                     )
                         for (
@@ -1523,7 +1523,7 @@
                             childIndex = 0,
                             childLength = (children = element.children(
                             )).length;
-                            childLength > childIndex;
+                            childIndex < childLength;
                             childIndex++
                         )
                             list.push(
@@ -1861,7 +1861,7 @@
         )
             ? name
             : [name,]; element.length; ) {
-            for (var i = 0, ii = names.length; ii > i; i++)
+            for (var i = 0, ii = names.length; i < ii; i++)
                 if (void 0 !== (value = element.data(
                     names[i]
                 ))) return value;
@@ -2206,7 +2206,7 @@
                                     )
                                     : this.length,
                                 j = 0;
-                            jj > j;
+                            j < jj;
                             j++
                         ) {
                             var nodeValue = fn(
@@ -2979,7 +2979,7 @@
                                     invokeQueue = moduleFn._invokeQueue,
                                     i = 0,
                                     ii = invokeQueue.length;
-                                    ii > i;
+                                    i < ii;
                                     i++
                                 ) {
                                     var invokeArgs = invokeQueue[i],
@@ -3080,7 +3080,7 @@
                     length,
                     i,
                     key;
-                for (i = 0, length = $inject.length; length > i; i++) {
+                for (i = 0, length = $inject.length; i < length; i++) {
                     if (((key = $inject[i]), "string" !== typeof key))
                         throw $injectorMinErr(
                             "itkn",
@@ -4232,7 +4232,7 @@
                                 );
                             }
                         );
-                        for (var i = 0, ii = $linkNode.length; ii > i; i++) {
+                        for (var i = 0, ii = $linkNode.length; i < ii; i++) {
                             var node = $linkNode[i];
                             (1 == node.nodeType || 9 == node.nodeType) &&
                   $linkNode.eq(
@@ -4344,11 +4344,11 @@
                             ii,
                             n,
                             stableNodeList = [];
-                        for (i = 0, ii = nodeList.length; ii > i; i++)
+                        for (i = 0, ii = nodeList.length; i < ii; i++)
                             stableNodeList.push(
                                 nodeList[i]
                             );
-                        for (i = 0, n = 0, ii = linkFns.length; ii > i; n++)
+                        for (i = 0, n = 0, ii = linkFns.length; i < ii; n++)
                             (node = stableNodeList[n]),
                             (nodeLinkFn = linkFns[i++]),
                             (childLinkFn = linkFns[i++]),
@@ -4455,7 +4455,7 @@
                                 nAttrs = node.attributes,
                                 j = 0,
                                 jj = nAttrs && nAttrs.length;
-                            jj > j;
+                            j < jj;
                             j++
                         ) {
                             var attrStartName = !1,
@@ -4677,7 +4677,7 @@
                             directiveValue,
                             i = 0,
                             ii = directives.length;
-                        ii > i;
+                        i < ii;
                         i++
                     ) {
                         directive = directives[i];
@@ -5247,7 +5247,7 @@
                     ),
                             i = 0,
                             ii = preLinkFns.length;
-                            ii > i;
+                            i < ii;
                             i++
                         )
                             try {
@@ -5332,7 +5332,7 @@
                 function markDirectivesAsIsolate(
                     directives
                 ) {
-                    for (var j = 0, jj = directives.length; jj > j; j++)
+                    for (var j = 0, jj = directives.length; j < jj; j++)
                         directives[j] = inherit(
                             directives[j],
                             {
@@ -5361,7 +5361,7 @@
                                 ),
                                 i = 0,
                                 ii = directives.length;
-                            ii > i;
+                            i < ii;
                             i++
                         )
                             try {
@@ -5836,17 +5836,17 @@
                         i,
                         ii;
                     if ($rootElement)
-                        for (i = 0, ii = $rootElement.length; ii > i; i++)
+                        for (i = 0, ii = $rootElement.length; i < ii; i++)
                             if ($rootElement[i] == firstElementToRemove) {
                                 $rootElement[i++] = newNode;
                                 for (
                                     var j = i,
                                         j2 = j + removeCount - 1,
                                         jj = $rootElement.length;
-                                    jj > j;
+                                    j < jj;
                                     j++, j2++
                                 )
-                                    jj > j2
+                                    j2 < jj
                                         ? ($rootElement[j] = $rootElement[j2])
                                         : delete $rootElement[j];
                                 $rootElement.length -= removeCount - 1;
@@ -5862,7 +5862,7 @@
                         firstElementToRemove
                     ),
                     (newNode[jqLite.expando] = firstElementToRemove[jqLite.expando]);
-                    for (var k = 1, kk = elementsToRemove.length; kk > k; k++) {
+                    for (var k = 1, kk = elementsToRemove.length; k < kk; k++) {
                         var element = elementsToRemove[k];
                         jqLite(
                             element
@@ -7015,7 +7015,7 @@
                             fn,
                             exp,
                             concat1 = [];
-                        length > index;
+                        index < length;
 
                     )
                         -1 != (startIndex = text.indexOf(
@@ -7069,7 +7069,7 @@
                                 context
                             ) {
                                 try {
-                                    for (var i = 0, ii = length, part; ii > i; i++)
+                                    for (var i = 0, ii = length, part; i < ii; i++)
                                         "function" == typeof (part = parts[i]) &&
                         ((part = part(
                             context
@@ -9794,7 +9794,7 @@
                     )),
                     (locals = void 0),
                     (scope = val);
-                while (pathKeysLength > i);
+                while (i < pathKeysLength);
                 return val;
             };
         else {
@@ -9976,7 +9976,7 @@
                       ) {
                           for (
                               var callback, i = 0, ii = callbacks.length;
-                              ii > i;
+                              i < ii;
                               i++
                           )
                               (callback = callbacks[i]),
@@ -10007,7 +10007,7 @@
                 nextTick(
                     function (
                     ) {
-                        for (var callback, i = 0, ii = callbacks.length; ii > i; i++)
+                        for (var callback, i = 0, ii = callbacks.length; i < ii; i++)
                             (callback = callbacks[i]), callback[2](
                                 progress
                             );
@@ -10593,7 +10593,7 @@
                                     newLength !== oldLength &&
                         (changeDetected++,
                         (oldValue.length = oldLength = newLength));
-                                    for (var i = 0; newLength > i; i++)
+                                    for (var i = 0; i < newLength; i++)
                                         oldValue[i] !== newValue[i] &&
                         (changeDetected++, (oldValue[i] = newValue[i]));
                                 } else {
@@ -10917,7 +10917,7 @@
                                 event.currentScope = scope,
                                 i = 0,
                                 length = namedListeners.length;
-                                length > i;
+                                i < length;
                                 i++
                             ) {
                                 if (!namedListeners[i]) {
@@ -10973,7 +10973,7 @@
                                 listeners = current.$$listeners[name] || [],
                                 i = 0,
                                 length = listeners.length;
-                                length > i;
+                                i < length;
                                 i++
                             ) {
                                 if (!listeners[i]) {
@@ -11245,7 +11245,7 @@
                         i,
                         n,
                         allowed = !1;
-                    for (i = 0, n = resourceUrlWhitelist.length; n > i; i++)
+                    for (i = 0, n = resourceUrlWhitelist.length; i < n; i++)
                         if (matchUrl(
                             resourceUrlWhitelist[i],
                             parsedUrl
@@ -11254,7 +11254,7 @@
                             break;
                         }
                     if (allowed)
-                        for (i = 0, n = resourceUrlBlacklist.length; n > i; i++)
+                        for (i = 0, n = resourceUrlBlacklist.length; i < n; i++)
                             if (matchUrl(
                                 resourceUrlBlacklist[i],
                                 parsedUrl
@@ -12073,7 +12073,7 @@
                 lgroup = pattern.lgSize,
                 group = pattern.gSize;
             if (whole.length >= lgroup + group)
-                for (pos = whole.length - lgroup, i = 0; pos > i; i++)
+                for (pos = whole.length - lgroup, i = 0; i < pos; i++)
                     (pos - i) % group == 0 && 0 !== i && (formatedText += groupSep),
                     (formatedText += whole.charAt(
                         i
@@ -12459,7 +12459,7 @@
                 limit > 0
                     ? ((i = 0), (n = limit))
                     : ((i = input.length + limit), (n = input.length));
-                n > i;
+                i < n;
                 i++
             )
                 out.push(
@@ -12579,8 +12579,8 @@
                         v1 === v2)
                     )
                         return 0;
-                    return v2 > v1 ? -1 : 1;
-                } else return t2 > t1 ? -1 : 1;
+                    return v1 < v2 ? -1 : 1;
+                } else return t1 < t2 ? -1 : 1;
             }
         };
     }
@@ -14550,7 +14550,7 @@
                                     arrayLength = collectionKeys.length,
                                     length = nextBlockOrder.length = collectionKeys.length,
                                     index = 0;
-                                    length > index;
+                                    index < length;
                                     index++
                                 )
                                     if (
@@ -14623,7 +14623,7 @@
                   ));
                                 for (
                                     index = 0, length = collectionKeys.length;
-                                    length > index;
+                                    index < length;
                                     index++
                                 ) {
                                     if (
@@ -14818,7 +14818,7 @@
                             function (
                                 value
                             ) {
-                                for (var i = 0, ii = selectedScopes.length; ii > i; i++)
+                                for (var i = 0, ii = selectedScopes.length; i < ii; i++)
                                     selectedScopes[i].$destroy(
                                     ),
                                     $animate.leave(
@@ -15097,7 +15097,7 @@
                                 children = element.children(
                                 ),
                                 ii = children.length;
-                            ii > i;
+                            i < ii;
                             i++
                         )
                             if ("" === children[i].value) {
@@ -15356,14 +15356,14 @@
                                                     value = [],
                                                     groupIndex = 0,
                                                     groupLength = optionGroupsCache.length;
-                                                    groupLength > groupIndex;
+                                                    groupIndex < groupLength;
                                                     groupIndex++
                                                 )
                                                     for (
                                                         optionGroup = optionGroupsCache[groupIndex],
                                                         index = 1,
                                                         length = optionGroup.length;
-                                                        length > index;
+                                                        index < length;
                                                         index++
                                                     )
                                                         if (
@@ -15495,7 +15495,7 @@
                                 }
                                 for (
                                     index = 0;
-                                    (length = keys.length), length > index;
+                                    (length = keys.length), index < length;
                                     index++
                                 ) {
                                     if (((key = index), keyName)) {
@@ -15594,7 +15594,7 @@
                         )),
                                     groupIndex = 0,
                                     groupLength = optionGroupNames.length;
-                                    groupLength > groupIndex;
+                                    groupIndex < groupLength;
                                     groupIndex++
                                 ) {
                                     for (
@@ -15632,7 +15632,7 @@
                                         lastElement = null,
                                         index = 0,
                                         length = optionGroup.length;
-                                        length > index;
+                                        index < length;
                                         index++
                                     )
                                         (option = optionGroup[index]),

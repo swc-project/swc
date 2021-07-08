@@ -237,7 +237,7 @@
             var len = this.length,
                 j = +i + (0 > i ? len : 0);
             return this.pushStack(
-                j >= 0 && len > j ? [this[j],] : []
+                j >= 0 && j < len ? [this[j],] : []
             );
         },
         map: function (
@@ -293,7 +293,7 @@
             (target = {
             }),
             i === length && ((target = this), --i);
-            length > i;
+            i < length;
             i++
         )
             if (null != (options = arguments[i]))
@@ -634,7 +634,7 @@
                     );
                 if (args) {
                     if (isArray)
-                        for (; length > i; i++)
+                        for (; i < length; i++)
                             if (((value = callback.apply(
                                 obj[i],
                                 args
@@ -647,7 +647,7 @@
                                     )), !1 === value))
                                         break;
                 } else if (isArray)
-                    for (; length > i; i++)
+                    for (; i < length; i++)
                         if (((value = callback.call(
                             obj[i],
                             i,
@@ -729,7 +729,7 @@
                                 )
                                 : i)
                             : 0;
-                        len > i;
+                        i < len;
                         i++
                     )
                         if (i in arr && arr[i] === elem) return i;
@@ -742,7 +742,7 @@
                 var l = second.length,
                     i = first.length,
                     j = 0;
-                if ("number" == typeof l) for (; l > j; j++) first[i++] = second[j];
+                if ("number" == typeof l) for (; j < l; j++) first[i++] = second[j];
                 else for (; void 0 !== second[j]; ) first[i++] = second[j++];
                 return (first.length = i), first;
             },
@@ -753,7 +753,7 @@
                     ret = [],
                     i = 0,
                     length = elems.length;
-                for (inv = !!inv; length > i; i++)
+                for (inv = !!inv; i < length; i++)
                     (retVal = !!callback(
                         elems[i],
                         i
@@ -774,7 +774,7 @@
                     ),
                     ret = [];
                 if (isArray)
-                    for (; length > i; i++)
+                    for (; i < length; i++)
                         (value = callback(
                             elems[i],
                             i,
@@ -867,7 +867,7 @@
                   }))),
                         fn)
                     )
-                        for (; length > i; i++)
+                        for (; i < length; i++)
                             fn(
                                 elems[i],
                                 key,
@@ -1050,7 +1050,7 @@
                     firingStart = 0,
                     firingLength = list.length,
                     firing = !0;
-                    list && firingLength > firingIndex;
+                    list && firingIndex < firingLength;
                     firingIndex++
                 )
                     if (
@@ -1407,7 +1407,7 @@
                         resolveContexts = new Array(
                             length
                         );
-                        length > i;
+                        i < length;
                         i++
                     )
                         resolveValues[i] && jQuery.isFunction(
@@ -1786,7 +1786,7 @@
                         )),
                     i = 0,
                     l = name.length;
-                    l > i;
+                    i < l;
                     i++
                 )
                     delete thisCache[name[i]];
@@ -2351,7 +2351,7 @@
                 if ("string" == typeof value && value)
                     for (classes = (value || "").match(
                         core_rnotwhite
-                    ) || []; len > i; i++)
+                    ) || []; i < len; i++)
                         if (
                             ((elem = this[i]),
                             (cur =
@@ -2405,7 +2405,7 @@
                 if (proceed)
                     for (classes = (value || "").match(
                         core_rnotwhite
-                    ) || []; len > i; i++)
+                    ) || []; i < len; i++)
                         if (
                             ((elem = this[i]),
                             (cur =
@@ -2500,7 +2500,7 @@
             hasClass: function (
                 selector
             ) {
-                for (var i = 0, l = this.length; l > i; i++)
+                for (var i = 0, l = this.length; i < l; i++)
                     if (
                         1 === this[i].nodeType &&
           (" " + this[i].className + " ")
@@ -2628,7 +2628,7 @@
                                 values = one ? null : [],
                                 max = one ? index + 1 : options.length,
                                 i = 0 > index ? max : one ? index : 0;
-                            max > i;
+                            i < max;
                             i++
                         )
                             if (
@@ -4434,7 +4434,7 @@
           function (
               elem
           ) {
-              for (var i = 0, len = this.length; len > i; i++)
+              for (var i = 0, len = this.length; i < len; i++)
                   if (this[i] === elem) return i;
               return -1;
           },
@@ -6054,7 +6054,7 @@
                     function (
                         matchIndexes, length
                     ) {
-                        for (var i = 0; length > i; i += 2) matchIndexes.push(
+                        for (var i = 0; i < length; i += 2) matchIndexes.push(
                             i
                         );
                         return matchIndexes;
@@ -6064,7 +6064,7 @@
                     function (
                         matchIndexes, length
                     ) {
-                        for (var i = 1; length > i; i += 2) matchIndexes.push(
+                        for (var i = 1; i < length; i += 2) matchIndexes.push(
                             i
                         );
                         return matchIndexes;
@@ -6208,7 +6208,7 @@
         function toSelector(
             tokens
         ) {
-            for (var i = 0, len = tokens.length, selector = ""; len > i; i++)
+            for (var i = 0, len = tokens.length, selector = ""; i < len; i++)
                 selector += tokens[i].value;
             return selector;
         }
@@ -6291,7 +6291,7 @@
         ) {
             for (
                 var elem, newUnmatched = [], i = 0, len = unmatched.length;
-                len > i;
+                i < len;
                 i++
             )
                 (elem = unmatched[i]) &&
@@ -6484,7 +6484,7 @@
                             );
                         },
                     ];
-                len > i;
+                i < len;
                 i++
             )
                 if ((matcher = Expr.relative[tokens[i].type]))
@@ -6502,7 +6502,7 @@
                         )),
                         matcher[expando])
                     ) {
-                        for (j = ++i; len > j; j++)
+                        for (j = ++i; j < len; j++)
                             if (Expr.relative[tokens[j].type]) break;
                         return setMatcher(
                             i > 1 && elementMatcher(
@@ -6519,18 +6519,18 @@
                       "$1"
                   ),
                             matcher,
-                            j > i && matcherFromTokens(
+                            i < j && matcherFromTokens(
                                 tokens.slice(
                                     i,
                                     j
                                 )
                             ),
-                            len > j && matcherFromTokens(
+                            j < len && matcherFromTokens(
                                 (tokens = tokens.slice(
                                     j
                                 ))
                             ),
-                            len > j && toSelector(
+                            j < len && toSelector(
                                 tokens
                             ),
                         );
@@ -6679,7 +6679,7 @@
         function multipleContexts(
             selector, contexts, results
         ) {
-            for (var i = 0, len = contexts.length; len > i; i++)
+            for (var i = 0, len = contexts.length; i < len; i++)
                 Sizzle(
                     selector,
                     contexts[i],
@@ -6827,7 +6827,7 @@
                             ).filter(
                                 function (
                                 ) {
-                                    for (i = 0; len > i; i++)
+                                    for (i = 0; i < len; i++)
                                         if (jQuery.contains(
                                             self[i],
                                             this
@@ -6836,7 +6836,7 @@
                             ),
                         )
                     );
-                for (ret = [], i = 0; len > i; i++) jQuery.find(
+                for (ret = [], i = 0; i < len; i++) jQuery.find(
                     selector,
                     this[i],
                     ret
@@ -6865,7 +6865,7 @@
                 return this.filter(
                     function (
                     ) {
-                        for (i = 0; len > i; i++)
+                        for (i = 0; i < len; i++)
                             if (jQuery.contains(
                                 this,
                                 targets[i]
@@ -6936,7 +6936,7 @@
                     context || this.context
                 )
                 : 0;
-                    l > i;
+                    i < l;
                     i++
                 )
                     for (
@@ -7694,7 +7694,7 @@
                                 "<$1></$2>"
                             );
                             try {
-                                for (; l > i; i++)
+                                for (; i < l; i++)
                                     (elem = this[i] || {
                                     }),
                                     1 === elem.nodeType &&
@@ -7838,7 +7838,7 @@
                                 disableScript
                             ),
                             hasScripts = scripts.length;
-                            l > i;
+                            i < l;
                             i++
                         )
                             (node = fragment),
@@ -7988,7 +7988,7 @@
             delete curData.handle, (curData.events = {
             });
             for (type in events)
-                for (i = 0, l = events[type].length; l > i; i++)
+                for (i = 0, l = events[type].length; i < l; i++)
                     jQuery.event.add(
                         dest,
                         type,
@@ -8069,7 +8069,7 @@
                             selector
                         ),
                         last = insert.length - 1;
-                    last >= i;
+                    i <= last;
                     i++
                 )
                     (elems = i === last
@@ -8249,7 +8249,7 @@
                         ),
                         nodes = [],
                         i = 0;
-                    l > i;
+                    i < l;
                     i++
                 )
                     if (((elem = elems[i]), elem || 0 === elem)) {
@@ -8495,7 +8495,7 @@
                 values = [],
                 index = 0,
                 length = elements.length;
-            length > index;
+            index < length;
             index++
         ) {
             if (((elem = elements[index]), !elem.style)) continue;
@@ -8533,7 +8533,7 @@
                       ),
               ));
         }
-        for (index = 0; length > index; index++) {
+        for (index = 0; index < length; index++) {
             if (((elem = elements[index]), !elem.style)) continue;
             (!show || "none" === elem.style.display || "" === elem.style.display) &&
         (elem.style.display = show ? values[index] || "" : "none");
@@ -8560,7 +8560,7 @@
                         )) {
                             for (styles = getStyles(
                                 elem
-                            ), len = name.length; len > i; i++)
+                            ), len = name.length; i < len; i++)
                                 map[name[i]] = jQuery.css(
                                     elem,
                                     name[i],
@@ -10662,7 +10662,7 @@
                         ),
                         index = 0,
                         length = collection.length;
-                    length > index;
+                    index < length;
                     index++
                 )
                     if (collection[index].call(
@@ -10701,7 +10701,7 @@
                         percent = 1 - temp,
                         index = 0,
                         length = animation.tweens.length;
-                    length > index;
+                    index < length;
                     index++
                 )
                     animation.tweens[index].run(
@@ -10760,7 +10760,7 @@
                         var index = 0,
                             length = gotoEnd ? animation.tweens.length : 0;
                         if (stopped) return this;
-                        for (stopped = !0; length > index; index++)
+                        for (stopped = !0; index < length; index++)
                             animation.tweens[index].run(
                                 1
                             );
@@ -10785,7 +10785,7 @@
                 props,
                 animation.opts.specialEasing
             );
-            length > index;
+            index < length;
             index++
         )
             if (
@@ -10875,7 +10875,7 @@
                     : (props = props.split(
                         " "
                     ));
-                for (var prop, index = 0, length = props.length; length > index; index++)
+                for (var prop, index = 0, length = props.length; index < length; index++)
                     (prop = props[index]),
                     (tweeners[prop] = tweeners[prop] || []),
                     tweeners[prop].unshift(
@@ -11030,7 +11030,7 @@
                     }
                 ),
                 index = 0;
-                length > index;
+                index < length;
                 index++
             )
                 (prop = handled[index]),
@@ -11357,7 +11357,7 @@
                     index,
                     1
                 ));
-                            for (index = 0; length > index; index++)
+                            for (index = 0; index < length; index++)
                                 queue[index] &&
                 queue[index].finish &&
                 queue[index].finish.call(
