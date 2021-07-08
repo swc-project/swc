@@ -540,15 +540,6 @@ macro_rules! track_ident_mut {
             self.ident_type = old;
         }
 
-        fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-            let old = self.ident_type;
-            self.ident_type = IdentType::Binding;
-            n.ident.visit_mut_with(self);
-            self.ident_type = old;
-
-            n.class.visit_mut_with(self);
-        }
-
         fn visit_mut_key_value_pat_prop(&mut self, n: &mut KeyValuePatProp) {
             n.key.visit_mut_with(self);
             n.value.visit_mut_with(self);
@@ -590,6 +581,15 @@ impl<'a> VisitMut for Hygiene<'a> {
     noop_visit_mut_type!();
 
     track_ident_mut!();
+
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        let old = self.ident_type;
+        self.ident_type = IdentType::Binding;
+        n.ident.visit_mut_with(self);
+        self.ident_type = old;
+
+        n.class.visit_mut_with(self);
+    }
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
         let old = self.ident_type;
