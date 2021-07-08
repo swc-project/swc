@@ -328,7 +328,22 @@ struct SwcSourceMapConfig<'a> {
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
-    fn file_name_to_source(&self, f: &FileName) -> String {}
+    fn file_name_to_source(&self, f: &FileName) -> String {
+        let base_path = match self.output_path {
+            Some(v) => v,
+            None => return f.to_string(),
+        };
+        let target = match f {
+            FileName::Real(v) => v,
+            _ => return f.to_string(),
+        };
+
+        let rel = pathdiff::diff_paths(&target, base_path);
+        match rel {
+            Some(v) => v.to_string_lossy().to_string(),
+            None => f.to_string(),
+        }
+    }
 }
 
 /// High-level apis.
@@ -497,7 +512,7 @@ impl Compiler {
                 source_maps: config.source_maps,
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
-                output_path: opts.output_path,
+                output_path: config.output_path,
             };
             let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
             let program = self.parse_js(
