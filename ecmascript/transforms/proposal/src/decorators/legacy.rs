@@ -16,6 +16,9 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;
@@ -373,11 +376,19 @@ impl Legacy {
                     PropName::Computed(e) => {
                         let (name, aliased) = alias_if_required(&e.expr, "key");
                         if aliased {
+                            let mut init = e.expr.clone();
+                            if let Some(name) = &cls_name {
+                                init.visit_mut_with(&mut IdentReplacer {
+                                    from: name,
+                                    to: &cls_ident,
+                                });
+                            }
+
                             dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
                                 left: PatOrExpr::Pat(Box::new(Pat::Ident(name.clone().into()))),
-                                right: e.expr.clone(),
+                                right: init,
                             })));
                             self.uninitialized_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
@@ -488,9 +499,16 @@ impl Legacy {
                 let mut value = Some(p.value);
 
                 let mut dec_exprs = vec![];
-                for dec in p.decorators.into_iter() {
+                for mut dec in p.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
+                        if let Some(name) = &cls_name {
+                            dec.expr.visit_mut_with(&mut IdentReplacer {
+                                from: name,
+                                to: &cls_ident,
+                            });
+                        }
+
                         dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
@@ -883,6 +901,21 @@ impl Fold for ClassFieldAccessConverter {
                 obj: node.obj.fold_with(self),
                 ..node
             }
+        }
+    }
+}
+
+struct IdentReplacer<'a> {
+    from: &'a Ident,
+    to: &'a Ident,
+}
+
+impl VisitMut for IdentReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if self.from.sym == i.sym && self.from.span.ctxt == i.span.ctxt {
+            *i = self.to.clone();
         }
     }
 }
