@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default function Foo() {
-    return call((e) => { await doSomething(); })
+    return call((e) => { doSomething(); })
 }
 
 Foo.displayName = "Foo";
