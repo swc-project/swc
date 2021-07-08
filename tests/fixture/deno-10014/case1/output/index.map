@@ -2,7 +2,7 @@
   "mappings": "UAAO,WAAa;SAEX,CAAC,GAAG,CAAC;IACV,CAAC;AACL,CAAC;SAEQ,CAAC,CAAC,KAAS,EAAE,CAAC;QAAZ,CAAC,GAAD,KAAS,cAAL,KAAK,GAAT,KAAS;IAChB,EAAE,EAAE,CAAC,EAAE,CAAC;QACJ,KAAK,CAAC,GAAG,CAAC,KAAK,EAAC,KAAO;IAC3B,CAAC;IACD,CAAC,EAAE,CAAC;AACR,CAAC;AAED,CAAC",
   "names": [],
   "sources": [
-    "$DIR/tests/fixture/deno-10014/case1/input/index.ts"
+    "../../input/index.ts"
   ],
   "sourcesContent": [
     "import \"./errors.ts\";\n\nfunction a() {\n    t();\n}\n\nfunction t(x = false) {\n    if (x) {\n        throw new Error(\"Hello\");\n    }\n    t(!0);\n}\n\na();"
