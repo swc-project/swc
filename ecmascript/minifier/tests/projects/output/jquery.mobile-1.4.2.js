@@ -1711,16 +1711,16 @@
               ((handlers = element),
               (element = suppressDisabledCheck),
               (suppressDisabledCheck = !1)),
-                    !handlers
-                        ? ((handlers = element),
-                        (element = this.element),
-                        (delegateElement = this.widget(
-                        )))
-                        : ((element = delegateElement = jQuery(
+                    handlers
+                        ? ((element = delegateElement = jQuery(
                             element
                         )),
                         (this.bindings = this.bindings.add(
                             element
+                        )))
+                        : ((handlers = element),
+                        (element = this.element),
+                        (delegateElement = this.widget(
                         ))),
                     jQuery.each(
                         handlers,
@@ -1923,11 +1923,11 @@
                     effect: options,
                 });
                         var hasOptions,
-                            effectName = !options
-                                ? method
-                                : !0 === options || "number" == typeof options
+                            effectName = options
+                                ? !0 === options || "number" == typeof options
                                     ? defaultEffect
-                                    : options.effect || defaultEffect;
+                                    : options.effect || defaultEffect
+                                : method;
                         (options ||= {
                         }),
                         "number" == typeof options &&
@@ -2611,17 +2611,17 @@
                             href = "",
                             link;
                         return (
-                            !base.length
-                                ? (base = fauxEle = jQuery(
+                            base.length
+                                ? (href = base.attr(
+                                    "href"
+                                ))
+                                : (base = fauxEle = jQuery(
                                     "<base>",
                                     {
                                         href: fauxBase,
                                     }
                                 ).appendTo(
                                     "head"
-                                ))
-                                : (href = base.attr(
-                                    "href"
                                 )),
                             (link = jQuery(
                                 "<a href='testurl' />"
@@ -2646,9 +2646,8 @@
                             documentElement = document.documentElement,
                             getComputedStyle = window.getComputedStyle,
                             supports;
-                        return !("pointerEvents" in element.style)
-                            ? !1
-                            : ((element.style.pointerEvents = "auto"),
+                        return "pointerEvents" in element.style
+                            ? ((element.style.pointerEvents = "auto"),
                             (element.style.pointerEvents = "x"),
                             documentElement.appendChild(
                                 element
@@ -2662,7 +2661,8 @@
                             documentElement.removeChild(
                                 element
                             ),
-                            !!supports);
+                            !!supports)
+                            : !1;
                     })(
                     ),
                     boundingRect:
@@ -5735,15 +5735,15 @@
                             to &&
               ((history = this._getHistory(
               )),
-              (to = !jQuery.mobile.path.isPath(
+              (to = jQuery.mobile.path.isPath(
                   to
               )
-                  ? jQuery.mobile.path.makeUrlAbsolute(
+                  ? to
+                  : jQuery.mobile.path.makeUrlAbsolute(
                       "#" + to,
                       this._getDocumentBase(
                       ),
-                  )
-                  : to),
+                  )),
               to ===
                 jQuery.mobile.path.makeUrlAbsolute(
                     "#" + history.initialDst,
@@ -6704,9 +6704,8 @@
               0 === jQuery.mobile.navigate.history.activeIndex &&
                 url === jQuery.mobile.navigate.history.initialDst &&
                 (url += jQuery.mobile.dialogHashKey)),
-                        (newPageTitle = !active
-                            ? pageTitle
-                            : toPage.jqmData(
+                        (newPageTitle = active
+                            ? toPage.jqmData(
                                 "title"
                             ) ||
                 toPage
@@ -6717,7 +6716,8 @@
                         ".ui-title"
                     )
                     .text(
-                    )),
+                    )
+                            : pageTitle),
                         newPageTitle &&
               pageTitle === document.title &&
               (pageTitle = newPageTitle),
@@ -7104,7 +7104,7 @@
                             ).jqmHijackable(
                             ).length) return;
                         }
-                        !!~target.className.indexOf(
+                        ~target.className.indexOf(
                             "ui-link-inherit"
                         )
                             ? target.parentNode &&
@@ -7511,8 +7511,10 @@
                             .addClass(
                                 this.name + " in " + reverseClass
                             ),
-                        !none
-                            ? this.$to.animationComplete(
+                        none
+                            ? this.doneIn(
+                            )
+                            : this.$to.animationComplete(
                                 jQuery.proxy(
                                     function (
                                     ) {
@@ -7521,8 +7523,6 @@
                                     },
                                     this
                                 ),
-                            )
-                            : this.doneIn(
                             );
                     },
                     startOut: function (
@@ -7989,7 +7989,7 @@
                                 role: "dialog",
                                 class:
               "ui-dialog-contain ui-overlay-shadow" +
-              (!!opts.corners ? " ui-corner-all" : ""),
+              (opts.corners ? " ui-corner-all" : ""),
                             }
                         ),
                     ),
@@ -9425,13 +9425,13 @@
                                 elt.text(
                                 )
                             ) || null;
-                            return !text
-                                ? null
-                                : (text = text.slice(
+                            return text
+                                ? (text = text.slice(
                                     0,
                                     1
                                 ).toUpperCase(
-                                ));
+                                ))
+                                : null;
                         },
                     },
                     _beforeListviewRefresh: function (
@@ -10549,22 +10549,22 @@
                             labelID = $label.attr(
                                 "id"
                             ) || controlID + "-label",
-                            min = !isToggleSwitch
-                                ? parseFloat(
+                            min = isToggleSwitch
+                                ? 0
+                                : parseFloat(
                                     control.attr(
                                         "min"
                                     )
-                                )
-                                : 0,
-                            max = !isToggleSwitch
-                                ? parseFloat(
+                                ),
+                            max = isToggleSwitch
+                                ? control.find(
+                                    "option"
+                                ).length - 1
+                                : parseFloat(
                                     control.attr(
                                         "max"
                                     )
-                                )
-                                : control.find(
-                                    "option"
-                                ).length - 1,
+                                ),
                             step = window.parseFloat(
                                 control.attr(
                                     "step"
@@ -10722,8 +10722,8 @@
                                 i < optionsCount;
                                 i++
                             )
-                                (side = !i ? "b" : "a"),
-                                (activeClass = !i ? "" : " " + jQuery.mobile.activeBtnClass),
+                                (side = i ? "a" : "b"),
+                                (activeClass = i ? " " + jQuery.mobile.activeBtnClass : ""),
                                 (sliderImg = document.createElement(
                                     "span"
                                 )),
@@ -11586,10 +11586,8 @@
                     },
                     _create: function (
                     ) {
-                        !this.options.enhanced
-                            ? this._enhance(
-                            )
-                            : jQuery.extend(
+                        this.options.enhanced
+                            ? jQuery.extend(
                                 this,
                                 {
                                     flipswitch: this.element.parent(
@@ -11608,6 +11606,8 @@
                                         0
                                     ).tagName,
                                 }
+                            )
+                            : this._enhance(
                             ),
                         this._handleFormReset(
                         ),
@@ -16145,7 +16145,7 @@
                         "fixed" === this.options.position && !this.options.supportBlacklist(
                         ))
                     ) {
-                        var $page = !!this.page
+                        var $page = this.page
                             ? this.page
                             : jQuery(
                                 ".ui-page-active"
@@ -16198,7 +16198,7 @@
                 },
                 _bindPageEvents: function (
                 ) {
-                    var page = !!this.page
+                    var page = this.page
                         ? this.element.closest(
                             ".ui-page"
                         )
@@ -16229,13 +16229,13 @@
                 ) {
                     this.options.updatePagePadding &&
           this.updatePagePadding(
-              !!this.page ? this.page : ".ui-page-active"
+              this.page ? this.page : ".ui-page-active"
           );
                 },
                 _handlePageShow: function (
                 ) {
                     this.updatePagePadding(
-                        !!this.page ? this.page : ".ui-page-active"
+                        this.page ? this.page : ".ui-page-active"
                     ),
                     this.options.updatePagePadding &&
             this._on(
@@ -16331,7 +16331,7 @@
           $el.closest(
               ".ui-page"
           )),
-                    (tbPage = !!this.page ? this.page : ".ui-page-active"),
+                    (tbPage = this.page ? this.page : ".ui-page-active"),
                     jQuery(
                         tbPage
                     ).css(
@@ -16349,7 +16349,7 @@
                         ),
                         elHeight = $el.height(
                         ),
-                        pHeight = !!this.page
+                        pHeight = this.page
                             ? $el.closest(
                                 ".ui-page"
                             ).height(
@@ -16440,7 +16440,7 @@
                 },
                 _bindToggleHandlers: function (
                 ) {
-                    (!!this.page
+                    (this.page
                         ? this.page
                         : jQuery(
                             ".ui-page"
@@ -16882,11 +16882,8 @@
                             bgRef,
                             optionValue = this.options.arrow,
                             ar = this._ui.arrow;
-                        return !ar
-                            ? this._super(
-                                desired
-                            )
-                            : (ar.arEls.show(
+                        return ar
+                            ? (ar.arEls.show(
                             ),
                             (bgRef = {
                             }),
@@ -16976,15 +16973,18 @@
                                     .show(
                                     ),
                                 ieHack ||
-                ((elOffset = this.element.offset(
-                )),
-                (bgRef[params[best.dir].fst] = ar.ct.offset(
-                )),
-                (bgRef[params[best.dir].snd] = {
-                    left: elOffset.left + state.contentBox.x,
-                    top: elOffset.top + state.contentBox.y,
-                })),
-                                best.result);
+                  ((elOffset = this.element.offset(
+                  )),
+                  (bgRef[params[best.dir].fst] = ar.ct.offset(
+                  )),
+                  (bgRef[params[best.dir].snd] = {
+                      left: elOffset.left + state.contentBox.x,
+                      top: elOffset.top + state.contentBox.y,
+                  })),
+                                best.result)
+                            : this._super(
+                                desired
+                            );
                     },
                     _setOptions: function (
                         opts
@@ -18442,11 +18442,8 @@
                     _getFilterableItems: function (
                     ) {
                         var children = this.options.children,
-                            items = !children
-                                ? {
-                                    length: 0,
-                                }
-                                : jQuery.isFunction(
+                            items = children
+                                ? jQuery.isFunction(
                                     children
                                 )
                                     ? children(
@@ -18459,7 +18456,10 @@
                                             ? children
                                             : this.element.find(
                                                 children
-                                            );
+                                            )
+                                : {
+                                    length: 0,
+                                };
                         return 0 === items.length && (items = this.element.children(
                         )), items;
                     },
@@ -19050,11 +19050,11 @@
                     ) {
                         return {
                             tab: this.active,
-                            panel: !this.active.length
-                                ? jQuery(
-                                )
-                                : this._getPanelForTab(
+                            panel: this.active.length
+                                ? this._getPanelForTab(
                                     this.active
+                                )
+                                : jQuery(
                                 ),
                         };
                     },
@@ -19345,14 +19345,8 @@
                                 "aria-hidden": "true",
                             }
                         ),
-                        !this.active.length
-                            ? this.tabs.eq(
-                                0
-                            ).attr(
-                                "tabIndex",
-                                0
-                            )
-                            : (this.active.addClass(
+                        this.active.length
+                            ? (this.active.addClass(
                                 "ui-tabs-active ui-state-active"
                             ).attr(
                                 {
@@ -19368,7 +19362,13 @@
                                     "aria-expanded": "true",
                                     "aria-hidden": "false",
                                 }
-                            ));
+                            ))
+                            : this.tabs.eq(
+                                0
+                            ).attr(
+                                "tabIndex",
+                                0
+                            );
                     },
                     _processTabs: function (
                     ) {
@@ -19527,9 +19527,9 @@
                         jQuery.isArray(
                             disabled
                         ) &&
-            (!disabled.length
-                ? (disabled = !1)
-                : disabled.length === this.anchors.length && (disabled = !0));
+            (disabled.length
+                ? disabled.length === this.anchors.length && (disabled = !0)
+                : (disabled = !1));
                         for (var i = 0, li; (li = this.tabs[i]); i++)
                             !0 === disabled || -1 !== jQuery.inArray(
                                 i,
@@ -19718,11 +19718,11 @@
                                 : this._getPanelForTab(
                                     tab
                                 ),
-                            toHide = !active.length
-                                ? jQuery(
-                                )
-                                : this._getPanelForTab(
+                            toHide = active.length
+                                ? this._getPanelForTab(
                                     active
+                                )
+                                : jQuery(
                                 ),
                             eventData = {
                                 oldTab: active,
@@ -20420,20 +20420,20 @@
                                     fromHashChange: !0,
                                 }
                             ))
-                            : !jQuery.event.special.navigate.isPushStateEnabled(
+                            : jQuery.event.special.navigate.isPushStateEnabled(
                             )
-                                ? $window.trigger(
-                                    "hashchange",
-                                    [!0,]
-                                )
-                                : ((jQuery.mobile.navigate.history.stack = []),
+                                ? ((jQuery.mobile.navigate.history.stack = []),
                                 jQuery.mobile.navigate(
                                     jQuery.mobile.path.isPath(
                                         location.hash
                                     )
                                         ? location.hash
                                         : location.href,
-                                ));
+                                ))
+                                : $window.trigger(
+                                    "hashchange",
+                                    [!0,]
+                                );
                     },
                 }
             ),

@@ -28,11 +28,11 @@
         ) {
             return obj instanceof _
                 ? obj
-                : !(this instanceof _)
-                    ? new _(
+                : this instanceof _
+                    ? void (this._wrapped = obj)
+                    : new _(
                         obj
-                    )
-                    : void (this._wrapped = obj);
+                    );
         };
     "undefined" !== typeof exports
         ? ("undefined" !== typeof module &&
@@ -129,15 +129,15 @@
                 function (
                     value, index, list
                 ) {
-                    !initial
-                        ? ((memo = value), (initial = !0))
-                        : (memo = iterator.call(
+                    initial
+                        ? (memo = iterator.call(
                             context,
                             memo,
                             value,
                             index,
                             list
-                        ));
+                        ))
+                        : ((memo = value), (initial = !0));
                 }
             ),
             !initial)
@@ -183,15 +183,15 @@
                     value, index, list
                 ) {
                     (index = keys ? keys[--length] : --length),
-                    !initial
-                        ? ((memo = obj[index]), (initial = !0))
-                        : (memo = iterator.call(
+                    initial
+                        ? (memo = iterator.call(
                             context,
                             memo,
                             obj[index],
                             index,
                             list
-                        ));
+                        ))
+                        : ((memo = obj[index]), (initial = !0));
                 }
             ),
             !initial)
@@ -681,9 +681,8 @@
     (_.toArray = function (
         obj
     ) {
-        return !obj
-            ? []
-            : _.isArray(
+        return obj
+            ? _.isArray(
                 obj
             )
                 ? slice.call(
@@ -696,7 +695,8 @@
                     )
                     : _.values(
                         obj
-                    );
+                    )
+            : [];
     }),
     (_.size = function (
         obj
@@ -1485,11 +1485,10 @@
     (_.clone = function (
         obj
     ) {
-        return !_.isObject(
+        return _.isObject(
             obj
         )
-            ? obj
-            : _.isArray(
+            ? _.isArray(
                 obj
             )
                 ? obj.slice(
@@ -1498,7 +1497,8 @@
                     {
                     },
                     obj
-                );
+                )
+            : obj;
     }),
     (_.tap = function (
         obj, interceptor

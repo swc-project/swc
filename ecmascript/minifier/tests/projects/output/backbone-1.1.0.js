@@ -391,12 +391,12 @@
                     ) || changes.push(
                         attr
                     ),
-                    !_.isEqual(
+                    _.isEqual(
                         this._previousAttributes[attr],
                         val
                     )
-                        ? (this.changed[attr] = val)
-                        : delete this.changed[attr],
+                        ? delete this.changed[attr]
+                        : (this.changed[attr] = val),
                     options.unset
                         ? delete this.attributes[attr]
                         : (this.attributes[attr] = val);
@@ -769,9 +769,8 @@
             attrs,
             options
         ) || null);
-                return !error
-                    ? !0
-                    : (this.trigger(
+                return error
+                    ? (this.trigger(
                         "invalid",
                         this,
                         error,
@@ -782,7 +781,8 @@
                             }
                         ),
                     ),
-                    !1);
+                    !1)
+                    : !0;
             },
         }
     ),
@@ -1350,14 +1350,14 @@
                     attrs,
                     options
                 );
-                return !model.validationError
-                    ? model
-                    : (this.trigger(
+                return model.validationError
+                    ? (this.trigger(
                         "invalid",
                         this,
                         model.validationError,
                         options
-                    ), !1);
+                    ), !1)
+                    : model;
             },
             _removeReference: function (
                 model

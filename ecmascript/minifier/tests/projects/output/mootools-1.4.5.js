@@ -36,7 +36,7 @@
                 if (constructor === object) return !0;
                 constructor = constructor.parent;
             }
-            return !item.hasOwnProperty ? !1 : item instanceof object;
+            return item.hasOwnProperty ? item instanceof object : !1;
         }),
         Function1 = this.Function,
         enumerables = !0;
@@ -2796,9 +2796,8 @@ var Event1 = DOMEvent;
                     type
                 );
                 var events = this.$events[type];
-                return !events
-                    ? this
-                    : ((args = Array.from(
+                return events
+                    ? ((args = Array.from(
                         args
                     )),
                     events.each(
@@ -2818,7 +2817,8 @@ var Event1 = DOMEvent;
                         },
                         this
                     ),
-                    this);
+                    this)
+                    : this;
             },
             removeEvent: function (
                 type, fn
@@ -3911,11 +3911,11 @@ function (
     (local.sort = function (
         results
     ) {
-        return !this.documentSorter
-            ? results
-            : (results.sort(
+        return this.documentSorter
+            ? (results.sort(
                 this.documentSorter
-            ), results);
+            ), results)
+            : results;
     }),
     (local.cacheNTH = {
     }),
@@ -5015,9 +5015,8 @@ new Type(
         filter: function (
             filter, bind
         ) {
-            return !filter
-                ? this
-                : new Elements(
+            return filter
+                ? new Elements(
                     Array.filter(
                         this,
                         "string" == typeOf(
@@ -5033,7 +5032,8 @@ new Type(
                             : filter,
                         bind,
                     ),
-                );
+                )
+                : this;
         }.protect(
         ),
         push: function (
@@ -6900,9 +6900,8 @@ Elements.alias(
                             function (
                                 val, i
                             ) {
-                                return !map[i]
-                                    ? ""
-                                    : "number" == typeOf(
+                                return map[i]
+                                    ? "number" == typeOf(
                                         val
                                     )
                                         ? map[i].replace(
@@ -6911,7 +6910,8 @@ Elements.alias(
                                                 val
                                             )
                                         )
-                                        : val;
+                                        : val
+                                    : "";
                             }
                         )
                         .join(
@@ -7474,16 +7474,16 @@ Elements.alias(
             var related = event.relatedTarget;
             return null == related
                 ? !0
-                : !related
-                    ? !1
-                    : related != this &&
+                : related
+                    ? related != this &&
             "xul" != related.prefix &&
             "document" != typeOf(
                 this
             ) &&
             !this.contains(
                 related
-            );
+            )
+                    : !1;
         };
         (Element1.Events.mouseenter = {
             base: "mouseover",
@@ -9809,14 +9809,14 @@ Fx.Transitions.extend(
                         xhr.send(
                             data
                         ),
-                        !this.options.async
-                            ? this.onStateChange(
-                            )
-                            : this.options.timeout &&
+                        this.options.async
+                            ? this.options.timeout &&
                 (this.timer = this.timeout.delay(
                     this.options.timeout,
                     this
-                )),
+                ))
+                            : this.onStateChange(
+                            ),
                         this
                     );
                 },

@@ -399,8 +399,18 @@
             obj
         );
     }
-    var trim = !String.prototype.trim
+    var trim = String.prototype.trim
         ? function (
+            value
+        ) {
+            return isString(
+                value
+            )
+                ? value.trim(
+                )
+                : value;
+        }
+        : function (
             value
         ) {
             return isString(
@@ -412,16 +422,6 @@
                 ).replace(
                     /\s\s*$/,
                     ""
-                )
-                : value;
-        }
-        : function (
-            value
-        ) {
-            return isString(
-                value
-            )
-                ? value.trim(
                 )
                 : value;
         };
@@ -914,15 +914,15 @@
                                     key_value[1]
                                 )
                                 : !0;
-                            !obj[key]
-                                ? (obj[key] = val)
-                                : isArray(
+                            obj[key]
+                                ? isArray(
                                     obj[key]
                                 )
                                     ? obj[key].push(
                                         val
                                     )
-                                    : (obj[key] = [obj[key], val,]);
+                                    : (obj[key] = [obj[key], val,])
+                                : (obj[key] = val);
                         }
                     }
                 }
@@ -1738,9 +1738,8 @@
     function jqLiteHasClass(
         element, selector
     ) {
-        return !element.getAttribute
-            ? !1
-            : (" " + (element.getAttribute(
+        return element.getAttribute
+            ? (" " + (element.getAttribute(
                 "class"
             ) || "") + " ")
                 .replace(
@@ -1749,7 +1748,8 @@
                 )
                 .indexOf(
                     " " + selector + " "
-                ) > -1;
+                ) > -1
+            : !1;
     }
     function jqLiteRemoveClass(
         element, cssClasses
@@ -2062,7 +2062,7 @@
                     if (isDefined(
                         value
                     ))
-                        !!value
+                        value
                             ? ((element[name] = !0),
                             element.setAttribute(
                                 name,
@@ -3191,12 +3191,8 @@
                     var hash = $location.hash(
                         ),
                         elm;
-                    !hash
-                        ? $window.scrollTo(
-                            0,
-                            0
-                        )
-                        : (elm = document1.getElementById(
+                    hash
+                        ? (elm = document1.getElementById(
                             hash
                         ))
                             ? elm.scrollIntoView(
@@ -3211,7 +3207,11 @@
                                 : "top" === hash && $window.scrollTo(
                                     0,
                                     0
-                                );
+                                )
+                        : $window.scrollTo(
+                            0,
+                            0
+                        );
                 }
                 return (
                     autoScrollingEnabled &&
@@ -3764,11 +3764,11 @@
                         key
                     ) {
                         var lruEntry = lruHash[key];
-                        return !lruEntry
-                            ? void 0
-                            : (refresh(
+                        return lruEntry
+                            ? (refresh(
                                 lruEntry
-                            ), data[key]);
+                            ), data[key])
+                            : void 0;
                     },
                     remove: function (
                         key
@@ -3817,9 +3817,9 @@
                     entry
                 ) {
                     entry != freshEnd &&
-            (!staleEnd
-                ? (staleEnd = entry)
-                : entry == staleEnd && (staleEnd = entry.n),
+            (staleEnd
+                ? entry == staleEnd && (staleEnd = entry.n)
+                : (staleEnd = entry),
             link(
                 entry.n,
                 entry.p
@@ -5163,16 +5163,18 @@
                                                         parentValue,
                                                         isolateScope[scopeName],
                                                     ) ||
-                                    (!compare(
+                                    (compare(
                                         parentValue,
                                         lastValue
                                     )
-                                        ? (isolateScope[scopeName] = parentValue)
-                                        : parentSet(
+                                        ? parentSet(
                                             scope,
                                             (parentValue =
                                             isolateScope[scopeName]),
-                                        )),
+                                        )
+                                        : (isolateScope[
+                                            scopeName
+                                        ] = parentValue)),
                                                     (lastValue = parentValue)
                                                 );
                                             },
@@ -6041,9 +6043,8 @@
             key,
             val,
             i;
-        return !headers
-            ? parsed
-            : (forEach(
+        return headers
+            ? (forEach(
                 headers.split(
                     "\n"
                 ),
@@ -6070,7 +6071,8 @@
               (parsed[key] ? (parsed[key] += ", " + val) : (parsed[key] = val));
                 }
             ),
-            parsed);
+            parsed)
+            : parsed;
     }
     function headersGetter(
         headers
@@ -9347,9 +9349,8 @@
                             ),
                             v,
                             p;
-                        return !o
-                            ? void 0
-                            : ((v = ensureSafeObject(
+                        return o
+                            ? ((v = ensureSafeObject(
                                 o[i],
                                 parser.text
                             )),
@@ -9367,7 +9368,8 @@
                           }
                       )),
                     (v = v.$$v)),
-                            v);
+                            v)
+                            : void 0;
                     },
                     {
                         assign: function (
@@ -9620,29 +9622,8 @@
                 key4,
                 fullExp
             ),
-            !options.unwrapPromises
+            options.unwrapPromises
                 ? function (
-                    scope, locals
-                ) {
-                    var pathVal =
-              locals && locals.hasOwnProperty(
-                  key0
-              )
-                  ? locals
-                  : scope;
-                    return null == pathVal
-                        ? pathVal
-                        : ((pathVal = pathVal[key0]), !key1 || null == pathVal)
-                            ? pathVal
-                            : ((pathVal = pathVal[key1]), !key2 || null == pathVal)
-                                ? pathVal
-                                : ((pathVal = pathVal[key2]), !key3 || null == pathVal)
-                                    ? pathVal
-                                    : ((pathVal = pathVal[key3]), !key4 || null == pathVal)
-                                        ? pathVal
-                                        : (pathVal = pathVal[key4]);
-                }
-                : function (
                     scope, locals
                 ) {
                     var pathVal =
@@ -9748,6 +9729,27 @@
                     )),
                   (pathVal = pathVal.$$v)),
                                         pathVal);
+                }
+                : function (
+                    scope, locals
+                ) {
+                    var pathVal =
+              locals && locals.hasOwnProperty(
+                  key0
+              )
+                  ? locals
+                  : scope;
+                    return null == pathVal
+                        ? pathVal
+                        : ((pathVal = pathVal[key0]), !key1 || null == pathVal)
+                            ? pathVal
+                            : ((pathVal = pathVal[key1]), !key2 || null == pathVal)
+                                ? pathVal
+                                : ((pathVal = pathVal[key2]), !key3 || null == pathVal)
+                                    ? pathVal
+                                    : ((pathVal = pathVal[key3]), !key4 || null == pathVal)
+                                        ? pathVal
+                                        : (pathVal = pathVal[key4]);
                 }
         );
     }
@@ -13953,11 +13955,8 @@
                                 var newClasses = flattenClasses(
                                     newVal || ""
                                 );
-                                !oldVal
-                                    ? attr.$addClass(
-                                        newClasses
-                                    )
-                                    : !equals(
+                                oldVal
+                                    ? !equals(
                                         newVal,
                                         oldVal
                                     ) &&
@@ -13966,7 +13965,10 @@
                         flattenClasses(
                             oldVal
                         )
-                    );
+                    )
+                                    : attr.$addClass(
+                                        newClasses
+                                    );
                             }
                             oldVal = copy(
                                 newVal
@@ -14392,10 +14394,11 @@
                                         numberExp
                                     )
                                 );
-                                return !isNaN(
+                                return isNaN(
                                     value
                                 )
-                                    ? (value in whens ||
+                                    ? ""
+                                    : (value in whens ||
                         (value = $locale.pluralCat(
                             value - offset
                         )),
@@ -14403,8 +14406,7 @@
                                         scope,
                                         element,
                                         !0
-                                    ))
-                                    : "";
+                                    ));
                             },
                             function (
                                 newVal

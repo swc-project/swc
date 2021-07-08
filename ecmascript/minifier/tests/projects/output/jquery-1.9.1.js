@@ -356,24 +356,24 @@
             ) {
                 return (!0 === wait ? --jQuery.readyWait : jQuery.isReady)
                     ? void 0
-                    : !document.body
-                        ? setTimeout(
-                            jQuery.ready
-                        )
-                        : ((jQuery.isReady = !0), !0 !== wait && --jQuery.readyWait > 0)
+                    : document.body
+                        ? ((jQuery.isReady = !0), !0 !== wait && --jQuery.readyWait > 0)
                             ? void 0
                             : void (readyList.resolveWith(
                                 document,
                                 [jQuery,]
                             ),
                             jQuery.fn.trigger &&
-              jQuery(
-                  document
-              ).trigger(
-                  "ready"
-              ).off(
-                  "ready"
-              ));
+                jQuery(
+                    document
+                ).trigger(
+                    "ready"
+                ).off(
+                    "ready"
+                ))
+                        : setTimeout(
+                            jQuery.ready
+                        );
             },
             isFunction: function (
                 obj
@@ -1765,10 +1765,16 @@
         if (name) {
             if ((thisCache = pvt ? cache[id] : cache[id].data)) {
                 for (
-                    !jQuery.isArray(
+                    jQuery.isArray(
                         name
                     )
-                        ? (name in thisCache)
+                        ? (name = name.concat(
+                            jQuery.map(
+                                name,
+                                jQuery.camelCase
+                            )
+                        ))
+                        : (name in thisCache)
                             ? (name = [name,])
                             : ((name = jQuery.camelCase(
                                 name
@@ -1777,13 +1783,7 @@
                                 ? [name,]
                                 : name.split(
                                     " "
-                                )))
-                        : (name = name.concat(
-                            jQuery.map(
-                                name,
-                                jQuery.camelCase
-                            )
-                        )),
+                                ))),
                     i = 0,
                     l = name.length;
                     i < l;
@@ -1796,20 +1796,20 @@
                     return;
             }
         }
-        return !pvt
-            ? (delete cache[id].data, !isEmptyDataObject(
-                cache[id]
-            ))
-                ? void 0
-                : void 0
-            : void (isNode
+        return pvt
+            ? void (isNode
                 ? jQuery.cleanData(
                     [elem,],
                     !0
                 )
                 : jQuery.support.deleteExpando || cache != cache.window
                     ? delete cache[id]
-                    : (cache[id] = null));
+                    : (cache[id] = null))
+            : (delete cache[id].data, !isEmptyDataObject(
+                cache[id]
+            ))
+                ? void 0
+                : void 0;
     }
     jQuery.extend(
         {
@@ -4241,9 +4241,8 @@
                 : ((fn = data), (data = selector), (selector = void 0))),
                 !1 === fn)
                     ? void (fn = returnFalse)
-                    : !fn
-                        ? this
-                        : (1 === one &&
+                    : fn
+                        ? (1 === one &&
               ((origFn = fn),
               (fn = function (
                   event
@@ -4268,7 +4267,8 @@
                                     selector
                                 );
                             }
-                        ));
+                        ))
+                        : this;
             },
             one: function (
                 types, selector, data, fn
@@ -5591,9 +5591,8 @@
                         );
                         return null == result
                             ? "!=" === operator
-                            : !operator
-                                ? !0
-                                : ((result += ""),
+                            : operator
+                                ? ((result += ""),
                                 "=" === operator
                                     ? check === result
                                     : "!=" === operator
@@ -5620,7 +5619,8 @@
                             0,
                             check.length + 1
                         ) === check + "-"
-                                                            : !1);
+                                                            : !1)
+                                : !0;
                     };
                 },
                 CHILD: function (
@@ -6972,13 +6972,8 @@
             index: function (
                 elem
             ) {
-                return !elem
-                    ? this[0] && this[0].parentNode
-                        ? this.first(
-                        ).prevAll(
-                        ).length
-                        : -1
-                    : "string" == typeof elem
+                return elem
+                    ? "string" == typeof elem
                         ? jQuery.inArray(
                             this[0],
                             jQuery(
@@ -6988,7 +6983,12 @@
                         : jQuery.inArray(
                             elem.jquery ? elem[0] : elem,
                             this
-                        );
+                        )
+                    : this[0] && this[0].parentNode
+                        ? this.first(
+                        ).prevAll(
+                        ).length
+                        : -1;
             },
             add: function (
                 selector, context
@@ -9643,9 +9643,7 @@
         ))),
             jQuery.isFunction(
                 params
-            )
-                ? ((callback = params), (params = void 0))
-                : params && "object" == typeof params,
+            ) && ((callback = params), (params = void 0)),
             self.length > 0 &&
         jQuery
             .ajax(
@@ -10545,25 +10543,25 @@
                         responseHeaders
                     );
                           }),
-                          !s.async
-                              ? callback(
-                              )
-                              : 4 === xhr.readyState
+                          s.async
+                              ? 4 === xhr.readyState
                                   ? setTimeout(
                                       callback
                                   )
                                   : ((handle = ++xhrId),
                                   xhrOnUnloadAbort &&
-                      (xhrCallbacks ||
-                        ((xhrCallbacks = {
-                        }),
-                        jQuery(
-                            window
-                        ).unload(
-                            xhrOnUnloadAbort
-                        )),
-                      (xhrCallbacks[handle] = callback)),
-                                  (xhr.onreadystatechange = callback));
+                        (xhrCallbacks ||
+                          ((xhrCallbacks = {
+                          }),
+                          jQuery(
+                              window
+                          ).unload(
+                              xhrOnUnloadAbort
+                          )),
+                        (xhrCallbacks[handle] = callback)),
+                                  (xhr.onreadystatechange = callback))
+                              : callback(
+                              );
                       },
                       abort: function (
                       ) {
@@ -11566,29 +11564,29 @@
             },
             elem = this[0],
             doc = elem && elem.ownerDocument;
-        return !doc
-            ? void 0
-            : (doc.documentElement, !jQuery.contains(
+        return doc
+            ? (doc.documentElement, !jQuery.contains(
                 doc.documentElement,
                 elem
             ))
                 ? box
                 : ("undefined" !== typeof elem.getBoundingClientRect &&
-            (box = elem.getBoundingClientRect(
-            )),
+              (box = elem.getBoundingClientRect(
+              )),
                 (win = getWindow(
                     doc
                 )),
                 {
                     top:
-              box.top +
-              (win.pageYOffset || doc.documentElement.scrollTop) -
-              (doc.documentElement.clientTop || 0),
+                box.top +
+                (win.pageYOffset || doc.documentElement.scrollTop) -
+                (doc.documentElement.clientTop || 0),
                     left:
-              box.left +
-              (win.pageXOffset || doc.documentElement.scrollLeft) -
-              (doc.documentElement.clientLeft || 0),
-                });
+                box.left +
+                (win.pageXOffset || doc.documentElement.scrollLeft) -
+                (doc.documentElement.clientLeft || 0),
+                })
+            : void 0;
     }),
     (jQuery.offset = {
         setOffset: function (
@@ -11769,12 +11767,12 @@
                                 : elem[method1];
                         win
                             ? win.scrollTo(
-                                !top
-                                    ? val
-                                    : jQuery(
+                                top
+                                    ? jQuery(
                                         win
                                     ).scrollLeft(
-                                    ),
+                                    )
+                                    : val,
                                 top
                                     ? val
                                     : jQuery(
