@@ -987,6 +987,11 @@ impl<'a> Emitter<'a> {
             space!();
         }
 
+        if n.is_static {
+            keyword!("static");
+            space!();
+        }
+
         emit!(n.key);
         if let Some(type_ann) = &n.type_ann {
             punct!(":");
