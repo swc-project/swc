@@ -4,6 +4,7 @@ use super::DecoratorFinder;
 use fxhash::FxHashMap;
 use smallvec::SmallVec;
 use std::mem::replace;
+use std::mem::take;
 use swc_common::{util::move_map::MoveMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -15,6 +16,9 @@ use swc_ecma_utils::{
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_utils::{ident::IdentLike, Id};
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;
@@ -147,7 +151,7 @@ impl Fold for Legacy {
                 Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
-                    decls: replace(&mut self.uninitialized_vars, Default::default()),
+                    decls: take(&mut self.uninitialized_vars),
                     declare: false,
                 }))
                 .into(),
@@ -157,7 +161,7 @@ impl Fold for Legacy {
         if !self.exports.is_empty() {
             let decl = ModuleDecl::ExportNamed(NamedExport {
                 span: DUMMY_SP,
-                specifiers: replace(&mut self.exports, Default::default()),
+                specifiers: take(&mut self.exports),
                 src: None,
                 type_only: false,
                 asserts: None,
@@ -291,6 +295,11 @@ impl Legacy {
             definite: false,
         });
 
+        // We initialize decorators lazily.
+        //
+        // See https://github.com/swc-project/swc/issues/1278
+        let mut dec_init_exprs = vec![];
+
         // Injected to sequence expression which is wrapped with parenthesis.
         let mut extra_exprs = vec![];
         // Injected to constructor
@@ -367,10 +376,24 @@ impl Legacy {
                     PropName::Computed(e) => {
                         let (name, aliased) = alias_if_required(&e.expr, "key");
                         if aliased {
-                            self.initialized_vars.push(VarDeclarator {
+                            let mut init = e.expr.clone();
+                            if let Some(name) = &cls_name {
+                                init.visit_mut_with(&mut IdentReplacer {
+                                    from: name,
+                                    to: &cls_ident,
+                                });
+                            }
+
+                            dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(name.clone().into()))),
+                                right: init,
+                            })));
+                            self.uninitialized_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(name.clone().into()),
-                                init: Some(e.expr.clone()),
+                                init: None,
                                 definite: Default::default(),
                             })
                         }
@@ -476,13 +499,26 @@ impl Legacy {
                 let mut value = Some(p.value);
 
                 let mut dec_exprs = vec![];
-                for dec in p.decorators.into_iter() {
+                for mut dec in p.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
-                        self.initialized_vars.push(VarDeclarator {
+                        if let Some(name) = &cls_name {
+                            dec.expr.visit_mut_with(&mut IdentReplacer {
+                                from: name,
+                                to: &cls_ident,
+                            });
+                        }
+
+                        dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                            right: dec.expr,
+                        })));
+                        self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(i.clone().into()),
-                            init: Some(dec.expr),
+                            init: None,
                             definite: false,
                         });
                     }
@@ -765,6 +801,12 @@ impl Legacy {
             right: Box::new(Expr::Ident(cls_ident.clone())),
         }));
 
+        let mut extra_exprs = {
+            let mut buf = dec_init_exprs;
+            buf.extend(extra_exprs);
+            buf
+        };
+
         let expr = self.apply(
             &cls_ident,
             if extra_exprs.is_empty() {
@@ -859,6 +901,21 @@ impl Fold for ClassFieldAccessConverter {
                 obj: node.obj.fold_with(self),
                 ..node
             }
+        }
+    }
+}
+
+struct IdentReplacer<'a> {
+    from: &'a Ident,
+    to: &'a Ident,
+}
+
+impl VisitMut for IdentReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if self.from.sym == i.sym && self.from.span.ctxt == i.span.ctxt {
+            *i = self.to.clone();
         }
     }
 }
