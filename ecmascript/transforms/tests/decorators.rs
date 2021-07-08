@@ -5832,3 +5832,27 @@ test!(
   
     "
 );
+
+test_exec!(
+    ts(),
+    |_| decorators(decorators::Config {
+        legacy: true,
+        emit_metadata: true,
+        ..Default::default()
+    }),
+    issue_1278_2,
+    "
+    function MyDecorator(klass) {
+        return () => {
+            // do something
+            console.log(klass);
+        }
+    }
+
+    class MyClass {
+        @MyDecorator(MyClass) prop: '';
+    }
+
+    console.log(new MyClass());
+    "
+);
