@@ -286,7 +286,6 @@ where
                                 }
                                 DefaultDecl::Fn(FnExpr { ident, function }) => {
                                     // init_export!("default");
-                                    let will_inject_var = ident.is_none();
                                     let ident = ident.unwrap_or_else(|| private_ident!("_default"));
 
                                     extra_stmts.push(ModuleItem::Stmt(Stmt::Decl(Decl::Fn(
@@ -298,13 +297,7 @@ where
                                         .fold_with(self),
                                     ))));
 
-                                    let to = if will_inject_var {
-                                        &mut extra_stmts
-                                    } else {
-                                        &mut stmts
-                                    };
-
-                                    to.push(
+                                    stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             left: PatOrExpr::Expr(member_expr!(

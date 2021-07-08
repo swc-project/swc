@@ -1,9 +1,11 @@
+use swc_common::comments::SingleThreadedComments;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator,
 };
+use swc_ecma_transforms_compat::{es2018, es2020, es2021};
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
@@ -1305,6 +1307,141 @@ test!(
               return _ctx.stop();
           }
       }, _marked, null, [[0, 5]]);
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_1799_1,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default())
+        )
+    },
+    issue_1799_2,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            es2016(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+        )
+    },
+    issue_1799_3,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            es2021(),
+            es2020(),
+            es2018(),
+            es2017(),
+            es2016(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+        )
+    },
+    issue_1799_5,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
     }
     "
 );

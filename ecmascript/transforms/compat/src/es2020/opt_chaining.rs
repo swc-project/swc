@@ -23,6 +23,28 @@ struct OptChaining {
 impl Fold for OptChaining {
     noop_fold_type!();
 
+    fn fold_block_stmt_or_expr(&mut self, e: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        // Thanks to #[fast_path], we are sure that the expression contains an optional
+        // chaining expression.
+
+        match e {
+            BlockStmtOrExpr::BlockStmt(..) => e.fold_children_with(self),
+            BlockStmtOrExpr::Expr(e) => {
+                let return_stmt = Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(e),
+                });
+                BlockStmtOrExpr::BlockStmt(
+                    BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![return_stmt],
+                    }
+                    .fold_with(self),
+                )
+            }
+        }
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
         let e = match e {
             Expr::OptChain(e) => Expr::Cond(self.unwrap(e)),

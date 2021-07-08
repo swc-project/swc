@@ -704,3 +704,26 @@ test!(
     const patch = (ref = _obj) === null || ref === void 0 ? void 0 : ref.call(_obj);
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(()),
+    issue_1836_1,
+    "
+    function bug() {
+      const arrowFn = (arg) => this.object[arg]?.();
+    }
+    
+    bug();
+    ",
+    "
+    function bug() {
+        const arrowFn = (arg)=>{
+            var ref;
+            var _object = this.object[arg];
+            return (ref = _object) === null || ref === void 0 ? void 0 : ref.call(_object);
+        };
+    }
+    bug();
+    "
+);

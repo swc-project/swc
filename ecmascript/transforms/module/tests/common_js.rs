@@ -65,6 +65,7 @@ Object.defineProperty(exports, '__esModule', {
     value: true
 });
 exports.input = input;
+exports.default = _default;
 function input(name) {
     return `${name}.md?render`;
 }
@@ -74,7 +75,7 @@ function _default({ name , input: inp  }) {
         input: inp
     };
 }
-exports.default = _default;"
+"
 );
 
 test!(
@@ -1198,8 +1199,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function _default() {}
 exports.default = _default;
+function _default() {}
 
 "#
 );
@@ -4469,28 +4470,28 @@ return 5;
 
 "#,
     r#"
-'use strict';
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-exports.default = void 0;
-var regeneratorRuntime = require('regenerator-runtime');
-var _default = function _callee() {
-  var x;
-  return regeneratorRuntime.wrap(function _callee$(_ctx) {
-      while(1)switch(_ctx.prev = _ctx.next){
-          case 0:
-              _ctx.next = 2;
-              return 5;
-          case 2:
-              x = _ctx.sent;
-              return _ctx.abrupt('return', 5);
-          case 4:
-          case 'end': return _ctx.stop();
-      }
-  }, _callee);
-};
-exports.default = _default;
+    "use strict";
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.default = _callee;
+    var regeneratorRuntime = require("regenerator-runtime");
+    function _callee() {
+        var x;
+        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+            while(1)switch(_ctx.prev = _ctx.next){
+                case 0:
+                    _ctx.next = 2;
+                    return 5;
+                case 2:
+                    x = _ctx.sent;
+                    return _ctx.abrupt("return", 5);
+                case 4:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _callee);
+    }
 "#
 );
 
@@ -4866,5 +4867,47 @@ test!(
     var _foo = _interopRequireDefault(require('./bar/foo'));
     var _foo1 = _interopRequireDefault(require('./baz/foo'));
     const a = [_foo1.default, _foo.default];
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1799_1,
+    "
+    export default function Foo() {
+      return 500;
+    }
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
+    exports.default = Foo;
+    function Foo() {
+        return 500;
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1799_2,
+    "
+    export default function () {
+      return 500;
+    }
+    ",
+    "
+    'use strict';
+    Object.defineProperty(exports, '__esModule', {
+        value: true
+    });
+    exports.default = _default;
+    function _default() {
+        return 500;
+    }
     "
 );
