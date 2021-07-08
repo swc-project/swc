@@ -143,6 +143,8 @@ impl Optimizer<'_> {
         }
     }
 
+    /// This negates bool
+    ///
     /// Returns true if it's negated.
     pub(super) fn optimize_bang_within_logical_ops(
         &mut self,
