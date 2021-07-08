@@ -41,7 +41,7 @@ pub struct DependencyDescriptor {
     pub span: Span,
     /// The text specifier associated with the import/export statement.
     pub specifier: JsWord,
-    /// The byte position of the start of the specifier.
+    /// The span of the specifier.
     pub specifier_span: Span,
     /// Import assertions for this dependency.
     /// NOTE: it's filled only for static imports and exports.
