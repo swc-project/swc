@@ -355,7 +355,7 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             Some(v) => {
                 let s = v.to_string_lossy().to_string();
                 if cfg!(target_os = "windows") {
-                    s.replace("\\", "/");
+                    s.replace("\\", "/")
                 } else {
                     s
                 }
