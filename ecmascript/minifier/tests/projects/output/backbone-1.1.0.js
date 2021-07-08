@@ -1977,7 +1977,7 @@
                 navigator.userAgent.toLowerCase(
                 )
             ) &&
-            (!docMode || 7 >= docMode);
+            (!docMode || docMode <= 7);
                 (this.root = ("/" + this.root + "/").replace(
                     rootStripper,
                     "/"

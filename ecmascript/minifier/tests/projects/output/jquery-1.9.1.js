@@ -179,7 +179,7 @@
             return null == num
                 ? this.toArray(
                 )
-                : 0 > num
+                : num < 0
                     ? this[this.length + num]
                     : this[num];
         },
@@ -235,7 +235,7 @@
             i
         ) {
             var len = this.length,
-                j = +i + (0 > i ? len : 0);
+                j = +i + (i < 0 ? len : 0);
             return this.pushStack(
                 j >= 0 && j < len ? [this[j],] : []
             );
@@ -722,7 +722,7 @@
                     for (
                         len = arr.length,
                         i = i
-                            ? (0 > i
+                            ? (i < 0
                                 ? Math.max(
                                     0,
                                     arr.length + i
@@ -2624,10 +2624,10 @@
                                 option,
                                 options = elem.options,
                                 index = elem.selectedIndex,
-                                one = "select-one" === elem.type || 0 > index,
+                                one = "select-one" === elem.type || index < 0,
                                 values = one ? null : [],
                                 max = one ? index + 1 : options.length,
-                                i = 0 > index ? max : one ? index : 0;
+                                i = index < 0 ? max : one ? index : 0;
                             i < max;
                             i++
                         )
@@ -4540,7 +4540,7 @@
                 var high = "0x" + escaped - 65536;
                 return high != high
                     ? escaped
-                    : 0 > high
+                    : high < 0
                         ? String.fromCharCode(
                             high + 65536
                         )
@@ -6047,7 +6047,7 @@
                         length,
                         argument,
                     ) {
-                        return [0 > argument ? argument + length : argument,];
+                        return [argument < 0 ? argument + length : argument,];
                     }
                 ),
                 even: createPositionalPseudo(
@@ -6077,7 +6077,7 @@
                         argument,
                     ) {
                         for (
-                            var i = 0 > argument ? argument + length : argument;
+                            var i = argument < 0 ? argument + length : argument;
                             --i >= 0;
 
                         )
@@ -6094,7 +6094,7 @@
                         argument,
                     ) {
                         for (
-                            var i = 0 > argument ? argument + length : argument;
+                            var i = argument < 0 ? argument + length : argument;
                             ++i < length;
 
                         )
@@ -7782,7 +7782,7 @@
                 if (
                     isFunction ||
           !(
-              1 >= l ||
+              l <= 1 ||
             "string" !== typeof value ||
             jQuery.support.checkClone ||
             !/checked\s*(?:[^=]|=\s*.checked.)/i.test(
@@ -8897,7 +8897,7 @@
                   ? 1
                   : 0,
                 val = 0;
-            4 > i;
+            i < 4;
             i += 2
         )
             "margin" === extra &&
@@ -8953,14 +8953,14 @@
             !1,
             styles
         );
-        if (0 >= val || null == val) {
+        if (val <= 0 || null == val) {
             if (
                 ((val = curCSS(
                     elem,
                     name,
                     styles
                 )),
-                (0 > val || null == val) && (val = elem.style[name]),
+                (val < 0 || null == val) && (val = elem.style[name]),
                 rnumnonpx.test(
                     val
                 ))
@@ -9256,7 +9256,7 @@
                                     " "
                                 )
                                 : [value,];
-                        4 > i;
+                        i < 4;
                         i++
                     )
                         expanded[prefix + cssExpand[i] + suffix] =
@@ -9893,7 +9893,7 @@
                         ) {
                             var code;
                             if (map) {
-                                if (2 > state)
+                                if (state < 2)
                                     for (code in map)
                                         statusCode[code] = [statusCode[code], map[code],];
                                 else jqXHR.always(
@@ -10093,7 +10093,7 @@
                             done
                         );
                     } catch (e) {
-                        if (2 > state) done(
+                        if (state < 2) done(
                             -1,
                             e
                         );
@@ -10709,7 +10709,7 @@
                     elem,
                     [animation, percent, remaining,]
                 ),
-                1 > percent && length)
+                percent < 1 && length)
                     ? remaining
                     : (deferred.resolveWith(
                         elem,
@@ -11376,7 +11376,7 @@
                 height: type,
             },
             i = 0;
-        for (includeWidth = includeWidth ? 1 : 0; 4 > i; i += 2 - includeWidth)
+        for (includeWidth = includeWidth ? 1 : 0; i < 4; i += 2 - includeWidth)
             (which = cssExpand[i]),
             (attrs["margin" + which] = attrs["padding" + which] = type);
         return includeWidth && (attrs.opacity = attrs.width = type), attrs;

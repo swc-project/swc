@@ -961,7 +961,7 @@
             length = array.length;
         if (isSorted) {
             if ("number" == typeof isSorted)
-                i = 0 > isSorted
+                i = isSorted < 0
                     ? Math.max(
                         0,
                         length + isSorted
@@ -1195,7 +1195,7 @@
                 return (
                     (context = this),
                     (args = arguments),
-                    0 >= remaining
+                    remaining <= 0
                         ? (clearTimeout(
                             timeout
                         ),

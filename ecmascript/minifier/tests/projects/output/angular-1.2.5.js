@@ -431,7 +431,7 @@
         return !(!node || !(node.nodeName || (node.on && node.find)));
     }
     nodeName_ =
-    9 > msie
+    msie < 9
         ? function (
             element
         ) {
@@ -2043,11 +2043,11 @@
                 else {
                     var val;
                     return (
-                        8 >= msie &&
+                        msie <= 8 &&
               ((val = element.currentStyle && element.currentStyle[name]),
               "" === val && (val = "auto")),
                         (val ||= element.style[name]),
-                        8 >= msie && (val = "" === val ? void 0 : val),
+                        msie <= 8 && (val = "" === val ? void 0 : val),
                         val
                     );
                 }
@@ -2104,7 +2104,7 @@
             ) {
                 var NODE_TYPE_TEXT_PROPERTY = [];
                 return (
-                    9 > msie
+                    msie < 9
                         ? ((NODE_TYPE_TEXT_PROPERTY[1] = "innerText"),
                         (NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue"))
                         : (NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] =
@@ -2271,7 +2271,7 @@
                     );
                 }
             ),
-            8 >= msie
+            msie <= 8
                 ? ((event.preventDefault = null),
                 (event.stopPropagation = null),
                 (event.isDefaultPrevented = null))
@@ -6120,7 +6120,7 @@
     function isSuccess(
         status
     ) {
-        return 200 <= status && 300 > status;
+        return 200 <= status && status < 300;
     }
     function $HttpProvider(
     ) {
@@ -6958,7 +6958,7 @@
             return (
                 (script.type = "text/javascript"),
                 (script.src = url),
-                msie && 8 >= msie
+                msie && msie <= 8
                     ? (script.onreadystatechange = function (
                     ) {
                         /loaded|complete/.test(
@@ -8461,7 +8461,7 @@
         isNumber: function (
             ch
         ) {
-            return "0" <= ch && "9" >= ch;
+            return "0" <= ch && ch <= "9";
         },
         isWhitespace: function (
             ch
@@ -8479,8 +8479,8 @@
             ch
         ) {
             return (
-                ("a" <= ch && "z" >= ch) ||
-        ("A" <= ch && "Z" >= ch) ||
+                ("a" <= ch && ch <= "z") ||
+        ("A" <= ch && ch <= "Z") ||
         "_" === ch ||
         "$" === ch
             );
@@ -9766,7 +9766,7 @@
             fn;
         if (options.csp)
             fn =
-        6 > pathKeysLength
+        pathKeysLength < 6
             ? cspSafeGetterFn(
                 pathKeys[0],
                 pathKeys[1],
@@ -10715,7 +10715,7 @@
                                                         initWatchVal === last ? value : last,
                                                         current,
                                                     ),
-                                                    5 > ttl &&
+                                                    ttl < 5 &&
                                 ((logIdx = 4 - ttl),
                                 watchLog[logIdx] || (watchLog[logIdx] = []),
                                 (logMsg = isFunction(
@@ -11564,7 +11564,7 @@
                     history: !(
                         !$window.history ||
             !$window.history.pushState ||
-            4 > android ||
+            android < 4 ||
             !!boxee
                     ),
                     hashchange:
@@ -12026,7 +12026,7 @@
         ) || !isFinite(
             number
         )) return "";
-        var isNegative = 0 > number;
+        var isNegative = number < 0;
         number = Math.abs(
             number
         );
@@ -12097,7 +12097,7 @@
         } else
             fractionSize > 0 &&
         number > -1 &&
-        1 > number &&
+        number < 1 &&
         (formatedText = number.toFixed(
             fractionSize
         ));
@@ -12119,7 +12119,7 @@
     function padNumber(
         num, digits, trim1
     ) {
-        for (0 > num && (num = -num), num = "" + num; num.length < digits; )
+        for (num < 0 && (num = -num), num = "" + num; num.length < digits; )
             num = "0" + num;
         return trim1 && (num = num.substr(
             num.length - digits
@@ -12609,7 +12609,7 @@
                     element, attr
                 ) {
                     if (
-                        (8 >= msie &&
+                        (msie <= 8 &&
             (attr.href || attr.name || attr.$set(
                 "href",
                 ""
@@ -13052,7 +13052,7 @@
                     event
                 ) {
                     var key = event.keyCode;
-                    if (91 === key || (15 < key && 19 > key) || (37 <= key && 40 >= key))
+                    if (91 === key || (15 < key && key < 19) || (37 <= key && key <= 40))
                         return;
                     deferListener(
                     );

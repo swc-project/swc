@@ -885,7 +885,7 @@ Array.implement(
         ) {
             for (
                 var length = this.length >>> 0,
-                    i = 0 > from
+                    i = from < 0
                         ? Math.max(
                             0,
                             length + from
@@ -1092,7 +1092,7 @@ Array.implement(
         ) {
             if (3 > this.length) return null;
             if (4 == this.length && 0 == this[3] && !array) return "transparent";
-            for (var hex = [], i = 0; 3 > i; i++) {
+            for (var hex = [], i = 0; i < 3; i++) {
                 var bit = (this[i] - 0).toString(
                     16
                 );
@@ -1313,7 +1313,7 @@ Number.implement(
                     10,
                     precision || 0
                 ).toFixed(
-                    0 > precision ? -precision : 0,
+                    precision < 0 ? -precision : 0,
                 )),
                 Math.round(
                     this * precision
@@ -2379,9 +2379,9 @@ Hash.alias(
                         code
                     )),
                     "keydown" == type &&
-              (code > 111 && 124 > code
+              (code > 111 && code < 124
                   ? (this.key = "f" + (code - 111))
-                  : code > 95 && 106 > code && (this.key = code - 96)),
+                  : code > 95 && code < 106 && (this.key = code - 96)),
                     null == this.key &&
               (this.key = String.fromCharCode(
                   code
@@ -4118,7 +4118,7 @@ function (
                 : node.nodeName.toUpperCase(
                 );
             if ("*" == tag) {
-                if ("@" > nodeName) return !1;
+                if (nodeName < "@") return !1;
             } else if (nodeName != tag) return !1;
         }
         if (id && node.getAttribute(
@@ -9357,7 +9357,7 @@ Fx.implement(
                 pos
             ) {
                 return (
-                    (0.5 >= pos
+                    (pos <= 0.5
                         ? transition(
                             2 * pos,
                             params
@@ -9553,7 +9553,7 @@ Fx.Transitions.extend(
                 isSuccess: function (
                 ) {
                     var status = this.status;
-                    return status >= 200 && 300 > status;
+                    return status >= 200 && status < 300;
                 },
                 isRunning: function (
                 ) {

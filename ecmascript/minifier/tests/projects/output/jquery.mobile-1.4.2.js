@@ -2569,18 +2569,18 @@
                     "iPod"
                 ) > -1) &&
                 wkversion &&
-                534 > wkversion) ||
+                wkversion < 534) ||
               (w.operamini &&
                 "[object OperaMini]" === {
                 }.toString.call(
                     w.operamini
                 )) ||
-              (operammobilematch && 7458 > omversion) ||
+              (operammobilematch && omversion < 7458) ||
               (ua.indexOf(
                   "Android"
-              ) > -1 && wkversion && 533 > wkversion) ||
-              (ffversion && 6 > ffversion) ||
-              ("palmGetResource" in window && wkversion && 534 > wkversion) ||
+              ) > -1 && wkversion && wkversion < 533) ||
+              (ffversion && ffversion < 6) ||
+              ("palmGetResource" in window && wkversion && wkversion < 534) ||
               (ua.indexOf(
                   "MeeGo"
               ) > -1 &&
@@ -6768,7 +6768,7 @@
                         (document.title = pageTitle),
                         (jQuery.mobile.activePage = toPage),
                         (this.activePage = toPage),
-                        (settings.reverse = settings.reverse || 0 > historyDir),
+                        (settings.reverse = settings.reverse || historyDir < 0),
                         (cssTransitionDeferred = jQuery.Deferred(
                         )),
                         this._cssTransition(
@@ -11214,7 +11214,7 @@
                             pxStep > 1 &&
                 isInput &&
                 (percent = (newval - min) * percentPerStep * (1 / step)),
-                            0 > percent && (percent = 0),
+                            percent < 0 && (percent = 0),
                             percent > 100 && (percent = 100),
                             min > newval && (newval = min),
                             newval > max && (newval = max),
@@ -16583,7 +16583,7 @@
                     else return;
                     if ("ios" === os) self._bindScrollWorkaround(
                     );
-                    else if ("android" === os && wkversion && 534 > wkversion)
+                    else if ("android" === os && wkversion && wkversion < 534)
                         self._bindScrollWorkaround(
                         ), self._bindListThumbWorkaround(
                         );
@@ -19190,7 +19190,7 @@
                         ) {
                             return (
                                 index > lastTabIndex && (index = 0),
-                                0 > index && (index = lastTabIndex),
+                                index < 0 && (index = lastTabIndex),
                                 index
                             );
                         }
@@ -20261,7 +20261,7 @@
                     aig.z
                 )),
                 window1.orientation ||
-          !(x > 7 || (((z > 6 && 8 > y) || (8 > z && y > 6)) && x > 5))
+          !(x > 7 || (((z > 6 && y < 8) || (z < 8 && y > 6)) && x > 5))
                     ? !zoom.enabled && zoom.enable(
                     )
                     : zoom.enabled && zoom.disable(
