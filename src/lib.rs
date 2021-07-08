@@ -237,10 +237,13 @@ impl Compiler {
 
     /// Converts ast node to source string and sourcemap.
     ///
-    /// TODO: Receive target file path to fix https://github.com/swc-project/swc/issues/1255
+    ///
+    /// This method receives target file path, but does not write file to the
+    /// path. See: https://github.com/swc-project/swc/issues/1255
     pub fn print<T>(
         &self,
         node: &T,
+        output_path: Option<PathBuf>,
         target: JscTarget,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
@@ -321,7 +324,7 @@ impl Compiler {
 
 struct SwcSourceMapConfig<'a> {
     /// Output path of the `.map` file.
-    output_path: &'a Path,
+    output_path: Option<&'a Path>,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -433,6 +436,7 @@ impl Compiler {
             let built = opts.build(
                 &self.cm,
                 name,
+                opts.output_path.as_deref(),
                 &self.handler,
                 opts.is_module,
                 Some(config),
@@ -493,6 +497,7 @@ impl Compiler {
                 source_maps: config.source_maps,
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
+                output_path: opts.output_path,
             };
             let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
             let program = self.parse_js(
@@ -564,6 +569,7 @@ impl Compiler {
 
             self.print(
                 &program,
+                config.output_path,
                 config.target,
                 config.source_maps,
                 orig,
