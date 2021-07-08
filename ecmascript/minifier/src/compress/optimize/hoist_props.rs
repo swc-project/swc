@@ -132,6 +132,15 @@ impl Optimizer<'_> {
                     None => return,
                 };
 
+                match &*init {
+                    Expr::This(..) => {
+                        n.init = Some(init);
+                        return;
+                    }
+
+                    _ => {}
+                }
+
                 match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
                     Some(prev) => {
                         panic!(
