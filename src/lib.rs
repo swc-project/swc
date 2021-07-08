@@ -287,7 +287,13 @@ impl Compiler {
                         let mut buf = vec![];
 
                         self.cm
-                            .build_source_map_from(&mut src_map_buf, orig)
+                            .build_source_map_with_config(
+                                &mut src_map_buf,
+                                orig,
+                                SwcSourceMapConfig {
+                                    output_path: output_path.as_deref(),
+                                },
+                            )
                             .to_writer(&mut buf)
                             .context("failed to write source map")?;
                         let map = String::from_utf8(buf).context("source map is not utf-8")?;
@@ -302,7 +308,13 @@ impl Compiler {
                     let mut buf = vec![];
 
                     self.cm
-                        .build_source_map_from(&mut src_map_buf, orig)
+                        .build_source_map_with_config(
+                            &mut src_map_buf,
+                            orig,
+                            SwcSourceMapConfig {
+                                output_path: output_path.as_deref(),
+                            },
+                        )
                         .to_writer(&mut buf)
                         .context("failed to write source map file")?;
                     let map = String::from_utf8(buf).context("source map is not utf-8")?;
