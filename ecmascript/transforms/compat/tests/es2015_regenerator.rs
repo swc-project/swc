@@ -1445,3 +1445,174 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1892,
+    r#"
+    function *gen() {
+            var firstTime = true;
+        outer:
+        while (true) {
+              yield 0;
+          try {
+                while (true) {
+                  yield 1;
+              if (firstTime) {
+                    firstTime = false;
+                yield 2;
+                continue outer;
+              } else {
+                    yield 3;
+                break;
+              }
+            }
+            yield 4;
+            break;
+          } finally {
+                yield 5;
+          }
+          yield 6;
+        }
+        yield 7;
+      }
+
+    const iter = gen();
+    expect(iter.next()).toEqual({value: 0, done: false});
+    expect(iter.next()).toEqual({value: 1, done: false});
+    expect(iter.next()).toEqual({value: 2, done: false});
+    expect(iter.next()).toEqual({value: 5, done: false});
+    expect(iter.next()).toEqual({value: 0, done: false});
+    expect(iter.next()).toEqual({value: 1, done: false});
+    expect(iter.next()).toEqual({value: 3, done: false});
+    expect(iter.next()).toEqual({value: 4, done: false});
+    expect(iter.next()).toEqual({value: 5, done: false});
+    expect(iter.next()).toEqual({value: 7, done: false});
+    expect(iter.next()).toEqual({value: undefined, done: true});
+
+"#,
+    r#"
+    var regeneratorRuntime = require("regenerator-runtime");
+    var _marked = regeneratorRuntime.mark(gen);
+    function gen() {
+            var firstTime;
+        return regeneratorRuntime.wrap(function gen$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    firstTime = true;
+                case 1:
+                    if (!true) {
+                            _ctx.next = 31;
+                        break;
+                    }
+                    _ctx.next = 4;
+                    return 0;
+                case 4:
+                    _ctx.prev = 4;
+                case 5:
+                    if (!true) {
+                            _ctx.next = 20;
+                        break;
+                    }
+                    _ctx.next = 8;
+                    return 1;
+                case 8:
+                    if (!firstTime) {
+                            _ctx.next = 15;
+                        break;
+                    }
+                    firstTime = false;
+                    _ctx.next = 12;
+                    return 2;
+                case 12:
+                    return _ctx.abrupt("continue", 1);
+                case 15:
+                    _ctx.next = 17;
+                    return 3;
+                case 17:
+                    return _ctx.abrupt("break", 20);
+                case 18:
+                    _ctx.next = 5;
+                    break;
+                case 20:
+                    _ctx.next = 22;
+                    return 4;
+                case 22:
+                    return _ctx.abrupt("break", 31);
+                case 23:
+                    _ctx.prev = 23;
+                    _ctx.next = 26;
+                    return 5;
+                case 26:
+                    return _ctx.finish(23);
+                case 27:
+                    _ctx.next = 29;
+                    return 6;
+                case 29:
+                    _ctx.next = 1;
+                    break;
+                case 31:
+                    _ctx.next = 33;
+                    return 7;
+                case 33:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _marked, null, [
+            [
+                4,
+                ,
+                23,
+                27
+            ]
+        ]);
+    }
+
+    const iter = gen();
+    expect(iter.next()).toEqual({
+            value: 0,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 1,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 2,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 5,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 0,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 1,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 3,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 4,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 5,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 7,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: undefined,
+        done: true
+    });
+"#
+);
