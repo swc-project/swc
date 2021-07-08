@@ -292,6 +292,11 @@ impl Legacy {
             definite: false,
         });
 
+        // We initialize decorators lazily.
+        //
+        // See https://github.com/swc-project/swc/issues/1278
+        let mut dec_init_exprs = vec![];
+
         // Injected to sequence expression which is wrapped with parenthesis.
         let mut extra_exprs = vec![];
         // Injected to constructor
@@ -368,10 +373,16 @@ impl Legacy {
                     PropName::Computed(e) => {
                         let (name, aliased) = alias_if_required(&e.expr, "key");
                         if aliased {
-                            self.initialized_vars.push(VarDeclarator {
+                            dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(Box::new(Pat::Ident(name.clone().into()))),
+                                right: e.expr.clone(),
+                            })));
+                            self.uninitialized_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: Pat::Ident(name.clone().into()),
-                                init: Some(e.expr.clone()),
+                                init: None,
                                 definite: Default::default(),
                             })
                         }
@@ -480,10 +491,16 @@ impl Legacy {
                 for dec in p.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
-                        self.initialized_vars.push(VarDeclarator {
+                        dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                            right: dec.expr,
+                        })));
+                        self.uninitialized_vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: Pat::Ident(i.clone().into()),
-                            init: Some(dec.expr),
+                            init: None,
                             definite: false,
                         });
                     }
@@ -765,6 +782,12 @@ impl Legacy {
             op: op!("||"),
             right: Box::new(Expr::Ident(cls_ident.clone())),
         }));
+
+        let mut extra_exprs = {
+            let mut buf = dec_init_exprs;
+            buf.extend(extra_exprs);
+            buf
+        };
 
         let expr = self.apply(
             &cls_ident,
