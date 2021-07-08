@@ -442,7 +442,9 @@ impl Optimizer<'_> {
         e.right = left.take();
     }
 
-    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
+    /// Rules:
+    ///  - `l > i` => `i < l`
+    fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, _is_for_rel: bool) -> bool {
         match (l, r) {
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
 
@@ -450,9 +452,7 @@ impl Optimizer<'_> {
                 true
             }
 
-            (Expr::Ident(l), Expr::Ident(r)) => {
-                self.options.comparisons && (is_for_rel || l.sym > r.sym)
-            }
+            (Expr::Ident(l), Expr::Ident(r)) => self.options.comparisons && l.sym > r.sym,
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
