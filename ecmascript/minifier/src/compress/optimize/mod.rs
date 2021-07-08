@@ -1824,14 +1824,19 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
-        s.visit_mut_children_with(self);
+        let ctx = Ctx {
+            executed_multiple_time: true,
+            ..self.ctx
+        };
 
-        self.optimize_init_of_for_stmt(s);
+        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.drop_if_break(s);
+        self.with_ctx(ctx).optimize_init_of_for_stmt(s);
+
+        self.with_ctx(ctx).drop_if_break(s);
 
         if let Some(test) = &mut s.test {
-            self.optimize_expr_in_bool_ctx(test);
+            self.with_ctx(ctx).optimize_expr_in_bool_ctx(test);
         }
     }
 

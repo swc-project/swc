@@ -420,6 +420,11 @@ impl Optimizer<'_> {
                                 return;
                             }
                         }
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
+                                return;
+                            }
+                        }
                         _ => {}
                     }
 
@@ -430,6 +435,15 @@ impl Optimizer<'_> {
                 } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
+                    }
+
+                    match &**value {
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
+                                return;
+                            }
+                        }
+                        _ => {}
                     }
 
                     self.changed = true;
