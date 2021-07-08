@@ -6441,6 +6441,6 @@ test!(
       return call(async (e)=>{
           await doSomething();
       });
-    };
+    }
     "
 );
