@@ -712,6 +712,7 @@
             inArray: function (
                 elem, arr, i
             ) {
+                var len;
                 if (arr) {
                     if (core_indexOf) return core_indexOf.call(
                         arr,
@@ -719,6 +720,7 @@
                         i
                     );
                     for (
+                        len = arr.length,
                         i = i
                             ? (0 > i
                                 ? Math.max(
@@ -727,7 +729,7 @@
                                 )
                                 : i)
                             : 0;
-                        i < arr.length;
+                        len > i;
                         i++
                     )
                         if (i in arr && arr[i] === elem) return i;
@@ -1754,6 +1756,7 @@
             elem
         )) return;
         var i,
+            l,
             thisCache,
             isNode = elem.nodeType,
             cache = isNode ? jQuery.cache : elem,
@@ -1781,8 +1784,9 @@
                                 jQuery.camelCase
                             )
                         )),
-                    i = 0;
-                    i < name.length;
+                    i = 0,
+                    l = name.length;
+                    l > i;
                     i++
                 )
                     delete thisCache[name[i]];
@@ -1889,7 +1893,8 @@
             data: function (
                 key, value
             ) {
-                var name,
+                var attrs,
+                    name,
                     elem = this[0],
                     i = 0,
                     data = null;
@@ -1904,8 +1909,8 @@
                                 "parsedAttrs"
                             ))
                         ) {
-                            for (elem.attributes; i < elem.attributes.length; i++)
-                                (name = elem.attributes[i].name),
+                            for (attrs = elem.attributes; i < attrs.length; i++)
+                                (name = attrs[i].name),
                                 name.indexOf(
                                     "data-"
                                 ) ||
@@ -3186,10 +3191,10 @@
                 );
             if (!elemData) return;
             for (
-                handleObjIn.handler.handler &&
-          ((handleObjIn = handleObjIn.handler),
-          handleObjIn.handler,
-          handleObjIn.selector),
+                handler.handler &&
+          ((handleObjIn = handler),
+          (handler = handleObjIn.handler),
+          (selector = handleObjIn.selector)),
                 handleObjIn.handler.guid ||
             (handleObjIn.handler.guid = jQuery.guid++),
                 (events = elemData.events) || (events = elemData.events = {
@@ -3223,9 +3228,7 @@
                 )),
                 (special = jQuery.event.special[type] || {
                 }),
-                (type =
-            (handleObjIn.selector ? special.delegateType : special.bindType) ||
-            type),
+                (type = (selector ? special.delegateType : special.bindType) || type),
                 (special = jQuery.event.special[type] || {
                 }),
                 (handleObj = jQuery.extend(
@@ -3233,13 +3236,12 @@
                         type: type,
                         origType: origType,
                         data: data,
-                        handler: handleObjIn.handler,
-                        guid: handleObjIn.handler.guid,
-                        selector: handleObjIn.selector,
+                        handler: handler,
+                        guid: handler.guid,
+                        selector: selector,
                         needsContext:
-                handleObjIn.selector &&
-                jQuery.expr.match.needsContext.test(
-                    handleObjIn.selector
+                selector && jQuery.expr.match.needsContext.test(
+                    selector
                 ),
                         namespace: namespaces.join(
                             "."
@@ -3273,9 +3275,8 @@
                 null,
                 handleObj
             ),
-            !handleObj.handler.guid &&
-              (handleObj.handler.guid = handleObjIn.handler.guid)),
-                handleObjIn.selector
+            !handleObj.handler.guid && (handleObj.handler.guid = handler.guid)),
+                selector
                     ? handlers.splice(
                         handlers.delegateCount++,
                         0,
@@ -3294,6 +3295,7 @@
                 tmp,
                 origCount,
                 t,
+                events,
                 special,
                 handlers,
                 type,
@@ -3304,7 +3306,7 @@
                 ) && jQuery._data(
                     elem
                 );
-            if (!elemData || !elemData.events) return;
+            if (!elemData || !(events = elemData.events)) return;
             for (
                 types = (types || "").match(
                     core_rnotwhite
@@ -3323,7 +3325,7 @@
                     )),
                     !type)
                 ) {
-                    for (type in elemData.events)
+                    for (type in events)
                         jQuery.event.remove(
                             elem,
                             type + types[t],
@@ -3337,7 +3339,7 @@
                     special = jQuery.event.special[type] || {
                     },
                     type = (selector ? special.delegateType : special.bindType) || type,
-                    handlers = elemData.events[type] || [],
+                    handlers = events[type] || [],
                     tmp =
               tmp[2] &&
               new RegExp(
@@ -3380,7 +3382,7 @@
                 type,
                 elemData.handle
             ),
-          delete elemData.events[type]);
+          delete events[type]);
             }
             jQuery.isEmptyObject(
                 elemData.events
@@ -6130,13 +6132,18 @@
                 type,
                 soFar,
                 groups,
+                preFilters,
                 cached = tokenCache[selector + " "];
             if (cached) return parseOnly
                 ? 0
                 : cached.slice(
                     0
                 );
-            for (soFar = selector, groups = [], Expr.preFilter; soFar; ) {
+            for (
+                soFar = selector, groups = [], preFilters = Expr.preFilter;
+                soFar;
+
+            ) {
                 (!matched || (match = rcomma.exec(
                     soFar
                 ))) &&
@@ -6168,10 +6175,9 @@
                     (match = matchExpr[type].exec(
                         soFar
                     )) &&
-              (!Expr.preFilter[type] ||
-                (match = Expr.preFilter[type](
-                    match
-                ))) &&
+              (!preFilters[type] || (match = preFilters[type](
+                  match
+              ))) &&
               ((matched = match.shift(
               )),
               tokens.push(
@@ -6687,6 +6693,7 @@
             var i,
                 tokens,
                 token,
+                type,
                 find,
                 match = tokenize(
                     selector
@@ -6728,8 +6735,9 @@
                         i--;
 
                     ) {
-                        if (((token = tokens[i]), Expr.relative[token.type])) break;
-                        if ((find = Expr.find[token.type])) {
+                        if (((token = tokens[i]), Expr.relative[(type = token.type)]))
+                            break;
+                        if ((find = Expr.find[type])) {
                             if (
                                 (seed = find(
                                     token.matches[0].replace(
@@ -7761,7 +7769,9 @@
                 );
                 var first,
                     node,
+                    hasScripts,
                     scripts,
+                    doc,
                     fragment,
                     i = 0,
                     l = this.length,
@@ -7827,7 +7837,7 @@
                                 ),
                                 disableScript
                             ),
-                            scripts.length;
+                            hasScripts = scripts.length;
                             l > i;
                             i++
                         )
@@ -7838,14 +7848,13 @@
                       !0,
                       !0
                   )),
-                  scripts.length &&
-                    jQuery.merge(
-                        scripts,
-                        getAll(
-                            node,
-                            "script"
-                        )
-                    )),
+                  hasScripts && jQuery.merge(
+                      scripts,
+                      getAll(
+                          node,
+                          "script"
+                      )
+                  )),
                             callback.call(
                                 table && jQuery.nodeName(
                                     this[i],
@@ -7861,13 +7870,13 @@
                             );
                         if (scripts.length)
                             for (
-                                scripts[scripts.length - 1].ownerDocument,
+                                doc = scripts[scripts.length - 1].ownerDocument,
                                 jQuery.map(
                                     scripts,
                                     restoreScript
                                 ),
                                 i = 0;
-                                i < scripts.length;
+                                hasScripts > i;
                                 i++
                             )
                                 (node = scripts[i]),
@@ -7879,8 +7888,8 @@
                         "globalEval"
                     ) &&
                     jQuery.contains(
-                        scripts[scripts.length - 1].ownerDocument,
-                        node,
+                        doc,
+                        node
                     ) &&
                     (node.src
                         ? jQuery.ajax(
@@ -7966,6 +7975,7 @@
         )) return;
         var type,
             i,
+            l,
             oldData = jQuery._data(
                 src
             ),
@@ -7978,7 +7988,7 @@
             delete curData.handle, (curData.events = {
             });
             for (type in events)
-                for (i = 0, events[type].length; i < events[type].length; i++)
+                for (i = 0, l = events[type].length; l > i; i++)
                     jQuery.event.add(
                         dest,
                         type,
@@ -8479,7 +8489,12 @@
         elements, show
     ) {
         for (
-            var elem, hidden, values = [], index = 0, length = elements.length;
+            var display,
+                elem,
+                hidden,
+                values = [],
+                index = 0,
+                length = elements.length;
             length > index;
             index++
         ) {
@@ -8488,11 +8503,9 @@
                 elem,
                 "olddisplay"
             )),
-            elem.style.display,
+            (display = elem.style.display),
             show
-                ? (values[index] ||
-              "none" !== elem.style.display ||
-              (elem.style.display = ""),
+                ? (values[index] || "none" !== display || (elem.style.display = ""),
                 "" === elem.style.display &&
               isHidden(
                   elem
@@ -8508,13 +8521,12 @@
             ((hidden = isHidden(
                 elem
             )),
-            ((elem.style.display && "none" !== elem.style.display) ||
-              !hidden) &&
+            ((display && "none" !== display) || !hidden) &&
               jQuery._data(
                   elem,
                   "olddisplay",
                   hidden
-                      ? elem.style.display
+                      ? display
                       : jQuery.css(
                           elem,
                           "display"
@@ -8538,7 +8550,8 @@
                     function (
                         elem, name, value
                     ) {
-                        var styles,
+                        var len,
+                            styles,
                             map = {
                             },
                             i = 0;
@@ -8547,7 +8560,7 @@
                         )) {
                             for (styles = getStyles(
                                 elem
-                            ); i < name.length; i++)
+                            ), len = name.length; len > i; i++)
                                 map[name[i]] = jQuery.css(
                                     elem,
                                     name[i],
@@ -10887,6 +10900,7 @@
     ) {
         var prop,
             index,
+            length,
             value,
             dataShow,
             toggle,
@@ -10896,40 +10910,40 @@
             style = elem.style,
             orig = {
             },
-            handled = [];
-        elem.nodeType && isHidden(
-            elem
-        ),
+            handled = [],
+            hidden = elem.nodeType && isHidden(
+                elem
+            );
         opts.queue ||
-        ((hooks = jQuery._queueHooks(
-            elem,
-            "fx"
-        )),
-        null == hooks.unqueued &&
-          ((hooks.unqueued = 0),
-          hooks.empty.fire,
-          (hooks.empty.fire = function (
+      ((hooks = jQuery._queueHooks(
+          elem,
+          "fx"
+      )),
+      null == hooks.unqueued &&
+        ((hooks.unqueued = 0),
+        hooks.empty.fire,
+        (hooks.empty.fire = function (
+        ) {
+            hooks.unqueued || hooks.empty.fire(
+            );
+        })),
+      hooks.unqueued++,
+      anim.always(
+          function (
           ) {
-              hooks.unqueued || hooks.empty.fire(
+              anim.always(
+                  function (
+                  ) {
+                      hooks.unqueued--,
+                      jQuery.queue(
+                          elem,
+                          "fx"
+                      ).length || hooks.empty.fire(
+                      );
+                  }
               );
-          })),
-        hooks.unqueued++,
-        anim.always(
-            function (
-            ) {
-                anim.always(
-                    function (
-                    ) {
-                        hooks.unqueued--,
-                        jQuery.queue(
-                            elem,
-                            "fx"
-                        ).length || hooks.empty.fire(
-                        );
-                    }
-                );
-            }
-        )),
+          }
+      )),
         1 === elem.nodeType &&
         ("height" in props || "width" in props) &&
         ((opts.overflow = [style.overflow, style.overflowX, style.overflowY,]),
@@ -10972,7 +10986,7 @@
                     index
                 );
             }
-        if ((handled.length, handled.length))
+        if (((length = handled.length), handled.length))
             for (
                 dataShow =
           jQuery._data(
@@ -10984,7 +10998,7 @@
               {
               }
           ),
-                ("hidden" in dataShow) && dataShow.hidden,
+                ("hidden" in dataShow) && (hidden = dataShow.hidden),
                 toggle && (dataShow.hidden = !dataShow.hidden),
                 dataShow.hidden
                     ? jQuery(
@@ -11016,13 +11030,13 @@
                     }
                 ),
                 index = 0;
-                index < handled.length;
+                length > index;
                 index++
             )
                 (prop = handled[index]),
                 (tween = anim.createTween(
                     prop,
-                    dataShow.hidden ? dataShow[prop] : 0,
+                    hidden ? dataShow[prop] : 0
                 )),
                 (orig[prop] = dataShow[prop] || jQuery.style(
                     elem,
@@ -11030,7 +11044,7 @@
                 )),
                 prop in dataShow ||
             ((dataShow[prop] = tween.start),
-            dataShow.hidden &&
+            hidden &&
               ((tween.end = tween.start),
               (tween.start = "width" === prop || "height" === prop ? 1 : 0)));
     }

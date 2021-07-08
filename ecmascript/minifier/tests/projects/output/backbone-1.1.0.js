@@ -73,7 +73,7 @@
             off: function (
                 name, callback, context
             ) {
-                var retain, ev, events, names, i, j;
+                var retain, ev, events, names, i, l, j, k;
                 if (!this._events || !eventsApi(
                     this,
                     "off",
@@ -88,13 +88,13 @@
                         ? [name,]
                         : _.keys(
                             this._events
-                        ), i = 0, names.length;
-                    i < names.length;
+                        ), i = 0, l = names.length;
+                    l > i;
                     i++
                 )
                     if (((name = names[i]), (events = this._events[name]))) {
                         if (((this._events[name] = retain = []), callback || context))
-                            for (j = 0, events.length; j < events.length; j++)
+                            for (j = 0, k = events.length; k > j; j++)
                                 (ev = events[j]),
                                 ((callback &&
                     callback !== ev.callback &&
@@ -355,7 +355,7 @@
             set: function (
                 key, val, options
             ) {
-                var attr, attrs, changes;
+                var attr, attrs, changes, current;
                 if (null == key) return this;
                 if (
                     ("object" == typeof key
@@ -379,7 +379,7 @@
           )),
           (this.changed = {
           })),
-                this.attributes,
+                (current = this.attributes),
                 this._previousAttributes,
                 this.idAttribute in attrs && (this.id = attrs[this.idAttribute]);
                 for (attr in attrs)
@@ -405,7 +405,7 @@
                         this.trigger(
                             "change:" + changes[i],
                             this,
-                            this.attributes[changes[i]],
+                            current[changes[i]],
                             options,
                         );
                 }
@@ -885,8 +885,8 @@
                     )),
                 options || (options = {
                 });
-                var i, index, model;
-                for (i = 0; i < models.length; i++) {
+                var i, l, index, model;
+                for (i = 0, l = models.length; l > i; i++) {
                     if (((model = models[i] = this.get(
                         models[i]
                     )), !model)) continue;

@@ -604,6 +604,7 @@
         if (o1 != o1 && o2 != o2) return !0;
         var t1 = typeof o1,
             t2 = typeof o2,
+            length,
             key,
             keySet;
         if (t1 == t2) {
@@ -614,8 +615,8 @@
                     if (!isArray(
                         o2
                     )) return !1;
-                    if (o1.length == o2.length) {
-                        for (key = 0; key < o1.length; key++)
+                    if ((length = o1.length) == o2.length) {
+                        for (key = 0; length > key; key++)
                             if (!equals(
                                 o1[key],
                                 o2[key]
@@ -1497,15 +1498,17 @@
                 fireEvent = dispatchThis,
                 set,
                 setIndex,
+                setLength,
                 element,
                 childIndex,
+                childLength,
                 children;
             if (!getterIfNoArguments || null != param)
                 for (; list.length; )
                     for (
                         set = list.shift(
-                        ), setIndex = 0, set.length;
-                        set.length > setIndex;
+                        ), setIndex = 0, setLength = set.length;
+                        setLength > setIndex;
                         setIndex++
                     )
                         for (
@@ -1518,10 +1521,9 @@
                                 )
                                 : (fireEvent = !fireEvent),
                             childIndex = 0,
-                            (children = element.children(
+                            childLength = (children = element.children(
                             )).length;
-                            (children = element.children(
-                            )).length > childIndex;
+                            childLength > childIndex;
                             childIndex++
                         )
                             list.push(
@@ -3075,9 +3077,10 @@
                     $inject = annotate(
                         fn
                     ),
+                    length,
                     i,
                     key;
-                for (i = 0, $inject.length; i < $inject.length; i++) {
+                for (i = 0, length = $inject.length; length > i; i++) {
                     if (((key = $inject[i]), "string" !== typeof key))
                         throw $injectorMinErr(
                             "itkn",
@@ -3094,7 +3097,7 @@
                             ),
                     );
                 }
-                return fn.$inject || (fn = fn[$inject.length]), fn.apply(
+                return fn.$inject || (fn = fn[length]), fn.apply(
                     self,
                     args
                 );
@@ -4304,7 +4307,7 @@
                                 null,
                                 [],
                                 [],
-                                null,
+                                previousCompileContext,
                             )
                             : null),
                         (childLinkFn =
@@ -4322,7 +4325,8 @@
                         linkFns.push(
                             childLinkFn
                         ),
-                        (linkFnFound = linkFnFound || nodeLinkFn || childLinkFn);
+                        (linkFnFound = linkFnFound || nodeLinkFn || childLinkFn),
+                        (previousCompileContext = null);
                     return linkFnFound ? compositeLinkFn : null;
                     function compositeLinkFn(
                         scope,
@@ -4335,6 +4339,7 @@
                             node,
                             $node,
                             childScope,
+                            childTranscludeFn,
                             i,
                             ii,
                             n,
@@ -4363,17 +4368,17 @@
                                         "ng-scope"
                                     ))
                                     : (childScope = scope),
-                                nodeLinkFn.transclude,
+                                (childTranscludeFn = nodeLinkFn.transclude),
                                 nodeLinkFn(
                                     childLinkFn,
                                     childScope,
                                     node,
                                     $rootElement,
-                                    nodeLinkFn.transclude ||
+                                    childTranscludeFn ||
                           (!boundTranscludeFn && transcludeFn)
                                         ? createBoundTranscludeFn(
                                             scope,
-                                            nodeLinkFn.transclude || transcludeFn,
+                                            childTranscludeFn || transcludeFn,
                                         )
                                         : boundTranscludeFn,
                                 ))
@@ -4971,6 +4976,7 @@
                         require, $element, elementControllers
                     ) {
                         var value,
+                            retrievalMethod = "data",
                             optional = !1;
                         if (isString(
                             require
@@ -4981,12 +4987,14 @@
                                 (require = require.substr(
                                     1
                                 )),
-                                "^" == value,
+                                "^" == value && (retrievalMethod = "inheritedData"),
                                 (optional ||= "?" == value);
                             if (
                                 ((value = null),
-                                elementControllers && (value = elementControllers[require]),
-                                (value ||= $element.inheritedData(
+                                elementControllers &&
+                    "data" === retrievalMethod &&
+                    (value = elementControllers[require]),
+                                (value ||= $element[retrievalMethod](
                                     "$" + require + "Controller",
                                 )),
                                 !value && !optional)
@@ -5027,7 +5035,9 @@
                         boundTranscludeFn,
                     ) {
                         var attrs,
+                            $element,
                             i,
+                            ii,
                             linkFn,
                             controller,
                             isolateScope,
@@ -5047,7 +5057,7 @@
                               templateAttrs.$attr
                           ),
                       )),
-                            attrs.$$element,
+                            ($element = attrs.$$element),
                             newIsolateScopeDirective)
                         ) {
                             var LOCAL_REGEXP = /^\s*([@=&])(\??)\s*(\w*)\s*$/,
@@ -5235,20 +5245,21 @@
                           ] = controllerInstance);
                         }
                     ),
-                            i = 0;
-                            i < preLinkFns.length;
+                            i = 0,
+                            ii = preLinkFns.length;
+                            ii > i;
                             i++
                         )
                             try {
                                 (linkFn = preLinkFns[i]),
                                 linkFn(
                                     linkFn.isolateScope ? isolateScope : scope,
-                                    attrs.$$element,
+                                    $element,
                                     attrs,
                                     linkFn.require &&
                         getControllers(
                             linkFn.require,
-                            attrs.$$element,
+                            $element,
                             elementControllers,
                         ),
                                     transcludeFn1,
@@ -5257,7 +5268,7 @@
                                 $exceptionHandler(
                                     e,
                                     startingTag(
-                                        attrs.$$element
+                                        $element
                                     )
                                 );
                             }
@@ -5282,12 +5293,12 @@
                                 (linkFn = postLinkFns[i]),
                                 linkFn(
                                     linkFn.isolateScope ? isolateScope : scope,
-                                    attrs.$$element,
+                                    $element,
                                     attrs,
                                     linkFn.require &&
                         getControllers(
                             linkFn.require,
-                            attrs.$$element,
+                            $element,
                             elementControllers,
                         ),
                                     transcludeFn1,
@@ -5296,7 +5307,7 @@
                                 $exceptionHandler(
                                     e,
                                     startingTag(
-                                        attrs.$$element
+                                        $element
                                     )
                                 );
                             }
@@ -5822,9 +5833,10 @@
                     var firstElementToRemove = elementsToRemove[0],
                         removeCount = elementsToRemove.length,
                         parent = firstElementToRemove.parentNode,
-                        i;
+                        i,
+                        ii;
                     if ($rootElement)
-                        for (i = 0; i < $rootElement.length; i++)
+                        for (i = 0, ii = $rootElement.length; ii > i; i++)
                             if ($rootElement[i] == firstElementToRemove) {
                                 $rootElement[i++] = newNode;
                                 for (
@@ -8575,6 +8587,7 @@
                 var parser = this,
                     ident = "",
                     start = this.index,
+                    lastDot,
                     peekIndex,
                     methodName,
                     ch;
@@ -8591,21 +8604,21 @@
                         ch
                     ))
                 )
-                    "." === ch && this.index, (ident += ch);
+                    "." === ch && (lastDot = this.index), (ident += ch);
                 else break;
                 this.index++;
             }
-            if (this.index)
+            if (lastDot)
                 for (peekIndex = this.index; peekIndex < this.text.length; ) {
                     if (((ch = this.text.charAt(
                         peekIndex
                     )), "(" === ch)) {
                         (methodName = ident.substr(
-                            this.index - start + 1
+                            lastDot - start + 1
                         )),
                         (ident = ident.substr(
                             0,
-                            this.index - start
+                            lastDot - start
                         )),
                         (this.index = peekIndex);
                         break;
@@ -8659,14 +8672,14 @@
             methodName &&
           (this.tokens.push(
               {
-                  index: this.index,
+                  index: lastDot,
                   text: ".",
                   json: !1,
               }
           ),
           this.tokens.push(
               {
-                  index: this.index + 1,
+                  index: lastDot + 1,
                   text: methodName,
                   json: !1,
               }
@@ -10632,6 +10645,7 @@
                         var watch,
                             value,
                             last,
+                            watchers,
                             asyncQueue = this.$$asyncQueue,
                             postDigestQueue = this.$$postDigestQueue,
                             length,
@@ -10664,10 +10678,10 @@
                                 lastDirtyWatch = null;
                             }
                             traverseScopesLoop: do {
-                                if (current.$$watchers)
+                                if ((watchers = current.$$watchers))
                                     for (length = current.$$watchers.length; length--; )
                                         try {
-                                            if ((watch = current.$$watchers[length])) {
+                                            if ((watch = watchers[length])) {
                                                 if (
                                                     (value = watch.get(
                                                         current
@@ -14533,7 +14547,7 @@
                                     );
                                 }
                                 for (
-                                    collectionKeys.length,
+                                    arrayLength = collectionKeys.length,
                                     length = nextBlockOrder.length = collectionKeys.length,
                                     index = 0;
                                     length > index;
@@ -14649,7 +14663,7 @@
                                     keyIdentifier && (childScope[keyIdentifier] = key),
                                     (childScope.$index = index),
                                     (childScope.$first = 0 === index),
-                                    (childScope.$last = index === collectionKeys.length - 1),
+                                    (childScope.$last = index === arrayLength - 1),
                                     (childScope.$middle = !(
                                         childScope.$first || childScope.$last
                                     )),
@@ -15339,20 +15353,25 @@
                                                 trackIndex;
                                             if (multiple)
                                                 for (
-                                                    value = [], groupIndex = 0, optionGroupsCache.length;
-                                                    groupIndex < optionGroupsCache.length;
+                                                    value = [],
+                                                    groupIndex = 0,
+                                                    groupLength = optionGroupsCache.length;
+                                                    groupLength > groupIndex;
                                                     groupIndex++
                                                 )
                                                     for (
                                                         optionGroup = optionGroupsCache[groupIndex],
                                                         index = 1,
-                                                        optionGroup.length;
-                                                        index < optionGroup.length;
+                                                        length = optionGroup.length;
+                                                        length > index;
                                                         index++
                                                     )
-                                                        if (optionGroup[index].element[0].selected) {
+                                                        if (
+                                                            (optionElement = optionGroup[index].element)[0]
+                                                                .selected
+                                                        ) {
                                                             if (
-                                                                ((key = optionGroup[index].element.val(
+                                                                ((key = optionElement.val(
                                                                 )),
                                                                 keyName && (locals[keyName] = key),
                                                                 trackFn)
@@ -15574,8 +15593,8 @@
                             }
                         )),
                                     groupIndex = 0,
-                                    optionGroupNames.length;
-                                    groupIndex < optionGroupNames.length;
+                                    groupLength = optionGroupNames.length;
+                                    groupLength > groupIndex;
                                     groupIndex++
                                 ) {
                                     for (

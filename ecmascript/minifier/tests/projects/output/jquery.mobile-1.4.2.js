@@ -3500,14 +3500,14 @@
                 find: function (
                     url, stack, earlyReturn
                 ) {
-                    this.stack;
+                    stack ||= this.stack;
                     var entry,
                         i,
                         length = this.stack.length,
                         index;
                     for (i = 0; length > i; i++)
                         if (
-                            ((entry = this.stack[i]),
+                            ((entry = stack[i]),
                             decodeURIComponent(
                                 url
                             ) === decodeURIComponent(
@@ -4034,17 +4034,20 @@
                 event, eventType
             ) {
                 var t = event.type,
+                    oe,
                     props,
                     ne,
                     prop,
                     touch,
                     i,
-                    j;
+                    j,
+                    len;
                 if (
                     ((event = jQuery.Event(
                         event
                     )),
                     (event.type = eventType),
+                    (oe = event.originalEvent),
                     (props = jQuery.event.props),
                     t.search(
                         /^(mouse|click)/
@@ -4052,7 +4055,7 @@
                     event.originalEvent)
                 )
                     for (i = props.length; i; )
-                        (prop = props[--i]), (event[prop] = event.originalEvent[prop]);
+                        (prop = props[--i]), (event[prop] = oe[prop]);
                 if (
                     (t.search(
                         /mouse(down|up)|click/
@@ -4076,7 +4079,7 @@
                       ? ne.changedTouches[0]
                       : void 0))
                     )
-                        for (j = 0, touchEventProps.length; j < touchEventProps.length; j++)
+                        for (j = 0, len = touchEventProps.length; len > j; j++)
                             (prop = touchEventProps[j]), (event[prop] = touch[prop]);
                 }
                 return event;
@@ -4468,12 +4471,17 @@
             ) {
                 var cnt = clickBlockList.length,
                     target = e.target,
+                    x,
+                    y,
                     ele,
                     i,
                     o;
                 if (cnt)
                     for (
-                        threshold = jQuery.vmouse.clickDistanceThreshold, ele = target;
+                        x = e.clientX,
+                        y = e.clientY,
+                        threshold = jQuery.vmouse.clickDistanceThreshold,
+                        ele = target;
                         ele;
 
                     ) {
@@ -4482,13 +4490,11 @@
                                 ((o = clickBlockList[i]),
                                 (ele === target &&
                       Math.abs(
-                          o.x - e.clientX
-                      ) <
-                        jQuery.vmouse.clickDistanceThreshold &&
+                          o.x - x
+                      ) < threshold &&
                       Math.abs(
-                          o.y - e.clientY
-                      ) <
-                        jQuery.vmouse.clickDistanceThreshold) ||
+                          o.y - y
+                      ) < threshold) ||
                       jQuery.data(
                           ele,
                           "virtualTouchID"
@@ -9170,6 +9176,7 @@
                         ) {
                             var buttonClass,
                                 pos,
+                                numli,
                                 item,
                                 itemClass,
                                 itemTheme,
@@ -9231,8 +9238,8 @@
                                     "LI"
                                 ),
                                 pos = 0,
-                                li.length;
-                                pos < li.length;
+                                numli = li.length;
+                                numli > pos;
                                 pos++
                             )
                                 (item = li.eq(
@@ -10602,7 +10609,9 @@
                             options,
                             wrapper,
                             j,
+                            length,
                             i,
+                            optionsCount,
                             origTabIndex,
                             side,
                             activeClass,
@@ -10696,8 +10705,8 @@
                                 ),
                                 wrapper.className = "ui-slider-inneroffset",
                                 j = 0,
-                                domSlider.childNodes.length;
-                                j < domSlider.childNodes.length;
+                                length = domSlider.childNodes.length;
+                                length > j;
                                 j++
                             )
                                 wrapper.appendChild(
@@ -10714,8 +10723,8 @@
                                     "option"
                                 ),
                                 i = 0,
-                                options.length;
-                                i < options.length;
+                                optionsCount = options.length;
+                                optionsCount > i;
                                 i++
                             )
                                 (side = !i ? "b" : "a"),
@@ -15207,6 +15216,7 @@
                             placeholder = this.placeholder,
                             needPlaceholder = !0,
                             $options,
+                            numOptions,
                             select,
                             dataPrefix = "data-" + jQuery.mobile.ns,
                             dataPlaceholderAttr = dataPrefix + "placeholder",
@@ -15217,6 +15227,7 @@
                             i,
                             option,
                             $option,
+                            parent,
                             text,
                             anchor,
                             classes,
@@ -15232,10 +15243,10 @@
                             ),
                             $options = this._selectOptions(
                             ),
-                            $options.length,
+                            numOptions = $options.length,
                             select = this.select[0],
                             i = 0;
-                            i < $options.length;
+                            numOptions > i;
                             i++, isPlaceholderItem = !1
                         ) {
                             if (
@@ -15248,7 +15259,7 @@
                                 ))
                             )
                                 continue;
-                            option.parentNode,
+                            (parent = option.parentNode),
                             (text = $option.text(
                             )),
                             (anchor = document.createElement(
@@ -15264,10 +15275,10 @@
                                     text
                                 )
                             ),
-                            option.parentNode !== select &&
-                "optgroup" === option.parentNode.nodeName.toLowerCase(
+                            parent !== select &&
+                "optgroup" === parent.nodeName.toLowerCase(
                 ) &&
-                ((optLabel = option.parentNode.getAttribute(
+                ((optLabel = parent.getAttribute(
                     "label"
                 )),
                 optGroup !== optLabel &&
@@ -18461,6 +18472,7 @@
                     ) {
                         var idx,
                             callback,
+                            length,
                             dst,
                             show = [],
                             hide = [],
@@ -18470,9 +18482,9 @@
                         if (null != val)
                             for (
                                 callback = opts.filterCallback || defaultFilterCallback,
-                                filterItems.length,
+                                length = filterItems.length,
                                 idx = 0;
-                                idx < filterItems.length;
+                                length > idx;
                                 idx++
                             )
                                 (dst = callback.call(

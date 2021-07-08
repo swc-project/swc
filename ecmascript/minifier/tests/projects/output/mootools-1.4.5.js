@@ -3844,11 +3844,11 @@ function (
                         (this[combinator](
                             context,
                             tag,
-                            currentBit.id,
-                            currentBit.classes,
-                            currentBit.attributes,
-                            currentBit.pseudos,
-                            currentBit.classList,
+                            id,
+                            classes,
+                            attributes,
+                            pseudos,
+                            classList,
                         ),
                         first && lastBit && found.length)
                     )
@@ -3859,11 +3859,11 @@ function (
                             (this[combinator](
                                 currentItems[m],
                                 tag,
-                                currentBit.id,
-                                currentBit.classes,
-                                currentBit.attributes,
-                                currentBit.pseudos,
-                                currentBit.classList,
+                                id,
+                                classes,
+                                attributes,
+                                pseudos,
+                                classList,
                             ),
                             found.length)
                         )
@@ -3873,11 +3873,11 @@ function (
                                 this[combinator](
                                     currentItems[m],
                                     tag,
-                                    currentBit.id,
-                                    currentBit.classes,
-                                    currentBit.attributes,
-                                    currentBit.pseudos,
-                                    currentBit.classList,
+                                    id,
+                                    classes,
+                                    attributes,
+                                    pseudos,
+                                    classList,
                                 );
                 currentItems = this.found;
             }
