@@ -43,6 +43,30 @@ impl Optimizer<'_> {
             Expr::Cond(cond) => cond,
             _ => return,
         };
+
+        if !cond.cons.may_have_side_effects() {
+            self.changed = true;
+            log::trace!("conditionals: `cond ? useless : alt` => `cond || alt`");
+            *e = Expr::Bin(BinExpr {
+                span: cond.span,
+                op: op!("||"),
+                left: cond.test.take(),
+                right: cond.alt.take(),
+            });
+            return;
+        }
+
+        if !cond.alt.may_have_side_effects() {
+            self.changed = true;
+            log::trace!("conditionals: `cond ? cons : useless` => `cond && cons`");
+            *e = Expr::Bin(BinExpr {
+                span: cond.span,
+                op: op!("&&"),
+                left: cond.test.take(),
+                right: cond.cons.take(),
+            });
+            return;
+        }
     }
 
     /// Removes useless operands of an logical expressions.
