@@ -288,6 +288,8 @@ impl Optimizer<'_> {
 
         self.make_sequences(stmts);
 
+        self.collapse_vars_without_init(stmts);
+
         self.collapse_consequtive_vars(stmts);
 
         self.drop_else_token(stmts);

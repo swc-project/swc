@@ -221,6 +221,43 @@ impl Optimizer<'_> {
 
         //
     }
+
+    /// Collapse single-use non-constant variables, side effects permitting.
+    pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        if !self.options.collapse_vars {
+            return;
+        }
+
+        let mut found_other = false;
+        let mut need_work = false;
+
+        for stmt in &*stmts {
+            match stmt.as_stmt() {
+                Some(Stmt::Decl(Decl::Var(v))) => {
+                    if v.decls.iter().any(|v| v.init.is_none()) {
+                        if found_other {
+                            need_work = true;
+                        }
+                    } else {
+                        found_other = true;
+                    }
+                }
+
+                _ => {
+                    found_other = true;
+                }
+            }
+        }
+
+        if !need_work {
+            return;
+        }
+
+        //
+    }
 }
 
 /// Checks inlinabilty of variable initializer.
