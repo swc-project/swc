@@ -38,19 +38,18 @@ function _initializerDefineProperty(target, property, descriptor, context) {
         value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
     });
 }
-var _class, _descriptor;
+var _class, _descriptor, _dec, _dec1;
 var COL_KEY = Symbol('col');
 var column = function() {
     return function(object, key) {
         Reflect.defineMetadata(COL_KEY, 'value', object, key);
     };
 };
-var _dec = column(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String);
 var User = ((_class = function User1() {
     "use strict";
     _classCallCheck(this, User1);
     _initializerDefineProperty(this, "currency", _descriptor, this);
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "currency", [
+}) || _class, _dec = column(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String), _descriptor = _applyDecoratedDescriptor(_class.prototype, "currency", [
     _dec,
     _dec1
 ], {
