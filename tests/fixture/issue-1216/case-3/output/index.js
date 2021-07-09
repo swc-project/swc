@@ -1,4 +1,4 @@
-var regeneratorRuntime = require("regenerator-runtime");
+import regeneratorRuntime from "regenerator-runtime";
 var _marked = regeneratorRuntime.mark(foo);
 function foo() {
     var val;

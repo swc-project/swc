@@ -1,3 +1,4 @@
+import regeneratorRuntime from "regenerator-runtime";
 function AsyncGenerator(gen) {
     var front, back;
     function send(key, arg) {
@@ -130,7 +131,6 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
-var regeneratorRuntime = require("regenerator-runtime");
 var _marked = regeneratorRuntime.mark(_main);
 var _marked1 = regeneratorRuntime.mark(_lol);
 function _lol() {
