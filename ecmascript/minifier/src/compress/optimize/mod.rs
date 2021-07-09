@@ -1551,7 +1551,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
         n.visit_mut_children_with(self);
 
-        self.negate_cond(n);
+        self.negate_cond_expr(n);
 
         match &mut *n.test {
             Expr::Bin(e) => {

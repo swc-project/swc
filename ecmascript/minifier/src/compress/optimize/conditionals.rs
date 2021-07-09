@@ -20,7 +20,7 @@ use swc_ecma_utils::Value::Known;
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer<'_> {
-    pub(super) fn negate_cond(&mut self, cond: &mut CondExpr) {
+    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
         let negated_test = match &mut *cond.test {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
