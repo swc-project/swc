@@ -64,6 +64,7 @@ impl LeapManager {
     pub fn find_continue_loc(&self, label: Option<&JsWord>) -> Option<Loc> {
         self.find_leap_loc(
             |entry| match *entry {
+                Entry::Labeled { break_loc, .. } => Some(break_loc),
                 Entry::Loop { continue_loc, .. } => Some(continue_loc),
                 _ => None,
             },
