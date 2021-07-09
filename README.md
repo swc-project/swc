@@ -22,7 +22,9 @@
    </a>
 </p>
 
-swc is a super-fast typescript / javascript compiler written in rust.
+swc is a super-fast typescript / javascript compiler written in rust. It's a library for rust and javascript at the same time. If you are using swc from rust, see [rustdoc](https://rustdoc.swc.rs/swc/) and for most users, your entrypoint for using library will be [parser](https://rustdoc.swc.rs/swc_ecma_parser/).
+
+If you are using swc from javascript, please refer to [docs on the website](https://swc.rs/docs/installation/).
 
 # Documentation
 
