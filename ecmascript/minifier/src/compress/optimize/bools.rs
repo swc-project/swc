@@ -136,6 +136,20 @@ impl Optimizer<'_> {
                     if self.optimize_bang_within_logical_ops(&mut *left, false) {
                         e.op = left.op
                     }
+                } else {
+                    // (!options || !0 === options) && (options = {})
+                    //
+                    // =>
+                    //
+                    // (options || !0 !== options) || (options = {})
+
+                    if self.optimize_bang_within_logical_ops(&mut *left, false) {
+                        e.op = if e.op == op!("||") {
+                            op!("&&")
+                        } else {
+                            op!("||")
+                        };
+                    }
                 }
             }
 
