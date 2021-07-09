@@ -3637,9 +3637,9 @@ function (
                     )), first))
                         return nodes[0] || null;
                     for (i = 0; (node = nodes[i++]); )
-                        (!hasOthers || !uniques[this.getUID(
+                        (hasOthers && uniques[this.getUID(
                             node
-                        )]) && found.push(
+                        )]) || found.push(
                             node
                         );
                 } else if ("#" == symbol) {
@@ -3656,9 +3656,9 @@ function (
                     )
                         break simpleSelectors;
                     if (first) return node || null;
-                    (!hasOthers || !uniques[this.getUID(
+                    (hasOthers && uniques[this.getUID(
                         node
-                    )]) && found.push(
+                    )]) || found.push(
                         node
                     );
                 } else if ("." == symbol) {
@@ -3674,9 +3674,9 @@ function (
                         )), first))
                             return nodes[0] || null;
                         for (i = 0; (node = nodes[i++]); )
-                            (!hasOthers || !uniques[this.getUID(
+                            (hasOthers && uniques[this.getUID(
                                 node
-                            )]) && found.push(
+                            )]) || found.push(
                                 node
                             );
                     } else
@@ -3700,9 +3700,9 @@ function (
                             )
                                 continue;
                             if (first) return node;
-                            (!hasOthers || !uniques[this.getUID(
+                            (hasOthers && uniques[this.getUID(
                                 node
-                            )]) && found.push(
+                            )]) || found.push(
                                 node
                             );
                         }
@@ -3776,9 +3776,9 @@ function (
                 );
                 else
                     for (i = 0; (node = nodes[i++]); )
-                        (!hasOthers || !uniques[this.getUID(
+                        (hasOthers && uniques[this.getUID(
                             node
-                        )]) && found.push(
+                        )]) || found.push(
                             node
                         );
                 return hasOthers && this.sort(
@@ -6770,7 +6770,7 @@ Elements.alias(
                     element, opacity
                 ) {
                     var style = element.style;
-                    (!element.currentStyle || !element.currentStyle.hasLayout) &&
+                    (element.currentStyle && element.currentStyle.hasLayout) ||
               (style.zoom = 1),
                     (opacity =
                 null == opacity || 1 == opacity

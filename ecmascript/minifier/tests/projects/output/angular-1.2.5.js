@@ -3270,7 +3270,7 @@
                                     ? after.after(
                                         element
                                     )
-                                    : ((!parent || !parent[0]) && (parent = after.parent(
+                                    : ((parent && parent[0]) || (parent = after.parent(
                                     )),
                                     parent.append(
                                         element

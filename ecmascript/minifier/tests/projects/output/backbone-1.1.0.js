@@ -2127,7 +2127,7 @@
                 fragment, options
             ) {
                 if (!History1.started) return !1;
-                (!options || !0 === options) &&
+                (options && !0 !== options) ||
           (options = {
               trigger: !!options,
           });

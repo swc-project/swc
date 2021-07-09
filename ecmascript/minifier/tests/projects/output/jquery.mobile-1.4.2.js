@@ -2681,7 +2681,7 @@
                             support = function (
                                 data
                             ) {
-                                (!data || !svg) && jQuery(
+                                (data && svg) || jQuery(
                                     "html"
                                 ).addClass(
                                     "ui-nosvg"

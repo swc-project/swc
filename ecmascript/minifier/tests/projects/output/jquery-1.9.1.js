@@ -1098,9 +1098,9 @@
                               arg
                           );
                           "function" === type
-                              ? (!options.unique || !self.has(
+                              ? (options.unique && self.has(
                                   arg
-                              )) && list.push(
+                              )) || list.push(
                                   arg
                               )
                               : arg && arg.length && "string" !== type && add(
@@ -2945,7 +2945,7 @@
             );
         },
     }),
-    (!getSetInput || !getSetAttribute) &&
+    (getSetInput && getSetAttribute) ||
       (jQuery.attrHooks.value = {
           get: function (
               elem, name
@@ -3253,13 +3253,13 @@
                 (handlers = events[type]) ||
             ((handlers = events[type] = []),
             (handlers.delegateCount = 0),
-            (!special.setup ||
+            (special.setup &&
               special.setup.call(
                   null,
                   data,
                   namespaces,
                   eventHandle
-              ) === !1) &&
+              ) !== !1) ||
               (null.addEventListener
                   ? null.addEventListener(
                       type,
@@ -3372,12 +3372,12 @@
               ));
                 origCount &&
           !handlers.length &&
-          ((!special.teardown ||
+          ((special.teardown &&
             special.teardown.call(
                 elem,
                 namespaces,
                 elemData.handle
-            ) === !1) &&
+            ) !== !1) ||
             jQuery.removeEvent(
                 elem,
                 type,
@@ -8978,7 +8978,7 @@
             nodeName,
             (iframe[0].contentWindow || iframe[0].contentDocument).document,
         )),
-        ("none" === display || !display) &&
+        ("none" !== display && display) ||
           ((iframe = (
               iframe ||
             jQuery(
