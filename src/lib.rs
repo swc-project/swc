@@ -11,7 +11,6 @@ use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
 use std::{
-    borrow::{Borrow, BorrowMut},
     fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
@@ -681,6 +680,10 @@ impl Comments for SwcComments {
         self.leading.remove(&pos).map(|v| v.1)
     }
 
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.get(&pos).map(|v| v.to_owned())
+    }
+
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
         self.trailing.entry(pos).or_default().push(cmt)
     }
@@ -707,6 +710,10 @@ impl Comments for SwcComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.remove(&pos).map(|v| v.1)
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.get(&pos).map(|v| v.to_owned())
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
