@@ -37,7 +37,7 @@ struct Regenerator {
     top_level_vars: Vec<VarDeclarator>,
 }
 
-fn rt(global_mark: Mark, rt: Ident) -> Stmt {
+fn require_rt(global_mark: Mark, rt: Ident) -> Stmt {
     Stmt::Decl(Decl::Var(VarDecl {
         span: DUMMY_SP,
         kind: VarDeclKind::Var,
@@ -171,7 +171,20 @@ impl Fold for Regenerator {
     fn fold_module(&mut self, m: Module) -> Module {
         let mut m: Module = m.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut m.body, rt(self.global_mark, rt_ident).into());
+            let specifier = ImportSpecifier::Default(ImportDefaultSpecifier {
+                span: DUMMY_SP,
+                local: rt_ident,
+            });
+            prepend(
+                &mut m.body,
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    span: DUMMY_SP,
+                    specifiers: vec![specifier],
+                    src: quote_str!("regenerator-runtime"),
+                    type_only: Default::default(),
+                    asserts: Default::default(),
+                })),
+            );
         }
         m
     }
@@ -269,7 +282,7 @@ impl Fold for Regenerator {
     fn fold_script(&mut self, s: Script) -> Script {
         let mut s: Script = s.fold_children_with(self);
         if let Some(rt_ident) = self.regenerator_runtime.take() {
-            prepend(&mut s.body, rt(self.global_mark, rt_ident).into());
+            prepend(&mut s.body, require_rt(self.global_mark, rt_ident).into());
         }
         s
     }
