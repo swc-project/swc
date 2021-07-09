@@ -4,6 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
@@ -236,7 +237,14 @@ impl Optimizer<'_> {
 
         for stmt in &*stmts {
             match stmt.as_stmt() {
-                Some(Stmt::Decl(Decl::Var(v))) => {
+                Some(Stmt::Decl(Decl::Var(
+                    v
+                    @
+                    VarDecl {
+                        kind: VarDeclKind::Var,
+                        ..
+                    },
+                ))) => {
                     if v.decls.iter().any(|v| v.init.is_none()) {
                         if found_other {
                             need_work = true;
@@ -255,6 +263,58 @@ impl Optimizer<'_> {
         if !need_work {
             return;
         }
+
+        self.changed = true;
+        log::trace!("collapse_vars: Collapsing variables without an initializer");
+
+        let mut vars = vec![];
+        let mut new = Vec::with_capacity(stmts.len() + 1);
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => match stmt {
+                    Stmt::Decl(Decl::Var(
+                        v
+                        @
+                        VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        },
+                    )) => {
+                        let mut new_decls = vec![];
+
+                        for decl in v.decls {
+                            if decl.init.is_some() {
+                                new_decls.push(decl);
+                            } else {
+                                vars.push(decl);
+                            }
+                        }
+
+                        if !new_decls.is_empty() {
+                            new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                                decls: new_decls,
+                                ..v
+                            }))))
+                        }
+                    }
+                    _ => new.push(T::from_stmt(stmt)),
+                },
+                Err(item) => new.push(item),
+            }
+        }
+
+        prepend(
+            &mut new,
+            T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: vars,
+            }))),
+        );
+
+        *stmts = new;
 
         //
     }
