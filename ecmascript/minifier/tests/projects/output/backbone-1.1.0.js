@@ -470,12 +470,10 @@
                 diff
             ) {
                 var val;
-                if (!diff) return this.hasChanged(
-                )
-                    ? _.clone(
-                        this.changed
-                    )
-                    : !1;
+                if (!diff) return !!this.hasChanged(
+                ) && _.clone(
+                    this.changed
+                );
                 var changed = !1;
                 for (var attr in diff) {
                     if (
@@ -769,20 +767,21 @@
             attrs,
             options
         ) || null);
-                return error
-                    ? (this.trigger(
-                        "invalid",
-                        this,
-                        error,
-                        _.extend(
-                            options,
-                            {
-                                validationError: error,
-                            }
-                        ),
-                    ),
-                    !1)
-                    : !0;
+                return (
+                    !error ||
+        (this.trigger(
+            "invalid",
+            this,
+            error,
+            _.extend(
+                options,
+                {
+                    validationError: error,
+                }
+            ),
+        ),
+        !1)
+                );
             },
         }
     ),
@@ -963,7 +962,7 @@
                     add = options.add,
                     merge = options.merge,
                     remove = options.remove,
-                    order = !sortable && add && remove ? [] : !1;
+                    order = !(!!sortable || !add || !remove) && [];
                 for (i = 0, l = models.length; i < l; i++) {
                     if (
                         ((attrs = models[i]),

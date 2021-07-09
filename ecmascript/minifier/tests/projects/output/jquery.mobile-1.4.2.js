@@ -83,21 +83,20 @@
               ));
                         try {
                             data =
-              "true" === data
-                  ? !0
-                  : "false" === data
-                      ? !1
-                      : "null" === data
-                          ? null
-                          : +data + "" === data
-                              ? +data
-                              : /(?:\{[\s\S]*\}|\[[\s\S]*\])$/.test(
+              "true" === data ||
+              ("false" === data
+                  ? !1
+                  : "null" === data
+                      ? null
+                      : +data + "" === data
+                          ? +data
+                          : /(?:\{[\s\S]*\}|\[[\s\S]*\])$/.test(
+                              data
+                          )
+                              ? JSON.parse(
                                   data
                               )
-                                  ? JSON.parse(
-                                      data
-                                  )
-                                  : data;
+                              : data);
                         } catch (err) {}
                         return data;
                     },
@@ -2642,23 +2641,24 @@
                             documentElement = document.documentElement,
                             getComputedStyle = window.getComputedStyle,
                             supports;
-                        return "pointerEvents" in element.style
-                            ? ((element.style.pointerEvents = "auto"),
-                            (element.style.pointerEvents = "x"),
-                            documentElement.appendChild(
-                                element
-                            ),
-                            (supports =
-                  getComputedStyle &&
-                  "auto" === getComputedStyle(
-                      element,
-                      ""
-                  ).pointerEvents),
-                            documentElement.removeChild(
-                                element
-                            ),
-                            !!supports)
-                            : !1;
+                        return (
+                            "pointerEvents" in element.style &&
+              ((element.style.pointerEvents = "auto"),
+              (element.style.pointerEvents = "x"),
+              documentElement.appendChild(
+                  element
+              ),
+              (supports =
+                getComputedStyle &&
+                "auto" === getComputedStyle(
+                    element,
+                    ""
+                ).pointerEvents),
+              documentElement.removeChild(
+                  element
+              ),
+              !!supports)
+                        );
                     })(
                     ),
                     boundingRect:
@@ -9876,23 +9876,24 @@
                             var controlgroup,
                                 controlgroupWidget,
                                 controlgroupConstructor = jQuery.mobile.controlgroup;
-                            return controlgroupConstructor
-                                ? ((controlgroup = this.element.closest(
-                                    ":mobile-controlgroup," +
-                      controlgroupConstructor.prototype.initSelector,
-                                )),
-                                controlgroup.length > 0)
-                                    ? ((controlgroupWidget = jQuery.data(
-                                        controlgroup[0],
-                                        "mobile-controlgroup",
-                                    )),
-                                    (controlgroupWidget
-                                        ? controlgroupWidget.options.type
-                                        : controlgroup.attr(
-                                            "data-" + jQuery.mobile.ns + "type",
-                                        )) !== "horizontal")
-                                    : void 0
-                                : !0;
+                            return (
+                                !controlgroupConstructor ||
+                (((controlgroup = this.element.closest(
+                    ":mobile-controlgroup," +
+                    controlgroupConstructor.prototype.initSelector,
+                )),
+                controlgroup.length > 0)
+                    ? ((controlgroupWidget = jQuery.data(
+                        controlgroup[0],
+                        "mobile-controlgroup",
+                    )),
+                    (controlgroupWidget
+                        ? controlgroupWidget.options.type
+                        : controlgroup.attr(
+                            "data-" + jQuery.mobile.ns + "type",
+                        )) !== "horizontal")
+                    : void 0)
+                            );
                         },
                         refresh: function (
                         ) {
@@ -10572,24 +10573,23 @@
                                 domSlider
                             ),
                             valuebg =
-                this.options.highlight && !isToggleSwitch
-                    ? (function (
-                    ) {
-                        var bg = document.createElement(
-                            "div"
-                        );
-                        return (
-                            (bg.className =
-                          "ui-slider-bg " + jQuery.mobile.activeBtnClass),
-                            jQuery(
-                                bg
-                            ).prependTo(
-                                slider
-                            )
-                        );
-                    })(
-                    )
-                    : !1,
+                !(!this.options.highlight || !!isToggleSwitch) &&
+                (function (
+                ) {
+                    var bg = document.createElement(
+                        "div"
+                    );
+                    return (
+                        (bg.className =
+                      "ui-slider-bg " + jQuery.mobile.activeBtnClass),
+                        jQuery(
+                            bg
+                        ).prependTo(
+                            slider
+                        )
+                    );
+                })(
+                ),
                             options,
                             wrapper,
                             j,
@@ -12938,11 +12938,11 @@
                         ));
                         var self = this,
                             options = this.options,
-                            iconpos = options.icon
-                                ? options.iconpos || this.select.jqmData(
-                                    "iconpos"
-                                )
-                                : !1,
+                            iconpos =
+                !!options.icon &&
+                (options.iconpos || this.select.jqmData(
+                    "iconpos"
+                )),
                             button = this.button
                                 .insertBefore(
                                     this.select
@@ -14445,11 +14445,11 @@
                                 : (jQuery.mobile.navigate.history,
                                 jQuery.mobile.dialogHashKey,
                                 jQuery.mobile.activePage,
-                                (currentIsDialog = jQuery.mobile.activePage
-                                    ? jQuery.mobile.activePage.hasClass(
-                                        "ui-dialog"
-                                    )
-                                    : !1),
+                                (currentIsDialog =
+                !!jQuery.mobile.activePage &&
+                jQuery.mobile.activePage.hasClass(
+                    "ui-dialog"
+                )),
                                 (this._myUrl = url = jQuery.mobile.navigate.history.getActive(
                                 )
                                     .url),
@@ -14925,7 +14925,7 @@
                                         ).eq(
                                             newIndex
                                         )[0];
-                                    (option.selected = self.isMultiple ? !option.selected : !0),
+                                    (option.selected = !self.isMultiple || !option.selected),
                                     self.isMultiple &&
                       jQuery(
                           this
@@ -17076,7 +17076,7 @@
                             _closeLink: el.find(
                                 ":jqmData(rel='close')"
                             ),
-                            _parentPage: parentPage.length > 0 ? parentPage : !1,
+                            _parentPage: parentPage.length > 0 && parentPage,
                             _openedPage: null,
                             _page: this._getPage,
                             _panelInner: this._getPanelInner(
@@ -19020,7 +19020,7 @@
                     )
                 )),
               (null === active || -1 === active) &&
-                (active = this.tabs.length ? 0 : !1)),
+                (active = !!this.tabs.length && 0)),
                             !1 !== active &&
               ((active = this.tabs.index(
                   this.tabs.eq(

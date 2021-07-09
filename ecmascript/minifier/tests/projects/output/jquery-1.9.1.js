@@ -999,12 +999,11 @@
             obj
         )
             ? !1
-            : 1 === obj.nodeType && length
-                ? !0
-                : "array" === type ||
-        ("function" !== type &&
-          (0 === length ||
-            ("number" == typeof length && length > 0 && length - 1 in obj)));
+            : !(1 !== obj.nodeType || !length) ||
+          "array" === type ||
+          ("function" !== type &&
+            (0 === length ||
+              ("number" == typeof length && length > 0 && length - 1 in obj)));
     }
     rootjQuery = jQuery(
         document
@@ -2009,21 +2008,20 @@
             )), "string" == typeof data)) {
                 try {
                     data =
-            "true" === data
-                ? !0
-                : "false" === data
-                    ? !1
-                    : "null" === data
-                        ? null
-                        : +data + "" === data
-                            ? +data
-                            : /(?:\{[\s\S]*\}|\[[\s\S]*\])$/.test(
+            "true" === data ||
+            ("false" === data
+                ? !1
+                : "null" === data
+                    ? null
+                    : +data + "" === data
+                        ? +data
+                        : /(?:\{[\s\S]*\}|\[[\s\S]*\])$/.test(
+                            data
+                        )
+                            ? jQuery.parseJSON(
                                 data
                             )
-                                ? jQuery.parseJSON(
-                                    data
-                                )
-                                : data;
+                            : data);
                 } catch (e) {}
                 jQuery.data(
                     elem,
@@ -4758,7 +4756,7 @@
         ) {
             var documentElement =
           elem && (elem.ownerDocument || elem).documentElement;
-            return documentElement ? "HTML" !== documentElement.nodeName : !1;
+            return !!documentElement && "HTML" !== documentElement.nodeName;
         }),
         (setDocument = Sizzle.setDocument = function (
             node
@@ -5586,36 +5584,34 @@
                         );
                         return null == result
                             ? "!=" === operator
-                            : operator
-                                ? ((result += ""),
-                                "=" === operator
-                                    ? check === result
-                                    : "!=" === operator
-                                        ? check !== result
-                                        : "^=" === operator
-                                            ? check && 0 === result.indexOf(
-                                                check
-                                            )
-                                            : "*=" === operator
-                                                ? check && result.indexOf(
-                                                    check
-                                                ) > -1
-                                                : "$=" === operator
-                                                    ? check && result.slice(
-                                                        -check.length
-                                                    ) === check
-                                                    : "~=" === operator
-                                                        ? (" " + result + " ").indexOf(
-                                                            check
-                                                        ) > -1
-                                                        : "|=" === operator
-                                                            ? check === result ||
-                        result.slice(
-                            0,
-                            check.length + 1
-                        ) === check + "-"
-                                                            : !1)
-                                : !0;
+                            : !operator ||
+                      ((result += ""),
+                      "=" === operator
+                          ? check === result
+                          : "!=" === operator
+                              ? check !== result
+                              : "^=" === operator
+                                  ? check && 0 === result.indexOf(
+                                      check
+                                  )
+                                  : "*=" === operator
+                                      ? check && result.indexOf(
+                                          check
+                                      ) > -1
+                                      : "$=" === operator
+                                          ? check && result.slice(
+                                              -check.length
+                                          ) === check
+                                          : "~=" === operator
+                                              ? (" " + result + " ").indexOf(
+                                                  check
+                                              ) > -1
+                                              : "|=" === operator &&
+                          (check === result ||
+                            result.slice(
+                                0,
+                                check.length + 1
+                            ) === check + "-"));
                     };
                 },
                 CHILD: function (
@@ -11772,9 +11768,7 @@
             elem
         )
             ? elem
-            : 9 === elem.nodeType
-                ? elem.defaultView || elem.parentWindow
-                : !1;
+            : 9 === elem.nodeType && (elem.defaultView || elem.parentWindow);
     }
     jQuery.each(
         {

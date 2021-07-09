@@ -138,16 +138,17 @@
             obj
         )) return !1;
         var length = obj.length;
-        return 1 === obj.nodeType && length
-            ? !0
-            : isString(
-                obj
-            ) ||
-          isArray(
-              obj
-          ) ||
-          0 === length ||
-          ("number" == typeof length && length > 0 && length - 1 in obj);
+        return (
+            !(1 !== obj.nodeType || !length) ||
+      isString(
+          obj
+      ) ||
+      isArray(
+          obj
+      ) ||
+      0 === length ||
+      ("number" == typeof length && length > 0 && length - 1 in obj)
+        );
     }
     function forEach(
         obj, iterator, context
@@ -901,13 +902,12 @@
                                 key
                             ))
                         ) {
-                            var val = isDefined(
-                                key_value[1]
-                            )
-                                ? tryDecodeURIComponent(
-                                    key_value[1]
-                                )
-                                : !0;
+                            var val =
+              !isDefined(
+                  key_value[1]
+              ) || tryDecodeURIComponent(
+                  key_value[1]
+              );
                             obj[key]
                                 ? isArray(
                                     obj[key]
@@ -1732,18 +1732,19 @@
     function jqLiteHasClass(
         element, selector
     ) {
-        return element.getAttribute
-            ? (" " + (element.getAttribute(
-                "class"
-            ) || "") + " ")
-                .replace(
-                    /[\n\t]/g,
-                    " "
-                )
-                .indexOf(
-                    " " + selector + " "
-                ) > -1
-            : !1;
+        return (
+            !!element.getAttribute &&
+      (" " + (element.getAttribute(
+          "class"
+      ) || "") + " ")
+          .replace(
+              /[\n\t]/g,
+              " "
+          )
+          .indexOf(
+              " " + selector + " "
+          ) > -1
+        );
     }
     function jqLiteRemoveClass(
         element, cssClasses
@@ -3668,16 +3669,17 @@
         (self.defer.cancel = function (
             deferId
         ) {
-            return pendingDeferIds[deferId]
-                ? (delete pendingDeferIds[deferId],
-                clearTimeout(
-                    deferId
-                ),
-                completeOutstandingRequest(
-                    noop
-                ),
-                !0)
-                : !1;
+            return (
+                !!pendingDeferIds[deferId] &&
+          (delete pendingDeferIds[deferId],
+          clearTimeout(
+              deferId
+          ),
+          completeOutstandingRequest(
+              noop
+          ),
+          !0)
+            );
         });
     }
     function $BrowserProvider(
@@ -7183,16 +7185,17 @@
                     (interval.cancel = function (
                         promise
                     ) {
-                        return promise && promise.$$intervalId in intervals
-                            ? (intervals[promise.$$intervalId].reject(
-                                "canceled"
-                            ),
-                            clearInterval(
-                                promise.$$intervalId
-                            ),
-                            delete intervals[promise.$$intervalId],
-                            !0)
-                            : !1;
+                        return (
+                            !(!promise || !(promise.$$intervalId in intervals)) &&
+              (intervals[promise.$$intervalId].reject(
+                  "canceled"
+              ),
+              clearInterval(
+                  promise.$$intervalId
+              ),
+              delete intervals[promise.$$intervalId],
+              !0)
+                        );
                     }),
                     interval
                 );
@@ -8445,11 +8448,12 @@
             i
         ) {
             var num = i || 1;
-            return this.index + num < this.text.length
-                ? this.text.charAt(
-                    this.index + num
-                )
-                : !1;
+            return (
+                this.index + num < this.text.length &&
+        this.text.charAt(
+            this.index + num
+        )
+            );
         },
         isNumber: function (
             ch
@@ -8901,17 +8905,18 @@
                 e3,
                 e4
             );
-            return token
-                ? (this.json &&
-              !token.json &&
-              this.throwError(
-                  "is not valid json",
-                  token
-              ),
-                this.tokens.shift(
-                ),
-                token)
-                : !1;
+            return (
+                !!token &&
+          (this.json &&
+            !token.json &&
+            this.throwError(
+                "is not valid json",
+                token
+            ),
+          this.tokens.shift(
+          ),
+          token)
+            );
         },
         consume: function (
             e1
@@ -11640,15 +11645,16 @@
                     (timeout.cancel = function (
                         promise
                     ) {
-                        return promise && promise.$$timeoutId in deferreds
-                            ? (deferreds[promise.$$timeoutId].reject(
-                                "canceled"
-                            ),
-                            delete deferreds[promise.$$timeoutId],
-                            $browser.defer.cancel(
-                                promise.$$timeoutId
-                            ))
-                            : !1;
+                        return (
+                            !(!promise || !(promise.$$timeoutId in deferreds)) &&
+              (deferreds[promise.$$timeoutId].reject(
+                  "canceled"
+              ),
+              delete deferreds[promise.$$timeoutId],
+              $browser.defer.cancel(
+                  promise.$$timeoutId
+              ))
+                        );
                     }),
                     timeout
                 );

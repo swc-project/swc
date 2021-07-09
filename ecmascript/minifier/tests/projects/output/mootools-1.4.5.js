@@ -36,7 +36,7 @@
                 if (constructor === object) return !0;
                 constructor = constructor.parent;
             }
-            return item.hasOwnProperty ? item instanceof object : !1;
+            return !!item.hasOwnProperty && item instanceof object;
         }),
         Function1 = this.Function,
         enumerables = !0;
@@ -2734,13 +2734,13 @@ var Event1 = DOMEvent;
             },
             callChain: function (
             ) {
-                return this.$chain.length
-                    ? this.$chain.shift(
+                return (
+                    !!this.$chain.length && this.$chain.shift(
                     ).apply(
                         this,
                         arguments
                     )
-                    : !1;
+                );
             },
             clearChain: function (
             ) {
@@ -4752,16 +4752,16 @@ function (
     (Slick.match = function (
         node, selector
     ) {
-        return node && selector
-            ? selector && node !== selector
-                ? (local.setDocument(
-                    node
-                ), local.matchNode(
-                    node,
-                    selector
-                ))
-                : !0
-            : !1;
+        return (
+            !(!node || !selector) &&
+          (!!(!selector || node === selector) ||
+            (local.setDocument(
+                node
+            ), local.matchNode(
+                node,
+                selector
+            )))
+        );
     }),
     (Slick.defineAttributeGetter = function (
         name, fn
@@ -7214,16 +7214,17 @@ Elements.alias(
               (condition = function (
                   event
               ) {
-                  return custom.condition.call(
-                      this,
-                      event,
-                      type
-                  )
-                      ? fn.call(
+                  return (
+                      !custom.condition.call(
                           this,
-                          event
-                      )
-                      : !0;
+                          event,
+                          type
+                      ) ||
+                  fn.call(
+                      this,
+                      event
+                  )
+                  );
               }),
             custom.base &&
               (realType = Function.from(
@@ -7472,18 +7473,18 @@ Elements.alias(
             event
         ) {
             var related = event.relatedTarget;
-            return null == related
-                ? !0
-                : related
-                    ? related != this &&
+            return (
+                !(null != related) ||
+          (!!related &&
+            related != this &&
             "xul" != related.prefix &&
             "document" != typeOf(
                 this
             ) &&
             !this.contains(
                 related
-            )
-                    : !1;
+            ))
+            );
         };
         (Element1.Events.mouseenter = {
             base: "mouseover",
@@ -8922,11 +8923,13 @@ Element1.alias(
                 ? value.hexToRgb(
                     !0
                 )
-                : (value = value.match(
+                : !!(value = value.match(
                     /(\d+),\s*(\d+),\s*(\d+)/
-                ))
-                    ? [value[1], value[2], value[3],]
-                    : !1;
+                )) && [
+                    value[1],
+                    value[2],
+                    value[3],
+                ];
         },
         compute: function (
             from, to, delta
