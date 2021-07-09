@@ -880,7 +880,11 @@ impl CaseHandler<'_> {
                         .as_arg();
 
                         if ty == "break" || ty == "continue" {
-                            vec![ty_arg, target.unwrap().expr().as_arg()]
+                            if let Some(arg) = target {
+                                vec![ty_arg, arg.expr().as_arg()]
+                            } else {
+                                vec![ty_arg]
+                            }
                         } else {
                             if let Some(arg) = arg {
                                 vec![ty_arg, arg]
@@ -1047,7 +1051,7 @@ impl CaseHandler<'_> {
                         label: s.label.sym.clone(),
                         break_loc: after,
                     },
-                    |h| h.explode_stmt(*s.body, None),
+                    |h| h.explode_stmt(*s.body, Some(s.label.sym)),
                 );
 
                 self.mark(after);
