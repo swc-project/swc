@@ -103,7 +103,6 @@
 //!
 //! [tc39/test262]:https://github.com/tc39/test262
 
-#![cfg_attr(test, feature(bench_black_box))]
 #![cfg_attr(test, feature(test))]
 #![deny(unused)]
 
