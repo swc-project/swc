@@ -1752,11 +1752,10 @@ var $try = Function.attempt;
                         function (
                             value, key
                         ) {
-                            base && (key = base + "[" + key + "]");
                             var result;
-                            switch (typeOf(
+                            switch ((base && (key = base + "[" + key + "]"), typeOf(
                                 value
-                            )) {
+                            ))) {
                             case "object":
                                 result = Object.toQueryString(
                                     value,
@@ -3116,16 +3115,18 @@ function (
                 }
             );
         else if (attributeKey) {
-            (attributeKey = attributeKey.replace(
-                reUnescape,
-                ""
-            )),
-            (attributeValue = (attributeValue || "").replace(
-                reUnescape,
-                ""
-            ));
             var test, regexp1;
-            switch (attributeOperator) {
+            switch (
+                ((attributeKey = attributeKey.replace(
+                    reUnescape,
+                    ""
+                )),
+                (attributeValue = (attributeValue || "").replace(
+                    reUnescape,
+                    ""
+                )),
+                attributeOperator)
+            ) {
             case "^=":
                 regexp1 = new RegExp(
                     "^" + escapeRegExp(
@@ -3255,7 +3256,14 @@ function (
     (local.setDocument = function (
         document
     ) {
-        var nodeType = document.nodeType;
+        var feature,
+            starSelectsClosed,
+            starSelectsComments,
+            brokenSecondClassNameGEBCN,
+            cachedGetElementsByClassName,
+            brokenFormAttributeGetter,
+            selected,
+            nodeType = document.nodeType;
         if (9 == nodeType);
         else if (nodeType) document = document.ownerDocument;
         else if (document.navigator) document = document.document;
@@ -3266,8 +3274,7 @@ function (
             rootUid = this.getUIDXML(
                 root
             ),
-            features = featuresCache[rootUid],
-            feature;
+            features = featuresCache[rootUid];
         if (features) {
             for (feature in features) this[feature] = features[feature];
             return;
@@ -3279,13 +3286,7 @@ function (
             document
         )),
         (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
-        var starSelectsClosed,
-            starSelectsComments,
-            brokenSecondClassNameGEBCN,
-            cachedGetElementsByClassName,
-            brokenFormAttributeGetter,
-            selected,
-            id = "slick_uniqueid",
+        var id = "slick_uniqueid",
             testNode = document.createElement(
                 "div"
             ),
@@ -3585,13 +3586,27 @@ function (
     (local.search = function (
         context, expression, append, first
     ) {
-        var found = (this.found = first ? null : append || []);
+        var parsed,
+            i,
+            j,
+            m,
+            n,
+            combinator,
+            tag,
+            id,
+            classList,
+            classes,
+            attributes,
+            pseudos,
+            currentItems,
+            currentExpression,
+            currentBit,
+            lastBit,
+            found = (this.found = first ? null : append || []);
         if (!context) return found;
         if (context.navigator) context = context.document;
         else if (!context.nodeType) return found;
-        var parsed,
-            i,
-            uniques = (this.uniques = {
+        var uniques = (this.uniques = {
             }),
             hasOthers = !(!append || !append.length),
             contextIsDocument = 9 == context.nodeType;
@@ -3800,20 +3815,6 @@ function (
               ? this.pushUID
               : this.pushArray),
         null == found && (found = []);
-        var j,
-            m,
-            n,
-            combinator,
-            tag,
-            id,
-            classList,
-            classes,
-            attributes,
-            pseudos,
-            currentItems,
-            currentExpression,
-            currentBit,
-            lastBit;
         search: for (i = 0; (currentExpression = parsed.expressions[i]); i++)
             for (j = 0; (currentBit = currentExpression[j]); j++) {
                 if (
@@ -4046,6 +4047,7 @@ function (
     (local.matchNode = function (
         node, selector
     ) {
+        var i, item;
         if (this.isHTMLDocument && this.nativeMatchesSelector)
             try {
                 return this.nativeMatchesSelector.call(
@@ -4060,8 +4062,7 @@ function (
             selector
         );
         if (!parsed) return !0;
-        var simpleExpCounter = 0,
-            i;
+        var simpleExpCounter = 0;
         for (i = 0; (currentExpression = parsed.expressions[i]); i++)
             if (1 == currentExpression.length) {
                 var exp = currentExpression[0];
@@ -4082,7 +4083,6 @@ function (
                 simpleExpCounter++;
             }
         if (simpleExpCounter == parsed.length) return !1;
-        var item;
         for (i = 0; (item = this.search(
             this.document,
             parsed
@@ -4112,6 +4112,7 @@ function (
         attributes,
         pseudos,
     ) {
+        var i, part, cls;
         if (tag) {
             var nodeName = this.isXMLDocument
                 ? node.nodeName
@@ -4124,7 +4125,6 @@ function (
         if (id && node.getAttribute(
             "id"
         ) != id) return !1;
-        var i, part, cls;
         if (classes)
             for (i = classes.length; i--; )
                 if (
@@ -5110,7 +5110,8 @@ Elements.alias(
 ),
 (function (
 ) {
-    var splice = Array.prototype.splice,
+    var createElementAcceptsHTML,
+        splice = Array.prototype.splice,
         object = {
             0: 0,
             1: 1,
@@ -5152,7 +5153,6 @@ Elements.alias(
     Array.mirror(
         Elements
     );
-    var createElementAcceptsHTML;
     try {
         createElementAcceptsHTML =
         "x" == document.createElement(
@@ -6336,13 +6336,13 @@ Elements.alias(
             clone: function (
                 contents, keepid
             ) {
+                var i;
                 contents = !1 !== contents;
                 var clone = this.cloneNode(
                         contents
                     ),
                     ce = [clone,],
-                    te = [this,],
-                    i;
+                    te = [this,];
                 for (
                     contents &&
             (ce.append(
@@ -7837,7 +7837,9 @@ Elements.alias(
             removeEvent: function (
                 type, match, fn, _uid
             ) {
-                var storage = this.retrieve(
+                var __uid,
+                    s,
+                    storage = this.retrieve(
                         "$delegates",
                         {
                         }
@@ -7864,7 +7866,6 @@ Elements.alias(
                         )
                     );
                 }
-                var __uid, s;
                 if (fn)
                     for (__uid in stored)
                         if (((s = stored[__uid]), s.match == match && s.fn == fn))

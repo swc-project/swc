@@ -1,9 +1,9 @@
 (function (
 ) {
-    var root = this,
+    var Backbone,
+        root = this,
         previousBackbone = root.Backbone,
-        slice = [].slice,
-        Backbone;
+        slice = [].slice;
     (Backbone = "undefined" !== typeof exports
         ? exports
         : (root.Backbone = {
@@ -469,14 +469,14 @@
             changedAttributes: function (
                 diff
             ) {
+                var val;
                 if (!diff) return this.hasChanged(
                 )
                     ? _.clone(
                         this.changed
                     )
                     : !1;
-                var val,
-                    changed = !1;
+                var changed = !1;
                 for (var attr in diff) {
                     if (
                         _.isEqual(
@@ -876,18 +876,26 @@
             remove: function (
                 models, options
             ) {
-                var singular = !_.isArray(
-                    models
-                );
-                (models = singular
-                    ? [models,]
-                    : _.clone(
+                var i,
+                    l,
+                    index,
+                    model,
+                    singular = !_.isArray(
                         models
-                    )),
-                options || (options = {
-                });
-                var i, l, index, model;
-                for (i = 0, l = models.length; i < l; i++) {
+                    );
+                for (
+                    models = singular
+                        ? [models,]
+                        : _.clone(
+                            models
+                        ),
+                    options || (options = {
+                    }),
+                    i = 0,
+                    l = models.length;
+                    i < l;
+                    i++
+                ) {
                     if (((model = models[i] = this.get(
                         models[i]
                     )), !model)) continue;
@@ -918,6 +926,7 @@
             set: function (
                 models, options
             ) {
+                var i, l, id, model, attrs, existing, sort;
                 (options = _.defaults(
                     {
                     },
@@ -940,14 +949,7 @@
                     : _.clone(
                         models
                     );
-                var i,
-                    l,
-                    id,
-                    model,
-                    attrs,
-                    existing,
-                    sort,
-                    at = options.at,
+                var at = options.at,
                     sortable = this.comparator && null == at && !1 !== options.sort,
                     sortAttr = _.isString(
                         this.comparator

@@ -3,6 +3,17 @@
 ) {
     var readyList,
         rootjQuery,
+        nodeHook,
+        boolHook,
+        iframe,
+        getStyles,
+        curCSS,
+        ajaxLocParts,
+        ajaxLocation,
+        xhrCallbacks,
+        xhrSupported,
+        fxNow,
+        timerId,
         document = window.document,
         location = window.location,
         _jQuery = window.jQuery,
@@ -423,6 +434,7 @@
             isPlainObject: function (
                 obj
             ) {
+                var key;
                 if (
                     !obj ||
           "object" !== jQuery.type(
@@ -450,7 +462,6 @@
                 } catch (e) {
                     return !1;
                 }
-                var key;
                 for (key in obj);
                 return void 0 === key || core_hasOwn.call(
                     obj,
@@ -1022,6 +1033,7 @@
     (jQuery.Callbacks = function (
         options
     ) {
+        var firing, memory, fired, firingLength, firingIndex, firingStart;
         options =
       "string" == typeof options
           ? optionsCache[options] || createOptions(
@@ -1032,13 +1044,7 @@
               },
               options
           );
-        var firing,
-            memory,
-            fired,
-            firingLength,
-            firingIndex,
-            firingStart,
-            list = [],
+        var list = [],
             stack = !options.once && [],
             fire = function (
                 data
@@ -1701,12 +1707,11 @@
     function internalData(
         elem, name, data, pvt
     ) {
+        var thisCache, ret;
         if (!jQuery.acceptData(
             elem
         )) return;
-        var thisCache,
-            ret,
-            internalKey = jQuery.expando,
+        var internalKey = jQuery.expando,
             getByName = "string" == typeof name,
             isNode = elem.nodeType,
             cache = isNode ? jQuery.cache : elem,
@@ -1752,13 +1757,11 @@
     function internalRemoveData(
         elem, name, pvt
     ) {
+        var i, l, thisCache;
         if (!jQuery.acceptData(
             elem
         )) return;
-        var i,
-            l,
-            thisCache,
-            isNode = elem.nodeType,
+        var isNode = elem.nodeType,
             cache = isNode ? jQuery.cache : elem,
             id = isNode ? elem[jQuery.expando] : jQuery.expando;
         if (!cache[id]) return;
@@ -2260,9 +2263,7 @@
             },
         }
     );
-    var nodeHook,
-        boolHook,
-        rclass = /[\t\r\n]/g,
+    var rclass = /[\t\r\n]/g,
         rreturn = /\r/g,
         rboolean = /^(?:checked|selected|autofocus|autoplay|async|controls|defer|disabled|hidden|loop|multiple|open|readonly|required|scoped)$/i,
         ruseDefault = /^(?:checked|selected)$/i,
@@ -3557,15 +3558,11 @@
         dispatch: function (
             event
         ) {
+            var i, ret, handleObj, matched, j;
             event = jQuery.event.fix(
                 event
             );
-            var i,
-                ret,
-                handleObj,
-                matched,
-                j,
-                handlerQueue = [],
+            var handlerQueue = [],
                 args = core_slice.call(
                     arguments
                 ),
@@ -3693,11 +3690,9 @@
         fix: function (
             event
         ) {
+            var i, prop, copy;
             if (event[jQuery.expando]) return event;
-            var i,
-                prop,
-                copy,
-                type = event.type,
+            var type = event.type,
                 originalEvent = event,
                 fixHook = this.fixHooks[type];
             for (
@@ -7763,17 +7758,12 @@
             domManip: function (
                 args, table, callback
             ) {
+                var first, node, hasScripts, scripts, doc, fragment;
                 args = core_concat.apply(
                     [],
                     args
                 );
-                var first,
-                    node,
-                    hasScripts,
-                    scripts,
-                    doc,
-                    fragment,
-                    i = 0,
+                var i = 0,
                     l = this.length,
                     value = args[0],
                     isFunction = jQuery.isFunction(
@@ -7970,13 +7960,11 @@
     function cloneCopyEvent(
         src, dest
     ) {
+        var type, i, l;
         if (1 !== dest.nodeType || !jQuery.hasData(
             src
         )) return;
-        var type,
-            i,
-            l,
-            oldData = jQuery._data(
+        var oldData = jQuery._data(
                 src
             ),
             curData = jQuery._data(
@@ -8434,10 +8422,7 @@
             },
         }
     );
-    var iframe,
-        getStyles,
-        curCSS,
-        ralpha = /alpha\([^)]*\)/i,
+    var ralpha = /alpha\([^)]*\)/i,
         rmargin = /^margin/,
         rnumnonpx = new RegExp(
             "^(" + core_pnum + ")(?!px)[a-z%]+$",
@@ -8656,12 +8641,10 @@
             style: function (
                 elem, name, value, extra
             ) {
+                var ret, type, hooks;
                 if (!elem || 3 === elem.nodeType || 8 === elem.nodeType || !elem.style)
                     return;
-                var ret,
-                    type,
-                    hooks,
-                    origName = jQuery.camelCase(
+                var origName = jQuery.camelCase(
                         name
                     ),
                     style = elem.style;
@@ -9491,9 +9474,7 @@
             fnOut || fnOver
         );
     });
-    var ajaxLocParts,
-        ajaxLocation,
-        ajax_nonce = jQuery.now(
+    var ajax_nonce = jQuery.now(
         ),
         ajax_rquery = /\?/,
         rhash = /#.*$/,
@@ -9622,13 +9603,12 @@
     (jQuery.fn.load = function (
         url, params, callback
     ) {
+        var selector, response;
         if ("string" !== typeof url && _load) return _load.apply(
             this,
             arguments
         );
-        var selector,
-            response,
-            self = this,
+        var self = this,
             off = url.indexOf(
                 " "
             );
@@ -9807,9 +9787,6 @@
             ajax: function (
                 url, options
             ) {
-                "object" == typeof url && ((options = url), (url = void 0)),
-                (options ||= {
-                });
                 var parts,
                     i,
                     cacheURL,
@@ -9817,8 +9794,11 @@
                     timeoutTimer,
                     fireGlobals,
                     transport,
-                    responseHeaders,
-                    s = jQuery.ajaxSetup(
+                    responseHeaders;
+                "object" == typeof url && ((options = url), (url = void 0)),
+                (options ||= {
+                });
+                var s = jQuery.ajaxSetup(
                         {
                         },
                         options
@@ -10407,9 +10387,7 @@
                 );
         }
     );
-    var xhrCallbacks,
-        xhrSupported,
-        xhrId = 0,
+    var xhrId = 0,
         xhrOnUnloadAbort =
       window.ActiveXObject &&
       function (
@@ -10574,9 +10552,7 @@
               }
           }
       );
-    var fxNow,
-        timerId,
-        animationPrefilters = [defaultPrefilter,],
+    var animationPrefilters = [defaultPrefilter,],
         tweeners = {
             "*": [
                 function (
@@ -11543,6 +11519,7 @@
     (jQuery.fn.offset = function (
         options
     ) {
+        var win;
         if (arguments.length)
             return void 0 === options
                 ? this
@@ -11557,8 +11534,7 @@
                         );
                     }
                 );
-        var win,
-            box = {
+        var box = {
                 top: 0,
                 left: 0,
             },
@@ -11592,10 +11568,12 @@
         setOffset: function (
             elem, options, i
         ) {
-            var position = jQuery.css(
-                elem,
-                "position"
-            );
+            var curTop,
+                curLeft,
+                position = jQuery.css(
+                    elem,
+                    "position"
+                );
             "static" === position && (elem.style.position = "relative");
             var curElem = jQuery(
                     elem
@@ -11619,9 +11597,7 @@
                 props = {
                 },
                 curPosition = {
-                },
-                curTop,
-                curLeft;
+                };
             calculatePosition
                 ? ((curPosition = curElem.position(
                 )),
@@ -11659,10 +11635,9 @@
         {
             position: function (
             ) {
+                var offsetParent, offset;
                 if (!this[0]) return;
-                var offsetParent,
-                    offset,
-                    parentOffset = {
+                var parentOffset = {
                         top: 0,
                         left: 0,
                     },

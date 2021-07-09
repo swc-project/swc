@@ -878,15 +878,11 @@
                     haveParents: function (
                         elements, attr
                     ) {
+                        var e, $element, excluded, i, c;
                         if (!jQuery.mobile.ignoreContentEnabled) return elements;
                         var count = elements.length,
                             $newSet = jQuery(
-                            ),
-                            e,
-                            $element,
-                            excluded,
-                            i,
-                            c;
+                            );
                         for (i = 0; count > i; i++) {
                             for (
                                 $element = elements.eq(
@@ -1918,16 +1914,16 @@
                         options,
                         callback,
                     ) {
+                        var hasOptions;
                         "string" == typeof options &&
                 (options = {
                     effect: options,
                 });
-                        var hasOptions,
-                            effectName = options
-                                ? !0 === options || "number" == typeof options
-                                    ? defaultEffect
-                                    : options.effect || defaultEffect
-                                : method;
+                        var effectName = options
+                            ? !0 === options || "number" == typeof options
+                                ? defaultEffect
+                                : options.effect || defaultEffect
+                            : method;
                         (options ||= {
                         }),
                         "number" == typeof options &&
@@ -2169,8 +2165,8 @@
         (function (
             $, window1, undefined
         ) {
-            var doc = document,
-                fake_onhashchange,
+            var fake_onhashchange,
+                doc = document,
                 special = jQuery.event.special,
                 doc_mode = doc.documentMode,
                 supports_onhashchange =
@@ -2428,6 +2424,7 @@
         (function (
             $, undefined
         ) {
+            var nokiaLTE7_3;
             function propExists(
                 prop
             ) {
@@ -2460,8 +2457,7 @@
           ),
                 bb = window.blackberry && !propExists(
                     "-webkit-transform"
-                ),
-                nokiaLTE7_3;
+                );
             jQuery.extend(
                 jQuery.mobile,
                 {
@@ -3495,11 +3491,9 @@
                 find: function (
                     url, stack, earlyReturn
                 ) {
+                    var entry, i, index;
                     stack ||= this.stack;
-                    var entry,
-                        i,
-                        length = this.stack.length,
-                        index;
+                    var length = this.stack.length;
                     for (i = 0; i < length; i++)
                         if (
                             ((entry = stack[i]),
@@ -4292,14 +4286,13 @@
             function handleTouchEnd(
                 event
             ) {
+                var ve, t;
                 if (blockTouchTriggers) return;
                 disableTouchBindings(
                 );
                 var flags = getVirtualBindingFlags(
-                        event.target
-                    ),
-                    ve,
-                    t;
+                    event.target
+                );
                 triggerVirtualEvent(
                     "vmouseup",
                     event,
@@ -4627,10 +4620,10 @@
                         function (
                             event
                         ) {
+                            var timer;
                             if (((isTaphold = !1), event.which && 1 !== event.which))
                                 return !1;
-                            var origTarget = event.target,
-                                timer;
+                            var origTarget = event.target;
                             function clearTapTimer(
                             ) {
                                 clearTimeout(
@@ -4865,10 +4858,10 @@
                     (context.start = function (
                         event
                     ) {
+                        var stop;
                         if (jQuery.event.special.swipe.eventInProgress) return;
                         jQuery.event.special.swipe.eventInProgress = !0;
-                        var stop,
-                            start = jQuery.event.special.swipe.start(
+                        var start = jQuery.event.special.swipe.start(
                                 event
                             ),
                             origTarget = event.target,
@@ -4995,6 +4988,7 @@
         (function (
             $
         ) {
+            var heldCall, curr, diff;
             jQuery.event.special.throttledresize = {
                 setup: function (
                 ) {
@@ -5035,10 +5029,7 @@
                             250 - diff
                         )));
                 },
-                lastCall = 0,
-                heldCall,
-                curr,
-                diff;
+                lastCall = 0;
         })(
             jQuery
         ),
@@ -5593,12 +5584,10 @@
                     },
                     _recordScroll: function (
                     ) {
+                        var currentScroll, minScroll, defaultScroll;
                         if (!this.setLastScrollEnabled) return;
                         var active = this._getActiveHistory(
-                            ),
-                            currentScroll,
-                            minScroll,
-                            defaultScroll;
+                        );
                         active &&
             ((currentScroll = this._getScroll(
             )),
@@ -7141,6 +7130,12 @@
                     function (
                         event
                     ) {
+                        var baseUrl,
+                            href,
+                            useDefaultUrlHandling,
+                            transition,
+                            reverse,
+                            role;
                         if (
                             !jQuery.mobile.linkBindingEnabled ||
                 event.isDefaultPrevented(
@@ -7164,13 +7159,7 @@
                                     },
                                     200
                                 );
-                            },
-                            baseUrl,
-                            href,
-                            useDefaultUrlHandling,
-                            transition,
-                            reverse,
-                            role;
+                            };
                         if (
                             (jQuery.mobile.activeClickedLink &&
                   jQuery.mobile.activeClickedLink[0] ===
@@ -20223,14 +20212,9 @@
         (function (
             $, window1
         ) {
+            var zoom, evt, x, y, z, aig;
             jQuery.mobile.iosorientationfixEnabled = !0;
-            var ua = navigator.userAgent,
-                zoom,
-                evt,
-                x,
-                y,
-                z,
-                aig;
+            var ua = navigator.userAgent;
             if (
                 !/iPhone|iPad|iPod/.test(
                     navigator.platform

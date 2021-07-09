@@ -1,6 +1,7 @@
 !(function (
     window, document, undefined
 ) {
+    var msie, jqLite, jQuery, angularModule, nodeName_, promiseWarning;
     function minErr(
         module
     ) {
@@ -104,9 +105,6 @@
                 )
                 : string;
         },
-        msie,
-        jqLite,
-        jQuery,
         slice = [].slice,
         push = [].push,
         toString = Object.prototype.toString,
@@ -115,8 +113,6 @@
         ),
         angular = window.angular || (window.angular = {
         }),
-        angularModule,
-        nodeName_,
         uid = ["0", "0", "0",];
     (msie = int(
         (/msie (\d+)/.exec(
@@ -599,14 +595,12 @@
     function equals(
         o1, o2
     ) {
+        var length, key, keySet;
         if (o1 === o2) return !0;
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0;
         var t1 = typeof o1,
-            t2 = typeof o2,
-            length,
-            key,
-            keySet;
+            t2 = typeof o2;
         if (t1 == t2) {
             if ("object" == t1) {
                 if (isArray(
@@ -3378,7 +3372,8 @@
     function Browser(
         window1, document, $log, $sniffer
     ) {
-        var self = this,
+        var pollTimeout,
+            self = this,
             rawDocument = document[0],
             location = window1.location,
             history = window1.history,
@@ -3438,8 +3433,7 @@
                     callback
                 );
         };
-        var pollFns = [],
-            pollTimeout;
+        var pollFns = [];
         self.addPollFn = function (
             fn
         ) {
@@ -8014,8 +8008,7 @@
             "$parse"
         ),
         promiseWarningCache = {
-        },
-        promiseWarning;
+        };
     function ensureSafeMemberName(
         name, fullExpression
     ) {
@@ -9756,14 +9749,14 @@
     function getterFn(
         path, options, fullExp
     ) {
+        var fn;
         if (getterFnCache.hasOwnProperty(
             path
         )) return getterFnCache[path];
         var pathKeys = path.split(
                 "."
             ),
-            pathKeysLength = pathKeys.length,
-            fn;
+            pathKeysLength = pathKeys.length;
         if (options.csp)
             fn =
         pathKeysLength < 6
@@ -10575,13 +10568,12 @@
                         return this.$watch(
                             function (
                             ) {
-                                newValue = objGetter(
-                                    self
-                                );
                                 var newLength, key;
-                                if (!isObject(
+                                if (((newValue = objGetter(
+                                    self
+                                )), !isObject(
                                     newValue
-                                ))
+                                )))
                                     newValue !== oldValue &&
                       ((oldValue = newValue), changeDetected++);
                                 else if (isArrayLike(
@@ -12045,9 +12037,10 @@
                 : ((formatedText = numStr), (hasExponent = !0));
         }
         if (!hasExponent) {
-            var fractionLen = (numStr.split(
-                DECIMAL_SEP
-            )[1] || "").length;
+            var i,
+                fractionLen = (numStr.split(
+                    DECIMAL_SEP
+                )[1] || "").length;
             isUndefined(
                 fractionSize
             ) &&
@@ -12070,8 +12063,7 @@
                 ),
                 whole = fraction[0];
             fraction = fraction[1] || "";
-            var i,
-                pos = 0,
+            var pos = 0,
                 lgroup = pattern.lgSize,
                 group = pattern.gSize;
             if (whole.length >= lgroup + group)
@@ -12429,6 +12421,7 @@
         return function (
             input, limit
         ) {
+            var i, n;
             if (!isArray(
                 input
             ) && !isString(
@@ -12451,9 +12444,7 @@
                         );
                 return "";
             }
-            var out = [],
-                i,
-                n;
+            var out = [];
             for (
                 limit > input.length
                     ? (limit = input.length)
@@ -12992,7 +12983,9 @@
     function textInputType(
         scope, element, attr, ctrl, $sniffer, $browser
     ) {
-        var composing = !1;
+        var patternValidator,
+            match,
+            composing = !1;
         element.on(
             "compositionstart",
             function (
@@ -13080,8 +13073,6 @@
             );
         });
         var pattern = attr.ngPattern,
-            patternValidator,
-            match,
             validate = function (
                 regexp, value
             ) {
