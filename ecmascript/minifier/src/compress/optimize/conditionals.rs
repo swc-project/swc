@@ -38,7 +38,7 @@ impl Optimizer<'_> {
     /// This method may change return value.
     ///
     /// - `a ? b : false` => `a && b`
-    pub(super) fn compress_cond_to_logical(&mut self, e: &mut Expr) {
+    pub(super) fn compress_cond_to_logical_ignoring_return_value(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(cond) => cond,
             _ => return,

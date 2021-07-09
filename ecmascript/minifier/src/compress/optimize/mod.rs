@@ -643,7 +643,7 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        self.compress_cond_to_logical(e);
+        self.compress_cond_to_logical_ignoring_return_value(e);
 
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
