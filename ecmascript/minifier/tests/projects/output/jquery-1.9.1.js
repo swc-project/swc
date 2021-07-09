@@ -1601,7 +1601,7 @@
                 "t"
             ),
             (support[i + "Bubbles"] =
-            eventName in window || div.attributes[eventName].expando === !1);
+            eventName in window || !1 === div.attributes[eventName].expando);
         return (
             (div.style.backgroundClip = "content-box"),
             (div.cloneNode(
@@ -2916,7 +2916,7 @@
                 : elem.getAttributeNode(
                     name
                 );
-            return detail && detail.value !== !1
+            return detail && !1 !== detail.value
                 ? name.toLowerCase(
                 )
                 : void 0;
@@ -3647,7 +3647,7 @@
                 for (; cur != this; cur = cur.parentNode || this)
                     if (
                         1 === cur.nodeType &&
-            (cur.disabled !== !0 || "click" !== event.type)
+            (!0 !== cur.disabled || "click" !== event.type)
                     ) {
                         for (matches = [], i = 0; delegateCount > i; i++)
                             (handleObj = handlers[i]),
@@ -3916,7 +3916,7 @@
             (this.type = src.type),
             (this.isDefaultPrevented =
             src.defaultPrevented ||
-            src.returnValue === !1 ||
+            !1 === src.returnValue ||
             (src.getPreventDefault && src.getPreventDefault(
             ))
                 ? returnTrue
@@ -5297,7 +5297,7 @@
                 elem.getAttribute(
                     name
                 )) &&
-              elem[name] === !0
+              !0 === elem[name]
                         ? name
                         : val && val.specified
                             ? val.value
@@ -5945,12 +5945,12 @@
                 enabled: function (
                     elem
                 ) {
-                    return elem.disabled === !1;
+                    return !1 === elem.disabled;
                 },
                 disabled: function (
                     elem
                 ) {
-                    return elem.disabled === !0;
+                    return !0 === elem.disabled;
                 },
                 checked: function (
                     elem
@@ -5967,7 +5967,7 @@
                 ) {
                     return (
                         elem.parentNode && elem.parentNode.selectedIndex,
-                        elem.selected === !0
+                        !0 === elem.selected
                     );
                 },
                 empty: function (
@@ -6263,7 +6263,7 @@
                                 context,
                                 xml
                             ) || cachedruns),
-                                            cache[1] === !0)
+                                            !0 === cache[1])
                                         )
                                             return !0;
                                     }
@@ -9994,7 +9994,7 @@
                     ? "&"
                     : "?") + s.data),
               delete s.data),
-            s.cache === !1 &&
+            !1 === s.cache &&
               (s.url = rts.test(
                   cacheURL
               )
@@ -10021,7 +10021,7 @@
                   "If-None-Match",
                   jQuery.etag[cacheURL]
               )),
-                ((s.data && s.hasContent && s.contentType !== !1) ||
+                ((s.data && s.hasContent && !1 !== s.contentType) ||
             options.contentType) &&
             jqXHR.setRequestHeader(
                 "Content-Type",
@@ -10332,7 +10332,7 @@
                 overwritten,
                 responseContainer,
                 jsonProp =
-          s.jsonp !== !1 &&
+          !1 !== s.jsonp &&
           (rjsonp.test(
               s.url
           )
@@ -10358,7 +10358,7 @@
                             rjsonp,
                             "$1" + callbackName
                         ))
-                        : s.jsonp !== !1 &&
+                        : !1 !== s.jsonp &&
               (s.url +=
                 (ajax_rquery.test(
                     s.url
@@ -11244,7 +11244,7 @@
                     };
                 return (
                     (doAnimation.finish = doAnimation),
-                    empty || optall.queue === !1
+                    empty || !1 === optall.queue
                         ? this.each(
                             doAnimation
                         )
@@ -11447,7 +11447,7 @@
                     : opt.duration in jQuery.fx.speeds
                         ? jQuery.fx.speeds[opt.duration]
                         : jQuery.fx.speeds._default),
-            (null == opt.queue || opt.queue === !0) && (opt.queue = "fx"),
+            (null == opt.queue || !0 === opt.queue) && (opt.queue = "fx"),
             (opt.old = opt.complete),
             (opt.complete = function (
             ) {

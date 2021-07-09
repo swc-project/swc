@@ -948,7 +948,7 @@
                     existing,
                     sort,
                     at = options.at,
-                    sortable = this.comparator && null == at && options.sort !== !1,
+                    sortable = this.comparator && null == at && !1 !== options.sort,
                     sortAttr = _.isString(
                         this.comparator
                     )
@@ -1962,7 +1962,7 @@
                     options,
                 )),
                 (this.root = this.options.root),
-                (this._wantsHashChange = this.options.hashChange !== !1),
+                (this._wantsHashChange = !1 !== this.options.hashChange),
                 (this._wantsPushState = !!this.options.pushState),
                 (this._hasPushState = !(
                     !this.options.pushState ||

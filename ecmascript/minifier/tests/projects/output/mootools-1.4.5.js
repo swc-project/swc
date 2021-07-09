@@ -2911,7 +2911,7 @@ function (
             expression, isReversed
         ) {
             if (null == expression) return null;
-            if (expression.Slick === !0) return expression;
+            if (!0 === expression.Slick) return expression;
             (expression = ("" + expression).replace(
                 /^\s+|\s+$/g,
                 ""

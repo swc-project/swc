@@ -1731,7 +1731,7 @@
                             ) {
                                 return suppressDisabledCheck ||
                     !(
-                        instance.options.disabled === !0 ||
+                        !0 === instance.options.disabled ||
                       jQuery(
                           this
                       ).hasClass(
@@ -2104,7 +2104,7 @@
                             (theme = loadSettings.theme))
                             : ((loadSettings = this.options), (theme ||= loadSettings.theme)),
                         (message =
-              msgText || (loadSettings.text === !1 ? "" : loadSettings.text)),
+              msgText || (!1 === loadSettings.text ? "" : loadSettings.text)),
                         $html.addClass(
                             "ui-loading"
                         ),
@@ -2805,14 +2805,14 @@
                 ) {
                     return (
                         jQuery.support.pushState &&
-              jQuery.mobile.pushStateEnabled === !0 &&
+              !0 === jQuery.mobile.pushStateEnabled &&
               this.isHashChangeEnabled(
               )
                     );
                 },
                 isHashChangeEnabled: function (
                 ) {
-                    return jQuery.mobile.hashListeningEnabled === !0;
+                    return !0 === jQuery.mobile.hashListeningEnabled;
                 },
                 popstate: function (
                     event
@@ -6754,7 +6754,7 @@
                   pageUrl: pageUrl,
                   role: settings.role,
               }),
-              settings.changeHash !== !1 && jQuery.mobile.hashListeningEnabled
+              !1 !== settings.changeHash && jQuery.mobile.hashListeningEnabled
                   ? jQuery.mobile.navigate(
                       url,
                       params,
@@ -7555,7 +7555,7 @@
                             screenHeight = jQuery.mobile.getScreenHeight(
                             ),
                             maxTransitionOverride =
-                jQuery.mobile.maxTransitionWidth !== !1 &&
+                !1 !== jQuery.mobile.maxTransitionWidth &&
                 jQuery.mobile.window.width(
                 ) > jQuery.mobile.maxTransitionWidth;
                         return (
@@ -8384,8 +8384,8 @@
                 ),
                         (hasIcon =
               void 0 !== opts.collapsedIcon
-                  ? opts.collapsedIcon !== !1
-                  : currentOpts.collapsedIcon !== !1),
+                  ? !1 !== opts.collapsedIcon
+                  : !1 !== currentOpts.collapsedIcon),
                         (void 0 !== opts.iconpos ||
               void 0 !== opts.collapsedIcon ||
               void 0 !== opts.expandedIcon) &&
@@ -15408,7 +15408,7 @@
             (this.close(
             ),
             void 0 !== this._origTabIndex &&
-              (this._origTabIndex !== !1
+              (!1 !== this._origTabIndex
                   ? this.select.attr(
                       "tabindex",
                       this._origTabIndex
@@ -15728,7 +15728,7 @@
                                     )
                                     .wrapInner(
                                         "<div class='ui-controlgroup-controls " +
-                      (opts.shadow === !0 ? "ui-shadow" : "") +
+                      (!0 === opts.shadow ? "ui-shadow" : "") +
                       "'></div>",
                                     )
                                     .children(
@@ -18990,7 +18990,7 @@
                   )
                   .sort(
                   )),
-                        this.options.active !== !1 && this.anchors.length
+                        !1 !== this.options.active && this.anchors.length
                             ? (this.active = this._findActive(
                                 options.active
                             ))
@@ -19241,7 +19241,7 @@
                   "ui-tabs-collapsible",
                   value
               ),
-              value || this.options.active !== !1 || this._activate(
+              value || !1 !== this.options.active || this._activate(
                   0
               )),
                         "event" === key && this._setupEvents(
@@ -19289,7 +19289,7 @@
                         )),
                         this._processTabs(
                         ),
-                        options.active !== !1 && this.anchors.length
+                        !1 !== options.active && this.anchors.length
                             ? this.active.length &&
                 !jQuery.contains(
                     this.tablist[0],

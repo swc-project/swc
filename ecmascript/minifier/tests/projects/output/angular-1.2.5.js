@@ -2258,7 +2258,7 @@
           (event.defaultPrevented = !1)),
             (event.isDefaultPrevented = function (
             ) {
-                return event.defaultPrevented || event.returnValue === !1;
+                return event.defaultPrevented || !1 === event.returnValue;
             }),
             forEach(
                 events[type || event.type],
@@ -4925,7 +4925,7 @@
                     }
                     return (
                         (nodeLinkFn.scope =
-                newScopeDirective && newScopeDirective.scope === !0),
+                newScopeDirective && !0 === newScopeDirective.scope),
                         (nodeLinkFn.transclude =
                 hasTranscludeDirective && childTranscludeFn),
                         nodeLinkFn
@@ -6580,7 +6580,7 @@
                             removePendingReq
                         ),
                         (config.cache || defaults.cache) &&
-              config.cache !== !1 &&
+              !1 !== config.cache &&
               "GET" == config.method &&
               (cache = isObject(
                   config.cache
@@ -13588,7 +13588,7 @@
                         (this.$setValidity = function (
                             validationErrorKey, isValid
                         ) {
-                            if ($error[validationErrorKey] === !isValid) return;
+                            if (!isValid === $error[validationErrorKey]) return;
                             isValid
                                 ? ($error[validationErrorKey] && invalidCount--,
                                 !invalidCount &&

@@ -1190,7 +1190,7 @@
             ) {
                 var now = new Date(
                 );
-                previous || options.leading !== !1 || (previous = now);
+                previous || !1 !== options.leading || (previous = now);
                 var remaining = wait - (now - previous);
                 return (
                     (context = this),
@@ -1206,11 +1206,11 @@
                             args
                         )))
                         : timeout ||
-                options.trailing === !1 ||
+                !1 === options.trailing ||
                 (timeout = setTimeout(
                     function (
                     ) {
-                        (previous = options.leading === !1
+                        (previous = !1 === options.leading
                             ? 0
                             : new Date(
                             )),
