@@ -145,10 +145,6 @@ impl Optimizer<'_> {
     /// - `foo ? 1 : false` => `!!foo && 1`
     /// - `!foo ? true : 0` => `!foo || 0`
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
         let cond = match e {
             Expr::Cond(cond) => cond,
             _ => return,
@@ -196,7 +192,7 @@ impl Optimizer<'_> {
         if let Known(Type::Bool) = rt {
             let rb = cond.alt.as_pure_bool();
             if let Known(false) = rb {
-                log::trace!("conditionals: `foo ? 1 : false` => `!!foo && 1`");
+                log::trace!("conditionals: `foo ? bar : false` => `!!foo && bar`");
                 self.changed = true;
 
                 // Negate twice to convert `test` to boolean.
@@ -205,6 +201,22 @@ impl Optimizer<'_> {
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
                     op: op!("&&"),
+                    left: cond.test.take(),
+                    right: cond.cons.take(),
+                });
+                return;
+            }
+
+            if let Known(true) = rb {
+                log::trace!("conditionals: `foo ? bar : true` => `!foo || bar");
+                self.changed = true;
+
+                // Negate twice to convert `test` to boolean.
+                self.negate(&mut cond.test);
+
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("||"),
                     left: cond.test.take(),
                     right: cond.cons.take(),
                 });
