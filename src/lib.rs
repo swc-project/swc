@@ -11,17 +11,18 @@ use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
 use std::{
+    borrow::{Borrow, BorrowMut},
     fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
 };
 use swc_common::{
     chain,
-    comments::{Comment, Comments},
+    comments::{Comment, CommentKind, Comments},
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
@@ -706,5 +707,18 @@ impl Comments for SwcComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.remove(&pos).map(|v| v.1)
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut leading = self.leading.entry(pos).or_default();
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: "#__PURE__".into(),
+        };
+
+        if !leading.iter().any(|c| c.text == pure_comment.text) {
+            leading.push(pure_comment);
+        }
     }
 }

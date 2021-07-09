@@ -58,13 +58,7 @@ struct DependencyCollector<'a, TComments: Comments> {
 
 impl<'a, TComments: Comments> DependencyCollector<'a, TComments> {
     fn get_leading_comments(&self, span: Span) -> Vec<Comment> {
-        if let Some(comments) = self.comments.take_leading(span.lo) {
-            let comments_copy = comments.clone();
-            self.comments.add_leading_comments(span.lo, comments);
-            comments_copy
-        } else {
-            Vec::with_capacity(0)
-        }
+        self.comments.get_leading(span.lo).unwrap_or_else(Vec::new)
     }
 }
 

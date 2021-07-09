@@ -31,35 +31,16 @@ pub trait Comments {
     fn has_leading(&self, pos: BytePos) -> bool;
     fn move_leading(&self, from: BytePos, to: BytePos);
     fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>>;
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment);
     fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>);
     fn has_trailing(&self, pos: BytePos) -> bool;
     fn move_trailing(&self, from: BytePos, to: BytePos);
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
 
-    fn add_pure_comment(&self, pos: BytePos) {
-        let mut leading = self.take_leading(pos);
-        let pure_comment = Comment {
-            kind: CommentKind::Block,
-            span: DUMMY_SP,
-            text: "#__PURE__".into(),
-        };
-
-        match &mut leading {
-            Some(comments) => {
-                if !comments.iter().any(|c| c.text == pure_comment.text) {
-                    comments.push(pure_comment);
-                }
-            }
-            None => {
-                leading = Some(vec![pure_comment]);
-            }
-        }
-        if let Some(leading) = leading {
-            self.add_leading_comments(pos, leading);
-        }
-    }
+    fn add_pure_comment(&self, pos: BytePos);
 }
 
 macro_rules! delegate {
@@ -84,6 +65,10 @@ macro_rules! delegate {
             (**self).take_leading(pos)
         }
 
+        fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+            (**self).get_leading(pos)
+        }
+
         fn add_trailing(&self, pos: BytePos, cmt: Comment) {
             (**self).add_trailing(pos, cmt)
         }
@@ -102,6 +87,10 @@ macro_rules! delegate {
 
         fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
             (**self).take_trailing(pos)
+        }
+
+        fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+            (**self).get_trailing(pos)
         }
 
         fn add_pure_comment(&self, pos: BytePos) {
@@ -181,6 +170,10 @@ impl Comments for SingleThreadedComments {
         self.leading.borrow_mut().remove(&pos)
     }
 
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.borrow().get(&pos).map(|c| c.to_owned())
+    }
+
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
         self.trailing.borrow_mut().entry(pos).or_default().push(cmt);
     }
@@ -215,6 +208,24 @@ impl Comments for SingleThreadedComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.borrow_mut().remove(&pos)
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.borrow().get(&pos).map(|c| c.to_owned())
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut leading_map = self.leading.borrow_mut();
+        let leading = leading_map.entry(pos).or_default();
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: "#__PURE__".into(),
+        };
+
+        if !leading.iter().any(|c| c.text == pure_comment.text) {
+            leading.push(pure_comment);
+        }
     }
 }
 

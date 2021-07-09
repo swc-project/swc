@@ -94,7 +94,7 @@ impl<'b> Optimizer<'b> {
     {
         let mut found = false;
         if let Some(comments) = self.comments {
-            let cs = comments.take_leading(span.lo);
+            let cs = comments.get_leading(span.lo);
             if let Some(cs) = cs {
                 for c in &cs {
                     found |= op(&c);
@@ -102,8 +102,6 @@ impl<'b> Optimizer<'b> {
                         break;
                     }
                 }
-
-                comments.add_leading_comments(span.lo, cs);
             }
         }
 
