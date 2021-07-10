@@ -644,14 +644,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _foo = _interopRequireDefault(require("./foo"));
-
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
     return _foo.default;
   }
 });
+
+var _foo = _interopRequireDefault(require("./foo"));
 
 "#
 );
@@ -1756,6 +1756,12 @@ export { named };
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "named", {
+  enumerable: true,
+  get: function () {
+    return _foo().named;
+  }
+});
 function _foo() {
   const data = require("foo");
 
@@ -1765,12 +1771,6 @@ function _foo() {
 
   return data;
 }
-Object.defineProperty(exports, "named", {
-  enumerable: true,
-  get: function () {
-    return _foo().named;
-  }
-});
 
 
 "#
@@ -2574,6 +2574,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+Object.defineProperty(exports, "namespace", {
+  enumerable: true,
+  get: function () {
+    return namespace();
+  }
+});
+
 function namespace() {
   const data = _interopRequireWildcard(require("foo"));
 
@@ -2584,13 +2591,6 @@ function namespace() {
   return data;
 }
 
-
-Object.defineProperty(exports, "namespace", {
-  enumerable: true,
-  get: function () {
-    return namespace();
-  }
-});
 
 "#
 );
@@ -3479,6 +3479,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _foo().default;
+  }
+});
+
 function _foo() {
   const data = _interopRequireDefault(require("foo"));
 
@@ -3488,13 +3495,6 @@ function _foo() {
 
   return data;
 }
-
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _foo().default;
-  }
-});
 
 "#
 );
@@ -3642,14 +3642,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _foo = require("./foo");
-
 Object.defineProperty(exports, "named", {
   enumerable: true,
   get: function () {
     return _foo.named;
   }
 });
+
+var _foo = require("./foo");
 "#
 );
 
