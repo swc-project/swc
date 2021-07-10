@@ -142,10 +142,12 @@ impl Visit for ImportAnalyzer {
 
     fn visit_named_export(&mut self, export: &NamedExport, _parent: &dyn Node) {
         let mut scope = self.scope.borrow_mut();
-        for &ExportNamedSpecifier { ref orig, .. } in export.specifiers.iter().map(|e| match *e {
-            ExportSpecifier::Named(ref e) => e,
-            _ => unreachable!("export default from 'foo'; should be removed by previous pass"),
-        }) {
+        for &ExportNamedSpecifier { ref orig, .. } in
+            export.specifiers.iter().filter_map(|e| match *e {
+                ExportSpecifier::Named(ref e) => Some(e),
+                _ => None,
+            })
+        {
             let is_import_default = orig.sym == js_word!("default");
 
             if let Some(ref src) = export.src {
