@@ -1,46 +1,52 @@
 use swc_atoms::js_word;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::ExprFactory;
-use swc_ecma_visit::noop_visit_type;
-use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, noop_visit_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::{Fold, Node, Visit, VisitWith};
 
-pub fn typeof_symbol() -> impl Fold {
-    TypeOfSymbol
+pub fn typeof_symbol() -> impl VisitMut + Fold {
+    as_folder(TypeOfSymbol)
 }
 
 #[derive(Clone)]
 struct TypeOfSymbol;
 
 #[fast_path(TypeOfFinder)]
-impl Fold for TypeOfSymbol {
-    noop_fold_type!();
+impl VisitMut for TypeOfSymbol {
+    noop_visit_mut_type!();
 
-    fn fold_expr(&mut self, expr: Expr) -> Expr {
-        let expr = expr.fold_children_with(self);
+    fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
 
         match expr {
             Expr::Unary(UnaryExpr {
                 span,
                 op: op!("typeof"),
                 arg,
-            }) => Expr::Call(CallExpr {
-                span,
-                callee: helper!(span, type_of, "typeof"),
-                args: vec![arg.as_arg()],
+            }) => {
+                *expr = Expr::Call(CallExpr {
+                    span: *span,
+                    callee: helper!(*span, type_of, "typeof"),
+                    args: vec![arg.take().as_arg()],
 
-                type_args: Default::default(),
-            }),
-            _ => expr,
+                    type_args: Default::default(),
+                });
+            }
+            _ => {}
         }
     }
 
-    fn fold_bin_expr(&mut self, expr: BinExpr) -> BinExpr {
+    fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
         match expr.op {
             op!("==") | op!("!=") | op!("===") | op!("!==") => {}
-            _ => return expr.fold_children_with(self),
+            _ => {
+                expr.visit_mut_children_with(self);
+                return;
+            }
         }
 
         match *expr.left {
@@ -48,7 +54,7 @@ impl Fold for TypeOfSymbol {
                 op: op!("typeof"), ..
             }) => {
                 if is_non_symbol_literal(&expr.right) {
-                    return expr;
+                    return;
                 }
             }
             _ => {}
@@ -58,13 +64,13 @@ impl Fold for TypeOfSymbol {
                 op: op!("typeof"), ..
             }) => {
                 if is_non_symbol_literal(&expr.left) {
-                    return expr;
+                    return;
                 }
             }
             _ => {}
         }
 
-        expr.fold_children_with(self)
+        expr.visit_mut_children_with(self)
     }
 }
 
@@ -129,7 +135,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| TypeOfSymbol,
+        |_| typeof_symbol(),
         dont_touch_non_symbol_comparison,
         "typeof window !== 'undefined'",
         "typeof window !== 'undefined'"
@@ -137,7 +143,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| TypeOfSymbol,
+        |_| typeof_symbol(),
         dont_touch_non_symbol_comparison_02,
         "'undefined' !== typeof window",
         "'undefined' !== typeof window"
@@ -145,7 +151,7 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| TypeOfSymbol,
+        |_| typeof_symbol(),
         issue_1843_1,
         "
         function isUndef(type) {
