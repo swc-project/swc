@@ -757,14 +757,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _foo = _interopRequireDefault(require("foo"));
-
 Object.defineProperty(exports, "foo", {
   enumerable: true,
   get: function () {
     return _foo.default;
   }
 });
+
+var _foo = _interopRequireDefault(require("foo"));
 
 "#
 );
@@ -975,14 +975,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _foo = require("foo");
-
 Object.defineProperty(exports, "bar", {
   enumerable: true,
   get: function () {
     return _foo.foo;
   }
 });
+
+var _foo = require("foo");
 
 "#
 );
@@ -2288,14 +2288,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _foo = require("foo");
-
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
     return _foo.foo;
   }
 });
+
+var _foo = require("foo");
 
 "#
 );
@@ -2705,8 +2705,6 @@ export { foo, foo1, foo2, foo3, foo4, foo5, foo6, foo7, foo8, foo9, foo10, foo11
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _foo = require("foo");
 
 Object.defineProperty(exports, "foo", {
   enumerable: true,
@@ -3314,6 +3312,8 @@ Object.defineProperty(exports, "foo100", {
     return _foo.foo100;
   }
 });
+
+var _foo = require("foo");
 
 "#
 );
