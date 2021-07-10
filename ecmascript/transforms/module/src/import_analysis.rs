@@ -38,6 +38,30 @@ impl Fold for ImportAnalyzer {
 impl Visit for ImportAnalyzer {
     noop_visit_type!();
 
+    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+        n.visit_children_with(self);
+        let mut scope = self.scope.borrow_mut();
+        match &n.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(callee) => {
+                    if callee.sym == js_word!("import") {
+                        if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
+                            match &**expr {
+                                Expr::Lit(Lit::Str(src)) => {
+                                    *scope.import_types.entry(src.value.clone()).or_default() =
+                                        true;
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {
         *self
             .scope
@@ -122,30 +146,6 @@ impl Visit for ImportAnalyzer {
                         .and_modify(|v| *v = true);
                 }
             }
-        }
-    }
-
-    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
-        n.visit_children_with(self);
-        let mut scope = self.scope.borrow_mut();
-        match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
-                    if callee.sym == js_word!("import") {
-                        if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
-                            match &**expr {
-                                Expr::Lit(Lit::Str(src)) => {
-                                    *scope.import_types.entry(src.value.clone()).or_default() =
-                                        true;
-                                }
-                                _ => {}
-                            }
-                        }
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
         }
     }
 }
