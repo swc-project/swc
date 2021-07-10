@@ -88,7 +88,6 @@ function _wrapAsyncGenerator(fn) {
         return new AsyncGenerator(fn.apply(this, arguments));
     };
 }
-var _marked = regeneratorRuntime.mark(_lol);
 function _lol() {
     _lol = _wrapAsyncGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {

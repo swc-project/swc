@@ -28,7 +28,6 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var _marked = regeneratorRuntime.mark(_scanUser);
 function _scanUser() {
     _scanUser = _asyncToGenerator(regeneratorRuntime.mark(function _callee(groups) {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {

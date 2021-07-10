@@ -28,7 +28,6 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var _marked = regeneratorRuntime.mark(_f);
 function _f() {
     _f = _asyncToGenerator(regeneratorRuntime.mark(function _callee(a, b) {
         var a_;

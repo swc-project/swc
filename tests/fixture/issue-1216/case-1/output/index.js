@@ -28,7 +28,6 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var _marked = regeneratorRuntime.mark(_request);
 var source = Math.random() < 2 ? 'matilda' : 'fred';
 var details = {
     _id: '1'
