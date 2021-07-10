@@ -1,10 +1,11 @@
 use swc_atoms::js_word;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_base::perf::Check;
 use swc_ecma_transforms_macros::fast_path;
-use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, noop_visit_type, VisitMut, VisitMutWith};
 use swc_ecma_visit::{Fold, Node, Visit, VisitWith};
 
@@ -27,15 +28,49 @@ impl VisitMut for TypeOfSymbol {
                 span,
                 op: op!("typeof"),
                 arg,
-            }) => {
-                *expr = Expr::Call(CallExpr {
-                    span: *span,
-                    callee: helper!(*span, type_of, "typeof"),
-                    args: vec![arg.take().as_arg()],
+            }) => match &**arg {
+                Expr::Ident(..) => {
+                    let undefined_str = quote_str!("undefined");
+                    let undefined_str = Box::new(Expr::Lit(Lit::Str(undefined_str)));
 
-                    type_args: Default::default(),
-                });
-            }
+                    let test = Box::new(Expr::Bin(BinExpr {
+                        span: DUMMY_SP,
+                        op: op!("==="),
+                        left: Box::new(Expr::Unary(UnaryExpr {
+                            span: DUMMY_SP,
+                            op: op!("typeof"),
+                            arg: arg.clone(),
+                        })),
+                        right: undefined_str.clone(),
+                    }));
+
+                    let call = Expr::Call(CallExpr {
+                        span: *span,
+                        callee: helper!(*span, type_of, "typeof"),
+                        args: vec![arg.take().as_arg()],
+
+                        type_args: Default::default(),
+                    });
+
+                    *expr = Expr::Cond(CondExpr {
+                        span: *span,
+                        test,
+                        cons: undefined_str,
+                        alt: Box::new(call),
+                    });
+                }
+                _ => {
+                    let call = Expr::Call(CallExpr {
+                        span: *span,
+                        callee: helper!(*span, type_of, "typeof"),
+                        args: vec![arg.take().as_arg()],
+
+                        type_args: Default::default(),
+                    });
+
+                    *expr = call;
+                }
+            },
             _ => {}
         }
     }
