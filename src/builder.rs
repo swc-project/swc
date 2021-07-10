@@ -185,7 +185,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             ))
         };
 
-        let scope = Rc::new(RefCell::new(Scope::default()));
+        let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
             self.pass,
             compat_pass,
@@ -193,7 +193,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Optional::new(export_namespace_from(), need_interop_analysis),
             // module / helper
             Optional::new(
-                modules::import_analysis::import_analyzer(Rc::clone(&scope)),
+                modules::import_analysis::import_analyzer(Rc::clone(&module_scope)),
                 need_interop_analysis
             ),
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
@@ -204,7 +204,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 base,
                 self.global_mark,
                 module,
-                Rc::clone(&scope)
+                Rc::clone(&module_scope)
             ),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
