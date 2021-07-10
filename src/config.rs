@@ -22,6 +22,7 @@ use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::modules::hoist::import_hoister;
 use swc_ecma_transforms::modules::path::NodeImportResolver;
 use swc_ecma_transforms::{hygiene, modules::util::Scope};
 use swc_ecma_transforms::{
@@ -654,7 +655,7 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6) => Box::new(noop()),
+            None | Some(ModuleConfig::Es6) => Box::new(import_hoister()),
             Some(ModuleConfig::CommonJs(config)) => {
                 if paths.is_empty() {
                     Box::new(modules::common_js::common_js(

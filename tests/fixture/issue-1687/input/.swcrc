@@ -1,0 +1,20 @@
+{
+    "jsc": {
+        "target": "es5",
+        "parser": {
+            "tsx": true,
+            "syntax": "typescript",
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "externalHelpers": true
+    },
+    "env": {
+        "coreJs": "3",
+        "mode": "usage"
+    }
+}

@@ -509,7 +509,6 @@ test!(
         ",
     r#"
         var regeneratorRuntime = require("regenerator-runtime");
-        var _marked = regeneratorRuntime.mark(_foo);
         function _foo() {
             _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
                 return regeneratorRuntime.wrap(function _callee$(_ctx) {

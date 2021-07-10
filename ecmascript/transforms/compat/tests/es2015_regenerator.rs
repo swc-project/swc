@@ -1193,7 +1193,6 @@ test!(
     ",
     "
     var regeneratorRuntime = require('regenerator-runtime');
-    var _marked = regeneratorRuntime.mark(_test);
 
     function _test() {
         _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {

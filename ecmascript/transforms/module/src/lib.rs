@@ -8,6 +8,7 @@ pub use self::umd::umd;
 pub mod util;
 pub mod amd;
 pub mod common_js;
+pub mod hoist;
 pub mod import_analysis;
 pub mod path;
 pub mod umd;

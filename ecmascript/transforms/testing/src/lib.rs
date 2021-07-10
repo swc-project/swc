@@ -12,6 +12,7 @@ use std::{
     process::Command,
     sync::{Arc, RwLock},
 };
+use swc_common::chain;
 use swc_common::DUMMY_SP;
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, sync::Lrc, FileName, SourceMap,
@@ -22,8 +23,12 @@ use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::fixer;
 use swc_ecma_transforms_base::helpers::{inject_helpers, HELPERS};
 use swc_ecma_transforms_base::hygiene;
+use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::quote_str;
 use swc_ecma_utils::DropSpan;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::HANDLER;
+use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{as_folder, Fold, FoldWith};
@@ -193,12 +198,59 @@ impl<'a> Tester<'a> {
     }
 }
 
+struct RegeneratorHandler;
+
+impl VisitMut for RegeneratorHandler {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module_item(&mut self, item: &mut ModuleItem) {
+        match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
+                if &*import.src.value != "regenerator-runtime" {
+                    return;
+                }
+
+                let s = import.specifiers.iter().find_map(|v| match v {
+                    ImportSpecifier::Default(rt) => Some(rt.local.clone()),
+                    _ => None,
+                });
+
+                let s = match s {
+                    Some(v) => v,
+                    _ => return,
+                };
+
+                let init = Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: quote_ident!("require").as_callee(),
+                    args: vec![quote_str!("regenerator-runtime").as_arg()],
+                    type_args: Default::default(),
+                }));
+
+                let decl = VarDeclarator {
+                    span: DUMMY_SP,
+                    name: Pat::Ident(s.into()),
+                    init: Some(init),
+                    definite: Default::default(),
+                };
+                *item = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: import.span,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![decl],
+                })))
+            }
+            _ => {}
+        }
+    }
+}
+
 fn make_tr<F, P>(_: &'static str, op: F, tester: &mut Tester<'_>) -> impl Fold
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
 {
-    op(tester)
+    chain!(op(tester), as_folder(RegeneratorHandler))
 }
 
 pub fn test_transform<F, P>(
