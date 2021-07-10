@@ -4165,14 +4165,14 @@ test!(
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+Object.defineProperty(exports, "Scope", {
+  enumerable: true,
+  get: function() {
+      return _interfaces.Scope;
+  }
+});
 var _http = require("./http");
 var _interfaces = require("./interfaces");
-Object.defineProperty(exports, "Scope", {
-    enumerable: true,
-    get: function() {
-        return _interfaces.Scope;
-    }
-});
 Object.keys(_http).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (key in exports && exports[key] === _http[key]) return;
@@ -4204,18 +4204,18 @@ export * from './pipes';
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    var _exportNames = {
-    };
-    require("reflect-metadata");
-    var _http = require("./http");
-    var _interfaces = require("./interfaces");
-    var _pipes = require("./pipes");
     Object.defineProperty(exports, "id", {
         enumerable: true,
         get: function() {
             return _interfaces.id;
         }
     });
+    var _exportNames = {
+    };
+    require("reflect-metadata");
+    var _http = require("./http");
+    var _interfaces = require("./interfaces");
+    var _pipes = require("./pipes");
     Object.keys(_http).forEach(function(key) {
         if (key === "default" || key === "__esModule") return;
         if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -4817,6 +4817,12 @@ test!(
     Object.defineProperty(exports, '__esModule', {
       value: true
     });
+    Object.defineProperty(exports, 'Foo', {
+      enumerable: true,
+      get: function() {
+          return _foo.Foo;
+      }
+    });
     var _foo = _interopRequireWildcard(require('foo'));
     function _interopRequireWildcard(obj) {
         if (obj && obj.__esModule) {
@@ -4840,12 +4846,6 @@ test!(
             return newObj;
         }
     }
-    Object.defineProperty(exports, 'Foo', {
-        enumerable: true,
-        get: function() {
-            return _foo.Foo;
-        }
-    });
     "
 );
 
