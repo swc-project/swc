@@ -421,8 +421,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
-
 Object.defineProperty(exports, "Foo", {
   enumerable: true,
   get: function () {
@@ -435,6 +433,7 @@ Object.defineProperty(exports, "baz", {
     return _moduleWithGetter.baz;
   }
 });
+var _moduleWithGetter = _interopRequireWildcard(require("./moduleWithGetter"));
 
 "#
 );
@@ -2640,14 +2639,13 @@ export { default } from 'foo';
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _foo = require("foo");
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
     return _foo.default;
   }
 });
-
+var _foo = require("foo");
 
 "#
 );
