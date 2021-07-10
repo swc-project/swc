@@ -187,15 +187,15 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 
         let module_scope = Rc::new(RefCell::new(Scope::default()));
         chain!(
-            self.pass,
-            compat_pass,
-            compat::reserved_words::reserved_words(),
-            Optional::new(export_namespace_from(), need_interop_analysis),
             // module / helper
             Optional::new(
                 modules::import_analysis::import_analyzer(Rc::clone(&module_scope)),
                 need_interop_analysis
             ),
+            self.pass,
+            compat_pass,
+            compat::reserved_words::reserved_words(),
+            Optional::new(export_namespace_from(), need_interop_analysis),
             Optional::new(helpers::inject_helpers(), self.inject_helpers),
             ModuleConfig::build(
                 self.cm.clone(),
