@@ -31,6 +31,16 @@ impl Fold for ImportAnalyzer {
             }
         }
 
+        let (need_wildcard, need_default) = self.scope.borrow().unknown_imports;
+
+        if need_wildcard {
+            enable_helper!(interop_require_wildcard);
+        }
+
+        if need_default {
+            enable_helper!(interop_require_default);
+        }
+
         module
     }
 }
@@ -51,7 +61,9 @@ impl Visit for ImportAnalyzer {
                                     *scope.import_types.entry(src.value.clone()).or_default() =
                                         true;
                                 }
-                                _ => {}
+                                _ => {
+                                    scope.unknown_imports.0 = true;
+                                }
                             }
                         }
                     }

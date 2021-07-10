@@ -1,6 +1,6 @@
 use crate::path::ImportResolver;
 use anyhow::Context;
-use fxhash::FxHashSet;
+use fxhash::{FxBuildHasher, FxHashMap, FxHashSet};
 use indexmap::IndexMap;
 use inflector::Inflector;
 use serde::{Deserialize, Serialize};
@@ -94,11 +94,16 @@ pub struct Scope {
     ///
     ///  - `import * as bar1 from 'bar';`
     ///   -> `{'bar': Some(bar1)}`
-    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>>,
+    pub(crate) imports: IndexMap<JsWord, Option<(JsWord, Span)>, FxBuildHasher>,
     ///
     /// - `true` is wildcard (`_interopRequireWildcard`)
     /// - `false` is default (`_interopRequireDefault`)
-    pub(crate) import_types: HashMap<JsWord, bool>,
+    pub(crate) import_types: FxHashMap<JsWord, bool>,
+
+    /// This fields tracks if a helper should be injected.
+    ///
+    /// `(need_wildcard, need_default)`
+    pub(crate) unknown_imports: (bool, bool),
 
     /// Map from imported ident to (source file, property name).
     ///
@@ -108,7 +113,7 @@ pub struct Scope {
     ///
     ///  - `import foo from 'bar';`
     ///   -> `{foo: ('bar', default)}`
-    pub(crate) idents: HashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
+    pub(crate) idents: FxHashMap<(JsWord, SyntaxContext), (JsWord, JsWord)>,
 
     /// Declared variables except const.
     pub(crate) declared_vars: Vec<(JsWord, SyntaxContext)>,
