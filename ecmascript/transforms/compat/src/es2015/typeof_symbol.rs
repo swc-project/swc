@@ -124,10 +124,11 @@ fn is_non_symbol_literal(e: &Expr) -> bool {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use swc_ecma_parser::Syntax;
     use swc_ecma_transforms_testing::test;
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        Syntax::default(),
         |_| TypeOfSymbol,
         dont_touch_non_symbol_comparison,
         "typeof window !== 'undefined'",
@@ -135,10 +136,29 @@ mod tests {
     );
 
     test!(
-        ::swc_ecma_parser::Syntax::default(),
+        Syntax::default(),
         |_| TypeOfSymbol,
         dont_touch_non_symbol_comparison_02,
         "'undefined' !== typeof window",
         "'undefined' !== typeof window"
+    );
+
+    test!(
+        Syntax::default(),
+        |_| TypeOfSymbol,
+        issue_1843_1,
+        "
+        function isUndef(type) {
+            return type === 'undefined';
+        }
+        
+        var isWeb = !isUndef(typeof window) && 'onload' in window;
+        exports.isWeb = isWeb;
+        var isNode = !isUndef(typeof process) && !!(process.versions && process.versions.node);
+        exports.isNode = isNode;
+        var isWeex = !isUndef(typeof WXEnvironment) && WXEnvironment.platform !== 'Web';
+        exports.isWeex = isWeex;
+        ",
+        ""
     );
 }
