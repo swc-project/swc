@@ -3,12 +3,13 @@ use super::util::{
     define_es_module, define_property, has_use_strict, initialize_to_undefined, make_descriptor,
     make_require_call, use_strict, ModulePass, Scope,
 };
+use crate::hoist::export_hoister;
 use crate::path::{ImportResolver, NoopImportResolver};
 use fxhash::FxHashSet;
 use std::cell::{Ref, RefCell, RefMut};
 use std::rc::Rc;
 use swc_atoms::js_word;
-use swc_common::FileName;
+use swc_common::{chain, FileName};
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -23,13 +24,16 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn common_js(root_mark: Mark, config: Config, scope: Option<Rc<RefCell<Scope>>>) -> impl Fold {
     let scope = scope.unwrap_or_default();
-    CommonJs {
-        root_mark,
-        config,
-        scope,
-        in_top_level: Default::default(),
-        resolver: None::<(NoopImportResolver, _)>,
-    }
+    chain!(
+        export_hoister(),
+        CommonJs {
+            root_mark,
+            config,
+            scope,
+            in_top_level: Default::default(),
+            resolver: None::<(NoopImportResolver, _)>,
+        }
+    )
 }
 
 pub fn common_js_with_resolver<R>(
@@ -44,13 +48,16 @@ where
 {
     let scope = scope.unwrap_or_default();
 
-    CommonJs {
-        root_mark,
-        config,
-        scope,
-        in_top_level: Default::default(),
-        resolver: Some((resolver, base)),
-    }
+    chain!(
+        export_hoister(),
+        CommonJs {
+            root_mark,
+            config,
+            scope,
+            in_top_level: Default::default(),
+            resolver: Some((resolver, base)),
+        }
+    )
 }
 
 struct CommonJs<P>

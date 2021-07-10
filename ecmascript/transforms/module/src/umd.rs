@@ -1,16 +1,17 @@
-use std::cell::Ref;
-use std::cell::RefCell;
-use std::cell::RefMut;
-
 use self::config::BuiltConfig;
 pub use self::config::Config;
 use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, make_require_call, use_strict, Exports, ModulePass, Scope,
 };
+use crate::hoist::export_hoister;
 use crate::path::{ImportResolver, NoopImportResolver};
 use fxhash::FxHashSet;
+use std::cell::Ref;
+use std::cell::RefCell;
+use std::cell::RefMut;
 use swc_atoms::js_word;
+use swc_common::chain;
 use swc_common::FileName;
 use swc_common::{sync::Lrc, Mark, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -25,17 +26,20 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 mod config;
 
 pub fn umd(cm: Lrc<SourceMap>, root_mark: Mark, config: Config) -> impl Fold {
-    Umd {
-        config: config.build(cm.clone()),
-        root_mark,
-        cm,
+    chain!(
+        export_hoister(),
+        Umd {
+            config: config.build(cm.clone()),
+            root_mark,
+            cm,
 
-        in_top_level: Default::default(),
-        scope: RefCell::new(Default::default()),
-        exports: Default::default(),
+            in_top_level: Default::default(),
+            scope: RefCell::new(Default::default()),
+            exports: Default::default(),
 
-        resolver: None::<(NoopImportResolver, _)>,
-    }
+            resolver: None::<(NoopImportResolver, _)>,
+        }
+    )
 }
 
 pub fn umd_with_resolver<R>(
@@ -48,17 +52,20 @@ pub fn umd_with_resolver<R>(
 where
     R: ImportResolver,
 {
-    Umd {
-        config: config.build(cm.clone()),
-        root_mark,
-        cm,
+    chain!(
+        export_hoister(),
+        Umd {
+            config: config.build(cm.clone()),
+            root_mark,
+            cm,
 
-        in_top_level: Default::default(),
-        scope: Default::default(),
-        exports: Default::default(),
+            in_top_level: Default::default(),
+            scope: Default::default(),
+            exports: Default::default(),
 
-        resolver: Some((resolver, base)),
-    }
+            resolver: Some((resolver, base)),
+        }
+    )
 }
 
 struct Umd<R>

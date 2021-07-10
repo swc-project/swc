@@ -2,6 +2,7 @@ use super::util::{
     self, define_es_module, define_property, has_use_strict, initialize_to_undefined,
     local_name_for_src, make_descriptor, use_strict, Exports, ModulePass, Scope,
 };
+use crate::hoist::export_hoister;
 use crate::path::{ImportResolver, NoopImportResolver};
 use anyhow::Context;
 use fxhash::FxHashSet;
@@ -11,6 +12,7 @@ use std::cell::RefCell;
 use std::cell::RefMut;
 use std::iter;
 use swc_atoms::js_word;
+use swc_common::chain;
 use swc_common::FileName;
 use swc_common::{Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -25,28 +27,34 @@ use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 pub fn amd(config: Config) -> impl Fold {
-    Amd {
-        config,
-        in_top_level: Default::default(),
-        scope: RefCell::new(Default::default()),
-        exports: Default::default(),
+    chain!(
+        export_hoister(),
+        Amd {
+            config,
+            in_top_level: Default::default(),
+            scope: RefCell::new(Default::default()),
+            exports: Default::default(),
 
-        resolver: None::<(NoopImportResolver, _)>,
-    }
+            resolver: None::<(NoopImportResolver, _)>,
+        }
+    )
 }
 
 pub fn amd_with_resolver<R>(resolver: R, base: FileName, config: Config) -> impl Fold
 where
     R: ImportResolver,
 {
-    Amd {
-        config,
-        in_top_level: Default::default(),
-        scope: Default::default(),
-        exports: Default::default(),
+    chain!(
+        export_hoister(),
+        Amd {
+            config,
+            in_top_level: Default::default(),
+            scope: Default::default(),
+            exports: Default::default(),
 
-        resolver: Some((resolver, base)),
-    }
+            resolver: Some((resolver, base)),
+        }
+    )
 }
 
 struct Amd<R>
