@@ -141,6 +141,18 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_named_export(&mut self, export: &NamedExport, _parent: &dyn Node) {
+        if export.specifiers.iter().any(|v| match v {
+            ExportSpecifier::Namespace(..) => true,
+            _ => false,
+        }) {
+            let mut scope = self.scope.borrow_mut();
+
+            if let Some(ref src) = export.src {
+                *scope.import_types.entry(src.value.clone()).or_default() = true;
+            }
+            return;
+        }
+
         let mut scope = self.scope.borrow_mut();
         for &ExportNamedSpecifier { ref orig, .. } in
             export.specifiers.iter().filter_map(|e| match *e {
