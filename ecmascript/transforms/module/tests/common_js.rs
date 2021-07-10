@@ -1340,6 +1340,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _white().default;
+  }
+});
+
 function _white() {
     const data = _interopRequireDefault(require("white"));
     _white = function() {
@@ -1347,13 +1354,6 @@ function _white() {
     };
     return data;
 }
-
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _white().default;
-  }
-});
 
 "#
 );
@@ -2142,18 +2142,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-function _white() {
-  const data = require("white");
-
-  _white = function () {
-    return data;
-  };
-
-  return data;
-}
-
-var _black = require("black");
-
 Object.defineProperty(exports, "named1", {
   enumerable: true,
   get: function () {
@@ -2167,7 +2155,17 @@ Object.defineProperty(exports, "named2", {
   }
 });
 
+function _white() {
+  const data = require("white");
 
+  _white = function () {
+    return data;
+  };
+
+  return data;
+}
+
+var _black = require("black");
 
 
 "#
