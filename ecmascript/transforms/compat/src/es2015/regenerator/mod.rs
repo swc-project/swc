@@ -140,31 +140,35 @@ impl Fold for Regenerator {
 
         let f = f.fold_children_with(self);
 
-        let marked = private_ident!("_marked");
+        if f.function.is_generator {
+            let marked = private_ident!("_marked");
 
-        self.top_level_vars.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: Pat::Ident(marked.clone().into()),
-            init: Some(Box::new(Expr::Call(CallExpr {
+            self.top_level_vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                callee: self
-                    .regenerator_runtime
-                    .clone()
-                    .unwrap()
-                    .make_member(quote_ident!("mark"))
-                    .as_callee(),
-                args: vec![f.ident.clone().as_arg()],
-                type_args: None,
-            }))),
-            definite: false,
-        });
+                name: Pat::Ident(marked.clone().into()),
+                init: Some(Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: self
+                        .regenerator_runtime
+                        .clone()
+                        .unwrap()
+                        .make_member(quote_ident!("mark"))
+                        .as_callee(),
+                    args: vec![f.ident.clone().as_arg()],
+                    type_args: None,
+                }))),
+                definite: false,
+            });
 
-        let (i, function) = self.fold_fn(Some(f.ident), marked, f.function);
+            let (i, function) = self.fold_fn(Some(f.ident), marked, f.function);
 
-        FnDecl {
-            ident: i.unwrap(),
-            function,
-            ..f
+            FnDecl {
+                ident: i.unwrap(),
+                function,
+                ..f
+            }
+        } else {
+            f
         }
     }
 
