@@ -2576,7 +2576,6 @@ test!(
     ",
     "
     var regeneratorRuntime = require('regenerator-runtime');
-    var _marked = regeneratorRuntime.mark(_getThing);
     const cache = {
     };
     function _getThing() {
