@@ -4475,10 +4475,10 @@ return 5;
         value: true
     });
     exports.default = _callee;
-    var regeneratorRuntime = require("regenerator-runtime");
+    var _regeneratorRuntime = _interopRequireDefault(require('regenerator-runtime'));
     function _callee() {
         var x;
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+        return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
@@ -4512,10 +4512,10 @@ Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.myGenerator = myGenerator;
-var regeneratorRuntime = require('regenerator-runtime');
-var _marked = regeneratorRuntime.mark(myGenerator);
+var _regeneratorRuntime = _interopRequireDefault(require('regenerator-runtime'));
+var _marked = _regeneratorRuntime.default.mark(myGenerator);
 function myGenerator() {
-  return regeneratorRuntime.wrap(function myGenerator$(_ctx) {
+  return _regeneratorRuntime.default.wrap(function myGenerator$(_ctx) {
       while(1)switch(_ctx.prev = _ctx.next){
           case 0:
               return _ctx.delegateYield([
