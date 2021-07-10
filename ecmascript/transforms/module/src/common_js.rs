@@ -460,7 +460,7 @@ where
                                         .into(),
                                     );
                                 } else {
-                                    extra_stmts.push(
+                                    stmts.push(
                                         define_property(vec![
                                             quote_ident!("exports").as_arg(),
                                             {
