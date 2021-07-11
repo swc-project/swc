@@ -142,8 +142,8 @@ impl Optimizer<'_> {
     }
 
     ///
-    /// - `foo ? 1 : false` => `!!foo && 1`
-    /// - `!foo ? true : 0` => `!foo || 0`
+    /// - `foo ? bar : false` => `!!foo && bar`
+    /// - `!foo ? true : bar` => `!foo || bar`
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(cond) => cond,
