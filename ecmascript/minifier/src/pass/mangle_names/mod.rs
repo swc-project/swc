@@ -117,7 +117,7 @@ impl VisitMut for Mangler {
 
     fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
         if !self.options.keep_private_props {
-           self.rename_private(private_name);
+            self.rename_private(private_name);
         }
     }
 
