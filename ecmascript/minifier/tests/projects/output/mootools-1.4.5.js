@@ -1508,7 +1508,7 @@ Function.implement(
             options
         ) {
             return (
-                (options ||= {
+                (options = options || {
                 }),
                 function (
                     event
@@ -2352,7 +2352,9 @@ Hash.alias(
             function (
                 event, win
             ) {
-                if ((win || (win = window), (event ||= win.event), event.$extended))
+                if (
+                    (win || (win = window), (event = event || win.event), event.$extended)
+                )
                     return event;
                 (this.event = event),
                 (this.$extended = !0),
@@ -3052,17 +3054,17 @@ function (
                 return "";
         }
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
-            combinator ||= " ";
+            combinator = combinator || " ";
             var currentSeparator = parsed.expressions[separatorIndex];
             reversed &&
           currentSeparator[combinatorIndex] &&
           (currentSeparator[
               combinatorIndex
           ].reverseCombinator = reverseCombinator(
-              " "
+              combinator
           )),
             (currentSeparator[++combinatorIndex] = {
-                combinator: " ",
+                combinator: combinator,
                 tag: "*",
             });
         }
@@ -3096,7 +3098,7 @@ function (
                 }
             );
         else if (pseudoClass)
-            (pseudoClassValue ||= pseudoClassQuotedValue),
+            (pseudoClassValue = pseudoClassValue || pseudoClassQuotedValue),
             (pseudoClassValue = pseudoClassValue
                 ? pseudoClassValue.replace(
                     reUnescape,
@@ -3986,9 +3988,10 @@ function (
                         )] = count++;
                     } while ((el = el[sibling]));
             }
-            argument ||= "n";
-            var parsed = this.cacheNTH.n || this.parseNTHArgument(
-                "n"
+            argument = argument || "n";
+            var parsed =
+            this.cacheNTH[argument] || this.parseNTHArgument(
+                argument
             );
             if (!parsed) return !1;
             var a = parsed.a,
@@ -4900,7 +4903,7 @@ new Type(
                         element,
                         args
                     ));
-                elements &&= "element" == typeOf(
+                elements = elements && "element" == typeOf(
                     result
                 );
             }
@@ -8764,7 +8767,7 @@ Element1.alias(
                 });
                                 }
                             ),
-                            (found ||= {
+                            (found = found || {
                                 value: val,
                                 parser: Fx.CSS.Parsers.String,
                             })

@@ -488,7 +488,7 @@
                 if (!data || "string" !== typeof data) return null;
                 "boolean" == typeof context &&
           ((keepScripts = context), (context = !1)),
-                (context ||= document);
+                (context = context || document);
                 var parsed = rsingleTag.exec(
                         data
                     ),
@@ -1183,7 +1183,7 @@
                     context, args
                 ) {
                     return (
-                        (args ||= []),
+                        (args = args || []),
                         (args = [context, args.slice
                             ? args.slice(
                             )
@@ -2077,7 +2077,7 @@
             dequeue: function (
                 elem, type
             ) {
-                type ||= "fx";
+                type = type || "fx";
                 var queue = jQuery.queue(
                         elem,
                         type
@@ -2198,8 +2198,9 @@
             ) {
                 return (
                     (time = jQuery.fx ? jQuery.fx.speeds[time] || time : time),
+                    (type = type || "fx"),
                     this.queue(
-                        "fx",
+                        type,
                         function (
                             next, hooks
                         ) {
@@ -2243,7 +2244,7 @@
                     };
                 for (
                     "string" !== typeof type && ((obj = type), (type = void 0)),
-                    type ||= "fx";
+                    type = type || "fx";
                     i--;
 
                 )
@@ -3417,7 +3418,7 @@
                     )
                     : [];
             if (
-                ((cur = tmp = elem ||= document),
+                ((cur = tmp = elem = elem || document),
                 3 === elem.nodeType || 8 === elem.nodeType)
             )
                 return;
@@ -4216,7 +4217,7 @@
                 var type, origFn;
                 if ("object" == typeof types) {
                     "string" !== typeof selector &&
-            ((data ||= selector), (selector = void 0));
+            ((data = data || selector), (selector = void 0));
                     for (type in types) this.on(
                         type,
                         selector,
@@ -4610,8 +4611,8 @@
             document1 && setDocument(
                     context
                 ),
-                (context ||= document1),
-                (results ||= []),
+                (context = context || document1),
+                (results = results || []),
                 !selector || "string" !== typeof selector)
             )
                 return results;
@@ -7229,7 +7230,7 @@
     function winnow(
         elements, qualifier, keep
     ) {
-        if (((qualifier ||= 0), jQuery.isFunction(
+        if (((qualifier = qualifier || 0), jQuery.isFunction(
             qualifier
         )))
             return jQuery.grep(
@@ -7812,7 +7813,7 @@
                         first)
                     ) {
                         for (
-                            table &&= jQuery.nodeName(
+                            table = table && jQuery.nodeName(
                                 first,
                                 "tr"
                             ),
@@ -8182,11 +8183,13 @@
                 if (dataAndEvents) {
                     if (deepDataAndEvents)
                         for (
-                            srcElements ||= getAll(
+                            srcElements = srcElements || getAll(
                                 elem
-                            ), destElements ||= getAll(
+                            ),
+                            destElements = destElements || getAll(
                                 clone
-                            ), i = 0;
+                            ),
+                            i = 0;
                             null != (node = srcElements[i]);
                             i++
                         )
@@ -8254,7 +8257,7 @@
                             );
                         else {
                             for (
-                                tmp ||= safe.appendChild(
+                                tmp = tmp || safe.appendChild(
                                     context.createElement(
                                         "div"
                                     )
@@ -9700,7 +9703,7 @@
                     jQuery.isFunction(
                         data
                     ) &&
-            ((type ||= callback), (callback = data), (data = void 0)),
+            ((type = type || callback), (callback = data), (data = void 0)),
                     jQuery.ajax(
                         {
                             url: url,
@@ -9792,7 +9795,7 @@
                     transport,
                     responseHeaders;
                 "object" == typeof url && ((options = url), (url = void 0)),
-                (options ||= {
+                (options = options || {
                 });
                 var s = jQuery.ajaxSetup(
                         {
@@ -10192,7 +10195,7 @@
                 }
                 firstDataType || (firstDataType = type);
             }
-            finalDataType ||= firstDataType;
+            finalDataType = finalDataType || firstDataType;
         }
         if (finalDataType)
             return (
@@ -10583,7 +10586,7 @@
                                 !0
                             ) || end || 1;
                             do
-                                (scale ||= ".5"),
+                                (scale = scale || ".5"),
                                 (start /= scale),
                                 jQuery.style(
                                     tween.elem,
@@ -10948,7 +10951,7 @@
             ))) {
                 if (
                     (delete props[index],
-                    (toggle ||= "toggle" === value),
+                    (toggle = toggle || "toggle" === value),
                     value === (dataShow.hidden ? "hide" : "show"))
                 )
                     continue;
@@ -11290,7 +11293,7 @@
                 type
             ) {
                 return (
-                    !1 !== type && (type ||= "fx"),
+                    !1 !== type && (type = type || "fx"),
                     this.each(
                         function (
                         ) {

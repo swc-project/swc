@@ -580,7 +580,7 @@
     function shallowCopy(
         src, dst
     ) {
-        dst ||= {
+        dst = dst || {
         };
         for (var key in src)
             src.hasOwnProperty(
@@ -1075,7 +1075,7 @@
                         tag,
                     );
                 }
-                (modules ||= []),
+                (modules = modules || []),
                 modules.unshift(
                     [
                         "$provide",
@@ -1156,7 +1156,7 @@
         name, separator
     ) {
         return (
-            (separator ||= "_"),
+            (separator = separator || "_"),
             name.replace(
                 SNAKE_CASE_REGEXP,
                 function (
@@ -2041,7 +2041,7 @@
                         msie <= 8 &&
               ((val = element.currentStyle && element.currentStyle[name]),
               "" === val && (val = "auto")),
-                        (val ||= element.style[name]),
+                        (val = val || element.style[name]),
                         msie <= 8 && (val = "" === val ? void 0 : val),
                         val
                     );
@@ -2574,7 +2574,7 @@
                     "events"
                 ) || {
                 })[eventName];
-                (eventData ||= []),
+                (eventData = eventData || []),
                 forEach(
                     eventFns,
                     function (
@@ -4647,7 +4647,7 @@
                     postLinkFns,
                     previousCompileContext,
                 ) {
-                    previousCompileContext ||= {
+                    previousCompileContext = previousCompileContext || {
                     };
                     for (
                         var terminalPriority = -Number.MAX_VALUE,
@@ -4692,7 +4692,7 @@
                             break;
                         if (
                             ((directiveValue = directive.scope) &&
-                  ((newScopeDirective ||= directive),
+                  ((newScopeDirective = newScopeDirective || directive),
                   !directive.templateUrl &&
                     (assertNoDuplicate(
                         "new/isolated scope",
@@ -4708,7 +4708,7 @@
                             !directive.templateUrl &&
                   directive.controller &&
                   ((directiveValue = directive.controller),
-                  (controllerDirectives ||= {
+                  (controllerDirectives = controllerDirectives || {
                   }),
                   assertNoDuplicate(
                       "'" + directiveName + "' controller",
@@ -4984,15 +4984,17 @@
                                     1
                                 )),
                                 "^" == value && (retrievalMethod = "inheritedData"),
-                                (optional ||= "?" == value);
+                                (optional = optional || "?" == value);
                             if (
                                 ((value = null),
                                 elementControllers &&
                     "data" === retrievalMethod &&
                     (value = elementControllers[require]),
-                                (value ||= $element[retrievalMethod](
-                                    "$" + require + "Controller",
-                                )),
+                                (value =
+                    value ||
+                    $element[retrievalMethod](
+                        "$" + require + "Controller"
+                    )),
                                 !value && !optional)
                             )
                                 throw $compileMinErr(
@@ -6817,7 +6819,7 @@
             if (
                 ($browser.$$incOutstandingRequestCount(
                 ),
-                (url ||= $browser.url(
+                (url = url || $browser.url(
                 )),
                 "jsonp" == lowercase(
                     method
@@ -7386,7 +7388,7 @@
     function LocationHtml5Url(
         appBase, basePrefix
     ) {
-        (this.$$html5 = !0), (basePrefix ||= "");
+        (this.$$html5 = !0), (basePrefix = basePrefix || "");
         var appBaseNoFile = stripFile(
             appBase
         );
@@ -8492,7 +8494,7 @@
         throwError: function (
             error, start, end
         ) {
-            this.index;
+            end = end || this.index;
             var colStr = isDefined(
                 start
             )
@@ -8503,10 +8505,10 @@
           " [" +
           this.text.substring(
               start,
-              this.index
+              end
           ) +
           "]"
-                : " " + this.index;
+                : " " + end;
             throw $parseMinErr(
                 "lexerr",
                 "Lexer Error: {0} at column{1} in expression [{2}].",
@@ -9553,7 +9555,7 @@
     function setter(
         obj, path, setValue, fullExp, options
     ) {
-        options ||= {
+        options = options || {
         };
         for (var element = path.split(
                 "."
@@ -12127,7 +12129,7 @@
         name, size, offset, trim1
     ) {
         return (
-            (offset ||= 0),
+            (offset = offset || 0),
             function (
                 date
             ) {
@@ -12226,7 +12228,7 @@
                 fn,
                 match;
             if (
-                ((format ||= "mediumDate"),
+                ((format = format || "mediumDate"),
                 (format = $locale.DATETIME_FORMATS[format] || format),
                 isString(
                     date
@@ -15547,7 +15549,7 @@
                                             scope1,
                                             locals
                                         );
-                                        selectedSet ||= selected;
+                                        selectedSet = selectedSet || selected;
                                     }
                                     (label = displayFn(
                                         scope1,

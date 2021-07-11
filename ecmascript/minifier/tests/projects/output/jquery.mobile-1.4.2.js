@@ -1863,7 +1863,7 @@
                     var prop,
                         callback = this.options[type];
                     if (
-                        ((data ||= {
+                        ((data = data || {
                         }),
                         (event = jQuery.Event(
                             event
@@ -1923,7 +1923,7 @@
                                 ? defaultEffect
                                 : options.effect || defaultEffect
                             : method;
-                        (options ||= {
+                        (options = options || {
                         }),
                         "number" == typeof options &&
                   (options = {
@@ -2097,7 +2097,8 @@
                                 theme
                             )),
                             (theme = loadSettings.theme))
-                            : ((loadSettings = this.options), (theme ||= loadSettings.theme)),
+                            : ((loadSettings = this.options),
+                            (theme = theme || loadSettings.theme)),
                         (message =
               msgText || (!1 === loadSettings.text ? "" : loadSettings.text)),
                         $html.addClass(
@@ -2173,9 +2174,11 @@
             function get_fragment(
                 url
             ) {
-                return "#" + location.href.replace(
-                    /^[^#]*#?(.*)$/,
-                    "$1"
+                return (
+                    (url = url || location.href), "#" + url.replace(
+                        /^[^#]*#?(.*)$/,
+                        "$1"
+                    )
                 );
             }
             (jQuery.fn.hashchange = function (
@@ -2274,7 +2277,7 @@
                   ) {
                       iframe ||
                     ((iframe_src = jQuery.fn.hashchange.src),
-                    (iframe_src += get_fragment(
+                    (iframe_src = iframe_src && iframe_src + get_fragment(
                     )),
                     (iframe = jQuery(
                         '<iframe tabindex="-1" title="empty"/>'
@@ -2972,8 +2975,11 @@
                     relPath, absPath
                 ) {
                     var absStack, relStack, i, d;
-                    if (0) return "";
+                    if (relPath && "/" === relPath.charAt(
+                        0
+                    )) return relPath;
                     for (
+                        relPath = relPath || "",
                         absPath = absPath
                             ? absPath.replace(
                                 /^\/|(\/[^\/]*|[^\/]+)$/g,
@@ -2985,7 +2991,7 @@
                                 "/"
                             )
                             : [],
-                        relStack = "".split(
+                        relStack = relPath.split(
                             "/"
                         ),
                         i = 0;
@@ -3244,13 +3250,15 @@
                         preservedHash = uri.hash,
                         uiState = "";
                     return (
-                        (resolutionUrl ||= path.isPath(
-                            url
-                        )
-                            ? path.getLocation(
-                            )
-                            : path.getDocumentUrl(
-                            )),
+                        (resolutionUrl =
+              resolutionUrl ||
+              (path.isPath(
+                  url
+              )
+                  ? path.getLocation(
+                  )
+                  : path.getDocumentUrl(
+                  ))),
                         (cleanedUrl = isPath
                             ? path.stripHash(
                                 url
@@ -3465,7 +3473,7 @@
                 add: function (
                     url, data
                 ) {
-                    (data ||= {
+                    (data = data || {
                     }),
                     this.getNext(
                     ) && this.clearForward(
@@ -3492,8 +3500,8 @@
                     url, stack, earlyReturn
                 ) {
                     var entry, i, index;
-                    stack ||= this.stack;
-                    var length = this.stack.length;
+                    stack = stack || this.stack;
+                    var length = stack.length;
                     for (i = 0; i < length; i++)
                         if (
                             ((entry = stack[i]),
@@ -4261,7 +4269,8 @@
                     flags = getVirtualBindingFlags(
                         event.target
                     );
-                (didScroll ||=
+                (didScroll =
+          didScroll ||
           Math.abs(
               t.pageX - startX
           ) > moveThreshold ||
@@ -6361,18 +6370,19 @@
                         to, from, prefix
                     ) {
                         var samePage = !1;
+                        (prefix = prefix || ""),
                         from &&
-            (to[0] === from[0] && (samePage = !0),
-            this._triggerWithDeprecated(
-                "hide",
-                {
-                    nextPage: to,
-                    samePage: samePage,
-                },
-                from,
-            )),
+              (to[0] === from[0] && (samePage = !0),
+              this._triggerWithDeprecated(
+                  prefix + "hide",
+                  {
+                      nextPage: to,
+                      samePage: samePage,
+                  },
+                  from,
+              )),
                         this._triggerWithDeprecated(
-                            "show",
+                            prefix + "show",
                             {
                                 prevPage: from || jQuery(
                                     ""
@@ -6846,7 +6856,7 @@
             ) {
                 var container;
                 return (
-                    (opts ||= {
+                    (opts = opts || {
                     }),
                     (container = opts.pageContainer || jQuery.mobile.pageContainer),
                     (opts.deferred = jQuery.Deferred(
