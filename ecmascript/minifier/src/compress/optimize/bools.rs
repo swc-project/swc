@@ -339,7 +339,40 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn compress_comparsion_of_typeof(&mut self, e: &mut BinExpr) {}
+    pub(super) fn compress_comparsion_of_typeof(&mut self, e: &mut BinExpr) {
+        fn should_optimize(l: &Expr, r: &Expr) -> bool {
+            match (l, r) {
+                (
+                    Expr::Unary(UnaryExpr {
+                        op: op!("typeof"), ..
+                    }),
+                    Expr::Lit(..),
+                ) => true,
+                _ => false,
+            }
+        }
+
+        match e.op {
+            op!("===") | op!("!==") => {}
+            _ => return,
+        }
+
+        if should_optimize(&e.left, &e.right) || should_optimize(&e.right, &e.left) {
+            log::trace!("bools: Compressing comparison of `typeof` with literal");
+            self.changed = true;
+            e.op = match e.op {
+                op!("===") => {
+                    op!("==")
+                }
+                op!("!==") => {
+                    op!("!=")
+                }
+                _ => {
+                    unreachable!()
+                }
+            }
+        }
+    }
 
     /// This method converts `!1` to `0`.
     pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
