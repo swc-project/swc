@@ -200,11 +200,26 @@ fn stdout_of(code: &str) -> Result<String, Error> {
     Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
+fn find_config(dir: &Path) -> String {
+    let mut cur = Some(dir);
+    while let Some(dir) = cur {
+        let config = dir.join("config.json");
+        if config.exists() {
+            let config = read_to_string(&config).expect("failed to read config.json");
+
+            return config;
+        }
+
+        cur = dir.parent();
+    }
+
+    panic!("failed to find config file for {}", dir.display())
+}
+
 #[testing::fixture("compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
-    let config = dir.join("config.json");
-    let config = read_to_string(&config).expect("failed to read config.json");
+    let config = find_config(&dir);
     eprintln!("---- {} -----\n{}", Color::Green.paint("Config"), config);
 
     testing::run_test2(false, |cm, handler| {
