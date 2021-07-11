@@ -1,8 +1,7 @@
-use std::mem::swap;
-
 use super::Optimizer;
 use crate::util::make_bool;
 use crate::util::SpanExt;
+use std::mem::swap;
 use swc_common::EqIgnoreSpan;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -144,6 +143,7 @@ impl Optimizer<'_> {
     ///
     /// - `foo ? bar : false` => `!!foo && bar`
     /// - `!foo ? true : bar` => `!foo || bar`
+    /// - `foo ? false : bar` => `!foo && bar`
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
         let cond = match e {
             Expr::Cond(cond) => cond,
@@ -170,21 +170,19 @@ impl Optimizer<'_> {
             }
 
             // TODO: Verify this rule.
-            if false {
-                if let Known(false) = lb {
-                    log::trace!("conditionals: `foo ? false : bar` => `!foo && bar`");
+            if let Known(false) = lb {
+                log::trace!("conditionals: `foo ? false : bar` => `!foo && bar`");
 
-                    self.changed = true;
-                    self.negate(&mut cond.test);
+                self.changed = true;
+                self.negate(&mut cond.test);
 
-                    *e = Expr::Bin(BinExpr {
-                        span: cond.span,
-                        op: op!("&&"),
-                        left: cond.test.take(),
-                        right: cond.alt.take(),
-                    });
-                    return;
-                }
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("&&"),
+                    left: cond.test.take(),
+                    right: cond.alt.take(),
+                });
+                return;
             }
         }
 
