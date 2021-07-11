@@ -1454,6 +1454,8 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
         n.visit_mut_children_with(self);
 
+        self.compress_comparsion_of_typeof(n);
+
         self.optimize_bin_operator(n);
 
         self.optimize_bin_and_or(n);

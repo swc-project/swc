@@ -339,6 +339,8 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn compress_comparsion_of_typeof(&mut self, e: &mut BinExpr) {}
+
     /// This method converts `!1` to `0`.
     pub(super) fn optimize_expr_in_bool_ctx(&mut self, n: &mut Expr) {
         if !self.options.bools {
