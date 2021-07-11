@@ -446,6 +446,14 @@ impl Optimizer<'_> {
     ///  - `l > i` => `i < l`
     fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
         match (l, r) {
+            (
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Expr(obj),
+                    ..
+                }),
+                _,
+            ) if is_for_rel && obj.is_ident_ref_to(js_word!("arguments")) => false,
+
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
 
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
