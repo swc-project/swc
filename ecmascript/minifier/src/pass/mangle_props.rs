@@ -6,8 +6,8 @@ use once_cell::sync::Lazy;
 use std::collections::{HashMap, HashSet};
 use swc_atoms::JsWord;
 use swc_ecma_ast::{
-    CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, PrivateName, Prop,
-    PropName, Str, StrKind,
+    CallExpr, Expr, ExprOrSuper, Ident, KeyValueProp, Lit, MemberExpr, Module, Prop, PropName, Str,
+    StrKind,
 };
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -37,11 +37,9 @@ struct ManglePropertiesState {
 
     // Cache of already mangled names
     cache: HashMap<JsWord, JsWord>,
-    private_cache: HashMap<JsWord, JsWord>,
 
     // Numbers to pass to base54()
     n: usize,
-    private_n: usize,
 }
 
 impl ManglePropertiesState {
@@ -101,23 +99,6 @@ impl ManglePropertiesState {
             }
         } else {
             None
-        }
-    }
-
-    fn gen_private_name(&mut self, name: &JsWord) -> JsWord {
-        // Always mangleable
-        if let Some(cached) = self.private_cache.get(&name) {
-            cached.clone()
-        } else {
-            let private_n = self.private_n;
-            self.private_n += 1;
-
-            let mangled_name: JsWord = base54(private_n).into();
-
-            self.private_cache
-                .insert(name.clone(), mangled_name.clone());
-
-            mangled_name
         }
     }
 }
@@ -308,9 +289,5 @@ impl VisitMut for Mangler<'_> {
                 self.mangle_ident(ident);
             }
         }
-    }
-
-    fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
-        private_name.id.sym = self.state.gen_private_name(&private_name.id.sym);
     }
 }

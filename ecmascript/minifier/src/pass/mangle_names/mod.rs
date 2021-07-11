@@ -28,9 +28,12 @@ pub fn name_mangler(options: MangleOptions, _char_freq_info: CharFreqInfo) -> im
 struct Mangler {
     options: MangleOptions,
     n: usize,
+    private_n: usize,
+
     preserved: FxHashSet<Id>,
     preserved_symbols: FxHashSet<JsWord>,
     renamed: FxHashMap<Id, JsWord>,
+    renamed_private: FxHashMap<Id, JsWord>,
     data: Option<ProgramData>,
 }
 
@@ -65,6 +68,23 @@ impl Mangler {
             break;
         }
     }
+
+    fn rename_private(&mut self, private_name: &mut PrivateName) {
+        let id = private_name.id.to_id();
+
+        let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
+            cached.clone()
+        } else {
+            let sym: JsWord = base54(self.private_n).into();
+            self.private_n += 1;
+
+            self.renamed_private.insert(id.clone(), sym.clone());
+
+            sym
+        };
+
+        private_name.id.sym = new_sym;
+    }
 }
 
 impl VisitMut for Mangler {
@@ -92,6 +112,12 @@ impl VisitMut for Mangler {
                 self.rename(i);
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_private_name(&mut self, private_name: &mut PrivateName) {
+        if !self.options.keep_private_props {
+           self.rename_private(private_name);
         }
     }
 
