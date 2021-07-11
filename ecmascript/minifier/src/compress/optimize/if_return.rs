@@ -15,6 +15,19 @@ use swc_ecma_visit::VisitWith;
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
+    pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
+        match s.arg.as_deref() {
+            Some(e) => {
+                if is_pure_undefined(e) {
+                    self.changed = true;
+                    log::trace!("Dropped `undefined` from `return undefined`");
+                    s.arg.take();
+                }
+            }
+            None => {}
+        }
+    }
+
     /// Merge simple return statements in if statements.
     ///
     /// # Example
