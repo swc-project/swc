@@ -328,6 +328,15 @@ impl Optimizer<'_> {
             _ => return,
         };
 
+        // Don't break code for old browsers.
+        match op {
+            BinaryOp::LogicalOr => return,
+            BinaryOp::LogicalAnd => return,
+            BinaryOp::Exp => return,
+            BinaryOp::NullishCoalescing => return,
+            _ => {}
+        }
+
         let op = match op {
             BinaryOp::In | BinaryOp::InstanceOf => return,
 
