@@ -66,7 +66,7 @@ impl Optimizer<'_> {
     ///         console.log(b);
     /// }
     /// ```
-    pub(super) fn negate_if_return(&mut self, stmts: &mut Vec<Stmt>) {
+    pub(super) fn negate_if_terminate(&mut self, stmts: &mut Vec<Stmt>) {
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
@@ -76,6 +76,7 @@ impl Optimizer<'_> {
                         cons, alt: None, ..
                     }) => match &**cons {
                         Stmt::Return(ReturnStmt { arg: None, .. }) => true,
+                        Stmt::Continue(ContinueStmt { label: None, .. }) => true,
                         _ => false,
                     },
                     _ => false,

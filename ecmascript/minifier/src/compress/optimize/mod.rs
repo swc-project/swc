@@ -1911,8 +1911,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         if let Some(body) = &mut n.body {
-            self.negate_if_return(&mut body.stmts);
-
             self.merge_if_returns(&mut body.stmts);
         }
 
@@ -2179,6 +2177,7 @@ impl VisitMut for Optimizer<'_> {
             top_level: false,
             ..self.ctx
         };
+        self.negate_if_terminate(stmts);
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         self.with_ctx(ctx).merge_var_decls(stmts);
