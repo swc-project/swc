@@ -352,6 +352,8 @@ impl VisitMut for Inliner<'_> {
         match e {
             Expr::Ident(i) => {
                 if let Some(value) = self.values.remove(&i.to_id()) {
+                    log::trace!("collapse_vars: Inlining {}{:?}", i.sym, i.span.ctxt);
+
                     *e = *value.expect("should be used only once");
                 }
             }
