@@ -120,7 +120,7 @@ impl Optimizer<'_> {
                     .and_then(|data| {
                         data.vars
                             .get(&name.to_id())
-                            .map(|v| v.ref_count == 1 && v.has_property_access)
+                            .map(|v| v.ref_count == 1 && v.has_property_access && v.is_fn_local)
                     })
                     .unwrap_or(false)
                 {
