@@ -154,7 +154,7 @@ impl VisitMut for Compressor<'_> {
                 self.pass
             );
             let mut visitor = expr_simplifier();
-            n.map_with_mut(|m| m.fold_with(&mut visitor));
+            n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
                 log::trace!("compressor: Simplified expressions");
