@@ -432,10 +432,6 @@ impl Optimizer<'_> {
 
     /// Compress a conditional expression if cons and alt is simillar
     pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
         let cond = match e {
             Expr::Cond(expr) => expr,
             _ => return,
@@ -506,6 +502,8 @@ impl Optimizer<'_> {
             },
             _ => {}
         }
+
+        dbg!(&cons, &alt);
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
@@ -714,17 +712,45 @@ impl Optimizer<'_> {
             // =>
             // (z || condition(), "fuji");
             (cons, Expr::Seq(alt)) if (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) => {
+                self.changed = true;
                 log::trace!("conditionals: Reducing seq expr in alt");
                 //
+                alt.exprs.pop();
                 let first = Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
-                    right: alt.exprs[0].take(),
+                    right: Box::new(Expr::Seq(SeqExpr {
+                        span: alt.span,
+                        exprs: alt.exprs.take(),
+                    })),
                 }));
                 return Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs: vec![first, Box::new(cons.take())],
+                }));
+            }
+
+            // z ? (condition(), "fuji") : "fuji"
+            // =>
+            // (z && condition(), "fuji");
+            (Expr::Seq(cons), alt) if (**cons.exprs.last().unwrap()).eq_ignore_span(&*alt) => {
+                self.changed = true;
+                log::trace!("conditionals: Reducing seq expr in cons");
+                //
+                cons.exprs.pop();
+                let first = Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: test.take(),
+                    op: op!("&&"),
+                    right: Box::new(Expr::Seq(SeqExpr {
+                        span: cons.span,
+                        exprs: cons.exprs.take(),
+                    })),
+                }));
+                return Some(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![first, Box::new(alt.take())],
                 }));
             }
 
