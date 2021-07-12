@@ -280,9 +280,7 @@ impl Optimizer<'_> {
     /// TODO: Handle special cases like !1 or !0
     pub(super) fn negate(&mut self, e: &mut Expr) {
         self.changed = true;
-        let mut arg = Box::new(e.take());
-
-        match &mut *arg {
+        match e {
             Expr::Bin(bin @ BinExpr { op: op!("=="), .. })
             | Expr::Bin(bin @ BinExpr { op: op!("!="), .. })
             | Expr::Bin(bin @ BinExpr { op: op!("==="), .. })
@@ -306,10 +304,42 @@ impl Optimizer<'_> {
                 };
                 self.changed = true;
                 log::trace!("negate: binary");
-                *e = *arg;
                 return;
             }
 
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("&&"),
+                ..
+            }) => {
+                log::trace!("negate: a && b => !a || !b");
+
+                self.negate(&mut **left);
+                self.negate(&mut **right);
+                *op = op!("||");
+                return;
+            }
+
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("||"),
+                ..
+            }) => {
+                log::trace!("negate: a || b => !a && !b");
+
+                self.negate(&mut **left);
+                self.negate(&mut **right);
+                *op = op!("&&");
+                return;
+            }
+            _ => {}
+        }
+
+        let mut arg = Box::new(e.take());
+
+        match &mut *arg {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => match &mut **arg {
@@ -335,6 +365,7 @@ impl Optimizer<'_> {
                     }
                 }
             },
+
             _ => {}
         }
 
