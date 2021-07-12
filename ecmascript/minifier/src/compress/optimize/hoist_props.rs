@@ -149,7 +149,13 @@ impl Optimizer<'_> {
                             prev
                         );
                     }
-                    None => {}
+                    None => {
+                        log::trace!(
+                            "hoist_props: Stored {}{:?} to inline property access",
+                            name.id.sym,
+                            name.id.span.ctxt
+                        );
+                    }
                 }
             }
             _ => {}
