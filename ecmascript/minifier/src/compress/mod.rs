@@ -13,6 +13,7 @@ use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
+use std::time::Instant;
 use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
@@ -153,6 +154,7 @@ impl VisitMut for Compressor<'_> {
                 "compress: Running expression simplifier (pass = {})",
                 self.pass
             );
+
             let mut visitor = expr_simplifier();
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
@@ -178,12 +180,22 @@ impl VisitMut for Compressor<'_> {
 
         {
             log::debug!("compress: Running optimizer (pass = {})", self.pass);
+
+            let start_time = Instant::now();
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
             let mut visitor = optimizer(self.cm.clone(), self.options, self.comments);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
+
+            let end_time = Instant::now();
+
+            log::debug!(
+                "compress: Optimizer took {:?} (pass = {})",
+                end_time - start_time,
+                self.pass
+            );
         }
 
         if self.options.conditionals || self.options.dead_code {
