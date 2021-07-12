@@ -76,6 +76,8 @@ impl Optimizer<'_> {
                         cons, alt: None, ..
                     }) => match &**cons {
                         Stmt::Return(ReturnStmt { arg: None, .. }) => true,
+
+                        // TODO(kdy1): Verify if this is correct.
                         Stmt::Continue(ContinueStmt { label: None, .. }) => true,
                         _ => false,
                     },
