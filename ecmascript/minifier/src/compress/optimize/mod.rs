@@ -1929,6 +1929,8 @@ impl VisitMut for Optimizer<'_> {
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
 
+        self.negate_if_else(n);
+
         self.optimize_expr_in_bool_ctx(&mut n.test);
     }
 

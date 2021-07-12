@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
 use std::fmt;
+use std::mem::swap;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -26,6 +27,27 @@ impl Optimizer<'_> {
             }
             None => {}
         }
+    }
+
+    pub(super) fn negate_if_else(&mut self, stmt: &mut IfStmt) {
+        let alt = match stmt.alt.as_deref_mut() {
+            Some(v) => v,
+            _ => return,
+        };
+
+        let test_arg = match &mut *stmt.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => &mut **arg,
+            _ => return,
+        };
+
+        self.changed = true;
+        log::trace!(
+            "if_return: Negating `!cond` as `cond` in for an if statement which has cons and alt"
+        );
+        self.negate(test_arg);
+        swap(alt, &mut *stmt.cons);
     }
 
     /// # Input
