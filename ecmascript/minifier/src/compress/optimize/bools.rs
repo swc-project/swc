@@ -170,6 +170,21 @@ impl Optimizer<'_> {
             _ => return false,
         }
 
+        match &mut *e.left {
+            Expr::Bin(left) => {
+                if self.optimize_bang_within_logical_ops(left, is_type_of_return_ignored) {
+                    e.op = if e.op == op!("&&") {
+                        op!("||")
+                    } else {
+                        op!("&&")
+                    };
+                    self.negate(&mut e.right);
+                    return true;
+                }
+            }
+            _ => {}
+        }
+
         if let Known(Type::Bool) = e.left.get_type() {
         } else {
             // Don't change type.
