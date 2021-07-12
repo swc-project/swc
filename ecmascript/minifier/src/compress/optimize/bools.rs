@@ -1,6 +1,5 @@
 use super::Optimizer;
 use crate::compress::optimize::{is_pure_undefined, Ctx};
-use crate::debug::dump;
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -170,7 +169,6 @@ impl Optimizer<'_> {
             op!("&&") | op!("||") => {}
             _ => return false,
         }
-        let start_str = dump(&*e);
 
         match &mut *e.left {
             Expr::Bin(left) => {
@@ -231,8 +229,6 @@ impl Optimizer<'_> {
             self.changed = true;
             self.with_ctx(ctx).negate(&mut e.left);
             self.with_ctx(ctx).negate(&mut e.right);
-
-            log::trace!("{} => {}", start_str, dump(&*e));
 
             true
         } else {
