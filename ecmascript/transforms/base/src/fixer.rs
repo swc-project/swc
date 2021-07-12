@@ -302,6 +302,17 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*n.arg {
+            Expr::Bin(BinExpr {
+                op: op!("/") | op!("*"),
+                left,
+                right,
+                ..
+            }) if n.op == op!(unary, "-")
+                && match (&**left, &**right) {
+                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..))) => true,
+                    _ => false,
+                } => {}
+
             Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
