@@ -65,6 +65,15 @@ impl Optimizer<'_> {
                         return;
                     }
 
+                    if !usage.is_fn_local {
+                        match &**init {
+                            Expr::Lit(..) => {}
+                            _ => {
+                                return;
+                            }
+                        }
+                    }
+
                     if !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
