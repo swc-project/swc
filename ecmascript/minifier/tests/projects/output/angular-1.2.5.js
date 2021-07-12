@@ -36,7 +36,7 @@
                               ""
                           );
                       if ("undefined" == typeof arg) return "undefined";
-                      if ("string" !== typeof arg) return toJson(
+                      if ("string" != typeof arg) return toJson(
                           arg
                       );
                       return arg;
@@ -71,7 +71,7 @@
                       )
                       : "undefined" == typeof obj
                           ? "undefined"
-                          : "string" !== typeof obj
+                          : "string" != typeof obj
                               ? JSON.stringify(
                                   obj
                               )
@@ -336,7 +336,7 @@
     function isDefined(
         value
     ) {
-        return "undefined" !== typeof value;
+        return "undefined" != typeof value;
     }
     function isObject(
         value
@@ -977,7 +977,8 @@
         var elements = [element,],
             appElement,
             module,
-            names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app",];
+            names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app",],
+            NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
         function append(
             element1
         ) {
@@ -1028,7 +1029,7 @@
             ) {
                 if (!appElement) {
                     var className = " " + element1.className + " ",
-                        match = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/.exec(
+                        match = NG_APP_CLASS_REGEXP.exec(
                             className
                         );
                     match
@@ -1400,7 +1401,14 @@
             )
         );
     }
-    var jqCache = (JQLite.cache = {
+    var version = {
+            full: "1.2.5",
+            major: 1,
+            minor: 2,
+            dot: 5,
+            codeName: "singularity-expansion",
+        },
+        jqCache = (JQLite.cache = {
         }),
         jqName = (JQLite.expando = "ng-" + new Date(
         ).getTime(
@@ -2230,27 +2238,31 @@
         var eventHandler = function (
             event, type
         ) {
-            event.preventDefault ||
-        (event.preventDefault = function (
-        ) {
-            event.returnValue = !1;
-        }),
-            event.stopPropagation ||
+            if (
+                (event.preventDefault ||
+          (event.preventDefault = function (
+          ) {
+              event.returnValue = !1;
+          }),
+                event.stopPropagation ||
           (event.stopPropagation = function (
           ) {
               event.cancelBubble = !0;
           }),
-            event.target || (event.target = event.srcElement || document),
-            isUndefined(
-                event.defaultPrevented
-            ) &&
-          ((event.preventDefault = function (
-          ) {
-              (event.defaultPrevented = !0), event.preventDefault.call(
-                  event
-              );
-          }),
-          (event.defaultPrevented = !1)),
+                event.target || (event.target = event.srcElement || document),
+                isUndefined(
+                    event.defaultPrevented
+                ))
+            ) {
+                var prevent = event.preventDefault;
+                (event.preventDefault = function (
+                ) {
+                    (event.defaultPrevented = !0), prevent.call(
+                        event
+                    );
+                }),
+                (event.defaultPrevented = !1);
+            }
             (event.isDefaultPrevented = function (
             ) {
                 return event.defaultPrevented || !1 === event.returnValue;
@@ -2509,7 +2521,8 @@
             after: function (
                 element, newElement
             ) {
-                var index = element;
+                var index = element,
+                    parent = element.parentNode;
                 forEach(
                     new JQLite(
                         newElement
@@ -2517,11 +2530,10 @@
                     function (
                         node
                     ) {
-                        element.parentNode.insertBefore(
+                        parent.insertBefore(
                             node,
                             index.nextSibling
-                        ),
-                        (index = node);
+                        ), (index = node);
                     }
                 );
             },
@@ -2574,7 +2586,13 @@
                     "events"
                 ) || {
                 })[eventName];
-                (eventData = eventData || []),
+                eventData = eventData || [];
+                var event = [
+                    {
+                        preventDefault: noop,
+                        stopPropagation: noop,
+                    },
+                ];
                 forEach(
                     eventFns,
                     function (
@@ -2582,14 +2600,9 @@
                     ) {
                         fn.apply(
                             element,
-                            [
-                                {
-                                    preventDefault: noop,
-                                    stopPropagation: noop,
-                                },
-                            ].concat(
+                            event.concat(
                                 eventData
-                            ),
+                            )
                         );
                     }
                 );
@@ -3076,7 +3089,7 @@
                     i,
                     key;
                 for (i = 0, length = $inject.length; i < length; i++) {
-                    if (((key = $inject[i]), "string" !== typeof key))
+                    if (((key = $inject[i]), "string" != typeof key))
                         throw $injectorMinErr(
                             "itkn",
                             "Incorrect injection token! Expected service name as string, got {0}",
@@ -3883,7 +3896,10 @@
         $provide, $$sanitizeUriProvider
     ) {
         var hasDirectives = {
-        };
+            },
+            COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/,
+            CLASS_DIRECTIVE_REGEXP = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/,
+            EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
         (this.directive = function registerDirective(
             name, directiveFactory
         ) {
@@ -4165,7 +4181,8 @@
                               /}}/g,
                               endSymbol
                           );
-                  };
+                  },
+                    NG_ATTR_BINDING = /^ngAttr[A-Z]/;
                 return compile;
                 function compile(
                     $compileNodes,
@@ -4461,7 +4478,7 @@
                     (ngAttrName = directiveNormalize(
                         name
                     )),
-                    /^ngAttr[A-Z]/.test(
+                    NG_ATTR_BINDING.test(
                         ngAttrName
                     ) &&
                       (name = snake_case(
@@ -4525,13 +4542,9 @@
                                 className
                             ) && "" !== className)
                         )
-                            for (
-                                ;
-                                (match = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/.exec(
-                                    className
-                                ));
-
-                            )
+                            for (; (match = CLASS_DIRECTIVE_REGEXP.exec(
+                                className
+                            )); )
                                 (nName = directiveNormalize(
                                     match[2]
                                 )),
@@ -4556,8 +4569,8 @@
                         break;
                     case 8:
                         try {
-                            (match = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/.exec(
-                                node.nodeValue,
+                            (match = COMMENT_DIRECTIVE_REGEXP.exec(
+                                node.nodeValue
                             )),
                             match &&
                       ((nName = directiveNormalize(
@@ -5316,7 +5329,7 @@
                         ) {
                             var transcludeControllers;
                             return (
-                                2 > arguments.length &&
+                                arguments.length < 2 &&
                     ((cloneAttachFn = scope1), (scope1 = void 0)),
                                 hasElementTranscludeDirective &&
                     (transcludeControllers = elementControllers),
@@ -5777,7 +5790,7 @@
                                         var $$observers =
                       attr.$$observers || (attr.$$observers = {
                       });
-                                        if (/^(on[a-z]+|formaction)$/.test(
+                                        if (EVENT_HANDLER_ATTR_REGEXP.test(
                                             name
                                         ))
                                             throw $compileMinErr(
@@ -6041,36 +6054,37 @@
             key,
             val,
             i;
-        return headers
-            ? (forEach(
-                headers.split(
-                    "\n"
-                ),
-                function (
-                    line
-                ) {
-                    (i = line.indexOf(
-                        ":"
-                    )),
-                    (key = lowercase(
-                        trim(
-                            line.substr(
-                                0,
-                                i
-                            )
-                        )
-                    )),
-                    (val = trim(
-                        line.substr(
-                            i + 1
-                        )
-                    )),
-                    key &&
-              (parsed[key] ? (parsed[key] += ", " + val) : (parsed[key] = val));
-                }
+        return (
+            headers &&
+        forEach(
+            headers.split(
+                "\n"
             ),
-            parsed)
-            : parsed;
+            function (
+                line
+            ) {
+                (i = line.indexOf(
+                    ":"
+                )),
+                (key = lowercase(
+                    trim(
+                        line.substr(
+                            0,
+                            i
+                        )
+                    )
+                )),
+                (val = trim(
+                    line.substr(
+                        i + 1
+                    )
+                )),
+                key &&
+              (parsed[key] ? (parsed[key] += ", " + val) : (parsed[key] = val));
+            }
+        ),
+            parsed
+        );
     }
     function headersGetter(
         headers
@@ -6122,7 +6136,9 @@
     }
     function $HttpProvider(
     ) {
-        var PROTECTION_PREFIX = /^\)\]\}',?\n/,
+        var JSON_START = /^\s*(\[|\{[^\{])/,
+            JSON_END = /[\}\]]\s*$/,
+            PROTECTION_PREFIX = /^\)\]\}',?\n/,
             CONTENT_TYPE_APPLICATION_JSON = {
                 "Content-Type": "application/json;charset=utf-8",
             },
@@ -6139,10 +6155,10 @@
                     PROTECTION_PREFIX,
                     ""
                 )),
-                /^\s*(\[|\{[^\{])/.test(
+                JSON_START.test(
                     data
                 ) &&
-                  /[\}\]]\s*$/.test(
+                  JSON_END.test(
                       data
                   ) &&
                   (data = fromJson(
@@ -7270,9 +7286,15 @@
             };
         };
     }
-    var $locationMinErr = minErr(
-        "$location"
-    );
+    var PATH_MATCH = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/,
+        DEFAULT_PORTS = {
+            http: 80,
+            https: 443,
+            ftp: 21,
+        },
+        $locationMinErr = minErr(
+            "$location"
+        );
     function encodePath(
         path
     ) {
@@ -7298,13 +7320,7 @@
         (locationObj.$$port =
         int(
             parsedUrl.port
-        ) ||
-        {
-            http: 80,
-            https: 443,
-            ftp: 21,
-        }[parsedUrl.protocol] ||
-        null);
+        ) || DEFAULT_PORTS[parsedUrl.protocol] || null);
     }
     function parseAppUrl(
         relativeUrl, locationObj, appBase
@@ -7603,7 +7619,7 @@
             if (isUndefined(
                 url
             )) return this.$$url;
-            var match = /^([^\?#]*)(\?([^#]*))?(#(.*))?$/.exec(
+            var match = PATH_MATCH.exec(
                 url
             );
             return (
@@ -7938,11 +7954,12 @@
                     ),
                     debug: (function (
                     ) {
+                        var fn = consoleLog(
+                            "debug"
+                        );
                         return function (
                         ) {
-                            debug && consoleLog(
-                                "debug"
-                            ).apply(
+                            debug && fn.apply(
                                 self,
                                 arguments
                             );
@@ -8299,6 +8316,15 @@
                     locals
                 );
             },
+        },
+        ESCAPE = {
+            n: "\n",
+            f: "\f",
+            r: "\r",
+            t: "\t",
+            v: "\v",
+            "'": "'",
+            '"': '"',
         },
         Lexer = function (
             options
@@ -8719,15 +8745,7 @@
                             )
                         ));
                     } else {
-                        var rep = {
-                            n: "\n",
-                            f: "\f",
-                            r: "\r",
-                            t: "\t",
-                            v: "\v",
-                            "'": "'",
-                            '"': '"',
-                        }[ch];
+                        var rep = ESCAPE[ch];
                         rep ? (string += rep) : (string += ch);
                     }
                     escape = !1;
@@ -9633,10 +9651,10 @@
                     ? locals
                     : scope,
                         promise;
-                    return null == pathVal
-                        ? pathVal
-                        : ((pathVal = pathVal[key0]),
-                        pathVal &&
+                    return (
+                        null == pathVal ||
+                ((pathVal = pathVal[key0]),
+                pathVal &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9652,10 +9670,9 @@
                         }
                     )),
                   (pathVal = pathVal.$$v)),
-                        !key1 || null == pathVal)
-                            ? pathVal
-                            : ((pathVal = pathVal[key1]),
-                            pathVal &&
+                !key1 || null == pathVal) ||
+                ((pathVal = pathVal[key1]),
+                pathVal &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9671,10 +9688,9 @@
                         }
                     )),
                   (pathVal = pathVal.$$v)),
-                            !key2 || null == pathVal)
-                                ? pathVal
-                                : ((pathVal = pathVal[key2]),
-                                pathVal &&
+                !key2 || null == pathVal) ||
+                ((pathVal = pathVal[key2]),
+                pathVal &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9690,10 +9706,9 @@
                         }
                     )),
                   (pathVal = pathVal.$$v)),
-                                !key3 || null == pathVal)
-                                    ? pathVal
-                                    : ((pathVal = pathVal[key3]),
-                                    pathVal &&
+                !key3 || null == pathVal) ||
+                ((pathVal = pathVal[key3]),
+                pathVal &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9709,10 +9724,9 @@
                         }
                     )),
                   (pathVal = pathVal.$$v)),
-                                    !key4 || null == pathVal)
-                                        ? pathVal
-                                        : ((pathVal = pathVal[key4]),
-                                        pathVal &&
+                !key4 || null == pathVal) ||
+                ((pathVal = pathVal[key4]),
+                pathVal &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9727,8 +9741,9 @@
                             promise.$$v = val;
                         }
                     )),
-                  (pathVal = pathVal.$$v)),
-                                        pathVal);
+                  (pathVal = pathVal.$$v))),
+                        pathVal
+                    );
                 }
                 : function (
                     scope, locals
@@ -10275,6 +10290,25 @@
                 var result = defer(
                     ),
                     done,
+                    wrappedCallback = function (
+                        value1
+                    ) {
+                        try {
+                            return (isFunction(
+                                callback
+                            )
+                                ? callback
+                                : defaultCallback)(
+                                value1,
+                            );
+                        } catch (e) {
+                            return exceptionHandler(
+                                e
+                            ), reject(
+                                e
+                            );
+                        }
+                    },
                     wrappedErrback = function (
                         reason
                     ) {
@@ -10327,25 +10361,7 @@
                                         ref(
                                             value1
                                         ).then(
-                                            function (
-                                                value1
-                                            ) {
-                                                try {
-                                                    return (isFunction(
-                                                        callback
-                                                    )
-                                                        ? callback
-                                                        : defaultCallback)(
-                                                        value1
-                                                    );
-                                                } catch (e) {
-                                                    return exceptionHandler(
-                                                        e
-                                                    ), reject(
-                                                        e
-                                                    );
-                                                }
-                                            },
+                                            wrappedCallback,
                                             wrappedErrback,
                                             wrappedProgressback,
                                         ),
@@ -10514,37 +10530,39 @@
                                 exp: watchExp,
                                 eq: !!objectEquality,
                             };
+                        if (((lastDirtyWatch = null), !isFunction(
+                            listener
+                        ))) {
+                            var listenFn = compileToFn(
+                                listener || noop,
+                                "listener"
+                            );
+                            watcher.fn = function (
+                                newVal, oldVal, scope
+                            ) {
+                                listenFn(
+                                    scope
+                                );
+                            };
+                        }
+                        if ("string" == typeof watchExp && get.constant) {
+                            var originalFn = watcher.fn;
+                            watcher.fn = function (
+                                newVal, oldVal, scope
+                            ) {
+                                originalFn.call(
+                                    this,
+                                    newVal,
+                                    oldVal,
+                                    scope
+                                ),
+                                arrayRemove(
+                                    array,
+                                    watcher
+                                );
+                            };
+                        }
                         return (
-                            (lastDirtyWatch = null),
-                            isFunction(
-                                listener
-                            ) ||
-                  (watcher.fn = function (
-                      newVal, oldVal, scope
-                  ) {
-                      compileToFn(
-                          listener || noop,
-                          "listener"
-                      )(
-                          scope
-                      );
-                  }),
-                            "string" == typeof watchExp &&
-                  get.constant &&
-                  (watcher.fn = function (
-                      newVal, oldVal, scope
-                  ) {
-                      watcher.fn.call(
-                          this,
-                          newVal,
-                          oldVal,
-                          scope
-                      ),
-                      arrayRemove(
-                          array,
-                          watcher
-                      );
-                  }),
                             array || (array = scope.$$watchers = []),
                             array.unshift(
                                 watcher
@@ -11331,7 +11349,7 @@
                                 );
                             if (null == trustedValue || "" === trustedValue)
                                 return trustedValue;
-                            if ("string" !== typeof trustedValue)
+                            if ("string" != typeof trustedValue)
                                 throw $sceMinErr(
                                     "itype",
                                     "Attempted to trust a non-string value in a content requiring a string: Context: {0}",
@@ -11571,16 +11589,17 @@
                     hasEvent: function (
                         event
                     ) {
-                        return "input" == event && 9 == msie
-                            ? !1
-                            : (isUndefined(
-                                eventSupport[event]
-                            ) &&
-                  (eventSupport[event] =
-                    "on" + event in document1.createElement(
-                        "div"
-                    )),
-                            eventSupport[event]);
+                        return (
+                            ("input" != event || 9 != msie) &&
+              (isUndefined(
+                  eventSupport[event]
+              ) &&
+                (eventSupport[event] =
+                  "on" + event in document1.createElement(
+                      "div"
+                  )),
+              eventSupport[event])
+                        );
                     },
                     csp: csp(
                     ),
@@ -11673,16 +11692,17 @@
     function urlResolve(
         url, base
     ) {
+        var href = url;
         return (
             msie &&
         (urlParsingNode.setAttribute(
             "href",
-            urlParsingNode.href
+            href
         ),
-        urlParsingNode.href),
+        (href = urlParsingNode.href)),
             urlParsingNode.setAttribute(
                 "href",
-                urlParsingNode.href
+                href
             ),
             {
                 href: urlParsingNode.href,
@@ -11924,13 +11944,14 @@
                         ? (function (
                         ) {
                             if (!expression[key]) return;
+                            var path = key;
                             predicates.push(
                                 function (
                                     value
                                 ) {
                                     return search(
                                         value,
-                                        expression[key]
+                                        expression[path]
                                     );
                                 }
                             );
@@ -11985,8 +12006,8 @@
         ) {
             return (
                 isUndefined(
-                    formats.CURRENCY_SYM
-                ) && formats.CURRENCY_SYM,
+                    currencySymbol
+                ) && (currencySymbol = formats.CURRENCY_SYM),
                 formatNumber(
                     amount,
                     formats.PATTERNS[1],
@@ -11995,7 +12016,7 @@
                     2,
                 ).replace(
                     /\u00A4/g,
-                    formats.CURRENCY_SYM
+                    currencySymbol
                 )
             );
         };
@@ -12119,11 +12140,16 @@
     function padNumber(
         num, digits, trim1
     ) {
-        for (num < 0 && (num = -num), num = "" + num; num.length < digits; )
+        var neg = "";
+        for (
+            num < 0 && ((neg = "-"), (num = -num)), num = "" + num;
+            num.length < digits;
+
+        )
             num = "0" + num;
         return trim1 && (num = num.substr(
             num.length - digits
-        )), "-" + num;
+        )), neg + num;
     }
     function dateGetter(
         name, size, offset, trim1
@@ -12158,6 +12184,125 @@
             )][value];
         };
     }
+    var DATE_FORMATS = {
+            yyyy: dateGetter(
+                "FullYear",
+                4
+            ),
+            yy: dateGetter(
+                "FullYear",
+                2,
+                0,
+                !0
+            ),
+            y: dateGetter(
+                "FullYear",
+                1
+            ),
+            MMMM: dateStrGetter(
+                "Month"
+            ),
+            MMM: dateStrGetter(
+                "Month",
+                !0
+            ),
+            MM: dateGetter(
+                "Month",
+                2,
+                1
+            ),
+            M: dateGetter(
+                "Month",
+                1,
+                1
+            ),
+            dd: dateGetter(
+                "Date",
+                2
+            ),
+            d: dateGetter(
+                "Date",
+                1
+            ),
+            HH: dateGetter(
+                "Hours",
+                2
+            ),
+            H: dateGetter(
+                "Hours",
+                1
+            ),
+            hh: dateGetter(
+                "Hours",
+                2,
+                -12
+            ),
+            h: dateGetter(
+                "Hours",
+                1,
+                -12
+            ),
+            mm: dateGetter(
+                "Minutes",
+                2
+            ),
+            m: dateGetter(
+                "Minutes",
+                1
+            ),
+            ss: dateGetter(
+                "Seconds",
+                2
+            ),
+            s: dateGetter(
+                "Seconds",
+                1
+            ),
+            sss: dateGetter(
+                "Milliseconds",
+                3
+            ),
+            EEEE: dateStrGetter(
+                "Day"
+            ),
+            EEE: dateStrGetter(
+                "Day",
+                !0
+            ),
+            a: function ampmGetter(
+                date, formats
+            ) {
+                return 12 > date.getHours(
+                )
+                    ? formats.AMPMS[0]
+                    : formats.AMPMS[1];
+            },
+            Z: function timeZoneGetter(
+                date
+            ) {
+                var zone = -1 * date.getTimezoneOffset(
+                    ),
+                    paddedZone = zone >= 0 ? "+" : "";
+                return (
+                    (paddedZone +=
+            padNumber(
+                Math[zone > 0 ? "floor" : "ceil"](
+                    zone / 60
+                ),
+                2
+            ) +
+            padNumber(
+                Math.abs(
+                    zone % 60
+                ),
+                2
+            )),
+                    paddedZone
+                );
+            },
+        },
+        DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
+        NUMBER_STRING = /^\-?\d+$/;
     dateFilter.$inject = ["$locale",];
     function dateFilter(
         $locale
@@ -12233,7 +12378,7 @@
                 isString(
                     date
                 ) &&
-          (/^\-?\d+$/.test(
+          (NUMBER_STRING.test(
               date
           )
               ? (date = int(
@@ -12253,8 +12398,8 @@
             )
                 return date;
             for (; format; )
-                (match = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/.exec(
-                    format,
+                (match = DATE_FORMATS_SPLIT.exec(
+                    format
                 )),
                 match
                     ? ((parts = concat(
@@ -12272,123 +12417,7 @@
                     function (
                         value
                     ) {
-                        (fn = {
-                            yyyy: dateGetter(
-                                "FullYear",
-                                4
-                            ),
-                            yy: dateGetter(
-                                "FullYear",
-                                2,
-                                0,
-                                !0
-                            ),
-                            y: dateGetter(
-                                "FullYear",
-                                1
-                            ),
-                            MMMM: dateStrGetter(
-                                "Month"
-                            ),
-                            MMM: dateStrGetter(
-                                "Month",
-                                !0
-                            ),
-                            MM: dateGetter(
-                                "Month",
-                                2,
-                                1
-                            ),
-                            M: dateGetter(
-                                "Month",
-                                1,
-                                1
-                            ),
-                            dd: dateGetter(
-                                "Date",
-                                2
-                            ),
-                            d: dateGetter(
-                                "Date",
-                                1
-                            ),
-                            HH: dateGetter(
-                                "Hours",
-                                2
-                            ),
-                            H: dateGetter(
-                                "Hours",
-                                1
-                            ),
-                            hh: dateGetter(
-                                "Hours",
-                                2,
-                                -12
-                            ),
-                            h: dateGetter(
-                                "Hours",
-                                1,
-                                -12
-                            ),
-                            mm: dateGetter(
-                                "Minutes",
-                                2
-                            ),
-                            m: dateGetter(
-                                "Minutes",
-                                1
-                            ),
-                            ss: dateGetter(
-                                "Seconds",
-                                2
-                            ),
-                            s: dateGetter(
-                                "Seconds",
-                                1
-                            ),
-                            sss: dateGetter(
-                                "Milliseconds",
-                                3
-                            ),
-                            EEEE: dateStrGetter(
-                                "Day"
-                            ),
-                            EEE: dateStrGetter(
-                                "Day",
-                                !0
-                            ),
-                            a: function (
-                                date1, formats
-                            ) {
-                                return 12 > date1.getHours(
-                                )
-                                    ? formats.AMPMS[0]
-                                    : formats.AMPMS[1];
-                            },
-                            Z: function (
-                                date1
-                            ) {
-                                var zone = -1 * date1.getTimezoneOffset(
-                                    ),
-                                    paddedZone = zone >= 0 ? "+" : "";
-                                return (
-                                    (paddedZone +=
-                  padNumber(
-                      Math[zone > 0 ? "floor" : "ceil"](
-                          zone / 60
-                      ),
-                      2
-                  ) +
-                  padNumber(
-                      Math.abs(
-                          zone % 60
-                      ),
-                      2
-                  )),
-                                    paddedZone
-                                );
-                            },
-                        }[value]),
+                        (fn = DATE_FORMATS[value]),
                         (text += fn
                             ? fn(
                                 date,
@@ -12976,6 +13005,9 @@
         ngFormDirective = formDirectiveFactory(
             !0
         ),
+        URL_REGEXP = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
+        EMAIL_REGEXP = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
+        NUMBER_REGEXP = /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/,
         inputType = {
             text: textInputType,
             number: numberInputType,
@@ -13084,19 +13116,22 @@
             validate = function (
                 regexp, value
             ) {
-                return ctrl.$isEmpty(
+                if (ctrl.$isEmpty(
                     value
                 ) || regexp.test(
                     value
-                )
-                    ? (ctrl.$setValidity(
+                ))
+                    return ctrl.$setValidity(
                         "pattern",
                         !0
-                    ), value)
-                    : (ctrl.$setValidity(
+                    ), value;
+                {
+                    ctrl.$setValidity(
                         "pattern",
                         !1
-                    ), void 0);
+                    );
+                    return;
+                }
             };
         if (
             (pattern &&
@@ -13153,17 +13188,18 @@
                 minLengthValidator = function (
                     value
                 ) {
-                    return ctrl.$isEmpty(
+                    if (!ctrl.$isEmpty(
                         value
-                    ) || !(value.length < minlength)
-                        ? (ctrl.$setValidity(
-                            "minlength",
-                            !0
-                        ), value)
-                        : (ctrl.$setValidity(
+                    ) && value.length < minlength) {
+                        ctrl.$setValidity(
                             "minlength",
                             !1
-                        ), void 0);
+                        );
+                        return;
+                    } else return ctrl.$setValidity(
+                        "minlength",
+                        !0
+                    ), value;
                 };
             ctrl.$parsers.push(
                 minLengthValidator
@@ -13179,17 +13215,18 @@
                 maxLengthValidator = function (
                     value
                 ) {
-                    return ctrl.$isEmpty(
+                    if (!ctrl.$isEmpty(
                         value
-                    ) || !(value.length > maxlength)
-                        ? (ctrl.$setValidity(
-                            "maxlength",
-                            !0
-                        ), value)
-                        : (ctrl.$setValidity(
+                    ) && value.length > maxlength) {
+                        ctrl.$setValidity(
                             "maxlength",
                             !1
-                        ), void 0);
+                        );
+                        return;
+                    } else return ctrl.$setValidity(
+                        "maxlength",
+                        !0
+                    ), value;
                 };
             ctrl.$parsers.push(
                 maxLengthValidator
@@ -13218,24 +13255,29 @@
                     var empty = ctrl.$isEmpty(
                         value
                     );
-                    return empty || /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/.test(
+                    if (empty || NUMBER_REGEXP.test(
                         value
-                    )
-                        ? (ctrl.$setValidity(
-                            "number",
-                            !0
-                        ),
-                        "" === value
-                            ? null
-                            : empty
-                                ? value
-                                : parseFloat(
-                                    value
-                                ))
-                        : (ctrl.$setValidity(
+                    ))
+                        return (
+                            ctrl.$setValidity(
+                                "number",
+                                !0
+                            ),
+                            "" === value
+                                ? null
+                                : empty
+                                    ? value
+                                    : parseFloat(
+                                        value
+                                    )
+                        );
+                    {
+                        ctrl.$setValidity(
                             "number",
                             !1
-                        ), void 0);
+                        );
+                        return;
+                    }
                 }
             ),
             ctrl.$formatters.push(
@@ -13254,19 +13296,21 @@
             var minValidator = function (
                 value
             ) {
-                return ctrl.$isEmpty(
-                    value
-                ) || !(parseFloat(
+                var min = parseFloat(
                     attr.min
-                ) > value)
-                    ? (ctrl.$setValidity(
-                        "min",
-                        !0
-                    ), value)
-                    : (ctrl.$setValidity(
+                );
+                if (!ctrl.$isEmpty(
+                    value
+                ) && min > value) {
+                    ctrl.$setValidity(
                         "min",
                         !1
-                    ), void 0);
+                    );
+                    return;
+                } else return ctrl.$setValidity(
+                    "min",
+                    !0
+                ), value;
             };
             ctrl.$parsers.push(
                 minValidator
@@ -13278,19 +13322,21 @@
             var maxValidator = function (
                 value
             ) {
-                return ctrl.$isEmpty(
-                    value
-                ) || !(value > parseFloat(
+                var max = parseFloat(
                     attr.max
-                ))
-                    ? (ctrl.$setValidity(
-                        "max",
-                        !0
-                    ), value)
-                    : (ctrl.$setValidity(
+                );
+                if (!ctrl.$isEmpty(
+                    value
+                ) && value > max) {
+                    ctrl.$setValidity(
                         "max",
                         !1
-                    ), void 0);
+                    );
+                    return;
+                } else return ctrl.$setValidity(
+                    "max",
+                    !0
+                ), value;
             };
             ctrl.$parsers.push(
                 maxValidator
@@ -13302,19 +13348,22 @@
             function (
                 value
             ) {
-                return ctrl.$isEmpty(
+                if (ctrl.$isEmpty(
                     value
                 ) || isNumber(
                     value
-                )
-                    ? (ctrl.$setValidity(
+                ))
+                    return ctrl.$setValidity(
                         "number",
                         !0
-                    ), value)
-                    : (ctrl.$setValidity(
+                    ), value;
+                {
+                    ctrl.$setValidity(
                         "number",
                         !1
-                    ), void 0);
+                    );
+                    return;
+                }
             }
         );
     }
@@ -13332,20 +13381,22 @@
         var urlValidator = function (
             value
         ) {
-            return ctrl.$isEmpty(
+            if (ctrl.$isEmpty(
                 value
-            ) ||
-        /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/.test(
-            value,
-        )
-                ? (ctrl.$setValidity(
+            ) || URL_REGEXP.test(
+                value
+            ))
+                return ctrl.$setValidity(
                     "url",
                     !0
-                ), value)
-                : (ctrl.$setValidity(
+                ), value;
+            {
+                ctrl.$setValidity(
                     "url",
                     !1
-                ), void 0);
+                );
+                return;
+            }
         };
         ctrl.$formatters.push(
             urlValidator
@@ -13367,20 +13418,22 @@
         var emailValidator = function (
             value
         ) {
-            return ctrl.$isEmpty(
+            if (ctrl.$isEmpty(
                 value
-            ) ||
-        /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/.test(
-            value
-        )
-                ? (ctrl.$setValidity(
+            ) || EMAIL_REGEXP.test(
+                value
+            ))
+                return ctrl.$setValidity(
                     "email",
                     !0
-                ), value)
-                : (ctrl.$setValidity(
+                ), value;
+            {
+                ctrl.$setValidity(
                     "email",
                     !1
-                ), void 0);
+                );
+                return;
+            }
         };
         ctrl.$formatters.push(
             emailValidator
@@ -13502,196 +13555,193 @@
         INVALID_CLASS = "ng-invalid",
         PRISTINE_CLASS = "ng-pristine",
         DIRTY_CLASS = "ng-dirty",
+        NgModelController = [
+            "$scope",
+            "$exceptionHandler",
+            "$attrs",
+            "$element",
+            "$parse",
+            function (
+                $scope, $exceptionHandler, $attr, $element, $parse
+            ) {
+                (this.$viewValue = Number.NaN),
+                (this.$modelValue = Number.NaN),
+                (this.$parsers = []),
+                (this.$formatters = []),
+                (this.$viewChangeListeners = []),
+                (this.$pristine = !0),
+                (this.$dirty = !1),
+                (this.$valid = !0),
+                (this.$invalid = !1),
+                (this.$name = $attr.name);
+                var ngModelGet = $parse(
+                        $attr.ngModel
+                    ),
+                    ngModelSet = ngModelGet.assign;
+                if (!ngModelSet)
+                    throw minErr(
+                        "ngModel"
+                    )(
+                        "nonassign",
+                        "Expression '{0}' is non-assignable. Element: {1}",
+                        $attr.ngModel,
+                        startingTag(
+                            $element
+                        ),
+                    );
+                (this.$render = noop),
+                (this.$isEmpty = function (
+                    value
+                ) {
+                    return (
+                        isUndefined(
+                            value
+                        ) ||
+              "" === value ||
+              null === value ||
+              value != value
+                    );
+                });
+                var parentForm =
+            $element.inheritedData(
+                "$formController"
+            ) || nullFormCtrl,
+                    invalidCount = 0,
+                    $error = (this.$error = {
+                    });
+                $element.addClass(
+                    PRISTINE_CLASS
+                ), toggleValidCss(
+                    !0
+                );
+                function toggleValidCss(
+                    isValid, validationErrorKey
+                ) {
+                    (validationErrorKey = validationErrorKey
+                        ? "-" + snake_case(
+                            validationErrorKey,
+                            "-"
+                        )
+                        : ""),
+                    $element
+                        .removeClass(
+                            (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
+                        )
+                        .addClass(
+                            (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
+                        );
+                }
+                (this.$setValidity = function (
+                    validationErrorKey, isValid
+                ) {
+                    if (!isValid === $error[validationErrorKey]) return;
+                    isValid
+                        ? ($error[validationErrorKey] && invalidCount--,
+                        !invalidCount &&
+                (toggleValidCss(
+                    !0
+                ), (this.$valid = !0), (this.$invalid = !1)))
+                        : (toggleValidCss(
+                            !1
+                        ),
+                        (this.$invalid = !0),
+                        (this.$valid = !1),
+                        invalidCount++),
+                    ($error[validationErrorKey] = !isValid),
+                    toggleValidCss(
+                        isValid,
+                        validationErrorKey
+                    ),
+                    parentForm.$setValidity(
+                        validationErrorKey,
+                        isValid,
+                        this
+                    );
+                }),
+                (this.$setPristine = function (
+                ) {
+                    (this.$dirty = !1),
+                    (this.$pristine = !0),
+                    $element.removeClass(
+                        DIRTY_CLASS
+                    ).addClass(
+                        PRISTINE_CLASS
+                    );
+                }),
+                (this.$setViewValue = function (
+                    value
+                ) {
+                    (this.$viewValue = value),
+                    this.$pristine &&
+                ((this.$dirty = !0),
+                (this.$pristine = !1),
+                $element.removeClass(
+                    PRISTINE_CLASS
+                ).addClass(
+                    DIRTY_CLASS
+                ),
+                parentForm.$setDirty(
+                )),
+                    forEach(
+                        this.$parsers,
+                        function (
+                            fn
+                        ) {
+                            value = fn(
+                                value
+                            );
+                        }
+                    ),
+                    this.$modelValue !== value &&
+                ((this.$modelValue = value),
+                ngModelSet(
+                    $scope,
+                    value
+                ),
+                forEach(
+                    this.$viewChangeListeners,
+                    function (
+                        listener
+                    ) {
+                        try {
+                            listener(
+                            );
+                        } catch (e) {
+                            $exceptionHandler(
+                                e
+                            );
+                        }
+                    }
+                ));
+                });
+                var ctrl = this;
+                $scope.$watch(
+                    function (
+                    ) {
+                        var value = ngModelGet(
+                            $scope
+                        );
+                        if (ctrl.$modelValue !== value) {
+                            var formatters = ctrl.$formatters,
+                                idx = formatters.length;
+                            for (ctrl.$modelValue = value; idx--; )
+                                value = formatters[idx](
+                                    value
+                                );
+                            ctrl.$viewValue !== value &&
+              ((ctrl.$viewValue = value), ctrl.$render(
+              ));
+                        }
+                        return value;
+                    }
+                );
+            },
+        ],
         ngModelDirective = function (
         ) {
             return {
                 require: ["ngModel", "^?form",],
-                controller: [
-                    "$scope",
-                    "$exceptionHandler",
-                    "$attrs",
-                    "$element",
-                    "$parse",
-                    function (
-                        $scope, $exceptionHandler, $attr, $element, $parse
-                    ) {
-                        (this.$viewValue = Number.NaN),
-                        (this.$modelValue = Number.NaN),
-                        (this.$parsers = []),
-                        (this.$formatters = []),
-                        (this.$viewChangeListeners = []),
-                        (this.$pristine = !0),
-                        (this.$dirty = !1),
-                        (this.$valid = !0),
-                        (this.$invalid = !1),
-                        (this.$name = $attr.name);
-                        var ngModelGet = $parse(
-                                $attr.ngModel
-                            ),
-                            ngModelSet = ngModelGet.assign;
-                        if (!ngModelSet)
-                            throw minErr(
-                                "ngModel"
-                            )(
-                                "nonassign",
-                                "Expression '{0}' is non-assignable. Element: {1}",
-                                $attr.ngModel,
-                                startingTag(
-                                    $element
-                                ),
-                            );
-                        (this.$render = noop),
-                        (this.$isEmpty = function (
-                            value
-                        ) {
-                            return (
-                                isUndefined(
-                                    value
-                                ) ||
-                  "" === value ||
-                  null === value ||
-                  value != value
-                            );
-                        });
-                        var parentForm =
-                $element.inheritedData(
-                    "$formController"
-                ) || nullFormCtrl,
-                            invalidCount = 0,
-                            $error = (this.$error = {
-                            });
-                        $element.addClass(
-                            PRISTINE_CLASS
-                        ), toggleValidCss(
-                            !0
-                        );
-                        function toggleValidCss(
-                            isValid, validationErrorKey
-                        ) {
-                            (validationErrorKey = validationErrorKey
-                                ? "-" + snake_case(
-                                    validationErrorKey,
-                                    "-"
-                                )
-                                : ""),
-                            $element
-                                .removeClass(
-                                    (isValid ? INVALID_CLASS : VALID_CLASS) +
-                      validationErrorKey,
-                                )
-                                .addClass(
-                                    (isValid ? VALID_CLASS : INVALID_CLASS) +
-                      validationErrorKey,
-                                );
-                        }
-                        (this.$setValidity = function (
-                            validationErrorKey, isValid
-                        ) {
-                            if (!isValid === $error[validationErrorKey]) return;
-                            isValid
-                                ? ($error[validationErrorKey] && invalidCount--,
-                                !invalidCount &&
-                    (toggleValidCss(
-                        !0
-                    ),
-                    (this.$valid = !0),
-                    (this.$invalid = !1)))
-                                : (toggleValidCss(
-                                    !1
-                                ),
-                                (this.$invalid = !0),
-                                (this.$valid = !1),
-                                invalidCount++),
-                            ($error[validationErrorKey] = !isValid),
-                            toggleValidCss(
-                                isValid,
-                                validationErrorKey
-                            ),
-                            parentForm.$setValidity(
-                                validationErrorKey,
-                                isValid,
-                                this
-                            );
-                        }),
-                        (this.$setPristine = function (
-                        ) {
-                            (this.$dirty = !1),
-                            (this.$pristine = !0),
-                            $element.removeClass(
-                                DIRTY_CLASS
-                            ).addClass(
-                                PRISTINE_CLASS
-                            );
-                        }),
-                        (this.$setViewValue = function (
-                            value
-                        ) {
-                            (this.$viewValue = value),
-                            this.$pristine &&
-                    ((this.$dirty = !0),
-                    (this.$pristine = !1),
-                    $element.removeClass(
-                        PRISTINE_CLASS
-                    ).addClass(
-                        DIRTY_CLASS
-                    ),
-                    parentForm.$setDirty(
-                    )),
-                            forEach(
-                                this.$parsers,
-                                function (
-                                    fn
-                                ) {
-                                    value = fn(
-                                        value
-                                    );
-                                }
-                            ),
-                            this.$modelValue !== value &&
-                    ((this.$modelValue = value),
-                    ngModelSet(
-                        $scope,
-                        value
-                    ),
-                    forEach(
-                        this.$viewChangeListeners,
-                        function (
-                            listener
-                        ) {
-                            try {
-                                listener(
-                                );
-                            } catch (e) {
-                                $exceptionHandler(
-                                    e
-                                );
-                            }
-                        }
-                    ));
-                        });
-                        var ctrl = this;
-                        $scope.$watch(
-                            function (
-                            ) {
-                                var value = ngModelGet(
-                                    $scope
-                                );
-                                if (ctrl.$modelValue !== value) {
-                                    var formatters = ctrl.$formatters,
-                                        idx = formatters.length;
-                                    for (ctrl.$modelValue = value; idx--; )
-                                        value = formatters[idx](
-                                            value
-                                        );
-                                    ctrl.$viewValue !== value &&
-                  ((ctrl.$viewValue = value), ctrl.$render(
-                  ));
-                                }
-                                return value;
-                            }
-                        );
-                    },
-                ],
+                controller: NgModelController,
                 link: function (
                     scope, element, attr, ctrls
                 ) {
@@ -13834,6 +13884,7 @@
                 },
             };
         },
+        CONSTANT_VALUE_REGEXP = /^(true|false|\d+)$/,
         ngValueDirective = function (
         ) {
             return {
@@ -13841,7 +13892,7 @@
                 compile: function (
                     tpl, tplAttr
                 ) {
-                    return /^(true|false|\d+)$/.test(
+                    return CONSTANT_VALUE_REGEXP.test(
                         tplAttr.ngValue
                     )
                         ? function (
@@ -13893,7 +13944,80 @@
                     }
                 );
             }
-        );
+        ),
+        ngBindTemplateDirective = [
+            "$interpolate",
+            function (
+                $interpolate
+            ) {
+                return function (
+                    scope, element, attr
+                ) {
+                    var interpolateFn = $interpolate(
+                        element.attr(
+                            attr.$attr.ngBindTemplate
+                        ),
+                    );
+                    element.addClass(
+                        "ng-binding"
+                    ).data(
+                        "$binding",
+                        interpolateFn
+                    ),
+                    attr.$observe(
+                        "ngBindTemplate",
+                        function (
+                            value
+                        ) {
+                            element.text(
+                                value
+                            );
+                        }
+                    );
+                };
+            },
+        ],
+        ngBindHtmlDirective = [
+            "$sce",
+            "$parse",
+            function (
+                $sce, $parse
+            ) {
+                return function (
+                    scope, element, attr
+                ) {
+                    element.addClass(
+                        "ng-binding"
+                    ).data(
+                        "$binding",
+                        attr.ngBindHtml
+                    );
+                    var parsed = $parse(
+                        attr.ngBindHtml
+                    );
+                    scope.$watch(
+                        function (
+                        ) {
+                            return (parsed(
+                                scope
+                            ) || "").toString(
+                            );
+                        },
+                        function (
+                            value
+                        ) {
+                            element.html(
+                                $sce.getTrustedHtml(
+                                    parsed(
+                                        scope
+                                    )
+                                ) || ""
+                            );
+                        },
+                    );
+                };
+            },
+        ];
     function classDirective(
         name, selector
     ) {
@@ -14348,13 +14472,14 @@
                             startSymbol = $interpolate.startSymbol(
                             ),
                             endSymbol = $interpolate.endSymbol(
-                            );
+                            ),
+                            isWhen = /^when(Minus)?(.+)$/;
                         forEach(
                             attr,
                             function (
                                 expression, attributeName
                             ) {
-                                /^when(Minus)?(.+)$/.test(
+                                isWhen.test(
                                     attributeName
                                 ) &&
                 (whens[
@@ -14983,7 +15108,10 @@
             function (
                 $compile, $parse
             ) {
-                var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/;
+                var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
+                    nullModelCtrl = {
+                        $setViewValue: noop,
+                    };
                 return {
                     restrict: "E",
                     require: ["select", "?ngModel",],
@@ -14997,9 +15125,7 @@
                             var self = this,
                                 optionsMap = {
                                 },
-                                ngModelCtrl = {
-                                    $setViewValue: noop,
-                                },
+                                ngModelCtrl = nullModelCtrl,
                                 nullOption,
                                 unknownOption;
                             (self.databound = $attrs.ngModel),
@@ -15090,6 +15216,11 @@
                                 optionTemplate = jqLite(
                                     document.createElement(
                                         "option"
+                                    )
+                                ),
+                                optGroupTemplate = jqLite(
+                                    document.createElement(
+                                        "optgroup"
                                     )
                                 ),
                                 unknownOption = optionTemplate.clone(
@@ -15217,6 +15348,9 @@
                             var lastView;
                             (ctrl.$render = function (
                             ) {
+                                var items = new HashMap(
+                                    ctrl.$viewValue
+                                );
                                 forEach(
                                     selectElement.find(
                                         "option"
@@ -15225,11 +15359,9 @@
                                         option
                                     ) {
                                         option.selected = isDefined(
-                                            new HashMap(
-                                                ctrl.$viewValue
-                                            ).get(
+                                            items.get(
                                                 option.value
-                                            ),
+                                            )
                                         );
                                     }
                                 );
@@ -15603,11 +15735,7 @@
                                         optionGroup = optionGroups[optionGroupName],
                                         optionGroupsCache.length <= groupIndex
                                             ? ((existingParent = {
-                                                element: jqLite(
-                                                    document.createElement(
-                                                        "optgroup"
-                                                    )
-                                                )
+                                                element: optGroupTemplate
                                                     .clone(
                                                     )
                                                     .attr(
@@ -15702,6 +15830,10 @@
             function (
                 $interpolate
             ) {
+                var nullSelectCtrl = {
+                    addOption: noop,
+                    removeOption: noop,
+                };
                 return {
                     restrict: "E",
                     priority: 100,
@@ -15740,10 +15872,7 @@
                                     "selected",
                                     !1
                                 )
-                                : (selectCtrl = {
-                                    addOption: noop,
-                                    removeOption: noop,
-                                }),
+                                : (selectCtrl = nullSelectCtrl),
                             interpolateFn
                                 ? scope.$watch(
                                     interpolateFn,
@@ -15844,13 +15973,7 @@
                 isNumber: isNumber,
                 isElement: isElement,
                 isArray: isArray,
-                version: {
-                    full: "1.2.5",
-                    major: 1,
-                    minor: 2,
-                    dot: 5,
-                    codeName: "singularity-expansion",
-                },
+                version: version,
                 isDate: isDate,
                 lowercase: lowercase,
                 uppercase: uppercase,
@@ -15906,83 +16029,8 @@
                                 style: styleDirective,
                                 option: optionDirective,
                                 ngBind: ngBindDirective,
-                                ngBindHtml: [
-                                    "$sce",
-                                    "$parse",
-                                    function (
-                                        $sce, $parse
-                                    ) {
-                                        return function (
-                                            scope, element, attr
-                                        ) {
-                                            element
-                                                .addClass(
-                                                    "ng-binding"
-                                                )
-                                                .data(
-                                                    "$binding",
-                                                    attr.ngBindHtml
-                                                );
-                                            var parsed = $parse(
-                                                attr.ngBindHtml
-                                            );
-                                            scope.$watch(
-                                                function (
-                                                ) {
-                                                    return (parsed(
-                                                        scope
-                                                    ) || "").toString(
-                                                    );
-                                                },
-                                                function (
-                                                    value
-                                                ) {
-                                                    element.html(
-                                                        $sce.getTrustedHtml(
-                                                            parsed(
-                                                                scope
-                                                            )
-                                                        ) || "",
-                                                    );
-                                                },
-                                            );
-                                        };
-                                    },
-                                ],
-                                ngBindTemplate: [
-                                    "$interpolate",
-                                    function (
-                                        $interpolate
-                                    ) {
-                                        return function (
-                                            scope, element, attr
-                                        ) {
-                                            var interpolateFn = $interpolate(
-                                                element.attr(
-                                                    attr.$attr.ngBindTemplate
-                                                ),
-                                            );
-                                            element
-                                                .addClass(
-                                                    "ng-binding"
-                                                )
-                                                .data(
-                                                    "$binding",
-                                                    interpolateFn
-                                                ),
-                                            attr.$observe(
-                                                "ngBindTemplate",
-                                                function (
-                                                    value
-                                                ) {
-                                                    element.text(
-                                                        value
-                                                    );
-                                                }
-                                            );
-                                        };
-                                    },
-                                ],
+                                ngBindHtml: ngBindHtmlDirective,
+                                ngBindTemplate: ngBindTemplateDirective,
                                 ngClass: ngClassDirective,
                                 ngClassEven: ngClassEvenDirective,
                                 ngClassOdd: ngClassOddDirective,

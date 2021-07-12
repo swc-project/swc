@@ -4,13 +4,13 @@
         root = this,
         previousBackbone = root.Backbone,
         slice = [].slice;
-    (Backbone = "undefined" !== typeof exports
+    (Backbone = "undefined" != typeof exports
         ? exports
         : (root.Backbone = {
         })),
     (Backbone.VERSION = "1.1.0");
     var _ = root._;
-    _ || "undefined" == typeof require || (_ = require(
+    !_ && "undefined" != typeof require && (_ = require(
         "underscore"
     )),
     (Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$),
@@ -805,29 +805,38 @@
         },
     );
     var Collection = (Backbone.Collection = function (
-        models, options
-    ) {
-        options || (options = {
-        }),
-        options.model && (this.model = options.model),
-        void 0 !== options.comparator && (this.comparator = options.comparator),
-        this._reset(
-        ),
-        this.initialize.apply(
-            this,
-            arguments
-        ),
-        models &&
-        this.reset(
-            models,
-            _.extend(
-                {
-                    silent: !0,
-                },
-                options,
+            models, options
+        ) {
+            options || (options = {
+            }),
+            options.model && (this.model = options.model),
+            void 0 !== options.comparator && (this.comparator = options.comparator),
+            this._reset(
             ),
-        );
-    });
+            this.initialize.apply(
+                this,
+                arguments
+            ),
+            models &&
+          this.reset(
+              models,
+              _.extend(
+                  {
+                      silent: !0,
+                  },
+                  options,
+              ),
+          );
+        }),
+        setOptions = {
+            add: !0,
+            remove: !0,
+            merge: !0,
+        },
+        addOptions = {
+            add: !0,
+            remove: !1,
+        };
     _.extend(
         Collection.prototype,
         Events,
@@ -865,10 +874,7 @@
                             merge: !1,
                         },
                         options,
-                        {
-                            add: !0,
-                            remove: !1,
-                        },
+                        addOptions,
                     ),
                 );
             },
@@ -930,11 +936,7 @@
                     {
                     },
                     options,
-                    {
-                        add: !0,
-                        remove: !0,
-                        merge: !0,
-                    }
+                    setOptions
                 )),
                 options.parse && (models = this.parse(
                     models,
@@ -1724,7 +1726,7 @@
         ), xhr;
     });
     var noXhrPatch =
-      "undefined" !== typeof window &&
+      "undefined" != typeof window &&
       !!window.ActiveXObject &&
       (!window.XMLHttpRequest || !new XMLHttpRequest(
       ).dispatchEvent),
@@ -1902,11 +1904,12 @@
                 this,
                 "checkUrl"
             ),
-            "undefined" !== typeof window &&
+            "undefined" != typeof window &&
           ((this.location = window.location), (this.history = window.history));
         }),
         routeStripper = /^[#\/]|\s+$/g,
         rootStripper = /^\/+|\/+$/g,
+        isExplorer = /msie [\w.]+/,
         trailingSlash = /\/$/,
         pathStripper = /[?#].*$/;
     (History1.started = !1),
@@ -1974,7 +1977,7 @@
                     ),
                     docMode = document.documentMode,
                     oldIE =
-            /msie [\w.]+/.exec(
+            isExplorer.exec(
                 navigator.userAgent.toLowerCase(
                 )
             ) &&

@@ -188,43 +188,44 @@
         }
     );
     var Type = (this.Type = function (
-        name, object
-    ) {
-        if (name) {
-            var lower = name.toLowerCase(
-                ),
-                typeCheck = function (
-                    item
-                ) {
-                    return typeOf(
+            name, object
+        ) {
+            if (name) {
+                var lower = name.toLowerCase(
+                    ),
+                    typeCheck = function (
                         item
-                    ) == lower;
-                };
-            (Type["is" + name] = typeCheck),
-            null != object &&
-          ((object.prototype.$family = function (
-          ) {
-              return lower;
-          }.hide(
-          )),
-          (object.type = typeCheck));
-        }
-        return null == object
-            ? null
-            : (object.extend(
-                this
-            ),
-            (object.$constructor = Type),
-            (object.prototype.$constructor = object),
-            object);
-    });
+                    ) {
+                        return typeOf(
+                            item
+                        ) == lower;
+                    };
+                (Type["is" + name] = typeCheck),
+                null != object &&
+            ((object.prototype.$family = function (
+            ) {
+                return lower;
+            }.hide(
+            )),
+            (object.type = typeCheck));
+            }
+            return null == object
+                ? null
+                : (object.extend(
+                    this
+                ),
+                (object.$constructor = Type),
+                (object.prototype.$constructor = object),
+                object);
+        }),
+        toString = Object.prototype.toString;
     Type.isEnumerable = function (
         item
     ) {
         return (
             null != item &&
       "number" == typeof item.length &&
-      "[object Function]" != Object.prototype.toString.call(
+      "[object Function]" != toString.call(
           item
       )
         );
@@ -343,28 +344,28 @@
                 )
             );
         }
-        return (
-            isType &&
-        (object.forEachMethod = function (
-            fn
-        ) {
-            if (!prototype.propertyIsEnumerable(
+        if (isType) {
+            var methodsEnumerable = prototype.propertyIsEnumerable(
                 methods[0]
-            ))
-                for (var i = 0, l = methods.length; i < l; i++)
-                    fn.call(
-                        prototype,
-                        prototype[methods[i]],
-                        methods[i]
-                    );
-            for (var key in prototype) fn.call(
-                prototype,
-                prototype[key],
-                key
             );
-        }),
-            force
-        );
+            object.forEachMethod = function (
+                fn
+            ) {
+                if (!methodsEnumerable)
+                    for (var i = 0, l = methods.length; i < l; i++)
+                        fn.call(
+                            prototype,
+                            prototype[methods[i]],
+                            methods[i]
+                        );
+                for (var key in prototype) fn.call(
+                    prototype,
+                    prototype[key],
+                    key
+                );
+            };
+        }
+        return force;
     };
     force(
         "String",
@@ -487,23 +488,24 @@
                 ) * (max - min + 1) + min
             );
         }
-    ),
+    );
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
     Object.extend(
         "forEach",
         function (
             object, fn, bind
         ) {
             for (var key in object)
-                Object.prototype.hasOwnProperty.call(
+                hasOwnProperty.call(
                     object,
                     key
                 ) &&
-          fn.call(
-              bind,
-              object[key],
-              key,
-              object
-          );
+        fn.call(
+            bind,
+            object[key],
+            key,
+            object
+        );
         }
     ),
     (Object.each = Object.forEach),
@@ -719,14 +721,15 @@
             methods
         );
         return Native;
-    }),
+    });
+    var arrayType = Array.type;
     (Array.type = function (
         item
     ) {
         return instanceOf(
             item,
             Array
-        ) || Array.type(
+        ) || arrayType(
             item
         );
     }),
@@ -824,7 +827,7 @@
         var type = typeOf(
             object
         );
-        return "elements" == type ? "array" : "null" == type ? !1 : type;
+        return "elements" == type ? "array" : "null" != type && type;
     }),
     (this.$unlink = function (
         object
@@ -1464,13 +1467,14 @@ Function.implement(
         pass: function (
             args, bind
         ) {
+            var self = this;
             return (
                 null != args && (args = Array.from(
                     args
                 )),
                 function (
                 ) {
-                    return this.apply(
+                    return self.apply(
                         bind,
                         args || arguments
                     );
@@ -1507,6 +1511,7 @@ Function.implement(
         create: function (
             options
         ) {
+            var self = this;
             return (
                 (options = options || {
                 }),
@@ -1528,7 +1533,7 @@ Function.implement(
                     ));
                     var returns = function (
                     ) {
-                        return this.apply(
+                        return self.apply(
                             options.bind || null,
                             args
                         );
@@ -1555,13 +1560,14 @@ Function.implement(
         bind: function (
             bind, args
         ) {
+            var self = this;
             return (
                 null != args && (args = Array.from(
                     args
                 )),
                 function (
                 ) {
-                    return this.apply(
+                    return self.apply(
                         bind,
                         args || arguments
                     );
@@ -1571,6 +1577,7 @@ Function.implement(
         bindWithEvent: function (
             bind, args
         ) {
+            var self = this;
             return (
                 null != args && (args = Array.from(
                     args
@@ -1578,7 +1585,7 @@ Function.implement(
                 function (
                     event
                 ) {
-                    return this.apply(
+                    return self.apply(
                         bind,
                         null == args
                             ? arguments
@@ -2232,7 +2239,8 @@ Hash.alias(
                 item
             );
         };
-        var prototype = Array.prototype;
+        var prototype = Array.prototype,
+            slice = prototype.slice;
         [
             "pop",
             "push",
@@ -2248,17 +2256,18 @@ Hash.alias(
             function (
                 name
             ) {
+                var method = prototype[name];
                 Array[name] = function (
                     item
                 ) {
-                    return prototype[name].apply(
+                    return method.apply(
                         Array.from(
                             item
                         ),
-                        prototype.slice.call(
+                        slice.call(
                             arguments,
                             1
-                        ),
+                        )
                     );
                 };
             }
@@ -2771,15 +2780,16 @@ var Event1 = DOMEvent;
             addEvent: function (
                 type, fn, internal
             ) {
-                return ((type = removeOn(
-                    type
-                )), $empty == fn)
-                    ? this
-                    : ((this.$events[type] = (this.$events[type] || []).include(
-                        fn
-                    )),
-                    internal && (fn.internal = !0),
-                    this);
+                return (
+                    ((type = removeOn(
+                        type
+                    )), $empty == fn) ||
+            ((this.$events[type] = (this.$events[type] || []).include(
+                fn
+            )),
+            internal && (fn.internal = !0)),
+                    this
+                );
             },
             addEvents: function (
                 events
@@ -2797,29 +2807,30 @@ var Event1 = DOMEvent;
                     type
                 );
                 var events = this.$events[type];
-                return events
-                    ? ((args = Array.from(
-                        args
-                    )),
-                    events.each(
-                        function (
-                            fn
-                        ) {
-                            delay
-                                ? fn.delay(
-                                    delay,
-                                    this,
-                                    args
-                                )
-                                : fn.apply(
-                                    this,
-                                    args
-                                );
-                        },
-                        this
-                    ),
-                    this)
-                    : this;
+                return (
+                    events &&
+            ((args = Array.from(
+                args
+            )),
+            events.each(
+                function (
+                    fn
+                ) {
+                    delay
+                        ? fn.delay(
+                            delay,
+                            this,
+                            args
+                        )
+                        : fn.apply(
+                            this,
+                            args
+                        );
+                },
+                this
+            )),
+                    this
+                );
             },
             removeEvent: function (
                 type, fn
@@ -3234,7 +3245,8 @@ function (
     var local = {
         },
         featuresCache = {
-        };
+        },
+        toString = Object.prototype.toString;
     (local.isNativeCode = function (
         fn
     ) {
@@ -3248,7 +3260,7 @@ function (
         return (
             !!document.xmlVersion ||
           !!document.xml ||
-          "[object XMLDocument]" == Object.prototype.toString.call(
+          "[object XMLDocument]" == toString.call(
               document
           ) ||
           (9 == document.nodeType &&
@@ -3583,6 +3595,7 @@ function (
         for (feature in features) this[feature] = features[feature];
     });
     var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/,
+        reEmptyAttribute = /\[.+[*$^]=(?:""|'')?\]/,
         qsaFailExpCache = {
         };
     (local.search = function (
@@ -3722,7 +3735,7 @@ function (
                 ":checked"
             ) > -1) ||
             (this.brokenEmptyAttributeQSA &&
-              /\[.+[*$^]=(?:""|'')?\]/.test(
+              reEmptyAttribute.test(
                   expression
               )) ||
             (!contextIsDocument && expression.indexOf(
@@ -3914,11 +3927,11 @@ function (
     (local.sort = function (
         results
     ) {
-        return this.documentSorter
-            ? (results.sort(
+        return (
+            this.documentSorter && results.sort(
                 this.documentSorter
-            ), results)
-            : results;
+            ), results
+        );
     }),
     (local.cacheNTH = {
     }),
@@ -4000,12 +4013,8 @@ function (
             return 0 == a
                 ? b == pos
                 : a > 0
-                    ? b > pos
-                        ? !1
-                        : void 0
-                    : b < pos
-                        ? !1
-                        : (pos - b) % a == 0;
+                    ? !(b > pos) && void 0
+                    : !(b < pos) && (pos - b) % a == 0;
         };
     }),
     (local.pushArray = function (
@@ -4209,7 +4218,7 @@ function (
                                 break;
                             }
                         }
-                        return void 0;
+                        return;
                     }
                     if (!item) {
                         if (this.contains(
@@ -4256,7 +4265,7 @@ function (
                             attributes,
                             pseudos
                         );
-                    return void 0;
+                    return;
                 }
             }
             getByTag: {
@@ -4274,7 +4283,7 @@ function (
                 )
                     this.push(
                         item,
-                        null,
+                        tag,
                         id,
                         classes,
                         attributes,
@@ -4958,7 +4967,9 @@ var IFrame = new Type(
                 iframe;
             params.iframe && (iframe = document.id(
                 params.iframe
-            )),
+            ));
+            var onload = props.onload || function (
+            ) {};
             delete props.onload,
             (props.id = props.name = [
                 props.id,
@@ -4975,8 +4986,7 @@ var IFrame = new Type(
             ));
             var onLoad = function (
             ) {
-                (props.onload || function (
-                ) {}).call(
+                onload.call(
                     iframe.contentWindow
                 );
             };
@@ -6303,6 +6313,11 @@ Elements.alias(
                 null != uid && (delete collected[uid], delete storage[uid]),
                 item
             );
+        },
+        formProps = {
+            input: "checked",
+            option: "selected",
+            textarea: "value",
         };
     Element1.implement(
         {
@@ -6385,11 +6400,7 @@ Elements.alias(
                             for (var no = node.options, j = no.length; j--; )
                                 no[j].selected = element.options[j].selected;
                     }
-                    var prop = {
-                        input: "checked",
-                        option: "selected",
-                        textarea: "value",
-                    }[element.tagName.toLowerCase(
+                    var prop = formProps[element.tagName.toLowerCase(
                     )];
                     prop && element[prop] && (node[prop] = element[prop]);
                 }
@@ -6414,19 +6425,21 @@ Elements.alias(
             addListener: function (
                 type, fn
             ) {
+                if ("unload" == type) {
+                    var old = fn,
+                        self = this;
+                    fn = function (
+                    ) {
+                        self.removeListener(
+                            "unload",
+                            fn
+                        ), old(
+                        );
+                    };
+                } else collected[Slick.uidOf(
+                    this
+                )] = this;
                 return (
-                    "unload" == type
-                        ? (fn = function (
-                        ) {
-                            this.removeListener(
-                                "unload",
-                                fn
-                            ), old(
-                            );
-                        })
-                        : (collected[Slick.uidOf(
-                            this
-                        )] = this),
                     this.addEventListener
                         ? this.addEventListener(
                             type,
@@ -7364,29 +7377,31 @@ Elements.alias(
                     var events = this.retrieve(
                         "events"
                     );
-                    return events && events[type]
-                        ? ((args = Array.from(
-                            args
-                        )),
-                        events[type].keys.each(
-                            function (
-                                fn
-                            ) {
-                                delay
-                                    ? fn.delay(
-                                        delay,
-                                        this,
-                                        args
-                                    )
-                                    : fn.apply(
-                                        this,
-                                        args
-                                    );
-                            },
-                            this
-                        ),
-                        this)
-                        : this;
+                    return (
+                        events &&
+              events[type] &&
+              ((args = Array.from(
+                  args
+              )),
+              events[type].keys.each(
+                  function (
+                      fn
+                  ) {
+                      delay
+                          ? fn.delay(
+                              delay,
+                              this,
+                              args
+                          )
+                          : fn.apply(
+                              this,
+                              args
+                          );
+                  },
+                  this
+              )),
+                        this
+                    );
                 },
                 cloneEvents: function (
                     from, type
@@ -8622,6 +8637,16 @@ Element1.alias(
         },
         timers = {
         },
+        loop = function (
+        ) {
+            for (var now = Date.now(
+                ), i = this.length; i--; ) {
+                var instance = this[i];
+                instance && instance.step(
+                    now
+                );
+            }
+        },
         pushInstance = function (
             fps
         ) {
@@ -8630,16 +8655,7 @@ Element1.alias(
                 this
             ),
             timers[fps] ||
-            (timers[fps] = function (
-            ) {
-                for (var now = Date.now(
-                    ), i = this.length; i--; ) {
-                    var instance = this[i];
-                    instance && instance.step(
-                        now
-                    );
-                }
-            }.periodical(
+            (timers[fps] = loop.periodical(
                 Math.round(
                     1000 / fps
                 ),
@@ -8847,7 +8863,11 @@ Element1.alias(
         ) {
             if (Fx.CSS.Cache[selector]) return Fx.CSS.Cache[selector];
             var to = {
-            };
+                },
+                selectorTest = new RegExp(
+                    "^" + selector.escapeRegExp(
+                    ) + "$"
+                );
             return (
                 Array.each(
                     document.styleSheets,
@@ -8879,13 +8899,9 @@ Element1.alias(
                                         }
                                     )
                                     : null;
-                                return selectorText &&
-              new RegExp(
-                  "^" + selector.escapeRegExp(
-                  ) + "$"
-              ).test(
-                  selectorText
-              )
+                                return selectorText && selectorTest.test(
+                                    selectorText
+                                )
                                     ? void Object.each(
                                         Element1.Styles,
                                         function (
@@ -10076,27 +10092,29 @@ Element1.implement(
 )),
 (function (
 ) {
-    var escape = function (
-        chr
-    ) {
-        return (
-            {
-                "\b": "\\b",
-                "\t": "\\t",
-                "\n": "\\n",
-                "\f": "\\f",
-                "\r": "\\r",
-                '"': '\\"',
-                "\\": "\\\\",
-            }[chr] || "\\u" + ("0000" + chr.charCodeAt(
-                0
-            ).toString(
-                16
-            )).slice(
-                -4
-            )
-        );
-    };
+    var special = {
+            "\b": "\\b",
+            "\t": "\\t",
+            "\n": "\\n",
+            "\f": "\\f",
+            "\r": "\\r",
+            '"': '\\"',
+            "\\": "\\\\",
+        },
+        escape = function (
+            chr
+        ) {
+            return (
+                special[chr] ||
+          "\\u" + ("0000" + chr.charCodeAt(
+              0
+          ).toString(
+              16
+          )).slice(
+              -4
+          )
+            );
+        };
     (JSON.validate = function (
         string
     ) {

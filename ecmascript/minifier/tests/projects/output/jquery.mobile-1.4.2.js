@@ -66,6 +66,7 @@
             var nsNormalizeDict = {
                 },
                 oldFind = jQuery.find,
+                rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/,
                 jqmDataRE = /:jqmData\(([^)]*)\)/g;
             jQuery.extend(
                 jQuery.mobile,
@@ -84,19 +85,18 @@
                         try {
                             data =
               "true" === data ||
-              ("false" === data
-                  ? !1
-                  : "null" === data
-                      ? null
-                      : +data + "" === data
-                          ? +data
-                          : /(?:\{[\s\S]*\}|\[[\s\S]*\])$/.test(
-                              data
-                          )
-                              ? JSON.parse(
-                                  data
-                              )
-                              : data);
+              ("false" !== data &&
+                ("null" === data
+                    ? null
+                    : +data + "" === data
+                        ? +data
+                        : rbrace.test(
+                            data
+                        )
+                            ? JSON.parse(
+                                data
+                            )
+                            : data));
                         } catch (err) {}
                         return data;
                     },
@@ -129,12 +129,12 @@
             ) {
                 var result;
                 return (
-                    "undefined" !== typeof prop &&
+                    "undefined" != typeof prop &&
               (prop && (prop = jQuery.mobile.nsNormalize(
                   prop
               )),
               (result =
-                2 > arguments.length || void 0 === value
+                arguments.length < 2 || void 0 === value
                     ? this.data(
                         prop
                     )
@@ -150,7 +150,7 @@
             ) {
                 var result;
                 return (
-                    "undefined" !== typeof prop &&
+                    "undefined" != typeof prop &&
               (result = jQuery.data(
                   elem,
                   prop
@@ -213,7 +213,8 @@
         (function (
             $, undefined
         ) {
-            var uuid = 0;
+            var uuid = 0,
+                runiqueId = /^ui-id-\d+$/;
             (jQuery.ui = jQuery.ui || {
             }),
             jQuery.extend(
@@ -372,7 +373,7 @@
                         return this.each(
                             function (
                             ) {
-                                /^ui-id-\d+$/.test(
+                                runiqueId.test(
                                     this.id
                                 ) && jQuery(
                                     this
@@ -387,21 +388,22 @@
             function focusable(
                 element, isTabIndexNotNaN
             ) {
-                var img,
+                var map,
+                    mapName,
+                    img,
                     nodeName = element.nodeName.toLowerCase(
                     );
                 if ("area" === nodeName) {
                     if (
-                        (element.parentNode.name,
-                        !element.href ||
-              !element.parentNode.name ||
-              "map" !== element.parentNode.nodeName.toLowerCase(
-              ))
+                        ((map = element.parentNode),
+                        (mapName = map.name),
+                        !element.href || !mapName || "map" !== map.nodeName.toLowerCase(
+                        ))
                     )
                         return !1;
                     return (
                         (img = jQuery(
-                            "img[usemap=#" + element.parentNode.name + "]"
+                            "img[usemap=#" + mapName + "]"
                         )[0]),
                         !!img && visible(
                             img
@@ -514,7 +516,8 @@
               function (
                   i, name
               ) {
-                  var type = name.toLowerCase(
+                  var side = "Width" === name ? ["Left", "Right",] : ["Top", "Bottom",],
+                      type = name.toLowerCase(
                       ),
                       orig = {
                           innerWidth: jQuery.fn.innerWidth,
@@ -527,33 +530,32 @@
                   ) {
                       return (
                           jQuery.each(
-                              "Width" === name ? ["Left", "Right",] : ["Top", "Bottom",],
+                              side,
                               function (
                               ) {
-                                  (size -=
-                      parseFloat(
-                          jQuery.css(
-                              elem,
-                              "padding" + this
-                          )
-                      ) || 0),
+                                  (size -= parseFloat(
+                                      jQuery.css(
+                                          elem,
+                                          "padding" + this
+                                      )
+                                  ) || 0),
                                   border &&
-                        (size -=
-                          parseFloat(
-                              jQuery.css(
-                                  elem,
-                                  "border" + this + "Width"
-                              ),
-                          ) || 0),
+                      (size -=
+                        parseFloat(
+                            jQuery.css(
+                                elem,
+                                "border" + this + "Width"
+                            ),
+                        ) || 0),
                                   margin &&
-                        (size -=
-                          parseFloat(
-                              jQuery.css(
-                                  elem,
-                                  "margin" + this
-                              )
-                          ) || 0);
-                              },
+                      (size -=
+                        parseFloat(
+                            jQuery.css(
+                                elem,
+                                "margin" + this
+                            )
+                        ) || 0);
+                              }
                           ),
                           size
                       );
@@ -583,7 +585,7 @@
                   (jQuery.fn["outer" + name] = function (
                       size, margin
                   ) {
-                      return "number" !== typeof size
+                      return "number" != typeof size
                           ? orig["outer" + name].call(
                               this,
                               size
@@ -759,6 +761,41 @@
         (function (
             $, window1, undefined
         ) {
+            var compensateToolbars = function (
+                page, desiredHeight
+            ) {
+                return (
+                    0 === internalHeaders.length &&
+            externalHeaders.length > 0 &&
+            (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(
+                externalHeaders.toArray(
+                ),
+            )),
+                    0 === page.children(
+                        ":jqmData(role='footer')"
+                    ).length &&
+            externalFooters.length > 0 &&
+            (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(
+                externalFooters.toArray(
+                ),
+            )),
+                    jQuery.each(
+                        toolbarsAffectingHeight,
+                        function (
+                            index, value
+                        ) {
+                            desiredHeight -= jQuery(
+                                value
+                            ).outerHeight(
+                            );
+                        }
+                    ),
+                    Math.max(
+                        0,
+                        desiredHeight
+                    )
+                );
+            };
             jQuery.extend(
                 jQuery.mobile,
                 {
@@ -925,41 +962,7 @@
                             pageOuterHeight = page.outerHeight(
                                 !0
                             );
-                        (height = (function (
-                            page1, desiredHeight
-                        ) {
-                            return (
-                                0 === internalHeaders.length &&
-                externalHeaders.length > 0 &&
-                (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(
-                    externalHeaders.toArray(
-                    ),
-                )),
-                                0 === page.children(
-                                    ":jqmData(role='footer')"
-                                ).length &&
-                externalFooters.length > 0 &&
-                (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(
-                    externalFooters.toArray(
-                    ),
-                )),
-                                jQuery.each(
-                                    toolbarsAffectingHeight,
-                                    function (
-                                        index, value
-                                    ) {
-                                        desiredHeight -= jQuery(
-                                            value
-                                        ).outerHeight(
-                                        );
-                                    }
-                                ),
-                                Math.max(
-                                    0,
-                                    desiredHeight
-                                )
-                            );
-                        })(
+                        (height = compensateToolbars(
                             page,
                             "number" == typeof height
                                 ? height
@@ -1016,6 +1019,12 @@
                     },
                     enhanceWithin: function (
                     ) {
+                        var index,
+                            widgetElements = {
+                            },
+                            keepNative = jQuery.mobile.page.prototype.keepNativeSelector(
+                            ),
+                            that = this;
                         jQuery.mobile.nojs && jQuery.mobile.nojs(
                             this
                         ),
@@ -1055,7 +1064,7 @@
                             ) {
                                 if (constructor.initSelector) {
                                     var elements = jQuery.mobile.enhanceable(
-                                        this.find(
+                                        that.find(
                                             constructor.initSelector
                                         ),
                                     );
@@ -1259,27 +1268,29 @@
                             }
                             proxiedPrototype[prop] = (function (
                             ) {
+                                var _super = function (
+                                    ) {
+                                        return base.prototype[prop].apply(
+                                            this,
+                                            arguments
+                                        );
+                                    },
+                                    _superApply = function (
+                                        args
+                                    ) {
+                                        return base.prototype[prop].apply(
+                                            this,
+                                            args
+                                        );
+                                    };
                                 return function (
                                 ) {
                                     var __super = this._super,
                                         __superApply = this._superApply,
                                         returnValue;
                                     return (
-                                        (this._super = function (
-                                        ) {
-                                            return base.prototype[prop].apply(
-                                                this,
-                                                arguments
-                                            );
-                                        }),
-                                        (this._superApply = function (
-                                            args
-                                        ) {
-                                            return base.prototype[prop].apply(
-                                                this,
-                                                args
-                                            );
-                                        }),
+                                        (this._super = _super),
+                                        (this._superApply = _superApply),
                                         (returnValue = value.apply(
                                             this,
                                             arguments
@@ -1702,7 +1713,7 @@
                 ) {
                     var delegateElement,
                         instance = this;
-                    "boolean" !== typeof suppressDisabledCheck &&
+                    "boolean" != typeof suppressDisabledCheck &&
               ((handlers = element),
               (element = suppressDisabledCheck),
               (suppressDisabledCheck = !1)),
@@ -1742,7 +1753,7 @@
                                     )
                                     : void 0;
                             }
-                            "string" !== typeof handler &&
+                            "string" != typeof handler &&
                   (handlerProxy.guid = handler.guid =
                     handler.guid || handlerProxy.guid || jQuery.guid++);
                             var match = event.match(
@@ -1972,7 +1983,13 @@
         (function (
             $, undefined
         ) {
-            var rcapitals = /[A-Z]/g;
+            var rcapitals = /[A-Z]/g,
+                replaceFunction = function (
+                    c
+                ) {
+                    return "-" + c.toLowerCase(
+                    );
+                };
             jQuery.extend(
                 jQuery.Widget.prototype,
                 {
@@ -1992,12 +2009,7 @@
                                     elem,
                                     option.replace(
                                         rcapitals,
-                                        function (
-                                            c
-                                        ) {
-                                            return "-" + c.toLowerCase(
-                                            );
-                                        }
+                                        replaceFunction
                                     ),
                                 )),
                                 null != value && (options[option] = value);
@@ -2665,7 +2677,7 @@
                     })(
                     ),
                     boundingRect:
-            "undefined" !==
+            "undefined" !=
             typeof document.createElement(
                 "div"
             ).getBoundingClientRect,
@@ -3046,12 +3058,12 @@
                     if (!path.isRelativeUrl(
                         relUrl
                     )) return relUrl;
-                    void 0 === this.documentBase && this.documentBase;
+                    void 0 === absUrl && (absUrl = this.documentBase);
                     var relObj = path.parseUrl(
                             relUrl
                         ),
                         absObj = path.parseUrl(
-                            this.documentBase
+                            absUrl
                         ),
                         protocol = relObj.protocol || absObj.protocol,
                         doubleSlash = relObj.protocol
@@ -3132,18 +3144,14 @@
                     newPath
                 ) {
                     return (
-                        void 0 === path.parseLocation(
-                        ).hash && path.parseLocation(
-                        ).hash,
-                        path
-                            .stripHash(
-                                path.parseLocation(
-                                ).hash
-                            )
-                            .replace(
-                                /[^\/]*\.[^\/*]+$/,
-                                ""
-                            )
+                        void 0 === newPath && (newPath = path.parseLocation(
+                        ).hash),
+                        path.stripHash(
+                            newPath
+                        ).replace(
+                            /[^\/]*\.[^\/*]+$/,
+                            ""
+                        )
                     );
                 },
                 set: function (
@@ -3874,25 +3882,22 @@
                 },
                 testElement = document.createElement(
                     "a"
-                );
+                ),
+                vendorPrefixes = ["", "webkit-", "moz-", "o-",];
             jQuery.each(
                 ["animation", "transition",],
                 function (
                     i, test
                 ) {
+                    var testName = 0 === i ? test + "-name" : test;
                     jQuery.each(
-                        ["", "webkit-", "moz-", "o-",],
+                        vendorPrefixes,
                         function (
                             j, prefix
                         ) {
-                            if (
-                                void 0 !==
-            testElement.style[
-                jQuery.camelCase(
-                    prefix + (0 === i ? test + "-name" : test)
-                )
-            ]
-                            )
+                            if (void 0 !== testElement.style[jQuery.camelCase(
+                                prefix + testName
+                            )])
                                 return (props[test].prefix = prefix), !1;
                         }
                     ),
@@ -4023,7 +4028,7 @@
             function getNativeEvent(
                 event
             ) {
-                for (; event && "undefined" !== typeof event.originalEvent; )
+                for (; event && "undefined" != typeof event.originalEvent; )
                     event = event.originalEvent;
                 return event;
             }
@@ -4035,6 +4040,7 @@
                     props,
                     ne,
                     prop,
+                    ct,
                     touch,
                     i,
                     j,
@@ -4068,13 +4074,8 @@
                             event.originalEvent
                         )),
                         (t = ne.touches),
-                        ne.changedTouches,
-                        (touch =
-              t && t.length
-                  ? t[0]
-                  : ne.changedTouches && ne.changedTouches.length
-                      ? ne.changedTouches[0]
-                      : void 0))
+                        (ct = ne.changedTouches),
+                        (touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0))
                     )
                         for (j = 0, len = touchEventProps.length; j < len; j++)
                             (prop = touchEventProps[j]), (event[prop] = touch[prop]);
@@ -4206,17 +4207,19 @@
                 var touches = getNativeEvent(
                         event
                     ).touches,
+                    target,
                     flags,
                     t;
                 touches &&
           1 === touches.length &&
-          ((flags = getVirtualBindingFlags(
-              event.target
+          ((target = event.target),
+          (flags = getVirtualBindingFlags(
+              target
           )),
           flags.hasVirtualBinding &&
             ((lastTouchID = nextTouchID++),
             jQuery.data(
-                event.target,
+                target,
                 "virtualTouchID",
                 lastTouchID
             ),
@@ -4925,13 +4928,13 @@
                 },
                 teardown: function (
                 ) {
-                    var events;
+                    var events, context;
                     (events = jQuery.data(
                         this,
                         "mobile-events"
                     )),
                     events &&
-                (events.swipe,
+                ((context = events.swipe),
                 delete events.swipe,
                 events.length--,
                 0 === events.length &&
@@ -4939,24 +4942,22 @@
                       this,
                       "mobile-events"
                   )),
-                    events.swipe &&
-                (events.swipe.start &&
+                    context &&
+                (context.start &&
                   jQuery(
                       this
                   ).off(
                       touchStartEvent,
-                      events.swipe.start
+                      context.start
                   ),
-                events.swipe.move &&
-                  $document.off(
-                      touchMoveEvent,
-                      events.swipe.move
-                  ),
-                events.swipe.stop &&
-                  $document.off(
-                      touchStopEvent,
-                      events.swipe.stop
-                  ));
+                context.move && $document.off(
+                    touchMoveEvent,
+                    context.move
+                ),
+                context.stop && $document.off(
+                    touchStopEvent,
+                    context.stop
+                ));
                 },
             }),
             jQuery.each(
@@ -5057,13 +5058,16 @@
                     180: !0,
                 },
                 ww,
-                wh;
+                wh,
+                landscape_threshold;
             jQuery.support.orientation &&
         ((ww = window1.innerWidth || win.width(
         )),
         (wh = window1.innerHeight || win.height(
         )),
-        (initial_orientation_is_landscape = ww > wh && ww - wh > 50),
+        (landscape_threshold = 50),
+        (initial_orientation_is_landscape =
+          ww > wh && ww - wh > landscape_threshold),
         (initial_orientation_is_default = portrait_map[window1.orientation]),
         ((initial_orientation_is_landscape && initial_orientation_is_default) ||
           (!initial_orientation_is_landscape &&
@@ -5106,13 +5110,14 @@
                     add: function (
                         handleObj
                     ) {
+                        var old_handler = handleObj.handler;
                         handleObj.handler = function (
                             event
                         ) {
                             return (
                                 (event.orientation = get_orientation(
                                 )),
-                                handleObj.handler.apply(
+                                old_handler.apply(
                                     this,
                                     arguments
                                 )
@@ -6942,93 +6947,95 @@
                         formData,
                         vclickedName,
                         method;
-                    return !jQuery.mobile.ajaxEnabled ||
-              $form.is(
-                  ":jqmData(ajax='false')"
-              ) ||
-              !$form.jqmHijackable(
-              ).length ||
-              $form.attr(
-                  "target"
-              )
-                        ? !1
-                        : ((url =
-                  ($lastVClicked && $lastVClicked.attr(
-                      "formaction"
-                  )) ||
-                  $form.attr(
-                      "action"
-                  )),
-                        (method = ($form.attr(
-                            "method"
-                        ) || "get").toLowerCase(
-                        )),
-                        url ||
-                  ((url = jQuery.mobile.getClosestBaseUrl(
-                      $form
-                  )),
-                  "get" === method &&
-                    (url = jQuery.mobile.path.parseUrl(
-                        url
-                    ).hrefNoSearch),
-                  url === jQuery.mobile.path.documentBase.hrefNoHash &&
-                    (url = documentUrl.hrefNoSearch)),
-                        (url = jQuery.mobile.path.makeUrlAbsolute(
-                            url,
-                            jQuery.mobile.getClosestBaseUrl(
-                                $form
-                            ),
-                        )),
-                        jQuery.mobile.path.isExternal(
-                            url
+                    return (
+                        !(
+                            !jQuery.mobile.ajaxEnabled ||
+                $form.is(
+                    ":jqmData(ajax='false')"
+                ) ||
+                !$form.jqmHijackable(
+                ).length ||
+                $form.attr(
+                    "target"
+                )
                         ) &&
-                  !jQuery.mobile.path.isPermittedCrossDomainRequest(
-                      documentUrl,
-                      url,
-                  ))
-                            ? !1
-                            : (calculateOnly ||
-                  ((formData = $form.serializeArray(
-                  )),
-                  $lastVClicked[0].form,
-                  $form[0],
-                  (vclickedName = $lastVClicked.attr(
-                      "name"
-                  )),
-                  jQuery.each(
-                      formData,
-                      function (
-                          key, value
-                      ) {
-                          if (value.name === vclickedName)
-                              return (vclickedName = ""), !1;
-                      }
+              ((url =
+                ($lastVClicked && $lastVClicked.attr(
+                    "formaction"
+                )) ||
+                $form.attr(
+                    "action"
+                )),
+              (method = ($form.attr(
+                  "method"
+              ) || "get").toLowerCase(
+              )),
+              url ||
+                ((url = jQuery.mobile.getClosestBaseUrl(
+                    $form
+                )),
+                "get" === method &&
+                  (url = jQuery.mobile.path.parseUrl(
+                      url
+                  ).hrefNoSearch),
+                url === jQuery.mobile.path.documentBase.hrefNoHash &&
+                  (url = documentUrl.hrefNoSearch)),
+              (url = jQuery.mobile.path.makeUrlAbsolute(
+                  url,
+                  jQuery.mobile.getClosestBaseUrl(
+                      $form
                   ),
-                  formData.push(
-                      {
-                          name: vclickedName,
-                          value: $lastVClicked.attr(
-                              "value"
-                          ),
-                      }
-                  ),
-                  (ret = {
-                      url: url,
-                      options: {
-                          type: method,
-                          data: jQuery.param(
-                              formData
-                          ),
-                          transition: $form.jqmData(
-                              "transition"
-                          ),
-                          reverse: "reverse" === $form.jqmData(
-                              "direction"
-                          ),
-                          reloadPage: !0,
-                      },
-                  })),
-                            ret);
+              )),
+              !jQuery.mobile.path.isExternal(
+                  url
+              ) ||
+                !!jQuery.mobile.path.isPermittedCrossDomainRequest(
+                    documentUrl,
+                    url,
+                )) &&
+              (calculateOnly ||
+                ((formData = $form.serializeArray(
+                )),
+                $lastVClicked[0].form,
+                $form[0],
+                (vclickedName = $lastVClicked.attr(
+                    "name"
+                )),
+                jQuery.each(
+                    formData,
+                    function (
+                        key, value
+                    ) {
+                        if (value.name === vclickedName)
+                            return (vclickedName = ""), !1;
+                    }
+                ),
+                formData.push(
+                    {
+                        name: vclickedName,
+                        value: $lastVClicked.attr(
+                            "value"
+                        ),
+                    }
+                ),
+                (ret = {
+                    url: url,
+                    options: {
+                        type: method,
+                        data: jQuery.param(
+                            formData
+                        ),
+                        transition: $form.jqmData(
+                            "transition"
+                        ),
+                        reverse: "reverse" === $form.jqmData(
+                            "direction"
+                        ),
+                        reloadPage: !0,
+                    },
+                })),
+              ret)
+                    );
                 };
                 jQuery.mobile.document.delegate(
                     "form",
@@ -7837,6 +7844,7 @@
                     options
                 ) {
                     var closeButtonLocation,
+                        closeButtonText,
                         currentOpts = this.options;
                     void 0 !== options.corners &&
           this._inner.toggleClass(
@@ -7849,13 +7857,14 @@
             this._handlePageBeforeShow(
             )),
                     void 0 !== options.closeBtnText &&
-            (closeButtonLocation = currentOpts.closeBtn),
+            ((closeButtonLocation = currentOpts.closeBtn),
+            (closeButtonText = options.closeBtnText)),
                     void 0 !== options.closeBtn &&
             (closeButtonLocation = options.closeBtn),
                     closeButtonLocation &&
             this._setCloseBtn(
                 closeButtonLocation,
-                options.closeBtnText
+                closeButtonText
             ),
                     this._super(
                         options
@@ -8018,6 +8027,7 @@
                     options
                 ) {
                     var closeButtonLocation,
+                        closeButtonText,
                         currentOpts = this.options;
                     void 0 !== options.corners &&
           this._inner.toggleClass(
@@ -8030,13 +8040,14 @@
             this._handlePageBeforeShow(
             )),
                     void 0 !== options.closeBtnText &&
-            (closeButtonLocation = currentOpts.closeBtn),
+            ((closeButtonLocation = currentOpts.closeBtn),
+            (closeButtonText = options.closeBtnText)),
                     void 0 !== options.closeBtn &&
             (closeButtonLocation = options.closeBtn),
                     closeButtonLocation &&
             this._setCloseBtn(
                 closeButtonLocation,
-                options.closeBtnText
+                closeButtonText
             ),
                     this._super(
                         options
@@ -9270,7 +9281,7 @@
                             item[0],
                             "icon"
                         )),
-                        (icon = !1 === itemIcon ? !1 : itemIcon || o.icon),
+                        (icon = !1 !== itemIcon && (itemIcon || o.icon)),
                         a.removeClass(
                             "ui-link"
                         ),
@@ -9338,15 +9349,14 @@
                           o.theme),
                             (itemClass =
                           "ui-li-divider ui-bar-" +
-                          (dividerTheme ? dividerTheme : "inherit")),
+                          (dividerTheme || "inherit")),
                             item.attr(
                                 "role",
                                 "heading"
                             ))
                             : 0 >= a.length &&
                         (itemClass =
-                          "ui-li-static ui-body-" +
-                          (itemTheme ? itemTheme : "inherit")),
+                          "ui-li-static ui-body-" + (itemTheme || "inherit")),
                     ol &&
                       value &&
                       ((newStartCount = parseInt(
@@ -9804,6 +9814,7 @@
                         _getInputSet: function (
                         ) {
                             var selector,
+                                formId,
                                 radio = this.element[0],
                                 name = radio.name,
                                 form = radio.form,
@@ -9822,11 +9833,11 @@
                         name
                     ) + "']"),
                   form
-                      ? (form.id,
-                      form.id &&
+                      ? ((formId = form.id),
+                      formId &&
                         (radios = jQuery(
                             selector + "[form='" + escapeId(
-                                form.id
+                                formId
                             ) + "']",
                             doc,
                         )),
@@ -9859,12 +9870,13 @@
                         },
                         _updateAll: function (
                         ) {
+                            var self = this;
                             this._getInputSet(
                             )
                                 .each(
                                     function (
                                     ) {
-                                        (this.checked || "checkbox" === this.inputtype) &&
+                                        (this.checked || "checkbox" === self.inputtype) &&
                     jQuery(
                         this
                     ).trigger(
@@ -10234,6 +10246,8 @@
                 initialContent = meta.attr(
                     "content"
                 ),
+                disabledZoom = initialContent + ",maximum-scale=1, user-scalable=no",
+                enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes",
                 disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(
                     initialContent,
                 );
@@ -10250,7 +10264,7 @@
               jQuery.mobile.zoom.locked ||
               (meta.attr(
                   "content",
-                  initialContent + ",maximum-scale=1, user-scalable=no",
+                  disabledZoom
               ),
               (jQuery.mobile.zoom.enabled = !1),
               (jQuery.mobile.zoom.locked = lock || !1));
@@ -10262,7 +10276,7 @@
               (!jQuery.mobile.zoom.locked || !0 === unlock) &&
               (meta.attr(
                   "content",
-                  initialContent + ",maximum-scale=10, user-scalable=yes",
+                  enabledZoom
               ),
               (jQuery.mobile.zoom.enabled = !0),
               (jQuery.mobile.zoom.locked = !1));
@@ -10420,8 +10434,8 @@
                 },
                 _autoCorrect: function (
                 ) {
-                    "undefined" == typeof this.element[0].autocorrect ||
-          jQuery.support.touchOverflow ||
+                    "undefined" != typeof this.element[0].autocorrect &&
+          !jQuery.support.touchOverflow &&
           (this.element[0].setAttribute(
               "autocorrect",
               "off"
@@ -10953,30 +10967,32 @@
                     _sliderVMouseDown: function (
                         event
                     ) {
-                        return this.options.disabled ||
-              !(
-                  1 === event.which ||
-                0 === event.which ||
-                void 0 === event.which
-              )
-                            ? !1
-                            : this._trigger(
-                                "beforestart",
-                                event
-                            ) === !1
-                                ? !1
-                                : ((this.dragging = !0),
-                                (this.userModified = !1),
-                                (this.mouseMoved = !1),
-                                this.isToggleSwitch &&
-                  (this.beforeStart = this.element[0].selectedIndex),
-                                this.refresh(
-                                    event
-                                ),
-                                this._trigger(
-                                    "start"
-                                ),
-                                !1);
+                        return (
+                            !(
+                                this.options.disabled ||
+                !(
+                    1 === event.which ||
+                  0 === event.which ||
+                  void 0 === event.which
+                )
+                            ) &&
+              this._trigger(
+                  "beforestart",
+                  event
+              ) !== !1 &&
+              ((this.dragging = !0),
+              (this.userModified = !1),
+              (this.mouseMoved = !1),
+              this.isToggleSwitch &&
+                (this.beforeStart = this.element[0].selectedIndex),
+              this.refresh(
+                  event
+              ),
+              this._trigger(
+                  "start"
+              ),
+              !1)
+                        );
                     },
                     _sliderVMouseUp: function (
                     ) {
@@ -11064,8 +11080,10 @@
                             trackTheme = this.options.trackTheme || parentTheme,
                             cornerClass = this.options.corners ? " ui-corner-all" : "",
                             miniClass = this.options.mini ? " ui-mini" : "",
+                            left,
                             width,
                             data,
+                            tol,
                             pxStep,
                             percent,
                             isInput,
@@ -11160,25 +11178,22 @@
                         ) {
                             if (
                                 ((data = val),
-                                this.slider.offset(
-                                ).left,
+                                (tol = 8),
+                                (left = this.slider.offset(
+                                ).left),
                                 (width = this.slider.width(
                                 )),
                                 (pxStep = width / ((max - min) / step)),
                                 !this.dragging ||
-                  data.pageX < this.slider.offset(
-                  ).left - 8 ||
-                  data.pageX > this.slider.offset(
-                  ).left + width + 8)
+                  data.pageX < left - tol ||
+                  data.pageX > left + width + tol)
                             )
                                 return;
                             percent =
                 pxStep > 1
-                    ? ((data.pageX - this.slider.offset(
-                    ).left) / width) * 100
+                    ? ((data.pageX - left) / width) * 100
                     : Math.round(
-                        ((data.pageX - this.slider.offset(
-                        ).left) / width) * 100,
+                        ((data.pageX - left) / width) * 100
                     );
                         } else
                             null == val &&
@@ -11334,7 +11349,7 @@
                                 "ui-body-" + currentTheme
                             )
                             .addClass(
-                                "ui-body-" + (value ? value : "inherit")
+                                "ui-body-" + (value || "inherit")
                             );
                     },
                     _setTrackTheme: function (
@@ -11348,7 +11363,7 @@
                                 "ui-body-" + currentTrackTheme
                             )
                             .addClass(
-                                "ui-body-" + (value ? value : "inherit")
+                                "ui-body-" + (value || "inherit")
                             );
                     },
                     _setMini: function (
@@ -12059,10 +12074,11 @@
                     },
                     _handleReset: function (
                     ) {
+                        var self = this;
                         setTimeout(
                             function (
                             ) {
-                                this._updateHighlight(
+                                self._updateHighlight(
                                 );
                             },
                             0
@@ -12869,10 +12885,11 @@
                     },
                     _focusButton: function (
                     ) {
+                        var self = this;
                         setTimeout(
                             function (
                             ) {
-                                this.button.focus(
+                                self.button.focus(
                                 );
                             },
                             40
@@ -13147,12 +13164,13 @@
                     },
                     selectedIndices: function (
                     ) {
+                        var self = this;
                         return this.selected(
                         )
                             .map(
                                 function (
                                 ) {
-                                    return this._selectOptions(
+                                    return self._selectOptions(
                                     ).index(
                                         this
                                     );
@@ -14514,16 +14532,17 @@
                     },
                     close: function (
                     ) {
-                        return jQuery.mobile.popup.active !== this
-                            ? this
-                            : ((this._scrollTop = this.window.scrollTop(
-                            )),
-                            this.options.history && this.urlAltered
-                                ? (jQuery.mobile.back(
-                                ), (this.urlAltered = !1))
-                                : this._closePopup(
-                                ),
-                            this);
+                        return (
+                            jQuery.mobile.popup.active !== this ||
+              ((this._scrollTop = this.window.scrollTop(
+              )),
+              this.options.history && this.urlAltered
+                  ? (jQuery.mobile.back(
+                  ), (this.urlAltered = !1))
+                  : this._closePopup(
+                  )),
+                            this
+                        );
                     },
                 }
             ),
@@ -14885,13 +14904,12 @@
                             ),
                             void 0 === this._origTabIndex &&
                 (this._origTabIndex =
-                  null === this.select[0].getAttribute(
+                  null !== this.select[0].getAttribute(
                       "tabindex"
-                  )
-                      ? !1
-                      : this.select.attr(
-                          "tabindex"
-                      )),
+                  ) &&
+                  this.select.attr(
+                      "tabindex"
+                  )),
                             this.select.attr(
                                 "tabindex",
                                 "-1"
@@ -15435,11 +15453,26 @@
         (function (
             $, undefined
         ) {
-            var capitalLettersRE = /[A-Z]/g;
+            var reverseBoolOptionMap = {
+                    "ui-shadow": "shadow",
+                    "ui-corner-all": "corners",
+                    "ui-btn-inline": "inline",
+                    "ui-shadow-icon": "iconshadow",
+                    "ui-mini": "mini",
+                },
+                getAttrFixed = function (
+                ) {
+                    var ret = jQuery.mobile.getAttribute.apply(
+                        this,
+                        arguments
+                    );
+                    return null == ret ? void 0 : ret;
+                },
+                capitalLettersRE = /[A-Z]/g;
             function optionsToClasses(
                 options, existingClasses
             ) {
-                var classes = existingClasses ? existingClasses : [];
+                var classes = existingClasses || [];
                 return (
                     classes.push(
                         "ui-btn"
@@ -15493,13 +15526,7 @@
                     " "
                 ), idx = 0; idx < classes.length; idx++)
                     (unknownClass = !0),
-                    (map = {
-                        "ui-shadow": "shadow",
-                        "ui-corner-all": "corners",
-                        "ui-btn-inline": "inline",
-                        "ui-shadow-icon": "iconshadow",
-                        "ui-mini": "mini",
-                    }[classes[idx]]),
+                    (map = reverseBoolOptionMap[classes[idx]]),
                     void 0 !== map
                         ? ((unknownClass = !1), (o[map] = !0))
                         : 0 === classes[idx].indexOf(
@@ -15576,14 +15603,7 @@
                     )
                         for (optionKey in defaults)
                             void 0 === retrievedOptions[optionKey] &&
-                (retrievedOptions[optionKey] = (function (
-                ) {
-                    var ret = jQuery.mobile.getAttribute.apply(
-                        this,
-                        arguments
-                    );
-                    return null == ret ? void 0 : ret;
-                })(
+                (retrievedOptions[optionKey] = getAttrFixed(
                     el,
                     optionKey.replace(
                         capitalLettersRE,
@@ -16681,14 +16701,15 @@
             $, undefined
         ) {
             var ieHack =
-        jQuery.mobile.browser.oldIE && 8 >= jQuery.mobile.browser.oldIE;
+          jQuery.mobile.browser.oldIE && 8 >= jQuery.mobile.browser.oldIE,
+                uiTemplate = jQuery(
+                    "<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" +
+            (ieHack ? " ie" : "") +
+            "'><div class='ui-popup-arrow'></div></div>",
+                );
             function getArrow(
             ) {
-                var clone = jQuery(
-                        "<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" +
-              (ieHack ? " ie" : "") +
-              "'><div class='ui-popup-arrow'></div></div>",
-                    ).clone(
+                var clone = uiTemplate.clone(
                     ),
                     gd = clone.eq(
                         0
@@ -16759,43 +16780,43 @@
                             },
                             tip = {
                             };
-                        return s.arFull[p.dimKey] > s.guideDims[p.dimKey]
-                            ? best
-                            : ((desiredForArrow[p.fst] =
+                        return (
+                            s.arFull[p.dimKey] > s.guideDims[p.dimKey] ||
+              ((desiredForArrow[p.fst] =
                 desired[p.fst] +
                 (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor -
                 s.contentBox[p.fst] +
                 (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) *
                   p.arrowOffsetFactor),
-                            (desiredForArrow[p.snd] = desired[p.snd]),
-                            (result =
+              (desiredForArrow[p.snd] = desired[p.snd]),
+              (result =
                 s.result ||
                 this._calculateFinalLocation(
                     desiredForArrow,
                     s.clampInfo
                 )),
-                            (r = {
-                                x: result.left,
-                                y: result.top,
-                            }),
-                            (tip[p.fst] = r[p.fst] + s.contentBox[p.fst] + p.tipOffset),
-                            (tip[p.snd] = Math.max(
-                                result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey],
-                                Math.min(
-                                    result[p.prop] +
+              (r = {
+                  x: result.left,
+                  y: result.top,
+              }),
+              (tip[p.fst] = r[p.fst] + s.contentBox[p.fst] + p.tipOffset),
+              (tip[p.snd] = Math.max(
+                  result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey],
+                  Math.min(
+                      result[p.prop] +
                     s.guideOffset[p.prop] +
                     s.guideDims[p.dimKey] -
                     s.arHalf[p.dimKey],
-                                    desired[p.snd],
-                                ),
-                            )),
-                            (diff =
+                      desired[p.snd],
+                  ),
+              )),
+              (diff =
                 Math.abs(
                     desired.x - tip.x
                 ) + Math.abs(
                     desired.y - tip.y
                 )),
-                            (!best || diff < best.diff) &&
+              (!best || diff < best.diff) &&
                 ((tip[p.snd] -=
                   s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd]),
                 (best = {
@@ -16804,8 +16825,9 @@
                     result: result,
                     posProp: p.prop,
                     posVal: tip[p.snd],
-                })),
-                            best);
+                }))),
+                            best
+                        );
                     },
                     _getPlacementState: function (
                         clamp
@@ -18621,7 +18643,23 @@
         (function (
             $, undefined
         ) {
-            var rDividerListItem = /(^|\s)ui-li-divider(\s|$)/;
+            var replaceSetOptions = function (
+                    self, orig
+                ) {
+                    return function (
+                        options
+                    ) {
+                        orig.call(
+                            this,
+                            options
+                        ), self._syncTextInputOptions(
+                            options
+                        );
+                    };
+                },
+                rDividerListItem = /(^|\s)ui-li-divider(\s|$)/,
+                origDefaultFilterCallback =
+          jQuery.mobile.filterable.prototype.options.filterCallback;
             (jQuery.mobile.filterable.prototype.options.filterCallback = function (
                 index,
                 searchValue,
@@ -18630,10 +18668,10 @@
                     !this.className.match(
                         rDividerListItem
                     ) &&
-          jQuery.mobile.filterable.prototype.options.filterCallback.call(
+          origDefaultFilterCallback.call(
               this,
               index,
-              searchValue,
+              searchValue
           )
                 );
             }),
@@ -18723,23 +18761,9 @@
                             !this._widget &&
                 widget &&
                 ((this._widget = widget),
-                (this._widget._setOptions = (function (
-                    self, orig
-                ) {
-                    return function (
-                        options
-                    ) {
-                        orig.call(
-                            this,
-                            options
-                        ),
-                        self._syncTextInputOptions(
-                            options
-                        );
-                    };
-                })(
+                (this._widget._setOptions = replaceSetOptions(
                     this,
-                    this._widget._setOptions
+                    this._widget._setOptions,
                 ))),
                             this._widget &&
                 (this._syncTextInputOptions(
@@ -19037,7 +19061,7 @@
                       active
                   )
               )),
-              -1 === active && (active = collapsible ? !1 : 0)),
+              -1 === active && (active = !collapsible && 0)),
                             !collapsible &&
               !1 === active &&
               this.anchors.length &&
@@ -19107,7 +19131,7 @@
                                     this.activating
                                 ),
                                 this._activate(
-                                    selectedIndex === this.options.active ? !1 : selectedIndex,
+                                    selectedIndex !== this.options.active && selectedIndex,
                                 ),
                                 void 0
                             );
@@ -19750,11 +19774,9 @@
               ) === !1)
                         )
                             return;
-                        (options.active = collapsing
-                            ? !1
-                            : this.tabs.index(
-                                tab
-                            )),
+                        (options.active = !collapsing && this.tabs.index(
+                            tab
+                        )),
                         (this.active = clickedIsActive
                             ? jQuery(
                             )
@@ -19886,13 +19908,13 @@
                     _activate: function (
                         index
                     ) {
-                        var anchor;
-                        if ((this._findActive(
-                            index
-                        ), this.active[0] == this.active[0]))
-                            return;
-                        this.active.length || this.active,
-                        (anchor = this.active.find(
+                        var anchor,
+                            active = this._findActive(
+                                index
+                            );
+                        if (active[0] === this.active[0]) return;
+                        active.length || (active = this.active),
+                        (anchor = active.find(
                             ".ui-tabs-anchor"
                         )[0]),
                         this._eventHandler(
@@ -20179,6 +20201,7 @@
                     _ajaxSettings: function (
                         anchor, event, eventData
                     ) {
+                        var that = this;
                         return {
                             url: anchor.attr(
                                 "href"
@@ -20186,7 +20209,7 @@
                             beforeSend: function (
                                 jqXHR, settings
                             ) {
-                                return this._trigger(
+                                return that._trigger(
                                     "beforeLoad",
                                     event,
                                     jQuery.extend(

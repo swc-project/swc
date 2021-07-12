@@ -11,6 +11,7 @@
         slice = ArrayProto.slice,
         concat = ArrayProto.concat,
         toString = ObjProto.toString,
+        hasOwnProperty = ObjProto.hasOwnProperty,
         nativeForEach = ArrayProto.forEach,
         nativeMap = ArrayProto.map,
         nativeReduce = ArrayProto.reduce,
@@ -34,8 +35,8 @@
                         obj
                     );
         };
-    "undefined" !== typeof exports
-        ? ("undefined" !== typeof module &&
+    "undefined" != typeof exports
+        ? ("undefined" != typeof module &&
         module.exports &&
         (exports = module.exports = _),
         (exports._ = _))
@@ -330,36 +331,40 @@
     (_.contains = _.include = function (
         obj, target
     ) {
-        return null == obj
-            ? !1
-            : nativeIndexOf && obj.indexOf === nativeIndexOf
-                ? -1 != obj.indexOf(
-                    target
-                )
-                : any(
-                    obj,
-                    function (
-                        value
-                    ) {
-                        return target === value;
-                    }
-                );
+        return (
+            null != obj &&
+      (nativeIndexOf && obj.indexOf === nativeIndexOf
+          ? -1 != obj.indexOf(
+              target
+          )
+          : any(
+              obj,
+              function (
+                  value
+              ) {
+                  return target === value;
+              }
+          ))
+        );
     }),
     (_.invoke = function (
         obj, method
     ) {
+        var args = slice.call(
+                arguments,
+                2
+            ),
+            isFunc = _.isFunction(
+                method
+            );
         return _.map(
             obj,
             function (
                 value
             ) {
-                return (_.isFunction(
-                    method
-                )
-                    ? method
-                    : value[method]).apply(
+                return (isFunc ? method : value[method]).apply(
                     value,
-                    args,
+                    args
                 );
             }
         );
@@ -521,7 +526,7 @@
     (_.sample = function (
         obj, n, guard
     ) {
-        return 2 > arguments.length || guard
+        return arguments.length < 2 || guard
             ? obj[_.random(
                 obj.length - 1
             )]
@@ -551,20 +556,21 @@
     _.sortBy = function (
         obj, value, context
     ) {
+        var iterator = lookupIterator(
+            value
+        );
         return _.pluck(
             _.map(
                 obj,
                 function (
-                    value1, index, list
+                    value, index, list
                 ) {
                     return {
-                        value: value1,
+                        value: value,
                         index: index,
-                        criteria: lookupIterator(
-                            value
-                        ).call(
+                        criteria: iterator.call(
                             context,
-                            value1,
+                            value,
                             index,
                             list
                         ),
@@ -593,27 +599,28 @@
             obj, value, context
         ) {
             var result = {
-            };
+                },
+                iterator = null == value
+                    ? _.identity
+                    : lookupIterator(
+                        value
+                    );
             return (
                 each(
                     obj,
                     function (
-                        value1, index
+                        value, index
                     ) {
-                        var key = (null == value
-                            ? _.identity
-                            : lookupIterator(
-                                value
-                            )).call(
+                        var key = iterator.call(
                             context,
-                            value1,
+                            value,
                             index,
-                            obj,
+                            obj
                         );
                         behavior(
                             result,
                             key,
-                            value1
+                            value
                         );
                     }
                 ),
@@ -1004,7 +1011,7 @@
     (_.range = function (
         start, stop, step
     ) {
-        1 >= arguments.length && ((stop = start || 0), (start = 0)),
+        arguments.length <= 1 && ((stop = start || 0), (start = 0)),
         (step = arguments[2] || 1);
         for (
             var length = Math.max(
@@ -1080,18 +1087,19 @@
     (_.partial = function (
         func
     ) {
+        var args = slice.call(
+            arguments,
+            1
+        );
         return function (
         ) {
             return func.apply(
                 this,
-                slice.call(
-                    arguments,
-                    1
-                ).concat(
+                args.concat(
                     slice.call(
                         arguments
                     )
-                ),
+                )
             );
         };
     }),
@@ -1185,49 +1193,48 @@
             result,
             timeout = null,
             previous = 0;
-        return (
-            options || (options = {
-            }),
-            function (
-            ) {
-                var now = new Date(
-                );
-                previous || !1 !== options.leading || (previous = now);
-                var remaining = wait - (now - previous);
-                return (
-                    (context = this),
-                    (args = arguments),
-                    remaining <= 0
-                        ? (clearTimeout(
-                            timeout
-                        ),
-                        (timeout = null),
-                        (previous = now),
-                        (result = func.apply(
-                            context,
-                            args
-                        )))
-                        : timeout ||
-                !1 === options.trailing ||
-                (timeout = setTimeout(
-                    function (
-                    ) {
-                        (previous = !1 === options.leading
-                            ? 0
-                            : new Date(
-                            )),
-                        (timeout = null),
-                        (result = func.apply(
-                            context,
-                            args
-                        ));
-                    },
-                    remaining
+        options || (options = {
+        });
+        var later = function (
+        ) {
+            (previous = !1 === options.leading
+                ? 0
+                : new Date(
                 )),
-                    result
-                );
-            }
-        );
+            (timeout = null),
+            (result = func.apply(
+                context,
+                args
+            ));
+        };
+        return function (
+        ) {
+            var now = new Date(
+            );
+            previous || !1 !== options.leading || (previous = now);
+            var remaining = wait - (now - previous);
+            return (
+                (context = this),
+                (args = arguments),
+                remaining <= 0
+                    ? (clearTimeout(
+                        timeout
+                    ),
+                    (timeout = null),
+                    (previous = now),
+                    (result = func.apply(
+                        context,
+                        args
+                    )))
+                    : timeout ||
+              !1 === options.trailing ||
+              (timeout = setTimeout(
+                  later,
+                  remaining
+              )),
+                result
+            );
+        };
     }),
     (_.debounce = function (
         func, wait, immediate
@@ -1273,15 +1280,14 @@
             memo;
         return function (
         ) {
-            return ran
-                ? memo
-                : ((ran = !0),
-                (memo = func.apply(
-                    this,
-                    arguments
-                )),
-                (func = null),
-                memo);
+            return (
+                ran ||
+            ((ran = !0), (memo = func.apply(
+                this,
+                arguments
+            )), (func = null)),
+                memo
+            );
         };
     }),
     (_.wrap = function (
@@ -1675,7 +1681,7 @@
               "callee"
           ));
       }),
-    "function" !== typeof /./ &&
+    "function" != typeof /./ &&
       (_.isFunction = function (
           obj
       ) {
@@ -1721,7 +1727,7 @@
     (_.has = function (
         obj, key
     ) {
-        return ObjProto.hasOwnProperty.call(
+        return hasOwnProperty.call(
             obj,
             key
         );
@@ -1755,9 +1761,9 @@
     ) {
         return (
             null == max && ((max = min), (min = 0)),
-            0 + Math.floor(
+            min + Math.floor(
                 Math.random(
-                ) * (max - 0 + 1)
+                ) * (max - min + 1)
             )
         );
     });
@@ -1770,9 +1776,27 @@
             "'": "&#x27;",
         },
     };
-    (entityMap.unescape = _.invert(
+    entityMap.unescape = _.invert(
         entityMap.escape
-    )),
+    );
+    var entityRegexes = {
+        escape: new RegExp(
+            "[" + _.keys(
+                entityMap.escape
+            ).join(
+                ""
+            ) + "]",
+            "g"
+        ),
+        unescape: new RegExp(
+            "(" + _.keys(
+                entityMap.unescape
+            ).join(
+                "|"
+            ) + ")",
+            "g"
+        ),
+    };
     _.each(
         ["escape", "unescape",],
         function (
@@ -1784,29 +1808,12 @@
                 return null == string
                     ? ""
                     : ("" + string).replace(
-                        {
-                            escape: new RegExp(
-                                "[" + _.keys(
-                                    entityMap.escape
-                                ).join(
-                                    ""
-                                ) + "]",
-                                "g",
-                            ),
-                            unescape: new RegExp(
-                                "(" + _.keys(
-                                    entityMap.unescape
-                                ).join(
-                                    "|"
-                                ) + ")",
-                                "g",
-                            ),
-                        }[method],
+                        entityRegexes[method],
                         function (
                             match
                         ) {
                             return entityMap[method][match];
-                        },
+                        }
                     );
             };
         }
@@ -1814,7 +1821,7 @@
     (_.result = function (
         object, property
     ) {
-        if (null == object) return void 0;
+        if (null == object) return;
         var value = object[property];
         return _.isFunction(
             value
@@ -1834,6 +1841,7 @@
             function (
                 name
             ) {
+                var func = (_[name] = obj[name]);
                 _.prototype[name] = function (
                 ) {
                     var args = [this._wrapped,];
@@ -1841,10 +1849,9 @@
                         push.apply(
                             args,
                             arguments
-                        ),
-                        result.call(
+                        ), result.call(
                             this,
-                            (_[name] = obj[name]).apply(
+                            func.apply(
                                 _,
                                 args
                             )
@@ -1867,6 +1874,15 @@
         escape: /<%-([\s\S]+?)%>/g,
     });
     var noMatch = /(.)^/,
+        escapes = {
+            "'": "'",
+            "\\": "\\",
+            "\r": "r",
+            "\n": "n",
+            "\t": "t",
+            "\u2028": "u2028",
+            "\u2029": "u2029",
+        },
         escaper = /\\|'|\r|\n|\t|\u2028|\u2029/g;
     (_.template = function (
         text, data, settings
@@ -1906,18 +1922,7 @@
                             function (
                                 match
                             ) {
-                                return (
-                                    "\\" +
-                {
-                    "'": "'",
-                    "\\": "\\",
-                    "\r": "r",
-                    "\n": "n",
-                    "\t": "t",
-                    "\u2028": "u2028",
-                    "\u2029": "u2029",
-                }[match]
-                                );
+                                return "\\" + escapes[match];
                             }
                         )),
                     escape &&
@@ -1991,11 +1996,12 @@
         function (
             name
         ) {
+            var method = ArrayProto[name];
             _.prototype[name] = function (
             ) {
                 var obj = this._wrapped;
                 return (
-                    ArrayProto[name].apply(
+                    method.apply(
                         obj,
                         arguments
                     ),
@@ -2015,14 +2021,15 @@
         function (
             name
         ) {
+            var method = ArrayProto[name];
             _.prototype[name] = function (
             ) {
                 return result.call(
                     this,
-                    ArrayProto[name].apply(
+                    method.apply(
                         this._wrapped,
                         arguments
-                    ),
+                    )
                 );
             };
         }
