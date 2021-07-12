@@ -44,7 +44,7 @@ impl Optimizer<'_> {
     ///         console.log(b);
     /// }
     /// ```
-    pub(super) fn negate_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
+    pub(super) fn negate_if_return(&mut self, stmts: &mut Vec<Stmt>) {
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
