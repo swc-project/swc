@@ -165,6 +165,7 @@ impl Optimizer<'_> {
                                     {
                                         if var.usage_count != 1
                                             || var.mutated
+                                            || !var.is_fn_local
                                             || !SimpleUsageFinder::find(&name.id, r)
                                         {
                                             return None;
@@ -200,8 +201,20 @@ impl Optimizer<'_> {
                 Ok(mut stmt) => match stmt {
                     Stmt::Decl(Decl::Var(mut v)) if indexes.contains(&idx) => {
                         if let Some(last) = v.decls.pop() {
-                            match last.name {
+                            match &last.name {
                                 Pat::Ident(name) => {
+                                    if let Some(var) = self
+                                        .data
+                                        .as_ref()
+                                        .and_then(|data| data.vars.get(&name.to_id()))
+                                    {
+                                        if !var.is_fn_local {
+                                            v.decls.push(last);
+                                            new.push(T::from_stmt(Stmt::Decl(Decl::Var(v))));
+                                            continue;
+                                        }
+                                    }
+
                                     values.insert(name.to_id(), last.init);
                                 }
                                 _ => unreachable!(),
