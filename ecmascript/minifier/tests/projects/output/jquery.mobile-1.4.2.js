@@ -743,10 +743,8 @@
                     if (!!set) {
                         if (
                             !!allowDisconnected ||
-                !(
-                    !instance.element[0].parentNode ||
-                  11 === instance.element[0].parentNode.nodeType
-                )
+                (!!instance.element[0].parentNode &&
+                  11 !== instance.element[0].parentNode.nodeType)
                         )
                             for (i = 0; i < set.length; i++)
                                 instance.options[set[i][0]] &&
@@ -855,11 +853,11 @@
                             ),
                             base = jQuery.mobile.path.documentBase.hrefNoHash;
                         return (
-                            (!jQuery.mobile.dynamicBaseEnabled ||
-              !url ||
-              !jQuery.mobile.path.isPath(
+                            (jQuery.mobile.dynamicBaseEnabled &&
+              url &&
+              !!jQuery.mobile.path.isPath(
                   url
-              )) &&
+              )) ||
               (url = base),
                             jQuery.mobile.path.makeUrlAbsolute(
                                 url,
@@ -870,7 +868,7 @@
                     removeActiveLinkClass: function (
                         forceRemoval
                     ) {
-                        !!jQuery.mobile.activeClickedLink &&
+                        jQuery.mobile.activeClickedLink &&
             (!jQuery.mobile.activeClickedLink.closest(
                 "." + jQuery.mobile.activePageClass,
             ).length ||
@@ -921,7 +919,7 @@
                         var count = elements.length,
                             $newSet = jQuery(
                             );
-                        for (i = 0; count > i; i++) {
+                        for (i = 0; i < count; i++) {
                             for (
                                 $element = elements.eq(
                                     i
@@ -1451,7 +1449,7 @@
                                             instance,
                                             args
                                         )),
-                                        instance !== methodValue && void 0 !== methodValue)
+                                        methodValue !== instance && void 0 !== methodValue)
                                     )
                                         return (
                                             (returnValue =
@@ -1737,24 +1735,21 @@
                         ) {
                             function handlerProxy(
                             ) {
-                                if (
-                                    !!suppressDisabledCheck ||
-                    !(
-                        !0 === instance.options.disabled ||
-                      jQuery(
+                                return suppressDisabledCheck ||
+                    (!0 !== instance.options.disabled &&
+                      !jQuery(
                           this
                       ).hasClass(
                           "ui-state-disabled"
-                      )
-                    )
-                                )
-                                    return ("string" == typeof handler
+                      ))
+                                    ? ("string" == typeof handler
                                         ? instance[handler]
                                         : handler
                                     ).apply(
                                         instance,
                                         arguments
-                                    );
+                                    )
+                                    : void 0;
                             }
                             "string" != typeof handler &&
                   (handlerProxy.guid = handler.guid =
@@ -2571,35 +2566,39 @@
                                 /Opera Mobi\/([0-9]+)/
                             ),
                             omversion = !!operammobilematch && operammobilematch[1];
-                        return !(
-                            ((platform.indexOf(
+                        return (
+                            ((!(platform.indexOf(
                                 "iPhone"
-                            ) > -1 ||
-                platform.indexOf(
+                            ) > -1) &&
+                !(platform.indexOf(
                     "iPad"
-                ) > -1 ||
-                platform.indexOf(
-                    "iPod"
                 ) > -1) &&
-                wkversion &&
-                wkversion < 534) ||
-              (w.operamini &&
-                "[object OperaMini]" === {
+                !(platform.indexOf(
+                    "iPod"
+                ) > -1)) ||
+                !wkversion ||
+                !(wkversion < 534)) &&
+              (!w.operamini ||
+                "[object OperaMini]" !== {
                 }.toString.call(
                     w.operamini
-                )) ||
-              (operammobilematch && omversion < 7458) ||
-              (ua.indexOf(
+                )) &&
+              (!operammobilematch || !(omversion < 7458)) &&
+              (!(ua.indexOf(
                   "Android"
-              ) > -1 && wkversion && wkversion < 533) ||
-              (ffversion && ffversion < 6) ||
-              ("palmGetResource" in window && wkversion && wkversion < 534) ||
-              (ua.indexOf(
+              ) > -1) ||
+                !wkversion ||
+                !(wkversion < 533)) &&
+              (!ffversion || !(ffversion < 6)) &&
+              (!("palmGetResource" in window) ||
+                !wkversion ||
+                !(wkversion < 534)) &&
+              (!(ua.indexOf(
                   "MeeGo"
-              ) > -1 &&
-                ua.indexOf(
+              ) > -1) ||
+                !(ua.indexOf(
                     "NokiaBrowser/8.5.0"
-                ) > -1)
+                ) > -1))
                         );
                     })(
                     ),
@@ -3213,7 +3212,7 @@
                     var u = path.parseUrl(
                         url
                     );
-                    return !(!u.protocol || !(u.domain !== this.documentUrl.domain));
+                    return !!u.protocol && u.domain !== this.documentUrl.domain;
                 },
                 hasProtocol: function (
                     url
@@ -3559,7 +3558,7 @@
                         a = this.activeIndex;
                     void 0 !== newActiveIndex &&
           ((this.activeIndex = newActiveIndex), (this.previousIndex = a)),
-                    a > newActiveIndex
+                    newActiveIndex < a
                         ? (opts.present || opts.back || jQuery.noop)(
                             this.getActive(
                             ),
@@ -3758,93 +3757,83 @@
                                     return;
                                 }
                             }
-                            if (
-                                (path.parseLocation(
-                                ).hash,
-                                !event.originalEvent.state && path.parseLocation(
-                                ).hash)
-                            )
-                                return (
-                                    (state = this.squash(
-                                        path.parseLocation(
-                                        ).hash
-                                    )),
-                                    this.history.add(
-                                        state.url,
-                                        state
-                                    ),
-                                    (event.historyState = state),
-                                    void 0
+                            return (path.parseLocation(
+                            ).hash,
+                            !event.originalEvent.state && path.parseLocation(
+                            ).hash)
+                                ? ((state = this.squash(
+                                    path.parseLocation(
+                                    ).hash
+                                )),
+                                this.history.add(
+                                    state.url,
+                                    state
+                                ),
+                                (event.historyState = state),
+                                void 0)
+                                : void this.history.direct(
+                                    {
+                                        url:
+                      (event.originalEvent.state || {
+                      }).url ||
+                      path.parseLocation(
+                      ).hash,
+                                        present: function (
+                                            historyEntry, direction
+                                        ) {
+                                            (event.historyState = jQuery.extend(
+                                                {
+                                                },
+                                                historyEntry
+                                            )),
+                                            (event.historyState.direction = direction);
+                                        },
+                                    }
                                 );
-                            this.history.direct(
-                                {
-                                    url:
-                  (event.originalEvent.state || {
-                  }).url ||
-                  path.parseLocation(
-                  ).hash,
-                                    present: function (
-                                        historyEntry, direction
-                                    ) {
-                                        (event.historyState = jQuery.extend(
-                                            {
-                                            },
-                                            historyEntry
-                                        )),
-                                        (event.historyState.direction = direction);
-                                    },
-                                }
-                            );
                         }
                     },
                     hashchange: function (
                         event
                     ) {
                         var history, hash;
-                        if (
-                            !(
-                                !jQuery.event.special.navigate.isHashChangeEnabled(
-                                ) ||
-                jQuery.event.special.navigate.isPushStateEnabled(
-                )
-                            )
-                        ) {
-                            if (this.preventNextHashChange)
-                                return (
-                                    (this.preventNextHashChange = !1),
-                                    event.stopImmediatePropagation(
-                                    ),
-                                    void 0
-                                );
-                            (history = this.history),
-                            (hash = path.parseLocation(
-                            ).hash),
-                            this.history.direct(
-                                {
-                                    url: hash,
-                                    present: function (
-                                        historyEntry, direction
-                                    ) {
-                                        (event.hashchangeState = jQuery.extend(
-                                            {
-                                            },
-                                            historyEntry
-                                        )),
-                                        (event.hashchangeState.direction = direction);
-                                    },
-                                    missing: function (
-                                    ) {
-                                        history.add(
-                                            hash,
-                                            {
-                                                hash: hash,
-                                                title: document.title,
-                                            }
-                                        );
-                                    },
-                                }
-                            );
-                        }
+                        return jQuery.event.special.navigate.isHashChangeEnabled(
+                        ) &&
+              !jQuery.event.special.navigate.isPushStateEnabled(
+              )
+                            ? this.preventNextHashChange
+                                ? ((this.preventNextHashChange = !1),
+                                event.stopImmediatePropagation(
+                                ),
+                                void 0)
+                                : void ((history = this.history),
+                                (hash = path.parseLocation(
+                                ).hash),
+                                this.history.direct(
+                                    {
+                                        url: hash,
+                                        present: function (
+                                            historyEntry, direction
+                                        ) {
+                                            (event.hashchangeState = jQuery.extend(
+                                                {
+                                                },
+                                                historyEntry
+                                            )),
+                                            (event.hashchangeState.direction = direction);
+                                        },
+                                        missing: function (
+                                        ) {
+                                            history.add(
+                                                hash,
+                                                {
+                                                    hash: hash,
+                                                    title: document.title,
+                                                }
+                                            );
+                                        },
+                                    }
+                                ))
+                            : void 0;
                     },
                 }
             );
@@ -4191,8 +4180,8 @@
                         "virtualTouchID"
                     ),
                     ve;
-                !blockMouseTriggers &&
-          (!lastTouchID || lastTouchID !== touchID) &&
+                blockMouseTriggers ||
+          (lastTouchID && lastTouchID === touchID) ||
           ((ve = triggerVirtualEvent(
               "v" + event.type,
               event
@@ -4495,7 +4484,7 @@
                         ele;
 
                     ) {
-                        for (i = 0; cnt > i; i++)
+                        for (i = 0; i < cnt; i++)
                             if (
                                 ((o = clickBlockList[i]),
                                 (ele === target &&
@@ -5141,7 +5130,7 @@
             ) {
                 var orientation = get_orientation(
                 );
-                last_orientation !== orientation &&
+                orientation !== last_orientation &&
           ((last_orientation = orientation), win.trigger(
               "orientationchange"
           ));
@@ -5415,12 +5404,12 @@
                         callback
                     ) {
                         var page = this.element;
-                        !page.data(
+                        page.data(
                             "mobile-page"
-                        ).options.domCache &&
-              page.is(
+                        ).options.domCache ||
+              !page.is(
                   ":jqmData(external-page='true')"
-              ) &&
+              ) ||
               page.bind(
                   "pagehide.remove",
                   callback ||
@@ -5506,7 +5495,7 @@
                                 options.keepNativeDefault
                             ),
                             newDefault =
-                globalValue === keepNativeFactoryDefault ? "" : globalValue,
+                keepNativeFactoryDefault === globalValue ? "" : globalValue,
                             oldDefault = "" === newDefault ? optionValue : "";
                         return (keepNative ? [keepNative,] : [])
                             .concat(
@@ -5661,11 +5650,11 @@
                   : data.state.url),
             url || (url = this._getHash(
             )),
-            (!url ||
-              "#" === url ||
-              0 === url.indexOf(
+            (url &&
+              "#" !== url &&
+              0 !== url.indexOf(
                   "#" + jQuery.mobile.path.uiStateKey
-              )) &&
+              )) ||
               (url = location.href),
             this._handleNavigate(
                 url,
@@ -6276,12 +6265,10 @@
                                 "beforeload",
                                 triggerData
                             )),
-                            !(
-                                pblEvent.deprecatedEvent.isDefaultPrevented(
-                                ) ||
-              pblEvent.event.isDefaultPrevented(
-              )
-                            ))
+                            !pblEvent.deprecatedEvent.isDefaultPrevented(
+                            ) &&
+              !pblEvent.event.isDefaultPrevented(
+              ))
                         ) {
                             if (
                                 (settings.showLoadMsg && this._showLoading(
@@ -6552,27 +6539,28 @@
                             ),
                             triggerData = {
                             };
-                        ((settings.fromPage = settings.fromPage || this.activePage),
-                        !!this._triggerPageBeforeChange(
+                        return ((settings.fromPage = settings.fromPage || this.activePage),
+                        !this._triggerPageBeforeChange(
                             triggerData.toPage,
                             triggerData,
                             settings,
-                        )) &&
-            (triggerData.toPage,
-            "string" === jQuery.type(
-                triggerData.toPage
-            )
-                ? ((isPageTransitioning = !0),
-                this._loadUrl(
-                    triggerData.toPage,
-                    triggerData,
-                    settings
-                ))
-                : this.transition(
-                    triggerData.toPage,
-                    triggerData,
-                    settings
-                ));
+                        ))
+                            ? void 0
+                            : void (triggerData.toPage,
+                            "string" === jQuery.type(
+                                triggerData.toPage
+                            )
+                                ? ((isPageTransitioning = !0),
+                                this._loadUrl(
+                                    triggerData.toPage,
+                                    triggerData,
+                                    settings
+                                ))
+                                : this.transition(
+                                    triggerData.toPage,
+                                    triggerData,
+                                    settings
+                                ));
                     },
                     transition: function (
                         toPage, triggerData, settings
@@ -6605,12 +6593,10 @@
                                     "beforetransition",
                                     triggerData,
                                 )),
-                                !(
-                                    beforeTransition.deprecatedEvent.isDefaultPrevented(
-                                    ) ||
-                beforeTransition.event.isDefaultPrevented(
-                )
-                                ))
+                                !beforeTransition.deprecatedEvent.isDefaultPrevented(
+                                ) &&
+                !beforeTransition.event.isDefaultPrevented(
+                ))
                             ) {
                                 if (
                                     ((isPageTransitioning = !0),
@@ -6739,18 +6725,18 @@
                   (isDialog
                       ? jQuery.mobile.defaultDialogTransition
                       : jQuery.mobile.defaultPageTransition)),
-                                !historyDir &&
-                  alreadyThere &&
+                                historyDir ||
+                  !alreadyThere ||
                   (jQuery.mobile.navigate.history.getActive(
                   ).pageUrl = pageUrl),
                                 url &&
                   !settings.fromHashChange &&
-                  (!jQuery.mobile.path.isPath(
+                  (jQuery.mobile.path.isPath(
                       url
-                  ) &&
-                    0 > url.indexOf(
+                  ) ||
+                    !(0 > url.indexOf(
                         "#"
-                    ) &&
+                    )) ||
                     (url = "#" + url),
                   (params = {
                       transition: settings.transition,
@@ -6981,7 +6967,7 @@
                   (url = jQuery.mobile.path.parseUrl(
                       url
                   ).hrefNoSearch),
-                url === jQuery.mobile.path.documentBase.hrefNoHash &&
+                url !== jQuery.mobile.path.documentBase.hrefNoHash ||
                   (url = documentUrl.hrefNoSearch)),
               (url = jQuery.mobile.path.makeUrlAbsolute(
                   url,
@@ -7072,7 +7058,7 @@
                             btnEls,
                             target = event.target,
                             needClosest = !1;
-                        if (!(event.which > 1 || !jQuery.mobile.linkBindingEnabled)) {
+                        if (!(event.which > 1) && !!jQuery.mobile.linkBindingEnabled) {
                             if (
                                 (($lastVClicked = jQuery(
                                     target
@@ -7081,33 +7067,29 @@
                                     target,
                                     "mobile-button"
                                 ))
-                            ) {
-                                if (!getAjaxFormData(
+                            )
+                                getAjaxFormData(
                                     jQuery(
                                         target
                                     ).closest(
                                         "form"
                                     ),
                                     !0
-                                ))
-                                    return;
-                                target.parentNode && (target = target.parentNode);
-                            } else {
-                                if (
-                                    ((target = findClosestLink(
-                                        target
-                                    )),
-                                    !target ||
-                      !(
-                          "#" !==
-                        jQuery.mobile.path.parseUrl(
-                            target.getAttribute(
-                                "href"
-                            ) || "#",
-                        ).hash
-                      ))
-                                )
-                                    return;
+                                ) &&
+                    target.parentNode &&
+                    (target = target.parentNode);
+                            else if (
+                                ((target = findClosestLink(
+                                    target
+                                )),
+                                !!target &&
+                    "#" !==
+                      jQuery.mobile.path.parseUrl(
+                          target.getAttribute(
+                              "href"
+                          ) || "#",
+                      ).hash)
+                            ) {
                                 if (!jQuery(
                                     target
                                 ).jqmHijackable(
@@ -7158,11 +7140,9 @@
                             reverse,
                             role;
                         if (
-                            !(
-                                !jQuery.mobile.linkBindingEnabled ||
-                  event.isDefaultPrevented(
-                  )
-                            )
+                            !!jQuery.mobile.linkBindingEnabled &&
+                !event.isDefaultPrevented(
+                )
                         ) {
                             var link = findClosestLink(
                                     event.target
@@ -7188,8 +7168,10 @@
                       event.target.parentNode &&
                     httpCleanup(
                     ),
-                                !(!link || event.which > 1 || !$link.jqmHijackable(
-                                ).length))
+                                !!link &&
+                    !(event.which > 1) &&
+                    !!$link.jqmHijackable(
+                    ).length)
                             ) {
                                 if ($link.is(
                                     ":jqmData(rel='back')"
@@ -8403,9 +8385,9 @@
               void 0 !== opts.collapsedIcon
                   ? !1 !== opts.collapsedIcon
                   : !1 !== currentOpts.collapsedIcon),
-                        (void 0 !== opts.iconpos ||
-              void 0 !== opts.collapsedIcon ||
-              void 0 !== opts.expandedIcon) &&
+                        (void 0 === opts.iconpos &&
+              void 0 === opts.collapsedIcon &&
+              void 0 === opts.expandedIcon) ||
               (anchor.removeClass(
                   [iconposClass(
                       currentOpts.iconpos
@@ -9249,7 +9231,7 @@
                                 ),
                                 pos = 0,
                                 numli = li.length;
-                                numli > pos;
+                                pos < numli;
                                 pos++
                             )
                                 (item = li.eq(
@@ -9484,7 +9466,7 @@
                                 )
                             )),
                             dividerText &&
-                dividerText !== lastDividerText &&
+                lastDividerText !== dividerText &&
                 ((divider = document.createElement(
                     "li"
                 )),
@@ -9638,7 +9620,7 @@
                                         .first(
                                         ),
                                 inputtype = input[0].type;
-                            ("checkbox" !== inputtype && "radio" !== inputtype) ||
+                            ("checkbox" === inputtype || "radio" === inputtype) &&
                 (this.element[0].disabled && (this.options.disabled = !0),
                 (o.iconpos =
                   inheritAttr(
@@ -10277,8 +10259,8 @@
                     enable: function (
                         unlock
                     ) {
-                        !disabledInitially &&
-              (!jQuery.mobile.zoom.locked || !0 === unlock) &&
+                        disabledInitially ||
+              (jQuery.mobile.zoom.locked && !0 !== unlock) ||
               (meta.attr(
                   "content",
                   enabledZoom
@@ -10478,11 +10460,11 @@
                     this._super(
                         options
                     ),
-                    (void 0 !== options.disabled ||
-            void 0 !== options.mini ||
-            void 0 !== options.corners ||
-            void 0 !== options.theme ||
-            void 0 !== options.wrapperClass) &&
+                    (void 0 === options.disabled &&
+            void 0 === options.mini &&
+            void 0 === options.corners &&
+            void 0 === options.theme &&
+            void 0 === options.wrapperClass) ||
             (outer.removeClass(
                 this.classes.join(
                     " "
@@ -10602,7 +10584,8 @@
                                 domSlider
                             ),
                             valuebg =
-                !(!this.options.highlight || !!isToggleSwitch) &&
+                !!this.options.highlight &&
+                !isToggleSwitch &&
                 (function (
                 ) {
                     var bg = document.createElement(
@@ -11106,7 +11089,7 @@
                             bPercent,
                             valueChanged;
                         if (
-                            ((self.slider[0].className = [
+                            (((self.slider[0].className = [
                                 this.isToggleSwitch
                                     ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset"
                                     : "ui-slider-track ui-shadow-inset",
@@ -11181,40 +11164,36 @@
                     )
                     : 1),
                             "object" == typeof val)
-                        ) {
-                            if (
-                                ((data = val),
+                                ? ((data = val),
                                 (tol = 8),
                                 (left = this.slider.offset(
                                 ).left),
                                 (width = this.slider.width(
                                 )),
                                 (pxStep = width / ((max - min) / step)),
-                                !this.dragging ||
-                  data.pageX < left - tol ||
-                  data.pageX > left + width + tol)
-                            )
-                                return;
-                            percent =
-                pxStep > 1
-                    ? ((data.pageX - left) / width) * 100
-                    : Math.round(
-                        ((data.pageX - left) / width) * 100
-                    );
-                        } else
-                            null == val &&
-                (val = isInput
-                    ? parseFloat(
-                        this.element.val(
-                        ) || 0
-                    )
-                    : this.element[0].selectedIndex),
-                            (percent = ((parseFloat(
-                                val
-                            ) - min) / (max - min)) * 100);
-                        if (!isNaN(
-                            percent
-                        )) {
+                                !!this.dragging &&
+                    !(data.pageX < left - tol) &&
+                    !(data.pageX > left + width + tol)) &&
+                  (percent =
+                    pxStep > 1
+                        ? ((data.pageX - left) / width) * 100
+                        : Math.round(
+                            ((data.pageX - left) / width) * 100
+                        ))
+                                : (null == val &&
+                    (val = isInput
+                        ? parseFloat(
+                            this.element.val(
+                            ) || 0
+                        )
+                        : this.element[0].selectedIndex),
+                                (percent = ((parseFloat(
+                                    val
+                                ) - min) / (max - min)) * 100)),
+                            !isNaN(
+                                percent
+                            ))
+                        ) {
                             if (
                                 ((newval = (percent / 100) * (max - min) + min),
                                 (valModStep = (newval - min) % step),
@@ -11236,7 +11215,7 @@
                   (percent = (newval - min) * percentPerStep * (1 / step)),
                                 percent < 0 && (percent = 0),
                                 percent > 100 && (percent = 100),
-                                min > newval && (newval = min),
+                                newval < min && (newval = min),
                                 newval > max && (newval = max),
                                 this.handle.css(
                                     "left",
@@ -11323,8 +11302,8 @@
                                     ) === !1)
                                 )
                                     return !1;
-                                !isfromControl &&
-                  valueChanged &&
+                                isfromControl ||
+                  !valueChanged ||
                   this.element.trigger(
                       "change"
                   );
@@ -12317,7 +12296,7 @@
                       0
                   ),
                   (this._proxy = first ? "first" : "last")),
-                            max === min
+                            min === max
                                 ? (jQuery
                                     .data(
                                         thisSlider.get(
@@ -12508,7 +12487,7 @@
                 ) {
                     this._super(
                     ),
-                    (!!this.options.clearBtn || this.isSearch) && this._addClearBtn(
+                    (this.options.clearBtn || this.isSearch) && this._addClearBtn(
                     );
                 },
                 clearButton: function (
@@ -13363,7 +13342,7 @@
                 offset,
                 desired,
             ) {
-                return segmentSize > windowSize
+                return windowSize < segmentSize
                     ? offset + (windowSize - segmentSize) / 2
                     : Math.min(
                         Math.max(
@@ -13591,7 +13570,7 @@
                             ),
                             documentHeight = this.document.height(
                             ) - 1;
-                        documentHeight > screenHeight
+                        screenHeight < documentHeight
                             ? screen.height(
                                 documentHeight
                             )
@@ -13693,9 +13672,9 @@
                     },
                     _handleWindowOrientationchange: function (
                     ) {
-                        !this._orientationchangeInProgress &&
-            this._isOpen &&
-            0 === this._ignoreResizeTo &&
+                        this._orientationchangeInProgress ||
+            !this._isOpen ||
+            0 !== this._ignoreResizeTo ||
             (this._expectResizeEvent(
             ),
             (this._orientationchangeInProgress = !0));
@@ -14206,12 +14185,12 @@
                                     chromematch = ua.indexOf(
                                         "Chrome"
                                     ) > -1;
-                                return !(
-                                    !(null !== androidmatch) ||
-                "4.0" !== andversion ||
-                !wkversion ||
-                !(wkversion > 534.13) ||
-                !!chromematch
+                                return (
+                                    null !== androidmatch &&
+                "4.0" === andversion &&
+                !!wkversion &&
+                wkversion > 534.13 &&
+                !chromematch
                                 );
                             })(
                             );
@@ -14678,32 +14657,32 @@
                     ) {
                         this.options.disabled ||
             this.isOpen ||
-            (("vclick" === event.type ||
-              (event.keyCode &&
-                (event.keyCode === jQuery.mobile.keyCode.ENTER ||
-                  event.keyCode === jQuery.mobile.keyCode.SPACE))) &&
-              (this._decideFormat(
-              ),
-              "overlay" === this.menuType
-                  ? this.button
-                      .attr(
-                          "href",
-                          "#" + this.popupId
-                      )
-                      .attr(
-                          "data-" + (jQuery.mobile.ns || "") + "rel",
-                          "popup"
-                      )
-                  : this.button
-                      .attr(
-                          "href",
-                          "#" + this.dialogId
-                      )
-                      .attr(
-                          "data-" + (jQuery.mobile.ns || "") + "rel",
-                          "dialog"
-                      ),
-              (this.isOpen = !0)));
+            ("vclick" !== event.type &&
+              (!event.keyCode ||
+                (event.keyCode !== jQuery.mobile.keyCode.ENTER &&
+                  event.keyCode !== jQuery.mobile.keyCode.SPACE))) ||
+            (this._decideFormat(
+            ),
+            "overlay" === this.menuType
+                ? this.button
+                    .attr(
+                        "href",
+                        "#" + this.popupId
+                    )
+                    .attr(
+                        "data-" + (jQuery.mobile.ns || "") + "rel",
+                        "popup"
+                    )
+                : this.button
+                    .attr(
+                        "href",
+                        "#" + this.dialogId
+                    )
+                    .attr(
+                        "data-" + (jQuery.mobile.ns || "") + "rel",
+                        "dialog"
+                    ),
+            (this.isOpen = !0));
                     },
                     _handleListFocus: function (
                         e
@@ -14977,7 +14956,7 @@
                               "ui-checkbox-off",
                               !option.selected
                           ),
-                                    (self.isMultiple || newIndex !== oldIndex) &&
+                                    (self.isMultiple || oldIndex !== newIndex) &&
                       self.select.trigger(
                           "change"
                       ),
@@ -15124,7 +15103,7 @@
                     },
                     close: function (
                     ) {
-                        if (!(this.options.disabled || !this.isOpen)) {
+                        if (!this.options.disabled && !!this.isOpen) {
                             var self = this;
                             "page" === self.menuType
                                 ? (self.menuPage.dialog(
@@ -15271,40 +15250,37 @@
                             i = 0;
                             i < numOptions;
                             i++, isPlaceholderItem = !1
-                        ) {
-                            if (
-                                ((option = $options[i]),
-                                ($option = jQuery(
-                                    option
-                                )),
-                                $option.hasClass(
-                                    "ui-screen-hidden"
-                                ))
-                            )
-                                continue;
-                            (parent = option.parentNode),
-                            (text = $option.text(
+                        )
+                            ((option = $options[i]),
+                            ($option = jQuery(
+                                option
                             )),
-                            (anchor = document.createElement(
-                                "a"
-                            )),
-                            (classes = []),
-                            anchor.setAttribute(
-                                "href",
-                                "#"
-                            ),
-                            anchor.appendChild(
-                                document.createTextNode(
-                                    text
-                                )
-                            ),
-                            parent !== select &&
+                            !$option.hasClass(
+                                "ui-screen-hidden"
+                            )) &&
+              ((parent = option.parentNode),
+              (text = $option.text(
+              )),
+              (anchor = document.createElement(
+                  "a"
+              )),
+              (classes = []),
+              anchor.setAttribute(
+                  "href",
+                  "#"
+              ),
+              anchor.appendChild(
+                  document.createTextNode(
+                      text
+                  )
+              ),
+              parent !== select &&
                 "optgroup" === parent.nodeName.toLowerCase(
                 ) &&
                 ((optLabel = parent.getAttribute(
                     "label"
                 )),
-                optGroup !== optLabel &&
+                optLabel !== optGroup &&
                   ((divider = document.createElement(
                       "li"
                   )),
@@ -15329,7 +15305,7 @@
                       divider
                   ),
                   (optGroup = optLabel))),
-                            needPlaceholder &&
+              needPlaceholder &&
                 (!option.getAttribute(
                     "value"
                 ) ||
@@ -15353,10 +15329,10 @@
                   ),
                 placeholder !== text &&
                   (placeholder = self.placeholder = text)),
-                            (item = document.createElement(
-                                "li"
-                            )),
-                            option.disabled &&
+              (item = document.createElement(
+                  "li"
+              )),
+              option.disabled &&
                 (classes.push(
                     "ui-state-disabled"
                 ),
@@ -15364,42 +15340,41 @@
                     "aria-disabled",
                     !0
                 )),
-                            item.setAttribute(
-                                dataPrefix + "option-index",
-                                i
-                            ),
-                            item.setAttribute(
-                                dataPrefix + "icon",
-                                "false"
-                            ),
-                            isPlaceholderItem && item.setAttribute(
-                                dataPlaceholderAttr,
-                                !0
-                            ),
-                            (item.className = classes.join(
-                                " "
-                            )),
-                            item.setAttribute(
-                                "role",
-                                "option"
-                            ),
-                            anchor.setAttribute(
-                                "tabindex",
-                                "-1"
-                            ),
-                            this.isMultiple &&
+              item.setAttribute(
+                  dataPrefix + "option-index",
+                  i
+              ),
+              item.setAttribute(
+                  dataPrefix + "icon",
+                  "false"
+              ),
+              isPlaceholderItem && item.setAttribute(
+                  dataPlaceholderAttr,
+                  !0
+              ),
+              (item.className = classes.join(
+                  " "
+              )),
+              item.setAttribute(
+                  "role",
+                  "option"
+              ),
+              anchor.setAttribute(
+                  "tabindex",
+                  "-1"
+              ),
+              this.isMultiple &&
                 jQuery(
                     anchor
                 ).addClass(
                     "ui-btn ui-checkbox-off ui-btn-icon-right",
                 ),
-                            item.appendChild(
-                                anchor
-                            ),
-                            fragment.appendChild(
-                                item
-                            );
-                        }
+              item.appendChild(
+                  anchor
+              ),
+              fragment.appendChild(
+                  item
+              ));
                         self.list[0].appendChild(
                             fragment
                         ),
@@ -16826,7 +16801,7 @@
                 ) + Math.abs(
                     desired.y - tip.y
                 )),
-              (!best || diff < best.diff) &&
+              (best && !(diff < best.diff)) ||
                 ((tip[p.snd] -=
                   s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd]),
                 (best = {
@@ -17351,7 +17326,7 @@
                 },
                 _unfixPanel: function (
                 ) {
-                    !!this.options.positionFixed &&
+                    this.options.positionFixed &&
           jQuery.support.fixedPosition &&
           this.element.removeClass(
               this.options.classes.panelFixed
@@ -17359,7 +17334,7 @@
                 },
                 _fixPanel: function (
                 ) {
-                    !!this.options.positionFixed &&
+                    this.options.positionFixed &&
           jQuery.support.fixedPosition &&
           this.element.addClass(
               this.options.classes.panelFixed
@@ -17532,14 +17507,14 @@
                   ).addClass(
                       o.classes.animate
                   )),
-                                !immediate && jQuery.support.cssTransform3d && !!o.animate
-                                    ? self.element.animationComplete(
-                                        complete,
-                                        "transition"
-                                    )
-                                    : setTimeout(
+                                immediate || !jQuery.support.cssTransform3d || !o.animate
+                                    ? setTimeout(
                                         complete,
                                         0
+                                    )
+                                    : self.element.animationComplete(
+                                        complete,
+                                        "transition"
                                     ),
                                 o.theme &&
                   "overlay" !== o.display &&
@@ -17662,14 +17637,14 @@
                       .removeClass(
                           self._pageContentOpenClasses
                       )),
-                                !immediate && jQuery.support.cssTransform3d && !!o.animate
-                                    ? self.element.animationComplete(
-                                        complete,
-                                        "transition"
-                                    )
-                                    : setTimeout(
+                                immediate || !jQuery.support.cssTransform3d || !o.animate
+                                    ? setTimeout(
                                         complete,
                                         0
+                                    )
+                                    : self.element.animationComplete(
+                                        complete,
+                                        "transition"
                                     ),
                                 self._modal && self._modal.removeClass(
                                     self._modalOpenClasses
@@ -18431,44 +18406,40 @@
                         var val,
                             lastval,
                             search = this._search;
-                        if (search) {
-                            if (
-                                ((val = search.val(
-                                ).toLowerCase(
-                                )),
-                                (lastval = jQuery.mobile.getAttribute(
-                                    search[0],
-                                    "lastval"
-                                ) + ""),
-                                lastval && lastval === val)
-                            )
-                                return;
-                            this._timer &&
+                        search &&
+            ((val = search.val(
+            ).toLowerCase(
+            )),
+            (lastval = jQuery.mobile.getAttribute(
+                search[0],
+                "lastval"
+            ) + ""),
+            !lastval || lastval !== val) &&
+            (this._timer &&
               (window.clearTimeout(
                   this._timer
               ), (this._timer = 0)),
-                            (this._timer = this._delay(
-                                function (
-                                ) {
-                                    this._trigger(
-                                        "beforefilter",
-                                        null,
-                                        {
-                                            input: search,
-                                        }
-                                    ),
-                                    search[0].setAttribute(
-                                        "data-" + jQuery.mobile.ns + "lastval",
-                                        val,
-                                    ),
-                                    this._filterItems(
-                                        val
-                                    ),
-                                    (this._timer = 0);
-                                },
-                                250
-                            ));
+            (this._timer = this._delay(
+                function (
+                ) {
+                    this._trigger(
+                        "beforefilter",
+                        null,
+                        {
+                            input: search,
                         }
+                    ),
+                    search[0].setAttribute(
+                        "data-" + jQuery.mobile.ns + "lastval",
+                        val,
+                    ),
+                    this._filterItems(
+                        val
+                    ),
+                    (this._timer = 0);
+                },
+                250
+            )));
                     },
                     _getFilterableItems: function (
                     ) {
@@ -18768,8 +18739,8 @@
                         widget
                     ) {
                         return (
-                            !this._widget &&
-                widget &&
+                            this._widget ||
+                !widget ||
                 ((this._widget = widget),
                 (this._widget._setOptions = replaceSetOptions(
                     this,
@@ -18803,45 +18774,44 @@
                             updatePlaceholder = !0,
                             textinputOpts = {
                             };
-                        if (!selector) {
-                            if (this._isSearchInternal(
-                            )) return;
-                            (updatePlaceholder = !1),
-                            (selector = jQuery(
-                                "<input data-" +
-                    jQuery.mobile.ns +
-                    "type='search' placeholder='" +
-                    opts.filterPlaceholder +
-                    "'></input>",
-                            ).jqmData(
-                                "ui-filterable-" + this.uuid + "-internal",
-                                !0
-                            )),
-                            jQuery(
-                                "<form class='ui-filterable'></form>"
-                            )
-                                .append(
-                                    selector
-                                )
-                                .submit(
-                                    function (
-                                        evt
-                                    ) {
-                                        evt.preventDefault(
-                                        ), selector.blur(
-                                        );
-                                    }
-                                )
-                                .insertBefore(
-                                    this.element
-                                ),
-                            jQuery.mobile.textinput &&
-                  (null != this.options.filterTheme &&
-                    (textinputOpts.theme = opts.filterTheme),
-                  selector.textinput(
-                      textinputOpts
-                  ));
-                        }
+                        selector ||
+              this._isSearchInternal(
+              ) ||
+              ((updatePlaceholder = !1),
+              (selector = jQuery(
+                  "<input data-" +
+                  jQuery.mobile.ns +
+                  "type='search' placeholder='" +
+                  opts.filterPlaceholder +
+                  "'></input>",
+              ).jqmData(
+                  "ui-filterable-" + this.uuid + "-internal",
+                  !0
+              )),
+              jQuery(
+                  "<form class='ui-filterable'></form>"
+              )
+                  .append(
+                      selector
+                  )
+                  .submit(
+                      function (
+                          evt
+                      ) {
+                          evt.preventDefault(
+                          ), selector.blur(
+                          );
+                      }
+                  )
+                  .insertBefore(
+                      this.element
+                  ),
+              jQuery.mobile.textinput &&
+                (null != this.options.filterTheme &&
+                  (textinputOpts.theme = opts.filterTheme),
+                selector.textinput(
+                    textinputOpts
+                ))),
                         this._super(
                             selector
                         ),
@@ -19072,9 +19042,9 @@
                   )
               )),
               -1 === active && (active = !collapsible && 0)),
-                            !collapsible &&
-              !1 === active &&
-              this.anchors.length &&
+                            collapsible ||
+              !1 !== active ||
+              !this.anchors.length ||
               (active = 0),
                             active
                         );
@@ -19664,8 +19634,8 @@
                                         position = elem.css(
                                             "position"
                                         );
-                                    "absolute" === position ||
-                  "fixed" === position ||
+                                    "absolute" !== position &&
+                  "fixed" !== position &&
                   (maxHeight -= elem.outerHeight(
                       !0
                   ));
@@ -19770,21 +19740,19 @@
                             };
                         (event.preventDefault(
                         ),
-                        !(
-                            tab.hasClass(
-                                "ui-state-disabled"
-                            ) ||
-            tab.hasClass(
+                        !tab.hasClass(
+                            "ui-state-disabled"
+                        ) &&
+            !tab.hasClass(
                 "ui-tabs-loading"
-            ) ||
-            this.running ||
-            (clickedIsActive && !options.collapsible) ||
+            ) &&
+            !this.running &&
+            (!clickedIsActive || !!options.collapsible) &&
             this._trigger(
                 "beforeActivate",
                 event,
                 eventData
-            ) === !1
-                        )) &&
+            ) !== !1) &&
             ((options.active = !collapsing && this.tabs.index(
                 tab
             )),
@@ -20079,7 +20047,7 @@
                         function (
                             num
                         ) {
-                            return index !== num ? num : null;
+                            return num !== index ? num : null;
                         }
                     ))
                     : (disabled = jQuery.map(
@@ -20087,7 +20055,7 @@
                         function (
                             li, num
                         ) {
-                            return index !== num ? num : null;
+                            return num !== index ? num : null;
                         }
                     ))),
             this._setupDisabled(
@@ -20098,33 +20066,28 @@
                         index
                     ) {
                         var disabled = this.options.disabled;
-                        if (!0 !== disabled) {
-                            if (void 0 === index) disabled = !0;
-                            else {
-                                if (
-                                    ((index = this._getIndex(
-                                        index
-                                    )),
-                                    -1 !== jQuery.inArray(
-                                        index,
-                                        disabled
-                                    ))
-                                )
-                                    return;
-                                jQuery.isArray(
-                                    disabled
-                                )
-                                    ? (disabled = jQuery.merge(
-                                        [index,],
-                                        disabled
-                                    ).sort(
-                                    ))
-                                    : (disabled = [index,]);
-                            }
-                            this._setupDisabled(
-                                disabled
-                            );
-                        }
+                        !0 !== disabled &&
+            (void 0 === index
+                ? (disabled = !0)
+                : ((index = this._getIndex(
+                    index
+                )),
+                -1 === jQuery.inArray(
+                    index,
+                    disabled
+                )) &&
+                (jQuery.isArray(
+                    disabled
+                )
+                    ? (disabled = jQuery.merge(
+                        [index,],
+                        disabled
+                    ).sort(
+                    ))
+                    : (disabled = [index,])),
+            this._setupDisabled(
+                disabled
+            ));
                     },
                     load: function (
                         index, event
@@ -20290,7 +20253,8 @@
                     aig.z
                 )),
                 window1.orientation ||
-          !(x > 7 || (((z > 6 && y < 8) || (z < 8 && y > 6)) && x > 5))
+          (!(x > 7) &&
+            (((!(z > 6) || !(y < 8)) && (!(z < 8) || !(y > 6))) || !(x > 5)))
                     ? !zoom.enabled && zoom.enable(
                     )
                     : zoom.enabled && zoom.disable(
@@ -20409,22 +20373,34 @@
                     ),
                     hideRenderingClass(
                     ),
-                    !jQuery.mobile.hashListeningEnabled ||
-              !jQuery.mobile.path.isHashValid(
+                    jQuery.mobile.hashListeningEnabled &&
+              jQuery.mobile.path.isHashValid(
                   location.hash
+              ) &&
+              (jQuery(
+                  hashPage
+              ).is(
+                  ":jqmData(role='page')"
               ) ||
-              !(
-                  jQuery(
-                      hashPage
-                  ).is(
-                      ":jqmData(role='page')"
-                  ) ||
                 jQuery.mobile.path.isPath(
                     hash
                 ) ||
-                hash === jQuery.mobile.dialogHashKey
-              )
-                        ? (jQuery.mobile.path.isHashValid(
+                hash === jQuery.mobile.dialogHashKey)
+                        ? jQuery.event.special.navigate.isPushStateEnabled(
+                        )
+                            ? ((jQuery.mobile.navigate.history.stack = []),
+                            jQuery.mobile.navigate(
+                                jQuery.mobile.path.isPath(
+                                    location.hash
+                                )
+                                    ? location.hash
+                                    : location.href,
+                            ))
+                            : $window.trigger(
+                                "hashchange",
+                                [!0,]
+                            )
+                        : (jQuery.mobile.path.isHashValid(
                             location.hash
                         ) &&
                     (jQuery.mobile.navigate.history.initialDst = hash.replace(
@@ -20445,21 +20421,7 @@
                                 changeHash: !1,
                                 fromHashChange: !0,
                             }
-                        ))
-                        : jQuery.event.special.navigate.isPushStateEnabled(
-                        )
-                            ? ((jQuery.mobile.navigate.history.stack = []),
-                            jQuery.mobile.navigate(
-                                jQuery.mobile.path.isPath(
-                                    location.hash
-                                )
-                                    ? location.hash
-                                    : location.href,
-                            ))
-                            : $window.trigger(
-                                "hashchange",
-                                [!0,]
-                            );
+                        ));
                 },
             }
         ),

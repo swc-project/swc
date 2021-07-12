@@ -328,7 +328,7 @@
     var force = function (
         name, object, methods
     ) {
-        var isType = Object != object,
+        var isType = object != Object,
             prototype = object.prototype;
         isType && (object = new Type(
             name,
@@ -1054,20 +1054,20 @@ Array.implement(
                 var type = typeOf(
                     this[i]
                 );
-                if ("null" == type) continue;
-                array = array.concat(
-                    "array" == type ||
-            "collection" == type ||
-            "arguments" == type ||
-            instanceOf(
-                this[i],
-                Array
-            )
-                        ? Array.flatten(
-                            this[i]
-                        )
-                        : this[i],
-                );
+                "null" != type &&
+          (array = array.concat(
+              "array" == type ||
+              "collection" == type ||
+              "arguments" == type ||
+              instanceOf(
+                  this[i],
+                  Array
+              )
+                  ? Array.flatten(
+                      this[i]
+                  )
+                  : this[i],
+          ));
             }
             return array;
         },
@@ -1886,9 +1886,9 @@ Hash.implement(
             key, value
         ) {
             return (
-                (!this[key] || this.hasOwnProperty(
+                (this[key] && !this.hasOwnProperty(
                     key
-                )) && (this[key] = value), this
+                )) || (this[key] = value), this
             );
         },
         empty: function (
@@ -2785,7 +2785,7 @@ var Event1 = DOMEvent;
                 return (
                     ((type = removeOn(
                         type
-                    )), $empty == fn) ||
+                    )), fn == $empty) ||
             ((this.$events[type] = (this.$events[type] || []).include(
                 fn
             )),
@@ -2865,14 +2865,13 @@ var Event1 = DOMEvent;
                 events && (events = removeOn(
                     events
                 ));
-                for (type in this.$events) {
-                    if (events && events != type) continue;
-                    for (var fns = this.$events[type], i = fns.length; i--; )
-                        i in fns && this.removeEvent(
-                            type,
-                            fns[i]
-                        );
-                }
+                for (type in this.$events)
+                    if (!events || events == type)
+                        for (var fns = this.$events[type], i = fns.length; i--; )
+                            i in fns && this.removeEvent(
+                                type,
+                                fns[i]
+                            );
                 return this;
             },
         }
@@ -2889,21 +2888,18 @@ var Event1 = DOMEvent;
                     ),
                 ));
                 if (this.addEvent)
-                    for (var option in options) {
-                        if (
-                            "function" != typeOf(
-                                options[option]
-                            ) ||
-                !/^on[A-Z]/.test(
-                    option
-                )
-                        )
-                            continue;
-                        this.addEvent(
-                            option,
+                    for (var option in options)
+                        "function" == typeOf(
                             options[option]
-                        ), delete options[option];
-                    }
+                        ) &&
+                /^on[A-Z]/.test(
+                    option
+                ) &&
+                (this.addEvent(
+                    option,
+                    options[option]
+                ),
+                delete options[option]);
                 return this;
             },
         }
@@ -3272,19 +3268,19 @@ function (
     (local.setDocument = function (
         document
     ) {
-        var feature,
-            starSelectsClosed,
-            starSelectsComments,
-            brokenSecondClassNameGEBCN,
-            cachedGetElementsByClassName,
-            brokenFormAttributeGetter,
-            selected,
-            nodeType = document.nodeType;
+        var nodeType = document.nodeType;
         if (9 == nodeType);
         else if (nodeType) document = document.ownerDocument;
         else if (document.navigator) document = document.document;
         else return;
         if (this.document !== document) {
+            var feature,
+                starSelectsClosed,
+                starSelectsComments,
+                brokenSecondClassNameGEBCN,
+                cachedGetElementsByClassName,
+                brokenFormAttributeGetter,
+                selected;
             this.document = document;
             var root = document.documentElement,
                 rootUid = this.getUIDXML(
@@ -3534,7 +3530,7 @@ function (
                             context, node
                         ) {
                             if (node)
-                                do if (context === node) return !0;
+                                do if (node === context) return !0;
                                 while ((node = node.parentNode));
                             return !1;
                         }),
@@ -3694,26 +3690,28 @@ function (
                                 ), i = 0;
                                 (node = nodes[i++]);
 
-                            ) {
+                            )
                                 if (
                                     ((className = node.className),
-                                    !className ||
+                                    !(
+                                        !className ||
                       !new RegExp(
                           "(^|\\s)" + Slick.escapeRegExp(
                               name
                           ) + "(\\s|$)",
                       ).test(
                           className
-                      ))
-                                )
-                                    continue;
-                                if (first) return node;
-                                (hasOthers && uniques[this.getUID(
-                                    node
-                                )]) || found.push(
-                                    node
-                                );
-                            }
+                      )
+                                    ))
+                                ) {
+                                    if (first) return node;
+                                    (hasOthers && uniques[this.getUID(
+                                        node
+                                    )]) ||
+                      found.push(
+                          node
+                      );
+                                }
                     }
                 } else {
                     if ("*" == name && this.brokenStarGEBTN) break simpleSelectors;
@@ -3832,7 +3830,7 @@ function (
         }),
         (this.push =
           hasOthers ||
-          !(first || (1 == parsed.length && 1 == parsed.expressions[0].length))
+          (!first && (1 != parsed.length || 1 != parsed.expressions[0].length))
               ? this.pushUID
               : this.pushArray),
         null == found && (found = []);
@@ -3993,19 +3991,19 @@ function (
                     count = 1;
                 if (ofType) {
                     var nodeName = node.nodeName;
-                    do {
-                        if (el.nodeName != nodeName) continue;
-                        this[positions][this.getUID(
-                            el
-                        )] = count++;
-                    } while ((el = el[sibling]));
+                    do
+                        el.nodeName == nodeName &&
+                  (this[positions][this.getUID(
+                      el
+                  )] = count++);
+                    while ((el = el[sibling]));
                 } else
-                    do {
-                        if (1 != el.nodeType) continue;
-                        this[positions][this.getUID(
-                            el
-                        )] = count++;
-                    } while ((el = el[sibling]));
+                    do
+                        1 == el.nodeType &&
+                  (this[positions][this.getUID(
+                      el
+                  )] = count++);
+                    while ((el = el[sibling]));
             }
             argument = argument || "n";
             var parsed =
@@ -4019,7 +4017,7 @@ function (
             return 0 == a
                 ? b == pos
                 : a > 0
-                    ? !(b > pos) && void 0
+                    ? !(pos < b) && void 0
                     : !(b < pos) && (pos - b) % a == 0;
         };
     }),
@@ -4049,15 +4047,15 @@ function (
         var uid = this.getUID(
             node
         );
-        !this.uniques[uid] &&
-          this.matchSelector(
+        this.uniques[uid] ||
+          !this.matchSelector(
               node,
               tag,
               id,
               classes,
               attributes,
               pseudos
-          ) &&
+          ) ||
           ((this.uniques[uid] = !0), this.found.push(
               node
           ));
@@ -4203,41 +4201,39 @@ function (
                       "id"
                   ).nodeValue != id))
                     ) {
-                        if (((children = node.all[id]), !children)) return;
-                        for (
-                            children[0] || (children = [children,]), i = 0;
-                            (item = children[i++]);
+                        if (((children = node.all[id]), !!children)) {
+                            for (
+                                children[0] || (children = [children,]), i = 0;
+                                (item = children[i++]);
 
-                        ) {
-                            var idNode = item.getAttributeNode(
-                                "id"
-                            );
-                            if (idNode && idNode.nodeValue == id) {
-                                this.push(
-                                    item,
-                                    tag,
-                                    null,
-                                    classes,
-                                    attributes,
-                                    pseudos
+                            ) {
+                                var idNode = item.getAttributeNode(
+                                    "id"
                                 );
-                                break;
+                                if (idNode && idNode.nodeValue == id) {
+                                    this.push(
+                                        item,
+                                        tag,
+                                        null,
+                                        classes,
+                                        attributes,
+                                        pseudos
+                                    );
+                                    break;
+                                }
                             }
+                            return;
                         }
-                        return;
                     }
                     if (item) {
                         if (this.document !== node && !this.contains(
                             node,
                             item
                         )) return;
-                    } else {
-                        if (this.contains(
-                            this.root,
-                            node
-                        )) return;
-                        break getById;
-                    }
+                    } else if (!this.contains(
+                        this.root,
+                        node
+                    )) break getById;
                     return (
                         this.push(
                             item,
@@ -4356,22 +4352,22 @@ function (
         "~": function (
             node, tag, id, classes, attributes, pseudos
         ) {
-            for (; (node = node.nextSibling); ) {
-                if (1 != node.nodeType) continue;
-                var uid = this.getUID(
-                    node
-                );
-                if (this.bitUniques[uid]) break;
-                (this.bitUniques[uid] = !0),
-                this.push(
-                    node,
-                    tag,
-                    id,
-                    classes,
-                    attributes,
-                    pseudos
-                );
-            }
+            for (; (node = node.nextSibling); )
+                if (1 == node.nodeType) {
+                    var uid = this.getUID(
+                        node
+                    );
+                    if (this.bitUniques[uid]) break;
+                    (this.bitUniques[uid] = !0),
+                    this.push(
+                        node,
+                        tag,
+                        id,
+                        classes,
+                        attributes,
+                        pseudos
+                    );
+                }
         },
         "++": function (
             node, tag, id, classes, attributes, pseudos
@@ -4483,22 +4479,22 @@ function (
         "!~": function (
             node, tag, id, classes, attributes, pseudos
         ) {
-            for (; (node = node.previousSibling); ) {
-                if (1 != node.nodeType) continue;
-                var uid = this.getUID(
-                    node
-                );
-                if (this.bitUniques[uid]) break;
-                (this.bitUniques[uid] = !0),
-                this.push(
-                    node,
-                    tag,
-                    id,
-                    classes,
-                    attributes,
-                    pseudos
-                );
-            }
+            for (; (node = node.previousSibling); )
+                if (1 == node.nodeType) {
+                    var uid = this.getUID(
+                        node
+                    );
+                    if (this.bitUniques[uid]) break;
+                    (this.bitUniques[uid] = !0),
+                    this.push(
+                        node,
+                        tag,
+                        id,
+                        classes,
+                        attributes,
+                        pseudos
+                    );
+                }
         },
     };
     for (var c in combinators) local["combinator:" + c] = combinators[c];
@@ -4772,8 +4768,9 @@ function (
         node, selector
     ) {
         return (
-            !(!node || !selector) &&
-          (!!(!selector || node === selector) ||
+            !!node &&
+          !!selector &&
+          (!!(!selector || selector === node) ||
             (local.setDocument(
                 node
             ), local.matchNode(
@@ -4865,12 +4862,12 @@ var Element1 = function (
         parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
         if (attributes)
-            for (var attr, i = 0, l = attributes.length; i < l; i++) {
-                if (((attr = attributes[i]), null != props[attr.key])) continue;
-                null != attr.value && "=" == attr.operator
-                    ? (props[attr.key] = attr.value)
-                    : attr.value || attr.operator || (props[attr.key] = !0);
-            }
+            for (var attr, i = 0, l = attributes.length; i < l; i++)
+                (attr = attributes[i]),
+                null == props[attr.key] &&
+            (null != attr.value && "=" == attr.operator
+                ? (props[attr.key] = attr.value)
+                : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList &&
       null == props.class &&
       (props.class = parsed.classList.join(
@@ -6245,14 +6242,12 @@ Elements.alias(
                         ) {
                             var type = el.type;
                             if (
-                                !(
-                                    !el.name ||
-                el.disabled ||
-                "submit" == type ||
-                "reset" == type ||
-                "file" == type ||
-                "image" == type
-                                )
+                                !!el.name &&
+              !el.disabled &&
+              "submit" != type &&
+              "reset" != type &&
+              "file" != type &&
+              "image" != type
                             ) {
                                 var value =
                 "select" == el.get(
@@ -6270,11 +6265,11 @@ Elements.alias(
                             );
                         }
                     )
-                    : ("radio" == type || "checkbox" == type) && !el.checked
-                        ? null
-                        : el.get(
+                    : ("radio" != type && "checkbox" != type) || el.checked
+                        ? el.get(
                             "value"
-                        );
+                        )
+                        : null;
                                 Array.from(
                                     value
                                 ).each(
@@ -6609,9 +6604,9 @@ Elements.alias(
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
     (tr = null),
-    (!supportsTableInnerHTML ||
-        !supportsTRInnerHTML ||
-        !supportsHTML5Elements) &&
+    (supportsTableInnerHTML &&
+        supportsTRInnerHTML &&
+        supportsHTML5Elements) ||
         (Element1.Properties.html.set = (function (
             set
         ) {
@@ -6885,7 +6880,7 @@ Elements.alias(
                         : null;
                 return computed
                     ? computed.getPropertyValue(
-                        floatName == property
+                        property == floatName
                             ? "float"
                             : property.hyphenate(
                             ),
@@ -6972,18 +6967,18 @@ Elements.alias(
                 var result = this.style[property];
                 if (!result || "zIndex" == property) {
                     result = [];
-                    for (var style in Element1.ShortStyles) {
-                        if (property != style) continue;
-                        for (var s in Element1.ShortStyles[style])
-                            result.push(
-                                this.getStyle(
-                                    s
-                                )
+                    for (var style in Element1.ShortStyles)
+                        if (property == style) {
+                            for (var s in Element1.ShortStyles[style])
+                                result.push(
+                                    this.getStyle(
+                                        s
+                                    )
+                                );
+                            return result.join(
+                                " "
                             );
-                        return result.join(
-                            " "
-                        );
-                    }
+                        }
                     result = this.getComputedStyle(
                         property
                     );
@@ -7557,7 +7552,7 @@ Elements.alias(
     var bubbleUp = function (
             self, match, fn, event, target
         ) {
-            for (; target && self != target; ) {
+            for (; target && target != self; ) {
                 if (match(
                     target,
                     event
@@ -7825,7 +7820,7 @@ Elements.alias(
                         ? function (
                             event, target
                         ) {
-                            !target && event && event.target && (target = event.target),
+                            target || !event || !event.target || (target = event.target),
                             target && _map.listen(
                                 self,
                                 match,
@@ -7838,7 +7833,7 @@ Elements.alias(
                         : function (
                             event, target
                         ) {
-                            !target && event && event.target && (target = event.target),
+                            target || !event || !event.target || (target = event.target),
                             target && bubbleUp(
                                 self,
                                 match,
@@ -8923,8 +8918,8 @@ Element1.alias(
                       function (
                           value, style
                       ) {
-                          !rule.style[style] ||
-                      Element1.ShortStyles[style] ||
+                          rule.style[style] &&
+                      !Element1.ShortStyles[style] &&
                       ((value = String(
                           rule.style[style]
                       )),
@@ -10396,25 +10391,26 @@ var Cookie = new Class(
         ),
         domready = function (
         ) {
-            (clearTimeout(
+            clearTimeout(
                 timer
-            ), !ready) &&
-          ((Browser.loaded = ready = !0),
-          document
-              .removeListener(
-                  "DOMContentLoaded",
-                  domready
-              )
-              .removeListener(
-                  "readystatechange",
-                  check
-              ),
-          document.fireEvent(
-              "domready"
-          ),
-          window.fireEvent(
-              "domready"
-          ));
+            ),
+            ready ||
+            ((Browser.loaded = ready = !0),
+            document
+                .removeListener(
+                    "DOMContentLoaded",
+                    domready
+                )
+                .removeListener(
+                    "readystatechange",
+                    check
+                ),
+            document.fireEvent(
+                "domready"
+            ),
+            window.fireEvent(
+                "domready"
+            ));
         },
         check = function (
         ) {

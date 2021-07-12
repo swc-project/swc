@@ -270,7 +270,7 @@
                 function (
                     obj
                 ) {
-                    dst !== obj &&
+                    obj !== dst &&
           forEach(
               obj,
               function (
@@ -511,7 +511,7 @@
                 "Can't copy! Making copies of Window or Scope instances is not supported.",
             );
         if (destination) {
-            if (destination === source)
+            if (source === destination)
                 throw ngMinErr(
                     "cpi",
                     "Can't copy! Source and destination are identical.",
@@ -654,18 +654,18 @@
                         return !1;
                     keySet = {
                     };
-                    for (key in o1) {
-                        if ("$" === key.charAt(
+                    for (key in o1)
+                        if ("$" !== key.charAt(
                             0
-                        ) || isFunction(
+                        ) && !isFunction(
                             o1[key]
-                        )) continue;
-                        if (!equals(
-                            o1[key],
-                            o2[key]
-                        )) return !1;
-                        keySet[key] = !0;
-                    }
+                        )) {
+                            if (!equals(
+                                o1[key],
+                                o2[key]
+                            )) return !1;
+                            keySet[key] = !0;
+                        }
                     for (key in o2)
                         if (
                             !keySet.hasOwnProperty(
@@ -786,8 +786,9 @@
     function toJson(
         obj, pretty
     ) {
-        if ("undefined" != typeof obj)
-            return JSON.stringify(
+        return "undefined" == typeof obj
+            ? void 0
+            : JSON.stringify(
                 obj,
                 toJsonReplacer,
                 pretty ? "  " : null
@@ -1041,8 +1042,8 @@
                             function (
                                 attr
                             ) {
-                                !appElement &&
-                  names[attr.name] &&
+                                appElement ||
+                  !names[attr.name] ||
                   ((appElement = element1), (module = attr.value));
                             }
                         );
@@ -1239,7 +1240,7 @@
     ) {
         var startNode = nodes[0],
             endNode = nodes[nodes.length - 1];
-        if (endNode === startNode) return jqLite(
+        if (startNode === endNode) return jqLite(
             startNode
         );
         var element = startNode,
@@ -1823,13 +1824,13 @@
     ) {
         if (elements) {
             elements =
-        !elements.nodeName && isDefined(
+        elements.nodeName || !isDefined(
             elements.length
-        ) && !isWindow(
+        ) || isWindow(
             elements
         )
-            ? elements
-            : [elements,];
+            ? [elements,]
+            : elements;
             for (var i = 0; i < elements.length; i++) root.push(
                 elements[i]
             );
@@ -2355,7 +2356,7 @@
                           a, b
                       ) {
                           if (b)
-                              for (; (b = b.parentNode); ) if (a === b) return !0;
+                              for (; (b = b.parentNode); ) if (b === a) return !0;
                           return !1;
                       };
                                 (events[type] = []),
@@ -2370,11 +2371,11 @@
                                     ) {
                                         var target = this,
                                             related = event.relatedTarget;
-                                        (!related ||
-                        (related !== target && !contains(
+                                        (related &&
+                        (related === target || contains(
                             target,
                             related
-                        ))) &&
+                        ))) ||
                         handle(
                             event,
                             type
@@ -3489,35 +3490,35 @@
             if (
                 (location !== window1.location && (location = window1.location), url)
             ) {
-                if (lastBrowserUrl == url) return;
-                return (
-                    (lastBrowserUrl = url),
-                    $sniffer.history
-                        ? replace
-                            ? history.replaceState(
-                                null,
-                                "",
-                                url
-                            )
-                            : (history.pushState(
-                                null,
-                                "",
-                                url
-                            ),
-                            baseElement.attr(
-                                "href",
-                                baseElement.attr(
-                                    "href"
+                if (lastBrowserUrl != url)
+                    return (
+                        (lastBrowserUrl = url),
+                        $sniffer.history
+                            ? replace
+                                ? history.replaceState(
+                                    null,
+                                    "",
+                                    url
                                 )
-                            ))
-                        : ((newLocation = url),
-                        replace
-                            ? location.replace(
-                                url
-                            )
-                            : (location.href = url)),
-                    self
-                );
+                                : (history.pushState(
+                                    null,
+                                    "",
+                                    url
+                                ),
+                                baseElement.attr(
+                                    "href",
+                                    baseElement.attr(
+                                        "href"
+                                    )
+                                ))
+                            : ((newLocation = url),
+                            replace
+                                ? location.replace(
+                                    url
+                                )
+                                : (location.href = url)),
+                        self
+                    );
             } else return newLocation || location.href.replace(
                 /%27/g,
                 "'"
@@ -3527,21 +3528,22 @@
             urlChangeInit = !1;
         function fireUrlChange(
         ) {
-            ((newLocation = null), lastBrowserUrl != self.url(
-            )) &&
-        ((lastBrowserUrl = self.url(
-        )),
-        forEach(
-            urlChangeListeners,
-            function (
-                listener
-            ) {
-                listener(
-                    self.url(
-                    )
-                );
-            }
-        ));
+            (newLocation = null),
+            lastBrowserUrl != self.url(
+            ) &&
+          ((lastBrowserUrl = self.url(
+          )),
+          forEach(
+              urlChangeListeners,
+              function (
+                  listener
+              ) {
+                  listener(
+                      self.url(
+                      )
+                  );
+              }
+          ));
         }
         (self.onUrlChange = function (
             callback
@@ -3776,7 +3778,7 @@
                     ) {
                         var lruEntry = lruHash[key];
                         lruEntry &&
-              (freshEnd == lruEntry && (freshEnd = lruEntry.p),
+              (lruEntry == freshEnd && (freshEnd = lruEntry.p),
               lruEntry == staleEnd && (staleEnd = lruEntry.n),
               link(
                   lruEntry.n,
@@ -3819,7 +3821,7 @@
                 ) {
                     entry != freshEnd &&
             (staleEnd
-                ? entry == staleEnd && (staleEnd = entry.n)
+                ? staleEnd == entry && (staleEnd = entry.n)
                 : (staleEnd = entry),
             link(
                 entry.n,
@@ -4710,8 +4712,8 @@
                     ) &&
                       (newIsolateScopeDirective = directive))),
                             (directiveName = directive.name),
-                            !directive.templateUrl &&
-                  directive.controller &&
+                            directive.templateUrl ||
+                  !directive.controller ||
                   ((directiveValue = directive.controller),
                   (controllerDirectives = controllerDirectives || {
                   }),
@@ -4942,7 +4944,7 @@
                       attrEnd
                   )),
                 (pre.require = directive.require),
-                (directive === newIsolateScopeDirective ||
+                (newIsolateScopeDirective === directive ||
                   directive.$$isolateScope) &&
                   (pre = cloneAndAnnotateFn(
                       pre,
@@ -4961,7 +4963,7 @@
                         attrEnd,
                     )),
                   (post.require = directive.require),
-                  (directive === newIsolateScopeDirective ||
+                  (newIsolateScopeDirective === directive ||
                     directive.$$isolateScope) &&
                     (post = cloneAndAnnotateFn(
                         post,
@@ -5123,68 +5125,69 @@
                               ));
                                         break;
                                     case "=":
-                                        if (optional && !attrs[attrName]) return;
-                                        (parentGet = $parse(
-                                            attrs[attrName]
-                                        )),
-                                        (compare = parentGet.literal
-                                            ? equals
-                                            : function (
-                                                a, b
-                                            ) {
-                                                return a === b;
-                                            }),
-                                        (parentSet =
-                              parentGet.assign ||
-                              function (
-                              ) {
-                                  throw (
-                                      ((lastValue = isolateScope[
-                                          scopeName
-                                      ] = parentGet(
-                                          scope
-                                      )),
-                                      $compileMinErr(
-                                          "nonassign",
-                                          "Expression '{0}' used with directive '{1}' is non-assignable!",
-                                          attrs[attrName],
-                                          newIsolateScopeDirective.name,
-                                      ))
-                                  );
-                              }),
-                                        (lastValue = isolateScope[scopeName] = parentGet(
-                                            scope,
-                                        )),
-                                        isolateScope.$watch(
-                                            function (
-                                            ) {
-                                                var parentValue = parentGet(
-                                                    scope
-                                                );
-                                                return (
-                                                    compare(
-                                                        parentValue,
-                                                        isolateScope[scopeName],
-                                                    ) ||
-                                    (compare(
-                                        parentValue,
-                                        lastValue
-                                    )
-                                        ? parentSet(
-                                            scope,
-                                            (parentValue =
-                                            isolateScope[scopeName]),
-                                        )
-                                        : (isolateScope[
+                                        if (!optional || !!attrs[attrName]) {
+                                            (parentGet = $parse(
+                                                attrs[attrName]
+                                            )),
+                                            (compare = parentGet.literal
+                                                ? equals
+                                                : function (
+                                                    a, b
+                                                ) {
+                                                    return a === b;
+                                                }),
+                                            (parentSet =
+                                parentGet.assign ||
+                                function (
+                                ) {
+                                    throw (
+                                        ((lastValue = isolateScope[
                                             scopeName
-                                        ] = parentValue)),
-                                                    (lastValue = parentValue)
-                                                );
-                                            },
-                                            null,
-                                            parentGet.literal,
-                                        );
-                                        break;
+                                        ] = parentGet(
+                                            scope
+                                        )),
+                                        $compileMinErr(
+                                            "nonassign",
+                                            "Expression '{0}' used with directive '{1}' is non-assignable!",
+                                            attrs[attrName],
+                                            newIsolateScopeDirective.name,
+                                        ))
+                                    );
+                                }),
+                                            (lastValue = isolateScope[scopeName] = parentGet(
+                                                scope,
+                                            )),
+                                            isolateScope.$watch(
+                                                function (
+                                                ) {
+                                                    var parentValue = parentGet(
+                                                        scope
+                                                    );
+                                                    return (
+                                                        compare(
+                                                            parentValue,
+                                                            isolateScope[scopeName],
+                                                        ) ||
+                                      (compare(
+                                          parentValue,
+                                          lastValue
+                                      )
+                                          ? parentSet(
+                                              scope,
+                                              (parentValue =
+                                              isolateScope[scopeName]),
+                                          )
+                                          : (isolateScope[
+                                              scopeName
+                                          ] = parentValue)),
+                                                        (lastValue = parentValue)
+                                                    );
+                                                },
+                                                null,
+                                                parentGet.literal,
+                                            );
+                                            break;
+                                        }
                                     case "&":
                                         (parentGet = $parse(
                                             attrs[attrName]
@@ -5354,7 +5357,7 @@
                     startAttrName,
                     endAttrName,
                 ) {
-                    if (ignoreDirective === name) return null;
+                    if (name === ignoreDirective) return null;
                     var match = null;
                     if (hasDirectives.hasOwnProperty(
                         name
@@ -5575,7 +5578,7 @@
                                             function (
                                                 node, i
                                             ) {
-                                                compileNode == node &&
+                                                node == compileNode &&
                           ($rootElement[i] = $compileNode[0]);
                                             }
                                         ),
@@ -5595,7 +5598,7 @@
                                             boundTranscludeFn = linkQueue.shift(
                                             ),
                                             linkNode = $compileNode[0];
-                                        beforeTemplateCompileNode !== beforeTemplateLinkNode &&
+                                        beforeTemplateLinkNode !== beforeTemplateCompileNode &&
                       ((linkNode = jqLiteClone(
                           compileNode
                       )),
@@ -5789,7 +5792,7 @@
                                                     "nodomevents",
                                                     "Interpolations for HTML DOM event attributes are disallowed.  Please use the ng- versions (such as ng-click instead of onclick) instead.",
                                                 );
-                                            ((interpolateFn = $interpolate(
+                                            (interpolateFn = $interpolate(
                                                 attr[name],
                                                 !0,
                                                 getTrustedContext(
@@ -5797,33 +5800,33 @@
                                                     name
                                                 ),
                                             )),
-                                            !!interpolateFn) &&
-                        ((attr[name] = interpolateFn(
+                                            interpolateFn &&
+                          ((attr[name] = interpolateFn(
+                              scope
+                          )),
+                          ((
+                              $$observers[name] || ($$observers[name] = [])
+                          ).$$inter = !0),
+                          (
+                              (attr.$$observers &&
+                              attr.$$observers[name].$$scope) ||
                             scope
-                        )),
-                        ((
-                            $$observers[name] || ($$observers[name] = [])
-                        ).$$inter = !0),
-                        (
-                            (attr.$$observers &&
-                            attr.$$observers[name].$$scope) ||
-                          scope
-                        ).$watch(
-                            interpolateFn,
-                            function (
-                                newValue, oldValue
-                            ) {
-                                "class" === name && newValue != oldValue
-                                    ? attr.$updateClass(
-                                        newValue,
-                                        oldValue
-                                    )
-                                    : attr.$set(
-                                        name,
-                                        newValue
-                                    );
-                            }
-                        ));
+                          ).$watch(
+                              interpolateFn,
+                              function (
+                                  newValue, oldValue
+                              ) {
+                                  "class" === name && newValue != oldValue
+                                      ? attr.$updateClass(
+                                          newValue,
+                                          oldValue
+                                      )
+                                      : attr.$set(
+                                          name,
+                                          newValue
+                                      );
+                              },
+                          ));
                                         },
                                     };
                                 },
@@ -7777,7 +7780,7 @@
                     function (
                         event
                     ) {
-                        if (!(event.ctrlKey || event.metaKey || 2 == event.which)) {
+                        if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                             for (
                                 var elm = jqLite(
                                     event.target
@@ -8899,10 +8902,10 @@
                 var token = this.tokens[0],
                     t = token.text;
                 if (
-                    e1 === t ||
-            e2 === t ||
-            e3 === t ||
-            e4 === t ||
+                    t === e1 ||
+            t === e2 ||
+            t === e3 ||
+            t === e4 ||
             (!e1 && !e2 && !e3 && !e4)
                 )
                     return token;
@@ -9360,13 +9363,12 @@
                             ),
                             v,
                             p;
-                        if (!!o)
-                            return (
-                                (v = ensureSafeObject(
-                                    o[i],
-                                    parser.text
-                                )),
-                                v &&
+                        return o
+                            ? ((v = ensureSafeObject(
+                                o[i],
+                                parser.text
+                            )),
+                            v &&
                     v.then &&
                     parser.options.unwrapPromises &&
                     ((p = v),
@@ -9380,8 +9382,8 @@
                           }
                       )),
                     (v = v.$$v)),
-                                v
-                            );
+                            v)
+                            : void 0;
                     },
                     {
                         assign: function (
@@ -9897,10 +9899,10 @@
                     (promiseWarning = function (
                         fullExp
                     ) {
-                        !$parseOptions.logPromiseWarnings ||
-                promiseWarningCache.hasOwnProperty(
+                        $parseOptions.logPromiseWarnings &&
+                !promiseWarningCache.hasOwnProperty(
                     fullExp
-                ) ||
+                ) &&
                 ((promiseWarningCache[fullExp] = !0),
                 $log.warn(
                     "[$parse] Promise found in the expression `" +
@@ -10411,7 +10413,7 @@
                                         key
                                     ) ||
                     ((results[key] = value),
-                    --counter || deferred.resolve(
+                    !--counter && deferred.resolve(
                         results
                     ));
                                 },
@@ -10590,19 +10592,19 @@
                                     if (isArrayLike(
                                         newValue
                                     )) {
-                                        internalArray !== oldValue &&
+                                        oldValue !== internalArray &&
                         ((oldValue = internalArray),
                         (oldLength = oldValue.length = 0),
                         changeDetected++),
                                         (newLength = newValue.length),
-                                        newLength !== oldLength &&
+                                        oldLength !== newLength &&
                           (changeDetected++,
                           (oldValue.length = oldLength = newLength));
                                         for (var i = 0; i < newLength; i++)
                                             oldValue[i] !== newValue[i] &&
                           (changeDetected++, (oldValue[i] = newValue[i]));
                                     } else {
-                                        internalObject !== oldValue &&
+                                        oldValue !== internalObject &&
                         ((oldValue = internalObject = {
                         }),
                         (oldLength = 0),
@@ -10635,7 +10637,7 @@
                                         }
                                     }
                                 } else
-                                    newValue !== oldValue &&
+                                    oldValue !== newValue &&
                       ((oldValue = newValue), changeDetected++);
                                 return changeDetected;
                             },
@@ -10719,7 +10721,7 @@
                                                         : value),
                                                     watch.fn(
                                                         value,
-                                                        initWatchVal === last ? value : last,
+                                                        last === initWatchVal ? value : last,
                                                         current,
                                                     ),
                                                     ttl < 5 &&
@@ -10744,7 +10746,7 @@
                                 watchLog[logIdx].push(
                                     logMsg
                                 ));
-                                                else if (lastDirtyWatch === watch) {
+                                                else if (watch === lastDirtyWatch) {
                                                     dirty = !1;
                                                     break traverseScopesLoop;
                                                 }
@@ -10797,20 +10799,20 @@
                     ) {
                         if (!this.$$destroyed) {
                             var parent = this.$parent;
-                            (this.$broadcast(
+                            this.$broadcast(
                                 "$destroy"
                             ),
                             (this.$$destroyed = !0),
-                            this !== $rootScope) &&
-                  (parent.$$childHead == this &&
-                    (parent.$$childHead = this.$$nextSibling),
-                  parent.$$childTail == this &&
-                    (parent.$$childTail = this.$$prevSibling),
-                  this.$$prevSibling &&
-                    (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
-                  this.$$nextSibling &&
-                    (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
-                  (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
+                            this !== $rootScope &&
+                    (parent.$$childHead == this &&
+                      (parent.$$childHead = this.$$nextSibling),
+                    parent.$$childTail == this &&
+                      (parent.$$childTail = this.$$prevSibling),
+                    this.$$prevSibling &&
+                      (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
+                    this.$$nextSibling &&
+                      (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
+                    (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
                         }
                     },
                     $eval: function (
@@ -13080,9 +13082,9 @@
                     event
                 ) {
                     var key = event.keyCode;
-                    91 === key ||
-          (15 < key && key < 19) ||
-          (37 <= key && key <= 40) ||
+                    91 !== key &&
+          (!(15 < key) || !(key < 19)) &&
+          (!(37 <= key) || !(key <= 40)) &&
           deferListener(
           );
                 }
@@ -13297,7 +13299,7 @@
                 );
                 if (!ctrl.$isEmpty(
                     value
-                ) && min > value) {
+                ) && value < min) {
                     ctrl.$setValidity(
                         "min",
                         !1
@@ -13503,13 +13505,13 @@
         (ctrl.$isEmpty = function (
             value
         ) {
-            return trueValue !== value;
+            return value !== trueValue;
         }),
         ctrl.$formatters.push(
             function (
                 value
             ) {
-                return trueValue === value;
+                return value === trueValue;
             }
         ),
         ctrl.$parsers.push(
@@ -14339,7 +14341,7 @@
                                                 function (
                                                     response
                                                 ) {
-                                                    if (changeCounter === thisChangeId) {
+                                                    if (thisChangeId === changeCounter) {
                                                         var newScope = scope.$new(
                                                         );
                                                         ctrl.template = response;
@@ -14383,7 +14385,7 @@
                                             .error(
                                                 function (
                                                 ) {
-                                                    changeCounter === thisChangeId &&
+                                                    thisChangeId === changeCounter &&
                           cleanupLastIncludeContent(
                           );
                                                 }
@@ -15635,15 +15637,14 @@
                                         (length = keys.length), index < length;
                                         index++
                                     ) {
-                                        if (((key = index), keyName)) {
-                                            if (((key = keys[index]), "$" === key.charAt(
-                                                0
-                                            )))
-                                                continue;
-                                            locals[keyName] = key;
-                                        }
                                         if (
-                                            ((locals[valueName] = values[key]),
+                                            ((key = index),
+                                            keyName &&
+                        ((key = keys[index]),
+                        "$" !== key.charAt(
+                            0
+                        ) && (locals[keyName] = key)),
+                                            (locals[valueName] = values[key]),
                                             (optionGroupName = groupByFn(
                                                 scope1,
                                                 locals

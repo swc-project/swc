@@ -475,17 +475,12 @@
                     this.changed
                 );
                 var changed = !1;
-                for (var attr in diff) {
-                    if (
-                        _.isEqual(
-                            (this._changing ? this._previousAttributes : this.attributes)[attr],
-                            (val = diff[attr]),
-                        )
-                    )
-                        continue;
-                    (changed || (changed = {
-                    }))[attr] = val;
-                }
+                for (var attr in diff)
+                    _.isEqual(
+                        (this._changing ? this._previousAttributes : this.attributes)[attr],
+                        (val = diff[attr]),
+                    ) || ((changed || (changed = {
+                    }))[attr] = val);
                 return changed;
             },
             previous: function (
@@ -900,32 +895,32 @@
                     l = models.length;
                     i < l;
                     i++
-                ) {
-                    if (((model = models[i] = this.get(
+                )
+                    (model = models[i] = this.get(
                         models[i]
-                    )), !model)) continue;
-                    delete this._byId[model.id],
-                    delete this._byId[model.cid],
-                    (index = this.indexOf(
-                        model
                     )),
-                    this.models.splice(
-                        index,
-                        1
-                    ),
-                    this.length--,
-                    options.silent ||
-            ((options.index = index),
-            model.trigger(
-                "remove",
-                model,
-                this,
-                options
+                    model &&
+            (delete this._byId[model.id],
+            delete this._byId[model.cid],
+            (index = this.indexOf(
+                model
             )),
-                    this._removeReference(
-                        model
-                    );
-                }
+            this.models.splice(
+                index,
+                1
+            ),
+            this.length--,
+            options.silent ||
+              ((options.index = index),
+              model.trigger(
+                  "remove",
+                  model,
+                  this,
+                  options
+              )),
+            this._removeReference(
+                model
+            ));
                 return singular ? models[0] : models;
             },
             set: function (
@@ -964,59 +959,53 @@
                     add = options.add,
                     merge = options.merge,
                     remove = options.remove,
-                    order = !(!!sortable || !add || !remove) && [];
-                for (i = 0, l = models.length; i < l; i++) {
-                    if (
-                        ((attrs = models[i]),
-                        (id =
+                    order = !sortable && !!add && !!remove && [];
+                for (i = 0, l = models.length; i < l; i++)
+                    (attrs = models[i]),
+                    (id =
             attrs instanceof Model
                 ? (model = attrs)
                 : attrs[this.model.prototype.idAttribute]),
-                        (existing = this.get(
-                            id
-                        )))
-                    )
-                        remove && (modelMap[existing.cid] = !0),
+                    (existing = this.get(
+                        id
+                    ))
+                        ? (remove && (modelMap[existing.cid] = !0),
                         merge &&
-              ((attrs = attrs === model ? model.attributes : attrs),
-              options.parse && (attrs = existing.parse(
+                ((attrs = attrs === model ? model.attributes : attrs),
+                options.parse && (attrs = existing.parse(
+                    attrs,
+                    options
+                )),
+                existing.set(
+                    attrs,
+                    options
+                ),
+                sortable &&
+                  !sort &&
+                  existing.hasChanged(
+                      sortAttr
+                  ) &&
+                  (sort = !0)),
+                        (models[i] = existing))
+                        : add &&
+              ((model = models[i] = this._prepareModel(
                   attrs,
                   options
               )),
-              existing.set(
-                  attrs,
-                  options
-              ),
-              sortable &&
-                !sort &&
-                existing.hasChanged(
-                    sortAttr
-                ) &&
-                (sort = !0)),
-                        (models[i] = existing);
-                    else if (add) {
-                        if (
-                            ((model = models[i] = this._prepareModel(
-                                attrs,
-                                options
-                            )), !model)
-                        )
-                            continue;
-                        toAdd.push(
-                            model
-                        ),
-                        model.on(
-                            "all",
-                            this._onModelEvent,
-                            this
-                        ),
-                        (this._byId[model.cid] = model),
-                        null != model.id && (this._byId[model.id] = model);
-                    }
+              !!model &&
+                (toAdd.push(
+                    model
+                ),
+                model.on(
+                    "all",
+                    this._onModelEvent,
+                    this
+                ),
+                (this._byId[model.cid] = model),
+                null != model.id && (this._byId[model.id] = model))),
                     order && order.push(
                         existing || model
                     );
-                }
                 if (remove) {
                     for (i = 0, l = this.length; i < l; ++i)
                         modelMap[(model = this.models[i]).cid] || toRemove.push(
@@ -1159,8 +1148,9 @@
             get: function (
                 obj
             ) {
-                if (null != obj)
-                    return this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
+                return null == obj
+                    ? void 0
+                    : this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
             },
             at: function (
                 index
@@ -1374,7 +1364,7 @@
             _onModelEvent: function (
                 event, model, collection, options
             ) {
-                (("add" === event || "remove" === event) && collection !== this) ||
+                (("add" !== event && "remove" !== event) || collection === this) &&
         ("destroy" === event && this.remove(
             model,
             options
@@ -1569,28 +1559,28 @@
                     var method = events[key];
                     if ((_.isFunction(
                         method
-                    ) || (method = this[events[key]]), !method))
-                        continue;
-                    var match = key.match(
-                            delegateEventSplitter
-                        ),
-                        eventName = match[1],
-                        selector = match[2];
-                    (method = _.bind(
-                        method,
-                        this
-                    )),
-                    (eventName += ".delegateEvents" + this.cid),
-                    "" === selector
-                        ? this.$el.on(
-                            eventName,
-                            method
-                        )
-                        : this.$el.on(
-                            eventName,
-                            selector,
-                            method
-                        );
+                    ) || (method = this[events[key]]), !!method)) {
+                        var match = key.match(
+                                delegateEventSplitter
+                            ),
+                            eventName = match[1],
+                            selector = match[2];
+                        (method = _.bind(
+                            method,
+                            this
+                        )),
+                        (eventName += ".delegateEvents" + this.cid),
+                        "" === selector
+                            ? this.$el.on(
+                                eventName,
+                                method
+                            )
+                            : this.$el.on(
+                                eventName,
+                                selector,
+                                method
+                            );
+                    }
                 }
                 return this;
             },
