@@ -149,6 +149,10 @@ impl VisitMut for Compressor<'_> {
         };
 
         {
+            log::debug!(
+                "compress: Running expression simplifier (pass = {})",
+                self.pass
+            );
             let mut visitor = expr_simplifier();
             n.map_with_mut(|m| m.fold_with(&mut visitor));
             self.changed |= visitor.changed();
@@ -173,6 +177,7 @@ impl VisitMut for Compressor<'_> {
         }
 
         {
+            log::debug!("compress: Running optimizer (pass = {})", self.pass);
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
