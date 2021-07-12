@@ -487,7 +487,7 @@ impl Optimizer<'_> {
 
             (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(l), Expr::Ident(r)) => self.options.comparisons && l.sym > r.sym,
+            (Expr::Ident(..), Expr::Ident(..)) => false,
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
