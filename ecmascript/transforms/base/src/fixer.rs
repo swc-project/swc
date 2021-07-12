@@ -1269,4 +1269,6 @@ var store = global[SHARED] || (global[SHARED] = {});
         new_await_1,
         "async function foo() { new (await getServerImpl())(options) }"
     );
+    test_fixer!(minifier_005, "-(1/0)", "-1/0");
+    test_fixer!(minifier_006, "-('s'/'b')", "-('s'/'b')");
 }
