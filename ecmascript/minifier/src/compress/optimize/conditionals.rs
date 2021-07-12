@@ -713,9 +713,7 @@ impl Optimizer<'_> {
             // z ? "fuji" : (condition(), "fuji");
             // =>
             // (z || condition(), "fuji");
-            (cons, Expr::Seq(alt))
-                if alt.exprs.len() == 2 && (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) =>
-            {
+            (cons, Expr::Seq(alt)) if (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) => {
                 log::trace!("conditionals: Reducing seq expr in alt");
                 //
                 let first = Box::new(Expr::Bin(BinExpr {
