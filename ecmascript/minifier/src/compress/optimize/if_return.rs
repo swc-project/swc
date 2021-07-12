@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
 use std::fmt;
+use swc_common::iter::IdentifyLast;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -48,6 +49,27 @@ impl Optimizer<'_> {
     where
         T: StmtLike,
     {
+        let need_work = stmts.iter().identify_last().any(|(last, s)| {
+            !last
+                && match s.as_stmt() {
+                    Some(Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    })) => match &**cons {
+                        Stmt::Return(ReturnStmt { arg: None, .. }) => true,
+                        _ => false,
+                    },
+                    _ => false,
+                }
+        });
+
+        if !need_work {
+            return;
+        }
+
+        // self.changed = true;
+        log::trace!(
+            "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
+        );
     }
 
     /// Merge simple return statements in if statements.
