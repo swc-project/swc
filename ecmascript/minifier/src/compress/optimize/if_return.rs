@@ -28,6 +28,28 @@ impl Optimizer<'_> {
         }
     }
 
+    /// # Input
+    ///
+    /// ```js
+    /// function f(a, b) {
+    ///     if (a) return;
+    ///     console.log(b);
+    /// }
+    /// ```
+    ///
+    /// # Output
+    /// ```js
+    /// function f(a, b) {
+    ///     if (!a)
+    ///         console.log(b);
+    /// }
+    /// ```
+    pub(super) fn negate_if_returns<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+    }
+
     /// Merge simple return statements in if statements.
     ///
     /// # Example
