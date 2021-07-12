@@ -1,6 +1,5 @@
 use super::Optimizer;
 use crate::compress::optimize::{is_pure_undefined, Ctx};
-use crate::debug::dump;
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -526,65 +525,16 @@ impl Optimizer<'_> {
         }
     }
 
+    /// NOTE: This is currecntly noop.
+    ///
     ///
     /// - `!!(obj || obj === 0);` => `!(!obj && obj !== 0)`
     /// - `!(!a || !b || !c || !d);` => `!!(a && b && c && d)`
-    pub(super) fn optimize_negation(&mut self, e: &mut Expr) {
+    pub(super) fn optimize_negation(&mut self, _e: &mut Expr) {
         if !self.options.bools {
             return;
         }
 
-        /// `+` means more bytes used.
-        fn calc_diff(e: &Expr) -> isize {
-            match e {
-                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
-
-                Expr::Bin(BinExpr {
-                    op: op!("===") | op!("!==") | op!("==") | op!("!="),
-                    ..
-                }) => 0,
-
-                Expr::Bin(BinExpr {
-                    left,
-                    op: op!("&&") | op!("||"),
-                    right,
-                    ..
-                }) => calc_diff(&left) + calc_diff(&right),
-
-                _ => 1,
-            }
-        }
-
-        let start_str = dump(&*e);
-
-        match e {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => {
-                // Prevnet infinite loop
-                match &**arg {
-                    Expr::Unary(UnaryExpr { op: op!("!"), .. }) => return,
-                    _ => {}
-                }
-
-                // -1 for `!` in unary.
-                let diff_bytes = calc_diff(&*arg);
-
-                if diff_bytes < 0 {
-                    self.changed = true;
-                    log::trace!(
-                        "bools: Compressing negation expression to reduce {} bytes",
-                        -diff_bytes
-                    );
-                    self.negate(arg);
-                    *e = *arg.take();
-
-                    if cfg!(feature = "debug") {
-                        log::trace!("`{}` => `{}`", start_str, dump(&*e),);
-                    }
-                }
-            }
-            _ => {}
-        }
+        // TODO
     }
 }
