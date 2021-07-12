@@ -45,35 +45,38 @@
     var each = (_.each = _.forEach = function (
         obj, iterator, context
     ) {
-        if (null == obj) return;
-        if (nativeForEach && obj.forEach === nativeForEach)
-            obj.forEach(
-                iterator,
-                context
-            );
-        else if (obj.length === +obj.length)
-            for (var i = 0, length = obj.length; i < length; i++)
-                if (iterator.call(
-                    context,
-                    obj[i],
-                    i,
-                    obj
-                ) === breaker) return;
-                else
-                    for (
-                        var keys = _.keys(
-                                obj
-                            ), i = 0, length = keys.length;
-                        i < length;
-                        i++
-                    )
-                        if (iterator.call(
-                            context,
-                            obj[keys[i]],
-                            keys[i],
-                            obj
-                        ) === breaker)
-                            return;
+        if (null != obj) {
+            if (nativeForEach && obj.forEach === nativeForEach)
+                obj.forEach(
+                    iterator,
+                    context
+                );
+            else if (obj.length === +obj.length)
+                for (var i = 0, length = obj.length; i < length; i++)
+                    if (iterator.call(
+                        context,
+                        obj[i],
+                        i,
+                        obj
+                    ) === breaker) return;
+                    else
+                        for (
+                            var keys = _.keys(
+                                    obj
+                                ), i = 0, length = keys.length;
+                            i < length;
+                            i++
+                        )
+                            if (
+                                iterator.call(
+                                    context,
+                                    obj[keys[i]],
+                                    keys[i],
+                                    obj
+                                ) === breaker
+                            )
+                                return;
+        }
     });
     (_.map = _.collect = function (
         obj, iterator, context
@@ -418,7 +421,7 @@
             obj
         ) &&
         obj[0] === +obj[0] &&
-        65535 > obj.length
+        obj.length < 65535
         )
             return Math.max.apply(
                 Math,
@@ -426,10 +429,10 @@
             );
         if (!iterator && _.isEmpty(
             obj
-        )) return -(1 / 0);
+        )) return -1 / 0;
         var result = {
-            computed: -(1 / 0),
-            value: -(1 / 0),
+            computed: -1 / 0,
+            value: -1 / 0,
         };
         return (
             each(
@@ -464,7 +467,7 @@
             obj
         ) &&
         obj[0] === +obj[0] &&
-        65535 > obj.length
+        obj.length < 65535
         )
             return Math.min.apply(
                 Math,
@@ -721,9 +724,8 @@
     (_.first = _.head = _.take = function (
         array, n, guard
     ) {
-        return null == array
-            ? void 0
-            : null == n || guard
+        if (null != array)
+            return null == n || guard
                 ? array[0]
                 : slice.call(
                     array,
@@ -743,17 +745,16 @@
     (_.last = function (
         array, n, guard
     ) {
-        return null == array
-            ? void 0
-            : null == n || guard
-                ? array[array.length - 1]
-                : slice.call(
-                    array,
-                    Math.max(
-                        array.length - n,
-                        0
-                    )
-                );
+        if (null != array) {
+            if (null == n || guard) return array[array.length - 1];
+            return slice.call(
+                array,
+                Math.max(
+                    array.length - n,
+                    0
+                )
+            );
+        }
     }),
     (_.rest = _.tail = _.drop = function (
         array, n, guard
@@ -1821,15 +1822,16 @@
     (_.result = function (
         object, property
     ) {
-        if (null == object) return;
-        var value = object[property];
-        return _.isFunction(
-            value
-        )
-            ? value.call(
-                object
+        if (null != object) {
+            var value = object[property];
+            return _.isFunction(
+                value
             )
-            : value;
+                ? value.call(
+                    object
+                )
+                : value;
+        }
     }),
     (_.mixin = function (
         obj
