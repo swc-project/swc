@@ -524,4 +524,8 @@ impl Optimizer<'_> {
             },
         }
     }
+
+    /// 
+    /// - `!!(obj || obj === 0);` => `!(!obj && obj !== 0)`
+    pub(super) fn optimize_negation(&mut self, e: &mut Expr) {}
 }
