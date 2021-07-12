@@ -223,7 +223,7 @@ impl Optimizer<'_> {
                 Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
 
                 Expr::Bin(BinExpr {
-                    op: op!("!==") | op!("==="),
+                    op: op!("!==") | op!("===") | op!("!=") | op!("=="),
                     ..
                 }) => true,
 
