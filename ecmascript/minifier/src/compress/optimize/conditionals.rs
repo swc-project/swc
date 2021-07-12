@@ -503,8 +503,6 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        dbg!(&cons, &alt);
-
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
