@@ -1992,6 +1992,21 @@ impl VisitMut for Optimizer<'_> {
         self.vars_accessible_without_side_effect.clear();
     }
 
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+                Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
+                    *n = None;
+                    return;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
+
     fn visit_mut_param(&mut self, n: &mut Param) {
         n.visit_mut_children_with(self);
 
