@@ -533,14 +533,37 @@ impl Optimizer<'_> {
             return;
         }
 
-        fn opt(e: &mut Expr) {}
+        /// `+` means more bytes used.
+        fn calc_diff(e: &Expr) -> isize {
+            match e {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => calc_diff(&arg) - 1,
 
-        match e {
-            Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
-            }) => {}
+                Expr::Bin(BinExpr {
+                    op: op!("===") | op!("!==") | op!("==") | op!("!="),
+                    ..
+                }) => 0,
 
-            _ => {}
+                Expr::Bin(BinExpr {
+                    left,
+                    op: op!("&&") | op!("||"),
+                    right,
+                    ..
+                }) => calc_diff(&left) + calc_diff(&right),
+
+                _ => 1,
+            }
+        }
+
+        let diff_bytes = calc_diff(&*e);
+        if diff_bytes < 0 {
+            self.changed = true;
+            log::trace!(
+                "bools: Compressing negation expression to reduce {} bytes",
+                diff_bytes
+            );
+            self.negate(e)
         }
     }
 }
