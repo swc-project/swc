@@ -196,6 +196,8 @@ impl VisitMut for Compressor<'_> {
                 end_time - start_time,
                 self.pass
             );
+            let done = dump(&*n);
+            log::trace!("===== Result =====\n{}", done);
         }
 
         if self.options.conditionals || self.options.dead_code {
