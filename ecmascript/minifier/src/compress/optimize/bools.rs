@@ -178,7 +178,11 @@ impl Optimizer<'_> {
                     } else {
                         op!("&&")
                     };
-                    self.negate(&mut e.right);
+                    let ctx = Ctx {
+                        in_bool_ctx: self.ctx.in_bool_ctx || is_type_of_return_ignored,
+                        ..self.ctx
+                    };
+                    self.with_ctx(ctx).negate(&mut e.right);
                     return true;
                 }
             }
