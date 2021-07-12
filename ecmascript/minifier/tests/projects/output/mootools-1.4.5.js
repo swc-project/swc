@@ -243,54 +243,56 @@
         implement = function (
             name, method
         ) {
-            if (method && method.$hidden) return;
-            for (var hooks1 = hooksOf(
-                    this
-                ), i = 0; i < hooks1.length; i++) {
-                var hook = hooks1[i];
-                "type" == typeOf(
-                    hook
-                )
-                    ? implement.call(
-                        hook,
-                        name,
-                        method
+            if (!method || !method.$hidden) {
+                for (var hooks1 = hooksOf(
+                        this
+                    ), i = 0; i < hooks1.length; i++) {
+                    var hook = hooks1[i];
+                    "type" == typeOf(
+                        hook
                     )
-                    : hook.call(
-                        this,
-                        name,
-                        method
+                        ? implement.call(
+                            hook,
+                            name,
+                            method
+                        )
+                        : hook.call(
+                            this,
+                            name,
+                            method
+                        );
+                }
+                var previous = this.prototype[name];
+                (null != previous && previous.$protected) ||
+          (this.prototype[name] = method),
+                null == this[name] &&
+            "function" == typeOf(
+                method
+            ) &&
+            extend.call(
+                this,
+                name,
+                function (
+                    item
+                ) {
+                    return method.apply(
+                        item,
+                        slice.call(
+                            arguments,
+                            1
+                        )
                     );
+                }
+            );
             }
-            var previous = this.prototype[name];
-            (null == previous || !previous.$protected) &&
-        (this.prototype[name] = method),
-            null == this[name] &&
-          "function" == typeOf(
-              method
-          ) &&
-          extend.call(
-              this,
-              name,
-              function (
-                  item
-              ) {
-                  return method.apply(
-                      item,
-                      slice.call(
-                          arguments,
-                          1
-                      )
-                  );
-              }
-          );
         },
         extend = function (
             name, method
         ) {
-            if (method && method.$hidden) return;
-            var previous = this[name];
-            (null == previous || !previous.$protected) && (this[name] = method);
+            if (!method || !method.$hidden) {
+                var previous = this[name];
+                (null != previous && previous.$protected) || (this[name] = method);
+            }
         };
     Type.implement(
         {
@@ -1093,7 +1095,7 @@ Array.implement(
         rgbToHex: function (
             array
         ) {
-            if (3 > this.length) return null;
+            if (this.length < 3) return null;
             if (4 == this.length && 0 == this[3] && !array) return "transparent";
             for (var hex = [], i = 0; i < 3; i++) {
                 var bit = (this[i] - 0).toString(
@@ -3282,317 +3284,318 @@ function (
         else if (nodeType) document = document.ownerDocument;
         else if (document.navigator) document = document.document;
         else return;
-        if (this.document === document) return;
-        this.document = document;
-        var root = document.documentElement,
-            rootUid = this.getUIDXML(
-                root
-            ),
-            features = featuresCache[rootUid];
-        if (features) {
-            for (feature in features) this[feature] = features[feature];
-            return;
-        }
-        (features = featuresCache[rootUid] = {
-        }),
-        (features.root = root),
-        (features.isXMLDocument = this.isXML(
-            document
-        )),
-        (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
-        var id = "slick_uniqueid",
-            testNode = document.createElement(
-                "div"
-            ),
-            testRoot =
-            document.body || document.getElementsByTagName(
-                "body"
-            )[0] || root;
-        testRoot.appendChild(
-            testNode
-        );
-        try {
-            (testNode.innerHTML = '<a id="' + id + '"></a>'),
-            (features.isHTMLDocument = !!document.getElementById(
-                id
-            ));
-        } catch (e) {}
-        if (features.isHTMLDocument) {
-            (testNode.style.display = "none"),
-            testNode.appendChild(
-                document.createComment(
-                    ""
-                )
-            ),
-            (starSelectsComments =
-              testNode.getElementsByTagName(
-                  "*"
-              ).length > 1);
+        if (this.document !== document) {
+            this.document = document;
+            var root = document.documentElement,
+                rootUid = this.getUIDXML(
+                    root
+                ),
+                features = featuresCache[rootUid];
+            if (features) {
+                for (feature in features) this[feature] = features[feature];
+                return;
+            }
+            (features = featuresCache[rootUid] = {
+            }),
+            (features.root = root),
+            (features.isXMLDocument = this.isXML(
+                document
+            )),
+            (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
+            var id = "slick_uniqueid",
+                testNode = document.createElement(
+                    "div"
+                ),
+                testRoot =
+              document.body || document.getElementsByTagName(
+                  "body"
+              )[0] || root;
+            testRoot.appendChild(
+                testNode
+            );
             try {
-                (testNode.innerHTML = "foo</foo>"),
-                (selected = testNode.getElementsByTagName(
-                    "*"
-                )),
-                (starSelectsClosed =
-                selected &&
-                !!selected.length &&
-                "/" == selected[0].nodeName.charAt(
-                    0
+                (testNode.innerHTML = '<a id="' + id + '"></a>'),
+                (features.isHTMLDocument = !!document.getElementById(
+                    id
                 ));
             } catch (e) {}
-            features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
-            try {
-                (testNode.innerHTML =
-              '<a name="' + id + '"></a><b id="' + id + '"></b>'),
-                (features.idGetsName =
-                document.getElementById(
-                    id
-                ) === testNode.firstChild);
-            } catch (e) {}
-            if (testNode.getElementsByClassName) {
-                try {
-                    (testNode.innerHTML = '<a class="f"></a><a class="b"></a>'),
-                    testNode.getElementsByClassName(
-                        "b"
-                    ).length,
-                    (testNode.firstChild.className = "b"),
-                    (cachedGetElementsByClassName =
-                  2 != testNode.getElementsByClassName(
-                      "b"
-                  ).length);
-                } catch (e) {}
-                try {
-                    (testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>'),
-                    (brokenSecondClassNameGEBCN =
-                  2 != testNode.getElementsByClassName(
-                      "a"
-                  ).length);
-                } catch (e) {}
-                features.brokenGEBCN =
-              cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
-            }
-            if (testNode.querySelectorAll) {
+            if (features.isHTMLDocument) {
+                (testNode.style.display = "none"),
+                testNode.appendChild(
+                    document.createComment(
+                        ""
+                    )
+                ),
+                (starSelectsComments =
+                testNode.getElementsByTagName(
+                    "*"
+                ).length > 1);
                 try {
                     (testNode.innerHTML = "foo</foo>"),
-                    (selected = testNode.querySelectorAll(
+                    (selected = testNode.getElementsByTagName(
                         "*"
                     )),
-                    (features.starSelectsClosedQSA =
+                    (starSelectsClosed =
                   selected &&
                   !!selected.length &&
                   "/" == selected[0].nodeName.charAt(
                       0
                   ));
                 } catch (e) {}
-                try {
-                    (testNode.innerHTML = '<a class="MiX"></a>'),
-                    (features.brokenMixedCaseQSA = !testNode.querySelectorAll(
-                        ".MiX",
-                    ).length);
-                } catch (e) {}
+                features.brokenStarGEBTN = starSelectsComments || starSelectsClosed;
                 try {
                     (testNode.innerHTML =
-                '<select><option selected="selected">a</option></select>'),
-                    (features.brokenCheckedQSA =
-                  0 == testNode.querySelectorAll(
-                      ":checked"
-                  ).length);
+                '<a name="' + id + '"></a><b id="' + id + '"></b>'),
+                    (features.idGetsName =
+                  document.getElementById(
+                      id
+                  ) === testNode.firstChild);
                 } catch (e) {}
+                if (testNode.getElementsByClassName) {
+                    try {
+                        (testNode.innerHTML = '<a class="f"></a><a class="b"></a>'),
+                        testNode.getElementsByClassName(
+                            "b"
+                        ).length,
+                        (testNode.firstChild.className = "b"),
+                        (cachedGetElementsByClassName =
+                    2 != testNode.getElementsByClassName(
+                        "b"
+                    ).length);
+                    } catch (e) {}
+                    try {
+                        (testNode.innerHTML = '<a class="a"></a><a class="f b a"></a>'),
+                        (brokenSecondClassNameGEBCN =
+                    2 != testNode.getElementsByClassName(
+                        "a"
+                    ).length);
+                    } catch (e) {}
+                    features.brokenGEBCN =
+                cachedGetElementsByClassName || brokenSecondClassNameGEBCN;
+                }
+                if (testNode.querySelectorAll) {
+                    try {
+                        (testNode.innerHTML = "foo</foo>"),
+                        (selected = testNode.querySelectorAll(
+                            "*"
+                        )),
+                        (features.starSelectsClosedQSA =
+                    selected &&
+                    !!selected.length &&
+                    "/" == selected[0].nodeName.charAt(
+                        0
+                    ));
+                    } catch (e) {}
+                    try {
+                        (testNode.innerHTML = '<a class="MiX"></a>'),
+                        (features.brokenMixedCaseQSA = !testNode.querySelectorAll(
+                            ".MiX",
+                        ).length);
+                    } catch (e) {}
+                    try {
+                        (testNode.innerHTML =
+                  '<select><option selected="selected">a</option></select>'),
+                        (features.brokenCheckedQSA =
+                    0 == testNode.querySelectorAll(
+                        ":checked"
+                    ).length);
+                    } catch (e) {}
+                    try {
+                        (testNode.innerHTML = '<a class=""></a>'),
+                        (features.brokenEmptyAttributeQSA =
+                    0 != testNode.querySelectorAll(
+                        '[class*=""]'
+                    ).length);
+                    } catch (e) {}
+                }
                 try {
-                    (testNode.innerHTML = '<a class=""></a>'),
-                    (features.brokenEmptyAttributeQSA =
-                  0 != testNode.querySelectorAll(
-                      '[class*=""]'
-                  ).length);
+                    (testNode.innerHTML =
+                '<form action="s"><input id="action"/></form>'),
+                    (brokenFormAttributeGetter =
+                  "s" != testNode.firstChild.getAttribute(
+                      "action"
+                  ));
                 } catch (e) {}
+                if (
+                    ((features.nativeMatchesSelector =
+                root.matchesSelector ||
+                root.mozMatchesSelector ||
+                root.webkitMatchesSelector),
+                    features.nativeMatchesSelector)
+                )
+                    try {
+                        features.nativeMatchesSelector.call(
+                            root,
+                            ":slick"
+                        ),
+                        (features.nativeMatchesSelector = null);
+                    } catch (e) {}
             }
             try {
-                (testNode.innerHTML =
-              '<form action="s"><input id="action"/></form>'),
-                (brokenFormAttributeGetter =
-                "s" != testNode.firstChild.getAttribute(
-                    "action"
-                ));
-            } catch (e) {}
-            if (
-                ((features.nativeMatchesSelector =
-              root.matchesSelector ||
-              root.mozMatchesSelector ||
-              root.webkitMatchesSelector),
-                features.nativeMatchesSelector)
-            )
-                try {
-                    features.nativeMatchesSelector.call(
-                        root,
-                        ":slick"
-                    ),
-                    (features.nativeMatchesSelector = null);
-                } catch (e) {}
-        }
-        try {
-            (root.slick_expando = 1),
-            delete root.slick_expando,
-            (features.getUID = this.getUIDHTML);
-        } catch (e) {
-            features.getUID = this.getUIDXML;
-        }
-        testRoot.removeChild(
-            testNode
-        ),
-        (testNode = selected = testRoot = null),
-        (features.getAttribute =
-            features.isHTMLDocument && brokenFormAttributeGetter
-                ? function (
-                    node, name
-                ) {
-                    var method = this.attributeGetters[name];
-                    if (method) return method.call(
-                        node
-                    );
-                    var attributeNode = node.getAttributeNode(
-                        name
-                    );
-                    return attributeNode ? attributeNode.nodeValue : null;
-                }
-                : function (
-                    node, name
-                ) {
-                    var method = this.attributeGetters[name];
-                    return method
-                        ? method.call(
-                            node
-                        )
-                        : node.getAttribute(
-                            name
-                        );
-                }),
-        (features.hasAttribute =
-            root && this.isNativeCode(
-                root.hasAttribute
-            )
-                ? function (
-                    node, attribute
-                ) {
-                    return node.hasAttribute(
-                        attribute
-                    );
-                }
-                : function (
-                    node, attribute
-                ) {
-                    return (
-                        (node = node.getAttributeNode(
-                            attribute
-                        )),
-                        !(!node || !(node.specified || node.nodeValue))
-                    );
-                });
-        var nativeRootContains = root && this.isNativeCode(
-                root.contains
+                (root.slick_expando = 1),
+                delete root.slick_expando,
+                (features.getUID = this.getUIDHTML);
+            } catch (e) {
+                features.getUID = this.getUIDXML;
+            }
+            testRoot.removeChild(
+                testNode
             ),
-            nativeDocumentContains =
-            document && this.isNativeCode(
-                document.contains
-            );
-        (features.contains =
-          nativeRootContains && nativeDocumentContains
-              ? function (
-                  context, node
-              ) {
-                  return context.contains(
-                      node
-                  );
-              }
-              : nativeRootContains && !nativeDocumentContains
+            (testNode = selected = testRoot = null),
+            (features.getAttribute =
+              features.isHTMLDocument && brokenFormAttributeGetter
                   ? function (
-                      context, node
+                      node, name
                   ) {
-                      return (
-                          context === node ||
-                  (context === document
-                      ? document.documentElement
-                      : context
-                  ).contains(
-                      node
-                  )
+                      var method = this.attributeGetters[name];
+                      if (method) return method.call(
+                          node
+                      );
+                      var attributeNode = node.getAttributeNode(
+                          name
+                      );
+                      return attributeNode ? attributeNode.nodeValue : null;
+                  }
+                  : function (
+                      node, name
+                  ) {
+                      var method = this.attributeGetters[name];
+                      return method
+                          ? method.call(
+                              node
+                          )
+                          : node.getAttribute(
+                              name
+                          );
+                  }),
+            (features.hasAttribute =
+              root && this.isNativeCode(
+                  root.hasAttribute
+              )
+                  ? function (
+                      node, attribute
+                  ) {
+                      return node.hasAttribute(
+                          attribute
                       );
                   }
-                  : root && root.compareDocumentPosition
-                      ? function (
-                          context, node
-                      ) {
-                          return (
-                              context === node ||
-                  !!(16 & context.compareDocumentPosition(
-                      node
-                  ))
-                          );
-                      }
-                      : function (
-                          context, node
-                      ) {
-                          if (node)
-                              do if (context === node) return !0;
-                              while ((node = node.parentNode));
-                          return !1;
-                      }),
-        (features.documentSorter = root.compareDocumentPosition
-            ? function (
-                a, b
-            ) {
-                return a.compareDocumentPosition && b.compareDocumentPosition
-                    ? 4 & a.compareDocumentPosition(
-                        b
+                  : function (
+                      node, attribute
+                  ) {
+                      return (
+                          (node = node.getAttributeNode(
+                              attribute
+                          )),
+                          !(!node || !(node.specified || node.nodeValue))
+                      );
+                  });
+            var nativeRootContains = root && this.isNativeCode(
+                    root.contains
+                ),
+                nativeDocumentContains =
+              document && this.isNativeCode(
+                  document.contains
+              );
+            (features.contains =
+            nativeRootContains && nativeDocumentContains
+                ? function (
+                    context, node
+                ) {
+                    return context.contains(
+                        node
+                    );
+                }
+                : nativeRootContains && !nativeDocumentContains
+                    ? function (
+                        context, node
+                    ) {
+                        return (
+                            context === node ||
+                    (context === document
+                        ? document.documentElement
+                        : context
+                    ).contains(
+                        node
                     )
-                        ? -1
-                        : a === b
-                            ? 0
-                            : 1
-                    : 0;
-            }
-            : "sourceIndex" in root
+                        );
+                    }
+                    : root && root.compareDocumentPosition
+                        ? function (
+                            context, node
+                        ) {
+                            return (
+                                context === node ||
+                    !!(16 & context.compareDocumentPosition(
+                        node
+                    ))
+                            );
+                        }
+                        : function (
+                            context, node
+                        ) {
+                            if (node)
+                                do if (context === node) return !0;
+                                while ((node = node.parentNode));
+                            return !1;
+                        }),
+            (features.documentSorter = root.compareDocumentPosition
                 ? function (
                     a, b
                 ) {
-                    return a.sourceIndex && b.sourceIndex
-                        ? a.sourceIndex - b.sourceIndex
+                    return a.compareDocumentPosition && b.compareDocumentPosition
+                        ? 4 & a.compareDocumentPosition(
+                            b
+                        )
+                            ? -1
+                            : a === b
+                                ? 0
+                                : 1
                         : 0;
                 }
-                : document.createRange
+                : "sourceIndex" in root
                     ? function (
                         a, b
                     ) {
-                        if (!a.ownerDocument || !b.ownerDocument) return 0;
-                        var aRange = a.ownerDocument.createRange(
-                            ),
-                            bRange = b.ownerDocument.createRange(
-                            );
-                        return (
-                            aRange.setStart(
-                                a,
-                                0
-                            ),
-                            aRange.setEnd(
-                                a,
-                                0
-                            ),
-                            bRange.setStart(
-                                b,
-                                0
-                            ),
-                            bRange.setEnd(
-                                b,
-                                0
-                            ),
-                            aRange.compareBoundaryPoints(
-                                Range.START_TO_END,
-                                bRange
-                            )
-                        );
+                        return a.sourceIndex && b.sourceIndex
+                            ? a.sourceIndex - b.sourceIndex
+                            : 0;
                     }
-                    : null),
-        (root = null);
-        for (feature in features) this[feature] = features[feature];
+                    : document.createRange
+                        ? function (
+                            a, b
+                        ) {
+                            if (!a.ownerDocument || !b.ownerDocument) return 0;
+                            var aRange = a.ownerDocument.createRange(
+                                ),
+                                bRange = b.ownerDocument.createRange(
+                                );
+                            return (
+                                aRange.setStart(
+                                    a,
+                                    0
+                                ),
+                                aRange.setEnd(
+                                    a,
+                                    0
+                                ),
+                                bRange.setStart(
+                                    b,
+                                    0
+                                ),
+                                bRange.setEnd(
+                                    b,
+                                    0
+                                ),
+                                aRange.compareBoundaryPoints(
+                                    Range.START_TO_END,
+                                    bRange
+                                )
+                            );
+                        }
+                        : null),
+            (root = null);
+            for (feature in features) this[feature] = features[feature];
+        }
     });
     var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/,
         reEmptyAttribute = /\[.+[*$^]=(?:""|'')?\]/,
@@ -3618,9 +3621,10 @@ function (
             currentBit,
             lastBit,
             found = (this.found = first ? null : append || []);
-        if (!context) return found;
-        if (context.navigator) context = context.document;
-        else if (!context.nodeType) return found;
+        if (context) {
+            if (context.navigator) context = context.document;
+            else if (!context.nodeType) return found;
+        } else return found;
         var uniques = (this.uniques = {
             }),
             hasOthers = !(!append || !append.length),
@@ -3645,7 +3649,73 @@ function (
                     name = simpleSelector[2],
                     node,
                     nodes;
-                if (!symbol) {
+                if (symbol) {
+                    if ("#" == symbol) {
+                        if (!this.isHTMLDocument || !contextIsDocument)
+                            break simpleSelectors;
+                        if (((node = context.getElementById(
+                            name
+                        )), !node)) return found;
+                        if (
+                            this.idGetsName &&
+                node.getAttributeNode(
+                    "id"
+                ).nodeValue != name
+                        )
+                            break simpleSelectors;
+                        if (first) return node || null;
+                        (hasOthers && uniques[this.getUID(
+                            node
+                        )]) || found.push(
+                            node
+                        );
+                    } else if ("." == symbol) {
+                        if (
+                            !this.isHTMLDocument ||
+                ((!context.getElementsByClassName || this.brokenGEBCN) &&
+                  context.querySelectorAll)
+                        )
+                            break simpleSelectors;
+                        if (context.getElementsByClassName && !this.brokenGEBCN) {
+                            if (((nodes = context.getElementsByClassName(
+                                name
+                            )), first))
+                                return nodes[0] || null;
+                            for (i = 0; (node = nodes[i++]); )
+                                (hasOthers && uniques[this.getUID(
+                                    node
+                                )]) || found.push(
+                                    node
+                                );
+                        } else
+                            for (
+                                nodes = context.getElementsByTagName(
+                                    "*"
+                                ), i = 0;
+                                (node = nodes[i++]);
+
+                            ) {
+                                if (
+                                    ((className = node.className),
+                                    !className ||
+                      !new RegExp(
+                          "(^|\\s)" + Slick.escapeRegExp(
+                              name
+                          ) + "(\\s|$)",
+                      ).test(
+                          className
+                      ))
+                                )
+                                    continue;
+                                if (first) return node;
+                                (hasOthers && uniques[this.getUID(
+                                    node
+                                )]) || found.push(
+                                    node
+                                );
+                            }
+                    }
+                } else {
                     if ("*" == name && this.brokenStarGEBTN) break simpleSelectors;
                     if (((nodes = context.getElementsByTagName(
                         name
@@ -3657,70 +3727,6 @@ function (
                         )]) || found.push(
                             node
                         );
-                } else if ("#" == symbol) {
-                    if (!this.isHTMLDocument || !contextIsDocument)
-                        break simpleSelectors;
-                    if (((node = context.getElementById(
-                        name
-                    )), !node)) return found;
-                    if (
-                        this.idGetsName &&
-              node.getAttributeNode(
-                  "id"
-              ).nodeValue != name
-                    )
-                        break simpleSelectors;
-                    if (first) return node || null;
-                    (hasOthers && uniques[this.getUID(
-                        node
-                    )]) || found.push(
-                        node
-                    );
-                } else if ("." == symbol) {
-                    if (
-                        !this.isHTMLDocument ||
-              ((!context.getElementsByClassName || this.brokenGEBCN) &&
-                context.querySelectorAll)
-                    )
-                        break simpleSelectors;
-                    if (context.getElementsByClassName && !this.brokenGEBCN) {
-                        if (((nodes = context.getElementsByClassName(
-                            name
-                        )), first))
-                            return nodes[0] || null;
-                        for (i = 0; (node = nodes[i++]); )
-                            (hasOthers && uniques[this.getUID(
-                                node
-                            )]) || found.push(
-                                node
-                            );
-                    } else
-                        for (
-                            nodes = context.getElementsByTagName(
-                                "*"
-                            ), i = 0;
-                            (node = nodes[i++]);
-
-                        ) {
-                            if (
-                                ((className = node.className),
-                                !className ||
-                    !new RegExp(
-                        "(^|\\s)" + Slick.escapeRegExp(
-                            name
-                        ) + "(\\s|$)",
-                    ).test(
-                        className
-                    ))
-                            )
-                                continue;
-                            if (first) return node;
-                            (hasOthers && uniques[this.getUID(
-                                node
-                            )]) || found.push(
-                                node
-                            );
-                        }
                 }
                 return hasOthers && this.sort(
                     found
@@ -4220,17 +4226,18 @@ function (
                         }
                         return;
                     }
-                    if (!item) {
+                    if (item) {
+                        if (this.document !== node && !this.contains(
+                            node,
+                            item
+                        )) return;
+                    } else {
                         if (this.contains(
                             this.root,
                             node
                         )) return;
                         break getById;
-                    } else if (this.document !== node && !this.contains(
-                        node,
-                        item
-                    ))
-                        return;
+                    }
                     return (
                         this.push(
                             item,
@@ -4893,38 +4900,39 @@ new Type(
     function (
         name
     ) {
-        if (Array.prototype[name]) return;
-        var obj = {
-        };
-        (obj[name] = function (
-        ) {
-            for (
-                var results = [],
-                    args = arguments,
-                    elements = !0,
-                    i = 0,
-                    l = this.length;
-                i < l;
-                i++
+        if (!Array.prototype[name]) {
+            var obj = {
+            };
+            (obj[name] = function (
             ) {
-                var element = this[i],
-                    result = (results[i] = element[name].apply(
-                        element,
-                        args
-                    ));
-                elements = elements && "element" == typeOf(
-                    result
-                );
-            }
-            return elements
-                ? new Elements(
-                    results
-                )
-                : results;
-        }),
-        Elements.implement(
-            obj
-        );
+                for (
+                    var results = [],
+                        args = arguments,
+                        elements = !0,
+                        i = 0,
+                        l = this.length;
+                    i < l;
+                    i++
+                ) {
+                    var element = this[i],
+                        result = (results[i] = element[name].apply(
+                            element,
+                            args
+                        ));
+                    elements = elements && "element" == typeOf(
+                        result
+                    );
+                }
+                return elements
+                    ? new Elements(
+                        results
+                    )
+                    : results;
+            }),
+            Elements.implement(
+                obj
+            );
+        }
     }
 ),
 Browser.Element ||
@@ -6233,55 +6241,57 @@ Elements.alias(
                         "input, select, textarea"
                     ).each(
                         function (
-                            el1
+                            el
                         ) {
-                            var type = el1.type;
+                            var type = el.type;
                             if (
-                                !el1.name ||
-              el1.disabled ||
-              "submit" == type ||
-              "reset" == type ||
-              "file" == type ||
-              "image" == type
-                            )
-                                return;
-                            var value =
-              "select" == el1.get(
-                  "tag"
-              )
-                  ? el1.getSelected(
-                  ).map(
-                      function (
-                          opt
-                      ) {
-                          return document.id(
-                              opt
-                          ).get(
-                              "value"
-                          );
-                      }
-                  )
-                  : ("radio" == type || "checkbox" == type) && !el1.checked
-                      ? null
-                      : el1.get(
-                          "value"
-                      );
-                            Array.from(
-                                value
-                            ).each(
-                                function (
-                                    val
-                                ) {
-                                    "undefined" != typeof val &&
-                queryString.push(
-                    encodeURIComponent(
-                        el1.name
-                    ) + "=" + encodeURIComponent(
-                        val
-                    ),
-                );
-                                }
+                                !(
+                                    !el.name ||
+                el.disabled ||
+                "submit" == type ||
+                "reset" == type ||
+                "file" == type ||
+                "image" == type
+                                )
+                            ) {
+                                var value =
+                "select" == el.get(
+                    "tag"
+                )
+                    ? el.getSelected(
+                    ).map(
+                        function (
+                            opt
+                        ) {
+                            return document.id(
+                                opt
+                            ).get(
+                                "value"
                             );
+                        }
+                    )
+                    : ("radio" == type || "checkbox" == type) && !el.checked
+                        ? null
+                        : el.get(
+                            "value"
+                        );
+                                Array.from(
+                                    value
+                                ).each(
+                                    function (
+                                        val
+                                    ) {
+                                        "undefined" != typeof val &&
+                  queryString.push(
+                      encodeURIComponent(
+                          el.name
+                      ) + "=" + encodeURIComponent(
+                          val
+                      ),
+                  );
+                                    }
+                                );
+                            }
                         }
                     ),
                     queryString.join(
@@ -7348,14 +7358,7 @@ Elements.alias(
                         "events"
                     );
                     if (!attached) return this;
-                    if (!events) {
-                        for (type in attached) this.removeEvents(
-                            type
-                        );
-                        this.eliminate(
-                            "events"
-                        );
-                    } else
+                    if (events)
                         attached[events] &&
               (attached[events].keys.each(
                   function (
@@ -7369,6 +7372,14 @@ Elements.alias(
                   this
               ),
               delete attached[events]);
+                    else {
+                        for (type in attached) this.removeEvents(
+                            type
+                        );
+                        this.eliminate(
+                            "events"
+                        );
+                    }
                     return this;
                 },
                 fireEvent: function (
@@ -7413,12 +7424,7 @@ Elements.alias(
                         "events"
                     );
                     if (!events) return this;
-                    if (!type)
-                        for (var eventType in events) this.cloneEvents(
-                            from,
-                            eventType
-                        );
-                    else
+                    if (type)
                         events[type] &&
               events[type].keys.each(
                   function (
@@ -7431,6 +7437,10 @@ Elements.alias(
                   },
                   this
               );
+                    else for (var eventType in events) this.cloneEvents(
+                        from,
+                        eventType
+                    );
                     return this;
                 },
             }
@@ -7609,47 +7619,48 @@ Elements.alias(
                   : event.target.getParent(
                       "form"
                   );
-                    if (!form) return;
-                    var listeners = self.retrieve(
-                            _key + type + "listeners",
-                            {
-                            }
-                        ),
-                        listener = listeners[uid] || {
-                            forms: [],
-                            fns: [],
-                        },
-                        forms = listener.forms,
-                        fns = listener.fns;
-                    if (-1 != forms.indexOf(
-                        form
-                    )) return;
-                    forms.push(
-                        form
-                    );
-                    var _fn = function (
-                        event
-                    ) {
-                        bubbleUp(
-                            self,
-                            match,
-                            fn,
-                            event,
-                            target
-                        );
-                    };
-                    form.addEvent(
-                        type,
-                        _fn
-                    ),
-                    fns.push(
-                        _fn
-                    ),
-                    (listeners[uid] = listener),
-                    self.store(
-                        _key + type + "listeners",
-                        listeners
-                    );
+                    if (!!form) {
+                        var listeners = self.retrieve(
+                                _key + type + "listeners",
+                                {
+                                }
+                            ),
+                            listener = listeners[uid] || {
+                                forms: [],
+                                fns: [],
+                            },
+                            forms = listener.forms;
+                        if (-1 == forms.indexOf(
+                            form
+                        )) {
+                            forms.push(
+                                form
+                            );
+                            var _fn = function (
+                                event
+                            ) {
+                                bubbleUp(
+                                    self,
+                                    match,
+                                    fn,
+                                    event,
+                                    target
+                                );
+                            };
+                            form.addEvent(
+                                type,
+                                _fn
+                            ),
+                            listener.fns.push(
+                                _fn
+                            ),
+                            (listeners[uid] = listener),
+                            self.store(
+                                _key + type + "listeners",
+                                listeners
+                            );
+                        }
+                    }
                 },
             };
         },
@@ -8772,15 +8783,16 @@ Element1.alias(
                                 function (
                                     parser, key
                                 ) {
-                                    if (found) return;
-                                    var parsed = parser.parse(
-                                        val
-                                    );
-                                    (parsed || 0 === parsed) &&
-                (found = {
-                    value: parsed,
-                    parser: parser,
-                });
+                                    if (!found) {
+                                        var parsed = parser.parse(
+                                            val
+                                        );
+                                        (parsed || 0 === parsed) &&
+                  (found = {
+                      value: parsed,
+                      parser: parser,
+                  });
+                                    }
                                 }
                             ),
                             (found = found || {
@@ -8875,53 +8887,59 @@ Element1.alias(
                         sheet, j
                     ) {
                         var href = sheet.href;
-                        if (href && href.contains(
-                            "://"
-                        ) && !href.contains(
-                            document.domain
-                        ))
-                            return;
-                        var rules = sheet.rules || sheet.cssRules;
-                        Array.each(
-                            rules,
-                            function (
-                                rule, i
-                            ) {
-                                if (!rule.style) return;
-                                var selectorText = rule.selectorText
-                                    ? rule.selectorText.replace(
-                                        /^\w+/,
-                                        function (
-                                            m
-                                        ) {
-                                            return m.toLowerCase(
-                                            );
-                                        }
-                                    )
-                                    : null;
-                                return selectorText && selectorTest.test(
-                                    selectorText
-                                )
-                                    ? void Object.each(
-                                        Element1.Styles,
-                                        function (
-                                            value, style
-                                        ) {
-                                            if (!rule.style[style] || Element1.ShortStyles[style]) return;
-                                            (value = String(
-                                                rule.style[style]
-                                            )),
-                                            (to[style] = /^rgb/.test(
-                                                value
+                        if (
+                            !href ||
+            !href.contains(
+                "://"
+            ) ||
+            !!href.contains(
+                document.domain
+            )
+                        ) {
+                            var rules = sheet.rules || sheet.cssRules;
+                            Array.each(
+                                rules,
+                                function (
+                                    rule, i
+                                ) {
+                                    if (!!rule.style) {
+                                        var selectorText = rule.selectorText
+                                            ? rule.selectorText.replace(
+                                                /^\w+/,
+                                                function (
+                                                    m
+                                                ) {
+                                                    return m.toLowerCase(
+                                                    );
+                                                }
                                             )
-                                                ? value.rgbToHex(
-                                                )
-                                                : value);
-                                        }
-                                    )
-                                    : void 0;
-                            }
-                        );
+                                            : null;
+                                        selectorText &&
+                  selectorTest.test(
+                      selectorText
+                  ) &&
+                  Object.each(
+                      Element1.Styles,
+                      function (
+                          value, style
+                      ) {
+                          !rule.style[style] ||
+                      Element1.ShortStyles[style] ||
+                      ((value = String(
+                          rule.style[style]
+                      )),
+                      (to[style] = /^rgb/.test(
+                          value
+                      )
+                          ? value.rgbToHex(
+                          )
+                          : value));
+                      }
+                  );
+                                    }
+                                }
+                            );
+                        }
                     }
                 ),
                 (Fx.CSS.Cache[selector] = to)
@@ -9541,37 +9559,38 @@ Fx.Transitions.extend(
                 onStateChange: function (
                 ) {
                     var xhr = this.xhr;
-                    if (4 != xhr.readyState || !this.running) return;
-                    (this.running = !1),
-                    (this.status = 0),
-                    Function.attempt(
-                        function (
-                        ) {
-                            var status = xhr.status;
-                            this.status = 1223 == status ? 204 : status;
-                        }.bind(
-                            this
-                        ),
-                    ),
-                    (xhr.onreadystatechange = empty),
-                    progressSupport && (xhr.onprogress = xhr.onloadstart = empty),
-                    clearTimeout(
-                        this.timer
-                    ),
-                    (this.response = {
-                        text: this.xhr.responseText || "",
-                        xml: this.xhr.responseXML,
-                    }),
-                    this.options.isSuccess.call(
-                        this,
-                        this.status
-                    )
-                        ? this.success(
-                            this.response.text,
-                            this.response.xml
-                        )
-                        : this.failure(
-                        );
+                    4 == xhr.readyState &&
+            this.running &&
+            ((this.running = !1),
+            (this.status = 0),
+            Function.attempt(
+                function (
+                ) {
+                    var status = xhr.status;
+                    this.status = 1223 == status ? 204 : status;
+                }.bind(
+                    this
+                ),
+            ),
+            (xhr.onreadystatechange = empty),
+            progressSupport && (xhr.onprogress = xhr.onloadstart = empty),
+            clearTimeout(
+                this.timer
+            ),
+            (this.response = {
+                text: this.xhr.responseText || "",
+                xml: this.xhr.responseXML,
+            }),
+            this.options.isSuccess.call(
+                this,
+                this.status
+            )
+                ? this.success(
+                    this.response.text,
+                    this.response.xml
+                )
+                : this.failure(
+                ));
                 },
                 isSuccess: function (
                 ) {
@@ -10377,25 +10396,25 @@ var Cookie = new Class(
         ),
         domready = function (
         ) {
-            if ((clearTimeout(
+            (clearTimeout(
                 timer
-            ), ready)) return;
-            (Browser.loaded = ready = !0),
-            document
-                .removeListener(
-                    "DOMContentLoaded",
-                    domready
-                )
-                .removeListener(
-                    "readystatechange",
-                    check
-                ),
-            document.fireEvent(
-                "domready"
-            ),
-            window.fireEvent(
-                "domready"
-            );
+            ), !ready) &&
+          ((Browser.loaded = ready = !0),
+          document
+              .removeListener(
+                  "DOMContentLoaded",
+                  domready
+              )
+              .removeListener(
+                  "readystatechange",
+                  check
+              ),
+          document.fireEvent(
+              "domready"
+          ),
+          window.fireEvent(
+              "domready"
+          ));
         },
         check = function (
         ) {

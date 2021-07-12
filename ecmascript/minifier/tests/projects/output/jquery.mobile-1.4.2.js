@@ -740,19 +740,21 @@
                 ) {
                     var i,
                         set = instance.plugins[name];
-                    if (!set) return;
-                    if (
-                        !allowDisconnected &&
-              (!instance.element[0].parentNode ||
-                11 === instance.element[0].parentNode.nodeType)
-                    )
-                        return;
-                    for (i = 0; i < set.length; i++)
-                        instance.options[set[i][0]] &&
-                set[i][1].apply(
-                    instance.element,
-                    args
-                );
+                    if (!!set) {
+                        if (
+                            !!allowDisconnected ||
+                !(
+                    !instance.element[0].parentNode ||
+                  11 === instance.element[0].parentNode.nodeType
+                )
+                        )
+                            for (i = 0; i < set.length; i++)
+                                instance.options[set[i][0]] &&
+                    set[i][1].apply(
+                        instance.element,
+                        args
+                    );
+                    }
                 },
             });
         })(
@@ -1735,7 +1737,8 @@
                         ) {
                             function handlerProxy(
                             ) {
-                                return suppressDisabledCheck ||
+                                if (
+                                    !!suppressDisabledCheck ||
                     !(
                         !0 === instance.options.disabled ||
                       jQuery(
@@ -1744,14 +1747,14 @@
                           "ui-state-disabled"
                       )
                     )
-                                    ? ("string" == typeof handler
+                                )
+                                    return ("string" == typeof handler
                                         ? instance[handler]
                                         : handler
                                     ).apply(
                                         instance,
                                         arguments
-                                    )
-                                    : void 0;
+                                    );
                             }
                             "string" != typeof handler &&
                   (handlerProxy.guid = handler.guid =
@@ -2836,32 +2839,29 @@
                         ),
                         state = event.originalEvent.state || {
                         };
-                    if (
-                        ((beforeNavigate.originalEvent = event),
-                        $win.trigger(
-                            beforeNavigate
-                        ),
-                        beforeNavigate.isDefaultPrevented(
-                        ))
-                    )
-                        return;
-                    event.historyState && jQuery.extend(
-                        state,
-                        event.historyState
+                    ((beforeNavigate.originalEvent = event),
+                    $win.trigger(
+                        beforeNavigate
                     ),
-                    (newEvent.originalEvent = event),
-                    setTimeout(
-                        function (
-                        ) {
-                            $win.trigger(
-                                newEvent,
-                                {
-                                    state: state,
-                                }
-                            );
-                        },
-                        0
-                    );
+                    !beforeNavigate.isDefaultPrevented(
+                    )) &&
+              (event.historyState && jQuery.extend(
+                  state,
+                  event.historyState
+              ),
+              (newEvent.originalEvent = event),
+              setTimeout(
+                  function (
+                  ) {
+                      $win.trigger(
+                          newEvent,
+                          {
+                              state: state,
+                          }
+                      );
+                  },
+                  0
+              ));
                 },
                 hashchange: function (
                     event
@@ -2872,42 +2872,39 @@
                         beforeNavigate = new jQuery.Event(
                             "beforenavigate"
                         );
-                    if (
-                        ((beforeNavigate.originalEvent = event),
-                        $win.trigger(
-                            beforeNavigate
-                        ),
-                        beforeNavigate.isDefaultPrevented(
-                        ))
-                    )
-                        return;
-                    (newEvent.originalEvent = event),
+                    ((beforeNavigate.originalEvent = event),
                     $win.trigger(
-                        newEvent,
-                        {
-                            state: event.hashchangeState || {
-                            },
-                        }
-                    );
+                        beforeNavigate
+                    ),
+                    !beforeNavigate.isDefaultPrevented(
+                    )) &&
+              ((newEvent.originalEvent = event),
+              $win.trigger(
+                  newEvent,
+                  {
+                      state: event.hashchangeState || {
+                      },
+                  }
+              ));
                 },
                 setup: function (
                 ) {
-                    if (self.bound) return;
-                    (self.bound = !0),
-                    self.isPushStateEnabled(
-                    )
-                        ? ((self.originalEventName = "popstate"),
-                        $win.bind(
-                            "popstate.navigate",
-                            self.popstate
-                        ))
-                        : self.isHashChangeEnabled(
-                        ) &&
+                    self.bound ||
+              ((self.bound = !0),
+              self.isPushStateEnabled(
+              )
+                  ? ((self.originalEventName = "popstate"),
+                  $win.bind(
+                      "popstate.navigate",
+                      self.popstate
+                  ))
+                  : self.isHashChangeEnabled(
+                  ) &&
                   ((self.originalEventName = "hashchange"),
                   $win.bind(
                       "hashchange.navigate",
                       self.hashchange
-                  ));
+                  )));
                 },
             });
         })(
@@ -3734,54 +3731,58 @@
                         event
                     ) {
                         var state;
-                        if (!jQuery.event.special.navigate.isPushStateEnabled(
-                        )) return;
-                        if (this.preventHashAssignPopState)
-                            return (
-                                (this.preventHashAssignPopState = !1),
-                                event.stopImmediatePropagation(
-                                ),
-                                void 0
-                            );
-                        if (this.ignorePopState) {
-                            this.ignorePopState = !1;
-                            return;
-                        }
-                        if (
-                            !event.originalEvent.state &&
-              1 === this.history.stack.length &&
-              this.ignoreInitialHashChange
-                        ) {
-                            if (
-                                ((this.ignoreInitialHashChange = !1),
-                                location.href === initialHref)
-                            ) {
-                                event.preventDefault(
+                        if (!!jQuery.event.special.navigate.isPushStateEnabled(
+                        )) {
+                            if (this.preventHashAssignPopState)
+                                return (
+                                    (this.preventHashAssignPopState = !1),
+                                    event.stopImmediatePropagation(
+                                    ),
+                                    void 0
                                 );
+                            if (this.ignorePopState) {
+                                this.ignorePopState = !1;
                                 return;
                             }
-                        }
-                        return (path.parseLocation(
-                        ).hash,
-                        !event.originalEvent.state && path.parseLocation(
-                        ).hash)
-                            ? ((state = this.squash(
-                                path.parseLocation(
-                                ).hash
-                            )),
-                            this.history.add(
-                                state.url,
-                                state
-                            ),
-                            (event.historyState = state),
-                            void 0)
-                            : void this.history.direct(
+                            if (
+                                !event.originalEvent.state &&
+                1 === this.history.stack.length &&
+                this.ignoreInitialHashChange
+                            ) {
+                                if (
+                                    ((this.ignoreInitialHashChange = !1),
+                                    location.href === initialHref)
+                                ) {
+                                    event.preventDefault(
+                                    );
+                                    return;
+                                }
+                            }
+                            if (
+                                (path.parseLocation(
+                                ).hash,
+                                !event.originalEvent.state && path.parseLocation(
+                                ).hash)
+                            )
+                                return (
+                                    (state = this.squash(
+                                        path.parseLocation(
+                                        ).hash
+                                    )),
+                                    this.history.add(
+                                        state.url,
+                                        state
+                                    ),
+                                    (event.historyState = state),
+                                    void 0
+                                );
+                            this.history.direct(
                                 {
                                     url:
-                    (event.originalEvent.state || {
-                    }).url ||
-                    path.parseLocation(
-                    ).hash,
+                  (event.originalEvent.state || {
+                  }).url ||
+                  path.parseLocation(
+                  ).hash,
                                     present: function (
                                         historyEntry, direction
                                     ) {
@@ -3794,49 +3795,56 @@
                                     },
                                 }
                             );
+                        }
                     },
                     hashchange: function (
                         event
                     ) {
                         var history, hash;
-                        return jQuery.event.special.navigate.isHashChangeEnabled(
-                        ) &&
-              !jQuery.event.special.navigate.isPushStateEnabled(
-              )
-                            ? this.preventNextHashChange
-                                ? ((this.preventNextHashChange = !1),
-                                event.stopImmediatePropagation(
-                                ),
-                                void 0)
-                                : void ((history = this.history),
-                                (hash = path.parseLocation(
-                                ).hash),
-                                this.history.direct(
-                                    {
-                                        url: hash,
-                                        present: function (
-                                            historyEntry, direction
-                                        ) {
-                                            (event.hashchangeState = jQuery.extend(
-                                                {
-                                                },
-                                                historyEntry
-                                            )),
-                                            (event.hashchangeState.direction = direction);
-                                        },
-                                        missing: function (
-                                        ) {
-                                            history.add(
-                                                hash,
-                                                {
-                                                    hash: hash,
-                                                    title: document.title,
-                                                }
-                                            );
-                                        },
-                                    }
-                                ))
-                            : void 0;
+                        if (
+                            !(
+                                !jQuery.event.special.navigate.isHashChangeEnabled(
+                                ) ||
+                jQuery.event.special.navigate.isPushStateEnabled(
+                )
+                            )
+                        ) {
+                            if (this.preventNextHashChange)
+                                return (
+                                    (this.preventNextHashChange = !1),
+                                    event.stopImmediatePropagation(
+                                    ),
+                                    void 0
+                                );
+                            (history = this.history),
+                            (hash = path.parseLocation(
+                            ).hash),
+                            this.history.direct(
+                                {
+                                    url: hash,
+                                    present: function (
+                                        historyEntry, direction
+                                    ) {
+                                        (event.hashchangeState = jQuery.extend(
+                                            {
+                                            },
+                                            historyEntry
+                                        )),
+                                        (event.hashchangeState.direction = direction);
+                                    },
+                                    missing: function (
+                                    ) {
+                                        history.add(
+                                            hash,
+                                            {
+                                                hash: hash,
+                                                title: document.title,
+                                            }
+                                        );
+                                    },
+                                }
+                            );
+                        }
                     },
                 }
             );
@@ -4247,97 +4255,99 @@
             function handleScroll(
                 event
             ) {
-                if (blockTouchTriggers) return;
-                didScroll ||
-          triggerVirtualEvent(
-              "vmousecancel",
-              event,
-              getVirtualBindingFlags(
-                  event.target
-              ),
-          ),
-                (didScroll = !0),
-                startResetTimer(
-                );
+                blockTouchTriggers ||
+          (didScroll ||
+            triggerVirtualEvent(
+                "vmousecancel",
+                event,
+                getVirtualBindingFlags(
+                    event.target
+                ),
+            ),
+          (didScroll = !0),
+          startResetTimer(
+          ));
             }
             function handleTouchMove(
                 event
             ) {
-                if (blockTouchTriggers) return;
-                var t = getNativeEvent(
-                        event
-                    ).touches[0],
-                    didCancel = didScroll,
-                    moveThreshold = jQuery.vmouse.moveDistanceThreshold,
-                    flags = getVirtualBindingFlags(
-                        event.target
+                if (!blockTouchTriggers) {
+                    var t = getNativeEvent(
+                            event
+                        ).touches[0],
+                        didCancel = didScroll,
+                        moveThreshold = jQuery.vmouse.moveDistanceThreshold,
+                        flags = getVirtualBindingFlags(
+                            event.target
+                        );
+                    (didScroll =
+            didScroll ||
+            Math.abs(
+                t.pageX - startX
+            ) > moveThreshold ||
+            Math.abs(
+                t.pageY - startY
+            ) > moveThreshold),
+                    didScroll &&
+              !didCancel &&
+              triggerVirtualEvent(
+                  "vmousecancel",
+                  event,
+                  flags
+              ),
+                    triggerVirtualEvent(
+                        "vmousemove",
+                        event,
+                        flags
+                    ),
+                    startResetTimer(
                     );
-                (didScroll =
-          didScroll ||
-          Math.abs(
-              t.pageX - startX
-          ) > moveThreshold ||
-          Math.abs(
-              t.pageY - startY
-          ) > moveThreshold),
-                didScroll &&
-            !didCancel &&
-            triggerVirtualEvent(
-                "vmousecancel",
-                event,
-                flags
-            ),
-                triggerVirtualEvent(
-                    "vmousemove",
-                    event,
-                    flags
-                ),
-                startResetTimer(
-                );
+                }
             }
             function handleTouchEnd(
                 event
             ) {
                 var ve, t;
-                if (blockTouchTriggers) return;
-                disableTouchBindings(
-                );
-                var flags = getVirtualBindingFlags(
-                    event.target
-                );
-                triggerVirtualEvent(
-                    "vmouseup",
-                    event,
-                    flags
+                if (!blockTouchTriggers) {
+                    disableTouchBindings(
+                    );
+                    var flags = getVirtualBindingFlags(
+                        event.target
+                    );
+                    triggerVirtualEvent(
+                        "vmouseup",
+                        event,
+                        flags
+                    ),
+                    didScroll ||
+              ((ve = triggerVirtualEvent(
+                  "vclick",
+                  event,
+                  flags
+              )),
+              ve &&
+                ve.isDefaultPrevented(
+                ) &&
+                ((t = getNativeEvent(
+                    event
+                ).changedTouches[0]),
+                clickBlockList.push(
+                    {
+                        touchID: lastTouchID,
+                        x: t.clientX,
+                        y: t.clientY,
+                    }
                 ),
-                didScroll ||
-            ((ve = triggerVirtualEvent(
-                "vclick",
-                event,
-                flags
-            )),
-            ve &&
-              ve.isDefaultPrevented(
-              ) &&
-              ((t = getNativeEvent(
-                  event
-              ).changedTouches[0]),
-              clickBlockList.push(
-                  {
-                      touchID: lastTouchID,
-                      x: t.clientX,
-                      y: t.clientY,
-                  }
-              ),
-              (blockMouseTriggers = !0))),
-                triggerVirtualEvent(
-                    "vmouseout",
-                    event,
-                    flags
-                ),
-                (didScroll = !1),
-                startResetTimer(
-                );
+                (blockMouseTriggers = !0))),
+                    triggerVirtualEvent(
+                        "vmouseout",
+                        event,
+                        flags
+                    ),
+                    (didScroll = !1),
+                    startResetTimer(
+                    );
+                }
             }
             function hasVirtualBindings(
                 ele
@@ -4587,24 +4597,24 @@
                         function (
                             event
                         ) {
-                            if (!jQuery.event.special.scrollstart.enabled) return;
-                            scrolling || trigger(
-                                event,
-                                !0
-                            ),
-                            clearTimeout(
-                                timer
-                            ),
-                            (timer = setTimeout(
-                                function (
-                                ) {
-                                    trigger(
-                                        event,
-                                        !1
-                                    );
-                                },
-                                50
-                            ));
+                            jQuery.event.special.scrollstart.enabled &&
+              (scrolling || trigger(
+                  event,
+                  !0
+              ),
+              clearTimeout(
+                  timer
+              ),
+              (timer = setTimeout(
+                  function (
+                  ) {
+                      trigger(
+                          event,
+                          !1
+                      );
+                  },
+                  50
+              )));
                         }
                     );
                 },
@@ -4871,55 +4881,56 @@
                         event
                     ) {
                         var stop;
-                        if (jQuery.event.special.swipe.eventInProgress) return;
-                        jQuery.event.special.swipe.eventInProgress = !0;
-                        var start = jQuery.event.special.swipe.start(
+                        if (!jQuery.event.special.swipe.eventInProgress) {
+                            jQuery.event.special.swipe.eventInProgress = !0;
+                            var start = jQuery.event.special.swipe.start(
+                                    event
+                                ),
+                                origTarget = event.target,
+                                emitted = !1;
+                            (context.move = function (
                                 event
-                            ),
-                            origTarget = event.target,
-                            emitted = !1;
-                        (context.move = function (
-                            event
-                        ) {
-                            if (!start) return;
-                            (stop = jQuery.event.special.swipe.stop(
-                                event
-                            )),
-                            emitted ||
-                      ((emitted = jQuery.event.special.swipe.handleSwipe(
-                          start,
-                          stop,
-                          thisObject,
-                          origTarget,
+                            ) {
+                                start &&
+                      ((stop = jQuery.event.special.swipe.stop(
+                          event
                       )),
-                      emitted &&
-                        (jQuery.event.special.swipe.eventInProgress = !1)),
-                            Math.abs(
-                                start.coords[0] - stop.coords[0]
-                            ) >
-                      jQuery.event.special.swipe.scrollSupressionThreshold &&
-                      event.preventDefault(
-                      );
-                        }),
-                        (context.stop = function (
-                        ) {
-                            (emitted = !0),
-                            (jQuery.event.special.swipe.eventInProgress = !1),
-                            $document.off(
-                                touchMoveEvent,
-                                context.move
-                            ),
-                            (context.move = null);
-                        }),
-                        $document
-                            .on(
-                                touchMoveEvent,
-                                context.move
-                            )
-                            .one(
-                                touchStopEvent,
-                                context.stop
-                            );
+                      emitted ||
+                        ((emitted = jQuery.event.special.swipe.handleSwipe(
+                            start,
+                            stop,
+                            thisObject,
+                            origTarget,
+                        )),
+                        emitted &&
+                          (jQuery.event.special.swipe.eventInProgress = !1)),
+                      Math.abs(
+                          start.coords[0] - stop.coords[0]
+                      ) >
+                        jQuery.event.special.swipe.scrollSupressionThreshold &&
+                        event.preventDefault(
+                        ));
+                            }),
+                            (context.stop = function (
+                            ) {
+                                (emitted = !0),
+                                (jQuery.event.special.swipe.eventInProgress = !1),
+                                $document.off(
+                                    touchMoveEvent,
+                                    context.move
+                                ),
+                                (context.move = null);
+                            }),
+                            $document
+                                .on(
+                                    touchMoveEvent,
+                                    context.move
+                                )
+                                .one(
+                                    touchStopEvent,
+                                    context.stop
+                                );
+                        }
                     }),
                     $this.on(
                         touchStartEvent,
@@ -5189,8 +5200,8 @@
                     set: function (
                         href
                     ) {
-                        if (!jQuery.mobile.dynamicBaseEnabled) return;
-                        jQuery.support.dynamicBaseTag &&
+                        jQuery.mobile.dynamicBaseEnabled &&
+              jQuery.support.dynamicBaseTag &&
               base.element.attr(
                   "href",
                   jQuery.mobile.path.makeUrlAbsolute(
@@ -5599,18 +5610,19 @@
                     _recordScroll: function (
                     ) {
                         var currentScroll, minScroll, defaultScroll;
-                        if (!this.setLastScrollEnabled) return;
-                        var active = this._getActiveHistory(
-                        );
-                        active &&
-            ((currentScroll = this._getScroll(
-            )),
-            (minScroll = this._getMinScroll(
-            )),
-            (defaultScroll = this._getDefaultScroll(
-            )),
-            (active.lastScroll =
-              currentScroll < minScroll ? defaultScroll : currentScroll));
+                        if (!!this.setLastScrollEnabled) {
+                            var active = this._getActiveHistory(
+                            );
+                            active &&
+              ((currentScroll = this._getScroll(
+              )),
+              (minScroll = this._getMinScroll(
+              )),
+              (defaultScroll = this._getDefaultScroll(
+              )),
+              (active.lastScroll =
+                currentScroll < minScroll ? defaultScroll : currentScroll));
+                        }
                     },
                     _delayedRecordScroll: function (
                     ) {
@@ -5639,26 +5651,26 @@
                         e, data
                     ) {
                         var url;
-                        if (e.originalEvent && e.originalEvent.isDefaultPrevented(
-                        )) return;
-                        (url =
-            e.originalEvent.type.indexOf(
-                "hashchange"
-            ) > -1
-                ? data.state.hash
-                : data.state.url),
-                        url || (url = this._getHash(
-                        )),
-                        (!url ||
+                        (e.originalEvent && e.originalEvent.isDefaultPrevented(
+                        )) ||
+            ((url =
+              e.originalEvent.type.indexOf(
+                  "hashchange"
+              ) > -1
+                  ? data.state.hash
+                  : data.state.url),
+            url || (url = this._getHash(
+            )),
+            (!url ||
               "#" === url ||
               0 === url.indexOf(
                   "#" + jQuery.mobile.path.uiStateKey
               )) &&
               (url = location.href),
-                        this._handleNavigate(
-                            url,
-                            data.state
-                        );
+            this._handleNavigate(
+                url,
+                data.state
+            ));
                     },
                     _getHash: function (
                     ) {
@@ -5931,24 +5943,24 @@
                     _showLoading: function (
                         delay, theme, msg, textonly
                     ) {
-                        if (this._loadMsg) return;
-                        this._loadMsg = setTimeout(
-                            jQuery.proxy(
-                                function (
-                                ) {
-                                    this._getLoader(
-                                    ).loader(
-                                        "show",
-                                        theme,
-                                        msg,
-                                        textonly
-                                    ),
-                                    (this._loadMsg = 0);
-                                },
-                                this
-                            ),
-                            delay,
-                        );
+                        this._loadMsg ||
+            (this._loadMsg = setTimeout(
+                jQuery.proxy(
+                    function (
+                    ) {
+                        this._getLoader(
+                        ).loader(
+                            "show",
+                            theme,
+                            msg,
+                            textonly
+                        ),
+                        (this._loadMsg = 0);
+                    },
+                    this
+                ),
+                delay,
+            ));
                     },
                     _hideLoading: function (
                     ) {
@@ -6099,84 +6111,73 @@
                             function (
                                 html, textStatus, xhr
                             ) {
-                                var content,
-                                    pageElemRegex = new RegExp(
-                                        "(<[^>]+\\bdata-" +
-                  this._getNs(
-                  ) +
-                  "role=[\"']?page[\"']?[^>]*>)",
-                                    ),
-                                    dataUrlRegex = new RegExp(
-                                        "\\bdata-" + this._getNs(
-                                        ) + "url=[\"']?([^\"'>]*)[\"']?",
-                                    );
-                                if (
-                                    (pageElemRegex.test(
-                                        html
-                                    ) &&
-                RegExp.$1 &&
-                dataUrlRegex.test(
-                    RegExp.$1
-                ) &&
-                RegExp.$1 &&
-                (fileUrl = jQuery.mobile.path.getFilePath(
-                    jQuery(
-                        "<div>" + RegExp.$1 + "</div>"
-                    ).text(
-                    ),
-                )),
-                                    void 0 === settings.prefetch && this._getBase(
-                                    ).set(
-                                        fileUrl
-                                    ),
-                                    (content = this._parse(
-                                        html,
-                                        fileUrl
-                                    )),
-                                    this._setLoadedTitle(
-                                        content,
-                                        html
-                                    ),
-                                    (triggerData.xhr = xhr),
-                                    (triggerData.textStatus = textStatus),
-                                    (triggerData.page = content),
-                                    (triggerData.content = content),
-                                    !this._trigger(
-                                        "load",
-                                        void 0,
-                                        triggerData
-                                    ))
-                                )
-                                    return;
-                                this._isRewritableBaseTag(
+                                (pageElemRegex.test(
+                                    html
                                 ) &&
-              content &&
-              this._getBase(
-              ).rewrite(
-                  fileUrl,
-                  content
-              ),
-                                this._include(
-                                    content,
-                                    settings
+              RegExp.$1 &&
+              new RegExp(
+                  "\\bdata-" + this._getNs(
+                  ) + "url=[\"']?([^\"'>]*)[\"']?",
+              ).test(
+                  RegExp.$1
+              ) &&
+              RegExp.$1 &&
+              (fileUrl = jQuery.mobile.path.getFilePath(
+                  jQuery(
+                      "<div>" + RegExp.$1 + "</div>"
+                  ).text(
+                  ),
+              )),
+                                void 0 === settings.prefetch && this._getBase(
+                                ).set(
+                                    fileUrl
                                 ),
-                                absUrl.indexOf(
-                                    "&" + jQuery.mobile.subPageUrlKey
-                                ) > -1 &&
+                                (content = this._parse(
+                                    html,
+                                    fileUrl
+                                )),
+                                this._setLoadedTitle(
+                                    content,
+                                    html
+                                ),
+                                (triggerData.xhr = xhr),
+                                (triggerData.textStatus = textStatus),
+                                (triggerData.page = content),
+                                (triggerData.content = content),
+                                !!this._trigger(
+                                    "load",
+                                    void 0,
+                                    triggerData
+                                )) &&
+              (this._isRewritableBaseTag(
+              ) &&
+                content &&
+                this._getBase(
+                ).rewrite(
+                    fileUrl,
+                    content
+                ),
+              this._include(
+                  content,
+                  settings
+              ),
+              absUrl.indexOf(
+                  "&" + jQuery.mobile.subPageUrlKey
+              ) > -1 &&
                 (content = this.element.children(
                     "[data-" + this._getNs(
                     ) + "url='" + dataUrl + "']",
                 )),
-                                settings.showLoadMsg && this._hideLoading(
-                                ),
-                                this.element.trigger(
-                                    "pageload"
-                                ),
-                                deferred.resolve(
-                                    absUrl,
-                                    settings,
-                                    content
-                                );
+              settings.showLoadMsg && this._hideLoading(
+              ),
+              this.element.trigger(
+                  "pageload"
+              ),
+              deferred.resolve(
+                  absUrl,
+                  settings,
+                  content
+              ));
                             },
                             this
                         );
@@ -6275,54 +6276,56 @@
                                 "beforeload",
                                 triggerData
                             )),
-                            pblEvent.deprecatedEvent.isDefaultPrevented(
-                            ) ||
-              pblEvent.event.isDefaultPrevented(
-              ))
-                        )
-                            return;
-                        if (
-                            (settings.showLoadMsg && this._showLoading(
-                                settings.loadMsgDelay
-                            ),
-                            void 0 === settings.prefetch && this._getBase(
-                            ).reset(
-                            ),
                             !(
-                                jQuery.mobile.allowCrossDomainPages ||
-              jQuery.mobile.path.isSameDomain(
-                  jQuery.mobile.path.documentUrl,
-                  absUrl,
+                                pblEvent.deprecatedEvent.isDefaultPrevented(
+                                ) ||
+              pblEvent.event.isDefaultPrevented(
               )
                             ))
                         ) {
-                            deferred.reject(
-                                absUrl,
-                                settings
-                            );
-                            return;
-                        }
-                        jQuery.ajax(
-                            {
-                                url: fileUrl,
-                                type: settings.type,
-                                data: settings.data,
-                                contentType: settings.contentType,
-                                dataType: "html",
-                                success: this._loadSuccess(
-                                    absUrl,
-                                    triggerData,
-                                    settings,
-                                    deferred
+                            if (
+                                (settings.showLoadMsg && this._showLoading(
+                                    settings.loadMsgDelay
                                 ),
-                                error: this._loadError(
-                                    absUrl,
-                                    triggerData,
-                                    settings,
-                                    deferred
+                                void 0 === settings.prefetch && this._getBase(
+                                ).reset(
                                 ),
+                                !(
+                                    jQuery.mobile.allowCrossDomainPages ||
+                jQuery.mobile.path.isSameDomain(
+                    jQuery.mobile.path.documentUrl,
+                    absUrl,
+                )
+                                ))
+                            ) {
+                                deferred.reject(
+                                    absUrl,
+                                    settings
+                                );
+                                return;
                             }
-                        );
+                            jQuery.ajax(
+                                {
+                                    url: fileUrl,
+                                    type: settings.type,
+                                    data: settings.data,
+                                    contentType: settings.contentType,
+                                    dataType: "html",
+                                    success: this._loadSuccess(
+                                        absUrl,
+                                        triggerData,
+                                        settings,
+                                        deferred,
+                                    ),
+                                    error: this._loadError(
+                                        absUrl,
+                                        triggerData,
+                                        settings,
+                                        deferred
+                                    ),
+                                }
+                            );
+                        }
                     },
                     _loadError: function (
                         absUrl, triggerData, settings, deferred
@@ -6343,19 +6346,16 @@
                                     "loadfailed",
                                     triggerData,
                                 );
-                                if (
-                                    plfEvent.deprecatedEvent.isDefaultPrevented(
-                                    ) ||
+                                plfEvent.deprecatedEvent.isDefaultPrevented(
+                                ) ||
               plfEvent.event.isDefaultPrevented(
-              )
-                                )
-                                    return;
-                                settings.showLoadMsg && this._showError(
-                                ),
-                                deferred.reject(
-                                    absUrl,
-                                    settings
-                                );
+              ) ||
+              (settings.showLoadMsg && this._showError(
+              ),
+              deferred.reject(
+                  absUrl,
+                  settings
+              ));
                             },
                             this
                         );
@@ -6552,28 +6552,27 @@
                             ),
                             triggerData = {
                             };
-                        return ((settings.fromPage = settings.fromPage || this.activePage),
-                        !this._triggerPageBeforeChange(
+                        ((settings.fromPage = settings.fromPage || this.activePage),
+                        !!this._triggerPageBeforeChange(
                             triggerData.toPage,
                             triggerData,
                             settings,
-                        ))
-                            ? void 0
-                            : void (triggerData.toPage,
-                            "string" === jQuery.type(
-                                triggerData.toPage
-                            )
-                                ? ((isPageTransitioning = !0),
-                                this._loadUrl(
-                                    triggerData.toPage,
-                                    triggerData,
-                                    settings
-                                ))
-                                : this.transition(
-                                    triggerData.toPage,
-                                    triggerData,
-                                    settings
-                                ));
+                        )) &&
+            (triggerData.toPage,
+            "string" === jQuery.type(
+                triggerData.toPage
+            )
+                ? ((isPageTransitioning = !0),
+                this._loadUrl(
+                    triggerData.toPage,
+                    triggerData,
+                    settings
+                ))
+                : this.transition(
+                    triggerData.toPage,
+                    triggerData,
+                    settings
+                ));
                     },
                     transition: function (
                         toPage, triggerData, settings
@@ -6596,225 +6595,229 @@
                             );
                             return;
                         }
-                        if (!this._triggerPageBeforeChange(
+                        if (!!this._triggerPageBeforeChange(
                             toPage,
                             triggerData,
                             settings
-                        ))
-                            return;
-                        if (
-                            ((beforeTransition = this._triggerWithDeprecated(
-                                "beforetransition",
-                                triggerData,
-                            )),
-                            beforeTransition.deprecatedEvent.isDefaultPrevented(
-                            ) ||
-              beforeTransition.event.isDefaultPrevented(
-              ))
-                        )
-                            return;
-                        if (
-                            ((isPageTransitioning = !0),
-                            toPage[0] !== jQuery.mobile.firstPage[0] ||
-              settings.dataUrl ||
-              (settings.dataUrl = jQuery.mobile.path.documentUrl.hrefNoHash),
-                            (url =
-              (settings.dataUrl &&
-                jQuery.mobile.path.convertUrlToDataUrl(
-                    settings.dataUrl
-                )) ||
-              toPage.jqmData(
-                  "url"
-              )),
-                            (pageUrl = url),
-                            jQuery.mobile.path.getFilePath(
-                                url
-                            ),
-                            (active = jQuery.mobile.navigate.history.getActive(
-                            )),
-                            (activeIsInitialPage =
-              0 === jQuery.mobile.navigate.history.activeIndex),
-                            (historyDir = 0),
-                            (pageTitle = document.title),
-                            (isDialog =
-              ("dialog" === settings.role ||
-                "dialog" === toPage.jqmData(
-                    "role"
-                )) &&
-              toPage.jqmData(
-                  "dialog"
-              ) !== !0),
-                            settings.fromPage &&
-              settings.fromPage[0] === toPage[0] &&
-              !settings.allowSamePageTransition)
-                        )
-                            return (
-                                (isPageTransitioning = !1),
-                                this._triggerWithDeprecated(
-                                    "transition",
-                                    triggerData
-                                ),
-                                this.element.trigger(
-                                    "pagechange",
-                                    triggerData
+                        )) {
+                            if (
+                                ((beforeTransition = this._triggerWithDeprecated(
+                                    "beforetransition",
+                                    triggerData,
+                                )),
+                                !(
+                                    beforeTransition.deprecatedEvent.isDefaultPrevented(
+                                    ) ||
+                beforeTransition.event.isDefaultPrevented(
+                )
+                                ))
+                            ) {
+                                if (
+                                    ((isPageTransitioning = !0),
+                                    toPage[0] !== jQuery.mobile.firstPage[0] ||
+                  settings.dataUrl ||
+                  (settings.dataUrl =
+                    jQuery.mobile.path.documentUrl.hrefNoHash),
+                                    (url =
+                  (settings.dataUrl &&
+                    jQuery.mobile.path.convertUrlToDataUrl(
+                        settings.dataUrl
+                    )) ||
+                  toPage.jqmData(
+                      "url"
+                  )),
+                                    (pageUrl = url),
+                                    jQuery.mobile.path.getFilePath(
+                                        url
+                                    ),
+                                    (active = jQuery.mobile.navigate.history.getActive(
+                                    )),
+                                    (activeIsInitialPage =
+                  0 === jQuery.mobile.navigate.history.activeIndex),
+                                    (historyDir = 0),
+                                    (pageTitle = document.title),
+                                    (isDialog =
+                  ("dialog" === settings.role ||
+                    "dialog" === toPage.jqmData(
+                        "role"
+                    )) &&
+                  toPage.jqmData(
+                      "dialog"
+                  ) !== !0),
+                                    settings.fromPage &&
+                  settings.fromPage[0] === toPage[0] &&
+                  !settings.allowSamePageTransition)
+                                )
+                                    return (
+                                        (isPageTransitioning = !1),
+                                        this._triggerWithDeprecated(
+                                            "transition",
+                                            triggerData
+                                        ),
+                                        this.element.trigger(
+                                            "pagechange",
+                                            triggerData
+                                        ),
+                                        settings.fromHashChange &&
+                    jQuery.mobile.navigate.history.direct(
+                        {
+                            url: url,
+                        }
+                    ),
+                                        void 0
+                                    );
+                                toPage.page(
+                                    {
+                                        role: settings.role,
+                                    }
                                 ),
                                 settings.fromHashChange &&
-                jQuery.mobile.navigate.history.direct(
-                    {
-                        url: url,
-                    }
-                ),
-                                void 0
-                            );
-                        toPage.page(
-                            {
-                                role: settings.role,
-                            }
+                  (historyDir = "back" === settings.direction ? -1 : 1);
+                                try {
+                                    document.activeElement &&
+                "body" !== document.activeElement.nodeName.toLowerCase(
+                )
+                                        ? jQuery(
+                                            document.activeElement
+                                        ).blur(
+                                        )
+                                        : jQuery(
+                                            "input:focus, textarea:focus, select:focus"
+                                        ).blur(
+                                        );
+                                } catch (e) {}
+                                (alreadyThere = !1),
+                                isDialog &&
+                  active &&
+                  (active.url &&
+                    active.url.indexOf(
+                        jQuery.mobile.dialogHashKey
+                    ) > -1 &&
+                    this.activePage &&
+                    !this.activePage.hasClass(
+                        "ui-dialog"
+                    ) &&
+                    jQuery.mobile.navigate.history.activeIndex > 0 &&
+                    ((settings.changeHash = !1), (alreadyThere = !0)),
+                  (url = active.url || ""),
+                  alreadyThere || !(url.indexOf(
+                      "#"
+                  ) > -1)
+                      ? (url += "#" + jQuery.mobile.dialogHashKey)
+                      : (url += jQuery.mobile.dialogHashKey),
+                  0 === jQuery.mobile.navigate.history.activeIndex &&
+                    url === jQuery.mobile.navigate.history.initialDst &&
+                    (url += jQuery.mobile.dialogHashKey)),
+                                (newPageTitle = active
+                                    ? toPage.jqmData(
+                                        "title"
+                                    ) ||
+                    toPage
+                        .children(
+                            ":jqmData(role='header')"
+                        )
+                        .find(
+                            ".ui-title"
+                        )
+                        .text(
+                        )
+                                    : pageTitle),
+                                newPageTitle &&
+                  pageTitle === document.title &&
+                  (pageTitle = newPageTitle),
+                                toPage.jqmData(
+                                    "title"
+                                ) || toPage.jqmData(
+                                    "title",
+                                    pageTitle
+                                ),
+                                (settings.transition =
+                  settings.transition ||
+                  (historyDir && !activeIsInitialPage
+                      ? active.transition
+                      : void 0) ||
+                  (isDialog
+                      ? jQuery.mobile.defaultDialogTransition
+                      : jQuery.mobile.defaultPageTransition)),
+                                !historyDir &&
+                  alreadyThere &&
+                  (jQuery.mobile.navigate.history.getActive(
+                  ).pageUrl = pageUrl),
+                                url &&
+                  !settings.fromHashChange &&
+                  (!jQuery.mobile.path.isPath(
+                      url
+                  ) &&
+                    0 > url.indexOf(
+                        "#"
+                    ) &&
+                    (url = "#" + url),
+                  (params = {
+                      transition: settings.transition,
+                      title: pageTitle,
+                      pageUrl: pageUrl,
+                      role: settings.role,
+                  }),
+                  !1 !== settings.changeHash &&
+                  jQuery.mobile.hashListeningEnabled
+                      ? jQuery.mobile.navigate(
+                          url,
+                          params,
+                          !0
+                      )
+                      : toPage[0] !== jQuery.mobile.firstPage[0] &&
+                      jQuery.mobile.navigate.history.add(
+                          url,
+                          params
+                      )),
+                                (document.title = pageTitle),
+                                (jQuery.mobile.activePage = toPage),
+                                (this.activePage = toPage),
+                                (settings.reverse = settings.reverse || historyDir < 0),
+                                (cssTransitionDeferred = jQuery.Deferred(
+                                )),
+                                this._cssTransition(
+                                    toPage,
+                                    settings.fromPage,
+                                    {
+                                        transition: settings.transition,
+                                        reverse: settings.reverse,
+                                        deferred: cssTransitionDeferred,
+                                    }
+                                ),
+                                cssTransitionDeferred.done(
+                                    jQuery.proxy(
+                                        function (
+                                            name,
+                                            reverse,
+                                            $to,
+                                            $from,
+                                            alreadyFocused,
+                                        ) {
+                                            jQuery.mobile.removeActiveLinkClass(
+                                            ),
+                                            settings.duplicateCachedPage &&
+                        settings.duplicateCachedPage.remove(
                         ),
-                        settings.fromHashChange &&
-              (historyDir = "back" === settings.direction ? -1 : 1);
-                        try {
-                            document.activeElement &&
-            "body" !== document.activeElement.nodeName.toLowerCase(
-            )
-                                ? jQuery(
-                                    document.activeElement
-                                ).blur(
-                                )
-                                : jQuery(
-                                    "input:focus, textarea:focus, select:focus"
-                                ).blur(
+                                            alreadyFocused || jQuery.mobile.focusPage(
+                                                toPage
+                                            ),
+                                            this._releaseTransitionLock(
+                                            ),
+                                            this.element.trigger(
+                                                "pagechange",
+                                                triggerData
+                                            ),
+                                            this._triggerWithDeprecated(
+                                                "transition",
+                                                triggerData
+                                            );
+                                        },
+                                        this
+                                    ),
                                 );
-                        } catch (e) {}
-                        (alreadyThere = !1),
-                        isDialog &&
-              active &&
-              (active.url &&
-                active.url.indexOf(
-                    jQuery.mobile.dialogHashKey
-                ) > -1 &&
-                this.activePage &&
-                !this.activePage.hasClass(
-                    "ui-dialog"
-                ) &&
-                jQuery.mobile.navigate.history.activeIndex > 0 &&
-                ((settings.changeHash = !1), (alreadyThere = !0)),
-              (url = active.url || ""),
-              alreadyThere || !(url.indexOf(
-                  "#"
-              ) > -1)
-                  ? (url += "#" + jQuery.mobile.dialogHashKey)
-                  : (url += jQuery.mobile.dialogHashKey),
-              0 === jQuery.mobile.navigate.history.activeIndex &&
-                url === jQuery.mobile.navigate.history.initialDst &&
-                (url += jQuery.mobile.dialogHashKey)),
-                        (newPageTitle = active
-                            ? toPage.jqmData(
-                                "title"
-                            ) ||
-                toPage
-                    .children(
-                        ":jqmData(role='header')"
-                    )
-                    .find(
-                        ".ui-title"
-                    )
-                    .text(
-                    )
-                            : pageTitle),
-                        newPageTitle &&
-              pageTitle === document.title &&
-              (pageTitle = newPageTitle),
-                        toPage.jqmData(
-                            "title"
-                        ) || toPage.jqmData(
-                            "title",
-                            pageTitle
-                        ),
-                        (settings.transition =
-              settings.transition ||
-              (historyDir && !activeIsInitialPage
-                  ? active.transition
-                  : void 0) ||
-              (isDialog
-                  ? jQuery.mobile.defaultDialogTransition
-                  : jQuery.mobile.defaultPageTransition)),
-                        !historyDir &&
-              alreadyThere &&
-              (jQuery.mobile.navigate.history.getActive(
-              ).pageUrl = pageUrl),
-                        url &&
-              !settings.fromHashChange &&
-              (!jQuery.mobile.path.isPath(
-                  url
-              ) &&
-                0 > url.indexOf(
-                    "#"
-                ) &&
-                (url = "#" + url),
-              (params = {
-                  transition: settings.transition,
-                  title: pageTitle,
-                  pageUrl: pageUrl,
-                  role: settings.role,
-              }),
-              !1 !== settings.changeHash && jQuery.mobile.hashListeningEnabled
-                  ? jQuery.mobile.navigate(
-                      url,
-                      params,
-                      !0
-                  )
-                  : toPage[0] !== jQuery.mobile.firstPage[0] &&
-                  jQuery.mobile.navigate.history.add(
-                      url,
-                      params
-                  )),
-                        (document.title = pageTitle),
-                        (jQuery.mobile.activePage = toPage),
-                        (this.activePage = toPage),
-                        (settings.reverse = settings.reverse || historyDir < 0),
-                        (cssTransitionDeferred = jQuery.Deferred(
-                        )),
-                        this._cssTransition(
-                            toPage,
-                            settings.fromPage,
-                            {
-                                transition: settings.transition,
-                                reverse: settings.reverse,
-                                deferred: cssTransitionDeferred,
                             }
-                        ),
-                        cssTransitionDeferred.done(
-                            jQuery.proxy(
-                                function (
-                                    name,
-                                    reverse,
-                                    $to,
-                                    $from,
-                                    alreadyFocused,
-                                ) {
-                                    jQuery.mobile.removeActiveLinkClass(
-                                    ),
-                                    settings.duplicateCachedPage &&
-                    settings.duplicateCachedPage.remove(
-                    ),
-                                    alreadyFocused || jQuery.mobile.focusPage(
-                                        toPage
-                                    ),
-                                    this._releaseTransitionLock(
-                                    ),
-                                    this.element.trigger(
-                                        "pagechange",
-                                        triggerData
-                                    ),
-                                    this._triggerWithDeprecated(
-                                        "transition",
-                                        triggerData
-                                    );
-                                },
-                                this
-                            ),
-                        );
+                        }
                     },
                     _findBaseWithDefault: function (
                     ) {
@@ -7069,77 +7072,78 @@
                             btnEls,
                             target = event.target,
                             needClosest = !1;
-                        if (event.which > 1 || !jQuery.mobile.linkBindingEnabled) return;
-                        if (
-                            (($lastVClicked = jQuery(
-                                target
-                            )),
-                            jQuery.data(
-                                target,
-                                "mobile-button"
-                            ))
-                        ) {
-                            if (!getAjaxFormData(
-                                jQuery(
-                                    target
-                                ).closest(
-                                    "form"
-                                ),
-                                !0
-                            ))
-                                return;
-                            target.parentNode && (target = target.parentNode);
-                        } else {
+                        if (!(event.which > 1 || !jQuery.mobile.linkBindingEnabled)) {
                             if (
-                                ((target = findClosestLink(
+                                (($lastVClicked = jQuery(
                                     target
                                 )),
-                                !target ||
-                    !(
-                        "#" !==
-                      jQuery.mobile.path.parseUrl(
-                          target.getAttribute(
-                              "href"
-                          ) || "#",
-                      ).hash
-                    ))
+                                jQuery.data(
+                                    target,
+                                    "mobile-button"
+                                ))
+                            ) {
+                                if (!getAjaxFormData(
+                                    jQuery(
+                                        target
+                                    ).closest(
+                                        "form"
+                                    ),
+                                    !0
+                                ))
+                                    return;
+                                target.parentNode && (target = target.parentNode);
+                            } else {
+                                if (
+                                    ((target = findClosestLink(
+                                        target
+                                    )),
+                                    !target ||
+                      !(
+                          "#" !==
+                        jQuery.mobile.path.parseUrl(
+                            target.getAttribute(
+                                "href"
+                            ) || "#",
+                        ).hash
+                      ))
+                                )
+                                    return;
+                                if (!jQuery(
+                                    target
+                                ).jqmHijackable(
+                                ).length) return;
+                            }
+                            ~target.className.indexOf(
+                                "ui-link-inherit"
                             )
-                                return;
-                            if (!jQuery(
+                                ? target.parentNode &&
+                    (btnEls = jQuery.data(
+                        target.parentNode,
+                        "buttonElements"
+                    ))
+                                : (btnEls = jQuery.data(
+                                    target,
+                                    "buttonElements"
+                                )),
+                            btnEls ? (target = btnEls.outer) : (needClosest = !0),
+                            ($btn = jQuery(
                                 target
-                            ).jqmHijackable(
-                            ).length) return;
-                        }
-                        ~target.className.indexOf(
-                            "ui-link-inherit"
-                        )
-                            ? target.parentNode &&
-                  (btnEls = jQuery.data(
-                      target.parentNode,
-                      "buttonElements"
-                  ))
-                            : (btnEls = jQuery.data(
-                                target,
-                                "buttonElements"
                             )),
-                        btnEls ? (target = btnEls.outer) : (needClosest = !0),
-                        ($btn = jQuery(
-                            target
-                        )),
-                        needClosest && ($btn = $btn.closest(
-                            ".ui-btn"
-                        )),
-                        $btn.length > 0 &&
-                  !$btn.hasClass(
-                      "ui-state-disabled"
-                  ) &&
-                  (jQuery.mobile.removeActiveLinkClass(
-                      !0
-                  ),
-                  (jQuery.mobile.activeClickedLink = $btn),
-                  jQuery.mobile.activeClickedLink.addClass(
-                      jQuery.mobile.activeBtnClass,
-                  ));
+                            needClosest && ($btn = $btn.closest(
+                                ".ui-btn"
+                            )),
+                            $btn.length > 0 &&
+                    !$btn.hasClass(
+                        "ui-state-disabled"
+                    ) &&
+                    (jQuery.mobile.removeActiveLinkClass(
+                        !0
+                    ),
+                    (jQuery.mobile.activeClickedLink = $btn),
+                    jQuery.mobile.activeClickedLink.addClass(
+                        jQuery.mobile.activeBtnClass,
+                    ));
+                        }
                     }
                 ),
                 jQuery.mobile.document.bind(
@@ -7154,135 +7158,138 @@
                             reverse,
                             role;
                         if (
-                            !jQuery.mobile.linkBindingEnabled ||
-                event.isDefaultPrevented(
-                )
-                        )
-                            return;
-                        var link = findClosestLink(
-                                event.target
-                            ),
-                            $link = jQuery(
-                                link
-                            ),
-                            httpCleanup = function (
-                            ) {
-                                window.setTimeout(
-                                    function (
-                                    ) {
-                                        jQuery.mobile.removeActiveLinkClass(
-                                            !0
-                                        );
-                                    },
-                                    200
-                                );
-                            };
-                        if (
-                            (jQuery.mobile.activeClickedLink &&
-                  jQuery.mobile.activeClickedLink[0] ===
-                    event.target.parentNode &&
-                  httpCleanup(
-                  ),
-                            !link || event.which > 1 || !$link.jqmHijackable(
-                            ).length)
-                        )
-                            return;
-                        if ($link.is(
-                            ":jqmData(rel='back')"
-                        ))
-                            return jQuery.mobile.back(
-                            ), !1;
-                        if (
-                            ((baseUrl = jQuery.mobile.getClosestBaseUrl(
-                                $link
-                            )),
-                            (href = jQuery.mobile.path.makeUrlAbsolute(
-                                $link.attr(
-                                    "href"
-                                ) || "#",
-                                baseUrl,
-                            )),
-                            !jQuery.mobile.ajaxEnabled &&
-                  !jQuery.mobile.path.isEmbeddedPage(
-                      href
-                  ))
+                            !(
+                                !jQuery.mobile.linkBindingEnabled ||
+                  event.isDefaultPrevented(
+                  )
+                            )
                         ) {
-                            httpCleanup(
-                            );
-                            return;
-                        }
-                        if (-1 !== href.search(
-                            "#"
-                        )) {
-                            if (((href = href.replace(
-                                /[^#]*#/,
-                                ""
-                            )), !href)) {
+                            var link = findClosestLink(
+                                    event.target
+                                ),
+                                $link = jQuery(
+                                    link
+                                ),
+                                httpCleanup = function (
+                                ) {
+                                    window.setTimeout(
+                                        function (
+                                        ) {
+                                            jQuery.mobile.removeActiveLinkClass(
+                                                !0
+                                            );
+                                        },
+                                        200
+                                    );
+                                };
+                            if (
+                                (jQuery.mobile.activeClickedLink &&
+                    jQuery.mobile.activeClickedLink[0] ===
+                      event.target.parentNode &&
+                    httpCleanup(
+                    ),
+                                !(!link || event.which > 1 || !$link.jqmHijackable(
+                                ).length))
+                            ) {
+                                if ($link.is(
+                                    ":jqmData(rel='back')"
+                                ))
+                                    return jQuery.mobile.back(
+                                    ), !1;
+                                if (
+                                    ((baseUrl = jQuery.mobile.getClosestBaseUrl(
+                                        $link
+                                    )),
+                                    (href = jQuery.mobile.path.makeUrlAbsolute(
+                                        $link.attr(
+                                            "href"
+                                        ) || "#",
+                                        baseUrl,
+                                    )),
+                                    !jQuery.mobile.ajaxEnabled &&
+                      !jQuery.mobile.path.isEmbeddedPage(
+                          href
+                      ))
+                                ) {
+                                    httpCleanup(
+                                    );
+                                    return;
+                                }
+                                if (-1 !== href.search(
+                                    "#"
+                                )) {
+                                    if ((href = href.replace(
+                                        /[^#]*#/,
+                                        ""
+                                    )))
+                                        jQuery.mobile.path.isPath(
+                                            href
+                                        )
+                                            ? (href = jQuery.mobile.path.makeUrlAbsolute(
+                                                href,
+                                                baseUrl,
+                                            ))
+                                            : (href = jQuery.mobile.path.makeUrlAbsolute(
+                                                "#" + href,
+                                                documentUrl.hrefNoHash,
+                                            ));
+                                    else {
+                                        event.preventDefault(
+                                        );
+                                        return;
+                                    }
+                                }
+                                if (
+                                    ((useDefaultUrlHandling =
+                      $link.is(
+                          "[rel='external']"
+                      ) ||
+                      $link.is(
+                          ":jqmData(ajax='false')"
+                      ) ||
+                      $link.is(
+                          "[target]"
+                      )),
+                                    useDefaultUrlHandling ||
+                      (jQuery.mobile.path.isExternal(
+                          href
+                      ) &&
+                        !jQuery.mobile.path.isPermittedCrossDomainRequest(
+                            documentUrl,
+                            href,
+                        )))
+                                ) {
+                                    httpCleanup(
+                                    );
+                                    return;
+                                }
+                                (transition = $link.jqmData(
+                                    "transition"
+                                )),
+                                (reverse =
+                      "reverse" === $link.jqmData(
+                          "direction"
+                      ) ||
+                      $link.jqmData(
+                          "back"
+                      )),
+                                (role =
+                      $link.attr(
+                          "data-" + jQuery.mobile.ns + "rel"
+                      ) || void 0),
+                                jQuery.mobile.changePage(
+                                    href,
+                                    {
+                                        transition: transition,
+                                        reverse: reverse,
+                                        role: role,
+                                        link: $link,
+                                    }
+                                ),
                                 event.preventDefault(
                                 );
-                                return;
-                            } else
-                                jQuery.mobile.path.isPath(
-                                    href
-                                )
-                                    ? (href = jQuery.mobile.path.makeUrlAbsolute(
-                                        href,
-                                        baseUrl
-                                    ))
-                                    : (href = jQuery.mobile.path.makeUrlAbsolute(
-                                        "#" + href,
-                                        documentUrl.hrefNoHash,
-                                    ));
-                        }
-                        if (
-                            ((useDefaultUrlHandling =
-                  $link.is(
-                      "[rel='external']"
-                  ) ||
-                  $link.is(
-                      ":jqmData(ajax='false')"
-                  ) ||
-                  $link.is(
-                      "[target]"
-                  )),
-                            useDefaultUrlHandling ||
-                  (jQuery.mobile.path.isExternal(
-                      href
-                  ) &&
-                    !jQuery.mobile.path.isPermittedCrossDomainRequest(
-                        documentUrl,
-                        href,
-                    )))
-                        ) {
-                            httpCleanup(
-                            );
-                            return;
-                        }
-                        (transition = $link.jqmData(
-                            "transition"
-                        )),
-                        (reverse =
-                  "reverse" === $link.jqmData(
-                      "direction"
-                  ) ||
-                  $link.jqmData(
-                      "back"
-                  )),
-                        (role =
-                  $link.attr(
-                      "data-" + jQuery.mobile.ns + "rel"
-                  ) || void 0),
-                        jQuery.mobile.changePage(
-                            href,
-                            {
-                                transition: transition,
-                                reverse: reverse,
-                                role: role,
-                                link: $link,
                             }
-                        ),
-                        event.preventDefault(
-                        );
+                        }
                     }
                 ),
                 jQuery.mobile.document.delegate(
@@ -8572,38 +8579,36 @@
                     },
                     _destroy: function (
                     ) {
-                        var ui = this._ui,
-                            opts = this.options;
-                        if (opts.enhanced) return;
-                        ui.placeholder
-                            ? (ui.originalHeading.insertBefore(
-                                ui.placeholder
-                            ),
-                            ui.placeholder.remove(
-                            ),
-                            ui.heading.remove(
-                            ))
-                            : (ui.status.remove(
-                            ),
-                            ui.heading
-                                .removeClass(
-                                    "ui-collapsible-heading ui-collapsible-heading-collapsed",
-                                )
-                                .children(
-                                )
-                                .contents(
-                                )
-                                .unwrap(
-                                )),
-                        ui.anchor.contents(
-                        ).unwrap(
-                        ),
-                        ui.content.contents(
-                        ).unwrap(
-                        ),
-                        this.element.removeClass(
-                            "ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all",
-                        );
+                        this.options.enhanced ||
+            (ui.placeholder
+                ? (ui.originalHeading.insertBefore(
+                    ui.placeholder
+                ),
+                ui.placeholder.remove(
+                ),
+                ui.heading.remove(
+                ))
+                : (ui.status.remove(
+                ),
+                ui.heading
+                    .removeClass(
+                        "ui-collapsible-heading ui-collapsible-heading-collapsed",
+                    )
+                    .children(
+                    )
+                    .contents(
+                    )
+                    .unwrap(
+                    )),
+            ui.anchor.contents(
+            ).unwrap(
+            ),
+            ui.content.contents(
+            ).unwrap(
+            ),
+            this.element.removeClass(
+                "ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all",
+            ));
                     },
                 }
             ),
@@ -8909,7 +8914,7 @@
                         iterator,
                         letter;
                     if (!grid) {
-                        if (5 >= $kids.length)
+                        if ($kids.length <= 5)
                             for (letter in gridCols)
                                 gridCols[letter] === $kids.length && (grid = letter);
                         else (grid = "a"), $this.addClass(
@@ -9354,7 +9359,7 @@
                                 "role",
                                 "heading"
                             ))
-                            : 0 >= a.length &&
+                            : a.length <= 0 &&
                         (itemClass =
                           "ui-li-static ui-body-" + (itemTheme || "inherit")),
                     ol &&
@@ -9633,9 +9638,9 @@
                                         .first(
                                         ),
                                 inputtype = input[0].type;
-                            if ("checkbox" !== inputtype && "radio" !== inputtype) return;
-                            this.element[0].disabled && (this.options.disabled = !0),
-                            (o.iconpos =
+                            ("checkbox" !== inputtype && "radio" !== inputtype) ||
+                (this.element[0].disabled && (this.options.disabled = !0),
+                (o.iconpos =
                   inheritAttr(
                       input,
                       "iconpos"
@@ -9644,43 +9649,43 @@
                       "data-" + jQuery.mobile.ns + "iconpos"
                   ) ||
                   o.iconpos),
-                            (o.mini = inheritAttr(
-                                input,
-                                "mini"
-                            ) || o.mini),
-                            jQuery.extend(
-                                this,
-                                {
-                                    input: input,
-                                    label: label,
-                                    parentLabel: parentLabel,
-                                    inputtype: inputtype,
-                                    checkedClass: "ui-" + inputtype + "-on",
-                                    uncheckedClass: "ui-" + inputtype + "-off",
-                                }
-                            ),
-                            this.options.enhanced || this._enhance(
-                            ),
-                            this._on(
-                                label,
-                                {
-                                    vmouseover: "_handleLabelVMouseOver",
-                                    vclick: "_handleLabelVClick",
-                                }
-                            ),
-                            this._on(
-                                input,
-                                {
-                                    vmousedown: "_cacheVals",
-                                    vclick: "_handleInputVClick",
-                                    focus: "_handleInputFocus",
-                                    blur: "_handleInputBlur",
-                                }
-                            ),
-                            this._handleFormReset(
-                            ),
-                            this.refresh(
-                            );
+                (o.mini = inheritAttr(
+                    input,
+                    "mini"
+                ) || o.mini),
+                jQuery.extend(
+                    this,
+                    {
+                        input: input,
+                        label: label,
+                        parentLabel: parentLabel,
+                        inputtype: inputtype,
+                        checkedClass: "ui-" + inputtype + "-on",
+                        uncheckedClass: "ui-" + inputtype + "-off",
+                    }
+                ),
+                this.options.enhanced || this._enhance(
+                ),
+                this._on(
+                    label,
+                    {
+                        vmouseover: "_handleLabelVMouseOver",
+                        vclick: "_handleLabelVClick",
+                    }
+                ),
+                this._on(
+                    input,
+                    {
+                        vmousedown: "_cacheVals",
+                        vclick: "_handleInputVClick",
+                        focus: "_handleInputFocus",
+                        blur: "_handleInputBlur",
+                    }
+                ),
+                this._handleFormReset(
+                ),
+                this.refresh(
+                ));
                         },
                         _enhance: function (
                         ) {
@@ -10434,8 +10439,8 @@
                 },
                 _autoCorrect: function (
                 ) {
-                    "undefined" != typeof this.element[0].autocorrect &&
-          !jQuery.support.touchOverflow &&
+                    "undefined" == typeof this.element[0].autocorrect ||
+          jQuery.support.touchOverflow ||
           (this.element[0].setAttribute(
               "autocorrect",
               "off"
@@ -10498,14 +10503,14 @@
                 },
                 _destroy: function (
                 ) {
-                    if (this.options.enhanced) return;
-                    this.inputNeedsWrap && this.element.unwrap(
-                    ),
-                    this.element.removeClass(
-                        "ui-input-text " + this.classes.join(
-                            " "
-                        )
-                    );
+                    this.options.enhanced ||
+          (this.inputNeedsWrap && this.element.unwrap(
+          ),
+          this.element.removeClass(
+              "ui-input-text " + this.classes.join(
+                  " "
+              )
+          ));
                 },
             }
         ),
@@ -10910,50 +10915,51 @@
                     ) {
                         var index = this._value(
                         );
-                        if (this.options.disabled) return;
-                        switch (event.keyCode) {
-                        case jQuery.mobile.keyCode.HOME:
-                        case jQuery.mobile.keyCode.END:
-                        case jQuery.mobile.keyCode.PAGE_UP:
-                        case jQuery.mobile.keyCode.PAGE_DOWN:
-                        case jQuery.mobile.keyCode.UP:
-                        case jQuery.mobile.keyCode.RIGHT:
-                        case jQuery.mobile.keyCode.DOWN:
-                        case jQuery.mobile.keyCode.LEFT:
-                            event.preventDefault(
-                            ),
-                            this._keySliding ||
-                    ((this._keySliding = !0),
-                    this.handle.addClass(
-                        "ui-state-active"
-                    ));
-                            break;
-                        }
-                        switch (event.keyCode) {
-                        case jQuery.mobile.keyCode.HOME:
-                            this.refresh(
-                                this.min
-                            );
-                            break;
-                        case jQuery.mobile.keyCode.END:
-                            this.refresh(
-                                this.max
-                            );
-                            break;
-                        case jQuery.mobile.keyCode.PAGE_UP:
-                        case jQuery.mobile.keyCode.UP:
-                        case jQuery.mobile.keyCode.RIGHT:
-                            this.refresh(
-                                index + this.step
-                            );
-                            break;
-                        case jQuery.mobile.keyCode.PAGE_DOWN:
-                        case jQuery.mobile.keyCode.DOWN:
-                        case jQuery.mobile.keyCode.LEFT:
-                            this.refresh(
-                                index - this.step
-                            );
-                            break;
+                        if (!this.options.disabled) {
+                            switch (event.keyCode) {
+                            case jQuery.mobile.keyCode.HOME:
+                            case jQuery.mobile.keyCode.END:
+                            case jQuery.mobile.keyCode.PAGE_UP:
+                            case jQuery.mobile.keyCode.PAGE_DOWN:
+                            case jQuery.mobile.keyCode.UP:
+                            case jQuery.mobile.keyCode.RIGHT:
+                            case jQuery.mobile.keyCode.DOWN:
+                            case jQuery.mobile.keyCode.LEFT:
+                                event.preventDefault(
+                                ),
+                                this._keySliding ||
+                      ((this._keySliding = !0),
+                      this.handle.addClass(
+                          "ui-state-active"
+                      ));
+                                break;
+                            }
+                            switch (event.keyCode) {
+                            case jQuery.mobile.keyCode.HOME:
+                                this.refresh(
+                                    this.min
+                                );
+                                break;
+                            case jQuery.mobile.keyCode.END:
+                                this.refresh(
+                                    this.max
+                                );
+                                break;
+                            case jQuery.mobile.keyCode.PAGE_UP:
+                            case jQuery.mobile.keyCode.UP:
+                            case jQuery.mobile.keyCode.RIGHT:
+                                this.refresh(
+                                    index + this.step
+                                );
+                                break;
+                            case jQuery.mobile.keyCode.PAGE_DOWN:
+                            case jQuery.mobile.keyCode.DOWN:
+                            case jQuery.mobile.keyCode.LEFT:
+                                this.refresh(
+                                    index - this.step
+                                );
+                                break;
+                            }
                         }
                     },
                     _handleKeyup: function (
@@ -11206,119 +11212,123 @@
                             (percent = ((parseFloat(
                                 val
                             ) - min) / (max - min)) * 100);
-                        if (isNaN(
+                        if (!isNaN(
                             percent
-                        )) return;
-                        if (
-                            ((newval = (percent / 100) * (max - min) + min),
-                            (valModStep = (newval - min) % step),
-                            (alignValue = newval - valModStep),
-                            2 * Math.abs(
-                                valModStep
-                            ) >= step &&
-                (alignValue += valModStep > 0 ? step : -step),
-                            (percentPerStep = 100 / ((max - min) / step)),
-                            (newval = parseFloat(
-                                alignValue.toFixed(
-                                    5
-                                )
-                            )),
-                            "undefined" == typeof pxStep &&
-                (pxStep = width / ((max - min) / step)),
-                            pxStep > 1 &&
-                isInput &&
-                (percent = (newval - min) * percentPerStep * (1 / step)),
-                            percent < 0 && (percent = 0),
-                            percent > 100 && (percent = 100),
-                            min > newval && (newval = min),
-                            newval > max && (newval = max),
-                            this.handle.css(
-                                "left",
-                                percent + "%"
-                            ),
-                            this.handle[0].setAttribute(
-                                "aria-valuenow",
-                                isInput
-                                    ? newval
-                                    : optionElements.eq(
-                                        newval
-                                    ).attr(
-                                        "value"
-                                    ),
-                            ),
-                            this.handle[0].setAttribute(
-                                "aria-valuetext",
-                                isInput
-                                    ? newval
-                                    : optionElements.eq(
-                                        newval
-                                    ).getEncodedText(
-                                    ),
-                            ),
-                            this.handle[0].setAttribute(
-                                "title",
-                                isInput
-                                    ? newval
-                                    : optionElements.eq(
-                                        newval
-                                    ).getEncodedText(
-                                    ),
-                            ),
-                            this.valuebg && this.valuebg.css(
-                                "width",
-                                percent + "%"
-                            ),
-                            this._labels &&
-                ((handlePercent =
-                  (this.handle.width(
-                  ) / this.slider.width(
-                  )) * 100),
-                (aPercent =
-                  percent &&
-                  handlePercent + ((100 - handlePercent) * percent) / 100),
-                (bPercent =
-                  100 === percent
-                      ? 0
-                      : Math.min(
-                          handlePercent + 100 - aPercent,
-                          100
-                      )),
-                this._labels.each(
-                    function (
-                    ) {
-                        var ab = jQuery(
-                            this
-                        ).hasClass(
-                            "ui-slider-label-a"
-                        );
-                        jQuery(
-                            this
-                        ).width(
-                            (ab ? aPercent : bPercent) + "%"
-                        );
-                    }
-                )),
-                            !preventInputUpdate)
-                        ) {
+                        )) {
                             if (
-                                ((valueChanged = !1),
-                                isInput
-                                    ? ((valueChanged = this.element.val(
-                                    ) !== newval),
-                                    this.element.val(
-                                        newval
-                                    ))
-                                    : ((valueChanged = this.element[0].selectedIndex !== newval),
-                                    (this.element[0].selectedIndex = newval)),
-                                this._trigger(
-                                    "beforechange",
-                                    val
-                                ) === !1)
-                            )
-                                return !1;
-                            !isfromControl && valueChanged && this.element.trigger(
-                                "change"
-                            );
+                                ((newval = (percent / 100) * (max - min) + min),
+                                (valModStep = (newval - min) % step),
+                                (alignValue = newval - valModStep),
+                                2 * Math.abs(
+                                    valModStep
+                                ) >= step &&
+                  (alignValue += valModStep > 0 ? step : -step),
+                                (percentPerStep = 100 / ((max - min) / step)),
+                                (newval = parseFloat(
+                                    alignValue.toFixed(
+                                        5
+                                    )
+                                )),
+                                "undefined" == typeof pxStep &&
+                  (pxStep = width / ((max - min) / step)),
+                                pxStep > 1 &&
+                  isInput &&
+                  (percent = (newval - min) * percentPerStep * (1 / step)),
+                                percent < 0 && (percent = 0),
+                                percent > 100 && (percent = 100),
+                                min > newval && (newval = min),
+                                newval > max && (newval = max),
+                                this.handle.css(
+                                    "left",
+                                    percent + "%"
+                                ),
+                                this.handle[0].setAttribute(
+                                    "aria-valuenow",
+                                    isInput
+                                        ? newval
+                                        : optionElements.eq(
+                                            newval
+                                        ).attr(
+                                            "value"
+                                        ),
+                                ),
+                                this.handle[0].setAttribute(
+                                    "aria-valuetext",
+                                    isInput
+                                        ? newval
+                                        : optionElements.eq(
+                                            newval
+                                        ).getEncodedText(
+                                        ),
+                                ),
+                                this.handle[0].setAttribute(
+                                    "title",
+                                    isInput
+                                        ? newval
+                                        : optionElements.eq(
+                                            newval
+                                        ).getEncodedText(
+                                        ),
+                                ),
+                                this.valuebg && this.valuebg.css(
+                                    "width",
+                                    percent + "%"
+                                ),
+                                this._labels &&
+                  ((handlePercent =
+                    (this.handle.width(
+                    ) / this.slider.width(
+                    )) * 100),
+                  (aPercent =
+                    percent &&
+                    handlePercent + ((100 - handlePercent) * percent) / 100),
+                  (bPercent =
+                    100 === percent
+                        ? 0
+                        : Math.min(
+                            handlePercent + 100 - aPercent,
+                            100
+                        )),
+                  this._labels.each(
+                      function (
+                      ) {
+                          var ab = jQuery(
+                              this
+                          ).hasClass(
+                              "ui-slider-label-a"
+                          );
+                          jQuery(
+                              this
+                          ).width(
+                              (ab ? aPercent : bPercent) + "%"
+                          );
+                      }
+                  )),
+                                !preventInputUpdate)
+                            ) {
+                                if (
+                                    ((valueChanged = !1),
+                                    isInput
+                                        ? ((valueChanged = this.element.val(
+                                        ) !== newval),
+                                        this.element.val(
+                                            newval
+                                        ))
+                                        : ((valueChanged =
+                        this.element[0].selectedIndex !== newval),
+                                        (this.element[0].selectedIndex = newval)),
+                                    this._trigger(
+                                        "beforechange",
+                                        val
+                                    ) === !1)
+                                )
+                                    return !1;
+                                !isfromControl &&
+                  valueChanged &&
+                  this.element.trigger(
+                      "change"
+                  );
+                            }
                         }
                     },
                     _setHighlight: function (
@@ -11535,24 +11545,23 @@
                     ) {
                         var o = this.options,
                             newValue;
-                        if (
-                            (o.popupEnabled && this.handle.removeAttr(
-                                "title"
-                            ),
-                            (newValue = this._value(
-                            )),
-                            newValue === this._currentValue)
-                        )
-                            return;
-                        (this._currentValue = newValue),
-                        o.popupEnabled && this._popup
-                            ? (this._positionPopup(
-                            ), this._popup.html(
-                                newValue
-                            ))
-                            : o.showValue && !this.options.mini && this.handle.html(
-                                newValue
-                            );
+                        (o.popupEnabled && this.handle.removeAttr(
+                            "title"
+                        ),
+                        (newValue = this._value(
+                        )),
+                        newValue !== this._currentValue) &&
+            ((this._currentValue = newValue),
+            o.popupEnabled && this._popup
+                ? (this._positionPopup(
+                ), this._popup.html(
+                    newValue
+                ))
+                : o.showValue &&
+                !this.options.mini &&
+                this.handle.html(
+                    newValue
+                ));
                     },
                     _showPopup: function (
                     ) {
@@ -11912,26 +11921,26 @@
                     },
                     _destroy: function (
                     ) {
-                        if (this.options.enhanced) return;
-                        null != this._originalTabIndex
-                            ? this.element.attr(
-                                "tabindex",
-                                this._originalTabIndex
-                            )
-                            : this.element.removeAttr(
-                                "tabindex"
-                            ),
-                        this.on.remove(
-                        ),
-                        this.off.remove(
-                        ),
-                        this.element.unwrap(
-                        ),
-                        this.flipswitch.remove(
-                        ),
-                        this.removeClass(
-                            "ui-flipswitch-input"
-                        );
+                        this.options.enhanced ||
+              (null != this._originalTabIndex
+                  ? this.element.attr(
+                      "tabindex",
+                      this._originalTabIndex
+                  )
+                  : this.element.removeAttr(
+                      "tabindex"
+                  ),
+              this.on.remove(
+              ),
+              this.off.remove(
+              ),
+              this.element.unwrap(
+              ),
+              this.flipswitch.remove(
+              ),
+              this.removeClass(
+                  "ui-flipswitch-input"
+              ));
                     },
                 },
                 jQuery.mobile.behaviors.formReset,
@@ -13697,41 +13706,42 @@
                         var target,
                             targetElement = theEvent.target,
                             ui = this._ui;
-                        if (!this._isOpen) return;
-                        if (targetElement !== ui.container[0]) {
-                            if (
-                                ((target = jQuery(
-                                    targetElement
-                                )),
-                                0 === target.parents(
-                                ).filter(
-                                    ui.container[0]
-                                ).length)
-                            )
-                                return (
-                                    jQuery(
-                                        this.document[0].activeElement
-                                    ).one(
-                                        "focus",
-                                        function (
-                                        ) {
-                                            target.blur(
-                                            );
-                                        },
-                                    ),
-                                    ui.focusElement.focus(
-                                    ),
-                                    theEvent.preventDefault(
-                                    ),
-                                    theEvent.stopImmediatePropagation(
-                                    ),
-                                    !1
-                                );
-                            ui.focusElement[0] === ui.container[0] &&
-              (ui.focusElement = target);
+                        if (!!this._isOpen) {
+                            if (targetElement !== ui.container[0]) {
+                                if (
+                                    ((target = jQuery(
+                                        targetElement
+                                    )),
+                                    0 === target.parents(
+                                    ).filter(
+                                        ui.container[0]
+                                    ).length)
+                                )
+                                    return (
+                                        jQuery(
+                                            this.document[0].activeElement
+                                        ).one(
+                                            "focus",
+                                            function (
+                                            ) {
+                                                target.blur(
+                                                );
+                                            },
+                                        ),
+                                        ui.focusElement.focus(
+                                        ),
+                                        theEvent.preventDefault(
+                                        ),
+                                        theEvent.stopImmediatePropagation(
+                                        ),
+                                        !1
+                                    );
+                                ui.focusElement[0] === ui.container[0] &&
+                (ui.focusElement = target);
+                            }
+                            this._ignoreResizeEvents(
+                            );
                         }
-                        this._ignoreResizeEvents(
-                        );
                     },
                     _themeClassFromOption: function (
                         prefix, value
@@ -14339,27 +14349,27 @@
                     },
                     _unenhance: function (
                     ) {
-                        if (this.options.enhanced) return;
-                        this._setOptions(
-                            {
-                                theme: jQuery.mobile.popup.prototype.options.theme,
-                            }
-                        ),
-                        this.element
-                            .detach(
-                            )
-                            .insertAfter(
-                                this._ui.placeholder
-                            )
-                            .removeClass(
-                                "ui-popup ui-overlay-shadow ui-corner-all ui-body-inherit",
-                            ),
-                        this._ui.screen.remove(
-                        ),
-                        this._ui.container.remove(
-                        ),
-                        this._ui.placeholder.remove(
-                        );
+                        this.options.enhanced ||
+            (this._setOptions(
+                {
+                    theme: jQuery.mobile.popup.prototype.options.theme,
+                }
+            ),
+            this.element
+                .detach(
+                )
+                .insertAfter(
+                    this._ui.placeholder
+                )
+                .removeClass(
+                    "ui-popup ui-overlay-shadow ui-corner-all ui-body-inherit",
+                ),
+            this._ui.screen.remove(
+            ),
+            this._ui.container.remove(
+            ),
+            this._ui.placeholder.remove(
+            ));
                     },
                     _destroy: function (
                     ) {
@@ -14386,17 +14396,14 @@
                             toUrl,
                             currentOptions = this.options,
                             immediate = !1;
-                        if (
-                            (theEvent && theEvent.isDefaultPrevented(
-                            )) ||
-            jQuery.mobile.popup.active !== this
-                        )
-                            return;
-                        window.scrollTo(
-                            0,
-                            this._scrollTop
-                        ),
-                        theEvent &&
+                        (theEvent && theEvent.isDefaultPrevented(
+                        )) ||
+            jQuery.mobile.popup.active !== this ||
+            (window.scrollTo(
+                0,
+                this._scrollTop
+            ),
+            theEvent &&
               "pagebeforechange" === theEvent.type &&
               data &&
               ((parsedDst =
@@ -14415,16 +14422,16 @@
                   ? (immediate = !0)
                   : theEvent.preventDefault(
                   )),
-                        this.window.off(
-                            currentOptions.closeEvents
-                        ),
-                        this.element.undelegate(
-                            currentOptions.closeLinkSelector,
-                            currentOptions.closeLinkEvents,
-                        ),
-                        this._close(
-                            immediate
-                        );
+            this.window.off(
+                currentOptions.closeEvents
+            ),
+            this.element.undelegate(
+                currentOptions.closeLinkSelector,
+                currentOptions.closeLinkEvents,
+            ),
+            this._close(
+                immediate
+            ));
                     },
                     _bindContainerClose: function (
                     ) {
@@ -14669,33 +14676,34 @@
                     _handleButtonVclickKeydown: function (
                         event
                     ) {
-                        if (this.options.disabled || this.isOpen) return;
-                        ("vclick" === event.type ||
-            (event.keyCode &&
-              (event.keyCode === jQuery.mobile.keyCode.ENTER ||
-                event.keyCode === jQuery.mobile.keyCode.SPACE))) &&
-            (this._decideFormat(
-            ),
-            "overlay" === this.menuType
-                ? this.button
-                    .attr(
-                        "href",
-                        "#" + this.popupId
-                    )
-                    .attr(
-                        "data-" + (jQuery.mobile.ns || "") + "rel",
-                        "popup"
-                    )
-                : this.button
-                    .attr(
-                        "href",
-                        "#" + this.dialogId
-                    )
-                    .attr(
-                        "data-" + (jQuery.mobile.ns || "") + "rel",
-                        "dialog"
-                    ),
-            (this.isOpen = !0));
+                        this.options.disabled ||
+            this.isOpen ||
+            (("vclick" === event.type ||
+              (event.keyCode &&
+                (event.keyCode === jQuery.mobile.keyCode.ENTER ||
+                  event.keyCode === jQuery.mobile.keyCode.SPACE))) &&
+              (this._decideFormat(
+              ),
+              "overlay" === this.menuType
+                  ? this.button
+                      .attr(
+                          "href",
+                          "#" + this.popupId
+                      )
+                      .attr(
+                          "data-" + (jQuery.mobile.ns || "") + "rel",
+                          "popup"
+                      )
+                  : this.button
+                      .attr(
+                          "href",
+                          "#" + this.dialogId
+                      )
+                      .attr(
+                          "data-" + (jQuery.mobile.ns || "") + "rel",
+                          "dialog"
+                      ),
+              (this.isOpen = !0)));
                     },
                     _handleListFocus: function (
                         e
@@ -15116,20 +15124,22 @@
                     },
                     close: function (
                     ) {
-                        if (this.options.disabled || !this.isOpen) return;
-                        var self = this;
-                        "page" === self.menuType
-                            ? (self.menuPage.dialog(
-                                "close"
-                            ), self.list.appendTo(
-                                self.listbox
-                            ))
-                            : self.listbox.popup(
-                                "close"
+                        if (!(this.options.disabled || !this.isOpen)) {
+                            var self = this;
+                            "page" === self.menuType
+                                ? (self.menuPage.dialog(
+                                    "close"
+                                ),
+                                self.list.appendTo(
+                                    self.listbox
+                                ))
+                                : self.listbox.popup(
+                                    "close"
+                                ),
+                            self._focusButton(
                             ),
-                        self._focusButton(
-                        ),
-                        (self.isOpen = !1);
+                            (self.isOpen = !1);
+                        }
                     },
                     open: function (
                     ) {
@@ -16343,21 +16353,21 @@
                                 header ? "top" : "bottom"
                             )
                         );
-                    if (this.options.fullscreen) return;
-                    (tbPage =
-          (tbPage && void 0 === tbPage.type && tbPage) ||
-          this.page ||
-          $el.closest(
-              ".ui-page"
-          )),
-                    (tbPage = this.page ? this.page : ".ui-page-active"),
-                    jQuery(
-                        tbPage
-                    ).css(
-                        "padding-" + (header ? "top" : "bottom"),
-                        $el.outerHeight(
-                        ) + pos,
-                    );
+                    this.options.fullscreen ||
+          ((tbPage =
+            (tbPage && void 0 === tbPage.type && tbPage) ||
+            this.page ||
+            $el.closest(
+                ".ui-page"
+            )),
+          (tbPage = this.page ? this.page : ".ui-page-active"),
+          jQuery(
+              tbPage
+          ).css(
+              "padding-" + (header ? "top" : "bottom"),
+              $el.outerHeight(
+              ) + pos,
+          ));
                 },
                 _useTransition: function (
                     notransition
@@ -16484,7 +16494,7 @@
                             function (
                                 e
                             ) {
-                                1025 > screen.width &&
+                                screen.width < 1025 &&
               jQuery(
                   e.target
               ).is(
@@ -16701,7 +16711,7 @@
             $, undefined
         ) {
             var ieHack =
-          jQuery.mobile.browser.oldIE && 8 >= jQuery.mobile.browser.oldIE,
+          jQuery.mobile.browser.oldIE && jQuery.mobile.browser.oldIE <= 8,
                 uiTemplate = jQuery(
                     "<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" +
             (ieHack ? " ie" : "") +
@@ -17961,38 +17971,38 @@
                 },
                 _create: function (
                 ) {
-                    if ((this._super(
-                    ), "columntoggle" !== this.options.mode)) return;
-                    jQuery.extend(
-                        this,
-                        {
-                            _menu: null,
-                        }
-                    ),
-                    this.options.enhanced
-                        ? ((this._menu = jQuery(
-                            this.document[0].getElementById(
-                                this._id(
-                                ) + "-popup"
-                            ),
-                        )
-                            .children(
-                            )
-                            .first(
-                            )),
-                        this._addToggles(
-                            this._menu,
-                            !0
-                        ))
-                        : ((this._menu = this._enhanceColToggle(
-                        )),
-                        this.element.addClass(
-                            this.options.classes.columnToggleTable
-                        )),
-                    this._setupEvents(
-                    ),
-                    this._setToggleState(
-                    );
+                    (this._super(
+                    ), "columntoggle" === this.options.mode) &&
+          (jQuery.extend(
+              this,
+              {
+                  _menu: null,
+              }
+          ),
+          this.options.enhanced
+              ? ((this._menu = jQuery(
+                  this.document[0].getElementById(
+                      this._id(
+                      ) + "-popup"
+                  ),
+              )
+                  .children(
+                  )
+                  .first(
+                  )),
+              this._addToggles(
+                  this._menu,
+                  !0
+              ))
+              : ((this._menu = this._enhanceColToggle(
+              )),
+              this.element.addClass(
+                  this.options.classes.columnToggleTable
+              )),
+          this._setupEvents(
+          ),
+          this._setToggleState(
+          ));
                 },
                 _id: function (
                 ) {
@@ -18260,14 +18270,14 @@
                 },
                 _create: function (
                 ) {
-                    if ((this._super(
-                    ), "reflow" !== this.options.mode)) return;
-                    this.options.enhanced ||
-          (this.element.addClass(
-              this.options.classes.reflowTable
-          ),
-          this._updateReflow(
-          ));
+                    (this._super(
+                    ), "reflow" === this.options.mode) &&
+          (this.options.enhanced ||
+            (this.element.addClass(
+                this.options.classes.reflowTable
+            ),
+            this._updateReflow(
+            )));
                 },
                 rebuild: function (
                 ) {
@@ -19093,93 +19103,94 @@
                                 focusedTab
                             ),
                             goingForward = !0;
-                        if (this._handlePageNav(
+                        if (!this._handlePageNav(
                             event
-                        )) return;
-                        switch (event.keyCode) {
-                        case jQuery.ui.keyCode.RIGHT:
-                        case jQuery.ui.keyCode.DOWN:
-                            selectedIndex++;
-                            break;
-                        case jQuery.ui.keyCode.UP:
-                        case jQuery.ui.keyCode.LEFT:
-                            (goingForward = !1), selectedIndex--;
-                            break;
-                        case jQuery.ui.keyCode.END:
-                            selectedIndex = this.anchors.length - 1;
-                            break;
-                        case jQuery.ui.keyCode.HOME:
-                            selectedIndex = 0;
-                            break;
-                        case jQuery.ui.keyCode.SPACE:
-                            return (
-                                event.preventDefault(
-                                ),
-                                clearTimeout(
-                                    this.activating
-                                ),
-                                this._activate(
-                                    selectedIndex
-                                ),
-                                void 0
-                            );
-                        case jQuery.ui.keyCode.ENTER:
-                            return (
-                                event.preventDefault(
-                                ),
-                                clearTimeout(
-                                    this.activating
-                                ),
-                                this._activate(
-                                    selectedIndex !== this.options.active && selectedIndex,
-                                ),
-                                void 0
-                            );
-                        default:
-                            return;
+                        )) {
+                            switch (event.keyCode) {
+                            case jQuery.ui.keyCode.RIGHT:
+                            case jQuery.ui.keyCode.DOWN:
+                                selectedIndex++;
+                                break;
+                            case jQuery.ui.keyCode.UP:
+                            case jQuery.ui.keyCode.LEFT:
+                                (goingForward = !1), selectedIndex--;
+                                break;
+                            case jQuery.ui.keyCode.END:
+                                selectedIndex = this.anchors.length - 1;
+                                break;
+                            case jQuery.ui.keyCode.HOME:
+                                selectedIndex = 0;
+                                break;
+                            case jQuery.ui.keyCode.SPACE:
+                                return (
+                                    event.preventDefault(
+                                    ),
+                                    clearTimeout(
+                                        this.activating
+                                    ),
+                                    this._activate(
+                                        selectedIndex
+                                    ),
+                                    void 0
+                                );
+                            case jQuery.ui.keyCode.ENTER:
+                                return (
+                                    event.preventDefault(
+                                    ),
+                                    clearTimeout(
+                                        this.activating
+                                    ),
+                                    this._activate(
+                                        selectedIndex !== this.options.active && selectedIndex,
+                                    ),
+                                    void 0
+                                );
+                            default:
+                                return;
+                            }
+                            event.preventDefault(
+                            ),
+                            clearTimeout(
+                                this.activating
+                            ),
+                            (selectedIndex = this._focusNextTab(
+                                selectedIndex,
+                                goingForward
+                            )),
+                            event.ctrlKey ||
+                (focusedTab.attr(
+                    "aria-selected",
+                    "false"
+                ),
+                this.tabs.eq(
+                    selectedIndex
+                ).attr(
+                    "aria-selected",
+                    "true"
+                ),
+                (this.activating = this._delay(
+                    function (
+                    ) {
+                        this.option(
+                            "active",
+                            selectedIndex
+                        );
+                    },
+                    this.delay
+                )));
                         }
-                        event.preventDefault(
-                        ),
-                        clearTimeout(
-                            this.activating
-                        ),
-                        (selectedIndex = this._focusNextTab(
-                            selectedIndex,
-                            goingForward
-                        )),
-                        event.ctrlKey ||
-              (focusedTab.attr(
-                  "aria-selected",
-                  "false"
-              ),
-              this.tabs.eq(
-                  selectedIndex
-              ).attr(
-                  "aria-selected",
-                  "true"
-              ),
-              (this.activating = this._delay(
-                  function (
-                  ) {
-                      this.option(
-                          "active",
-                          selectedIndex
-                      );
-                  },
-                  this.delay
-              )));
                     },
                     _panelKeydown: function (
                         event
                     ) {
-                        if (this._handlePageNav(
+                        this._handlePageNav(
                             event
-                        )) return;
-                        event.ctrlKey &&
-            event.keyCode === jQuery.ui.keyCode.UP &&
-            (event.preventDefault(
-            ), this.active.focus(
-            ));
+                        ) ||
+            (event.ctrlKey &&
+              event.keyCode === jQuery.ui.keyCode.UP &&
+              (event.preventDefault(
+              ), this.active.focus(
+              )));
                     },
                     _handlePageNav: function (
                         event
@@ -19653,10 +19664,11 @@
                                         position = elem.css(
                                             "position"
                                         );
-                                    if ("absolute" === position || "fixed" === position) return;
-                                    maxHeight -= elem.outerHeight(
-                                        !0
-                                    );
+                                    "absolute" === position ||
+                  "fixed" === position ||
+                  (maxHeight -= elem.outerHeight(
+                      !0
+                  ));
                                 }
                             ),
                             this.element
@@ -19756,48 +19768,47 @@
                                     : tab,
                                 newPanel: toShow,
                             };
-                        if (
-                            (event.preventDefault(
-                            ),
+                        (event.preventDefault(
+                        ),
+                        !(
                             tab.hasClass(
                                 "ui-state-disabled"
                             ) ||
-              tab.hasClass(
-                  "ui-tabs-loading"
-              ) ||
-              this.running ||
-              (clickedIsActive && !options.collapsible) ||
-              this._trigger(
-                  "beforeActivate",
-                  event,
-                  eventData
-              ) === !1)
-                        )
-                            return;
-                        (options.active = !collapsing && this.tabs.index(
-                            tab
-                        )),
-                        (this.active = clickedIsActive
-                            ? jQuery(
-                            )
-                            : tab),
-                        this.xhr && this.xhr.abort(
-                        ),
-                        toHide.length ||
+            tab.hasClass(
+                "ui-tabs-loading"
+            ) ||
+            this.running ||
+            (clickedIsActive && !options.collapsible) ||
+            this._trigger(
+                "beforeActivate",
+                event,
+                eventData
+            ) === !1
+                        )) &&
+            ((options.active = !collapsing && this.tabs.index(
+                tab
+            )),
+            (this.active = clickedIsActive
+                ? jQuery(
+                )
+                : tab),
+            this.xhr && this.xhr.abort(
+            ),
+            toHide.length ||
               toShow.length ||
               jQuery.error(
                   "jQuery UI Tabs: Mismatching fragment identifier."
               ),
-                        toShow.length && this.load(
-                            this.tabs.index(
-                                tab
-                            ),
-                            event
-                        ),
-                        this._toggle(
-                            event,
-                            eventData
-                        );
+            toShow.length && this.load(
+                this.tabs.index(
+                    tab
+                ),
+                event
+            ),
+            this._toggle(
+                event,
+                eventData
+            ));
                     },
                     _toggle: function (
                         event, eventData
@@ -19912,18 +19923,18 @@
                             active = this._findActive(
                                 index
                             );
-                        if (active[0] === this.active[0]) return;
-                        active.length || (active = this.active),
-                        (anchor = active.find(
-                            ".ui-tabs-anchor"
-                        )[0]),
-                        this._eventHandler(
-                            {
-                                target: anchor,
-                                currentTarget: anchor,
-                                preventDefault: jQuery.noop,
-                            }
-                        );
+                        active[0] !== this.active[0] &&
+            (active.length || (active = this.active),
+            (anchor = active.find(
+                ".ui-tabs-anchor"
+            )[0]),
+            this._eventHandler(
+                {
+                    target: anchor,
+                    currentTarget: anchor,
+                    preventDefault: jQuery.noop,
+                }
+            ));
                     },
                     _findActive: function (
                         index
@@ -20054,65 +20065,66 @@
                         index
                     ) {
                         var disabled = this.options.disabled;
-                        if (!1 === disabled) return;
-                        void 0 === index
-                            ? (disabled = !1)
-                            : ((index = this._getIndex(
-                                index
-                            )),
-                            jQuery.isArray(
-                                disabled
-                            )
-                                ? (disabled = jQuery.map(
-                                    disabled,
-                                    function (
-                                        num
-                                    ) {
-                                        return index !== num ? num : null;
-                                    }
-                                ))
-                                : (disabled = jQuery.map(
-                                    this.tabs,
-                                    function (
-                                        li, num
-                                    ) {
-                                        return index !== num ? num : null;
-                                    }
-                                ))),
-                        this._setupDisabled(
-                            disabled
-                        );
+                        !1 !== disabled &&
+            (void 0 === index
+                ? (disabled = !1)
+                : ((index = this._getIndex(
+                    index
+                )),
+                jQuery.isArray(
+                    disabled
+                )
+                    ? (disabled = jQuery.map(
+                        disabled,
+                        function (
+                            num
+                        ) {
+                            return index !== num ? num : null;
+                        }
+                    ))
+                    : (disabled = jQuery.map(
+                        this.tabs,
+                        function (
+                            li, num
+                        ) {
+                            return index !== num ? num : null;
+                        }
+                    ))),
+            this._setupDisabled(
+                disabled
+            ));
                     },
                     disable: function (
                         index
                     ) {
                         var disabled = this.options.disabled;
-                        if (!0 === disabled) return;
-                        if (void 0 === index) disabled = !0;
-                        else {
-                            if (
-                                ((index = this._getIndex(
-                                    index
-                                )),
-                                -1 !== jQuery.inArray(
-                                    index,
+                        if (!0 !== disabled) {
+                            if (void 0 === index) disabled = !0;
+                            else {
+                                if (
+                                    ((index = this._getIndex(
+                                        index
+                                    )),
+                                    -1 !== jQuery.inArray(
+                                        index,
+                                        disabled
+                                    ))
+                                )
+                                    return;
+                                jQuery.isArray(
                                     disabled
-                                ))
-                            )
-                                return;
-                            jQuery.isArray(
+                                )
+                                    ? (disabled = jQuery.merge(
+                                        [index,],
+                                        disabled
+                                    ).sort(
+                                    ))
+                                    : (disabled = [index,]);
+                            }
+                            this._setupDisabled(
                                 disabled
-                            )
-                                ? (disabled = jQuery.merge(
-                                    [index,],
-                                    disabled
-                                ).sort(
-                                ))
-                                : (disabled = [index,]);
+                            );
                         }
-                        this._setupDisabled(
-                            disabled
-                        );
                     },
                     load: function (
                         index, event
@@ -20134,17 +20146,17 @@
                                 tab: tab,
                                 panel: panel,
                             };
-                        if (isLocal(
+                        isLocal(
                             anchor[0]
-                        )) return;
-                        (this.xhr = jQuery.ajax(
-                            this._ajaxSettings(
-                                anchor,
-                                event,
-                                eventData
-                            ),
-                        )),
-                        this.xhr &&
+                        ) ||
+            ((this.xhr = jQuery.ajax(
+                this._ajaxSettings(
+                    anchor,
+                    event,
+                    eventData
+                ),
+            )),
+            this.xhr &&
               "canceled" !== this.xhr.statusText &&
               (tab.addClass(
                   "ui-tabs-loading"
@@ -20196,7 +20208,7 @@
                               1
                           );
                       }
-                  ));
+                  )));
                     },
                     _ajaxSettings: function (
                         anchor, event, eventData
@@ -20317,43 +20329,40 @@
                     "ui-mobile-rendering"
                 );
             }
-            if (
-                (jQuery(
-                    window1.document
-                ).trigger(
-                    "mobileinit"
-                ),
-                !jQuery.mobile.gradeA(
-                ))
-            )
-                return;
-            jQuery.mobile.ajaxBlacklist && (jQuery.mobile.ajaxEnabled = !1),
-            $html.addClass(
-                "ui-mobile ui-mobile-rendering"
+            (jQuery(
+                window1.document
+            ).trigger(
+                "mobileinit"
             ),
-            setTimeout(
-                hideRenderingClass,
-                5000
-            ),
-            jQuery.extend(
-                jQuery.mobile,
-                {
-                    initializePage: function (
-                    ) {
-                        var path = jQuery.mobile.path,
-                            $pages = jQuery(
-                                ":jqmData(role='page'), :jqmData(role='dialog')"
+            !!jQuery.mobile.gradeA(
+            )) &&
+        (jQuery.mobile.ajaxBlacklist && (jQuery.mobile.ajaxEnabled = !1),
+        $html.addClass(
+            "ui-mobile ui-mobile-rendering"
+        ),
+        setTimeout(
+            hideRenderingClass,
+            5000
+        ),
+        jQuery.extend(
+            jQuery.mobile,
+            {
+                initializePage: function (
+                ) {
+                    var path = jQuery.mobile.path,
+                        $pages = jQuery(
+                            ":jqmData(role='page'), :jqmData(role='dialog')"
+                        ),
+                        hash = path.stripHash(
+                            path.stripQueryParams(
+                                path.parseLocation(
+                                ).hash
                             ),
-                            hash = path.stripHash(
-                                path.stripQueryParams(
-                                    path.parseLocation(
-                                    ).hash
-                                ),
-                            ),
-                            hashPage = document.getElementById(
-                                hash
-                            );
-                        $pages.length ||
+                        ),
+                        hashPage = document.getElementById(
+                            hash
+                        );
+                    $pages.length ||
               ($pages = jQuery(
                   "body"
               )
@@ -20363,44 +20372,44 @@
                   .children(
                       0
                   )),
-                        $pages.each(
-                            function (
-                            ) {
-                                var $this = jQuery(
-                                    this
-                                );
-                                $this[0].getAttribute(
-                                    "data-" + jQuery.mobile.ns + "url"
-                                ) ||
+                    $pages.each(
+                        function (
+                        ) {
+                            var $this = jQuery(
+                                this
+                            );
+                            $this[0].getAttribute(
+                                "data-" + jQuery.mobile.ns + "url"
+                            ) ||
                   $this.attr(
                       "data-" + jQuery.mobile.ns + "url",
                       $this.attr(
                           "id"
                       ) || location.pathname + location.search,
                   );
-                            }
-                        ),
-                        (jQuery.mobile.firstPage = $pages.first(
+                        }
+                    ),
+                    (jQuery.mobile.firstPage = $pages.first(
+                    )),
+                    (jQuery.mobile.pageContainer = jQuery.mobile.firstPage
+                        .parent(
+                        )
+                        .addClass(
+                            "ui-mobile-viewport"
+                        )
+                        .pagecontainer(
                         )),
-                        (jQuery.mobile.pageContainer = jQuery.mobile.firstPage
-                            .parent(
-                            )
-                            .addClass(
-                                "ui-mobile-viewport"
-                            )
-                            .pagecontainer(
-                            )),
-                        jQuery.mobile.navreadyDeferred.resolve(
-                        ),
-                        $window.trigger(
-                            "pagecontainercreate"
-                        ),
-                        jQuery.mobile.loading(
-                            "show"
-                        ),
-                        hideRenderingClass(
-                        ),
-                        !jQuery.mobile.hashListeningEnabled ||
+                    jQuery.mobile.navreadyDeferred.resolve(
+                    ),
+                    $window.trigger(
+                        "pagecontainercreate"
+                    ),
+                    jQuery.mobile.loading(
+                        "show"
+                    ),
+                    hideRenderingClass(
+                    ),
+                    !jQuery.mobile.hashListeningEnabled ||
               !jQuery.mobile.path.isHashValid(
                   location.hash
               ) ||
@@ -20415,66 +20424,66 @@
                 ) ||
                 hash === jQuery.mobile.dialogHashKey
               )
-                            ? (jQuery.mobile.path.isHashValid(
-                                location.hash
-                            ) &&
+                        ? (jQuery.mobile.path.isHashValid(
+                            location.hash
+                        ) &&
                     (jQuery.mobile.navigate.history.initialDst = hash.replace(
                         "#",
                         "",
                     )),
-                            jQuery.event.special.navigate.isPushStateEnabled(
-                            ) &&
+                        jQuery.event.special.navigate.isPushStateEnabled(
+                        ) &&
                     jQuery.mobile.navigate.navigator.squash(
                         path.parseLocation(
                         ).href,
                     ),
-                            jQuery.mobile.changePage(
-                                jQuery.mobile.firstPage,
-                                {
-                                    transition: "none",
-                                    reverse: !0,
-                                    changeHash: !1,
-                                    fromHashChange: !0,
-                                }
+                        jQuery.mobile.changePage(
+                            jQuery.mobile.firstPage,
+                            {
+                                transition: "none",
+                                reverse: !0,
+                                changeHash: !1,
+                                fromHashChange: !0,
+                            }
+                        ))
+                        : jQuery.event.special.navigate.isPushStateEnabled(
+                        )
+                            ? ((jQuery.mobile.navigate.history.stack = []),
+                            jQuery.mobile.navigate(
+                                jQuery.mobile.path.isPath(
+                                    location.hash
+                                )
+                                    ? location.hash
+                                    : location.href,
                             ))
-                            : jQuery.event.special.navigate.isPushStateEnabled(
-                            )
-                                ? ((jQuery.mobile.navigate.history.stack = []),
-                                jQuery.mobile.navigate(
-                                    jQuery.mobile.path.isPath(
-                                        location.hash
-                                    )
-                                        ? location.hash
-                                        : location.href,
-                                ))
-                                : $window.trigger(
-                                    "hashchange",
-                                    [!0,]
-                                );
-                    },
-                }
-            ),
-            jQuery(
-                function (
-                ) {
-                    jQuery.support.inlineSVG(
-                    ),
-                    jQuery.mobile.hideUrlBar && window1.scrollTo(
-                        0,
-                        1
-                    ),
-                    (jQuery.mobile.defaultHomeScroll =
+                            : $window.trigger(
+                                "hashchange",
+                                [!0,]
+                            );
+                },
+            }
+        ),
+        jQuery(
+            function (
+            ) {
+                jQuery.support.inlineSVG(
+                ),
+                jQuery.mobile.hideUrlBar && window1.scrollTo(
+                    0,
+                    1
+                ),
+                (jQuery.mobile.defaultHomeScroll =
               jQuery.support.scrollTop && 1 !== jQuery.mobile.window.scrollTop(
               )
                   ? 1
                   : 0),
-                    jQuery.mobile.autoInitializePage && jQuery.mobile.initializePage(
-                    ),
-                    jQuery.mobile.hideUrlBar &&
+                jQuery.mobile.autoInitializePage && jQuery.mobile.initializePage(
+                ),
+                jQuery.mobile.hideUrlBar &&
               $window.load(
                   jQuery.mobile.silentScroll
               ),
-                    jQuery.support.cssPointerEvents ||
+                jQuery.support.cssPointerEvents ||
               jQuery.mobile.document.delegate(
                   ".ui-state-disabled,.ui-disabled",
                   "vclick",
@@ -20486,8 +20495,8 @@
                       );
                   },
               );
-                }
-            );
+            }
+        ));
         })(
             jQuery,
             this

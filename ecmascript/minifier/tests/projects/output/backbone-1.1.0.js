@@ -10,7 +10,7 @@
         })),
     (Backbone.VERSION = "1.1.0");
     var _ = root._;
-    !_ && "undefined" != typeof require && (_ = require(
+    _ || "undefined" == typeof require || (_ = require(
         "underscore"
     )),
     (Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$),
@@ -142,7 +142,7 @@
                 var listeningTo = this._listeningTo;
                 if (!listeningTo) return this;
                 var remove = !name && !callback;
-                !callback && "object" == typeof name && (callback = this),
+                callback || "object" != typeof name || (callback = this),
                 obj && ((listeningTo = {
                 })[obj._listenId] = obj);
                 for (var id in listeningTo)
@@ -254,7 +254,7 @@
                     ));
                 return (
                     (listeningTo[id] = obj),
-                    !callback && "object" == typeof name && (callback = this),
+                    callback || "object" != typeof name || (callback = this),
                     obj[implementation](
                         name,
                         callback,
@@ -491,9 +491,9 @@
             previous: function (
                 attr
             ) {
-                return null == attr || !this._previousAttributes
-                    ? null
-                    : this._previousAttributes[attr];
+                return null != attr && this._previousAttributes
+                    ? this._previousAttributes[attr]
+                    : null;
             },
             previousAttributes: function (
             ) {
@@ -1159,9 +1159,8 @@
             get: function (
                 obj
             ) {
-                return null == obj
-                    ? void 0
-                    : this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
+                if (null != obj)
+                    return this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
             },
             at: function (
                 index
@@ -1375,22 +1374,21 @@
             _onModelEvent: function (
                 event, model, collection, options
             ) {
-                if (("add" === event || "remove" === event) && collection !== this)
-                    return;
-                "destroy" === event && this.remove(
-                    model,
-                    options
-                ),
-                model &&
+                (("add" === event || "remove" === event) && collection !== this) ||
+        ("destroy" === event && this.remove(
+            model,
+            options
+        ),
+        model &&
           event === "change:" + model.idAttribute &&
           (delete this._byId[model.previous(
               model.idAttribute
           )],
           null != model.id && (this._byId[model.id] = model)),
-                this.trigger.apply(
-                    this,
-                    arguments
-                );
+        this.trigger.apply(
+            this,
+            arguments
+        ));
             },
         }
     ),
@@ -1604,7 +1602,14 @@
             },
             _ensureElement: function (
             ) {
-                if (!this.el) {
+                if (this.el) this.setElement(
+                    _.result(
+                        this,
+                        "el"
+                    ),
+                    !1
+                );
+                else {
                     var attrs = _.extend(
                         {
                         },
@@ -1633,13 +1638,7 @@
                         $el,
                         !1
                     );
-                } else this.setElement(
-                    _.result(
-                        this,
-                        "el"
-                    ),
-                    !1
-                );
+                }
             },
         }
     ),
@@ -1826,23 +1825,24 @@
             },
             _bindRoutes: function (
             ) {
-                if (!this.routes) return;
-                this.routes = _.result(
-                    this,
-                    "routes"
-                );
-                for (
-                    var route, routes = _.keys(
-                        this.routes
+                if (!!this.routes) {
+                    this.routes = _.result(
+                        this,
+                        "routes"
                     );
-                    null != (route = routes.pop(
-                    ));
+                    for (
+                        var route, routes = _.keys(
+                            this.routes
+                        );
+                        null != (route = routes.pop(
+                        ));
 
-                )
-                    this.route(
-                        route,
-                        this.routes[route]
-                    );
+                    )
+                        this.route(
+                            route,
+                            this.routes[route]
+                        );
+                }
             },
             _routeToRegExp: function (
                 route
@@ -2141,49 +2141,49 @@
                         pathStripper,
                         ""
                     )),
-                    this.fragment === fragment)
-                )
-                    return;
-                if (
-                    ((this.fragment = fragment),
-                    "" === fragment && "/" !== url && (url = url.slice(
-                        0,
-                        -1
-                    )),
-                    this._hasPushState)
-                )
-                    this.history[options.replace ? "replaceState" : "pushState"](
-                        {
-                        },
-                        document.title,
-                        url,
+                    this.fragment !== fragment)
+                ) {
+                    if (
+                        ((this.fragment = fragment),
+                        "" === fragment && "/" !== url && (url = url.slice(
+                            0,
+                            -1
+                        )),
+                        this._hasPushState)
+                    )
+                        this.history[options.replace ? "replaceState" : "pushState"](
+                            {
+                            },
+                            document.title,
+                            url,
+                        );
+                    else if (this._wantsHashChange)
+                        this._updateHash(
+                            this.location,
+                            fragment,
+                            options.replace
+                        ),
+                        this.iframe &&
+                fragment !== this.getFragment(
+                    this.getHash(
+                        this.iframe
+                    )
+                ) &&
+                (options.replace || this.iframe.document.open(
+                ).close(
+                ),
+                this._updateHash(
+                    this.iframe.location,
+                    fragment,
+                    options.replace,
+                ));
+                    else return this.location.assign(
+                        url
                     );
-                else if (this._wantsHashChange)
-                    this._updateHash(
-                        this.location,
-                        fragment,
-                        options.replace
-                    ),
-                    this.iframe &&
-              fragment !== this.getFragment(
-                  this.getHash(
-                      this.iframe
-                  )
-              ) &&
-              (options.replace || this.iframe.document.open(
-              ).close(
-              ),
-              this._updateHash(
-                  this.iframe.location,
-                  fragment,
-                  options.replace,
-              ));
-                else return this.location.assign(
-                    url
-                );
-                if (options.trigger) return this.loadUrl(
-                    fragment
-                );
+                    if (options.trigger) return this.loadUrl(
+                        fragment
+                    );
+                }
             },
             _updateHash: function (
                 location, fragment, replace
