@@ -1,5 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::{is_pure_undefined, Ctx};
+use crate::debug::dump;
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -536,9 +537,7 @@ impl Optimizer<'_> {
         /// `+` means more bytes used.
         fn calc_diff(e: &Expr) -> isize {
             match e {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) => calc_diff(&arg) - 1,
+                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
 
                 Expr::Bin(BinExpr {
                     op: op!("===") | op!("!==") | op!("==") | op!("!="),
@@ -556,14 +555,36 @@ impl Optimizer<'_> {
             }
         }
 
-        let diff_bytes = calc_diff(&*e);
-        if diff_bytes < 0 {
-            self.changed = true;
-            log::trace!(
-                "bools: Compressing negation expression to reduce {} bytes",
-                diff_bytes
-            );
-            self.negate(e)
+        let start_str = dump(&*e);
+
+        match e {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => {
+                // Prevnet infinite loop
+                match &**arg {
+                    Expr::Unary(UnaryExpr { op: op!("!"), .. }) => return,
+                    _ => {}
+                }
+
+                // -1 for `!` in unary.
+                let diff_bytes = calc_diff(&*arg);
+
+                if diff_bytes < 0 {
+                    self.changed = true;
+                    log::trace!(
+                        "bools: Compressing negation expression to reduce {} bytes",
+                        -diff_bytes
+                    );
+                    self.negate(arg);
+                    *e = *arg.take();
+
+                    if cfg!(feature = "debug") {
+                        log::trace!("`{}` => `{}`", start_str, dump(&*e),);
+                    }
+                }
+            }
+            _ => {}
         }
     }
 }
