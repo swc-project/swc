@@ -230,13 +230,6 @@ impl VisitMut for Compressor<'_> {
         invoke(&*n);
     }
 
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        // TODO: Skip if node is already optimized.
-        // if (has_flag(node, SQUEEZED)) return node;
-
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.handle_stmt_likes(stmts);
 
