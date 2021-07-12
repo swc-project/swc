@@ -227,6 +227,13 @@ impl Optimizer<'_> {
                     ..
                 }) => true,
 
+                Expr::Bin(BinExpr {
+                    op: op!("||") | op!("&&"),
+                    left,
+                    right,
+                    ..
+                }) => is(&left) || is(&right),
+
                 _ => false,
             }
         }
