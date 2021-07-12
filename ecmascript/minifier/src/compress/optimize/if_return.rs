@@ -2,7 +2,6 @@ use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
 use std::fmt;
-use swc_common::iter::IdentifyLast;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -45,16 +44,15 @@ impl Optimizer<'_> {
     ///         console.log(b);
     /// }
     /// ```
-    pub(super) fn negate_if_returns<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-    {
-        let need_work = stmts.iter().identify_last().any(|(last, s)| {
-            !last
-                && match s.as_stmt() {
-                    Some(Stmt::If(IfStmt {
+    pub(super) fn negate_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
+        let len = stmts.len();
+
+        let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
+            idx != len - 1
+                && match s {
+                    Stmt::If(IfStmt {
                         cons, alt: None, ..
-                    })) => match &**cons {
+                    }) => match &**cons {
                         Stmt::Return(ReturnStmt { arg: None, .. }) => true,
                         _ => false,
                     },
@@ -62,14 +60,46 @@ impl Optimizer<'_> {
                 }
         });
 
-        if !need_work {
-            return;
-        }
+        let pos_of_if = match pos_of_if {
+            Some(v) => v,
+            _ => return,
+        };
 
-        // self.changed = true;
+        self.changed = true;
         log::trace!(
             "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
         );
+
+        let mut new = vec![];
+        new.extend(stmts.drain(..pos_of_if));
+        let cons = stmts.drain(1..).collect::<Vec<_>>();
+
+        let if_stmt = stmts.take().into_iter().next().unwrap();
+        match if_stmt
+            .try_into_stmt()
+            .expect("first value must be an if statement")
+        {
+            Stmt::If(mut s) => {
+                assert_eq!(s.alt, None);
+                self.negate(&mut s.test);
+
+                s.cons = if cons.len() == 1 {
+                    Box::new(cons.into_iter().next().unwrap())
+                } else {
+                    Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: cons,
+                    }))
+                };
+
+                new.push(Stmt::If(s))
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+
+        *stmts = new;
     }
 
     /// Merge simple return statements in if statements.
