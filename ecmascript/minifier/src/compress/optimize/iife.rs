@@ -244,6 +244,7 @@ impl Optimizer<'_> {
     where
         N: VisitMutWith<Self>,
     {
+        log::trace!("inline: inline_vars_in_node");
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx

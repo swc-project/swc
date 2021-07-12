@@ -95,6 +95,12 @@ impl Optimizer<'_> {
                     _ => return,
                 };
 
+                log::trace!(
+                    "collpase_vars: Decided to inline {}{:?}",
+                    left.id.sym,
+                    left.id.span.ctxt
+                );
+
                 self.lits.insert(left.to_id(), value);
             }
             _ => {}
