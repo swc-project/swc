@@ -1452,7 +1452,18 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
-        n.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_cond: self.ctx.in_cond
+                    || match n.op {
+                        op!("&&") | op!("||") | op!("??") => true,
+                        _ => false,
+                    },
+                ..self.ctx
+            };
+
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         self.compress_comparsion_of_typeof(n);
 
