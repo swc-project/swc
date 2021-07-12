@@ -556,9 +556,22 @@ impl Optimizer<'_> {
     ///
     /// - `!!(obj || obj === 0);` => `!(!obj && obj !== 0)`
     /// - `!(!a || !b || !c || !d);` => `!!(a && b && c && d)`
-    pub(super) fn optimize_negation(&mut self, _e: &mut Expr) {
+    pub(super) fn optimize_negation(&mut self, e: &mut Expr) {
         if !self.options.bools {
             return;
+        }
+
+        fn cost(e: &Expr) -> isize {
+            match e {
+                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
+                Expr::Bin(BinExpr {
+                    op: op!("||") | op!("&&"),
+                    left,
+                    right,
+                    ..
+                }) => cost(&left) + cost(&right),
+                _ => 1,
+            }
         }
 
         // TODO
