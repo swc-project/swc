@@ -46,7 +46,7 @@ impl Optimizer<'_> {
         log::trace!(
             "if_return: Negating `!cond` as `cond` in for an if statement which has cons and alt"
         );
-        self.negate(test_arg);
+        stmt.test = Box::new(test_arg.take());
         swap(alt, &mut *stmt.cons);
     }
 
