@@ -507,6 +507,7 @@ impl Optimizer<'_> {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
                 //
+
                 if !cons.callee.eq_ignore_span(&alt.callee) {
                     return None;
                 }
@@ -515,7 +516,7 @@ impl Optimizer<'_> {
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&cons_callee.to_id()))
-                    .map(|v| v.is_fn_local)
+                    .map(|v| v.is_fn_local || !v.declared)
                     .unwrap_or(false);
 
                 if side_effect_free
@@ -529,6 +530,7 @@ impl Optimizer<'_> {
                         .zip(alt.args.iter())
                         .filter(|(cons, alt)| !cons.eq_ignore_span(alt))
                         .count();
+
                     if diff_count == 1 {
                         log::trace!(
                             "conditionals: Merging cons and alt as only one argument differs"
