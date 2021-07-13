@@ -4669,8 +4669,7 @@
                         i < ii;
                         i++
                     ) {
-                        directive = directives[i];
-                        var attrStart = directive.$$start,
+                        var attrStart = (directive = directives[i]).$$start,
                             attrEnd = directive.$$end;
                         if (
                             (attrStart &&
@@ -4684,7 +4683,7 @@
                         )
                             break;
                         if (
-                            ((directiveValue = directive.scope) &&
+                            (((directiveValue = directive.scope) &&
                   ((newScopeDirective = newScopeDirective || directive),
                   directive.templateUrl ||
                     (assertNoDuplicate(
@@ -4698,8 +4697,7 @@
                     ) &&
                       (newIsolateScopeDirective = directive))),
                             (directiveName = directive.name),
-                            directive.templateUrl ||
-                  !directive.controller ||
+                            !directive.templateUrl && directive.controller) &&
                   ((directiveValue = directive.controller),
                   assertNoDuplicate(
                       "'" + directiveName + "' controller",
@@ -4712,7 +4710,7 @@
                   ),
                   (controllerDirectives[directiveName] = directive)),
                             (directiveValue = directive.transclude) &&
-                  ((hasTranscludeDirective = !0),
+                  (((hasTranscludeDirective = !0),
                   directive.$$tlb ||
                     (assertNoDuplicate(
                         "transclusion",
@@ -4721,19 +4719,20 @@
                         $compileNode,
                     ),
                     (nonTlbTranscludeDirective = directive)),
-                  "element" == directiveValue
+                  "element" == directiveValue)
                       ? ((hasElementTranscludeDirective = !0),
                       (terminalPriority = directive.priority),
+                      ($template = groupScan(
+                          compileNode,
+                          attrStart,
+                          attrEnd
+                      )),
                       replaceWith(
                           jqCollection,
                           jqLite(
                               sliceArgs(
-                                  ($template = groupScan(
-                                      compileNode,
-                                      attrStart,
-                                      attrEnd,
-                                  )),
-                              ),
+                                  $template
+                              )
                           ),
                           (compileNode = ($compileNode = templateAttrs.$$element = jqLite(
                               document.createComment(
@@ -5171,17 +5170,16 @@
                                             break;
                                         }
                                     case "&":
-                                        (parentGet = $parse(
-                                            attrs[attrName]
-                                        )),
-                                        (isolateScope[scopeName] = function (
+                                        isolateScope[scopeName] = function (
                                             locals
                                         ) {
-                                            return parentGet(
+                                            return (parentGet = $parse(
+                                                attrs[attrName]
+                                            ))(
                                                 scope,
-                                                locals
+                                                locals,
                                             );
-                                        });
+                                        };
                                         break;
                                     default:
                                         throw $compileMinErr(
@@ -6279,11 +6277,10 @@
                             function (
                                 config1
                             ) {
-                                headers = config1.headers;
                                 var reqData = transformData(
                                     config1.data,
                                     headersGetter(
-                                        headers
+                                        (headers = config1.headers)
                                     ),
                                     config1.transformRequest,
                                 );
@@ -9550,12 +9547,12 @@
         for (var element = path.split(
                 "."
             ), key, i = 0; element.length > 1; i++) {
-            key = ensureSafeMemberName(
-                element.shift(
-                ),
-                fullExp
-            );
-            var propertyObj = obj[key];
+            var propertyObj =
+        obj[(key = ensureSafeMemberName(
+            element.shift(
+            ),
+            fullExp
+        ))];
             propertyObj || ((propertyObj = {
             }), (obj[key] = propertyObj)),
             (obj = propertyObj),
@@ -12006,11 +12003,10 @@
         ) || !isFinite(
             number
         )) return "";
-        var isNegative = number < 0;
-        number = Math.abs(
-            number
-        );
-        var numStr = number + "",
+        var isNegative = number < 0,
+            numStr = (number = Math.abs(
+                number
+            )) + "",
             formatedText = "",
             parts = [],
             hasExponent = !1;
@@ -12047,14 +12043,13 @@
             pattern.maxFrac,
         ));
             var pow = Math.pow(
-                10,
-                fractionSize
-            );
-            number = Math.round(
-                number * pow
-            ) / pow;
-            var fraction = ("" + number).split(
-                    DECIMAL_SEP
+                    10,
+                    fractionSize
+                ),
+                fraction = ("" + (number = Math.round(
+                    number * pow
+                ) / pow)).split(
+                    DECIMAL_SEP,
                 ),
                 whole = fraction[0];
             fraction = fraction[1] || "";

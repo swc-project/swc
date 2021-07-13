@@ -753,16 +753,15 @@
                 attrs, options
             ) {
                 if (!options.validate || !this.validate) return !0;
-                attrs = _.extend(
-                    {
-                    },
-                    this.attributes,
-                    attrs
-                );
                 var error = (this.validationError =
         this.validate(
-            attrs,
-            options
+            (attrs = _.extend(
+                {
+                },
+                this.attributes,
+                attrs
+            )),
+            options,
         ) || null);
                 return (
                     !error ||
@@ -898,30 +897,29 @@
                     i < l;
                     i++
                 )
-                    (model = models[i] = this.get(
+                    ((model = models[i] = this.get(
                         models[i]
-                    )),
-                    model &&
-            (delete this._byId[model.id],
-            delete this._byId[model.cid],
-            this.models.splice(
-                (index = this.indexOf(
-                    model
-                )),
-                1
-            ),
-            this.length--,
-            options.silent ||
-              ((options.index = index),
-              model.trigger(
-                  "remove",
-                  model,
-                  this,
-                  options
+                    )), !!model) &&
+          (delete this._byId[model.id],
+          delete this._byId[model.cid],
+          this.models.splice(
+              (index = this.indexOf(
+                  model
               )),
-            this._removeReference(
-                model
-            ));
+              1
+          ),
+          this.length--,
+          options.silent ||
+            ((options.index = index),
+            model.trigger(
+                "remove",
+                model,
+                this,
+                options
+            )),
+          this._removeReference(
+              model
+          ));
                 return singular ? models[0] : models;
             },
             set: function (

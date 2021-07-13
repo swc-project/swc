@@ -731,11 +731,11 @@
                         i
                     );
                     for (
-                        len = arr.length, i = i
+                        i = i
                             ? (i < 0
                                 ? Math.max(
                                     0,
-                                    len + i
+                                    (len = arr.length) + i
                                 )
                                 : i)
                             : 0;
@@ -2072,10 +2072,9 @@
             dequeue: function (
                 elem, type
             ) {
-                type = type || "fx";
                 var queue = jQuery.queue(
-                        elem,
-                        type
+                        elem, (
+                            type = type || "fx")
                     ),
                     startLength = queue.length,
                     fn = queue.shift(
@@ -3211,10 +3210,9 @@
                       : void 0;
               }),
               (eventHandle.elem = null)),
-                    types = (types || "").match(
+                    t = (types = (types || "").match(
                         core_rnotwhite
-                    ) || ["",],
-                    t = types.length;
+                    ) || ["",]).length;
                     t--;
 
                 )
@@ -3312,9 +3310,9 @@
                 );
             if (!!elemData && !!(events = elemData.events)) {
                 for (
-                    types = (types || "").match(
+                    t = (types = (types || "").match(
                         core_rnotwhite
-                    ) || ["",], t = types.length;
+                    ) || ["",]).length;
                     t--;
 
                 ) {
@@ -7812,14 +7810,13 @@
                             first,
                             "tr"
                         ),
-                        scripts = jQuery.map(
+                        hasScripts = (scripts = jQuery.map(
                             getAll(
                                 fragment,
                                 "script"
                             ),
-                            disableScript
-                        ),
-                        hasScripts = scripts.length;
+                            disableScript,
+                        )).length;
                         i < l;
                         i++
                     )
@@ -8985,11 +8982,11 @@
             display = elemdisplay[nodeName];
         return (
             display ||
-        ((display = actualDisplay(
+        (((display = actualDisplay(
             nodeName,
             doc
         )),
-        ("none" !== display && display) ||
+        "none" === display || !display) &&
           ((iframe = (
               iframe ||
             jQuery(
@@ -9807,13 +9804,12 @@
                     fireGlobals,
                     transport,
                     responseHeaders;
-                "object" == typeof url && ((options = url), (url = void 0)),
-                (options = options || {
-                });
+                "object" == typeof url && ((options = url), (url = void 0));
                 var s = jQuery.ajaxSetup(
                         {
-                        },
-                        options
+                        }, (
+                            options = options || {
+                            })
                     ),
                     callbackContext = s.context || s,
                     globalEventContext =

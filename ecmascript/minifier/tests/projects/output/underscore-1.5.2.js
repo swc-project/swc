@@ -664,16 +664,18 @@
     (_.sortedIndex = function (
         array, obj, iterator, context
     ) {
-        iterator = null == iterator
-            ? _.identity
-            : lookupIterator(
-                iterator
-            );
         for (
-            var value = iterator.call(
+            var value = (iterator =
+            null == iterator
+                ? _.identity
+                : lookupIterator(
+                    iterator
+                )).call(
                     context,
-                    obj
-                ), low = 0, high = array.length;
+                    obj,
+                ),
+                low = 0,
+                high = array.length;
             low < high;
 
         ) {
@@ -1011,14 +1013,13 @@
     (_.range = function (
         start, stop, step
     ) {
-        arguments.length <= 1 && ((stop = start || 0), (start = 0)),
-        (step = arguments[2] || 1);
+        arguments.length <= 1 && ((stop = start || 0), (start = 0));
         for (
             var length = Math.max(
                     Math.ceil(
-                        (stop - start) / step
+                        (stop - start) / (step = arguments[2] || 1)
                     ),
-                    0
+                    0,
                 ),
                 idx = 0,
                 range = new Array(
@@ -1242,12 +1243,12 @@
         var timeout, args, context, timestamp, result;
         return function (
         ) {
-            (context = this), (args = arguments), (timestamp = new Date(
-            ));
+            (context = this), (args = arguments);
             var later = function (
                 ) {
                     var last = new Date(
-                    ) - timestamp;
+                    ) - (timestamp = new Date(
+                    ));
                     last < wait
                         ? (timeout = setTimeout(
                             later,

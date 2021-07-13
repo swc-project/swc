@@ -1216,6 +1216,7 @@
                     }),
                     (jQuery[namespace] = jQuery[namespace] || {
                     }),
+                    (existingConstructor = jQuery[namespace][name]),
                     jQuery.extend(
                         (constructor = jQuery[namespace][name] = function (
                             options,
@@ -1231,7 +1232,7 @@
                                 element
                             );
                         }),
-                        (existingConstructor = jQuery[namespace][name]),
+                        existingConstructor,
                         {
                             version: prototype.version,
                             _proto: jQuery.extend(
@@ -2106,7 +2107,6 @@
                         $html.addClass(
                             "ui-loading"
                         ),
-                        loadSettings.textVisible,
                         this.element.attr(
                             "class",
                             "ui-loader ui-corner-all ui-body-" +
@@ -2614,8 +2614,7 @@
                                 "head base"
                             ),
                             fauxEle = null,
-                            href = "",
-                            link;
+                            href = "";
                         return (
                             base.length
                                 ? (href = base.attr(
@@ -2629,18 +2628,24 @@
                                 ).appendTo(
                                     "head"
                                 )),
-                            (link = jQuery(
+                            jQuery(
                                 "<a href='testurl' />"
                             ).prependTo(
                                 fakeBody
-                            ))[0]
-                                .href,
+                            )[0].href,
                             (base[0].href = href || location.pathname),
                             fauxEle && fauxEle.remove(
                             ),
-                            0 === link[0].href.indexOf(
-                                fauxBase
-                            )
+                            0 ===
+                jQuery(
+                    "<a href='testurl' />"
+                )
+                    .prependTo(
+                        fakeBody
+                    )[0]
+                    .href.indexOf(
+                        fauxBase
+                    )
                         );
                     })(
                     ),
@@ -3315,7 +3320,10 @@
                   href.host +
                   href.pathname +
                   this.parseUrl(
-                      href
+                      (href = path.makeUrlAbsolute(
+                          cleanedUrl,
+                          resolutionUrl
+                      )),
                   ).search +
                   preservedHash))
                             : (href += href.indexOf(
@@ -3494,9 +3502,10 @@
                 find: function (
                     url, stack, earlyReturn
                 ) {
-                    var entry, i, index;
-                    stack = stack || this.stack;
-                    var length = stack.length;
+                    var entry,
+                        i,
+                        index,
+                        length = (stack = stack || this.stack).length;
                     for (i = 0; i < length; i++)
                         if (
                             ((entry = stack[i]),
@@ -4193,31 +4202,31 @@
           ((flags = getVirtualBindingFlags(
               (target = event.target)
           )),
-          flags.hasVirtualBinding &&
-            (jQuery.data(
-                target,
-                "virtualTouchID",
-                (lastTouchID = nextTouchID++),
-            ),
-            clearResetTimer(
-            ),
-            disableMouseBindings(
-            ),
-            (didScroll = !1),
-            (startX = (t = getNativeEvent(
-                event
-            ).touches[0]).pageX),
-            (startY = t.pageY),
-            triggerVirtualEvent(
-                "vmouseover",
-                event,
-                flags
-            ),
-            triggerVirtualEvent(
-                "vmousedown",
-                event,
-                flags
-            )));
+          flags.hasVirtualBinding) &&
+          (jQuery.data(
+              target,
+              "virtualTouchID", (
+                  lastTouchID = nextTouchID++)
+          ),
+          clearResetTimer(
+          ),
+          disableMouseBindings(
+          ),
+          (didScroll = !1),
+          (startX = (t = getNativeEvent(
+              event
+          ).touches[0]).pageX),
+          (startY = t.pageY),
+          triggerVirtualEvent(
+              "vmouseover",
+              event,
+              flags
+          ),
+          triggerVirtualEvent(
+              "vmousedown",
+              event,
+              flags
+          ));
             }
             function handleScroll(
                 event
@@ -6068,7 +6077,7 @@
                             function (
                                 html, textStatus, xhr
                             ) {
-                                (pageElemRegex.test(
+                                pageElemRegex.test(
                                     html
                                 ) &&
               RegExp.$1 &&
@@ -6089,12 +6098,12 @@
                                 ).set(
                                     fileUrl
                                 ),
-                                this._setLoadedTitle(
+                                (this._setLoadedTitle(
                                     (content = this._parse(
                                         html,
                                         fileUrl
                                     )),
-                                    html
+                                    html,
                                 ),
                                 (triggerData.xhr = xhr),
                                 (triggerData.textStatus = textStatus),
@@ -6105,35 +6114,35 @@
                                     void 0,
                                     triggerData
                                 )) &&
-              (this._isRewritableBaseTag(
-              ) &&
-                content &&
-                this._getBase(
-                ).rewrite(
-                    fileUrl,
-                    content
+                (this._isRewritableBaseTag(
+                ) &&
+                  content &&
+                  this._getBase(
+                  ).rewrite(
+                      fileUrl,
+                      content
+                  ),
+                this._include(
+                    content,
+                    settings
                 ),
-              this._include(
-                  content,
-                  settings
-              ),
-              absUrl.indexOf(
-                  "&" + jQuery.mobile.subPageUrlKey
-              ) > -1 &&
-                (content = this.element.children(
-                    "[data-" + this._getNs(
-                    ) + "url='" + dataUrl + "']",
-                )),
-              settings.showLoadMsg && this._hideLoading(
-              ),
-              this.element.trigger(
-                  "pageload"
-              ),
-              deferred.resolve(
-                  absUrl,
-                  settings,
-                  content
-              ));
+                absUrl.indexOf(
+                    "&" + jQuery.mobile.subPageUrlKey
+                ) > -1 &&
+                  (content = this.element.children(
+                      "[data-" + this._getNs(
+                      ) + "url='" + dataUrl + "']",
+                  )),
+                settings.showLoadMsg && this._hideLoading(
+                ),
+                this.element.trigger(
+                    "pageload"
+                ),
+                deferred.resolve(
+                    absUrl,
+                    settings,
+                    content
+                ));
                             },
                             this
                         );
@@ -6632,8 +6641,9 @@
                                     ).blur(
                                     );
                             } catch (e) {}
-                            (alreadyThere = !1),
-                            isDialog &&
+                            return (
+                                (alreadyThere = !1),
+                                isDialog &&
                 active &&
                 (active.url &&
                   active.url.indexOf(
@@ -6654,10 +6664,10 @@
                 0 === jQuery.mobile.navigate.history.activeIndex &&
                   url === jQuery.mobile.navigate.history.initialDst &&
                   (url += jQuery.mobile.dialogHashKey)),
-                            (newPageTitle = active
-                                ? toPage.jqmData(
-                                    "title"
-                                ) ||
+                                (newPageTitle = active
+                                    ? toPage.jqmData(
+                                        "title"
+                                    ) ||
                   toPage
                       .children(
                           ":jqmData(role='header')"
@@ -6667,17 +6677,17 @@
                       )
                       .text(
                       )
-                                : pageTitle),
-                            newPageTitle &&
+                                    : pageTitle),
+                                newPageTitle &&
                 pageTitle === document.title &&
                 (pageTitle = newPageTitle),
-                            toPage.jqmData(
-                                "title"
-                            ) || toPage.jqmData(
-                                "title",
-                                pageTitle
-                            ),
-                            (settings.transition =
+                                toPage.jqmData(
+                                    "title"
+                                ) || toPage.jqmData(
+                                    "title",
+                                    pageTitle
+                                ),
+                                (settings.transition =
                 settings.transition ||
                 (historyDir && !activeIsInitialPage
                     ? active.transition
@@ -6685,11 +6695,11 @@
                 (isDialog
                     ? jQuery.mobile.defaultDialogTransition
                     : jQuery.mobile.defaultPageTransition)),
-                            historyDir ||
+                                historyDir ||
                 !alreadyThere ||
                 (jQuery.mobile.navigate.history.getActive(
                 ).pageUrl = pageUrl),
-                            url &&
+                                url &&
                 !settings.fromHashChange &&
                 (jQuery.mobile.path.isPath(
                     url
@@ -6715,50 +6725,51 @@
                         url,
                         params
                     )),
-                            (document.title = pageTitle),
-                            (jQuery.mobile.activePage = toPage),
-                            (this.activePage = toPage),
-                            (settings.reverse = settings.reverse || historyDir < 0),
-                            this._cssTransition(
-                                toPage,
-                                settings.fromPage,
-                                {
-                                    transition: settings.transition,
-                                    reverse: settings.reverse,
-                                    deferred: (cssTransitionDeferred = jQuery.Deferred(
-                                    )),
-                                }
-                            ),
-                            cssTransitionDeferred.done(
-                                jQuery.proxy(
-                                    function (
-                                        name,
-                                        reverse,
-                                        $to,
-                                        $from,
-                                        alreadyFocused,
-                                    ) {
-                                        jQuery.mobile.removeActiveLinkClass(
-                                        ),
-                                        settings.duplicateCachedPage &&
+                                (document.title = pageTitle),
+                                (jQuery.mobile.activePage = toPage),
+                                (this.activePage = toPage),
+                                (settings.reverse = settings.reverse || historyDir < 0),
+                                void (this._cssTransition(
+                                    toPage,
+                                    settings.fromPage,
+                                    {
+                                        transition: settings.transition,
+                                        reverse: settings.reverse,
+                                        deferred: (cssTransitionDeferred = jQuery.Deferred(
+                                        )),
+                                    }
+                                ),
+                                cssTransitionDeferred.done(
+                                    jQuery.proxy(
+                                        function (
+                                            name,
+                                            reverse,
+                                            $to,
+                                            $from,
+                                            alreadyFocused,
+                                        ) {
+                                            jQuery.mobile.removeActiveLinkClass(
+                                            ),
+                                            settings.duplicateCachedPage &&
                       settings.duplicateCachedPage.remove(
                       ),
-                                        alreadyFocused || jQuery.mobile.focusPage(
-                                            toPage
-                                        ),
-                                        this._releaseTransitionLock(
-                                        ),
-                                        this.element.trigger(
-                                            "pagechange",
-                                            triggerData
-                                        ),
-                                        this._triggerWithDeprecated(
-                                            "transition",
-                                            triggerData
-                                        );
-                                    },
-                                    this
-                                ),
+                                            alreadyFocused || jQuery.mobile.focusPage(
+                                                toPage
+                                            ),
+                                            this._releaseTransitionLock(
+                                            ),
+                                            this.element.trigger(
+                                                "pagechange",
+                                                triggerData
+                                            ),
+                                            this._triggerWithDeprecated(
+                                                "transition",
+                                                triggerData
+                                            );
+                                        },
+                                        this
+                                    ),
+                                ))
                             );
                         }
                     },
@@ -7094,7 +7105,7 @@
                     function (
                         event
                     ) {
-                        var baseUrl, href;
+                        var baseUrl, href, transition, reverse;
                         if (
                             !!jQuery.mobile.linkBindingEnabled &&
                 !event.isDefaultPrevented(
@@ -7198,27 +7209,32 @@
                                     );
                                     return;
                                 }
-                                jQuery.mobile.changePage(
-                                    href,
-                                    {
-                                        transition: $link.jqmData(
-                                            "transition"
-                                        ),
-                                        reverse:
+                                return (
+                                    (transition = $link.jqmData(
+                                        "transition"
+                                    )),
+                                    (reverse =
                       "reverse" === $link.jqmData(
                           "direction"
                       ) ||
                       $link.jqmData(
                           "back"
-                      ),
-                                        role:
-                      $link.attr(
-                          "data-" + jQuery.mobile.ns + "rel"
-                      ) || void 0,
-                                        link: $link,
-                                    }
-                                ),
-                                event.preventDefault(
+                      )),
+                                    void (jQuery.mobile.changePage(
+                                        href,
+                                        {
+                                            transition: transition,
+                                            reverse: reverse,
+                                            role:
+                        $link.attr(
+                            "data-" + jQuery.mobile.ns + "rel"
+                        ) ||
+                        void 0,
+                                            link: $link,
+                                        }
+                                    ),
+                                    event.preventDefault(
+                                    ))
                                 );
                             }
                         }
@@ -9130,6 +9146,7 @@
                                 value,
                                 last,
                                 splittheme,
+                                splitThemeClass,
                                 altButtonClass,
                                 li,
                                 o = this.options,
@@ -9180,119 +9197,121 @@
                                 pos < numli;
                                 pos++
                             )
-                                (item = li.eq(
+                                ((item = li.eq(
                                     pos
                                 )),
                                 (itemClass = ""),
-                                (create ||
-                    0 >
-                      item[0].className.search(
-                          /\bui-li-static\b|\bui-li-divider\b/,
-                      )) &&
-                    ((a = this._getChildrenByTagName(
-                        item[0],
-                        "a",
-                        "A"
-                    )),
-                    (isDivider = "list-divider" === getAttr(
-                        item[0],
-                        "role"
-                    )),
-                    (value = item.attr(
-                        "value"
-                    )),
-                    (itemTheme = getAttr(
-                        item[0],
-                        "theme"
-                    )),
-                    a.length &&
+                                create ||
+                  0 >
+                    item[0].className.search(
+                        /\bui-li-static\b|\bui-li-divider\b/,
+                    )) &&
+                  (((a = this._getChildrenByTagName(
+                      item[0],
+                      "a",
+                      "A"
+                  )),
+                  (isDivider = "list-divider" === getAttr(
+                      item[0],
+                      "role"
+                  )),
+                  (value = item.attr(
+                      "value"
+                  )),
+                  (itemTheme = getAttr(
+                      item[0],
+                      "theme"
+                  )),
+                  a.length &&
                     0 > a[0].className.search(
                         /\bui-btn\b/
                     ) &&
-                    !isDivider
-                        ? ((itemIcon = getAttr(
-                            item[0],
-                            "icon"
-                        )),
-                        (icon = !1 !== itemIcon && (itemIcon || o.icon)),
-                        a.removeClass(
-                            "ui-link"
-                        ),
-                        (buttonClass = "ui-btn"),
-                        itemTheme && (buttonClass += " ui-btn-" + itemTheme),
-                        a.length > 1
-                            ? ((itemClass = "ui-li-has-alt"),
-                            (splittheme =
-                              getAttr(
-                                  (last = a.last(
-                                  ))[0],
-                                  "theme"
-                              ) ||
-                              o.splitTheme ||
+                    !isDivider)
+                      ? (((itemIcon = getAttr(
+                          item[0],
+                          "icon"
+                      )),
+                      (icon = !1 !== itemIcon && (itemIcon || o.icon)),
+                      a.removeClass(
+                          "ui-link"
+                      ),
+                      (buttonClass = "ui-btn"),
+                      itemTheme && (buttonClass += " ui-btn-" + itemTheme),
+                      a.length > 1)
+                          ? ((itemClass = "ui-li-has-alt"),
+                          (splittheme =
+                            getAttr(
+                                (last = a.last(
+                                ))[0],
+                                "theme"
+                            ) ||
+                            o.splitTheme ||
+                            getAttr(
+                                item[0],
+                                "theme",
+                                !0
+                            )),
+                          (splitThemeClass = splittheme
+                              ? " ui-btn-" + splittheme
+                              : ""),
+                          (altButtonClass =
+                            "ui-btn ui-btn-icon-notext ui-icon-" +
+                            (getAttr(
+                                last[0],
+                                "icon"
+                            ) ||
                               getAttr(
                                   item[0],
-                                  "theme",
-                                  !0
-                              )),
-                            (altButtonClass =
-                              "ui-btn ui-btn-icon-notext ui-icon-" +
-                              (getAttr(
-                                  last[0],
                                   "icon"
                               ) ||
-                                getAttr(
-                                    item[0],
-                                    "icon"
-                                ) ||
-                                o.splitIcon) +
-                              (splittheme ? " ui-btn-" + splittheme : "")),
-                            last
-                                .attr(
-                                    "title",
-                                    jQuery.trim(
-                                        last.getEncodedText(
-                                        )
-                                    )
-                                )
-                                .addClass(
-                                    altButtonClass
-                                )
-                                .empty(
-                                ))
-                            : icon &&
-                            (buttonClass +=
-                              " ui-btn-icon-right ui-icon-" + icon),
-                        a.first(
-                        ).addClass(
-                            buttonClass
-                        ))
-                        : isDivider
-                            ? ((itemClass =
-                          "ui-li-divider ui-bar-" +
-                          (getAttr(
-                              item[0],
-                              "theme"
-                          ) ||
-                            o.dividerTheme ||
-                            o.theme ||
-                            "inherit")),
-                            item.attr(
-                                "role",
-                                "heading"
-                            ))
-                            : a.length <= 0 &&
-                        (itemClass =
-                          "ui-li-static ui-body-" + (itemTheme || "inherit")),
-                    ol &&
-                      value &&
-                      ((newStartCount = parseInt(
-                          value,
-                          10
-                      ) - 1),
-                      item.css(
-                          "counter-reset",
-                          "listnumbering " + newStartCount,
-                      ))),
+                              o.splitIcon) +
+                            splitThemeClass),
+                          last
+                              .attr(
+                                  "title",
+                                  jQuery.trim(
+                                      last.getEncodedText(
+                                      )
+                                  )
+                              )
+                              .addClass(
+                                  altButtonClass
+                              )
+                              .empty(
+                              ))
+                          : icon &&
+                          (buttonClass += " ui-btn-icon-right ui-icon-" + icon),
+                      a.first(
+                      ).addClass(
+                          buttonClass
+                      ))
+                      : isDivider
+                          ? ((itemClass =
+                        "ui-li-divider ui-bar-" +
+                        (getAttr(
+                            item[0],
+                            "theme"
+                        ) ||
+                          o.dividerTheme ||
+                          o.theme ||
+                          "inherit")),
+                          item.attr(
+                              "role",
+                              "heading"
+                          ))
+                          : a.length <= 0 &&
+                      (itemClass =
+                        "ui-li-static ui-body-" + (itemTheme || "inherit")),
+                  ol &&
+                    value &&
+                    ((newStartCount = parseInt(
+                        value,
+                        10
+                    ) - 1),
+                    item.css(
+                        "counter-reset",
+                        "listnumbering " + newStartCount,
+                    ))),
                                 itemClassDict[itemClass] || (itemClassDict[itemClass] = []),
                                 itemClassDict[itemClass].push(
                                     item[0]
@@ -11008,10 +11027,8 @@
                             trackTheme = this.options.trackTheme || parentTheme,
                             cornerClass = this.options.corners ? " ui-corner-all" : "",
                             miniClass = this.options.mini ? " ui-mini" : "",
-                            left,
                             width,
                             data,
-                            tol,
                             pxStep,
                             percent,
                             isInput,
@@ -11028,7 +11045,7 @@
                             bPercent,
                             valueChanged;
                         if (
-                            (((self.slider[0].className = [
+                            ((self.slider[0].className = [
                                 this.isToggleSwitch
                                     ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset"
                                     : "ui-slider-track ui-shadow-inset",
@@ -11070,7 +11087,7 @@
                                 "ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow",
                             ),
                             this.element,
-                            (optionElements = (isInput = !this.isToggleSwitch)
+                            ((optionElements = (isInput = !this.isToggleSwitch)
                                 ? []
                                 : this.element.find(
                                     "option"
@@ -11103,21 +11120,26 @@
                     : 1),
                             "object" == typeof val)
                                 ? ((data = val),
-                                (tol = 8),
-                                (left = this.slider.offset(
-                                ).left),
-                                (pxStep =
+                                this.slider.offset(
+                                ).left,
+                                ((pxStep =
                     (width = this.slider.width(
                     )) / ((max - min) / step)),
                                 !!this.dragging &&
-                    !(data.pageX < left - tol) &&
-                    !(data.pageX > left + width + tol)) &&
-                  (percent =
-                    pxStep > 1
-                        ? ((data.pageX - left) / width) * 100
-                        : Math.round(
-                            ((data.pageX - left) / width) * 100
-                        ))
+                    !(data.pageX < this.slider.offset(
+                    ).left - 8) &&
+                    !(data.pageX > this.slider.offset(
+                    ).left + width + 8)) &&
+                    (percent =
+                      pxStep > 1
+                          ? ((data.pageX - this.slider.offset(
+                          ).left) / width) *
+                          100
+                          : Math.round(
+                              ((data.pageX - this.slider.offset(
+                              ).left) / width) *
+                              100,
+                          )))
                                 : (null == val &&
                     (val = isInput
                         ? parseFloat(
@@ -11131,7 +11153,7 @@
                             !isNaN(
                                 percent
                             ) &&
-                ((alignValue =
+                (((alignValue =
                   newval -
                   (valModStep =
                     ((newval = (percent / 100) * (max - min) + min) - min) %
@@ -11190,7 +11212,7 @@
                     "width",
                     percent + "%"
                 ),
-                this._labels &&
+                this._labels) &&
                   ((handlePercent =
                     (this.handle.width(
                     ) / this.slider.width(
@@ -12676,7 +12698,9 @@
                 },
                 _updateHeight: function (
                 ) {
-                    var paddingHeight,
+                    var paddingTop,
+                        paddingHeight,
+                        borderTop,
                         height,
                         scrollTop = this.window.scrollTop(
                         );
@@ -12691,27 +12715,27 @@
             ),
                     this.element[0].scrollHeight,
                     this.element[0].clientHeight,
-                    (height =
+                    (borderTop = parseFloat(
+                        this.element.css(
+                            "border-top-width"
+                        )
+                    )),
+                    ((height =
             this.element[0].scrollHeight +
-            (parseFloat(
+            (borderTop + parseFloat(
                 this.element.css(
-                    "border-top-width"
+                    "border-bottom-width"
                 )
-            ) +
-              parseFloat(
-                  this.element.css(
-                      "border-bottom-width"
-                  )
-              )) +
+            )) +
             15),
-                    0 === this.element[0].clientHeight &&
-            ((paddingHeight =
-              parseFloat(
-                  this.element.css(
-                      "padding-top"
-                  )
-              ) +
-              parseFloat(
+                    0 === this.element[0].clientHeight) &&
+            ((paddingTop = parseFloat(
+                this.element.css(
+                    "padding-top"
+                )
+            )),
+            (paddingHeight =
+              paddingTop + parseFloat(
                   this.element.css(
                       "padding-bottom"
                   )
@@ -14698,7 +14722,6 @@
                             ? this._super(
                             )
                             : ((self = this),
-                            this.selectId,
                             (popupId = this.selectId + "-listbox"),
                             (dialogId = this.selectId + "-dialog"),
                             this.label,
@@ -16680,45 +16703,45 @@
                             },
                             tip = {
                             };
-                        return (
-                            s.arFull[p.dimKey] > s.guideDims[p.dimKey] ||
-              ((desiredForArrow[p.fst] =
+                        return s.arFull[p.dimKey] > s.guideDims[p.dimKey]
+                            ? best
+                            : ((desiredForArrow[p.fst] =
                 desired[p.fst] +
                 (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor -
                 s.contentBox[p.fst] +
                 (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) *
                   p.arrowOffsetFactor),
-              (desiredForArrow[p.snd] = desired[p.snd]),
-              (result =
+                            (desiredForArrow[p.snd] = desired[p.snd]),
+                            (result =
                 s.result ||
                 this._calculateFinalLocation(
                     desiredForArrow,
                     s.clampInfo
                 )),
-              (tip[p.fst] =
+                            (tip[p.fst] =
                 {
                     x: result.left,
                     y: result.top,
                 }[p.fst] +
                 s.contentBox[p.fst] +
                 p.tipOffset),
-              (tip[p.snd] = Math.max(
-                  result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey],
-                  Math.min(
-                      result[p.prop] +
+                            (tip[p.snd] = Math.max(
+                                result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey],
+                                Math.min(
+                                    result[p.prop] +
                     s.guideOffset[p.prop] +
                     s.guideDims[p.dimKey] -
                     s.arHalf[p.dimKey],
-                      desired[p.snd],
-                  ),
-              )),
-              (diff =
+                                    desired[p.snd],
+                                ),
+                            )),
+                            (diff =
                 Math.abs(
                     desired.x - tip.x
                 ) + Math.abs(
                     desired.y - tip.y
                 )),
-              (best && !(diff < best.diff)) ||
+                            (best && !(diff < best.diff)) ||
                 ((tip[p.snd] -=
                   s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd]),
                 (best = {
@@ -16727,9 +16750,8 @@
                     result: result,
                     posProp: p.prop,
                     posVal: tip[p.snd],
-                }))),
-                            best
-                        );
+                })),
+                            best);
                     },
                     _getPlacementState: function (
                         clamp

@@ -2808,10 +2808,9 @@ var Event1 = DOMEvent;
             fireEvent: function (
                 type, args, delay
             ) {
-                type = removeOn(
+                var events = this.$events[(type = removeOn(
                     type
-                );
-                var events = this.$events[type];
+                ))];
                 return (
                     events &&
             ((args = Array.from(
@@ -2840,10 +2839,9 @@ var Event1 = DOMEvent;
             removeEvent: function (
                 type, fn
             ) {
-                type = removeOn(
+                var events = this.$events[(type = removeOn(
                     type
-                );
-                var events = this.$events[type];
+                ))];
                 if (events && !fn.internal) {
                     var index = events.indexOf(
                         fn
@@ -2924,12 +2922,11 @@ function (
         ) {
             if (null == expression) return null;
             if (!0 === expression.Slick) return expression;
-            (expression = ("" + expression).replace(
+            expression = ("" + expression).replace(
                 /^\s+|\s+$/g,
                 ""
-            )),
-            (reversed = !!isReversed);
-            var currentCache = reversed ? reverseCache : cache;
+            );
+            var currentCache = (reversed = !!isReversed) ? reverseCache : cache;
             if (currentCache[expression]) return currentCache[expression];
             for (
                 parsed = {
@@ -4985,15 +4982,14 @@ var IFrame = new Type(
                     : "IFrame_" + String.uniqueID(
                     ),
             ].pick(
-            )),
-            (iframe = new Element1(
-                iframe || "iframe",
-                props
             ));
             var onLoad = function (
             ) {
                 onload.call(
-                    iframe.contentWindow
+                    (iframe = new Element1(
+                        iframe || "iframe",
+                        props
+                    )).contentWindow,
                 );
             };
             return (
@@ -5479,13 +5475,14 @@ Elements.alias(
         expression, combinator
     ) {
         if (!expression) return combinator;
-        expression = Object.clone(
-            Slick.parse(
-                expression
-            )
-        );
         for (
-            var expressions = expression.expressions, i = expressions.length;
+            var expressions = (expression = Object.clone(
+                    Slick.parse(
+                        expression
+                    )
+                ))
+                    .expressions,
+                i = expressions.length;
             i--;
 
         )
@@ -6360,10 +6357,9 @@ Elements.alias(
             clone: function (
                 contents, keepid
             ) {
-                var i;
-                contents = !1 !== contents;
-                var clone = this.cloneNode(
-                        contents
+                var i,
+                    clone = this.cloneNode(
+                        (contents = !1 !== contents)
                     ),
                     ce = [clone,],
                     te = [this,];
@@ -6963,9 +6959,10 @@ Elements.alias(
                 if ("opacity" == property) return getOpacity(
                     this
                 );
-                property = ("float" == property ? floatName : property).camelCase(
-                );
-                var result = this.style[property];
+                var result = this.style[
+                    (property = ("float" == property ? floatName : property).camelCase(
+                    ))
+                ];
                 if (!result || "zIndex" == property) {
                     for (var style in ((result = []), Element1.ShortStyles))
                         if (property == style) {
@@ -6984,10 +6981,9 @@ Elements.alias(
                     );
                 }
                 if (result) {
-                    result = String(
+                    var color = (result = String(
                         result
-                    );
-                    var color = result.match(
+                    )).match(
                         /rgba?\([\d\s,]+\)/
                     );
                     color && (result = result.replace(
@@ -7412,10 +7408,9 @@ Elements.alias(
                 cloneEvents: function (
                     from, type
                 ) {
-                    from = document.id(
+                    var events = (from = document.id(
                         from
-                    );
-                    var events = from.retrieve(
+                    )).retrieve(
                         "events"
                     );
                     if (!events) return this;
@@ -8691,10 +8686,9 @@ Element1.alias(
         prepare: function (
             element, property, values
         ) {
-            values = Array.from(
-                values
-            );
-            var from = values[0],
+            var from = (values = Array.from(
+                    values
+                ))[0],
                 to = values[1];
             if (null == to) {
                 (to = from), (from = element.getStyle(
@@ -9364,15 +9358,14 @@ Fx.implement(
 (Fx.Transition = function (
     transition, params
 ) {
-    params = Array.from(
-        params
-    );
     var easeIn = function (
         pos
     ) {
         return transition(
-            pos,
-            params
+            pos, (
+                params = Array.from(
+                    params
+                ))
         );
     };
     return Object.append(
@@ -9721,16 +9714,15 @@ Fx.Transitions.extend(
             (options = {
                 data: options,
             });
-                    var old = this.options;
-                    options = Object.append(
-                        {
-                            data: old.data,
-                            url: old.url,
-                            method: old.method,
-                        },
-                        options,
-                    );
-                    var data = options.data,
+                    var old = this.options,
+                        data = (options = Object.append(
+                            {
+                                data: old.data,
+                                url: old.url,
+                                method: old.method,
+                            },
+                            options,
+                        )).data,
                         url = String(
                             options.url
                         ),
@@ -10533,9 +10525,8 @@ var Cookie = new Class(
                 )),
                 this.setOptions(
                     options
-                ),
-                (options = this.options);
-                var id = (this.id = options.id || this.instance),
+                );
+                var id = (this.id = (options = this.options).id || this.instance),
                     container = document.id(
                         options.container
                     );
