@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use super::Optimizer;
 use crate::util::ExprOptExt;
 use swc_common::EqIgnoreSpan;
@@ -5,7 +7,9 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::StmtExt;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value::Known;
 use swc_ecma_visit::noop_visit_type;
@@ -45,6 +49,7 @@ impl Optimizer<'_> {
         });
 
         if let Some(case_idx) = matching_case {
+            let mut var_ids = vec![];
             let mut stmts = vec![];
 
             let should_preserve_switch = stmt.cases.iter().skip(case_idx).any(|case| {
@@ -81,6 +86,21 @@ impl Optimizer<'_> {
                 }
             }
 
+            for case in &stmt.cases[..case_idx] {
+                for cons in &case.cons {
+                    var_ids.extend(
+                        cons.extract_var_ids()
+                            .into_iter()
+                            .map(|name| VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(name.into()),
+                                init: None,
+                                definite: Default::default(),
+                            }),
+                    );
+                }
+            }
+
             for case in stmt.cases.iter_mut().skip(case_idx) {
                 let mut found_break = false;
                 case.cons.retain(|stmt| match stmt {
@@ -108,6 +128,18 @@ impl Optimizer<'_> {
                 if found_break {
                     break;
                 }
+            }
+
+            if !var_ids.is_empty() {
+                prepend(
+                    &mut stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: take(&mut var_ids),
+                    })),
+                )
             }
 
             let inner = if should_preserve_switch {
