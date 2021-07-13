@@ -87,6 +87,9 @@ impl Optimizer<'_> {
                     right,
                     ..
                 }) => {
+                    if negate_cost(&left) >= 0 || negate_cost(&right) >= 0 {
+                        return;
+                    }
                     log::trace!("Optimizing `!(a && b)` as `!a || !b`");
                     self.changed = true;
                     *e = Expr::Bin(BinExpr {
