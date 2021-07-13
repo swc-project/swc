@@ -240,7 +240,7 @@ impl Optimizer<'_> {
         }
     }
 
-    fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {
