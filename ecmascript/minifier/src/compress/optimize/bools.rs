@@ -439,6 +439,18 @@ impl Optimizer<'_> {
         }
 
         match n {
+            Expr::Bin(BinExpr {
+                op: op!("&&") | op!("||"),
+                right,
+                ..
+            }) => {
+                self.optimize_expr_in_bool_ctx(&mut **right);
+            }
+
+            _ => {}
+        }
+
+        match n {
             Expr::Unary(UnaryExpr {
                 span,
                 op: op!("!"),
