@@ -1861,6 +1861,8 @@ impl VisitMut for Optimizer<'_> {
 
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
+        self.with_ctx(ctx).merge_for_if_break(s);
+
         self.with_ctx(ctx).optimize_init_of_for_stmt(s);
 
         self.with_ctx(ctx).drop_if_break(s);

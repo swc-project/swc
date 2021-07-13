@@ -97,6 +97,22 @@ impl Optimizer<'_> {
         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP })
     }
 
+    /// # Input
+    ///
+    /// ```js
+    /// for(; size--;)
+    ///     if (!(result = eq(a[size], b[size], aStack, bStack)))
+    ///         break;
+    /// ```
+    ///
+    ///
+    /// # Output
+    ///
+    /// ```js
+    /// for (; size-- && (result = eq(a[size], b[size], aStack, bStack)););
+    /// ```
+    pub(super) fn merge_for_if_break(&mut self, s: &mut ForStmt) {}
+
     ///
     /// - `while(false) { var a; foo() }` => `var a;`
     pub(super) fn optiimze_loops_if_cond_is_false(&mut self, stmt: &mut Stmt) {
