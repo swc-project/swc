@@ -2187,6 +2187,9 @@ impl VisitMut for Optimizer<'_> {
             top_level: false,
             ..self.ctx
         };
+
+        self.merge_sequences_in_stmts(stmts);
+
         self.negate_if_terminate(stmts);
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 

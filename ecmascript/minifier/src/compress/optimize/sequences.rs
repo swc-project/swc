@@ -483,6 +483,12 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        fn first_expr(s: &mut Stmt) -> Option<&mut Expr> {
+            None
+        }
+    }
+
     /// Calls `merge_sequential_expr`.
     ///
     ///
