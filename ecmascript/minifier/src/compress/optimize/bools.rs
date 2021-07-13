@@ -447,6 +447,12 @@ impl Optimizer<'_> {
                 self.optimize_expr_in_bool_ctx(&mut **right);
             }
 
+            Expr::Seq(e) => {
+                if let Some(last) = e.exprs.last_mut() {
+                    self.optimize_expr_in_bool_ctx(&mut **last);
+                }
+            }
+
             _ => {}
         }
 
