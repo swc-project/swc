@@ -529,8 +529,8 @@ impl Optimizer<'_> {
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
-        for idx in 1..e.exprs.len() {
-            let (a1, a2) = e.exprs.split_at_mut(idx - 1);
+        for idx in 0..e.exprs.len() {
+            let (a1, a2) = e.exprs.split_at_mut(idx);
 
             if a1.is_empty() || a2.is_empty() {
                 continue;
@@ -542,8 +542,17 @@ impl Optimizer<'_> {
         e.exprs.retain(|e| !e.is_invalid());
     }
 
-    /// Returns true if `a` is removed.
+    /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) -> bool {
+        match b {
+            Expr::Cond(b) => {
+                if self.merge_sequential_expr(a, &mut *b.test) {
+                    return true;
+                }
+            }
+            _ => {}
+        }
+
         match a {
             Expr::Assign(AssignExpr {
                 op: op!("="),
