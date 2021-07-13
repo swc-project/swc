@@ -69,7 +69,9 @@ impl Optimizer<'_> {
                                 | Stmt::For(ForStmt {
                                     init: Some(VarDeclOrExpr::Expr(..)),
                                     ..
-                                }) => true,
+                                })
+                                | Stmt::ForIn(..)
+                                | Stmt::ForOf(..) => true,
                                 _ => false,
                             }
                         }
@@ -162,6 +164,18 @@ impl Optimizer<'_> {
                                 }
                             }
                             new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                        }
+
+                        Stmt::ForIn(mut stmt) => {
+                            stmt.right.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::ForIn(stmt)));
+                        }
+
+                        Stmt::ForOf(mut stmt) => {
+                            stmt.right.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
                         }
 
                         _ => {
