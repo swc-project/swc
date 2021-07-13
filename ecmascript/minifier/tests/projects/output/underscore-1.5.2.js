@@ -978,11 +978,12 @@
                         length + isSorted
                     )
                     : isSorted;
-            else
-                return (i = _.sortedIndex(
-                    array,
-                    item
-                )), array[i] === item ? i : -1;
+            else return array[(i = _.sortedIndex(
+                array,
+                item
+            ))] === item
+                ? i
+                : -1;
         }
         if (nativeIndexOf && array.indexOf === nativeIndexOf)
             return array.indexOf(

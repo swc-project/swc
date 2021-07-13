@@ -2365,9 +2365,7 @@ Hash.alias(
             function (
                 event, win
             ) {
-                if (
-                    (win || (win = window), (event = event || win.event), event.$extended)
-                )
+                if ((win || (win = window), (event = event || win.event).$extended))
                     return event;
                 (this.event = event),
                 (this.$extended = !0),
@@ -2665,10 +2663,10 @@ var Event1 = DOMEvent;
                 Class.Mutators.hasOwnProperty(
                     key
                 ) &&
-          ((value = Class.Mutators[key].call(
+          null == (value = Class.Mutators[key].call(
               this,
               value
-          )), null == value)
+          ))
             )
                 return this;
             if ("function" == typeOf(
@@ -3648,9 +3646,9 @@ function (
                     if ("#" == symbol) {
                         if (!this.isHTMLDocument || !contextIsDocument)
                             break simpleSelectors;
-                        if (((node = context.getElementById(
+                        if (!(node = context.getElementById(
                             name
-                        )), !node)) return found;
+                        ))) return found;
                         if (
                             this.idGetsName &&
                 node.getAttributeNode(
@@ -3801,10 +3799,9 @@ function (
                     found
                 ), found;
             }
-            if (((parsed = this.Slick.parse(
+            if (!(parsed = this.Slick.parse(
                 expression
-            )), !parsed.length))
-                return found;
+            )).length) return found;
         } else if (null == expression) return found;
         else if (expression.Slick) parsed = expression;
         else if (this.contains(
@@ -3833,10 +3830,7 @@ function (
         null == found && (found = []);
         search: for (i = 0; (currentExpression = parsed.expressions[i]); i++)
             for (j = 0; (currentBit = currentExpression[j]); j++) {
-                if (
-                    ((combinator = "combinator:" + currentBit.combinator),
-                    !this[combinator])
-                )
+                if (!this[(combinator = "combinator:" + currentBit.combinator)])
                     continue search;
                 if (
                     ((tag = this.isXMLDocument
@@ -3913,12 +3907,10 @@ function (
         var uid = node.getAttribute(
             this.uidk
         );
-        return (
-            uid || ((uid = this.uidx++), node.setAttribute(
-                this.uidk,
-                uid
-            )), uid
-        );
+        return uid || node.setAttribute(
+            this.uidk, (
+                uid = this.uidx++)
+        ), uid;
     }),
     (local.getUIDHTML = function (
         node
@@ -3948,29 +3940,26 @@ function (
             a = parsed[1] || 1;
         "-" == a && (a = -1);
         var b = +parsed[3] || 0;
-        return (
-            (parsed =
-            "n" == special
-                ? {
-                    a: a,
-                    b: b,
-                }
-                : "odd" == special
-                    ? {
-                        a: 2,
-                        b: 1,
-                    }
-                    : "even" == special
-                        ? {
-                            a: 2,
-                            b: 0,
-                        }
-                        : {
-                            a: 0,
-                            b: a,
-                        }),
-            (this.cacheNTH[argument] = parsed)
-        );
+        return (this.cacheNTH[argument] = parsed =
+          "n" == special
+              ? {
+                  a: a,
+                  b: b,
+              }
+              : "odd" == special
+                  ? {
+                      a: 2,
+                      b: 1,
+                  }
+                  : "even" == special
+                      ? {
+                          a: 2,
+                          b: 0,
+                      }
+                      : {
+                          a: 0,
+                          b: a,
+                      });
     }),
     (local.createNTHPseudo = function (
         child, sibling, positions, ofType
@@ -4153,8 +4142,7 @@ function (
         if (attributes)
             for (i = attributes.length; i--; )
                 if (
-                    ((part = attributes[i]),
-                    part.operator
+                    (part = attributes[i]).operator
                         ? !part.test(
                             this.getAttribute(
                                 node,
@@ -4164,7 +4152,7 @@ function (
                         : !this.hasAttribute(
                             node,
                             part.key
-                        ))
+                        )
                 )
                     return !1;
         if (pseudos)
@@ -5248,21 +5236,18 @@ Elements.alias(
                     string: function (
                         id, nocash, doc
                     ) {
-                        return (
-                            (id = Slick.find(
-                                doc,
-                                "#" + id.replace(
-                                    /(\W)/g,
-                                    "\\$1"
-                                )
-                            )),
-                            id
-                                ? types.element(
-                                    id,
-                                    nocash
-                                )
-                                : null
-                        );
+                        return (id = Slick.find(
+                            doc,
+                            "#" + id.replace(
+                                /(\W)/g,
+                                "\\$1"
+                            )
+                        ))
+                            ? types.element(
+                                id,
+                                nocash
+                            )
+                            : null;
                     },
                     element: function (
                         el, nocash
@@ -8709,24 +8694,23 @@ Element1.alias(
                         !/px$/.test(
                             value
                         ) &&
-            ((value = element.style[("pixel-" + property).camelCase(
-            )]),
-            null == value)
+            null == (value = element.style[("pixel-" + property).camelCase(
+            )])
                     ) {
                         var left = element.style.left;
                         (element.style.left = to + unit),
                         (value = element.style.pixelLeft),
                         (element.style.left = left);
                     }
-                    (from =
-            ((to || 1) / (parseFloat(
-                value
-            ) || 1)) * (parseFloat(
-                from
-            ) || 0)),
                     element.setStyle(
                         property,
-                        from + unit
+                        (from =
+              ((to || 1) / (parseFloat(
+                  value
+              ) || 1)) *
+              (parseFloat(
+                  from
+              ) || 0)) + unit,
                     );
                 }
             }
@@ -8754,8 +8738,7 @@ Element1.alias(
               )
               : Array.from(
                   value
-              )),
-                value.map(
+              )).map(
                     function (
                         val
                     ) {
@@ -8774,10 +8757,10 @@ Element1.alias(
                                             val
                                         );
                                         (parsed || 0 === parsed) &&
-                  (found = {
-                      value: parsed,
-                      parser: parser,
-                  });
+                    (found = {
+                        value: parsed,
+                        parser: parser,
+                    });
                                     }
                                 }
                             ),
@@ -8786,7 +8769,7 @@ Element1.alias(
                                 parser: Fx.CSS.Parsers.String,
                             })
                         );
-                    }
+                    },
                 )
             );
         },
@@ -9079,16 +9062,15 @@ Element1.alias(
         );
         return (
             tween ||
-          ((tween = new Fx.Tween(
-              this,
-              {
-                  link: "cancel",
-              }
-          )),
           this.store(
               "tween",
-              tween
-          )),
+              (tween = new Fx.Tween(
+                  this,
+                  {
+                      link: "cancel",
+                  }
+              )),
+          ),
             tween
         );
     },
@@ -9298,16 +9280,15 @@ Element1.implement(
         );
         return (
             morph ||
-          ((morph = new Fx.Morph(
-              this,
-              {
-                  link: "cancel",
-              }
-          )),
           this.store(
               "morph",
-              morph
-          )),
+              (morph = new Fx.Morph(
+                  this,
+                  {
+                      link: "cancel",
+                  }
+              )),
+          ),
             morph
         );
     },
@@ -9907,22 +9888,21 @@ Fx.Transitions.extend(
             );
             return (
                 send ||
-              ((send = new Request1(
-                  {
-                      data: this,
-                      link: "cancel",
-                      method: this.get(
-                          "method"
-                      ) || "post",
-                      url: this.get(
-                          "action"
-                      ),
-                  }
-              )),
               this.store(
                   "send",
-                  send
-              )),
+                  (send = new Request1(
+                      {
+                          data: this,
+                          link: "cancel",
+                          method: this.get(
+                              "method"
+                          ) || "post",
+                          url: this.get(
+                              "action"
+                          ),
+                      }
+                  )),
+              ),
                 send
             );
         },
@@ -10047,18 +10027,17 @@ Fx.Transitions.extend(
         );
         return (
             load ||
-          ((load = new Request.HTML(
-              {
-                  data: this,
-                  link: "cancel",
-                  update: this,
-                  method: "get",
-              }
-          )),
           this.store(
               "load",
-              load
-          )),
+              (load = new Request.HTML(
+                  {
+                      data: this,
+                      link: "cancel",
+                      update: this,
+                      method: "get",
+                  }
+              )),
+          ),
             load
         );
     },
@@ -10120,7 +10099,7 @@ void 0 === JSON && (this.JSON = {
     (JSON.validate = function (
         string
     ) {
-        return (
+        return /^[\],:{}\s]*$/.test(
             (string = string
                 .replace(
                     /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,
@@ -10134,9 +10113,6 @@ void 0 === JSON && (this.JSON = {
                     /(?:^|:|,)(?:\s*\[)+/g,
                     ""
                 )),
-            /^[\],:{}\s]*$/.test(
-                string
-            )
         );
     }),
     (JSON.encode = JSON.stringify

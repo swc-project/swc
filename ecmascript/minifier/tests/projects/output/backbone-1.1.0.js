@@ -93,7 +93,7 @@
                     i < l;
                     i++
                 )
-                    if (((name = names[i]), (events = this._events[name]))) {
+                    if ((events = this._events[(name = names[i])])) {
                         if (((this._events[name] = retain = []), callback || context))
                             for (j = 0, k = events.length; j < k; j++)
                                 (ev = events[j]),
@@ -554,13 +554,13 @@
                         ? ((attrs = key), (options = val))
                         : ((attrs = {
                         })[key] = val),
-                    (options = _.extend(
-                        {
-                            validate: !0,
-                        },
-                        options,
-                    )),
-                    attrs && !options.wait)
+                    attrs &&
+          !(options = _.extend(
+              {
+                  validate: !0,
+              },
+              options,
+          )).wait)
                 ) {
                     if (!this.set(
                         attrs,
@@ -1269,16 +1269,15 @@
                 model, options
             ) {
                 if (
-                    ((options = options
-                        ? _.clone(
-                            options
-                        )
-                        : {
-                        }),
                     !(model = this._prepareModel(
                         model,
-                        options
-                    )))
+                        (options = options
+                            ? _.clone(
+                                options
+                            )
+                            : {
+                            }),
+                    ))
                 )
                     return !1;
                 options.wait || this.add(
@@ -1833,31 +1832,30 @@
             _routeToRegExp: function (
                 route
             ) {
-                return (
-                    (route = route
-                        .replace(
-                            escapeRegExp,
-                            "\\$&"
-                        )
-                        .replace(
-                            optionalParam,
-                            "(?:$1)?"
-                        )
-                        .replace(
-                            namedParam,
-                            function (
-                                match, optional
-                            ) {
-                                return optional ? match : "([^/]+)";
-                            }
-                        )
-                        .replace(
-                            splatParam,
-                            "(.*?)"
-                        )),
-                    new RegExp(
-                        "^" + route + "$"
-                    )
+                return new RegExp(
+                    "^" +
+          (route = route
+              .replace(
+                  escapeRegExp,
+                  "\\$&"
+              )
+              .replace(
+                  optionalParam,
+                  "(?:$1)?"
+              )
+              .replace(
+                  namedParam,
+                  function (
+                      match, optional
+                  ) {
+                      return optional ? match : "([^/]+)";
+                  }
+              )
+              .replace(
+                  splatParam,
+                  "(.*?)"
+              )) +
+          "$",
                 );
             },
             _extractParameters: function (
@@ -2122,13 +2120,10 @@
                 var url = this.root + (fragment = this.getFragment(
                     fragment || ""
                 ));
-                if (
-                    ((fragment = fragment.replace(
-                        pathStripper,
-                        ""
-                    )),
-                    this.fragment !== fragment)
-                ) {
+                if (this.fragment !== (fragment = fragment.replace(
+                    pathStripper,
+                    ""
+                ))) {
                     if (
                         ((this.fragment = fragment),
                         "" === fragment && "/" !== url && (url = url.slice(
@@ -2194,23 +2189,22 @@
     ) {
         var parent = this,
             child;
-        (child =
-        protoProps && _.has(
-            protoProps,
-            "constructor"
-        )
-            ? protoProps.constructor
-            : function (
-            ) {
-                return parent.apply(
-                    this,
-                    arguments
-                );
-            }),
         _.extend(
-            child,
+            (child =
+          protoProps && _.has(
+              protoProps,
+              "constructor"
+          )
+              ? protoProps.constructor
+              : function (
+              ) {
+                  return parent.apply(
+                      this,
+                      arguments
+                  );
+              }),
             parent,
-            staticProps
+            staticProps,
         );
         var Surrogate = function (
         ) {

@@ -318,7 +318,7 @@
         )
             if (null != (options = arguments[i]))
                 for (name in options)
-                    ((src = target[name]), (copy = options[name]), target !== copy) &&
+                    ((src = target[name]), target !== (copy = options[name])) &&
               (deep &&
               copy &&
               (jQuery.isPlainObject(
@@ -559,16 +559,15 @@
             parseXML: function (
                 data
             ) {
-                var xml, tmp;
+                var xml;
                 if (!data || "string" != typeof data) return null;
                 try {
                     window.DOMParser
-                        ? ((tmp = new DOMParser(
-                        )),
-                        (xml = tmp.parseFromString(
+                        ? (xml = new DOMParser(
+                        ).parseFromString(
                             data,
                             "text/xml"
-                        )))
+                        ))
                         : ((xml = new ActiveXObject(
                             "Microsoft.XMLDOM"
                         )),
@@ -637,8 +636,7 @@
             each: function (
                 obj, callback, args
             ) {
-                var value,
-                    i = 0,
+                var i = 0,
                     length = obj.length,
                     isArray = isArraylike(
                         obj
@@ -646,33 +644,28 @@
                 if (args) {
                     if (isArray)
                         for (; i < length; i++)
-                            if (((value = callback.apply(
+                            if (!1 === callback.apply(
                                 obj[i],
                                 args
-                            )), !1 === value)) break;
+                            )) break;
                             else
-                                for (i in obj)
-                                    if (((value = callback.apply(
-                                        obj[i],
-                                        args
-                                    )), !1 === value))
-                                        break;
+                                for (i in obj) if (!1 === callback.apply(
+                                    obj[i],
+                                    args
+                                )) break;
                 } else if (isArray)
                     for (; i < length; i++)
-                        if (((value = callback.call(
+                        if (!1 === callback.call(
                             obj[i],
                             i,
                             obj[i]
-                        )), !1 === value))
-                            break;
+                        )) break;
                         else
-                            for (i in obj)
-                                if (((value = callback.call(
-                                    obj[i],
-                                    i,
-                                    obj[i]
-                                )), !1 === value))
-                                    break;
+                            for (i in obj) if (!1 === callback.call(
+                                obj[i],
+                                i,
+                                obj[i]
+                            )) break;
                 return obj;
             },
             trim:
@@ -759,16 +752,14 @@
             grep: function (
                 elems, callback, inv
             ) {
-                var retVal,
-                    ret = [],
+                var ret = [],
                     i = 0,
                     length = elems.length;
                 for (inv = !!inv; i < length; i++)
-                    (retVal = !!callback(
+                    !!callback(
                         elems[i],
                         i
-                    )),
-                    inv !== retVal && ret.push(
+                    ) !== inv && ret.push(
                         elems[i]
                     );
                 return ret;
@@ -863,17 +854,16 @@
                     elems,
                     value
                 ), (fn = null))
-                : ((bulk = fn),
-                (fn = function (
+                : (fn = function (
                     elem, key, value
                 ) {
-                    return bulk.call(
+                    return (bulk = fn).call(
                         jQuery(
                             elem
                         ),
                         value
                     );
-                }))),
+                })),
           fn)
                 )
                     for (; i < length; i++)
@@ -1473,10 +1463,9 @@
             (all = div.getElementsByTagName(
                 "*"
             )),
-            (a = div.getElementsByTagName(
+            !all || !(a = div.getElementsByTagName(
                 "a"
-            )[0]),
-            !all || !a || !all.length)
+            )[0]) || !all.length)
         )
             return {
             };
@@ -1998,9 +1987,9 @@
                 "-$1"
             ).toLowerCase(
             );
-            if (((data = elem.getAttribute(
+            if ("string" == typeof (data = elem.getAttribute(
                 name
-            )), "string" == typeof data)) {
+            ))) {
                 try {
                     data =
             "true" === data ||
@@ -2190,26 +2179,22 @@
             delay: function (
                 time, type
             ) {
-                return (
-                    (time = jQuery.fx ? jQuery.fx.speeds[time] || time : time),
+                return this.queue(
                     (type = type || "fx"),
-                    this.queue(
-                        type,
-                        function (
-                            next, hooks
+                    function (
+                        next, hooks
+                    ) {
+                        var timeout = setTimeout(
+                            next,
+                            (time = jQuery.fx ? jQuery.fx.speeds[time] || time : time),
+                        );
+                        hooks.stop = function (
                         ) {
-                            var timeout = setTimeout(
-                                next,
-                                time
+                            clearTimeout(
+                                timeout
                             );
-                            hooks.stop = function (
-                            ) {
-                                clearTimeout(
-                                    timeout
-                                );
-                            };
-                        }
-                    )
+                        };
+                    }
                 );
             },
             clearQueue: function (
@@ -2467,12 +2452,15 @@
                                     ) || [])[i++]);
 
                                 )
-                                    (state = isBool
-                                        ? state
-                                        : !self.hasClass(
-                                            className
-                                        )),
-                                    self[state ? "addClass" : "removeClass"](
+                                    self[
+                                        (state = isBool
+                                            ? state
+                                            : !self.hasClass(
+                                                className
+                                            ))
+                                            ? "addClass"
+                                            : "removeClass"
+                                    ](
                                         className
                                     );
                             else
@@ -2533,69 +2521,63 @@
               )))
                         )
                             return ret;
-                        return (
-                            (ret = elem.value),
-                            "string" == typeof ret
-                                ? ret.replace(
-                                    rreturn,
-                                    ""
-                                )
-                                : null == ret
-                                    ? ""
-                                    : ret
-                        );
+                        return "string" == typeof (ret = elem.value)
+                            ? ret.replace(
+                                rreturn,
+                                ""
+                            )
+                            : null == ret
+                                ? ""
+                                : ret;
                     }
                     return;
                 }
-                return (
-                    (isFunction = jQuery.isFunction(
-                        value
-                    )),
-                    this.each(
-                        function (
-                            i
-                        ) {
-                            var val;
-                            1 === this.nodeType &&
-            (null ==
-            (val = isFunction
-                ? value.call(
-                    this,
-                    i,
-                    jQuery(
-                        this
-                    ).val(
-                    )
-                )
-                : value)
-                ? (val = "")
-                : "number" == typeof val
-                    ? (val += "")
-                    : jQuery.isArray(
-                        val
-                    ) &&
-                (val = jQuery.map(
-                    val,
+                return this.each(
                     function (
-                        value1
+                        i
                     ) {
-                        return null == value1 ? "" : value1 + "";
-                    }
-                )),
-            (hooks =
-              jQuery.valHooks[this.type] ||
-              jQuery.valHooks[this.nodeName.toLowerCase(
-              )]),
-            (hooks &&
-              "set" in hooks &&
-              void 0 !== hooks.set(
+                        var val;
+                        1 === this.nodeType &&
+          (null ==
+          (val = (isFunction = jQuery.isFunction(
+              value
+          ))
+              ? value.call(
                   this,
+                  i,
+                  jQuery(
+                      this
+                  ).val(
+                  )
+              )
+              : value)
+              ? (val = "")
+              : "number" == typeof val
+                  ? (val += "")
+                  : jQuery.isArray(
+                      val
+                  ) &&
+              (val = jQuery.map(
                   val,
-                  "value"
-              )) ||
-              (this.value = val));
-                        }
-                    )
+                  function (
+                      value1
+                  ) {
+                      return null == value1 ? "" : value1 + "";
+                  }
+              )),
+          (hooks =
+            jQuery.valHooks[this.type] ||
+            jQuery.valHooks[this.nodeName.toLowerCase(
+            )]),
+          (hooks &&
+            "set" in hooks &&
+            void 0 !== hooks.set(
+                this,
+                val,
+                "value"
+            )) ||
+            (this.value = val));
+                    }
                 );
             },
         }
@@ -2834,8 +2816,7 @@
                         ((1 === nType && jQuery.isXMLDoc(
                             elem
                         )) ||
-              ((name = jQuery.propFix[name] || name),
-              (hooks = jQuery.propHooks[name])),
+              (hooks = jQuery.propHooks[(name = jQuery.propFix[name] || name)]),
                         void 0 !== value)
                     ) {
                         if (
@@ -3479,9 +3460,8 @@
                     elem
                 )) {
                     for (
-                        bubbleType = special.delegateType || type,
                         rfocusMorph.test(
-                            bubbleType + type
+                            (bubbleType = special.delegateType || type) + type,
                         ) || (cur = cur.parentNode);
                         cur;
                         cur = cur.parentNode
@@ -5366,27 +5346,24 @@
                 function (
                     argument
                 ) {
-                    return (
-                        (argument = +argument),
-                        markFunction(
-                            function (
-                                seed, matches1
-                            ) {
-                                for (
-                                    var j,
-                                        matchIndexes = fn(
-                                            [],
-                                            seed.length,
-                                            argument
-                                        ),
-                                        i = matchIndexes.length;
-                                    i--;
+                    return markFunction(
+                        function (
+                            seed, matches1
+                        ) {
+                            for (
+                                var j,
+                                    matchIndexes = fn(
+                                        [],
+                                        seed.length, (
+                                            argument = +argument)
+                                    ),
+                                    i = matchIndexes.length;
+                                i--;
 
-                                )
-                                    seed[(j = matchIndexes[i])] &&
-                  (seed[j] = !(matches1[j] = seed[j]));
-                            }
-                        )
+                            )
+                                seed[(j = matchIndexes[i])] &&
+                (seed[j] = !(matches1[j] = seed[j]));
+                        }
                     );
                 }
             );
@@ -5504,21 +5481,22 @@
                         ) {
                             return !0;
                         }
-                        : ((nodeName = nodeName
-                            .replace(
-                                runescape,
-                                funescape
-                            )
-                            .toLowerCase(
-                            )),
-                        function (
+                        : function (
                             elem
                         ) {
                             return (
-                                elem.nodeName && elem.nodeName.toLowerCase(
-                                ) === nodeName
+                                elem.nodeName &&
+                    elem.nodeName.toLowerCase(
+                    ) ===
+                      (nodeName = nodeName
+                          .replace(
+                              runescape,
+                              funescape
+                          )
+                          .toLowerCase(
+                          ))
                             );
-                        });
+                        };
                 },
                 CLASS: function (
                     className
@@ -5526,15 +5504,20 @@
                     var pattern = classCache[className + " "];
                     return (
                         pattern ||
-              ((pattern = new RegExp(
-                  "(^|" + whitespace + ")" + className + "(" + whitespace + "|$)",
-              )),
               classCache(
                   className,
                   function (
                       elem
                   ) {
-                      return pattern.test(
+                      return (pattern = new RegExp(
+                          "(^|" +
+                    whitespace +
+                    ")" +
+                    className +
+                    "(" +
+                    whitespace +
+                    "|$)",
+                      )).test(
                           elem.className ||
                     (void 0 !== elem.getAttribute &&
                       elem.getAttribute(
@@ -5543,7 +5526,7 @@
                     "",
                       );
                   }
-              ))
+              )
                     );
                 },
                 ATTR: function (
@@ -5717,8 +5700,7 @@
                             argument
                         )
                         : fn.length > 1
-                            ? ((args = [pseudo, pseudo, "", argument,]),
-                            Expr.setFilters.hasOwnProperty(
+                            ? Expr.setFilters.hasOwnProperty(
                                 pseudo.toLowerCase(
                                 )
                             )
@@ -5727,12 +5709,10 @@
                                         seed, matches1
                                     ) {
                                         for (
-                                            var idx,
-                                                matched = fn(
+                                            var idx, matched = fn(
                                                     seed,
                                                     argument
-                                                ),
-                                                i = matched.length;
+                                                ), i = matched.length;
                                             i--;
 
                                         )
@@ -5748,10 +5728,10 @@
                                 ) {
                                     return fn(
                                         elem,
-                                        0,
-                                        args
+                                        0, (
+                                            args = [pseudo, pseudo, "", argument,])
                                     );
-                                })
+                                }
                             : fn;
                 },
             },
@@ -6233,9 +6213,10 @@
                                 for (; (elem = elem[dir]); )
                                     if (1 === elem.nodeType || checkNonElements) {
                                         if (
-                                            ((outerCache = elem[expando] || (elem[expando] = {
-                                            })),
-                                            (cache = outerCache[dir]) && cache[0] === dirkey)
+                                            (cache = (outerCache =
+                            elem[expando] || (elem[expando] = {
+                            }))[dir]) &&
+                          cache[0] === dirkey
                                         ) {
                                             if ((data = cache[1]) === !0 || data === cachedruns)
                                                 return !0 === data;
@@ -6479,11 +6460,10 @@
                     ),];
                 else {
                     if (
-                        ((matcher = Expr.filter[tokens[i].type].apply(
+                        (matcher = Expr.filter[tokens[i].type].apply(
                             null,
                             tokens[i].matches,
-                        )),
-                        matcher[expando])
+                        ))[expando]
                     ) {
                         for (j = ++i; j < len; j++)
                             if (Expr.relative[tokens[j].type]) break;
@@ -6641,8 +6621,7 @@
                 )), i = group.length; i--; )
                     (cached = matcherFromTokens(
                         group[i]
-                    )),
-                    cached[expando]
+                    ))[expando]
                         ? setMatchers.push(
                             cached
                         )
@@ -6693,14 +6672,13 @@
               Expr.relative[tokens[1].type])
                 ) {
                     if (
-                        ((context = Expr.find.ID(
+                        !(context = Expr.find.ID(
                             token.matches[0].replace(
                                 runescape,
                                 funescape
                             ),
                             context,
-                        )[0]),
-                        !context)
+                        )[0])
                     )
                         return results;
                     selector = selector.slice(
@@ -6717,8 +6695,7 @@
                     i--;
 
                 ) {
-                    if (((token = tokens[i]), Expr.relative[(type = token.type)]))
-                        break;
+                    if (Expr.relative[(type = (token = tokens[i]).type)]) break;
                     if (
                         (find = Expr.find[type]) &&
               (seed = find(
@@ -6737,10 +6714,9 @@
                                 i,
                                 1
                             ),
-                            (selector = seed.length && toSelector(
+                            !(selector = seed.length && toSelector(
                                 tokens
-                            )),
-                            !selector)
+                            )))
                         )
                             return push.apply(
                                 results,
@@ -7219,9 +7195,9 @@
     function winnow(
         elements, qualifier, keep
     ) {
-        if (((qualifier = qualifier || 0), jQuery.isFunction(
-            qualifier
-        )))
+        if (jQuery.isFunction(
+            (qualifier = qualifier || 0)
+        ))
             return jQuery.grep(
                 elements,
                 function (
@@ -7622,21 +7598,18 @@
             clone: function (
                 dataAndEvents, deepDataAndEvents
             ) {
-                return (
-                    (deepDataAndEvents =
-            null == deepDataAndEvents
-                ? (dataAndEvents = null != dataAndEvents && dataAndEvents)
-                : deepDataAndEvents),
-                    this.map(
-                        function (
-                        ) {
-                            return jQuery.clone(
-                                this,
-                                dataAndEvents,
-                                deepDataAndEvents
-                            );
-                        }
-                    )
+                return this.map(
+                    function (
+                    ) {
+                        return jQuery.clone(
+                            this,
+                            dataAndEvents,
+                            (deepDataAndEvents =
+              null == deepDataAndEvents
+                  ? (dataAndEvents = null != dataAndEvents && dataAndEvents)
+                  : deepDataAndEvents),
+                        );
+                    }
                 );
             },
             html: function (
@@ -7822,18 +7795,18 @@
                     )
                         (node = fragment),
                         i !== l - 1 &&
-                ((node = jQuery.clone(
-                    node,
-                    !0,
-                    !0
-                )),
-                hasScripts && jQuery.merge(
+                hasScripts &&
+                jQuery.merge(
                     scripts,
                     getAll(
-                        node,
+                        (node = jQuery.clone(
+                            node,
+                            !0,
+                            !0
+                        )),
                         "script"
-                    )
-                )),
+                    ),
+                ),
                         callback.call(
                             table && jQuery.nodeName(
                                 this[i],
@@ -7986,9 +7959,9 @@
                 )),
                 !jQuery.support.noCloneEvent && dest[jQuery.expando])
             ) {
-                for (e in ((data = jQuery._data(
+                for (e in (data = jQuery._data(
                     dest
-                )), data.events))
+                )).events)
                     jQuery.removeEvent(
                         dest,
                         e,
@@ -8453,7 +8426,7 @@
             i--;
 
         )
-            if (((name = cssPrefixes[i] + capName), name in style)) return name;
+            if ((name = cssPrefixes[i] + capName) in style) return name;
         return name;
     }
     function isHidden(
@@ -8484,7 +8457,7 @@
             index < length;
             index++
         )
-            ((elem = elements[index]), elem.style) &&
+            (elem = elements[index]).style &&
         ((values[index] = jQuery._data(
             elem,
             "olddisplay"
@@ -8519,7 +8492,7 @@
                       ),
               )));
         for (index = 0; index < length; index++)
-            ((elem = elements[index]), elem.style) &&
+            (elem = elements[index]).style &&
         ((show && "none" !== elem.style.display && "" !== elem.style.display) ||
           (elem.style.display = show ? values[index] || "" : "none"));
         return elements;
@@ -8747,15 +8720,13 @@
                 "normal" === val &&
           name in cssNormalTransform &&
           (val = cssNormalTransform[name]),
-                "" === extra || extra)
-                    ? ((num = parseFloat(
-                        val
-                    )),
-                    !0 === extra || jQuery.isNumeric(
-                        num
-                    )
-                        ? num || 0
-                        : val)
+                "" === extra || extra) &&
+          (!0 === extra || jQuery.isNumeric(
+              (num = parseFloat(
+                  val
+              ))
+          ))
+                    ? num || 0
                     : val;
             },
             swap: function (
@@ -8777,23 +8748,24 @@
         }
     ),
     window.getComputedStyle
-        ? ((getStyles = function (
-            elem
-        ) {
-            return window.getComputedStyle(
-                elem,
-                null
-            );
-        }),
-        (curCSS = function (
+        ? (curCSS = function (
             elem, name, _computed
         ) {
             var width,
                 minWidth,
                 maxWidth,
-                computed = _computed || getStyles(
-                    elem
-                ),
+                computed =
+              _computed ||
+              (getStyles = function (
+                  elem
+              ) {
+                  return window.getComputedStyle(
+                      elem,
+                      null
+                  );
+              })(
+                  elem
+              ),
                 ret = computed
                     ? computed.getPropertyValue(
                         name
@@ -8827,22 +8799,23 @@
                 (style.maxWidth = maxWidth))),
                 ret
             );
-        }))
+        })
         : document.documentElement.currentStyle &&
-        ((getStyles = function (
-            elem
-        ) {
-            return elem.currentStyle;
-        }),
         (curCSS = function (
             elem, name, _computed
         ) {
             var left,
                 rs,
                 rsLeft,
-                computed = _computed || getStyles(
-                    elem
-                ),
+                computed =
+              _computed ||
+              (getStyles = function (
+                  elem
+              ) {
+                  return elem.currentStyle;
+              })(
+                  elem
+              ),
                 ret = computed ? computed[name] : void 0,
                 style = elem.style;
             return (
@@ -8862,7 +8835,7 @@
               rsLeft && (rs.left = rsLeft)),
                 "" === ret ? "auto" : ret
             );
-        }));
+        });
     function setPositiveNumber(
         elem, value, subtract
     ) {
@@ -9170,20 +9143,17 @@
                           elem, computed
                       ) {
                           if (computed)
-                              return (
+                              return rnumnonpx.test(
                                   (computed = curCSS(
                                       elem,
                                       prop
-                                  )),
-                                  rnumnonpx.test(
-                                      computed
-                                  )
-                                      ? jQuery(
-                                          elem
-                                      ).position(
-                                      )[prop] + "px"
-                                      : computed
-                              );
+                                  ))
+                              )
+                                  ? jQuery(
+                                      elem
+                                  ).position(
+                                  )[prop] + "px"
+                                  : computed;
                       },
                   };
               }
@@ -9350,6 +9320,12 @@
             add = function (
                 key, value
             ) {
+                s[s.length] =
+            encodeURIComponent(
+                key
+            ) +
+            "=" +
+            encodeURIComponent(
                 (value = jQuery.isFunction(
                     value
                 )
@@ -9358,12 +9334,7 @@
                     : null == value
                         ? ""
                         : value),
-                (s[s.length] =
-              encodeURIComponent(
-                  key
-              ) + "=" + encodeURIComponent(
-                  value
-              ));
+            );
             };
         if (
             (void 0 === traditional &&
@@ -9865,9 +9836,10 @@
                             );
                             return (
                                 state ||
-                  ((name = requestHeadersNames[lname] =
-                    requestHeadersNames[lname] || name),
-                  (requestHeaders[name] = value)),
+                  (requestHeaders[
+                      (name = requestHeadersNames[lname] =
+                      requestHeadersNames[lname] || name)
+                  ] = value),
                                 this
                             );
                         },
@@ -10125,8 +10097,7 @@
                         ))
                             .state),
                         (success = isSuccess.data),
-                        (error = isSuccess.error),
-                        (isSuccess = !error)))
+                        (isSuccess = !(error = isSuccess.error))))
                 : ((error = statusText),
                 (status || !statusText) &&
                   ((statusText = "error"), status < 0 && (status = 0))),
@@ -10270,9 +10241,8 @@
             if ("*" !== current) {
                 if ("*" !== prev && prev !== current) {
                     if (
-                        ((conv =
-              converters[prev + " " + current] || converters["* " + current]),
-                        !conv)
+                        !(conv =
+              converters[prev + " " + current] || converters["* " + current])
                     )
                         for (conv2 in converters)
                             if (
@@ -10287,11 +10257,11 @@
                                 !0 === conv
                                     ? (conv = converters[conv2])
                                     : !0 !== converters[conv2] &&
-                    ((current = tmp[0]), dataTypes.splice(
+                    dataTypes.splice(
                         i--,
-                        0,
-                        current
-                    ));
+                        0, (
+                            current = tmp[0])
+                    );
                                 break;
                             }
                     if (!0 !== conv) {
@@ -10538,8 +10508,7 @@
     (xhrSupported = jQuery.ajaxSettings.xhr(
     )),
     (jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported),
-    (xhrSupported = jQuery.support.ajax = !!xhrSupported),
-    xhrSupported &&
+    (xhrSupported = jQuery.support.ajax = !!xhrSupported) &&
       jQuery.ajaxTransport(
           function (
               s
@@ -10694,8 +10663,9 @@
                     if (parts) {
                         if (
                             ((end = +parts[2]),
-                            (unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px")),
-                            "px" !== unit && start)
+                            "px" !==
+                (unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px")) &&
+                start)
                         ) {
                             start = jQuery.css(
                                 tween.elem,
@@ -11011,10 +10981,9 @@
       )),
       null == hooks.unqueued &&
         ((hooks.unqueued = 0),
-        (oldfire = hooks.empty.fire),
         (hooks.empty.fire = function (
         ) {
-            hooks.unqueued || oldfire(
+            hooks.unqueued || (oldfire = hooks.empty.fire)(
             );
         })),
       hooks.unqueued++,
@@ -11063,9 +11032,9 @@
             }
         )),
         props))
-            ((value = props[index]), rfxtypes.exec(
-                value
-            )) &&
+            rfxtypes.exec(
+                (value = props[index])
+            ) &&
         (delete props[index],
         (toggle = toggle || "toggle" === value),
         value !== (hidden ? "hide" : "show")) &&

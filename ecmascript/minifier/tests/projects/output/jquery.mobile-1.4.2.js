@@ -279,8 +279,12 @@
                     scrollParent: function (
                     ) {
                         var scrollParent;
-                        return (
-                            (scrollParent =
+                        return /fixed/.test(
+                            this.css(
+                                "position"
+                            )
+                        ) ||
+              !(scrollParent =
                 (jQuery.ui.ie &&
                   /(static|relative)/.test(
                       this.css(
@@ -347,17 +351,11 @@
                         )
                         .eq(
                             0
-                        )),
-                            /fixed/.test(
-                                this.css(
-                                    "position"
-                                )
-                            ) || !scrollParent.length
-                                ? jQuery(
-                                    this[0].ownerDocument || document
-                                )
-                                : scrollParent
-                        );
+                        )).length
+                            ? jQuery(
+                                this[0].ownerDocument || document
+                            )
+                            : scrollParent;
                     },
                     uniqueId: function (
                     ) {
@@ -395,9 +393,10 @@
                     );
                 if ("area" === nodeName) {
                     if (
-                        ((mapName = (map = element.parentNode).name),
-                        !element.href || !mapName || "map" !== map.nodeName.toLowerCase(
-                        ))
+                        !element.href ||
+            !(mapName = (map = element.parentNode).name) ||
+            "map" !== map.nodeName.toLowerCase(
+            )
                     )
                         return !1;
                     return (
@@ -909,7 +908,7 @@
                     haveParents: function (
                         elements, attr
                     ) {
-                        var e, $element, excluded, i, c;
+                        var e, $element, excluded, i;
                         if (!jQuery.mobile.ignoreContentEnabled) return elements;
                         var count = elements.length,
                             $newSet = jQuery(
@@ -923,12 +922,12 @@
 
                             ) {
                                 if (
-                                    ((c = e.getAttribute
-                                        ? e.getAttribute(
-                                            "data-" + jQuery.mobile.ns + attr
-                                        )
-                                        : ""),
-                                    "false" === c)
+                                    "false" ===
+                (e.getAttribute
+                    ? e.getAttribute(
+                        "data-" + jQuery.mobile.ns + attr
+                    )
+                    : "")
                                 ) {
                                     excluded = !0;
                                     break;
@@ -957,16 +956,16 @@
                             pageOuterHeight = page.outerHeight(
                                 !0
                             );
-                        (height = compensateToolbars(
-                            page,
-                            "number" == typeof height
-                                ? height
-                                : jQuery.mobile.getScreenHeight(
-                                ),
-                        )),
                         page.css(
                             "min-height",
-                            height - (pageOuterHeight - pageHeight)
+                            (height = compensateToolbars(
+                                page,
+                                "number" == typeof height
+                                    ? height
+                                    : jQuery.mobile.getScreenHeight(
+                                    ),
+                            )) -
+              (pageOuterHeight - pageHeight),
                         );
                     },
                     loading: function (
@@ -1711,12 +1710,11 @@
               (element = suppressDisabledCheck),
               (suppressDisabledCheck = !1)),
                     handlers
-                        ? ((element = delegateElement = jQuery(
-                            element
-                        )),
-                        (this.bindings = this.bindings.add(
-                            element
-                        )))
+                        ? (this.bindings = this.bindings.add(
+                            (element = delegateElement = jQuery(
+                                element
+                            )),
+                        ))
                         : ((handlers = element),
                         (element = this.element),
                         (delegateElement = this.widget(
@@ -2090,18 +2088,17 @@
                         var message, loadSettings;
                         this.resetHtml(
                         ),
-                        "object" === jQuery.type(
-                            theme
-                        )
-                            ? ((loadSettings = jQuery.extend(
-                                {
-                                },
-                                this.options,
-                                theme
-                            )),
-                            (theme = loadSettings.theme))
-                            : ((loadSettings = this.options),
-                            (theme = theme || loadSettings.theme)),
+                        (theme =
+              "object" === jQuery.type(
+                  theme
+              )
+                  ? (loadSettings = jQuery.extend(
+                      {
+                      },
+                      this.options,
+                      theme
+                  )).theme
+                  : theme || (loadSettings = this.options).theme),
                         (message =
               msgText || (!1 === loadSettings.text ? "" : loadSettings.text)),
                         $html.addClass(
@@ -2177,7 +2174,7 @@
                 url
             ) {
                 return (
-                    (url = url || location.href), "#" + url.replace(
+                    "#" + (url = url || location.href).replace(
                         /^[^#]*#?(.*)$/,
                         "$1"
                     )
@@ -2926,8 +2923,12 @@
                             url || location.href
                         ).hash;
                     return (
-                        (hash = "#" === hash ? "" : hash),
-                        uri.protocol + "//" + uri.host + uri.pathname + uri.search + hash
+                        uri.protocol +
+            "//" +
+            uri.host +
+            uri.pathname +
+            uri.search +
+            (hash = "#" === hash ? "" : hash)
                     );
                 },
                 getDocumentUrl: function (
@@ -3937,20 +3938,6 @@
                     duration
                 )) &&
                   (duration = jQuery.fn.animationComplete.defaultDuration)),
-                    (timer = setTimeout(
-                        function (
-                        ) {
-                            jQuery(
-                                that
-                            ).off(
-                                props[animationType].event
-                            ),
-                            callback.apply(
-                                that
-                            );
-                        },
-                        duration
-                    )),
                     jQuery(
                         this
                     ).one(
@@ -3958,8 +3945,22 @@
                         function (
                         ) {
                             clearTimeout(
-                                timer
-                            ), callback.call(
+                                (timer = setTimeout(
+                                    function (
+                                    ) {
+                                        jQuery(
+                                            that
+                                        ).off(
+                                            props[animationType].event
+                                        ),
+                                        callback.apply(
+                                            that
+                                        );
+                                    },
+                                    duration
+                                )),
+                            ),
+                            callback.call(
                                 this,
                                 arguments
                             );
@@ -4150,15 +4151,14 @@
                   event.target,
                   eventType
               ))) &&
-            ((ve = createVirtualEvent(
-                event,
-                eventType
-            )),
             jQuery(
                 event.target
             ).trigger(
-                ve
-            )),
+                (ve = createVirtualEvent(
+                    event,
+                    eventType
+                )),
+            ),
                     ve
                 );
             }
@@ -4199,10 +4199,10 @@
                     t;
                 touches &&
           1 === touches.length &&
-          ((flags = getVirtualBindingFlags(
+          (flags = getVirtualBindingFlags(
               (target = event.target)
-          )),
-          flags.hasVirtualBinding) &&
+          ))
+              .hasVirtualBinding &&
           (jQuery.data(
               target,
               "virtualTouchID", (
@@ -4560,10 +4560,9 @@
                     function trigger(
                         event, state
                     ) {
-                        (scrolling = state),
                         triggerCustomEvent(
                             thisObject,
-                            scrolling ? "scrollstart" : "scrollstop",
+                            (scrolling = state) ? "scrollstart" : "scrollstop",
                             event,
                         );
                     }
@@ -4842,14 +4841,13 @@
                         "mobile-events"
                     )),
                     events ||
-                ((events = {
-                    length: 0,
-                }),
                 jQuery.data(
                     this,
                     "mobile-events",
-                    events
-                )),
+                    (events = {
+                        length: 0,
+                    }),
+                ),
                     events.length++,
                     (events.swipe = context),
                     (context.start = function (
@@ -4875,8 +4873,7 @@
                             )),
                             thisObject,
                             origTarget,
-                        )),
-                        emitted &&
+                        )) &&
                           (jQuery.event.special.swipe.eventInProgress = !1)),
                       Math.abs(
                           start.coords[0] - stop.coords[0]
@@ -5008,8 +5005,7 @@
                 ) {
                     (diff = (curr = new Date(
                     ).getTime(
-                    )) - lastCall),
-                    diff >= 250
+                    )) - lastCall) >= 250
                         ? ((lastCall = curr), jQuery(
                             this
                         ).trigger(
@@ -5118,14 +5114,14 @@
             }
             (jQuery.event.special.orientationchange.orientation = get_orientation = function (
             ) {
-                var isPortrait = !0,
-                    elem = document.documentElement;
+                var elem = document.documentElement;
                 return (
-                    (isPortrait = jQuery.support.orientation
+                    jQuery.support.orientation
                         ? portrait_map[window1.orientation]
-                        : elem && elem.clientWidth / elem.clientHeight < 1.1),
-                    isPortrait ? "portrait" : "landscape"
-                );
+                        : elem && elem.clientWidth / elem.clientHeight < 1.1
+                )
+                    ? "portrait"
+                    : "landscape";
             }),
             (jQuery.fn.orientationchange = function (
                 fn
@@ -5579,19 +5575,19 @@
                     },
                     _recordScroll: function (
                     ) {
-                        var currentScroll, minScroll, defaultScroll;
+                        var currentScroll;
                         if (this.setLastScrollEnabled) {
                             var active = this._getActiveHistory(
                             );
                             active &&
               ((currentScroll = this._getScroll(
               )),
-              (minScroll = this._getMinScroll(
-              )),
-              (defaultScroll = this._getDefaultScroll(
-              )),
               (active.lastScroll =
-                currentScroll < minScroll ? defaultScroll : currentScroll));
+                currentScroll < this._getMinScroll(
+                )
+                    ? this._getDefaultScroll(
+                    )
+                    : currentScroll));
                         }
                     },
                     _delayedRecordScroll: function (
@@ -5801,10 +5797,10 @@
                 jQuery.mobile.dialogHashKey
             ) > -1) ||
             history.initialDst === to ||
-            ((to = this._handleDialog(
+            !1 !== (to = this._handleDialog(
                 changePageOptions,
                 data
-            )), !1 !== to)) &&
+            ))) &&
             this._changeContent(
                 this._handleDestination(
                     to
@@ -6011,14 +6007,13 @@
             !page.jqmData(
                 "title"
             ) &&
-            ((newPageTitle = jQuery(
-                "<div>" + newPageTitle + "</div>"
-            ).text(
-            )),
             page.jqmData(
                 "title",
-                newPageTitle
-            ));
+                (newPageTitle = jQuery(
+                    "<div>" + newPageTitle + "</div>"
+                ).text(
+                )),
+            );
                     },
                     _isRewritableBaseTag: function (
                     ) {
@@ -6193,10 +6188,9 @@
                             (dataUrl = this._createDataUrl(
                                 absUrl
                             )),
-                            (content = this._find(
+                            0 === (content = this._find(
                                 absUrl
-                            )),
-                            0 === content.length &&
+                            )).length &&
               jQuery.mobile.path.isEmbeddedPage(
                   fileUrl
               ) &&
@@ -6326,11 +6320,11 @@
                         transition
                     ) {
                         return (
-                            (transition = jQuery.mobile._maybeDegradeTransition(
-                                transition
-                            )),
-                            jQuery.mobile.transitionHandlers[transition] ||
-              jQuery.mobile.defaultTransitionHandler
+                            jQuery.mobile.transitionHandlers[
+                                (transition = jQuery.mobile._maybeDegradeTransition(
+                                    transition
+                                ))
+                            ] || jQuery.mobile.defaultTransitionHandler
                         );
                     },
                     _triggerCssTransitionEvents: function (
@@ -7143,18 +7137,17 @@
                                     return jQuery.mobile.back(
                                     ), !1;
                                 if (
-                                    ((href = jQuery.mobile.path.makeUrlAbsolute(
-                                        $link.attr(
-                                            "href"
-                                        ) || "#",
-                                        (baseUrl = jQuery.mobile.getClosestBaseUrl(
-                                            $link
-                                        )),
-                                    )),
                                     !jQuery.mobile.ajaxEnabled &&
-                      !jQuery.mobile.path.isEmbeddedPage(
-                          href
-                      ))
+                    !jQuery.mobile.path.isEmbeddedPage(
+                        (href = jQuery.mobile.path.makeUrlAbsolute(
+                            $link.attr(
+                                "href"
+                            ) || "#",
+                            (baseUrl = jQuery.mobile.getClosestBaseUrl(
+                                $link
+                            )),
+                        )),
+                    )
                                 ) {
                                     httpCleanup(
                                     );
@@ -7692,8 +7685,7 @@
         ) {
             (target = jQuery(
                 target
-            )),
-            target
+            ))
                 .find(
                     "input"
                 )
@@ -7712,37 +7704,32 @@
                             ),
                             optType = jQuery.mobile.degradeInputs[type] || "text",
                             html,
-                            hasType,
-                            findstr,
-                            repstr;
+                            hasType;
                         jQuery.mobile.degradeInputs[type] &&
-              ((findstr = (hasType =
-                (html = jQuery(
-                    "<div>"
-                ).html(
-                    element.clone(
-                    )
-                ).html(
-                )).indexOf(
-                    " type=",
-                ) > -1)
-                  ? /\s+type=["']?\w+['"]?/
-                  : /\/?>/),
-              (repstr =
-                ' type="' +
-                optType +
-                '" data-' +
-                jQuery.mobile.ns +
-                'type="' +
-                type +
-                '"' +
-                (hasType ? "" : ">")),
-              element.replaceWith(
-                  html.replace(
-                      findstr,
-                      repstr
-                  )
-              ));
+            element.replaceWith(
+                html.replace(
+                    (hasType =
+                  (html = jQuery(
+                      "<div>"
+                  ).html(
+                      element.clone(
+                      )
+                  ).html(
+                  )).indexOf(
+                      " type=",
+                  ) > -1)
+                        ? /\s+type=["']?\w+['"]?/
+                        : /\/?>/,
+                    ' type="' +
+                  optType +
+                  '" data-' +
+                  jQuery.mobile.ns +
+                  'type="' +
+                  type +
+                  '"' +
+                  (hasType ? "" : ">"),
+                ),
+            );
                     }
                 );
         }),
@@ -7837,8 +7824,7 @@
                 _setCloseBtn: function (
                     location, text
                 ) {
-                    var dst,
-                        btn = this._headerCloseButton;
+                    var btn = this._headerCloseButton;
                     "none" ==
         (location =
           "left" === location
@@ -7859,11 +7845,7 @@
                             text && btn.text(
                                 text
                             ))
-                            : ((dst = this._inner.find(
-                                ":jqmData(role='header')"
-                            ).first(
-                            )),
-                            (btn = jQuery(
+                            : (btn = jQuery(
                                 "<a></a>",
                                 {
                                     href: "#",
@@ -7880,8 +7862,11 @@
                                     text || this.options.closeBtnText || ""
                                 )
                                 .prependTo(
-                                    dst
-                                ))),
+                                    this._inner.find(
+                                        ":jqmData(role='header')"
+                                    ).first(
+                                    )
+                                )),
                     (this._headerCloseButton = btn);
                 },
             }
@@ -8030,31 +8015,30 @@
                             text && btn.text(
                                 text
                             ))
-                            : ((btn = jQuery(
-                                "<a></a>",
-                                {
-                                    role: "button",
-                                    href: "#",
-                                    class:
-                "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
-                location,
-                                }
-                            )
-                                .text(
-                                    text || this.options.closeBtnText || ""
+                            : this._on(
+                                (btn = jQuery(
+                                    "<a></a>",
+                                    {
+                                        role: "button",
+                                        href: "#",
+                                        class:
+                  "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
+                  location,
+                                    }
                                 )
-                                .prependTo(
-                                    this._inner.find(
-                                        ":jqmData(role='header')"
-                                    ).first(
+                                    .text(
+                                        text || this.options.closeBtnText || ""
                                     )
-                                )),
-                            this._on(
-                                btn,
+                                    .prependTo(
+                                        this._inner.find(
+                                            ":jqmData(role='header')"
+                                        ).first(
+                                        ),
+                                    )),
                                 {
                                     click: "close",
-                                }
-                            )),
+                                },
+                            ),
                     (this._headerCloseButton = btn);
                 },
                 close: function (
@@ -8316,8 +8300,6 @@
                         options
                     ) {
                         var isCollapsed,
-                            newTheme,
-                            oldTheme,
                             hasCorners,
                             elem = this.element,
                             currentOpts = this._renderedOptions,
@@ -8393,33 +8375,33 @@
                         ),
                 )),
                         void 0 !== opts.theme &&
-              ((oldTheme = this._themeClassFromOption(
-                  "ui-btn-",
-                  currentOpts.theme,
-              )),
-              (newTheme = this._themeClassFromOption(
-                  "ui-btn-",
-                  opts.theme
-              )),
-              anchor.removeClass(
-                  oldTheme
-              ).addClass(
-                  newTheme
-              )),
+              anchor
+                  .removeClass(
+                      this._themeClassFromOption(
+                          "ui-btn-",
+                          currentOpts.theme
+                      ),
+                  )
+                  .addClass(
+                      this._themeClassFromOption(
+                          "ui-btn-",
+                          opts.theme
+                      )
+                  ),
                         void 0 !== opts.contentTheme &&
-              ((oldTheme = this._themeClassFromOption(
-                  "ui-body-",
-                  currentOpts.contentTheme,
-              )),
-              (newTheme = this._themeClassFromOption(
-                  "ui-body-",
-                  opts.contentTheme,
-              )),
-              ui.content.removeClass(
-                  oldTheme
-              ).addClass(
-                  newTheme
-              )),
+              ui.content
+                  .removeClass(
+                      this._themeClassFromOption(
+                          "ui-body-",
+                          currentOpts.contentTheme,
+                      ),
+                  )
+                  .addClass(
+                      this._themeClassFromOption(
+                          "ui-body-",
+                          opts.contentTheme
+                      ),
+                  ),
                         void 0 !== opts.inset &&
               (elem.toggleClass(
                   "ui-collapsible-inset",
@@ -9138,13 +9120,10 @@
                                 icon,
                                 a,
                                 isDivider,
-                                startCount,
-                                newStartCount,
                                 value,
                                 last,
                                 splittheme,
                                 splitThemeClass,
-                                altButtonClass,
                                 li,
                                 o = this.options,
                                 $list = this.element,
@@ -9174,14 +9153,13 @@
                                 ),
                                 ol &&
                     (start || 0 === start) &&
-                    ((startCount = parseInt(
-                        start,
-                        10
-                    ) - 1),
                     $list.css(
                         "counter-reset",
-                        "listnumbering " + startCount
-                    )),
+                        "listnumbering " + (parseInt(
+                            start,
+                            10
+                        ) - 1),
+                    ),
                                 this._beforeListviewRefresh(
                                 ),
                                 li = this._getChildrenByTagName(
@@ -9251,18 +9229,6 @@
                           (splitThemeClass = splittheme
                               ? " ui-btn-" + splittheme
                               : ""),
-                          (altButtonClass =
-                            "ui-btn ui-btn-icon-notext ui-icon-" +
-                            (getAttr(
-                                last[0],
-                                "icon"
-                            ) ||
-                              getAttr(
-                                  item[0],
-                                  "icon"
-                              ) ||
-                              o.splitIcon) +
-                            splitThemeClass),
                           last
                               .attr(
                                   "title",
@@ -9272,7 +9238,17 @@
                                   )
                               )
                               .addClass(
-                                  altButtonClass
+                                  "ui-btn ui-btn-icon-notext ui-icon-" +
+                                (getAttr(
+                                    last[0],
+                                    "icon"
+                                ) ||
+                                  getAttr(
+                                      item[0],
+                                      "icon"
+                                  ) ||
+                                  o.splitIcon) +
+                                splitThemeClass,
                               )
                               .empty(
                               ))
@@ -9301,14 +9277,13 @@
                         "ui-li-static ui-body-" + (itemTheme || "inherit")),
                   ol &&
                     value &&
-                    ((newStartCount = parseInt(
-                        value,
-                        10
-                    ) - 1),
                     item.css(
                         "counter-reset",
-                        "listnumbering " + newStartCount,
-                    ))),
+                        "listnumbering " + (parseInt(
+                            value,
+                            10
+                        ) - 1),
+                    )),
                                 itemClassDict[itemClass] || (itemClassDict[itemClass] = []),
                                 itemClassDict[itemClass].push(
                                     item[0]
@@ -9465,21 +9440,20 @@
                             arguments
                         ), this.options.hideDividers))
                             for (
-                                items = this._getChildrenByTagName(
-                                    this.element[0],
-                                    "li",
-                                    "LI"
-                                ),
-                                idx = items.length - 1;
+                                idx =
+                (items = this._getChildrenByTagName(
+                    this.element[0],
+                    "li",
+                    "LI",
+                )).length - 1;
                                 idx > -1;
                                 idx--
                             )
-                                (item = items[idx]),
-                                item.className.match(
+                                (item = items[idx]).className.match(
                                     rdivider
                                 )
                                     ? (hideDivider &&
-                      (item.className = item.className + " ui-screen-hidden"),
+                    (item.className = item.className + " ui-screen-hidden"),
                                     (hideDivider = !0))
                                     : item.className.match(
                                         rhidden
@@ -9841,11 +9815,10 @@
                             return (
                                 !(
                                     controlgroupConstructor &&
-                  ((controlgroup = this.element.closest(
+                  (controlgroup = this.element.closest(
                       ":mobile-controlgroup," +
                       controlgroupConstructor.prototype.initSelector,
-                  )),
-                  controlgroup.length > 0)
+                  )).length > 0
                                 ) ||
                 ((controlgroupWidget = jQuery.data(
                     controlgroup[0],
@@ -10143,10 +10116,9 @@
                 refresh: function (
                     create
                 ) {
-                    var originalElement,
-                        isDisabled = this.element.prop(
-                            "disabled"
-                        );
+                    var isDisabled = this.element.prop(
+                        "disabled"
+                    );
                     this.options.icon &&
           "notext" === this.options.iconpos &&
           this.element.attr(
@@ -10158,8 +10130,6 @@
               )
           ),
                     create ||
-            ((originalElement = this.element.detach(
-            )),
             jQuery(
                 this.wrapper
             )
@@ -10168,8 +10138,9 @@
                     )
                 )
                 .append(
-                    originalElement
-                )),
+                    this.element.detach(
+                    )
+                ),
                     this.options.disabled !== isDisabled &&
             this._setOptions(
                 {
@@ -10752,14 +10723,15 @@
                         ),
                         isToggleSwitch ||
                 isRangeslider ||
-                ((wrapper = this.options.mini
-                    ? "<div class='ui-slider ui-mini'>"
-                    : "<div class='ui-slider'>"),
-                control.add(
-                    slider
-                ).wrapAll(
-                    wrapper
-                )),
+                control
+                    .add(
+                        slider
+                    )
+                    .wrapAll(
+                        (wrapper = this.options.mini
+                            ? "<div class='ui-slider ui-mini'>"
+                            : "<div class='ui-slider'>"),
+                    ),
                         this._on(
                             this.handle,
                             {
@@ -11214,18 +11186,6 @@
                     (this.handle.width(
                     ) / this.slider.width(
                     )) * 100),
-                  (bPercent =
-                    100 === percent
-                        ? 0
-                        : Math.min(
-                            handlePercent +
-                            100 -
-                            (aPercent =
-                              percent &&
-                              handlePercent +
-                                ((100 - handlePercent) * percent) / 100),
-                            100,
-                        )),
                   this._labels.each(
                       function (
                       ) {
@@ -11237,7 +11197,21 @@
                           jQuery(
                               this
                           ).width(
-                              (ab ? aPercent : bPercent) + "%"
+                              (ab
+                                  ? aPercent
+                                  : (bPercent =
+                            100 === percent
+                                ? 0
+                                : Math.min(
+                                    handlePercent +
+                                    100 -
+                                    (aPercent =
+                                      percent &&
+                                      handlePercent +
+                                        ((100 - handlePercent) * percent) /
+                                          100),
+                                    100,
+                                ))) + "%",
                           );
                       }
                   )),
@@ -11267,8 +11241,7 @@
                     _setHighlight: function (
                         value
                     ) {
-                        (value = !!value),
-                        value
+                        (value = !!value)
                             ? ((this.options.highlight = !!value), this.refresh(
                             ))
                             : this.valuebg && (this.valuebg.remove(
@@ -11481,8 +11454,7 @@
                             "title"
                         ),
                         (newValue = this._value(
-                        )),
-                        newValue !== this._currentValue) &&
+                        )) !== this._currentValue) &&
             ((this._currentValue = newValue),
             o.popupEnabled && this._popup
                 ? (this._positionPopup(
@@ -12695,9 +12667,7 @@
                 },
                 _updateHeight: function (
                 ) {
-                    var paddingTop,
-                        paddingHeight,
-                        borderTop,
+                    var borderTop,
                         height,
                         scrollTop = this.window.scrollTop(
                         );
@@ -12726,18 +12696,17 @@
             )) +
             15),
                     0 === this.element[0].clientHeight) &&
-            ((paddingTop = parseFloat(
-                this.element.css(
-                    "padding-top"
-                )
-            )),
-            (paddingHeight =
-              paddingTop + parseFloat(
+            (height +=
+              parseFloat(
+                  this.element.css(
+                      "padding-top"
+                  )
+              ) +
+              parseFloat(
                   this.element.css(
                       "padding-bottom"
                   )
               )),
-            (height += paddingHeight)),
                     this.element.css(
                         {
                             height: height,
@@ -13638,13 +13607,15 @@
                         if (this._isOpen) {
                             if (targetElement !== ui.container[0]) {
                                 if (
-                                    ((target = jQuery(
-                                        targetElement
-                                    )),
-                                    0 === target.parents(
-                                    ).filter(
-                                        ui.container[0]
-                                    ).length)
+                                    0 ===
+                (target = jQuery(
+                    targetElement
+                ))
+                    .parents(
+                    )
+                    .filter(
+                        ui.container[0]
+                    ).length
                                 )
                                     return (
                                         jQuery(
@@ -13840,8 +13811,7 @@
                     _clampPopupWidth: function (
                         infoOnly
                     ) {
-                        var menuSize,
-                            windowCoordinates = getWindowCoordinates(
+                        var windowCoordinates = getWindowCoordinates(
                                 this.window
                             ),
                             rectangle = {
@@ -13855,17 +13825,16 @@
                                 "max-width",
                                 rectangle.cx
                             ),
-                            (menuSize = {
-                                cx: this._ui.container.outerWidth(
-                                    !0
-                                ),
-                                cy: this._ui.container.outerHeight(
-                                    !0
-                                ),
-                            }),
                             {
                                 rc: rectangle,
-                                menuSize: menuSize,
+                                menuSize: {
+                                    cx: this._ui.container.outerWidth(
+                                        !0
+                                    ),
+                                    cy: this._ui.container.outerHeight(
+                                        !0
+                                    ),
+                                },
                             }
                         );
                     },
@@ -14318,7 +14287,6 @@
                         theEvent, data
                     ) {
                         var parsedDst,
-                            toUrl,
                             currentOptions = this.options,
                             immediate = !1;
                         (theEvent && theEvent.isDefaultPrevented(
@@ -14340,9 +14308,9 @@
               (parsedDst = jQuery.mobile.path.parseUrl(
                   parsedDst
               )),
-              (toUrl = parsedDst.pathname + parsedDst.search + parsedDst.hash),
-              this._myUrl !== jQuery.mobile.path.makeUrlAbsolute(
-                  toUrl
+              this._myUrl !==
+              jQuery.mobile.path.makeUrlAbsolute(
+                  parsedDst.pathname + parsedDst.search + parsedDst.hash,
               )
                   ? (immediate = !0)
                   : theEvent.preventDefault(
@@ -14706,7 +14674,6 @@
                             dividerThemeAttr,
                             menuPage,
                             listbox,
-                            list,
                             header,
                             headerTitle,
                             menuPageContent,
@@ -14762,28 +14729,6 @@
                   jQuery.mobile.ns +
                   "role='content'></div></div>",
                             )),
-                            (list = jQuery(
-                                "<ul class='ui-selectmenu-list' id='" +
-                  menuId +
-                  "' role='listbox' aria-labelledby='" +
-                  this.buttonId +
-                  "'" +
-                  themeAttr +
-                  dividerThemeAttr +
-                  "></ul>",
-                            ).appendTo(
-                                (listbox = jQuery(
-                                    "<div id='" + popupId + "' class='ui-selectmenu'></div>",
-                                )
-                                    .insertAfter(
-                                        this.select
-                                    )
-                                    .popup(
-                                        {
-                                            theme: o.overlayTheme,
-                                        }
-                                    )),
-                            )),
                             (headerTitle = jQuery(
                                 "<h1 class='ui-title'></h1>"
                             ).appendTo(
@@ -14821,7 +14766,28 @@
                                     isMultiple: this.element[0].multiple,
                                     theme: o.theme,
                                     listbox: listbox,
-                                    list: list,
+                                    list: jQuery(
+                                        "<ul class='ui-selectmenu-list' id='" +
+                    menuId +
+                    "' role='listbox' aria-labelledby='" +
+                    this.buttonId +
+                    "'" +
+                    themeAttr +
+                    dividerThemeAttr +
+                    "></ul>",
+                                    ).appendTo(
+                                        (listbox = jQuery(
+                                            "<div id='" + popupId + "' class='ui-selectmenu'></div>",
+                                        )
+                                            .insertAfter(
+                                                this.select
+                                            )
+                                            .popup(
+                                                {
+                                                    theme: o.overlayTheme,
+                                                }
+                                            )),
+                                    ),
                                     header: header,
                                     headerTitle: headerTitle,
                                     headerClose: headerClose,
@@ -15193,12 +15159,11 @@
                             i < numOptions;
                             i++, isPlaceholderItem = !1
                         )
-                            (($option = jQuery(
+                            ($option = jQuery(
                                 (option = $options[i])
-                            )),
-                            !$option.hasClass(
-                                "ui-screen-hidden"
-                            )) &&
+                            )).hasClass(
+                                "ui-screen-hidden",
+                            ) ||
               ((parent = option.parentNode),
               (text = $option.text(
               )),
@@ -15405,15 +15370,15 @@
                         "ui-btn-" + options.theme
                     ),
                     options.icon &&
-            ((classes = classes.concat(
+            options.iconshadow &&
+            (classes = classes.concat(
                 [
                     "ui-icon-" + options.icon,
                     "ui-btn-icon-" + options.iconpos,
                 ]
-            )),
-            options.iconshadow && classes.push(
+            )).push(
                 "ui-shadow-icon"
-            )),
+            ),
                     options.inline && classes.push(
                         "ui-btn-inline"
                     ),
@@ -16270,9 +16235,8 @@
             $el.closest(
                 ".ui-page"
             )),
-          (tbPage = this.page ? this.page : ".ui-page-active"),
           jQuery(
-              tbPage
+              (tbPage = this.page ? this.page : ".ui-page-active")
           ).css(
               "padding-" + (header ? "top" : "bottom"),
               $el.outerHeight(
@@ -16928,8 +16892,7 @@
                     _setOptions: function (
                         opts
                     ) {
-                        var newTheme,
-                            oldTheme = this.options.theme,
+                        var oldTheme = this.options.theme,
                             ret = this._super(
                                 opts
                             );
@@ -16948,19 +16911,19 @@
                             this._ui.arrow,
                             this._ui.arrow &&
               (void 0 !== opts.theme &&
-                ((oldTheme = this._themeClassFromOption(
-                    "ui-body-",
-                    oldTheme
-                )),
-                (newTheme = this._themeClassFromOption(
-                    "ui-body-",
-                    opts.theme
-                )),
-                this._ui.arrow.ar.removeClass(
-                    oldTheme
-                ).addClass(
-                    newTheme
-                )),
+                this._ui.arrow.ar
+                    .removeClass(
+                        (oldTheme = this._themeClassFromOption(
+                            "ui-body-",
+                            oldTheme,
+                        )),
+                    )
+                    .addClass(
+                        this._themeClassFromOption(
+                            "ui-body-",
+                            opts.theme
+                        )
+                    ),
               void 0 !== opts.shadow &&
                 this._ui.arrow.ar.toggleClass(
                     "ui-overlay-shadow",
@@ -18402,7 +18365,6 @@
                         var idx,
                             callback,
                             length,
-                            dst,
                             show = [],
                             hide = [],
                             opts = this.options,
@@ -18416,15 +18378,14 @@
                                 idx < length;
                                 idx++
                             )
-                                (dst = callback.call(
+                                (callback.call(
                                     filterItems[idx],
                                     idx,
                                     val
                                 )
                                     ? hide
-                                    : show),
-                                dst.push(
-                                    filterItems[idx]
+                                    : show).push(
+                                    filterItems[idx],
                                 );
                         0 === hide.length
                             ? filterItems[opts.filterReveal ? "addClass" : "removeClass"](
@@ -18486,23 +18447,22 @@
                   "keyup change input"
               ), (search = null)),
                         selector &&
-              ((search = selector.jquery
-                  ? selector
-                  : selector.nodeName
-                      ? jQuery(
-                          selector
-                      )
-                      : this.document.find(
-                          selector
-                      )),
               this._on(
-                  search,
+                  (search = selector.jquery
+                      ? selector
+                      : selector.nodeName
+                          ? jQuery(
+                              selector
+                          )
+                          : this.document.find(
+                              selector
+                          )),
                   {
                       keyup: "_onKeyUp",
                       change: "_onKeyUp",
                       input: "_onKeyUp",
-                  }
-              )),
+                  },
+              ),
                         (this._search = search);
                     },
                     _setOptions: function (
@@ -18622,10 +18582,7 @@
                             idx > -1;
                             idx--
                         )
-                            if (
-                                ((widgetName = recognizedWidgets[idx]),
-                                jQuery.mobile[widgetName])
-                            ) {
+                            if (jQuery.mobile[(widgetName = recognizedWidgets[idx])]) {
                                 if (this._setWidget(
                                     elem.data(
                                         "mobile-" + widgetName
@@ -19377,24 +19334,22 @@
                                 isLocal(
                                     anchor
                                 )
-                                    ? ((selector = anchor.hash),
-                                    (panel = that.element.find(
+                                    ? (panel = that.element.find(
                                         that._sanitizeSelector(
-                                            selector
-                                        )
-                                    )))
+                                            (selector = anchor.hash)
+                                        ),
+                                    ))
                                     : ((panel = that.element.find(
                                         (selector = "#" + (panelId = that._tabId(
                                             tab
                                         ))),
                                     )),
                                     panel.length ||
-                    ((panel = that._createPanel(
+                    (panel = that._createPanel(
                         panelId
-                    )),
-                    panel.insertAfter(
-                        that.panels[i - 1] || that.tablist
-                    )),
+                    )).insertAfter(
+                        that.panels[i - 1] || that.tablist,
+                    ),
                                     panel.attr(
                                         "aria-live",
                                         "polite"
@@ -20000,13 +19955,13 @@
                         !0 !== disabled &&
             (void 0 === index
                 ? (disabled = !0)
-                : ((index = this._getIndex(
-                    index
-                )),
-                -1 === jQuery.inArray(
-                    index,
-                    disabled
-                )) &&
+                : -1 ===
+                  jQuery.inArray(
+                      (index = this._getIndex(
+                          index
+                      )),
+                      disabled
+                  ) &&
                 (jQuery.isArray(
                     disabled
                 )
