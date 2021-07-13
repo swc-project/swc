@@ -6,11 +6,11 @@ use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 use swc_ecma_utils::Value::Known;
 use swc_ecma_utils::Value::Unknown;
+use swc_ecma_utils::{undefined, ExprExt};
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
@@ -551,9 +551,32 @@ impl Optimizer<'_> {
         }
     }
 
-    /// 
+    ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
-    pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {}
+    pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
+        fn opt(l: &mut Expr, r: &mut Expr) {
+            match (&mut *l, &mut *r) {
+                (
+                    Expr::Lit(Lit::Str(Str {
+                        value: js_word!("undefined"),
+                        ..
+                    })),
+                    Expr::Unary(UnaryExpr {
+                        op: op!("typeof"),
+                        arg,
+                        ..
+                    }),
+                ) => {
+                    *l = *undefined(l.span());
+                    *r = *arg.take();
+                }
+                _ => {}
+            }
+        }
+
+        opt(&mut e.left, &mut e.right);
+        opt(&mut e.right, &mut e.left);
+    }
 
     /// NOTE: This is currecntly noop.
     ///
