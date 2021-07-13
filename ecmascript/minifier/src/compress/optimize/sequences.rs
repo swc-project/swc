@@ -476,7 +476,22 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {}
+    /// Calls `merge_sequential_expr`.
+    ///
+    ///
+    /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
+    /// if expressions between a and b are side-effect-free.
+    pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
+        for idx in 1..e.exprs.len() {
+            let (a1, a2) = e.exprs.split_at_mut(idx - 1);
+
+            if a1.is_empty() || a2.is_empty() {
+                continue;
+            }
+
+            self.merge_sequential_expr(a1.last_mut().unwrap(), &mut a2[0])
+        }
+    }
 
     fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) {}
 }
