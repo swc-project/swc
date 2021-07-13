@@ -3727,7 +3727,7 @@
                         event
                     ) {
                         var state;
-                        if (!!jQuery.event.special.navigate.isPushStateEnabled(
+                        if (jQuery.event.special.navigate.isPushStateEnabled(
                         )) {
                             if (this.preventHashAssignPopState)
                                 return (
@@ -5580,7 +5580,7 @@
                     _recordScroll: function (
                     ) {
                         var currentScroll, minScroll, defaultScroll;
-                        if (!!this.setLastScrollEnabled) {
+                        if (this.setLastScrollEnabled) {
                             var active = this._getActiveHistory(
                             );
                             active &&
@@ -6109,7 +6109,7 @@
                                 (triggerData.textStatus = textStatus),
                                 (triggerData.page = content),
                                 (triggerData.content = content),
-                                !!this._trigger(
+                                this._trigger(
                                     "load",
                                     void 0,
                                     triggerData
@@ -7028,7 +7028,7 @@
                             btnEls,
                             target = event.target,
                             needClosest = !1;
-                        if (!(event.which > 1) && !!jQuery.mobile.linkBindingEnabled) {
+                        if (!(event.which > 1) && jQuery.mobile.linkBindingEnabled) {
                             if (
                                 (($lastVClicked = jQuery(
                                     target
@@ -7135,10 +7135,8 @@
                       event.target.parentNode &&
                     httpCleanup(
                     ),
-                                !!link &&
-                    !(event.which > 1) &&
-                    !!$link.jqmHijackable(
-                    ).length)
+                                !!link && !(event.which > 1) && $link.jqmHijackable(
+                                ).length)
                             ) {
                                 if ($link.is(
                                     ":jqmData(rel='back')"
@@ -13639,7 +13637,7 @@
                         var target,
                             targetElement = theEvent.target,
                             ui = this._ui;
-                        if (!!this._isOpen) {
+                        if (this._isOpen) {
                             if (targetElement !== ui.container[0]) {
                                 if (
                                     ((target = jQuery(
@@ -15050,7 +15048,7 @@
                     },
                     close: function (
                     ) {
-                        if (!this.options.disabled && !!this.isOpen) {
+                        if (!this.options.disabled && this.isOpen) {
                             var self = this;
                             "page" === self.menuType
                                 ? (self.menuPage.dialog(
@@ -17044,7 +17042,7 @@
                     this._addPanelClasses(
                     ),
                     jQuery.support.cssTransform3d &&
-            !!this.options.animate &&
+            this.options.animate &&
             this.element.addClass(
                 this.options.classes.animate
             ),
@@ -17693,7 +17691,7 @@
                 o.classes.pageContentPrefix + "-open",
             ),
             jQuery.support.cssTransform3d &&
-              !!o.animate &&
+              o.animate &&
               this._fixedToolbars(
               ).removeClass(
                   o.classes.animate
@@ -20234,7 +20232,7 @@
             ).trigger(
                 "mobileinit"
             ),
-            !!jQuery.mobile.gradeA(
+            jQuery.mobile.gradeA(
             )) &&
         (jQuery.mobile.ajaxBlacklist && (jQuery.mobile.ajaxEnabled = !1),
         $html.addClass(

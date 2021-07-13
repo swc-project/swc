@@ -3757,7 +3757,7 @@
                         key
                     ) {
                         var lruEntry = lruHash[key];
-                        if (!!lruEntry) return refresh(
+                        if (lruEntry) return refresh(
                             lruEntry
                         ), data[key];
                     },
@@ -5106,7 +5106,7 @@
                               ));
                                         break;
                                     case "=":
-                                        if (!optional || !!attrs[attrName]) {
+                                        if (!optional || attrs[attrName]) {
                                             (compare = (parentGet = $parse(
                                                 attrs[attrName]
                                             ))
@@ -5740,7 +5740,7 @@
                         value,
                         !0
                     );
-                    if (!!interpolateFn) {
+                    if (interpolateFn) {
                         if ("multiple" === name && "SELECT" === nodeName_(
                             node
                         ))
@@ -11056,7 +11056,7 @@
                 uri
             ).href),
             "" === normalizedVal ||
-              !!normalizedVal.match(
+              normalizedVal.match(
                   isImage
                       ? imgSrcSanitizationWhitelist
                       : aHrefSanitizationWhitelist,
@@ -11897,7 +11897,7 @@
                     "$" == key
                         ? (function (
                         ) {
-                            if (!!expression[key]) {
+                            if (expression[key]) {
                                 var path = key;
                                 predicates.push(
                                     function (
@@ -13746,7 +13746,7 @@
                 link: function (
                     scope, elm, attr, ctrl
                 ) {
-                    if (!!ctrl) {
+                    if (ctrl) {
                         attr.required = !0;
                         var validator = function (
                             value
@@ -15168,7 +15168,7 @@
                     link: function (
                         scope, element, attr, ctrls
                     ) {
-                        if (!!ctrls[1]) {
+                        if (ctrls[1]) {
                             for (
                                 var selectCtrl = ctrls[0],
                                     ngModelCtrl = ctrls[1],

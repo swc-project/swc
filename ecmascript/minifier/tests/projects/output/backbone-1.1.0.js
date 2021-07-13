@@ -897,9 +897,9 @@
                     i < l;
                     i++
                 )
-                    ((model = models[i] = this.get(
+                    (model = models[i] = this.get(
                         models[i]
-                    )), !!model) &&
+                    )) &&
           (delete this._byId[model.id],
           delete this._byId[model.cid],
           this.models.splice(
@@ -1555,7 +1555,7 @@
                     var method = events[key];
                     if ((_.isFunction(
                         method
-                    ) || (method = this[events[key]]), !!method)) {
+                    ) || (method = this[events[key]]), method)) {
                         var match = key.match(
                                 delegateEventSplitter
                             ),
@@ -1811,7 +1811,7 @@
             },
             _bindRoutes: function (
             ) {
-                if (!!this.routes) {
+                if (this.routes) {
                     this.routes = _.result(
                         this,
                         "routes"

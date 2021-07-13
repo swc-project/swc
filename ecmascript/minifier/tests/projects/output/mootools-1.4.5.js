@@ -3692,16 +3692,14 @@ function (
                             )
                                 if (
                                     ((className = node.className),
-                                    !!(
-                                        className &&
+                                    className &&
                       new RegExp(
                           "(^|\\s)" + Slick.escapeRegExp(
                               name
                           ) + "(\\s|$)",
                       ).test(
                           className
-                      )
-                                    ))
+                      ))
                                 ) {
                                     if (first) return node;
                                     (hasOthers && uniques[this.getUID(
@@ -4199,7 +4197,7 @@ function (
                   item.getAttributeNode(
                       "id"
                   ).nodeValue != id)) &&
-                ((children = node.all[id]), !!children))
+                (children = node.all[id]))
                     ) {
                         for (
                             children[0] || (children = [children,]), i = 0;
@@ -7609,7 +7607,7 @@ Elements.alias(
                   : event.target.getParent(
                       "form"
                   );
-                    if (!!form) {
+                    if (form) {
                         var listeners = self.retrieve(
                                 _key + type + "listeners",
                                 {
@@ -8880,7 +8878,7 @@ Element1.alias(
             !href.contains(
                 "://"
             ) ||
-            !!href.contains(
+            href.contains(
                 document.domain
             )
                         ) {
@@ -8890,7 +8888,7 @@ Element1.alias(
                                 function (
                                     rule, i
                                 ) {
-                                    if (!!rule.style) {
+                                    if (rule.style) {
                                         var selectorText = rule.selectorText
                                             ? rule.selectorText.replace(
                                                 /^\w+/,

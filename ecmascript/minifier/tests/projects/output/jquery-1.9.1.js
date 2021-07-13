@@ -1703,7 +1703,7 @@
         elem, name, data, pvt
     ) {
         var thisCache, ret;
-        if (!!jQuery.acceptData(
+        if (jQuery.acceptData(
             elem
         )) {
             var internalKey = jQuery.expando,
@@ -1755,13 +1755,13 @@
         elem, name, pvt
     ) {
         var i, l, thisCache;
-        if (!!jQuery.acceptData(
+        if (jQuery.acceptData(
             elem
         )) {
             var isNode = elem.nodeType,
                 cache = isNode ? jQuery.cache : elem,
                 id = isNode ? elem[jQuery.expando] : jQuery.expando;
-            if (!!cache[id]) {
+            if (cache[id]) {
                 if (name && (thisCache = pvt ? cache[id] : cache[id].data)) {
                     for (
                         jQuery.isArray(
@@ -1794,7 +1794,7 @@
                     ))
                         return;
                 }
-                return pvt || (delete cache[id].data, !!isEmptyDataObject(
+                return pvt || (delete cache[id].data, isEmptyDataObject(
                     cache[id]
                 ))
                     ? void (isNode
@@ -3189,7 +3189,7 @@
                 elemData = jQuery._data(
                     null
                 );
-            if (!!elemData)
+            if (elemData)
                 for (
                     handler.handler &&
             ((handler = (handleObjIn = handler).handler),
@@ -3308,7 +3308,7 @@
                 ) && jQuery._data(
                     elem
                 );
-            if (!!elemData && !!(events = elemData.events)) {
+            if (!!elemData && (events = elemData.events)) {
                 for (
                     t = (types = (types || "").match(
                         core_rnotwhite
@@ -3923,7 +3923,7 @@
         preventDefault: function (
         ) {
             var e = this.originalEvent;
-            ((this.isDefaultPrevented = returnTrue), !!e) &&
+            ((this.isDefaultPrevented = returnTrue), e) &&
           (e.preventDefault
               ? e.preventDefault(
               )
@@ -3932,7 +3932,7 @@
         stopPropagation: function (
         ) {
             var e = this.originalEvent;
-            ((this.isPropagationStopped = returnTrue), !!e) &&
+            ((this.isPropagationStopped = returnTrue), e) &&
           (e.stopPropagation && e.stopPropagation(
           ), (e.cancelBubble = !0));
         },
@@ -7949,7 +7949,7 @@
         src, dest
     ) {
         var type, i, l;
-        if (1 === dest.nodeType && !!jQuery.hasData(
+        if (1 === dest.nodeType && jQuery.hasData(
             src
         )) {
             var oldData = jQuery._data(
@@ -8484,7 +8484,7 @@
             index < length;
             index++
         )
-            ((elem = elements[index]), !!elem.style) &&
+            ((elem = elements[index]), elem.style) &&
         ((values[index] = jQuery._data(
             elem,
             "olddisplay"
@@ -8519,7 +8519,7 @@
                       ),
               )));
         for (index = 0; index < length; index++)
-            ((elem = elements[index]), !!elem.style) &&
+            ((elem = elements[index]), elem.style) &&
         ((show && "none" !== elem.style.display && "" !== elem.style.display) ||
           (elem.style.display = show ? values[index] || "" : "none"));
         return elements;
@@ -8646,7 +8646,7 @@
                     !!elem &&
           3 !== elem.nodeType &&
           8 !== elem.nodeType &&
-          !!elem.style
+          elem.style
                 ) {
                     var origName = jQuery.camelCase(
                             name
@@ -11748,7 +11748,7 @@
             position: function (
             ) {
                 var offsetParent, offset;
-                if (!!this[0]) {
+                if (this[0]) {
                     var parentOffset = {
                             top: 0,
                             left: 0,
