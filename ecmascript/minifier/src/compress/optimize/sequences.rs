@@ -540,6 +540,9 @@ impl Optimizer<'_> {
                     }
                 }
 
+                self.changed = true;
+                log::trace!("sequences: Inlining sequential expressions");
+
                 let mut vars = HashMap::default();
                 vars.insert(left_id.to_id(), right.take());
                 self.inline_vars_in_node(b, vars);
