@@ -170,6 +170,17 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
         expr.visit_mut_children_with(self);
 
+        match expr.op {
+            op!("||") | op!("&&") => match (&*expr.left, &*expr.right) {
+                (Expr::Update(..), Expr::Assign(..)) => {
+                    self.wrap(&mut expr.right);
+                    return;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
         match &mut *expr.right {
             Expr::Assign(..)
             | Expr::Seq(..)
