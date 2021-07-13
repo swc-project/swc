@@ -213,6 +213,13 @@ impl VisitMut for Fixer<'_> {
                 }
             }
 
+            Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            }) if expr.op == op!("==")
+                || expr.op == op!("===")
+                || expr.op == op!("!=")
+                || expr.op == op!("!==") => {}
+
             Expr::Seq(..)
             | Expr::Update(..)
             | Expr::Unary(UnaryExpr {
