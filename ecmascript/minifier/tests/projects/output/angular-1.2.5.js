@@ -887,11 +887,10 @@
                 ) {
                     if (
                         keyValue &&
-          ((key_value = keyValue.split(
-              "="
-          )),
-          (key = tryDecodeURIComponent(
-              key_value[0]
+          ((key = tryDecodeURIComponent(
+              (key_value = keyValue.split(
+                  "="
+              ))[0]
           )),
           isDefined(
               key
@@ -1070,8 +1069,7 @@
                         tag,
                     );
                 }
-                (modules = modules || []),
-                modules.unshift(
+                (modules = modules || []).unshift(
                     [
                         "$provide",
                         function (
@@ -1480,8 +1478,8 @@
         getterIfNoArguments,
     ) {
         var originalJqFn = jQuery.fn[name];
-        (originalJqFn = originalJqFn.$original || originalJqFn),
-        (removePatch.$original = originalJqFn),
+        (removePatch.$original = originalJqFn =
+      originalJqFn.$original || originalJqFn),
         (jQuery.fn[name] = removePatch);
         function removePatch(
             param
@@ -1508,11 +1506,10 @@
                         setIndex++
                     )
                         for (
-                            element = jqLite(
-                                set[setIndex]
-                            ),
                             fireEvent
-                                ? element.triggerHandler(
+                                ? (element = jqLite(
+                                    set[setIndex]
+                                )).triggerHandler(
                                     "$destroy"
                                 )
                                 : (fireEvent = !fireEvent),
@@ -2694,20 +2691,21 @@
     function annotate(
         fn
     ) {
-        var $inject, fnText, argDecl, last;
+        var $inject, argDecl, last;
         return (
             "function" == typeof fn
                 ? !($inject = fn.$inject) &&
-          (($inject = []),
-          fn.length &&
-            ((fnText = fn.toString(
-            ).replace(
-                STRIP_COMMENTS,
-                ""
-            )),
-            (argDecl = fnText.match(
-                FN_ARGS
-            )),
+          (fn.length &&
+            ((argDecl = fn
+                .toString(
+                )
+                .replace(
+                    STRIP_COMMENTS,
+                    ""
+                )
+                .match(
+                    FN_ARGS
+                )),
             forEach(
                 argDecl[1].split(
                     FN_ARG_SPLIT
@@ -2720,7 +2718,7 @@
                         function (
                             all, underscore, name
                         ) {
-                            $inject.push(
+                            ($inject = []).push(
                                 name
                             );
                         }
@@ -2731,9 +2729,8 @@
                 : isArray(
                     fn
                 )
-                    ? ((last = fn.length - 1),
-                    assertArgFn(
-                        fn[last],
+                    ? (assertArgFn(
+                        fn[(last = fn.length - 1)],
                         "fn"
                     ),
                     ($inject = fn.slice(
@@ -3115,12 +3112,11 @@
                             ? Type[Type.length - 1]
                             : Type
                         ).prototype),
-                        (instance = new Constructor(
-                        )),
                         (returnedValue = invoke(
                             Type,
-                            instance,
-                            locals
+                            (instance = new Constructor(
+                            )),
+                            locals,
                         )),
                         isObject(
                             returnedValue
@@ -3307,17 +3303,6 @@
                             addClass: function (
                                 element, className, done
                             ) {
-                                (className = isString(
-                                    className
-                                )
-                                    ? className
-                                    : isArray(
-                                        className
-                                    )
-                                        ? className.join(
-                                            " "
-                                        )
-                                        : ""),
                                 forEach(
                                     element,
                                     function (
@@ -3325,7 +3310,17 @@
                                     ) {
                                         jqLiteAddClass(
                                             element,
-                                            className
+                                            (className = isString(
+                                                className
+                                            )
+                                                ? className
+                                                : isArray(
+                                                    className
+                                                )
+                                                    ? className.join(
+                                                        " "
+                                                    )
+                                                    : ""),
                                         );
                                     }
                                 ),
@@ -3338,17 +3333,6 @@
                             removeClass: function (
                                 element, className, done
                             ) {
-                                (className = isString(
-                                    className
-                                )
-                                    ? className
-                                    : isArray(
-                                        className
-                                    )
-                                        ? className.join(
-                                            " "
-                                        )
-                                        : ""),
                                 forEach(
                                     element,
                                     function (
@@ -3356,7 +3340,17 @@
                                     ) {
                                         jqLiteRemoveClass(
                                             element,
-                                            className
+                                            (className = isString(
+                                                className
+                                            )
+                                                ? className
+                                                : isArray(
+                                                    className
+                                                )
+                                                    ? className.join(
+                                                        " "
+                                                    )
+                                                    : ""),
                                         );
                                     }
                                 ),
@@ -3620,8 +3614,7 @@
             else {
                 if (rawDocument.cookie !== lastCookieString)
                     for (
-                        lastCookieString = rawDocument.cookie,
-                        cookieArray = lastCookieString.split(
+                        cookieArray = (lastCookieString = rawDocument.cookie).split(
                             "; "
                         ),
                         lastCookies = {
@@ -3630,8 +3623,7 @@
                         i < cookieArray.length;
                         i++
                     )
-                        (cookie = cookieArray[i]),
-                        (index = cookie.indexOf(
+                        (index = (cookie = cookieArray[i]).indexOf(
                             "="
                         )),
                         index > 0 &&
@@ -4290,12 +4282,11 @@
                         i < nodeList.length;
                         i++
                     )
-                        (attrs = new Attributes(
-                        )),
                         (directives = collectDirectives(
                             nodeList[i],
                             [],
-                            attrs,
+                            (attrs = new Attributes(
+                            )),
                             0 === i ? maxPriority : void 0,
                             ignoreDirective,
                         )),
@@ -4359,11 +4350,10 @@
                             )),
                             nodeLinkFn
                                 ? (nodeLinkFn.scope
-                                    ? ((childScope = scope.$new(
-                                    )),
-                                    $node.data(
-                                        "$scope",
-                                        childScope
+                                    ? ($node.data(
+                                        "$scope", (
+                                            childScope = scope.$new(
+                                            ))
                                     ),
                                     safeAddClass(
                                         $node,
@@ -4463,9 +4453,8 @@
                             var attrStartName = !1,
                                 attrEndName = !1;
                             ((attr = nAttrs[j]), !msie || msie >= 8 || attr.specified) &&
-                    ((name = attr.name),
-                    (ngAttrName = directiveNormalize(
-                        name
+                    ((ngAttrName = directiveNormalize(
+                        (name = attr.name)
                     )),
                     NG_ATTR_BINDING.test(
                         ngAttrName
@@ -4710,11 +4699,12 @@
                             directive.templateUrl ||
                   !directive.controller ||
                   ((directiveValue = directive.controller),
-                  (controllerDirectives = controllerDirectives || {
-                  }),
                   assertNoDuplicate(
                       "'" + directiveName + "' controller",
-                      controllerDirectives[directiveName],
+                      (controllerDirectives = controllerDirectives || {
+                      })[
+                          directiveName
+                      ],
                       directive,
                       $compileNode,
                   ),
@@ -4732,29 +4722,26 @@
                   "element" == directiveValue
                       ? ((hasElementTranscludeDirective = !0),
                       (terminalPriority = directive.priority),
-                      ($template = groupScan(
-                          compileNode,
-                          attrStart,
-                          attrEnd
-                      )),
-                      ($compileNode = templateAttrs.$$element = jqLite(
-                          document.createComment(
-                              " " +
-                            directiveName +
-                            ": " +
-                            templateAttrs[directiveName] +
-                            " ",
-                          ),
-                      )),
-                      (compileNode = $compileNode[0]),
                       replaceWith(
                           jqCollection,
                           jqLite(
                               sliceArgs(
-                                  $template
-                              )
+                                  ($template = groupScan(
+                                      compileNode,
+                                      attrStart,
+                                      attrEnd,
+                                  )),
+                              ),
                           ),
-                          compileNode,
+                          (compileNode = ($compileNode = templateAttrs.$$element = jqLite(
+                              document.createComment(
+                                  " " +
+                              directiveName +
+                              ": " +
+                              templateAttrs[directiveName] +
+                              " ",
+                              ),
+                          ))[0]),
                       ),
                       (childTranscludeFn = compile(
                           $template,
@@ -4802,13 +4789,12 @@
                             ) {
                                 if (
                                     ((replaceDirective = directive),
-                                    ($template = jqLite(
+                                    (compileNode = ($template = jqLite(
                                         "<div>" + trim(
                                             directiveValue
                                         ) + "</div>",
                                     ).contents(
-                                    )),
-                                    (compileNode = $template[0]),
+                                    ))[0]),
                                     1 != $template.length || 1 !== compileNode.nodeType)
                                 )
                                     throw $compileMinErr(
@@ -5045,7 +5031,7 @@
                             },
                             transcludeFn1;
                         if (
-                            ((attrs =
+                            (($element = (attrs =
                   compileNode === linkNode
                       ? templateAttrs
                       : shallowCopy(
@@ -5056,8 +5042,7 @@
                               ),
                               templateAttrs.$attr
                           ),
-                      )),
-                            ($element = attrs.$$element),
+                      )).$$element),
                             newIsolateScopeDirective)
                         ) {
                             var LOCAL_REGEXP = /^\s*([@=&])(\??)\s*(\w*)\s*$/,
@@ -5121,10 +5106,10 @@
                                         break;
                                     case "=":
                                         if (!optional || !!attrs[attrName]) {
-                                            (parentGet = $parse(
+                                            (compare = (parentGet = $parse(
                                                 attrs[attrName]
-                                            )),
-                                            (compare = parentGet.literal
+                                            ))
+                                                .literal
                                                 ? equals
                                                 : function (
                                                     a, b
@@ -5209,45 +5194,44 @@
                             );
                         }
                         for (
-                            transcludeFn1 = boundTranscludeFn && controllersBoundTransclude,
                             controllerDirectives &&
-                    forEach(
-                        controllerDirectives,
-                        function (
-                            directive1
-                        ) {
-                            var locals = {
-                                    $scope:
-                            directive1 === newIsolateScopeDirective ||
-                            directive1.$$isolateScope
-                                ? isolateScope
-                                : scope,
-                                    $element: attrs.$$element,
-                                    $attrs: attrs,
-                                    $transclude: transcludeFn1,
-                                },
-                                controllerInstance;
-                            (controller = directive1.controller),
-                            "@" == controller &&
-                          (controller = attrs[directive1.name]),
-                            (controllerInstance = $controller(
-                                controller,
-                                locals
-                            )),
-                            (elementControllers[
-                                directive1.name
-                            ] = controllerInstance),
-                            hasElementTranscludeDirective ||
-                          attrs.$$element.data(
-                              "$" + directive1.name + "Controller",
-                              controllerInstance,
-                          ),
-                            directive1.controllerAs &&
-                          (locals.$scope[
-                              directive1.controllerAs
-                          ] = controllerInstance);
-                        }
-                    ),
+                  forEach(
+                      controllerDirectives,
+                      function (
+                          directive1
+                      ) {
+                          var locals = {
+                                  $scope:
+                          directive1 === newIsolateScopeDirective ||
+                          directive1.$$isolateScope
+                              ? isolateScope
+                              : scope,
+                                  $element: attrs.$$element,
+                                  $attrs: attrs,
+                                  $transclude: (transcludeFn1 =
+                          boundTranscludeFn && controllersBoundTransclude),
+                              },
+                              controllerInstance;
+                          (controller = directive1.controller),
+                          "@" == controller &&
+                        (controller = attrs[directive1.name]),
+                          (elementControllers[
+                              directive1.name
+                          ] = controllerInstance = $controller(
+                              controller,
+                              locals
+                          )),
+                          hasElementTranscludeDirective ||
+                        attrs.$$element.data(
+                            "$" + directive1.name + "Controller",
+                            controllerInstance,
+                        ),
+                          directive1.controllerAs &&
+                        (locals.$scope[
+                            directive1.controllerAs
+                        ] = controllerInstance);
+                      }
+                  ),
                             i = 0,
                             ii = preLinkFns.length;
                             i < ii;
@@ -5508,13 +5492,12 @@
                                         origAsyncDirective.replace)
                                     ) {
                                         if (
-                                            (($template = jqLite(
+                                            ((compileNode = ($template = jqLite(
                                                 "<div>" + trim(
                                                     content
                                                 ) + "</div>",
                                             ).contents(
-                                            )),
-                                            (compileNode = $template[0]),
+                                            ))[0]),
                                             1 != $template.length || 1 !== compileNode.nodeType)
                                         )
                                             throw $compileMinErr(
@@ -5958,10 +5941,9 @@
                         (isString(
                             expression
                         ) &&
-                ((match = expression.match(
+                ((constructor = (match = expression.match(
                     CNTRL_REG
-                )),
-                (constructor = match[1]),
+                ))[1]),
                 (identifier = match[3]),
                 (expression = controllers.hasOwnProperty(
                     constructor
@@ -6052,14 +6034,13 @@
             function (
                 line
             ) {
-                (i = line.indexOf(
-                    ":"
-                )),
                 (key = lowercase(
                     trim(
                         line.substr(
-                            0,
-                            i
+                            0, (
+                                i = line.indexOf(
+                                    ":"
+                                ))
                         )
                     )
                 )),
@@ -6448,16 +6429,15 @@
                             defHeaderName,
                             lowercaseDefHeaderName,
                             reqHeaderName;
-                        (defHeaders = extend(
-                            {
-                            },
-                            defHeaders.common,
-                            defHeaders[lowercase(
-                                config1.method
-                            )],
-                        )),
                         execHeaders(
-                            defHeaders
+                            (defHeaders = extend(
+                                {
+                                },
+                                defHeaders.common,
+                                defHeaders[lowercase(
+                                    config1.method
+                                )],
+                            )),
                         ),
                         execHeaders(
                             reqHeaders
@@ -6933,11 +6913,10 @@
                     ? 200
                     : 404
                 : status1),
-                (status1 = 1223 == status1 ? 204 : status1),
                 callback(
-                    status1,
+                    (status1 = 1223 == status1 ? 204 : status1),
                     response,
-                    headersString
+                    headersString,
                 ),
                 $browser.$$completeOutstandingRequest(
                     noop
@@ -8834,11 +8813,11 @@
             else {
                 var token = this.expect(
                 );
-                (primary = token.fn),
-                primary || this.throwError(
-                    "not a primary expression",
-                    token
-                ),
+                (primary = token.fn) ||
+            this.throwError(
+                "not a primary expression",
+                token
+            ),
                 token.json && ((primary.constant = !0), (primary.literal = !0));
             }
             for (var next, context; (next = this.expect(
@@ -9915,15 +9894,15 @@
                                 exp
                             )) return cache[exp];
                             return (
-                                (parsedExpression = new Parser(
-                                    lexer,
-                                    $filter,
-                                    $parseOptions,
-                                ).parse(
-                                    exp,
-                                    !1
-                                )),
-                                "hasOwnProperty" !== exp && (cache[exp] = parsedExpression),
+                                "hasOwnProperty" !== exp &&
+                      (cache[exp] = parsedExpression = new Parser(
+                          lexer,
+                          $filter,
+                          $parseOptions,
+                      ).parse(
+                          exp,
+                          !1
+                      )),
                                 parsedExpression
                             );
                         case "function":
@@ -10972,8 +10951,7 @@
                             length;
                         do {
                             for (
-                                current = next,
-                                event.currentScope = current,
+                                event.currentScope = current = next,
                                 listeners = current.$$listeners[name] || [],
                                 i = 0,
                                 length = listeners.length;
@@ -11614,7 +11592,7 @@
                         ) && !invokeApply,
                         timeoutId;
                     return (
-                        (timeoutId = $browser.defer(
+                        (promise.$$timeoutId = timeoutId = $browser.defer(
                             function (
                             ) {
                                 try {
@@ -11636,7 +11614,6 @@
                             },
                             delay
                         )),
-                        (promise.$$timeoutId = timeoutId),
                         (deferreds[timeoutId] = deferred),
                         promise
                     );
@@ -14670,19 +14647,19 @@
                                     index++
                                 )
                                     if (
-                                        ((key =
-                    collection === collectionKeys
-                        ? index
-                        : collectionKeys[index]),
-                                        (value = collection[key]),
-                                        (trackById = trackByIdFn(
-                                            key,
-                                            value,
-                                            index
-                                        )),
-                                        assertNotHasOwnProperty(
-                                            trackById,
-                                            "`track by` id"
+                                        (assertNotHasOwnProperty(
+                                            (trackById = trackByIdFn(
+                                                key,
+                                                (value =
+                        collection[
+                            (key =
+                            collection === collectionKeys
+                                ? index
+                                : collectionKeys[index])
+                        ]),
+                                                index,
+                                            )),
+                                            "`track by` id",
                                         ),
                                         lastBlockMap.hasOwnProperty(
                                             trackById
@@ -14720,12 +14697,10 @@
                                     lastBlockMap.hasOwnProperty(
                                         key
                                     ) &&
-                  ((block = lastBlockMap[key]),
-                  (elementsToRemove = getBlockElements(
-                      block.clone
-                  )),
-                  $animate.leave(
-                      elementsToRemove
+                  ($animate.leave(
+                      (elementsToRemove = getBlockElements(
+                          (block = lastBlockMap[key]).clone,
+                      )),
                   ),
                   forEach(
                       elementsToRemove,
@@ -14743,11 +14718,13 @@
                                     index++
                                 ) {
                                     if (
-                                        ((key =
-                    collection === collectionKeys
-                        ? index
-                        : collectionKeys[index]),
-                                        (value = collection[key]),
+                                        ((value =
+                    collection[
+                        (key =
+                        collection === collectionKeys
+                            ? index
+                            : collectionKeys[index])
+                    ]),
                                         (block = nextBlockOrder[index]),
                                         nextBlockOrder[index - 1] &&
                     (previousNode = getBlockEnd(
@@ -15494,9 +15471,9 @@
                                                                     .selected
                                                             ) {
                                                                 if (
-                                                                    ((key = optionElement.val(
-                                                                    )),
-                                                                    keyName && (locals[keyName] = key),
+                                                                    (keyName &&
+                                  (locals[keyName] = key = optionElement.val(
+                                  )),
                                                                     trackFn)
                                                                 )
                                                                     for (
@@ -15724,33 +15701,35 @@
                                         groupIndex++
                                     ) {
                                         for (
-                                            optionGroupName = optionGroupNames[groupIndex],
-                                            optionGroup = optionGroups[optionGroupName],
                                             optionGroupsCache.length <= groupIndex
-                                                ? ((existingParent = {
-                                                    element: optGroupTemplate
-                                                        .clone(
-                                                        )
-                                                        .attr(
-                                                            "label",
-                                                            optionGroupName
-                                                        ),
-                                                    label: optionGroup.label,
-                                                }),
-                                                (existingOptions = [existingParent,]),
-                                                optionGroupsCache.push(
-                                                    existingOptions
+                                                ? (optionGroupsCache.push(
+                                                    (existingOptions = [
+                                                        (existingParent = {
+                                                            element: optGroupTemplate
+                                                                .clone(
+                                                                )
+                                                                .attr(
+                                                                    "label",
+                                                                    optionGroupName
+                                                                ),
+                                                            label: (optionGroup =
+                                  optionGroups[
+                                      (optionGroupName =
+                                      optionGroupNames[groupIndex])
+                                  ]).label,
+                                                        }),
+                                                    ]),
                                                 ),
                                                 selectElement.append(
                                                     existingParent.element
                                                 ))
-                                                : ((existingOptions = optionGroupsCache[groupIndex]),
-                                                (existingParent = existingOptions[0]),
+                                                : ((existingParent = (existingOptions =
+                            optionGroupsCache[groupIndex])[0]),
                                                 existingParent.label != optionGroupName &&
-                              existingParent.element.attr(
-                                  "label",
-                                  (existingParent.label = optionGroupName),
-                              )),
+                            existingParent.element.attr(
+                                "label",
+                                (existingParent.label = optionGroupName),
+                            )),
                                             lastElement = null,
                                             index = 0,
                                             length = optionGroup.length;
@@ -15759,9 +15738,8 @@
                                         )
                                             (option = optionGroup[index]),
                                             (existingOption = existingOptions[index + 1])
-                                                ? ((lastElement = existingOption.element),
-                                                existingOption.label !== option.label &&
-                              lastElement.text(
+                                                ? (existingOption.label !== option.label &&
+                              (lastElement = existingOption.element).text(
                                   (existingOption.label = option.label),
                               ),
                                                 existingOption.id !== option.id &&

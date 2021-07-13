@@ -148,8 +148,7 @@
                 obj && ((listeningTo = {
                 })[obj._listenId] = obj),
                 listeningTo))
-                    (obj = listeningTo[id]),
-                    obj.off(
+                    (obj = listeningTo[id]).off(
                         name,
                         callback,
                         this
@@ -291,18 +290,17 @@
             options
         ) || {
         }),
-        (attrs = _.defaults(
-            {
-            },
-            attrs,
-            _.result(
-                this,
-                "defaults"
-            )
-        )),
         this.set(
-            attrs,
-            options
+            (attrs = _.defaults(
+                {
+                },
+                attrs,
+                _.result(
+                    this,
+                    "defaults"
+                )
+            )),
+            options,
         ),
         (this.changed = {
         }),
@@ -386,13 +384,13 @@
                 this._previousAttributes,
                 this.idAttribute in attrs && (this.id = attrs[this.idAttribute]),
                 attrs))
-                    (val = attrs[attr]),
                     _.isEqual(
-                        this.attributes[attr],
-                        val
-                    ) || changes.push(
-                        attr
-                    ),
+                        this.attributes[attr], (
+                            val = attrs[attr])
+                    ) ||
+          changes.push(
+              attr
+          ),
                     _.isEqual(
                         this._previousAttributes[attr],
                         val
@@ -622,11 +620,13 @@
                         this,
                         options
                     ),
-                    (method = this.isNew(
-                    )
-                        ? "create"
-                        : options.patch ? "patch" : "update"),
-                    "patch" === method && (options.attrs = attrs),
+                    "patch" ==
+          (method = this.isNew(
+          )
+              ? "create"
+              : options.patch
+                  ? "patch"
+                  : "update") && (options.attrs = attrs),
                     (xhr = this.sync(
                         method,
                         this,
@@ -904,11 +904,10 @@
                     model &&
             (delete this._byId[model.id],
             delete this._byId[model.cid],
-            (index = this.indexOf(
-                model
-            )),
             this.models.splice(
-                index,
+                (index = this.indexOf(
+                    model
+                )),
                 1
             ),
             this.length--,
@@ -928,7 +927,7 @@
             set: function (
                 models, options
             ) {
-                var i, l, id, model, attrs, existing, sort;
+                var i, l, model, attrs, existing, sort;
                 (options = _.defaults(
                     {
                     },
@@ -964,12 +963,10 @@
                     order = !sortable && !!add && !!remove && [];
                 for (i = 0, l = models.length; i < l; i++)
                     (attrs = models[i]),
-                    (id =
-            attrs instanceof Model
-                ? (model = attrs)
-                : attrs[this.model.prototype.idAttribute]),
                     (existing = this.get(
-                        id
+                        attrs instanceof Model
+                            ? (model = attrs)
+                            : attrs[this.model.prototype.idAttribute],
                     ))
                         ? (remove && (modelMap[existing.cid] = !0),
                         merge &&

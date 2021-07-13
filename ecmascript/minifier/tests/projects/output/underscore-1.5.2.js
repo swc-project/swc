@@ -514,10 +514,9 @@
                 function (
                     value
                 ) {
-                    (rand = _.random(
+                    (shuffled[index - 1] = shuffled[(rand = _.random(
                         index++
-                    )),
-                    (shuffled[index - 1] = shuffled[rand]),
+                    ))]),
                     (shuffled[rand] = value);
                 }
             ),
@@ -1571,7 +1570,7 @@
         var size = 0,
             result = !0;
         if ("[object Array]" == className) {
-            if (((size = a.length), (result = size == b.length)))
+            if ((result = (size = a.length) == b.length))
                 for (; size--; )
                     if (!(result = eq(
                         a[size],
