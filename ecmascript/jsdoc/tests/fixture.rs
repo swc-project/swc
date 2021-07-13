@@ -7,7 +7,7 @@ use dashmap::DashMap;
 use std::{env, path::PathBuf};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
-    BytePos,
+    BytePos, DUMMY_SP,
 };
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, StringInput, Syntax};
 use test::{test_main, DynTestFn, ShouldPanic::No, TestDesc, TestDescAndFn, TestName, TestType};
@@ -159,6 +159,10 @@ impl Comments for SwcComments {
         self.leading.remove(&pos).map(|v| v.1)
     }
 
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.get(&pos).map(|v| v.to_owned())
+    }
+
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
         self.trailing.entry(pos).or_default().push(cmt)
     }
@@ -181,5 +185,22 @@ impl Comments for SwcComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.remove(&pos).map(|v| v.1)
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.get(&pos).map(|v| v.to_owned())
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut leading = self.leading.entry(pos).or_default();
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: "#__PURE__".into(),
+        };
+
+        if !leading.iter().any(|c| c.text == pure_comment.text) {
+            leading.push(pure_comment);
+        }
     }
 }

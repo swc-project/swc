@@ -17,11 +17,11 @@ use std::{
 };
 use swc_common::{
     chain,
-    comments::{Comment, Comments},
+    comments::{Comment, CommentKind, Comments},
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
@@ -680,6 +680,10 @@ impl Comments for SwcComments {
         self.leading.remove(&pos).map(|v| v.1)
     }
 
+    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.leading.get(&pos).map(|v| v.to_owned())
+    }
+
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
         self.trailing.entry(pos).or_default().push(cmt)
     }
@@ -706,5 +710,22 @@ impl Comments for SwcComments {
 
     fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
         self.trailing.remove(&pos).map(|v| v.1)
+    }
+
+    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        self.trailing.get(&pos).map(|v| v.to_owned())
+    }
+
+    fn add_pure_comment(&self, pos: BytePos) {
+        let mut leading = self.leading.entry(pos).or_default();
+        let pure_comment = Comment {
+            kind: CommentKind::Block,
+            span: DUMMY_SP,
+            text: "#__PURE__".into(),
+        };
+
+        if !leading.iter().any(|c| c.text == pure_comment.text) {
+            leading.push(pure_comment);
+        }
     }
 }

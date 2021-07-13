@@ -1,20 +1,18 @@
 use std::collections::HashMap;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::{Comment, SingleThreadedComments},
-    Loc, SourceMap, Span, DUMMY_SP,
+    comments::{Comment, Comments},
+    Span, DUMMY_SP,
 };
 use swc_ecma_ast as ast;
 use swc_ecma_visit::{self, Node, Visit, VisitWith};
 
 pub fn analyze_dependencies(
     module: &ast::Module,
-    source_map: &SourceMap,
-    comments: &SingleThreadedComments,
+    comments: &impl Comments,
 ) -> Vec<DependencyDescriptor> {
     let mut v = DependencyCollector {
         comments,
-        source_map,
         items: vec![],
         is_top_level: true,
     };
@@ -39,46 +37,35 @@ pub struct DependencyDescriptor {
     /// Any leading comments associated with the dependency.  This is used for
     /// further processing of supported pragma that impact the dependency.
     pub leading_comments: Vec<Comment>,
-    /// The location of the import/export statement.
-    pub line: usize,
-    pub col: usize,
+    /// The span of the import/export statement.
+    pub span: Span,
     /// The text specifier associated with the import/export statement.
     pub specifier: JsWord,
-    /// The location of the specifier.
-    pub specifier_line: usize,
-    pub specifier_col: usize,
+    /// The span of the specifier.
+    pub specifier_span: Span,
     /// Import assertions for this dependency.
     /// NOTE: it's filled only for static imports and exports.
     pub import_assertions: HashMap<String, String>,
 }
 
-struct DependencyCollector<'a> {
-    comments: &'a SingleThreadedComments,
+struct DependencyCollector<'a, TComments: Comments> {
+    comments: &'a TComments,
     pub items: Vec<DependencyDescriptor>,
-    source_map: &'a SourceMap,
     // This field is used to determine if currently visited "require"
     // is top level and "static", or inside module body and "dynamic".
     is_top_level: bool,
 }
 
-impl<'a> DependencyCollector<'a> {
-    fn get_location(&self, span: Span) -> Loc {
-        self.source_map.lookup_char_pos(span.lo)
-    }
-
+impl<'a, TComments: Comments> DependencyCollector<'a, TComments> {
     fn get_leading_comments(&self, span: Span) -> Vec<Comment> {
-        self.comments
-            .with_leading(span.lo, |comments| comments.to_vec())
+        self.comments.get_leading(span.lo).unwrap_or_else(Vec::new)
     }
 }
 
-impl<'a> Visit for DependencyCollector<'a> {
+impl<'a, TComments: Comments> Visit for DependencyCollector<'a, TComments> {
     fn visit_import_decl(&mut self, node: &ast::ImportDecl, _parent: &dyn Node) {
         let specifier = node.src.value.clone();
-        let span = node.span;
-        let location = self.get_location(span);
-        let leading_comments = self.get_leading_comments(span);
-        let specifier_location = self.get_location(node.src.span);
+        let leading_comments = self.get_leading_comments(node.span);
         let kind = if node.type_only {
             DependencyKind::ImportType
         } else {
@@ -89,11 +76,9 @@ impl<'a> Visit for DependencyCollector<'a> {
             kind,
             is_dynamic: false,
             leading_comments,
-            col: location.col_display,
-            line: location.line,
+            span: node.span,
             specifier,
-            specifier_col: specifier_location.col_display,
-            specifier_line: specifier_location.line,
+            specifier_span: node.src.span,
             import_assertions,
         });
     }
@@ -101,10 +86,7 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_named_export(&mut self, node: &ast::NamedExport, _parent: &dyn Node) {
         if let Some(src) = &node.src {
             let specifier = src.value.clone();
-            let span = node.span;
-            let location = self.get_location(span);
-            let leading_comments = self.get_leading_comments(span);
-            let specifier_location = self.get_location(src.span);
+            let leading_comments = self.get_leading_comments(node.span);
             let kind = if node.type_only {
                 DependencyKind::ExportType
             } else {
@@ -115,11 +97,9 @@ impl<'a> Visit for DependencyCollector<'a> {
                 kind,
                 is_dynamic: false,
                 leading_comments,
-                col: location.col_display,
-                line: location.line,
+                span: node.span,
                 specifier,
-                specifier_col: specifier_location.col_display,
-                specifier_line: specifier_location.line,
+                specifier_span: src.span,
                 import_assertions,
             });
         }
@@ -127,20 +107,15 @@ impl<'a> Visit for DependencyCollector<'a> {
 
     fn visit_export_all(&mut self, node: &ast::ExportAll, _parent: &dyn Node) {
         let specifier = node.src.value.clone();
-        let span = node.span;
-        let location = self.get_location(span);
-        let leading_comments = self.get_leading_comments(span);
-        let specifier_location = self.get_location(node.src.span);
+        let leading_comments = self.get_leading_comments(node.span);
         let import_assertions = parse_import_assertions(node.asserts.as_ref());
         self.items.push(DependencyDescriptor {
             kind: DependencyKind::Export,
             is_dynamic: false,
             leading_comments,
-            col: location.col_display,
-            line: location.line,
+            span: node.span,
             specifier,
-            specifier_col: specifier_location.col_display,
-            specifier_line: specifier_location.line,
+            specifier_span: node.src.span,
             import_assertions,
         });
     }
@@ -148,18 +123,14 @@ impl<'a> Visit for DependencyCollector<'a> {
     fn visit_ts_import_type(&mut self, node: &ast::TsImportType, _parent: &dyn Node) {
         let specifier = node.arg.value.clone();
         let span = node.span;
-        let location = self.get_location(span);
         let leading_comments = self.get_leading_comments(span);
-        let specifier_location = self.get_location(node.arg.span);
         self.items.push(DependencyDescriptor {
             kind: DependencyKind::ImportType,
             is_dynamic: false,
             leading_comments,
-            col: location.col_display,
-            line: location.line,
+            span: node.span,
             specifier,
-            specifier_col: specifier_location.col_display,
-            specifier_line: specifier_location.line,
+            specifier_span: node.arg.span,
             import_assertions: HashMap::default(),
         });
     }
@@ -199,19 +170,14 @@ impl<'a> Visit for DependencyCollector<'a> {
             if let Lit(lit) = &*arg.expr {
                 if let ast::Lit::Str(str_) = lit {
                     let specifier = str_.value.clone();
-                    let span = node.span;
-                    let location = self.get_location(span);
-                    let leading_comments = self.get_leading_comments(span);
-                    let specifier_location = self.get_location(str_.span);
+                    let leading_comments = self.get_leading_comments(node.span);
                     self.items.push(DependencyDescriptor {
                         kind,
                         is_dynamic,
                         leading_comments,
-                        col: location.col_display,
-                        line: location.line,
+                        span: node.span,
                         specifier,
-                        specifier_col: specifier_location.col_display,
-                        specifier_line: specifier_location.line,
+                        specifier_span: str_.span,
                         import_assertions: HashMap::default(),
                     });
                 }
@@ -243,8 +209,7 @@ fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> HashMap<String, 
 mod tests {
     use super::*;
     use swc_common::{
-        comments::{Comment, CommentKind},
-        sync::Lrc,
+        comments::{Comment, CommentKind, SingleThreadedComments},
         BytePos, FileName, Span, SyntaxContext,
     };
     use swc_ecma_parser::{lexer::Lexer, JscTarget, Parser, StringInput, Syntax, TsConfig};
@@ -252,7 +217,7 @@ mod tests {
     fn helper(
         file_name: &str,
         source: &str,
-    ) -> Result<(ast::Module, Lrc<SourceMap>, SingleThreadedComments), testing::StdErr> {
+    ) -> Result<(ast::Module, SingleThreadedComments), testing::StdErr> {
         let output = ::testing::run_test(false, |cm, handler| {
             let fm =
                 cm.new_source_file(FileName::Custom(file_name.to_string()), source.to_string());
@@ -287,7 +252,7 @@ mod tests {
                 return Err(());
             }
 
-            Ok((res.unwrap(), cm, comments))
+            Ok((res.unwrap(), comments))
         });
 
         output
@@ -307,7 +272,7 @@ export * as Buzz from "./buzz.ts";
 export type { Fizz } from "./fizz.d.ts";
 const { join } = require("path");
 
-// dynamic 
+// dynamic
 await import("./foo1.ts");
 
 try {
@@ -322,8 +287,8 @@ try {
     // pass
 }
       "#;
-        let (module, source_map, comments) = helper("test.ts", &source).unwrap();
-        let dependencies = analyze_dependencies(&module, &source_map, &comments);
+        let (module, comments) = helper("test.ts", &source).unwrap();
+        let dependencies = analyze_dependencies(&module, &comments);
         assert_eq!(dependencies.len(), 8);
         assert_eq!(
             dependencies,
@@ -332,11 +297,9 @@ try {
                     kind: DependencyKind::Import,
                     is_dynamic: false,
                     leading_comments: Vec::new(),
-                    col: 0,
-                    line: 1,
+                    span: Span::new(BytePos(0), BytePos(33), Default::default()),
                     specifier: JsWord::from("./test.ts"),
-                    specifier_col: 21,
-                    specifier_line: 1,
+                    specifier_span: Span::new(BytePos(21), BytePos(32), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
@@ -347,11 +310,9 @@ try {
                         text: r#"* JSDoc "#.to_string(),
                         span: Span::new(BytePos(34), BytePos(46), SyntaxContext::empty()),
                     }],
-                    col: 0,
-                    line: 3,
+                    span: Span::new(BytePos(47), BytePos(85), Default::default()),
                     specifier: JsWord::from("./foo.d.ts"),
-                    specifier_col: 25,
-                    specifier_line: 3,
+                    specifier_span: Span::new(BytePos(72), BytePos(84), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
@@ -362,11 +323,9 @@ try {
                         text: r#"/ <reference foo="bar" />"#.to_string(),
                         span: Span::new(BytePos(86), BytePos(113), SyntaxContext::empty()),
                     }],
-                    col: 0,
-                    line: 5,
+                    span: Span::new(BytePos(114), BytePos(147), Default::default()),
                     specifier: JsWord::from("./buzz.ts"),
-                    specifier_col: 22,
-                    specifier_line: 5,
+                    specifier_span: Span::new(BytePos(136), BytePos(147), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
@@ -384,55 +343,45 @@ try {
                             span: Span::new(BytePos(165), BytePos(179), SyntaxContext::empty()),
                         }
                     ],
-                    col: 0,
-                    line: 10,
+                    span: Span::new(BytePos(180), BytePos(220), Default::default()),
                     specifier: JsWord::from("./fizz.d.ts"),
-                    specifier_col: 26,
-                    specifier_line: 10,
+                    specifier_span: Span::new(BytePos(206), BytePos(219), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
                     is_dynamic: false,
                     leading_comments: Vec::new(),
-                    col: 17,
-                    line: 11,
+                    span: Span::new(BytePos(238), BytePos(253), Default::default()),
                     specifier: JsWord::from("path"),
-                    specifier_col: 25,
-                    specifier_line: 11,
+                    specifier_span: Span::new(BytePos(246), BytePos(252), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
                     is_dynamic: true,
                     leading_comments: Vec::new(),
-                    col: 6,
-                    line: 14,
+                    span: Span::new(BytePos(273), BytePos(292), Default::default()),
                     specifier: JsWord::from("./foo1.ts"),
-                    specifier_col: 13,
-                    specifier_line: 14,
+                    specifier_span: Span::new(BytePos(280), BytePos(291), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
                     is_dynamic: true,
                     leading_comments: Vec::new(),
-                    col: 22,
-                    line: 17,
+                    span: Span::new(BytePos(323), BytePos(341), Default::default()),
                     specifier: JsWord::from("./foo.ts"),
-                    specifier_col: 29,
-                    specifier_line: 17,
+                    specifier_span: Span::new(BytePos(330), BytePos(340), Default::default()),
                     import_assertions: HashMap::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
                     is_dynamic: true,
                     leading_comments: Vec::new(),
-                    col: 16,
-                    line: 23,
+                    span: Span::new(BytePos(394), BytePos(417), Default::default()),
                     specifier: JsWord::from("some_package"),
-                    specifier_col: 24,
-                    specifier_line: 23,
+                    specifier_span: Span::new(BytePos(402), BytePos(416), Default::default()),
                     import_assertions: HashMap::default(),
                 }
             ]
@@ -445,12 +394,12 @@ try {
 export * from "./test.ts" assert { "type": "typescript" };
 export { bar } from "./test.json" assert { "type": "json" };
       "#;
-        let (module, source_map, comments) = helper("test.ts", &source).unwrap();
+        let (module, comments) = helper("test.ts", &source).unwrap();
         let mut expected_assertions1 = HashMap::new();
         expected_assertions1.insert("type".to_string(), "typescript".to_string());
         let mut expected_assertions2 = HashMap::new();
         expected_assertions2.insert("type".to_string(), "json".to_string());
-        let dependencies = analyze_dependencies(&module, &source_map, &comments);
+        let dependencies = analyze_dependencies(&module, &comments);
         assert_eq!(dependencies.len(), 3);
         assert_eq!(
             dependencies,
@@ -459,33 +408,27 @@ export { bar } from "./test.json" assert { "type": "json" };
                     kind: DependencyKind::Import,
                     is_dynamic: false,
                     leading_comments: Vec::new(),
-                    col: 0,
-                    line: 1,
+                    span: Span::new(BytePos(0), BytePos(65), Default::default()),
                     specifier: JsWord::from("./test.ts"),
-                    specifier_col: 21,
-                    specifier_line: 1,
+                    specifier_span: Span::new(BytePos(21), BytePos(32), Default::default()),
                     import_assertions: expected_assertions1.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
                     is_dynamic: false,
                     leading_comments: Vec::new(),
-                    col: 0,
-                    line: 2,
+                    span: Span::new(BytePos(66), BytePos(124), Default::default()),
                     specifier: JsWord::from("./test.ts"),
-                    specifier_col: 14,
-                    specifier_line: 2,
+                    specifier_span: Span::new(BytePos(80), BytePos(91), Default::default()),
                     import_assertions: expected_assertions1,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
                     is_dynamic: false,
                     leading_comments: Vec::new(),
-                    col: 0,
-                    line: 3,
+                    span: Span::new(BytePos(125), BytePos(185), Default::default()),
                     specifier: JsWord::from("./test.json"),
-                    specifier_col: 20,
-                    specifier_line: 3,
+                    specifier_span: Span::new(BytePos(145), BytePos(158), Default::default()),
                     import_assertions: expected_assertions2,
                 },
             ]
