@@ -612,19 +612,23 @@ impl Optimizer<'_> {
             return;
         }
 
-        fn cost(e: &Expr) -> isize {
-            match e {
-                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
-                Expr::Bin(BinExpr {
-                    op: op!("||") | op!("&&"),
-                    left,
-                    right,
-                    ..
-                }) => cost(&left) + cost(&right),
-                _ => 1,
-            }
-        }
-
         // TODO
+    }
+}
+
+fn negate_cost(e: &Expr) -> isize {
+    match e {
+        Expr::Unary(UnaryExpr { op: op!("!"), .. }) => -1,
+        Expr::Bin(BinExpr {
+            op: op!("===") | op!("!==") | op!("==") | op!("!="),
+            ..
+        }) => 0,
+        Expr::Bin(BinExpr {
+            op: op!("||") | op!("&&"),
+            left,
+            right,
+            ..
+        }) => negate_cost(&left) + negate_cost(&right),
+        _ => 1,
     }
 }
