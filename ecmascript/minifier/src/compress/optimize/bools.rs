@@ -554,7 +554,7 @@ impl Optimizer<'_> {
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt(l: &mut Expr, r: &mut Expr) {
+        fn opt(l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str {
@@ -569,13 +569,28 @@ impl Optimizer<'_> {
                 ) => {
                     *l = *undefined(l.span());
                     *r = *arg.take();
+                    true
                 }
-                _ => {}
+                _ => false,
             }
         }
 
-        opt(&mut e.left, &mut e.right);
-        opt(&mut e.right, &mut e.left);
+        match e.op {
+            op!("==") | op!("!=") | op!("===") | op!("!==") => {}
+            _ => return,
+        }
+
+        if opt(&mut e.left, &mut e.right) || opt(&mut e.right, &mut e.left) {
+            e.op = match e.op {
+                op!("==") => {
+                    op!("===")
+                }
+                op!("!=") => {
+                    op!("!==")
+                }
+                _ => e.op,
+            };
+        }
     }
 
     /// NOTE: This is currecntly noop.
