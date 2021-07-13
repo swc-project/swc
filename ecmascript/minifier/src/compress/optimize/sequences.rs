@@ -5,6 +5,8 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{undefined, StmtLike};
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Visit;
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -493,5 +495,46 @@ impl Optimizer<'_> {
         }
     }
 
-    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) {}
+    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) {
+        match a {
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left,
+                right,
+                ..
+            }) => {
+                let left_id = match left {
+                    PatOrExpr::Pat(p) => match &**p {
+                        Pat::Ident(i) => &i.id,
+                        Pat::Expr(e) => match &**e {
+                            Expr::Ident(i) => i,
+                            _ => return,
+                        },
+                        _ => return,
+                    },
+                    PatOrExpr::Expr(e) => match &**e {
+                        Expr::Ident(i) => i,
+                        _ => return,
+                    },
+                };
+
+                // if usage_count(b, left_id) == 1 {}
+
+                // (a = 5, console.log(a))
+                //
+                // =>
+                //
+                // (console.log(a = 5))
+            }
+            _ => {}
+        }
+    }
+}
+
+struct UsageCoutner {
+    usage: usize,
+}
+
+impl Visit for UsageCoutner {
+    noop_visit_type!();
 }
