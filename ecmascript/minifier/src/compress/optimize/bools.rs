@@ -461,7 +461,7 @@ impl Optimizer<'_> {
                 span,
                 op: op!("!"),
                 arg,
-            }) => match &**arg {
+            }) => match &mut **arg {
                 Expr::Lit(Lit::Num(Number { value, .. })) => {
                     log::trace!("Optimizing: number => number (in bool context)");
 
@@ -470,6 +470,15 @@ impl Optimizer<'_> {
                         span: *span,
                         value: if *value == 0.0 { 1.0 } else { 0.0 },
                     }))
+                }
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) => {
+                    log::trace!("bools: !!expr => expr (in bool ctx)");
+                    self.changed = true;
+                    *n = *arg.take();
+                    return;
                 }
                 _ => {}
             },
