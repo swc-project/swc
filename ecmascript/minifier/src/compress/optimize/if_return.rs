@@ -3,6 +3,7 @@ use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
 use std::fmt;
 use std::mem::swap;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -125,6 +126,33 @@ impl Optimizer<'_> {
         }
 
         *stmts = new;
+    }
+
+    pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
+        if s.alt.is_some() {
+            return;
+        }
+
+        match &mut *s.cons {
+            Stmt::If(IfStmt {
+                test,
+                cons,
+                alt: None,
+                ..
+            }) => {
+                self.changed = true;
+                log::trace!("if_return: Merging nested if statements");
+
+                s.test = Box::new(Expr::Bin(BinExpr {
+                    span: s.test.span(),
+                    op: op!("&&"),
+                    left: s.test.take(),
+                    right: test.take(),
+                }));
+                s.cons = cons.take();
+            }
+            _ => {}
+        }
     }
 
     /// Merge simple return statements in if statements.
