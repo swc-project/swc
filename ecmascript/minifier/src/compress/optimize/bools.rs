@@ -213,6 +213,7 @@ impl Optimizer<'_> {
                         } else {
                             op!("&&")
                         };
+                        return true;
                     }
                 }
             }
