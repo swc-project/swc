@@ -570,7 +570,7 @@ impl Optimizer<'_> {
                     // TODO?
                     match &**arg {
                         Expr::Ident(Ident { sym, .. }) => match &**sym {
-                            "require" => return false,
+                            "require" | "exports" => return false,
                             _ => {}
                         },
                         _ => {}
