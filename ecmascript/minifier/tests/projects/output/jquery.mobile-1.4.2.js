@@ -6655,8 +6655,7 @@
                   ) &&
                   jQuery.mobile.navigate.history.activeIndex > 0 &&
                   ((settings.changeHash = !1), (alreadyThere = !0)),
-                (url = active.url || ""),
-                alreadyThere || !(url.indexOf(
+                alreadyThere || !((url = active.url || "").indexOf(
                     "#"
                 ) > -1)
                     ? (url += "#" + jQuery.mobile.dialogHashKey)
@@ -7840,13 +7839,13 @@
                 ) {
                     var dst,
                         btn = this._headerCloseButton;
-                    (location =
+                    "none" ==
+        (location =
           "left" === location
               ? "left"
               : "right" === location
                   ? "right"
-                  : "none"),
-                    "none" === location
+                  : "none")
                         ? btn && (btn.remove(
                         ), (btn = null))
                         : btn
@@ -7869,8 +7868,8 @@
                                 {
                                     href: "#",
                                     class:
-                  "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
-                  location,
+                "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
+                location,
                                 }
                             )
                                 .attr(
@@ -8011,13 +8010,13 @@
                     location, text
                 ) {
                     var btn = this._headerCloseButton;
-                    (location =
+                    "none" ==
+        (location =
           "left" === location
               ? "left"
               : "right" === location
                   ? "right"
-                  : "none"),
-                    "none" === location
+                  : "none")
                         ? btn && (btn.remove(
                         ), (btn = null))
                         : btn
@@ -8037,8 +8036,8 @@
                                     role: "button",
                                     href: "#",
                                     class:
-                  "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
-                  location,
+                "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
+                location,
                                 }
                             )
                                 .text(
@@ -8048,7 +8047,7 @@
                                     this._inner.find(
                                         ":jqmData(role='header')"
                                     ).first(
-                                    ),
+                                    )
                                 )),
                             this._on(
                                 btn,
@@ -13160,8 +13159,7 @@
                                         .join(
                                             ", "
                                         )
-                                    : self.placeholder),
-                                text
+                                    : self.placeholder)
                                     ? span.text(
                                         text
                                     )
@@ -15452,8 +15450,7 @@
                     " "
                 ), idx = 0; idx < classes.length; idx++)
                     (unknownClass = !0),
-                    (map = reverseBoolOptionMap[classes[idx]]),
-                    void 0 !== map
+                    void 0 !== (map = reverseBoolOptionMap[classes[idx]])
                         ? ((unknownClass = !1), (o[map] = !0))
                         : 0 === classes[idx].indexOf(
                             "ui-btn-icon-"

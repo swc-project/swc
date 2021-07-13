@@ -13095,8 +13095,7 @@
             (pattern &&
         ((match = pattern.match(
             /^\/(.*)\/([gim]*)$/
-        )),
-        match
+        ))
             ? ((pattern = new RegExp(
                 match[1],
                 match[2]
@@ -14549,8 +14548,7 @@
                         if (
                             ((lhs = match[1]),
                             (rhs = match[2]),
-                            (trackByExp = match[4]),
-                            trackByExp
+                            (trackByExp = match[4])
                                 ? ((trackByExpGetter = $parse(
                                     trackByExp
                                 )),
@@ -15882,8 +15880,7 @@
                 terminal: !0,
             }
         );
-    (jQuery = window.jQuery),
-    jQuery
+    (jQuery = window.jQuery)
         ? ((jqLite = jQuery),
         extend(
             jQuery.fn,

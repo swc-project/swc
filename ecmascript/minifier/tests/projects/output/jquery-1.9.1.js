@@ -2557,7 +2557,8 @@
                         ) {
                             var val;
                             1 === this.nodeType &&
-            ((val = isFunction
+            (null ==
+            (val = isFunction
                 ? value.call(
                     this,
                     i,
@@ -2566,8 +2567,7 @@
                     ).val(
                     )
                 )
-                : value),
-            null == val
+                : value)
                 ? (val = "")
                 : "number" == typeof val
                     ? (val += "")
