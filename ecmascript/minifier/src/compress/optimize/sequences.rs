@@ -1,12 +1,16 @@
 use super::Optimizer;
 use crate::util::ExprOptExt;
+use std::collections::HashMap;
 use std::mem::take;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::{undefined, StmtLike};
 use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -491,11 +495,12 @@ impl Optimizer<'_> {
                 continue;
             }
 
-            self.merge_sequential_expr(a1.last_mut().unwrap(), &mut a2[0])
+            self.merge_sequential_expr(a1.last_mut().unwrap(), &mut a2[0]);
         }
     }
 
-    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) {
+    /// Returns true if `a` is removed.
+    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) -> bool {
         match a {
             Expr::Assign(AssignExpr {
                 op: op!("="),
@@ -503,38 +508,59 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let left_id = match left {
-                    PatOrExpr::Pat(p) => match &**p {
-                        Pat::Ident(i) => &i.id,
-                        Pat::Expr(e) => match &**e {
-                            Expr::Ident(i) => i,
-                            _ => return,
-                        },
-                        _ => return,
-                    },
-                    PatOrExpr::Expr(e) => match &**e {
-                        Expr::Ident(i) => i,
-                        _ => return,
-                    },
-                };
-
-                // if usage_count(b, left_id) == 1 {}
-
                 // (a = 5, console.log(a))
                 //
                 // =>
                 //
                 // (console.log(a = 5))
+
+                let left_id = match left {
+                    PatOrExpr::Pat(p) => match &**p {
+                        Pat::Ident(i) => &i.id,
+                        Pat::Expr(e) => match &**e {
+                            Expr::Ident(i) => i,
+                            _ => return false,
+                        },
+                        _ => return false,
+                    },
+                    PatOrExpr::Expr(e) => match &**e {
+                        Expr::Ident(i) => i,
+                        _ => return false,
+                    },
+                };
+
+                {
+                    let mut v = UsageCoutner {
+                        usage: Default::default(),
+                        target: left_id,
+                    };
+                    b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    if v.usage != 1 {
+                        return false;
+                    }
+                }
+
+                let mut vars = HashMap::default();
+                vars.insert(left_id.to_id(), right.take());
+                self.inline_vars_in_node(b, vars);
+                true
             }
-            _ => {}
+            _ => false,
         }
     }
 }
 
-struct UsageCoutner {
+struct UsageCoutner<'a> {
     usage: usize,
+    target: &'a Ident,
 }
 
-impl Visit for UsageCoutner {
+impl Visit for UsageCoutner<'_> {
     noop_visit_type!();
+
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+            self.usage += 1;
+        }
+    }
 }
