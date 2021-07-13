@@ -737,12 +737,30 @@ impl Legacy {
                 });
             }
 
-            constructor
+            let decorate_stmts_insert_position = constructor
                 .body
                 .as_mut()
                 .unwrap()
                 .stmts
-                .extend(constructor_stmts)
+                .iter()
+                .position(move |stmt| {
+                    if let Stmt::Expr(expr_stmt) = stmt {
+                        let expr_stmt = *expr_stmt.expr.clone();
+                        if let Expr::Call(call_expr) = expr_stmt {
+                            if let ExprOrSuper::Super(_) = call_expr.callee {
+                                return true;
+                            }
+                        }
+                    }
+
+                    return false;
+                })
+                .map_or(0, |p| p + 1);
+
+            constructor.body.as_mut().unwrap().stmts.splice(
+                decorate_stmts_insert_position..decorate_stmts_insert_position,
+                constructor_stmts.iter().cloned(),
+            );
         }
 
         let cls_assign = Box::new(Expr::Assign(AssignExpr {

@@ -5806,3 +5806,85 @@ test!(
       }, SomeClass);
     "
 );
+
+test!(
+    syntax(false),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
+    issue_1913_1,
+    "
+class Store {
+  constructor() {
+	  this.doSomething();
+  }
+
+  @action
+  doSomething = () => {
+    console.log('run');
+  }
+}",
+    "
+var _class, _descriptor;
+let Store = ((_class = class Store {
+    constructor(){
+        _initializerDefineProperty(this, 'doSomething', _descriptor, this);
+        this.doSomething();
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'doSomething', [
+    action
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return ()=>{
+            console.log('run');
+        };
+    }
+}), _class);
+"
+);
+
+test!(
+    syntax(false),
+    |_| decorators(Config {
+        legacy: true,
+        ..Default::default()
+    }),
+    issue_1913_2,
+    "
+class Store extends BaseStore{
+  constructor() {
+    super();
+	  this.doSomething();
+  }
+
+  @action
+  doSomething = () => {
+    console.log('run');
+  }
+}",
+    "
+var _class, _descriptor;
+let Store = ((_class = class Store extends BaseStore {
+    constructor(){
+        super();
+        _initializerDefineProperty(this, 'doSomething', _descriptor, this);
+        this.doSomething();
+    }
+}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, 'doSomething', [
+    action
+], {
+    configurable: true,
+    enumerable: true,
+    writable: true,
+    initializer: function() {
+        return ()=>{
+            console.log('run');
+        };
+    }
+}), _class);
+"
+);
