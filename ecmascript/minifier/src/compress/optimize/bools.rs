@@ -198,6 +198,25 @@ impl Optimizer<'_> {
                     return true;
                 }
             }
+
+            Expr::Cond(..) => {
+                if is_type_of_return_ignored {
+                    if negate_cost(&e.left) < 0 {
+                        log::trace!("bools: Negating cond in lhs of `{}`", e.op);
+                        let ctx = Ctx {
+                            in_bool_ctx: true,
+                            ..self.ctx
+                        };
+                        self.with_ctx(ctx).negate(&mut e.left);
+                        e.op = if e.op == op!("&&") {
+                            op!("||")
+                        } else {
+                            op!("&&")
+                        };
+                    }
+                }
+            }
+
             _ => {}
         }
 
@@ -628,6 +647,13 @@ fn negate_cost(e: &Expr) -> isize {
             right,
             ..
         }) => negate_cost(&left) + negate_cost(&right),
+
+        Expr::Cond(CondExpr { cons, alt, .. }) => {
+            // We don't check for !(a ? b : c) because of parenthesiss.
+
+            negate_cost(&cons) + negate_cost(&alt)
+        }
+
         _ => 1,
     }
 }

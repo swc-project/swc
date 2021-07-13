@@ -334,6 +334,15 @@ impl Optimizer<'_> {
                 *op = op!("&&");
                 return;
             }
+
+            Expr::Cond(CondExpr { cons, alt, .. }) => {
+                log::trace!("negate: cond");
+
+                self.negate(&mut **cons);
+                self.negate(&mut **alt);
+                return;
+            }
+
             _ => {}
         }
 
