@@ -1,5 +1,6 @@
 use crate::compress::optimize::unused::UnreachableHandler;
 use crate::compress::optimize::Optimizer;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -111,7 +112,59 @@ impl Optimizer<'_> {
     /// ```js
     /// for (; size-- && (result = eq(a[size], b[size], aStack, bStack)););
     /// ```
-    pub(super) fn merge_for_if_break(&mut self, s: &mut ForStmt) {}
+    pub(super) fn merge_for_if_break(&mut self, s: &mut ForStmt) {
+        if s.update.is_some() {
+            return;
+        }
+
+        match &mut *s.body {
+            Stmt::If(IfStmt {
+                test,
+                cons,
+                alt: None,
+                ..
+            }) => {
+                match &**cons {
+                    Stmt::Break(BreakStmt { label: None, .. }) => {
+                        // We only care about instant breaks.
+                        //
+                        // Note: As the minifier of swc is very fast, we don't
+                        // care about block statements with a single break as a
+                        // body.
+                        //
+                        // If it's optimizable, other pass for if statements
+                        // will remove block and with the next pass we can apply
+                        // this pass.
+                        self.changed = true;
+                        log::trace!("loops: Compressing for-if-break into a for statement");
+
+                        // We negate because this `test` is used as a condition for `break`.
+                        self.negate(test);
+
+                        match s.test.take() {
+                            Some(left) => {
+                                s.test = Some(Box::new(Expr::Bin(BinExpr {
+                                    span: s.test.span(),
+                                    op: op!("&&"),
+                                    left,
+                                    right: test.take(),
+                                })));
+                            }
+                            None => {
+                                s.test = Some(test.take());
+                            }
+                        }
+
+                        // Remove body
+                        s.body.take();
+                    }
+                    _ => {}
+                }
+            }
+
+            _ => {}
+        }
+    }
 
     ///
     /// - `while(false) { var a; foo() }` => `var a;`
