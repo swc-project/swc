@@ -661,13 +661,15 @@
         function (
             object
         ) {
-            "hash" == typeOf(
+            for (var key in ("hash" == typeOf(
                 object
-            ) && (object = Object.clone(
-                object.getClean(
-                )
-            ));
-            for (var key in object) this[key] = object[key];
+            ) &&
+      (object = Object.clone(
+          object.getClean(
+          )
+      )),
+            object))
+                this[key] = object[key];
             return this;
         }
     ));
@@ -2659,15 +2661,16 @@ var Event1 = DOMEvent;
         implement = function (
             key, value, retain
         ) {
-            if (Class.Mutators.hasOwnProperty(
-                key
-            )) {
-                if (((value = Class.Mutators[key].call(
-                    this,
-                    value
-                )), null == value))
-                    return this;
-            }
+            if (
+                Class.Mutators.hasOwnProperty(
+                    key
+                ) &&
+          ((value = Class.Mutators[key].call(
+              this,
+              value
+          )), null == value)
+            )
+                return this;
             if ("function" == typeOf(
                 value
             )) {
@@ -2862,10 +2865,9 @@ var Event1 = DOMEvent;
                     );
                     return this;
                 }
-                events && (events = removeOn(
+                for (type in (events && (events = removeOn(
                     events
-                ));
-                for (type in this.$events)
+                )), this.$events))
                     if (!events || events == type)
                         for (var fns = this.$events[type], i = fns.length; i--; )
                             i in fns && this.removeEvent(
@@ -3054,14 +3056,13 @@ function (
         pseudoClassQuotedValue,
         pseudoClassValue,
     ) {
-        if (separator || -1 === separatorIndex) {
-            if (
-                ((parsed.expressions[++separatorIndex] = []),
-                (combinatorIndex = -1),
-                separator)
-            )
-                return "";
-        }
+        if (
+            (separator || -1 === separatorIndex) &&
+        ((parsed.expressions[++separatorIndex] = []),
+        (combinatorIndex = -1),
+        separator)
+        )
+            return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
             combinator = combinator || " ";
             var currentSeparator = parsed.expressions[separatorIndex];
@@ -3492,7 +3493,7 @@ function (
               document && this.isNativeCode(
                   document.contains
               );
-            (features.contains =
+            for (feature in ((features.contains =
             nativeRootContains && nativeDocumentContains
                 ? function (
                     context, node
@@ -3589,8 +3590,9 @@ function (
                             );
                         }
                         : null),
-            (root = null);
-            for (feature in features) this[feature] = features[feature];
+            (root = null),
+            features))
+                this[feature] = features[feature];
         }
     });
     var reSimpleSelector = /^([#.]?)((?:[\w-]+|\*))$/,
@@ -4194,36 +4196,35 @@ function (
                         ((item = this.document.getElementById(
                             id
                         )),
-                        (!item && node.all) ||
+                        ((!item && node.all) ||
                 (this.idGetsName &&
                   item &&
                   item.getAttributeNode(
                       "id"
-                  ).nodeValue != id))
+                  ).nodeValue != id)) &&
+                ((children = node.all[id]), !!children))
                     ) {
-                        if (((children = node.all[id]), !!children)) {
-                            for (
-                                children[0] || (children = [children,]), i = 0;
-                                (item = children[i++]);
+                        for (
+                            children[0] || (children = [children,]), i = 0;
+                            (item = children[i++]);
 
-                            ) {
-                                var idNode = item.getAttributeNode(
-                                    "id"
+                        ) {
+                            var idNode = item.getAttributeNode(
+                                "id"
+                            );
+                            if (idNode && idNode.nodeValue == id) {
+                                this.push(
+                                    item,
+                                    tag,
+                                    null,
+                                    classes,
+                                    attributes,
+                                    pseudos
                                 );
-                                if (idNode && idNode.nodeValue == id) {
-                                    this.push(
-                                        item,
-                                        tag,
-                                        null,
-                                        classes,
-                                        attributes,
-                                        pseudos
-                                    );
-                                    break;
-                                }
+                                break;
                             }
-                            return;
                         }
+                        return;
                     }
                     if (item) {
                         if (this.document !== node && !this.contains(
@@ -6276,7 +6277,7 @@ Elements.alias(
                                     function (
                                         val
                                     ) {
-                                        "undefined" != typeof val &&
+                                        void 0 !== val &&
                   queryString.push(
                       encodeURIComponent(
                           el.name
@@ -6388,23 +6389,23 @@ Elements.alias(
                 ) {
                     var node = ce[i],
                         element = te[i];
-                    if ((keepid || node.removeAttribute(
-                        "id"
-                    ), node.clearAttributes)) {
-                        if (
-                            (node.clearAttributes(
-                            ),
-                            node.mergeAttributes(
-                                element
-                            ),
-                            node.removeAttribute(
-                                "uniqueNumber"
-                            ),
-                            node.options)
-                        )
-                            for (var no = node.options, j = no.length; j--; )
-                                no[j].selected = element.options[j].selected;
-                    }
+                    if (
+                        (keepid || node.removeAttribute(
+                            "id"
+                        ),
+                        node.clearAttributes &&
+              (node.clearAttributes(
+              ),
+              node.mergeAttributes(
+                  element
+              ),
+              node.removeAttribute(
+                  "uniqueNumber"
+              ),
+              node.options))
+                    )
+                        for (var no = node.options, j = no.length; j--; )
+                            no[j].selected = element.options[j].selected;
                     var prop = formProps[element.tagName.toLowerCase(
                     )];
                     prop && element[prop] && (node[prop] = element[prop]);
@@ -6966,8 +6967,7 @@ Elements.alias(
                 );
                 var result = this.style[property];
                 if (!result || "zIndex" == property) {
-                    result = [];
-                    for (var style in Element1.ShortStyles)
+                    for (var style in ((result = []), Element1.ShortStyles))
                         if (property == style) {
                             for (var s in Element1.ShortStyles[style])
                                 result.push(
@@ -8713,19 +8713,18 @@ Element1.alias(
                     var value = element.getComputedStyle(
                         property
                     );
-                    if (!/px$/.test(
-                        value
-                    )) {
-                        if (
-                            ((value = element.style[("pixel-" + property).camelCase(
-                            )]),
-                            null == value)
-                        ) {
-                            var left = element.style.left;
-                            (element.style.left = to + unit),
-                            (value = element.style.pixelLeft),
-                            (element.style.left = left);
-                        }
+                    if (
+                        !/px$/.test(
+                            value
+                        ) &&
+            ((value = element.style[("pixel-" + property).camelCase(
+            )]),
+            null == value)
+                    ) {
+                        var left = element.style.left;
+                        (element.style.left = to + unit),
+                        (value = element.style.pixelLeft),
+                        (element.style.left = left);
                     }
                     (from =
             ((to || 1) / (parseFloat(
@@ -9238,10 +9237,9 @@ Element1.implement(
         set: function (
             now
         ) {
-            "string" == typeof now && (now = this.search(
+            for (var p in ("string" == typeof now && (now = this.search(
                 now
-            ));
-            for (var p in now)
+            )), now))
                 this.render(
                     this.element,
                     p,
@@ -10096,7 +10094,7 @@ Element1.implement(
         },
     }
 ),
-"undefined" == typeof JSON && (this.JSON = {
+void 0 === JSON && (this.JSON = {
 }),
 (JSON = new Hash(
     {
@@ -10582,8 +10580,7 @@ var Cookie = new Class(
                 var build = '<object id="' + id + '"';
                 for (var property in properties)
                     build += " " + property + '="' + properties[property] + '"';
-                build += ">";
-                for (var param in params)
+                for (var param in ((build += ">"), params))
                     params[param] &&
             (build +=
               '<param name="' + param + '" value="' + params[param] + '" />');

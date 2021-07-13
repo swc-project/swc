@@ -142,10 +142,12 @@
                 var listeningTo = this._listeningTo;
                 if (!listeningTo) return this;
                 var remove = !name && !callback;
-                callback || "object" != typeof name || (callback = this),
+                for (var id in (callback ||
+          "object" != typeof name ||
+          (callback = this),
                 obj && ((listeningTo = {
-                })[obj._listenId] = obj);
-                for (var id in listeningTo)
+                })[obj._listenId] = obj),
+                listeningTo))
                     (obj = listeningTo[id]),
                     obj.off(
                         name,
@@ -371,19 +373,19 @@
                     ))
                 )
                     return !1;
-                (changes = []),
+                for (attr in ((changes = []),
                 this._changing,
                 (this._changing = !0),
                 this._changing ||
-          ((this._previousAttributes = _.clone(
-              this.attributes
-          )),
-          (this.changed = {
-          })),
+        ((this._previousAttributes = _.clone(
+            this.attributes
+        )),
+        (this.changed = {
+        })),
                 (current = this.attributes),
                 this._previousAttributes,
-                this.idAttribute in attrs && (this.id = attrs[this.idAttribute]);
-                for (attr in attrs)
+                this.idAttribute in attrs && (this.id = attrs[this.idAttribute]),
+                attrs))
                     (val = attrs[attr]),
                     _.isEqual(
                         this.attributes[attr],
@@ -1553,9 +1555,8 @@
                     this,
                     "events"
                 )))) return this;
-                this.undelegateEvents(
-                );
-                for (var key in events) {
+                for (var key in (this.undelegateEvents(
+                ), events)) {
                     var method = events[key];
                     if ((_.isFunction(
                         method
@@ -1715,7 +1716,7 @@
         ), xhr;
     });
     var noXhrPatch =
-      "undefined" != typeof window &&
+      void 0 !== window &&
       !!window.ActiveXObject &&
       (!window.XMLHttpRequest || !new XMLHttpRequest(
       ).dispatchEvent),
@@ -1894,7 +1895,7 @@
                 this,
                 "checkUrl"
             ),
-            "undefined" != typeof window &&
+            void 0 !== window &&
           ((this.location = window.location), (this.history = window.history));
         }),
         routeStripper = /^[#\/]|\s+$/g,

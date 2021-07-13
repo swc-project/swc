@@ -36,9 +36,7 @@
                     );
         };
     "undefined" != typeof exports
-        ? ("undefined" != typeof module &&
-        module.exports &&
-        (exports = module.exports = _),
+        ? (void 0 !== module && module.exports && (exports = module.exports = _),
         (exports._ = _))
         : (root._ = _),
     (_.VERSION = "1.5.2");
@@ -1583,24 +1581,23 @@
                     ))) break;
         } else {
             for (var key in a)
-                if (_.has(
-                    a,
-                    key
-                )) {
-                    if (
-                        (size++,
-                        !(result = _.has(
-                            b,
-                            key
-                        ) && eq(
-                            a[key],
-                            b[key],
-                            aStack,
-                            bStack
-                        )))
-                    )
-                        break;
-                }
+                if (
+                    _.has(
+                        a,
+                        key
+                    ) &&
+          (size++,
+          !(result = _.has(
+              b,
+              key
+          ) && eq(
+              a[key],
+              b[key],
+              aStack,
+              bStack
+          )))
+                )
+                    break;
             if (result) {
                 for (key in b) if (_.has(
                     b,

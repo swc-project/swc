@@ -35,7 +35,7 @@
                               / ?\{[\s\S]*$/,
                               ""
                           );
-                      if ("undefined" == typeof arg) return "undefined";
+                      if (void 0 === arg) return "undefined";
                       if ("string" != typeof arg) return toJson(
                           arg
                       );
@@ -69,7 +69,7 @@
                           / \{[\s\S]*$/,
                           ""
                       )
-                      : "undefined" == typeof obj
+                      : void 0 === obj
                           ? "undefined"
                           : "string" != typeof obj
                               ? JSON.stringify(
@@ -331,12 +331,12 @@
     function isUndefined(
         value
     ) {
-        return "undefined" == typeof value;
+        return void 0 === value;
     }
     function isDefined(
         value
     ) {
-        return "undefined" != typeof value;
+        return void 0 !== value;
     }
     function isObject(
         value
@@ -528,17 +528,18 @@
                     );
             } else {
                 var h = destination.$$hashKey;
-                forEach(
+                for (var key in (forEach(
                     destination,
                     function (
                         value, key
                     ) {
                         delete destination[key];
                     }
-                );
-                for (var key in source) destination[key] = copy(
-                    source[key]
-                );
+                ),
+                source))
+                    destination[key] = copy(
+                        source[key]
+                    );
                 setHashKey(
                     destination,
                     h
@@ -579,9 +580,8 @@
     function shallowCopy(
         src, dst
     ) {
-        dst = dst || {
-        };
-        for (var key in src)
+        for (var key in ((dst = dst || {
+        }), src))
             src.hasOwnProperty(
                 key
             ) &&
@@ -601,87 +601,83 @@
         if (o1 != o1 && o2 != o2) return !0;
         var t1 = typeof o1,
             t2 = typeof o2;
-        if (t1 == t2) {
-            if ("object" == t1) {
-                if (isArray(
-                    o1
-                )) {
-                    if (!isArray(
-                        o2
-                    )) return !1;
-                    if ((length = o1.length) == o2.length) {
-                        for (key = 0; key < length; key++)
-                            if (!equals(
-                                o1[key],
-                                o2[key]
-                            )) return !1;
-                        return !0;
-                    }
-                } else if (isDate(
-                    o1
-                ))
-                    return isDate(
-                        o2
-                    ) && o1.getTime(
-                    ) == o2.getTime(
-                    );
-                else if (isRegExp(
-                    o1
-                ) && isRegExp(
-                    o2
-                ))
-                    return o1.toString(
-                    ) == o2.toString(
-                    );
-                else {
-                    if (
-                        isScope(
-                            o1
-                        ) ||
-            isScope(
-                o2
-            ) ||
-            isWindow(
+        if (t1 == t2 && "object" == t1) {
+            if (isArray(
                 o1
-            ) ||
-            isWindow(
+            )) {
+                if (!isArray(
+                    o2
+                )) return !1;
+                if ((length = o1.length) == o2.length) {
+                    for (key = 0; key < length; key++)
+                        if (!equals(
+                            o1[key],
+                            o2[key]
+                        )) return !1;
+                    return !0;
+                }
+            } else if (isDate(
+                o1
+            )) return isDate(
                 o2
-            ) ||
-            isArray(
+            ) && o1.getTime(
+            ) == o2.getTime(
+            );
+            else if (isRegExp(
+                o1
+            ) && isRegExp(
                 o2
+            ))
+                return o1.toString(
+                ) == o2.toString(
+                );
+            else {
+                if (
+                    isScope(
+                        o1
+                    ) ||
+          isScope(
+              o2
+          ) ||
+          isWindow(
+              o1
+          ) ||
+          isWindow(
+              o2
+          ) ||
+          isArray(
+              o2
+          )
+                )
+                    return !1;
+                for (key in ((keySet = {
+                }), o1))
+                    if ("$" !== key.charAt(
+                        0
+                    ) && !isFunction(
+                        o1[key]
+                    )) {
+                        if (!equals(
+                            o1[key],
+                            o2[key]
+                        )) return !1;
+                        keySet[key] = !0;
+                    }
+                for (key in o2)
+                    if (
+                        !keySet.hasOwnProperty(
+                            key
+                        ) &&
+            "$" !== key.charAt(
+                0
+            ) &&
+            void 0 !== o2[key] &&
+            !isFunction(
+                o2[key]
             )
                     )
                         return !1;
-                    keySet = {
-                    };
-                    for (key in o1)
-                        if ("$" !== key.charAt(
-                            0
-                        ) && !isFunction(
-                            o1[key]
-                        )) {
-                            if (!equals(
-                                o1[key],
-                                o2[key]
-                            )) return !1;
-                            keySet[key] = !0;
-                        }
-                    for (key in o2)
-                        if (
-                            !keySet.hasOwnProperty(
-                                key
-                            ) &&
-              "$" !== key.charAt(
-                  0
-              ) &&
-              void 0 !== o2[key] &&
-              !isFunction(
-                  o2[key]
-              )
-                        )
-                            return !1;
-                    return !0;
-                }
+                return !0;
             }
         }
         return !1;
@@ -786,7 +782,7 @@
     function toJson(
         obj, pretty
     ) {
-        return "undefined" == typeof obj
+        return void 0 === obj
             ? void 0
             : JSON.stringify(
                 obj,
@@ -889,34 +885,33 @@
                 function (
                     keyValue
                 ) {
-                    if (keyValue) {
-                        if (
-                            ((key_value = keyValue.split(
-                                "="
-                            )),
-                            (key = tryDecodeURIComponent(
-                                key_value[0]
-                            )),
-                            isDefined(
-                                key
-                            ))
-                        ) {
-                            var val =
-              !isDefined(
-                  key_value[1]
-              ) || tryDecodeURIComponent(
-                  key_value[1]
-              );
-                            obj[key]
-                                ? isArray(
-                                    obj[key]
+                    if (
+                        keyValue &&
+          ((key_value = keyValue.split(
+              "="
+          )),
+          (key = tryDecodeURIComponent(
+              key_value[0]
+          )),
+          isDefined(
+              key
+          ))
+                    ) {
+                        var val =
+            !isDefined(
+                key_value[1]
+            ) || tryDecodeURIComponent(
+                key_value[1]
+            );
+                        obj[key]
+                            ? isArray(
+                                obj[key]
+                            )
+                                ? obj[key].push(
+                                    val
                                 )
-                                    ? obj[key].push(
-                                        val
-                                    )
-                                    : (obj[key] = [obj[key], val,])
-                                : (obj[key] = val);
-                        }
+                                : (obj[key] = [obj[key], val,])
+                            : (obj[key] = val);
                     }
                 }
             ),
@@ -6468,10 +6463,10 @@
                             reqHeaders
                         );
                         defaultHeadersIteration: for (defHeaderName in defHeaders) {
-                            lowercaseDefHeaderName = lowercase(
-                                defHeaderName
-                            );
-                            for (reqHeaderName in reqHeaders)
+                            for (reqHeaderName in ((lowercaseDefHeaderName = lowercase(
+                                defHeaderName,
+                            )),
+                            reqHeaders))
                                 if (lowercase(
                                     reqHeaderName
                                 ) === lowercaseDefHeaderName)
@@ -10604,13 +10599,13 @@
                                             oldValue[i] !== newValue[i] &&
                           (changeDetected++, (oldValue[i] = newValue[i]));
                                     } else {
-                                        oldValue !== internalObject &&
+                                        for (key in (oldValue !== internalObject &&
                         ((oldValue = internalObject = {
                         }),
                         (oldLength = 0),
                         changeDetected++),
-                                        (newLength = 0);
-                                        for (key in newValue)
+                                        (newLength = 0),
+                                        newValue))
                                             newValue.hasOwnProperty(
                                                 key
                                             ) &&
@@ -10624,9 +10619,8 @@
                               : (oldLength++,
                               (oldValue[key] = newValue[key]),
                               changeDetected++));
-                                        if (oldLength > newLength) {
-                                            changeDetected++;
-                                            for (key in oldValue)
+                                        if (oldLength > newLength)
+                                            for (key in (changeDetected++, oldValue))
                                                 oldValue.hasOwnProperty(
                                                     key
                                                 ) &&
@@ -10634,7 +10628,6 @@
                                 key
                             ) &&
                             (oldLength--, delete oldValue[key]);
-                                        }
                                     }
                                 } else
                                     oldValue !== newValue &&
@@ -11081,25 +11074,19 @@
             return function (
                 uri, isImage
             ) {
-                return msie && !(msie >= 8)
+                var normalizedVal;
+                return (msie && !(msie >= 8)) ||
+            ((normalizedVal = urlResolve(
+                uri
+            ).href),
+            "" === normalizedVal ||
+              !!normalizedVal.match(
+                  isImage
+                      ? imgSrcSanitizationWhitelist
+                      : aHrefSanitizationWhitelist,
+              ))
                     ? uri
-                    : (urlResolve(
-                        uri
-                    ).href,
-                    "" !== urlResolve(
-                        uri
-                    ).href &&
-                !urlResolve(
-                    uri
-                ).href.match(
-                    isImage
-                        ? imgSrcSanitizationWhitelist
-                        : aHrefSanitizationWhitelist,
-                ))
-                        ? "unsafe:" + urlResolve(
-                            uri
-                        ).href
-                        : void 0;
+                    : "unsafe:" + normalizedVal;
             };
         });
     }
@@ -11952,7 +11939,7 @@
                         )
                         : (function (
                         ) {
-                            if ("undefined" != typeof expression[key]) {
+                            if (void 0 !== expression[key]) {
                                 var path = key;
                                 predicates.push(
                                     function (
@@ -14660,9 +14647,9 @@
                                     (collectionKeys = collection),
                                     (trackByIdFn = trackByIdExpFn || trackByIdArrayFn);
                                 else {
-                                    (trackByIdFn = trackByIdExpFn || trackByIdObjFn),
-                                    (collectionKeys = []);
-                                    for (key in collection)
+                                    for (key in ((trackByIdFn = trackByIdExpFn || trackByIdObjFn),
+                                    (collectionKeys = []),
+                                    collection))
                                         collection.hasOwnProperty(
                                             key
                                         ) &&
