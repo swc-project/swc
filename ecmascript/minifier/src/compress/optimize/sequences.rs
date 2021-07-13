@@ -475,4 +475,8 @@ impl Optimizer<'_> {
             _ => {}
         }
     }
+
+    pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {}
+
+    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) {}
 }

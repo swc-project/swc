@@ -2097,6 +2097,8 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
+        self.merge_sequences_in_seq_expr(n);
+
         self.lift_seqs_of_assign(n);
     }
 
