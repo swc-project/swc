@@ -781,9 +781,9 @@ impl Legacy {
                 .iter()
                 .position(|stmt| {
                     if let Stmt::Expr(expr) = stmt {
-                        let expr_stmt = expr.expr.as_ref();
-                        if let Expr::Call(call_expr) = expr_stmt {
-                            if let ExprOrSuper::Super(_) = call_expr.callee {
+                        let expr = expr.expr.as_ref();
+                        if let Expr::Call(call) = expr {
+                            if let ExprOrSuper::Super(_) = call.callee {
                                 return true;
                             }
                         }
