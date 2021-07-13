@@ -551,6 +551,10 @@ impl Optimizer<'_> {
         }
     }
 
+    /// 
+    /// - `"undefined" == typeof value;` => `void 0 === value`
+    pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {}
+
     /// NOTE: This is currecntly noop.
     ///
     ///
