@@ -537,11 +537,13 @@ impl Optimizer<'_> {
 
                 {
                     let mut v = UsageCoutner {
-                        usage: Default::default(),
+                        expr_usage: Default::default(),
+                        pat_usage: Default::default(),
                         target: left_id,
+                        in_lhs: false,
                     };
                     b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-                    if v.usage != 1 {
+                    if v.expr_usage != 1 || v.pat_usage != 0 {
                         return false;
                     }
                 }
@@ -560,8 +562,11 @@ impl Optimizer<'_> {
 }
 
 struct UsageCoutner<'a> {
-    usage: usize,
+    expr_usage: usize,
+    pat_usage: usize,
+
     target: &'a Ident,
+    in_lhs: bool,
 }
 
 impl Visit for UsageCoutner<'_> {
@@ -569,7 +574,25 @@ impl Visit for UsageCoutner<'_> {
 
     fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
         if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
-            self.usage += 1;
+            if self.in_lhs {
+                self.pat_usage += 1;
+            } else {
+                self.expr_usage += 1;
+            }
         }
+    }
+
+    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+        let old = self.in_lhs;
+        self.in_lhs = true;
+        p.visit_children_with(self);
+        self.in_lhs = old;
+    }
+
+    fn visit_pat_or_expr(&mut self, p: &PatOrExpr, _: &dyn Node) {
+        let old = self.in_lhs;
+        self.in_lhs = true;
+        p.visit_children_with(self);
+        self.in_lhs = old;
     }
 }
