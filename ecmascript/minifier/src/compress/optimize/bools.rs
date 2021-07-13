@@ -75,10 +75,7 @@ impl Optimizer<'_> {
 
         match e {
             Expr::Unary(UnaryExpr {
-                span,
-                op: op!("!"),
-                arg,
-                ..
+                op: op!("!"), arg, ..
             }) => match &mut **arg {
                 Expr::Bin(BinExpr {
                     op: op!("&&"),
@@ -95,6 +92,31 @@ impl Optimizer<'_> {
                     *e = *arg.take();
                     return;
                 }
+
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"),
+                    arg: arg_of_arg,
+                    ..
+                }) => match &mut **arg_of_arg {
+                    Expr::Bin(BinExpr {
+                        op: op!("||"),
+                        left,
+                        right,
+                        ..
+                    }) => {
+                        if negate_cost(&left) > 0 && negate_cost(&right) > 0 {
+                            return;
+                        }
+                        log::trace!("Optimizing `!!(a || b)` as `!a && !b`");
+                        self.changed = true;
+                        self.negate(arg_of_arg);
+                        *e = *arg.take();
+                        return;
+                    }
+
+                    _ => {}
+                },
+
                 _ => {}
             },
             _ => {}
