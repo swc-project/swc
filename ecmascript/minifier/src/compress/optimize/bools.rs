@@ -601,19 +601,6 @@ impl Optimizer<'_> {
             };
         }
     }
-
-    /// NOTE: This is currecntly noop.
-    ///
-    ///
-    /// - `!!(obj || obj === 0);` => `!(!obj && obj !== 0)`
-    /// - `!(!a || !b || !c || !d);` => `!!(a && b && c && d)`
-    pub(super) fn optimize_negation(&mut self, e: &mut Expr) {
-        if !self.options.bools {
-            return;
-        }
-
-        // TODO
-    }
 }
 
 fn negate_cost(e: &Expr) -> isize {
