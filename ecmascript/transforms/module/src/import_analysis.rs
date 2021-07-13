@@ -31,12 +31,48 @@ impl Fold for ImportAnalyzer {
             }
         }
 
+        let (need_wildcard, need_default) = self.scope.borrow().unknown_imports;
+
+        if need_wildcard {
+            enable_helper!(interop_require_wildcard);
+        }
+
+        if need_default {
+            enable_helper!(interop_require_default);
+        }
+
         module
     }
 }
 
 impl Visit for ImportAnalyzer {
     noop_visit_type!();
+
+    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
+        n.visit_children_with(self);
+        let mut scope = self.scope.borrow_mut();
+        match &n.callee {
+            ExprOrSuper::Expr(callee) => match &**callee {
+                Expr::Ident(callee) => {
+                    if callee.sym == js_word!("import") {
+                        if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
+                            match &**expr {
+                                Expr::Lit(Lit::Str(src)) => {
+                                    *scope.import_types.entry(src.value.clone()).or_default() =
+                                        true;
+                                }
+                                _ => {
+                                    scope.unknown_imports.0 = true;
+                                }
+                            }
+                        }
+                    }
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+    }
 
     fn visit_export_all(&mut self, export: &ExportAll, _parent: &dyn Node) {
         *self
@@ -105,11 +141,25 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_named_export(&mut self, export: &NamedExport, _parent: &dyn Node) {
-        let mut scope = self.scope.borrow_mut();
-        for &ExportNamedSpecifier { ref orig, .. } in export.specifiers.iter().map(|e| match *e {
-            ExportSpecifier::Named(ref e) => e,
-            _ => unreachable!("export default from 'foo'; should be removed by previous pass"),
+        if export.specifiers.iter().any(|v| match v {
+            ExportSpecifier::Namespace(..) => true,
+            _ => false,
         }) {
+            let mut scope = self.scope.borrow_mut();
+
+            if let Some(ref src) = export.src {
+                *scope.import_types.entry(src.value.clone()).or_default() = true;
+            }
+            return;
+        }
+
+        let mut scope = self.scope.borrow_mut();
+        for &ExportNamedSpecifier { ref orig, .. } in
+            export.specifiers.iter().filter_map(|e| match *e {
+                ExportSpecifier::Named(ref e) => Some(e),
+                _ => None,
+            })
+        {
             let is_import_default = orig.sym == js_word!("default");
 
             if let Some(ref src) = export.src {
@@ -122,30 +172,6 @@ impl Visit for ImportAnalyzer {
                         .and_modify(|v| *v = true);
                 }
             }
-        }
-    }
-
-    fn visit_call_expr(&mut self, n: &CallExpr, _parent: &dyn Node) {
-        n.visit_children_with(self);
-        let mut scope = self.scope.borrow_mut();
-        match &n.callee {
-            ExprOrSuper::Expr(callee) => match &**callee {
-                Expr::Ident(callee) => {
-                    if callee.sym == js_word!("import") {
-                        if let Some(ExprOrSpread { spread: None, expr }) = n.args.first() {
-                            match &**expr {
-                                Expr::Lit(Lit::Str(src)) => {
-                                    *scope.import_types.entry(src.value.clone()).or_default() =
-                                        true;
-                                }
-                                _ => {}
-                            }
-                        }
-                    }
-                }
-                _ => {}
-            },
-            _ => {}
         }
     }
 }

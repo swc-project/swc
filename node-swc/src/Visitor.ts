@@ -1666,7 +1666,7 @@ export default class Visitor {
   }
 
   visitObjectPattern(n: ObjectPattern): Pattern {
-    n.props = this.visitObjectPatternProperties(n.props || []);
+    n.properties = this.visitObjectPatternProperties(n.properties || []);
     n.typeAnnotation = this.visitTsTypeAnnotation(n.typeAnnotation);
     return n;
   }

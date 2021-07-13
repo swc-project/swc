@@ -41,8 +41,6 @@ fn add_test<F: FnOnce() + Send + 'static>(
             ignore,
             should_panic: No,
             allow_fail: false,
-            compile_fail: Default::default(),
-            no_run: Default::default(),
         },
         testfn: DynTestFn(Box::new(f)),
     });
@@ -199,6 +197,7 @@ fn reference_tests(tests: &mut Vec<TestDescAndFn>, errors: bool) -> Result<(), i
                         let code = compiler
                             .print(
                                 &bundled.module.fold_with(&mut fixer(None)),
+                                None,
                                 JscTarget::Es2020,
                                 SourceMapsConfig::Bool(false),
                                 None,

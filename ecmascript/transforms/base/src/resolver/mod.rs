@@ -510,6 +510,23 @@ impl<'a> VisitMut for Resolver<'a> {
         c.body.visit_mut_children_with(&mut folder);
     }
 
+    fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
+        self.modify(&mut n.ident, None);
+
+        // Create a child scope. The class name is only accessible within the class.
+        let child_mark = Mark::fresh(self.mark);
+
+        let mut folder = Resolver::new(
+            child_mark,
+            Scope::new(ScopeKind::Fn, Some(&self.current)),
+            self.handle_types,
+        );
+
+        folder.ident_type = IdentType::Ref;
+
+        n.class.visit_mut_with(&mut folder);
+    }
+
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         // Create a child scope. The class name is only accessible within the class.
         let child_mark = Mark::fresh(self.mark);

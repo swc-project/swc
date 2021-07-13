@@ -153,6 +153,7 @@ impl Load for SwcLoader {
                     source_file_name: None,
                     source_root: None,
                     is_module: true,
+                    output_path: None,
                 },
                 &fm.name,
             )?;

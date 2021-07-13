@@ -1,4 +1,3 @@
-#![feature(bench_black_box)]
 #![feature(test)]
 
 extern crate test;
@@ -119,6 +118,7 @@ fn bench_codegen(b: &mut Bencher, _target: JscTarget) {
         black_box(
             c.print(
                 &module,
+                None,
                 JscTarget::Es2020,
                 SourceMapsConfig::Bool(false),
                 None,

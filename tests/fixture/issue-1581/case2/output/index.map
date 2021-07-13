@@ -2,7 +2,7 @@
   "mappings": "OAAO,GAAK,CAAC,GAAG,cAAS,CAAC;WACf,CAAC;AACZ,CAAC",
   "names": [],
   "sources": [
-    "$DIR/tests/fixture/issue-1581/case2/input/index.js"
+    "../../input/index.js"
   ],
   "sourcesContent": [
     "export const foo = () => {\n    return 2;\n};"

@@ -22,6 +22,7 @@ use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_transforms::modules::hoist::import_hoister;
 use swc_ecma_transforms::modules::path::NodeImportResolver;
 use swc_ecma_transforms::{hygiene, modules::util::Scope};
 use swc_ecma_transforms::{
@@ -120,6 +121,9 @@ pub struct Options {
 
     #[serde(default = "default_is_module")]
     pub is_module: bool,
+
+    #[serde(default)]
+    pub output_path: Option<PathBuf>,
 }
 
 impl Options {
@@ -176,6 +180,7 @@ impl Options {
         &self,
         cm: &Arc<SourceMap>,
         base: &FileName,
+        output_path: Option<&Path>,
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
@@ -293,6 +298,7 @@ impl Options {
                 .or(config.source_maps)
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             input_source_map: self.config.input_source_map.clone(),
+            output_path: output_path.map(|v| v.to_path_buf()),
         }
     }
 }
@@ -582,6 +588,7 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub source_maps: SourceMapsConfig,
     pub input_source_map: InputSourceMap,
     pub is_module: bool,
+    pub output_path: Option<PathBuf>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
@@ -648,7 +655,7 @@ impl ModuleConfig {
         };
 
         match config {
-            None | Some(ModuleConfig::Es6) => Box::new(noop()),
+            None | Some(ModuleConfig::Es6) => Box::new(import_hoister()),
             Some(ModuleConfig::CommonJs(config)) => {
                 if paths.is_empty() {
                     Box::new(modules::common_js::common_js(

@@ -20,6 +20,7 @@ use swc_common::{
     comments::{Comment, Comments},
     errors::Handler,
     input::StringInput,
+    source_map::SourceMapGenConfig,
     BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 use swc_ecma_ast::Program;
@@ -236,10 +237,13 @@ impl Compiler {
 
     /// Converts ast node to source string and sourcemap.
     ///
-    /// TODO: Receive target file path to fix https://github.com/swc-project/swc/issues/1255
+    ///
+    /// This method receives target file path, but does not write file to the
+    /// path. See: https://github.com/swc-project/swc/issues/1255
     pub fn print<T>(
         &self,
         node: &T,
+        output_path: Option<PathBuf>,
         target: JscTarget,
         source_map: SourceMapsConfig,
         orig: Option<&sourcemap::SourceMap>,
@@ -283,7 +287,13 @@ impl Compiler {
                         let mut buf = vec![];
 
                         self.cm
-                            .build_source_map_from(&mut src_map_buf, orig)
+                            .build_source_map_with_config(
+                                &mut src_map_buf,
+                                orig,
+                                SwcSourceMapConfig {
+                                    output_path: output_path.as_deref(),
+                                },
+                            )
                             .to_writer(&mut buf)
                             .context("failed to write source map")?;
                         let map = String::from_utf8(buf).context("source map is not utf-8")?;
@@ -298,7 +308,13 @@ impl Compiler {
                     let mut buf = vec![];
 
                     self.cm
-                        .build_source_map_from(&mut src_map_buf, orig)
+                        .build_source_map_with_config(
+                            &mut src_map_buf,
+                            orig,
+                            SwcSourceMapConfig {
+                                output_path: output_path.as_deref(),
+                            },
+                        )
                         .to_writer(&mut buf)
                         .context("failed to write source map file")?;
                     let map = String::from_utf8(buf).context("source map is not utf-8")?;
@@ -315,6 +331,37 @@ impl Compiler {
 
             Ok(TransformOutput { code, map })
         })
+    }
+}
+
+struct SwcSourceMapConfig<'a> {
+    /// Output path of the `.map` file.
+    output_path: Option<&'a Path>,
+}
+
+impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
+    fn file_name_to_source(&self, f: &FileName) -> String {
+        let base_path = match self.output_path {
+            Some(v) => v,
+            None => return f.to_string(),
+        };
+        let target = match f {
+            FileName::Real(v) => v,
+            _ => return f.to_string(),
+        };
+
+        let rel = pathdiff::diff_paths(&target, base_path);
+        match rel {
+            Some(v) => {
+                let s = v.to_string_lossy().to_string();
+                if cfg!(target_os = "windows") {
+                    s.replace("\\", "/")
+                } else {
+                    s
+                }
+            }
+            None => f.to_string(),
+        }
     }
 }
 
@@ -423,6 +470,7 @@ impl Compiler {
             let built = opts.build(
                 &self.cm,
                 name,
+                opts.output_path.as_deref(),
                 &self.handler,
                 opts.is_module,
                 Some(config),
@@ -483,6 +531,7 @@ impl Compiler {
                 source_maps: config.source_maps,
                 input_source_map: config.input_source_map,
                 is_module: config.is_module,
+                output_path: config.output_path,
             };
             let orig = self.get_orig_src_map(&fm, &opts.config.input_source_map)?;
             let program = self.parse_js(
@@ -554,6 +603,7 @@ impl Compiler {
 
             self.print(
                 &program,
+                config.output_path,
                 config.target,
                 config.source_maps,
                 orig,

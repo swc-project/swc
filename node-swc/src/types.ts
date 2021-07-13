@@ -175,6 +175,12 @@ export interface Options extends Config {
   plugin?: Plugin;
 
   isModule?: boolean;
+
+  /**
+   * Destination path. Note that this value is used only to fix source path
+   * of source map files and swc does not write output to this path.
+   */
+  outputPath?: string
 }
 
 export interface CallerOptions {
@@ -1424,7 +1430,7 @@ export interface ArrayPattern extends Node, HasSpan, PatternBase {
 export interface ObjectPattern extends Node, HasSpan, PatternBase {
   type: "ObjectPattern";
 
-  props: ObjectPatternProperty[];
+  properties: ObjectPatternProperty[];
 }
 
 export interface AssignmentPattern extends Node, HasSpan, PatternBase {

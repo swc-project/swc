@@ -1,3 +1,4 @@
+import regeneratorRuntime from "regenerator-runtime";
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
         var info = gen[key](arg);
@@ -27,8 +28,6 @@ function _asyncToGenerator(fn) {
         });
     };
 }
-var regeneratorRuntime = require("regenerator-runtime");
-var _marked = regeneratorRuntime.mark(_request);
 var source = Math.random() < 2 ? 'matilda' : 'fred';
 var details = {
     _id: '1'

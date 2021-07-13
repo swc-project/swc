@@ -32,19 +32,18 @@ function _initializerDefineProperty(target, property, descriptor, context) {
         value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
     });
 }
-var _class, _descriptor;
+var _class, _descriptor, _dec, _dec1;
 var MyEnum;
 (function(MyEnum1) {
     MyEnum1["x"] = "xxx";
     MyEnum1["y"] = "yyy";
 })(MyEnum || (MyEnum = {
 }));
-var _dec = Decorator(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String);
 let Xpto = ((_class = class Xpto1 {
     constructor(){
         _initializerDefineProperty(this, "value", _descriptor, this);
     }
-}) || _class, _descriptor = _applyDecoratedDescriptor(_class.prototype, "value", [
+}) || _class, _dec = Decorator(), _dec1 = typeof Reflect !== "undefined" && typeof Reflect.metadata === "function" && Reflect.metadata("design:type", String), _descriptor = _applyDecoratedDescriptor(_class.prototype, "value", [
     _dec,
     _dec1
 ], {

@@ -1,9 +1,11 @@
+use swc_common::comments::SingleThreadedComments;
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver::resolver;
 use swc_ecma_transforms_compat::{
     es2015, es2015::regenerator, es2016, es2017, es2017::async_to_generator,
 };
+use swc_ecma_transforms_compat::{es2018, es2020, es2021};
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_testing::test_exec;
 use swc_ecma_visit::Fold;
@@ -1191,7 +1193,6 @@ test!(
     ",
     "
     var regeneratorRuntime = require('regenerator-runtime');
-    var _marked = regeneratorRuntime.mark(_test);
 
     function _test() {
         _test = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
@@ -1307,4 +1308,310 @@ test!(
       }, _marked, null, [[0, 5]]);
     }
     "
+);
+
+test!(
+    Syntax::default(),
+    |_| chain!(async_to_generator(), tr(())),
+    issue_1799_1,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default())
+        )
+    },
+    issue_1799_2,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            async_to_generator(),
+            es2016(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+        )
+    },
+    issue_1799_3,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        chain!(
+            es2021(),
+            es2020(),
+            es2018(),
+            es2017(),
+            es2016(),
+            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+        )
+    },
+    issue_1799_5,
+    "
+    export default function Foo() {
+        return call(async (e) => { await doSomething(); })
+    }
+    ",
+    "
+    var regeneratorRuntime = require('regenerator-runtime');
+    export default function Foo() {
+        return call(_asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
+            return regeneratorRuntime.wrap(function _callee$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                        _ctx.next = 2;
+                        return doSomething();
+                    case 2:
+                    case 'end':
+                        return _ctx.stop();
+                }
+            }, _callee);
+        })));
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_1892,
+    r#"
+    function *gen() {
+            var firstTime = true;
+        outer:
+        while (true) {
+              yield 0;
+          try {
+                while (true) {
+                  yield 1;
+              if (firstTime) {
+                    firstTime = false;
+                yield 2;
+                continue outer;
+              } else {
+                    yield 3;
+                break;
+              }
+            }
+            yield 4;
+            break;
+          } finally {
+                yield 5;
+          }
+          yield 6;
+        }
+        yield 7;
+      }
+
+    const iter = gen();
+    expect(iter.next()).toEqual({value: 0, done: false});
+    expect(iter.next()).toEqual({value: 1, done: false});
+    expect(iter.next()).toEqual({value: 2, done: false});
+    expect(iter.next()).toEqual({value: 5, done: false});
+    expect(iter.next()).toEqual({value: 0, done: false});
+    expect(iter.next()).toEqual({value: 1, done: false});
+    expect(iter.next()).toEqual({value: 3, done: false});
+    expect(iter.next()).toEqual({value: 4, done: false});
+    expect(iter.next()).toEqual({value: 5, done: false});
+    expect(iter.next()).toEqual({value: 7, done: false});
+    expect(iter.next()).toEqual({value: undefined, done: true});
+
+"#,
+    r#"
+    var regeneratorRuntime = require("regenerator-runtime");
+    var _marked = regeneratorRuntime.mark(gen);
+    function gen() {
+            var firstTime;
+        return regeneratorRuntime.wrap(function gen$(_ctx) {
+                while(1)switch(_ctx.prev = _ctx.next){
+                    case 0:
+                    firstTime = true;
+                case 1:
+                    if (!true) {
+                            _ctx.next = 31;
+                        break;
+                    }
+                    _ctx.next = 4;
+                    return 0;
+                case 4:
+                    _ctx.prev = 4;
+                case 5:
+                    if (!true) {
+                            _ctx.next = 20;
+                        break;
+                    }
+                    _ctx.next = 8;
+                    return 1;
+                case 8:
+                    if (!firstTime) {
+                            _ctx.next = 15;
+                        break;
+                    }
+                    firstTime = false;
+                    _ctx.next = 12;
+                    return 2;
+                case 12:
+                    return _ctx.abrupt("continue", 1);
+                case 15:
+                    _ctx.next = 17;
+                    return 3;
+                case 17:
+                    return _ctx.abrupt("break", 20);
+                case 18:
+                    _ctx.next = 5;
+                    break;
+                case 20:
+                    _ctx.next = 22;
+                    return 4;
+                case 22:
+                    return _ctx.abrupt("break", 31);
+                case 23:
+                    _ctx.prev = 23;
+                    _ctx.next = 26;
+                    return 5;
+                case 26:
+                    return _ctx.finish(23);
+                case 27:
+                    _ctx.next = 29;
+                    return 6;
+                case 29:
+                    _ctx.next = 1;
+                    break;
+                case 31:
+                    _ctx.next = 33;
+                    return 7;
+                case 33:
+                case "end":
+                    return _ctx.stop();
+            }
+        }, _marked, null, [
+            [
+                4,
+                ,
+                23,
+                27
+            ]
+        ]);
+    }
+
+    const iter = gen();
+    expect(iter.next()).toEqual({
+            value: 0,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 1,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 2,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 5,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 0,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 1,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 3,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 4,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 5,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: 7,
+        done: false
+    });
+    expect(iter.next()).toEqual({
+            value: undefined,
+        done: true
+    });
+"#
 );
