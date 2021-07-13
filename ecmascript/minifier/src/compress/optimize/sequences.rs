@@ -2,11 +2,12 @@ use super::Optimizer;
 use crate::util::ExprOptExt;
 use std::collections::HashMap;
 use std::mem::take;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::{undefined, StmtLike};
+use swc_ecma_utils::{undefined, ExprExt, StmtLike};
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
@@ -510,6 +511,9 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
+                if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
+                    return false;
+                }
                 // (a = 5, console.log(a))
                 //
                 // =>
@@ -546,9 +550,8 @@ impl Optimizer<'_> {
                 log::trace!("sequences: Inlining sequential expressions");
 
                 let mut vars = HashMap::default();
-                vars.insert(left_id.to_id(), right.take());
+                vars.insert(left_id.to_id(), Box::new(a.take()));
                 self.inline_vars_in_node(b, vars);
-                a.take();
                 true
             }
             _ => false,
