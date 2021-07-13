@@ -647,6 +647,8 @@ impl Optimizer<'_> {
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         match e {
             Expr::Bin(e) => {
+                self.optimize_bang_within_logical_ops(e, true);
+
                 self.optimize_bang_in_nested_logical_ops(e);
             }
             _ => {}
@@ -1760,24 +1762,6 @@ impl VisitMut for Optimizer<'_> {
             return;
         }
 
-        match &mut *n.expr {
-            Expr::Bin(e) => {
-                self.optimize_bang_within_logical_ops(e, true);
-            }
-            Expr::Seq(e) => {
-                // Non-last items are handled by visit_mut_seq_expr
-                if let Some(e) = e.exprs.last_mut() {
-                    match &mut **e {
-                        Expr::Bin(e) => {
-                            self.optimize_bang_within_logical_ops(e, true);
-                        }
-                        _ => {}
-                    }
-                }
-            }
-            _ => {}
-        }
-
         if need_ignore_return_value
             || self.options.unused
             || self.options.side_effects
@@ -1808,6 +1792,24 @@ impl VisitMut for Optimizer<'_> {
             }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
+        } else {
+            match &mut *n.expr {
+                Expr::Bin(e) => {
+                    self.optimize_bang_within_logical_ops(e, true);
+                }
+                Expr::Seq(e) => {
+                    // Non-last items are handled by visit_mut_seq_expr
+                    if let Some(e) = e.exprs.last_mut() {
+                        match &mut **e {
+                            Expr::Bin(e) => {
+                                self.optimize_bang_within_logical_ops(e, true);
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+                _ => {}
+            }
         }
     }
 
@@ -2082,17 +2084,6 @@ impl VisitMut for Optimizer<'_> {
                 })
                 .collect::<Vec<_>>();
             n.exprs = exprs;
-        }
-
-        for (last, e) in n.exprs.iter_mut().identify_last() {
-            if !last {
-                match &mut **e {
-                    Expr::Bin(e) => {
-                        self.optimize_bang_within_logical_ops(e, true);
-                    }
-                    _ => {}
-                }
-            }
         }
 
         self.merge_sequences_in_seq_expr(n);
