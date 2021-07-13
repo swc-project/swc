@@ -485,7 +485,41 @@ impl Optimizer<'_> {
 
     pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         fn first_expr(s: &mut Stmt) -> Option<&mut Expr> {
-            None
+            match s {
+                Stmt::Expr(e) => Some(&mut *e.expr),
+                Stmt::Block(block) => {
+                    if block.stmts.is_empty() {
+                        return None;
+                    }
+
+                    first_expr(&mut block.stmts[0])
+                }
+                Stmt::Decl(Decl::Var(v)) => {
+                    if v.decls.is_empty() {
+                        return None;
+                    }
+
+                    v.decls.iter_mut().find_map(|d| d.init.as_deref_mut())
+                }
+                _ => None,
+            }
+        }
+
+        for idx in 1..stmts.len() {
+            let (a1, a2) = stmts.split_at_mut(idx - 1);
+
+            if a1.is_empty() || a2.is_empty() {
+                continue;
+            }
+
+            let e1 = first_expr(a1.last_mut().unwrap());
+            let e2 = first_expr(&mut a2[0]);
+
+            if let Some(e1) = e1 {
+                if let Some(e2) = e2 {
+                    self.merge_sequential_expr(e1, e2);
+                }
+            }
         }
     }
 
