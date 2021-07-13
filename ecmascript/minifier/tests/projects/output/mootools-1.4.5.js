@@ -756,7 +756,7 @@
     (this.$chk = function (
         obj
     ) {
-        return !!(obj || 0 === obj);
+        return !(!obj && 0 !== obj);
     }),
     (this.$clear = function (
         timer
@@ -3483,7 +3483,7 @@ function (
                           (node = node.getAttributeNode(
                               attribute
                           )),
-                          !(!node || !(node.specified || node.nodeValue))
+                          !!(node && (node.specified || node.nodeValue))
                       );
                   });
             var nativeRootContains = root && this.isNativeCode(
@@ -3625,7 +3625,7 @@ function (
         } else return found;
         var uniques = (this.uniques = {
             }),
-            hasOthers = !(!append || !append.length),
+            hasOthers = !!(append && append.length),
             contextIsDocument = 9 == context.nodeType;
         if (
             (this.document !==
@@ -3695,9 +3695,9 @@ function (
                             )
                                 if (
                                     ((className = node.className),
-                                    !(
-                                        !className ||
-                      !new RegExp(
+                                    !!(
+                                        className &&
+                      new RegExp(
                           "(^|\\s)" + Slick.escapeRegExp(
                               name
                           ) + "(\\s|$)",
@@ -3789,7 +3789,7 @@ function (
                 if (this.starSelectsClosedQSA)
                     for (i = 0; (node = nodes[i++]); )
                         node.nodeName > "@" &&
-                (!hasOthers || !uniques[this.getUID(
+                !(hasOthers && uniques[this.getUID(
                     node
                 )]) &&
                 found.push(
@@ -4150,9 +4150,9 @@ function (
                         node,
                         "class"
                     )),
-                    !cls || !classes[i].regexp.test(
+                    !(cls && classes[i].regexp.test(
                         cls
-                    ))
+                    )))
                 )
                     return !1;
         if (attributes)
@@ -4257,7 +4257,7 @@ function (
                                 " "
                             )
                         )),
-                        !children || !children.length)
+                        !(children && children.length))
                     )
                         break getByClass;
                     for (i = 0; (item = children[i++]); )
@@ -4277,7 +4277,7 @@ function (
                     ((children = node.getElementsByTagName(
                         tag
                     )),
-                    !children || !children.length)
+                    !(children && children.length))
                 )
                     break getByTag;
                 for (
@@ -4505,7 +4505,7 @@ function (
         ) {
             var child = node.firstChild;
             return (
-                (!child || 1 != child.nodeType) &&
+                !(child && 1 == child.nodeType) &&
           !(node.innerText || node.textContent || "").length
             );
         },
@@ -4771,7 +4771,7 @@ function (
         return (
             !!node &&
           !!selector &&
-          (!!(!selector || selector === node) ||
+          (!(!!selector && selector !== node) ||
             (local.setDocument(
                 node
             ), local.matchNode(

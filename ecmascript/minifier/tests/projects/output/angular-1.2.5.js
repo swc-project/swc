@@ -139,7 +139,7 @@
         )) return !1;
         var length = obj.length;
         return (
-            !(1 !== obj.nodeType || !length) ||
+            !!(1 === obj.nodeType && length) ||
       isString(
           obj
       ) ||
@@ -425,7 +425,7 @@
     function isElement(
         node
     ) {
-        return !(!node || !(node.nodeName || (node.on && node.find)));
+        return !!(node && (node.nodeName || (node.on && node.find)));
     }
     nodeName_ =
     msie < 9
@@ -2330,10 +2330,10 @@
                               bup = b && b.parentNode;
                           return (
                               a === bup ||
-                          !(
-                              !bup ||
-                            1 !== bup.nodeType ||
-                            !(adown.contains
+                          !!(
+                              bup &&
+                            1 === bup.nodeType &&
+                            (adown.contains
                                 ? adown.contains(
                                     bup
                                 )
@@ -5970,7 +5970,7 @@
                         )),
                         identifier)
                     ) {
-                        if (!locals || "object" != typeof locals.$scope)
+                        if (!(locals && "object" == typeof locals.$scope))
                             throw minErr(
                                 "$controller"
                             )(
@@ -7173,7 +7173,7 @@
                         promise
                     ) {
                         return (
-                            !(!promise || !(promise.$$intervalId in intervals)) &&
+                            !!(promise && promise.$$intervalId in intervals) &&
               (intervals[promise.$$intervalId].reject(
                   "canceled"
               ),
@@ -11535,11 +11535,11 @@
               )));
                 }
                 return {
-                    history: !(
-                        !$window.history ||
-            !$window.history.pushState ||
-            android < 4 ||
-            !!boxee
+                    history: !!(
+                        $window.history &&
+            $window.history.pushState &&
+            !(android < 4) &&
+            !boxee
                     ),
                     hashchange:
             "onhashchange" in $window && (!documentMode || documentMode > 7),
@@ -11547,7 +11547,7 @@
                         event
                     ) {
                         return (
-                            ("input" != event || 9 != msie) &&
+                            !("input" == event && 9 == msie) &&
               (isUndefined(
                   eventSupport[event]
               ) &&
@@ -11623,7 +11623,7 @@
                         promise
                     ) {
                         return (
-                            !(!promise || !(promise.$$timeoutId in deferreds)) &&
+                            !!(promise && promise.$$timeoutId in deferreds) &&
               (deferreds[promise.$$timeoutId].reject(
                   "canceled"
               ),

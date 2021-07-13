@@ -996,7 +996,7 @@
             !jQuery.isWindow(
                 obj
             ) &&
-      (!(1 !== obj.nodeType || !length) ||
+      (!!(1 === obj.nodeType && length) ||
         "array" === type ||
         ("function" !== type &&
           (0 === length ||
@@ -1154,7 +1154,7 @@
                             fn,
                             list
                         ) > -1
-                        : !(!list || !list.length);
+                        : !!(list && list.length);
                 },
                 empty: function (
                 ) {
@@ -3535,7 +3535,7 @@
                   elem.ownerDocument,
                   data
               ) === !1) &&
-            ("click" !== type || !jQuery.nodeName(
+            !("click" === type && jQuery.nodeName(
                 elem,
                 "a"
             )) &&
@@ -5102,10 +5102,10 @@
                           bup = b && b.parentNode;
                       return (
                           a === bup ||
-                      !(
-                          !bup ||
-                        1 !== bup.nodeType ||
-                        !(adown.contains
+                      !!(
+                          bup &&
+                        1 === bup.nodeType &&
+                        (adown.contains
                             ? adown.contains(
                                 bup
                             )
@@ -9940,14 +9940,12 @@
                 s.url.toLowerCase(
                 )
             )),
-            (s.crossDomain = !(
-                !parts ||
-              !(
-                  parts[1] !== ajaxLocParts[1] ||
+            (s.crossDomain = !!(
+                parts &&
+              (parts[1] !== ajaxLocParts[1] ||
                 parts[2] !== ajaxLocParts[2] ||
                 (parts[3] || ("http:" === parts[1] ? 80 : 443)) !=
-                  (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))
-              )
+                  (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443)))
             ))),
                     s.data &&
             s.processData &&

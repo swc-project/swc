@@ -1715,7 +1715,7 @@
     var noXhrPatch =
       void 0 !== window &&
       !!window.ActiveXObject &&
-      (!window.XMLHttpRequest || !new XMLHttpRequest(
+      !(window.XMLHttpRequest && new XMLHttpRequest(
       ).dispatchEvent),
         methodMap = {
             create: "POST",
@@ -1956,10 +1956,10 @@
                 (this.root = this.options.root),
                 (this._wantsHashChange = !1 !== this.options.hashChange),
                 (this._wantsPushState = !!this.options.pushState),
-                (this._hasPushState = !(
-                    !this.options.pushState ||
-            !this.history ||
-            !this.history.pushState
+                (this._hasPushState = !!(
+                    this.options.pushState &&
+            this.history &&
+            this.history.pushState
                 ));
                 var fragment = this.getFragment(
                     ),

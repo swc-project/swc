@@ -1552,14 +1552,16 @@
             bCtor = b.constructor;
         if (
             aCtor !== bCtor &&
-      (!_.isFunction(
-          aCtor
-      ) ||
-        !(aCtor instanceof aCtor) ||
-        !_.isFunction(
+      !(
+          _.isFunction(
+              aCtor
+          ) &&
+        aCtor instanceof aCtor &&
+        _.isFunction(
             bCtor
-        ) ||
-        !(bCtor instanceof bCtor))
+        ) &&
+        bCtor instanceof bCtor
+      )
         )
             return !1;
         aStack.push(
@@ -1637,7 +1639,7 @@
     (_.isElement = function (
         obj
     ) {
-        return !(!obj || 1 !== obj.nodeType);
+        return !!(obj && 1 === obj.nodeType);
     }),
     (_.isArray =
       nativeIsArray ||
@@ -1675,7 +1677,7 @@
       (_.isArguments = function (
           obj
       ) {
-          return !(!obj || !_.has(
+          return !!(obj && _.has(
               obj,
               "callee"
           ));

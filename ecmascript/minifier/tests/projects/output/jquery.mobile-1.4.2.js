@@ -2486,10 +2486,12 @@
                     pushState:
             "pushState" in history &&
             "replaceState" in history &&
-            (!(window.navigator.userAgent.indexOf(
-                "Firefox"
-            ) >= 0) ||
-              !(window.top !== window)) &&
+            !(
+                window.navigator.userAgent.indexOf(
+                    "Firefox"
+                ) >= 0 &&
+              window.top !== window
+            ) &&
             -1 === window.navigator.userAgent.search(
                 /CriOS/
             ),
@@ -2683,7 +2685,7 @@
                     "http://www.w3.org/2000/svg",
                     "svg",
                 ).createSVGRect &&
-                (!w.opera || -1 !== navigator.userAgent.indexOf(
+                !(w.opera && -1 === navigator.userAgent.indexOf(
                     "Chrome"
                 )),
                             support = function (
@@ -7037,13 +7039,15 @@
                                 ((target = findClosestLink(
                                     target
                                 )),
-                                !!target &&
+                                !!(
+                                    target &&
                     "#" !==
                       jQuery.mobile.path.parseUrl(
                           target.getAttribute(
                               "href"
                           ) || "#",
-                      ).hash) &&
+                      ).hash
+                                )) &&
                   !jQuery(
                       target
                   ).jqmHijackable(
@@ -8343,9 +8347,9 @@
                           " "
                       ),
               ),
-              (void 0 !== opts.collapsedIcon
+              !(void 0 !== opts.collapsedIcon
                   ? !1 !== opts.collapsedIcon
-                  : !1 !== currentOpts.collapsedIcon) &&
+                  : !1 !== currentOpts.collapsedIcon) ||
                 anchor.addClass(
                     [
                         iconposClass(
@@ -8406,12 +8410,14 @@
                   "ui-collapsible-inset",
                   opts.inset
               ),
-              (hasCorners = !(
-                  !opts.inset || !(opts.corners || currentOpts.corners)
+              (hasCorners = !!(
+                  opts.inset &&
+                (opts.corners || currentOpts.corners)
               ))),
                         void 0 !== opts.corners &&
-              (hasCorners = !(
-                  !opts.corners || !(opts.inset || currentOpts.inset)
+              (hasCorners = !!(
+                  opts.corners &&
+                (opts.inset || currentOpts.inset)
               )),
                         void 0 !== hasCorners &&
               elem.toggleClass(
@@ -8716,12 +8722,14 @@
                           themeClass
                       ),
                                 void 0 !== options.inset &&
-                  (hasCorners = !(
-                      !options.inset || !(options.corners || this.options.corners)
+                  (hasCorners = !!(
+                      options.inset &&
+                    (options.corners || this.options.corners)
                   )),
                                 void 0 !== options.corners &&
-                  (hasCorners = !(
-                      !options.corners || !(options.inset || this.options.inset)
+                  (hasCorners = !!(
+                      options.corners &&
+                    (options.inset || this.options.inset)
                   )),
                                 void 0 !== hasCorners &&
                   elem.toggleClass(
@@ -9813,12 +9821,14 @@
                                 controlgroupWidget,
                                 controlgroupConstructor = jQuery.mobile.controlgroup;
                             return (
-                                !controlgroupConstructor ||
-                ((controlgroup = this.element.closest(
-                    ":mobile-controlgroup," +
-                    controlgroupConstructor.prototype.initSelector,
-                )),
-                !(controlgroup.length > 0)) ||
+                                !(
+                                    controlgroupConstructor &&
+                  ((controlgroup = this.element.closest(
+                      ":mobile-controlgroup," +
+                      controlgroupConstructor.prototype.initSelector,
+                  )),
+                  controlgroup.length > 0)
+                                ) ||
                 ((controlgroupWidget = jQuery.data(
                     controlgroup[0],
                     "mobile-controlgroup",
@@ -18479,10 +18489,11 @@
                     _setOptions: function (
                         options
                     ) {
-                        var refilter =
-            void 0 !== options.filterReveal ||
-            void 0 !== options.filterCallback ||
-            void 0 !== options.children;
+                        var refilter = !(
+                            void 0 === options.filterReveal &&
+            void 0 === options.filterCallback &&
+            void 0 === options.children
+                        );
                         this._super(
                             options
                         ),
@@ -20125,15 +20136,17 @@
             jQuery.mobile.iosorientationfixEnabled = !0;
             var ua = navigator.userAgent;
             if (
-                !/iPhone|iPad|iPod/.test(
-                    navigator.platform
-                ) ||
-        !/OS [1-5]_[0-9_]* like Mac OS X/i.test(
-            ua
-        ) ||
-        !(ua.indexOf(
-            "AppleWebKit"
-        ) > -1)
+                !(
+                    /iPhone|iPad|iPod/.test(
+                        navigator.platform
+                    ) &&
+          /OS [1-5]_[0-9_]* like Mac OS X/i.test(
+              ua
+          ) &&
+          ua.indexOf(
+              "AppleWebKit"
+          ) > -1
+                )
             ) {
                 jQuery.mobile.iosorientationfixEnabled = !1;
                 return;
