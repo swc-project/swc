@@ -1,5 +1,6 @@
 import { setGlobalOptions } from '@typegoose/typegoose';
 import * as typegoose from '@typegoose/typegoose';
+import { schemas } from './schemas';
 // typegoose.mongoose.set('debug', true);
 setGlobalOptions({
     options: {
@@ -12,5 +13,4 @@ setGlobalOptions({
         }
     }
 });
-import { schemas } from './schemas';
 console.log(schemas);

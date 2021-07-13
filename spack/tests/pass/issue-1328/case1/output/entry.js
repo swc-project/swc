@@ -617,7 +617,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
         Function("r", "regeneratorRuntime = r")(runtime);
     }
 });
-var regeneratorRuntime = load();
+var { default: regeneratorRuntime  } = load();
 function _foo() {
     _foo = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_ctx) {

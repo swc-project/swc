@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = Foo;
 var swcHelpers = require("@swc/helpers");
+var _regeneratorRuntime = swcHelpers.interopRequireDefault(require("regenerator-runtime"));
 var _react = swcHelpers.interopRequireDefault(require("react"));
-var regeneratorRuntime = require("regenerator-runtime");
 function Foo() {
-    return call(swcHelpers.asyncToGenerator(regeneratorRuntime.mark(function _callee(e) {
-        return regeneratorRuntime.wrap(function _callee$(_ctx) {
+    return call(swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee(e) {
+        return _regeneratorRuntime.default.wrap(function _callee$(_ctx) {
             while(1)switch(_ctx.prev = _ctx.next){
                 case 0:
                     _ctx.next = 2;
