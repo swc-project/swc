@@ -1575,13 +1575,12 @@
             result = !0;
         if ("[object Array]" == className) {
             if ((result = (size = a.length) == b.length))
-                for (; size--; )
-                    if (!(result = eq(
-                        a[size],
-                        b[size],
-                        aStack,
-                        bStack
-                    ))) break;
+                for (; size-- && (result = eq(
+                    a[size],
+                    b[size],
+                    aStack,
+                    bStack
+                )); );
         } else {
             for (var key in a)
                 if (

@@ -5660,23 +5660,20 @@
                               (++nodeIndex && node && node[dir]) ||
                               (diff = nodeIndex = 0) ||
                               start.pop(
-                              ));
-
-                                            )
-                                                if (
-                                                    (ofType
-                                                        ? node.nodeName.toLowerCase(
-                                                        ) === name
-                                                        : 1 === node.nodeType) &&
-                              ++diff &&
+                              )) &&
+                            ((ofType
+                                ? node.nodeName.toLowerCase(
+                                ) !== name
+                                : 1 !== node.nodeType) ||
+                              !++diff ||
                               (useCache &&
                                 ((node[expando] || (node[expando] = {
                                 }))[
                                     type
                                 ] = [dirruns, diff,]),
-                              node === elem)
-                                                )
-                                                    break;
+                              node !== elem));
+
+                                            );
                                 return (
                                     (diff -= last),
                                     diff === first || (diff % first == 0 && diff / first >= 0)
