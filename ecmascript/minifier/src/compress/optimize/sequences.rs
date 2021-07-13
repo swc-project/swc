@@ -497,6 +497,8 @@ impl Optimizer<'_> {
 
             self.merge_sequential_expr(a1.last_mut().unwrap(), &mut a2[0]);
         }
+
+        e.exprs.retain(|e| !e.is_invalid());
     }
 
     /// Returns true if `a` is removed.
@@ -546,6 +548,7 @@ impl Optimizer<'_> {
                 let mut vars = HashMap::default();
                 vars.insert(left_id.to_id(), right.take());
                 self.inline_vars_in_node(b, vars);
+                a.take();
                 true
             }
             _ => false,
