@@ -582,6 +582,17 @@ impl Visit for UsageCoutner<'_> {
         }
     }
 
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e, self);
+
+        if e.computed {
+            let old = self.in_lhs;
+            self.in_lhs = false;
+            e.prop.visit_with(e, self);
+            self.in_lhs = old;
+        }
+    }
+
     fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
         let old = self.in_lhs;
         self.in_lhs = true;
