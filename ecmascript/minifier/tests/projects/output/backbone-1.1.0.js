@@ -991,7 +991,7 @@
                   attrs,
                   options
               )),
-              !!model &&
+              model &&
                 (toAdd.push(
                     model
                 ),

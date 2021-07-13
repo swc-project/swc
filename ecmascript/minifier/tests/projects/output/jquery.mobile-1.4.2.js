@@ -850,7 +850,7 @@
                         return (
                             (jQuery.mobile.dynamicBaseEnabled &&
               url &&
-              !!jQuery.mobile.path.isPath(
+              jQuery.mobile.path.isPath(
                   url
               )) ||
               (url = base),
@@ -3704,7 +3704,7 @@
                         data,
                     )),
                 ),
-                !noEvents &&
+                noEvents ||
                   ((this.ignorePopState = !0),
                   jQuery.mobile.window.trigger(
                       popstateEvent
@@ -4396,7 +4396,7 @@
                 ),
                         eventCaptureSupported &&
                 (--activeDocHandlers.touchstart,
-                !activeDocHandlers.touchstart &&
+                activeDocHandlers.touchstart ||
                   $document
                       .unbind(
                           "touchstart",
@@ -4867,7 +4867,7 @@
                             thisObject,
                             origTarget,
                         )),
-                        !emitted ||
+                        emitted &&
                           (jQuery.event.special.swipe.eventInProgress = !1)),
                       Math.abs(
                           start.coords[0] - stop.coords[0]
@@ -6924,7 +6924,7 @@
                   (url = jQuery.mobile.path.parseUrl(
                       url
                   ).hrefNoSearch),
-                url !== jQuery.mobile.path.documentBase.hrefNoHash ||
+                url === jQuery.mobile.path.documentBase.hrefNoHash &&
                   (url = documentUrl.hrefNoSearch)),
               (url = jQuery.mobile.path.makeUrlAbsolute(
                   url,
@@ -6942,28 +6942,30 @@
               (calculateOnly ||
                 ((formData = $form.serializeArray(
                 )),
-                $lastVClicked[0].form,
-                $form[0],
-                (vclickedName = $lastVClicked.attr(
-                    "name"
-                )),
-                jQuery.each(
-                    formData,
-                    function (
-                        key, value
-                    ) {
-                        if (value.name === vclickedName)
-                            return (vclickedName = ""), !1;
-                    }
-                ),
-                formData.push(
-                    {
-                        name: vclickedName,
-                        value: $lastVClicked.attr(
-                            "value"
-                        ),
-                    }
-                ),
+                $lastVClicked &&
+                  $lastVClicked[0].form === $form[0] &&
+                  ((vclickedName = $lastVClicked.attr(
+                      "name"
+                  )),
+                  vclickedName &&
+                    (jQuery.each(
+                        formData,
+                        function (
+                            key, value
+                        ) {
+                            if (value.name === vclickedName)
+                                return (vclickedName = ""), !1;
+                        }
+                    ),
+                    vclickedName &&
+                      formData.push(
+                          {
+                              name: vclickedName,
+                              value: $lastVClicked.attr(
+                                  "value"
+                              ),
+                          }
+                      ))),
                 (ret = {
                     url: url,
                     options: {
@@ -7755,7 +7757,7 @@
                     _headerCloseButton: null,
                 }
             ),
-            !this.options.enhanced && this._setCloseBtn(
+            this.options.enhanced || this._setCloseBtn(
                 this.options.closeBtn
             ));
                 },
@@ -8347,9 +8349,9 @@
                           " "
                       ),
               ),
-              !(void 0 !== opts.collapsedIcon
+              (void 0 !== opts.collapsedIcon
                   ? !1 !== opts.collapsedIcon
-                  : !1 !== currentOpts.collapsedIcon) ||
+                  : !1 !== currentOpts.collapsedIcon) &&
                 anchor.addClass(
                     [
                         iconposClass(
@@ -9463,9 +9465,9 @@
                                     ? (hideDivider &&
                       (item.className = item.className + " ui-screen-hidden"),
                                     (hideDivider = !0))
-                                    : !item.className.match(
+                                    : item.className.match(
                                         rhidden
-                                    ) && (hideDivider = !1);
+                                    ) || (hideDivider = !1);
                     },
                 }
             );
@@ -9939,7 +9941,7 @@
                                     .addClass(
                                         "ui-btn-icon-" + options.iconpos
                                     )
-                                : !hasIcon &&
+                                : hasIcon ||
                     label.removeClass(
                         "ui-btn-icon-" + currentOptions.iconpos
                     ),
@@ -13545,8 +13547,8 @@
                     _resizeTimeout: function (
                     ) {
                         this._isOpen
-                            ? !this._expectResizeEvent(
-                            ) &&
+                            ? this._expectResizeEvent(
+                            ) ||
               (this._ui.container.hasClass(
                   "ui-popup-hidden"
               ) &&
@@ -13736,10 +13738,10 @@
                   newOptions.corners
               ),
                             void 0 !== newOptions.transition &&
-              !this._currentTransition &&
-              this._applyTransition(
-                  newOptions.transition
-              ),
+              (this._currentTransition ||
+                this._applyTransition(
+                    newOptions.transition
+                )),
                             void 0 !== newOptions.tolerance &&
               this._setTolerance(
                   newOptions.tolerance
@@ -14581,32 +14583,32 @@
                     ) {
                         this.options.disabled ||
             this.isOpen ||
-            ("vclick" !== event.type &&
-              (!event.keyCode ||
-                (event.keyCode !== jQuery.mobile.keyCode.ENTER &&
-                  event.keyCode !== jQuery.mobile.keyCode.SPACE))) ||
-            (this._decideFormat(
-            ),
-            "overlay" === this.menuType
-                ? this.button
-                    .attr(
-                        "href",
-                        "#" + this.popupId
-                    )
-                    .attr(
-                        "data-" + (jQuery.mobile.ns || "") + "rel",
-                        "popup"
-                    )
-                : this.button
-                    .attr(
-                        "href",
-                        "#" + this.dialogId
-                    )
-                    .attr(
-                        "data-" + (jQuery.mobile.ns || "") + "rel",
-                        "dialog"
-                    ),
-            (this.isOpen = !0));
+            (("vclick" === event.type ||
+              (event.keyCode &&
+                (event.keyCode === jQuery.mobile.keyCode.ENTER ||
+                  event.keyCode === jQuery.mobile.keyCode.SPACE))) &&
+              (this._decideFormat(
+              ),
+              "overlay" === this.menuType
+                  ? this.button
+                      .attr(
+                          "href",
+                          "#" + this.popupId
+                      )
+                      .attr(
+                          "data-" + (jQuery.mobile.ns || "") + "rel",
+                          "popup"
+                      )
+                  : this.button
+                      .attr(
+                          "href",
+                          "#" + this.dialogId
+                      )
+                      .attr(
+                          "data-" + (jQuery.mobile.ns || "") + "rel",
+                          "dialog"
+                      ),
+              (this.isOpen = !0)));
                     },
                     _handleListFocus: function (
                         e
@@ -20167,7 +20169,7 @@
                 window1.orientation ||
           (!(x > 7) &&
             (((!(z > 6) || !(y < 8)) && (!(z < 8) || !(y > 6))) || !(x > 5)))
-                    ? !zoom.enabled && zoom.enable(
+                    ? zoom.enabled || zoom.enable(
                     )
                     : zoom.enabled && zoom.disable(
                     );

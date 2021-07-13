@@ -852,11 +852,11 @@
                     value, index
                 ) {
                     (isSorted
-                        ? !index || seen[seen.length - 1] !== value
-                        : !_.contains(
+                        ? index && seen[seen.length - 1] === value
+                        : _.contains(
                             seen,
                             value
-                        )) &&
+                        )) ||
             (seen.push(
                 value
             ), results.push(
@@ -1254,7 +1254,7 @@
                             wait - last
                         ))
                         : ((timeout = null),
-                        !immediate && (result = func.apply(
+                        immediate || (result = func.apply(
                             context,
                             args
                         )));

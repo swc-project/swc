@@ -2694,7 +2694,7 @@
         var $inject, argDecl, last;
         return (
             "function" == typeof fn
-                ? !($inject = fn.$inject) &&
+                ? ($inject = fn.$inject) ||
           (fn.length &&
             ((argDecl = fn
                 .toString(
@@ -3539,7 +3539,7 @@
         ) {
             return (
                 urlChangeInit ||
-          (jqLite(
+          ($sniffer.history && jqLite(
               window1
           ).on(
               "popstate",
@@ -3648,16 +3648,17 @@
             var timeoutId;
             return (
                 outstandingRequestCount++,
-                (timeoutId = setTimeout(
-                    function (
-                    ) {
-                        delete pendingDeferIds[timeoutId], completeOutstandingRequest(
-                            fn
-                        );
-                    },
-                    delay || 0
-                )),
-                (pendingDeferIds[timeoutId] = !0),
+                (pendingDeferIds[
+                    (timeoutId = setTimeout(
+                        function (
+                        ) {
+                            delete pendingDeferIds[timeoutId], completeOutstandingRequest(
+                                fn
+                            );
+                        },
+                        delay || 0
+                    ))
+                ] = !0),
                 timeoutId
             );
         }),
@@ -3927,8 +3928,8 @@
                                                       directive
                                                   ),
                                               })
-                                              : !directive.compile &&
-                              directive.link &&
+                                              : directive.compile ||
+                              !directive.link ||
                               (directive.compile = valueFn(
                                   directive.link
                               )),
@@ -4078,7 +4079,7 @@
                         attrName
                             ? (this.$attr[key] = attrName)
                             : ((attrName = this.$attr[key]),
-                            !attrName &&
+                            attrName ||
                       (this.$attr[key] = attrName = snake_case(
                           key,
                           "-"
@@ -4479,11 +4480,12 @@
                           0,
                           name.length - 6
                       ))),
-                    (nName = directiveNormalize(
-                        name.toLowerCase(
-                        )
-                    )),
-                    (attrsMap[nName] = name),
+                    (attrsMap[
+                        (nName = directiveNormalize(
+                            name.toLowerCase(
+                            )
+                        ))
+                    ] = name),
                     (attrs[nName] = value = trim(
                         msie && "href" == name
                             ? decodeURIComponent(
@@ -4684,7 +4686,7 @@
                         if (
                             ((directiveValue = directive.scope) &&
                   ((newScopeDirective = newScopeDirective || directive),
-                  !directive.templateUrl &&
+                  directive.templateUrl ||
                     (assertNoDuplicate(
                         "new/isolated scope",
                         newIsolateScopeDirective,
@@ -9575,12 +9577,11 @@
           (obj = obj.$$v));
         }
         return (
-            (key = ensureSafeMemberName(
+            (obj[(key = ensureSafeMemberName(
                 element.shift(
                 ),
                 fullExp
-            )),
-            (obj[key] = setValue),
+            ))] = setValue),
             setValue
         );
     }
@@ -10387,7 +10388,7 @@
                                         key
                                     ) ||
                     ((results[key] = value),
-                    !--counter && deferred.resolve(
+                    --counter || deferred.resolve(
                         results
                     ));
                                 },
@@ -12796,7 +12797,7 @@
                 queue,
                 control
             ),
-            !queue.length &&
+            queue.length ||
               (invalidCount--,
               invalidCount ||
                 (toggleValidCss(
@@ -13599,7 +13600,7 @@
                     !isValid !== $error[validationErrorKey] &&
             (isValid
                 ? ($error[validationErrorKey] && invalidCount--,
-                !invalidCount &&
+                invalidCount ||
                   (toggleValidCss(
                       !0
                   ),
@@ -14045,10 +14046,10 @@
                                     newVal || ""
                                 );
                                 oldVal
-                                    ? !equals(
+                                    ? equals(
                                         newVal,
                                         oldVal
-                                    ) &&
+                                    ) ||
                     attr.$updateClass(
                         newClasses,
                         flattenClasses(
@@ -14211,7 +14212,7 @@
                                 toBoolean(
                                     value
                                 )
-                                    ? !childScope &&
+                                    ? childScope ||
                   ((childScope = $scope.$new(
                   )),
                   $transclude(
@@ -15687,7 +15688,7 @@
                                   selected: !selectedSet,
                               }
                           )
-                          : !selectedSet &&
+                          : selectedSet ||
                           optionGroups[""].unshift(
                               {
                                   id: "?",

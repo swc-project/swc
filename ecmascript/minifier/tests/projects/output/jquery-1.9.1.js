@@ -1390,7 +1390,7 @@
                                     contexts,
                                     values
                                 )
-                                : !--remaining && deferred.resolveWith(
+                                : --remaining || deferred.resolveWith(
                                     contexts,
                                     values
                                 );
@@ -1722,7 +1722,7 @@
                 : (id = internalKey)),
                 cache[id] ||
             ((cache[id] = {
-            }), !!isNode || (cache[id].toJSON = jQuery.noop)),
+            }), isNode || (cache[id].toJSON = jQuery.noop)),
                 ("object" == typeof name || "function" == typeof name) &&
             (pvt
                 ? (cache[id] = jQuery.extend(
@@ -3278,7 +3278,7 @@
                   null,
                   handleObj
               ),
-              !handleObj.handler.guid &&
+              handleObj.handler.guid ||
                 (handleObj.handler.guid = handler.guid)),
                     selector
                         ? handlers.splice(
@@ -3482,9 +3482,9 @@
                 )) {
                     for (
                         bubbleType = special.delegateType || type,
-                        !rfocusMorph.test(
+                        rfocusMorph.test(
                             bubbleType + type
-                        ) && (cur = cur.parentNode);
+                        ) || (cur = cur.parentNode);
                         cur;
                         cur = cur.parentNode
                     )
@@ -6281,16 +6281,16 @@
                 i++
             )
                 (elem = unmatched[i]) &&
-            (!filter || filter(
+            ((filter && !filter(
                 elem,
                 context,
                 xml
-            )) &&
-            (newUnmatched.push(
-                elem
-            ), null != map && map.push(
-                i
-            ));
+            )) ||
+              (newUnmatched.push(
+                  elem
+              ), null != map && map.push(
+                  i
+              )));
             return newUnmatched;
         }
         function setMatcher(
@@ -8506,7 +8506,7 @@
                       elem.nodeName
                   ),
               )))
-            : !values[index] &&
+            : values[index] ||
             ((hidden = isHidden(
                 elem
             )),
@@ -9983,7 +9983,7 @@
                   ? "&"
                   : "?") + s.data),
             delete s.data),
-          !1 !== s.cache ||
+          !1 === s.cache &&
             (s.url = rts.test(
                 cacheURL
             )
@@ -10171,7 +10171,7 @@
                   "ajaxComplete",
                   [jqXHR, s,]
               ),
-              !--jQuery.active && jQuery.event.trigger(
+              --jQuery.active || jQuery.event.trigger(
                   "ajaxStop"
               )));
                 }
@@ -10387,7 +10387,7 @@
                       script
                   ),
                   (script = null),
-                  !isAbort && callback(
+                  isAbort || callback(
                       200,
                       "success"
                   ));
@@ -10644,8 +10644,7 @@
                                   ? setTimeout(
                                       callback
                                   )
-                                  : ((handle = ++xhrId),
-                                  xhrOnUnloadAbort &&
+                                  : (xhrOnUnloadAbort &&
                         (xhrCallbacks ||
                           ((xhrCallbacks = {
                           }),
@@ -10654,7 +10653,7 @@
                           ).unload(
                               xhrOnUnloadAbort
                           )),
-                        (xhrCallbacks[handle] = callback)),
+                        (xhrCallbacks[(handle = ++xhrId)] = callback)),
                                   (xhr.onreadystatechange = callback))
                               : callback(
                               );
@@ -11058,7 +11057,7 @@
             : (style.display = "inline-block"))),
         opts.overflow &&
       ((style.overflow = "hidden"),
-      !jQuery.support.shrinkWrapBlocks &&
+      jQuery.support.shrinkWrapBlocks ||
         anim.always(
             function (
             ) {

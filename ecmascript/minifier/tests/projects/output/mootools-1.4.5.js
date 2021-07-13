@@ -8563,8 +8563,8 @@ Element1.alias(
                     "complete",
                     this.subject
                 ),
-                !this.callChain(
-                ) &&
+                this.callChain(
+                ) ||
                   this.fireEvent(
                       "chainComplete",
                       this.subject
@@ -8676,8 +8676,8 @@ Element1.alias(
           (list.erase(
               this
           ),
-          !list.length &&
-            timers[fps] &&
+          list.length ||
+            !timers[fps] ||
             (delete instances[fps],
             (timers[fps] = clearInterval(
                 timers[fps]
