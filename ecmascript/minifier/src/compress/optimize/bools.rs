@@ -3,7 +3,6 @@ use crate::compress::optimize::{is_pure_undefined, Ctx};
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::Type;
@@ -92,20 +91,8 @@ impl Optimizer<'_> {
                     }
                     log::trace!("Optimizing `!(a && b)` as `!a || !b`");
                     self.changed = true;
-                    *e = Expr::Bin(BinExpr {
-                        span: *span,
-                        op: op!("||"),
-                        left: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("!"),
-                            arg: left.take(),
-                        })),
-                        right: Box::new(Expr::Unary(UnaryExpr {
-                            span: DUMMY_SP,
-                            op: op!("!"),
-                            arg: right.take(),
-                        })),
-                    });
+                    self.negate(arg);
+                    *e = *arg.take();
                     return;
                 }
                 _ => {}
