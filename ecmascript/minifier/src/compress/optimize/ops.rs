@@ -490,6 +490,19 @@ impl Optimizer<'_> {
 
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
 
+            (
+                Expr::Member(..) | Expr::Call(..) | Expr::Assign(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }),
+            ) if match &**arg {
+                Expr::Lit(..) => true,
+                _ => false,
+            } =>
+            {
+                true
+            }
+
             (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
                 true
             }
