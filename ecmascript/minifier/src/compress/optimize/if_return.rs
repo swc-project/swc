@@ -51,6 +51,11 @@ impl Optimizer<'_> {
             }
             _ => match &*alt {
                 Stmt::Return(..) => {
+                    match &*stmt.cons {
+                        Stmt::Return(..) => return,
+                        _ => {}
+                    }
+
                     self.changed = true;
                     log::trace!("if_return: Negating an if statement because the alt is return");
                     self.negate(&mut stmt.test);
