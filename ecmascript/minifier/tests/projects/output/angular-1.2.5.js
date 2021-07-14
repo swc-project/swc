@@ -114,23 +114,22 @@
         angular = window.angular || (window.angular = {
         }),
         uid = ["0", "0", "0",];
+    isNaN(
+        (msie = int(
+            (/msie (\d+)/.exec(
+                lowercase(
+                    navigator.userAgent
+                )
+            ) || [])[1]
+        )),
+    ) &&
     (msie = int(
-        (/msie (\d+)/.exec(
+        (/trident\/.*; rv:(\d+)/.exec(
             lowercase(
                 navigator.userAgent
             )
-        ) || [])[1]
-    )),
-    isNaN(
-        msie
-    ) &&
-      (msie = int(
-          (/trident\/.*; rv:(\d+)/.exec(
-              lowercase(
-                  navigator.userAgent
-              )
-          ) || [])[1],
-      ));
+        ) || [])[1],
+    ));
     function isArrayLike(
         obj
     ) {
@@ -432,14 +431,12 @@
         ? function (
             element
         ) {
-            return (
-                (element = element.nodeName ? element : element[0]),
-                element.scopeName && "HTML" != element.scopeName
-                    ? uppercase(
-                        element.scopeName + ":" + element.nodeName
-                    )
-                    : element.nodeName
-            );
+            return (element = element.nodeName ? element : element[0])
+                .scopeName && "HTML" != element.scopeName
+                ? uppercase(
+                    element.scopeName + ":" + element.nodeName
+                )
+                : element.nodeName;
         }
         : function (
             element
@@ -1787,13 +1784,13 @@
                 function (
                     cssClass
                 ) {
-                    (cssClass = trim(
-                        cssClass
-                    )),
-                    -1 === existingClasses.indexOf(
-                        " " + cssClass + " "
-                    ) &&
-            (existingClasses += cssClass + " ");
+                    -1 ===
+          existingClasses.indexOf(
+              " " + (cssClass = trim(
+                  cssClass
+              )) + " "
+          ) &&
+          (existingClasses += cssClass + " ");
                 }
             ),
             element.setAttribute(
@@ -1832,12 +1829,12 @@
     function jqLiteInheritedData(
         element, name, value
     ) {
-        (element = jqLite(
+        9 == (element = jqLite(
             element
-        )),
-        9 == element[0].nodeType && (element = element.find(
-            "html"
-        ));
+        ))[0].nodeType &&
+      (element = element.find(
+          "html"
+      ));
         for (var names = isArray(
             name
         )
@@ -2025,8 +2022,9 @@
                     var val;
                     return (
                         msie <= 8 &&
-              ((val = element.currentStyle && element.currentStyle[name]),
-              "" === val && (val = "auto")),
+              "" ===
+                (val = element.currentStyle && element.currentStyle[name]) &&
+              (val = "auto"),
                         (val = val || element.style[name]),
                         msie <= 8 && (val = "" === val ? void 0 : val),
                         val
@@ -2596,17 +2594,17 @@
                     isUndefined(
                         value
                     )
-                        ? ((value = fn(
-                            this[i],
-                            arg1,
-                            arg2,
-                            arg3
-                        )),
-                        isDefined(
-                            value
-                        ) && (value = jqLite(
-                            value
-                        )))
+                        ? isDefined(
+                            (value = fn(
+                                this[i],
+                                arg1,
+                                arg2,
+                                arg3
+                            ))
+                        ) &&
+              (value = jqLite(
+                  value
+              ))
                         : jqLiteAddNodes(
                             value,
                             fn(
@@ -2722,8 +2720,9 @@
                 : isArray(
                     fn
                 )
-                    ? (assertArgFn(
-                        fn[(last = fn.length - 1)],
+                    ? ((last = fn.length - 1),
+                    assertArgFn(
+                        fn[last],
                         "fn"
                     ),
                     ($inject = fn.slice(
@@ -3105,14 +3104,13 @@
                             ? Type[Type.length - 1]
                             : Type
                         ).prototype),
-                        (returnedValue = invoke(
-                            Type,
-                            (instance = new Constructor(
-                            )),
-                            locals,
-                        )),
                         isObject(
-                            returnedValue
+                            (returnedValue = invoke(
+                                Type,
+                                (instance = new Constructor(
+                                )),
+                                locals,
+                            )),
                         ) || isFunction(
                             returnedValue
                         )
@@ -3588,22 +3586,21 @@
                     : isString(
                         value
                     ) &&
-            ((cookieLength =
+            (cookieLength =
               (rawDocument.cookie =
                 escape(
                     name
                 ) + "=" + escape(
                     value
                 ) + ";path=" + cookiePath)
-                  .length + 1),
-            cookieLength > 4096 &&
-              $log.warn(
-                  "Cookie '" +
-                  name +
-                  "' possibly not set or overflowed because it was too large (" +
-                  cookieLength +
-                  " > 4096 bytes)!",
-              ));
+                  .length + 1) > 4096 &&
+            $log.warn(
+                "Cookie '" +
+                name +
+                "' possibly not set or overflowed because it was too large (" +
+                cookieLength +
+                " > 4096 bytes)!",
+            );
             else {
                 if (rawDocument.cookie !== lastCookieString)
                     for (
@@ -3618,20 +3615,19 @@
                     )
                         (index = (cookie = cookieArray[i]).indexOf(
                             "="
-                        )),
-                        index > 0 &&
-                ((name = unescape(
+                        )) > 0 &&
+              void 0 ===
+                lastCookies[(name = unescape(
                     cookie.substring(
                         0,
                         index
                     )
-                )),
-                void 0 === lastCookies[name] &&
-                  (lastCookies[name] = unescape(
-                      cookie.substring(
-                          index + 1
-                      )
-                  )));
+                ))] &&
+              (lastCookies[name] = unescape(
+                  cookie.substring(
+                      index + 1
+                  )
+              ));
                 return lastCookies;
             }
         }),
@@ -3641,17 +3637,16 @@
             var timeoutId;
             return (
                 outstandingRequestCount++,
-                (pendingDeferIds[
-                    (timeoutId = setTimeout(
-                        function (
-                        ) {
-                            delete pendingDeferIds[timeoutId], completeOutstandingRequest(
-                                fn
-                            );
-                        },
-                        delay || 0
-                    ))
-                ] = !0),
+                (timeoutId = setTimeout(
+                    function (
+                    ) {
+                        delete pendingDeferIds[timeoutId], completeOutstandingRequest(
+                            fn
+                        );
+                    },
+                    delay || 0
+                )),
+                (pendingDeferIds[timeoutId] = !0),
                 timeoutId
             );
         }),
@@ -4071,16 +4066,15 @@
                         (this[key] = value),
                         attrName
                             ? (this.$attr[key] = attrName)
-                            : ((attrName = this.$attr[key]),
-                            attrName ||
-                      (this.$attr[key] = attrName = snake_case(
-                          key,
-                          "-"
-                      ))),
-                        (nodeName = nodeName_(
+                            : (attrName = this.$attr[key]) ||
+                    (this.$attr[key] = attrName = snake_case(
+                        key,
+                        "-"
+                    )),
+                        (("A" === (nodeName = nodeName_(
                             this.$$element
-                        )),
-                        (("A" === nodeName && "href" === key) ||
+                        )) &&
+                  "href" === key) ||
                   ("IMG" === nodeName && "src" === key)) &&
                   (this[key] = value = $$sanitizeUri(
                       value,
@@ -4447,18 +4441,16 @@
                             var attrStartName = !1,
                                 attrEndName = !1;
                             (msie && !(msie >= 8) && !(attr = nAttrs[j]).specified) ||
-                    ((ngAttrName = directiveNormalize(
-                        (name = attr.name)
+                    (NG_ATTR_BINDING.test(
+                        (ngAttrName = directiveNormalize(
+                            (name = attr.name)
+                        )),
+                    ) && (name = snake_case(
+                        ngAttrName.substr(
+                            6
+                        ),
+                        "-"
                     )),
-                    NG_ATTR_BINDING.test(
-                        ngAttrName
-                    ) &&
-                      (name = snake_case(
-                          ngAttrName.substr(
-                              6
-                          ),
-                          "-"
-                      )),
                     ngAttrName ===
                       ngAttrName.replace(
                           /(Start|End)$/,
@@ -4473,12 +4465,11 @@
                           0,
                           name.length - 6
                       ))),
-                    (attrsMap[
-                        (nName = directiveNormalize(
-                            name.toLowerCase(
-                            )
-                        ))
-                    ] = name),
+                    (nName = directiveNormalize(
+                        name.toLowerCase(
+                        )
+                    )),
+                    (attrsMap[nName] = name),
                     (attrs[nName] = value = trim(
                         msie && "href" == name
                             ? decodeURIComponent(
@@ -4509,21 +4500,17 @@
                         attrEndName,
                     ));
                         }
-                        if (
-                            ((className = node.className),
-                            isString(
-                                className
-                            ) && "" !== className)
-                        )
+                        if (isString(
+                            (className = node.className)
+                        ) && "" !== className)
                             for (; (match = CLASS_DIRECTIVE_REGEXP.exec(
                                 className
                             )); )
-                                (nName = directiveNormalize(
-                                    match[2]
-                                )),
                                 addDirective(
                                     directives,
-                                    nName,
+                                    (nName = directiveNormalize(
+                                        match[2]
+                                    )),
                                     "C",
                                     maxPriority,
                                     ignoreDirective,
@@ -4544,20 +4531,19 @@
                         try {
                             (match = COMMENT_DIRECTIVE_REGEXP.exec(
                                 node.nodeValue
-                            )),
-                            match &&
-                      ((nName = directiveNormalize(
-                          match[1]
-                      )),
-                      addDirective(
-                          directives,
-                          nName,
-                          "M",
-                          maxPriority,
-                          ignoreDirective,
-                      ) && (attrs[nName] = trim(
-                          match[2]
-                      )));
+                            )) &&
+                    addDirective(
+                        directives,
+                        (nName = directiveNormalize(
+                            match[1]
+                        )),
+                        "M",
+                        maxPriority,
+                        ignoreDirective,
+                    ) &&
+                    (attrs[nName] = trim(
+                        match[2]
+                    ));
                         } catch (e) {}
                         break;
                     }
@@ -4717,6 +4703,15 @@
                           attrStart,
                           attrEnd
                       )),
+                      (compileNode = ($compileNode = templateAttrs.$$element = jqLite(
+                          document.createComment(
+                              " " +
+                            directiveName +
+                            ": " +
+                            templateAttrs[directiveName] +
+                            " ",
+                          ),
+                      ))[0]),
                       replaceWith(
                           jqCollection,
                           jqLite(
@@ -4724,15 +4719,7 @@
                                   $template
                               )
                           ),
-                          (compileNode = ($compileNode = templateAttrs.$$element = jqLite(
-                              document.createComment(
-                                  " " +
-                              directiveName +
-                              ": " +
-                              templateAttrs[directiveName] +
-                              " ",
-                              ),
-                          ))[0]),
+                          compileNode,
                       ),
                       (childTranscludeFn = compile(
                           $template,
@@ -4780,14 +4767,13 @@
                             ) {
                                 if (
                                     ((replaceDirective = directive),
-                                    1 != $template.length ||
-                      1 !==
-                        (compileNode = ($template = jqLite(
-                            "<div>" + trim(
-                                directiveValue
-                            ) + "</div>",
-                        ).contents(
-                        ))[0]).nodeType)
+                                    (compileNode = ($template = jqLite(
+                                        "<div>" + trim(
+                                            directiveValue
+                                        ) + "</div>",
+                                    ).contents(
+                                    ))[0]),
+                                    1 != $template.length || 1 !== compileNode.nodeType)
                                 )
                                     throw $compileMinErr(
                                         "tplrt",
@@ -5201,9 +5187,8 @@
                           boundTranscludeFn && controllersBoundTransclude),
                               },
                               controllerInstance;
-                          (controller = directive1.controller),
-                          "@" == controller &&
-                        (controller = attrs[directive1.name]),
+                          "@" == (controller = directive1.controller) &&
+                      (controller = attrs[directive1.name]),
                           (elementControllers[
                               directive1.name
                           ] = controllerInstance = $controller(
@@ -5341,24 +5326,23 @@
                             i++
                         )
                             try {
-                                (directive = directives[i]),
                                 (void 0 === maxPriority ||
-                      maxPriority > directive.priority) &&
-                      -1 != directive.restrict.indexOf(
-                          location
-                      ) &&
-                      (startAttrName &&
-                        (directive = inherit(
-                            directive,
-                            {
-                                $$start: startAttrName,
-                                $$end: endAttrName,
-                            }
-                        )),
-                      tDirectives.push(
-                          directive
-                      ),
-                      (match = directive));
+                    maxPriority > (directive = directives[i]).priority) &&
+                    -1 != directive.restrict.indexOf(
+                        location
+                    ) &&
+                    (startAttrName &&
+                      (directive = inherit(
+                          directive,
+                          {
+                              $$start: startAttrName,
+                              $$end: endAttrName,
+                          }
+                      )),
+                    tDirectives.push(
+                        directive
+                    ),
+                    (match = directive));
                             } catch (e) {
                                 $exceptionHandler(
                                     e
@@ -5470,7 +5454,10 @@
                                 function (
                                     content
                                 ) {
-                                    var compileNode, tempTemplateAttrs, $template;
+                                    var compileNode,
+                                        tempTemplateAttrs,
+                                        $template,
+                                        childBoundTranscludeFn;
                                     if (
                                         ((content = denormalizeTemplate(
                                             content
@@ -5478,14 +5465,13 @@
                                         origAsyncDirective.replace)
                                     ) {
                                         if (
-                                            1 != $template.length ||
-                      1 !==
-                        (compileNode = ($template = jqLite(
-                            "<div>" + trim(
-                                content
-                            ) + "</div>",
-                        ).contents(
-                        ))[0]).nodeType
+                                            ((compileNode = ($template = jqLite(
+                                                "<div>" + trim(
+                                                    content
+                                                ) + "</div>",
+                                            ).contents(
+                                            ))[0]),
+                                            1 != $template.length || 1 !== compileNode.nodeType)
                                         )
                                             throw $compileMinErr(
                                                 "tplrt",
@@ -5573,17 +5559,18 @@
                               compileNode
                           )),
                       ),
+                                        (childBoundTranscludeFn = afterTemplateNodeLinkFn.transclude
+                                            ? createBoundTranscludeFn(
+                                                scope,
+                                                afterTemplateNodeLinkFn.transclude,
+                                            )
+                                            : boundTranscludeFn),
                                         afterTemplateNodeLinkFn(
                                             afterTemplateChildLinkFn,
                                             scope,
                                             linkNode,
                                             $rootElement,
-                                            afterTemplateNodeLinkFn.transclude
-                                                ? createBoundTranscludeFn(
-                                                    scope,
-                                                    afterTemplateNodeLinkFn.transclude,
-                                                )
-                                                : boundTranscludeFn,
+                                            childBoundTranscludeFn,
                                         );
                                     }
                                     linkQueue = null;
@@ -5762,34 +5749,33 @@
                                                     node,
                                                     name
                                                 ),
-                                            )),
-                                            interpolateFn &&
-                          ((attr[name] = interpolateFn(
-                              scope
-                          )),
-                          ((
-                              $$observers[name] || ($$observers[name] = [])
-                          ).$$inter = !0),
-                          (
-                              (attr.$$observers &&
-                              attr.$$observers[name].$$scope) ||
+                                            )) &&
+                        ((attr[name] = interpolateFn(
                             scope
-                          ).$watch(
-                              interpolateFn,
-                              function (
-                                  newValue, oldValue
-                              ) {
-                                  "class" === name && newValue != oldValue
-                                      ? attr.$updateClass(
-                                          newValue,
-                                          oldValue
-                                      )
-                                      : attr.$set(
-                                          name,
-                                          newValue
-                                      );
-                              },
-                          ));
+                        )),
+                        ((
+                            $$observers[name] || ($$observers[name] = [])
+                        ).$$inter = !0),
+                        (
+                            (attr.$$observers &&
+                            attr.$$observers[name].$$scope) ||
+                          scope
+                        ).$watch(
+                            interpolateFn,
+                            function (
+                                newValue, oldValue
+                            ) {
+                                "class" === name && newValue != oldValue
+                                    ? attr.$updateClass(
+                                        newValue,
+                                        oldValue
+                                    )
+                                    : attr.$set(
+                                        name,
+                                        newValue
+                                    );
+                            }
+                        ));
                                         },
                                     };
                                 },
@@ -5930,23 +5916,24 @@
                     CNTRL_REG
                 ))[1]),
                 (identifier = match[3]),
+                (expression = controllers.hasOwnProperty(
+                    constructor
+                )
+                    ? controllers[constructor]
+                    : getter(
+                        locals.$scope,
+                        constructor,
+                        !0
+                    ) ||
+                    getter(
+                        $window,
+                        constructor,
+                        !0
+                    )),
                 assertArgFn(
-                    (expression = controllers.hasOwnProperty(
-                        constructor
-                    )
-                        ? controllers[constructor]
-                        : getter(
-                            locals.$scope,
-                            constructor,
-                            !0
-                        ) ||
-                      getter(
-                          $window,
-                          constructor,
-                          !0
-                      )),
+                    expression,
                     constructor,
-                    !0,
+                    !0
                 )),
                         (instance = $injector.instantiate(
                             expression,
@@ -6018,13 +6005,14 @@
             function (
                 line
             ) {
+                (i = line.indexOf(
+                    ":"
+                )),
                 (key = lowercase(
                     trim(
                         line.substr(
-                            0, (
-                                i = line.indexOf(
-                                    ":"
-                                ))
+                            0,
+                            i
                         )
                     )
                 )),
@@ -6105,19 +6093,18 @@
                             isString(
                                 data
                             ) &&
-                ((data = data.replace(
-                    PROTECTION_PREFIX,
-                    ""
-                )),
                 JSON_START.test(
+                    (data = data.replace(
+                        PROTECTION_PREFIX,
+                        ""
+                    ))
+                ) &&
+                JSON_END.test(
                     data
                 ) &&
-                  JSON_END.test(
-                      data
-                  ) &&
-                  (data = fromJson(
-                      data
-                  ))),
+                (data = fromJson(
+                    data
+                )),
                             data
                         );
                     },
@@ -6261,10 +6248,11 @@
                             function (
                                 config1
                             ) {
+                                headers = config1.headers;
                                 var reqData = transformData(
                                     config1.data,
                                     headersGetter(
-                                        (headers = config1.headers)
+                                        headers
                                     ),
                                     config1.transformRequest,
                                 );
@@ -7041,15 +7029,15 @@
                         ((part = part(
                             context
                         )),
-                        (part = trustedContext
-                            ? $sce.getTrusted(
-                                trustedContext,
-                                part
-                            )
-                            : $sce.valueOf(
-                                part
-                            )),
-                        null === part || isUndefined(
+                        null ===
+                          (part = trustedContext
+                              ? $sce.getTrusted(
+                                  trustedContext,
+                                  part
+                              )
+                              : $sce.valueOf(
+                                  part
+                              )) || isUndefined(
                             part
                         )
                             ? (part = "")
@@ -8575,14 +8563,15 @@
 
             ) {
                 if (
-                    ((ch = this.text.charAt(
+                    "." === (ch = this.text.charAt(
                         this.index
-                    )),
-                    "." === ch || this.isIdent(
-                        ch
-                    ) || this.isNumber(
-                        ch
-                    ))
+                    )) ||
+          this.isIdent(
+              ch
+          ) ||
+          this.isNumber(
+              ch
+          )
                 )
                     "." === ch && (lastDot = this.index), (ident += ch);
                 else break;
@@ -9323,8 +9312,7 @@
                             ? ((v = ensureSafeObject(
                                 o[i],
                                 parser.text
-                            )),
-                            v &&
+                            )) &&
                     v.then &&
                     parser.options.unwrapPromises &&
                     ((p = v),
@@ -9538,8 +9526,7 @@
         ))];
             propertyObj || (obj[key] = propertyObj = {
             }),
-            (obj = propertyObj),
-            obj.then &&
+            (obj = propertyObj).then &&
           options.unwrapPromises &&
           (promiseWarning(
               fullExp
@@ -9604,8 +9591,7 @@
                         promise;
                     return (
                         null == pathVal ||
-                ((pathVal = pathVal[key0]),
-                pathVal &&
+                ((pathVal = pathVal[key0]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9622,8 +9608,7 @@
                     )),
                   (pathVal = pathVal.$$v)),
                 !key1 || null == pathVal) ||
-                ((pathVal = pathVal[key1]),
-                pathVal &&
+                ((pathVal = pathVal[key1]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9640,8 +9625,7 @@
                     )),
                   (pathVal = pathVal.$$v)),
                 !key2 || null == pathVal) ||
-                ((pathVal = pathVal[key2]),
-                pathVal &&
+                ((pathVal = pathVal[key2]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9658,8 +9642,7 @@
                     )),
                   (pathVal = pathVal.$$v)),
                 !key3 || null == pathVal) ||
-                ((pathVal = pathVal[key3]),
-                pathVal &&
+                ((pathVal = pathVal[key3]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9676,8 +9659,7 @@
                     )),
                   (pathVal = pathVal.$$v)),
                 !key4 || null == pathVal) ||
-                ((pathVal = pathVal[key4]),
-                pathVal &&
+                ((pathVal = pathVal[key4]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -9876,15 +9858,15 @@
                                 exp
                             )) return cache[exp];
                             return (
-                                "hasOwnProperty" !== exp &&
-                      (cache[exp] = parsedExpression = new Parser(
-                          lexer,
-                          $filter,
-                          $parseOptions,
-                      ).parse(
-                          exp,
-                          !1
-                      )),
+                                (parsedExpression = new Parser(
+                                    lexer,
+                                    $filter,
+                                    $parseOptions,
+                                ).parse(
+                                    exp,
+                                    !1
+                                )),
+                                "hasOwnProperty" !== exp && (cache[exp] = parsedExpression),
                                 parsedExpression
                             );
                         case "function":
@@ -10551,8 +10533,7 @@
                         ((oldValue = internalArray),
                         (oldLength = oldValue.length = 0),
                         changeDetected++),
-                                        (newLength = newValue.length),
-                                        oldLength !== newLength &&
+                                        oldLength !== (newLength = newValue.length) &&
                           (changeDetected++,
                           (oldValue.length = oldLength = newLength));
                                         for (var i = 0; i < newLength; i++)
@@ -10678,8 +10659,8 @@
                                                         current,
                                                     ),
                                                     ttl < 5 &&
-                                ((logIdx = 4 - ttl),
-                                watchLog[logIdx] || (watchLog[logIdx] = []),
+                                (watchLog[(logIdx = 4 - ttl)] ||
+                                  (watchLog[logIdx] = []),
                                 (logMsg = isFunction(
                                     watch.exp
                                 )
@@ -11035,15 +11016,14 @@
             ) {
                 var normalizedVal;
                 return (msie && !(msie >= 8)) ||
-            ((normalizedVal = urlResolve(
+            "" === (normalizedVal = urlResolve(
                 uri
-            ).href),
-            "" === normalizedVal ||
-              normalizedVal.match(
-                  isImage
-                      ? imgSrcSanitizationWhitelist
-                      : aHrefSanitizationWhitelist,
-              ))
+            ).href) ||
+            normalizedVal.match(
+                isImage
+                    ? imgSrcSanitizationWhitelist
+                    : aHrefSanitizationWhitelist,
+            )
                     ? uri
                     : "unsafe:" + normalizedVal;
             };
@@ -11501,12 +11481,12 @@
                         "transition" in bodyStyle ||
               vendorPrefix + "Transition" in bodyStyle
                     )),
-                    (animations = !!(
-                        "animation" in bodyStyle ||
-              vendorPrefix + "Animation" in bodyStyle
-                    )),
                     android &&
-              (!transitions || !animations) &&
+              (!transitions ||
+                !(animations = !!(
+                    "animation" in bodyStyle ||
+                  vendorPrefix + "Animation" in bodyStyle
+                ))) &&
               ((transitions = isString(
                   document1.body.style.webkitTransition
               )),
@@ -11572,7 +11552,7 @@
                         ) && !invokeApply,
                         timeoutId;
                     return (
-                        (promise.$$timeoutId = timeoutId = $browser.defer(
+                        (timeoutId = $browser.defer(
                             function (
                             ) {
                                 try {
@@ -11594,6 +11574,7 @@
                             },
                             delay
                         )),
+                        (promise.$$timeoutId = timeoutId),
                         (deferreds[timeoutId] = deferred),
                         promise
                     );
@@ -14618,17 +14599,16 @@
                                     index++
                                 )
                                     if (
-                                        (assertNotHasOwnProperty(
+                                        ((key =
+                    collection === collectionKeys
+                        ? index
+                        : collectionKeys[index]),
+                                        (value = collection[key]),
+                                        assertNotHasOwnProperty(
                                             (trackById = trackByIdFn(
                                                 key,
-                                                (value =
-                        collection[
-                            (key =
-                            collection === collectionKeys
-                                ? index
-                                : collectionKeys[index])
-                        ]),
-                                                index,
+                                                value,
+                                                index
                                             )),
                                             "`track by` id",
                                         ),
@@ -14689,13 +14669,11 @@
                                     index++
                                 ) {
                                     if (
-                                        ((value =
-                    collection[
-                        (key =
-                        collection === collectionKeys
-                            ? index
-                            : collectionKeys[index])
-                    ]),
+                                        ((key =
+                    collection === collectionKeys
+                        ? index
+                        : collectionKeys[index]),
+                                        (value = collection[key]),
                                         (block = nextBlockOrder[index]),
                                         nextBlockOrder[index - 1] &&
                     (previousNode = getBlockEnd(
@@ -15567,16 +15545,18 @@
                                         if (
                                             ((key = index),
                                             keyName &&
-                        ((key = keys[index]),
-                        "$" !== key.charAt(
+                        "$" !== (key = keys[index]).charAt(
                             0
-                        ) && (locals[keyName] = key)),
+                        ) &&
+                        (locals[keyName] = key),
                                             (locals[valueName] = values[key]),
-                                            (optionGroupName = groupByFn(
-                                                scope1,
-                                                locals
-                                            ) || ""),
-                                            (optionGroup = optionGroups[optionGroupName]) ||
+                                            (optionGroup =
+                        optionGroups[
+                            (optionGroupName = groupByFn(
+                                scope1,
+                                locals
+                            ) || "")
+                        ]) ||
                         ((optionGroup = optionGroups[optionGroupName] = []),
                         optionGroupNames.push(
                             optionGroupName
@@ -15685,13 +15665,13 @@
                                                 selectElement.append(
                                                     existingParent.element
                                                 ))
-                                                : ((existingParent = (existingOptions =
-                              optionGroupsCache[groupIndex])[0]),
-                                                existingParent.label != optionGroupName &&
-                              existingParent.element.attr(
-                                  "label",
-                                  (existingParent.label = optionGroupName),
-                              )),
+                                                : (existingParent = (existingOptions =
+                              optionGroupsCache[groupIndex])[0]).label !=
+                              optionGroupName &&
+                            existingParent.element.attr(
+                                "label",
+                                (existingParent.label = optionGroupName),
+                            ),
                                             lastElement = null,
                                             index = 0,
                                             length = optionGroup.length;
@@ -15700,8 +15680,9 @@
                                         )
                                             (option = optionGroup[index]),
                                             (existingOption = existingOptions[index + 1])
-                                                ? (existingOption.label !== option.label &&
-                              (lastElement = existingOption.element).text(
+                                                ? ((lastElement = existingOption.element),
+                                                existingOption.label !== option.label &&
+                              lastElement.text(
                                   (existingOption.label = option.label),
                               ),
                                                 existingOption.id !== option.id &&

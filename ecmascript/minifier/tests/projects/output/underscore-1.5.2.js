@@ -514,9 +514,10 @@
                 function (
                     value
                 ) {
-                    (shuffled[index - 1] = shuffled[(rand = _.random(
+                    (rand = _.random(
                         index++
-                    ))]),
+                    )),
+                    (shuffled[index - 1] = shuffled[rand]),
                     (shuffled[rand] = value);
                 }
             ),
@@ -1244,12 +1245,12 @@
         var timeout, args, context, timestamp, result;
         return function (
         ) {
-            (context = this), (args = arguments);
+            (context = this), (args = arguments), (timestamp = new Date(
+            ));
             var later = function (
                 ) {
                     var last = new Date(
-                    ) - (timestamp = new Date(
-                    ));
+                    ) - timestamp;
                     last < wait
                         ? (timeout = setTimeout(
                             later,

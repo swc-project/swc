@@ -70,14 +70,14 @@
                 );
                 if (enumerables)
                     for (var i = enumerables.length; i--; )
-                        (k = enumerables[i]),
                         a.hasOwnProperty(
-                            k
-                        ) && self.call(
-                            this,
-                            k,
-                            a[k]
-                        );
+                            (k = enumerables[i])
+                        ) &&
+                self.call(
+                    this,
+                    k,
+                    a[k]
+                );
             } else self.call(
                 this,
                 a,
@@ -3689,15 +3689,14 @@ function (
 
                             )
                                 if (
-                                    ((className = node.className),
-                                    className &&
-                      new RegExp(
-                          "(^|\\s)" + Slick.escapeRegExp(
-                              name
-                          ) + "(\\s|$)",
-                      ).test(
-                          className
-                      ))
+                                    (className = node.className) &&
+                    new RegExp(
+                        "(^|\\s)" + Slick.escapeRegExp(
+                            name
+                        ) + "(\\s|$)",
+                    ).test(
+                        className
+                    )
                                 ) {
                                     if (first) return node;
                                     (hasOthers && uniques[this.getUID(
@@ -3991,9 +3990,9 @@ function (
                   )] = count++);
                     while ((el = el[sibling]));
             }
-            argument = argument || "n";
             var parsed =
-            this.cacheNTH[argument] || this.parseNTHArgument(
+            this.cacheNTH[(argument = argument || "n")] ||
+            this.parseNTHArgument(
                 argument
             );
             if (!parsed) return !1;
@@ -4176,16 +4175,15 @@ function (
             if (this.isHTMLDocument) {
                 getById: if (id) {
                     if (
-                        ((item = this.document.getElementById(
+                        ((!(item = this.document.getElementById(
                             id
-                        )),
-                        ((!item && node.all) ||
+                        )) && node.all) ||
                 (this.idGetsName &&
                   item &&
                   item.getAttributeNode(
                       "id"
                   ).nodeValue != id)) &&
-                (children = node.all[id]))
+              (children = node.all[id])
                     ) {
                         for (
                             children[0] || (children = [children,]), i = 0;
@@ -4313,25 +4311,24 @@ function (
         "^": function (
             node, tag, id, classes, attributes, pseudos
         ) {
-            (node = node.firstChild),
-            node &&
-            (1 == node.nodeType
-                ? this.push(
-                    node,
-                    tag,
-                    id,
-                    classes,
-                    attributes,
-                    pseudos
-                )
-                : this["combinator:+"](
-                    node,
-                    tag,
-                    id,
-                    classes,
-                    attributes,
-                    pseudos,
-                ));
+            (node = node.firstChild) &&
+          (1 == node.nodeType
+              ? this.push(
+                  node,
+                  tag,
+                  id,
+                  classes,
+                  attributes,
+                  pseudos
+              )
+              : this["combinator:+"](
+                  node,
+                  tag,
+                  id,
+                  classes,
+                  attributes,
+                  pseudos,
+              ));
         },
         "~": function (
             node, tag, id, classes, attributes, pseudos
@@ -4410,16 +4407,15 @@ function (
         "!>": function (
             node, tag, id, classes, attributes, pseudos
         ) {
-            (node = node.parentNode),
-            node !== this.document &&
-            this.push(
-                node,
-                tag,
-                id,
-                classes,
-                attributes,
-                pseudos
-            );
+            (node = node.parentNode) !== this.document &&
+          this.push(
+              node,
+              tag,
+              id,
+              classes,
+              attributes,
+              pseudos
+          );
         },
         "!+": function (
             node, tag, id, classes, attributes, pseudos
@@ -4440,25 +4436,24 @@ function (
         "!^": function (
             node, tag, id, classes, attributes, pseudos
         ) {
-            (node = node.lastChild),
-            node &&
-            (1 == node.nodeType
-                ? this.push(
-                    node,
-                    tag,
-                    id,
-                    classes,
-                    attributes,
-                    pseudos
-                )
-                : this["combinator:!+"](
-                    node,
-                    tag,
-                    id,
-                    classes,
-                    attributes,
-                    pseudos,
-                ));
+            (node = node.lastChild) &&
+          (1 == node.nodeType
+              ? this.push(
+                  node,
+                  tag,
+                  id,
+                  classes,
+                  attributes,
+                  pseudos
+              )
+              : this["combinator:!+"](
+                  node,
+                  tag,
+                  id,
+                  classes,
+                  attributes,
+                  pseudos,
+              ));
         },
         "!~": function (
             node, tag, id, classes, attributes, pseudos
@@ -4847,11 +4842,10 @@ var Element1 = function (
         var attributes = parsed.attributes;
         if (attributes)
             for (var attr, i = 0, l = attributes.length; i < l; i++)
-                (attr = attributes[i]),
-                null == props[attr.key] &&
-            (null != attr.value && "=" == attr.operator
-                ? (props[attr.key] = attr.value)
-                : attr.value || attr.operator || (props[attr.key] = !0));
+                null == props[(attr = attributes[i]).key] &&
+          (null != attr.value && "=" == attr.operator
+              ? (props[attr.key] = attr.value)
+              : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList &&
       null == props.class &&
       (props.class = parsed.classList.join(
@@ -7871,7 +7865,7 @@ Elements.alias(
                 }
                 if (fn)
                     for (__uid in stored)
-                        if (((s = stored[__uid]), s.match == match && s.fn == fn))
+                        if ((s = stored[__uid]).match == match && s.fn == fn)
                             return delegation.removeEvent.call(
                                 this,
                                 type,
@@ -7881,15 +7875,14 @@ Elements.alias(
                             );
                         else
                             for (__uid in stored)
-                                (s = stored[__uid]),
-                                s.match == match &&
-                      delegation.removeEvent.call(
-                          this,
-                          type,
-                          match,
-                          s.fn,
-                          __uid,
-                      );
+                                (s = stored[__uid]).match == match &&
+                    delegation.removeEvent.call(
+                        this,
+                        type,
+                        match,
+                        s.fn,
+                        __uid
+                    );
                 return this;
             },
         };

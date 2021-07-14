@@ -96,14 +96,13 @@
                     if ((events = this._events[(name = names[i])])) {
                         if (((this._events[name] = retain = []), callback || context))
                             for (j = 0, k = events.length; j < k; j++)
-                                (ev = events[j]),
                                 ((callback &&
-                    callback !== ev.callback &&
-                    callback !== ev.callback._callback) ||
-                    (context && context !== ev.context)) &&
-                    retain.push(
-                        ev
-                    );
+                  callback !== (ev = events[j]).callback &&
+                  callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) &&
+                  retain.push(
+                      ev
+                  );
                         retain.length || delete this._events[name];
                     }
                 return this;
@@ -384,13 +383,13 @@
                 this._previousAttributes,
                 this.idAttribute in attrs && (this.id = attrs[this.idAttribute]),
                 attrs))
+                    (val = attrs[attr]),
                     _.isEqual(
-                        this.attributes[attr], (
-                            val = attrs[attr])
-                    ) ||
-          changes.push(
-              attr
-          ),
+                        this.attributes[attr],
+                        val
+                    ) || changes.push(
+                        attr
+                    ),
                     _.isEqual(
                         this._previousAttributes[attr],
                         val
@@ -499,13 +498,13 @@
             fetch: function (
                 options
             ) {
-                (options = options
+                void 0 === (options = options
                     ? _.clone(
                         options
                     )
                     : {
-                    }),
-                void 0 === options.parse && (options.parse = !0);
+                    }).parse &&
+        (options.parse = !0);
                 var model = this,
                     success = options.success;
                 return (
@@ -931,11 +930,11 @@
                     },
                     options,
                     setOptions
-                )),
-                options.parse && (models = this.parse(
-                    models,
-                    options
-                ));
+                )).parse &&
+        (models = this.parse(
+            models,
+            options
+        ));
                 var singular = !_.isArray(
                     models
                 );
@@ -985,21 +984,20 @@
                   (sort = !0)),
                         (models[i] = existing))
                         : add &&
-              ((model = models[i] = this._prepareModel(
+              (model = models[i] = this._prepareModel(
                   attrs,
                   options
-              )),
-              model &&
-                (toAdd.push(
-                    model
-                ),
-                model.on(
-                    "all",
-                    this._onModelEvent,
-                    this
-                ),
-                (this._byId[model.cid] = model),
-                null != model.id && (this._byId[model.id] = model))),
+              )) &&
+              (toAdd.push(
+                  model
+              ),
+              model.on(
+                  "all",
+                  this._onModelEvent,
+                  this
+              ),
+              (this._byId[model.cid] = model),
+              null != model.id && (this._byId[model.id] = model)),
                     order && order.push(
                         existing || model
                     );
@@ -1225,13 +1223,13 @@
             fetch: function (
                 options
             ) {
-                (options = options
+                void 0 === (options = options
                     ? _.clone(
                         options
                     )
                     : {
-                    }),
-                void 0 === options.parse && (options.parse = !0);
+                    }).parse &&
+        (options.parse = !0);
                 var success = options.success,
                     collection = this;
                 return (
@@ -2189,22 +2187,23 @@
     ) {
         var parent = this,
             child;
+        (child =
+        protoProps && _.has(
+            protoProps,
+            "constructor"
+        )
+            ? protoProps.constructor
+            : function (
+            ) {
+                return parent.apply(
+                    this,
+                    arguments
+                );
+            }),
         _.extend(
-            (child =
-          protoProps && _.has(
-              protoProps,
-              "constructor"
-          )
-              ? protoProps.constructor
-              : function (
-              ) {
-                  return parent.apply(
-                      this,
-                      arguments
-                  );
-              }),
+            child,
             parent,
-            staticProps,
+            staticProps
         );
         var Surrogate = function (
         ) {
