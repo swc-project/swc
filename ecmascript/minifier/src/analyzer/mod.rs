@@ -38,6 +38,9 @@ where
 
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
+    /// The syntax context of the declaring scope.
+    pub declarator: Option<SyntaxContext>,
+
     /// The number of reference to this identifier.
     pub ref_count: usize,
 
