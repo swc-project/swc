@@ -77,7 +77,6 @@ impl VisitMut for Optimizer {
             hygiene: Default::default(),
             top_level_mark: self.top_level_mark,
             cur_scope: None,
-            cur_scope_data: Default::default(),
         };
         n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         self.hygiene = analyzer.hygiene;

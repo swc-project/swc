@@ -15,7 +15,6 @@ pub(super) struct HygieneAnalyzer<'a> {
     pub hygiene: HygieneData,
     pub top_level_mark: Mark,
     pub cur_scope: Option<SyntaxContext>,
-    pub cur_scope_data: HygieneScopeData,
 }
 
 #[derive(Debug, Default)]
@@ -24,11 +23,6 @@ pub(super) struct HygieneData {
     pub preserved: FxHashSet<Id>,
 
     pub modified: FxHashSet<Id>,
-}
-
-#[derive(Debug, Default)]
-pub(super) struct HygieneScopeData {
-    used: FxHashMap<JsWord, FxHashSet<SyntaxContext>>,
 }
 
 impl HygieneAnalyzer<'_> {
@@ -43,21 +37,12 @@ impl HygieneAnalyzer<'_> {
     where
         F: FnOnce(&mut HygieneAnalyzer) -> Ret,
     {
-        let old_scope_data = take(&mut self.cur_scope_data);
         let old = self.cur_scope;
         self.cur_scope = Some(scope_ctxt);
 
         let ret = op(self);
 
         self.cur_scope = old;
-        let scope_data = replace(&mut self.cur_scope_data, old_scope_data);
-
-        for (sym, ctxts) in &scope_data.used {
-            if ctxts.len() == 1 {
-                let id = (sym.clone(), *ctxts.iter().next().unwrap());
-                if let Some(usage) = self.data.vars.get(&id) {}
-            }
-        }
 
         ret
     }
