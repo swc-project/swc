@@ -547,10 +547,19 @@ impl Optimizer<'_> {
         match b {
             Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
 
-            Expr::Bin(BinExpr { left, .. }) => {
+            Expr::Bin(BinExpr {
+                op, left, right, ..
+            }) => {
                 if self.merge_sequential_expr(a, &mut **left) {
                     return true;
                 }
+
+                match *op {
+                    op!("&&") | op!("||") | op!("??") => return false,
+                    _ => {}
+                }
+
+                return self.merge_sequential_expr(a, &mut **right);
             }
 
             Expr::Member(MemberExpr {
