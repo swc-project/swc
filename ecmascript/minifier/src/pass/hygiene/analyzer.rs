@@ -2,9 +2,7 @@ use crate::{
     analyzer::{ProgramData, ScopeData},
     util::has_mark,
 };
-use fxhash::{FxHashMap, FxHashSet};
-use std::{mem::replace, mem::take};
-use swc_atoms::JsWord;
+use fxhash::FxHashSet;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, Id};
@@ -41,6 +39,21 @@ impl HygieneAnalyzer<'_> {
         self.cur_scope = Some(scope_ctxt);
 
         let ret = op(self);
+
+        let mut ids = vec![];
+        {
+            let scope = self.scope();
+            for (sym, ctxts) in &scope.declared_symbols {
+                if ctxts.len() == 1 {
+                    let id = (sym.clone(), *ctxts.iter().next().unwrap());
+                    ids.push(id)
+                }
+            }
+        }
+        for id in ids {
+            self.hygiene.preserved.remove(&id);
+            self.hygiene.modified.insert(id);
+        }
 
         self.cur_scope = old;
 
