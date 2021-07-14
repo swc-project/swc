@@ -1,3 +1,5 @@
+use crate::compress::optimize::DISABLE_BUGGY_PASSES;
+
 use super::Optimizer;
 use fxhash::FxHashMap;
 use swc_common::DUMMY_SP;
@@ -331,8 +333,12 @@ impl Optimizer<'_> {
         }
 
         // Prepend vars
+
+        // TODO: Use Preender after preventing infinite loops.
         let mut prepender = VarPrepender { vars };
-        new.visit_mut_with(&mut prepender);
+        if !DISABLE_BUGGY_PASSES {
+            new.visit_mut_with(&mut prepender);
+        }
 
         if !prepender.vars.is_empty() {
             prepend(
