@@ -1,11 +1,6 @@
 export const obj = {
-    preventDefault: function (
-    ) {
+    preventDefault: function() {
         var e = this.originalEvent;
-        (this.isDefaultPrevented = returnTrue),
-            e && (e.preventDefault
-                ? e.preventDefault(
-                )
-                : (e.returnValue = !1));
+        this.isDefaultPrevented = returnTrue, e && (e.preventDefault ? e.preventDefault() : e.returnValue = !1);
     }
-}
+};
