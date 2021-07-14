@@ -55,12 +55,7 @@ impl HygieneAnalyzer<'_> {
         for (sym, ctxts) in &scope_data.used {
             if ctxts.len() == 1 {
                 let id = (sym.clone(), *ctxts.iter().next().unwrap());
-                if let Some(usage) = self.data.vars.get(&id) {
-                    if Some(scope_ctxt) == usage.declarator {
-                        self.hygiene.preserved.remove(&id);
-                        self.hygiene.modified.insert(id);
-                    }
-                }
+                if let Some(usage) = self.data.vars.get(&id) {}
             }
         }
 
