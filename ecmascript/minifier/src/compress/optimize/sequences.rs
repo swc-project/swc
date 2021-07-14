@@ -1,5 +1,5 @@
 use super::Optimizer;
-use crate::util::ExprOptExt;
+use crate::util::{idents_used_by, ExprOptExt};
 use std::collections::HashMap;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -556,18 +556,6 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                // TODO: Abort this if there's some side effects.
-                //
-                //
-                // (rand = _.random(
-                //     index++
-                // )),
-                // (shuffled[index - 1] = shuffled[rand]),
-                // (shuffled[rand] = value);
-                //
-                //
-                // rand should not be inlined because of `index`.
-
                 if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
                     return false;
                 }
@@ -592,6 +580,34 @@ impl Optimizer<'_> {
                         _ => return false,
                     },
                 };
+
+                {
+                    // Abort this if there's some side effects.
+                    //
+                    //
+                    // (rand = _.random(
+                    //     index++
+                    // )),
+                    // (shuffled[index - 1] = shuffled[rand]),
+                    // (shuffled[rand] = value);
+                    //
+                    //
+                    // rand should not be inlined because of `index`.
+
+                    let deps = idents_used_by(&*right);
+
+                    let used_by_b = idents_used_by(&*b);
+
+                    for id in &deps {
+                        if *id == left_id.to_id() {
+                            continue;
+                        }
+
+                        if used_by_b.contains(id) {
+                            return false;
+                        }
+                    }
+                }
 
                 {
                     let mut v = UsageCoutner {
