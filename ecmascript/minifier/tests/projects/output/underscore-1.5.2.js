@@ -1279,8 +1279,8 @@
     (_.once = function (
         func
     ) {
-        var ran = !1,
-            memo;
+        var memo,
+            ran = !1;
         return function (
         ) {
             return (
