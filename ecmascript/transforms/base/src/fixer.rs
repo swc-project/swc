@@ -1243,9 +1243,8 @@ var store = global[SHARED] || (global[SHARED] = {});
     test_fixer!(new_member_1, "new obj.ctor()", "new obj.ctor()");
     test_fixer!(new_member_2, "new (obj.ctor)", "new obj.ctor");
 
-    test_fixer!(
+    identical!(
         new_await_1,
-        "new (await getServerImpl())(options)",
-        "new (await getServerImpl())(options)"
+        "async function foo() { new (await getServerImpl())(options) }"
     );
 }
