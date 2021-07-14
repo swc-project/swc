@@ -4444,65 +4444,66 @@
                         ) {
                             var attrStartName = !1,
                                 attrEndName = !1;
-                            ((attr = nAttrs[j]), !msie || msie >= 8 || attr.specified) &&
-                    (NG_ATTR_BINDING.test(
-                        (ngAttrName = directiveNormalize(
-                            (name = attr.name)
-                        )),
-                    ) && (name = snake_case(
-                        ngAttrName.substr(
-                            6
-                        ),
-                        "-"
-                    )),
-                    ngAttrName ===
-                      ngAttrName.replace(
-                          /(Start|End)$/,
-                          ""
-                      ) + "Start" &&
-                      ((attrStartName = name),
-                      (attrEndName = name.substr(
-                          0,
-                          name.length - 5
-                      ) + "end"),
-                      (name = name.substr(
-                          0,
-                          name.length - 6
-                      ))),
-                    (nName = directiveNormalize(
-                        name.toLowerCase(
-                        )
-                    )),
-                    (attrsMap[nName] = name),
-                    (attrs[nName] = value = trim(
-                        msie && "href" == name
-                            ? decodeURIComponent(
-                                node.getAttribute(
-                                    name,
-                                    2
-                                )
-                            )
-                            : attr.value,
-                    )),
-                    getBooleanAttrName(
-                        node,
-                        nName
-                    ) && (attrs[nName] = !0),
-                    addAttrInterpolateDirective(
-                        node,
-                        directives,
-                        value,
-                        nName
-                    ),
-                    addDirective(
-                        directives,
-                        nName,
-                        "A",
-                        maxPriority,
-                        ignoreDirective,
-                        attrStartName,
-                        attrEndName,
-                    ));
+                            (attr = nAttrs[j]),
+                            (msie && !(msie >= 8) && !attr.specified) ||
+                      (NG_ATTR_BINDING.test(
+                          (ngAttrName = directiveNormalize(
+                              (name = attr.name)
+                          )),
+                      ) && (name = snake_case(
+                          ngAttrName.substr(
+                              6
+                          ),
+                          "-"
+                      )),
+                      ngAttrName ===
+                        ngAttrName.replace(
+                            /(Start|End)$/,
+                            ""
+                        ) + "Start" &&
+                        ((attrStartName = name),
+                        (attrEndName = name.substr(
+                            0,
+                            name.length - 5
+                        ) + "end"),
+                        (name = name.substr(
+                            0,
+                            name.length - 6
+                        ))),
+                      (nName = directiveNormalize(
+                          name.toLowerCase(
+                          )
+                      )),
+                      (attrsMap[nName] = name),
+                      (attrs[nName] = value = trim(
+                          msie && "href" == name
+                              ? decodeURIComponent(
+                                  node.getAttribute(
+                                      name,
+                                      2
+                                  )
+                              )
+                              : attr.value,
+                      )),
+                      getBooleanAttrName(
+                          node,
+                          nName
+                      ) && (attrs[nName] = !0),
+                      addAttrInterpolateDirective(
+                          node,
+                          directives,
+                          value,
+                          nName,
+                      ),
+                      addDirective(
+                          directives,
+                          nName,
+                          "A",
+                          maxPriority,
+                          ignoreDirective,
+                          attrStartName,
+                          attrEndName,
+                      ));
                         }
                         if (isString(
                             (className = node.className)
@@ -4663,7 +4664,7 @@
                         )
                             break;
                         if (
-                            (((directiveValue = directive.scope) &&
+                            ((directiveValue = directive.scope) &&
                   ((newScopeDirective = newScopeDirective || directive),
                   directive.templateUrl ||
                     (assertNoDuplicate(
@@ -4677,7 +4678,8 @@
                     ) &&
                       (newIsolateScopeDirective = directive))),
                             (directiveName = directive.name),
-                            !directive.templateUrl && directive.controller) &&
+                            directive.templateUrl ||
+                  !directive.controller ||
                   ((directiveValue = directive.controller),
                   assertNoDuplicate(
                       "'" + directiveName + "' controller",
@@ -9604,74 +9606,78 @@
                         }
                     )),
                   (pathVal = pathVal.$$v)),
-                !key1 || null == pathVal) ||
-                ((pathVal = pathVal[key1]) &&
-                  pathVal.then &&
-                  (promiseWarning(
-                      fullExp
-                  ),
-                  "$$v" in pathVal ||
-                    ((promise = pathVal),
-                    (promise.$$v = void 0),
-                    promise.then(
-                        function (
-                            val
-                        ) {
-                            promise.$$v = val;
-                        }
-                    )),
-                  (pathVal = pathVal.$$v)),
-                !key2 || null == pathVal) ||
-                ((pathVal = pathVal[key2]) &&
-                  pathVal.then &&
-                  (promiseWarning(
-                      fullExp
-                  ),
-                  "$$v" in pathVal ||
-                    ((promise = pathVal),
-                    (promise.$$v = void 0),
-                    promise.then(
-                        function (
-                            val
-                        ) {
-                            promise.$$v = val;
-                        }
-                    )),
-                  (pathVal = pathVal.$$v)),
-                !key3 || null == pathVal) ||
-                ((pathVal = pathVal[key3]) &&
-                  pathVal.then &&
-                  (promiseWarning(
-                      fullExp
-                  ),
-                  "$$v" in pathVal ||
-                    ((promise = pathVal),
-                    (promise.$$v = void 0),
-                    promise.then(
-                        function (
-                            val
-                        ) {
-                            promise.$$v = val;
-                        }
-                    )),
-                  (pathVal = pathVal.$$v)),
-                !key4 || null == pathVal) ||
-                ((pathVal = pathVal[key4]) &&
-                  pathVal.then &&
-                  (promiseWarning(
-                      fullExp
-                  ),
-                  "$$v" in pathVal ||
-                    ((promise = pathVal),
-                    (promise.$$v = void 0),
-                    promise.then(
-                        function (
-                            val
-                        ) {
-                            promise.$$v = val;
-                        }
-                    )),
-                  (pathVal = pathVal.$$v))),
+                key1 &&
+                  null != pathVal &&
+                  ((pathVal = pathVal[key1]) &&
+                    pathVal.then &&
+                    (promiseWarning(
+                        fullExp
+                    ),
+                    "$$v" in pathVal ||
+                      ((promise = pathVal),
+                      (promise.$$v = void 0),
+                      promise.then(
+                          function (
+                              val
+                          ) {
+                              promise.$$v = val;
+                          }
+                      )),
+                    (pathVal = pathVal.$$v)),
+                  key2 &&
+                    null != pathVal &&
+                    ((pathVal = pathVal[key2]) &&
+                      pathVal.then &&
+                      (promiseWarning(
+                          fullExp
+                      ),
+                      "$$v" in pathVal ||
+                        ((promise = pathVal),
+                        (promise.$$v = void 0),
+                        promise.then(
+                            function (
+                                val
+                            ) {
+                                promise.$$v = val;
+                            }
+                        )),
+                      (pathVal = pathVal.$$v)),
+                    key3 &&
+                      null != pathVal &&
+                      ((pathVal = pathVal[key3]) &&
+                        pathVal.then &&
+                        (promiseWarning(
+                            fullExp
+                        ),
+                        "$$v" in pathVal ||
+                          ((promise = pathVal),
+                          (promise.$$v = void 0),
+                          promise.then(
+                              function (
+                                  val
+                              ) {
+                                  promise.$$v = val;
+                              }
+                          )),
+                        (pathVal = pathVal.$$v)),
+                      key4 &&
+                        null != pathVal &&
+                        (pathVal = pathVal[key4]) &&
+                        pathVal.then &&
+                        (promiseWarning(
+                            fullExp
+                        ),
+                        "$$v" in pathVal ||
+                          ((promise = pathVal),
+                          (promise.$$v = void 0),
+                          promise.then(
+                              function (
+                                  val
+                              ) {
+                                  promise.$$v = val;
+                              }
+                          )),
+                        (pathVal = pathVal.$$v)))))),
                         pathVal
                     );
                 }

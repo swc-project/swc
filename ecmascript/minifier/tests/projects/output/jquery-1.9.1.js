@@ -315,34 +315,35 @@
         )
             if (null != (options = arguments[i]))
                 for (name in options)
-                    ((src = target[name]), target !== (copy = options[name])) &&
-              (deep &&
-              copy &&
-              (jQuery.isPlainObject(
-                  copy
-              ) ||
-                (copyIsArray = jQuery.isArray(
+                    (src = target[name]),
+                    target !== (copy = options[name]) &&
+                (deep &&
+                copy &&
+                (jQuery.isPlainObject(
                     copy
-                )))
-                  ? (copyIsArray
-                      ? ((copyIsArray = !1),
-                      (clone = src && jQuery.isArray(
-                          src
-                      )
-                          ? src
-                          : []))
-                      : (clone = src && jQuery.isPlainObject(
-                          src
-                      )
-                          ? src
-                          : {
-                          }),
-                  (target[name] = jQuery.extend(
-                      deep,
-                      clone,
+                ) ||
+                  (copyIsArray = jQuery.isArray(
                       copy
                   )))
-                  : void 0 !== copy && (target[name] = copy));
+                    ? (copyIsArray
+                        ? ((copyIsArray = !1),
+                        (clone = src && jQuery.isArray(
+                            src
+                        )
+                            ? src
+                            : []))
+                        : (clone = src && jQuery.isPlainObject(
+                            src
+                        )
+                            ? src
+                            : {
+                            }),
+                    (target[name] = jQuery.extend(
+                        deep,
+                        clone,
+                        copy
+                    )))
+                    : void 0 !== copy && (target[name] = copy));
         return target;
     }),
     jQuery.extend(
@@ -3404,56 +3405,57 @@
                     : [];
             if (
                 ((cur = tmp = elem = elem || document),
-                3 !== elem.nodeType && 8 !== elem.nodeType) &&
-        !rfocusMorph.test(
-            type + jQuery.event.triggered
-        ) &&
-        (type.indexOf(
-            "."
-        ) >= 0 &&
-          ((namespaces = type.split(
+                3 !== elem.nodeType &&
+          8 !== elem.nodeType &&
+          !rfocusMorph.test(
+              type + jQuery.event.triggered
+          ) &&
+          (type.indexOf(
+              "."
+          ) >= 0 &&
+            ((namespaces = type.split(
+                "."
+            )),
+            (type = namespaces.shift(
+            )),
+            namespaces.sort(
+            )),
+          (ontype = 0 > type.indexOf(
+              ":"
+          ) && "on" + type),
+          (event = event[jQuery.expando]
+              ? event
+              : new jQuery.Event(
+                  type,
+                  "object" == typeof event && event
+              )),
+          (event.isTrigger = !0),
+          (event.namespace = namespaces.join(
               "."
           )),
-          (type = namespaces.shift(
-          )),
-          namespaces.sort(
-          )),
-        (ontype = 0 > type.indexOf(
-            ":"
-        ) && "on" + type),
-        (event = event[jQuery.expando]
-            ? event
-            : new jQuery.Event(
-                type,
-                "object" == typeof event && event
-            )),
-        (event.isTrigger = !0),
-        (event.namespace = namespaces.join(
-            "."
-        )),
-        (event.namespace_re = event.namespace
-            ? new RegExp(
-                "(^|\\.)" + namespaces.join(
-                    "\\.(?:.*\\.|)"
-                ) + "(\\.|$)"
-            )
-            : null),
-        (event.result = void 0),
-        event.target || (event.target = elem),
-        (data = null == data
-            ? [event,]
-            : jQuery.makeArray(
-                data,
-                [event,]
-            )),
-        (special = jQuery.event.special[type] || {
-        }),
-        !!onlyHandlers ||
-          !special.trigger ||
-          !1 !== special.trigger.apply(
-              elem,
-              data
-          ))
+          (event.namespace_re = event.namespace
+              ? new RegExp(
+                  "(^|\\.)" + namespaces.join(
+                      "\\.(?:.*\\.|)"
+                  ) + "(\\.|$)",
+              )
+              : null),
+          (event.result = void 0),
+          event.target || (event.target = elem),
+          (data = null == data
+              ? [event,]
+              : jQuery.makeArray(
+                  data,
+                  [event,]
+              )),
+          (special = jQuery.event.special[type] || {
+          }),
+          !!onlyHandlers ||
+            !special.trigger ||
+            !1 !== special.trigger.apply(
+                elem,
+                data
+            )))
             ) {
                 if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(
                     elem
@@ -3901,18 +3903,19 @@
         preventDefault: function (
         ) {
             var e = this.originalEvent;
-            ((this.isDefaultPrevented = returnTrue), e) &&
-          (e.preventDefault
-              ? e.preventDefault(
-              )
-              : (e.returnValue = !1));
+            (this.isDefaultPrevented = returnTrue),
+            e && (e.preventDefault
+                ? e.preventDefault(
+                )
+                : (e.returnValue = !1));
         },
         stopPropagation: function (
         ) {
             var e = this.originalEvent;
-            ((this.isPropagationStopped = returnTrue), e) &&
-          (e.stopPropagation && e.stopPropagation(
-          ), (e.cancelBubble = !0));
+            (this.isPropagationStopped = returnTrue),
+            e &&
+            (e.stopPropagation && e.stopPropagation(
+            ), (e.cancelBubble = !0));
         },
         stopImmediatePropagation: function (
         ) {
@@ -4787,16 +4790,16 @@
                       div
                   ) {
                       return (
-                          ((div.innerHTML =
+                          (div.innerHTML =
                     "<div class='hidden e'></div><div class='hidden'></div>"),
                           !!div.getElementsByClassName &&
                     !!div.getElementsByClassName(
                         "e"
-                    ).length) &&
-                  ((div.lastChild.className = "e"),
-                  2 === div.getElementsByClassName(
-                      "e"
-                  ).length)
+                    ).length &&
+                    ((div.lastChild.className = "e"),
+                    2 === div.getElementsByClassName(
+                        "e"
+                    ).length)
                       );
                   }
               )),
@@ -8637,25 +8640,26 @@
                       )
                   )),
                 (type = "number")),
-                            null != value && ("number" !== type || !isNaN(
-                                value
-                            ))) &&
-              ("number" !== type ||
-                jQuery.cssNumber[origName] ||
-                (value += "px"),
-              jQuery.support.clearCloneStyle ||
-                "" !== value ||
-                0 !== name.indexOf(
-                    "background"
-                ) ||
-                (style[name] = "inherit"),
-              !hooks ||
-                !("set" in hooks) ||
-                void 0 !== (value = hooks.set(
-                    elem,
-                    value,
-                    extra
-                )))
+                            null != value &&
+                ("number" !== type || !isNaN(
+                    value
+                )) &&
+                ("number" !== type ||
+                  jQuery.cssNumber[origName] ||
+                  (value += "px"),
+                jQuery.support.clearCloneStyle ||
+                  "" !== value ||
+                  0 !== name.indexOf(
+                      "background"
+                  ) ||
+                  (style[name] = "inherit"),
+                !hooks ||
+                  !("set" in hooks) ||
+                  void 0 !== (value = hooks.set(
+                      elem,
+                      value,
+                      extra
+                  ))))
                         )
                             try {
                                 style[name] = value;
@@ -9075,27 +9079,27 @@
                       : "",
                   filter =
               (currentStyle && currentStyle.filter) || style.filter || "";
-              ((style.zoom = 1),
-              (!(value >= 1) && "" !== value) ||
-            "" !== jQuery.trim(
-                filter.replace(
-                    ralpha,
-                    ""
-                )
-            ) ||
-            !style.removeAttribute ||
-            (style.removeAttribute(
-                "filter"
-            ),
-            "" !== value && (!currentStyle || !!currentStyle.filter))) &&
-            (style.filter = ralpha.test(
-                filter
-            )
-                ? filter.replace(
-                    ralpha,
-                    opacity
-                )
-                : filter + " " + opacity);
+              (style.zoom = 1),
+              ((value >= 1 || "" === value) &&
+              "" === jQuery.trim(
+                  filter.replace(
+                      ralpha,
+                      ""
+                  )
+              ) &&
+              style.removeAttribute &&
+              (style.removeAttribute(
+                  "filter"
+              ),
+              "" === value || (!!currentStyle && !currentStyle.filter))) ||
+              (style.filter = ralpha.test(
+                  filter
+              )
+                  ? filter.replace(
+                      ralpha,
+                      opacity
+                  )
+                  : filter + " " + opacity);
           },
       }),
     jQuery(
@@ -11021,10 +11025,9 @@
             ) &&
         (delete props[index],
         (toggle = toggle || "toggle" === value),
-        value !== (hidden ? "hide" : "show")) &&
-        handled.push(
+        value !== (hidden ? "hide" : "show") && handled.push(
             index
-        );
+        ));
         if (((length = handled.length), handled.length))
             for (
                 ("hidden" in

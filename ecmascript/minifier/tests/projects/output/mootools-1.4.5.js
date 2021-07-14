@@ -2784,9 +2784,10 @@ var Event1 = DOMEvent;
                 type, fn, internal
             ) {
                 return (
-                    ((type = removeOn(
+                    (type = removeOn(
                         type
-                    )), fn == $empty) ||
+                    )),
+                    fn == $empty ||
             ((this.$events[type] = (this.$events[type] || []).include(
                 fn
             )),
