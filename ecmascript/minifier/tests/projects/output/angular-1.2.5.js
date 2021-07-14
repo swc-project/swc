@@ -241,12 +241,13 @@
                 return (uid[index] = "A"), uid.join(
                     ""
                 );
-            if (90 == digit) uid[index] = "0";
-            else return (uid[index] = String.fromCharCode(
-                digit + 1
-            )), uid.join(
-                ""
-            );
+            if (90 != digit)
+                return (uid[index] = String.fromCharCode(
+                    digit + 1
+                )), uid.join(
+                    ""
+                );
+            uid[index] = "0";
         }
         return uid.unshift(
             "0"
@@ -1666,16 +1667,15 @@
     ) {
         var expandoId = element[jqName],
             expandoStore = jqCache[expandoId || -1];
-        if (isDefined(
+        if (!isDefined(
             value
-        ))
-            expandoStore ||
-        ((element[jqName] = expandoId = jqNextId(
-        )),
-        (expandoStore = jqCache[expandoId] = {
-        })),
-            (expandoStore[key] = value);
-        else return expandoStore && expandoStore[key];
+        )) return expandoStore && expandoStore[key];
+        expandoStore ||
+      ((element[jqName] = expandoId = jqNextId(
+      )),
+      (expandoStore = jqCache[expandoId] = {
+      })),
+        (expandoStore[key] = value);
     }
     function jqLiteData(
         element, key, value
@@ -1705,13 +1705,16 @@
             isSetter)
         )
             data[key] = value;
-        else if (keyDefined) {
-            if (isSimpleGetter) return data && data[key];
-            extend(
-                data,
-                key
-            );
-        } else return data;
+        else {
+            if (!keyDefined) return data;
+            {
+                if (isSimpleGetter) return data && data[key];
+                extend(
+                    data,
+                    key
+                );
+            }
+        }
     }
     function jqLiteHasClass(
         element, selector
@@ -2038,25 +2041,23 @@
                     name
                 );
                 if (BOOLEAN_ATTR[lowercasedName]) {
-                    if (isDefined(
+                    if (!isDefined(
                         value
                     ))
-                        value
-                            ? ((element[name] = !0),
-                            element.setAttribute(
-                                name,
-                                lowercasedName
-                            ))
-                            : ((element[name] = !1), element.removeAttribute(
-                                lowercasedName
-                            ));
-                    else
                         return element[name] ||
               (element.attributes.getNamedItem(
                   name
               ) || noop).specified
                             ? lowercasedName
                             : void 0;
+                    value
+                        ? ((element[name] = !0), element.setAttribute(
+                            name,
+                            lowercasedName
+                        ))
+                        : ((element[name] = !1), element.removeAttribute(
+                            lowercasedName
+                        ));
                 } else if (isDefined(
                     value
                 )) element.setAttribute(
@@ -2074,10 +2075,10 @@
             prop: function (
                 element, name, value
             ) {
-                if (isDefined(
+                if (!isDefined(
                     value
-                )) element[name] = value;
-                else return element[name];
+                )) return element[name];
+                element[name] = value;
             },
             text: (function (
             ) {
@@ -2815,17 +2816,17 @@
             return function (
                 key, value
             ) {
-                if (isObject(
+                if (!isObject(
                     key
-                )) forEach(
+                )) return delegate(
+                    key,
+                    value
+                );
+                forEach(
                     key,
                     reverseParams(
                         delegate
                     )
-                );
-                else return delegate(
-                    key,
-                    value
                 );
             };
         }
@@ -3468,41 +3469,41 @@
             url, replace
         ) {
             if (
-                (location !== window1.location && (location = window1.location), url)
-            ) {
-                if (lastBrowserUrl != url)
-                    return (
-                        (lastBrowserUrl = url),
-                        $sniffer.history
-                            ? replace
-                                ? history.replaceState(
-                                    null,
-                                    "",
-                                    url
-                                )
-                                : (history.pushState(
-                                    null,
-                                    "",
-                                    url
-                                ),
+                (location !== window1.location && (location = window1.location), !url)
+            )
+                return newLocation || location.href.replace(
+                    /%27/g,
+                    "'"
+                );
+            if (lastBrowserUrl != url)
+                return (
+                    (lastBrowserUrl = url),
+                    $sniffer.history
+                        ? replace
+                            ? history.replaceState(
+                                null,
+                                "",
+                                url
+                            )
+                            : (history.pushState(
+                                null,
+                                "",
+                                url
+                            ),
+                            baseElement.attr(
+                                "href",
                                 baseElement.attr(
-                                    "href",
-                                    baseElement.attr(
-                                        "href"
-                                    )
-                                ))
-                            : ((newLocation = url),
-                            replace
-                                ? location.replace(
-                                    url
+                                    "href"
                                 )
-                                : (location.href = url)),
-                        self
-                    );
-            } else return newLocation || location.href.replace(
-                /%27/g,
-                "'"
-            );
+                            ))
+                        : ((newLocation = url),
+                        replace
+                            ? location.replace(
+                                url
+                            )
+                            : (location.href = url)),
+                    self
+                );
         };
         var urlChangeListeners = [],
             urlChangeInit = !1;
@@ -7403,16 +7404,16 @@
             ))) {
                 if (
                     ((prevAppUrl = appUrl),
-                    void 0 !== (appUrl = beginsWith(
+                    void 0 === (appUrl = beginsWith(
                         basePrefix,
                         appUrl
                     )))
                 )
-                    return appBaseNoFile + (beginsWith(
-                        "/",
-                        appUrl
-                    ) || appUrl);
-                return appBase + prevAppUrl;
+                    return appBase + prevAppUrl;
+                return appBaseNoFile + (beginsWith(
+                    "/",
+                    appUrl
+                ) || appUrl);
             } else if (void 0 !== (appUrl = beginsWith(
                 appBaseNoFile,
                 url
@@ -8991,17 +8992,17 @@
         filterChain: function (
         ) {
             for (var left = this.expression(
-                ), token; ; )
-                if ((token = this.expect(
+                ), token; ; ) {
+                if (!(token = this.expect(
                     "|"
-                )))
-                    left = this.binaryFn(
-                        left,
-                        token.fn,
-                        this.filter(
-                        )
-                    );
-                else return left;
+                ))) return left;
+                left = this.binaryFn(
+                    left,
+                    token.fn,
+                    this.filter(
+                    )
+                );
+            }
         },
         filter: function (
         ) {
@@ -9082,9 +9083,10 @@
                 ),
                 middle,
                 token;
-            if ((token = this.expect(
+            if (!(token = this.expect(
                 "?"
-            ))) {
+            ))) return left;
+            {
                 if (((middle = this.ternary(
                 )), (token = this.expect(
                     ":"
@@ -9099,22 +9101,22 @@
                     "expected :",
                     token
                 );
-            } else return left;
+            }
         },
         logicalOR: function (
         ) {
             for (var left = this.logicalAND(
-                ), token; ; )
-                if ((token = this.expect(
+                ), token; ; ) {
+                if (!(token = this.expect(
                     "||"
-                )))
-                    left = this.binaryFn(
-                        left,
-                        token.fn,
-                        this.logicalAND(
-                        )
-                    );
-                else return left;
+                ))) return left;
+                left = this.binaryFn(
+                    left,
+                    token.fn,
+                    this.logicalAND(
+                    )
+                );
+            }
         },
         logicalAND: function (
         ) {
@@ -11163,12 +11165,12 @@
                 function matchUrl(
                     matcher, parsedUrl
                 ) {
-                    return "self" === matcher
-                        ? urlIsSameOrigin(
-                            parsedUrl
-                        )
-                        : !!matcher.exec(
+                    return "self" !== matcher
+                        ? !!matcher.exec(
                             parsedUrl.href
+                        )
+                        : urlIsSameOrigin(
+                            parsedUrl
                         );
                 }
                 function isResourceUrlAllowedByPolicy(
@@ -11680,9 +11682,13 @@
         function register(
             name, factory
         ) {
-            if (isObject(
+            if (!isObject(
                 name
-            )) {
+            )) return $provide.factory(
+                name + "Filter",
+                factory
+            );
+            {
                 var filters = {
                 };
                 return (
@@ -11699,10 +11705,7 @@
                     ),
                     filters
                 );
-            } else return $provide.factory(
-                name + "Filter",
-                factory
-            );
+            }
         }
         (this.register = register),
         (this.$get = [
@@ -12387,17 +12390,16 @@
             )), isString(
                 input
             ))) {
-                if (limit)
-                    return limit >= 0
-                        ? input.slice(
-                            0,
-                            limit
-                        )
-                        : input.slice(
-                            limit,
-                            input.length
-                        );
-                return "";
+                if (!limit) return "";
+                return limit >= 0
+                    ? input.slice(
+                        0,
+                        limit
+                    )
+                    : input.slice(
+                        limit,
+                        input.length
+                    );
             }
             var out = [];
             for (
@@ -12518,7 +12520,8 @@
             ) {
                 var t1 = typeof v1,
                     t2 = typeof v2;
-                if (t1 == t2) {
+                if (t1 != t2) return t1 < t2 ? -1 : 1;
+                {
                     if (
                         ("string" == t1 &&
               ((v1 = v1.toLowerCase(
@@ -12528,7 +12531,7 @@
                     )
                         return 0;
                     return v1 < v2 ? -1 : 1;
-                } else return t1 < t2 ? -1 : 1;
+                }
             }
         };
     }
@@ -13106,18 +13109,20 @@
                 minLengthValidator = function (
                     value
                 ) {
-                    if (!ctrl.$isEmpty(
+                    if (!!ctrl.$isEmpty(
                         value
-                    ) && value.length < minlength) {
+                    ) || !(value.length < minlength))
+                        return ctrl.$setValidity(
+                            "minlength",
+                            !0
+                        ), value;
+                    {
                         ctrl.$setValidity(
                             "minlength",
                             !1
                         );
                         return;
-                    } else return ctrl.$setValidity(
-                        "minlength",
-                        !0
-                    ), value;
+                    }
                 };
             ctrl.$parsers.push(
                 minLengthValidator
@@ -13133,18 +13138,20 @@
                 maxLengthValidator = function (
                     value
                 ) {
-                    if (!ctrl.$isEmpty(
+                    if (!!ctrl.$isEmpty(
                         value
-                    ) && value.length > maxlength) {
+                    ) || !(value.length > maxlength))
+                        return ctrl.$setValidity(
+                            "maxlength",
+                            !0
+                        ), value;
+                    {
                         ctrl.$setValidity(
                             "maxlength",
                             !1
                         );
                         return;
-                    } else return ctrl.$setValidity(
-                        "maxlength",
-                        !0
-                    ), value;
+                    }
                 };
             ctrl.$parsers.push(
                 maxLengthValidator
@@ -13217,18 +13224,20 @@
                 var min = parseFloat(
                     attr.min
                 );
-                if (!ctrl.$isEmpty(
+                if (!!ctrl.$isEmpty(
                     value
-                ) && value < min) {
+                ) || !(value < min))
+                    return ctrl.$setValidity(
+                        "min",
+                        !0
+                    ), value;
+                {
                     ctrl.$setValidity(
                         "min",
                         !1
                     );
                     return;
-                } else return ctrl.$setValidity(
-                    "min",
-                    !0
-                ), value;
+                }
             };
             ctrl.$parsers.push(
                 minValidator
@@ -13243,18 +13252,20 @@
                 var max = parseFloat(
                     attr.max
                 );
-                if (!ctrl.$isEmpty(
+                if (!!ctrl.$isEmpty(
                     value
-                ) && value > max) {
+                ) || !(value > max))
+                    return ctrl.$setValidity(
+                        "max",
+                        !0
+                    ), value;
+                {
                     ctrl.$setValidity(
                         "max",
                         !1
                     );
                     return;
-                } else return ctrl.$setValidity(
-                    "max",
-                    !0
-                ), value;
+                }
             };
             ctrl.$parsers.push(
                 maxValidator
@@ -13711,18 +13722,20 @@
                         var validator = function (
                             value
                         ) {
-                            if (attr.required && ctrl.$isEmpty(
+                            if (!attr.required || !ctrl.$isEmpty(
                                 value
-                            )) {
+                            ))
+                                return ctrl.$setValidity(
+                                    "required",
+                                    !0
+                                ), value;
+                            {
                                 ctrl.$setValidity(
                                     "required",
                                     !1
                                 );
                                 return;
-                            } else return ctrl.$setValidity(
-                                "required",
-                                !0
-                            ), value;
+                            }
                         };
                         ctrl.$formatters.push(
                             validator

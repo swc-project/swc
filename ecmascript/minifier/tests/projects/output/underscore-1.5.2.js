@@ -972,19 +972,19 @@
         var i = 0,
             length = array.length;
         if (isSorted) {
-            if ("number" == typeof isSorted)
-                i = isSorted < 0
-                    ? Math.max(
-                        0,
-                        length + isSorted
-                    )
-                    : isSorted;
-            else return array[(i = _.sortedIndex(
-                array,
-                item
-            ))] === item
-                ? i
-                : -1;
+            if ("number" != typeof isSorted)
+                return array[(i = _.sortedIndex(
+                    array,
+                    item
+                ))] === item
+                    ? i
+                    : -1;
+            i = isSorted < 0
+                ? Math.max(
+                    0,
+                    length + isSorted
+                )
+                : isSorted;
         }
         if (nativeIndexOf && array.indexOf === nativeIndexOf)
             return array.indexOf(
