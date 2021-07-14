@@ -212,13 +212,28 @@ impl Optimizer<'_> {
                 return;
             }
 
-            let may_need_work = stmts
-                .last()
-                .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::If(..)) => true,
-                    _ => false,
-                })
-                .unwrap();
+            // If the last statement is a return statement and last - 1 is an if statement
+            // is without return, we don't need to fold it as `void 0` is too much for such
+            // cases.
+
+            match (
+                &stmts[stmts.len() - 2].as_stmt(),
+                &stmts[stmts.len() - 1].as_stmt(),
+            ) {
+                (_, Some(Stmt::If(IfStmt { alt: None, .. }))) => return,
+
+                (
+                    Some(Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    })),
+                    Some(Stmt::Return(..)),
+                ) => match &**cons {
+                    Stmt::Return(..) => {}
+                    _ => return,
+                },
+
+                _ => {}
+            }
 
             // TODO: Find correct condition
 
