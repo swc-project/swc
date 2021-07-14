@@ -546,6 +546,24 @@ impl Optimizer<'_> {
     fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) -> bool {
         match b {
             Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
+
+            Expr::Bin(BinExpr { left, .. }) => {
+                if self.merge_sequential_expr(a, &mut **left) {
+                    return true;
+                }
+            }
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: true,
+                ..
+            }) if obj.is_ident() => {
+                if self.merge_sequential_expr(a, &mut **prop) {
+                    return true;
+                }
+            }
+
             _ => {}
         }
 
