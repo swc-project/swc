@@ -278,12 +278,8 @@
                     scrollParent: function (
                     ) {
                         var scrollParent;
-                        return /fixed/.test(
-                            this.css(
-                                "position"
-                            )
-                        ) ||
-              !(scrollParent =
+                        return (
+                            (scrollParent =
                 (jQuery.ui.ie &&
                   /(static|relative)/.test(
                       this.css(
@@ -350,11 +346,17 @@
                         )
                         .eq(
                             0
-                        )).length
-                            ? jQuery(
-                                this[0].ownerDocument || document
-                            )
-                            : scrollParent;
+                        )),
+                            /fixed/.test(
+                                this.css(
+                                    "position"
+                                )
+                            ) || !scrollParent.length
+                                ? jQuery(
+                                    this[0].ownerDocument || document
+                                )
+                                : scrollParent
+                        );
                     },
                     uniqueId: function (
                     ) {
@@ -1274,9 +1276,9 @@
                                     };
                                 return function (
                                 ) {
-                                    var __super = this._super,
-                                        __superApply = this._superApply,
-                                        returnValue;
+                                    var returnValue,
+                                        __super = this._super,
+                                        __superApply = this._superApply;
                                     return (
                                         (this._super = _super),
                                         (this._superApply = _superApply),
@@ -1601,10 +1603,10 @@
                 option: function (
                     key, value
                 ) {
-                    var options = key,
-                        parts,
+                    var parts,
                         curOption,
-                        i;
+                        i,
+                        options = key;
                     if (0 === arguments.length)
                         return jQuery.widget.extend(
                             {
@@ -2211,9 +2213,9 @@
             )),
             (fake_onhashchange = (function (
             ) {
-                var self = {
+                var timeout_id,
+                    self = {
                     },
-                    timeout_id,
                     last_hash = get_fragment(
                     ),
                     fn_retval = function (
@@ -2426,7 +2428,8 @@
             function propExists(
                 prop
             ) {
-                var uc_prop = prop.charAt(
+                var v,
+                    uc_prop = prop.charAt(
                         0
                     ).toUpperCase(
                     ) + prop.substr(
@@ -2436,8 +2439,7 @@
                         uc_prop + " "
                     ) + uc_prop).split(
                         " ",
-                    ),
-                    v;
+                    );
                 for (v in props) if (void 0 !== fbCSS[props[v]]) return !0;
             }
             var fakeBody = jQuery(
@@ -2500,16 +2502,16 @@
                     ),
                     cssTransform3d: (function (
                     ) {
-                        var ret = jQuery.mobile.media(
+                        var el,
+                            transforms,
+                            t,
+                            ret = jQuery.mobile.media(
                                 "(-" +
                   vendors.join(
                       "-transform-3d),(-"
                   ) +
                   "-transform-3d),(transform-3d)",
-                            ),
-                            el,
-                            transforms,
-                            t;
+                            );
                         if (ret) return !!ret;
                         for (t in ((el = document.createElement(
                             "div"
@@ -2645,12 +2647,12 @@
                     ),
                     cssPointerEvents: (function (
                     ) {
-                        var element = document.createElement(
+                        var supports,
+                            element = document.createElement(
                                 "x"
                             ),
                             documentElement = document.documentElement,
-                            getComputedStyle = window.getComputedStyle,
-                            supports;
+                            getComputedStyle = window.getComputedStyle;
                         return (
                             "pointerEvents" in element.style &&
               ((element.style.pointerEvents = "auto"),
@@ -2782,8 +2784,8 @@
         (function (
             $, undefined
         ) {
-            var $win = jQuery.mobile.window,
-                self,
+            var self,
+                $win = jQuery.mobile.window,
                 dummyFnToInitNavigate = function (
                 ) {};
             (jQuery.event.special.beforenavigate = {
@@ -3636,12 +3638,11 @@
                     ) {
                         var parsed, loc, hash, resolved;
                         return (
-                            (parsed = path.parseUrl(
-                                url
-                            )),
                             (loc = path.parseLocation(
                             )).pathname + loc.search ===
-              parsed.pathname + parsed.search
+              (parsed = path.parseUrl(
+                  url
+              )).pathname + parsed.search
                                 ? (hash = parsed.hash
                                     ? parsed.hash
                                     : parsed.pathname + parsed.search)
@@ -3678,15 +3679,15 @@
                         (href = path.squash(
                             url
                         )),
+                        (hash = this.hash(
+                            url,
+                            href
+                        )),
                         noEvents &&
-                (hash = this.hash(
-                    url,
-                    href
-                )) !==
-                  path.stripHash(
-                      path.parseLocation(
-                      ).hash
-                  ) &&
+                hash !== path.stripHash(
+                    path.parseLocation(
+                    ).hash
+                ) &&
                 (this.preventNextHashChange = noEvents),
                         (this.preventHashAssignPopState = !0),
                         (window.location.hash = hash),
@@ -3980,7 +3981,9 @@
         (function (
             $, window1, document1, undefined
         ) {
-            var virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
+            var threshold,
+                i,
+                virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
                     " ",
                 ),
                 touchEventProps = "clientX clientY pageX pageY screenX screenY".split(
@@ -4006,9 +4009,7 @@
                     document
                 ),
                 nextTouchID = 1,
-                lastTouchID = 0,
-                threshold,
-                i;
+                lastTouchID = 0;
             jQuery.vmouse = {
                 moveDistanceThreshold: 10,
                 clickDistanceThreshold: 10,
@@ -4024,8 +4025,7 @@
             function createVirtualEvent(
                 event, eventType
             ) {
-                var t = event.type,
-                    oe,
+                var oe,
                     props,
                     ne,
                     prop,
@@ -4033,7 +4033,8 @@
                     touch,
                     i,
                     j,
-                    len;
+                    len,
+                    t = event.type;
                 if (
                     ((event = jQuery.Event(
                         event
@@ -4163,11 +4164,11 @@
             function mouseEventCallback(
                 event
             ) {
-                var touchID = jQuery.data(
+                var ve,
+                    touchID = jQuery.data(
                         event.target,
                         "virtualTouchID"
-                    ),
-                    ve;
+                    );
                 blockMouseTriggers ||
           (lastTouchID && lastTouchID === touchID) ||
           ((ve = triggerVirtualEvent(
@@ -4188,12 +4189,12 @@
             function handleTouchStart(
                 event
             ) {
-                var touches = getNativeEvent(
-                        event
-                    ).touches,
-                    target,
+                var target,
                     flags,
-                    t;
+                    t,
+                    touches = getNativeEvent(
+                        event
+                    ).touches;
                 touches &&
           1 === touches.length &&
           (flags = getVirtualBindingFlags(
@@ -4323,11 +4324,11 @@
             function hasVirtualBindings(
                 ele
             ) {
-                var bindings = jQuery.data(
+                var k,
+                    bindings = jQuery.data(
                         ele,
                         "virtualMouseBindings"
-                    ),
-                    k;
+                    );
                 if (bindings) for (k in bindings) if (bindings[k]) return !0;
                 return !1;
             }
@@ -4450,13 +4451,13 @@
             function (
                 e
             ) {
-                var cnt = clickBlockList.length,
-                    target = e.target,
-                    x,
+                var x,
                     y,
                     ele,
                     i,
-                    o;
+                    o,
+                    cnt = clickBlockList.length,
+                    target = e.target;
                 if (cnt)
                     for (
                         x = e.clientX,
@@ -4468,17 +4469,18 @@
                     ) {
                         for (i = 0; i < cnt; i++)
                             if (
+                                ((o = clickBlockList[i]),
                                 (ele === target &&
                       Math.abs(
-                          (o = clickBlockList[i]).x - x
+                          o.x - x
                       ) < threshold &&
                       Math.abs(
                           o.y - y
                       ) < threshold) ||
-                    jQuery.data(
-                        ele,
-                        "virtualTouchID"
-                    ) === o.touchID
+                      jQuery.data(
+                          ele,
+                          "virtualTouchID"
+                      ) === o.touchID)
                             )
                                 return e.preventDefault(
                                 ), e.stopPropagation(
@@ -4546,12 +4548,12 @@
                 enabled: !0,
                 setup: function (
                 ) {
-                    var thisObject = this,
+                    var scrolling,
+                        timer,
+                        thisObject = this,
                         $this = jQuery(
                             thisObject
-                        ),
-                        scrolling,
-                        timer;
+                        );
                     function trigger(
                         event, state
                     ) {
@@ -5019,27 +5021,27 @@
         (function (
             $, window1
         ) {
-            var win = jQuery(
-                    window1
-                ),
-                get_orientation,
+            var get_orientation,
                 last_orientation,
                 initial_orientation_is_landscape,
                 initial_orientation_is_default,
+                ww,
+                wh,
+                win = jQuery(
+                    window1
+                ),
                 portrait_map = {
                     0: !0,
                     180: !0,
-                },
-                ww,
-                wh;
+                };
             jQuery.support.orientation &&
         ((ww = window1.innerWidth || win.width(
         )),
         (wh = window1.innerHeight || win.height(
         )),
-        (((initial_orientation_is_landscape = ww > wh && ww - wh > 50) &&
-          (initial_orientation_is_default =
-            portrait_map[window1.orientation])) ||
+        (initial_orientation_is_landscape = ww > wh && ww - wh > 50),
+        (initial_orientation_is_default = portrait_map[window1.orientation]),
+        ((initial_orientation_is_landscape && initial_orientation_is_default) ||
           (!initial_orientation_is_landscape &&
             !initial_orientation_is_default)) &&
           (portrait_map = {
@@ -5838,13 +5840,13 @@
                     _find: function (
                         absUrl
                     ) {
-                        var fileUrl = this._createFileUrl(
+                        var page,
+                            fileUrl = this._createFileUrl(
                                 absUrl
                             ),
                             dataUrl = this._createDataUrl(
                                 absUrl
                             ),
-                            page,
                             initialContent = this._getInitialContent(
                             );
                         return (
@@ -6142,7 +6144,11 @@
                     load: function (
                         url, options
                     ) {
-                        var deferred = (options && options.deferred) || jQuery.Deferred(
+                        var fileUrl,
+                            dataUrl,
+                            pblEvent,
+                            triggerData,
+                            deferred = (options && options.deferred) || jQuery.Deferred(
                             ),
                             settings = jQuery.extend(
                                 {
@@ -6155,11 +6161,7 @@
                                 url,
                                 this._findBaseWithDefault(
                                 ),
-                            ),
-                            fileUrl,
-                            dataUrl,
-                            pblEvent,
-                            triggerData;
+                            );
                         if (
                             ((settings.reload = settings.reloadPage),
                             settings.data &&
@@ -6318,16 +6320,17 @@
                         to, from, prefix
                     ) {
                         var samePage = !1;
+                        (prefix = prefix || ""),
                         from &&
-            (to[0] === from[0] && (samePage = !0),
-            this._triggerWithDeprecated(
-                (prefix = prefix || "") + "hide",
-                {
-                    nextPage: to,
-                    samePage: samePage,
-                },
-                from,
-            )),
+              (to[0] === from[0] && (samePage = !0),
+              this._triggerWithDeprecated(
+                  prefix + "hide",
+                  {
+                      nextPage: to,
+                      samePage: samePage,
+                  },
+                  from,
+              )),
                         this._triggerWithDeprecated(
                             prefix + "show",
                             {
@@ -6341,11 +6344,11 @@
                     _cssTransition: function (
                         to, from, options
                     ) {
-                        var transition = options.transition,
+                        var TransitionHandler,
+                            promise,
+                            transition = options.transition,
                             reverse = options.reverse,
-                            deferred = options.deferred,
-                            TransitionHandler,
-                            promise;
+                            deferred = options.deferred;
                         this._triggerCssTransitionEvents(
                             to,
                             from,
@@ -6637,7 +6640,8 @@
                   ) &&
                   jQuery.mobile.navigate.history.activeIndex > 0 &&
                   ((settings.changeHash = !1), (alreadyThere = !0)),
-                alreadyThere || !((url = active.url || "").indexOf(
+                (url = active.url || ""),
+                alreadyThere || !(url.indexOf(
                     "#"
                 ) > -1)
                     ? (url += "#" + jQuery.mobile.dialogHashKey)
@@ -6880,10 +6884,10 @@
                     $form, calculateOnly
                 ) {
                     var url,
-                        ret = !0,
                         formData,
                         vclickedName,
-                        method;
+                        method,
+                        ret = !0;
                     return (
                         !(
                             !jQuery.mobile.ajaxEnabled ||
@@ -7682,16 +7686,16 @@
                 .each(
                     function (
                     ) {
-                        var element = jQuery(
+                        var html,
+                            hasType,
+                            findstr,
+                            element = jQuery(
                                 this
                             ),
                             type = this.getAttribute(
                                 "type"
                             ),
-                            optType = jQuery.mobile.degradeInputs[type] || "text",
-                            html,
-                            hasType,
-                            findstr;
+                            optType = jQuery.mobile.degradeInputs[type] || "text";
                         jQuery.mobile.degradeInputs[type] &&
               ((findstr = (hasType =
                 (html = jQuery(
@@ -8808,7 +8812,9 @@
             return this.each(
                 function (
                 ) {
-                    var $this = jQuery(
+                    var iterator,
+                        letter,
+                        $this = jQuery(
                             this
                         ),
                         o = jQuery.extend(
@@ -8826,9 +8832,7 @@
                             c: 4,
                             d: 5,
                         },
-                        grid = o.grid,
-                        iterator,
-                        letter;
+                        grid = o.grid;
                     if (!grid) {
                         if ($kids.length <= 5)
                             for (letter in gridCols)
@@ -9366,9 +9370,9 @@
                             lis,
                             li,
                             dividerText,
+                            divider,
                             lastDividerText = null,
-                            list = this.element,
-                            divider;
+                            list = this.element;
                         for (
                             list.children(
                                 "li:jqmData(role='list-divider')"
@@ -10428,7 +10432,17 @@
                     },
                     _create: function (
                     ) {
-                        var self = this,
+                        var options,
+                            wrapper,
+                            j,
+                            length,
+                            i,
+                            optionsCount,
+                            origTabIndex,
+                            side,
+                            activeClass,
+                            sliderImg,
+                            self = this,
                             control = this.element,
                             trackTheme =
                 this.options.trackTheme ||
@@ -10517,17 +10531,7 @@
                         )
                     );
                 })(
-                ),
-                            options,
-                            wrapper,
-                            j,
-                            length,
-                            i,
-                            optionsCount,
-                            origTabIndex,
-                            side,
-                            activeClass,
-                            sliderImg;
+                );
                         if (
                             ($label.attr(
                                 "id",
@@ -10977,16 +10981,7 @@
                     refresh: function (
                         val, isfromControl, preventInputUpdate
                     ) {
-                        var self = this,
-                            parentTheme = jQuery.mobile.getAttribute(
-                                this.element[0],
-                                "theme",
-                            ),
-                            theme = this.options.theme || parentTheme,
-                            trackTheme = this.options.trackTheme || parentTheme,
-                            cornerClass = this.options.corners ? " ui-corner-all" : "",
-                            miniClass = this.options.mini ? " ui-mini" : "",
-                            width,
+                        var width,
                             data,
                             pxStep,
                             percent,
@@ -11010,7 +11005,7 @@
                                     : "ui-slider-track ui-shadow-inset",
                                 trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                                 cornerClass,
-                                miniClass,
+                                this.options.mini ? " ui-mini" : "",
                             ].join(
                                 ""
                             )),
@@ -11432,8 +11427,8 @@
                     },
                     _refresh: function (
                     ) {
-                        var o = this.options,
-                            newValue;
+                        var newValue,
+                            o = this.options;
                         (o.popupEnabled && this.handle.removeAttr(
                             "title"
                         ),
@@ -13733,13 +13728,13 @@
                     _setTolerance: function (
                         value
                     ) {
-                        var tol = {
+                        var ar,
+                            tol = {
                                 t: 30,
                                 r: 15,
                                 b: 30,
                                 l: 15,
-                            },
-                            ar;
+                            };
                         if (void 0 !== value)
                             switch (
                                 ((ar = String(
@@ -15112,17 +15107,9 @@
                     },
                     _buildList: function (
                     ) {
-                        var self = this,
-                            placeholder = this.placeholder,
-                            needPlaceholder = !0,
-                            $options,
+                        var $options,
                             numOptions,
                             select,
-                            dataPrefix = "data-" + jQuery.mobile.ns,
-                            dataPlaceholderAttr = dataPrefix + "placeholder",
-                            fragment = document.createDocumentFragment(
-                            ),
-                            isPlaceholderItem = !1,
                             optGroup,
                             i,
                             option,
@@ -15133,7 +15120,15 @@
                             classes,
                             optLabel,
                             divider,
-                            item;
+                            item,
+                            self = this,
+                            placeholder = this.placeholder,
+                            needPlaceholder = !0,
+                            dataPrefix = "data-" + jQuery.mobile.ns,
+                            dataPlaceholderAttr = dataPrefix + "placeholder",
+                            fragment = document.createDocumentFragment(
+                            ),
+                            isPlaceholderItem = !1;
                         for (
                             self.list.empty(
                             ).filter(
@@ -15222,15 +15217,16 @@
                   ),
                 placeholder !== text &&
                   (placeholder = self.placeholder = text)),
+              (item = document.createElement(
+                  "li"
+              )),
               option.disabled &&
                 (classes.push(
                     "ui-state-disabled"
                 ),
-                (item = document.createElement(
-                    "li"
-                )).setAttribute(
+                item.setAttribute(
                     "aria-disabled",
-                    !0,
+                    !0
                 )),
               item.setAttribute(
                   dataPrefix + "option-index",
@@ -16140,11 +16136,11 @@
                 _handlePageBeforeHide: function (
                     e, ui
                 ) {
-                    var o = this.options,
-                        thisFooter,
+                    var thisFooter,
                         thisHeader,
                         nextFooter,
-                        nextHeader;
+                        nextHeader,
+                        o = this.options;
                     o.disablePageZoom && jQuery.mobile.zoom.enable(
                         !0
                     ),
@@ -16161,7 +16157,7 @@
                 ".ui-header-fixed:jqmData(id)",
                 this.page
             )),
-            ((nextFooter =
+            (nextFooter =
               (thisFooter.length &&
                 ui.nextPage &&
                 jQuery(
@@ -16173,20 +16169,21 @@
                     ui.nextPage,
                 )) ||
               jQuery(
-              )).length ||
-              (nextHeader =
-                (thisHeader.length &&
-                  ui.nextPage &&
-                  jQuery(
-                      ".ui-header-fixed:jqmData(id='" +
-                      thisHeader.jqmData(
-                          "id"
-                      ) +
-                      "')",
-                      ui.nextPage,
-                  )) ||
+              )),
+            (nextHeader =
+              (thisHeader.length &&
+                ui.nextPage &&
                 jQuery(
-                )).length) &&
+                    ".ui-header-fixed:jqmData(id='" +
+                    thisHeader.jqmData(
+                        "id"
+                    ) +
+                    "')",
+                    ui.nextPage,
+                )) ||
+              jQuery(
+              )),
+            (nextFooter.length || nextHeader.length) &&
               (nextFooter.add(
                   nextHeader
               ).appendTo(
@@ -16330,6 +16327,7 @@
                 },
                 _bindToggleHandlers: function (
                 ) {
+                    var delayShow, delayHide;
                     (this.page
                         ? this.page
                         : jQuery(
@@ -16467,17 +16465,16 @@
           ) > -1
                     )
                         os = "ios";
-                    else if (ua.indexOf(
+                    else if (!(ua.indexOf(
                         "Android"
-                    ) > -1) os = "android";
-                    else return;
+                    ) > -1)) return;
+                    else os = "android";
                     if ("ios" === os) self._bindScrollWorkaround(
                     );
-                    else if ("android" === os && wkversion && wkversion < 534)
-                        self._bindScrollWorkaround(
-                        ), self._bindListThumbWorkaround(
-                        );
-                    else return;
+                    else if ("android" !== os || !wkversion || !(wkversion < 534)) return;
+                    else self._bindScrollWorkaround(
+                    ), self._bindListThumbWorkaround(
+                    );
                 },
                 _viewportOffset: function (
                 ) {
@@ -16682,16 +16679,13 @@
                                     desired[p.snd],
                                 ),
                             )),
-                            (best &&
-                !(
-                    (diff =
-                    Math.abs(
-                        desired.x - tip.x
-                    ) + Math.abs(
-                        desired.y - tip.y
-                    )) <
-                  best.diff
-                )) ||
+                            (diff =
+                Math.abs(
+                    desired.x - tip.x
+                ) + Math.abs(
+                    desired.y - tip.y
+                )),
+                            (best && !(diff < best.diff)) ||
                 ((tip[p.snd] -=
                   s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd]),
                 (best = {
@@ -17770,14 +17764,14 @@
                                 .each(
                                     function (
                                     ) {
-                                        var span = parseInt(
+                                        var j,
+                                            span = parseInt(
                                                 this.getAttribute(
                                                     "colspan"
                                                 ),
                                                 10
                                             ),
-                                            selector = ":nth-child(" + (columnCount + 1) + ")",
-                                            j;
+                                            selector = ":nth-child(" + (columnCount + 1) + ")";
                                         if (
                                             (this.setAttribute(
                                                 "data-" + jQuery.mobile.ns + "colstart",
@@ -18166,7 +18160,9 @@
                     ).each(
                         function (
                         ) {
-                            var cells = jQuery(
+                            var iteration,
+                                filter,
+                                cells = jQuery(
                                     this
                                 ).jqmData(
                                     "cells"
@@ -18185,9 +18181,7 @@
                                 text = jQuery(
                                     this
                                 ).text(
-                                ),
-                                iteration,
-                                filter;
+                                );
                             "" !== text &&
             (hierarchyClass
                 ? ((iteration = parseInt(

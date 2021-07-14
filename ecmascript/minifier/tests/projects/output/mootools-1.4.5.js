@@ -1316,15 +1316,15 @@ Number.implement(
             precision
         ) {
             return (
-                (precision = Math.pow(
-                    10,
-                    precision || 0
-                ).toFixed(
-                    precision < 0 ? -precision : 0,
-                )),
                 Math.round(
                     this * precision
-                ) / precision
+                ) /
+        (precision = Math.pow(
+            10,
+            precision || 0
+        ).toFixed(
+            precision < 0 ? -precision : 0,
+        ))
             );
         },
         times: function (
@@ -3267,8 +3267,8 @@ function (
         var nodeType = document.nodeType;
         if (9 == nodeType);
         else if (nodeType) document = document.ownerDocument;
-        else if (document.navigator) document = document.document;
-        else return;
+        else if (!document.navigator) return;
+        else document = document.document;
         if (this.document !== document) {
             var feature,
                 starSelectsClosed,
@@ -3614,10 +3614,9 @@ function (
             currentBit,
             lastBit,
             found = (this.found = first ? null : append || []);
-        if (context) {
-            if (context.navigator) context = context.document;
-            else if (!context.nodeType) return found;
-        } else return found;
+        if (!context) return found;
+        if (context.navigator) context = context.document;
+        else if (!context.nodeType) return found;
         var uniques = (this.uniques = {
             }),
             hasOthers = !!(append && append.length),
@@ -3638,10 +3637,10 @@ function (
                 reSimpleSelector
             );
             simpleSelectors: if (simpleSelector) {
-                var symbol = simpleSelector[1],
-                    name = simpleSelector[2],
-                    node,
-                    nodes;
+                var node,
+                    nodes,
+                    symbol = simpleSelector[1],
+                    name = simpleSelector[2];
                 if (symbol) {
                     if ("#" == symbol) {
                         if (!this.isHTMLDocument || !contextIsDocument)
@@ -4934,7 +4933,8 @@ var IFrame = new Type(
         "IFrame",
         function (
         ) {
-            var params = Array.link(
+            var iframe,
+                params = Array.link(
                     arguments,
                     {
                         properties: Type.isObject,
@@ -4946,8 +4946,7 @@ var IFrame = new Type(
                     }
                 ),
                 props = params.properties || {
-                },
-                iframe;
+                };
             params.iframe && (iframe = document.id(
                 params.iframe
             ));
@@ -6108,8 +6107,8 @@ Elements.alias(
             },
             adopt: function (
             ) {
-                var parent = this,
-                    fragment,
+                var fragment,
+                    parent = this,
                     elements = Array.flatten(
                         arguments
                     ),
@@ -6811,11 +6810,11 @@ Elements.alias(
                 ? function (
                     element
                 ) {
-                    var filter =
+                    var opacity,
+                        filter =
                 element.style.filter || element.getComputedStyle(
                     "filter"
-                ),
-                        opacity;
+                );
                     return (
                         filter && (opacity = filter.match(
                             reAlpha
@@ -9084,14 +9083,14 @@ Element1.implement(
         fade: function (
             how
         ) {
-            var fade = this.get(
+            var method,
+                toggle,
+                fade = this.get(
                     "tween"
                 ),
-                method,
                 args = ["opacity",].append(
                     arguments
-                ),
-                toggle;
+                );
             switch ((null == args[1] && (args[1] = "toggle"), args[1])) {
             case "in":
                 (method = "start"), (args[1] = 1);
@@ -9425,10 +9424,10 @@ Fx.Transitions.extend(
         Back: function (
             p, x
         ) {
-            return (x = (x && x[0]) || 1.618), Math.pow(
+            return Math.pow(
                 p,
                 2
-            ) * ((x + 1) * p - x);
+            ) * (((x = (x && x[0]) || 1.618) + 1) * p - x);
         },
         Bounce: function (
             p
@@ -10340,9 +10339,9 @@ var Cookie = new Class(
 ) {
     var ready,
         loaded,
-        checks = [],
         shouldPoll,
         timer,
+        checks = [],
         testElement = document.createElement(
             "div"
         ),

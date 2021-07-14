@@ -96,13 +96,14 @@
                     if ((events = this._events[(name = names[i])])) {
                         if (((this._events[name] = retain = []), callback || context))
                             for (j = 0, k = events.length; j < k; j++)
+                                (ev = events[j]),
                                 ((callback &&
-                  callback !== (ev = events[j]).callback &&
-                  callback !== ev.callback._callback) ||
-                  (context && context !== ev.context)) &&
-                  retain.push(
-                      ev
-                  );
+                    callback !== ev.callback &&
+                    callback !== ev.callback._callback) ||
+                    (context && context !== ev.context)) &&
+                    retain.push(
+                        ev
+                    );
                         retain.length || delete this._events[name];
                     }
                 return this;
@@ -553,13 +554,13 @@
                         ? ((attrs = key), (options = val))
                         : ((attrs = {
                         })[key] = val),
-                    attrs &&
-          !(options = _.extend(
-              {
-                  validate: !0,
-              },
-              options,
-          )).wait)
+                    (options = _.extend(
+                        {
+                            validate: !0,
+                        },
+                        options,
+                    )),
+                    attrs && !options.wait)
                 ) {
                     if (!this.set(
                         attrs,
@@ -2136,7 +2137,10 @@
                             document.title,
                             url,
                         );
-                    else if (this._wantsHashChange)
+                    else if (!this._wantsHashChange) return this.location.assign(
+                        url
+                    );
+                    else
                         this._updateHash(
                             this.location,
                             fragment,
@@ -2156,9 +2160,6 @@
                     fragment,
                     options.replace,
                 ));
-                    else return this.location.assign(
-                        url
-                    );
                     if (options.trigger) return this.loadUrl(
                         fragment
                     );
@@ -2185,8 +2186,8 @@
         protoProps,
         staticProps,
     ) {
-        var parent = this,
-            child;
+        var child,
+            parent = this;
         (child =
         protoProps && _.has(
             protoProps,

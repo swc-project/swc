@@ -1204,11 +1204,15 @@
         for (
             var keys = path.split(
                     "."
-                ), lastInstance = obj, len = keys.length, i = 0;
+                ),
+                key,
+                lastInstance = obj,
+                len = keys.length,
+                i = 0;
             i < len;
             i++
         )
-            obj && (obj = (lastInstance = obj)[keys[i]]);
+            (key = keys[i]), obj && (obj = (lastInstance = obj)[key]);
         return bindFnToScope || !isFunction(
             obj
         )
@@ -2687,7 +2691,8 @@
         return (
             "function" == typeof fn
                 ? ($inject = fn.$inject) ||
-          (fn.length &&
+          (($inject = []),
+          fn.length &&
             forEach(
                 fn
                     .toString(
@@ -2710,7 +2715,7 @@
                         function (
                             all, underscore, name
                         ) {
-                            ($inject = []).push(
+                            $inject.push(
                                 name
                             );
                         }
@@ -4441,7 +4446,7 @@
                         ) {
                             var attrStartName = !1,
                                 attrEndName = !1;
-                            (msie && !(msie >= 8) && !(attr = nAttrs[j]).specified) ||
+                            ((attr = nAttrs[j]), !msie || msie >= 8 || attr.specified) &&
                     (NG_ATTR_BINDING.test(
                         (ngAttrName = directiveNormalize(
                             (name = attr.name)
@@ -5170,43 +5175,43 @@
                             );
                         }
                         for (
+                            transcludeFn1 = boundTranscludeFn && controllersBoundTransclude,
                             controllerDirectives &&
-                  forEach(
-                      controllerDirectives,
-                      function (
-                          directive1
-                      ) {
-                          var controllerInstance,
-                              locals = {
-                                  $scope:
-                          directive1 === newIsolateScopeDirective ||
-                          directive1.$$isolateScope
-                              ? isolateScope
-                              : scope,
-                                  $element: attrs.$$element,
-                                  $attrs: attrs,
-                                  $transclude: (transcludeFn1 =
-                          boundTranscludeFn && controllersBoundTransclude),
-                              };
-                          "@" == (controller = directive1.controller) &&
-                      (controller = attrs[directive1.name]),
-                          (elementControllers[
-                              directive1.name
-                          ] = controllerInstance = $controller(
-                              controller,
-                              locals
-                          )),
-                          hasElementTranscludeDirective ||
-                        attrs.$$element.data(
-                            "$" + directive1.name + "Controller",
-                            controllerInstance,
-                        ),
-                          directive1.controllerAs &&
-                        (locals.$scope[
-                            directive1.controllerAs
-                        ] = controllerInstance);
-                      }
-                  ),
+                    forEach(
+                        controllerDirectives,
+                        function (
+                            directive1
+                        ) {
+                            var controllerInstance,
+                                locals = {
+                                    $scope:
+                            directive1 === newIsolateScopeDirective ||
+                            directive1.$$isolateScope
+                                ? isolateScope
+                                : scope,
+                                    $element: attrs.$$element,
+                                    $attrs: attrs,
+                                    $transclude: transcludeFn1,
+                                };
+                            "@" == (controller = directive1.controller) &&
+                        (controller = attrs[directive1.name]),
+                            (elementControllers[
+                                directive1.name
+                            ] = controllerInstance = $controller(
+                                controller,
+                                locals,
+                            )),
+                            hasElementTranscludeDirective ||
+                          attrs.$$element.data(
+                              "$" + directive1.name + "Controller",
+                              controllerInstance,
+                          ),
+                            directive1.controllerAs &&
+                          (locals.$scope[
+                              directive1.controllerAs
+                          ] = controllerInstance);
+                        }
+                    ),
                             i = 0,
                             ii = preLinkFns.length;
                             i < ii;
@@ -5327,23 +5332,24 @@
                             i++
                         )
                             try {
+                                (directive = directives[i]),
                                 (void 0 === maxPriority ||
-                    maxPriority > (directive = directives[i]).priority) &&
-                    -1 != directive.restrict.indexOf(
-                        location
-                    ) &&
-                    (startAttrName &&
-                      (directive = inherit(
-                          directive,
-                          {
-                              $$start: startAttrName,
-                              $$end: endAttrName,
-                          }
-                      )),
-                    tDirectives.push(
-                        directive
-                    ),
-                    (match = directive));
+                      maxPriority > directive.priority) &&
+                      -1 != directive.restrict.indexOf(
+                          location
+                      ) &&
+                      (startAttrName &&
+                        (directive = inherit(
+                            directive,
+                            {
+                                $$start: startAttrName,
+                                $$end: endAttrName,
+                            }
+                        )),
+                      tDirectives.push(
+                          directive
+                      ),
+                      (match = directive));
                             } catch (e) {
                                 $exceptionHandler(
                                     e
@@ -7404,16 +7410,16 @@
             ))) {
                 if (
                     ((prevAppUrl = appUrl),
-                    void 0 === (appUrl = beginsWith(
+                    void 0 !== (appUrl = beginsWith(
                         basePrefix,
                         appUrl
                     )))
                 )
-                    return appBase + prevAppUrl;
-                return appBaseNoFile + (beginsWith(
-                    "/",
-                    appUrl
-                ) || appUrl);
+                    return appBaseNoFile + (beginsWith(
+                        "/",
+                        appUrl
+                    ) || appUrl);
+                return appBase + prevAppUrl;
             } else if (void 0 !== (appUrl = beginsWith(
                 appBaseNoFile,
                 url
@@ -8050,23 +8056,22 @@
                 self, locals, a, b
             ) {
                 return (
-                    (a = a(
-                        self,
-                        locals
-                    )),
-                    (b = b(
-                        self,
-                        locals
-                    )),
                     (isDefined(
-                        a
+                        (a = a(
+                            self,
+                            locals
+                        ))
                     )
                         ? a
-                        : 0) - (isDefined(
-                        b
-                    )
-                        ? b
-                        : 0)
+                        : 0) -
+          (isDefined(
+              (b = b(
+                  self,
+                  locals
+              ))
+          )
+              ? b
+              : 0)
                 );
             },
             "*": function (
@@ -9683,16 +9688,15 @@
                   : scope;
                     return null == pathVal
                         ? pathVal
-                        : key1 &&
-                null != (pathVal = pathVal[key0]) &&
-                key2 &&
-                null != (pathVal = pathVal[key1]) &&
-                key3 &&
-                null != (pathVal = pathVal[key2]) &&
-                key4 &&
-                null != (pathVal = pathVal[key3])
-                            ? (pathVal = pathVal[key4])
-                            : pathVal;
+                        : ((pathVal = pathVal[key0]), !key1 || null == pathVal)
+                            ? pathVal
+                            : ((pathVal = pathVal[key1]), !key2 || null == pathVal)
+                                ? pathVal
+                                : ((pathVal = pathVal[key2]), !key3 || null == pathVal)
+                                    ? pathVal
+                                    : ((pathVal = pathVal[key3]), !key4 || null == pathVal)
+                                        ? pathVal
+                                        : (pathVal = pathVal[key4]);
                 }
         );
     }
@@ -9909,6 +9913,9 @@
                         if (pending) {
                             var callbacks = pending;
                             (pending = void 0),
+                            (value = ref(
+                                val
+                            )),
                             callbacks.length &&
                   nextTick(
                       function (
@@ -9919,12 +9926,10 @@
                               i++
                           )
                               (callback = callbacks[i]),
-                              (value = ref(
-                                  val
-                              )).then(
+                              value.then(
                                   callback[0],
                                   callback[1],
-                                  callback[2],
+                                  callback[2]
                               );
                       }
                   );
@@ -11157,12 +11162,12 @@
                 function matchUrl(
                     matcher, parsedUrl
                 ) {
-                    return "self" !== matcher
-                        ? !!matcher.exec(
-                            parsedUrl.href
-                        )
-                        : urlIsSameOrigin(
+                    return "self" === matcher
+                        ? urlIsSameOrigin(
                             parsedUrl
+                        )
+                        : !!matcher.exec(
+                            parsedUrl.href
                         );
                 }
                 function isResourceUrlAllowedByPolicy(
@@ -11475,12 +11480,12 @@
                         "transition" in bodyStyle ||
               vendorPrefix + "Transition" in bodyStyle
                     )),
+                    (animations = !!(
+                        "animation" in bodyStyle ||
+              vendorPrefix + "Animation" in bodyStyle
+                    )),
                     android &&
-              (!transitions ||
-                !(animations = !!(
-                    "animation" in bodyStyle ||
-                  vendorPrefix + "Animation" in bodyStyle
-                ))) &&
+              (!transitions || !animations) &&
               ((transitions = isString(
                   document1.body.style.webkitTransition
               )),
@@ -12382,16 +12387,17 @@
             )), isString(
                 input
             ))) {
-                if (!limit) return "";
-                return limit >= 0
-                    ? input.slice(
-                        0,
-                        limit
-                    )
-                    : input.slice(
-                        limit,
-                        input.length
-                    );
+                if (limit)
+                    return limit >= 0
+                        ? input.slice(
+                            0,
+                            limit
+                        )
+                        : input.slice(
+                            limit,
+                            input.length
+                        );
+                return "";
             }
             var out = [];
             for (
@@ -14871,41 +14877,43 @@
                                     $animate.leave(
                                         selectedElements[i]
                                     );
+                                (selectedElements = []),
+                                (selectedScopes = []),
                                 (selectedTranscludes =
-                ngSwitchController.cases["!" + value] ||
-                ngSwitchController.cases["?"]) &&
-                (scope.$eval(
-                    attr.change
-                ),
-                forEach(
-                    selectedTranscludes,
-                    function (
-                        selectedTransclude
-                    ) {
-                        var selectedScope = scope.$new(
-                        );
-                        (selectedScopes = []).push(
-                            selectedScope
-                        ),
-                        selectedTransclude.transclude(
-                            selectedScope,
-                            function (
-                                caseElement
-                            ) {
-                                var anchor = selectedTransclude.element;
-                                (selectedElements = []).push(
-                                    caseElement
-                                ),
-                                $animate.enter(
-                                    caseElement,
-                                    anchor.parent(
-                                    ),
-                                    anchor
-                                );
-                            },
-                        );
-                    }
-                ));
+                  ngSwitchController.cases["!" + value] ||
+                  ngSwitchController.cases["?"]) &&
+                  (scope.$eval(
+                      attr.change
+                  ),
+                  forEach(
+                      selectedTranscludes,
+                      function (
+                          selectedTransclude
+                      ) {
+                          var selectedScope = scope.$new(
+                          );
+                          selectedScopes.push(
+                              selectedScope
+                          ),
+                          selectedTransclude.transclude(
+                              selectedScope,
+                              function (
+                                  caseElement
+                              ) {
+                                  var anchor = selectedTransclude.element;
+                                  selectedElements.push(
+                                      caseElement
+                                  ),
+                                  $animate.enter(
+                                      caseElement,
+                                      anchor.parent(
+                                      ),
+                                      anchor,
+                                  );
+                              },
+                          );
+                      }
+                  ));
                             }
                         );
                     },
@@ -15423,9 +15431,9 @@
                                                                     .selected
                                                             ) {
                                                                 if (
-                                                                    (keyName &&
-                                  (locals[keyName] = key = optionElement.val(
-                                  )),
+                                                                    ((key = optionElement.val(
+                                                                    )),
+                                                                    keyName && (locals[keyName] = key),
                                                                     trackFn)
                                                                 )
                                                                     for (

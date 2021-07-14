@@ -1344,7 +1344,10 @@
             when: function (
                 subordinate
             ) {
-                var i = 0,
+                var progressValues,
+                    progressContexts,
+                    resolveContexts,
+                    i = 0,
                     resolveValues = core_slice.call(
                         arguments
                     ),
@@ -1383,10 +1386,7 @@
                                     values
                                 );
                         };
-                    },
-                    progressValues,
-                    progressContexts,
-                    resolveContexts;
+                    };
                 if (length > 1)
                     for (
                         progressValues = new Array(
@@ -1458,13 +1458,13 @@
             ),
             (div.innerHTML =
           "  <link/><table></table><a href='/a'>a</a><input type='checkbox'/>"),
-            !(all = div.getElementsByTagName(
+            (all = div.getElementsByTagName(
                 "*"
-            )) ||
-          !(a = div.getElementsByTagName(
-              "a"
-          )[0]) ||
-          !all.length)
+            )),
+            (a = div.getElementsByTagName(
+                "a"
+            )[0]),
+            !all || !a || !all.length)
         )
             return {
             };
@@ -2940,15 +2940,16 @@
           set: function (
               elem, value, name
           ) {
-              if (jQuery.nodeName(
+              if (!jQuery.nodeName(
                   elem,
                   "input"
-              )) elem.defaultValue = value;
-              else return nodeHook && nodeHook.set(
-                  elem,
-                  value,
-                  name
-              );
+              ))
+                  return nodeHook && nodeHook.set(
+                      elem,
+                      value,
+                      name
+                  );
+              elem.defaultValue = value;
           },
       }),
     getSetAttribute ||
@@ -3333,23 +3334,24 @@
                         j--;
 
                     )
-                        (mappedTypes || origType === (handleObj = handlers[j]).origType) &&
-              (!handler || handler.guid === handleObj.guid) &&
-              (!tmp || tmp.test(
-                  handleObj.namespace
-              )) &&
-              (!selector ||
-                selector === handleObj.selector ||
-                ("**" === selector && handleObj.selector)) &&
-              (handlers.splice(
-                  j,
-                  1
-              ),
-              handleObj.selector && handlers.delegateCount--,
-              special.remove && special.remove.call(
-                  elem,
-                  handleObj
-              ));
+                        (handleObj = handlers[j]),
+                        (mappedTypes || origType === handleObj.origType) &&
+                (!handler || handler.guid === handleObj.guid) &&
+                (!tmp || tmp.test(
+                    handleObj.namespace
+                )) &&
+                (!selector ||
+                  selector === handleObj.selector ||
+                  ("**" === selector && handleObj.selector)) &&
+                (handlers.splice(
+                    j,
+                    1
+                ),
+                handleObj.selector && handlers.delegateCount--,
+                special.remove && special.remove.call(
+                    elem,
+                    handleObj
+                ));
                     origCount &&
             !handlers.length &&
             ((special.teardown &&
@@ -3444,9 +3446,10 @@
                 data,
                 [event,]
             )),
+        (special = jQuery.event.special[type] || {
+        }),
         !!onlyHandlers ||
-          !(special = jQuery.event.special[type] || {
-          }).trigger ||
+          !special.trigger ||
           special.trigger.apply(
               elem,
               data
@@ -4606,13 +4609,13 @@
                 ))) {
                     if ((m = match[1])) {
                         if (9 === nodeType) {
-                            if ((elem = context.getElementById(
+                            if (!(elem = context.getElementById(
                                 m
-                            )) && elem.parentNode) {
-                                if (elem.id === m) return results.push(
-                                    elem
-                                ), results;
-                            } else return results;
+                            )) || !elem.parentNode)
+                                return results;
+                            if (elem.id === m) return results.push(
+                                elem
+                            ), results;
                         } else if (
                             context.ownerDocument &&
                 (elem = context.ownerDocument.getElementById(
@@ -5196,15 +5199,15 @@
                 ((elem.ownerDocument || elem) !== document1 && setDocument(
                     elem
                 ),
+                (expr = expr.replace(
+                    rattributeQuotes,
+                    "='$1']"
+                )),
                 support.matchesSelector &&
               !documentIsXML &&
-              (!rbuggyMatches ||
-                !rbuggyMatches.test(
-                    (expr = expr.replace(
-                        rattributeQuotes,
-                        "='$1']"
-                    )),
-                )) &&
+              (!rbuggyMatches || !rbuggyMatches.test(
+                  expr
+              )) &&
               !rbuggyQSA.test(
                   expr
               ))
@@ -8173,6 +8176,7 @@
                 for (
                     var j,
                         elem,
+                        contains,
                         tmp,
                         tag,
                         tbody,
@@ -8296,18 +8300,19 @@
                             elem,
                             selection
                         )) &&
-          (jQuery.contains(
+          ((contains = jQuery.contains(
               elem.ownerDocument,
               elem
-          ) &&
-            setGlobalEval(
-                (tmp = getAll(
-                    safe.appendChild(
-                        elem
-                    ),
-                    "script"
-                ))
-            ),
+          )),
+          (tmp = getAll(
+              safe.appendChild(
+                  elem
+              ),
+              "script"
+          )),
+          contains && setGlobalEval(
+              tmp
+          ),
           scripts)
                     )
                         for (j = 0; (elem = tmp[j++]); )
@@ -8461,9 +8466,10 @@
                   ),
               )))
             : values[index] ||
-            (((display && "none" !== display) || !(hidden = isHidden(
+            ((hidden = isHidden(
                 elem
-            ))) &&
+            )),
+            ((display && "none" !== display) || !hidden) &&
               jQuery._data(
                   elem,
                   "olddisplay",
@@ -8699,13 +8705,15 @@
                 "normal" === val &&
           name in cssNormalTransform &&
           (val = cssNormalTransform[name]),
-                "" === extra || extra) &&
-          (!0 === extra || jQuery.isNumeric(
-              (num = parseFloat(
-                  val
-              ))
-          ))
-                    ? num || 0
+                "" === extra || extra)
+                    ? ((num = parseFloat(
+                        val
+                    )),
+                    !0 === extra || jQuery.isNumeric(
+                        num
+                    )
+                        ? num || 0
+                        : val)
                     : val;
             },
             swap: function (
@@ -10586,7 +10594,8 @@
                                   ? setTimeout(
                                       callback
                                   )
-                                  : (xhrOnUnloadAbort &&
+                                  : ((handle = ++xhrId),
+                                  xhrOnUnloadAbort &&
                         (xhrCallbacks ||
                           ((xhrCallbacks = {
                           }),
@@ -10595,7 +10604,7 @@
                           ).unload(
                               xhrOnUnloadAbort
                           )),
-                        (xhrCallbacks[(handle = ++xhrId)] = callback)),
+                        (xhrCallbacks[handle] = callback)),
                                   (xhr.onreadystatechange = callback))
                               : callback(
                               );
