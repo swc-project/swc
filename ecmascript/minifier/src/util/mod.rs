@@ -45,6 +45,18 @@ pub(crate) trait ExprOptExt: Sized {
     fn as_expr(&self) -> &Expr;
     fn as_mut(&mut self) -> &mut Expr;
 
+    fn first_expr_mut(&mut self) -> &mut Expr {
+        let expr = self.as_mut();
+        match expr {
+            Expr::Seq(seq) => seq
+                .exprs
+                .first_mut()
+                .expect("Sequence expressions should have at least one element")
+                .first_expr_mut(),
+            expr => expr,
+        }
+    }
+
     /// This returns itself for normal expressions and returns last exprssions
     /// for sequence expressions.
     fn value_mut(&mut self) -> &mut Expr {
