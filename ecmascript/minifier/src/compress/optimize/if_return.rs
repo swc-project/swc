@@ -30,25 +30,35 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Negates the condition of a `if` statement to reduce body size.
     pub(super) fn negate_if_else(&mut self, stmt: &mut IfStmt) {
         let alt = match stmt.alt.as_deref_mut() {
             Some(v) => v,
             _ => return,
         };
 
-        let test_arg = match &mut *stmt.test {
+        match &mut *stmt.test {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
-            }) => &mut **arg,
-            _ => return,
-        };
-
-        self.changed = true;
-        log::trace!(
-            "if_return: Negating `!cond` as `cond` in for an if statement which has cons and alt"
-        );
-        stmt.test = Box::new(test_arg.take());
-        swap(alt, &mut *stmt.cons);
+            }) => {
+                self.changed = true;
+                log::trace!(
+                    "if_return: Negating `!cond` as `cond` in for an if statement which has cons \
+                     and alt"
+                );
+                stmt.test = arg.take();
+                swap(alt, &mut *stmt.cons);
+            }
+            _ => match &*alt {
+                Stmt::Return(..) => {
+                    self.changed = true;
+                    log::trace!("if_return: Negating an if statement because the alt is return");
+                    self.negate(&mut stmt.test);
+                    swap(alt, &mut *stmt.cons);
+                }
+                _ => return,
+            },
+        }
     }
 
     /// # Input
