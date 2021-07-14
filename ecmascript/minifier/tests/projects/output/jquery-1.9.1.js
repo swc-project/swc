@@ -1045,10 +1045,10 @@
                     firingIndex++
                 )
                     if (
-                        list[firingIndex].apply(
+                        !1 === list[firingIndex].apply(
                             data[0],
                             data[1]
-                        ) === !1 &&
+                        ) &&
             options.stopOnFalse
                     ) {
                         memory = !1;
@@ -3231,13 +3231,13 @@
               ((handlers = events[type] = []),
               (handlers.delegateCount = 0),
               (special.setup &&
-                special.setup.call(
-                    null,
-                    data,
-                    namespaces,
-                    eventHandle
-                ) !==
-                  !1) ||
+                !1 !==
+                  special.setup.call(
+                      null,
+                      data,
+                      namespaces,
+                      eventHandle
+                  )) ||
                 (null.addEventListener
                     ? null.addEventListener(
                         type,
@@ -3355,12 +3355,12 @@
                     origCount &&
             !handlers.length &&
             ((special.teardown &&
-              special.teardown.call(
-                  elem,
-                  namespaces,
-                  elemData.handle
-              ) !==
-                !1) ||
+              !1 !==
+                special.teardown.call(
+                    elem,
+                    namespaces,
+                    elemData.handle
+                )) ||
               jQuery.removeEvent(
                   elem,
                   type,
@@ -3450,10 +3450,10 @@
         }),
         !!onlyHandlers ||
           !special.trigger ||
-          special.trigger.apply(
+          !1 !== special.trigger.apply(
               elem,
               data
-          ) !== !1)
+          ))
             ) {
                 if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(
                     elem
@@ -3495,10 +3495,10 @@
                   cur
               ) &&
               handle.apply &&
-              handle.apply(
+              !1 === handle.apply(
                   cur,
                   data
-              ) === !1 &&
+              ) &&
               event.preventDefault(
               );
                 if (
@@ -3507,10 +3507,10 @@
             !event.isDefaultPrevented(
             ) &&
             (!special._default ||
-              special._default.apply(
+              !1 === special._default.apply(
                   elem.ownerDocument,
                   data
-              ) === !1) &&
+              )) &&
             !("click" === type && jQuery.nodeName(
                 elem,
                 "a"
@@ -3556,10 +3556,10 @@
             if (
                 ((args[0] = event),
                 (event.delegateTarget = this),
-                !special.preDispatch || special.preDispatch.call(
+                !special.preDispatch || !1 !== special.preDispatch.call(
                     this,
                     event
-                ) !== !1)
+                ))
             ) {
                 for (
                     handlerQueue = jQuery.event.handlers.call(
@@ -3593,7 +3593,7 @@
                     matched.elem,
                     args
                 )) &&
-                (event.result = ret) === !1 &&
+                !1 === (event.result = ret) &&
                 (event.preventDefault(
                 ), event.stopPropagation(
                 )));
@@ -6206,7 +6206,7 @@
                             }))[dir]) &&
                           cache[0] === dirkey
                                         ) {
-                                            if ((data = cache[1]) === !0 || data === cachedruns)
+                                            if (!0 === (data = cache[1]) || data === cachedruns)
                                                 return !0 === data;
                                         } else if (
                                             ((cache = outerCache[dir] = [dirkey,]),
@@ -9984,11 +9984,11 @@
                     );
                 if (
                     s.beforeSend &&
-          (s.beforeSend.call(
+          (!1 === s.beforeSend.call(
               callbackContext,
               jqXHR,
               s
-          ) === !1 || 2 === state)
+          ) || 2 === state)
                 )
                     return jqXHR.abort(
                     );

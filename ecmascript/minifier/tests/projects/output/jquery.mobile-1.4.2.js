@@ -1886,13 +1886,13 @@
                             (jQuery.isFunction(
                                 callback
                             ) &&
-                  callback.apply(
-                      this.element[0],
-                      [event,].concat(
-                          data
-                      )
-                  ) ===
-                    !1) ||
+                  !1 ===
+                    callback.apply(
+                        this.element[0],
+                        [event,].concat(
+                            data
+                        )
+                    )) ||
                 event.isDefaultPrevented(
                 )
                         )
@@ -5293,9 +5293,9 @@
                     },
                     _create: function (
                     ) {
-                        if (this._trigger(
+                        if (!1 === this._trigger(
                             "beforecreate"
-                        ) === !1) return !1;
+                        )) return !1;
                         this.options.enhanced || this._enhance(
                         ),
                         this._on(
@@ -6581,9 +6581,9 @@
                   "dialog" === toPage.jqmData(
                       "role"
                   )) &&
-                toPage.jqmData(
+                !0 !== toPage.jqmData(
                     "dialog"
-                ) !== !0),
+                )),
                                 settings.fromPage &&
                 settings.fromPage[0] === toPage[0] &&
                 !settings.allowSamePageTransition)
@@ -10777,10 +10777,10 @@
                     _controlChange: function (
                         event
                     ) {
-                        if (this._trigger(
+                        if (!1 === this._trigger(
                             "controlchange",
                             event
-                        ) === !1) return !1;
+                        )) return !1;
                         this.mouseMoved || this.refresh(
                             this._value(
                             ),
@@ -10886,10 +10886,10 @@
                   void 0 === event.which
                 )
                             ) &&
-              this._trigger(
+              !1 !== this._trigger(
                   "beforestart",
                   event
-              ) !== !1 &&
+              ) &&
               ((this.dragging = !0),
               (this.userModified = !1),
               (this.mouseMoved = !1),
@@ -10934,10 +10934,10 @@
                     _preventDocumentDrag: function (
                         event
                     ) {
-                        if (this._trigger(
+                        if (!1 === this._trigger(
                             "drag",
                             event
-                        ) === !1) return !1;
+                        )) return !1;
                         if (this.dragging && !this.options.disabled)
                             return (
                                 (this.mouseMoved = !0),
@@ -11206,10 +11206,10 @@
                                     ))
                                     : ((valueChanged = this.element[0].selectedIndex !== newval),
                                     (this.element[0].selectedIndex = newval)),
-                                this._trigger(
+                                !1 === this._trigger(
                                     "beforechange",
                                     val
-                                ) === !1)
+                                ))
                             )
                                 return !1;
                             isfromControl || !valueChanged || this.element.trigger(
@@ -19620,11 +19620,11 @@
             ) &&
             !this.running &&
             (!clickedIsActive || !!options.collapsible) &&
-            this._trigger(
+            !1 !== this._trigger(
                 "beforeActivate",
                 event,
                 eventData
-            ) !== !1) &&
+            )) &&
             ((options.active = !collapsing && this.tabs.index(
                 tab
             )),

@@ -7244,10 +7244,10 @@ Elements.alias(
                         self.getWindow(
                         )
                     )),
-                    condition.call(
+                    !1 === condition.call(
                         self,
                         event
-                    ) === !1 && event.stop(
+                    ) && event.stop(
                     );
                 }),
               this.addListener(
