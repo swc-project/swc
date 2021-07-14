@@ -172,7 +172,7 @@ impl VisitMut for Fixer<'_> {
 
         match expr.op {
             op!("||") | op!("&&") => match (&*expr.left, &*expr.right) {
-                (Expr::Update(..), Expr::Assign(..)) => {
+                (Expr::Update(..), Expr::Assign(..) | Expr::Call(..)) => {
                     self.wrap(&mut expr.right);
                     return;
                 }
@@ -1303,6 +1303,11 @@ var store = global[SHARED] || (global[SHARED] = {});
     test_fixer!(minifier_006, "-('s'/'b')", "-('s'/'b')");
 
     test_fixer!(minifier_007, "(void 0) === value", "void 0 === value");
-
     test_fixer!(minifier_008, "(size--) && (b = (c))", "size-- && (b = c)");
+
+    test_fixer!(
+        minifier_009,
+        "(--remaining) || deferred.resolveWith()",
+        "--remaining || deferred.resolveWith()"
+    );
 }
