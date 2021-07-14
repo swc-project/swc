@@ -243,6 +243,10 @@ impl Optimizer<'_> {
     }
 
     /// Collapse single-use non-constant variables, side effects permitting.
+    ///
+    /// This merges all variables to first variable declartion with an
+    /// initializer. If such variable declaration is not found, variables are
+    /// prepended to `stmts`.
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
