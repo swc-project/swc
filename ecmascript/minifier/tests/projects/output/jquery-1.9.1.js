@@ -5697,7 +5697,8 @@
                             argument
                         )
                         : fn.length > 1
-                            ? Expr.setFilters.hasOwnProperty(
+                            ? ((args = [pseudo, pseudo, "", argument,]),
+                            Expr.setFilters.hasOwnProperty(
                                 pseudo.toLowerCase(
                                 )
                             )
@@ -5706,10 +5707,12 @@
                                         seed, matches1
                                     ) {
                                         for (
-                                            var idx, matched = fn(
+                                            var idx,
+                                                matched = fn(
                                                     seed,
                                                     argument
-                                                ), i = matched.length;
+                                                ),
+                                                i = matched.length;
                                             i--;
 
                                         )
@@ -5725,10 +5728,10 @@
                                 ) {
                                     return fn(
                                         elem,
-                                        0, (
-                                            args = [pseudo, pseudo, "", argument,])
+                                        0,
+                                        args
                                     );
-                                }
+                                })
                             : fn;
                 },
             },

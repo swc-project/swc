@@ -1498,10 +1498,11 @@
                         setIndex++
                     )
                         for (
+                            element = jqLite(
+                                set[setIndex]
+                            ),
                             fireEvent
-                                ? (element = jqLite(
-                                    set[setIndex]
-                                )).triggerHandler(
+                                ? element.triggerHandler(
                                     "$destroy"
                                 )
                                 : (fireEvent = !fireEvent),
@@ -15662,6 +15663,10 @@
                                         groupIndex++
                                     ) {
                                         for (
+                                            optionGroup =
+                        optionGroups[
+                            (optionGroupName = optionGroupNames[groupIndex])
+                        ],
                                             optionGroupsCache.length <= groupIndex
                                                 ? (optionGroupsCache.push(
                                                     (existingOptions = [
@@ -15673,11 +15678,7 @@
                                                                     "label",
                                                                     optionGroupName
                                                                 ),
-                                                            label: (optionGroup =
-                                  optionGroups[
-                                      (optionGroupName =
-                                      optionGroupNames[groupIndex])
-                                  ]).label,
+                                                            label: optionGroup.label,
                                                         }),
                                                     ]),
                                                 ),
@@ -15685,12 +15686,12 @@
                                                     existingParent.element
                                                 ))
                                                 : ((existingParent = (existingOptions =
-                            optionGroupsCache[groupIndex])[0]),
+                              optionGroupsCache[groupIndex])[0]),
                                                 existingParent.label != optionGroupName &&
-                            existingParent.element.attr(
-                                "label",
-                                (existingParent.label = optionGroupName),
-                            )),
+                              existingParent.element.attr(
+                                  "label",
+                                  (existingParent.label = optionGroupName),
+                              )),
                                             lastElement = null,
                                             index = 0,
                                             length = optionGroup.length;

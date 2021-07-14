@@ -545,11 +545,7 @@ impl Optimizer<'_> {
     /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) -> bool {
         match b {
-            Expr::Cond(b) => {
-                if self.merge_sequential_expr(a, &mut *b.test) {
-                    return true;
-                }
-            }
+            Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
             _ => {}
         }
 
