@@ -231,7 +231,40 @@ impl Optimizer<'_> {
 
     ///
     /// - `(a, b, c) && d` => `a, b, c && d`
-    pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {}
+    pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {
+        let bin = match e {
+            Expr::Bin(b) => b,
+            _ => return,
+        };
+
+        match &mut *bin.left {
+            Expr::Seq(left) => {
+                if left.exprs.is_empty() {
+                    return;
+                }
+
+                self.changed = true;
+                log::trace!("sequences: Lifting sequence in a binary expression");
+
+                let left_last = left.exprs.pop().unwrap();
+
+                let mut exprs = left.exprs.take();
+
+                exprs.push(Box::new(Expr::Bin(BinExpr {
+                    span: left.span,
+                    op: bin.op,
+                    left: left_last,
+                    right: bin.right.take(),
+                })));
+
+                *e = Expr::Seq(SeqExpr {
+                    span: bin.span,
+                    exprs,
+                })
+            }
+            _ => {}
+        }
+    }
 
     ///
     /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
