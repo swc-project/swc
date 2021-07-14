@@ -556,9 +556,22 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
+                // TODO: Abort this if there's some side effects.
+                //
+                //
+                // (rand = _.random(
+                //     index++
+                // )),
+                // (shuffled[index - 1] = shuffled[rand]),
+                // (shuffled[rand] = value);
+                //
+                //
+                // rand should not be inlined because of `index`.
+
                 if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
                     return false;
                 }
+
                 // (a = 5, console.log(a))
                 //
                 // =>
