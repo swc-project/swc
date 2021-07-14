@@ -230,6 +230,10 @@ impl Optimizer<'_> {
     }
 
     ///
+    /// - `(a, b, c) && d` => `a, b, c && d`
+    pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {}
+
+    ///
     /// - `x = (foo(), bar(), baz()) ? 10 : 20` => `foo(), bar(), x = baz() ? 10
     ///   : 20;`
     pub(super) fn lift_seqs_of_cond_assign(&mut self, e: &mut Expr) {
