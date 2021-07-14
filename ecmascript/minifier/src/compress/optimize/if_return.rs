@@ -41,6 +41,11 @@ impl Optimizer<'_> {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
+                match &*stmt.cons {
+                    Stmt::Return(..) => return,
+                    _ => {}
+                }
+
                 self.changed = true;
                 log::trace!(
                     "if_return: Negating `!cond` as `cond` in for an if statement which has cons \
