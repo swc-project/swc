@@ -250,6 +250,7 @@ impl Optimizer<'_> {
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
+        Vec<T>: VisitMutWith<VarPrepender>,
     {
         if !self.options.collapse_vars {
             return;
@@ -329,20 +330,56 @@ impl Optimizer<'_> {
             }
         }
 
-        prepend(
-            &mut new,
-            T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: Default::default(),
-                decls: vars,
-            }))),
-        );
+        // Prepend vars
+        let mut prepender = VarPrepender { vars };
+        new.visit_mut_with(&mut prepender);
+
+        if !prepender.vars.is_empty() {
+            prepend(
+                &mut new,
+                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: prepender.vars,
+                }))),
+            );
+        }
 
         *stmts = new;
 
         //
     }
+}
+
+pub(super) struct VarPrepender {
+    vars: Vec<VarDeclarator>,
+}
+
+impl VisitMut for VarPrepender {
+    noop_visit_mut_type!();
+
+    fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
+        if self.vars.is_empty() {
+            return;
+        }
+
+        if v.decls.iter().any(|d| d.init.is_some()) {
+            let mut decls = self.vars.take();
+            decls.extend(v.decls.take());
+
+            v.decls = decls;
+        }
+    }
+
+    /// Noop
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    /// Noop
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    /// Noop
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 }
 
 /// Checks inlinabilty of variable initializer.

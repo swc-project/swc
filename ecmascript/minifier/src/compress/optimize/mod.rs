@@ -234,7 +234,9 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
+        Vec<T>: VisitMutWith<Self>
+            + VisitWith<UsageAnalyzer>
+            + VisitMutWith<self::collapse_vars::VarPrepender>,
     {
         match self.data {
             Some(..) => {}
