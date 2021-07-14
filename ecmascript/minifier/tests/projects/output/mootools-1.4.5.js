@@ -244,10 +244,10 @@
             name, method
         ) {
             if (!method || !method.$hidden) {
-                for (var hooks1 = hooksOf(
+                for (var hooks = hooksOf(
                         this
-                    ), i = 0; i < hooks1.length; i++) {
-                    var hook = hooks1[i];
+                    ), i = 0; i < hooks.length; i++) {
+                    var hook = hooks[i];
                     "type" == typeOf(
                         hook
                     )
@@ -746,11 +746,11 @@
         );
     }),
     (this.$arguments = function (
-        i1
+        i
     ) {
         return function (
         ) {
-            return arguments[i1];
+            return arguments[i];
         };
     }),
     (this.$chk = function (
@@ -2590,8 +2590,8 @@ var Event1 = DOMEvent;
                     'The method "parent" cannot be called.'
                 );
             var name = this.$caller.$name,
-                parent1 = this.$caller.$owner.parent,
-                previous = parent1 ? parent1.prototype[name] : null;
+                parent = this.$caller.$owner.parent,
+                previous = parent ? parent.prototype[name] : null;
             if (!previous)
                 throw new Error(
                     'The method "' + name + '" has no parent.'
@@ -2702,10 +2702,10 @@ var Event1 = DOMEvent;
     ),
     (Class.Mutators = {
         Extends: function (
-            parent1
+            parent
         ) {
-            (this.parent = parent1), (this.prototype = getInstance(
-                parent1
+            (this.parent = parent), (this.prototype = getInstance(
+                parent
             ));
         },
         Implements: function (
@@ -6451,26 +6451,26 @@ Elements.alias(
             retrieve: function (
                 property, dflt
             ) {
-                var storage1 = get(
+                var storage = get(
                         Slick.uidOf(
                             this
                         )
                     ),
-                    prop = storage1[property];
+                    prop = storage[property];
                 return (
-                    null != dflt && null == prop && (prop = storage1[property] = dflt),
+                    null != dflt && null == prop && (prop = storage[property] = dflt),
                     null != prop ? prop : null
                 );
             },
             store: function (
                 property, value
             ) {
-                var storage1 = get(
+                var storage = get(
                     Slick.uidOf(
                         this
                     )
                 );
-                return (storage1[property] = value), this;
+                return (storage[property] = value), this;
             },
             eliminate: function (
                 property

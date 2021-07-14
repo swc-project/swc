@@ -61,7 +61,7 @@
             }
         ),
         (function (
-            $, window1, undefined
+            $, window, undefined
         ) {
             var nsNormalizeDict = {
                 },
@@ -751,7 +751,7 @@
             jQuery
         ),
         (function (
-            $, window1, undefined
+            $, window, undefined
         ) {
             var compensateToolbars = function (
                 page, desiredHeight
@@ -792,7 +792,7 @@
                 jQuery.mobile,
                 {
                     window: jQuery(
-                        window1
+                        window
                     ),
                     document: jQuery(
                         document
@@ -811,7 +811,7 @@
                         setTimeout(
                             function (
                             ) {
-                                window1.scrollTo(
+                                window.scrollTo(
                                     0,
                                     ypos
                                 ),
@@ -939,7 +939,7 @@
                     },
                     getScreenHeight: function (
                     ) {
-                        return window1.innerHeight || jQuery.mobile.window.height(
+                        return window.innerHeight || jQuery.mobile.window.height(
                         );
                     },
                     resetActivePageHeight: function (
@@ -2161,14 +2161,14 @@
             this
         ),
         (function (
-            $, window1, undefined
+            $, window, undefined
         ) {
             var fake_onhashchange,
                 doc = document,
                 special = jQuery.event.special,
                 doc_mode = doc.documentMode,
                 supports_onhashchange =
-          "onhashchange" in window1 && (void 0 === doc_mode || doc_mode > 7);
+          "onhashchange" in window && (void 0 === doc_mode || doc_mode > 7);
             function get_fragment(
                 url
             ) {
@@ -2249,7 +2249,7 @@
                             history_hash
                         ),
                         jQuery(
-                            window1
+                            window
                         ).trigger(
                             "hashchange"
                         ))
@@ -2265,8 +2265,8 @@
                     ));
                 }
                 return (
-                    window1.attachEvent &&
-              !window1.addEventListener &&
+                    window.attachEvent &&
+              !window.addEventListener &&
               !supports_onhashchange &&
               (function (
               ) {
@@ -3149,9 +3149,9 @@
                     );
                 },
                 set: function (
-                    path1
+                    path
                 ) {
-                    location.hash = path1;
+                    location.hash = path;
                 },
                 isPath: function (
                     url
@@ -3362,10 +3362,10 @@
                     );
                 },
                 getFilePath: function (
-                    path1
+                    path
                 ) {
                     var splitkey = "&" + jQuery.mobile.subPageUrlKey;
-                    return path1 && path1.split(
+                    return path && path.split(
                         splitkey
                     )[0].split(
                         "&ui-state=dialog"
@@ -3979,7 +3979,7 @@
             jQuery
         ),
         (function (
-            $, window1, document1, undefined
+            $, window, document, undefined
         ) {
             var threshold,
                 i,
@@ -4496,7 +4496,7 @@
             document
         ),
         (function (
-            $, window1, undefined
+            $, window, undefined
         ) {
             var $document = jQuery(
                     document
@@ -4715,8 +4715,8 @@
                 getLocation: function (
                     event
                 ) {
-                    var winPageX = window1.pageXOffset,
-                        winPageY = window1.pageYOffset,
+                    var winPageX = window.pageXOffset,
+                        winPageY = window.pageYOffset,
                         x = event.clientX,
                         y = event.clientY;
                     return (
@@ -5019,7 +5019,7 @@
             jQuery
         ),
         (function (
-            $, window1
+            $, window
         ) {
             var get_orientation,
                 last_orientation,
@@ -5028,19 +5028,19 @@
                 ww,
                 wh,
                 win = jQuery(
-                    window1
+                    window
                 ),
                 portrait_map = {
                     0: !0,
                     180: !0,
                 };
             jQuery.support.orientation &&
-        ((ww = window1.innerWidth || win.width(
+        ((ww = window.innerWidth || win.width(
         )),
-        (wh = window1.innerHeight || win.height(
+        (wh = window.innerHeight || win.height(
         )),
         (initial_orientation_is_landscape = ww > wh && ww - wh > 50),
-        (initial_orientation_is_default = portrait_map[window1.orientation]),
+        (initial_orientation_is_default = portrait_map[window.orientation]),
         ((initial_orientation_is_landscape && initial_orientation_is_default) ||
           (!initial_orientation_is_landscape &&
             !initial_orientation_is_default)) &&
@@ -5112,7 +5112,7 @@
                 var elem = document.documentElement;
                 return (
                     jQuery.support.orientation
-                        ? portrait_map[window1.orientation]
+                        ? portrait_map[window.orientation]
                         : elem && elem.clientWidth / elem.clientHeight < 1.1
                 )
                     ? "portrait"
@@ -7310,7 +7310,7 @@
             jQuery
         ),
         (function (
-            $, window1, undefined
+            $, window, undefined
         ) {
             (jQuery.mobile.Transition = function (
             ) {
@@ -7413,7 +7413,7 @@
                         (jQuery.event.special.scrollstart.enabled = !1),
                         (jQuery.mobile.hideUrlBar ||
                 this.toScroll !== jQuery.mobile.defaultHomeScroll) &&
-                window1.scrollTo(
+                window.scrollTo(
                     0,
                     this.toScroll
                 ),
@@ -20090,7 +20090,7 @@
             jQuery
         ),
         (function (
-            $, window1
+            $, window
         ) {
             var zoom, evt, x, y, z, aig;
             jQuery.mobile.iosorientationfixEnabled = !0;
@@ -20124,7 +20124,7 @@
                 (z = Math.abs(
                     aig.z
                 )),
-                window1.orientation ||
+                window.orientation ||
           (!(x > 7) &&
             (((!(z > 6) || !(y < 8)) && (!(z < 8) || !(y > 6))) || !(x > 5)))
                     ? zoom.enabled || zoom.enable(
@@ -20153,7 +20153,7 @@
             this
         ),
         (function (
-            $, window1, undefined
+            $, window, undefined
         ) {
             var $html = jQuery(
                     "html"
@@ -20166,11 +20166,10 @@
                 );
             }
             (jQuery(
-                window1.document
+                window.document
             ).trigger(
                 "mobileinit"
-            ),
-            jQuery.mobile.gradeA(
+            ), jQuery.mobile.gradeA(
             )) &&
         (jQuery.mobile.ajaxBlacklist && (jQuery.mobile.ajaxEnabled = !1),
         $html.addClass(
@@ -20302,7 +20301,7 @@
             ) {
                 jQuery.support.inlineSVG(
                 ),
-                jQuery.mobile.hideUrlBar && window1.scrollTo(
+                jQuery.mobile.hideUrlBar && window.scrollTo(
                     0,
                     1
                 ),

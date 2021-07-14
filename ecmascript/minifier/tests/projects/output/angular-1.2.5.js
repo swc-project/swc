@@ -970,10 +970,10 @@
             names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app",],
             NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
         function append(
-            element1
+            element
         ) {
-            element1 && elements.push(
-                element1
+            element && elements.push(
+                element
             );
         }
         forEach(
@@ -1015,27 +1015,27 @@
         forEach(
             elements,
             function (
-                element1
+                element
             ) {
                 if (!appElement) {
-                    var className = " " + element1.className + " ",
+                    var className = " " + element.className + " ",
                         match = NG_APP_CLASS_REGEXP.exec(
                             className
                         );
                     match
-                        ? ((appElement = element1),
+                        ? ((appElement = element),
                         (module = (match[2] || "").replace(
                             /\s+/g,
                             ","
                         )))
                         : forEach(
-                            element1.attributes,
+                            element.attributes,
                             function (
                                 attr
                             ) {
                                 appElement ||
                   !names[attr.name] ||
-                  ((appElement = element1), (module = attr.value));
+                  ((appElement = element), (module = attr.value));
                             }
                         );
                 }
@@ -1094,16 +1094,16 @@
                             "$injector",
                             "$animate",
                             function (
-                                scope, element1, compile, injector1, animate
+                                scope, element, compile, injector, animate
                             ) {
                                 scope.$apply(
                                     function (
                                     ) {
-                                        element1.data(
+                                        element.data(
                                             "$injector",
-                                            injector1
+                                            injector
                                         ), compile(
-                                            element1
+                                            element
                                         )(
                                             scope
                                         );
@@ -1248,7 +1248,7 @@
         var $injectorMinErr = minErr(
                 "$injector"
             ),
-            ngMinErr1 = minErr(
+            ngMinErr = minErr(
                 "ng"
             );
         function ensure(
@@ -1257,15 +1257,15 @@
             return obj[name] || (obj[name] = factory(
             ));
         }
-        var angular1 = ensure(
+        var angular = ensure(
             window,
             "angular",
             Object
         );
         return (
-            (angular1.$$minErr = angular1.$$minErr || minErr),
+            (angular.$$minErr = angular.$$minErr || minErr),
             ensure(
-                angular1,
+                angular,
                 "module",
                 function (
                 ) {
@@ -1276,10 +1276,10 @@
                     ) {
                         return (
                             (function (
-                                name1, context
+                                name, context
                             ) {
                                 if ("hasOwnProperty" === name)
-                                    throw ngMinErr1(
+                                    throw ngMinErr(
                                         "badname",
                                         "hasOwnProperty is not a valid {0} name",
                                         "module",
@@ -2791,12 +2791,12 @@
                 function (
                     servicename
                 ) {
-                    var provider1 = providerInjector.get(
+                    var provider = providerInjector.get(
                         servicename + "Provider"
                     );
                     return instanceInjector.invoke(
-                        provider1.$get,
-                        provider1
+                        provider.$get,
+                        provider
                     );
                 },
             ));
@@ -2898,14 +2898,14 @@
             );
         }
         function constant(
-            name, value1
+            name, value
         ) {
             assertNotHasOwnProperty(
                 name,
                 "constant"
             ),
-            (providerCache[name] = value1),
-            (instanceCache[name] = value1);
+            (providerCache[name] = value),
+            (instanceCache[name] = value);
         }
         function decorator(
             serviceName, decorFn
@@ -2974,11 +2974,11 @@
                                         i++
                                     ) {
                                         var invokeArgs = invokeQueue[i],
-                                            provider1 = providerInjector.get(
+                                            provider = providerInjector.get(
                                                 invokeArgs[0]
                                             );
-                                        provider1[invokeArgs[1]].apply(
-                                            provider1,
+                                        provider[invokeArgs[1]].apply(
+                                            provider,
                                             invokeArgs[2]
                                         );
                                     }
@@ -3029,7 +3029,7 @@
             );
         }
         function createInternalInjector(
-            cache, factory1
+            cache, factory
         ) {
             function getService(
                 serviceName
@@ -3053,7 +3053,7 @@
                                 serviceName
                             ),
                             (cache[serviceName] = INSTANTIATING),
-                            (cache[serviceName] = factory1(
+                            (cache[serviceName] = factory(
                                 serviceName
                             ))
                         );
@@ -3155,7 +3155,7 @@
             function (
                 $window, $location, $rootScope
             ) {
-                var document1 = $window.document;
+                var document = $window.document;
                 function getFirstAnchor(
                     list
                 ) {
@@ -3182,13 +3182,13 @@
                         hash = $location.hash(
                         );
                     hash
-                        ? (elm = document1.getElementById(
+                        ? (elm = document.getElementById(
                             hash
                         ))
                             ? elm.scrollIntoView(
                             )
                             : (elm = getFirstAnchor(
-                                document1.getElementsByName(
+                                document.getElementsByName(
                                     hash
                                 )
                             ))
@@ -3364,15 +3364,15 @@
             },
         ];
     function Browser(
-        window1, document, $log, $sniffer
+        window, document, $log, $sniffer
     ) {
         var pollTimeout,
             self = this,
             rawDocument = document[0],
-            location = window1.location,
-            history = window1.history,
-            setTimeout = window1.setTimeout,
-            clearTimeout = window1.clearTimeout,
+            location = window.location,
+            history = window.history,
+            setTimeout = window.setTimeout,
+            clearTimeout = window.clearTimeout,
             pendingDeferIds = {
             };
         self.isMock = !1;
@@ -3445,7 +3445,7 @@
             );
         };
         function startPoller(
-            interval, setTimeout1
+            interval, setTimeout
         ) {
             !(function check(
             ) {
@@ -3458,7 +3458,7 @@
                         );
                     }
                 ),
-                (pollTimeout = setTimeout1(
+                (pollTimeout = setTimeout(
                     check,
                     interval
                 ));
@@ -3473,9 +3473,7 @@
         self.url = function (
             url, replace
         ) {
-            if (
-                (location !== window1.location && (location = window1.location), !url)
-            )
+            if ((location !== window.location && (location = window.location), !url))
                 return newLocation || location.href.replace(
                     /%27/g,
                     "'"
@@ -3537,14 +3535,14 @@
             return (
                 urlChangeInit ||
           ($sniffer.history && jqLite(
-              window1
+              window
           ).on(
               "popstate",
               fireUrlChange
           ),
           $sniffer.hashchange
               ? jqLite(
-                  window1
+                  window
               ).on(
                   "hashchange",
                   fireUrlChange
@@ -5009,7 +5007,7 @@
                             linkFn,
                             controller,
                             isolateScope,
-                            transcludeFn1,
+                            transcludeFn,
                             elementControllers = {
                             };
                         if (
@@ -5175,40 +5173,40 @@
                             );
                         }
                         for (
-                            transcludeFn1 = boundTranscludeFn && controllersBoundTransclude,
+                            transcludeFn = boundTranscludeFn && controllersBoundTransclude,
                             controllerDirectives &&
                     forEach(
                         controllerDirectives,
                         function (
-                            directive1
+                            directive
                         ) {
                             var controllerInstance,
                                 locals = {
                                     $scope:
-                            directive1 === newIsolateScopeDirective ||
-                            directive1.$$isolateScope
+                            directive === newIsolateScopeDirective ||
+                            directive.$$isolateScope
                                 ? isolateScope
                                 : scope,
                                     $element: attrs.$$element,
                                     $attrs: attrs,
-                                    $transclude: transcludeFn1,
+                                    $transclude: transcludeFn,
                                 };
-                            "@" == (controller = directive1.controller) &&
-                        (controller = attrs[directive1.name]),
+                            "@" == (controller = directive.controller) &&
+                        (controller = attrs[directive.name]),
                             (elementControllers[
-                                directive1.name
+                                directive.name
                             ] = controllerInstance = $controller(
                                 controller,
                                 locals,
                             )),
                             hasElementTranscludeDirective ||
                           attrs.$$element.data(
-                              "$" + directive1.name + "Controller",
+                              "$" + directive.name + "Controller",
                               controllerInstance,
                           ),
-                            directive1.controllerAs &&
+                            directive.controllerAs &&
                           (locals.$scope[
-                              directive1.controllerAs
+                              directive.controllerAs
                           ] = controllerInstance);
                         }
                     ),
@@ -5229,7 +5227,7 @@
                             $element,
                             elementControllers,
                         ),
-                                    transcludeFn1,
+                                    transcludeFn,
                                 );
                             } catch (e) {
                                 $exceptionHandler(
@@ -5268,7 +5266,7 @@
                             $element,
                             elementControllers,
                         ),
-                                    transcludeFn1,
+                                    transcludeFn,
                                 );
                             } catch (e) {
                                 $exceptionHandler(
@@ -5279,18 +5277,18 @@
                                 );
                             }
                         function controllersBoundTransclude(
-                            scope1, cloneAttachFn
+                            scope, cloneAttachFn
                         ) {
                             var transcludeControllers;
                             return (
                                 arguments.length < 2 &&
-                    ((cloneAttachFn = scope1), (scope1 = void 0)),
+                    ((cloneAttachFn = scope), (scope = void 0)),
                                 hasElementTranscludeDirective &&
                     (transcludeControllers = elementControllers),
                                 boundTranscludeFn(
-                                    scope1,
+                                    scope,
                                     cloneAttachFn,
-                                    transcludeControllers,
+                                    transcludeControllers
                                 )
                             );
                         }
@@ -6253,19 +6251,19 @@
             ] = xsrfValue);
                     var chain = [
                             function (
-                                config1
+                                config
                             ) {
-                                headers = config1.headers;
+                                headers = config.headers;
                                 var reqData = transformData(
-                                    config1.data,
+                                    config.data,
                                     headersGetter(
                                         headers
                                     ),
-                                    config1.transformRequest,
+                                    config.transformRequest,
                                 );
                                 return (
                                     isUndefined(
-                                        config1.data
+                                        config.data
                                     ) &&
                     forEach(
                         headers,
@@ -6279,14 +6277,14 @@
                         }
                     ),
                                     isUndefined(
-                                        config1.withCredentials
+                                        config.withCredentials
                                     ) &&
                     !isUndefined(
                         defaults.withCredentials
                     ) &&
-                    (config1.withCredentials = defaults.withCredentials),
+                    (config.withCredentials = defaults.withCredentials),
                                     sendReq(
-                                        config1,
+                                        config,
                                         reqData,
                                         headers
                                     ).then(
@@ -6396,7 +6394,7 @@
                             );
                     }
                     function mergeHeaders(
-                        config1
+                        config
                     ) {
                         var defHeaderName,
                             lowercaseDefHeaderName,
@@ -6405,7 +6403,7 @@
                             reqHeaders = extend(
                                 {
                                 },
-                                config1.headers
+                                config.headers
                             );
                         execHeaders(
                             (defHeaders = extend(
@@ -6413,7 +6411,7 @@
                                 },
                                 defHeaders.common,
                                 defHeaders[lowercase(
-                                    config1.method
+                                    config.method
                                 )],
                             )),
                         ),
@@ -6433,11 +6431,11 @@
                         }
                         return reqHeaders;
                         function execHeaders(
-                            headers1
+                            headers
                         ) {
                             var headerContent;
                             forEach(
-                                headers1,
+                                headers,
                                 function (
                                     headerFn, header
                                 ) {
@@ -6446,8 +6444,8 @@
                                     ) &&
                   (null != (headerContent = headerFn(
                   ))
-                      ? (headers1[header] = headerContent)
-                      : delete headers1[header]);
+                      ? (headers[header] = headerContent)
+                      : delete headers[header]);
                                 }
                             );
                         }
@@ -6499,9 +6497,9 @@
                     forEach(
                         arguments,
                         function (
-                            name1
+                            name
                         ) {
-                            $http[name1] = function (
+                            $http[name] = function (
                                 url, data, config
                             ) {
                                 return $http(
@@ -6509,7 +6507,7 @@
                                         config || {
                                         },
                                         {
-                                            method: name1,
+                                            method: name,
                                             url: url,
                                             data: data,
                                         }
@@ -6763,7 +6761,7 @@
     }
     function createHttpBackend(
         $browser,
-        XHR1,
+        XHR,
         $browserDefer,
         callbacks,
         rawDocument,
@@ -6817,7 +6815,7 @@
                     },
                 );
             } else {
-                var xhr = new XHR1(
+                var xhr = new XHR(
                 );
                 xhr.open(
                     method,
@@ -6876,22 +6874,22 @@
                 );
             }
             function completeRequest(
-                callback, status1, response, headersString
+                callback, status, response, headersString
             ) {
                 timeoutId && $browserDefer.cancel(
                     timeoutId
                 ),
                 (jsonpDone = xhr = null),
-                (status1 =
+                (status =
             "file" == urlResolve(
                 url
-            ).protocol && 0 === status1
+            ).protocol && 0 === status
                 ? response
                     ? 200
                     : 404
-                : status1),
+                : status),
                 callback(
-                    (status1 = 1223 == status1 ? 204 : status1),
+                    (status = 1223 == status ? 204 : status),
                     response,
                     headersString,
                 ),
@@ -6976,7 +6974,7 @@
                             hasInterpolation = !1,
                             fn,
                             exp,
-                            concat1 = [];
+                            concat = [];
                         index < length;
 
                     )
@@ -7026,7 +7024,7 @@
                         );
                     if (!mustHaveExpression || hasInterpolation)
                         return (
-                            (concat1.length = length),
+                            (concat.length = length),
                             (fn = function (
                                 context
                             ) {
@@ -7051,8 +7049,8 @@
                             : "string" != typeof part && (part = toJson(
                                 part
                             ))),
-                                        (concat1[i] = part);
-                                    return concat1.join(
+                                        (concat[i] = part);
+                                    return concat.join(
                                         ""
                                     );
                                 } catch (err) {
@@ -9968,7 +9966,7 @@
                             var result = defer(
                                 ),
                                 wrappedCallback = function (
-                                    value1
+                                    value
                                 ) {
                                     try {
                                         result.resolve(
@@ -9977,7 +9975,7 @@
                                             )
                                                 ? callback
                                                 : defaultCallback)(
-                                                value1,
+                                                value,
                                             ),
                                         );
                                     } catch (e) {
@@ -10057,23 +10055,23 @@
                             callback
                         ) {
                             function makePromise(
-                                value1, resolved
+                                value, resolved
                             ) {
                                 var result = defer(
                                 );
                                 return (
                                     resolved
                                         ? result.resolve(
-                                            value1
+                                            value
                                         )
                                         : result.reject(
-                                            value1
+                                            value
                                         ),
                                     result.promise
                                 );
                             }
                             function handleCallback(
-                                value1, isResolved
+                                value, isResolved
                             ) {
                                 var callbackOutput = null;
                                 try {
@@ -10092,7 +10090,7 @@
                                         function (
                                         ) {
                                             return makePromise(
-                                                value1,
+                                                value,
                                                 isResolved
                                             );
                                         },
@@ -10106,16 +10104,16 @@
                                         },
                                     )
                                     : makePromise(
-                                        value1,
+                                        value,
                                         isResolved
                                     );
                             }
                             return this.then(
                                 function (
-                                    value1
+                                    value
                                 ) {
                                     return handleCallback(
-                                        value1,
+                                        value,
                                         !0
                                     );
                                 },
@@ -10220,7 +10218,7 @@
                     result = defer(
                     ),
                     wrappedCallback = function (
-                        value1
+                        value
                     ) {
                         try {
                             return (isFunction(
@@ -10228,7 +10226,7 @@
                             )
                                 ? callback
                                 : defaultCallback)(
-                                value1,
+                                value
                             );
                         } catch (e) {
                             return exceptionHandler(
@@ -10282,13 +10280,13 @@
                                 value
                             ).then(
                                 function (
-                                    value1
+                                    value
                                 ) {
                                     done ||
                   ((done = !0),
                   result.resolve(
                       ref(
-                          value1
+                          value
                       ).then(
                           wrappedCallback,
                           wrappedErrback,
@@ -11451,10 +11449,10 @@
                         ($window.navigator || {
                         }).userAgent
                     ),
-                    document1 = $document[0] || {
+                    document = $document[0] || {
                     },
-                    documentMode = document1.documentMode,
-                    bodyStyle = document1.body && document1.body.style,
+                    documentMode = document.documentMode,
+                    bodyStyle = document.body && document.body.style,
                     transitions = !1,
                     animations = !1;
                 if (bodyStyle) {
@@ -11487,10 +11485,10 @@
                     android &&
               (!transitions || !animations) &&
               ((transitions = isString(
-                  document1.body.style.webkitTransition
+                  document.body.style.webkitTransition
               )),
               (animations = isString(
-                  document1.body.style.webkitAnimation
+                  document.body.style.webkitAnimation
               )));
                 }
                 return {
@@ -11511,7 +11509,7 @@
                   eventSupport[event]
               ) &&
                 (eventSupport[event] =
-                  "on" + event in document1.createElement(
+                  "on" + event in document.createElement(
                       "div"
                   )),
               eventSupport[event])
@@ -12057,7 +12055,7 @@
         );
     }
     function padNumber(
-        num, digits, trim1
+        num, digits, trim
     ) {
         var neg = "";
         for (
@@ -12066,12 +12064,12 @@
 
         )
             num = "0" + num;
-        return trim1 && (num = num.substr(
+        return trim && (num = num.substr(
             num.length - digits
         )), neg + num;
     }
     function dateGetter(
-        name, size, offset, trim1
+        name, size, offset, trim
     ) {
         return (
             (offset = offset || 0),
@@ -12086,7 +12084,7 @@
                     padNumber(
                         value,
                         size,
-                        trim1
+                        trim
                     )
                 );
             }
@@ -12569,14 +12567,14 @@
                         !attr.href && !attr.name)
                     )
                         return function (
-                            scope, element1
+                            scope, element
                         ) {
-                            element1.on(
+                            element.on(
                                 "click",
                                 function (
                                     event
                                 ) {
-                                    element1.attr(
+                                    element.attr(
                                         "href"
                                     ) || event.preventDefault(
                                     );
@@ -15219,15 +15217,15 @@
                                         selectCtrl
                                     );
                             function setupAsSingle(
-                                scope1,
+                                scope,
                                 selectElement,
-                                ngModelCtrl1,
-                                selectCtrl1,
+                                ngModelCtrl,
+                                selectCtrl,
                             ) {
-                                (ngModelCtrl1.$render = function (
+                                (ngModelCtrl.$render = function (
                                 ) {
-                                    var viewValue = ngModelCtrl1.$viewValue;
-                                    selectCtrl1.hasOption(
+                                    var viewValue = ngModelCtrl.$viewValue;
+                                    selectCtrl.hasOption(
                                         viewValue
                                     )
                                         ? (unknownOption.parent(
@@ -15246,7 +15244,7 @@
                                             ? selectElement.val(
                                                 ""
                                             )
-                                            : selectCtrl1.renderUnknownOption(
+                                            : selectCtrl.renderUnknownOption(
                                                 viewValue
                                             );
                                 }),
@@ -15254,13 +15252,13 @@
                                     "change",
                                     function (
                                     ) {
-                                        scope1.$apply(
+                                        scope.$apply(
                                             function (
                                             ) {
                                                 unknownOption.parent(
                                                 ) && unknownOption.remove(
                                                 ),
-                                                ngModelCtrl1.$setViewValue(
+                                                ngModelCtrl.$setViewValue(
                                                     selectElement.val(
                                                     )
                                                 );
@@ -15270,7 +15268,7 @@
                                 );
                             }
                             function setupAsMultiple(
-                                scope1, selectElement, ctrl
+                                scope, selectElement, ctrl
                             ) {
                                 var lastView;
                                 (ctrl.$render = function (
@@ -15293,7 +15291,7 @@
                                         }
                                     );
                                 }),
-                                scope1.$watch(
+                                scope.$watch(
                                     function (
                                     ) {
                                         equals(
@@ -15310,7 +15308,7 @@
                                     "change",
                                     function (
                                     ) {
-                                        scope1.$apply(
+                                        scope.$apply(
                                             function (
                                             ) {
                                                 var array = [];
@@ -15335,7 +15333,7 @@
                                 );
                             }
                             function setupAsOptions(
-                                scope1, selectElement, ctrl
+                                scope, selectElement, ctrl
                             ) {
                                 var match;
                                 if (!(match = optionsExp.match(
@@ -15357,7 +15355,7 @@
                                     groupByFn = $parse(
                                         match[3] || ""
                                     ),
-                                    valueFn1 = $parse(
+                                    valueFn = $parse(
                                         match[2] ? match[1] : valueName
                                     ),
                                     valuesFn = $parse(
@@ -15381,7 +15379,7 @@
                   ($compile(
                       nullOption
                   )(
-                      scope1
+                      scope
                   ),
                   nullOption.removeClass(
                       "ng-scope"
@@ -15394,7 +15392,7 @@
                                     "change",
                                     function (
                                     ) {
-                                        scope1.$apply(
+                                        scope.$apply(
                                             function (
                                             ) {
                                                 var optionGroup,
@@ -15407,7 +15405,7 @@
                                                     groupLength,
                                                     trackIndex,
                                                     collection = valuesFn(
-                                                        scope1
+                                                        scope
                                                     ) || [],
                                                     locals = {
                                                     };
@@ -15445,15 +15443,15 @@
                                                                             ((locals[valueName] =
                                       collection[trackIndex]),
                                                                             trackFn(
-                                                                                scope1,
+                                                                                scope,
                                                                                 locals
                                                                             ) == key)
                                                                         )
                                                                             break;
                                                                         else locals[valueName] = collection[key];
                                                                 value.push(
-                                                                    valueFn1(
-                                                                        scope1,
+                                                                    valueFn(
+                                                                        scope,
                                                                         locals
                                                                     )
                                                                 );
@@ -15470,20 +15468,20 @@
                                                                     if (
                                                                         ((locals[valueName] = collection[trackIndex]),
                                                                         trackFn(
-                                                                            scope1,
+                                                                            scope,
                                                                             locals
                                                                         ) == key)
                                                                     ) {
-                                                                        value = valueFn1(
-                                                                            scope1,
+                                                                        value = valueFn(
+                                                                            scope,
                                                                             locals
                                                                         );
                                                                         break;
                                                                     } else
                                                                         (locals[valueName] = collection[key]),
                                                                         keyName && (locals[keyName] = key),
-                                                                        (value = valueFn1(
-                                                                            scope1,
+                                                                        (value = valueFn(
+                                                                            scope,
                                                                             locals
                                                                         ));
                                                 ctrl.$setViewValue(
@@ -15494,7 +15492,7 @@
                                     }
                                 ),
                                 (ctrl.$render = render),
-                                scope1.$watch(
+                                scope.$watch(
                                     render
                                 );
                                 function render(
@@ -15520,7 +15518,7 @@
                                         optionGroupNames = ["",],
                                         modelValue = ctrl.$modelValue,
                                         values = valuesFn(
-                                            scope1
+                                            scope
                                         ) || [],
                                         keys = keyName
                                             ? sortedKeys(
@@ -15545,7 +15543,7 @@
                                                 (locals[valueName] = modelValue[trackIndex]),
                                                 selectedSet.put(
                                                     trackFn(
-                                                        scope1,
+                                                        scope,
                                                         locals
                                                     ),
                                                     modelValue[trackIndex],
@@ -15566,7 +15564,7 @@
                                             (optionGroup =
                         optionGroups[
                             (optionGroupName = groupByFn(
-                                scope1,
+                                scope,
                                 locals
                             ) || "")
                         ]) ||
@@ -15580,11 +15578,11 @@
                                                 selectedSet.remove(
                                                     trackFn
                                                         ? trackFn(
-                                                            scope1,
+                                                            scope,
                                                             locals
                                                         )
-                                                        : valueFn1(
-                                                            scope1,
+                                                        : valueFn(
+                                                            scope,
                                                             locals
                                                         ),
                                                 ),
@@ -15596,28 +15594,28 @@
                                                 (modelCast[valueName] = modelValue),
                                                 (selected =
                             trackFn(
-                                scope1,
+                                scope,
                                 modelCast
                             ) ===
                             trackFn(
-                                scope1,
+                                scope,
                                 locals
                             ));
-                                            } else selected = modelValue === valueFn1(
-                                                scope1,
+                                            } else selected = modelValue === valueFn(
+                                                scope,
                                                 locals
                                             );
                                             selectedSet = selectedSet || selected;
                                         }
                                         (label = displayFn(
-                                            scope1,
+                                            scope,
                                             locals
                                         )),
                                         optionGroup.push(
                                             {
                                                 id: trackFn
                                                     ? trackFn(
-                                                        scope1,
+                                                        scope,
                                                         locals
                                                     )
                                                     : keyName
@@ -15783,7 +15781,7 @@
                             );
                         }
                         return function (
-                            scope, element, attr1
+                            scope, element, attr
                         ) {
                             var parent = element.parent(
                                 ),
@@ -15807,7 +15805,7 @@
                                     function (
                                         newVal, oldVal
                                     ) {
-                                        attr1.$set(
+                                        attr.$set(
                                             "value",
                                             newVal
                                         ),
@@ -15820,14 +15818,14 @@
                                     }
                                 )
                                 : selectCtrl.addOption(
-                                    attr1.value
+                                    attr.value
                                 ),
                             element.on(
                                 "$destroy",
                                 function (
                                 ) {
                                     selectCtrl.removeOption(
-                                        attr1.value
+                                        attr.value
                                     );
                                 }
                             );
@@ -15875,7 +15873,7 @@
         : (jqLite = JQLite),
     (angular.element = jqLite),
     (function (
-        angular1
+        angular
     ) {
         extend(
             angular,

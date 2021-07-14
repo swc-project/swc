@@ -1915,16 +1915,15 @@
                 if (null == fragment) {
                     if (this._hasPushState || !this._wantsHashChange || forcePushState) {
                         fragment = this.location.pathname;
-                        var root1 = this.root.replace(
+                        var root = this.root.replace(
                             trailingSlash,
                             ""
                         );
                         fragment.indexOf(
-                            root1
-                        ) ||
-              (fragment = fragment.slice(
-                  root1.length
-              ));
+                            root
+                        ) || (fragment = fragment.slice(
+                            root.length
+                        ));
                     } else fragment = this.getHash(
                     );
                 }

@@ -90,7 +90,7 @@
         jquery: "1.9.1",
         constructor: jQuery,
         init: function (
-            selector, context, rootjQuery1
+            selector, context, rootjQuery
         ) {
             var match, elem;
             if (!selector) return this;
@@ -145,7 +145,7 @@
                         if ((elem = document.getElementById(
                             match[2]
                         )) && elem.parentNode) {
-                            if (elem.id !== match[2]) return rootjQuery1.find(
+                            if (elem.id !== match[2]) return rootjQuery.find(
                                 selector
                             );
                             (this.length = 1), (this[0] = elem);
@@ -153,7 +153,7 @@
                         return (this.context = document), (this.selector = selector), this;
                     }
                 } else if (!context || context.jquery)
-                    return (context || rootjQuery1).find(
+                    return (context || rootjQuery).find(
                         selector
                     );
                 else return this.constructor(
@@ -165,7 +165,7 @@
                 return (this.context = this[0] = selector), (this.length = 1), this;
             else if (jQuery.isFunction(
                 selector
-            )) return rootjQuery1.ready(
+            )) return rootjQuery.ready(
                 selector
             );
             return (
@@ -1364,13 +1364,13 @@
                         : jQuery.Deferred(
                         ),
                     updateFunc = function (
-                        i1, contexts, values
+                        i, contexts, values
                     ) {
                         return function (
                             value
                         ) {
-                            (contexts[i1] = this),
-                            (values[i1] =
+                            (contexts[i] = this),
+                            (values[i] =
                   arguments.length > 1
                       ? core_slice.call(
                           arguments
@@ -1930,9 +1930,9 @@
                     : jQuery.access(
                         this,
                         function (
-                            value1
+                            value
                         ) {
-                            if (void 0 === value1)
+                            if (void 0 === value)
                                 return elem
                                     ? dataAttr(
                                         elem,
@@ -1949,7 +1949,7 @@
                                     jQuery.data(
                                         this,
                                         key,
-                                        value1
+                                        value
                                     );
                                 }
                             );
@@ -2557,9 +2557,9 @@
                 (val = jQuery.map(
                     val,
                     function (
-                        value1
+                        value
                     ) {
-                        return null == value1 ? "" : value1 + "";
+                        return null == value ? "" : value + "";
                     }
                 )),
             ((hooks =
@@ -4371,7 +4371,7 @@
             hasDuplicate,
             outermostContext,
             setDocument,
-            document1,
+            document,
             docElem,
             documentIsXML,
             rbuggyQSA,
@@ -4436,7 +4436,7 @@
               8
           ) +
           ")*)|.*)\\)|)",
-            rtrim1 = new RegExp(
+            rtrim = new RegExp(
                 "^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$",
                 "g",
             ),
@@ -4499,7 +4499,7 @@
             },
             rsibling = /[\x20\t\r\n\f]*[+~]/,
             rnative = /^[^{]+\{\s*\[native code/,
-            rquickExpr1 = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
+            rquickExpr = /^(?:#([\w-]+)|(\w+)|\.([\w-]+))$/,
             rinputs = /^(?:input|select|textarea|button)$/i,
             rheader = /^h\d$/i,
             rescape = /'|\\/g,
@@ -4567,7 +4567,7 @@
         function assert(
             fn
         ) {
-            document1.createElement(
+            document.createElement(
                 "div"
             );
             try {
@@ -4594,17 +4594,17 @@
                 newSelector;
             if (
                 ((context ? context.ownerDocument || context : preferredDoc) !==
-            document1 && setDocument(
+            document && setDocument(
                     context
                 ),
-                (context = context || document1),
+                (context = context || document),
                 (results = results || []),
                 !selector || "string" != typeof selector)
             )
                 return results;
             if (1 !== (nodeType = context.nodeType) && 9 !== nodeType) return [];
             if (!documentIsXML && !seed) {
-                if ((match = rquickExpr1.exec(
+                if ((match = rquickExpr.exec(
                     selector
                 ))) {
                     if ((m = match[1])) {
@@ -4727,7 +4727,7 @@
             }
             return select(
                 selector.replace(
-                    rtrim1,
+                    rtrim,
                     "$1"
                 ),
                 context,
@@ -4747,10 +4747,10 @@
         ) {
             var doc = node ? node.ownerDocument || node : preferredDoc;
             return (
-                doc !== document1 &&
+                doc !== document &&
               9 === doc.nodeType &&
               doc.documentElement &&
-              ((document1 = doc),
+              ((document = doc),
               (docElem = doc.documentElement),
               (documentIsXML = isXML(
                   doc
@@ -5179,7 +5179,7 @@
                   sortOrder
               ),
               (support.detectDuplicates = hasDuplicate)),
-                document1
+                document
             );
         }),
         (Sizzle.matches = function (
@@ -5196,7 +5196,7 @@
             elem, expr
         ) {
             if (
-                ((elem.ownerDocument || elem) !== document1 && setDocument(
+                ((elem.ownerDocument || elem) !== document && setDocument(
                     elem
                 ),
                 (expr = expr.replace(
@@ -5226,7 +5226,7 @@
                 } catch (e) {}
             return Sizzle(
                 expr,
-                document1,
+                document,
                 null,
                 [elem,]
             ).length > 0;
@@ -5235,7 +5235,7 @@
             context, elem
         ) {
             return (
-                (context.ownerDocument || context) !== document1 &&
+                (context.ownerDocument || context) !== document &&
               setDocument(
                   context
               ),
@@ -5249,7 +5249,7 @@
             elem, name
         ) {
             var val;
-            return ((elem.ownerDocument || elem) !== document1 &&
+            return ((elem.ownerDocument || elem) !== document &&
             setDocument(
                 elem
             ),
@@ -5348,7 +5348,7 @@
                 ) {
                     return markFunction(
                         function (
-                            seed, matches1
+                            seed, matches
                         ) {
                             for (
                                 var j,
@@ -5362,7 +5362,7 @@
 
                             )
                                 seed[(j = matchIndexes[i])] &&
-                (seed[j] = !(matches1[j] = seed[j]));
+                (seed[j] = !(matches[j] = seed[j]));
                         }
                     );
                 }
@@ -5719,7 +5719,7 @@
                             )
                                 ? markFunction(
                                     function (
-                                        seed, matches1
+                                        seed, matches
                                     ) {
                                         for (
                                             var idx,
@@ -5735,7 +5735,7 @@
                                                 seed,
                                                 matched[i]
                                             )),
-                                            (seed[idx] = !(matches1[idx] = matched[i]));
+                                            (seed[idx] = !(matches[idx] = matched[i]));
                                     }
                                 )
                                 : function (
@@ -5759,14 +5759,14 @@
                             results = [],
                             matcher = compile(
                                 selector.replace(
-                                    rtrim1,
+                                    rtrim,
                                     "$1"
                                 )
                             );
                         return matcher[expando]
                             ? markFunction(
                                 function (
-                                    seed, matches1, context, xml
+                                    seed, matches, context, xml
                                 ) {
                                     for (
                                         var elem,
@@ -5780,7 +5780,7 @@
                                         i--;
 
                                     )
-                                        (elem = unmatched[i]) && (seed[i] = !(matches1[i] = elem));
+                                        (elem = unmatched[i]) && (seed[i] = !(matches[i] = elem));
                                 }
                             )
                             : function (
@@ -5892,8 +5892,8 @@
                     elem
                 ) {
                     return (
-                        elem === document1.activeElement &&
-              (!document1.hasFocus || document1.hasFocus(
+                        elem === document.activeElement &&
+              (!document.hasFocus || document.hasFocus(
               )) &&
               !!(elem.type || elem.href || ~elem.tabIndex)
                     );
@@ -6112,7 +6112,7 @@
                 {
                     value: matched,
                     type: match[0].replace(
-                        rtrim1,
+                        rtrim,
                         " "
                     ),
                 }
@@ -6466,7 +6466,7 @@
                           i - 1
                       )
                   ).replace(
-                      rtrim1,
+                      rtrim,
                       "$1"
                   ),
                             matcher,
@@ -6519,7 +6519,7 @@
                     ) || 0.1);
                     for (
                         outermost &&
-              ((outermostContext = context !== document1 && context),
+              ((outermostContext = context !== document && context),
               (cachedruns = matcherCachedRuns));
                         null !=
               (elem = (seed ||
@@ -7242,12 +7242,12 @@
         );
     }
     function createSafeFragment(
-        document1
+        document
     ) {
         var list = nodeNames.split(
                 "|"
             ),
-            safeFrag = document1.createDocumentFragment(
+            safeFrag = document.createDocumentFragment(
             );
         if (safeFrag.createElement)
             for (; list.length; ) safeFrag.createElement(
@@ -11799,7 +11799,7 @@
                 return jQuery.access(
                     this,
                     function (
-                        elem, method1, val
+                        elem, method, val
                     ) {
                         var win = getWindow(
                             elem
@@ -11808,8 +11808,8 @@
                             return win
                                 ? prop in win
                                     ? win[prop]
-                                    : win.document.documentElement[method1]
-                                : elem[method1];
+                                    : win.document.documentElement[method]
+                                : elem[method];
                         win
                             ? win.scrollTo(
                                 top
@@ -11825,7 +11825,7 @@
                                     ).scrollTop(
                                     ),
                             )
-                            : (elem[method1] = val);
+                            : (elem[method] = val);
                     },
                     method,
                     val,
@@ -11873,7 +11873,7 @@
                         return jQuery.access(
                             this,
                             function (
-                                elem, type1, value
+                                elem, type, value
                             ) {
                                 return jQuery.isWindow(
                                     elem
@@ -11890,12 +11890,12 @@
                                         : void 0 === value
                                             ? jQuery.css(
                                                 elem,
-                                                type1,
+                                                type,
                                                 extra
                                             )
                                             : jQuery.style(
                                                 elem,
-                                                type1,
+                                                type,
                                                 value,
                                                 extra
                                             );
