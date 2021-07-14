@@ -264,12 +264,14 @@ impl Optimizer<'_> {
                         ..
                     },
                 ))) => {
-                    if v.decls.iter().any(|v| v.init.is_none()) {
-                        if found_other {
-                            need_work = true;
+                    for d in &v.decls {
+                        if d.init.is_none() {
+                            if found_other {
+                                need_work = true;
+                            }
+                        } else {
+                            found_other = true;
                         }
-                    } else {
-                        found_other = true;
                     }
                 }
 
