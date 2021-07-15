@@ -113,22 +113,6 @@
         angular = window.angular || (window.angular = {
         }),
         uid = ["0", "0", "0",];
-    isNaN(
-        (msie = int(
-            (/msie (\d+)/.exec(
-                lowercase(
-                    navigator.userAgent
-                )
-            ) || [])[1]
-        )),
-    ) &&
-    (msie = int(
-        (/trident\/.*; rv:(\d+)/.exec(
-            lowercase(
-                navigator.userAgent
-            )
-        ) || [])[1],
-    ));
     function isArrayLike(
         obj
     ) {
@@ -312,13 +296,11 @@
     }
     function noop(
     ) {}
-    noop.$inject = [];
     function identity(
         $
     ) {
         return $;
     }
-    identity.$inject = [];
     function valueFn(
         value
     ) {
@@ -426,23 +408,6 @@
     ) {
         return !!(node && (node.nodeName || (node.on && node.find)));
     }
-    nodeName_ =
-    msie < 9
-        ? function (
-            element
-        ) {
-            return (element = element.nodeName ? element : element[0])
-                .scopeName && "HTML" != element.scopeName
-                ? uppercase(
-                    element.scopeName + ":" + element.nodeName
-                )
-                : element.nodeName;
-        }
-        : function (
-            element
-        ) {
-            return element.nodeName ? element.nodeName : element[0].nodeName;
-        };
     function map(
         obj, iterator, context
     ) {
@@ -1295,12 +1260,6 @@
                                 name,
                                 function (
                                 ) {
-                                    if (!requires)
-                                        throw $injectorMinErr(
-                                            "nomod",
-                                            "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.",
-                                            name,
-                                        );
                                     var invokeQueue = [],
                                         runBlocks = [],
                                         config = invokeLater(
@@ -1358,9 +1317,6 @@
                                                 ), this;
                                             },
                                         };
-                                    return configFn && config(
-                                        configFn
-                                    ), moduleInstance;
                                     function invokeLater(
                                         provider, method, insertMethod
                                     ) {
@@ -1378,6 +1334,15 @@
                                             );
                                         };
                                     }
+                                    if (!requires)
+                                        throw $injectorMinErr(
+                                            "nomod",
+                                            "Module '{0}' is not available! You either misspelled the module name or forgot to load it. If registering a module ensure that you specify the dependencies as the second argument.",
+                                            name,
+                                        );
+                                    return configFn && config(
+                                        configFn
+                                    ), moduleInstance;
                                 }
                             )
                         );
@@ -1471,9 +1436,6 @@
         getterIfNoArguments,
     ) {
         var originalJqFn = jQuery.fn[name];
-        (removePatch.$original = originalJqFn =
-      originalJqFn.$original || originalJqFn),
-        (jQuery.fn[name] = removePatch);
         function removePatch(
             param
         ) {
@@ -1523,6 +1485,9 @@
                 arguments
             );
         }
+        (removePatch.$original = originalJqFn =
+      originalJqFn.$original || originalJqFn),
+        (jQuery.fn[name] = removePatch);
     }
     function JQLite(
         element
@@ -1926,33 +1891,9 @@
             splice: [].splice,
         }),
         BOOLEAN_ATTR = {
+        },
+        BOOLEAN_ELEMENTS = {
         };
-    forEach(
-        "multiple,selected,checked,disabled,readOnly,required,open".split(
-            ","
-        ),
-        function (
-            value
-        ) {
-            BOOLEAN_ATTR[lowercase(
-                value
-            )] = value;
-        },
-    );
-    var BOOLEAN_ELEMENTS = {
-    };
-    forEach(
-        "input,select,option,textarea,button,form,details".split(
-            ","
-        ),
-        function (
-            value
-        ) {
-            BOOLEAN_ELEMENTS[uppercase(
-                value
-            )] = !0;
-        },
-    );
     function getBooleanAttrName(
         element, name
     ) {
@@ -1960,258 +1901,6 @@
         )];
         return booleanAttr && BOOLEAN_ELEMENTS[element.nodeName] && booleanAttr;
     }
-    forEach(
-        {
-            data: jqLiteData,
-            inheritedData: jqLiteInheritedData,
-            scope: function (
-                element
-            ) {
-                return (
-                    jqLite(
-                        element
-                    ).data(
-                        "$scope"
-                    ) ||
-          jqLiteInheritedData(
-              element.parentNode || element,
-              [
-                  "$isolateScope",
-                  "$scope",
-              ]
-          )
-                );
-            },
-            isolateScope: function (
-                element
-            ) {
-                return (
-                    jqLite(
-                        element
-                    ).data(
-                        "$isolateScope"
-                    ) ||
-          jqLite(
-              element
-          ).data(
-              "$isolateScopeNoTemplate"
-          )
-                );
-            },
-            controller: jqLiteController,
-            injector: function (
-                element
-            ) {
-                return jqLiteInheritedData(
-                    element,
-                    "$injector"
-                );
-            },
-            removeAttr: function (
-                element, name
-            ) {
-                element.removeAttribute(
-                    name
-                );
-            },
-            hasClass: jqLiteHasClass,
-            css: function (
-                element, name, value
-            ) {
-                if (((name = camelCase(
-                    name
-                )), isDefined(
-                    value
-                )))
-                    element.style[name] = value;
-                else {
-                    var val;
-                    return (
-                        msie <= 8 &&
-              "" ===
-                (val = element.currentStyle && element.currentStyle[name]) &&
-              (val = "auto"),
-                        (val = val || element.style[name]),
-                        msie <= 8 && (val = "" === val ? void 0 : val),
-                        val
-                    );
-                }
-            },
-            attr: function (
-                element, name, value
-            ) {
-                var lowercasedName = lowercase(
-                    name
-                );
-                if (BOOLEAN_ATTR[lowercasedName]) {
-                    if (!isDefined(
-                        value
-                    ))
-                        return element[name] ||
-              (element.attributes.getNamedItem(
-                  name
-              ) || noop).specified
-                            ? lowercasedName
-                            : void 0;
-                    value
-                        ? ((element[name] = !0), element.setAttribute(
-                            name,
-                            lowercasedName
-                        ))
-                        : ((element[name] = !1), element.removeAttribute(
-                            lowercasedName
-                        ));
-                } else if (isDefined(
-                    value
-                )) element.setAttribute(
-                    name,
-                    value
-                );
-                else if (element.getAttribute) {
-                    var ret = element.getAttribute(
-                        name,
-                        2
-                    );
-                    return null === ret ? void 0 : ret;
-                }
-            },
-            prop: function (
-                element, name, value
-            ) {
-                if (!isDefined(
-                    value
-                )) return element[name];
-                element[name] = value;
-            },
-            text: (function (
-            ) {
-                var NODE_TYPE_TEXT_PROPERTY = [];
-                return (
-                    msie < 9
-                        ? ((NODE_TYPE_TEXT_PROPERTY[1] = "innerText"),
-                        (NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue"))
-                        : (NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] =
-                "textContent"),
-                    (getText.$dv = ""),
-                    getText
-                );
-                function getText(
-                    element, value
-                ) {
-                    var textProp = NODE_TYPE_TEXT_PROPERTY[element.nodeType];
-                    if (isUndefined(
-                        value
-                    )) return textProp ? element[textProp] : "";
-                    element[textProp] = value;
-                }
-            })(
-            ),
-            val: function (
-                element, value
-            ) {
-                if (isUndefined(
-                    value
-                )) {
-                    if ("SELECT" === nodeName_(
-                        element
-                    ) && element.multiple) {
-                        var result = [];
-                        return (
-                            forEach(
-                                element.options,
-                                function (
-                                    option
-                                ) {
-                                    option.selected && result.push(
-                                        option.value || option.text
-                                    );
-                                }
-                            ),
-                            0 === result.length ? null : result
-                        );
-                    }
-                    return element.value;
-                }
-                element.value = value;
-            },
-            html: function (
-                element, value
-            ) {
-                if (isUndefined(
-                    value
-                )) return element.innerHTML;
-                for (
-                    var i = 0, childNodes = element.childNodes;
-                    i < childNodes.length;
-                    i++
-                )
-                    jqLiteDealoc(
-                        childNodes[i]
-                    );
-                element.innerHTML = value;
-            },
-            empty: jqLiteEmpty,
-        },
-        function (
-            fn, name
-        ) {
-            JQLite.prototype[name] = function (
-                arg1, arg2
-            ) {
-                var i, key;
-                if (
-                    fn !== jqLiteEmpty &&
-          (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController
-              ? arg1
-              : arg2) === void 0
-                ) {
-                    if (isObject(
-                        arg1
-                    )) {
-                        for (i = 0; i < this.length; i++)
-                            if (fn === jqLiteData) fn(
-                                this[i],
-                                arg1
-                            );
-                            else for (key in arg1) fn(
-                                this[i],
-                                key,
-                                arg1[key]
-                            );
-                        return this;
-                    } else {
-                        for (
-                            var value = fn.$dv,
-                                jj = void 0 === value
-                                    ? Math.min(
-                                        this.length,
-                                        1
-                                    )
-                                    : this.length,
-                                j = 0;
-                            j < jj;
-                            j++
-                        ) {
-                            var nodeValue = fn(
-                                this[j],
-                                arg1,
-                                arg2
-                            );
-                            value = value ? value + nodeValue : nodeValue;
-                        }
-                        return value;
-                    }
-                } else {
-                    for (i = 0; i < this.length; i++) fn(
-                        this[i],
-                        arg1,
-                        arg2
-                    );
-                    return this;
-                }
-            };
-        },
-    );
     function createEventHandler(
         element, events
     ) {
@@ -2268,366 +1957,6 @@
         };
         return (eventHandler.elem = element), eventHandler;
     }
-    forEach(
-        {
-            removeData: jqLiteRemoveData,
-            dealoc: jqLiteDealoc,
-            on: function onFn(
-                element, type, fn, unsupported
-            ) {
-                if (isDefined(
-                    unsupported
-                ))
-                    throw jqLiteMinErr(
-                        "onargs",
-                        "jqLite#on() does not support the `selector` or `eventData` parameters",
-                    );
-                var events = jqLiteExpandoStore(
-                        element,
-                        "events"
-                    ),
-                    handle = jqLiteExpandoStore(
-                        element,
-                        "handle"
-                    );
-                events || jqLiteExpandoStore(
-                    element,
-                    "events", (
-                        events = {
-                        })
-                ),
-                handle ||
-            jqLiteExpandoStore(
-                element,
-                "handle",
-                (handle = createEventHandler(
-                    element,
-                    events
-                )),
-            ),
-                forEach(
-                    type.split(
-                        " "
-                    ),
-                    function (
-                        type
-                    ) {
-                        var eventFns = events[type];
-                        if (!eventFns) {
-                            if ("mouseenter" == type || "mouseleave" == type) {
-                                var contains =
-                  document.body.contains ||
-                  document.body.compareDocumentPosition
-                      ? function (
-                          a, b
-                      ) {
-                          var adown = 9 === a.nodeType ? a.documentElement : a,
-                              bup = b && b.parentNode;
-                          return (
-                              a === bup ||
-                          !!(
-                              bup &&
-                            1 === bup.nodeType &&
-                            (adown.contains
-                                ? adown.contains(
-                                    bup
-                                )
-                                : a.compareDocumentPosition &&
-                                16 & a.compareDocumentPosition(
-                                    bup
-                                ))
-                          )
-                          );
-                      }
-                      : function (
-                          a, b
-                      ) {
-                          if (b)
-                              for (; (b = b.parentNode); ) if (b === a) return !0;
-                          return !1;
-                      };
-                                (events[type] = []),
-                                onFn(
-                                    element,
-                                    {
-                                        mouseleave: "mouseout",
-                                        mouseenter: "mouseover",
-                                    }[type],
-                                    function (
-                                        event
-                                    ) {
-                                        var target = this,
-                                            related = event.relatedTarget;
-                                        (related &&
-                        (related === target || contains(
-                            target,
-                            related
-                        ))) ||
-                        handle(
-                            event,
-                            type
-                        );
-                                    },
-                                );
-                            } else
-                                addEventListenerFn(
-                                    element,
-                                    type,
-                                    handle
-                                ), (events[type] = []);
-                            eventFns = events[type];
-                        }
-                        eventFns.push(
-                            fn
-                        );
-                    }
-                );
-            },
-            off: jqLiteOff,
-            replaceWith: function (
-                element, replaceNode
-            ) {
-                var index,
-                    parent = element.parentNode;
-                jqLiteDealoc(
-                    element
-                ),
-                forEach(
-                    new JQLite(
-                        replaceNode
-                    ),
-                    function (
-                        node
-                    ) {
-                        index
-                            ? parent.insertBefore(
-                                node,
-                                index.nextSibling
-                            )
-                            : parent.replaceChild(
-                                node,
-                                element
-                            ),
-                        (index = node);
-                    }
-                );
-            },
-            children: function (
-                element
-            ) {
-                var children = [];
-                return (
-                    forEach(
-                        element.childNodes,
-                        function (
-                            element
-                        ) {
-                            1 === element.nodeType && children.push(
-                                element
-                            );
-                        }
-                    ),
-                    children
-                );
-            },
-            contents: function (
-                element
-            ) {
-                return element.childNodes || [];
-            },
-            append: function (
-                element, node
-            ) {
-                forEach(
-                    new JQLite(
-                        node
-                    ),
-                    function (
-                        child
-                    ) {
-                        (1 === element.nodeType || 11 === element.nodeType) &&
-            element.appendChild(
-                child
-            );
-                    }
-                );
-            },
-            prepend: function (
-                element, node
-            ) {
-                if (1 === element.nodeType) {
-                    var index = element.firstChild;
-                    forEach(
-                        new JQLite(
-                            node
-                        ),
-                        function (
-                            child
-                        ) {
-                            element.insertBefore(
-                                child,
-                                index
-                            );
-                        }
-                    );
-                }
-            },
-            wrap: function (
-                element, wrapNode
-            ) {
-                wrapNode = jqLite(
-                    wrapNode
-                )[0];
-                var parent = element.parentNode;
-                parent && parent.replaceChild(
-                    wrapNode,
-                    element
-                ),
-                wrapNode.appendChild(
-                    element
-                );
-            },
-            remove: function (
-                element
-            ) {
-                jqLiteDealoc(
-                    element
-                );
-                var parent = element.parentNode;
-                parent && parent.removeChild(
-                    element
-                );
-            },
-            after: function (
-                element, newElement
-            ) {
-                var index = element,
-                    parent = element.parentNode;
-                forEach(
-                    new JQLite(
-                        newElement
-                    ),
-                    function (
-                        node
-                    ) {
-                        parent.insertBefore(
-                            node,
-                            index.nextSibling
-                        ), (index = node);
-                    }
-                );
-            },
-            addClass: jqLiteAddClass,
-            removeClass: jqLiteRemoveClass,
-            toggleClass: function (
-                element, selector, condition
-            ) {
-                isUndefined(
-                    condition
-                ) &&
-          (condition = !jqLiteHasClass(
-              element,
-              selector
-          )),
-                (condition ? jqLiteAddClass : jqLiteRemoveClass)(
-                    element,
-                    selector
-                );
-            },
-            parent: function (
-                element
-            ) {
-                var parent = element.parentNode;
-                return parent && 11 !== parent.nodeType ? parent : null;
-            },
-            next: function (
-                element
-            ) {
-                if (element.nextElementSibling) return element.nextElementSibling;
-                for (var elm = element.nextSibling; null != elm && 1 !== elm.nodeType; )
-                    elm = elm.nextSibling;
-                return elm;
-            },
-            find: function (
-                element, selector
-            ) {
-                return element.getElementsByTagName
-                    ? element.getElementsByTagName(
-                        selector
-                    )
-                    : [];
-            },
-            clone: jqLiteClone,
-            triggerHandler: function (
-                element, eventName, eventData
-            ) {
-                var eventFns = (jqLiteExpandoStore(
-                    element,
-                    "events"
-                ) || {
-                })[eventName];
-                eventData = eventData || [];
-                var event = [
-                    {
-                        preventDefault: noop,
-                        stopPropagation: noop,
-                    },
-                ];
-                forEach(
-                    eventFns,
-                    function (
-                        fn
-                    ) {
-                        fn.apply(
-                            element,
-                            event.concat(
-                                eventData
-                            )
-                        );
-                    }
-                );
-            },
-        },
-        function (
-            fn, name
-        ) {
-            (JQLite.prototype[name] = function (
-                arg1, arg2, arg3
-            ) {
-                for (var value, i = 0; i < this.length; i++)
-                    isUndefined(
-                        value
-                    )
-                        ? isDefined(
-                            (value = fn(
-                                this[i],
-                                arg1,
-                                arg2,
-                                arg3
-                            ))
-                        ) &&
-              (value = jqLite(
-                  value
-              ))
-                        : jqLiteAddNodes(
-                            value,
-                            fn(
-                                this[i],
-                                arg1,
-                                arg2,
-                                arg3
-                            )
-                        );
-                return isDefined(
-                    value
-                )
-                    ? value
-                    : this;
-            }),
-            (JQLite.prototype.bind = JQLite.prototype.on),
-            (JQLite.prototype.unbind = JQLite.prototype.off);
-        },
-    );
     function hashKey(
         obj
     ) {
@@ -2653,29 +1982,6 @@
             this
         );
     }
-    HashMap.prototype = {
-        put: function (
-            key, value
-        ) {
-            this[hashKey(
-                key
-            )] = value;
-        },
-        get: function (
-            key
-        ) {
-            return this[hashKey(
-                key
-            )];
-        },
-        remove: function (
-            key
-        ) {
-            return delete this[key], this[(key = hashKey(
-                key
-            ))];
-        },
-    };
     var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
         FN_ARG_SPLIT = /,/,
         FN_ARG = /^\s*(_?)(\S+?)\1\s*$/,
@@ -2799,21 +2105,6 @@
                     );
                 },
             ));
-        return (
-            forEach(
-                loadModules(
-                    modulesToLoad
-                ),
-                function (
-                    fn
-                ) {
-                    instanceInjector.invoke(
-                        fn || noop
-                    );
-                }
-            ),
-            instanceInjector
-        );
         function supportObject(
             delegate
         ) {
@@ -3139,6 +2430,21 @@
                 },
             };
         }
+        return (
+            forEach(
+                loadModules(
+                    modulesToLoad
+                ),
+                function (
+                    fn
+                ) {
+                    instanceInjector.invoke(
+                        fn || noop
+                    );
+                }
+            ),
+            instanceInjector
+        );
     }
     function $AnchorScrollProvider(
     ) {
@@ -3373,15 +2679,9 @@
             setTimeout = window.setTimeout,
             clearTimeout = window.clearTimeout,
             pendingDeferIds = {
-            };
-        self.isMock = !1;
-        var outstandingRequestCount = 0,
+            },
+            outstandingRequestCount = 0,
             outstandingRequestCallbacks = [];
-        (self.$$completeOutstandingRequest = completeOutstandingRequest),
-        (self.$$incOutstandingRequestCount = function (
-        ) {
-            outstandingRequestCount++;
-        });
         function completeOutstandingRequest(
             fn
         ) {
@@ -3407,42 +2707,7 @@
                         }
             }
         }
-        self.notifyWhenNoOutstandingRequests = function (
-            callback
-        ) {
-            forEach(
-                pollFns,
-                function (
-                    pollFn
-                ) {
-                    pollFn(
-                    );
-                }
-            ),
-            0 === outstandingRequestCount
-                ? callback(
-                )
-                : outstandingRequestCallbacks.push(
-                    callback
-                );
-        };
         var pollFns = [];
-        self.addPollFn = function (
-            fn
-        ) {
-            return (
-                isUndefined(
-                    pollTimeout
-                ) && startPoller(
-                    100,
-                    setTimeout
-                ),
-                pollFns.push(
-                    fn
-                ),
-                fn
-            );
-        };
         function startPoller(
             interval, setTimeout
         ) {
@@ -3468,11 +2733,80 @@
             baseElement = document.find(
                 "base"
             ),
-            newLocation = null;
-        self.url = function (
+            newLocation = null,
+            urlChangeListeners = [],
+            urlChangeInit = !1;
+        function fireUrlChange(
+        ) {
+            (newLocation = null),
+            lastBrowserUrl != self.url(
+            ) &&
+          ((lastBrowserUrl = self.url(
+          )),
+          forEach(
+              urlChangeListeners,
+              function (
+                  listener
+              ) {
+                  listener(
+                      self.url(
+                      )
+                  );
+              }
+          ));
+        }
+        var lastCookies = {
+            },
+            lastCookieString = "",
+            cookiePath = self.baseHref(
+            );
+        (self.isMock = !1),
+        (self.$$completeOutstandingRequest = completeOutstandingRequest),
+        (self.$$incOutstandingRequestCount = function (
+        ) {
+            outstandingRequestCount++;
+        }),
+        (self.notifyWhenNoOutstandingRequests = function (
+            callback
+        ) {
+            forEach(
+                pollFns,
+                function (
+                    pollFn
+                ) {
+                    pollFn(
+                    );
+                }
+            ),
+            0 === outstandingRequestCount
+                ? callback(
+                )
+                : outstandingRequestCallbacks.push(
+                    callback
+                );
+        }),
+        (self.addPollFn = function (
+            fn
+        ) {
+            return (
+                isUndefined(
+                    pollTimeout
+                ) && startPoller(
+                    100,
+                    setTimeout
+                ),
+                pollFns.push(
+                    fn
+                ),
+                fn
+            );
+        }),
+        (self.url = function (
             url, replace
         ) {
-            if ((location !== window.location && (location = window.location), !url))
+            if (
+                (location !== window.location && (location = window.location), !url)
+            )
                 return newLocation || location.href.replace(
                     /%27/g,
                     "'"
@@ -3506,50 +2840,29 @@
                             : (location.href = url)),
                     self
                 );
-        };
-        var urlChangeListeners = [],
-            urlChangeInit = !1;
-        function fireUrlChange(
-        ) {
-            (newLocation = null),
-            lastBrowserUrl != self.url(
-            ) &&
-          ((lastBrowserUrl = self.url(
-          )),
-          forEach(
-              urlChangeListeners,
-              function (
-                  listener
-              ) {
-                  listener(
-                      self.url(
-                      )
-                  );
-              }
-          ));
-        }
+        }),
         (self.onUrlChange = function (
             callback
         ) {
             return (
                 urlChangeInit ||
-          ($sniffer.history && jqLite(
-              window
-          ).on(
-              "popstate",
-              fireUrlChange
-          ),
-          $sniffer.hashchange
-              ? jqLite(
-                  window
-              ).on(
-                  "hashchange",
-                  fireUrlChange
-              )
-              : self.addPollFn(
-                  fireUrlChange
-              ),
-          (urlChangeInit = !0)),
+            ($sniffer.history && jqLite(
+                window
+            ).on(
+                "popstate",
+                fireUrlChange
+            ),
+            $sniffer.hashchange
+                ? jqLite(
+                    window
+                ).on(
+                    "hashchange",
+                    fireUrlChange
+                )
+                : self.addPollFn(
+                    fireUrlChange
+                ),
+            (urlChangeInit = !0)),
                 urlChangeListeners.push(
                     callback
                 ),
@@ -3567,12 +2880,7 @@
                     ""
                 )
                 : "";
-        });
-        var lastCookies = {
-            },
-            lastCookieString = "",
-            cookiePath = self.baseHref(
-            );
+        }),
         (self.cookies = function (
             name, value
         ) {
@@ -3580,36 +2888,36 @@
             if (name)
                 void 0 === value
                     ? (rawDocument.cookie =
-              escape(
-                  name
-              ) +
-              "=;path=" +
-              cookiePath +
-              ";expires=Thu, 01 Jan 1970 00:00:00 GMT")
+                escape(
+                    name
+                ) +
+                "=;path=" +
+                cookiePath +
+                ";expires=Thu, 01 Jan 1970 00:00:00 GMT")
                     : isString(
                         value
                     ) &&
-            (cookieLength =
-              (rawDocument.cookie =
-                escape(
-                    name
-                ) + "=" + escape(
-                    value
-                ) + ";path=" + cookiePath)
-                  .length + 1) > 4096 &&
-            $log.warn(
-                "Cookie '" +
-                name +
-                "' possibly not set or overflowed because it was too large (" +
-                cookieLength +
-                " > 4096 bytes)!",
-            );
+              (cookieLength =
+                (rawDocument.cookie =
+                  escape(
+                      name
+                  ) + "=" + escape(
+                      value
+                  ) + ";path=" + cookiePath)
+                    .length + 1) > 4096 &&
+              $log.warn(
+                  "Cookie '" +
+                  name +
+                  "' possibly not set or overflowed because it was too large (" +
+                  cookieLength +
+                  " > 4096 bytes)!",
+              );
             else {
                 if (rawDocument.cookie !== lastCookieString)
                     for (
                         i = 0,
                         cookieArray = (lastCookieString = rawDocument.cookie).split(
-                            "; "
+                            "; ",
                         ),
                         lastCookies = {
                         };
@@ -3619,18 +2927,18 @@
                         (index = (cookie = cookieArray[i]).indexOf(
                             "="
                         )) > 0 &&
-              void 0 ===
-                lastCookies[(name = unescape(
+                void 0 ===
+                  lastCookies[(name = unescape(
+                      cookie.substring(
+                          0,
+                          index
+                      )
+                  ))] &&
+                (lastCookies[name] = unescape(
                     cookie.substring(
-                        0,
-                        index
+                        index + 1
                     )
-                ))] &&
-              (lastCookies[name] = unescape(
-                  cookie.substring(
-                      index + 1
-                  )
-              ));
+                ));
                 return lastCookies;
             }
         }),
@@ -3698,14 +3006,6 @@
             function cacheFactory(
                 cacheId, options
             ) {
-                if (cacheId in caches)
-                    throw minErr(
-                        "$cacheFactory"
-                    )(
-                        "iid",
-                        "CacheId '{0}' is already taken!",
-                        cacheId,
-                    );
                 var size = 0,
                     stats = extend(
                         {
@@ -3722,6 +3022,38 @@
                     },
                     freshEnd = null,
                     staleEnd = null;
+                function refresh(
+                    entry
+                ) {
+                    entry != freshEnd &&
+            (staleEnd
+                ? staleEnd == entry && (staleEnd = entry.n)
+                : (staleEnd = entry),
+            link(
+                entry.n,
+                entry.p
+            ),
+            link(
+                entry,
+                freshEnd
+            ),
+            ((freshEnd = entry).n = null));
+                }
+                function link(
+                    nextEntry, prevEntry
+                ) {
+                    nextEntry != prevEntry &&
+            (nextEntry && (nextEntry.p = prevEntry),
+            prevEntry && (prevEntry.n = nextEntry));
+                }
+                if (cacheId in caches)
+                    throw minErr(
+                        "$cacheFactory"
+                    )(
+                        "iid",
+                        "CacheId '{0}' is already taken!",
+                        cacheId,
+                    );
                 return (caches[cacheId] = {
                     put: function (
                         key, value
@@ -3796,30 +3128,6 @@
                         );
                     },
                 });
-                function refresh(
-                    entry
-                ) {
-                    entry != freshEnd &&
-            (staleEnd
-                ? staleEnd == entry && (staleEnd = entry.n)
-                : (staleEnd = entry),
-            link(
-                entry.n,
-                entry.p
-            ),
-            link(
-                entry,
-                freshEnd
-            ),
-            ((freshEnd = entry).n = null));
-                }
-                function link(
-                    nextEntry, prevEntry
-                ) {
-                    nextEntry != prevEntry &&
-            (nextEntry && (nextEntry.p = prevEntry),
-            prevEntry && (prevEntry.n = nextEntry));
-                }
             }
             return (
                 (cacheFactory.info = function (
@@ -3864,7 +3172,6 @@
     var $compileMinErr = minErr(
         "$compile"
     );
-    $CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider",];
     function $CompileProvider(
         $provide, $$sanitizeUriProvider
     ) {
@@ -4010,131 +3317,12 @@
                 $$sanitizeUri,
             ) {
                 var Attributes = function (
-                    element, attr
-                ) {
-                    (this.$$element = element), (this.$attr = attr || {
-                    });
-                };
-                Attributes.prototype = {
-                    $normalize: directiveNormalize,
-                    $addClass: function (
-                        classVal
+                        element, attr
                     ) {
-                        classVal &&
-                classVal.length > 0 &&
-                $animate.addClass(
-                    this.$$element,
-                    classVal
-                );
+                        (this.$$element = element), (this.$attr = attr || {
+                        });
                     },
-                    $removeClass: function (
-                        classVal
-                    ) {
-                        classVal &&
-                classVal.length > 0 &&
-                $animate.removeClass(
-                    this.$$element,
-                    classVal
-                );
-                    },
-                    $updateClass: function (
-                        newClasses, oldClasses
-                    ) {
-                        this.$removeClass(
-                            tokenDifference(
-                                oldClasses,
-                                newClasses
-                            )
-                        ),
-                        this.$addClass(
-                            tokenDifference(
-                                newClasses,
-                                oldClasses
-                            )
-                        );
-                    },
-                    $set: function (
-                        key, value, writeAttr, attrName
-                    ) {
-                        var nodeName,
-                            booleanKey = getBooleanAttrName(
-                                this.$$element[0],
-                                key
-                            );
-                        booleanKey &&
-                (this.$$element.prop(
-                    key,
-                    value
-                ), (attrName = booleanKey)),
-                        (this[key] = value),
-                        attrName
-                            ? (this.$attr[key] = attrName)
-                            : (attrName = this.$attr[key]) ||
-                    (this.$attr[key] = attrName = snake_case(
-                        key,
-                        "-"
-                    )),
-                        (("A" === (nodeName = nodeName_(
-                            this.$$element
-                        )) &&
-                  "href" === key) ||
-                  ("IMG" === nodeName && "src" === key)) &&
-                  (this[key] = value = $$sanitizeUri(
-                      value,
-                      "src" === key
-                  )),
-                        !1 !== writeAttr &&
-                  (null == value
-                      ? this.$$element.removeAttr(
-                          attrName
-                      )
-                      : this.$$element.attr(
-                          attrName,
-                          value
-                      ));
-                        var $$observers = this.$$observers;
-                        $$observers &&
-                forEach(
-                    $$observers[key],
-                    function (
-                        fn
-                    ) {
-                        try {
-                            fn(
-                                value
-                            );
-                        } catch (e) {
-                            $exceptionHandler(
-                                e
-                            );
-                        }
-                    }
-                );
-                    },
-                    $observe: function (
-                        key, fn
-                    ) {
-                        var attrs = this,
-                            $$observers = attrs.$$observers || (attrs.$$observers = {
-                            }),
-                            listeners = $$observers[key] || ($$observers[key] = []);
-                        return (
-                            listeners.push(
-                                fn
-                            ),
-                            $rootScope.$evalAsync(
-                                function (
-                                ) {
-                                    listeners.$$inter || fn(
-                                        attrs[key]
-                                    );
-                                }
-                            ),
-                            fn
-                        );
-                    },
-                };
-                var startSymbol = $interpolate.startSymbol(
+                    startSymbol = $interpolate.startSymbol(
                     ),
                     endSymbol = $interpolate.endSymbol(
                     ),
@@ -4155,7 +3343,6 @@
                           );
                   },
                     NG_ATTR_BINDING = /^ngAttr[A-Z]/;
-                return compile;
                 function compile(
                     $compileNodes,
                     transcludeFn,
@@ -4263,12 +3450,12 @@
                     previousCompileContext,
                 ) {
                     for (
-                        var linkFns = [],
-                            nodeLinkFn,
+                        var nodeLinkFn,
                             childLinkFn,
                             directives,
                             attrs,
                             linkFnFound,
+                            linkFns = [],
                             i = 0;
                         i < nodeList.length;
                         i++
@@ -4310,68 +3497,66 @@
                         ),
                         (linkFnFound = linkFnFound || nodeLinkFn || childLinkFn),
                         (previousCompileContext = null);
-                    return linkFnFound ? compositeLinkFn : null;
-                    function compositeLinkFn(
-                        scope,
-                        nodeList,
-                        $rootElement,
-                        boundTranscludeFn,
-                    ) {
-                        var nodeLinkFn,
-                            childLinkFn,
-                            node,
-                            $node,
-                            childScope,
-                            childTranscludeFn,
-                            i,
-                            ii,
-                            n,
-                            stableNodeList = [];
-                        for (i = 0, ii = nodeList.length; i < ii; i++)
-                            stableNodeList.push(
-                                nodeList[i]
-                            );
-                        for (i = 0, n = 0, ii = linkFns.length; i < ii; n++)
-                            (node = stableNodeList[n]),
-                            (nodeLinkFn = linkFns[i++]),
-                            (childLinkFn = linkFns[i++]),
-                            ($node = jqLite(
-                                node
-                            )),
-                            nodeLinkFn
-                                ? (nodeLinkFn.scope
-                                    ? ($node.data(
-                                        "$scope", (
-                                            childScope = scope.$new(
-                                            ))
-                                    ),
-                                    safeAddClass(
-                                        $node,
-                                        "ng-scope"
+                    return linkFnFound
+                        ? function (
+                            scope, nodeList, $rootElement, boundTranscludeFn
+                        ) {
+                            var nodeLinkFn,
+                                childLinkFn,
+                                node,
+                                $node,
+                                childScope,
+                                childTranscludeFn,
+                                i,
+                                ii,
+                                n,
+                                stableNodeList = [];
+                            for (i = 0, ii = nodeList.length; i < ii; i++)
+                                stableNodeList.push(
+                                    nodeList[i]
+                                );
+                            for (i = 0, n = 0, ii = linkFns.length; i < ii; n++)
+                                (node = stableNodeList[n]),
+                                (nodeLinkFn = linkFns[i++]),
+                                (childLinkFn = linkFns[i++]),
+                                ($node = jqLite(
+                                    node
+                                )),
+                                nodeLinkFn
+                                    ? (nodeLinkFn.scope
+                                        ? ($node.data(
+                                            "$scope",
+                                            (childScope = scope.$new(
+                                            )),
+                                        ),
+                                        safeAddClass(
+                                            $node,
+                                            "ng-scope"
+                                        ))
+                                        : (childScope = scope),
+                                    (childTranscludeFn = nodeLinkFn.transclude),
+                                    nodeLinkFn(
+                                        childLinkFn,
+                                        childScope,
+                                        node,
+                                        $rootElement,
+                                        childTranscludeFn ||
+                              (!boundTranscludeFn && transcludeFn)
+                                            ? createBoundTranscludeFn(
+                                                scope,
+                                                childTranscludeFn || transcludeFn,
+                                            )
+                                            : boundTranscludeFn,
                                     ))
-                                    : (childScope = scope),
-                                (childTranscludeFn = nodeLinkFn.transclude),
-                                nodeLinkFn(
-                                    childLinkFn,
-                                    childScope,
-                                    node,
-                                    $rootElement,
-                                    childTranscludeFn ||
-                          (!boundTranscludeFn && transcludeFn)
-                                        ? createBoundTranscludeFn(
-                                            scope,
-                                            childTranscludeFn || transcludeFn,
-                                        )
-                                        : boundTranscludeFn,
-                                ))
-                                : childLinkFn &&
-                      childLinkFn(
-                          scope,
-                          node.childNodes,
-                          void 0,
-                          boundTranscludeFn,
-                      );
-                    }
+                                    : childLinkFn &&
+                          childLinkFn(
+                              scope,
+                              node.childNodes,
+                              void 0,
+                              boundTranscludeFn,
+                          );
+                        }
+                        : null;
                 }
                 function createBoundTranscludeFn(
                     scope, transcludeFn
@@ -4619,35 +3804,431 @@
                     postLinkFns,
                     previousCompileContext,
                 ) {
+                    var newScopeDirective,
+                        directive,
+                        directiveName,
+                        $template,
+                        linkFn,
+                        directiveValue,
+                        terminalPriority = -Number.MAX_VALUE,
+                        controllerDirectives =
+                previousCompileContext.controllerDirectives,
+                        newIsolateScopeDirective =
+                previousCompileContext.newIsolateScopeDirective,
+                        templateDirective = previousCompileContext.templateDirective,
+                        nonTlbTranscludeDirective =
+                previousCompileContext.nonTlbTranscludeDirective,
+                        hasTranscludeDirective = !1,
+                        hasElementTranscludeDirective = !1,
+                        $compileNode = (templateAttrs.$$element = jqLite(
+                            compileNode
+                        )),
+                        replaceDirective = originalReplaceDirective,
+                        childTranscludeFn = transcludeFn;
+                    function addLinkFns(
+                        pre, post, attrStart, attrEnd
+                    ) {
+                        pre &&
+                (attrStart &&
+                  (pre = groupElementsLinkFnWrapper(
+                      pre,
+                      attrStart,
+                      attrEnd
+                  )),
+                (pre.require = directive.require),
+                (newIsolateScopeDirective === directive ||
+                  directive.$$isolateScope) &&
+                  (pre = cloneAndAnnotateFn(
+                      pre,
+                      {
+                          isolateScope: !0,
+                      }
+                  )),
+                preLinkFns.push(
+                    pre
+                )),
+                        post &&
+                  (attrStart &&
+                    (post = groupElementsLinkFnWrapper(
+                        post,
+                        attrStart,
+                        attrEnd,
+                    )),
+                  (post.require = directive.require),
+                  (newIsolateScopeDirective === directive ||
+                    directive.$$isolateScope) &&
+                    (post = cloneAndAnnotateFn(
+                        post,
+                        {
+                            isolateScope: !0,
+                        }
+                    )),
+                  postLinkFns.push(
+                      post
+                  ));
+                    }
+                    function getControllers(
+                        require, $element, elementControllers
+                    ) {
+                        var value,
+                            retrievalMethod = "data",
+                            optional = !1;
+                        if (isString(
+                            require
+                        )) {
+                            for (; "^" == (value = require.charAt(
+                                0
+                            )) || "?" == value; )
+                                (require = require.substr(
+                                    1
+                                )),
+                                "^" == value && (retrievalMethod = "inheritedData"),
+                                (optional = optional || "?" == value);
+                            if (
+                                ((value = null),
+                                elementControllers &&
+                    "data" === retrievalMethod &&
+                    (value = elementControllers[require]),
+                                !(value =
+                    value ||
+                    $element[retrievalMethod](
+                        "$" + require + "Controller"
+                    )) &&
+                    !optional)
+                            )
+                                throw $compileMinErr(
+                                    "ctreq",
+                                    "Controller '{0}', required by directive '{1}', can't be found!",
+                                    require,
+                                    directiveName,
+                                );
+                            return value;
+                        } else
+                            isArray(
+                                require
+                            ) &&
+                  forEach(
+                      require,
+                      function (
+                          require
+                      ) {
+                          (value = []).push(
+                              getControllers(
+                                  require,
+                                  $element,
+                                  elementControllers
+                              ),
+                          );
+                      }
+                  );
+                        return value;
+                    }
+                    function nodeLinkFn(
+                        childLinkFn,
+                        scope,
+                        linkNode,
+                        $rootElement,
+                        boundTranscludeFn,
+                    ) {
+                        var attrs,
+                            $element,
+                            i,
+                            ii,
+                            linkFn,
+                            controller,
+                            isolateScope,
+                            transcludeFn,
+                            elementControllers = {
+                            },
+                            scopeToChild = scope;
+                        if (
+                            (($element = (attrs =
+                  compileNode === linkNode
+                      ? templateAttrs
+                      : shallowCopy(
+                          templateAttrs,
+                          new Attributes(
+                              jqLite(
+                                  linkNode
+                              ),
+                              templateAttrs.$attr
+                          ),
+                      )).$$element),
+                            newIsolateScopeDirective)
+                        ) {
+                            var LOCAL_REGEXP = /^\s*([@=&])(\??)\s*(\w*)\s*$/,
+                                $linkNode = jqLite(
+                                    linkNode
+                                );
+                            (isolateScope = scope.$new(
+                                !0
+                            )),
+                            templateDirective &&
+                  templateDirective ===
+                    newIsolateScopeDirective.$$originalDirective
+                                ? $linkNode.data(
+                                    "$isolateScope",
+                                    isolateScope
+                                )
+                                : $linkNode.data(
+                                    "$isolateScopeNoTemplate",
+                                    isolateScope
+                                ),
+                            safeAddClass(
+                                $linkNode,
+                                "ng-isolate-scope"
+                            ),
+                            forEach(
+                                newIsolateScopeDirective.scope,
+                                function (
+                                    definition, scopeName
+                                ) {
+                                    var lastValue,
+                                        parentGet,
+                                        parentSet,
+                                        compare,
+                                        match = definition.match(
+                                            LOCAL_REGEXP
+                                        ) || [],
+                                        attrName = match[3] || scopeName,
+                                        optional = "?" == match[2],
+                                        mode = match[1];
+                                    switch (
+                                        ((isolateScope.$$isolateBindings[scopeName] =
+                          mode + attrName),
+                                        mode)
+                                    ) {
+                                    case "@":
+                                        attrs.$observe(
+                                            attrName,
+                                            function (
+                                                value
+                                            ) {
+                                                isolateScope[scopeName] = value;
+                                            }
+                                        ),
+                                        (attrs.$$observers[attrName].$$scope = scope),
+                                        attrs[attrName] &&
+                              (isolateScope[scopeName] = $interpolate(
+                                  attrs[attrName],
+                              )(
+                                  scope
+                              ));
+                                        break;
+                                    case "=":
+                                        if (!optional || attrs[attrName]) {
+                                            (compare = (parentGet = $parse(
+                                                attrs[attrName]
+                                            ))
+                                                .literal
+                                                ? equals
+                                                : function (
+                                                    a, b
+                                                ) {
+                                                    return a === b;
+                                                }),
+                                            (parentSet =
+                                parentGet.assign ||
+                                function (
+                                ) {
+                                    throw (
+                                        ((lastValue = isolateScope[
+                                            scopeName
+                                        ] = parentGet(
+                                            scope
+                                        )),
+                                        $compileMinErr(
+                                            "nonassign",
+                                            "Expression '{0}' used with directive '{1}' is non-assignable!",
+                                            attrs[attrName],
+                                            newIsolateScopeDirective.name,
+                                        ))
+                                    );
+                                }),
+                                            (lastValue = isolateScope[scopeName] = parentGet(
+                                                scope,
+                                            )),
+                                            isolateScope.$watch(
+                                                function (
+                                                ) {
+                                                    var parentValue = parentGet(
+                                                        scope
+                                                    );
+                                                    return (
+                                                        compare(
+                                                            parentValue,
+                                                            isolateScope[scopeName],
+                                                        ) ||
+                                      (compare(
+                                          parentValue,
+                                          lastValue
+                                      )
+                                          ? parentSet(
+                                              scope,
+                                              (parentValue =
+                                              isolateScope[scopeName]),
+                                          )
+                                          : (isolateScope[
+                                              scopeName
+                                          ] = parentValue)),
+                                                        (lastValue = parentValue)
+                                                    );
+                                                },
+                                                null,
+                                                parentGet.literal,
+                                            );
+                                            break;
+                                        }
+                                    case "&":
+                                        (parentGet = $parse(
+                                            attrs[attrName]
+                                        )),
+                                        (isolateScope[scopeName] = function (
+                                            locals
+                                        ) {
+                                            return parentGet(
+                                                scope,
+                                                locals
+                                            );
+                                        });
+                                        break;
+                                    default:
+                                        throw $compileMinErr(
+                                            "iscp",
+                                            "Invalid isolate scope definition for directive '{0}'. Definition: {... {1}: '{2}' ...}",
+                                            newIsolateScopeDirective.name,
+                                            scopeName,
+                                            definition,
+                                        );
+                                    }
+                                },
+                            );
+                        }
+                        for (
+                            i = 0,
+                            transcludeFn =
+                    boundTranscludeFn &&
+                    function (
+                        scope, cloneAttachFn
+                    ) {
+                        var transcludeControllers;
+                        return (
+                            arguments.length < 2 &&
+                          ((cloneAttachFn = scope), (scope = void 0)),
+                            hasElementTranscludeDirective &&
+                          (transcludeControllers = elementControllers),
+                            boundTranscludeFn(
+                                scope,
+                                cloneAttachFn,
+                                transcludeControllers,
+                            )
+                        );
+                    },
+                            controllerDirectives &&
+                    forEach(
+                        controllerDirectives,
+                        function (
+                            directive
+                        ) {
+                            var controllerInstance,
+                                locals = {
+                                    $scope:
+                            directive === newIsolateScopeDirective ||
+                            directive.$$isolateScope
+                                ? isolateScope
+                                : scope,
+                                    $element: attrs.$$element,
+                                    $attrs: attrs,
+                                    $transclude: transcludeFn,
+                                };
+                            "@" == (controller = directive.controller) &&
+                        (controller = attrs[directive.name]),
+                            (controllerInstance = $controller(
+                                controller,
+                                locals
+                            )),
+                            (elementControllers[
+                                directive.name
+                            ] = controllerInstance),
+                            hasElementTranscludeDirective ||
+                          attrs.$$element.data(
+                              "$" + directive.name + "Controller",
+                              controllerInstance,
+                          ),
+                            directive.controllerAs &&
+                          (locals.$scope[
+                              directive.controllerAs
+                          ] = controllerInstance);
+                        }
+                    ),
+                            ii = preLinkFns.length;
+                            i < ii;
+                            i++
+                        )
+                            try {
+                                (linkFn = preLinkFns[i]),
+                                linkFn(
+                                    linkFn.isolateScope ? isolateScope : scope,
+                                    $element,
+                                    attrs,
+                                    linkFn.require &&
+                        getControllers(
+                            linkFn.require,
+                            $element,
+                            elementControllers,
+                        ),
+                                    transcludeFn,
+                                );
+                            } catch (e) {
+                                $exceptionHandler(
+                                    e,
+                                    startingTag(
+                                        $element
+                                    )
+                                );
+                            }
+                        for (
+                            newIsolateScopeDirective &&
+                  (newIsolateScopeDirective.template ||
+                    null === newIsolateScopeDirective.templateUrl) &&
+                  (scopeToChild = isolateScope),
+                            childLinkFn &&
+                    childLinkFn(
+                        scopeToChild,
+                        linkNode.childNodes,
+                        void 0,
+                        boundTranscludeFn,
+                    ),
+                            i = postLinkFns.length - 1;
+                            i >= 0;
+                            i--
+                        )
+                            try {
+                                (linkFn = postLinkFns[i]),
+                                linkFn(
+                                    linkFn.isolateScope ? isolateScope : scope,
+                                    $element,
+                                    attrs,
+                                    linkFn.require &&
+                        getControllers(
+                            linkFn.require,
+                            $element,
+                            elementControllers,
+                        ),
+                                    transcludeFn,
+                                );
+                            } catch (e) {
+                                $exceptionHandler(
+                                    e,
+                                    startingTag(
+                                        $element
+                                    )
+                                );
+                            }
+                    }
                     previousCompileContext = previousCompileContext || {
                     };
-                    for (
-                        var terminalPriority = -Number.MAX_VALUE,
-                            newScopeDirective,
-                            controllerDirectives =
-                  previousCompileContext.controllerDirectives,
-                            newIsolateScopeDirective =
-                  previousCompileContext.newIsolateScopeDirective,
-                            templateDirective = previousCompileContext.templateDirective,
-                            nonTlbTranscludeDirective =
-                  previousCompileContext.nonTlbTranscludeDirective,
-                            hasTranscludeDirective = !1,
-                            hasElementTranscludeDirective = !1,
-                            $compileNode = (templateAttrs.$$element = jqLite(
-                                compileNode
-                            )),
-                            directive,
-                            directiveName,
-                            $template,
-                            replaceDirective = originalReplaceDirective,
-                            childTranscludeFn = transcludeFn,
-                            linkFn,
-                            directiveValue,
-                            i = 0,
-                            ii = directives.length;
-                        i < ii;
-                        i++
-                    ) {
+                    for (var i = 0, ii = directives.length; i < ii; i++) {
                         var attrStart = (directive = directives[i]).$$start,
                             attrEnd = directive.$$end;
                         if (
@@ -4894,407 +4475,6 @@
                 hasTranscludeDirective && childTranscludeFn),
                         nodeLinkFn
                     );
-                    function addLinkFns(
-                        pre, post, attrStart, attrEnd
-                    ) {
-                        pre &&
-                (attrStart &&
-                  (pre = groupElementsLinkFnWrapper(
-                      pre,
-                      attrStart,
-                      attrEnd
-                  )),
-                (pre.require = directive.require),
-                (newIsolateScopeDirective === directive ||
-                  directive.$$isolateScope) &&
-                  (pre = cloneAndAnnotateFn(
-                      pre,
-                      {
-                          isolateScope: !0,
-                      }
-                  )),
-                preLinkFns.push(
-                    pre
-                )),
-                        post &&
-                  (attrStart &&
-                    (post = groupElementsLinkFnWrapper(
-                        post,
-                        attrStart,
-                        attrEnd,
-                    )),
-                  (post.require = directive.require),
-                  (newIsolateScopeDirective === directive ||
-                    directive.$$isolateScope) &&
-                    (post = cloneAndAnnotateFn(
-                        post,
-                        {
-                            isolateScope: !0,
-                        }
-                    )),
-                  postLinkFns.push(
-                      post
-                  ));
-                    }
-                    function getControllers(
-                        require, $element, elementControllers
-                    ) {
-                        var value,
-                            retrievalMethod = "data",
-                            optional = !1;
-                        if (isString(
-                            require
-                        )) {
-                            for (; "^" == (value = require.charAt(
-                                0
-                            )) || "?" == value; )
-                                (require = require.substr(
-                                    1
-                                )),
-                                "^" == value && (retrievalMethod = "inheritedData"),
-                                (optional = optional || "?" == value);
-                            if (
-                                ((value = null),
-                                elementControllers &&
-                    "data" === retrievalMethod &&
-                    (value = elementControllers[require]),
-                                !(value =
-                    value ||
-                    $element[retrievalMethod](
-                        "$" + require + "Controller"
-                    )) &&
-                    !optional)
-                            )
-                                throw $compileMinErr(
-                                    "ctreq",
-                                    "Controller '{0}', required by directive '{1}', can't be found!",
-                                    require,
-                                    directiveName,
-                                );
-                            return value;
-                        } else
-                            isArray(
-                                require
-                            ) &&
-                  forEach(
-                      require,
-                      function (
-                          require
-                      ) {
-                          (value = []).push(
-                              getControllers(
-                                  require,
-                                  $element,
-                                  elementControllers
-                              ),
-                          );
-                      }
-                  );
-                        return value;
-                    }
-                    function nodeLinkFn(
-                        childLinkFn,
-                        scope,
-                        linkNode,
-                        $rootElement,
-                        boundTranscludeFn,
-                    ) {
-                        var attrs,
-                            $element,
-                            i,
-                            ii,
-                            linkFn,
-                            controller,
-                            isolateScope,
-                            transcludeFn,
-                            elementControllers = {
-                            };
-                        if (
-                            (($element = (attrs =
-                  compileNode === linkNode
-                      ? templateAttrs
-                      : shallowCopy(
-                          templateAttrs,
-                          new Attributes(
-                              jqLite(
-                                  linkNode
-                              ),
-                              templateAttrs.$attr
-                          ),
-                      )).$$element),
-                            newIsolateScopeDirective)
-                        ) {
-                            var LOCAL_REGEXP = /^\s*([@=&])(\??)\s*(\w*)\s*$/,
-                                $linkNode = jqLite(
-                                    linkNode
-                                );
-                            (isolateScope = scope.$new(
-                                !0
-                            )),
-                            templateDirective &&
-                  templateDirective ===
-                    newIsolateScopeDirective.$$originalDirective
-                                ? $linkNode.data(
-                                    "$isolateScope",
-                                    isolateScope
-                                )
-                                : $linkNode.data(
-                                    "$isolateScopeNoTemplate",
-                                    isolateScope
-                                ),
-                            safeAddClass(
-                                $linkNode,
-                                "ng-isolate-scope"
-                            ),
-                            forEach(
-                                newIsolateScopeDirective.scope,
-                                function (
-                                    definition, scopeName
-                                ) {
-                                    var lastValue,
-                                        parentGet,
-                                        parentSet,
-                                        compare,
-                                        match = definition.match(
-                                            LOCAL_REGEXP
-                                        ) || [],
-                                        attrName = match[3] || scopeName,
-                                        optional = "?" == match[2],
-                                        mode = match[1];
-                                    switch (
-                                        ((isolateScope.$$isolateBindings[scopeName] =
-                          mode + attrName),
-                                        mode)
-                                    ) {
-                                    case "@":
-                                        attrs.$observe(
-                                            attrName,
-                                            function (
-                                                value
-                                            ) {
-                                                isolateScope[scopeName] = value;
-                                            }
-                                        ),
-                                        (attrs.$$observers[attrName].$$scope = scope),
-                                        attrs[attrName] &&
-                              (isolateScope[scopeName] = $interpolate(
-                                  attrs[attrName],
-                              )(
-                                  scope
-                              ));
-                                        break;
-                                    case "=":
-                                        if (!optional || attrs[attrName]) {
-                                            (compare = (parentGet = $parse(
-                                                attrs[attrName]
-                                            ))
-                                                .literal
-                                                ? equals
-                                                : function (
-                                                    a, b
-                                                ) {
-                                                    return a === b;
-                                                }),
-                                            (parentSet =
-                                parentGet.assign ||
-                                function (
-                                ) {
-                                    throw (
-                                        ((lastValue = isolateScope[
-                                            scopeName
-                                        ] = parentGet(
-                                            scope
-                                        )),
-                                        $compileMinErr(
-                                            "nonassign",
-                                            "Expression '{0}' used with directive '{1}' is non-assignable!",
-                                            attrs[attrName],
-                                            newIsolateScopeDirective.name,
-                                        ))
-                                    );
-                                }),
-                                            (lastValue = isolateScope[scopeName] = parentGet(
-                                                scope,
-                                            )),
-                                            isolateScope.$watch(
-                                                function (
-                                                ) {
-                                                    var parentValue = parentGet(
-                                                        scope
-                                                    );
-                                                    return (
-                                                        compare(
-                                                            parentValue,
-                                                            isolateScope[scopeName],
-                                                        ) ||
-                                      (compare(
-                                          parentValue,
-                                          lastValue
-                                      )
-                                          ? parentSet(
-                                              scope,
-                                              (parentValue =
-                                              isolateScope[scopeName]),
-                                          )
-                                          : (isolateScope[
-                                              scopeName
-                                          ] = parentValue)),
-                                                        (lastValue = parentValue)
-                                                    );
-                                                },
-                                                null,
-                                                parentGet.literal,
-                                            );
-                                            break;
-                                        }
-                                    case "&":
-                                        (parentGet = $parse(
-                                            attrs[attrName]
-                                        )),
-                                        (isolateScope[scopeName] = function (
-                                            locals
-                                        ) {
-                                            return parentGet(
-                                                scope,
-                                                locals
-                                            );
-                                        });
-                                        break;
-                                    default:
-                                        throw $compileMinErr(
-                                            "iscp",
-                                            "Invalid isolate scope definition for directive '{0}'. Definition: {... {1}: '{2}' ...}",
-                                            newIsolateScopeDirective.name,
-                                            scopeName,
-                                            definition,
-                                        );
-                                    }
-                                },
-                            );
-                        }
-                        for (
-                            i = 0,
-                            transcludeFn =
-                    boundTranscludeFn && controllersBoundTransclude,
-                            controllerDirectives &&
-                    forEach(
-                        controllerDirectives,
-                        function (
-                            directive
-                        ) {
-                            var controllerInstance,
-                                locals = {
-                                    $scope:
-                            directive === newIsolateScopeDirective ||
-                            directive.$$isolateScope
-                                ? isolateScope
-                                : scope,
-                                    $element: attrs.$$element,
-                                    $attrs: attrs,
-                                    $transclude: transcludeFn,
-                                };
-                            "@" == (controller = directive.controller) &&
-                        (controller = attrs[directive.name]),
-                            (controllerInstance = $controller(
-                                controller,
-                                locals
-                            )),
-                            (elementControllers[
-                                directive.name
-                            ] = controllerInstance),
-                            hasElementTranscludeDirective ||
-                          attrs.$$element.data(
-                              "$" + directive.name + "Controller",
-                              controllerInstance,
-                          ),
-                            directive.controllerAs &&
-                          (locals.$scope[
-                              directive.controllerAs
-                          ] = controllerInstance);
-                        }
-                    ),
-                            ii = preLinkFns.length;
-                            i < ii;
-                            i++
-                        )
-                            try {
-                                (linkFn = preLinkFns[i]),
-                                linkFn(
-                                    linkFn.isolateScope ? isolateScope : scope,
-                                    $element,
-                                    attrs,
-                                    linkFn.require &&
-                        getControllers(
-                            linkFn.require,
-                            $element,
-                            elementControllers,
-                        ),
-                                    transcludeFn,
-                                );
-                            } catch (e) {
-                                $exceptionHandler(
-                                    e,
-                                    startingTag(
-                                        $element
-                                    )
-                                );
-                            }
-                        var scopeToChild = scope;
-                        for (
-                            newIsolateScopeDirective &&
-                  (newIsolateScopeDirective.template ||
-                    null === newIsolateScopeDirective.templateUrl) &&
-                  (scopeToChild = isolateScope),
-                            childLinkFn &&
-                    childLinkFn(
-                        scopeToChild,
-                        linkNode.childNodes,
-                        void 0,
-                        boundTranscludeFn,
-                    ),
-                            i = postLinkFns.length - 1;
-                            i >= 0;
-                            i--
-                        )
-                            try {
-                                (linkFn = postLinkFns[i]),
-                                linkFn(
-                                    linkFn.isolateScope ? isolateScope : scope,
-                                    $element,
-                                    attrs,
-                                    linkFn.require &&
-                        getControllers(
-                            linkFn.require,
-                            $element,
-                            elementControllers,
-                        ),
-                                    transcludeFn,
-                                );
-                            } catch (e) {
-                                $exceptionHandler(
-                                    e,
-                                    startingTag(
-                                        $element
-                                    )
-                                );
-                            }
-                        function controllersBoundTransclude(
-                            scope, cloneAttachFn
-                        ) {
-                            var transcludeControllers;
-                            return (
-                                arguments.length < 2 &&
-                    ((cloneAttachFn = scope), (scope = void 0)),
-                                hasElementTranscludeDirective &&
-                    (transcludeControllers = elementControllers),
-                                boundTranscludeFn(
-                                    scope,
-                                    cloneAttachFn,
-                                    transcludeControllers
-                                )
-                            );
-                        }
-                    }
                 }
                 function markDirectivesAsIsolate(
                     directives
@@ -5853,6 +5033,128 @@
                         annotation,
                     );
                 }
+                return (
+                    (Attributes.prototype = {
+                        $normalize: directiveNormalize,
+                        $addClass: function (
+                            classVal
+                        ) {
+                            classVal &&
+                  classVal.length > 0 &&
+                  $animate.addClass(
+                      this.$$element,
+                      classVal
+                  );
+                        },
+                        $removeClass: function (
+                            classVal
+                        ) {
+                            classVal &&
+                  classVal.length > 0 &&
+                  $animate.removeClass(
+                      this.$$element,
+                      classVal
+                  );
+                        },
+                        $updateClass: function (
+                            newClasses, oldClasses
+                        ) {
+                            this.$removeClass(
+                                tokenDifference(
+                                    oldClasses,
+                                    newClasses
+                                )
+                            ),
+                            this.$addClass(
+                                tokenDifference(
+                                    newClasses,
+                                    oldClasses
+                                )
+                            );
+                        },
+                        $set: function (
+                            key, value, writeAttr, attrName
+                        ) {
+                            var nodeName,
+                                booleanKey = getBooleanAttrName(
+                                    this.$$element[0],
+                                    key
+                                );
+                            booleanKey &&
+                  (this.$$element.prop(
+                      key,
+                      value
+                  ), (attrName = booleanKey)),
+                            (this[key] = value),
+                            attrName
+                                ? (this.$attr[key] = attrName)
+                                : (attrName = this.$attr[key]) ||
+                      (this.$attr[key] = attrName = snake_case(
+                          key,
+                          "-"
+                      )),
+                            (("A" === (nodeName = nodeName_(
+                                this.$$element
+                            )) &&
+                    "href" === key) ||
+                    ("IMG" === nodeName && "src" === key)) &&
+                    (this[key] = value = $$sanitizeUri(
+                        value,
+                        "src" === key
+                    )),
+                            !1 !== writeAttr &&
+                    (null == value
+                        ? this.$$element.removeAttr(
+                            attrName
+                        )
+                        : this.$$element.attr(
+                            attrName,
+                            value
+                        ));
+                            var $$observers = this.$$observers;
+                            $$observers &&
+                  forEach(
+                      $$observers[key],
+                      function (
+                          fn
+                      ) {
+                          try {
+                              fn(
+                                  value
+                              );
+                          } catch (e) {
+                              $exceptionHandler(
+                                  e
+                              );
+                          }
+                      }
+                  );
+                        },
+                        $observe: function (
+                            key, fn
+                        ) {
+                            var attrs = this,
+                                $$observers = attrs.$$observers || (attrs.$$observers = {
+                                }),
+                                listeners = $$observers[key] || ($$observers[key] = []);
+                            return (
+                                listeners.push(
+                                    fn
+                                ),
+                                $rootScope.$evalAsync(
+                                    function (
+                                    ) {
+                                        listeners.$$inter || fn(
+                                            attrs[key]
+                                        );
+                                    }
+                                ),
+                                fn
+                            );
+                        },
+                    }),
+                    compile
+                );
             },
         ]);
     }
@@ -6163,64 +5465,6 @@
                         "$http"
                     ),
                     reversedInterceptors = [];
-                forEach(
-                    interceptorFactories,
-                    function (
-                        interceptorFactory
-                    ) {
-                        reversedInterceptors.unshift(
-                            isString(
-                                interceptorFactory
-                            )
-                                ? $injector.get(
-                                    interceptorFactory
-                                )
-                                : $injector.invoke(
-                                    interceptorFactory
-                                ),
-                        );
-                    }
-                ),
-                forEach(
-                    responseInterceptorFactories,
-                    function (
-                        interceptorFactory, index
-                    ) {
-                        var responseFn = isString(
-                            interceptorFactory
-                        )
-                            ? $injector.get(
-                                interceptorFactory
-                            )
-                            : $injector.invoke(
-                                interceptorFactory
-                            );
-                        reversedInterceptors.splice(
-                            index,
-                            0,
-                            {
-                                response: function (
-                                    response
-                                ) {
-                                    return responseFn(
-                                        $q.when(
-                                            response
-                                        )
-                                    );
-                                },
-                                responseError: function (
-                                    response
-                                ) {
-                                    return responseFn(
-                                        $q.reject(
-                                            response
-                                        )
-                                    );
-                                },
-                            }
-                        );
-                    },
-                );
                 function $http(
                     requestConfig
                 ) {
@@ -6230,28 +5474,16 @@
                         },
                         headers = mergeHeaders(
                             requestConfig
-                        );
-                    extend(
-                        config,
-                        requestConfig
-                    ),
-                    (config.headers = headers),
-                    (config.method = uppercase(
-                        config.method
-                    ));
-                    var xsrfValue = urlIsSameOrigin(
-                        config.url
-                    )
-                        ? $browser.cookies(
-                        )[
-                            config.xsrfCookieName || defaults.xsrfCookieName
-                        ]
-                        : void 0;
-                    xsrfValue &&
-            (headers[
-                config.xsrfHeaderName || defaults.xsrfHeaderName
-            ] = xsrfValue);
-                    var chain = [
+                        ),
+                        xsrfValue = urlIsSameOrigin(
+                            config.url
+                        )
+                            ? $browser.cookies(
+                            )[
+                                config.xsrfCookieName || defaults.xsrfCookieName
+                            ]
+                            : void 0,
+                        chain = [
                             function (
                                 config
                             ) {
@@ -6300,22 +5532,114 @@
                         promise = $q.when(
                             config
                         );
+                    function transformResponse(
+                        response
+                    ) {
+                        var resp = extend(
+                            {
+                            },
+                            response,
+                            {
+                                data: transformData(
+                                    response.data,
+                                    response.headers,
+                                    config.transformResponse,
+                                ),
+                            }
+                        );
+                        return isSuccess(
+                            response.status
+                        )
+                            ? resp
+                            : $q.reject(
+                                resp
+                            );
+                    }
+                    function mergeHeaders(
+                        config
+                    ) {
+                        var defHeaderName,
+                            lowercaseDefHeaderName,
+                            reqHeaderName,
+                            defHeaders = defaults.headers,
+                            reqHeaders = extend(
+                                {
+                                },
+                                config.headers
+                            );
+                        function execHeaders(
+                            headers
+                        ) {
+                            var headerContent;
+                            forEach(
+                                headers,
+                                function (
+                                    headerFn, header
+                                ) {
+                                    isFunction(
+                                        headerFn
+                                    ) &&
+                  (null != (headerContent = headerFn(
+                  ))
+                      ? (headers[header] = headerContent)
+                      : delete headers[header]);
+                                }
+                            );
+                        }
+                        execHeaders(
+                            (defHeaders = extend(
+                                {
+                                },
+                                defHeaders.common,
+                                defHeaders[lowercase(
+                                    config.method
+                                )],
+                            )),
+                        ),
+                        execHeaders(
+                            reqHeaders
+                        );
+                        defaultHeadersIteration: for (defHeaderName in defHeaders) {
+                            for (reqHeaderName in ((lowercaseDefHeaderName = lowercase(
+                                defHeaderName,
+                            )),
+                            reqHeaders))
+                                if (lowercase(
+                                    reqHeaderName
+                                ) === lowercaseDefHeaderName)
+                                    continue defaultHeadersIteration;
+                            reqHeaders[defHeaderName] = defHeaders[defHeaderName];
+                        }
+                        return reqHeaders;
+                    }
                     for (
+                        extend(
+                            config,
+                            requestConfig
+                        ),
+                        config.headers = headers,
+                        config.method = uppercase(
+                            config.method
+                        ),
+                        xsrfValue &&
+                (headers[
+                    config.xsrfHeaderName || defaults.xsrfHeaderName
+                ] = xsrfValue),
                         forEach(
                             reversedInterceptors,
                             function (
                                 interceptor
                             ) {
                                 (interceptor.request || interceptor.requestError) &&
-                chain.unshift(
-                    interceptor.request,
-                    interceptor.requestError
-                ),
+                  chain.unshift(
+                      interceptor.request,
+                      interceptor.requestError
+                  ),
                                 (interceptor.response || interceptor.responseError) &&
-                  chain.push(
-                      interceptor.response,
-                      interceptor.responseError
-                  );
+                    chain.push(
+                        interceptor.response,
+                        interceptor.responseError
+                    );
                             }
                         );
                         chain.length;
@@ -6372,152 +5696,6 @@
                         }),
                         promise
                     );
-                    function transformResponse(
-                        response
-                    ) {
-                        var resp = extend(
-                            {
-                            },
-                            response,
-                            {
-                                data: transformData(
-                                    response.data,
-                                    response.headers,
-                                    config.transformResponse,
-                                ),
-                            }
-                        );
-                        return isSuccess(
-                            response.status
-                        )
-                            ? resp
-                            : $q.reject(
-                                resp
-                            );
-                    }
-                    function mergeHeaders(
-                        config
-                    ) {
-                        var defHeaderName,
-                            lowercaseDefHeaderName,
-                            reqHeaderName,
-                            defHeaders = defaults.headers,
-                            reqHeaders = extend(
-                                {
-                                },
-                                config.headers
-                            );
-                        execHeaders(
-                            (defHeaders = extend(
-                                {
-                                },
-                                defHeaders.common,
-                                defHeaders[lowercase(
-                                    config.method
-                                )],
-                            )),
-                        ),
-                        execHeaders(
-                            reqHeaders
-                        );
-                        defaultHeadersIteration: for (defHeaderName in defHeaders) {
-                            for (reqHeaderName in ((lowercaseDefHeaderName = lowercase(
-                                defHeaderName,
-                            )),
-                            reqHeaders))
-                                if (lowercase(
-                                    reqHeaderName
-                                ) === lowercaseDefHeaderName)
-                                    continue defaultHeadersIteration;
-                            reqHeaders[defHeaderName] = defHeaders[defHeaderName];
-                        }
-                        return reqHeaders;
-                        function execHeaders(
-                            headers
-                        ) {
-                            var headerContent;
-                            forEach(
-                                headers,
-                                function (
-                                    headerFn, header
-                                ) {
-                                    isFunction(
-                                        headerFn
-                                    ) &&
-                  (null != (headerContent = headerFn(
-                  ))
-                      ? (headers[header] = headerContent)
-                      : delete headers[header]);
-                                }
-                            );
-                        }
-                    }
-                }
-                return (
-                    ($http.pendingRequests = []),
-                    createShortMethods(
-                        "get",
-                        "delete",
-                        "head",
-                        "jsonp"
-                    ),
-                    createShortMethodsWithData(
-                        "post",
-                        "put"
-                    ),
-                    ($http.defaults = defaults),
-                    $http
-                );
-                function createShortMethods(
-                    names
-                ) {
-                    forEach(
-                        arguments,
-                        function (
-                            name
-                        ) {
-                            $http[name] = function (
-                                url, config
-                            ) {
-                                return $http(
-                                    extend(
-                                        config || {
-                                        },
-                                        {
-                                            method: name,
-                                            url: url,
-                                        }
-                                    ),
-                                );
-                            };
-                        }
-                    );
-                }
-                function createShortMethodsWithData(
-                    name
-                ) {
-                    forEach(
-                        arguments,
-                        function (
-                            name
-                        ) {
-                            $http[name] = function (
-                                url, data, config
-                            ) {
-                                return $http(
-                                    extend(
-                                        config || {
-                                        },
-                                        {
-                                            method: name,
-                                            url: url,
-                                            data: data,
-                                        }
-                                    ),
-                                );
-                            };
-                        }
-                    );
                 }
                 function sendReq(
                     config, reqData, reqHeaders
@@ -6531,6 +5709,39 @@
                             config.url,
                             config.params
                         );
+                    function resolvePromise(
+                        response, status, headers
+                    ) {
+                        (status = Math.max(
+                            status,
+                            0
+                        )),
+                        (isSuccess(
+                            status
+                        )
+                            ? deferred.resolve
+                            : deferred.reject)(
+                            {
+                                data: response,
+                                status: status,
+                                headers: headersGetter(
+                                    headers
+                                ),
+                                config: config,
+                            }
+                        );
+                    }
+                    function removePendingReq(
+                    ) {
+                        var idx = indexOf(
+                            $http.pendingRequests,
+                            config
+                        );
+                        -1 !== idx && $http.pendingRequests.splice(
+                            idx,
+                            1
+                        );
+                    }
                     if (
                         ($http.pendingRequests.push(
                             config
@@ -6595,7 +5806,34 @@
                   config.method,
                   url,
                   reqData,
-                  done,
+                  function (
+                      status, response, headersString
+                  ) {
+                      cache &&
+                    (isSuccess(
+                        status
+                    )
+                        ? cache.put(
+                            url,
+                            [
+                                status,
+                                response,
+                                parseHeaders(
+                                    headersString
+                                ),
+                            ]
+                        )
+                        : cache.remove(
+                            url
+                        )),
+                      resolvePromise(
+                          response,
+                          status,
+                          headersString
+                      ),
+                      $rootScope.$$phase || $rootScope.$apply(
+                      );
+                  },
                   reqHeaders,
                   config.timeout,
                   config.withCredentials,
@@ -6603,67 +5841,6 @@
               ),
                         promise
                     );
-                    function done(
-                        status, response, headersString
-                    ) {
-                        cache &&
-              (isSuccess(
-                  status
-              )
-                  ? cache.put(
-                      url,
-                      [
-                          status,
-                          response,
-                          parseHeaders(
-                              headersString
-                          ),
-                      ]
-                  )
-                  : cache.remove(
-                      url
-                  )),
-                        resolvePromise(
-                            response,
-                            status,
-                            headersString
-                        ),
-                        $rootScope.$$phase || $rootScope.$apply(
-                        );
-                    }
-                    function resolvePromise(
-                        response, status, headers
-                    ) {
-                        (status = Math.max(
-                            status,
-                            0
-                        )),
-                        (isSuccess(
-                            status
-                        )
-                            ? deferred.resolve
-                            : deferred.reject)(
-                            {
-                                data: response,
-                                status: status,
-                                headers: headersGetter(
-                                    headers
-                                ),
-                                config: config,
-                            }
-                        );
-                    }
-                    function removePendingReq(
-                    ) {
-                        var idx = indexOf(
-                            $http.pendingRequests,
-                            config
-                        );
-                        -1 !== idx && $http.pendingRequests.splice(
-                            idx,
-                            1
-                        );
-                    }
                 }
                 function buildUrl(
                     url, params
@@ -6713,6 +5890,128 @@
                         )
                     );
                 }
+                return (
+                    forEach(
+                        interceptorFactories,
+                        function (
+                            interceptorFactory
+                        ) {
+                            reversedInterceptors.unshift(
+                                isString(
+                                    interceptorFactory
+                                )
+                                    ? $injector.get(
+                                        interceptorFactory
+                                    )
+                                    : $injector.invoke(
+                                        interceptorFactory
+                                    ),
+                            );
+                        }
+                    ),
+                    forEach(
+                        responseInterceptorFactories,
+                        function (
+                            interceptorFactory, index
+                        ) {
+                            var responseFn = isString(
+                                interceptorFactory
+                            )
+                                ? $injector.get(
+                                    interceptorFactory
+                                )
+                                : $injector.invoke(
+                                    interceptorFactory
+                                );
+                            reversedInterceptors.splice(
+                                index,
+                                0,
+                                {
+                                    response: function (
+                                        response
+                                    ) {
+                                        return responseFn(
+                                            $q.when(
+                                                response
+                                            )
+                                        );
+                                    },
+                                    responseError: function (
+                                        response
+                                    ) {
+                                        return responseFn(
+                                            $q.reject(
+                                                response
+                                            )
+                                        );
+                                    },
+                                }
+                            );
+                        },
+                    ),
+                    ($http.pendingRequests = []),
+                    (function (
+                        names
+                    ) {
+                        forEach(
+                            arguments,
+                            function (
+                                name
+                            ) {
+                                $http[name] = function (
+                                    url, config
+                                ) {
+                                    return $http(
+                                        extend(
+                                            config || {
+                                            },
+                                            {
+                                                method: name,
+                                                url: url,
+                                            }
+                                        ),
+                                    );
+                                };
+                            }
+                        );
+                    })(
+                        "get",
+                        "delete",
+                        "head",
+                        "jsonp"
+                    ),
+                    (function (
+                        name
+                    ) {
+                        forEach(
+                            arguments,
+                            function (
+                                name
+                            ) {
+                                $http[name] = function (
+                                    url, data, config
+                                ) {
+                                    return $http(
+                                        extend(
+                                            config || {
+                                            },
+                                            {
+                                                method: name,
+                                                url: url,
+                                                data: data,
+                                            }
+                                        ),
+                                    );
+                                };
+                            }
+                        );
+                    })(
+                        "post",
+                        "put"
+                    ),
+                    ($http.defaults = defaults),
+                    $http
+                );
             },
         ];
     }
@@ -6768,6 +6067,43 @@
         callbacks,
         rawDocument,
     ) {
+        function jsonpReq(
+            url, done
+        ) {
+            var script = rawDocument.createElement(
+                    "script"
+                ),
+                doneWrapper = function (
+                ) {
+                    (script.onreadystatechange = script.onload = script.onerror = null),
+                    rawDocument.body.removeChild(
+                        script
+                    ),
+                    done && done(
+                    );
+                };
+            return (
+                (script.type = "text/javascript"),
+                (script.src = url),
+                msie && msie <= 8
+                    ? (script.onreadystatechange = function (
+                    ) {
+                        /loaded|complete/.test(
+                            script.readyState
+                        ) && doneWrapper(
+                        );
+                    })
+                    : (script.onload = script.onerror = function (
+                    ) {
+                        doneWrapper(
+                        );
+                    }),
+                rawDocument.body.appendChild(
+                    script
+                ),
+                doneWrapper
+            );
+        }
         return function (
             method,
             url,
@@ -6779,6 +6115,40 @@
             responseType,
         ) {
             var status;
+            function timeoutRequest(
+            ) {
+                (status = -1), jsonpDone && jsonpDone(
+                ), xhr && xhr.abort(
+                );
+            }
+            function completeRequest(
+                callback, status, response, headersString
+            ) {
+                timeoutId && $browserDefer.cancel(
+                    timeoutId
+                ),
+                (jsonpDone = xhr = null),
+                (status =
+            1223 ==
+            (status =
+              "file" == urlResolve(
+                  url
+              ).protocol && 0 === status
+                  ? response
+                      ? 200
+                      : 404
+                  : status)
+                ? 204
+                : status),
+                callback(
+                    status,
+                    response,
+                    headersString
+                ),
+                $browser.$$completeOutstandingRequest(
+                    noop
+                );
+            }
             if (
                 ($browser.$$incOutstandingRequestCount(
                 ),
@@ -6869,78 +6239,7 @@
             else timeout && timeout.then && timeout.then(
                 timeoutRequest
             );
-            function timeoutRequest(
-            ) {
-                (status = -1), jsonpDone && jsonpDone(
-                ), xhr && xhr.abort(
-                );
-            }
-            function completeRequest(
-                callback, status, response, headersString
-            ) {
-                timeoutId && $browserDefer.cancel(
-                    timeoutId
-                ),
-                (jsonpDone = xhr = null),
-                (status =
-            1223 ==
-            (status =
-              "file" == urlResolve(
-                  url
-              ).protocol && 0 === status
-                  ? response
-                      ? 200
-                      : 404
-                  : status)
-                ? 204
-                : status),
-                callback(
-                    status,
-                    response,
-                    headersString
-                ),
-                $browser.$$completeOutstandingRequest(
-                    noop
-                );
-            }
         };
-        function jsonpReq(
-            url, done
-        ) {
-            var script = rawDocument.createElement(
-                    "script"
-                ),
-                doneWrapper = function (
-                ) {
-                    (script.onreadystatechange = script.onload = script.onerror = null),
-                    rawDocument.body.removeChild(
-                        script
-                    ),
-                    done && done(
-                    );
-                };
-            return (
-                (script.type = "text/javascript"),
-                (script.src = url),
-                msie && msie <= 8
-                    ? (script.onreadystatechange = function (
-                    ) {
-                        /loaded|complete/.test(
-                            script.readyState
-                        ) && doneWrapper(
-                        );
-                    })
-                    : (script.onload = script.onerror = function (
-                    ) {
-                        doneWrapper(
-                        );
-                    }),
-                rawDocument.body.appendChild(
-                    script
-                ),
-                doneWrapper
-            );
-        }
     }
     var $interpolateMinErr = minErr(
         "$interpolate"
@@ -7478,24 +6777,18 @@
                 this,
                 appBase
             ),
-            (this.$$path = removeWindowsDriveName(
-                this.$$path,
-                withoutHashUrl,
-                appBase,
-            )),
-            this.$$compose(
-            );
-            function removeWindowsDriveName(
+            (this.$$path = (function (
                 path, url, base
             ) {
                 var firstPathSegmentMatch,
                     windowsFilePathExp = /^\/?.*?:(\/.*)/;
                 return (0 === url.indexOf(
-                    base
-                ) && (url = url.replace(
-                    base,
-                    ""
-                )),
+                    appBase
+                ) &&
+              (url = url.replace(
+                  appBase,
+                  ""
+              )),
                 windowsFilePathExp.exec(
                     url
                 ))
@@ -7505,7 +6798,13 @@
                     ))
                         ? firstPathSegmentMatch[1]
                         : path;
-            }
+            })(
+                this.$$path,
+                withoutHashUrl,
+                appBase
+            )),
+            this.$$compose(
+            );
         }),
         (this.$$compose = function (
         ) {
@@ -7557,98 +6856,6 @@
             if (appBaseNoFile === url + "/") return appBaseNoFile;
         };
     }
-    LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
-        $$html5: !1,
-        $$replace: !1,
-        absUrl: locationGetter(
-            "$$absUrl"
-        ),
-        url: function (
-            url, replace
-        ) {
-            if (isUndefined(
-                url
-            )) return this.$$url;
-            var match = PATH_MATCH.exec(
-                url
-            );
-            return (
-                match[1] && this.path(
-                    decodeURIComponent(
-                        match[1]
-                    )
-                ),
-                (match[2] || match[1]) && this.search(
-                    match[3] || ""
-                ),
-                this.hash(
-                    match[5] || "",
-                    replace
-                ),
-                this
-            );
-        },
-        protocol: locationGetter(
-            "$$protocol"
-        ),
-        host: locationGetter(
-            "$$host"
-        ),
-        port: locationGetter(
-            "$$port"
-        ),
-        path: locationGetterSetter(
-            "$$path",
-            function (
-                path
-            ) {
-                return "/" == path.charAt(
-                    0
-                )
-                    ? path
-                    : "/" + path;
-            }
-        ),
-        search: function (
-            search, paramValue
-        ) {
-            switch (arguments.length) {
-            case 0:
-                return this.$$search;
-            case 1:
-                if (isString(
-                    search
-                )) this.$$search = parseKeyValue(
-                    search
-                );
-                else if (isObject(
-                    search
-                )) this.$$search = search;
-                else
-                    throw $locationMinErr(
-                        "isrcharg",
-                        "The first argument of the `$location#search()` call must be a string or an object.",
-                    );
-                break;
-            default:
-                isUndefined(
-                    paramValue
-                ) || null === paramValue
-                    ? delete this.$$search[search]
-                    : (this.$$search[search] = paramValue);
-            }
-            return this.$$compose(
-            ), this;
-        },
-        hash: locationGetterSetter(
-            "$$hash",
-            identity
-        ),
-        replace: function (
-        ) {
-            return (this.$$replace = !0), this;
-        },
-    };
     function locationGetter(
         property
     ) {
@@ -7709,52 +6916,64 @@
                     baseHref = $browser.baseHref(
                     ),
                     initialUrl = $browser.url(
+                    ),
+                    changeCounter = 0;
+                function afterLocationChange(
+                    oldUrl
+                ) {
+                    $rootScope.$broadcast(
+                        "$locationChangeSuccess",
+                        $location.absUrl(
+                        ),
+                        oldUrl,
                     );
-                html5Mode
-                    ? ((appBase = serverBase(
-                        initialUrl
-                    ) + (baseHref || "/")),
-                    (LocationMode = $sniffer.history
-                        ? LocationHtml5Url
-                        : LocationHashbangInHtml5Url))
-                    : ((appBase = stripHash(
-                        initialUrl
+                }
+                return (
+                    html5Mode
+                        ? ((appBase = serverBase(
+                            initialUrl
+                        ) + (baseHref || "/")),
+                        (LocationMode = $sniffer.history
+                            ? LocationHtml5Url
+                            : LocationHashbangInHtml5Url))
+                        : ((appBase = stripHash(
+                            initialUrl
+                        )),
+                        (LocationMode = LocationHashbangUrl)),
+                    ($location = new LocationMode(
+                        appBase,
+                        "#" + hashPrefix
                     )),
-                    (LocationMode = LocationHashbangUrl)),
-                ($location = new LocationMode(
-                    appBase,
-                    "#" + hashPrefix
-                )),
-                $location.$$parse(
-                    $location.$$rewrite(
-                        initialUrl
-                    )
-                ),
-                $rootElement.on(
-                    "click",
-                    function (
-                        event
-                    ) {
-                        if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
-                            for (
-                                var elm = jqLite(
-                                    event.target
-                                );
-                                "a" !== lowercase(
-                                    elm[0].nodeName
-                                );
+                    $location.$$parse(
+                        $location.$$rewrite(
+                            initialUrl
+                        )
+                    ),
+                    $rootElement.on(
+                        "click",
+                        function (
+                            event
+                        ) {
+                            if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
+                                for (
+                                    var elm = jqLite(
+                                        event.target
+                                    );
+                                    "a" !== lowercase(
+                                        elm[0].nodeName
+                                    );
 
-                            )
-                                if (elm[0] === $rootElement[0] || !(elm = elm.parent(
-                                ))[0])
-                                    return;
-                            var absHref = elm.prop(
-                                    "href"
-                                ),
-                                rewrittenUrl = $location.$$rewrite(
-                                    absHref
-                                );
-                            absHref &&
+                                )
+                                    if (elm[0] === $rootElement[0] || !(elm = elm.parent(
+                                    ))[0])
+                                        return;
+                                var absHref = elm.prop(
+                                        "href"
+                                    ),
+                                    rewrittenUrl = $location.$$rewrite(
+                                        absHref
+                                    );
+                                absHref &&
                   !elm.attr(
                       "target"
                   ) &&
@@ -7771,55 +6990,53 @@
                     $rootScope.$apply(
                     ),
                     (window.angular["ff-684208-preventDefault"] = !0)));
+                            }
                         }
-                    }
-                ),
-                $location.absUrl(
-                ) != initialUrl &&
+                    ),
+                    $location.absUrl(
+                    ) != initialUrl &&
               $browser.url(
                   $location.absUrl(
                   ),
                   !0
               ),
-                $browser.onUrlChange(
-                    function (
-                        newUrl
-                    ) {
-                        if ($location.absUrl(
-                        ) != newUrl) {
-                            if (
-                                $rootScope.$broadcast(
-                                    "$locationChangeStart",
-                                    newUrl,
-                                    $location.absUrl(
-                                    ),
-                                ).defaultPrevented
-                            ) {
-                                $browser.url(
-                                    $location.absUrl(
-                                    )
-                                );
-                                return;
-                            }
-                            $rootScope.$evalAsync(
-                                function (
+                    $browser.onUrlChange(
+                        function (
+                            newUrl
+                        ) {
+                            if ($location.absUrl(
+                            ) != newUrl) {
+                                if (
+                                    $rootScope.$broadcast(
+                                        "$locationChangeStart",
+                                        newUrl,
+                                        $location.absUrl(
+                                        ),
+                                    ).defaultPrevented
                                 ) {
-                                    var oldUrl = $location.absUrl(
+                                    $browser.url(
+                                        $location.absUrl(
+                                        )
                                     );
-                                    $location.$$parse(
-                                        newUrl
-                                    ), afterLocationChange(
-                                        oldUrl
-                                    );
+                                    return;
                                 }
-                            ),
-                            $rootScope.$$phase || $rootScope.$digest(
-                            );
+                                $rootScope.$evalAsync(
+                                    function (
+                                    ) {
+                                        var oldUrl = $location.absUrl(
+                                        );
+                                        $location.$$parse(
+                                            newUrl
+                                        ), afterLocationChange(
+                                            oldUrl
+                                        );
+                                    }
+                                ),
+                                $rootScope.$$phase || $rootScope.$digest(
+                                );
+                            }
                         }
-                    }
-                );
-                var changeCounter = 0;
-                return (
+                    ),
                     $rootScope.$watch(
                         function (
                         ) {
@@ -7859,16 +7076,6 @@
                     ),
                     $location
                 );
-                function afterLocationChange(
-                    oldUrl
-                ) {
-                    $rootScope.$broadcast(
-                        "$locationChangeSuccess",
-                        $location.absUrl(
-                        ),
-                        oldUrl,
-                    );
-                }
             },
         ]);
     }
@@ -7890,34 +7097,6 @@
             function (
                 $window
             ) {
-                return {
-                    log: consoleLog(
-                        "log"
-                    ),
-                    info: consoleLog(
-                        "info"
-                    ),
-                    warn: consoleLog(
-                        "warn"
-                    ),
-                    error: consoleLog(
-                        "error"
-                    ),
-                    debug: (function (
-                    ) {
-                        var fn = consoleLog(
-                            "debug"
-                        );
-                        return function (
-                        ) {
-                            debug && fn.apply(
-                                self,
-                                arguments
-                            );
-                        };
-                    })(
-                    ),
-                };
                 function formatError(
                     arg
                 ) {
@@ -7974,6 +7153,34 @@
                             );
                         };
                 }
+                return {
+                    log: consoleLog(
+                        "log"
+                    ),
+                    info: consoleLog(
+                        "info"
+                    ),
+                    warn: consoleLog(
+                        "warn"
+                    ),
+                    error: consoleLog(
+                        "error"
+                    ),
+                    debug: (function (
+                    ) {
+                        var fn = consoleLog(
+                            "debug"
+                        );
+                        return function (
+                        ) {
+                            debug && fn.apply(
+                                self,
+                                arguments
+                            );
+                        };
+                    })(
+                    ),
+                };
             },
         ]);
     }
@@ -8280,1239 +7487,12 @@
             options
         ) {
             this.options = options;
+        },
+        Parser = function (
+            lexer, $filter, options
+        ) {
+            (this.lexer = lexer), (this.$filter = $filter), (this.options = options);
         };
-    Lexer.prototype = {
-        constructor: Lexer,
-        lex: function (
-            text
-        ) {
-            (this.text = text),
-            (this.index = 0),
-            (this.ch = void 0),
-            (this.lastCh = ":"),
-            (this.tokens = []);
-            for (var token, json = []; this.index < this.text.length; ) {
-                if (((this.ch = this.text.charAt(
-                    this.index
-                )), this.is(
-                    "\"'"
-                )))
-                    this.readString(
-                        this.ch
-                    );
-                else if (
-                    this.isNumber(
-                        this.ch
-                    ) ||
-          (this.is(
-              "."
-          ) && this.isNumber(
-              this.peek(
-              )
-          ))
-                )
-                    this.readNumber(
-                    );
-                else if (this.isIdent(
-                    this.ch
-                ))
-                    this.readIdent(
-                    ),
-                    this.was(
-                        "{,"
-                    ) &&
-              "{" === json[0] &&
-              (token = this.tokens[this.tokens.length - 1]) &&
-              (token.json = -1 === token.text.indexOf(
-                  "."
-              ));
-                else if (this.is(
-                    "(){}[].,;:?"
-                ))
-                    this.tokens.push(
-                        {
-                            index: this.index,
-                            text: this.ch,
-                            json: (this.was(
-                                ":[,"
-                            ) && this.is(
-                                "{["
-                            )) || this.is(
-                                "}]:,"
-                            ),
-                        }
-                    ),
-                    this.is(
-                        "{["
-                    ) && json.unshift(
-                        this.ch
-                    ),
-                    this.is(
-                        "}]"
-                    ) && json.shift(
-                    ),
-                    this.index++;
-                else if (this.isWhitespace(
-                    this.ch
-                )) {
-                    this.index++;
-                    continue;
-                } else {
-                    var ch2 = this.ch + this.peek(
-                        ),
-                        ch3 = ch2 + this.peek(
-                            2
-                        ),
-                        fn = OPERATORS[this.ch],
-                        fn2 = OPERATORS[ch2],
-                        fn3 = OPERATORS[ch3];
-                    fn3
-                        ? (this.tokens.push(
-                            {
-                                index: this.index,
-                                text: ch3,
-                                fn: fn3,
-                            }
-                        ),
-                        (this.index += 3))
-                        : fn2
-                            ? (this.tokens.push(
-                                {
-                                    index: this.index,
-                                    text: ch2,
-                                    fn: fn2,
-                                }
-                            ),
-                            (this.index += 2))
-                            : fn
-                                ? (this.tokens.push(
-                                    {
-                                        index: this.index,
-                                        text: this.ch,
-                                        fn: fn,
-                                        json: this.was(
-                                            "[,:"
-                                        ) && this.is(
-                                            "+-"
-                                        ),
-                                    }
-                                ),
-                                (this.index += 1))
-                                : this.throwError(
-                                    "Unexpected next character ",
-                                    this.index,
-                                    this.index + 1,
-                                );
-                }
-                this.lastCh = this.ch;
-            }
-            return this.tokens;
-        },
-        is: function (
-            chars
-        ) {
-            return -1 !== chars.indexOf(
-                this.ch
-            );
-        },
-        was: function (
-            chars
-        ) {
-            return -1 !== chars.indexOf(
-                this.lastCh
-            );
-        },
-        peek: function (
-            i
-        ) {
-            var num = i || 1;
-            return (
-                this.index + num < this.text.length &&
-        this.text.charAt(
-            this.index + num
-        )
-            );
-        },
-        isNumber: function (
-            ch
-        ) {
-            return "0" <= ch && ch <= "9";
-        },
-        isWhitespace: function (
-            ch
-        ) {
-            return (
-                " " === ch ||
-        "\r" === ch ||
-        "\t" === ch ||
-        "\n" === ch ||
-        "\v" === ch ||
-        "\u00A0" === ch
-            );
-        },
-        isIdent: function (
-            ch
-        ) {
-            return (
-                ("a" <= ch && ch <= "z") ||
-        ("A" <= ch && ch <= "Z") ||
-        "_" === ch ||
-        "$" === ch
-            );
-        },
-        isExpOperator: function (
-            ch
-        ) {
-            return "-" === ch || "+" === ch || this.isNumber(
-                ch
-            );
-        },
-        throwError: function (
-            error, start, end
-        ) {
-            end = end || this.index;
-            var colStr = isDefined(
-                start
-            )
-                ? "s " +
-          start +
-          "-" +
-          this.index +
-          " [" +
-          this.text.substring(
-              start,
-              end
-          ) +
-          "]"
-                : " " + end;
-            throw $parseMinErr(
-                "lexerr",
-                "Lexer Error: {0} at column{1} in expression [{2}].",
-                error,
-                colStr,
-                this.text,
-            );
-        },
-        readNumber: function (
-        ) {
-            for (
-                var number = "", start = this.index;
-                this.index < this.text.length;
-
-            ) {
-                var ch = lowercase(
-                    this.text.charAt(
-                        this.index
-                    )
-                );
-                if ("." == ch || this.isNumber(
-                    ch
-                )) number += ch;
-                else {
-                    var peekCh = this.peek(
-                    );
-                    if ("e" == ch && this.isExpOperator(
-                        peekCh
-                    )) number += ch;
-                    else if (
-                        this.isExpOperator(
-                            ch
-                        ) &&
-            peekCh &&
-            this.isNumber(
-                peekCh
-            ) &&
-            "e" == number.charAt(
-                number.length - 1
-            )
-                    )
-                        number += ch;
-                    else if (
-                        this.isExpOperator(
-                            ch
-                        ) &&
-            (!peekCh || !this.isNumber(
-                peekCh
-            )) &&
-            "e" == number.charAt(
-                number.length - 1
-            )
-                    )
-                        this.throwError(
-                            "Invalid exponent"
-                        );
-                    else break;
-                }
-                this.index++;
-            }
-            (number *= 1),
-            this.tokens.push(
-                {
-                    index: start,
-                    text: number,
-                    json: !0,
-                    fn: function (
-                    ) {
-                        return number;
-                    },
-                }
-            );
-        },
-        readIdent: function (
-        ) {
-            for (
-                var parser = this,
-                    ident = "",
-                    start = this.index,
-                    lastDot,
-                    peekIndex,
-                    methodName,
-                    ch;
-                this.index < this.text.length;
-
-            ) {
-                if (
-                    "." === (ch = this.text.charAt(
-                        this.index
-                    )) ||
-          this.isIdent(
-              ch
-          ) ||
-          this.isNumber(
-              ch
-          )
-                )
-                    "." === ch && (lastDot = this.index), (ident += ch);
-                else break;
-                this.index++;
-            }
-            if (lastDot)
-                for (peekIndex = this.index; peekIndex < this.text.length; ) {
-                    if ("(" === (ch = this.text.charAt(
-                        peekIndex
-                    ))) {
-                        (methodName = ident.substr(
-                            lastDot - start + 1
-                        )),
-                        (ident = ident.substr(
-                            0,
-                            lastDot - start
-                        )),
-                        (this.index = peekIndex);
-                        break;
-                    }
-                    if (this.isWhitespace(
-                        ch
-                    )) peekIndex++;
-                    else break;
-                }
-            var token = {
-                index: start,
-                text: ident,
-            };
-            if (OPERATORS.hasOwnProperty(
-                ident
-            ))
-                (token.fn = OPERATORS[ident]), (token.json = OPERATORS[ident]);
-            else {
-                var getter1 = getterFn(
-                    ident,
-                    this.options,
-                    this.text
-                );
-                token.fn = extend(
-                    function (
-                        self, locals
-                    ) {
-                        return getter1(
-                            self,
-                            locals
-                        );
-                    },
-                    {
-                        assign: function (
-                            self, value
-                        ) {
-                            return setter(
-                                self,
-                                ident,
-                                value,
-                                parser.text,
-                                parser.options
-                            );
-                        },
-                    },
-                );
-            }
-            this.tokens.push(
-                token
-            ),
-            methodName &&
-          (this.tokens.push(
-              {
-                  index: lastDot,
-                  text: ".",
-                  json: !1,
-              }
-          ),
-          this.tokens.push(
-              {
-                  index: lastDot + 1,
-                  text: methodName,
-                  json: !1,
-              }
-          ));
-        },
-        readString: function (
-            quote
-        ) {
-            var start = this.index;
-            this.index++;
-            for (
-                var string = "", rawString = quote, escape = !1;
-                this.index < this.text.length;
-
-            ) {
-                var ch = this.text.charAt(
-                    this.index
-                );
-                if (((rawString += ch), escape)) {
-                    if ("u" === ch) {
-                        var hex = this.text.substring(
-                            this.index + 1,
-                            this.index + 5
-                        );
-                        hex.match(
-                            /[\da-f]{4}/i
-                        ) ||
-              this.throwError(
-                  "Invalid unicode escape [\\u" + hex + "]"
-              ),
-                        (this.index += 4),
-                        (string += String.fromCharCode(
-                            parseInt(
-                                hex,
-                                16
-                            )
-                        ));
-                    } else {
-                        var rep = ESCAPE[ch];
-                        rep ? (string += rep) : (string += ch);
-                    }
-                    escape = !1;
-                } else if ("\\" === ch) escape = !0;
-                else if (ch === quote)
-                    return (
-                        this.index++,
-                        this.tokens.push(
-                            {
-                                index: start,
-                                text: rawString,
-                                string: string,
-                                json: !0,
-                                fn: function (
-                                ) {
-                                    return string;
-                                },
-                            }
-                        ),
-                        void 0
-                    );
-                else string += ch;
-                this.index++;
-            }
-            this.throwError(
-                "Unterminated quote",
-                start
-            );
-        },
-    };
-    var Parser = function (
-        lexer, $filter, options
-    ) {
-        (this.lexer = lexer), (this.$filter = $filter), (this.options = options);
-    };
-    (Parser.ZERO = function (
-    ) {
-        return 0;
-    }),
-    (Parser.prototype = {
-        constructor: Parser,
-        parse: function (
-            text, json
-        ) {
-            (this.text = text),
-            (this.json = json),
-            (this.tokens = this.lexer.lex(
-                text
-            )),
-            json &&
-            ((this.assignment = this.logicalOR),
-            (this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function (
-            ) {
-                this.throwError(
-                    "is not valid json",
-                    {
-                        text: text,
-                        index: 0,
-                    }
-                );
-            }));
-            var value = json
-                ? this.primary(
-                )
-                : this.statements(
-                );
-            return (
-                0 !== this.tokens.length &&
-            this.throwError(
-                "is an unexpected token",
-                this.tokens[0]
-            ),
-                (value.literal = !!value.literal),
-                (value.constant = !!value.constant),
-                value
-            );
-        },
-        primary: function (
-        ) {
-            var primary;
-            if (this.expect(
-                "("
-            )) (primary = this.filterChain(
-            )), this.consume(
-                ")"
-            );
-            else if (this.expect(
-                "["
-            )) primary = this.arrayDeclaration(
-            );
-            else if (this.expect(
-                "{"
-            )) primary = this.object(
-            );
-            else {
-                var token = this.expect(
-                );
-                (primary = token.fn) ||
-            this.throwError(
-                "not a primary expression",
-                token
-            ),
-                token.json && ((primary.constant = !0), (primary.literal = !0));
-            }
-            for (var next, context; (next = this.expect(
-                "(",
-                "[",
-                "."
-            )); )
-                "(" === next.text
-                    ? ((primary = this.functionCall(
-                        primary,
-                        context
-                    )),
-                    (context = null))
-                    : "[" === next.text
-                        ? ((context = primary), (primary = this.objectIndex(
-                            primary
-                        )))
-                        : "." === next.text
-                            ? ((context = primary), (primary = this.fieldAccess(
-                                primary
-                            )))
-                            : this.throwError(
-                                "IMPOSSIBLE"
-                            );
-            return primary;
-        },
-        throwError: function (
-            msg, token
-        ) {
-            throw $parseMinErr(
-                "syntax",
-                "Syntax Error: Token '{0}' {1} at column {2} of the expression [{3}] starting at [{4}].",
-                token.text,
-                msg,
-                token.index + 1,
-                this.text,
-                this.text.substring(
-                    token.index
-                ),
-            );
-        },
-        peekToken: function (
-        ) {
-            if (0 === this.tokens.length)
-                throw $parseMinErr(
-                    "ueoe",
-                    "Unexpected end of expression: {0}",
-                    this.text,
-                );
-            return this.tokens[0];
-        },
-        peek: function (
-            e1, e2, e3, e4
-        ) {
-            if (this.tokens.length > 0) {
-                var token = this.tokens[0],
-                    t = token.text;
-                if (
-                    t === e1 ||
-            t === e2 ||
-            t === e3 ||
-            t === e4 ||
-            (!e1 && !e2 && !e3 && !e4)
-                )
-                    return token;
-            }
-            return !1;
-        },
-        expect: function (
-            e1, e2, e3, e4
-        ) {
-            var token = this.peek(
-                e1,
-                e2,
-                e3,
-                e4
-            );
-            return (
-                !!token &&
-          (this.json &&
-            !token.json &&
-            this.throwError(
-                "is not valid json",
-                token
-            ),
-          this.tokens.shift(
-          ),
-          token)
-            );
-        },
-        consume: function (
-            e1
-        ) {
-            this.expect(
-                e1
-            ) ||
-          this.throwError(
-              "is unexpected, expecting [" + e1 + "]",
-              this.peek(
-              )
-          );
-        },
-        unaryFn: function (
-            fn, right
-        ) {
-            return extend(
-                function (
-                    self, locals
-                ) {
-                    return fn(
-                        self,
-                        locals,
-                        right
-                    );
-                },
-                {
-                    constant: right.constant,
-                },
-            );
-        },
-        ternaryFn: function (
-            left, middle, right
-        ) {
-            return extend(
-                function (
-                    self, locals
-                ) {
-                    return left(
-                        self,
-                        locals
-                    )
-                        ? middle(
-                            self,
-                            locals
-                        )
-                        : right(
-                            self,
-                            locals
-                        );
-                },
-                {
-                    constant: left.constant && middle.constant && right.constant,
-                },
-            );
-        },
-        binaryFn: function (
-            left, fn, right
-        ) {
-            return extend(
-                function (
-                    self, locals
-                ) {
-                    return fn(
-                        self,
-                        locals,
-                        left,
-                        right
-                    );
-                },
-                {
-                    constant: left.constant && right.constant,
-                },
-            );
-        },
-        statements: function (
-        ) {
-            for (var statements = []; ; )
-                if (
-                    (this.tokens.length > 0 &&
-              !this.peek(
-                  "}",
-                  ")",
-                  ";",
-                  "]"
-              ) &&
-              statements.push(
-                  this.filterChain(
-                  )
-              ),
-                    !this.expect(
-                        ";"
-                    ))
-                )
-                    return 1 === statements.length
-                        ? statements[0]
-                        : function (
-                            self, locals
-                        ) {
-                            for (var value, i = 0; i < statements.length; i++) {
-                                var statement = statements[i];
-                                statement && (value = statement(
-                                    self,
-                                    locals
-                                ));
-                            }
-                            return value;
-                        };
-        },
-        filterChain: function (
-        ) {
-            for (var left = this.expression(
-                ), token; ; ) {
-                if (!(token = this.expect(
-                    "|"
-                ))) return left;
-                left = this.binaryFn(
-                    left,
-                    token.fn,
-                    this.filter(
-                    )
-                );
-            }
-        },
-        filter: function (
-        ) {
-            for (var token = this.expect(
-                ), argsFn = []; ; )
-                if ((token = this.expect(
-                    ":"
-                ))) argsFn.push(
-                    this.expression(
-                    )
-                );
-                else {
-                    var fnInvoke = function (
-                        self, locals, input
-                    ) {
-                        for (var args = [input,], i = 0; i < argsFn.length; i++)
-                            args.push(
-                                argsFn[i](
-                                    self,
-                                    locals
-                                )
-                            );
-                        return this.$filter(
-                            token.text
-                        ).apply(
-                            self,
-                            args
-                        );
-                    };
-                    return function (
-                    ) {
-                        return fnInvoke;
-                    };
-                }
-        },
-        expression: function (
-        ) {
-            return this.assignment(
-            );
-        },
-        assignment: function (
-        ) {
-            var right,
-                token,
-                left = this.ternary(
-                );
-            return (token = this.expect(
-                "="
-            ))
-                ? (left.assign ||
-              this.throwError(
-                  "implies assignment but [" +
-                  this.text.substring(
-                      0,
-                      token.index
-                  ) +
-                  "] can not be assigned to",
-                  token,
-              ),
-                function (
-                    scope, locals
-                ) {
-                    return left.assign(
-                        scope,
-                        (right = this.ternary(
-                        ))(
-                            scope,
-                            locals
-                        ),
-                        locals,
-                    );
-                })
-                : left;
-        },
-        ternary: function (
-        ) {
-            var middle,
-                token,
-                left = this.logicalOR(
-                );
-            if (!(token = this.expect(
-                "?"
-            ))) return left;
-            {
-                if (((middle = this.ternary(
-                )), (token = this.expect(
-                    ":"
-                ))))
-                    return this.ternaryFn(
-                        left,
-                        middle,
-                        this.ternary(
-                        )
-                    );
-                this.throwError(
-                    "expected :",
-                    token
-                );
-            }
-        },
-        logicalOR: function (
-        ) {
-            for (var left = this.logicalAND(
-                ), token; ; ) {
-                if (!(token = this.expect(
-                    "||"
-                ))) return left;
-                left = this.binaryFn(
-                    left,
-                    token.fn,
-                    this.logicalAND(
-                    )
-                );
-            }
-        },
-        logicalAND: function (
-        ) {
-            var token,
-                left = this.equality(
-                );
-            return (
-                (token = this.expect(
-                    "&&"
-                )) &&
-            (left = this.binaryFn(
-                left,
-                token.fn,
-                this.logicalAND(
-                )
-            )),
-                left
-            );
-        },
-        equality: function (
-        ) {
-            var token,
-                left = this.relational(
-                );
-            return (
-                (token = this.expect(
-                    "==",
-                    "!=",
-                    "===",
-                    "!=="
-                )) &&
-            (left = this.binaryFn(
-                left,
-                token.fn,
-                this.equality(
-                )
-            )),
-                left
-            );
-        },
-        relational: function (
-        ) {
-            var token,
-                left = this.additive(
-                );
-            return (
-                (token = this.expect(
-                    "<",
-                    ">",
-                    "<=",
-                    ">="
-                )) &&
-            (left = this.binaryFn(
-                left,
-                token.fn,
-                this.relational(
-                )
-            )),
-                left
-            );
-        },
-        additive: function (
-        ) {
-            for (
-                var left = this.multiplicative(
-                    ), token;
-                (token = this.expect(
-                    "+",
-                    "-"
-                ));
-
-            )
-                left = this.binaryFn(
-                    left,
-                    token.fn,
-                    this.multiplicative(
-                    )
-                );
-            return left;
-        },
-        multiplicative: function (
-        ) {
-            for (
-                var left = this.unary(
-                    ), token;
-                (token = this.expect(
-                    "*",
-                    "/",
-                    "%"
-                ));
-
-            )
-                left = this.binaryFn(
-                    left,
-                    token.fn,
-                    this.unary(
-                    )
-                );
-            return left;
-        },
-        unary: function (
-        ) {
-            var token;
-            return this.expect(
-                "+"
-            )
-                ? this.primary(
-                )
-                : (token = this.expect(
-                    "-"
-                ))
-                    ? this.binaryFn(
-                        Parser.ZERO,
-                        token.fn,
-                        this.unary(
-                        )
-                    )
-                    : (token = this.expect(
-                        "!"
-                    ))
-                        ? this.unaryFn(
-                            token.fn,
-                            this.unary(
-                            )
-                        )
-                        : this.primary(
-                        );
-        },
-        fieldAccess: function (
-            object
-        ) {
-            var parser = this,
-                field = this.expect(
-                ).text,
-                getter2 = getterFn(
-                    field,
-                    this.options,
-                    this.text
-                );
-            return extend(
-                function (
-                    scope, locals, self
-                ) {
-                    return getter2(
-                        self || object(
-                            scope,
-                            locals
-                        ),
-                        locals
-                    );
-                },
-                {
-                    assign: function (
-                        scope, value, locals
-                    ) {
-                        return setter(
-                            object(
-                                scope,
-                                locals
-                            ),
-                            field,
-                            value,
-                            parser.text,
-                            parser.options,
-                        );
-                    },
-                },
-            );
-        },
-        objectIndex: function (
-            obj
-        ) {
-            var parser = this,
-                indexFn = this.expression(
-                );
-            return (
-                this.consume(
-                    "]"
-                ),
-                extend(
-                    function (
-                        self, locals
-                    ) {
-                        return o
-                            ? ((v = ensureSafeObject(
-                                o[indexFn(
-                                    self,
-                                    locals
-                                )],
-                                parser.text,
-                            )) &&
-                    v.then &&
-                    parser.options.unwrapPromises &&
-                    ((p = v),
-                    "$$v" in v ||
-                      ((p.$$v = void 0),
-                      p.then(
-                          function (
-                              val
-                          ) {
-                              p.$$v = val;
-                          }
-                      )),
-                    (v = v.$$v)),
-                            v)
-                            : void 0;
-                    },
-                    {
-                        assign: function (
-                            self, value, locals
-                        ) {
-                            var key = indexFn(
-                                    self,
-                                    locals
-                                ),
-                                safe = ensureSafeObject(
-                                    obj(
-                                        self,
-                                        locals
-                                    ),
-                                    parser.text
-                                );
-                            return (safe[key] = value);
-                        },
-                    },
-                )
-            );
-        },
-        functionCall: function (
-            fn, contextGetter
-        ) {
-            var argsFn = [];
-            if (")" !== this.peekToken(
-            ).text)
-                do argsFn.push(
-                    this.expression(
-                    )
-                );
-                while (this.expect(
-                    ","
-                ));
-            this.consume(
-                ")"
-            );
-            var parser = this;
-            return function (
-                scope, locals
-            ) {
-                for (
-                    var args = [],
-                        context = contextGetter
-                            ? contextGetter(
-                                scope,
-                                locals
-                            )
-                            : scope,
-                        i = 0;
-                    i < argsFn.length;
-                    i++
-                )
-                    args.push(
-                        argsFn[i](
-                            scope,
-                            locals
-                        )
-                    );
-                var fnPtr = fn(
-                    scope,
-                    locals,
-                    context
-                ) || noop;
-                ensureSafeObject(
-                    context,
-                    parser.text
-                ),
-                ensureSafeObject(
-                    fnPtr,
-                    parser.text
-                );
-                var v = fnPtr.apply
-                    ? fnPtr.apply(
-                        context,
-                        args
-                    )
-                    : fnPtr(
-                        args[0],
-                        args[1],
-                        args[2],
-                        args[3],
-                        args[4]
-                    );
-                return ensureSafeObject(
-                    v,
-                    parser.text
-                );
-            };
-        },
-        arrayDeclaration: function (
-        ) {
-            var elementFns = [],
-                allConstant = !0;
-            if ("]" !== this.peekToken(
-            ).text)
-                do {
-                    var elementFn = this.expression(
-                    );
-                    elementFns.push(
-                        elementFn
-                    ),
-                    elementFn.constant || (allConstant = !1);
-                } while (this.expect(
-                    ","
-                ));
-            return (
-                this.consume(
-                    "]"
-                ),
-                extend(
-                    function (
-                        self, locals
-                    ) {
-                        for (var array = [], i = 0; i < elementFns.length; i++)
-                            array.push(
-                                elementFns[i](
-                                    self,
-                                    locals
-                                )
-                            );
-                        return array;
-                    },
-                    {
-                        literal: !0,
-                        constant: allConstant,
-                    },
-                )
-            );
-        },
-        object: function (
-        ) {
-            var keyValues = [],
-                allConstant = !0;
-            if ("}" !== this.peekToken(
-            ).text)
-                do {
-                    var token = this.expect(
-                        ),
-                        key = token.string || token.text;
-                    this.consume(
-                        ":"
-                    );
-                    var value = this.expression(
-                    );
-                    keyValues.push(
-                        {
-                            key: key,
-                            value: value,
-                        }
-                    ),
-                    value.constant || (allConstant = !1);
-                } while (this.expect(
-                    ","
-                ));
-            return (
-                this.consume(
-                    "}"
-                ),
-                extend(
-                    function (
-                        self, locals
-                    ) {
-                        for (var object = {
-                            }, i = 0; i < keyValues.length; i++) {
-                            var keyValue = keyValues[i];
-                            object[keyValue.key] = keyValue.value(
-                                self,
-                                locals
-                            );
-                        }
-                        return object;
-                    },
-                    {
-                        literal: !0,
-                        constant: allConstant,
-                    },
-                )
-            );
-        },
-    });
     function setter(
         obj, path, setValue, fullExp, options
     ) {
@@ -10409,550 +8389,8 @@
                     (this.$$isolateBindings = {
                     });
                 }
-                Scope.prototype = {
-                    constructor: Scope,
-                    $new: function (
-                        isolate
-                    ) {
-                        var ChildScope, child;
-                        return (
-                            isolate
-                                ? (((child = new Scope(
-                                )).$root = this.$root),
-                                (child.$$asyncQueue = this.$$asyncQueue),
-                                (child.$$postDigestQueue = this.$$postDigestQueue))
-                                : (((ChildScope = function (
-                                ) {}).prototype = this),
-                                ((child = new ChildScope(
-                                )).$id = nextUid(
-                                ))),
-                            (child.this = child),
-                            (child.$$listeners = {
-                            }),
-                            (child.$parent = this),
-                            (child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null),
-                            (child.$$prevSibling = this.$$childTail),
-                            this.$$childHead
-                                ? ((this.$$childTail.$$nextSibling = child),
-                                (this.$$childTail = child))
-                                : (this.$$childHead = this.$$childTail = child),
-                            child
-                        );
-                    },
-                    $watch: function (
-                        watchExp, listener, objectEquality
-                    ) {
-                        var scope = this,
-                            get = compileToFn(
-                                watchExp,
-                                "watch"
-                            ),
-                            array = scope.$$watchers,
-                            watcher = {
-                                fn: listener,
-                                last: initWatchVal,
-                                get: get,
-                                exp: watchExp,
-                                eq: !!objectEquality,
-                            };
-                        if (((lastDirtyWatch = null), !isFunction(
-                            listener
-                        ))) {
-                            var listenFn = compileToFn(
-                                listener || noop,
-                                "listener"
-                            );
-                            watcher.fn = function (
-                                newVal, oldVal, scope
-                            ) {
-                                listenFn(
-                                    scope
-                                );
-                            };
-                        }
-                        if ("string" == typeof watchExp && get.constant) {
-                            var originalFn = watcher.fn;
-                            watcher.fn = function (
-                                newVal, oldVal, scope
-                            ) {
-                                originalFn.call(
-                                    this,
-                                    newVal,
-                                    oldVal,
-                                    scope
-                                ),
-                                arrayRemove(
-                                    array,
-                                    watcher
-                                );
-                            };
-                        }
-                        return (
-                            array || (array = scope.$$watchers = []),
-                            array.unshift(
-                                watcher
-                            ),
-                            function (
-                            ) {
-                                arrayRemove(
-                                    array,
-                                    watcher
-                                );
-                            }
-                        );
-                    },
-                    $watchCollection: function (
-                        obj, listener
-                    ) {
-                        var oldValue,
-                            newValue,
-                            self = this,
-                            changeDetected = 0,
-                            objGetter = $parse(
-                                obj
-                            ),
-                            internalArray = [],
-                            internalObject = {
-                            },
-                            oldLength = 0;
-                        return this.$watch(
-                            function (
-                            ) {
-                                var newLength, key;
-                                if (isObject(
-                                    (newValue = objGetter(
-                                        self
-                                    ))
-                                )) {
-                                    if (isArrayLike(
-                                        newValue
-                                    )) {
-                                        oldValue !== internalArray &&
-                        ((oldLength = (oldValue = internalArray).length = 0),
-                        changeDetected++),
-                                        oldLength !== (newLength = newValue.length) &&
-                          (changeDetected++,
-                          (oldValue.length = oldLength = newLength));
-                                        for (var i = 0; i < newLength; i++)
-                                            oldValue[i] !== newValue[i] &&
-                          (changeDetected++, (oldValue[i] = newValue[i]));
-                                    } else {
-                                        for (key in (oldValue !== internalObject &&
-                        ((oldValue = internalObject = {
-                        }),
-                        (oldLength = 0),
-                        changeDetected++),
-                                        (newLength = 0),
-                                        newValue))
-                                            newValue.hasOwnProperty(
-                                                key
-                                            ) &&
-                          (newLength++,
-                          oldValue.hasOwnProperty(
-                              key
-                          )
-                              ? oldValue[key] !== newValue[key] &&
-                              (changeDetected++,
-                              (oldValue[key] = newValue[key]))
-                              : (oldLength++,
-                              (oldValue[key] = newValue[key]),
-                              changeDetected++));
-                                        if (oldLength > newLength)
-                                            for (key in (changeDetected++, oldValue))
-                                                oldValue.hasOwnProperty(
-                                                    key
-                                                ) &&
-                            !newValue.hasOwnProperty(
-                                key
-                            ) &&
-                            (oldLength--, delete oldValue[key]);
-                                    }
-                                } else
-                                    oldValue !== newValue &&
-                      ((oldValue = newValue), changeDetected++);
-                                return changeDetected;
-                            },
-                            function (
-                            ) {
-                                listener(
-                                    newValue,
-                                    oldValue,
-                                    self
-                                );
-                            },
-                        );
-                    },
-                    $digest: function (
-                    ) {
-                        var watch,
-                            value,
-                            last,
-                            watchers,
-                            length,
-                            dirty,
-                            next,
-                            current,
-                            logIdx,
-                            logMsg,
-                            asyncTask,
-                            asyncQueue = this.$$asyncQueue,
-                            postDigestQueue = this.$$postDigestQueue,
-                            ttl = TTL,
-                            target = this,
-                            watchLog = [];
-                        beginPhase(
-                            "$digest"
-                        ), (lastDirtyWatch = null);
-                        do {
-                            for (dirty = !1, current = target; asyncQueue.length; ) {
-                                try {
-                                    (asyncTask = asyncQueue.shift(
-                                    )),
-                                    asyncTask.scope.$eval(
-                                        asyncTask.expression
-                                    );
-                                } catch (e) {
-                                    clearPhase(
-                                    ), $exceptionHandler(
-                                        e
-                                    );
-                                }
-                                lastDirtyWatch = null;
-                            }
-                            traverseScopesLoop: do {
-                                if ((watchers = current.$$watchers))
-                                    for (length = current.$$watchers.length; length--; )
-                                        try {
-                                            if ((watch = watchers[length])) {
-                                                if (
-                                                    (value = watch.get(
-                                                        current
-                                                    )) !==
-                              (last = watch.last) &&
-                            !(watch.eq
-                                ? equals(
-                                    value,
-                                    last
-                                )
-                                : "number" == typeof value &&
-                                "number" == typeof last &&
-                                isNaN(
-                                    value
-                                ) &&
-                                isNaN(
-                                    last
-                                ))
-                                                )
-                                                    (dirty = !0),
-                                                    (lastDirtyWatch = watch),
-                                                    (watch.last = watch.eq
-                                                        ? copy(
-                                                            value
-                                                        )
-                                                        : value),
-                                                    watch.fn(
-                                                        value,
-                                                        last === initWatchVal ? value : last,
-                                                        current,
-                                                    ),
-                                                    ttl < 5 &&
-                                (watchLog[(logIdx = 4 - ttl)] ||
-                                  (watchLog[logIdx] = []),
-                                (logMsg = isFunction(
-                                    watch.exp
-                                )
-                                    ? "fn: " +
-                                    (watch.exp.name || watch.exp.toString(
-                                    ))
-                                    : watch.exp),
-                                (logMsg +=
-                                  "; newVal: " +
-                                  toJson(
-                                      value
-                                  ) +
-                                  "; oldVal: " +
-                                  toJson(
-                                      last
-                                  )),
-                                watchLog[logIdx].push(
-                                    logMsg
-                                ));
-                                                else if (watch === lastDirtyWatch) {
-                                                    dirty = !1;
-                                                    break traverseScopesLoop;
-                                                }
-                                            }
-                                        } catch (e) {
-                                            clearPhase(
-                                            ), $exceptionHandler(
-                                                e
-                                            );
-                                        }
-                                if (
-                                    !(next =
-                      current.$$childHead ||
-                      (current !== target && current.$$nextSibling))
-                                )
-                                    for (
-                                        ;
-                                        current !== target && !(next = current.$$nextSibling);
-
-                                    )
-                                        current = current.$parent;
-                            } while ((current = next));
-                            if (dirty && !ttl--)
-                                throw (
-                                    (clearPhase(
-                                    ),
-                                    $rootScopeMinErr(
-                                        "infdig",
-                                        "{0} $digest() iterations reached. Aborting!\nWatchers fired in the last 5 iterations: {1}",
-                                        TTL,
-                                        toJson(
-                                            watchLog
-                                        ),
-                                    ))
-                                );
-                        } while (dirty || asyncQueue.length);
-                        for (clearPhase(
-                        ); postDigestQueue.length; )
-                            try {
-                                postDigestQueue.shift(
-                                )(
-                                );
-                            } catch (e) {
-                                $exceptionHandler(
-                                    e
-                                );
-                            }
-                    },
-                    $destroy: function (
-                    ) {
-                        if (!this.$$destroyed) {
-                            var parent = this.$parent;
-                            this.$broadcast(
-                                "$destroy"
-                            ),
-                            (this.$$destroyed = !0),
-                            this !== $rootScope &&
-                    (parent.$$childHead == this &&
-                      (parent.$$childHead = this.$$nextSibling),
-                    parent.$$childTail == this &&
-                      (parent.$$childTail = this.$$prevSibling),
-                    this.$$prevSibling &&
-                      (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
-                    this.$$nextSibling &&
-                      (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
-                    (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
-                        }
-                    },
-                    $eval: function (
-                        expr, locals
-                    ) {
-                        return $parse(
-                            expr
-                        )(
-                            this,
-                            locals
-                        );
-                    },
-                    $evalAsync: function (
-                        expr
-                    ) {
-                        $rootScope.$$phase ||
-                $rootScope.$$asyncQueue.length ||
-                $browser.defer(
-                    function (
-                    ) {
-                        $rootScope.$$asyncQueue.length && $rootScope.$digest(
-                        );
-                    }
-                ),
-                        this.$$asyncQueue.push(
-                            {
-                                scope: this,
-                                expression: expr,
-                            }
-                        );
-                    },
-                    $$postDigest: function (
-                        fn
-                    ) {
-                        this.$$postDigestQueue.push(
-                            fn
-                        );
-                    },
-                    $apply: function (
-                        expr
-                    ) {
-                        try {
-                            return beginPhase(
-                                "$apply"
-                            ), this.$eval(
-                                expr
-                            );
-                        } catch (e) {
-                            $exceptionHandler(
-                                e
-                            );
-                        } finally {
-                            clearPhase(
-                            );
-                            try {
-                                $rootScope.$digest(
-                                );
-                            } catch (e) {
-                                throw ($exceptionHandler(
-                                    e
-                                ), e);
-                            }
-                        }
-                    },
-                    $on: function (
-                        name, listener
-                    ) {
-                        var namedListeners = this.$$listeners[name];
-                        return (
-                            namedListeners ||
-                  (this.$$listeners[name] = namedListeners = []),
-                            namedListeners.push(
-                                listener
-                            ),
-                            function (
-                            ) {
-                                namedListeners[indexOf(
-                                    namedListeners,
-                                    listener
-                                )] = null;
-                            }
-                        );
-                    },
-                    $emit: function (
-                        name, args
-                    ) {
-                        var namedListeners,
-                            i,
-                            length,
-                            scope = this,
-                            stopPropagation = !1,
-                            event = {
-                                name: name,
-                                targetScope: scope,
-                                stopPropagation: function (
-                                ) {
-                                    stopPropagation = !0;
-                                },
-                                preventDefault: function (
-                                ) {
-                                    event.defaultPrevented = !0;
-                                },
-                                defaultPrevented: !1,
-                            },
-                            listenerArgs = concat(
-                                [event,],
-                                arguments,
-                                1
-                            );
-                        do {
-                            for (
-                                i = 0,
-                                namedListeners = scope.$$listeners[name] || [],
-                                event.currentScope = scope,
-                                length = namedListeners.length;
-                                i < length;
-                                i++
-                            ) {
-                                if (!namedListeners[i]) {
-                                    namedListeners.splice(
-                                        i,
-                                        1
-                                    ), i--, length--;
-                                    continue;
-                                }
-                                try {
-                                    namedListeners[i].apply(
-                                        null,
-                                        listenerArgs
-                                    );
-                                } catch (e) {
-                                    $exceptionHandler(
-                                        e
-                                    );
-                                }
-                            }
-                            if (stopPropagation) return event;
-                            scope = scope.$parent;
-                        } while (scope);
-                        return event;
-                    },
-                    $broadcast: function (
-                        name, args
-                    ) {
-                        var listeners,
-                            i,
-                            length,
-                            target = this,
-                            current = target,
-                            next = target,
-                            event = {
-                                name: name,
-                                targetScope: target,
-                                preventDefault: function (
-                                ) {
-                                    event.defaultPrevented = !0;
-                                },
-                                defaultPrevented: !1,
-                            },
-                            listenerArgs = concat(
-                                [event,],
-                                arguments,
-                                1
-                            );
-                        do {
-                            for (
-                                i = 0,
-                                event.currentScope = current = next,
-                                length = (listeners = current.$$listeners[name] || [])
-                                    .length;
-                                i < length;
-                                i++
-                            ) {
-                                if (!listeners[i]) {
-                                    listeners.splice(
-                                        i,
-                                        1
-                                    ), i--, length--;
-                                    continue;
-                                }
-                                try {
-                                    listeners[i].apply(
-                                        null,
-                                        listenerArgs
-                                    );
-                                } catch (e) {
-                                    $exceptionHandler(
-                                        e
-                                    );
-                                }
-                            }
-                            if (
-                                !(next =
-                    current.$$childHead ||
-                    (current !== target && current.$$nextSibling))
-                            )
-                                for (
-                                    ;
-                                    current !== target && !(next = current.$$nextSibling);
-
-                                )
-                                    current = current.$parent;
-                        } while ((current = next));
-                        return event;
-                    },
-                };
                 var $rootScope = new Scope(
                 );
-                return $rootScope;
                 function beginPhase(
                     phase
                 ) {
@@ -10981,6 +8419,550 @@
                 }
                 function initWatchVal(
                 ) {}
+                return (
+                    (Scope.prototype = {
+                        constructor: Scope,
+                        $new: function (
+                            isolate
+                        ) {
+                            var ChildScope, child;
+                            return (
+                                isolate
+                                    ? (((child = new Scope(
+                                    )).$root = this.$root),
+                                    (child.$$asyncQueue = this.$$asyncQueue),
+                                    (child.$$postDigestQueue = this.$$postDigestQueue))
+                                    : (((ChildScope = function (
+                                    ) {}).prototype = this),
+                                    ((child = new ChildScope(
+                                    )).$id = nextUid(
+                                    ))),
+                                (child.this = child),
+                                (child.$$listeners = {
+                                }),
+                                (child.$parent = this),
+                                (child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null),
+                                (child.$$prevSibling = this.$$childTail),
+                                this.$$childHead
+                                    ? ((this.$$childTail.$$nextSibling = child),
+                                    (this.$$childTail = child))
+                                    : (this.$$childHead = this.$$childTail = child),
+                                child
+                            );
+                        },
+                        $watch: function (
+                            watchExp, listener, objectEquality
+                        ) {
+                            var scope = this,
+                                get = compileToFn(
+                                    watchExp,
+                                    "watch"
+                                ),
+                                array = scope.$$watchers,
+                                watcher = {
+                                    fn: listener,
+                                    last: initWatchVal,
+                                    get: get,
+                                    exp: watchExp,
+                                    eq: !!objectEquality,
+                                };
+                            if (((lastDirtyWatch = null), !isFunction(
+                                listener
+                            ))) {
+                                var listenFn = compileToFn(
+                                    listener || noop,
+                                    "listener"
+                                );
+                                watcher.fn = function (
+                                    newVal, oldVal, scope
+                                ) {
+                                    listenFn(
+                                        scope
+                                    );
+                                };
+                            }
+                            if ("string" == typeof watchExp && get.constant) {
+                                var originalFn = watcher.fn;
+                                watcher.fn = function (
+                                    newVal, oldVal, scope
+                                ) {
+                                    originalFn.call(
+                                        this,
+                                        newVal,
+                                        oldVal,
+                                        scope
+                                    ),
+                                    arrayRemove(
+                                        array,
+                                        watcher
+                                    );
+                                };
+                            }
+                            return (
+                                array || (array = scope.$$watchers = []),
+                                array.unshift(
+                                    watcher
+                                ),
+                                function (
+                                ) {
+                                    arrayRemove(
+                                        array,
+                                        watcher
+                                    );
+                                }
+                            );
+                        },
+                        $watchCollection: function (
+                            obj, listener
+                        ) {
+                            var oldValue,
+                                newValue,
+                                self = this,
+                                changeDetected = 0,
+                                objGetter = $parse(
+                                    obj
+                                ),
+                                internalArray = [],
+                                internalObject = {
+                                },
+                                oldLength = 0;
+                            return this.$watch(
+                                function (
+                                ) {
+                                    var newLength, key;
+                                    if (isObject(
+                                        (newValue = objGetter(
+                                            self
+                                        ))
+                                    )) {
+                                        if (isArrayLike(
+                                            newValue
+                                        )) {
+                                            oldValue !== internalArray &&
+                          ((oldLength = (oldValue = internalArray).length = 0),
+                          changeDetected++),
+                                            oldLength !== (newLength = newValue.length) &&
+                            (changeDetected++,
+                            (oldValue.length = oldLength = newLength));
+                                            for (var i = 0; i < newLength; i++)
+                                                oldValue[i] !== newValue[i] &&
+                            (changeDetected++, (oldValue[i] = newValue[i]));
+                                        } else {
+                                            for (key in (oldValue !== internalObject &&
+                          ((oldValue = internalObject = {
+                          }),
+                          (oldLength = 0),
+                          changeDetected++),
+                                            (newLength = 0),
+                                            newValue))
+                                                newValue.hasOwnProperty(
+                                                    key
+                                                ) &&
+                            (newLength++,
+                            oldValue.hasOwnProperty(
+                                key
+                            )
+                                ? oldValue[key] !== newValue[key] &&
+                                (changeDetected++,
+                                (oldValue[key] = newValue[key]))
+                                : (oldLength++,
+                                (oldValue[key] = newValue[key]),
+                                changeDetected++));
+                                            if (oldLength > newLength)
+                                                for (key in (changeDetected++, oldValue))
+                                                    oldValue.hasOwnProperty(
+                                                        key
+                                                    ) &&
+                              !newValue.hasOwnProperty(
+                                  key
+                              ) &&
+                              (oldLength--, delete oldValue[key]);
+                                        }
+                                    } else
+                                        oldValue !== newValue &&
+                        ((oldValue = newValue), changeDetected++);
+                                    return changeDetected;
+                                },
+                                function (
+                                ) {
+                                    listener(
+                                        newValue,
+                                        oldValue,
+                                        self
+                                    );
+                                },
+                            );
+                        },
+                        $digest: function (
+                        ) {
+                            var watch,
+                                value,
+                                last,
+                                watchers,
+                                length,
+                                dirty,
+                                next,
+                                current,
+                                logIdx,
+                                logMsg,
+                                asyncTask,
+                                asyncQueue = this.$$asyncQueue,
+                                postDigestQueue = this.$$postDigestQueue,
+                                ttl = TTL,
+                                target = this,
+                                watchLog = [];
+                            beginPhase(
+                                "$digest"
+                            ), (lastDirtyWatch = null);
+                            do {
+                                for (dirty = !1, current = target; asyncQueue.length; ) {
+                                    try {
+                                        (asyncTask = asyncQueue.shift(
+                                        )),
+                                        asyncTask.scope.$eval(
+                                            asyncTask.expression
+                                        );
+                                    } catch (e) {
+                                        clearPhase(
+                                        ), $exceptionHandler(
+                                            e
+                                        );
+                                    }
+                                    lastDirtyWatch = null;
+                                }
+                                traverseScopesLoop: do {
+                                    if ((watchers = current.$$watchers))
+                                        for (length = current.$$watchers.length; length--; )
+                                            try {
+                                                if ((watch = watchers[length])) {
+                                                    if (
+                                                        (value = watch.get(
+                                                            current
+                                                        )) !==
+                                (last = watch.last) &&
+                              !(watch.eq
+                                  ? equals(
+                                      value,
+                                      last
+                                  )
+                                  : "number" == typeof value &&
+                                  "number" == typeof last &&
+                                  isNaN(
+                                      value
+                                  ) &&
+                                  isNaN(
+                                      last
+                                  ))
+                                                    )
+                                                        (dirty = !0),
+                                                        (lastDirtyWatch = watch),
+                                                        (watch.last = watch.eq
+                                                            ? copy(
+                                                                value
+                                                            )
+                                                            : value),
+                                                        watch.fn(
+                                                            value,
+                                                            last === initWatchVal ? value : last,
+                                                            current,
+                                                        ),
+                                                        ttl < 5 &&
+                                  (watchLog[(logIdx = 4 - ttl)] ||
+                                    (watchLog[logIdx] = []),
+                                  (logMsg = isFunction(
+                                      watch.exp
+                                  )
+                                      ? "fn: " +
+                                      (watch.exp.name || watch.exp.toString(
+                                      ))
+                                      : watch.exp),
+                                  (logMsg +=
+                                    "; newVal: " +
+                                    toJson(
+                                        value
+                                    ) +
+                                    "; oldVal: " +
+                                    toJson(
+                                        last
+                                    )),
+                                  watchLog[logIdx].push(
+                                      logMsg
+                                  ));
+                                                    else if (watch === lastDirtyWatch) {
+                                                        dirty = !1;
+                                                        break traverseScopesLoop;
+                                                    }
+                                                }
+                                            } catch (e) {
+                                                clearPhase(
+                                                ), $exceptionHandler(
+                                                    e
+                                                );
+                                            }
+                                    if (
+                                        !(next =
+                        current.$$childHead ||
+                        (current !== target && current.$$nextSibling))
+                                    )
+                                        for (
+                                            ;
+                                            current !== target && !(next = current.$$nextSibling);
+
+                                        )
+                                            current = current.$parent;
+                                } while ((current = next));
+                                if (dirty && !ttl--)
+                                    throw (
+                                        (clearPhase(
+                                        ),
+                                        $rootScopeMinErr(
+                                            "infdig",
+                                            "{0} $digest() iterations reached. Aborting!\nWatchers fired in the last 5 iterations: {1}",
+                                            TTL,
+                                            toJson(
+                                                watchLog
+                                            ),
+                                        ))
+                                    );
+                            } while (dirty || asyncQueue.length);
+                            for (clearPhase(
+                            ); postDigestQueue.length; )
+                                try {
+                                    postDigestQueue.shift(
+                                    )(
+                                    );
+                                } catch (e) {
+                                    $exceptionHandler(
+                                        e
+                                    );
+                                }
+                        },
+                        $destroy: function (
+                        ) {
+                            if (!this.$$destroyed) {
+                                var parent = this.$parent;
+                                this.$broadcast(
+                                    "$destroy"
+                                ),
+                                (this.$$destroyed = !0),
+                                this !== $rootScope &&
+                      (parent.$$childHead == this &&
+                        (parent.$$childHead = this.$$nextSibling),
+                      parent.$$childTail == this &&
+                        (parent.$$childTail = this.$$prevSibling),
+                      this.$$prevSibling &&
+                        (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
+                      this.$$nextSibling &&
+                        (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
+                      (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
+                            }
+                        },
+                        $eval: function (
+                            expr, locals
+                        ) {
+                            return $parse(
+                                expr
+                            )(
+                                this,
+                                locals
+                            );
+                        },
+                        $evalAsync: function (
+                            expr
+                        ) {
+                            $rootScope.$$phase ||
+                  $rootScope.$$asyncQueue.length ||
+                  $browser.defer(
+                      function (
+                      ) {
+                          $rootScope.$$asyncQueue.length && $rootScope.$digest(
+                          );
+                      }
+                  ),
+                            this.$$asyncQueue.push(
+                                {
+                                    scope: this,
+                                    expression: expr,
+                                }
+                            );
+                        },
+                        $$postDigest: function (
+                            fn
+                        ) {
+                            this.$$postDigestQueue.push(
+                                fn
+                            );
+                        },
+                        $apply: function (
+                            expr
+                        ) {
+                            try {
+                                return beginPhase(
+                                    "$apply"
+                                ), this.$eval(
+                                    expr
+                                );
+                            } catch (e) {
+                                $exceptionHandler(
+                                    e
+                                );
+                            } finally {
+                                clearPhase(
+                                );
+                                try {
+                                    $rootScope.$digest(
+                                    );
+                                } catch (e) {
+                                    throw ($exceptionHandler(
+                                        e
+                                    ), e);
+                                }
+                            }
+                        },
+                        $on: function (
+                            name, listener
+                        ) {
+                            var namedListeners = this.$$listeners[name];
+                            return (
+                                namedListeners ||
+                    (this.$$listeners[name] = namedListeners = []),
+                                namedListeners.push(
+                                    listener
+                                ),
+                                function (
+                                ) {
+                                    namedListeners[indexOf(
+                                        namedListeners,
+                                        listener
+                                    )] = null;
+                                }
+                            );
+                        },
+                        $emit: function (
+                            name, args
+                        ) {
+                            var namedListeners,
+                                i,
+                                length,
+                                scope = this,
+                                stopPropagation = !1,
+                                event = {
+                                    name: name,
+                                    targetScope: scope,
+                                    stopPropagation: function (
+                                    ) {
+                                        stopPropagation = !0;
+                                    },
+                                    preventDefault: function (
+                                    ) {
+                                        event.defaultPrevented = !0;
+                                    },
+                                    defaultPrevented: !1,
+                                },
+                                listenerArgs = concat(
+                                    [event,],
+                                    arguments,
+                                    1
+                                );
+                            do {
+                                for (
+                                    i = 0,
+                                    namedListeners = scope.$$listeners[name] || [],
+                                    event.currentScope = scope,
+                                    length = namedListeners.length;
+                                    i < length;
+                                    i++
+                                ) {
+                                    if (!namedListeners[i]) {
+                                        namedListeners.splice(
+                                            i,
+                                            1
+                                        ), i--, length--;
+                                        continue;
+                                    }
+                                    try {
+                                        namedListeners[i].apply(
+                                            null,
+                                            listenerArgs
+                                        );
+                                    } catch (e) {
+                                        $exceptionHandler(
+                                            e
+                                        );
+                                    }
+                                }
+                                if (stopPropagation) return event;
+                                scope = scope.$parent;
+                            } while (scope);
+                            return event;
+                        },
+                        $broadcast: function (
+                            name, args
+                        ) {
+                            var listeners,
+                                i,
+                                length,
+                                target = this,
+                                current = target,
+                                next = target,
+                                event = {
+                                    name: name,
+                                    targetScope: target,
+                                    preventDefault: function (
+                                    ) {
+                                        event.defaultPrevented = !0;
+                                    },
+                                    defaultPrevented: !1,
+                                },
+                                listenerArgs = concat(
+                                    [event,],
+                                    arguments,
+                                    1
+                                );
+                            do {
+                                for (
+                                    i = 0,
+                                    event.currentScope = current = next,
+                                    length = (listeners = current.$$listeners[name] || [])
+                                        .length;
+                                    i < length;
+                                    i++
+                                ) {
+                                    if (!listeners[i]) {
+                                        listeners.splice(
+                                            i,
+                                            1
+                                        ), i--, length--;
+                                        continue;
+                                    }
+                                    try {
+                                        listeners[i].apply(
+                                            null,
+                                            listenerArgs
+                                        );
+                                    } catch (e) {
+                                        $exceptionHandler(
+                                            e
+                                        );
+                                    }
+                                }
+                                if (
+                                    !(next =
+                      current.$$childHead ||
+                      (current !== target && current.$$nextSibling))
+                                )
+                                    for (
+                                        ;
+                                        current !== target && !(next = current.$$nextSibling);
+
+                                    )
+                                        current = current.$parent;
+                            } while ((current = next));
+                            return event;
+                        },
+                    }),
+                    $rootScope
+                );
             },
         ]);
     }
@@ -11151,12 +9133,6 @@
                         "Attempting to use an unsafe value in a safe context.",
                     );
                 };
-                $injector.has(
-                    "$sanitize"
-                ) &&
-            (htmlSanitizer = $injector.get(
-                "$sanitize"
-            ));
                 function matchUrl(
                     matcher, parsedUrl
                 ) {
@@ -11230,6 +9206,12 @@
                     byType = {
                     };
                 return (
+                    $injector.has(
+                        "$sanitize"
+                    ) &&
+              (htmlSanitizer = $injector.get(
+                  "$sanitize"
+              )),
                     (byType[SCE_CONTEXTS.HTML] = generateHolderType(
                         trustedValueHolderBase,
                     )),
@@ -11668,7 +9650,6 @@
             window
         );
     }
-    $FilterProvider.$inject = ["$provide",];
     function $FilterProvider(
         $provide
     ) {
@@ -11912,7 +9893,6 @@
             return filtered;
         };
     }
-    currencyFilter.$inject = ["$locale",];
     function currencyFilter(
         $locale
     ) {
@@ -11937,7 +9917,6 @@
             );
         };
     }
-    numberFilter.$inject = ["$locale",];
     function numberFilter(
         $locale
     ) {
@@ -12218,7 +10197,6 @@
         },
         DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
         NUMBER_STRING = /^\-?\d+$/;
-    dateFilter.$inject = ["$locale",];
     function dateFilter(
         $locale
     ) {
@@ -12413,13 +10391,47 @@
             return out;
         };
     }
-    orderByFilter.$inject = ["$parse",];
     function orderByFilter(
         $parse
     ) {
         return function (
             array, sortPredicate, reverseOrder
         ) {
+            var arrayCopy = [];
+            function reverseComparator(
+                comp, descending
+            ) {
+                return toBoolean(
+                    descending
+                )
+                    ? function (
+                        a, b
+                    ) {
+                        return comp(
+                            b,
+                            a
+                        );
+                    }
+                    : comp;
+            }
+            function compare(
+                v1, v2
+            ) {
+                var t1 = typeof v1,
+                    t2 = typeof v2;
+                if (t1 != t2) return t1 < t2 ? -1 : 1;
+                {
+                    if (
+                        ("string" == t1 &&
+              ((v1 = v1.toLowerCase(
+              )), (v2 = v2.toLowerCase(
+              ))),
+                        v1 === v2)
+                    )
+                        return 0;
+                    return v1 < v2 ? -1 : 1;
+                }
+            }
             if (!isArray(
                 array
             )) return array;
@@ -12471,62 +10483,26 @@
                     );
                 },
             );
-            for (var arrayCopy = [], i = 0; i < array.length; i++)
-                arrayCopy.push(
-                    array[i]
-                );
+            for (var i = 0; i < array.length; i++) arrayCopy.push(
+                array[i]
+            );
             return arrayCopy.sort(
                 reverseComparator(
-                    comparator,
-                    reverseOrder
-                )
-            );
-            function comparator(
-                o1, o2
-            ) {
-                for (var i = 0; i < sortPredicate.length; i++) {
-                    var comp = sortPredicate[i](
-                        o1,
-                        o2
-                    );
-                    if (0 !== comp) return comp;
-                }
-                return 0;
-            }
-            function reverseComparator(
-                comp, descending
-            ) {
-                return toBoolean(
-                    descending
-                )
-                    ? function (
-                        a, b
+                    function (
+                        o1, o2
                     ) {
-                        return comp(
-                            b,
-                            a
-                        );
-                    }
-                    : comp;
-            }
-            function compare(
-                v1, v2
-            ) {
-                var t1 = typeof v1,
-                    t2 = typeof v2;
-                if (t1 != t2) return t1 < t2 ? -1 : 1;
-                {
-                    if (
-                        ("string" == t1 &&
-              ((v1 = v1.toLowerCase(
-              )), (v2 = v2.toLowerCase(
-              ))),
-                        v1 === v2)
-                    )
+                        for (var i = 0; i < sortPredicate.length; i++) {
+                            var comp = sortPredicate[i](
+                                o1,
+                                o2
+                            );
+                            if (0 !== comp) return comp;
+                        }
                         return 0;
-                    return v1 < v2 ? -1 : 1;
-                }
-            }
+                    },
+                    reverseOrder
+                ),
+            );
         };
     }
     function ngDirective(
@@ -12583,87 +10559,14 @@
             }
         ),
         ngAttributeAliasDirectives = {
+        },
+        nullFormCtrl = {
+            $addControl: noop,
+            $removeControl: noop,
+            $setValidity: noop,
+            $setDirty: noop,
+            $setPristine: noop,
         };
-    forEach(
-        BOOLEAN_ATTR,
-        function (
-            propName, attrName
-        ) {
-            if ("multiple" != propName) {
-                var normalized = directiveNormalize(
-                    "ng-" + attrName
-                );
-                ngAttributeAliasDirectives[normalized] = function (
-                ) {
-                    return {
-                        priority: 100,
-                        compile: function (
-                        ) {
-                            return function (
-                                scope, element, attr
-                            ) {
-                                scope.$watch(
-                                    attr[normalized],
-                                    function (
-                                        value
-                                    ) {
-                                        attr.$set(
-                                            attrName,
-                                            !!value
-                                        );
-                                    }
-                                );
-                            };
-                        },
-                    };
-                };
-            }
-        }
-    ),
-    forEach(
-        ["src", "srcset", "href",],
-        function (
-            attrName
-        ) {
-            var normalized = directiveNormalize(
-                "ng-" + attrName
-            );
-            ngAttributeAliasDirectives[normalized] = function (
-            ) {
-                return {
-                    priority: 99,
-                    link: function (
-                        scope, element, attr
-                    ) {
-                        attr.$observe(
-                            normalized,
-                            function (
-                                value
-                            ) {
-                                value &&
-                (attr.$set(
-                    attrName,
-                    value
-                ),
-                msie && element.prop(
-                    attrName,
-                    attr[attrName]
-                ));
-                            }
-                        );
-                    },
-                };
-            };
-        }
-    );
-    var nullFormCtrl = {
-        $addControl: noop,
-        $removeControl: noop,
-        $setValidity: noop,
-        $setDirty: noop,
-        $setPristine: noop,
-    };
-    FormController.$inject = ["$element", "$attrs", "$scope",];
     function FormController(
         element, attrs
     ) {
@@ -12676,20 +10579,6 @@
             errors = (form.$error = {
             }),
             controls = [];
-        (form.$name = attrs.name || attrs.ngForm),
-        (form.$dirty = !1),
-        (form.$pristine = !0),
-        (form.$valid = !0),
-        (form.$invalid = !1),
-        parentForm.$addControl(
-            form
-        ),
-        element.addClass(
-            PRISTINE_CLASS
-        ),
-        toggleValidCss(
-            !0
-        );
         function toggleValidCss(
             isValid, validationErrorKey
         ) {
@@ -12707,6 +10596,20 @@
                     (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
                 );
         }
+        (form.$name = attrs.name || attrs.ngForm),
+        (form.$dirty = !1),
+        (form.$pristine = !0),
+        (form.$valid = !0),
+        (form.$invalid = !1),
+        parentForm.$addControl(
+            form
+        ),
+        element.addClass(
+            PRISTINE_CLASS
+        ),
+        toggleValidCss(
+            !0
+        ),
         (form.$addControl = function (
             control
         ) {
@@ -13487,21 +11390,48 @@
             function (
                 $scope, $exceptionHandler, $attr, $element, $parse
             ) {
-                (this.$viewValue = Number.NaN),
-                (this.$modelValue = Number.NaN),
-                (this.$parsers = []),
-                (this.$formatters = []),
-                (this.$viewChangeListeners = []),
-                (this.$pristine = !0),
-                (this.$dirty = !1),
-                (this.$valid = !0),
-                (this.$invalid = !1),
-                (this.$name = $attr.name);
                 var ngModelGet = $parse(
                         $attr.ngModel
                     ),
-                    ngModelSet = ngModelGet.assign;
-                if (!ngModelSet)
+                    ngModelSet = ngModelGet.assign,
+                    parentForm =
+            $element.inheritedData(
+                "$formController"
+            ) || nullFormCtrl,
+                    invalidCount = 0,
+                    $error = (this.$error = {
+                    });
+                function toggleValidCss(
+                    isValid, validationErrorKey
+                ) {
+                    (validationErrorKey = validationErrorKey
+                        ? "-" + snake_case(
+                            validationErrorKey,
+                            "-"
+                        )
+                        : ""),
+                    $element
+                        .removeClass(
+                            (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
+                        )
+                        .addClass(
+                            (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
+                        );
+                }
+                var ctrl = this;
+                if (
+                    ((this.$viewValue = Number.NaN),
+                    (this.$modelValue = Number.NaN),
+                    (this.$parsers = []),
+                    (this.$formatters = []),
+                    (this.$viewChangeListeners = []),
+                    (this.$pristine = !0),
+                    (this.$dirty = !1),
+                    (this.$valid = !0),
+                    (this.$invalid = !1),
+                    (this.$name = $attr.name),
+                    !ngModelSet)
+                )
                     throw minErr(
                         "ngModel"
                     )(
@@ -13524,64 +11454,41 @@
               null === value ||
               value != value
                     );
-                });
-                var parentForm =
-            $element.inheritedData(
-                "$formController"
-            ) || nullFormCtrl,
-                    invalidCount = 0,
-                    $error = (this.$error = {
-                    });
+                }),
                 $element.addClass(
                     PRISTINE_CLASS
-                ), toggleValidCss(
+                ),
+                toggleValidCss(
                     !0
-                );
-                function toggleValidCss(
-                    isValid, validationErrorKey
-                ) {
-                    (validationErrorKey = validationErrorKey
-                        ? "-" + snake_case(
-                            validationErrorKey,
-                            "-"
-                        )
-                        : ""),
-                    $element
-                        .removeClass(
-                            (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
-                        )
-                        .addClass(
-                            (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
-                        );
-                }
+                ),
                 (this.$setValidity = function (
                     validationErrorKey, isValid
                 ) {
                     !isValid !== $error[validationErrorKey] &&
-            (isValid
-                ? ($error[validationErrorKey] && invalidCount--,
-                invalidCount ||
-                  (toggleValidCss(
-                      !0
+              (isValid
+                  ? ($error[validationErrorKey] && invalidCount--,
+                  invalidCount ||
+                    (toggleValidCss(
+                        !0
+                    ),
+                    (this.$valid = !0),
+                    (this.$invalid = !1)))
+                  : (toggleValidCss(
+                      !1
                   ),
-                  (this.$valid = !0),
-                  (this.$invalid = !1)))
-                : (toggleValidCss(
-                    !1
-                ),
-                (this.$invalid = !0),
-                (this.$valid = !1),
-                invalidCount++),
-            ($error[validationErrorKey] = !isValid),
-            toggleValidCss(
-                isValid,
-                validationErrorKey
-            ),
-            parentForm.$setValidity(
-                validationErrorKey,
-                isValid,
-                this
-            ));
+                  (this.$invalid = !0),
+                  (this.$valid = !1),
+                  invalidCount++),
+              ($error[validationErrorKey] = !isValid),
+              toggleValidCss(
+                  isValid,
+                  validationErrorKey
+              ),
+              parentForm.$setValidity(
+                  validationErrorKey,
+                  isValid,
+                  this
+              ));
                 }),
                 (this.$setPristine = function (
                 ) {
@@ -13638,8 +11545,7 @@
                         }
                     }
                 ));
-                });
-                var ctrl = this;
+                }),
                 $scope.$watch(
                     function (
                     ) {
@@ -13654,8 +11560,8 @@
                                     value
                                 );
                             ctrl.$viewValue !== value &&
-              ((ctrl.$viewValue = value), ctrl.$render(
-              ));
+                ((ctrl.$viewValue = value), ctrl.$render(
+                ));
                         }
                         return value;
                     }
@@ -13960,46 +11866,6 @@
                         scope, element, attr
                     ) {
                         var oldVal;
-                        scope.$watch(
-                            attr[name],
-                            ngClassWatchAction,
-                            !0
-                        ),
-                        attr.$observe(
-                            "class",
-                            function (
-                                value
-                            ) {
-                                ngClassWatchAction(
-                                    scope.$eval(
-                                        attr[name]
-                                    )
-                                );
-                            }
-                        ),
-                        "ngClass" !== name &&
-                scope.$watch(
-                    "$index",
-                    function (
-                        $index, old$index
-                    ) {
-                        var mod = 1 & $index;
-                        if ((mod !== old$index) & 1) {
-                            var classes = flattenClasses(
-                                scope.$eval(
-                                    attr[name]
-                                )
-                            );
-                            mod === selector
-                                ? attr.$addClass(
-                                    classes
-                                )
-                                : attr.$removeClass(
-                                    classes
-                                );
-                        }
-                    }
-                );
                         function ngClassWatchAction(
                             newVal
                         ) {
@@ -14056,6 +11922,46 @@
                             }
                             return classVal;
                         }
+                        scope.$watch(
+                            attr[name],
+                            ngClassWatchAction,
+                            !0
+                        ),
+                        attr.$observe(
+                            "class",
+                            function (
+                                value
+                            ) {
+                                ngClassWatchAction(
+                                    scope.$eval(
+                                        attr[name]
+                                    )
+                                );
+                            }
+                        ),
+                        "ngClass" !== name &&
+                scope.$watch(
+                    "$index",
+                    function (
+                        $index, old$index
+                    ) {
+                        var mod = 1 & $index;
+                        if ((mod !== old$index) & 1) {
+                            var classes = flattenClasses(
+                                scope.$eval(
+                                    attr[name]
+                                )
+                            );
+                            mod === selector
+                                ? attr.$addClass(
+                                    classes
+                                )
+                                : attr.$removeClass(
+                                    classes
+                                );
+                        }
+                    }
+                );
                     },
                 };
             }
@@ -14098,60 +12004,8 @@
             },
         ],
         ngEventDirectives = {
-        };
-    forEach(
-        "click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste".split(
-            " ",
-        ),
-        function (
-            name
-        ) {
-            var directiveName = directiveNormalize(
-                "ng-" + name
-            );
-            ngEventDirectives[directiveName] = [
-                "$parse",
-                function (
-                    $parse
-                ) {
-                    return {
-                        compile: function (
-                            $element, attr
-                        ) {
-                            var fn = $parse(
-                                attr[directiveName]
-                            );
-                            return function (
-                                scope, element, attr
-                            ) {
-                                element.on(
-                                    lowercase(
-                                        name
-                                    ),
-                                    function (
-                                        event
-                                    ) {
-                                        scope.$apply(
-                                            function (
-                                            ) {
-                                                fn(
-                                                    scope,
-                                                    {
-                                                        $event: event,
-                                                    }
-                                                );
-                                            }
-                                        );
-                                    }
-                                );
-                            };
-                        },
-                    };
-                },
-            ];
         },
-    );
-    var ngIfDirective = [
+        ngIfDirective = [
             "$animate",
             function (
                 $animate
@@ -14482,6 +12336,16 @@
                 var ngRepeatMinErr = minErr(
                     "ngRepeat"
                 );
+                function getBlockStart(
+                    block
+                ) {
+                    return block.clone[0];
+                }
+                function getBlockEnd(
+                    block
+                ) {
+                    return block.clone[block.clone.length - 1];
+                }
                 return {
                     transclude: "element",
                     priority: 1000,
@@ -14749,16 +12613,6 @@
                         );
                     },
                 };
-                function getBlockStart(
-                    block
-                ) {
-                    return block.clone[0];
-                }
-                function getBlockEnd(
-                    block
-                ) {
-                    return block.clone[block.clone.length - 1];
-                }
             },
         ],
         ngShowDirective = [
@@ -15133,91 +12987,24 @@
                         scope, element, attr, ctrls
                     ) {
                         if (ctrls[1]) {
-                            for (
-                                var selectCtrl = ctrls[0],
-                                    ngModelCtrl = ctrls[1],
-                                    multiple = attr.multiple,
-                                    optionsExp = attr.ngOptions,
-                                    nullOption = !1,
-                                    emptyOption,
-                                    optionTemplate = jqLite(
-                                        document.createElement(
-                                            "option"
-                                        )
-                                    ),
-                                    optGroupTemplate = jqLite(
-                                        document.createElement(
-                                            "optgroup"
-                                        )
-                                    ),
-                                    unknownOption = optionTemplate.clone(
-                                    ),
-                                    i = 0,
-                                    children = element.children(
-                                    ),
-                                    ii = children.length;
-                                i < ii;
-                                i++
-                            )
-                                if ("" === children[i].value) {
-                                    emptyOption = nullOption = children.eq(
-                                        i
-                                    );
-                                    break;
-                                }
-                            if (
-                                (selectCtrl.init(
-                                    ngModelCtrl,
-                                    nullOption,
-                                    unknownOption
-                                ),
-                                multiple && (attr.required || attr.ngRequired))
-                            ) {
-                                var requiredValidator = function (
-                                    value
-                                ) {
-                                    return (
-                                        ngModelCtrl.$setValidity(
-                                            "required",
-                                            !attr.required || (value && value.length),
-                                        ),
-                                        value
-                                    );
-                                };
-                                ngModelCtrl.$parsers.push(
-                                    requiredValidator
-                                ),
-                                ngModelCtrl.$formatters.unshift(
-                                    requiredValidator
-                                ),
-                                attr.$observe(
-                                    "required",
-                                    function (
-                                    ) {
-                                        requiredValidator(
-                                            ngModelCtrl.$viewValue
-                                        );
-                                    }
-                                );
-                            }
-                            optionsExp
-                                ? setupAsOptions(
-                                    scope,
-                                    element,
-                                    ngModelCtrl
-                                )
-                                : multiple
-                                    ? setupAsMultiple(
-                                        scope,
-                                        element,
-                                        ngModelCtrl
+                            var emptyOption,
+                                selectCtrl = ctrls[0],
+                                ngModelCtrl = ctrls[1],
+                                multiple = attr.multiple,
+                                optionsExp = attr.ngOptions,
+                                nullOption = !1,
+                                optionTemplate = jqLite(
+                                    document.createElement(
+                                        "option"
                                     )
-                                    : setupAsSingle(
-                                        scope,
-                                        element,
-                                        ngModelCtrl,
-                                        selectCtrl
-                                    );
+                                ),
+                                optGroupTemplate = jqLite(
+                                    document.createElement(
+                                        "optgroup"
+                                    )
+                                ),
+                                unknownOption = optionTemplate.clone(
+                                );
                             function setupAsSingle(
                                 scope,
                                 selectElement,
@@ -15337,19 +13124,8 @@
                             function setupAsOptions(
                                 scope, selectElement, ctrl
                             ) {
-                                var match;
-                                if (!(match = optionsExp.match(
-                                    NG_OPTIONS_REGEXP
-                                )))
-                                    throw ngOptionsMinErr(
-                                        "iexp",
-                                        "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}",
-                                        optionsExp,
-                                        startingTag(
-                                            selectElement
-                                        ),
-                                    );
-                                var displayFn = $parse(
+                                var match,
+                                    displayFn = $parse(
                                         match[2] || match[1]
                                     ),
                                     valueName = match[4] || match[6],
@@ -15377,126 +13153,6 @@
                                             },
                                         ],
                                     ];
-                                nullOption &&
-                  ($compile(
-                      nullOption
-                  )(
-                      scope
-                  ),
-                  nullOption.removeClass(
-                      "ng-scope"
-                  ),
-                  nullOption.remove(
-                  )),
-                                selectElement.empty(
-                                ),
-                                selectElement.on(
-                                    "change",
-                                    function (
-                                    ) {
-                                        scope.$apply(
-                                            function (
-                                            ) {
-                                                var optionGroup,
-                                                    key,
-                                                    value,
-                                                    optionElement,
-                                                    index,
-                                                    groupIndex,
-                                                    length,
-                                                    groupLength,
-                                                    trackIndex,
-                                                    collection = valuesFn(
-                                                        scope
-                                                    ) || [],
-                                                    locals = {
-                                                    };
-                                                if (multiple)
-                                                    for (
-                                                        groupIndex = 0,
-                                                        value = [],
-                                                        groupLength = optionGroupsCache.length;
-                                                        groupIndex < groupLength;
-                                                        groupIndex++
-                                                    )
-                                                        for (
-                                                            index = 1,
-                                                            length = (optionGroup =
-                                optionGroupsCache[groupIndex]).length;
-                                                            index < length;
-                                                            index++
-                                                        )
-                                                            if (
-                                                                (optionElement = optionGroup[index].element)[0]
-                                                                    .selected
-                                                            ) {
-                                                                if (
-                                                                    ((key = optionElement.val(
-                                                                    )),
-                                                                    keyName && (locals[keyName] = key),
-                                                                    trackFn)
-                                                                )
-                                                                    for (
-                                                                        trackIndex = 0;
-                                                                        trackIndex < collection.length;
-                                                                        trackIndex++
-                                                                    )
-                                                                        if (
-                                                                            ((locals[valueName] =
-                                      collection[trackIndex]),
-                                                                            trackFn(
-                                                                                scope,
-                                                                                locals
-                                                                            ) == key)
-                                                                        )
-                                                                            break;
-                                                                        else locals[valueName] = collection[key];
-                                                                value.push(
-                                                                    valueFn(
-                                                                        scope,
-                                                                        locals
-                                                                    )
-                                                                );
-                                                            } else if ("?" == (key = selectElement.val(
-                                                            )))
-                                                                value = void 0;
-                                                            else if ("" === key) value = null;
-                                                            else if (trackFn)
-                                                                for (
-                                                                    trackIndex = 0;
-                                                                    trackIndex < collection.length;
-                                                                    trackIndex++
-                                                                )
-                                                                    if (
-                                                                        ((locals[valueName] = collection[trackIndex]),
-                                                                        trackFn(
-                                                                            scope,
-                                                                            locals
-                                                                        ) == key)
-                                                                    ) {
-                                                                        value = valueFn(
-                                                                            scope,
-                                                                            locals
-                                                                        );
-                                                                        break;
-                                                                    } else
-                                                                        (locals[valueName] = collection[key]),
-                                                                        keyName && (locals[keyName] = key),
-                                                                        (value = valueFn(
-                                                                            scope,
-                                                                            locals
-                                                                        ));
-                                                ctrl.$setViewValue(
-                                                    value
-                                                );
-                                            }
-                                        );
-                                    }
-                                ),
-                                (ctrl.$render = render),
-                                scope.$watch(
-                                    render
-                                );
                                 function render(
                                 ) {
                                     var optionGroupName,
@@ -15747,7 +13403,203 @@
                                         )[0].element.remove(
                                         );
                                 }
+                                if (!(match = optionsExp.match(
+                                    NG_OPTIONS_REGEXP
+                                )))
+                                    throw ngOptionsMinErr(
+                                        "iexp",
+                                        "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}",
+                                        optionsExp,
+                                        startingTag(
+                                            selectElement
+                                        ),
+                                    );
+                                nullOption &&
+                  ($compile(
+                      nullOption
+                  )(
+                      scope
+                  ),
+                  nullOption.removeClass(
+                      "ng-scope"
+                  ),
+                  nullOption.remove(
+                  )),
+                                selectElement.empty(
+                                ),
+                                selectElement.on(
+                                    "change",
+                                    function (
+                                    ) {
+                                        scope.$apply(
+                                            function (
+                                            ) {
+                                                var optionGroup,
+                                                    key,
+                                                    value,
+                                                    optionElement,
+                                                    index,
+                                                    groupIndex,
+                                                    length,
+                                                    groupLength,
+                                                    trackIndex,
+                                                    collection = valuesFn(
+                                                        scope
+                                                    ) || [],
+                                                    locals = {
+                                                    };
+                                                if (multiple)
+                                                    for (
+                                                        groupIndex = 0,
+                                                        value = [],
+                                                        groupLength = optionGroupsCache.length;
+                                                        groupIndex < groupLength;
+                                                        groupIndex++
+                                                    )
+                                                        for (
+                                                            index = 1,
+                                                            length = (optionGroup =
+                                optionGroupsCache[groupIndex]).length;
+                                                            index < length;
+                                                            index++
+                                                        )
+                                                            if (
+                                                                (optionElement = optionGroup[index].element)[0]
+                                                                    .selected
+                                                            ) {
+                                                                if (
+                                                                    ((key = optionElement.val(
+                                                                    )),
+                                                                    keyName && (locals[keyName] = key),
+                                                                    trackFn)
+                                                                )
+                                                                    for (
+                                                                        trackIndex = 0;
+                                                                        trackIndex < collection.length;
+                                                                        trackIndex++
+                                                                    )
+                                                                        if (
+                                                                            ((locals[valueName] =
+                                      collection[trackIndex]),
+                                                                            trackFn(
+                                                                                scope,
+                                                                                locals
+                                                                            ) == key)
+                                                                        )
+                                                                            break;
+                                                                        else locals[valueName] = collection[key];
+                                                                value.push(
+                                                                    valueFn(
+                                                                        scope,
+                                                                        locals
+                                                                    )
+                                                                );
+                                                            } else if ("?" == (key = selectElement.val(
+                                                            )))
+                                                                value = void 0;
+                                                            else if ("" === key) value = null;
+                                                            else if (trackFn)
+                                                                for (
+                                                                    trackIndex = 0;
+                                                                    trackIndex < collection.length;
+                                                                    trackIndex++
+                                                                )
+                                                                    if (
+                                                                        ((locals[valueName] = collection[trackIndex]),
+                                                                        trackFn(
+                                                                            scope,
+                                                                            locals
+                                                                        ) == key)
+                                                                    ) {
+                                                                        value = valueFn(
+                                                                            scope,
+                                                                            locals
+                                                                        );
+                                                                        break;
+                                                                    } else
+                                                                        (locals[valueName] = collection[key]),
+                                                                        keyName && (locals[keyName] = key),
+                                                                        (value = valueFn(
+                                                                            scope,
+                                                                            locals
+                                                                        ));
+                                                ctrl.$setViewValue(
+                                                    value
+                                                );
+                                            }
+                                        );
+                                    }
+                                ),
+                                (ctrl.$render = render),
+                                scope.$watch(
+                                    render
+                                );
                             }
+                            for (
+                                var i = 0, children = element.children(
+                                    ), ii = children.length;
+                                i < ii;
+                                i++
+                            )
+                                if ("" === children[i].value) {
+                                    emptyOption = nullOption = children.eq(
+                                        i
+                                    );
+                                    break;
+                                }
+                            if (
+                                (selectCtrl.init(
+                                    ngModelCtrl,
+                                    nullOption,
+                                    unknownOption
+                                ),
+                                multiple && (attr.required || attr.ngRequired))
+                            ) {
+                                var requiredValidator = function (
+                                    value
+                                ) {
+                                    return (
+                                        ngModelCtrl.$setValidity(
+                                            "required",
+                                            !attr.required || (value && value.length),
+                                        ),
+                                        value
+                                    );
+                                };
+                                ngModelCtrl.$parsers.push(
+                                    requiredValidator
+                                ),
+                                ngModelCtrl.$formatters.unshift(
+                                    requiredValidator
+                                ),
+                                attr.$observe(
+                                    "required",
+                                    function (
+                                    ) {
+                                        requiredValidator(
+                                            ngModelCtrl.$viewValue
+                                        );
+                                    }
+                                );
+                            }
+                            optionsExp
+                                ? setupAsOptions(
+                                    scope,
+                                    element,
+                                    ngModelCtrl
+                                )
+                                : multiple
+                                    ? setupAsMultiple(
+                                        scope,
+                                        element,
+                                        ngModelCtrl
+                                    )
+                                    : setupAsSingle(
+                                        scope,
+                                        element,
+                                        ngModelCtrl,
+                                        selectCtrl
+                                    );
                         }
                     },
                 };
@@ -15842,6 +13694,2159 @@
                 terminal: !0,
             }
         );
+    isNaN(
+        (msie = int(
+            (/msie (\d+)/.exec(
+                lowercase(
+                    navigator.userAgent
+                )
+            ) || [])[1]
+        )),
+    ) &&
+    (msie = int(
+        (/trident\/.*; rv:(\d+)/.exec(
+            lowercase(
+                navigator.userAgent
+            )
+        ) || [])[1],
+    )),
+    (noop.$inject = []),
+    (identity.$inject = []),
+    (nodeName_ =
+      msie < 9
+          ? function (
+              element
+          ) {
+              return (element = element.nodeName ? element : element[0])
+                  .scopeName && "HTML" != element.scopeName
+                  ? uppercase(
+                      element.scopeName + ":" + element.nodeName
+                  )
+                  : element.nodeName;
+          }
+          : function (
+              element
+          ) {
+              return element.nodeName ? element.nodeName : element[0].nodeName;
+          }),
+    forEach(
+        "multiple,selected,checked,disabled,readOnly,required,open".split(
+            ","
+        ),
+        function (
+            value
+        ) {
+            BOOLEAN_ATTR[lowercase(
+                value
+            )] = value;
+        },
+    ),
+    forEach(
+        "input,select,option,textarea,button,form,details".split(
+            ","
+        ),
+        function (
+            value
+        ) {
+            BOOLEAN_ELEMENTS[uppercase(
+                value
+            )] = !0;
+        },
+    ),
+    forEach(
+        {
+            data: jqLiteData,
+            inheritedData: jqLiteInheritedData,
+            scope: function (
+                element
+            ) {
+                return (
+                    jqLite(
+                        element
+                    ).data(
+                        "$scope"
+                    ) ||
+            jqLiteInheritedData(
+                element.parentNode || element,
+                [
+                    "$isolateScope",
+                    "$scope",
+                ]
+            )
+                );
+            },
+            isolateScope: function (
+                element
+            ) {
+                return (
+                    jqLite(
+                        element
+                    ).data(
+                        "$isolateScope"
+                    ) ||
+            jqLite(
+                element
+            ).data(
+                "$isolateScopeNoTemplate"
+            )
+                );
+            },
+            controller: jqLiteController,
+            injector: function (
+                element
+            ) {
+                return jqLiteInheritedData(
+                    element,
+                    "$injector"
+                );
+            },
+            removeAttr: function (
+                element, name
+            ) {
+                element.removeAttribute(
+                    name
+                );
+            },
+            hasClass: jqLiteHasClass,
+            css: function (
+                element, name, value
+            ) {
+                if (((name = camelCase(
+                    name
+                )), isDefined(
+                    value
+                )))
+                    element.style[name] = value;
+                else {
+                    var val;
+                    return (
+                        msie <= 8 &&
+                "" ===
+                  (val = element.currentStyle && element.currentStyle[name]) &&
+                (val = "auto"),
+                        (val = val || element.style[name]),
+                        msie <= 8 && (val = "" === val ? void 0 : val),
+                        val
+                    );
+                }
+            },
+            attr: function (
+                element, name, value
+            ) {
+                var lowercasedName = lowercase(
+                    name
+                );
+                if (BOOLEAN_ATTR[lowercasedName]) {
+                    if (!isDefined(
+                        value
+                    ))
+                        return element[name] ||
+                (element.attributes.getNamedItem(
+                    name
+                ) || noop).specified
+                            ? lowercasedName
+                            : void 0;
+                    value
+                        ? ((element[name] = !0),
+                        element.setAttribute(
+                            name,
+                            lowercasedName
+                        ))
+                        : ((element[name] = !1), element.removeAttribute(
+                            lowercasedName
+                        ));
+                } else if (isDefined(
+                    value
+                )) element.setAttribute(
+                    name,
+                    value
+                );
+                else if (element.getAttribute) {
+                    var ret = element.getAttribute(
+                        name,
+                        2
+                    );
+                    return null === ret ? void 0 : ret;
+                }
+            },
+            prop: function (
+                element, name, value
+            ) {
+                if (!isDefined(
+                    value
+                )) return element[name];
+                element[name] = value;
+            },
+            text: (function (
+            ) {
+                var NODE_TYPE_TEXT_PROPERTY = [];
+                function getText(
+                    element, value
+                ) {
+                    var textProp = NODE_TYPE_TEXT_PROPERTY[element.nodeType];
+                    if (isUndefined(
+                        value
+                    )) return textProp ? element[textProp] : "";
+                    element[textProp] = value;
+                }
+                return (
+                    msie < 9
+                        ? ((NODE_TYPE_TEXT_PROPERTY[1] = "innerText"),
+                        (NODE_TYPE_TEXT_PROPERTY[3] = "nodeValue"))
+                        : (NODE_TYPE_TEXT_PROPERTY[1] = NODE_TYPE_TEXT_PROPERTY[3] =
+                  "textContent"),
+                    (getText.$dv = ""),
+                    getText
+                );
+            })(
+            ),
+            val: function (
+                element, value
+            ) {
+                if (isUndefined(
+                    value
+                )) {
+                    if ("SELECT" === nodeName_(
+                        element
+                    ) && element.multiple) {
+                        var result = [];
+                        return (
+                            forEach(
+                                element.options,
+                                function (
+                                    option
+                                ) {
+                                    option.selected && result.push(
+                                        option.value || option.text
+                                    );
+                                }
+                            ),
+                            0 === result.length ? null : result
+                        );
+                    }
+                    return element.value;
+                }
+                element.value = value;
+            },
+            html: function (
+                element, value
+            ) {
+                if (isUndefined(
+                    value
+                )) return element.innerHTML;
+                for (
+                    var i = 0, childNodes = element.childNodes;
+                    i < childNodes.length;
+                    i++
+                )
+                    jqLiteDealoc(
+                        childNodes[i]
+                    );
+                element.innerHTML = value;
+            },
+            empty: jqLiteEmpty,
+        },
+        function (
+            fn, name
+        ) {
+            JQLite.prototype[name] = function (
+                arg1, arg2
+            ) {
+                var i, key;
+                if (
+                    fn !== jqLiteEmpty &&
+            (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController
+                ? arg1
+                : arg2) === void 0
+                ) {
+                    if (isObject(
+                        arg1
+                    )) {
+                        for (i = 0; i < this.length; i++)
+                            if (fn === jqLiteData) fn(
+                                this[i],
+                                arg1
+                            );
+                            else for (key in arg1) fn(
+                                this[i],
+                                key,
+                                arg1[key]
+                            );
+                        return this;
+                    } else {
+                        for (
+                            var value = fn.$dv,
+                                jj =
+                    void 0 === value
+                        ? Math.min(
+                            this.length,
+                            1
+                        )
+                        : this.length,
+                                j = 0;
+                            j < jj;
+                            j++
+                        ) {
+                            var nodeValue = fn(
+                                this[j],
+                                arg1,
+                                arg2
+                            );
+                            value = value ? value + nodeValue : nodeValue;
+                        }
+                        return value;
+                    }
+                } else {
+                    for (i = 0; i < this.length; i++) fn(
+                        this[i],
+                        arg1,
+                        arg2
+                    );
+                    return this;
+                }
+            };
+        },
+    ),
+    forEach(
+        {
+            removeData: jqLiteRemoveData,
+            dealoc: jqLiteDealoc,
+            on: function onFn(
+                element, type, fn, unsupported
+            ) {
+                if (isDefined(
+                    unsupported
+                ))
+                    throw jqLiteMinErr(
+                        "onargs",
+                        "jqLite#on() does not support the `selector` or `eventData` parameters",
+                    );
+                var events = jqLiteExpandoStore(
+                        element,
+                        "events"
+                    ),
+                    handle = jqLiteExpandoStore(
+                        element,
+                        "handle"
+                    );
+                events || jqLiteExpandoStore(
+                    element,
+                    "events", (
+                        events = {
+                        })
+                ),
+                handle ||
+              jqLiteExpandoStore(
+                  element,
+                  "handle",
+                  (handle = createEventHandler(
+                      element,
+                      events
+                  )),
+              ),
+                forEach(
+                    type.split(
+                        " "
+                    ),
+                    function (
+                        type
+                    ) {
+                        var eventFns = events[type];
+                        if (!eventFns) {
+                            if ("mouseenter" == type || "mouseleave" == type) {
+                                var contains =
+                    document.body.contains ||
+                    document.body.compareDocumentPosition
+                        ? function (
+                            a, b
+                        ) {
+                            var adown = 9 === a.nodeType ? a.documentElement : a,
+                                bup = b && b.parentNode;
+                            return (
+                                a === bup ||
+                            !!(
+                                bup &&
+                              1 === bup.nodeType &&
+                              (adown.contains
+                                  ? adown.contains(
+                                      bup
+                                  )
+                                  : a.compareDocumentPosition &&
+                                  16 & a.compareDocumentPosition(
+                                      bup
+                                  ))
+                            )
+                            );
+                        }
+                        : function (
+                            a, b
+                        ) {
+                            if (b)
+                                for (; (b = b.parentNode); ) if (b === a) return !0;
+                            return !1;
+                        };
+                                (events[type] = []),
+                                onFn(
+                                    element,
+                                    {
+                                        mouseleave: "mouseout",
+                                        mouseenter: "mouseover",
+                                    }[type],
+                                    function (
+                                        event
+                                    ) {
+                                        var target = this,
+                                            related = event.relatedTarget;
+                                        (related &&
+                          (related === target || contains(
+                              target,
+                              related
+                          ))) ||
+                          handle(
+                              event,
+                              type
+                          );
+                                    },
+                                );
+                            } else
+                                addEventListenerFn(
+                                    element,
+                                    type,
+                                    handle
+                                ),
+                                (events[type] = []);
+                            eventFns = events[type];
+                        }
+                        eventFns.push(
+                            fn
+                        );
+                    }
+                );
+            },
+            off: jqLiteOff,
+            replaceWith: function (
+                element, replaceNode
+            ) {
+                var index,
+                    parent = element.parentNode;
+                jqLiteDealoc(
+                    element
+                ),
+                forEach(
+                    new JQLite(
+                        replaceNode
+                    ),
+                    function (
+                        node
+                    ) {
+                        index
+                            ? parent.insertBefore(
+                                node,
+                                index.nextSibling
+                            )
+                            : parent.replaceChild(
+                                node,
+                                element
+                            ),
+                        (index = node);
+                    }
+                );
+            },
+            children: function (
+                element
+            ) {
+                var children = [];
+                return (
+                    forEach(
+                        element.childNodes,
+                        function (
+                            element
+                        ) {
+                            1 === element.nodeType && children.push(
+                                element
+                            );
+                        }
+                    ),
+                    children
+                );
+            },
+            contents: function (
+                element
+            ) {
+                return element.childNodes || [];
+            },
+            append: function (
+                element, node
+            ) {
+                forEach(
+                    new JQLite(
+                        node
+                    ),
+                    function (
+                        child
+                    ) {
+                        (1 === element.nodeType || 11 === element.nodeType) &&
+              element.appendChild(
+                  child
+              );
+                    }
+                );
+            },
+            prepend: function (
+                element, node
+            ) {
+                if (1 === element.nodeType) {
+                    var index = element.firstChild;
+                    forEach(
+                        new JQLite(
+                            node
+                        ),
+                        function (
+                            child
+                        ) {
+                            element.insertBefore(
+                                child,
+                                index
+                            );
+                        }
+                    );
+                }
+            },
+            wrap: function (
+                element, wrapNode
+            ) {
+                wrapNode = jqLite(
+                    wrapNode
+                )[0];
+                var parent = element.parentNode;
+                parent && parent.replaceChild(
+                    wrapNode,
+                    element
+                ),
+                wrapNode.appendChild(
+                    element
+                );
+            },
+            remove: function (
+                element
+            ) {
+                jqLiteDealoc(
+                    element
+                );
+                var parent = element.parentNode;
+                parent && parent.removeChild(
+                    element
+                );
+            },
+            after: function (
+                element, newElement
+            ) {
+                var index = element,
+                    parent = element.parentNode;
+                forEach(
+                    new JQLite(
+                        newElement
+                    ),
+                    function (
+                        node
+                    ) {
+                        parent.insertBefore(
+                            node,
+                            index.nextSibling
+                        ), (index = node);
+                    }
+                );
+            },
+            addClass: jqLiteAddClass,
+            removeClass: jqLiteRemoveClass,
+            toggleClass: function (
+                element, selector, condition
+            ) {
+                isUndefined(
+                    condition
+                ) &&
+            (condition = !jqLiteHasClass(
+                element,
+                selector
+            )),
+                (condition ? jqLiteAddClass : jqLiteRemoveClass)(
+                    element,
+                    selector
+                );
+            },
+            parent: function (
+                element
+            ) {
+                var parent = element.parentNode;
+                return parent && 11 !== parent.nodeType ? parent : null;
+            },
+            next: function (
+                element
+            ) {
+                if (element.nextElementSibling) return element.nextElementSibling;
+                for (
+                    var elm = element.nextSibling;
+                    null != elm && 1 !== elm.nodeType;
+
+                )
+                    elm = elm.nextSibling;
+                return elm;
+            },
+            find: function (
+                element, selector
+            ) {
+                return element.getElementsByTagName
+                    ? element.getElementsByTagName(
+                        selector
+                    )
+                    : [];
+            },
+            clone: jqLiteClone,
+            triggerHandler: function (
+                element, eventName, eventData
+            ) {
+                var eventFns = (jqLiteExpandoStore(
+                    element,
+                    "events"
+                ) || {
+                })[
+                    eventName
+                ];
+                eventData = eventData || [];
+                var event = [
+                    {
+                        preventDefault: noop,
+                        stopPropagation: noop,
+                    },
+                ];
+                forEach(
+                    eventFns,
+                    function (
+                        fn
+                    ) {
+                        fn.apply(
+                            element,
+                            event.concat(
+                                eventData
+                            )
+                        );
+                    }
+                );
+            },
+        },
+        function (
+            fn, name
+        ) {
+            (JQLite.prototype[name] = function (
+                arg1, arg2, arg3
+            ) {
+                for (var value, i = 0; i < this.length; i++)
+                    isUndefined(
+                        value
+                    )
+                        ? isDefined(
+                            (value = fn(
+                                this[i],
+                                arg1,
+                                arg2,
+                                arg3
+                            ))
+                        ) &&
+                (value = jqLite(
+                    value
+                ))
+                        : jqLiteAddNodes(
+                            value,
+                            fn(
+                                this[i],
+                                arg1,
+                                arg2,
+                                arg3
+                            )
+                        );
+                return isDefined(
+                    value
+                )
+                    ? value
+                    : this;
+            }),
+            (JQLite.prototype.bind = JQLite.prototype.on),
+            (JQLite.prototype.unbind = JQLite.prototype.off);
+        },
+    ),
+    (HashMap.prototype = {
+        put: function (
+            key, value
+        ) {
+            this[hashKey(
+                key
+            )] = value;
+        },
+        get: function (
+            key
+        ) {
+            return this[hashKey(
+                key
+            )];
+        },
+        remove: function (
+            key
+        ) {
+            return delete this[key], this[(key = hashKey(
+                key
+            ))];
+        },
+    }),
+    ($CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider",]),
+    (LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
+        $$html5: !1,
+        $$replace: !1,
+        absUrl: locationGetter(
+            "$$absUrl"
+        ),
+        url: function (
+            url, replace
+        ) {
+            if (isUndefined(
+                url
+            )) return this.$$url;
+            var match = PATH_MATCH.exec(
+                url
+            );
+            return (
+                match[1] && this.path(
+                    decodeURIComponent(
+                        match[1]
+                    )
+                ),
+                (match[2] || match[1]) && this.search(
+                    match[3] || ""
+                ),
+                this.hash(
+                    match[5] || "",
+                    replace
+                ),
+                this
+            );
+        },
+        protocol: locationGetter(
+            "$$protocol"
+        ),
+        host: locationGetter(
+            "$$host"
+        ),
+        port: locationGetter(
+            "$$port"
+        ),
+        path: locationGetterSetter(
+            "$$path",
+            function (
+                path
+            ) {
+                return "/" == path.charAt(
+                    0
+                )
+                    ? path
+                    : "/" + path;
+            }
+        ),
+        search: function (
+            search, paramValue
+        ) {
+            switch (arguments.length) {
+            case 0:
+                return this.$$search;
+            case 1:
+                if (isString(
+                    search
+                )) this.$$search = parseKeyValue(
+                    search
+                );
+                else if (isObject(
+                    search
+                )) this.$$search = search;
+                else
+                    throw $locationMinErr(
+                        "isrcharg",
+                        "The first argument of the `$location#search()` call must be a string or an object.",
+                    );
+                break;
+            default:
+                isUndefined(
+                    paramValue
+                ) || null === paramValue
+                    ? delete this.$$search[search]
+                    : (this.$$search[search] = paramValue);
+            }
+            return this.$$compose(
+            ), this;
+        },
+        hash: locationGetterSetter(
+            "$$hash",
+            identity
+        ),
+        replace: function (
+        ) {
+            return (this.$$replace = !0), this;
+        },
+    }),
+    (Lexer.prototype = {
+        constructor: Lexer,
+        lex: function (
+            text
+        ) {
+            (this.text = text),
+            (this.index = 0),
+            (this.ch = void 0),
+            (this.lastCh = ":"),
+            (this.tokens = []);
+            for (var token, json = []; this.index < this.text.length; ) {
+                if (((this.ch = this.text.charAt(
+                    this.index
+                )), this.is(
+                    "\"'"
+                )))
+                    this.readString(
+                        this.ch
+                    );
+                else if (
+                    this.isNumber(
+                        this.ch
+                    ) ||
+            (this.is(
+                "."
+            ) && this.isNumber(
+                this.peek(
+                )
+            ))
+                )
+                    this.readNumber(
+                    );
+                else if (this.isIdent(
+                    this.ch
+                ))
+                    this.readIdent(
+                    ),
+                    this.was(
+                        "{,"
+                    ) &&
+                "{" === json[0] &&
+                (token = this.tokens[this.tokens.length - 1]) &&
+                (token.json = -1 === token.text.indexOf(
+                    "."
+                ));
+                else if (this.is(
+                    "(){}[].,;:?"
+                ))
+                    this.tokens.push(
+                        {
+                            index: this.index,
+                            text: this.ch,
+                            json: (this.was(
+                                ":[,"
+                            ) && this.is(
+                                "{["
+                            )) || this.is(
+                                "}]:,"
+                            ),
+                        }
+                    ),
+                    this.is(
+                        "{["
+                    ) && json.unshift(
+                        this.ch
+                    ),
+                    this.is(
+                        "}]"
+                    ) && json.shift(
+                    ),
+                    this.index++;
+                else if (this.isWhitespace(
+                    this.ch
+                )) {
+                    this.index++;
+                    continue;
+                } else {
+                    var ch2 = this.ch + this.peek(
+                        ),
+                        ch3 = ch2 + this.peek(
+                            2
+                        ),
+                        fn = OPERATORS[this.ch],
+                        fn2 = OPERATORS[ch2],
+                        fn3 = OPERATORS[ch3];
+                    fn3
+                        ? (this.tokens.push(
+                            {
+                                index: this.index,
+                                text: ch3,
+                                fn: fn3,
+                            }
+                        ),
+                        (this.index += 3))
+                        : fn2
+                            ? (this.tokens.push(
+                                {
+                                    index: this.index,
+                                    text: ch2,
+                                    fn: fn2,
+                                }
+                            ),
+                            (this.index += 2))
+                            : fn
+                                ? (this.tokens.push(
+                                    {
+                                        index: this.index,
+                                        text: this.ch,
+                                        fn: fn,
+                                        json: this.was(
+                                            "[,:"
+                                        ) && this.is(
+                                            "+-"
+                                        ),
+                                    }
+                                ),
+                                (this.index += 1))
+                                : this.throwError(
+                                    "Unexpected next character ",
+                                    this.index,
+                                    this.index + 1,
+                                );
+                }
+                this.lastCh = this.ch;
+            }
+            return this.tokens;
+        },
+        is: function (
+            chars
+        ) {
+            return -1 !== chars.indexOf(
+                this.ch
+            );
+        },
+        was: function (
+            chars
+        ) {
+            return -1 !== chars.indexOf(
+                this.lastCh
+            );
+        },
+        peek: function (
+            i
+        ) {
+            var num = i || 1;
+            return (
+                this.index + num < this.text.length &&
+          this.text.charAt(
+              this.index + num
+          )
+            );
+        },
+        isNumber: function (
+            ch
+        ) {
+            return "0" <= ch && ch <= "9";
+        },
+        isWhitespace: function (
+            ch
+        ) {
+            return (
+                " " === ch ||
+          "\r" === ch ||
+          "\t" === ch ||
+          "\n" === ch ||
+          "\v" === ch ||
+          "\u00A0" === ch
+            );
+        },
+        isIdent: function (
+            ch
+        ) {
+            return (
+                ("a" <= ch && ch <= "z") ||
+          ("A" <= ch && ch <= "Z") ||
+          "_" === ch ||
+          "$" === ch
+            );
+        },
+        isExpOperator: function (
+            ch
+        ) {
+            return "-" === ch || "+" === ch || this.isNumber(
+                ch
+            );
+        },
+        throwError: function (
+            error, start, end
+        ) {
+            end = end || this.index;
+            var colStr = isDefined(
+                start
+            )
+                ? "s " +
+            start +
+            "-" +
+            this.index +
+            " [" +
+            this.text.substring(
+                start,
+                end
+            ) +
+            "]"
+                : " " + end;
+            throw $parseMinErr(
+                "lexerr",
+                "Lexer Error: {0} at column{1} in expression [{2}].",
+                error,
+                colStr,
+                this.text,
+            );
+        },
+        readNumber: function (
+        ) {
+            for (
+                var number = "", start = this.index;
+                this.index < this.text.length;
+
+            ) {
+                var ch = lowercase(
+                    this.text.charAt(
+                        this.index
+                    )
+                );
+                if ("." == ch || this.isNumber(
+                    ch
+                )) number += ch;
+                else {
+                    var peekCh = this.peek(
+                    );
+                    if ("e" == ch && this.isExpOperator(
+                        peekCh
+                    )) number += ch;
+                    else if (
+                        this.isExpOperator(
+                            ch
+                        ) &&
+              peekCh &&
+              this.isNumber(
+                  peekCh
+              ) &&
+              "e" == number.charAt(
+                  number.length - 1
+              )
+                    )
+                        number += ch;
+                    else if (
+                        this.isExpOperator(
+                            ch
+                        ) &&
+              (!peekCh || !this.isNumber(
+                  peekCh
+              )) &&
+              "e" == number.charAt(
+                  number.length - 1
+              )
+                    )
+                        this.throwError(
+                            "Invalid exponent"
+                        );
+                    else break;
+                }
+                this.index++;
+            }
+            (number *= 1),
+            this.tokens.push(
+                {
+                    index: start,
+                    text: number,
+                    json: !0,
+                    fn: function (
+                    ) {
+                        return number;
+                    },
+                }
+            );
+        },
+        readIdent: function (
+        ) {
+            for (
+                var parser = this,
+                    ident = "",
+                    start = this.index,
+                    lastDot,
+                    peekIndex,
+                    methodName,
+                    ch;
+                this.index < this.text.length;
+
+            ) {
+                if (
+                    "." === (ch = this.text.charAt(
+                        this.index
+                    )) ||
+            this.isIdent(
+                ch
+            ) ||
+            this.isNumber(
+                ch
+            )
+                )
+                    "." === ch && (lastDot = this.index), (ident += ch);
+                else break;
+                this.index++;
+            }
+            if (lastDot)
+                for (peekIndex = this.index; peekIndex < this.text.length; ) {
+                    if ("(" === (ch = this.text.charAt(
+                        peekIndex
+                    ))) {
+                        (methodName = ident.substr(
+                            lastDot - start + 1
+                        )),
+                        (ident = ident.substr(
+                            0,
+                            lastDot - start
+                        )),
+                        (this.index = peekIndex);
+                        break;
+                    }
+                    if (this.isWhitespace(
+                        ch
+                    )) peekIndex++;
+                    else break;
+                }
+            var token = {
+                index: start,
+                text: ident,
+            };
+            if (OPERATORS.hasOwnProperty(
+                ident
+            ))
+                (token.fn = OPERATORS[ident]), (token.json = OPERATORS[ident]);
+            else {
+                var getter1 = getterFn(
+                    ident,
+                    this.options,
+                    this.text
+                );
+                token.fn = extend(
+                    function (
+                        self, locals
+                    ) {
+                        return getter1(
+                            self,
+                            locals
+                        );
+                    },
+                    {
+                        assign: function (
+                            self, value
+                        ) {
+                            return setter(
+                                self,
+                                ident,
+                                value,
+                                parser.text,
+                                parser.options
+                            );
+                        },
+                    },
+                );
+            }
+            this.tokens.push(
+                token
+            ),
+            methodName &&
+            (this.tokens.push(
+                {
+                    index: lastDot,
+                    text: ".",
+                    json: !1,
+                }
+            ),
+            this.tokens.push(
+                {
+                    index: lastDot + 1,
+                    text: methodName,
+                    json: !1,
+                }
+            ));
+        },
+        readString: function (
+            quote
+        ) {
+            var start = this.index;
+            this.index++;
+            for (
+                var string = "", rawString = quote, escape = !1;
+                this.index < this.text.length;
+
+            ) {
+                var ch = this.text.charAt(
+                    this.index
+                );
+                if (((rawString += ch), escape)) {
+                    if ("u" === ch) {
+                        var hex = this.text.substring(
+                            this.index + 1,
+                            this.index + 5
+                        );
+                        hex.match(
+                            /[\da-f]{4}/i
+                        ) ||
+                this.throwError(
+                    "Invalid unicode escape [\\u" + hex + "]"
+                ),
+                        (this.index += 4),
+                        (string += String.fromCharCode(
+                            parseInt(
+                                hex,
+                                16
+                            )
+                        ));
+                    } else {
+                        var rep = ESCAPE[ch];
+                        rep ? (string += rep) : (string += ch);
+                    }
+                    escape = !1;
+                } else if ("\\" === ch) escape = !0;
+                else if (ch === quote)
+                    return (
+                        this.index++,
+                        this.tokens.push(
+                            {
+                                index: start,
+                                text: rawString,
+                                string: string,
+                                json: !0,
+                                fn: function (
+                                ) {
+                                    return string;
+                                },
+                            }
+                        ),
+                        void 0
+                    );
+                else string += ch;
+                this.index++;
+            }
+            this.throwError(
+                "Unterminated quote",
+                start
+            );
+        },
+    }),
+    (Parser.ZERO = function (
+    ) {
+        return 0;
+    }),
+    (Parser.prototype = {
+        constructor: Parser,
+        parse: function (
+            text, json
+        ) {
+            (this.text = text),
+            (this.json = json),
+            (this.tokens = this.lexer.lex(
+                text
+            )),
+            json &&
+            ((this.assignment = this.logicalOR),
+            (this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function (
+            ) {
+                this.throwError(
+                    "is not valid json",
+                    {
+                        text: text,
+                        index: 0,
+                    }
+                );
+            }));
+            var value = json
+                ? this.primary(
+                )
+                : this.statements(
+                );
+            return (
+                0 !== this.tokens.length &&
+            this.throwError(
+                "is an unexpected token",
+                this.tokens[0]
+            ),
+                (value.literal = !!value.literal),
+                (value.constant = !!value.constant),
+                value
+            );
+        },
+        primary: function (
+        ) {
+            var primary;
+            if (this.expect(
+                "("
+            )) (primary = this.filterChain(
+            )), this.consume(
+                ")"
+            );
+            else if (this.expect(
+                "["
+            )) primary = this.arrayDeclaration(
+            );
+            else if (this.expect(
+                "{"
+            )) primary = this.object(
+            );
+            else {
+                var token = this.expect(
+                );
+                (primary = token.fn) ||
+            this.throwError(
+                "not a primary expression",
+                token
+            ),
+                token.json && ((primary.constant = !0), (primary.literal = !0));
+            }
+            for (var next, context; (next = this.expect(
+                "(",
+                "[",
+                "."
+            )); )
+                "(" === next.text
+                    ? ((primary = this.functionCall(
+                        primary,
+                        context
+                    )),
+                    (context = null))
+                    : "[" === next.text
+                        ? ((context = primary), (primary = this.objectIndex(
+                            primary
+                        )))
+                        : "." === next.text
+                            ? ((context = primary), (primary = this.fieldAccess(
+                                primary
+                            )))
+                            : this.throwError(
+                                "IMPOSSIBLE"
+                            );
+            return primary;
+        },
+        throwError: function (
+            msg, token
+        ) {
+            throw $parseMinErr(
+                "syntax",
+                "Syntax Error: Token '{0}' {1} at column {2} of the expression [{3}] starting at [{4}].",
+                token.text,
+                msg,
+                token.index + 1,
+                this.text,
+                this.text.substring(
+                    token.index
+                ),
+            );
+        },
+        peekToken: function (
+        ) {
+            if (0 === this.tokens.length)
+                throw $parseMinErr(
+                    "ueoe",
+                    "Unexpected end of expression: {0}",
+                    this.text,
+                );
+            return this.tokens[0];
+        },
+        peek: function (
+            e1, e2, e3, e4
+        ) {
+            if (this.tokens.length > 0) {
+                var token = this.tokens[0],
+                    t = token.text;
+                if (
+                    t === e1 ||
+            t === e2 ||
+            t === e3 ||
+            t === e4 ||
+            (!e1 && !e2 && !e3 && !e4)
+                )
+                    return token;
+            }
+            return !1;
+        },
+        expect: function (
+            e1, e2, e3, e4
+        ) {
+            var token = this.peek(
+                e1,
+                e2,
+                e3,
+                e4
+            );
+            return (
+                !!token &&
+          (this.json &&
+            !token.json &&
+            this.throwError(
+                "is not valid json",
+                token
+            ),
+          this.tokens.shift(
+          ),
+          token)
+            );
+        },
+        consume: function (
+            e1
+        ) {
+            this.expect(
+                e1
+            ) ||
+          this.throwError(
+              "is unexpected, expecting [" + e1 + "]",
+              this.peek(
+              )
+          );
+        },
+        unaryFn: function (
+            fn, right
+        ) {
+            return extend(
+                function (
+                    self, locals
+                ) {
+                    return fn(
+                        self,
+                        locals,
+                        right
+                    );
+                },
+                {
+                    constant: right.constant,
+                },
+            );
+        },
+        ternaryFn: function (
+            left, middle, right
+        ) {
+            return extend(
+                function (
+                    self, locals
+                ) {
+                    return left(
+                        self,
+                        locals
+                    )
+                        ? middle(
+                            self,
+                            locals
+                        )
+                        : right(
+                            self,
+                            locals
+                        );
+                },
+                {
+                    constant: left.constant && middle.constant && right.constant,
+                },
+            );
+        },
+        binaryFn: function (
+            left, fn, right
+        ) {
+            return extend(
+                function (
+                    self, locals
+                ) {
+                    return fn(
+                        self,
+                        locals,
+                        left,
+                        right
+                    );
+                },
+                {
+                    constant: left.constant && right.constant,
+                },
+            );
+        },
+        statements: function (
+        ) {
+            for (var statements = []; ; )
+                if (
+                    (this.tokens.length > 0 &&
+              !this.peek(
+                  "}",
+                  ")",
+                  ";",
+                  "]"
+              ) &&
+              statements.push(
+                  this.filterChain(
+                  )
+              ),
+                    !this.expect(
+                        ";"
+                    ))
+                )
+                    return 1 === statements.length
+                        ? statements[0]
+                        : function (
+                            self, locals
+                        ) {
+                            for (var value, i = 0; i < statements.length; i++) {
+                                var statement = statements[i];
+                                statement && (value = statement(
+                                    self,
+                                    locals
+                                ));
+                            }
+                            return value;
+                        };
+        },
+        filterChain: function (
+        ) {
+            for (var left = this.expression(
+                ), token; ; ) {
+                if (!(token = this.expect(
+                    "|"
+                ))) return left;
+                left = this.binaryFn(
+                    left,
+                    token.fn,
+                    this.filter(
+                    )
+                );
+            }
+        },
+        filter: function (
+        ) {
+            for (var token = this.expect(
+                ), argsFn = []; ; )
+                if ((token = this.expect(
+                    ":"
+                ))) argsFn.push(
+                    this.expression(
+                    )
+                );
+                else {
+                    var fnInvoke = function (
+                        self, locals, input
+                    ) {
+                        for (var args = [input,], i = 0; i < argsFn.length; i++)
+                            args.push(
+                                argsFn[i](
+                                    self,
+                                    locals
+                                )
+                            );
+                        return this.$filter(
+                            token.text
+                        ).apply(
+                            self,
+                            args
+                        );
+                    };
+                    return function (
+                    ) {
+                        return fnInvoke;
+                    };
+                }
+        },
+        expression: function (
+        ) {
+            return this.assignment(
+            );
+        },
+        assignment: function (
+        ) {
+            var right,
+                token,
+                left = this.ternary(
+                );
+            return (token = this.expect(
+                "="
+            ))
+                ? (left.assign ||
+              this.throwError(
+                  "implies assignment but [" +
+                  this.text.substring(
+                      0,
+                      token.index
+                  ) +
+                  "] can not be assigned to",
+                  token,
+              ),
+                function (
+                    scope, locals
+                ) {
+                    return left.assign(
+                        scope,
+                        (right = this.ternary(
+                        ))(
+                            scope,
+                            locals
+                        ),
+                        locals,
+                    );
+                })
+                : left;
+        },
+        ternary: function (
+        ) {
+            var middle,
+                token,
+                left = this.logicalOR(
+                );
+            if (!(token = this.expect(
+                "?"
+            ))) return left;
+            {
+                if (((middle = this.ternary(
+                )), (token = this.expect(
+                    ":"
+                ))))
+                    return this.ternaryFn(
+                        left,
+                        middle,
+                        this.ternary(
+                        )
+                    );
+                this.throwError(
+                    "expected :",
+                    token
+                );
+            }
+        },
+        logicalOR: function (
+        ) {
+            for (var left = this.logicalAND(
+                ), token; ; ) {
+                if (!(token = this.expect(
+                    "||"
+                ))) return left;
+                left = this.binaryFn(
+                    left,
+                    token.fn,
+                    this.logicalAND(
+                    )
+                );
+            }
+        },
+        logicalAND: function (
+        ) {
+            var token,
+                left = this.equality(
+                );
+            return (
+                (token = this.expect(
+                    "&&"
+                )) &&
+            (left = this.binaryFn(
+                left,
+                token.fn,
+                this.logicalAND(
+                )
+            )),
+                left
+            );
+        },
+        equality: function (
+        ) {
+            var token,
+                left = this.relational(
+                );
+            return (
+                (token = this.expect(
+                    "==",
+                    "!=",
+                    "===",
+                    "!=="
+                )) &&
+            (left = this.binaryFn(
+                left,
+                token.fn,
+                this.equality(
+                )
+            )),
+                left
+            );
+        },
+        relational: function (
+        ) {
+            var token,
+                left = this.additive(
+                );
+            return (
+                (token = this.expect(
+                    "<",
+                    ">",
+                    "<=",
+                    ">="
+                )) &&
+            (left = this.binaryFn(
+                left,
+                token.fn,
+                this.relational(
+                )
+            )),
+                left
+            );
+        },
+        additive: function (
+        ) {
+            for (
+                var left = this.multiplicative(
+                    ), token;
+                (token = this.expect(
+                    "+",
+                    "-"
+                ));
+
+            )
+                left = this.binaryFn(
+                    left,
+                    token.fn,
+                    this.multiplicative(
+                    )
+                );
+            return left;
+        },
+        multiplicative: function (
+        ) {
+            for (
+                var left = this.unary(
+                    ), token;
+                (token = this.expect(
+                    "*",
+                    "/",
+                    "%"
+                ));
+
+            )
+                left = this.binaryFn(
+                    left,
+                    token.fn,
+                    this.unary(
+                    )
+                );
+            return left;
+        },
+        unary: function (
+        ) {
+            var token;
+            return this.expect(
+                "+"
+            )
+                ? this.primary(
+                )
+                : (token = this.expect(
+                    "-"
+                ))
+                    ? this.binaryFn(
+                        Parser.ZERO,
+                        token.fn,
+                        this.unary(
+                        )
+                    )
+                    : (token = this.expect(
+                        "!"
+                    ))
+                        ? this.unaryFn(
+                            token.fn,
+                            this.unary(
+                            )
+                        )
+                        : this.primary(
+                        );
+        },
+        fieldAccess: function (
+            object
+        ) {
+            var parser = this,
+                field = this.expect(
+                ).text,
+                getter2 = getterFn(
+                    field,
+                    this.options,
+                    this.text
+                );
+            return extend(
+                function (
+                    scope, locals, self
+                ) {
+                    return getter2(
+                        self || object(
+                            scope,
+                            locals
+                        ),
+                        locals
+                    );
+                },
+                {
+                    assign: function (
+                        scope, value, locals
+                    ) {
+                        return setter(
+                            object(
+                                scope,
+                                locals
+                            ),
+                            field,
+                            value,
+                            parser.text,
+                            parser.options,
+                        );
+                    },
+                },
+            );
+        },
+        objectIndex: function (
+            obj
+        ) {
+            var parser = this,
+                indexFn = this.expression(
+                );
+            return (
+                this.consume(
+                    "]"
+                ),
+                extend(
+                    function (
+                        self, locals
+                    ) {
+                        return o
+                            ? ((v = ensureSafeObject(
+                                o[indexFn(
+                                    self,
+                                    locals
+                                )],
+                                parser.text,
+                            )) &&
+                    v.then &&
+                    parser.options.unwrapPromises &&
+                    ((p = v),
+                    "$$v" in v ||
+                      ((p.$$v = void 0),
+                      p.then(
+                          function (
+                              val
+                          ) {
+                              p.$$v = val;
+                          }
+                      )),
+                    (v = v.$$v)),
+                            v)
+                            : void 0;
+                    },
+                    {
+                        assign: function (
+                            self, value, locals
+                        ) {
+                            var key = indexFn(
+                                    self,
+                                    locals
+                                ),
+                                safe = ensureSafeObject(
+                                    obj(
+                                        self,
+                                        locals
+                                    ),
+                                    parser.text
+                                );
+                            return (safe[key] = value);
+                        },
+                    },
+                )
+            );
+        },
+        functionCall: function (
+            fn, contextGetter
+        ) {
+            var argsFn = [];
+            if (")" !== this.peekToken(
+            ).text)
+                do argsFn.push(
+                    this.expression(
+                    )
+                );
+                while (this.expect(
+                    ","
+                ));
+            this.consume(
+                ")"
+            );
+            var parser = this;
+            return function (
+                scope, locals
+            ) {
+                for (
+                    var args = [],
+                        context = contextGetter
+                            ? contextGetter(
+                                scope,
+                                locals
+                            )
+                            : scope,
+                        i = 0;
+                    i < argsFn.length;
+                    i++
+                )
+                    args.push(
+                        argsFn[i](
+                            scope,
+                            locals
+                        )
+                    );
+                var fnPtr = fn(
+                    scope,
+                    locals,
+                    context
+                ) || noop;
+                ensureSafeObject(
+                    context,
+                    parser.text
+                ),
+                ensureSafeObject(
+                    fnPtr,
+                    parser.text
+                );
+                var v = fnPtr.apply
+                    ? fnPtr.apply(
+                        context,
+                        args
+                    )
+                    : fnPtr(
+                        args[0],
+                        args[1],
+                        args[2],
+                        args[3],
+                        args[4]
+                    );
+                return ensureSafeObject(
+                    v,
+                    parser.text
+                );
+            };
+        },
+        arrayDeclaration: function (
+        ) {
+            var elementFns = [],
+                allConstant = !0;
+            if ("]" !== this.peekToken(
+            ).text)
+                do {
+                    var elementFn = this.expression(
+                    );
+                    elementFns.push(
+                        elementFn
+                    ),
+                    elementFn.constant || (allConstant = !1);
+                } while (this.expect(
+                    ","
+                ));
+            return (
+                this.consume(
+                    "]"
+                ),
+                extend(
+                    function (
+                        self, locals
+                    ) {
+                        for (var array = [], i = 0; i < elementFns.length; i++)
+                            array.push(
+                                elementFns[i](
+                                    self,
+                                    locals
+                                )
+                            );
+                        return array;
+                    },
+                    {
+                        literal: !0,
+                        constant: allConstant,
+                    },
+                )
+            );
+        },
+        object: function (
+        ) {
+            var keyValues = [],
+                allConstant = !0;
+            if ("}" !== this.peekToken(
+            ).text)
+                do {
+                    var token = this.expect(
+                        ),
+                        key = token.string || token.text;
+                    this.consume(
+                        ":"
+                    );
+                    var value = this.expression(
+                    );
+                    keyValues.push(
+                        {
+                            key: key,
+                            value: value,
+                        }
+                    ),
+                    value.constant || (allConstant = !1);
+                } while (this.expect(
+                    ","
+                ));
+            return (
+                this.consume(
+                    "}"
+                ),
+                extend(
+                    function (
+                        self, locals
+                    ) {
+                        for (var object = {
+                            }, i = 0; i < keyValues.length; i++) {
+                            var keyValue = keyValues[i];
+                            object[keyValue.key] = keyValue.value(
+                                self,
+                                locals
+                            );
+                        }
+                        return object;
+                    },
+                    {
+                        literal: !0,
+                        constant: allConstant,
+                    },
+                )
+            );
+        },
+    }),
+    ($FilterProvider.$inject = ["$provide",]),
+    (currencyFilter.$inject = ["$locale",]),
+    (numberFilter.$inject = ["$locale",]),
+    (dateFilter.$inject = ["$locale",]),
+    (orderByFilter.$inject = ["$parse",]),
+    forEach(
+        BOOLEAN_ATTR,
+        function (
+            propName, attrName
+        ) {
+            if ("multiple" != propName) {
+                var normalized = directiveNormalize(
+                    "ng-" + attrName
+                );
+                ngAttributeAliasDirectives[normalized] = function (
+                ) {
+                    return {
+                        priority: 100,
+                        compile: function (
+                        ) {
+                            return function (
+                                scope, element, attr
+                            ) {
+                                scope.$watch(
+                                    attr[normalized],
+                                    function (
+                                        value
+                                    ) {
+                                        attr.$set(
+                                            attrName,
+                                            !!value
+                                        );
+                                    }
+                                );
+                            };
+                        },
+                    };
+                };
+            }
+        }
+    ),
+    forEach(
+        ["src", "srcset", "href",],
+        function (
+            attrName
+        ) {
+            var normalized = directiveNormalize(
+                "ng-" + attrName
+            );
+            ngAttributeAliasDirectives[normalized] = function (
+            ) {
+                return {
+                    priority: 99,
+                    link: function (
+                        scope, element, attr
+                    ) {
+                        attr.$observe(
+                            normalized,
+                            function (
+                                value
+                            ) {
+                                value &&
+                (attr.$set(
+                    attrName,
+                    value
+                ),
+                msie && element.prop(
+                    attrName,
+                    attr[attrName]
+                ));
+                            }
+                        );
+                    },
+                };
+            };
+        }
+    ),
+    (FormController.$inject = ["$element", "$attrs", "$scope",]),
+    forEach(
+        "click dblclick mousedown mouseup mouseover mouseout mousemove mouseenter mouseleave keydown keyup keypress submit focus blur copy cut paste".split(
+            " ",
+        ),
+        function (
+            name
+        ) {
+            var directiveName = directiveNormalize(
+                "ng-" + name
+            );
+            ngEventDirectives[directiveName] = [
+                "$parse",
+                function (
+                    $parse
+                ) {
+                    return {
+                        compile: function (
+                            $element, attr
+                        ) {
+                            var fn = $parse(
+                                attr[directiveName]
+                            );
+                            return function (
+                                scope, element, attr
+                            ) {
+                                element.on(
+                                    lowercase(
+                                        name
+                                    ),
+                                    function (
+                                        event
+                                    ) {
+                                        scope.$apply(
+                                            function (
+                                            ) {
+                                                fn(
+                                                    scope,
+                                                    {
+                                                        $event: event,
+                                                    }
+                                                );
+                                            }
+                                        );
+                                    }
+                                );
+                            };
+                        },
+                    };
+                },
+            ];
+        },
+    ),
     (jQuery = window.jQuery)
         ? ((jqLite = jQuery),
         extend(

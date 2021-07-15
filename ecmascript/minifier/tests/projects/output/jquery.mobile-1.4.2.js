@@ -214,6 +214,66 @@
         ) {
             var uuid = 0,
                 runiqueId = /^ui-id-\d+$/;
+            function focusable(
+                element, isTabIndexNotNaN
+            ) {
+                var map,
+                    mapName,
+                    img,
+                    nodeName = element.nodeName.toLowerCase(
+                    );
+                if ("area" === nodeName) {
+                    if (
+                        ((mapName = (map = element.parentNode).name),
+                        !element.href || !mapName || "map" !== map.nodeName.toLowerCase(
+                        ))
+                    )
+                        return !1;
+                    return (
+                        !!(img = jQuery(
+                            "img[usemap=#" + mapName + "]"
+                        )[0]) && visible(
+                            img
+                        )
+                    );
+                }
+                return (
+                    (/input|select|textarea|button|object/.test(
+                        nodeName
+                    )
+                        ? !element.disabled
+                        : "a" === nodeName
+                            ? element.href || isTabIndexNotNaN
+                            : isTabIndexNotNaN) && visible(
+                        element
+                    )
+                );
+            }
+            function visible(
+                element
+            ) {
+                return (
+                    jQuery.expr.filters.visible(
+                        element
+                    ) &&
+          !jQuery(
+              element
+          )
+              .parents(
+              )
+              .addBack(
+              )
+              .filter(
+                  function (
+                  ) {
+                      return "hidden" === jQuery.css(
+                          this,
+                          "visibility"
+                      );
+                  }
+              ).length
+                );
+            }
             (jQuery.ui = jQuery.ui || {
             }),
             jQuery.extend(
@@ -383,67 +443,7 @@
                         );
                     },
                 }
-            );
-            function focusable(
-                element, isTabIndexNotNaN
-            ) {
-                var map,
-                    mapName,
-                    img,
-                    nodeName = element.nodeName.toLowerCase(
-                    );
-                if ("area" === nodeName) {
-                    if (
-                        ((mapName = (map = element.parentNode).name),
-                        !element.href || !mapName || "map" !== map.nodeName.toLowerCase(
-                        ))
-                    )
-                        return !1;
-                    return (
-                        !!(img = jQuery(
-                            "img[usemap=#" + mapName + "]"
-                        )[0]) && visible(
-                            img
-                        )
-                    );
-                }
-                return (
-                    (/input|select|textarea|button|object/.test(
-                        nodeName
-                    )
-                        ? !element.disabled
-                        : "a" === nodeName
-                            ? element.href || isTabIndexNotNaN
-                            : isTabIndexNotNaN) && visible(
-                        element
-                    )
-                );
-            }
-            function visible(
-                element
-            ) {
-                return (
-                    jQuery.expr.filters.visible(
-                        element
-                    ) &&
-          !jQuery(
-              element
-          )
-              .parents(
-              )
-              .addBack(
-              )
-              .filter(
-                  function (
-                  ) {
-                      return "hidden" === jQuery.css(
-                          this,
-                          "visibility"
-                      );
-                  }
-              ).length
-                );
-            }
+            ),
             jQuery.extend(
                 jQuery.expr[":"],
                 {
@@ -495,10 +495,10 @@
                             );
                         return (
                             (isTabIndexNaN || tabIndex >= 0) &&
-            focusable(
-                element,
-                !isTabIndexNaN
-            )
+              focusable(
+                  element,
+                  !isTabIndexNaN
+              )
                         );
                     },
                 }
@@ -2223,17 +2223,6 @@
                     },
                     history_set = fn_retval,
                     history_get = fn_retval;
-                (self.start = function (
-                ) {
-                    timeout_id || poll(
-                    );
-                }),
-                (self.stop = function (
-                ) {
-                    timeout_id && clearTimeout(
-                        timeout_id
-                    ), (timeout_id = void 0);
-                });
                 function poll(
                 ) {
                     var hash = get_fragment(
@@ -2263,6 +2252,17 @@
                     ));
                 }
                 return (
+                    (self.start = function (
+                    ) {
+                        timeout_id || poll(
+                        );
+                    }),
+                    (self.stop = function (
+                    ) {
+                        timeout_id && clearTimeout(
+                            timeout_id
+                        ), (timeout_id = void 0);
+                    }),
                     window.attachEvent &&
               !window.addEventListener &&
               !supports_onhashchange &&
@@ -4006,11 +4006,6 @@
                 ),
                 nextTouchID = 1,
                 lastTouchID = 0;
-            jQuery.vmouse = {
-                moveDistanceThreshold: 10,
-                clickDistanceThreshold: 10,
-                resetTimerDuration: 1500,
-            };
             function getNativeEvent(
                 event
             ) {
@@ -4435,7 +4430,16 @@
                     },
                 };
             }
-            for (i = 0; i < virtualEventNames.length; i++)
+            for (
+                i = 0,
+                jQuery.vmouse = {
+                    moveDistanceThreshold: 10,
+                    clickDistanceThreshold: 10,
+                    resetTimerDuration: 1500,
+                };
+                i < virtualEventNames.length;
+                i++
+            )
                 jQuery.event.special[virtualEventNames[i]] = getSpecialEventObject(
                     virtualEventNames[i],
                 );
@@ -4499,6 +4503,23 @@
                 touchStartEvent = supportTouch ? "touchstart" : "mousedown",
                 touchStopEvent = supportTouch ? "touchend" : "mouseup",
                 touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
+            function triggerCustomEvent(
+                obj, eventType, event, bubble
+            ) {
+                var originalType = event.type;
+                (event.type = eventType),
+                bubble
+                    ? jQuery.event.trigger(
+                        event,
+                        void 0,
+                        obj
+                    )
+                    : jQuery.event.dispatch.call(
+                        obj,
+                        event
+                    ),
+                (event.type = originalType);
+            }
             jQuery.each(
                 "touchstart touchmove touchend tap taphold swipe swipeleft swiperight scrollstart scrollstop".split(
                     " ",
@@ -4520,24 +4541,7 @@
                     }),
                     jQuery.attrFn && (jQuery.attrFn[name] = !0);
                 },
-            );
-            function triggerCustomEvent(
-                obj, eventType, event, bubble
-            ) {
-                var originalType = event.type;
-                (event.type = eventType),
-                bubble
-                    ? jQuery.event.trigger(
-                        event,
-                        void 0,
-                        obj
-                    )
-                    : jQuery.event.dispatch.call(
-                        obj,
-                        event
-                    ),
-                (event.type = originalType);
-            }
+            ),
             (jQuery.event.special.scrollstart = {
                 enabled: !0,
                 setup: function (
@@ -4563,23 +4567,23 @@
                             event
                         ) {
                             jQuery.event.special.scrollstart.enabled &&
-              (scrolling || trigger(
-                  event,
-                  !0
-              ),
-              clearTimeout(
-                  timer
-              ),
-              (timer = setTimeout(
-                  function (
-                  ) {
-                      trigger(
-                          event,
-                          !1
-                      );
-                  },
-                  50
-              )));
+                (scrolling || trigger(
+                    event,
+                    !0
+                ),
+                clearTimeout(
+                    timer
+                ),
+                (timer = setTimeout(
+                    function (
+                    ) {
+                        trigger(
+                            event,
+                            !1
+                        );
+                    },
+                    50
+                )));
                         }
                     );
                 },
@@ -5028,6 +5032,15 @@
                     0: !0,
                     180: !0,
                 };
+            function handler(
+            ) {
+                var orientation = get_orientation(
+                );
+                orientation !== last_orientation &&
+          ((last_orientation = orientation), win.trigger(
+              "orientationchange"
+          ));
+            }
             jQuery.support.orientation &&
         ((ww = window.innerWidth || win.width(
         )),
@@ -5091,16 +5104,7 @@
                         };
                     },
                 },
-            ));
-            function handler(
-            ) {
-                var orientation = get_orientation(
-                );
-                orientation !== last_orientation &&
-          ((last_orientation = orientation), win.trigger(
-              "orientationchange"
-          ));
-            }
+            )),
             (jQuery.event.special.orientationchange.orientation = get_orientation = function (
             ) {
                 var elem = document.documentElement;
@@ -19652,7 +19656,6 @@
                         var that = this,
                             toShow = eventData.newPanel,
                             toHide = eventData.oldPanel;
-                        this.running = !0;
                         function complete(
                         ) {
                             (that.running = !1), that._trigger(
@@ -19680,6 +19683,7 @@
                                 ), complete(
                                 ));
                         }
+                        (this.running = !0),
                         toHide.length && this.options.hide
                             ? this._hide(
                                 toHide,
@@ -20088,26 +20092,13 @@
         (function (
             $, window
         ) {
-            var zoom, evt, x, y, z, aig;
-            jQuery.mobile.iosorientationfixEnabled = !0;
-            var ua = navigator.userAgent;
-            if (
-                !(
-                    /iPhone|iPad|iPod/.test(
-                        navigator.platform
-                    ) &&
-          /OS [1-5]_[0-9_]* like Mac OS X/i.test(
-              ua
-          ) &&
-          ua.indexOf(
-              "AppleWebKit"
-          ) > -1
-                )
-            ) {
-                jQuery.mobile.iosorientationfixEnabled = !1;
-                return;
-            }
-            zoom = jQuery.mobile.zoom;
+            var zoom,
+                evt,
+                x,
+                y,
+                z,
+                aig,
+                ua = navigator.userAgent;
             function checkTilt(
                 e
             ) {
@@ -20128,20 +20119,38 @@
                     : zoom.enabled && zoom.disable(
                     );
             }
+            if (
+                ((jQuery.mobile.iosorientationfixEnabled = !0),
+                !(
+                    /iPhone|iPad|iPod/.test(
+                        navigator.platform
+                    ) &&
+          /OS [1-5]_[0-9_]* like Mac OS X/i.test(
+              ua
+          ) &&
+          ua.indexOf(
+              "AppleWebKit"
+          ) > -1
+                ))
+            ) {
+                jQuery.mobile.iosorientationfixEnabled = !1;
+                return;
+            }
+            (zoom = jQuery.mobile.zoom),
             jQuery.mobile.document.on(
                 "mobileinit",
                 function (
                 ) {
                     jQuery.mobile.iosorientationfixEnabled &&
-          jQuery.mobile.window
-              .bind(
-                  "orientationchange.iosorientationfix",
-                  zoom.enable
-              )
-              .bind(
-                  "devicemotion.iosorientationfix",
-                  checkTilt
-              );
+            jQuery.mobile.window
+                .bind(
+                    "orientationchange.iosorientationfix",
+                    zoom.enable
+                )
+                .bind(
+                    "devicemotion.iosorientationfix",
+                    checkTilt
+                );
                 }
             );
         })(
