@@ -30,6 +30,8 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
 pub trait MoudleItemExt: StmtLike + ModuleItemLike {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
 
+    fn from_module_item(item: ModuleItem) -> Self;
+
     fn into_module_item(self) -> ModuleItem {
         match self.into_module_decl() {
             Ok(v) => ModuleItem::ModuleDecl(v),
@@ -45,6 +47,10 @@ impl MoudleItemExt for Stmt {
         Err(self)
     }
 
+    fn from_module_item(item: ModuleItem) -> Self {
+        item.expect_stmt()
+    }
+
     fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
         Err(self)
     }
@@ -56,6 +62,10 @@ impl MoudleItemExt for ModuleItem {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
         }
+    }
+
+    fn from_module_item(item: ModuleItem) -> Self {
+        item
     }
 
     fn into_module_decl(self) -> Result<ModuleDecl, Stmt> {
