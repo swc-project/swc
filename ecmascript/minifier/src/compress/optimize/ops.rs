@@ -488,7 +488,10 @@ impl Optimizer<'_> {
         match (l, r) {
             (Expr::Member(_), _) if is_for_rel => false,
 
-            (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), Expr::Lit(..)) => true,
+            (
+                Expr::Member(..) | Expr::Call(..) | Expr::Assign(..) | Expr::Update(..),
+                Expr::Lit(..),
+            ) => true,
 
             (
                 Expr::Member(..) | Expr::Call(..) | Expr::Assign(..),
