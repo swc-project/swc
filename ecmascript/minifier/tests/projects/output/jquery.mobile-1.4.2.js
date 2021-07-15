@@ -1239,9 +1239,8 @@
                             _childConstructors: [],
                         }
                     ),
-                    (basePrototype = new base(
-                    )),
-                    (basePrototype.options = jQuery.widget.extend(
+                    ((basePrototype = new base(
+                    )).options = jQuery.widget.extend(
                         {
                         },
                         basePrototype.options,
@@ -1625,12 +1624,12 @@
                             parts.length)
                         ) {
                             for (
+                                i = 0,
                                 curOption = options[key] = jQuery.widget.extend(
                                     {
                                     },
                                     this.options[key],
-                                ),
-                                i = 0;
+                                );
                                 i < parts.length - 1;
                                 i++
                             )
@@ -1864,10 +1863,10 @@
                     if (
                         ((data = data || {
                         }),
-                        (event = jQuery.Event(
+                        ((event = jQuery.Event(
                             event
-                        )),
-                        (event.type = (type === this.widgetEventPrefix
+                        )).type = (type ===
+              this.widgetEventPrefix
                             ? type
                             : this.widgetEventPrefix + type
                         ).toLowerCase(
@@ -2985,6 +2984,7 @@
                         0
                     )) return relPath;
                     for (
+                        i = 0,
                         relPath = relPath || "",
                         absPath = absPath
                             ? absPath.replace(
@@ -2999,8 +2999,7 @@
                             : [],
                         relStack = relPath.split(
                             "/"
-                        ),
-                        i = 0;
+                        );
                         i < relStack.length;
                         i++
                     )
@@ -3701,10 +3700,9 @@
                             data,
                         )),
                         isPopStateEvent &&
-                ((popstateEvent = new jQuery.Event(
-                    "popstate"
-                )),
-                (popstateEvent.originalEvent = {
+                (((popstateEvent = new jQuery.Event(
+                    "popstate",
+                )).originalEvent = {
                     type: "popstate",
                     state: null,
                 }),
@@ -4036,10 +4034,9 @@
                     len,
                     t = event.type;
                 if (
-                    ((event = jQuery.Event(
+                    (((event = jQuery.Event(
                         event
-                    )),
-                    (event.type = eventType),
+                    )).type = eventType),
                     (oe = event.originalEvent),
                     (props = jQuery.event.props),
                     t.search(
@@ -4047,8 +4044,7 @@
                     ) > -1 && (props = mouseEventProps),
                     event.originalEvent)
                 )
-                    for (i = props.length; i; )
-                        (prop = props[--i]), (event[prop] = oe[prop]);
+                    for (i = props.length; i; ) event[(prop = props[--i])] = oe[prop];
                 if (
                     (t.search(
                         /mouse(down|up)|click/
@@ -4065,7 +4061,7 @@
             (touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)))
                 )
                     for (j = 0, len = touchEventProps.length; j < len; j++)
-                        (prop = touchEventProps[j]), (event[prop] = touch[prop]);
+                        event[(prop = touchEventProps[j])] = touch[prop];
                 return event;
             }
             function getVirtualBindingFlags(
@@ -7901,9 +7897,8 @@
           !$target.jqmData(
               "transition"
           ) &&
-          ((attrs = {
-          }),
-          (attrs["data-" + jQuery.mobile.ns + "transition"] =
+          (((attrs = {
+          })["data-" + jQuery.mobile.ns + "transition"] =
             (jQuery.mobile.navigate.history.getActive(
             ) || {
             }).transition ||
@@ -9141,6 +9136,7 @@
                                     ? "ui-body-" + countTheme
                                     : "ui-body-inherit";
                             for (
+                                pos = 0,
                                 o.theme && $list.addClass(
                                     "ui-group-theme-" + o.theme
                                 ),
@@ -9155,13 +9151,11 @@
                     ),
                                 this._beforeListviewRefresh(
                                 ),
-                                li = this._getChildrenByTagName(
+                                numli = (li = this._getChildrenByTagName(
                                     $list[0],
                                     "li",
-                                    "LI"
-                                ),
-                                pos = 0,
-                                numli = li.length;
+                                    "LI",
+                                )).length;
                                 pos < numli;
                                 pos++
                             )
@@ -9374,14 +9368,14 @@
                             lastDividerText = null,
                             list = this.element;
                         for (
+                            i = 0,
                             list.children(
                                 "li:jqmData(role='list-divider')"
                             ).remove(
                             ),
                             lis = list.children(
                                 "li"
-                            ),
-                            i = 0;
+                            );
                             i < lis.length;
                             i++
                         )
@@ -10596,13 +10590,14 @@
                             isToggleSwitch)
                         ) {
                             for (
+                                j = 0,
                                 (origTabIndex = control.attr(
                                     "tabindex"
                                 )) &&
-                  handle.attr(
-                      "tabindex",
-                      origTabIndex
-                  ),
+                    handle.attr(
+                        "tabindex",
+                        origTabIndex
+                    ),
                                 control.attr(
                                     "tabindex",
                                     "-1"
@@ -10616,11 +10611,10 @@
                                         );
                                     }
                                 ),
-                                wrapper = document.createElement(
+                                (wrapper = document.createElement(
                                     "div"
-                                ),
-                                wrapper.className = "ui-slider-inneroffset",
-                                j = 0,
+                                )).className =
+                    "ui-slider-inneroffset",
                                 length = domSlider.childNodes.length;
                                 j < length;
                                 j++
@@ -10629,26 +10623,24 @@
                                     domSlider.childNodes[j]
                                 );
                             for (
+                                i = 0,
                                 domSlider.appendChild(
                                     wrapper
                                 ),
                                 handle.addClass(
                                     "ui-slider-handle-snapping"
                                 ),
-                                options = control.find(
+                                optionsCount = (options = control.find(
                                     "option"
-                                ),
-                                i = 0,
-                                optionsCount = options.length;
+                                )).length;
                                 i < optionsCount;
                                 i++
                             )
                                 (side = i ? "a" : "b"),
                                 (activeClass = i ? " " + jQuery.mobile.activeBtnClass : ""),
-                                (sliderImg = document.createElement(
+                                ((sliderImg = document.createElement(
                                     "span"
-                                )),
-                                (sliderImg.className = [
+                                )).className = [
                                     "ui-slider-label ui-slider-label-",
                                     side,
                                     activeClass,
@@ -13824,7 +13816,7 @@
                             rectangle = clampInfo.rc,
                             menuSize = clampInfo.menuSize;
                         return (
-                            (returnValue = {
+                            ((returnValue = {
                                 left: fitSegmentInsideSegment(
                                     rectangle.cx,
                                     menuSize.cx,
@@ -13837,8 +13829,7 @@
                                     rectangle.y,
                                     desired.y,
                                 ),
-                            }),
-                            (returnValue.top = Math.max(
+                            }).top = Math.max(
                                 0,
                                 returnValue.top
                             )),
@@ -15130,6 +15121,7 @@
                             ),
                             isPlaceholderItem = !1;
                         for (
+                            i = 0,
                             self.list.empty(
                             ).filter(
                                 ".ui-listview"
@@ -15138,8 +15130,7 @@
                             ),
                             numOptions = ($options = this._selectOptions(
                             )).length,
-                            select = this.select[0],
-                            i = 0;
+                            select = this.select[0];
                             i < numOptions;
                             i++, isPlaceholderItem = !1
                         )
@@ -15395,9 +15386,9 @@
                         mini: !1,
                     },
                     unknownClasses = [];
-                for (classes = classes.split(
+                for (idx = 0, classes = classes.split(
                     " "
-                ), idx = 0; idx < classes.length; idx++)
+                ); idx < classes.length; idx++)
                     (unknownClass = !0),
                     void 0 !== (map = reverseBoolOptionMap[classes[idx]])
                         ? ((unknownClass = !1), (o[map] = !0))
@@ -18360,9 +18351,9 @@
                             );
                         if (null != val)
                             for (
+                                idx = 0,
                                 callback = opts.filterCallback || defaultFilterCallback,
-                                length = filterItems.length,
-                                idx = 0;
+                                length = filterItems.length;
                                 idx < length;
                                 idx++
                             )

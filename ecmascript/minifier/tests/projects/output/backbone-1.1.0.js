@@ -4,11 +4,12 @@
         root = this,
         previousBackbone = root.Backbone,
         slice = [].slice;
-    (Backbone = "undefined" != typeof exports
+    (Backbone =
+    "undefined" != typeof exports
         ? exports
         : (root.Backbone = {
-        })),
-    (Backbone.VERSION = "1.1.0");
+        })).VERSION =
+    "1.1.0";
     var _ = root._;
     _ || "undefined" == typeof require || (_ = require(
         "underscore"
@@ -85,11 +86,11 @@
                 if (!name && !callback && !context) return (this._events = {
                 }), this;
                 for (
-                    names = name
+                    i = 0, l = (names = name
                         ? [name,]
                         : _.keys(
                             this._events
-                        ), i = 0, l = names.length;
+                        )).length;
                     i < l;
                     i++
                 )
@@ -885,6 +886,7 @@
                         models
                     );
                 for (
+                    i = 0,
                     models = singular
                         ? [models,]
                         : _.clone(
@@ -892,7 +894,6 @@
                         ),
                     options || (options = {
                     }),
-                    i = 0,
                     l = models.length;
                     i < l;
                     i++
@@ -1332,7 +1333,7 @@
                         options
                     )
                     : {
-                    }), (options.collection = this);
+                    }).collection = this;
                 var model = new this.model(
                     attrs,
                     options

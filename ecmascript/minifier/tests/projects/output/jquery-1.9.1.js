@@ -565,10 +565,9 @@
                             data,
                             "text/xml"
                         ))
-                        : ((xml = new ActiveXObject(
+                        : (((xml = new ActiveXObject(
                             "Microsoft.XMLDOM"
-                        )),
-                        (xml.async = "false"),
+                        )).async = "false"),
                         xml.loadXML(
                             data
                         ));
@@ -807,7 +806,7 @@
                         arguments,
                         2
                     )),
-                    (proxy = function (
+                    ((proxy = function (
                     ) {
                         return fn.apply(
                             context || this,
@@ -817,8 +816,7 @@
                                 )
                             ),
                         );
-                    }),
-                    (proxy.guid = fn.guid = fn.guid || jQuery.guid++),
+                    }).guid = fn.guid = fn.guid || jQuery.guid++),
                     proxy);
             },
             access: function (
@@ -1608,10 +1606,9 @@
                             "body"
                         )[0];
                     body &&
-            ((container = document.createElement(
+            (((container = document.createElement(
                 "div"
-            )),
-            (container.style.cssText =
+            )).style.cssText =
               "border:0;width:0;height:0;position:absolute;top:0;left:-9999px;margin-top:1px"),
             body.appendChild(
                 container
@@ -1619,10 +1616,10 @@
                 div
             ),
             (div.innerHTML = "<table><tr><td></td><td>t</td></tr></table>"),
-            (tds = div.getElementsByTagName(
+            ((tds = div.getElementsByTagName(
                 "td"
-            )),
-            (tds[0].style.cssText = "padding:0;margin:0;border:0;display:none"),
+            ))[0].style.cssText =
+              "padding:0;margin:0;border:0;display:none"),
             (isSupported = 0 === tds[0].offsetHeight),
             (tds[0].style.display = ""),
             (tds[1].style.display = "none"),
@@ -1650,12 +1647,11 @@
                         width: "4px",
                     }
                 ).width),
-              (marginDiv = div.appendChild(
+              ((marginDiv = div.appendChild(
                   document.createElement(
                       "div"
-                  )
-              )),
-              (marginDiv.style.cssText = div.style.cssText =
+                  ),
+              )).style.cssText = div.style.cssText =
                 "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;"),
               (marginDiv.style.marginRight = marginDiv.style.width = "0"),
               (div.style.width = "1px"),
@@ -1754,6 +1750,7 @@
             if (cache[id]) {
                 if (name && (thisCache = pvt ? cache[id] : cache[id].data)) {
                     for (
+                        i = 0,
                         jQuery.isArray(
                             name
                         )
@@ -1773,7 +1770,6 @@
                                     : name.split(
                                         " "
                                     ))),
-                        i = 0,
                         l = name.length;
                         i < l;
                         i++
@@ -3189,8 +3185,7 @@
                           arguments
                       )
                       : void 0;
-              }),
-              (eventHandle.elem = null)),
+              }).elem = null),
                     t = (types = (types || "").match(
                         core_rnotwhite
                     ) || ["",]).length;
@@ -3229,8 +3224,7 @@
                         handleObjIn,
                     )),
                     (handlers = events[type]) ||
-              ((handlers = events[type] = []),
-              (handlers.delegateCount = 0),
+              (((handlers = events[type] = []).delegateCount = 0),
               (special.setup &&
                 !1 !==
                   special.setup.call(
@@ -3423,13 +3417,12 @@
           (ontype = 0 > type.indexOf(
               ":"
           ) && "on" + type),
-          (event = event[jQuery.expando]
+          ((event = event[jQuery.expando]
               ? event
               : new jQuery.Event(
                   type,
-                  "object" == typeof event && event
-              )),
-          (event.isTrigger = !0),
+                  "object" == typeof event && event,
+              )).isTrigger = !0),
           (event.namespace = namespaces.join(
               "."
           )),
@@ -3628,7 +3621,7 @@
                         1 === cur.nodeType &&
             (!0 !== cur.disabled || "click" !== event.type)
                     ) {
-                        for (matches = [], i = 0; i < delegateCount; i++)
+                        for (i = 0, matches = []; i < delegateCount; i++)
                             void 0 ===
                 matches[(sel = (handleObj = handlers[i]).selector + " ")] &&
                 (matches[sel] = handleObj.needsContext
@@ -3700,7 +3693,7 @@
                 i--;
 
             )
-                (prop = copy[i]), (event[prop] = originalEvent[prop]);
+                event[(prop = copy[i])] = originalEvent[prop];
             return (
                 event.target || (event.target = originalEvent.srcElement || document),
                 3 === event.target.nodeType && (event.target = event.target.parentNode),
@@ -4212,7 +4205,7 @@
                     : fn
                         ? (1 === one &&
               ((origFn = fn),
-              (fn = function (
+              ((fn = function (
                   event
               ) {
                   return jQuery(
@@ -4222,8 +4215,7 @@
                       this,
                       arguments
                   );
-              }),
-              (fn.guid = origFn.guid || (origFn.guid = jQuery.guid++))),
+              }).guid = origFn.guid || (origFn.guid = jQuery.guid++))),
                         this.each(
                             function (
                             ) {
@@ -5734,11 +5726,12 @@
                                             i--;
 
                                         )
-                                            (idx = indexOf.call(
-                                                seed,
-                                                matched[i]
-                                            )),
-                                            (seed[idx] = !(matches[idx] = matched[i]));
+                                            seed[
+                                                (idx = indexOf.call(
+                                                    seed,
+                                                    matched[i]
+                                                ))
+                                            ] = !(matches[idx] = matched[i]);
                                     }
                                 )
                                 : function (
@@ -6212,8 +6205,7 @@
                                             if (!0 === (data = cache[1]) || data === cachedruns)
                                                 return !0 === data;
                                         } else if (
-                                            ((cache = outerCache[dir] = [dirkey,]),
-                                            (cache[1] =
+                                            (((cache = outerCache[dir] = [dirkey,])[1] =
                             matcher(
                                 elem,
                                 context,
@@ -6791,20 +6783,20 @@
                             ),
                         )
                     );
-                for (ret = [], i = 0; i < len; i++) jQuery.find(
+                for (i = 0, ret = []; i < len; i++) jQuery.find(
                     selector,
                     this[i],
                     ret
                 );
                 return (
-                    (ret = this.pushStack(
+                    ((ret = this.pushStack(
                         len > 1
                             ? jQuery.unique(
                                 ret
                             )
                             : ret
-                    )),
-                    (ret.selector = (this.selector ? this.selector + " " : "") + selector),
+                    )).selector =
+          (this.selector ? this.selector + " " : "") + selector),
                     ret
                 );
             },
@@ -7814,12 +7806,12 @@
                         );
                     if (hasScripts)
                         for (
+                            i = 0,
                             doc = scripts[scripts.length - 1].ownerDocument,
                             jQuery.map(
                                 scripts,
                                 restoreScript
-                            ),
-                            i = 0;
+                            );
                             i < hasScripts;
                             i++
                         )
@@ -8123,11 +8115,11 @@
           ))
                 )
                     for (
-                        destElements = getAll(
+                        i = 0, destElements = getAll(
                             clone
                         ), srcElements = getAll(
                             elem
-                        ), i = 0;
+                        );
                         null != (node = srcElements[i]);
                         ++i
                     )
@@ -8138,13 +8130,13 @@
                 if (dataAndEvents) {
                     if (deepDataAndEvents)
                         for (
+                            i = 0,
                             srcElements = srcElements || getAll(
                                 elem
                             ),
                             destElements = destElements || getAll(
                                 clone
-                            ),
-                            i = 0;
+                            );
                             null != (node = srcElements[i]);
                             i++
                         )
@@ -9454,10 +9446,9 @@
     try {
         ajaxLocation = location.href;
     } catch (e) {
-        (ajaxLocation = document.createElement(
+        ((ajaxLocation = document.createElement(
             "a"
-        )),
-        (ajaxLocation.href = ""),
+        )).href = ""),
         (ajaxLocation = ajaxLocation.href);
     }
     ajaxLocParts = rurl.exec(
@@ -10322,10 +10313,9 @@
                     send: function (
                         _, callback
                     ) {
-                        (script = document.createElement(
+                        ((script = document.createElement(
                             "script"
-                        )),
-                        (script.async = !0),
+                        )).async = !0),
                         s.scriptCharset && (script.charset = s.scriptCharset),
                         (script.src = s.url),
                         (script.onload = script.onreadystatechange = function (
@@ -10923,8 +10913,7 @@
                         " "
                     ));
                 for (var prop, index = 0, length = props.length; index < length; index++)
-                    (prop = props[index]),
-                    (tweeners[prop] = tweeners[prop] || []),
+                    (tweeners[(prop = props[index])] = tweeners[prop] || []),
                     tweeners[prop].unshift(
                         callback
                     );
@@ -11030,18 +11019,19 @@
         ));
         if (((length = handled.length), handled.length))
             for (
+                index = 0,
                 ("hidden" in
-          (dataShow =
-            jQuery._data(
-                elem,
-                "fxshow"
-            ) ||
-            jQuery._data(
-                elem,
-                "fxshow",
-                {
-                }
-            ))) && (hidden = dataShow.hidden),
+            (dataShow =
+              jQuery._data(
+                  elem,
+                  "fxshow"
+              ) ||
+              jQuery._data(
+                  elem,
+                  "fxshow",
+                  {
+                  }
+              ))) && (hidden = dataShow.hidden),
                 toggle && (dataShow.hidden = !hidden),
                 hidden
                     ? jQuery(
@@ -11071,8 +11061,7 @@
                                 orig[prop]
                             );
                     }
-                ),
-                index = 0;
+                );
                 index < length;
                 index++
             )
@@ -11425,8 +11414,9 @@
             },
             i = 0;
         for (includeWidth = includeWidth ? 1 : 0; i < 4; i += 2 - includeWidth)
-            (which = cssExpand[i]),
-            (attrs["margin" + which] = attrs["padding" + which] = type);
+            attrs["margin" + (which = cssExpand[i])] = attrs[
+                "padding" + which
+            ] = type;
         return includeWidth && (attrs.opacity = attrs.width = type), attrs;
     }
     jQuery.each(

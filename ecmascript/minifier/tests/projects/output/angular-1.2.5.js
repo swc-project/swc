@@ -13,43 +13,43 @@
                 template = arguments[1],
                 templateArgs = arguments;
             for (
+                i = 2,
                 message =
-          "[" +
-          (module ? module + ":" : "") +
-          code +
-          "] " +
-          template.replace(
-              /\{\d+\}/g,
-              function (
-                  match
-              ) {
-                  var arg,
-                      index = +match.slice(
-                          1,
-                          -1
-                      );
-                  if (index + 2 < templateArgs.length) {
-                      if ("function" == typeof (arg = templateArgs[index + 2]))
-                          return arg.toString(
-                          ).replace(
-                              / ?\{[\s\S]*$/,
-                              ""
-                          );
-                      if (void 0 === arg) return "undefined";
-                      if ("string" != typeof arg) return toJson(
-                          arg
-                      );
-                      return arg;
-                  }
-                  return match;
-              }
-          ),
+            "[" +
+            (module ? module + ":" : "") +
+            code +
+            "] " +
+            template.replace(
+                /\{\d+\}/g,
+                function (
+                    match
+                ) {
+                    var arg,
+                        index = +match.slice(
+                            1,
+                            -1
+                        );
+                    if (index + 2 < templateArgs.length) {
+                        if ("function" == typeof (arg = templateArgs[index + 2]))
+                            return arg.toString(
+                            ).replace(
+                                / ?\{[\s\S]*$/,
+                                ""
+                            );
+                        if (void 0 === arg) return "undefined";
+                        if ("string" != typeof arg) return toJson(
+                            arg
+                        );
+                        return arg;
+                    }
+                    return match;
+                }
+            ),
                 message =
             message +
             "\nhttp://errors.angularjs.org/1.2.5/" +
             (module ? module + "/" : "") +
-            code,
-                i = 2;
+            code;
                 i < arguments.length;
                 i++
             )
@@ -1494,12 +1494,13 @@
             if (!getterIfNoArguments || null != param)
                 for (; list.length; )
                     for (
-                        set = list.shift(
-                        ), setIndex = 0, setLength = set.length;
+                        setIndex = 0, setLength = (set = list.shift(
+                        )).length;
                         setIndex < setLength;
                         setIndex++
                     )
                         for (
+                            childIndex = 0,
                             element = jqLite(
                                 set[setIndex]
                             ),
@@ -1508,7 +1509,6 @@
                                     "$destroy"
                                 )
                                 : (fireEvent = !fireEvent),
-                            childIndex = 0,
                             childLength = (children = element.children(
                             )).length;
                             childIndex < childLength;
@@ -3608,12 +3608,12 @@
             else {
                 if (rawDocument.cookie !== lastCookieString)
                     for (
+                        i = 0,
                         cookieArray = (lastCookieString = rawDocument.cookie).split(
                             "; "
                         ),
                         lastCookies = {
-                        },
-                        i = 0;
+                        };
                         i < cookieArray.length;
                         i++
                     )
@@ -3641,16 +3641,17 @@
             var timeoutId;
             return (
                 outstandingRequestCount++,
-                (timeoutId = setTimeout(
-                    function (
-                    ) {
-                        delete pendingDeferIds[timeoutId], completeOutstandingRequest(
-                            fn
-                        );
-                    },
-                    delay || 0
-                )),
-                (pendingDeferIds[timeoutId] = !0),
+                (pendingDeferIds[
+                    (timeoutId = setTimeout(
+                        function (
+                        ) {
+                            delete pendingDeferIds[timeoutId], completeOutstandingRequest(
+                                fn
+                            );
+                        },
+                        delay || 0
+                    ))
+                ] = !0),
                 timeoutId
             );
         }),
@@ -3811,8 +3812,7 @@
                 entry,
                 freshEnd
             ),
-            (freshEnd = entry),
-            (freshEnd.n = null));
+            ((freshEnd = entry).n = null));
                 }
                 function link(
                     nextEntry, prevEntry
@@ -4383,9 +4383,8 @@
                     ) {
                         var scopeCreated = !1;
                         transcludedScope ||
-                ((transcludedScope = scope.$new(
-                )),
-                (transcludedScope.$$transcluded = !0),
+                (((transcludedScope = scope.$new(
+                )).$$transcluded = !0),
                 (scopeCreated = !0));
                         var clone = transcludeFn(
                             transcludedScope,
@@ -4470,11 +4469,12 @@
                             0,
                             name.length - 6
                         ))),
-                      (nName = directiveNormalize(
-                          name.toLowerCase(
-                          )
-                      )),
-                      (attrsMap[nName] = name),
+                      (attrsMap[
+                          (nName = directiveNormalize(
+                              name.toLowerCase(
+                              )
+                          ))
+                      ] = name),
                       (attrs[nName] = value = trim(
                           msie && "href" == name
                               ? decodeURIComponent(
@@ -5175,7 +5175,9 @@
                             );
                         }
                         for (
-                            transcludeFn = boundTranscludeFn && controllersBoundTransclude,
+                            i = 0,
+                            transcludeFn =
+                    boundTranscludeFn && controllersBoundTransclude,
                             controllerDirectives &&
                     forEach(
                         controllerDirectives,
@@ -5212,7 +5214,6 @@
                           ] = controllerInstance);
                         }
                     ),
-                            i = 0,
                             ii = preLinkFns.length;
                             i < ii;
                             i++
@@ -7027,7 +7028,7 @@
                     if (!mustHaveExpression || hasInterpolation)
                         return (
                             (concat.length = length),
-                            (fn = function (
+                            ((fn = function (
                                 context
                             ) {
                                 try {
@@ -7067,8 +7068,7 @@
                                         newErr
                                     );
                                 }
-                            }),
-                            (fn.exp = text),
+                            }).exp = text),
                             (fn.parts = parts),
                             fn
                         );
@@ -9596,8 +9596,7 @@
                       fullExp
                   ),
                   "$$v" in pathVal ||
-                    ((promise = pathVal),
-                    (promise.$$v = void 0),
+                    (((promise = pathVal).$$v = void 0),
                     promise.then(
                         function (
                             val
@@ -9614,8 +9613,7 @@
                         fullExp
                     ),
                     "$$v" in pathVal ||
-                      ((promise = pathVal),
-                      (promise.$$v = void 0),
+                      (((promise = pathVal).$$v = void 0),
                       promise.then(
                           function (
                               val
@@ -9632,8 +9630,7 @@
                           fullExp
                       ),
                       "$$v" in pathVal ||
-                        ((promise = pathVal),
-                        (promise.$$v = void 0),
+                        (((promise = pathVal).$$v = void 0),
                         promise.then(
                             function (
                                 val
@@ -9650,8 +9647,7 @@
                             fullExp
                         ),
                         "$$v" in pathVal ||
-                          ((promise = pathVal),
-                          (promise.$$v = void 0),
+                          (((promise = pathVal).$$v = void 0),
                           promise.then(
                               function (
                                   val
@@ -9668,8 +9664,7 @@
                             fullExp
                         ),
                         "$$v" in pathVal ||
-                          ((promise = pathVal),
-                          (promise.$$v = void 0),
+                          (((promise = pathVal).$$v = void 0),
                           promise.then(
                               function (
                                   val
@@ -10419,17 +10414,14 @@
                         var ChildScope, child;
                         return (
                             isolate
-                                ? ((child = new Scope(
-                                )),
-                                (child.$root = this.$root),
+                                ? (((child = new Scope(
+                                )).$root = this.$root),
                                 (child.$$asyncQueue = this.$$asyncQueue),
                                 (child.$$postDigestQueue = this.$$postDigestQueue))
-                                : ((ChildScope = function (
-                                ) {}),
-                                (ChildScope.prototype = this),
-                                (child = new ChildScope(
-                                )),
-                                (child.$id = nextUid(
+                                : (((ChildScope = function (
+                                ) {}).prototype = this),
+                                ((child = new ChildScope(
+                                )).$id = nextUid(
                                 ))),
                             (child.this = child),
                             (child.$$listeners = {
@@ -10861,9 +10853,9 @@
                             );
                         do {
                             for (
+                                i = 0,
                                 namedListeners = scope.$$listeners[name] || [],
                                 event.currentScope = scope,
-                                i = 0,
                                 length = namedListeners.length;
                                 i < length;
                                 i++
@@ -10916,10 +10908,10 @@
                             );
                         do {
                             for (
-                                event.currentScope = current = next,
-                                listeners = current.$$listeners[name] || [],
                                 i = 0,
-                                length = listeners.length;
+                                event.currentScope = current = next,
+                                length = (listeners = current.$$listeners[name] || [])
+                                    .length;
                                 i < length;
                                 i++
                             ) {
@@ -12025,7 +12017,7 @@
                 lgroup = pattern.lgSize,
                 group = pattern.gSize;
             if (whole.length >= lgroup + group)
-                for (pos = whole.length - lgroup, i = 0; i < pos; i++)
+                for (i = 0, pos = whole.length - lgroup; i < pos; i++)
                     (pos - i) % group == 0 && 0 !== i && (formatedText += groupSep),
                     (formatedText += whole.charAt(
                         i
@@ -14607,9 +14599,9 @@
                                     );
                                 }
                                 for (
+                                    index = 0,
                                     arrayLength = collectionKeys.length,
-                                    length = nextBlockOrder.length = collectionKeys.length,
-                                    index = 0;
+                                    length = nextBlockOrder.length = collectionKeys.length;
                                     index < length;
                                     index++
                                 )
@@ -15417,16 +15409,16 @@
                                                     };
                                                 if (multiple)
                                                     for (
-                                                        value = [],
                                                         groupIndex = 0,
+                                                        value = [],
                                                         groupLength = optionGroupsCache.length;
                                                         groupIndex < groupLength;
                                                         groupIndex++
                                                     )
                                                         for (
-                                                            optionGroup = optionGroupsCache[groupIndex],
                                                             index = 1,
-                                                            length = optionGroup.length;
+                                                            length = (optionGroup =
+                                optionGroupsCache[groupIndex]).length;
                                                             index < length;
                                                             index++
                                                         )
@@ -15637,33 +15629,34 @@
                                         );
                                     }
                                     for (
-                                        multiple ||
-                      (nullOption || null === modelValue
-                          ? optionGroups[""].unshift(
-                              {
-                                  id: "",
-                                  label: "",
-                                  selected: !selectedSet,
-                              }
-                          )
-                          : selectedSet ||
-                          optionGroups[""].unshift(
-                              {
-                                  id: "?",
-                                  label: "",
-                                  selected: !0,
-                              }
-                          )),
                                         groupIndex = 0,
+                                        multiple ||
+                        (nullOption || null === modelValue
+                            ? optionGroups[""].unshift(
+                                {
+                                    id: "",
+                                    label: "",
+                                    selected: !selectedSet,
+                                }
+                            )
+                            : selectedSet ||
+                            optionGroups[""].unshift(
+                                {
+                                    id: "?",
+                                    label: "",
+                                    selected: !0,
+                                }
+                            )),
                                         groupLength = optionGroupNames.length;
                                         groupIndex < groupLength;
                                         groupIndex++
                                     ) {
                                         for (
+                                            index = 0,
                                             optionGroup =
-                        optionGroups[
-                            (optionGroupName = optionGroupNames[groupIndex])
-                        ],
+                          optionGroups[
+                              (optionGroupName = optionGroupNames[groupIndex])
+                          ],
                                             optionGroupsCache.length <= groupIndex
                                                 ? (optionGroupsCache.push(
                                                     (existingOptions = [
@@ -15690,7 +15683,6 @@
                                 (existingParent.label = optionGroupName),
                             ),
                                             lastElement = null,
-                                            index = 0,
                                             length = optionGroup.length;
                                             index < length;
                                             index++

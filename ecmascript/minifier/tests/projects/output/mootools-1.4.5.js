@@ -3288,9 +3288,8 @@ function (
                 for (feature in features) this[feature] = features[feature];
                 return;
             }
-            (features = featuresCache[rootUid] = {
-            }),
-            (features.root = root),
+            ((features = featuresCache[rootUid] = {
+            }).root = root),
             (features.isXMLDocument = this.isXML(
                 document
             )),
@@ -3682,9 +3681,9 @@ function (
                                 );
                         } else
                             for (
-                                nodes = context.getElementsByTagName(
+                                i = 0, nodes = context.getElementsByTagName(
                                     "*"
-                                ), i = 0;
+                                );
                                 (node = nodes[i++]);
 
                             )
@@ -4186,7 +4185,7 @@ function (
               (children = node.all[id])
                     ) {
                         for (
-                            children[0] || (children = [children,]), i = 0;
+                            i = 0, children[0] || (children = [children,]);
                             (item = children[i++]);
 
                         ) {
@@ -4262,7 +4261,7 @@ function (
                 )
                     break getByTag;
                 for (
-                    this.brokenStarGEBTN || (tag = null), i = 0;
+                    i = 0, this.brokenStarGEBTN || (tag = null);
                     (item = children[i++]);
 
                 )
