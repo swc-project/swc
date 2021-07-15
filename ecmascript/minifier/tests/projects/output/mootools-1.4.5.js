@@ -3104,8 +3104,8 @@ function (
                 }
             );
         else if (pseudoClass)
-            (pseudoClassValue = pseudoClassValue || pseudoClassQuotedValue),
-            (pseudoClassValue = pseudoClassValue
+            (pseudoClassValue = (pseudoClassValue =
+          pseudoClassValue || pseudoClassQuotedValue)
                 ? pseudoClassValue.replace(
                     reUnescape,
                     ""
@@ -3324,11 +3324,10 @@ function (
                 ).length > 1);
                 try {
                     (testNode.innerHTML = "foo</foo>"),
-                    (selected = testNode.getElementsByTagName(
-                        "*"
-                    )),
                     (starSelectsClosed =
-                  selected &&
+                  (selected = testNode.getElementsByTagName(
+                      "*"
+                  )) &&
                   !!selected.length &&
                   "/" == selected[0].nodeName.charAt(
                       0
@@ -3368,11 +3367,10 @@ function (
                 if (testNode.querySelectorAll) {
                     try {
                         (testNode.innerHTML = "foo</foo>"),
-                        (selected = testNode.querySelectorAll(
-                            "*"
-                        )),
                         (features.starSelectsClosedQSA =
-                    selected &&
+                    (selected = testNode.querySelectorAll(
+                        "*"
+                    )) &&
                     !!selected.length &&
                     "/" == selected[0].nodeName.charAt(
                         0
@@ -3938,26 +3936,29 @@ function (
             a = parsed[1] || 1;
         "-" == a && (a = -1);
         var b = +parsed[3] || 0;
-        return (this.cacheNTH[argument] = parsed =
-          "n" == special
-              ? {
-                  a: a,
-                  b: b,
-              }
-              : "odd" == special
-                  ? {
-                      a: 2,
-                      b: 1,
-                  }
-                  : "even" == special
-                      ? {
-                          a: 2,
-                          b: 0,
-                      }
-                      : {
-                          a: 0,
-                          b: a,
-                      });
+        return (
+            (parsed =
+            "n" == special
+                ? {
+                    a: a,
+                    b: b,
+                }
+                : "odd" == special
+                    ? {
+                        a: 2,
+                        b: 1,
+                    }
+                    : "even" == special
+                        ? {
+                            a: 2,
+                            b: 0,
+                        }
+                        : {
+                            a: 0,
+                            b: a,
+                        }),
+            (this.cacheNTH[argument] = parsed)
+        );
     }),
     (local.createNTHPseudo = function (
         child, sibling, positions, ofType
@@ -8718,51 +8719,48 @@ Element1.alias(
         parse: function (
             value
         ) {
-            return (
-                (value = Function.from(
-                    value
-                )(
-                )),
-                (value =
-          "string" == typeof value
-              ? value.split(
-                  " "
-              )
-              : Array.from(
-                  value
-              )).map(
-                    function (
+            return (value =
+        "string" == typeof (value = Function.from(
+            value
+        )(
+        ))
+            ? value.split(
+                " "
+            )
+            : Array.from(
+                value
+            )).map(
+                function (
+                    val
+                ) {
+                    val = String(
                         val
-                    ) {
-                        val = String(
-                            val
-                        );
-                        var found = !1;
-                        return (
-                            Object.each(
-                                Fx.CSS.Parsers,
-                                function (
-                                    parser, key
-                                ) {
-                                    if (!found) {
-                                        var parsed = parser.parse(
-                                            val
-                                        );
-                                        (parsed || 0 === parsed) &&
-                    (found = {
-                        value: parsed,
-                        parser: parser,
-                    });
-                                    }
+                    );
+                    var found = !1;
+                    return (
+                        Object.each(
+                            Fx.CSS.Parsers,
+                            function (
+                                parser, key
+                            ) {
+                                if (!found) {
+                                    var parsed = parser.parse(
+                                        val
+                                    );
+                                    (parsed || 0 === parsed) &&
+                (found = {
+                    value: parsed,
+                    parser: parser,
+                });
                                 }
-                            ),
-                            (found = found || {
-                                value: val,
-                                parser: Fx.CSS.Parsers.String,
-                            })
-                        );
-                    },
-                )
+                            }
+                        ),
+                        (found = found || {
+                            value: val,
+                            parser: Fx.CSS.Parsers.String,
+                        })
+                    );
+                }
             );
         },
         compute: function (
@@ -9152,13 +9150,16 @@ Element1.implement(
             start, end
         ) {
             end ||
-        ((end = this.retrieve(
-            "highlight:original",
-            this.getStyle(
-                "background-color"
-            ),
-        )),
-        (end = "transparent" == end ? "#fff" : end));
+        (end =
+          "transparent" ==
+          (end = this.retrieve(
+              "highlight:original",
+              this.getStyle(
+                  "background-color"
+              ),
+          ))
+              ? "#fff"
+              : end);
             var tween = this.get(
                 "tween"
             );
@@ -9307,9 +9308,9 @@ Fx.implement(
                 var data = trans.split(
                     ":"
                 );
-                (trans = Fx.Transitions),
-                (trans = trans[data[0]] || trans[data[0].capitalize(
-                )]),
+                (trans =
+          (trans = Fx.Transitions)[data[0]] || trans[data[0].capitalize(
+          )]),
                 data[1] &&
             (trans =
               trans[

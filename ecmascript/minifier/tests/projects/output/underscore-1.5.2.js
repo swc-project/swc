@@ -1015,13 +1015,14 @@
     (_.range = function (
         start, stop, step
     ) {
-        arguments.length <= 1 && ((stop = start || 0), (start = 0));
+        arguments.length <= 1 && ((stop = start || 0), (start = 0)),
+        (step = arguments[2] || 1);
         for (
             var length = Math.max(
                     Math.ceil(
-                        (stop - start) / (step = arguments[2] || 1)
+                        (stop - start) / step
                     ),
-                    0,
+                    0
                 ),
                 idx = 0,
                 range = new Array(

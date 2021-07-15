@@ -961,45 +961,44 @@
                     remove = options.remove,
                     order = !sortable && !!add && !!remove && [];
                 for (i = 0, l = models.length; i < l; i++)
-                    (attrs = models[i]),
                     (existing = this.get(
-                        attrs instanceof Model
+                        (attrs = models[i]) instanceof Model
                             ? (model = attrs)
                             : attrs[this.model.prototype.idAttribute],
                     ))
                         ? (remove && (modelMap[existing.cid] = !0),
                         merge &&
-                ((attrs = attrs === model ? model.attributes : attrs),
-                options.parse && (attrs = existing.parse(
-                    attrs,
-                    options
-                )),
-                existing.set(
-                    attrs,
-                    options
-                ),
-                sortable &&
-                  !sort &&
-                  existing.hasChanged(
-                      sortAttr
-                  ) &&
-                  (sort = !0)),
-                        (models[i] = existing))
-                        : add &&
-              (model = models[i] = this._prepareModel(
+              ((attrs = attrs === model ? model.attributes : attrs),
+              options.parse && (attrs = existing.parse(
                   attrs,
                   options
-              )) &&
-              (toAdd.push(
-                  model
+              )),
+              existing.set(
+                  attrs,
+                  options
               ),
-              model.on(
-                  "all",
-                  this._onModelEvent,
-                  this
-              ),
-              (this._byId[model.cid] = model),
-              null != model.id && (this._byId[model.id] = model)),
+              sortable &&
+                !sort &&
+                existing.hasChanged(
+                    sortAttr
+                ) &&
+                (sort = !0)),
+                        (models[i] = existing))
+                        : add &&
+            (model = models[i] = this._prepareModel(
+                attrs,
+                options
+            )) &&
+            (toAdd.push(
+                model
+            ),
+            model.on(
+                "all",
+                this._onModelEvent,
+                this
+            ),
+            (this._byId[model.cid] = model),
+            null != model.id && (this._byId[model.id] = model)),
                     order && order.push(
                         existing || model
                     );

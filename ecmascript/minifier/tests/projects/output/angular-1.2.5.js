@@ -15,38 +15,37 @@
             for (
                 i = 2,
                 message =
-            "[" +
-            (module ? module + ":" : "") +
-            code +
-            "] " +
-            template.replace(
-                /\{\d+\}/g,
-                function (
-                    match
-                ) {
-                    var arg,
-                        index = +match.slice(
-                            1,
-                            -1
-                        );
-                    if (index + 2 < templateArgs.length) {
-                        if ("function" == typeof (arg = templateArgs[index + 2]))
-                            return arg.toString(
-                            ).replace(
-                                / ?\{[\s\S]*$/,
-                                ""
-                            );
-                        if (void 0 === arg) return "undefined";
-                        if ("string" != typeof arg) return toJson(
-                            arg
-                        );
-                        return arg;
-                    }
-                    return match;
-                }
-            ),
-                message =
-            message +
+            (message =
+              "[" +
+              (module ? module + ":" : "") +
+              code +
+              "] " +
+              template.replace(
+                  /\{\d+\}/g,
+                  function (
+                      match
+                  ) {
+                      var arg,
+                          index = +match.slice(
+                              1,
+                              -1
+                          );
+                      if (index + 2 < templateArgs.length) {
+                          if ("function" == typeof (arg = templateArgs[index + 2]))
+                              return arg.toString(
+                              ).replace(
+                                  / ?\{[\s\S]*$/,
+                                  ""
+                              );
+                          if (void 0 === arg) return "undefined";
+                          if ("string" != typeof arg) return toJson(
+                              arg
+                          );
+                          return arg;
+                      }
+                      return match;
+                  }
+              )) +
             "\nhttp://errors.angularjs.org/1.2.5/" +
             (module ? module + "/" : "") +
             code;
@@ -4274,36 +4273,35 @@
                         i < nodeList.length;
                         i++
                     )
-                        (directives = collectDirectives(
-                            nodeList[i],
-                            [],
-                            (attrs = new Attributes(
-                            )),
-                            0 === i ? maxPriority : void 0,
-                            ignoreDirective,
-                        )),
-                        (nodeLinkFn = directives.length
-                            ? applyDirectivesToNode(
-                                directives,
-                                nodeList[i],
-                                attrs,
-                                transcludeFn,
-                                $rootElement,
-                                null,
-                                [],
-                                [],
-                                previousCompileContext,
-                            )
-                            : null),
                         (childLinkFn =
-                  (nodeLinkFn && nodeLinkFn.terminal) ||
-                  !nodeList[i].childNodes ||
-                  !nodeList[i].childNodes.length
-                      ? null
-                      : compileNodes(
-                          nodeList[i].childNodes,
-                          nodeLinkFn ? nodeLinkFn.transclude : transcludeFn,
-                      )),
+                ((nodeLinkFn = (directives = collectDirectives(
+                    nodeList[i],
+                    [],
+                    (attrs = new Attributes(
+                    )),
+                    0 === i ? maxPriority : void 0,
+                    ignoreDirective,
+                )).length
+                    ? applyDirectivesToNode(
+                        directives,
+                        nodeList[i],
+                        attrs,
+                        transcludeFn,
+                        $rootElement,
+                        null,
+                        [],
+                        [],
+                        previousCompileContext,
+                    )
+                    : null) &&
+                  nodeLinkFn.terminal) ||
+                !nodeList[i].childNodes ||
+                !nodeList[i].childNodes.length
+                    ? null
+                    : compileNodes(
+                        nodeList[i].childNodes,
+                        nodeLinkFn ? nodeLinkFn.transclude : transcludeFn,
+                    )),
                         linkFns.push(
                             nodeLinkFn
                         ),
@@ -4758,16 +4756,15 @@
                                     $compileNode,
                                 ),
                                 (templateDirective = directive),
-                                (directiveValue = isFunction(
-                                    directive.template
-                                )
-                                    ? directive.template(
-                                        $compileNode,
-                                        templateAttrs
-                                    )
-                                    : directive.template),
                                 (directiveValue = denormalizeTemplate(
-                                    directiveValue
+                                    (directiveValue = isFunction(
+                                        directive.template
+                                    )
+                                        ? directive.template(
+                                            $compileNode,
+                                            templateAttrs
+                                        )
+                                        : directive.template),
                                 )),
                                 directive.replace)
                             ) {
@@ -5151,16 +5148,17 @@
                                             break;
                                         }
                                     case "&":
-                                        isolateScope[scopeName] = function (
+                                        (parentGet = $parse(
+                                            attrs[attrName]
+                                        )),
+                                        (isolateScope[scopeName] = function (
                                             locals
                                         ) {
-                                            return (parentGet = $parse(
-                                                attrs[attrName]
-                                            ))(
+                                            return parentGet(
                                                 scope,
-                                                locals,
+                                                locals
                                             );
-                                        };
+                                        });
                                         break;
                                     default:
                                         throw $compileMinErr(
@@ -5197,12 +5195,13 @@
                                 };
                             "@" == (controller = directive.controller) &&
                         (controller = attrs[directive.name]),
+                            (controllerInstance = $controller(
+                                controller,
+                                locals
+                            )),
                             (elementControllers[
                                 directive.name
-                            ] = controllerInstance = $controller(
-                                controller,
-                                locals,
-                            )),
+                            ] = controllerInstance),
                             hasElementTranscludeDirective ||
                           attrs.$$element.data(
                               "$" + directive.name + "Controller",
@@ -6884,17 +6883,21 @@
                 ),
                 (jsonpDone = xhr = null),
                 (status =
-            "file" == urlResolve(
-                url
-            ).protocol && 0 === status
-                ? response
-                    ? 200
-                    : 404
+            1223 ==
+            (status =
+              "file" == urlResolve(
+                  url
+              ).protocol && 0 === status
+                  ? response
+                      ? 200
+                      : 404
+                  : status)
+                ? 204
                 : status),
                 callback(
-                    (status = 1223 == status ? 204 : status),
+                    status,
                     response,
-                    headersString,
+                    headersString
                 ),
                 $browser.$$completeOutstandingRequest(
                     noop
@@ -9524,8 +9527,8 @@
             ),
             fullExp
         ))];
-            propertyObj || (obj[key] = propertyObj = {
-            }),
+            propertyObj || ((propertyObj = {
+            }), (obj[key] = propertyObj)),
             (obj = propertyObj).then &&
           options.unwrapPromises &&
           (promiseWarning(
@@ -10525,8 +10528,7 @@
                                         newValue
                                     )) {
                                         oldValue !== internalArray &&
-                        ((oldValue = internalArray),
-                        (oldLength = oldValue.length = 0),
+                        ((oldLength = (oldValue = internalArray).length = 0),
                         changeDetected++),
                                         oldLength !== (newLength = newValue.length) &&
                           (changeDetected++,
@@ -11458,16 +11460,15 @@
                         if ((match = /^(Moz|webkit|O|ms)(?=[A-Z])/.exec(
                             prop
                         ))) {
-                            (vendorPrefix = match[0]),
-                            (vendorPrefix =
-                  vendorPrefix.substr(
-                      0,
-                      1
-                  ).toUpperCase(
-                  ) +
-                  vendorPrefix.substr(
-                      1
-                  ));
+                            vendorPrefix =
+                (vendorPrefix = match[0]).substr(
+                    0,
+                    1
+                ).toUpperCase(
+                ) +
+                vendorPrefix.substr(
+                    1
+                );
                             break;
                         }
                     vendorPrefix ||
@@ -11547,7 +11548,7 @@
                             invokeApply
                         ) && !invokeApply;
                     return (
-                        (timeoutId = $browser.defer(
+                        (promise.$$timeoutId = timeoutId = $browser.defer(
                             function (
                             ) {
                                 try {
@@ -11569,7 +11570,6 @@
                             },
                             delay
                         )),
-                        (promise.$$timeoutId = timeoutId),
                         (deferreds[timeoutId] = deferred),
                         promise
                     );
@@ -12288,8 +12288,9 @@
                 text = "",
                 parts = [];
             if (
-                ((format = format || "mediumDate"),
-                (format = $locale.DATETIME_FORMATS[format] || format),
+                ((format =
+          $locale.DATETIME_FORMATS[(format = format || "mediumDate")] ||
+          format),
                 isString(
                     date
                 ) &&
@@ -12423,13 +12424,12 @@
                 array
             )) return array;
             if (!sortPredicate) return array;
-            (sortPredicate = isArray(
-                sortPredicate
-            )
-                ? sortPredicate
-                : [sortPredicate,]),
-            (sortPredicate = map(
-                sortPredicate,
+            sortPredicate = map(
+                (sortPredicate = isArray(
+                    sortPredicate
+                )
+                    ? sortPredicate
+                    : [sortPredicate,]),
                 function (
                     predicate
                 ) {
@@ -12469,8 +12469,8 @@
                             descending
                         )
                     );
-                }
-            ));
+                },
+            );
             for (var arrayCopy = [], i = 0; i < array.length; i++)
                 arrayCopy.push(
                     array[i]
@@ -14606,11 +14606,13 @@
                                     index++
                                 )
                                     if (
-                                        ((key =
-                    collection === collectionKeys
-                        ? index
-                        : collectionKeys[index]),
-                                        (value = collection[key]),
+                                        ((value =
+                    collection[
+                        (key =
+                        collection === collectionKeys
+                            ? index
+                            : collectionKeys[index])
+                    ]),
                                         assertNotHasOwnProperty(
                                             (trackById = trackByIdFn(
                                                 key,
@@ -14676,11 +14678,13 @@
                                     index++
                                 ) {
                                     if (
-                                        ((key =
-                    collection === collectionKeys
-                        ? index
-                        : collectionKeys[index]),
-                                        (value = collection[key]),
+                                        ((value =
+                    collection[
+                        (key =
+                        collection === collectionKeys
+                            ? index
+                            : collectionKeys[index])
+                    ]),
                                         (block = nextBlockOrder[index]),
                                         nextBlockOrder[index - 1] &&
                     (previousNode = getBlockEnd(
@@ -15605,10 +15609,14 @@
                                             );
                                             selectedSet = selectedSet || selected;
                                         }
-                                        (label = displayFn(
-                                            scope,
-                                            locals
-                                        )),
+                                        (label = isDefined(
+                                            (label = displayFn(
+                                                scope,
+                                                locals
+                                            ))
+                                        )
+                                            ? label
+                                            : ""),
                                         optionGroup.push(
                                             {
                                                 id: trackFn
@@ -15619,11 +15627,7 @@
                                                     : keyName
                                                         ? keys[index]
                                                         : index,
-                                                label: (label = isDefined(
-                                                    label
-                                                )
-                                                    ? label
-                                                    : ""),
+                                                label: label,
                                                 selected: selected,
                                             }
                                         );

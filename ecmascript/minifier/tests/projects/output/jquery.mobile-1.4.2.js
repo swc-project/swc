@@ -1616,10 +1616,9 @@
                         if (
                             ((options = {
                             }),
-                            (parts = key.split(
+                            (key = (parts = key.split(
                                 "."
-                            )),
-                            (key = parts.shift(
+                            )).shift(
                             )),
                             parts.length)
                         ) {
@@ -2085,17 +2084,17 @@
                         var message, loadSettings;
                         this.resetHtml(
                         ),
-                        "object" === jQuery.type(
-                            theme
-                        )
-                            ? ((loadSettings = jQuery.extend(
-                                {
-                                },
-                                this.options,
-                                theme
-                            )),
-                            (theme = loadSettings.theme))
-                            : (theme = theme || (loadSettings = this.options).theme),
+                        (theme =
+              "object" === jQuery.type(
+                  theme
+              )
+                  ? (loadSettings = jQuery.extend(
+                      {
+                      },
+                      this.options,
+                      theme
+                  )).theme
+                  : theme || (loadSettings = this.options).theme),
                         (message =
               msgText || (!1 === loadSettings.text ? "" : loadSettings.text)),
                         $html.addClass(
@@ -2273,9 +2272,10 @@
                   (self.start = function (
                   ) {
                       iframe ||
-                    ((iframe_src = jQuery.fn.hashchange.src),
-                    (iframe_src = iframe_src && iframe_src + get_fragment(
-                    )),
+                    ((iframe_src =
+                      (iframe_src = jQuery.fn.hashchange.src) &&
+                      iframe_src + get_fragment(
+                      )),
                     (iframe = jQuery(
                         '<iframe tabindex="-1" title="empty"/>'
                     )
@@ -2986,13 +2986,12 @@
                     for (
                         i = 0,
                         relPath = relPath || "",
-                        absPath = absPath
+                        absStack = (absPath = absPath
                             ? absPath.replace(
                                 /^\/|(\/[^\/]*|[^\/]+)$/g,
                                 ""
                             )
-                            : "",
-                        absStack = absPath
+                            : "")
                             ? absPath.split(
                                 "/"
                             )
@@ -3309,11 +3308,10 @@
                             ) &&
                   "" !== preservedHash &&
                   (preservedHash = "#" + preservedHash),
-                            (href = path.parseUrl(
-                                href
-                            )),
                             (href =
-                  href.protocol +
+                  (href = path.parseUrl(
+                      href
+                  )).protocol +
                   "//" +
                   href.host +
                   href.pathname +
@@ -3409,12 +3407,11 @@
             }),
             (path.documentUrl = path.parseLocation(
             )),
-            ($base = jQuery(
+            (path.documentBase = ($base = jQuery(
                 "head"
             ).find(
                 "base"
-            )),
-            (path.documentBase = $base.length
+            )).length
                 ? path.parseUrl(
                     path.makeUrlAbsolute(
                         $base.attr(
@@ -3535,14 +3532,16 @@
                                 a
                             )
                         )) &&
-            ((closest = this.find(
-                url,
-                this.stack.slice(
-                    a
-                ),
-                !0
-            )),
-            (closest = void 0 === closest ? closest : closest + a)),
+            (closest =
+              void 0 === (closest = this.find(
+                  url,
+                  this.stack.slice(
+                      a
+                  ),
+                  !0
+              ))
+                  ? closest
+                  : closest + a),
                         closest
                     );
                 },
@@ -3648,11 +3647,10 @@
                                 : path.isPath(
                                     url
                                 )
-                                    ? ((resolved = path.parseUrl(
-                                        href
-                                    )),
-                                    (hash =
-                    resolved.pathname +
+                                    ? (hash =
+                    (resolved = path.parseUrl(
+                        href
+                    )).pathname +
                     resolved.search +
                     (path.isPreservableHash(
                         resolved.hash
@@ -3661,7 +3659,7 @@
                             "#",
                             ""
                         )
-                        : "")))
+                        : ""))
                                     : (hash = url),
                             hash
                         );
@@ -5569,14 +5567,13 @@
                             var active = this._getActiveHistory(
                             );
                             active &&
-              ((currentScroll = this._getScroll(
-              )),
               (active.lastScroll =
-                currentScroll < this._getMinScroll(
+                (currentScroll = this._getScroll(
+                )) < this._getMinScroll(
                 )
                     ? this._getDefaultScroll(
                     )
-                    : currentScroll));
+                    : currentScroll);
                         }
                     },
                     _delayedRecordScroll: function (
@@ -9112,6 +9109,7 @@
                                 splittheme,
                                 splitThemeClass,
                                 altButtonClass,
+                                dividerTheme,
                                 li,
                                 o = this.options,
                                 $list = this.element,
@@ -9189,11 +9187,12 @@
                           /\bui-btn\b/
                       ) &&
                       !isDivider)
-                        ? (((itemIcon = getAttr(
-                            item[0],
-                            "icon"
-                        )),
-                        (icon = !1 !== itemIcon && (itemIcon || o.icon)),
+                        ? (((icon =
+                          !1 !== (itemIcon = getAttr(
+                              item[0],
+                              "icon"
+                          )) &&
+                          (itemIcon || o.icon)),
                         a.removeClass(
                             "ui-link"
                         ),
@@ -9201,7 +9200,7 @@
                         itemTheme && (buttonClass += " ui-btn-" + itemTheme),
                         a.length > 1)
                             ? ((itemClass = "ui-li-has-alt"),
-                            (splittheme =
+                            (splitThemeClass = (splittheme =
                               getAttr(
                                   (last = a.last(
                                   ))[0],
@@ -9212,8 +9211,7 @@
                                   item[0],
                                   "theme",
                                   !0
-                              )),
-                            (splitThemeClass = splittheme
+                              ))
                                 ? " ui-btn-" + splittheme
                                 : ""),
                             (altButtonClass =
@@ -9251,13 +9249,15 @@
                         : isDivider
                             ? ((itemClass =
                           "ui-li-divider ui-bar-" +
-                          (getAttr(
-                              item[0],
-                              "theme"
-                          ) ||
+                          ((dividerTheme =
+                            getAttr(
+                                item[0],
+                                "theme"
+                            ) ||
                             o.dividerTheme ||
-                            o.theme ||
-                            "inherit")),
+                            o.theme)
+                              ? dividerTheme
+                              : "inherit")),
                             item.attr(
                                 "role",
                                 "heading"
@@ -11099,9 +11099,11 @@
                             !isNaN(
                                 percent
                             ) &&
-                ((newval = (percent / 100) * (max - min) + min),
-                (valModStep = (newval - min) % step),
-                (alignValue = newval - valModStep),
+                ((alignValue =
+                  newval -
+                  (valModStep =
+                    ((newval = (percent / 100) * (max - min) + min) - min) %
+                    step)),
                 2 * Math.abs(
                     valModStep
                 ) >= step &&
@@ -13966,9 +13968,8 @@
                         }
                         return (
                             dst &&
-              ((offset = dst.offset(
-              )),
-              (x = offset.left + dst.outerWidth(
+              ((x = (offset = dst.offset(
+              )).left + dst.outerWidth(
               ) / 2),
               (y = offset.top + dst.outerHeight(
               ) / 2)),
@@ -14258,6 +14259,7 @@
                         theEvent, data
                     ) {
                         var parsedDst,
+                            toUrl,
                             currentOptions = this.options,
                             immediate = !1;
                         (theEvent && theEvent.isDefaultPrevented(
@@ -14276,12 +14278,14 @@
                     : data.toPage.jqmData(
                         "url"
                     )),
-              (parsedDst = jQuery.mobile.path.parseUrl(
-                  parsedDst
-              )),
-              this._myUrl !==
-              jQuery.mobile.path.makeUrlAbsolute(
-                  parsedDst.pathname + parsedDst.search + parsedDst.hash,
+              (toUrl =
+                (parsedDst = jQuery.mobile.path.parseUrl(
+                    parsedDst
+                )).pathname +
+                parsedDst.search +
+                parsedDst.hash),
+              this._myUrl !== jQuery.mobile.path.makeUrlAbsolute(
+                  toUrl
               )
                   ? (immediate = !0)
                   : theEvent.preventDefault(
@@ -14343,7 +14347,6 @@
                                 this)
                                 : (jQuery.mobile.navigate.history,
                                 jQuery.mobile.dialogHashKey,
-                                jQuery.mobile.activePage,
                                 (currentIsDialog =
                 !!jQuery.mobile.activePage &&
                 jQuery.mobile.activePage.hasClass(
@@ -14668,8 +14671,8 @@
                             (themeAttr = o.theme
                                 ? " data-" + jQuery.mobile.ns + "theme='" + o.theme + "'"
                                 : ""),
-                            (overlayTheme = o.overlayTheme || o.theme || null),
-                            (overlayThemeAttr = overlayTheme
+                            (overlayThemeAttr = (overlayTheme =
+                o.overlayTheme || o.theme || null)
                                 ? " data-" +
                   jQuery.mobile.ns +
                   "overlay-theme='" +
@@ -16633,50 +16636,49 @@
                         p, dir, desired, s, best
                     ) {
                         var result,
+                            r,
                             diff,
                             desiredForArrow = {
                             },
                             tip = {
                             };
-                        return s.arFull[p.dimKey] > s.guideDims[p.dimKey]
-                            ? best
-                            : ((desiredForArrow[p.fst] =
+                        return (
+                            s.arFull[p.dimKey] > s.guideDims[p.dimKey] ||
+              ((desiredForArrow[p.fst] =
                 desired[p.fst] +
                 (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor -
                 s.contentBox[p.fst] +
                 (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) *
                   p.arrowOffsetFactor),
-                            (desiredForArrow[p.snd] = desired[p.snd]),
-                            (result =
+              (desiredForArrow[p.snd] = desired[p.snd]),
+              (result =
                 s.result ||
                 this._calculateFinalLocation(
                     desiredForArrow,
                     s.clampInfo
                 )),
-                            (tip[p.fst] =
-                {
-                    x: result.left,
-                    y: result.top,
-                }[p.fst] +
-                s.contentBox[p.fst] +
-                p.tipOffset),
-                            (tip[p.snd] = Math.max(
-                                result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey],
-                                Math.min(
-                                    result[p.prop] +
+              (r = {
+                  x: result.left,
+                  y: result.top,
+              }),
+              (tip[p.fst] = r[p.fst] + s.contentBox[p.fst] + p.tipOffset),
+              (tip[p.snd] = Math.max(
+                  result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey],
+                  Math.min(
+                      result[p.prop] +
                     s.guideOffset[p.prop] +
                     s.guideDims[p.dimKey] -
                     s.arHalf[p.dimKey],
-                                    desired[p.snd],
-                                ),
-                            )),
-                            (diff =
+                      desired[p.snd],
+                  ),
+              )),
+              (diff =
                 Math.abs(
                     desired.x - tip.x
                 ) + Math.abs(
                     desired.y - tip.y
                 )),
-                            (best && !(diff < best.diff)) ||
+              (best && !(diff < best.diff)) ||
                 ((tip[p.snd] -=
                   s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd]),
                 (best = {
@@ -16685,8 +16687,9 @@
                     result: result,
                     posProp: p.prop,
                     posVal: tip[p.snd],
-                })),
-                            best);
+                }))),
+                            best
+                        );
                     },
                     _getPlacementState: function (
                         clamp

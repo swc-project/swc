@@ -806,7 +806,7 @@
                         arguments,
                         2
                     )),
-                    ((proxy = function (
+                    (proxy = function (
                     ) {
                         return fn.apply(
                             context || this,
@@ -816,7 +816,8 @@
                                 )
                             ),
                         );
-                    }).guid = fn.guid = fn.guid || jQuery.guid++),
+                    }),
+                    (proxy.guid = fn.guid = fn.guid || jQuery.guid++),
                     proxy);
             },
             access: function (
@@ -850,17 +851,16 @@
                     elems,
                     value
                 ), (fn = null))
-                : ((bulk = fn),
-                (fn = function (
+                : (fn = function (
                     elem, key, value
                 ) {
-                    return bulk.call(
+                    return (bulk = fn).call(
                         jQuery(
                             elem
                         ),
                         value
                     );
-                }))),
+                })),
           fn)
                 )
                     for (; i < length; i++)
@@ -1168,8 +1168,7 @@
                     context, args
                 ) {
                     return (
-                        (args = args || []),
-                        (args = [context, args.slice
+                        (args = [context, (args = args || []).slice
                             ? args.slice(
                             )
                             : args,]),
@@ -1760,16 +1759,16 @@
                                     jQuery.camelCase
                                 )
                             ))
-                            : (name in thisCache)
-                                ? (name = [name,])
-                                : ((name = jQuery.camelCase(
-                                    name
-                                )),
-                                (name = (name in thisCache)
-                                    ? [name,]
-                                    : name.split(
-                                        " "
-                                    ))),
+                            : (name =
+                    (name in thisCache)
+                        ? [name,]
+                        : ((name = jQuery.camelCase(
+                            name
+                        )) in thisCache)
+                            ? [name,]
+                            : name.split(
+                                " "
+                            )),
                         l = name.length;
                         i < l;
                         i++
@@ -2330,15 +2329,14 @@
                         core_rnotwhite
                     ) || []; i < len; i++)
                         if (
-                            ((elem = this[i]),
                             (cur =
-              1 === elem.nodeType &&
+              1 === (elem = this[i]).nodeType &&
               (elem.className
                   ? (" " + elem.className + " ").replace(
                       rclass,
                       " "
                   )
-                  : " ")))
+                  : " "))
                         ) {
                             for (; (clazz = classes[j++]); )
                                 0 > cur.indexOf(
@@ -2384,15 +2382,14 @@
                         core_rnotwhite
                     ) || []; i < len; i++)
                         if (
-                            ((elem = this[i]),
                             (cur =
-              1 === elem.nodeType &&
+              1 === (elem = this[i]).nodeType &&
               (elem.className
                   ? (" " + elem.className + " ").replace(
                       rclass,
                       " "
                   )
-                  : "")))
+                  : ""))
                         ) {
                             for (; (clazz = classes[j++]); )
                                 for (; cur.indexOf(
@@ -2676,15 +2673,14 @@
                         ((notxml = 1 !== nType || !jQuery.isXMLDoc(
                             elem
                         )) &&
-              ((name = name.toLowerCase(
-              )),
               (hooks =
-                jQuery.attrHooks[name] ||
+                jQuery.attrHooks[(name = name.toLowerCase(
+                ))] ||
                 (rboolean.test(
                     name
                 )
                     ? boolHook
-                    : nodeHook))),
+                    : nodeHook)),
                         void 0 !== value)
                     ) {
                         if (null === value) jQuery.removeAttr(
@@ -3168,8 +3164,7 @@
             if (elemData)
                 for (
                     handler.handler &&
-            ((handleObjIn = handler),
-            (handler = handleObjIn.handler),
+            ((handler = (handleObjIn = handler).handler),
             (selector = handleObjIn.selector)),
                     handler.guid || (handler.guid = jQuery.guid++),
                     (events = elemData.events) || (events = elemData.events = {
@@ -3185,7 +3180,8 @@
                           arguments
                       )
                       : void 0;
-              }).elem = null),
+              }),
+              (eventHandle.elem = null)),
                     t = (types = (types || "").match(
                         core_rnotwhite
                     ) || ["",]).length;
@@ -3201,10 +3197,12 @@
                     )),
                     (special = jQuery.event.special[type] || {
                     }),
-                    (type =
-              (selector ? special.delegateType : special.bindType) || type),
-                    (special = jQuery.event.special[type] || {
-                    }),
+                    (special =
+              jQuery.event.special[
+                  (type =
+                  (selector ? special.delegateType : special.bindType) || type)
+              ] || {
+              }),
                     (handleObj = jQuery.extend(
                         {
                             type: type,
@@ -3407,10 +3405,9 @@
           (type.indexOf(
               "."
           ) >= 0 &&
-            ((namespaces = type.split(
+            ((type = (namespaces = type.split(
                 "."
-            )),
-            (type = namespaces.shift(
+            )).shift(
             )),
             namespaces.sort(
             )),
@@ -4204,18 +4201,20 @@
                     ? void (fn = returnFalse)
                     : fn
                         ? (1 === one &&
-              ((origFn = fn),
               ((fn = function (
                   event
               ) {
-                  return jQuery(
-                  ).off(
-                      event
-                  ), origFn.apply(
-                      this,
-                      arguments
+                  return (
+                      jQuery(
+                      ).off(
+                          event
+                      ), (origFn = fn).apply(
+                          this,
+                          arguments
+                      )
                   );
-              }).guid = origFn.guid || (origFn.guid = jQuery.guid++))),
+              }),
+              (fn.guid = origFn.guid || (origFn.guid = jQuery.guid++))),
                         this.each(
                             function (
                             ) {
@@ -4730,450 +4729,445 @@
                 seed
             );
         }
-        (isXML = Sizzle.isXML = function (
-            elem
-        ) {
-            var documentElement =
-          elem && (elem.ownerDocument || elem).documentElement;
-            return !!documentElement && "HTML" !== documentElement.nodeName;
-        }),
         (setDocument = Sizzle.setDocument = function (
             node
         ) {
             var doc = node ? node.ownerDocument || node : preferredDoc;
             return (
                 doc !== document &&
-              9 === doc.nodeType &&
-              doc.documentElement &&
-              ((document = doc),
-              (docElem = doc.documentElement),
-              (documentIsXML = isXML(
-                  doc
-              )),
-              (support.tagNameNoComments = assert(
-                  function (
-                      div
-                  ) {
-                      return (
-                          div.appendChild(
-                              doc.createComment(
-                                  ""
-                              )
-                          ),
-                          !div.getElementsByTagName(
-                              "*"
-                          ).length
-                      );
-                  }
-              )),
-              (support.attributes = assert(
-                  function (
-                      div
-                  ) {
-                      div.innerHTML = "<select></select>";
-                      var type = typeof div.lastChild.getAttribute(
-                          "multiple"
-                      );
-                      return "boolean" !== type && "string" !== type;
-                  }
-              )),
-              (support.getByClassName = assert(
-                  function (
-                      div
-                  ) {
-                      return (
-                          (div.innerHTML =
-                    "<div class='hidden e'></div><div class='hidden'></div>"),
-                          !!div.getElementsByClassName &&
-                    !!div.getElementsByClassName(
-                        "e"
-                    ).length &&
-                    ((div.lastChild.className = "e"),
-                    2 === div.getElementsByClassName(
-                        "e"
-                    ).length)
-                      );
-                  }
-              )),
-              (support.getByName = assert(
-                  function (
-                      div
-                  ) {
-                      (div.id = expando + 0),
-                      (div.innerHTML =
-                    "<a name='" +
-                    expando +
-                    "'></a><div name='" +
-                    expando +
-                    "'></div>"),
-                      docElem.insertBefore(
-                          div,
-                          docElem.firstChild
-                      );
-                      var pass =
-                  doc.getElementsByName &&
-                  doc.getElementsByName(
-                      expando
-                  ).length ===
-                    2 + doc.getElementsByName(
-                        expando + 0
-                    ).length;
-                      return (
-                          (support.getIdNotName = !doc.getElementById(
-                              expando
-                          )),
-                          docElem.removeChild(
-                              div
-                          ),
-                          pass
-                      );
-                  }
-              )),
-              (Expr.attrHandle = assert(
-                  function (
-                      div
-                  ) {
-                      return (
-                          (div.innerHTML = "<a href='#'></a>"),
-                          div.firstChild &&
-                    void 0 !== div.firstChild.getAttribute &&
-                    "#" === div.firstChild.getAttribute(
-                        "href"
-                    )
-                      );
-                  }
-              )
-                  ? {
-                  }
-                  : {
-                      href: function (
-                          elem
-                      ) {
-                          return elem.getAttribute(
-                              "href",
-                              2
-                          );
-                      },
-                      type: function (
-                          elem
-                      ) {
-                          return elem.getAttribute(
-                              "type"
-                          );
-                      },
-                  }),
-              support.getIdNotName
-                  ? ((Expr.find.ID = function (
-                      id, context
-                  ) {
-                      if (void 0 !== context.getElementById && !documentIsXML) {
-                          var m = context.getElementById(
-                              id
-                          );
-                          return m && m.parentNode ? [m,] : [];
-                      }
-                  }),
-                  (Expr.filter.ID = function (
-                      id
-                  ) {
-                      var attrId = id.replace(
-                          runescape,
-                          funescape
-                      );
-                      return function (
-                          elem
-                      ) {
-                          return elem.getAttribute(
-                              "id"
-                          ) === attrId;
-                      };
-                  }))
-                  : ((Expr.find.ID = function (
-                      id, context
-                  ) {
-                      if (void 0 !== context.getElementById && !documentIsXML) {
-                          var m = context.getElementById(
-                              id
-                          );
-                          return m
-                              ? m.id === id ||
-                          (void 0 !== m.getAttributeNode &&
-                            m.getAttributeNode(
-                                "id"
-                            ).value === id)
-                                  ? [m,]
-                                  : void 0
-                              : [];
-                      }
-                  }),
-                  (Expr.filter.ID = function (
-                      id
-                  ) {
-                      var attrId = id.replace(
-                          runescape,
-                          funescape
-                      );
-                      return function (
-                          elem
-                      ) {
-                          var node =
-                        void 0 !== elem.getAttributeNode &&
-                        elem.getAttributeNode(
-                            "id"
-                        );
-                          return node && node.value === attrId;
-                      };
-                  })),
-              (Expr.find.TAG = support.tagNameNoComments
-                  ? function (
-                      tag, context
-                  ) {
-                      if (void 0 !== context.getElementsByTagName)
-                          return context.getElementsByTagName(
-                              tag
-                          );
-                  }
-                  : function (
-                      tag, context
-                  ) {
-                      var elem,
-                          tmp = [],
-                          i = 0,
-                          results = context.getElementsByTagName(
-                              tag
-                          );
-                      if ("*" === tag) {
-                          for (; (elem = results[i++]); )
-                              1 === elem.nodeType && tmp.push(
-                                  elem
-                              );
-                          return tmp;
-                      }
-                      return results;
-                  }),
-              (Expr.find.NAME =
-                support.getByName &&
+            9 === doc.nodeType &&
+            doc.documentElement &&
+            ((document = doc),
+            (docElem = doc.documentElement),
+            (documentIsXML = (isXML = Sizzle.isXML = function (
+                elem
+            ) {
+                var documentElement =
+                elem && (elem.ownerDocument || elem).documentElement;
+                return !!documentElement && "HTML" !== documentElement.nodeName;
+            })(
+                doc
+            )),
+            (support.tagNameNoComments = assert(
                 function (
+                    div
+                ) {
+                    return (
+                        div.appendChild(
+                            doc.createComment(
+                                ""
+                            )
+                        ),
+                        !div.getElementsByTagName(
+                            "*"
+                        ).length
+                    );
+                }
+            )),
+            (support.attributes = assert(
+                function (
+                    div
+                ) {
+                    div.innerHTML = "<select></select>";
+                    var type = typeof div.lastChild.getAttribute(
+                        "multiple"
+                    );
+                    return "boolean" !== type && "string" !== type;
+                }
+            )),
+            (support.getByClassName = assert(
+                function (
+                    div
+                ) {
+                    return (
+                        (div.innerHTML =
+                  "<div class='hidden e'></div><div class='hidden'></div>"),
+                        !!div.getElementsByClassName &&
+                  !!div.getElementsByClassName(
+                      "e"
+                  ).length &&
+                  ((div.lastChild.className = "e"),
+                  2 === div.getElementsByClassName(
+                      "e"
+                  ).length)
+                    );
+                }
+            )),
+            (support.getByName = assert(
+                function (
+                    div
+                ) {
+                    (div.id = expando + 0),
+                    (div.innerHTML =
+                  "<a name='" +
+                  expando +
+                  "'></a><div name='" +
+                  expando +
+                  "'></div>"),
+                    docElem.insertBefore(
+                        div,
+                        docElem.firstChild
+                    );
+                    var pass =
+                doc.getElementsByName &&
+                doc.getElementsByName(
+                    expando
+                ).length ===
+                  2 + doc.getElementsByName(
+                      expando + 0
+                  ).length;
+                    return (
+                        (support.getIdNotName = !doc.getElementById(
+                            expando
+                        )),
+                        docElem.removeChild(
+                            div
+                        ),
+                        pass
+                    );
+                }
+            )),
+            (Expr.attrHandle = assert(
+                function (
+                    div
+                ) {
+                    return (
+                        (div.innerHTML = "<a href='#'></a>"),
+                        div.firstChild &&
+                  void 0 !== div.firstChild.getAttribute &&
+                  "#" === div.firstChild.getAttribute(
+                      "href"
+                  )
+                    );
+                }
+            )
+                ? {
+                }
+                : {
+                    href: function (
+                        elem
+                    ) {
+                        return elem.getAttribute(
+                            "href",
+                            2
+                        );
+                    },
+                    type: function (
+                        elem
+                    ) {
+                        return elem.getAttribute(
+                            "type"
+                        );
+                    },
+                }),
+            support.getIdNotName
+                ? ((Expr.find.ID = function (
+                    id, context
+                ) {
+                    if (void 0 !== context.getElementById && !documentIsXML) {
+                        var m = context.getElementById(
+                            id
+                        );
+                        return m && m.parentNode ? [m,] : [];
+                    }
+                }),
+                (Expr.filter.ID = function (
+                    id
+                ) {
+                    var attrId = id.replace(
+                        runescape,
+                        funescape
+                    );
+                    return function (
+                        elem
+                    ) {
+                        return elem.getAttribute(
+                            "id"
+                        ) === attrId;
+                    };
+                }))
+                : ((Expr.find.ID = function (
+                    id, context
+                ) {
+                    if (void 0 !== context.getElementById && !documentIsXML) {
+                        var m = context.getElementById(
+                            id
+                        );
+                        return m
+                            ? m.id === id ||
+                        (void 0 !== m.getAttributeNode &&
+                          m.getAttributeNode(
+                              "id"
+                          ).value === id)
+                                ? [m,]
+                                : void 0
+                            : [];
+                    }
+                }),
+                (Expr.filter.ID = function (
+                    id
+                ) {
+                    var attrId = id.replace(
+                        runescape,
+                        funescape
+                    );
+                    return function (
+                        elem
+                    ) {
+                        var node =
+                      void 0 !== elem.getAttributeNode &&
+                      elem.getAttributeNode(
+                          "id"
+                      );
+                        return node && node.value === attrId;
+                    };
+                })),
+            (Expr.find.TAG = support.tagNameNoComments
+                ? function (
                     tag, context
                 ) {
-                    if (void 0 !== context.getElementsByName)
-                        return context.getElementsByName(
-                            name
+                    if (void 0 !== context.getElementsByTagName)
+                        return context.getElementsByTagName(
+                            tag
                         );
-                }),
-              (Expr.find.CLASS =
-                support.getByClassName &&
-                function (
-                    className, context
+                }
+                : function (
+                    tag, context
                 ) {
-                    if (
-                        void 0 !== context.getElementsByClassName &&
-                    !documentIsXML
-                    )
-                        return context.getElementsByClassName(
-                            className
+                    var elem,
+                        tmp = [],
+                        i = 0,
+                        results = context.getElementsByTagName(
+                            tag
                         );
+                    if ("*" === tag) {
+                        for (; (elem = results[i++]); )
+                            1 === elem.nodeType && tmp.push(
+                                elem
+                            );
+                        return tmp;
+                    }
+                    return results;
                 }),
-              (rbuggyMatches = []),
-              (rbuggyQSA = [":focus",]),
-              (support.qsa = isNative(
-                  doc.querySelectorAll
-              )) &&
-                (assert(
-                    function (
-                        div
-                    ) {
-                        (div.innerHTML =
-                    "<select><option selected=''></option></select>"),
-                        div.querySelectorAll(
-                            "[selected]"
-                        ).length ||
-                      rbuggyQSA.push(
-                          "\\[" +
-                          whitespace +
-                          "*(?:checked|disabled|ismap|multiple|readonly|selected|value)",
-                      ),
-                        div.querySelectorAll(
-                            ":checked"
-                        ).length ||
-                      rbuggyQSA.push(
-                          ":checked"
+            (Expr.find.NAME =
+              support.getByName &&
+              function (
+                  tag, context
+              ) {
+                  if (void 0 !== context.getElementsByName)
+                      return context.getElementsByName(
+                          name
                       );
-                    }
-                ),
-                assert(
-                    function (
-                        div
-                    ) {
-                        (div.innerHTML = "<input type='hidden' i=''/>"),
-                        div.querySelectorAll(
-                            "[i^='']"
-                        ).length &&
-                      rbuggyQSA.push(
-                          "[*^$]=" + whitespace + "*(?:\"\"|'')"
+              }),
+            (Expr.find.CLASS =
+              support.getByClassName &&
+              function (
+                  className, context
+              ) {
+                  if (void 0 !== context.getElementsByClassName && !documentIsXML)
+                      return context.getElementsByClassName(
+                          className
+                      );
+              }),
+            (rbuggyMatches = []),
+            (rbuggyQSA = [":focus",]),
+            (support.qsa = isNative(
+                doc.querySelectorAll
+            )) &&
+              (assert(
+                  function (
+                      div
+                  ) {
+                      (div.innerHTML =
+                  "<select><option selected=''></option></select>"),
+                      div.querySelectorAll(
+                          "[selected]"
+                      ).length ||
+                    rbuggyQSA.push(
+                        "\\[" +
+                        whitespace +
+                        "*(?:checked|disabled|ismap|multiple|readonly|selected|value)",
+                    ),
+                      div.querySelectorAll(
+                          ":checked"
+                      ).length ||
+                    rbuggyQSA.push(
+                        ":checked"
+                    );
+                  }
+              ),
+              assert(
+                  function (
+                      div
+                  ) {
+                      (div.innerHTML = "<input type='hidden' i=''/>"),
+                      div.querySelectorAll(
+                          "[i^='']"
+                      ).length &&
+                    rbuggyQSA.push(
+                        "[*^$]=" + whitespace + "*(?:\"\"|'')"
+                    ),
+                      div.querySelectorAll(
+                          ":enabled"
+                      ).length ||
+                    rbuggyQSA.push(
+                        ":enabled",
+                        ":disabled"
+                    ),
+                      div.querySelectorAll(
+                          "*,:x"
                       ),
-                        div.querySelectorAll(
-                            ":enabled"
-                        ).length ||
                       rbuggyQSA.push(
-                          ":enabled",
-                          ":disabled"
+                          ",.*:"
+                      );
+                  }
+              )),
+            (support.matchesSelector = isNative(
+                (matches =
+                docElem.matchesSelector ||
+                docElem.mozMatchesSelector ||
+                docElem.webkitMatchesSelector ||
+                docElem.oMatchesSelector ||
+                docElem.msMatchesSelector),
+            )) &&
+              assert(
+                  function (
+                      div
+                  ) {
+                      (support.disconnectedMatch = matches.call(
+                          div,
+                          "div"
+                      )),
+                      matches.call(
+                          div,
+                          "[s!='']:x"
                       ),
-                        div.querySelectorAll(
-                            "*,:x"
-                        ),
-                        rbuggyQSA.push(
-                            ",.*:"
-                        );
-                    }
-                )),
-              (support.matchesSelector = isNative(
-                  (matches =
-                  docElem.matchesSelector ||
-                  docElem.mozMatchesSelector ||
-                  docElem.webkitMatchesSelector ||
-                  docElem.oMatchesSelector ||
-                  docElem.msMatchesSelector),
-              )) &&
-                assert(
-                    function (
-                        div
-                    ) {
-                        (support.disconnectedMatch = matches.call(
-                            div,
-                            "div"
-                        )),
-                        matches.call(
-                            div,
-                            "[s!='']:x"
-                        ),
-                        rbuggyMatches.push(
-                            "!=",
-                            pseudos
-                        );
-                    }
-                ),
-              (rbuggyQSA = new RegExp(
-                  rbuggyQSA.join(
-                      "|"
-                  )
-              )),
-              (rbuggyMatches = new RegExp(
-                  rbuggyMatches.join(
-                      "|"
-                  )
-              )),
-              (contains =
-                isNative(
-                    docElem.contains
-                ) || docElem.compareDocumentPosition
-                    ? function (
-                        a, b
-                    ) {
-                        var adown = 9 === a.nodeType ? a.documentElement : a,
-                            bup = b && b.parentNode;
-                        return (
-                            a === bup ||
-                        !!(
-                            bup &&
-                          1 === bup.nodeType &&
-                          (adown.contains
-                              ? adown.contains(
-                                  bup
-                              )
-                              : a.compareDocumentPosition &&
-                              16 & a.compareDocumentPosition(
-                                  bup
-                              ))
-                        )
-                        );
-                    }
-                    : function (
-                        a, b
-                    ) {
-                        if (b)
-                            for (; (b = b.parentNode); ) if (b === a) return !0;
-                        return !1;
-                    }),
-              (sortOrder = docElem.compareDocumentPosition
+                      rbuggyMatches.push(
+                          "!=",
+                          pseudos
+                      );
+                  }
+              ),
+            (rbuggyQSA = new RegExp(
+                rbuggyQSA.join(
+                    "|"
+                )
+            )),
+            (rbuggyMatches = new RegExp(
+                rbuggyMatches.join(
+                    "|"
+                )
+            )),
+            (contains =
+              isNative(
+                  docElem.contains
+              ) || docElem.compareDocumentPosition
                   ? function (
                       a, b
                   ) {
-                      var compare;
-                      if (a === b) return (hasDuplicate = !0), 0;
-                      if (
-                          (compare =
-                        b.compareDocumentPosition &&
-                        a.compareDocumentPosition &&
-                        a.compareDocumentPosition(
-                            b
-                        ))
-                      ) {
-                          if (
-                              1 & compare ||
-                        (a.parentNode && 11 === a.parentNode.nodeType)
-                          ) {
-                              if (a === doc || contains(
-                                  preferredDoc,
-                                  a
-                              )) return -1;
-                              if (b === doc || contains(
-                                  preferredDoc,
-                                  b
-                              )) return 1;
-                              return 0;
-                          }
-                          return 4 & compare ? -1 : 1;
-                      }
-                      return a.compareDocumentPosition ? -1 : 1;
+                      var adown = 9 === a.nodeType ? a.documentElement : a,
+                          bup = b && b.parentNode;
+                      return (
+                          a === bup ||
+                      !!(
+                          bup &&
+                        1 === bup.nodeType &&
+                        (adown.contains
+                            ? adown.contains(
+                                bup
+                            )
+                            : a.compareDocumentPosition &&
+                            16 & a.compareDocumentPosition(
+                                bup
+                            ))
+                      )
+                      );
                   }
                   : function (
                       a, b
                   ) {
-                      var cur,
-                          i = 0,
-                          aup = a.parentNode,
-                          bup = b.parentNode,
-                          ap = [a,],
-                          bp = [b,];
-                      if (a === b) return (hasDuplicate = !0), 0;
-                      if (!aup || !bup)
-                          return a === doc
-                              ? -1
-                              : b === doc
-                                  ? 1
-                                  : aup
-                                      ? -1
-                                      : bup
-                                          ? 1
-                                          : 0;
-                      if (aup === bup) return siblingCheck(
-                          a,
-                          b
-                      );
-                      for (cur = a; (cur = cur.parentNode); ) ap.unshift(
-                          cur
-                      );
-                      for (cur = b; (cur = cur.parentNode); ) bp.unshift(
-                          cur
-                      );
-                      for (; ap[i] === bp[i]; ) i++;
-                      return i
-                          ? siblingCheck(
-                              ap[i],
-                              bp[i]
-                          )
-                          : ap[i] === preferredDoc
-                              ? -1
-                              : bp[i] === preferredDoc
-                                  ? 1
-                                  : 0;
+                      if (b) for (; (b = b.parentNode); ) if (b === a) return !0;
+                      return !1;
                   }),
-              (hasDuplicate = !1),
-              [0, 0,].sort(
-                  sortOrder
-              ),
-              (support.detectDuplicates = hasDuplicate)),
+            (sortOrder = docElem.compareDocumentPosition
+                ? function (
+                    a, b
+                ) {
+                    var compare;
+                    if (a === b) return (hasDuplicate = !0), 0;
+                    if (
+                        (compare =
+                      b.compareDocumentPosition &&
+                      a.compareDocumentPosition &&
+                      a.compareDocumentPosition(
+                          b
+                      ))
+                    ) {
+                        if (
+                            1 & compare ||
+                      (a.parentNode && 11 === a.parentNode.nodeType)
+                        ) {
+                            if (a === doc || contains(
+                                preferredDoc,
+                                a
+                            )) return -1;
+                            if (b === doc || contains(
+                                preferredDoc,
+                                b
+                            )) return 1;
+                            return 0;
+                        }
+                        return 4 & compare ? -1 : 1;
+                    }
+                    return a.compareDocumentPosition ? -1 : 1;
+                }
+                : function (
+                    a, b
+                ) {
+                    var cur,
+                        i = 0,
+                        aup = a.parentNode,
+                        bup = b.parentNode,
+                        ap = [a,],
+                        bp = [b,];
+                    if (a === b) return (hasDuplicate = !0), 0;
+                    if (!aup || !bup)
+                        return a === doc
+                            ? -1
+                            : b === doc
+                                ? 1
+                                : aup
+                                    ? -1
+                                    : bup
+                                        ? 1
+                                        : 0;
+                    if (aup === bup) return siblingCheck(
+                        a,
+                        b
+                    );
+                    for (cur = a; (cur = cur.parentNode); ) ap.unshift(
+                        cur
+                    );
+                    for (cur = b; (cur = cur.parentNode); ) bp.unshift(
+                        cur
+                    );
+                    for (; ap[i] === bp[i]; ) i++;
+                    return i
+                        ? siblingCheck(
+                            ap[i],
+                            bp[i]
+                        )
+                        : ap[i] === preferredDoc
+                            ? -1
+                            : bp[i] === preferredDoc
+                                ? 1
+                                : 0;
+                }),
+            (hasDuplicate = !1),
+            [0, 0,].sort(
+                sortOrder
+            ),
+            (support.detectDuplicates = hasDuplicate)),
                 document
             );
         }),
@@ -5636,12 +5630,13 @@
                                     forward && useCache)
                                 )
                                     for (
-                                        cache =
-                          (outerCache =
-                            parent[expando] || (parent[expando] = {
-                            }))[type] ||
-                          [],
-                                        nodeIndex = cache[0] === dirruns && cache[1],
+                                        nodeIndex =
+                          (cache =
+                            (outerCache =
+                              parent[expando] || (parent[expando] = {
+                              }))[
+                                type
+                            ] || [])[0] === dirruns && cache[1],
                                         diff = cache[0] === dirruns && cache[2],
                                         node = nodeIndex && parent.childNodes[nodeIndex];
                                         (node =
@@ -8197,23 +8192,25 @@
                             elem
                         )) {
                             for (
-                                tmp = tmp || safe.appendChild(
-                                    context.createElement(
-                                        "div"
-                                    )
-                                ),
-                                wrap =
+                                (tmp =
+                tmp ||
+                safe.appendChild(
+                    context.createElement(
+                        "div"
+                    )
+                )).innerHTML =
+                (wrap =
                   wrapMap[
                       (tag = (rtagName.exec(
                           elem
                       ) || ["", "",])[1].toLowerCase(
                       ))
-                  ] || wrapMap._default,
-                                tmp.innerHTML =
-                  wrap[1] + elem.replace(
-                      rxhtmlTag,
-                      "<$1></$2>"
-                  ) + wrap[2],
+                  ] || wrapMap._default)[1] +
+                elem.replace(
+                    rxhtmlTag,
+                    "<$1></$2>"
+                ) +
+                wrap[2],
                                 j = wrap[0];
                                 j--;
 
@@ -8234,17 +8231,17 @@
                                 !jQuery.support.tbody)
                             )
                                 for (
-                                    elem =
-                  "table" !== tag || rtbody.test(
-                      elem
-                  )
-                      ? "<table>" !== wrap[1] || rtbody.test(
-                          elem
-                      )
-                          ? 0
-                          : tmp
-                      : tmp.firstChild,
-                                    j = elem && elem.childNodes.length;
+                                    j =
+                  (elem =
+                    "table" !== tag || rtbody.test(
+                        elem
+                    )
+                        ? "<table>" !== wrap[1] || rtbody.test(
+                            elem
+                        )
+                            ? 0
+                            : tmp
+                        : tmp.firstChild) && elem.childNodes.length;
                                     j--;
 
                                 )
@@ -8337,7 +8334,7 @@
                         (acceptData || jQuery.acceptData(
                             elem
                         )) &&
-          ((id = elem[internalKey]), (data = id && cache[id]))
+          (data = (id = elem[internalKey]) && cache[id])
                     ) {
                         if (data.events)
                             for (type in data.events)
@@ -8810,8 +8807,8 @@
                   name
               ) &&
               ((left = style.left),
-              (rs = elem.runtimeStyle),
-              (rsLeft = rs && rs.left) && (rs.left = elem.currentStyle.left),
+              (rsLeft = (rs = elem.runtimeStyle) && rs.left) &&
+                (rs.left = elem.currentStyle.left),
               (style.left = "fontSize" === name ? "1em" : ret),
               (ret = style.pixelLeft + "px"),
               (style.left = left),
@@ -8942,19 +8939,20 @@
             nodeName,
             doc
         )) && display) ||
-          ((iframe = (
-              iframe ||
-            jQuery(
-                "<iframe frameborder='0' width='0' height='0'/>"
-            ).css(
-                "cssText",
-                "display:block !important",
-            )
-          ).appendTo(
-              doc.documentElement
-          )),
-          (doc = (iframe[0].contentWindow || iframe[0].contentDocument)
-              .document).write(
+          ((doc = (
+              (iframe = (
+                  iframe ||
+              jQuery(
+                  "<iframe frameborder='0' width='0' height='0'/>"
+              ).css(
+                  "cssText",
+                  "display:block !important",
+              )
+              ).appendTo(
+                  doc.documentElement
+              ))[0].contentWindow ||
+            iframe[0].contentDocument
+          ).document).write(
               "<!doctype html><html><body>"
           ),
           doc.close(
@@ -9302,12 +9300,6 @@
             add = function (
                 key, value
             ) {
-                s[s.length] =
-            encodeURIComponent(
-                key
-            ) +
-            "=" +
-            encodeURIComponent(
                 (value = jQuery.isFunction(
                     value
                 )
@@ -9316,7 +9308,12 @@
                     : null == value
                         ? ""
                         : value),
-            );
+                (s[s.length] =
+              encodeURIComponent(
+                  key
+              ) + "=" + encodeURIComponent(
+                  value
+              ));
             };
         if (
             (void 0 === traditional &&
@@ -10078,8 +10075,7 @@
                         ))
                             .state),
                         (success = isSuccess.data),
-                        (error = isSuccess.error),
-                        (isSuccess = !error)))
+                        (isSuccess = !(error = isSuccess.error))))
                 : ((error = statusText),
                 (status || !statusText) &&
                   ((statusText = "error"), status < 0 && (status = 0))),
