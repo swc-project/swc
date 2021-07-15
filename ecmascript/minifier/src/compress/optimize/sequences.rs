@@ -665,6 +665,13 @@ impl Optimizer<'_> {
 
                         match &**b {
                             Expr::Ident(..) => {}
+
+                            Expr::Member(MemberExpr {
+                                obj: ExprOrSuper::Expr(obj),
+                                computed: false,
+                                ..
+                            }) if !obj.may_have_side_effects() => {}
+
                             _ => {
                                 return false;
                             }
@@ -678,6 +685,11 @@ impl Optimizer<'_> {
 
                             match &**b {
                                 Expr::Ident(..) => {}
+                                Expr::Member(MemberExpr {
+                                    obj: ExprOrSuper::Expr(obj),
+                                    computed: false,
+                                    ..
+                                }) if !obj.may_have_side_effects() => {}
                                 _ => {
                                     return false;
                                 }
