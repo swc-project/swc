@@ -440,7 +440,7 @@ impl Optimizer<'_> {
 
         match n {
             Expr::Bin(BinExpr {
-                op: op @ op!("&&") | op @ op!("||"),
+                op: op!("&&") | op!("||"),
                 right,
                 ..
             }) => {
