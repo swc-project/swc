@@ -730,7 +730,6 @@ impl Optimizer<'_> {
 
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(b_callee),
-                args,
                 ..
             }) => {
                 if self.merge_sequential_expr(a, &mut **b_callee) {
