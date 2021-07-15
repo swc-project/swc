@@ -45,6 +45,7 @@ mod computed_props;
 mod conditionals;
 mod dead_code;
 mod evaluate;
+mod fns;
 mod hoist_props;
 mod if_return;
 mod iife;
