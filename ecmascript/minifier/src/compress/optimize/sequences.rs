@@ -656,21 +656,65 @@ impl Optimizer<'_> {
                 }
             }
 
-            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => match &mut b.left {
-                PatOrExpr::Expr(b) => {
-                    if self.merge_sequential_expr(a, &mut **b) {
-                        return true;
-                    }
-                }
-                PatOrExpr::Pat(b) => match &mut **b {
-                    Pat::Expr(b) => {
+            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
+                match &mut b.left {
+                    PatOrExpr::Expr(b) => {
                         if self.merge_sequential_expr(a, &mut **b) {
                             return true;
                         }
+
+                        match &**b {
+                            Expr::Ident(..) => {}
+                            _ => {
+                                return false;
+                            }
+                        }
                     }
-                    _ => {}
-                },
-            },
+                    PatOrExpr::Pat(b) => match &mut **b {
+                        Pat::Expr(b) => {
+                            if self.merge_sequential_expr(a, &mut **b) {
+                                return true;
+                            }
+
+                            match &**b {
+                                Expr::Ident(..) => {}
+                                _ => {
+                                    return false;
+                                }
+                            }
+                        }
+                        Pat::Ident(..) => {}
+                        _ => return false,
+                    },
+                }
+
+                if self.merge_sequential_expr(a, &mut b.right) {
+                    return true;
+                }
+            }
+
+            Expr::Array(b) => {
+                for elem in &mut b.elems {
+                    match elem {
+                        Some(elem) => {
+                            if self.merge_sequential_expr(a, &mut elem.expr) {
+                                return true;
+                            }
+
+                            match &*elem.expr {
+                                Expr::Ident(..) => {}
+                                _ => {
+                                    // To preserve side-effects, we need to abort.
+                                    break;
+                                }
+                            }
+                        }
+                        None => {}
+                    }
+                }
+
+                return false;
+            }
 
             _ => {}
         }
