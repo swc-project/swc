@@ -4146,7 +4146,7 @@
                             directive.$$isolateScope
                                 ? isolateScope
                                 : scope,
-                                    $element: attrs.$$element,
+                                    $element: $element,
                                     $attrs: attrs,
                                     $transclude: transcludeFn,
                                 };
@@ -4160,7 +4160,7 @@
                                 directive.name
                             ] = controllerInstance),
                             hasElementTranscludeDirective ||
-                          attrs.$$element.data(
+                          $element.data(
                               "$" + directive.name + "Controller",
                               controllerInstance,
                           ),
@@ -8637,7 +8637,7 @@
                                 }
                                 traverseScopesLoop: do {
                                     if ((watchers = current.$$watchers))
-                                        for (length = current.$$watchers.length; length--; )
+                                        for (length = watchers.length; length--; )
                                             try {
                                                 if ((watch = watchers[length])) {
                                                     if (

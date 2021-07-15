@@ -1592,7 +1592,7 @@
         value !== (hidden ? "hide" : "show") && handled.push(
             index
         ));
-        if (((length = handled.length), handled.length))
+        if ((length = handled.length))
             for (
                 index = 0,
                 ("hidden" in

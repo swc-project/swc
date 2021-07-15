@@ -357,7 +357,7 @@
             set: function (
                 key, val, options
             ) {
-                var attr, attrs, changes, current;
+                var attr, attrs, unset, changes, prev, current;
                 if (null == key) return this;
                 if (
                     ("object" == typeof key
@@ -372,7 +372,8 @@
                     ))
                 )
                     return !1;
-                for (attr in ((changes = []),
+                for (attr in ((unset = options.unset),
+                (changes = []),
                 this._changing,
                 (this._changing = !0),
                 this._changing ||
@@ -382,25 +383,23 @@
         (this.changed = {
         })),
                 (current = this.attributes),
-                this._previousAttributes,
+                (prev = this._previousAttributes),
                 this.idAttribute in attrs && (this.id = attrs[this.idAttribute]),
                 attrs))
                     (val = attrs[attr]),
                     _.isEqual(
-                        this.attributes[attr],
+                        current[attr],
                         val
                     ) || changes.push(
                         attr
                     ),
                     _.isEqual(
-                        this._previousAttributes[attr],
+                        prev[attr],
                         val
                     )
                         ? delete this.changed[attr]
                         : (this.changed[attr] = val),
-                    options.unset
-                        ? delete this.attributes[attr]
-                        : (this.attributes[attr] = val);
+                    unset ? delete current[attr] : (current[attr] = val);
                 if (!options.silent) {
                     changes.length && (this._pending = !0);
                     for (var i = 0, l = changes.length; i < l; i++)

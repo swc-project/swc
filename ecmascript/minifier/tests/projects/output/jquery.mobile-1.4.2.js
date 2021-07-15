@@ -1862,6 +1862,7 @@
                     type, event, data
                 ) {
                     var prop,
+                        orig,
                         callback = this.options[type];
                     if (
                         ((data = data || {
@@ -1875,10 +1876,9 @@
                         ).toLowerCase(
                         )),
                         (event.target = this.element[0]),
-                        event.originalEvent)
+                        (orig = event.originalEvent))
                     )
-                        for (prop in event.originalEvent)
-                            prop in event || (event[prop] = event.originalEvent[prop]);
+                        for (prop in orig) prop in event || (event[prop] = orig[prop]);
                     return (
                         this.element.trigger(
                             event,
@@ -4055,7 +4055,7 @@
                     t.search(
                         /^(mouse|click)/
                     ) > -1 && (props = mouseEventProps),
-                    event.originalEvent)
+                    oe)
                 )
                     for (i = props.length; i; ) event[(prop = props[--i])] = oe[prop];
                 if (
@@ -4068,7 +4068,7 @@
                         /^touch/
                     ) &&
             ((t = (ne = getNativeEvent(
-                event.originalEvent
+                oe
             )).touches),
             (ct = ne.changedTouches),
             (touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)))
