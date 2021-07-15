@@ -2047,7 +2047,7 @@ export interface TsEnumDeclaration extends Node, HasSpan {
   declare: boolean;
   is_const: boolean;
   id: Identifier;
-  member: TsEnumMember[];
+  members: TsEnumMember[];
 }
 
 export interface TsEnumMember extends Node, HasSpan {

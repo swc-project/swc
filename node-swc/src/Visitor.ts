@@ -729,7 +729,7 @@ export default class Visitor {
 
   visitTsEnumDeclaration(n: TsEnumDeclaration): Declaration {
     n.id = this.visitIdentifier(n.id);
-    n.member = this.visitTsEnumMembers(n.member);
+    n.members = this.visitTsEnumMembers(n.members);
     return n;
   }
 
