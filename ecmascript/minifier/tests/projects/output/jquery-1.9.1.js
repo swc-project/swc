@@ -2914,7 +2914,10 @@
             when: function (
                 subordinate
             ) {
-                var i = 0,
+                var progressValues,
+                    progressContexts,
+                    resolveContexts,
+                    i = 0,
                     resolveValues = core_slice.call(
                         arguments
                     ),
@@ -2953,10 +2956,7 @@
                                     values
                                 );
                         };
-                    },
-                    progressValues,
-                    progressContexts,
-                    resolveContexts;
+                    };
                 if (length > 1)
                     for (
                         progressValues = new Array(
@@ -11698,10 +11698,12 @@
         setOffset: function (
             elem, options, i
         ) {
-            var position = jQuery.css(
-                elem,
-                "position"
-            );
+            var curTop,
+                curLeft,
+                position = jQuery.css(
+                    elem,
+                    "position"
+                );
             "static" === position && (elem.style.position = "relative");
             var curElem = jQuery(
                     elem
@@ -11725,9 +11727,7 @@
                 props = {
                 },
                 curPosition = {
-                },
-                curTop,
-                curLeft;
+                };
             calculatePosition
                 ? ((curTop = (curPosition = curElem.position(
                 )).top),

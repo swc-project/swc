@@ -4934,7 +4934,8 @@ var IFrame = new Type(
         "IFrame",
         function (
         ) {
-            var params = Array.link(
+            var iframe,
+                params = Array.link(
                     arguments,
                     {
                         properties: Type.isObject,
@@ -4946,8 +4947,7 @@ var IFrame = new Type(
                     }
                 ),
                 props = params.properties || {
-                },
-                iframe;
+                };
             params.iframe && (iframe = document.id(
                 params.iframe
             ));
@@ -6108,8 +6108,8 @@ Elements.alias(
             },
             adopt: function (
             ) {
-                var parent = this,
-                    fragment,
+                var fragment,
+                    parent = this,
                     elements = Array.flatten(
                         arguments
                     ),
@@ -6334,12 +6334,12 @@ Elements.alias(
             clone: function (
                 contents, keepid
             ) {
-                var clone = this.cloneNode(
+                var i,
+                    clone = this.cloneNode(
                         (contents = !1 !== contents)
                     ),
                     ce = [clone,],
-                    te = [this,],
-                    i;
+                    te = [this,];
                 for (
                     contents &&
             (ce.append(
@@ -6811,11 +6811,11 @@ Elements.alias(
                 ? function (
                     element
                 ) {
-                    var filter =
+                    var opacity,
+                        filter =
                 element.style.filter || element.getComputedStyle(
                     "filter"
-                ),
-                        opacity;
+                );
                     return (
                         filter && (opacity = filter.match(
                             reAlpha
@@ -9080,14 +9080,14 @@ Element1.implement(
         fade: function (
             how
         ) {
-            var fade = this.get(
+            var method,
+                toggle,
+                fade = this.get(
                     "tween"
                 ),
-                method,
                 args = ["opacity",].append(
                     arguments
-                ),
-                toggle;
+                );
             switch ((null == args[1] && (args[1] = "toggle"), args[1])) {
             case "in":
                 (method = "start"), (args[1] = 1);
@@ -10339,9 +10339,9 @@ var Cookie = new Class(
 ) {
     var ready,
         loaded,
-        checks = [],
         shouldPoll,
         timer,
+        checks = [],
         testElement = document.createElement(
             "div"
         ),

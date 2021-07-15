@@ -1,9 +1,9 @@
 (function (
 ) {
-    var root = this,
+    var Backbone,
+        root = this,
         previousBackbone = root.Backbone,
-        slice = [].slice,
-        Backbone;
+        slice = [].slice;
     (Backbone =
     "undefined" != typeof exports
         ? exports
@@ -2182,8 +2182,8 @@
         protoProps,
         staticProps,
     ) {
-        var parent = this,
-            child;
+        var child,
+            parent = this;
         (child =
         protoProps && _.has(
             protoProps,

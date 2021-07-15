@@ -906,13 +906,13 @@
                         elements, attr
                     ) {
                         if (!jQuery.mobile.ignoreContentEnabled) return elements;
-                        var count = elements.length,
-                            $newSet = jQuery(
-                            ),
-                            e,
+                        var e,
                             $element,
                             excluded,
-                            i;
+                            i,
+                            count = elements.length,
+                            $newSet = jQuery(
+                            );
                         for (i = 0; i < count; i++) {
                             for (
                                 $element = elements.eq(
@@ -1278,9 +1278,9 @@
                                     };
                                 return function (
                                 ) {
-                                    var __super = this._super,
-                                        __superApply = this._superApply,
-                                        returnValue;
+                                    var returnValue,
+                                        __super = this._super,
+                                        __superApply = this._superApply;
                                     return (
                                         (this._super = _super),
                                         (this._superApply = _superApply),
@@ -1605,10 +1605,10 @@
                 option: function (
                     key, value
                 ) {
-                    var options = key,
-                        parts,
+                    var parts,
                         curOption,
-                        i;
+                        i,
+                        options = key;
                     if (0 === arguments.length)
                         return jQuery.widget.extend(
                             {
@@ -2170,9 +2170,9 @@
         (function (
             $, window, undefined
         ) {
-            var str_hashchange = "hashchange",
+            var fake_onhashchange,
+                str_hashchange = "hashchange",
                 doc = document,
-                fake_onhashchange,
                 special = jQuery.event.special,
                 doc_mode = doc.documentMode,
                 supports_onhashchange =
@@ -2222,9 +2222,9 @@
             )),
             (fake_onhashchange = (function (
             ) {
-                var self = {
+                var timeout_id,
+                    self = {
                     },
-                    timeout_id,
                     last_hash = get_fragment(
                     ),
                     fn_retval = function (
@@ -2437,7 +2437,8 @@
             function propExists(
                 prop
             ) {
-                var uc_prop = prop.charAt(
+                var v,
+                    uc_prop = prop.charAt(
                         0
                     ).toUpperCase(
                     ) + prop.substr(
@@ -2447,11 +2448,11 @@
                         uc_prop + " "
                     ) + uc_prop).split(
                         " ",
-                    ),
-                    v;
+                    );
                 for (v in props) if (void 0 !== fbCSS[props[v]]) return !0;
             }
-            var fakeBody = jQuery(
+            var nokiaLTE7_3,
+                fakeBody = jQuery(
                     "<body>"
                 ).prependTo(
                     "html"
@@ -2466,8 +2467,7 @@
           ),
                 bb = window.blackberry && !propExists(
                     "-webkit-transform"
-                ),
-                nokiaLTE7_3;
+                );
             jQuery.extend(
                 jQuery.mobile,
                 {
@@ -2512,7 +2512,10 @@
                     ),
                     cssTransform3d: (function (
                     ) {
-                        var mqProp = "transform-3d",
+                        var el,
+                            transforms,
+                            t,
+                            mqProp = "transform-3d",
                             ret = jQuery.mobile.media(
                                 "(-" +
                   vendors.join(
@@ -2523,10 +2526,7 @@
                   "),(" +
                   mqProp +
                   ")",
-                            ),
-                            el,
-                            transforms,
-                            t;
+                            );
                         if (ret) return !!ret;
                         for (t in ((el = document.createElement(
                             "div"
@@ -2662,12 +2662,12 @@
                     ),
                     cssPointerEvents: (function (
                     ) {
-                        var element = document.createElement(
+                        var supports,
+                            element = document.createElement(
                                 "x"
                             ),
                             documentElement = document.documentElement,
-                            getComputedStyle = window.getComputedStyle,
-                            supports;
+                            getComputedStyle = window.getComputedStyle;
                         return (
                             "pointerEvents" in element.style &&
               ((element.style.pointerEvents = "auto"),
@@ -2799,8 +2799,8 @@
         (function (
             $, undefined
         ) {
-            var $win = jQuery.mobile.window,
-                self,
+            var self,
+                $win = jQuery.mobile.window,
                 dummyFnToInitNavigate = function (
                 ) {};
             (jQuery.event.special.beforenavigate = {
@@ -3517,8 +3517,8 @@
                 ) {
                     var entry,
                         i,
-                        length = (stack = stack || this.stack).length,
-                        index;
+                        index,
+                        length = (stack = stack || this.stack).length;
                     for (i = 0; i < length; i++)
                         if (
                             (decodeURIComponent(
@@ -3995,7 +3995,9 @@
         (function (
             $, window, document, undefined
         ) {
-            var dataPropertyName = "virtualMouseBindings",
+            var threshold,
+                i,
+                dataPropertyName = "virtualMouseBindings",
                 touchTargetPropertyName = "virtualTouchID",
                 virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
                     " ",
@@ -4023,9 +4025,7 @@
                     document
                 ),
                 nextTouchID = 1,
-                lastTouchID = 0,
-                threshold,
-                i;
+                lastTouchID = 0;
             function getNativeEvent(
                 event
             ) {
@@ -4036,8 +4036,7 @@
             function createVirtualEvent(
                 event, eventType
             ) {
-                var t = event.type,
-                    oe,
+                var oe,
                     props,
                     ne,
                     prop,
@@ -4045,7 +4044,8 @@
                     touch,
                     i,
                     j,
-                    len;
+                    len,
+                    t = event.type;
                 if (
                     (((event = jQuery.Event(
                         event
@@ -4173,11 +4173,11 @@
             function mouseEventCallback(
                 event
             ) {
-                var touchID = jQuery.data(
+                var ve,
+                    touchID = jQuery.data(
                         event.target,
                         touchTargetPropertyName
-                    ),
-                    ve;
+                    );
                 blockMouseTriggers ||
           (lastTouchID && lastTouchID === touchID) ||
           ((ve = triggerVirtualEvent(
@@ -4198,12 +4198,12 @@
             function handleTouchStart(
                 event
             ) {
-                var touches = getNativeEvent(
-                        event
-                    ).touches,
-                    target,
+                var target,
                     flags,
-                    t;
+                    t,
+                    touches = getNativeEvent(
+                        event
+                    ).touches;
                 touches &&
           1 === touches.length &&
           (flags = getVirtualBindingFlags(
@@ -4292,11 +4292,11 @@
                 if (!blockTouchTriggers) {
                     disableTouchBindings(
                     );
-                    var flags = getVirtualBindingFlags(
+                    var ve,
+                        t,
+                        flags = getVirtualBindingFlags(
                             event.target
-                        ),
-                        ve,
-                        t;
+                        );
                     triggerVirtualEvent(
                         "vmouseup",
                         event,
@@ -4334,11 +4334,11 @@
             function hasVirtualBindings(
                 ele
             ) {
-                var bindings = jQuery.data(
+                var k,
+                    bindings = jQuery.data(
                         ele,
                         dataPropertyName
-                    ),
-                    k;
+                    );
                 if (bindings) for (k in bindings) if (bindings[k]) return !0;
                 return !1;
             }
@@ -4468,13 +4468,13 @@
             function (
                 e
             ) {
-                var cnt = clickBlockList.length,
-                    target = e.target,
-                    x,
+                var x,
                     y,
                     ele,
                     i,
-                    o;
+                    o,
+                    cnt = clickBlockList.length,
+                    target = e.target;
                 if (cnt)
                     for (
                         x = e.clientX,
@@ -4566,12 +4566,12 @@
                 enabled: !0,
                 setup: function (
                 ) {
-                    var thisObject = this,
+                    var scrolling,
+                        timer,
+                        thisObject = this,
                         $this = jQuery(
                             thisObject
-                        ),
-                        scrolling,
-                        timer;
+                        );
                     function trigger(
                         event, state
                     ) {
@@ -4633,8 +4633,8 @@
                         ) {
                             if (((isTaphold = !1), event.which && 1 !== event.which))
                                 return !1;
-                            var origTarget = event.target,
-                                timer;
+                            var timer,
+                                origTarget = event.target;
                             function clearTapTimer(
                             ) {
                                 clearTimeout(
@@ -5013,7 +5013,10 @@
                     );
                 },
             };
-            var handler = function (
+            var heldCall,
+                curr,
+                diff,
+                handler = function (
                 ) {
                     (diff = (curr = new Date(
                     ).getTime(
@@ -5031,31 +5034,28 @@
                             250 - diff
                         )));
                 },
-                lastCall = 0,
-                heldCall,
-                curr,
-                diff;
+                lastCall = 0;
         })(
             jQuery
         ),
         (function (
             $, window
         ) {
-            var win = jQuery(
-                    window
-                ),
-                event_name = "orientationchange",
-                get_orientation,
+            var get_orientation,
                 last_orientation,
                 initial_orientation_is_landscape,
                 initial_orientation_is_default,
+                ww,
+                wh,
+                landscape_threshold,
+                win = jQuery(
+                    window
+                ),
+                event_name = "orientationchange",
                 portrait_map = {
                     0: !0,
                     180: !0,
-                },
-                ww,
-                wh,
-                landscape_threshold;
+                };
             function handler(
             ) {
                 var orientation = get_orientation(
@@ -5593,11 +5593,11 @@
                     _recordScroll: function (
                     ) {
                         if (this.setLastScrollEnabled) {
-                            var active = this._getActiveHistory(
-                                ),
-                                currentScroll,
+                            var currentScroll,
                                 minScroll,
-                                defaultScroll;
+                                defaultScroll,
+                                active = this._getActiveHistory(
+                                );
                             active &&
               ((currentScroll = this._getScroll(
               )),
@@ -5866,13 +5866,13 @@
                     _find: function (
                         absUrl
                     ) {
-                        var fileUrl = this._createFileUrl(
+                        var page,
+                            fileUrl = this._createFileUrl(
                                 absUrl
                             ),
                             dataUrl = this._createDataUrl(
                                 absUrl
                             ),
-                            page,
                             initialContent = this._getInitialContent(
                             );
                         return (
@@ -6170,7 +6170,11 @@
                     load: function (
                         url, options
                     ) {
-                        var deferred = (options && options.deferred) || jQuery.Deferred(
+                        var fileUrl,
+                            dataUrl,
+                            pblEvent,
+                            triggerData,
+                            deferred = (options && options.deferred) || jQuery.Deferred(
                             ),
                             settings = jQuery.extend(
                                 {
@@ -6183,11 +6187,7 @@
                                 url,
                                 this._findBaseWithDefault(
                                 ),
-                            ),
-                            fileUrl,
-                            dataUrl,
-                            pblEvent,
-                            triggerData;
+                            );
                         if (
                             ((settings.reload = settings.reloadPage),
                             settings.data &&
@@ -6370,11 +6370,11 @@
                     _cssTransition: function (
                         to, from, options
                     ) {
-                        var transition = options.transition,
+                        var TransitionHandler,
+                            promise,
+                            transition = options.transition,
                             reverse = options.reverse,
-                            deferred = options.deferred,
-                            TransitionHandler,
-                            promise;
+                            deferred = options.deferred;
                         this._triggerCssTransitionEvents(
                             to,
                             from,
@@ -6910,10 +6910,10 @@
                     $form, calculateOnly
                 ) {
                     var url,
-                        ret = !0,
                         formData,
                         vclickedName,
-                        method;
+                        method,
+                        ret = !0;
                     return (
                         !(
                             !jQuery.mobile.ajaxEnabled ||
@@ -7117,7 +7117,12 @@
                 !event.isDefaultPrevented(
                 )
                         ) {
-                            var link = findClosestLink(
+                            var baseUrl,
+                                href,
+                                transition,
+                                reverse,
+                                role,
+                                link = findClosestLink(
                                     event.target
                                 ),
                                 $link = jQuery(
@@ -7134,12 +7139,7 @@
                                         },
                                         200
                                     );
-                                },
-                                baseUrl,
-                                href,
-                                transition,
-                                reverse,
-                                role;
+                                };
                             if (
                                 (jQuery.mobile.activeClickedLink &&
                     jQuery.mobile.activeClickedLink[0] ===
@@ -7714,16 +7714,16 @@
                 .each(
                     function (
                     ) {
-                        var element = jQuery(
+                        var html,
+                            hasType,
+                            findstr,
+                            element = jQuery(
                                 this
                             ),
                             type = this.getAttribute(
                                 "type"
                             ),
-                            optType = jQuery.mobile.degradeInputs[type] || "text",
-                            html,
-                            hasType,
-                            findstr;
+                            optType = jQuery.mobile.degradeInputs[type] || "text";
                         jQuery.mobile.degradeInputs[type] &&
             ((findstr = (hasType =
               (html = jQuery(
@@ -8839,7 +8839,9 @@
             return this.each(
                 function (
                 ) {
-                    var $this = jQuery(
+                    var iterator,
+                        letter,
+                        $this = jQuery(
                             this
                         ),
                         o = jQuery.extend(
@@ -8857,9 +8859,7 @@
                             c: 4,
                             d: 5,
                         },
-                        grid = o.grid,
-                        iterator,
-                        letter;
+                        grid = o.grid;
                     if (!grid) {
                         if ($kids.length <= 5)
                             for (letter in gridCols)
@@ -9400,9 +9400,9 @@
                             lis,
                             li,
                             dividerText,
+                            divider,
                             lastDividerText = null,
-                            list = this.element,
-                            divider;
+                            list = this.element;
                         for (
                             i = 0,
                             list.children(
@@ -10461,7 +10461,17 @@
                     },
                     _create: function (
                     ) {
-                        var self = this,
+                        var options,
+                            wrapper,
+                            j,
+                            length,
+                            i,
+                            optionsCount,
+                            origTabIndex,
+                            side,
+                            activeClass,
+                            sliderImg,
+                            self = this,
                             control = this.element,
                             trackTheme =
                 this.options.trackTheme ||
@@ -10550,17 +10560,7 @@
                         )
                     );
                 })(
-                ),
-                            options,
-                            wrapper,
-                            j,
-                            length,
-                            i,
-                            optionsCount,
-                            origTabIndex,
-                            side,
-                            activeClass,
-                            sliderImg;
+                );
                         if (
                             ($label.attr(
                                 "id",
@@ -11008,32 +11008,6 @@
                     refresh: function (
                         val, isfromControl, preventInputUpdate
                     ) {
-                        var self = this,
-                            parentTheme = jQuery.mobile.getAttribute(
-                                this.element[0],
-                                "theme",
-                            ),
-                            theme = this.options.theme || parentTheme,
-                            trackTheme = this.options.trackTheme || parentTheme,
-                            cornerClass = this.options.corners ? " ui-corner-all" : "",
-                            miniClass = this.options.mini ? " ui-mini" : "",
-                            width,
-                            data,
-                            pxStep,
-                            percent,
-                            isInput,
-                            optionElements,
-                            min,
-                            max,
-                            step,
-                            newval,
-                            valModStep,
-                            alignValue,
-                            percentPerStep,
-                            handlePercent,
-                            aPercent,
-                            bPercent,
-                            valueChanged;
                         if (
                             ((self.slider[0].className = [
                                 this.isToggleSwitch
@@ -11041,7 +11015,7 @@
                                     : "ui-slider-track ui-shadow-inset",
                                 trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                                 cornerClass,
-                                miniClass,
+                                this.options.mini ? " ui-mini" : "",
                             ].join(
                                 ""
                             )),
@@ -11076,7 +11050,7 @@
                             this.handle.addClass(
                                 "ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow",
                             ),
-                            this.element,
+                            (control = this.element),
                             ((optionElements = (isInput = !this.isToggleSwitch)
                                 ? []
                                 : this.element.find(
@@ -11110,25 +11084,20 @@
                     : 1),
                             "object" == typeof val)
                                 ? ((data = val),
-                                this.slider.offset(
-                                ).left,
+                                (tol = 8),
+                                (left = this.slider.offset(
+                                ).left),
                                 (pxStep =
                     (width = this.slider.width(
                     )) / ((max - min) / step)),
                                 this.dragging &&
-                    !(data.pageX < this.slider.offset(
-                    ).left - 8) &&
-                    !(data.pageX > this.slider.offset(
-                    ).left + width + 8) &&
+                    !(data.pageX < left - tol) &&
+                    !(data.pageX > left + width + tol) &&
                     (percent =
                       pxStep > 1
-                          ? ((data.pageX - this.slider.offset(
-                          ).left) / width) *
-                          100
+                          ? ((data.pageX - left) / width) * 100
                           : Math.round(
-                              ((data.pageX - this.slider.offset(
-                              ).left) / width) *
-                              100,
+                              ((data.pageX - left) / width) * 100
                           )))
                                 : (null == val &&
                     (val = isInput
@@ -11465,8 +11434,8 @@
                     },
                     _refresh: function (
                     ) {
-                        var o = this.options,
-                            newValue;
+                        var newValue,
+                            o = this.options;
                         o.popupEnabled && this.handle.removeAttr(
                             "title"
                         ),
@@ -13766,13 +13735,13 @@
                     _setTolerance: function (
                         value
                     ) {
-                        var tol = {
+                        var ar,
+                            tol = {
                                 t: 30,
                                 r: 15,
                                 b: 30,
                                 l: 15,
-                            },
-                            ar;
+                            };
                         if (void 0 !== value)
                             switch (
                                 ((ar = String(
@@ -15146,17 +15115,9 @@
                     },
                     _buildList: function (
                     ) {
-                        var self = this,
-                            placeholder = this.placeholder,
-                            needPlaceholder = !0,
-                            $options,
+                        var $options,
                             numOptions,
                             select,
-                            dataPrefix = "data-" + jQuery.mobile.ns,
-                            dataPlaceholderAttr = dataPrefix + "placeholder",
-                            fragment = document.createDocumentFragment(
-                            ),
-                            isPlaceholderItem = !1,
                             optGroup,
                             i,
                             option,
@@ -15167,7 +15128,15 @@
                             classes,
                             optLabel,
                             divider,
-                            item;
+                            item,
+                            self = this,
+                            placeholder = this.placeholder,
+                            needPlaceholder = !0,
+                            dataPrefix = "data-" + jQuery.mobile.ns,
+                            dataPlaceholderAttr = dataPrefix + "placeholder",
+                            fragment = document.createDocumentFragment(
+                            ),
+                            isPlaceholderItem = !1;
                         for (
                             i = 0,
                             self.list.empty(
@@ -16176,11 +16145,11 @@
                 _handlePageBeforeHide: function (
                     e, ui
                 ) {
-                    var o = this.options,
-                        thisFooter,
+                    var thisFooter,
                         thisHeader,
                         nextFooter,
-                        nextHeader;
+                        nextHeader,
+                        o = this.options;
                     o.disablePageZoom && jQuery.mobile.zoom.enable(
                         !0
                     ),
@@ -17805,14 +17774,14 @@
                                 .each(
                                     function (
                                     ) {
-                                        var span = parseInt(
+                                        var j,
+                                            span = parseInt(
                                                 this.getAttribute(
                                                     "colspan"
                                                 ),
                                                 10
                                             ),
-                                            selector = ":nth-child(" + (columnCount + 1) + ")",
-                                            j;
+                                            selector = ":nth-child(" + (columnCount + 1) + ")";
                                         if (
                                             (this.setAttribute(
                                                 "data-" + jQuery.mobile.ns + "colstart",
@@ -18203,7 +18172,9 @@
                     ).each(
                         function (
                         ) {
-                            var cells = jQuery(
+                            var iteration,
+                                filter,
+                                cells = jQuery(
                                     this
                                 ).jqmData(
                                     "cells"
@@ -18222,9 +18193,7 @@
                                 text = jQuery(
                                     this
                                 ).text(
-                                ),
-                                iteration,
-                                filter;
+                                );
                             "" !== text &&
             (hierarchyClass
                 ? ((iteration = parseInt(
@@ -20132,13 +20101,13 @@
         (function (
             $, window
         ) {
-            var ua = navigator.userAgent,
-                zoom,
+            var zoom,
                 evt,
                 x,
                 y,
                 z,
-                aig;
+                aig,
+                ua = navigator.userAgent;
             function checkTilt(
                 e
             ) {

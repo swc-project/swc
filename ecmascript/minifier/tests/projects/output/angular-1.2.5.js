@@ -6,11 +6,11 @@
     ) {
         return function (
         ) {
-            var code = arguments[0],
+            var message,
+                i,
+                code = arguments[0],
                 template = arguments[1],
-                templateArgs = arguments,
-                message,
-                i;
+                templateArgs = arguments;
             for (
                 i = 2,
                 message =
@@ -24,11 +24,11 @@
                   function (
                       match
                   ) {
-                      var index = +match.slice(
+                      var arg,
+                          index = +match.slice(
                               1,
                               -1
-                          ),
-                          arg;
+                          );
                       if (index + 2 < templateArgs.length) {
                           if ("function" == typeof (arg = templateArgs[index + 2]))
                               return arg.toString(
@@ -565,11 +565,11 @@
         if (o1 === o2) return !0;
         if (null === o1 || null === o2) return !1;
         if (o1 != o1 && o2 != o2) return !0;
-        var t1 = typeof o1,
-            t2 = typeof o2,
-            length,
+        var length,
             key,
-            keySet;
+            keySet,
+            t1 = typeof o1,
+            t2 = typeof o2;
         if (t1 == t2 && "object" == t1) {
             if (isArray(
                 o1
@@ -842,10 +842,10 @@
     function parseKeyValue(
         keyValue
     ) {
-        var obj = {
-            },
-            key_value,
-            key;
+        var key_value,
+            key,
+            obj = {
+            };
         return (
             forEach(
                 (keyValue || "").split(
@@ -935,9 +935,9 @@
     function angularInit(
         element, bootstrap
     ) {
-        var elements = [element,],
-            appElement,
+        var appElement,
             module,
+            elements = [element,],
             names = ["ng:app", "ng-app", "x-ng-app", "data-ng-app",],
             NG_APP_CLASS_REGEXP = /\sng[:\-]app(:\s*([\w\d_]+);?)?\s/;
         function append(
@@ -1446,19 +1446,19 @@
         function removePatch(
             param
         ) {
-            var list = filterElems && param
-                    ? [this.filter(
-                        param
-                    ),]
-                    : [this,],
-                fireEvent = dispatchThis,
-                set,
+            var set,
                 setIndex,
                 setLength,
                 element,
                 childIndex,
                 childLength,
-                children;
+                children,
+                list = filterElems && param
+                    ? [this.filter(
+                        param
+                    ),]
+                    : [this,],
+                fireEvent = dispatchThis;
             if (!getterIfNoArguments || null != param)
                 for (; list.length; )
                     for (
@@ -1967,8 +1967,8 @@
     function hashKey(
         obj
     ) {
-        var objType = typeof obj,
-            key;
+        var key,
+            objType = typeof obj;
         return (
             "object" == objType && null !== obj
                 ? "function" == typeof (key = obj.$$hashKey)
@@ -2230,11 +2230,11 @@
         function loadModules(
             modulesToLoad
         ) {
-            var runBlocks = [],
-                moduleFn,
+            var moduleFn,
                 invokeQueue,
                 i,
-                ii;
+                ii,
+                runBlocks = [];
             return (
                 forEach(
                     modulesToLoad,
@@ -2362,13 +2362,13 @@
             function invoke(
                 fn, self, locals
             ) {
-                var args = [],
+                var length,
+                    i,
+                    key,
+                    args = [],
                     $inject = annotate(
                         fn
-                    ),
-                    length,
-                    i,
-                    key;
+                    );
                 for (i = 0, length = $inject.length; i < length; i++) {
                     if ("string" != typeof (key = $inject[i]))
                         throw $injectorMinErr(
@@ -2396,10 +2396,10 @@
                 instantiate: function (
                     Type, locals
                 ) {
-                    var Constructor = function (
-                        ) {},
-                        instance,
-                        returnedValue;
+                    var instance,
+                        returnedValue,
+                        Constructor = function (
+                        ) {};
                     return (
                         (Constructor.prototype = (isArray(
                             Type
@@ -2490,9 +2490,9 @@
                 }
                 function scroll(
                 ) {
-                    var hash = $location.hash(
-                        ),
-                        elm;
+                    var elm,
+                        hash = $location.hash(
+                        );
                     hash
                         ? (elm = document.getElementById(
                             hash
@@ -2678,7 +2678,8 @@
     function Browser(
         window, document, $log, $sniffer
     ) {
-        var self = this,
+        var pollTimeout,
+            self = this,
             rawDocument = document[0],
             location = window.location,
             history = window.history,
@@ -2713,8 +2714,7 @@
                         }
             }
         }
-        var pollFns = [],
-            pollTimeout;
+        var pollFns = [];
         function startPoller(
             interval, setTimeout
         ) {
@@ -3458,12 +3458,12 @@
                     previousCompileContext,
                 ) {
                     for (
-                        var linkFns = [],
-                            nodeLinkFn,
+                        var nodeLinkFn,
                             childLinkFn,
                             directives,
                             attrs,
                             linkFnFound,
+                            linkFns = [],
                             i = 0;
                         i < nodeList.length;
                         i++
@@ -3602,10 +3602,10 @@
                     maxPriority,
                     ignoreDirective,
                 ) {
-                    var nodeType = node.nodeType,
-                        attrsMap = attrs.$attr,
-                        match,
-                        className;
+                    var match,
+                        className,
+                        nodeType = node.nodeType,
+                        attrsMap = attrs.$attr;
                     switch (nodeType) {
                     case 1:
                         addDirective(
@@ -3812,8 +3812,13 @@
                     postLinkFns,
                     previousCompileContext,
                 ) {
-                    var terminalPriority = -Number.MAX_VALUE,
-                        newScopeDirective,
+                    var newScopeDirective,
+                        directive,
+                        directiveName,
+                        $template,
+                        linkFn,
+                        directiveValue,
+                        terminalPriority = -Number.MAX_VALUE,
                         controllerDirectives =
                 previousCompileContext.controllerDirectives,
                         newIsolateScopeDirective =
@@ -3826,13 +3831,8 @@
                         $compileNode = (templateAttrs.$$element = jqLite(
                             compileNode
                         )),
-                        directive,
-                        directiveName,
-                        $template,
                         replaceDirective = originalReplaceDirective,
-                        childTranscludeFn = transcludeFn,
-                        linkFn,
-                        directiveValue;
+                        childTranscludeFn = transcludeFn;
                     function addLinkFns(
                         pre, post, attrStart, attrEnd
                     ) {
@@ -3945,9 +3945,9 @@
                             linkFn,
                             controller,
                             isolateScope,
+                            transcludeFn,
                             elementControllers = {
                             },
-                            transcludeFn,
                             scopeToChild = scope;
                         if (
                             (($element = (attrs =
@@ -3991,16 +3991,16 @@
                                 function (
                                     definition, scopeName
                                 ) {
-                                    var match = definition.match(
+                                    var lastValue,
+                                        parentGet,
+                                        parentSet,
+                                        compare,
+                                        match = definition.match(
                                             LOCAL_REGEXP
                                         ) || [],
                                         attrName = match[3] || scopeName,
                                         optional = "?" == match[2],
-                                        mode = match[1],
-                                        lastValue,
-                                        parentGet,
-                                        parentSet,
-                                        compare;
+                                        mode = match[1];
                                     switch (
                                         ((isolateScope.$$isolateBindings[scopeName] =
                           mode + attrName),
@@ -4138,7 +4138,8 @@
                         function (
                             directive
                         ) {
-                            var locals = {
+                            var controllerInstance,
+                                locals = {
                                     $scope:
                             directive === newIsolateScopeDirective ||
                             directive.$$isolateScope
@@ -4147,8 +4148,7 @@
                                     $element: attrs.$$element,
                                     $attrs: attrs,
                                     $transclude: transcludeFn,
-                                },
-                                controllerInstance;
+                                };
                             "@" == (controller = directive.controller) &&
                         (controller = attrs[directive.name]),
                             (controllerInstance = $controller(
@@ -4606,9 +4606,9 @@
                     postLinkFns,
                     previousCompileContext,
                 ) {
-                    var linkQueue = [],
-                        afterTemplateNodeLinkFn,
+                    var afterTemplateNodeLinkFn,
                         afterTemplateChildLinkFn,
+                        linkQueue = [],
                         beforeTemplateCompileNode = $compileNode[0],
                         origAsyncDirective = directives.shift(
                         ),
@@ -4979,11 +4979,11 @@
                 function replaceWith(
                     $rootElement, elementsToRemove, newNode
                 ) {
-                    var firstElementToRemove = elementsToRemove[0],
+                    var i,
+                        ii,
+                        firstElementToRemove = elementsToRemove[0],
                         removeCount = elementsToRemove.length,
-                        parent = firstElementToRemove.parentNode,
-                        i,
-                        ii;
+                        parent = firstElementToRemove.parentNode;
                     if ($rootElement)
                         for (i = 0, ii = $rootElement.length; i < ii; i++)
                             if ($rootElement[i] == firstElementToRemove) {
@@ -5081,11 +5081,11 @@
                         $set: function (
                             key, value, writeAttr, attrName
                         ) {
-                            var booleanKey = getBooleanAttrName(
+                            var nodeName,
+                                booleanKey = getBooleanAttrName(
                                     this.$$element[0],
                                     key
-                                ),
-                                nodeName;
+                                );
                             booleanKey &&
                   (this.$$element.prop(
                       key,
@@ -5306,11 +5306,11 @@
     function parseHeaders(
         headers
     ) {
-        var parsed = {
-            },
-            key,
+        var key,
             val,
-            i;
+            i,
+            parsed = {
+            };
         return (
             headers &&
         forEach(
@@ -5564,15 +5564,15 @@
                     function mergeHeaders(
                         config
                     ) {
-                        var defHeaders = defaults.headers,
+                        var defHeaderName,
+                            lowercaseDefHeaderName,
+                            reqHeaderName,
+                            defHeaders = defaults.headers,
                             reqHeaders = extend(
                                 {
                                 },
                                 config.headers
-                            ),
-                            defHeaderName,
-                            lowercaseDefHeaderName,
-                            reqHeaderName;
+                            );
                         function execHeaders(
                             headers
                         ) {
@@ -5706,11 +5706,11 @@
                 function sendReq(
                     config, reqData, reqHeaders
                 ) {
-                    var deferred = $q.defer(
+                    var cache,
+                        cachedResp,
+                        deferred = $q.defer(
                         ),
                         promise = deferred.promise,
-                        cache,
-                        cachedResp,
                         url = buildUrl(
                             config.url,
                             config.params
@@ -6785,8 +6785,8 @@
             (this.$$path = (function (
                 path, url, base
             ) {
-                var windowsFilePathExp = /^\/?.*?:(\/.*)/,
-                    firstPathSegmentMatch;
+                var firstPathSegmentMatch,
+                    windowsFilePathExp = /^\/?.*?:(\/.*)/;
                 return (0 === url.indexOf(
                     appBase
                 ) &&
@@ -6917,11 +6917,11 @@
             ) {
                 var $location,
                     LocationMode,
+                    appBase,
                     baseHref = $browser.baseHref(
                     ),
                     initialUrl = $browser.url(
                     ),
-                    appBase,
                     changeCounter = 0;
                 function afterLocationChange(
                     oldUrl
@@ -7569,13 +7569,12 @@
                 ? function (
                     scope, locals
                 ) {
-                    var pathVal =
-                locals && locals.hasOwnProperty(
-                    key0
-                )
-                    ? locals
-                    : scope,
-                        promise;
+                    var promise,
+                        pathVal = locals && locals.hasOwnProperty(
+                            key0
+                        )
+                            ? locals
+                            : scope;
                     return (
                         null == pathVal ||
                 ((pathVal = pathVal[key0]) &&
@@ -7693,11 +7692,11 @@
         if (getterFnCache.hasOwnProperty(
             path
         )) return getterFnCache[path];
-        var pathKeys = path.split(
+        var fn,
+            pathKeys = path.split(
                 "."
             ),
-            pathKeysLength = pathKeys.length,
-            fn;
+            pathKeysLength = pathKeys.length;
         if (options.csp)
             fn =
         pathKeysLength < 6
@@ -7713,8 +7712,8 @@
             : function (
                 scope, locals
             ) {
-                var i = 0,
-                    val;
+                var val,
+                    i = 0;
                 do
                     (val = cspSafeGetterFn(
                         pathKeys[i++],
@@ -7890,9 +7889,9 @@
     ) {
         var defer = function (
             ) {
-                var pending = [],
-                    value,
-                    deferred;
+                var value,
+                    deferred,
+                    pending = [];
                 return (deferred = {
                     resolve: function (
                         val
@@ -8203,9 +8202,9 @@
             when: function (
                 value, callback, errback, progressback
             ) {
-                var result = defer(
+                var done,
+                    result = defer(
                     ),
-                    done,
                     wrappedCallback = function (
                         value
                     ) {
@@ -8520,9 +8519,9 @@
                         $watchCollection: function (
                             obj, listener
                         ) {
-                            var self = this,
-                                oldValue,
+                            var oldValue,
                                 newValue,
+                                self = this,
                                 changeDetected = 0,
                                 objGetter = $parse(
                                     obj
@@ -8605,18 +8604,18 @@
                                 value,
                                 last,
                                 watchers,
-                                asyncQueue = this.$$asyncQueue,
-                                postDigestQueue = this.$$postDigestQueue,
                                 length,
                                 dirty,
-                                ttl = TTL,
                                 next,
                                 current,
-                                target = this,
-                                watchLog = [],
                                 logIdx,
                                 logMsg,
-                                asyncTask;
+                                asyncTask,
+                                asyncQueue = this.$$asyncQueue,
+                                postDigestQueue = this.$$postDigestQueue,
+                                ttl = TTL,
+                                target = this,
+                                watchLog = [];
                             beginPhase(
                                 "$digest"
                             ), (lastDirtyWatch = null);
@@ -8847,6 +8846,8 @@
                             name, args
                         ) {
                             var namedListeners,
+                                i,
+                                length,
                                 scope = this,
                                 stopPropagation = !1,
                                 event = {
@@ -8866,9 +8867,7 @@
                                     [event,],
                                     arguments,
                                     1
-                                ),
-                                i,
-                                length;
+                                );
                             do {
                                 for (
                                     i = 0,
@@ -8904,7 +8903,10 @@
                         $broadcast: function (
                             name, args
                         ) {
-                            var target = this,
+                            var listeners,
+                                i,
+                                length,
+                                target = this,
                                 current = target,
                                 next = target,
                                 event = {
@@ -8920,10 +8922,7 @@
                                     [event,],
                                     arguments,
                                     1
-                                ),
-                                listeners,
-                                i,
-                                length;
+                                );
                             do {
                                 for (
                                     i = 0,
@@ -9152,12 +9151,12 @@
                 function isResourceUrlAllowedByPolicy(
                     url
                 ) {
-                    var parsedUrl = urlResolve(
+                    var i,
+                        n,
+                        parsedUrl = urlResolve(
                             url.toString(
                             )
                         ),
-                        i,
-                        n,
                         allowed = !1;
                     for (i = 0, n = resourceUrlWhitelist.length; i < n; i++)
                         if (matchUrl(
@@ -9420,7 +9419,9 @@
             function (
                 $window, $document
             ) {
-                var eventSupport = {
+                var vendorPrefix,
+                    match,
+                    eventSupport = {
                     },
                     android = int(
                         (/android (\d+)/.exec(
@@ -9437,11 +9438,9 @@
                     document = $document[0] || {
                     },
                     documentMode = document.documentMode,
-                    vendorPrefix,
                     bodyStyle = document.body && document.body.style,
                     transitions = !1,
-                    animations = !1,
-                    match;
+                    animations = !1;
                 if (bodyStyle) {
                     for (var prop in bodyStyle)
                         if ((match = /^(Moz|webkit|O|ms)(?=[A-Z])/.exec(
@@ -9527,13 +9526,13 @@
                 function timeout(
                     fn, delay, invokeApply
                 ) {
-                    var deferred = $q.defer(
+                    var timeoutId,
+                        deferred = $q.defer(
                         ),
                         promise = deferred.promise,
                         skipApply = isDefined(
                             invokeApply
-                        ) && !invokeApply,
-                        timeoutId;
+                        ) && !invokeApply;
                     return (
                         (promise.$$timeoutId = timeoutId = $browser.defer(
                             function (
@@ -10267,10 +10266,10 @@
         return function (
             date, format
         ) {
-            var text = "",
-                parts = [],
-                fn,
-                match;
+            var fn,
+                match,
+                text = "",
+                parts = [];
             if (
                 ((format =
           $locale.DATETIME_FORMATS[(format = format || "mediumDate")] ||
@@ -10379,9 +10378,9 @@
                         );
                 return "";
             }
-            var out = [],
-                i,
-                n;
+            var i,
+                n,
+                out = [];
             for (
                 limit > input.length
                     ? (limit = input.length)
@@ -12095,9 +12094,9 @@
                         return function (
                             scope, $element, $attr, ctrl, $transclude
                         ) {
-                            var changeCounter = 0,
-                                currentScope,
+                            var currentScope,
                                 currentElement,
+                                changeCounter = 0,
                                 cleanupLastIncludeContent = function (
                                 ) {
                                     currentScope &&
@@ -12362,11 +12361,7 @@
                     link: function (
                         $scope, $element, $attr, ctrl, $transclude
                     ) {
-                        var expression = $attr.ngRepeat,
-                            match = expression.match(
-                                /^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?$/,
-                            ),
-                            trackByExp,
+                        var trackByExp,
                             trackByExpGetter,
                             trackByIdExpFn,
                             trackByIdArrayFn,
@@ -12375,6 +12370,10 @@
                             rhs,
                             valueIdentifier,
                             keyIdentifier,
+                            expression = $attr.ngRepeat,
+                            match = expression.match(
+                                /^\s*(.+)\s+in\s+(.*?)\s*(\s+track\s+by\s+(.+)\s*)?$/,
+                            ),
                             hashFnLocals = {
                                 $id: hashKey,
                             };
@@ -12435,10 +12434,7 @@
                             ) {
                                 var index,
                                     length,
-                                    previousNode = $element[0],
                                     nextNode,
-                                    nextBlockMap = {
-                                    },
                                     arrayLength,
                                     childScope,
                                     key,
@@ -12447,8 +12443,11 @@
                                     trackByIdFn,
                                     collectionKeys,
                                     block,
-                                    nextBlockOrder = [],
-                                    elementsToRemove;
+                                    elementsToRemove,
+                                    previousNode = $element[0],
+                                    nextBlockMap = {
+                                    },
+                                    nextBlockOrder = [];
                                 if (isArrayLike(
                                     collection
                                 ))
@@ -12724,9 +12723,9 @@
                     link: function (
                         scope, element, attr, ngSwitchController
                     ) {
-                        var watchExpr = attr.ngSwitch || attr.on,
-                            selectedTranscludes,
+                        var selectedTranscludes,
                             selectedElements,
+                            watchExpr = attr.ngSwitch || attr.on,
                             selectedScopes = [];
                         scope.$watch(
                             watchExpr,
@@ -12911,12 +12910,12 @@
                         function (
                             $element, $scope, $attrs
                         ) {
-                            var self = this,
+                            var nullOption,
+                                unknownOption,
+                                self = this,
                                 optionsMap = {
                                 },
-                                ngModelCtrl = nullModelCtrl,
-                                nullOption,
-                                unknownOption;
+                                ngModelCtrl = nullModelCtrl;
                             (self.databound = $attrs.ngModel),
                             (self.init = function (
                                 ngModelCtrl_,
@@ -12995,12 +12994,12 @@
                         scope, element, attr, ctrls
                     ) {
                         if (ctrls[1]) {
-                            var selectCtrl = ctrls[0],
+                            var emptyOption,
+                                selectCtrl = ctrls[0],
                                 ngModelCtrl = ctrls[1],
                                 multiple = attr.multiple,
                                 optionsExp = attr.ngOptions,
                                 nullOption = !1,
-                                emptyOption,
                                 optionTemplate = jqLite(
                                     document.createElement(
                                         "option"
@@ -13163,16 +13162,25 @@
                                     ];
                                 function render(
                                 ) {
-                                    var optionGroups = {
-                                            "": [],
-                                        },
-                                        optionGroupNames = ["",],
-                                        optionGroupName,
+                                    var optionGroupName,
                                         optionGroup,
                                         option,
                                         existingParent,
                                         existingOptions,
                                         existingOption,
+                                        key,
+                                        groupLength,
+                                        length,
+                                        groupIndex,
+                                        index,
+                                        selected,
+                                        lastElement,
+                                        element,
+                                        label,
+                                        optionGroups = {
+                                            "": [],
+                                        },
+                                        optionGroupNames = ["",],
                                         modelValue = ctrl.$modelValue,
                                         values = valuesFn(
                                             scope
@@ -13182,18 +13190,9 @@
                                                 values
                                             )
                                             : values,
-                                        key,
-                                        groupLength,
-                                        length,
-                                        groupIndex,
-                                        index,
                                         locals = {
                                         },
-                                        selected,
-                                        selectedSet = !1,
-                                        lastElement,
-                                        element,
-                                        label;
+                                        selectedSet = !1;
                                     if (multiple) {
                                         if (trackFn && isArray(
                                             modelValue
@@ -13443,11 +13442,6 @@
                                             function (
                                             ) {
                                                 var optionGroup,
-                                                    collection = valuesFn(
-                                                        scope
-                                                    ) || [],
-                                                    locals = {
-                                                    },
                                                     key,
                                                     value,
                                                     optionElement,
@@ -13455,7 +13449,12 @@
                                                     groupIndex,
                                                     length,
                                                     groupLength,
-                                                    trackIndex;
+                                                    trackIndex,
+                                                    collection = valuesFn(
+                                                        scope
+                                                    ) || [],
+                                                    locals = {
+                                                    };
                                                 if (multiple)
                                                     for (
                                                         groupIndex = 0,
@@ -15266,10 +15265,10 @@
         },
         assignment: function (
         ) {
-            var left = this.ternary(
-                ),
-                right,
-                token;
+            var right,
+                token,
+                left = this.ternary(
+                );
             return (token = this.expect(
                 "="
             ))
@@ -15300,10 +15299,10 @@
         },
         ternary: function (
         ) {
-            var left = this.logicalOR(
-                ),
-                middle,
-                token;
+            var middle,
+                token,
+                left = this.logicalOR(
+                );
             if (!(token = this.expect(
                 "?"
             ))) return left;
@@ -15341,9 +15340,9 @@
         },
         logicalAND: function (
         ) {
-            var left = this.equality(
-                ),
-                token;
+            var token,
+                left = this.equality(
+                );
             return (
                 (token = this.expect(
                     "&&"
@@ -15359,9 +15358,9 @@
         },
         equality: function (
         ) {
-            var left = this.relational(
-                ),
-                token;
+            var token,
+                left = this.relational(
+                );
             return (
                 (token = this.expect(
                     "==",
@@ -15380,9 +15379,9 @@
         },
         relational: function (
         ) {
-            var left = this.additive(
-                ),
-                token;
+            var token,
+                left = this.additive(
+                );
             return (
                 (token = this.expect(
                     "<",
@@ -15521,20 +15520,13 @@
                     function (
                         self, locals
                     ) {
-                        var o = obj(
-                                self,
-                                locals
-                            ),
-                            i = indexFn(
-                                self,
-                                locals
-                            ),
-                            v,
-                            p;
                         return o
                             ? ((v = ensureSafeObject(
-                                o[i],
-                                parser.text
+                                o[indexFn(
+                                    self,
+                                    locals
+                                )],
+                                parser.text,
                             )) &&
                     v.then &&
                     parser.options.unwrapPromises &&
