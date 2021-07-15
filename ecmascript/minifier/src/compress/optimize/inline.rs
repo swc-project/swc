@@ -177,6 +177,15 @@ impl Optimizer<'_> {
                             _ => {}
                         }
 
+                        if usage.used_in_loop {
+                            match &**init {
+                                Expr::Lit(..) | Expr::Ident(..) => {}
+                                _ => {
+                                    return;
+                                }
+                            }
+                        }
+
                         if init.may_have_side_effects() {
                             if !self
                                 .vars_accessible_without_side_effect
