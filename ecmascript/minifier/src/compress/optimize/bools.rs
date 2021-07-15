@@ -449,13 +449,19 @@ impl Optimizer<'_> {
                         op: op!("!"), arg, ..
                     }) => {
                         self.changed = true;
-
-                        log::trace!("bools: Negating `!expr` in `foo {} !expr` (bool ctx)", *op);
-                        *op = if *op == op!("&&") {
+                        let new_op = if *op == op!("&&") {
                             op!("||")
                         } else {
                             op!("&&")
                         };
+
+                        log::trace!(
+                            "bools: Negating in bool ctx: `foo {} !expr` => `foo {} expr` (bool \
+                             ctx)",
+                            *op,
+                            new_op
+                        );
+                        *op = new_op;
                         *right = arg.take();
                         return;
                     }
