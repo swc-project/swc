@@ -6169,7 +6169,7 @@ Elements.alias(
                     (el = document.id(
                         el,
                         !0
-                    )), el.parentNode.replaceChild(
+                    )).parentNode.replaceChild(
                         this,
                         el
                     ), this
@@ -6178,11 +6178,11 @@ Elements.alias(
             wraps: function (
                 el, where
             ) {
-                return (el = document.id(
-                    el,
-                    !0
-                )), this.replaces(
-                    el
+                return this.replaces(
+                    (el = document.id(
+                        el,
+                        !0
+                    ))
                 ).grab(
                     el,
                     where
@@ -10561,11 +10561,10 @@ var Cookie = new Class(
                     (element = document.id(
                         element,
                         !0
-                    )),
-                    element.parentNode.replaceChild(
+                    )).parentNode.replaceChild(
                         this.toElement(
                         ),
-                        element
+                        element,
                     ),
                     this
                 );

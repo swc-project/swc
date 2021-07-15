@@ -2053,6 +2053,7 @@
     ) {
         var INSTANTIATING = {
             },
+            providerSuffix = "Provider",
             path = [],
             loadedModules = new HashMap(
             ),
@@ -2097,7 +2098,7 @@
                     servicename
                 ) {
                     var provider = providerInjector.get(
-                        servicename + "Provider"
+                        servicename + providerSuffix
                     );
                     return instanceInjector.invoke(
                         provider.$get,
@@ -2148,7 +2149,7 @@
                     "Provider '{0}' must define $get factory method.",
                     name,
                 );
-            return (providerCache[name + "Provider"] = provider_);
+            return (providerCache[name + providerSuffix] = provider_);
         }
         function factory(
             name, factoryFn
@@ -2201,7 +2202,7 @@
             serviceName, decorFn
         ) {
             var origProvider = providerInjector.get(
-                    serviceName + "Provider"
+                    serviceName + providerSuffix
                 ),
                 orig$get = origProvider.$get;
             origProvider.$get = function (
@@ -2245,14 +2246,13 @@
                                     module
                                 ))
                                     for (
-                                        moduleFn = angularModule(
-                                            module
-                                        ),
                                         runBlocks = runBlocks
                                             .concat(
                                                 loadModules(
-                                                    moduleFn.requires
-                                                )
+                                                    (moduleFn = angularModule(
+                                                        module
+                                                    )).requires
+                                                ),
                                             )
                                             .concat(
                                                 moduleFn._runBlocks
@@ -2421,7 +2421,7 @@
                 ) {
                     return (
                         providerCache.hasOwnProperty(
-                            name + "Provider"
+                            name + providerSuffix
                         ) ||
             cache.hasOwnProperty(
                 name
@@ -3177,6 +3177,7 @@
     ) {
         var hasDirectives = {
             },
+            Suffix = "Directive",
             COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/,
             CLASS_DIRECTIVE_REGEXP = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/,
             EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
@@ -3200,7 +3201,7 @@
                     ) ||
               ((hasDirectives[name] = []),
               $provide.factory(
-                  name + "Directive",
+                  name + Suffix,
                   [
                       "$injector",
                       "$exceptionHandler",
@@ -4166,17 +4167,16 @@
                             i++
                         )
                             try {
-                                (linkFn = preLinkFns[i]),
-                                linkFn(
+                                (linkFn = preLinkFns[i])(
                                     linkFn.isolateScope ? isolateScope : scope,
                                     $element,
                                     attrs,
                                     linkFn.require &&
-                        getControllers(
-                            linkFn.require,
-                            $element,
-                            elementControllers,
-                        ),
+                      getControllers(
+                          linkFn.require,
+                          $element,
+                          elementControllers,
+                      ),
                                     transcludeFn,
                                 );
                             } catch (e) {
@@ -4204,17 +4204,16 @@
                             i--
                         )
                             try {
-                                (linkFn = postLinkFns[i]),
-                                linkFn(
+                                (linkFn = postLinkFns[i])(
                                     linkFn.isolateScope ? isolateScope : scope,
                                     $element,
                                     attrs,
                                     linkFn.require &&
-                        getControllers(
-                            linkFn.require,
-                            $element,
-                            elementControllers,
-                        ),
+                      getControllers(
+                          linkFn.require,
+                          $element,
+                          elementControllers,
+                      ),
                                     transcludeFn,
                                 );
                             } catch (e) {
@@ -4504,7 +4503,7 @@
                         for (
                             var directive,
                                 directives = $injector.get(
-                                    name + "Directive"
+                                    name + Suffix
                                 ),
                                 i = 0,
                                 ii = directives.length;
@@ -5712,12 +5711,11 @@
                     function resolvePromise(
                         response, status, headers
                     ) {
-                        (status = Math.max(
-                            status,
-                            0
-                        )),
                         (isSuccess(
-                            status
+                            (status = Math.max(
+                                status,
+                                0
+                            ))
                         )
                             ? deferred.resolve
                             : deferred.reject)(
@@ -6943,11 +6941,10 @@
                     ($location = new LocationMode(
                         appBase,
                         "#" + hashPrefix
-                    )),
-                    $location.$$parse(
+                    )).$$parse(
                         $location.$$rewrite(
                             initialUrl
-                        )
+                        ),
                     ),
                     $rootElement.on(
                         "click",
@@ -8618,9 +8615,8 @@
                                 for (dirty = !1, current = target; asyncQueue.length; ) {
                                     try {
                                         (asyncTask = asyncQueue.shift(
-                                        )),
-                                        asyncTask.scope.$eval(
-                                            asyncTask.expression
+                                        )).scope.$eval(
+                                            asyncTask.expression,
                                         );
                                     } catch (e) {
                                         clearPhase(
@@ -9653,13 +9649,14 @@
     function $FilterProvider(
         $provide
     ) {
+        var suffix = "Filter";
         function register(
             name, factory
         ) {
             if (!isObject(
                 name
             )) return $provide.factory(
-                name + "Filter",
+                name + suffix,
                 factory
             );
             {
@@ -9691,7 +9688,7 @@
                     name
                 ) {
                     return $injector.get(
-                        name + "Filter"
+                        name + suffix
                     );
                 };
             },
@@ -10582,18 +10579,18 @@
         function toggleValidCss(
             isValid, validationErrorKey
         ) {
+            element
+                .removeClass(
+                    (isValid ? INVALID_CLASS : VALID_CLASS) +
             (validationErrorKey = validationErrorKey
                 ? "-" + snake_case(
                     validationErrorKey,
                     "-"
                 )
                 : ""),
-            element
-                .removeClass(
-                    (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
                 )
                 .addClass(
-                    (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
+                    (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey
                 );
         }
         (form.$name = attrs.name || attrs.ngForm),
@@ -11404,15 +11401,15 @@
                 function toggleValidCss(
                     isValid, validationErrorKey
                 ) {
-                    (validationErrorKey = validationErrorKey
-                        ? "-" + snake_case(
-                            validationErrorKey,
-                            "-"
-                        )
-                        : ""),
                     $element
                         .removeClass(
-                            (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
+                            (isValid ? INVALID_CLASS : VALID_CLASS) +
+                (validationErrorKey = validationErrorKey
+                    ? "-" + snake_case(
+                        validationErrorKey,
+                        "-"
+                    )
+                    : ""),
                         )
                         .addClass(
                             (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
@@ -12333,9 +12330,10 @@
             function (
                 $parse, $animate
             ) {
-                var ngRepeatMinErr = minErr(
-                    "ngRepeat"
-                );
+                var NG_REMOVED = "$$NG_REMOVED",
+                    ngRepeatMinErr = minErr(
+                        "ngRepeat"
+                    );
                 function getBlockStart(
                     block
                 ) {
@@ -12531,7 +12529,7 @@
                       function (
                           element
                       ) {
-                          element["$$NG_REMOVED"] = !0;
+                          element[NG_REMOVED] = !0;
                       }
                   ),
                   block.scope.$destroy(
@@ -12558,7 +12556,7 @@
                                     ) {
                                         (childScope = block.scope), (nextNode = previousNode);
                                         do nextNode = nextNode.nextSibling;
-                                        while (nextNode && nextNode["$$NG_REMOVED"]);
+                                        while (nextNode && nextNode[NG_REMOVED]);
                                         getBlockStart(
                                             block
                                         ) != nextNode &&
@@ -13637,15 +13635,16 @@
                         return function (
                             scope, element, attr
                         ) {
-                            var parent = element.parent(
+                            var selectCtrlName = "$selectController",
+                                parent = element.parent(
                                 ),
                                 selectCtrl =
                   parent.data(
-                      "$selectController"
+                      selectCtrlName
                   ) ||
                   parent.parent(
                   ).data(
-                      "$selectController"
+                      selectCtrlName
                   );
                             selectCtrl && selectCtrl.databound
                                 ? element.prop(

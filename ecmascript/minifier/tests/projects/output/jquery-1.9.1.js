@@ -14,6 +14,7 @@
         xhrSupported,
         fxNow,
         timerId,
+        core_strundefined = "undefined",
         document = window.document,
         location = window.location,
         _jQuery = window.jQuery,
@@ -21,13 +22,14 @@
         class2type = {
         },
         core_deletedIds = [],
+        core_version = "1.9.1",
         core_concat = core_deletedIds.concat,
         core_push = core_deletedIds.push,
         core_slice = core_deletedIds.slice,
         core_indexOf = core_deletedIds.indexOf,
         core_toString = class2type.toString,
         core_hasOwn = class2type.hasOwnProperty,
-        core_trim = "1.9.1".trim,
+        core_trim = core_version.trim,
         jQuery = function (
             selector, context
         ) {
@@ -574,11 +576,11 @@
             elem,
             i = 0,
             found =
-        void 0 !== context.getElementsByTagName
+        typeof context.getElementsByTagName !== core_strundefined
             ? context.getElementsByTagName(
                 tag || "*"
             )
-            : void 0 !== context.querySelectorAll
+            : typeof context.querySelectorAll !== core_strundefined
                 ? context.querySelectorAll(
                     tag || "*"
                 )
@@ -983,12 +985,12 @@
 
                 )
                     "+" === dataType[0]
-                        ? ((dataType = dataType.slice(
+                        ? (structure[(dataType = dataType.slice(
                             1
-                        ) || "*"),
-                        (structure[dataType] = structure[dataType] || []).unshift(
+                        ) || "*")] =
+                structure[dataType] || []).unshift(
                             func
-                        ))
+                        )
                         : (structure[dataType] = structure[dataType] || []).push(
                             func
                         );
@@ -1683,7 +1685,7 @@
             : 9 === elem.nodeType && (elem.defaultView || elem.parentWindow);
     }
     (jQuery.fn = jQuery.prototype = {
-        jquery: "1.9.1",
+        jquery: core_version,
         constructor: jQuery,
         init: function (
             selector, context, rootjQuery
@@ -3026,13 +3028,12 @@
         )
             return {
             };
-        (select = document.createElement(
+        (opt = (select = document.createElement(
             "select"
-        )),
-        (opt = select.appendChild(
+        )).appendChild(
             document.createElement(
                 "option"
-            )
+            ),
         )),
         (input = div.getElementsByTagName(
             "input"
@@ -3161,6 +3162,8 @@
                     var container,
                         marginDiv,
                         tds,
+                        divReset =
+              "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;",
                         body = document.getElementsByTagName(
                             "body"
                         )[0];
@@ -3210,8 +3213,7 @@
                   document.createElement(
                       "div"
                   ),
-              )).style.cssText = div.style.cssText =
-                "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;"),
+              )).style.cssText = div.style.cssText = divReset),
               (marginDiv.style.marginRight = marginDiv.style.width = "0"),
               (div.style.width = "1px"),
               (support.reliableMarginRight = !parseFloat(
@@ -3221,10 +3223,10 @@
                   ) || {
                   }).marginRight,
               ))),
-            void 0 !== div.style.zoom &&
+            typeof div.style.zoom !== core_strundefined &&
               ((div.innerHTML = ""),
               (div.style.cssText =
-                "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;width:1px;padding:1px;display:inline;zoom:1"),
+                divReset + "width:1px;padding:1px;display:inline;zoom:1"),
               (support.inlineBlockNeedsLayout = 3 === div.offsetWidth),
               (div.style.display = "block"),
               (div.innerHTML = "<div></div>"),
@@ -3246,7 +3248,7 @@
         {
             cache: {
             },
-            expando: "jQuery" + ("1.9.1" + Math.random(
+            expando: "jQuery" + (core_version + Math.random(
             )).replace(
                 /\D/g,
                 ""
@@ -3844,16 +3846,19 @@
                                     ) || [])[i++]);
 
                                 )
-                                    (state = isBool
-                                        ? state
-                                        : !self.hasClass(
-                                            className
-                                        )),
-                                    self[state ? "addClass" : "removeClass"](
+                                    self[
+                                        (state = isBool
+                                            ? state
+                                            : !self.hasClass(
+                                                className
+                                            ))
+                                            ? "addClass"
+                                            : "removeClass"
+                                    ](
                                         className
                                     );
                             else
-                                ("undefined" === type || "boolean" === type) &&
+                                (type === core_strundefined || "boolean" === type) &&
                   (this.className &&
                     jQuery._data(
                         this,
@@ -4062,7 +4067,7 @@
                     ret,
                     nType = elem.nodeType;
                 if (!!elem && 3 !== nType && 8 !== nType && 2 !== nType) {
-                    if (void 0 === elem.getAttribute)
+                    if (typeof elem.getAttribute === core_strundefined)
                         return jQuery.prop(
                             elem,
                             name,
@@ -4113,9 +4118,10 @@
                         return ret;
                     else
                         return (
-                            void 0 !== elem.getAttribute && (ret = elem.getAttribute(
-                                name
-                            )),
+                            typeof elem.getAttribute !== core_strundefined &&
+                (ret = elem.getAttribute(
+                    name
+                )),
                             null == ret ? void 0 : ret
                         );
                 }
@@ -4559,7 +4565,7 @@
                 ((eventHandle = elemData.handle = function (
                     e
                 ) {
-                    return void 0 !== jQuery &&
+                    return typeof jQuery !== core_strundefined &&
                     (!e || jQuery.event.triggered !== e.type)
                         ? jQuery.event.dispatch.apply(
                             eventHandle.elem,
@@ -5247,7 +5253,7 @@
         ) {
             var name = "on" + type;
             elem.detachEvent &&
-            (void 0 === elem[name] && (elem[name] = null),
+            (typeof elem[name] === core_strundefined && (elem[name] = null),
             elem.detachEvent(
                 name,
                 handle
@@ -5779,6 +5785,7 @@
             ),
             compilerCache = createCache(
             ),
+            strundefined = "undefined",
             arr = [],
             pop = arr.pop,
             push = arr.push,
@@ -6919,7 +6926,7 @@
                     return (
                         (div.innerHTML = "<a href='#'></a>"),
                         div.firstChild &&
-                  void 0 !== div.firstChild.getAttribute &&
+                  typeof div.firstChild.getAttribute !== strundefined &&
                   "#" === div.firstChild.getAttribute(
                       "href"
                   )
@@ -6949,7 +6956,10 @@
                 ? ((Expr.find.ID = function (
                     id, context
                 ) {
-                    if (void 0 !== context.getElementById && !documentIsXML) {
+                    if (
+                        typeof context.getElementById !== strundefined &&
+                    !documentIsXML
+                    ) {
                         var m = context.getElementById(
                             id
                         );
@@ -6974,13 +6984,16 @@
                 : ((Expr.find.ID = function (
                     id, context
                 ) {
-                    if (void 0 !== context.getElementById && !documentIsXML) {
+                    if (
+                        typeof context.getElementById !== strundefined &&
+                    !documentIsXML
+                    ) {
                         var m = context.getElementById(
                             id
                         );
                         return m
                             ? m.id === id ||
-                        (void 0 !== m.getAttributeNode &&
+                        (typeof m.getAttributeNode !== strundefined &&
                           m.getAttributeNode(
                               "id"
                           ).value === id)
@@ -7000,7 +7013,7 @@
                         elem
                     ) {
                         var node =
-                      void 0 !== elem.getAttributeNode &&
+                      typeof elem.getAttributeNode !== strundefined &&
                       elem.getAttributeNode(
                           "id"
                       );
@@ -7011,7 +7024,7 @@
                 ? function (
                     tag, context
                 ) {
-                    if (void 0 !== context.getElementsByTagName)
+                    if (typeof context.getElementsByTagName !== strundefined)
                         return context.getElementsByTagName(
                             tag
                         );
@@ -7039,7 +7052,7 @@
               function (
                   tag, context
               ) {
-                  if (void 0 !== context.getElementsByName)
+                  if (typeof context.getElementsByName !== strundefined)
                       return context.getElementsByName(
                           name
                       );
@@ -7049,7 +7062,10 @@
               function (
                   className, context
               ) {
-                  if (void 0 !== context.getElementsByClassName && !documentIsXML)
+                  if (
+                      typeof context.getElementsByClassName !== strundefined &&
+                  !documentIsXML
+                  )
                       return context.getElementsByClassName(
                           className
                       );
@@ -7545,7 +7561,7 @@
                   ) {
                       return pattern.test(
                           elem.className ||
-                    (void 0 !== elem.getAttribute &&
+                    (typeof elem.getAttribute !== strundefined &&
                       elem.getAttribute(
                           "class"
                       )) ||
@@ -9431,7 +9447,7 @@
               (delete cache[id],
               deleteExpando
                   ? delete elem[internalKey]
-                  : void 0 !== elem.removeAttribute
+                  : typeof elem.removeAttribute !== core_strundefined
                       ? elem.removeAttribute(
                           internalKey
                       )
@@ -11635,7 +11651,7 @@
                 elem
             ))
                 ? box
-                : (void 0 !== elem.getBoundingClientRect &&
+                : (typeof elem.getBoundingClientRect !== core_strundefined &&
               (box = elem.getBoundingClientRect(
               )),
                 (win = getWindow(

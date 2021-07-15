@@ -1763,18 +1763,19 @@
                 _off: function (
                     element, eventName
                 ) {
-                    (eventName =
-              (eventName || "").split(
-                  " "
-              ).join(
-                  this.eventNamespace + " "
-              ) +
-              this.eventNamespace),
-                    element.unbind(
-                        eventName
-                    ).undelegate(
-                        eventName
-                    );
+                    element
+                        .unbind(
+                            (eventName =
+                  (eventName || "").split(
+                      " "
+                  ).join(
+                      this.eventNamespace + " "
+                  ) +
+                  this.eventNamespace),
+                        )
+                        .undelegate(
+                            eventName
+                        );
                 },
                 _delay: function (
                     handler, delay
@@ -2009,9 +2010,10 @@
         (function (
             $
         ) {
-            var $html = jQuery(
-                "html"
-            );
+            var loaderClass = "ui-loader",
+                $html = jQuery(
+                    "html"
+                );
             jQuery.widget(
                 "mobile.loader",
                 {
@@ -2022,7 +2024,9 @@
                         text: "loading",
                     },
                     defaultHtml:
-          "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
+          "<div class='" +
+          loaderClass +
+          "'><span class='ui-icon-loading'></span><h1></h1></div>",
                     fakeFixLoader: function (
                     ) {
                         var activeBtn = jQuery(
@@ -2103,7 +2107,8 @@
                         loadSettings.textVisible,
                         this.element.attr(
                             "class",
-                            "ui-loader ui-corner-all ui-body-" +
+                            loaderClass +
+                " ui-corner-all ui-body-" +
                 theme +
                 " ui-loader-" +
                 (loadSettings.textVisible || msgText || theme.text
@@ -2162,11 +2167,13 @@
             $, window, undefined
         ) {
             var fake_onhashchange,
+                str_hashchange = "hashchange",
                 doc = document,
                 special = jQuery.event.special,
                 doc_mode = doc.documentMode,
                 supports_onhashchange =
-          "onhashchange" in window && (void 0 === doc_mode || doc_mode > 7);
+          "on" + str_hashchange in window &&
+          (void 0 === doc_mode || doc_mode > 7);
             function get_fragment(
                 url
             ) {
@@ -2177,21 +2184,21 @@
                     )
                 );
             }
-            (jQuery.fn.hashchange = function (
+            (jQuery.fn[str_hashchange] = function (
                 fn
             ) {
                 return fn
                     ? this.bind(
-                        "hashchange",
+                        str_hashchange,
                         fn
                     )
                     : this.trigger(
-                        "hashchange"
+                        str_hashchange
                     );
             }),
-            (jQuery.fn.hashchange.delay = 50),
-            (special.hashchange = jQuery.extend(
-                special.hashchange,
+            (jQuery.fn[str_hashchange].delay = 50),
+            (special[str_hashchange] = jQuery.extend(
+                special[str_hashchange],
                 {
                     setup: function (
                     ) {
@@ -2238,7 +2245,7 @@
                         jQuery(
                             window
                         ).trigger(
-                            "hashchange"
+                            str_hashchange
                         ))
                         : history_hash !== last_hash &&
                 (location.href =
@@ -2248,7 +2255,7 @@
                   ) + history_hash),
                     (timeout_id = setTimeout(
                         poll,
-                        jQuery.fn.hashchange.delay
+                        jQuery.fn[str_hashchange].delay
                     ));
                 }
                 return (
@@ -2273,7 +2280,7 @@
                   ) {
                       iframe ||
                     ((iframe_src =
-                      (iframe_src = jQuery.fn.hashchange.src) &&
+                      (iframe_src = jQuery.fn[str_hashchange].src) &&
                       iframe_src + get_fragment(
                       )),
                     (iframe = jQuery(
@@ -2318,7 +2325,7 @@
                       hash, history_hash
                   ) {
                       var iframe_doc = iframe.document,
-                          domain = jQuery.fn.hashchange.domain;
+                          domain = jQuery.fn[str_hashchange].domain;
                       hash !== history_hash &&
                       ((iframe_doc.title = doc.title),
                       iframe_doc.open(
@@ -2504,12 +2511,17 @@
                         var el,
                             transforms,
                             t,
+                            mqProp = "transform-3d",
                             ret = jQuery.mobile.media(
                                 "(-" +
                   vendors.join(
-                      "-transform-3d),(-"
+                      "-" + mqProp + "),(-"
                   ) +
-                  "-transform-3d),(transform-3d)",
+                  "-" +
+                  mqProp +
+                  "),(" +
+                  mqProp +
+                  ")",
                             );
                         if (ret) return !!ret;
                         for (t in ((el = document.createElement(
@@ -2905,7 +2917,9 @@
         (function (
             $, undefined
         ) {
-            var path, $base;
+            var path,
+                $base,
+                dialogHashKey = "&ui-state=dialog";
             (jQuery.mobile.path = path = {
                 uiStateKey: "&ui-state",
                 urlParseRE: /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
@@ -3106,7 +3120,7 @@
                     )
                         ? u.hash
                             .split(
-                                "&ui-state=dialog"
+                                dialogHashKey
                             )[0]
                             .replace(
                                 /^#/,
@@ -3126,7 +3140,7 @@
                                     ""
                                 )
                                 .split(
-                                    "&ui-state=dialog"
+                                    dialogHashKey
                                 )[0]
                             : window.decodeURIComponent(
                                 absUrl
@@ -3190,7 +3204,7 @@
                             /\?.*$/,
                             ""
                         ).replace(
-                            "&ui-state=dialog",
+                            dialogHashKey,
                             ""
                         ),
                     );
@@ -3365,7 +3379,7 @@
                     return path && path.split(
                         splitkey
                     )[0].split(
-                        "&ui-state=dialog"
+                        dialogHashKey
                     )[0];
                 },
                 isFirstPageUrl: function (
@@ -3979,6 +3993,8 @@
         ) {
             var threshold,
                 i,
+                dataPropertyName = "virtualMouseBindings",
+                touchTargetPropertyName = "virtualTouchID",
                 virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
                     " ",
                 ),
@@ -4064,7 +4080,7 @@
                     }, b, k; element; ) {
                     for (k in (b = jQuery.data(
                         element,
-                        "virtualMouseBindings"
+                        dataPropertyName
                     )))
                         b[k] && (flags[k] = flags.hasVirtualBinding = !0);
                     element = element.parentNode;
@@ -4078,7 +4094,7 @@
                     if (
                         (b = jQuery.data(
                             element,
-                            "virtualMouseBindings"
+                            dataPropertyName
                         )) &&
             (!eventType || b[eventType])
                     )
@@ -4156,7 +4172,7 @@
                 var ve,
                     touchID = jQuery.data(
                         event.target,
-                        "virtualTouchID"
+                        touchTargetPropertyName
                     );
                 blockMouseTriggers ||
           (lastTouchID && lastTouchID === touchID) ||
@@ -4192,8 +4208,8 @@
               .hasVirtualBinding &&
           (jQuery.data(
               target,
-              "virtualTouchID", (
-                  lastTouchID = nextTouchID++)
+              touchTargetPropertyName,
+              (lastTouchID = nextTouchID++),
           ),
           clearResetTimer(
           ),
@@ -4316,7 +4332,7 @@
                 var k,
                     bindings = jQuery.data(
                         ele,
-                        "virtualMouseBindings"
+                        dataPropertyName
                     );
                 if (bindings) for (k in bindings) if (bindings[k]) return !0;
                 return !1;
@@ -4334,16 +4350,15 @@
                     ) {
                         hasVirtualBindings(
                             this
-                        ) ||
-              jQuery.data(
-                  this,
-                  "virtualMouseBindings",
-                  {
-                  }
-              );
+                        ) || jQuery.data(
+                            this,
+                            dataPropertyName,
+                            {
+                            }
+                        );
                         var bindings = jQuery.data(
                             this,
-                            "virtualMouseBindings"
+                            dataPropertyName
                         );
                         (bindings[eventType] = !0),
                         (activeDocHandlers[eventType] =
@@ -4414,7 +4429,7 @@
                             ),
                             bindings = jQuery.data(
                                 this,
-                                "virtualMouseBindings"
+                                dataPropertyName
                             );
                         bindings && (bindings[eventType] = !1),
                         $this.unbind(
@@ -4423,10 +4438,9 @@
                         ),
                         hasVirtualBindings(
                             this
-                        ) ||
-                $this.removeData(
-                    "virtualMouseBindings"
-                );
+                        ) || $this.removeData(
+                            dataPropertyName
+                        );
                     },
                 };
             }
@@ -4477,7 +4491,7 @@
                       ) < threshold) ||
                       jQuery.data(
                           ele,
-                          "virtualTouchID"
+                          touchTargetPropertyName
                       ) === o.touchID)
                             )
                                 return e.preventDefault(
@@ -4500,6 +4514,7 @@
                     document
                 ),
                 supportTouch = jQuery.mobile.support.touch,
+                scrollEvent = "touchmove scroll",
                 touchStartEvent = supportTouch ? "touchstart" : "mousedown",
                 touchStopEvent = supportTouch ? "touchend" : "mouseup",
                 touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
@@ -4562,7 +4577,7 @@
                         );
                     }
                     $this.bind(
-                        "touchmove scroll",
+                        scrollEvent,
                         function (
                             event
                         ) {
@@ -4592,7 +4607,7 @@
                     jQuery(
                         this
                     ).unbind(
-                        "touchmove scroll"
+                        scrollEvent
                     );
                 },
             }),
@@ -5028,6 +5043,7 @@
                 win = jQuery(
                     window
                 ),
+                event_name = "orientationchange",
                 portrait_map = {
                     0: !0,
                     180: !0,
@@ -5038,7 +5054,7 @@
                 );
                 orientation !== last_orientation &&
           ((last_orientation = orientation), win.trigger(
-              "orientationchange"
+              event_name
           ));
             }
             jQuery.support.orientation &&
@@ -5116,19 +5132,19 @@
                     ? "portrait"
                     : "landscape";
             }),
-            (jQuery.fn.orientationchange = function (
+            (jQuery.fn[event_name] = function (
                 fn
             ) {
                 return fn
                     ? this.bind(
-                        "orientationchange",
+                        event_name,
                         fn
                     )
                     : this.trigger(
-                        "orientationchange"
+                        event_name
                     );
             }),
-            jQuery.attrFn && (jQuery.attrFn.orientationchange = !0);
+            jQuery.attrFn && (jQuery.attrFn[event_name] = !0);
         })(
             jQuery,
             this
@@ -7670,8 +7686,7 @@
         ) {
             (target = jQuery(
                 target
-            )),
-            target
+            ))
                 .find(
                     "input"
                 )
@@ -7693,31 +7708,31 @@
                             ),
                             optType = jQuery.mobile.degradeInputs[type] || "text";
                         jQuery.mobile.degradeInputs[type] &&
-              ((findstr = (hasType =
-                (html = jQuery(
-                    "<div>"
-                ).html(
-                    element.clone(
-                    )
-                ).html(
-                )).indexOf(
-                    " type=",
-                ) > -1)
-                  ? /\s+type=["']?\w+['"]?/
-                  : /\/?>/),
-              element.replaceWith(
-                  html.replace(
-                      findstr,
-                      ' type="' +
-                    optType +
-                    '" data-' +
-                    jQuery.mobile.ns +
-                    'type="' +
-                    type +
-                    '"' +
-                    (hasType ? "" : ">"),
-                  ),
-              ));
+            ((findstr = (hasType =
+              (html = jQuery(
+                  "<div>"
+              ).html(
+                  element.clone(
+                  )
+              ).html(
+              )).indexOf(
+                  " type=",
+              ) > -1)
+                ? /\s+type=["']?\w+['"]?/
+                : /\/?>/),
+            element.replaceWith(
+                html.replace(
+                    findstr,
+                    ' type="' +
+                  optType +
+                  '" data-' +
+                  jQuery.mobile.ns +
+                  'type="' +
+                  type +
+                  '"' +
+                  (hasType ? "" : ">"),
+                ),
+            ));
                     }
                 );
         }),
@@ -9391,11 +9406,10 @@
               lastDividerText !== dividerText &&
               ((divider = document.createElement(
                   "li"
-              )),
-              divider.appendChild(
+              )).appendChild(
                   document.createTextNode(
                       dividerText
-                  )
+                  ),
               ),
               divider.setAttribute(
                   "data-" + jQuery.mobile.ns + "role",
@@ -13871,8 +13885,7 @@
                             ),
                             container: jQuery.Deferred(
                             ),
-                        }),
-                        prerequisites.screen.then(
+                        }).screen.then(
                             function (
                             ) {
                                 prerequisites === self._prerequisites && screenPrerequisite(
@@ -14489,28 +14502,30 @@
         (function (
             $, undefined
         ) {
-            var goToAdjacentItem = function (
-                item, target, direction
-            ) {
-                var adjacent = item[direction + "All"](
-                )
-                    .not(
-                        ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
+            var unfocusableItemSelector =
+          ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
+                goToAdjacentItem = function (
+                    item, target, direction
+                ) {
+                    var adjacent = item[direction + "All"](
                     )
-                    .first(
-                    );
-                adjacent.length &&
-          (target.blur(
-          ).attr(
-              "tabindex",
-              "-1"
-          ),
-          adjacent.find(
-              "a"
-          ).first(
-          ).focus(
-          ));
-            };
+                        .not(
+                            unfocusableItemSelector
+                        )
+                        .first(
+                        );
+                    adjacent.length &&
+            (target.blur(
+            ).attr(
+                "tabindex",
+                "-1"
+            ),
+            adjacent.find(
+                "a"
+            ).first(
+            ).focus(
+            ));
+                };
             jQuery.widget(
                 "mobile.selectmenu",
                 jQuery.mobile.selectmenu,
@@ -15023,7 +15038,7 @@
                         );
                         0 === selector.length &&
             (selector = this.list.find(
-                "li:not(.ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')) a.ui-btn",
+                "li:not(" + unfocusableItemSelector + ") a.ui-btn",
             )),
                         selector.first(
                         ).focus(
@@ -16261,13 +16276,14 @@
                 show: function (
                     notransition
                 ) {
-                    var $el = this.element;
+                    var hideClass = "ui-fixed-hidden",
+                        $el = this.element;
                     this._useTransition(
                         notransition
                     )
                         ? $el
                             .removeClass(
-                                "out ui-fixed-hidden"
+                                "out " + hideClass
                             )
                             .addClass(
                                 "in"
@@ -16281,14 +16297,15 @@
                                 }
                             )
                         : $el.removeClass(
-                            "ui-fixed-hidden"
+                            hideClass
                         ),
                     (this._visible = !0);
                 },
                 hide: function (
                     notransition
                 ) {
-                    var $el = this.element,
+                    var hideClass = "ui-fixed-hidden",
+                        $el = this.element,
                         outclass =
             "out" + ("slide" === this.options.transition ? " reverse" : "");
                     this._useTransition(
@@ -16305,14 +16322,14 @@
                                 function (
                                 ) {
                                     $el.addClass(
-                                        "ui-fixed-hidden"
+                                        hideClass
                                     ).removeClass(
                                         outclass
                                     );
                                 }
                             )
                         : $el.addClass(
-                            "ui-fixed-hidden"
+                            hideClass
                         ).removeClass(
                             outclass
                         ),
@@ -18350,7 +18367,6 @@
                         var idx,
                             callback,
                             length,
-                            dst,
                             show = [],
                             hide = [],
                             opts = this.options,
@@ -18364,15 +18380,14 @@
                                 idx < length;
                                 idx++
                             )
-                                (dst = callback.call(
+                                (callback.call(
                                     filterItems[idx],
                                     idx,
                                     val
                                 )
                                     ? hide
-                                    : show),
-                                dst.push(
-                                    filterItems[idx]
+                                    : show).push(
+                                    filterItems[idx],
                                 );
                         0 === hide.length
                             ? filterItems[opts.filterReveal ? "addClass" : "removeClass"](
@@ -19330,12 +19345,11 @@
                                     (panel = that.element.find(
                                         selector
                                     )).length ||
-                    ((panel = that._createPanel(
+                    (panel = that._createPanel(
                         panelId
-                    )),
-                    panel.insertAfter(
-                        that.panels[i - 1] || that.tablist
-                    )),
+                    )).insertAfter(
+                        that.panels[i - 1] || that.tablist,
+                    ),
                                     panel.attr(
                                         "aria-live",
                                         "polite"

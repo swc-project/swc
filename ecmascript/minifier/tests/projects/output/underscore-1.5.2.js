@@ -76,7 +76,7 @@
                                 return;
         }
     });
-    (_.map = _.collect = function (
+    _.map = _.collect = function (
         obj, iterator, context
     ) {
         var results = [];
@@ -103,7 +103,8 @@
                     }
                 ),
                 results);
-    }),
+    };
+    var reduceError = "Reduce of empty array with no initial value";
     (_.reduce = _.foldl = _.inject = function (
         obj, iterator, memo, context
     ) {
@@ -145,7 +146,7 @@
             !initial)
         )
             throw new TypeError(
-                "Reduce of empty array with no initial value"
+                reduceError
             );
         return memo;
     }),
@@ -199,7 +200,7 @@
             !initial)
         )
             throw new TypeError(
-                "Reduce of empty array with no initial value"
+                reduceError
             );
         return memo;
     }),
