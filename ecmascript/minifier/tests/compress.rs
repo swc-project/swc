@@ -11,6 +11,7 @@ use std::panic::catch_unwind;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
+use std::time::Instant;
 use swc_common::comments::SingleThreadedComments;
 use swc_common::errors::Handler;
 use swc_common::sync::Lrc;
@@ -132,6 +133,8 @@ fn run(
 
     let top_level_mark = Mark::fresh(Mark::root());
 
+    let minification_start = Instant::now();
+
     let lexer = Lexer::new(
         Default::default(),
         Default::default(),
@@ -155,6 +158,7 @@ fn run(
         _ => return None,
     };
 
+    let optimization_start = Instant::now();
     let output = optimize(
         program,
         cm.clone(),
@@ -175,9 +179,22 @@ fn run(
             ..Default::default()
         },
         &ExtraOptions { top_level_mark },
-    )
-    .fold_with(&mut hygiene())
-    .fold_with(&mut fixer(None));
+    );
+    let end = Instant::now();
+    log::info!(
+        "optimize({}) took {:?}",
+        input.display(),
+        end - optimization_start
+    );
+
+    let output = output.fold_with(&mut hygiene()).fold_with(&mut fixer(None));
+
+    let end = Instant::now();
+    log::info!(
+        "process({}) took {:?}",
+        input.display(),
+        end - minification_start
+    );
 
     Some(output)
 }
