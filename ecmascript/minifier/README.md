@@ -24,6 +24,7 @@ Split status:
 -   [ ] jquery.mobile-1.4.2
 -   [ ] mootools-1.4.5
 -   [x] underscore-1.5.2
+-   [ ] yui-3.12.0
 
 ### Tests from terser
 
