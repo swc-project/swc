@@ -741,6 +741,12 @@ impl Optimizer<'_> {
                 if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
                     return false;
                 }
+                if idents_used_by(&**right)
+                    .iter()
+                    .any(|v| v.0 == js_word!("arguments"))
+                {
+                    return false;
+                }
 
                 // (a = 5, console.log(a))
                 //
