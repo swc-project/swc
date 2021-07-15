@@ -641,6 +641,12 @@ impl Optimizer<'_> {
 
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(obj),
+                computed: false,
+                ..
+            }) => return self.merge_sequential_expr(a, &mut **obj),
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
                 prop,
                 computed: true,
                 ..
@@ -649,6 +655,22 @@ impl Optimizer<'_> {
                     return true;
                 }
             }
+
+            Expr::Assign(b) => match &mut b.left {
+                PatOrExpr::Expr(b) => {
+                    if self.merge_sequential_expr(a, &mut **b) {
+                        return true;
+                    }
+                }
+                PatOrExpr::Pat(b) => match &mut **b {
+                    Pat::Expr(b) => {
+                        if self.merge_sequential_expr(a, &mut **b) {
+                            return true;
+                        }
+                    }
+                    _ => {}
+                },
+            },
 
             _ => {}
         }
