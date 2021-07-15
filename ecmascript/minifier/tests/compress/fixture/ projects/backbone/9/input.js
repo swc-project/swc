@@ -31,4 +31,5 @@
 
     // Require Underscore, if we're on the server, and it's not already present.
     var _ = root._;
+    console.log(Backbone);
 })()
