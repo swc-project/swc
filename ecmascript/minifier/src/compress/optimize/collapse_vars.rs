@@ -85,6 +85,13 @@ impl Optimizer<'_> {
                     {
                         return;
                     }
+
+                    if usage.used_in_loop {
+                        match &*assign.right {
+                            Expr::Lit(..) | Expr::Ident(..) => {}
+                            _ => return,
+                        }
+                    }
                 }
 
                 let value = match &*assign.right {
