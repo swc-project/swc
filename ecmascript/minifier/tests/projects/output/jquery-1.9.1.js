@@ -5553,7 +5553,7 @@
               jQuery.event.special[fix] = {
                   setup: function (
                   ) {
-                      attaches++ == 0 && document.addEventListener(
+                      0 == attaches++ && document.addEventListener(
                           orig,
                           handler,
                           !0
@@ -5561,7 +5561,7 @@
                   },
                   teardown: function (
                   ) {
-                      --attaches == 0 &&
+                      0 == --attaches &&
                 document.removeEventListener(
                     orig,
                     handler,
@@ -9969,11 +9969,12 @@
           return (
               (elem.offsetWidth <= 0 && elem.offsetHeight <= 0) ||
           (!jQuery.support.reliableHiddenOffsets &&
-            ((elem.style && elem.style.display) ||
-              jQuery.css(
-                  elem,
-                  "display"
-              )) === "none")
+            "none" ===
+              ((elem.style && elem.style.display) ||
+                jQuery.css(
+                    elem,
+                    "display"
+                )))
           );
       }),
       (jQuery.expr.filters.visible = function (
@@ -10649,7 +10650,7 @@
                 )
                     return jqXHR;
                 for (i in ((fireGlobals = s.global) &&
-          jQuery.active++ == 0 &&
+          0 == jQuery.active++ &&
           jQuery.event.trigger(
               "ajaxStart"
           ),
