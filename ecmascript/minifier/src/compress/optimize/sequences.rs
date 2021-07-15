@@ -656,7 +656,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            Expr::Assign(b) => match &mut b.left {
+            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => match &mut b.left {
                 PatOrExpr::Expr(b) => {
                     if self.merge_sequential_expr(a, &mut **b) {
                         return true;
