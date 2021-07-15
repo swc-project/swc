@@ -9,6 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::ModuleItemLike;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Value;
 use swc_ecma_visit::noop_visit_type;
@@ -24,6 +25,25 @@ pub(crate) mod sort;
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     Expr::Lit(Lit::Num(Number { span, value }))
+}
+
+pub trait MoudleItemExt: StmtLike + ModuleItemLike {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
+}
+
+impl MoudleItemExt for Stmt {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        Err(self)
+    }
+}
+
+impl MoudleItemExt for ModuleItem {
+    fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Ok(v),
+            ModuleItem::Stmt(v) => Err(v),
+        }
+    }
 }
 
 ///
