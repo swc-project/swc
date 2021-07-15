@@ -3,6 +3,7 @@ use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
+use crate::util::MoudleItemExt;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
@@ -235,7 +236,7 @@ impl Repeated for Optimizer<'_> {
 impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + ModuleItemLike + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self>
             + VisitWith<UsageAnalyzer>
             + VisitMutWith<self::collapse_vars::VarPrepender>,
