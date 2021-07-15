@@ -28,6 +28,7 @@ use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::IsEmpty;
+use swc_ecma_utils::ModuleItemLike;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
@@ -234,7 +235,7 @@ impl Repeated for Optimizer<'_> {
 impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitMutWith<Self>,
+        T: StmtLike + ModuleItemLike + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self>
             + VisitWith<UsageAnalyzer>
             + VisitMutWith<self::collapse_vars::VarPrepender>,

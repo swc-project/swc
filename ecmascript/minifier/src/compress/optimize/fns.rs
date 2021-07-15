@@ -1,11 +1,11 @@
-use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::{ModuleItemLike, StmtLike};
 
 use super::Optimizer;
 
 impl Optimizer<'_> {
     pub(super) fn reorder_stmts<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + ModuleItemLike,
     {
     }
 }
