@@ -13,9 +13,22 @@ impl Optimizer<'_> {
             // Check for function declarations.
 
             match (a.as_module_decl(), b.as_module_decl()) {
-                (Err(Stmt::Decl(Decl::Fn(..))), Err(Stmt::Decl(Decl::Fn(..)))) => {
-                    Some(Ordering::Less)
-                }
+                (
+                    Err(Stmt::Decl(
+                        Decl::Fn(..)
+                        | Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        }),
+                    )),
+                    Err(Stmt::Decl(
+                        Decl::Fn(..)
+                        | Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        }),
+                    )),
+                ) => Some(Ordering::Less),
                 (_, Err(Stmt::Decl(Decl::Fn(..)))) => Some(Ordering::Greater),
                 _ => Some(Ordering::Less),
             }
@@ -35,6 +48,18 @@ impl Optimizer<'_> {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: Decl::Fn(..),
+                    ..
+                }))
+                | ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    kind: VarDeclKind::Var,
+                    ..
+                })))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl:
+                        Decl::Var(VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        }),
                     ..
                 })) => {
                     fns.push(T::from_module_item(stmt));
