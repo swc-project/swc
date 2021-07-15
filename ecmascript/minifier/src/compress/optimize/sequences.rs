@@ -755,8 +755,6 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                dbg!(&*b);
-
                 // (a = 5, console.log(a))
                 //
                 // =>
