@@ -2318,11 +2318,11 @@
                         i
                     );
                     for (
-                        i = i
+                        len = arr.length, i = i
                             ? (i < 0
                                 ? Math.max(
                                     0,
-                                    (len = arr.length) + i
+                                    len + i
                                 )
                                 : i)
                             : 0;
@@ -8850,10 +8850,9 @@
                 dataAndEvents, deepDataAndEvents
             ) {
                 return (
+                    (dataAndEvents = null != dataAndEvents && dataAndEvents),
                     (deepDataAndEvents =
-            null == deepDataAndEvents
-                ? (dataAndEvents = null != dataAndEvents && dataAndEvents)
-                : deepDataAndEvents),
+            null == deepDataAndEvents ? dataAndEvents : deepDataAndEvents),
                     this.map(
                         function (
                         ) {

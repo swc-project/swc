@@ -2088,17 +2088,18 @@
                         var message, loadSettings;
                         this.resetHtml(
                         ),
-                        (theme =
-              "object" === jQuery.type(
-                  theme
-              )
-                  ? (loadSettings = jQuery.extend(
-                      {
-                      },
-                      this.options,
-                      theme
-                  )).theme
-                  : theme || (loadSettings = this.options).theme),
+                        "object" === jQuery.type(
+                            theme
+                        )
+                            ? (theme = (loadSettings = jQuery.extend(
+                                {
+                                },
+                                this.options,
+                                theme
+                            ))
+                                .theme)
+                            : ((loadSettings = this.options),
+                            (theme = theme || loadSettings.theme)),
                         (message =
               msgText || (!1 === loadSettings.text ? "" : loadSettings.text)),
                         $html.addClass(
@@ -5040,6 +5041,7 @@
                 initial_orientation_is_default,
                 ww,
                 wh,
+                landscape_threshold,
                 win = jQuery(
                     window
                 ),
@@ -5062,7 +5064,9 @@
         )),
         (wh = window.innerHeight || win.height(
         )),
-        (initial_orientation_is_landscape = ww > wh && ww - wh > 50),
+        (landscape_threshold = 50),
+        (initial_orientation_is_landscape =
+          ww > wh && ww - wh > landscape_threshold),
         (initial_orientation_is_default = portrait_map[window.orientation]),
         ((initial_orientation_is_landscape && initial_orientation_is_default) ||
           (!initial_orientation_is_landscape &&
@@ -5582,18 +5586,19 @@
                     },
                     _recordScroll: function (
                     ) {
-                        var currentScroll;
+                        var currentScroll, minScroll, defaultScroll;
                         if (this.setLastScrollEnabled) {
                             var active = this._getActiveHistory(
                             );
                             active &&
+              ((currentScroll = this._getScroll(
+              )),
+              (minScroll = this._getMinScroll(
+              )),
+              (defaultScroll = this._getDefaultScroll(
+              )),
               (active.lastScroll =
-                (currentScroll = this._getScroll(
-                )) < this._getMinScroll(
-                )
-                    ? this._getDefaultScroll(
-                    )
-                    : currentScroll);
+                currentScroll < minScroll ? defaultScroll : currentScroll));
                         }
                     },
                     _delayedRecordScroll: function (
@@ -15466,13 +15471,14 @@
                     defaults = jQuery.fn.buttonMarkup.defaults;
                 for (idx = 0; idx < this.length; idx++) {
                     if (
-                        ((data = overwriteClasses
+                        ((el = this[idx]),
+                        (data = overwriteClasses
                             ? {
                                 alreadyEnhanced: !1,
                                 unknownClasses: [],
                             }
                             : classNameToOptions(
-                                (el = this[idx]).className
+                                el.className
                             )),
                         (retrievedOptions = jQuery.extend(
                             {
