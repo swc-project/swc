@@ -1,3 +1,5 @@
-function foo() { }
-function bar() { }
-console.log("foo");
+function foo() {
+}
+function bar() {
+}
+console.log('foo');
