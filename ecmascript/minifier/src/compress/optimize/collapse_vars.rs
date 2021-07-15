@@ -330,11 +330,6 @@ impl Optimizer<'_> {
 /// initializer.
 #[derive(Default)]
 pub(super) struct VarWithOutInitCounter {
-    /// The number of [VarDecl] which has one or more [VarDeclarator] without an
-    /// initialzier
-    no_init_count: usize,
-    init_count: usize,
-
     need_work: bool,
     found_var_decl_without_init: bool,
 }
@@ -356,10 +351,17 @@ impl Visit for VarWithOutInitCounter {
                 self.need_work = true;
             }
             self.found_var_decl_without_init = true;
+        }
 
-            self.no_init_count += 1;
-        } else {
-            self.init_count += 1;
+        let mut found_init = false;
+        for d in &v.decls {
+            if d.init.is_some() {
+                found_init = true
+            } else {
+                if found_init {
+                    self.need_work = true;
+                }
+            }
         }
     }
 
