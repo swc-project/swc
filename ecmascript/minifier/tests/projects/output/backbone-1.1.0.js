@@ -1,9 +1,9 @@
 (function (
 ) {
-    var Backbone,
-        root = this,
+    var root = this,
         previousBackbone = root.Backbone,
-        slice = [].slice;
+        slice = [].slice,
+        Backbone;
     (Backbone =
     "undefined" != typeof exports
         ? exports
@@ -470,12 +470,12 @@
             changedAttributes: function (
                 diff
             ) {
-                var val;
                 if (!diff) return !!this.hasChanged(
                 ) && _.clone(
                     this.changed
                 );
-                var changed = !1;
+                var val,
+                    changed = !1;
                 for (var attr in diff)
                     _.isEqual(
                         (this._changing ? this._previousAttributes : this.attributes)[attr],
@@ -878,26 +878,18 @@
             remove: function (
                 models, options
             ) {
-                var i,
-                    l,
-                    index,
-                    model,
-                    singular = !_.isArray(
+                var singular = !_.isArray(
+                    models
+                );
+                (models = singular
+                    ? [models,]
+                    : _.clone(
                         models
-                    );
-                for (
-                    i = 0,
-                    models = singular
-                        ? [models,]
-                        : _.clone(
-                            models
-                        ),
-                    options || (options = {
-                    }),
-                    l = models.length;
-                    i < l;
-                    i++
-                )
+                    )),
+                options || (options = {
+                });
+                var i, l, index, model;
+                for (i = 0, l = models.length; i < l; i++)
                     (model = models[i] = this.get(
                         models[i]
                     )) &&
@@ -926,7 +918,6 @@
             set: function (
                 models, options
             ) {
-                var i, l, model, attrs, existing, sort;
                 (options = _.defaults(
                     {
                     },
@@ -945,7 +936,13 @@
                     : _.clone(
                         models
                     );
-                var at = options.at,
+                var i,
+                    l,
+                    model,
+                    attrs,
+                    existing,
+                    sort,
+                    at = options.at,
                     sortable = this.comparator && null == at && !1 !== options.sort,
                     sortAttr = _.isString(
                         this.comparator
@@ -2185,8 +2182,8 @@
         protoProps,
         staticProps,
     ) {
-        var child,
-            parent = this;
+        var parent = this,
+            child;
         (child =
         protoProps && _.has(
             protoProps,

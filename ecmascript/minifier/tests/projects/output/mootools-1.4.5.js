@@ -1763,10 +1763,11 @@ var $try = Function.attempt;
                         function (
                             value, key
                         ) {
+                            base && (key = base + "[" + key + "]");
                             var result;
-                            switch ((base && (key = base + "[" + key + "]"), typeOf(
+                            switch (typeOf(
                                 value
-                            ))) {
+                            )) {
                             case "object":
                                 result = Object.toQueryString(
                                     value,
@@ -3123,18 +3124,16 @@ function (
                 }
             );
         else if (attributeKey) {
+            (attributeKey = attributeKey.replace(
+                reUnescape,
+                ""
+            )),
+            (attributeValue = (attributeValue || "").replace(
+                reUnescape,
+                ""
+            ));
             var test, regexp1;
-            switch (
-                ((attributeKey = attributeKey.replace(
-                    reUnescape,
-                    ""
-                )),
-                (attributeValue = (attributeValue || "").replace(
-                    reUnescape,
-                    ""
-                )),
-                attributeOperator)
-            ) {
+            switch (attributeOperator) {
             case "^=":
                 regexp1 = new RegExp(
                     "^" + escapeRegExp(
@@ -3271,15 +3270,15 @@ function (
         else if (!document.navigator) return;
         else document = document.document;
         if (this.document !== document) {
+            this.document = document;
             var feature,
                 starSelectsClosed,
                 starSelectsComments,
                 brokenSecondClassNameGEBCN,
                 cachedGetElementsByClassName,
                 brokenFormAttributeGetter,
-                selected;
-            this.document = document;
-            var root = document.documentElement,
+                selected,
+                root = document.documentElement,
                 rootUid = this.getUIDXML(
                     root
                 ),
@@ -3597,6 +3596,8 @@ function (
     ) {
         var parsed,
             i,
+            node,
+            nodes,
             j,
             m,
             n,
@@ -3635,9 +3636,7 @@ function (
                 reSimpleSelector
             );
             simpleSelectors: if (simpleSelector) {
-                var node,
-                    nodes,
-                    symbol = simpleSelector[1],
+                var symbol = simpleSelector[1],
                     name = simpleSelector[2];
                 if (symbol) {
                     if ("#" == symbol) {
@@ -4048,7 +4047,6 @@ function (
     (local.matchNode = function (
         node, selector
     ) {
-        var i, item;
         if (this.isHTMLDocument && this.nativeMatchesSelector)
             try {
                 return this.nativeMatchesSelector.call(
@@ -4059,9 +4057,11 @@ function (
                     ),
                 );
             } catch (matchError) {}
-        var parsed = this.Slick.parse(
-            selector
-        );
+        var i,
+            item,
+            parsed = this.Slick.parse(
+                selector
+            );
         if (!parsed) return !0;
         var simpleExpCounter = 0;
         for (i = 0; (currentExpression = parsed.expressions[i]); i++)
@@ -4113,7 +4113,6 @@ function (
         attributes,
         pseudos,
     ) {
-        var i, part, cls;
         if (tag) {
             var nodeName = this.isXMLDocument
                 ? node.nodeName
@@ -4126,6 +4125,7 @@ function (
         if (id && node.getAttribute(
             "id"
         ) != id) return !1;
+        var i, part, cls;
         if (classes)
             for (i = classes.length; i--; )
                 if (
@@ -4934,8 +4934,7 @@ var IFrame = new Type(
         "IFrame",
         function (
         ) {
-            var iframe,
-                params = Array.link(
+            var params = Array.link(
                     arguments,
                     {
                         properties: Type.isObject,
@@ -4947,7 +4946,8 @@ var IFrame = new Type(
                     }
                 ),
                 props = params.properties || {
-                };
+                },
+                iframe;
             params.iframe && (iframe = document.id(
                 params.iframe
             ));
@@ -5105,8 +5105,7 @@ Elements.alias(
 ),
 (function (
 ) {
-    var createElementAcceptsHTML,
-        splice = Array.prototype.splice,
+    var splice = Array.prototype.splice,
         object = {
             0: 0,
             1: 1,
@@ -5148,6 +5147,7 @@ Elements.alias(
     Array.mirror(
         Elements
     );
+    var createElementAcceptsHTML;
     try {
         createElementAcceptsHTML =
         "x" == document.createElement(
@@ -6108,8 +6108,8 @@ Elements.alias(
             },
             adopt: function (
             ) {
-                var fragment,
-                    parent = this,
+                var parent = this,
+                    fragment,
                     elements = Array.flatten(
                         arguments
                     ),
@@ -6334,12 +6334,12 @@ Elements.alias(
             clone: function (
                 contents, keepid
             ) {
-                var i,
-                    clone = this.cloneNode(
+                var clone = this.cloneNode(
                         (contents = !1 !== contents)
                     ),
                     ce = [clone,],
-                    te = [this,];
+                    te = [this,],
+                    i;
                 for (
                     contents &&
             (ce.append(
@@ -6811,11 +6811,11 @@ Elements.alias(
                 ? function (
                     element
                 ) {
-                    var opacity,
-                        filter =
+                    var filter =
                 element.style.filter || element.getComputedStyle(
                     "filter"
-                );
+                ),
+                        opacity;
                     return (
                         filter && (opacity = filter.match(
                             reAlpha
@@ -7834,9 +7834,7 @@ Elements.alias(
             removeEvent: function (
                 type, match, fn, _uid
             ) {
-                var __uid,
-                    s,
-                    storage = this.retrieve(
+                var storage = this.retrieve(
                         "$delegates",
                         {
                         }
@@ -7863,6 +7861,7 @@ Elements.alias(
                         )
                     );
                 }
+                var __uid, s;
                 if (fn)
                     for (__uid in stored)
                         if ((s = stored[__uid]).match == match && s.fn == fn)
@@ -9081,14 +9080,14 @@ Element1.implement(
         fade: function (
             how
         ) {
-            var method,
-                toggle,
-                fade = this.get(
+            var fade = this.get(
                     "tween"
                 ),
+                method,
                 args = ["opacity",].append(
                     arguments
-                );
+                ),
+                toggle;
             switch ((null == args[1] && (args[1] = "toggle"), args[1])) {
             case "in":
                 (method = "start"), (args[1] = 1);
@@ -10340,9 +10339,9 @@ var Cookie = new Class(
 ) {
     var ready,
         loaded,
+        checks = [],
         shouldPoll,
         timer,
-        checks = [],
         testElement = document.createElement(
             "div"
         ),

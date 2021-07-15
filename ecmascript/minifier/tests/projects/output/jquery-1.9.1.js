@@ -132,11 +132,12 @@
     function internalData(
         elem, name, data, pvt
     ) {
-        var thisCache, ret;
         if (jQuery.acceptData(
             elem
         )) {
-            var internalKey = jQuery.expando,
+            var thisCache,
+                ret,
+                internalKey = jQuery.expando,
                 getByName = "string" == typeof name,
                 isNode = elem.nodeType,
                 cache = isNode ? jQuery.cache : elem,
@@ -184,11 +185,13 @@
     function internalRemoveData(
         elem, name, pvt
     ) {
-        var i, l, thisCache;
         if (jQuery.acceptData(
             elem
         )) {
-            var isNode = elem.nodeType,
+            var i,
+                l,
+                thisCache,
+                isNode = elem.nodeType,
                 cache = isNode ? jQuery.cache : elem,
                 id = isNode ? elem[jQuery.expando] : jQuery.expando;
             if (cache[id]) {
@@ -494,11 +497,13 @@
     function cloneCopyEvent(
         src, dest
     ) {
-        var type, i, l;
         if (1 === dest.nodeType && jQuery.hasData(
             src
         )) {
-            var oldData = jQuery._data(
+            var type,
+                i,
+                l,
+                oldData = jQuery._data(
                     src
                 ),
                 curData = jQuery._data(
@@ -968,10 +973,10 @@
         return function (
             dataTypeExpression, func
         ) {
-            var dataType;
             "string" != typeof dataTypeExpression &&
         ((func = dataTypeExpression), (dataTypeExpression = "*"));
-            var i = 0;
+            var dataType,
+                i = 0;
             if (jQuery.isFunction(
                 func
             ))
@@ -2038,7 +2043,6 @@
             isPlainObject: function (
                 obj
             ) {
-                var key;
                 if (
                     !obj ||
           "object" !== jQuery.type(
@@ -2066,6 +2070,7 @@
                 } catch (e) {
                     return !1;
                 }
+                var key;
                 for (key in obj);
                 return void 0 === key || core_hasOwn.call(
                     obj,
@@ -2576,7 +2581,6 @@
     (jQuery.Callbacks = function (
         options
     ) {
-        var firing, memory, fired, firingLength, firingIndex, firingStart;
         options =
         "string" == typeof options
             ? optionsCache[options] || createOptions(
@@ -2587,7 +2591,13 @@
                 },
                 options
             );
-        var list = [],
+        var firing,
+            memory,
+            fired,
+            firingLength,
+            firingIndex,
+            firingStart,
+            list = [],
             stack = !options.once && [],
             fire = function (
                 data
@@ -2904,10 +2914,7 @@
             when: function (
                 subordinate
             ) {
-                var progressValues,
-                    progressContexts,
-                    resolveContexts,
-                    i = 0,
+                var i = 0,
                     resolveValues = core_slice.call(
                         arguments
                     ),
@@ -2946,7 +2953,10 @@
                                     values
                                 );
                         };
-                    };
+                    },
+                    progressValues,
+                    progressContexts,
+                    resolveContexts;
                 if (length > 1)
                     for (
                         progressValues = new Array(
@@ -4924,11 +4934,15 @@
         dispatch: function (
             event
         ) {
-            var i, ret, handleObj, matched, j;
             event = jQuery.event.fix(
                 event
             );
-            var handlerQueue = [],
+            var i,
+                ret,
+                handleObj,
+                matched,
+                j,
+                handlerQueue = [],
                 args = core_slice.call(
                     arguments
                 ),
@@ -5055,9 +5069,11 @@
         fix: function (
             event
         ) {
-            var i, prop, copy;
             if (event[jQuery.expando]) return event;
-            var type = event.type,
+            var i,
+                prop,
+                copy,
+                type = event.type,
                 originalEvent = event,
                 fixHook = this.fixHooks[type];
             for (
@@ -8974,12 +8990,17 @@
             domManip: function (
                 args, table, callback
             ) {
-                var first, node, hasScripts, scripts, doc, fragment;
                 args = core_concat.apply(
                     [],
                     args
                 );
-                var i = 0,
+                var first,
+                    node,
+                    hasScripts,
+                    scripts,
+                    doc,
+                    fragment,
+                    i = 0,
                     l = this.length,
                     value = args[0],
                     isFunction = jQuery.isFunction(
@@ -9575,14 +9596,16 @@
             style: function (
                 elem, name, value, extra
             ) {
-                var ret, type, hooks;
                 if (
                     !!elem &&
           3 !== elem.nodeType &&
           8 !== elem.nodeType &&
           elem.style
                 ) {
-                    var origName = jQuery.camelCase(
+                    var ret,
+                        type,
+                        hooks,
+                        origName = jQuery.camelCase(
                             name
                         ),
                         style = elem.style;
@@ -10211,12 +10234,14 @@
     (jQuery.fn.load = function (
         url, params, callback
     ) {
-        var selector, response, type;
         if ("string" != typeof url && _load) return _load.apply(
             this,
             arguments
         );
-        var self = this,
+        var selector,
+            response,
+            type,
+            self = this,
             off = url.indexOf(
                 " "
             );
@@ -11624,7 +11649,6 @@
     (jQuery.fn.offset = function (
         options
     ) {
-        var win;
         if (arguments.length)
             return void 0 === options
                 ? this
@@ -11639,7 +11663,8 @@
                         );
                     }
                 );
-        var box = {
+        var win,
+            box = {
                 top: 0,
                 left: 0,
             },
@@ -11673,12 +11698,10 @@
         setOffset: function (
             elem, options, i
         ) {
-            var curTop,
-                curLeft,
-                position = jQuery.css(
-                    elem,
-                    "position"
-                );
+            var position = jQuery.css(
+                elem,
+                "position"
+            );
             "static" === position && (elem.style.position = "relative");
             var curElem = jQuery(
                     elem
@@ -11702,7 +11725,9 @@
                 props = {
                 },
                 curPosition = {
-                };
+                },
+                curTop,
+                curLeft;
             calculatePosition
                 ? ((curTop = (curPosition = curElem.position(
                 )).top),
@@ -11739,9 +11764,10 @@
         {
             position: function (
             ) {
-                var offsetParent, offset;
                 if (this[0]) {
-                    var parentOffset = {
+                    var offsetParent,
+                        offset,
+                        parentOffset = {
                             top: 0,
                             left: 0,
                         },
