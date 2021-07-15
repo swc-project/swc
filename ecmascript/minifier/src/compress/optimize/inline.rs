@@ -305,7 +305,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if usage.reassigned {
+            if usage.reassigned || usage.inline_prevented {
                 return;
             }
 

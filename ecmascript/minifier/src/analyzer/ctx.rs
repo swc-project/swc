@@ -41,6 +41,8 @@ pub(super) struct Ctx {
     pub in_update_arg: bool,
     pub in_assign_lhs: bool,
     pub in_cond: bool,
+
+    pub inline_prevented: bool,
 }
 
 pub(super) struct WithCtx<'a> {

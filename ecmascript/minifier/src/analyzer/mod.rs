@@ -38,6 +38,8 @@ where
 
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
+    pub inline_prevented: bool,
+
     /// The number of reference to this identifier.
     pub ref_count: usize,
 
@@ -148,6 +150,8 @@ impl ProgramData {
         for (id, var_info) in child.vars {
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    e.get_mut().inline_prevented |= var_info.inline_prevented;
+
                     e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= var_info.cond_init;
 
@@ -241,6 +245,8 @@ impl UsageAnalyzer {
             used_above_decl: true,
             ..Default::default()
         });
+
+        e.inline_prevented |= self.ctx.inline_prevented;
 
         e.ref_count += 1;
         e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
@@ -394,6 +400,20 @@ impl Visit for UsageAnalyzer {
             };
             n.body.visit_with(n, &mut *self.with_ctx(ctx));
         }
+    }
+
+    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+        n.decorators.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                inline_prevented: true,
+                ..self.ctx
+            };
+            n.super_class.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+
+        n.body.visit_with(n, self);
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
