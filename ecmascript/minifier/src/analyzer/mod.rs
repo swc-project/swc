@@ -468,7 +468,14 @@ impl Visit for UsageAnalyzer {
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+            n.right.visit_with(n, &mut *child.with_ctx(ctx));
+
+            let ctx = Ctx {
+                in_loop: true,
+                in_cond: true,
+                ..child.ctx
+            };
+            n.body.visit_with(n, &mut *child.with_ctx(ctx));
         });
     }
 
