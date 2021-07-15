@@ -1637,3 +1637,15 @@ export default function reducer(state = initialState, action = {}) {
       } : param1;
   }"
 );
+
+test!(
+    syntax(),
+    |_| parameters(),
+    rest_in_top_level_arrow,
+    "
+    const arrow = (...args) => {
+      console.log(args);
+    }
+    ",
+    ""
+);
