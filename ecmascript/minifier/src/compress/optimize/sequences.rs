@@ -700,9 +700,7 @@ impl Optimizer<'_> {
                     },
                 }
 
-                if self.merge_sequential_expr(a, &mut b.right) {
-                    return true;
-                }
+                return self.merge_sequential_expr(a, &mut b.right);
             }
 
             Expr::Array(b) => {
@@ -756,6 +754,8 @@ impl Optimizer<'_> {
                 {
                     return false;
                 }
+
+                dbg!(&*b);
 
                 // (a = 5, console.log(a))
                 //
