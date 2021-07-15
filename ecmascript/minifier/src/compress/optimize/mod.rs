@@ -239,7 +239,9 @@ impl Optimizer<'_> {
         T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
         Vec<T>: VisitMutWith<Self>
             + VisitWith<UsageAnalyzer>
-            + VisitMutWith<self::collapse_vars::VarPrepender>,
+            + VisitWith<self::collapse_vars::VarWithOutInitCounter>
+            + VisitMutWith<self::collapse_vars::VarPrepender>
+            + VisitMutWith<self::collapse_vars::VarCollector>,
     {
         match self.data {
             Some(..) => {}

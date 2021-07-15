@@ -1,5 +1,3 @@
-use crate::compress::optimize::DISABLE_BUGGY_PASSES;
-
 use super::Optimizer;
 use fxhash::FxHashMap;
 use swc_common::DUMMY_SP;
@@ -252,97 +250,77 @@ impl Optimizer<'_> {
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<VarPrepender>,
+        Vec<T>: VisitWith<VarWithOutInitCounter>
+            + VisitMutWith<VarCollector>
+            + VisitMutWith<VarPrepender>,
     {
         if !self.options.collapse_vars {
             return;
         }
 
-        let mut found_other = false;
-        let mut need_work = false;
+        {
+            // let mut found_other = false;
+            // let mut need_work = false;
 
-        for stmt in &*stmts {
-            match stmt.as_stmt() {
-                Some(Stmt::Decl(Decl::Var(
-                    v
-                    @
-                    VarDecl {
-                        kind: VarDeclKind::Var,
-                        ..
-                    },
-                ))) => {
-                    for d in &v.decls {
-                        if d.init.is_none() {
-                            if found_other {
-                                need_work = true;
-                            }
-                        } else {
-                            found_other = true;
-                        }
-                    }
-                }
+            // for stmt in &*stmts {
+            //     match stmt.as_stmt() {
+            //         Some(Stmt::Decl(Decl::Var(
+            //             v
+            //             @
+            //             VarDecl {
+            //                 kind: VarDeclKind::Var,
+            //                 ..
+            //             },
+            //         ))) => {
+            //             if v.decls.iter().any(|v| v.init.is_none()) {
+            //                 if found_other {
+            //                     need_work = true;
+            //                 }
+            //             } else {
+            //                 found_other = true;
+            //             }
+            //         }
 
-                _ => {
-                    found_other = true;
-                }
+            //         _ => {
+            //             found_other = true;
+            //         }
+            //     }
+            // }
+
+            // Check for nested variable declartions.
+            let mut v = VarWithOutInitCounter {
+                no_init_count: 0,
+                init_count: 0,
+            };
+            stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            if v.no_init_count == 0 {
+                return;
             }
-        }
-
-        if !need_work {
-            return;
+            if v.no_init_count == 1 && v.init_count == 0 {
+                return;
+            }
         }
 
         self.changed = true;
         log::trace!("collapse_vars: Collapsing variables without an initializer");
 
-        let mut vars = vec![];
-        let mut new = Vec::with_capacity(stmts.len() + 1);
+        let vars = {
+            let mut v = VarCollector {
+                vars: Default::default(),
+            };
+            stmts.visit_mut_with(&mut v);
 
-        for stmt in stmts.take() {
-            match stmt.try_into_stmt() {
-                Ok(stmt) => match stmt {
-                    Stmt::Decl(Decl::Var(
-                        v
-                        @
-                        VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        },
-                    )) => {
-                        let mut new_decls = vec![];
-
-                        for decl in v.decls {
-                            if decl.init.is_some() {
-                                new_decls.push(decl);
-                            } else {
-                                vars.push(decl);
-                            }
-                        }
-
-                        if !new_decls.is_empty() {
-                            new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                                decls: new_decls,
-                                ..v
-                            }))))
-                        }
-                    }
-                    _ => new.push(T::from_stmt(stmt)),
-                },
-                Err(item) => new.push(item),
-            }
-        }
+            v.vars
+        };
 
         // Prepend vars
 
-        // TODO: Use Preender after preventing infinite loops.
         let mut prepender = VarPrepender { vars };
-        if !DISABLE_BUGGY_PASSES {
-            new.visit_mut_with(&mut prepender);
-        }
+        stmts.visit_mut_with(&mut prepender);
 
         if !prepender.vars.is_empty() {
             prepend(
-                &mut new,
+                stmts,
                 T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -351,10 +329,107 @@ impl Optimizer<'_> {
                 }))),
             );
         }
+    }
+}
 
-        *stmts = new;
+/// See if there's two [VarDecl] which has [VarDeclarator] without the
+/// initializer.
+pub(super) struct VarWithOutInitCounter {
+    /// The number of [VarDecl] which has one or more [VarDeclarator] without an
+    /// initialzier
+    no_init_count: usize,
+    init_count: usize,
+}
 
-        //
+impl Visit for VarWithOutInitCounter {
+    noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+
+    fn visit_constructor(&mut self, _: &Constructor, _: &dyn Node) {}
+
+    fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
+
+    fn visit_var_decl(&mut self, v: &VarDecl, _: &dyn Node) {
+        v.visit_children_with(self);
+
+        if v.decls.iter().any(|v| v.init.is_none()) {
+            self.no_init_count += 1;
+        } else {
+            self.init_count += 1;
+        }
+    }
+
+    fn visit_var_decl_or_expr(&mut self, _: &VarDeclOrExpr, _: &dyn Node) {}
+
+    fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat, _: &dyn Node) {}
+}
+
+/// Collects all varaible without init.
+pub(super) struct VarCollector {
+    vars: Vec<VarDeclarator>,
+}
+
+impl VisitMut for VarCollector {
+    noop_visit_mut_type!();
+
+    /// Noop
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    /// Noop
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    /// Noop
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(d),
+                ..
+            })) if d.decls.is_empty() => {
+                s.take();
+                return;
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, s: &mut Stmt) {
+        s.visit_mut_children_with(self);
+
+        match s {
+            Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
+                s.take();
+                return;
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_var_decl_or_expr(&mut self, _: &mut VarDeclOrExpr) {}
+
+    fn visit_mut_var_decl_or_pat(&mut self, _: &mut VarDeclOrPat) {}
+
+    fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
+        if d.iter().all(|v| v.init.is_some()) {
+            return;
+        }
+
+        let mut new = vec![];
+
+        for v in d.take() {
+            if v.init.is_some() {
+                new.push(v)
+            } else {
+                self.vars.push(v)
+            }
+        }
+
+        *d = new;
     }
 }
 
