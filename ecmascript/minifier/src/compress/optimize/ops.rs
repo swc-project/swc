@@ -489,7 +489,14 @@ impl Optimizer<'_> {
             (Expr::Member(_), _) if is_for_rel => false,
 
             (
-                Expr::Member(..) | Expr::Call(..) | Expr::Assign(..) | Expr::Update(..),
+                Expr::Member(..)
+                | Expr::Call(..)
+                | Expr::Assign(..)
+                | Expr::Update(..)
+                | Expr::Bin(BinExpr {
+                    op: op!("&&") | op!("||"),
+                    ..
+                }),
                 Expr::Lit(..),
             ) => true,
 
