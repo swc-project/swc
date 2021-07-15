@@ -12,6 +12,19 @@ Currently name mangler is very simple. To focus on creating a MVP, I (kdy1) will
 
 You can use vscode to see diffs. Select a file from `tests/projects/output` and select the corresponding file from `tests/projects/refs`. Then you can right click to see an option to open diff.
 
+#### Splitting a library test
+
+Extracting only subset from a library test makes development much easier.
+
+Split status:
+
+-   [ ] angular-1.2.5
+-   [x] backbone-1.1.0
+-   [ ] jquery-1.9.1
+-   [ ] jquery.mobile-1.4.2
+-   [ ] mootools-1.4.5
+-   [x] underscore-1.5.2
+
 ### Tests from terser
 
 Tests ported from terser has
