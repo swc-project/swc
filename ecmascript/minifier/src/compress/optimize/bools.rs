@@ -444,30 +444,6 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                match &mut **right {
-                    Expr::Unary(UnaryExpr {
-                        op: op!("!"), arg, ..
-                    }) => {
-                        self.changed = true;
-                        let new_op = if *op == op!("&&") {
-                            op!("||")
-                        } else {
-                            op!("&&")
-                        };
-
-                        log::trace!(
-                            "bools: Negating in bool ctx: `foo {} !expr` => `foo {} expr` (bool \
-                             ctx)",
-                            *op,
-                            new_op
-                        );
-                        *op = new_op;
-                        *right = arg.take();
-                        return;
-                    }
-                    _ => {}
-                }
-
                 self.optimize_expr_in_bool_ctx(&mut **right);
             }
 
