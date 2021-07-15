@@ -286,6 +286,8 @@ impl Optimizer<'_> {
             *stmts = new;
         }
 
+        self.reorder_stmts(stmts);
+
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
 
