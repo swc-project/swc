@@ -288,15 +288,9 @@ impl Optimizer<'_> {
             // }
 
             // Check for nested variable declartions.
-            let mut v = VarWithOutInitCounter {
-                no_init_count: 0,
-                init_count: 0,
-            };
+            let mut v = VarWithOutInitCounter::default();
             stmts.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-            if v.no_init_count == 0 {
-                return;
-            }
-            if v.no_init_count == 1 && v.init_count == 0 {
+            if !v.need_work {
                 return;
             }
         }
@@ -334,11 +328,15 @@ impl Optimizer<'_> {
 
 /// See if there's two [VarDecl] which has [VarDeclarator] without the
 /// initializer.
+#[derive(Default)]
 pub(super) struct VarWithOutInitCounter {
     /// The number of [VarDecl] which has one or more [VarDeclarator] without an
     /// initialzier
     no_init_count: usize,
     init_count: usize,
+
+    need_work: bool,
+    found_var_decl_without_init: bool,
 }
 
 impl Visit for VarWithOutInitCounter {
@@ -354,6 +352,11 @@ impl Visit for VarWithOutInitCounter {
         v.visit_children_with(self);
 
         if v.decls.iter().any(|v| v.init.is_none()) {
+            if self.found_var_decl_without_init {
+                self.need_work = true;
+            }
+            self.found_var_decl_without_init = true;
+
             self.no_init_count += 1;
         } else {
             self.init_count += 1;
