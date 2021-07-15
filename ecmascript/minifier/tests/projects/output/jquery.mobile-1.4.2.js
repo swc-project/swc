@@ -15133,6 +15133,9 @@
                             placeholder = this.placeholder,
                             needPlaceholder = !0,
                             dataPrefix = "data-" + jQuery.mobile.ns,
+                            dataIndexAttr = dataPrefix + "option-index",
+                            dataIconAttr = dataPrefix + "icon",
+                            dataRoleAttr = dataPrefix + "role",
                             dataPlaceholderAttr = dataPrefix + "placeholder",
                             fragment = document.createDocumentFragment(
                             ),
@@ -15181,7 +15184,7 @@
                 ((divider = document.createElement(
                     "li"
                 )).setAttribute(
-                    dataPrefix + "role",
+                    dataRoleAttr,
                     "list-divider",
                 ),
                 divider.setAttribute(
@@ -15237,11 +15240,11 @@
                     !0
                 )),
               item.setAttribute(
-                  dataPrefix + "option-index",
+                  dataIndexAttr,
                   i
               ),
               item.setAttribute(
-                  dataPrefix + "icon",
+                  dataIconAttr,
                   "false"
               ),
               isPlaceholderItem && item.setAttribute(

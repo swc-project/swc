@@ -10,7 +10,24 @@
                 i,
                 code = arguments[0],
                 template = arguments[1],
-                templateArgs = arguments;
+                templateArgs = arguments,
+                stringify = function (
+                    obj
+                ) {
+                    return "function" == typeof obj
+                        ? obj.toString(
+                        ).replace(
+                            / \{[\s\S]*$/,
+                            ""
+                        )
+                        : void 0 === obj
+                            ? "undefined"
+                            : "string" != typeof obj
+                                ? JSON.stringify(
+                                    obj
+                                )
+                                : obj;
+                };
             for (
                 i = 2,
                 message =
@@ -58,25 +75,9 @@
           (i - 2) +
           "=" +
           encodeURIComponent(
-              (function (
-                  obj
-              ) {
-                  return "function" == typeof obj
-                      ? obj.toString(
-                      ).replace(
-                          / \{[\s\S]*$/,
-                          ""
-                      )
-                      : void 0 === obj
-                          ? "undefined"
-                          : "string" != typeof obj
-                              ? JSON.stringify(
-                                  obj
-                              )
-                              : obj;
-              })(
+              stringify(
                   arguments[i]
-              ),
+              )
           );
             return new Error(
                 message
@@ -8848,6 +8849,7 @@
                             var namedListeners,
                                 i,
                                 length,
+                                empty = [],
                                 scope = this,
                                 stopPropagation = !1,
                                 event = {
@@ -8871,7 +8873,7 @@
                             do {
                                 for (
                                     i = 0,
-                                    namedListeners = scope.$$listeners[name] || [],
+                                    namedListeners = scope.$$listeners[name] || empty,
                                     event.currentScope = scope,
                                     length = namedListeners.length;
                                     i < length;

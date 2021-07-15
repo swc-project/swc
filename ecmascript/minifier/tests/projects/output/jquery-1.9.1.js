@@ -3888,7 +3888,11 @@
             hasClass: function (
                 selector
             ) {
-                for (var i = 0, l = this.length; i < l; i++)
+                for (
+                    var className = " " + selector + " ", i = 0, l = this.length;
+                    i < l;
+                    i++
+                )
                     if (
                         1 === this[i].nodeType &&
             (" " + this[i].className + " ")
@@ -3897,7 +3901,7 @@
                     " "
                 )
                 .indexOf(
-                    " " + selector + " "
+                    className
                 ) >= 0
                     )
                         return !0;
@@ -6361,7 +6365,11 @@
             unmatched, map, filter, context, xml
         ) {
             for (
-                var elem, newUnmatched = [], i = 0, len = unmatched.length;
+                var elem,
+                    newUnmatched = [],
+                    i = 0,
+                    len = unmatched.length,
+                    mapped = null != map;
                 i < len;
                 i++
             )
@@ -6373,7 +6381,7 @@
             )) ||
               (newUnmatched.push(
                   elem
-              ), null != map && map.push(
+              ), mapped && map.push(
                   i
               )));
             return newUnmatched;
@@ -9002,6 +9010,7 @@
                     fragment,
                     i = 0,
                     l = this.length,
+                    iNoClone = l - 1,
                     value = args[0],
                     isFunction = jQuery.isFunction(
                         value
@@ -9067,7 +9076,7 @@
                         i++
                     )
                         (node = fragment),
-                        i !== l - 1 &&
+                        i !== iNoClone &&
                 ((node = jQuery.clone(
                     node,
                     !0,
