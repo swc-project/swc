@@ -743,6 +743,16 @@ impl Optimizer<'_> {
                 }
             }
 
+            Expr::New(NewExpr {
+                callee: b_callee, ..
+            }) => {
+                if self.merge_sequential_expr(a, &mut **b_callee) {
+                    return true;
+                }
+
+                return false;
+            }
+
             _ => {}
         }
 
