@@ -158,45 +158,49 @@ impl Optimizer<'_> {
                         ) => {
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
-                                    // I(kdy1) don't know why we need this, but terser appends
-                                    // instead of prependig if initializer is (exactly)
-                                    //
-                                    // "identifier" = "literal".
-                                    //
-                                    // Note that only the form above makes terser to append.
-                                    //
-                                    // When I tested in by changing input multiple times, terser
-                                    // seems to be aware of side effects.
-                                    //
-                                    // Maybe there exists an optimization related to it in v8.
-                                    match e.first_expr_mut() {
-                                        Expr::Assign(AssignExpr {
-                                            op: op!("="),
-                                            left,
-                                            right,
-                                            ..
-                                        }) => {
-                                            if get_lhs_ident_mut(left).is_some()
-                                                && match &**right {
-                                                    Expr::Lit(Lit::Regex(..)) => false,
-                                                    Expr::Lit(..) => true,
-                                                    _ => false,
+                                    if exprs.iter().all(|expr| match &**expr {
+                                        Expr::Assign(..) => true,
+                                        _ => false,
+                                    }) {
+                                        // I(kdy1) don't know why we need this, but terser appends
+                                        // instead of prependig if initializer is (exactly)
+                                        //
+                                        // "identifier" = "literal".
+                                        //
+                                        // Note that only the form above makes terser to append.
+                                        //
+                                        // When I tested in by changing input multiple times, terser
+                                        // seems to be aware of side effects.
+                                        //
+                                        // Maybe there exists an optimization related to it in v8.
+                                        match e.first_expr_mut() {
+                                            Expr::Assign(AssignExpr {
+                                                op: op!("="),
+                                                left,
+                                                right,
+                                                ..
+                                            }) => {
+                                                if get_lhs_ident_mut(left).is_some()
+                                                    && match &**right {
+                                                        Expr::Lit(Lit::Regex(..)) => false,
+                                                        Expr::Lit(..) => true,
+                                                        _ => false,
+                                                    }
+                                                {
+                                                    let seq = e.force_seq();
+                                                    let extra =
+                                                        seq.exprs.drain(1..).collect::<Vec<_>>();
+                                                    seq.exprs.extend(take(&mut exprs));
+                                                    seq.exprs.extend(extra);
+
+                                                    new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+
+                                                    continue;
                                                 }
-                                            {
-                                                let seq = e.force_seq();
-                                                let extra =
-                                                    seq.exprs.drain(1..).collect::<Vec<_>>();
-                                                seq.exprs.extend(take(&mut exprs));
-                                                seq.exprs.extend(extra);
-
-                                                new_stmts.push(T::from_stmt(Stmt::For(stmt)));
-
-                                                continue;
                                             }
+                                            _ => {}
                                         }
-                                        _ => {}
                                     }
-
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 None => {
