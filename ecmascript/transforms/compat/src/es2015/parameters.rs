@@ -9,11 +9,14 @@ use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn parameters() -> impl 'static + Fold {
-    Params
+    Params::default()
 }
 
-#[derive(Clone, Copy)]
-struct Params;
+#[derive(Clone, Default)]
+struct Params {
+    /// Stores `this.
+    vars: Vec<VarDeclarator>,
+}
 // prevent_recurse!(Params, Pat);
 
 impl Params {
