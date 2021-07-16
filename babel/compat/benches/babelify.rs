@@ -17,7 +17,7 @@ use swc_ecma_transforms::typescript;
 use swc_ecma_visit::FoldWith;
 use test::Bencher;
 
-static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
+static SOURCE: &str = include_str!("assets/Observable.js");
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -35,7 +35,7 @@ fn mk() -> swc::Compiler {
 
 fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
     let fm = c.cm.new_source_file(
-        FileName::Real("rxjs/src/internal/observable/dom/AjaxObservable.ts".into()),
+        FileName::Real("rxjs/internal/Observable.js".into()),
         src.to_string(),
     );
     let module = c
@@ -52,7 +52,7 @@ fn parse(c: &swc::Compiler, src: &str) -> (Arc<SourceFile>, Program) {
 }
 
 #[bench]
-fn babelify_only(b: &mut Bencher) {
+fn babelify_only_observable(b: &mut Bencher) {
     b.bytes = SOURCE.len() as _;
 
     let c = mk();
@@ -68,7 +68,7 @@ fn babelify_only(b: &mut Bencher) {
         let ctx = Context {
             fm: fm.clone(),
             cm: c.cm.clone(),
-            comments: c.comments().clone(),
+            comments: c.comments(),
         };
 
         let babel_ast = program.babelify(&ctx);
@@ -86,7 +86,7 @@ fn parse_and_babelify(b: &mut Bencher, _name: &str, src: &str) {
         let ctx = Context {
             fm,
             cm: c.cm.clone(),
-            comments: c.comments().clone(),
+            comments: c.comments(),
         };
 
         let babel_ast = program.babelify(&ctx);
@@ -103,6 +103,8 @@ macro_rules! src_to_babel_ast {
         }
     };
 }
+
+src_to_babel_ast!(parse_and_babelify_observable, SOURCE);
 
 src_to_babel_ast!(
     parse_and_babelify_angular,

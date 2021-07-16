@@ -10,6 +10,8 @@ import {
 export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
 import { loadBinding } from "@node-rs/helper";
+import * as babel from '@babel/types';
+import { BabelifyOptions } from "./babel";
 
 const bindings = loadBinding(__dirname, "swc", "@swc/core")
 
@@ -62,6 +64,17 @@ export class Compiler {
   //     shouldParseInput
   //   }, input, options);
   // }
+
+  async babelify(filename: string, input: string, options: ParseOptions): Promise<babel.Program> {
+    const str = await bindings.babelify(filename, input, toBuffer(options));
+    return JSON.parse(str)
+  }
+
+  babelifySync(filename: string, input: string, options: ParseOptions): babel.Program {
+    const str = bindings.babelifySync(filename, input, toBuffer(options));
+    return JSON.parse(str);
+  }
+
 
   parse(
     src: string,
@@ -312,6 +325,15 @@ export function transformFile(
 
 export function transformFileSync(path: string, options?: Options): Output {
   return compiler.transformFileSync(path, options);
+}
+
+
+export function babelify(filename: string, input: string, options: ParseOptions): Promise<babel.Program> {
+  return compiler.babelify(filename, input, options);
+}
+
+export function babelifySync(filename: string, input: string, options: ParseOptions): babel.Program {
+  return compiler.babelifySync(filename, input, options);
 }
 
 export function bundle(

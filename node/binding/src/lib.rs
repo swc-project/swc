@@ -16,6 +16,7 @@ use swc_common::{
     FilePathMapping, SourceMap,
 };
 
+mod babelify;
 mod bundle;
 mod parse;
 mod print;
@@ -59,6 +60,9 @@ fn init(mut exports: JsObject) -> napi::Result<()> {
     exports.create_named_method("printSync", print::print_sync)?;
 
     exports.create_named_method("bundle", bundle::bundle)?;
+
+    exports.create_named_method("babelify", babelify::babelify)?;
+    exports.create_named_method("babelifySync", babelify::babelify_sync)?;
 
     Ok(())
 }
