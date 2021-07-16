@@ -976,19 +976,16 @@
             "string" != typeof dataTypeExpression &&
         ((func = dataTypeExpression), (dataTypeExpression = "*"));
             var dataType,
-                i = 0;
+                i = 0,
+                dataTypes =
+          dataTypeExpression.toLowerCase(
+          ).match(
+              core_rnotwhite
+          ) || [];
             if (jQuery.isFunction(
                 func
             ))
-                for (
-                    ;
-                    (dataType = (dataTypeExpression.toLowerCase(
-                    ).match(
-                        core_rnotwhite
-                    ) ||
-            [])[i++]);
-
-                )
+                for (; (dataType = dataTypes[i++]); )
                     "+" === dataType[0]
                         ? (structure[(dataType = dataType.slice(
                             1
@@ -3848,12 +3845,16 @@
                         ) {
                             if ("string" === type)
                                 for (
-                                    var className, i = 0, self = jQuery(
+                                    var className,
+                                        i = 0,
+                                        self = jQuery(
                                             this
-                                        ), state = stateVal;
-                                    (className = (value.match(
-                                        core_rnotwhite
-                                    ) || [])[i++]);
+                                        ),
+                                        state = stateVal,
+                                        classNames = value.match(
+                                            core_rnotwhite
+                                        ) || [];
+                                    (className = classNames[i++]);
 
                                 )
                                     self[
@@ -6638,6 +6639,13 @@
                         unmatched = seed && [],
                         outermost = null != expandContext,
                         contextBackup = outermostContext,
+                        elems =
+                seed ||
+                (byElement &&
+                  Expr.find.TAG(
+                      "*",
+                      (expandContext && context.parentNode) || context,
+                  )),
                         dirrunsUnique = (dirruns +=
                 null == contextBackup
                     ? 1
@@ -6647,13 +6655,7 @@
                         outermost &&
               ((outermostContext = context !== document && context),
               (cachedruns = matcherCachedRuns));
-                        null !=
-              (elem = (seed ||
-                (byElement &&
-                  Expr.find.TAG(
-                      "*",
-                      (expandContext && context.parentNode) || context,
-                  )))[i]);
+                        null != (elem = elems[i]);
                         i++
                     ) {
                         if (byElement && elem) {
@@ -9450,7 +9452,8 @@
                         i = 0,
                         internalKey = jQuery.expando,
                         cache = jQuery.cache,
-                        deleteExpando = jQuery.support.deleteExpando;
+                        deleteExpando = jQuery.support.deleteExpando,
+                        special = jQuery.event.special;
                     null != (elem = elems[i]);
                     i++
                 )
@@ -9462,7 +9465,7 @@
                     ) {
                         if (data.events)
                             for (type in data.events)
-                                jQuery.event.special[type]
+                                special[type]
                                     ? jQuery.event.remove(
                                         elem,
                                         type

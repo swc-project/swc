@@ -474,13 +474,15 @@
                     this.changed
                 );
                 var val,
-                    changed = !1;
+                    changed = !1,
+                    old = this._changing ? this._previousAttributes : this.attributes;
                 for (var attr in diff)
                     _.isEqual(
-                        (this._changing ? this._previousAttributes : this.attributes)[attr],
-                        (val = diff[attr]),
-                    ) || ((changed || (changed = {
-                    }))[attr] = val);
+                        old[attr], (
+                            val = diff[attr])
+                    ) ||
+          ((changed || (changed = {
+          }))[attr] = val);
                 return changed;
             },
             previous: function (
@@ -942,6 +944,7 @@
                     existing,
                     sort,
                     at = options.at,
+                    targetModel = this.model,
                     sortable = this.comparator && null == at && !1 !== options.sort,
                     sortAttr = _.isString(
                         this.comparator
@@ -960,7 +963,7 @@
                     (existing = this.get(
                         (attrs = models[i]) instanceof Model
                             ? (model = attrs)
-                            : attrs[this.model.prototype.idAttribute],
+                            : attrs[targetModel.prototype.idAttribute],
                     ))
                         ? (remove && (modelMap[existing.cid] = !0),
                         merge &&

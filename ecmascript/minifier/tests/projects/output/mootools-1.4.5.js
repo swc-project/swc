@@ -3676,7 +3676,12 @@ function (
                                 )]) || found.push(
                                     node
                                 );
-                        } else
+                        } else {
+                            var matchClass = new RegExp(
+                                "(^|\\s)" + Slick.escapeRegExp(
+                                    name
+                                ) + "(\\s|$)",
+                            );
                             for (
                                 i = 0, nodes = context.getElementsByTagName(
                                     "*"
@@ -3686,11 +3691,7 @@ function (
                             )
                                 if (
                                     (className = node.className) &&
-                    new RegExp(
-                        "(^|\\s)" + Slick.escapeRegExp(
-                            name
-                        ) + "(\\s|$)",
-                    ).test(
+                    matchClass.test(
                         className
                     )
                                 ) {
@@ -3702,6 +3703,7 @@ function (
                           node
                       );
                                 }
+                        }
                     }
                 } else {
                     if ("*" == name && this.brokenStarGEBTN) break simpleSelectors;
@@ -3823,7 +3825,8 @@ function (
               ? this.pushUID
               : this.pushArray),
         null == found && (found = []);
-        search: for (i = 0; (currentExpression = parsed.expressions[i]); i++)
+        var expressions = parsed.expressions;
+        search: for (i = 0; (currentExpression = expressions[i]); i++)
             for (j = 0; (currentBit = currentExpression[j]); j++) {
                 if (!this[(combinator = "combinator:" + currentBit.combinator)])
                     continue search;
@@ -4063,8 +4066,9 @@ function (
                 selector
             );
         if (!parsed) return !0;
-        var simpleExpCounter = 0;
-        for (i = 0; (currentExpression = parsed.expressions[i]); i++)
+        var expressions = parsed.expressions,
+            simpleExpCounter = 0;
+        for (i = 0; (currentExpression = expressions[i]); i++)
             if (1 == currentExpression.length) {
                 var exp = currentExpression[0];
                 if (
@@ -4084,11 +4088,11 @@ function (
                 simpleExpCounter++;
             }
         if (simpleExpCounter == parsed.length) return !1;
-        for (i = 0; (item = this.search(
+        var nodes = this.search(
             this.document,
             parsed
-        )[i++]); )
-            if (item === node) return !0;
+        );
+        for (i = 0; (item = nodes[i++]); ) if (item === node) return !0;
         return !1;
     }),
     (local.matchPseudo = function (
@@ -6377,20 +6381,24 @@ Elements.alias(
               ),
               node.options))
                     )
-                        for (var no = node.options, j = no.length; j--; )
-                            no[j].selected = element.options[j].selected;
+                        for (
+                            var no = node.options, eo = element.options, j = no.length;
+                            j--;
+
+                        )
+                            no[j].selected = eo[j].selected;
                     var prop = formProps[element.tagName.toLowerCase(
                     )];
                     prop && element[prop] && (node[prop] = element[prop]);
                 }
                 if (Browser.ie) {
                     var co = clone.getElementsByTagName(
-                        "object"
-                    );
-                    for (i = co.length; i--; )
-                        co[i].outerHTML = this.getElementsByTagName(
                             "object"
-                        )[i].outerHTML;
+                        ),
+                        to = this.getElementsByTagName(
+                            "object"
+                        );
+                    for (i = co.length; i--; ) co[i].outerHTML = to[i].outerHTML;
                 }
                 return document.id(
                     clone

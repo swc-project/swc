@@ -873,14 +873,18 @@
                     getInheritedTheme: function (
                         el, defaultTheme
                     ) {
-                        for (var e = el[0], ltr = "", c, m; e; ) {
-                            if (
-                                (c = e.className || "") &&
-              (m = /ui-(bar|body|overlay)-([a-z])\b/.exec(
-                  c
-              )) &&
-              (ltr = m[2])
-                            )
+                        for (
+                            var e = el[0],
+                                ltr = "",
+                                re = /ui-(bar|body|overlay)-([a-z])\b/,
+                                c,
+                                m;
+                            e;
+
+                        ) {
+                            if ((c = e.className || "") && (m = re.exec(
+                                c
+                            )) && (ltr = m[2]))
                                 break;
                             e = e.parentNode;
                         }
@@ -2480,9 +2484,10 @@
                 var v = 3,
                     div = document.createElement(
                         "div"
-                    );
+                    ),
+                    a = div.all || [];
                 do div.innerHTML = "<!--[if gt IE " + ++v + "]><br><![endif]-->";
-                while ((div.all || [])[0]);
+                while (a[0]);
                 return v > 4 ? v : !v;
             })(
             )),
@@ -15130,6 +15135,7 @@
                             divider,
                             item,
                             self = this,
+                            o = this.options,
                             placeholder = this.placeholder,
                             needPlaceholder = !0,
                             dataPrefix = "data-" + jQuery.mobile.ns,
@@ -15222,10 +15228,9 @@
                     dataPlaceholderAttr,
                     !0
                 ),
-                this.options.hidePlaceholderMenuItems &&
-                  classes.push(
-                      "ui-screen-hidden"
-                  ),
+                o.hidePlaceholderMenuItems && classes.push(
+                    "ui-screen-hidden"
+                ),
                 placeholder !== text &&
                   (placeholder = self.placeholder = text)),
               (item = document.createElement(

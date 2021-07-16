@@ -9440,12 +9440,13 @@
                     document = $document[0] || {
                     },
                     documentMode = document.documentMode,
+                    vendorRegex = /^(Moz|webkit|O|ms)(?=[A-Z])/,
                     bodyStyle = document.body && document.body.style,
                     transitions = !1,
                     animations = !1;
                 if (bodyStyle) {
                     for (var prop in bodyStyle)
-                        if ((match = /^(Moz|webkit|O|ms)(?=[A-Z])/.exec(
+                        if ((match = vendorRegex.exec(
                             prop
                         ))) {
                             vendorPrefix =
@@ -15228,8 +15229,14 @@
         },
         filter: function (
         ) {
-            for (var token = this.expect(
-                ), argsFn = []; ; )
+            for (
+                var token = this.expect(
+                    ), fn = this.$filter(
+                        token.text
+                    ), argsFn = [];
+                ;
+
+            )
                 if ((token = this.expect(
                     ":"
                 ))) argsFn.push(
@@ -15247,9 +15254,7 @@
                                     locals
                                 )
                             );
-                        return this.$filter(
-                            token.text
-                        ).apply(
+                        return fn.apply(
                             self,
                             args
                         );
