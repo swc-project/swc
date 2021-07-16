@@ -302,7 +302,22 @@ impl Fold for Params {
                 if need_arrow_to_function {
                     // We are converting an arrow expression to a function experession, and we
                     // should handle usage of this.
-                    if contains_this_expr(&body) {}
+                    if contains_this_expr(&body) {
+                    } else {
+                        return Expr::Fn(FnExpr {
+                            ident: None,
+                            function: Function {
+                                params,
+                                decorators: Default::default(),
+                                span: f.span,
+                                body: Some(body),
+                                is_generator: f.is_generator,
+                                is_async: f.is_async,
+                                type_params: Default::default(),
+                                return_type: Default::default(),
+                            },
+                        });
+                    }
                 }
 
                 let body = if was_expr
