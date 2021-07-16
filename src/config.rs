@@ -17,7 +17,7 @@ use std::{
 use swc_atoms::JsWord;
 pub use swc_common::chain;
 use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
-use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
+use swc_ecma_ast::{EsVersion, Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
 pub use swc_ecma_parser::JscTarget;
@@ -34,6 +34,7 @@ use swc_ecma_transforms::{
     react, resolver_with_mark, typescript,
 };
 use swc_ecma_visit::Fold;
+use tsconfig::TsConfig as TsConfigFile;
 
 #[cfg(test)]
 mod tests;
@@ -504,6 +505,144 @@ impl Config {
             }
             _ => {}
         }
+    }
+}
+
+fn set_decorators_true(syntax: &mut Option<Syntax>) {
+    match syntax {
+        Some(Syntax::Es(options)) => {
+            options.decorators = true;
+        }
+        Some(Syntax::Typescript(options)) => {
+            options.decorators = true;
+        }
+        None => {
+            let mut ts_syntax_config = TsConfig::default();
+            ts_syntax_config.decorators = true;
+            *syntax = Some(Syntax::Typescript(ts_syntax_config));
+        }
+    }
+}
+
+fn convert_runtime(jsx: tsconfig::Jsx) -> react::Runtime {
+    use react::Runtime;
+    use tsconfig::Jsx;
+    match jsx {
+        Jsx::Preserve | Jsx::React | Jsx::ReactNative => Runtime::Classic,
+        Jsx::ReactJsx | Jsx::ReactJsxdev => Runtime::Automatic,
+    }
+}
+
+// Convert information from a '.tsconfig' file to a Config.
+// '.tsconfig' files mostly define TypeScript-specific things but can also set
+// things like transpilation target, outDir etc.
+impl From<TsConfigFile> for Config {
+    fn from(mut ts_config: TsConfigFile) -> Self {
+        let mut cfg = Config::default();
+
+        // Exclude
+        if let Some(strs) = ts_config.exclude {
+            let exclude: Vec<_> = strs.into_iter().map(FileMatcher::Regex).collect();
+            let exclude = FileMatcher::Multi(exclude);
+            cfg.exclude = Some(exclude);
+        }
+
+        if let Some(compiler_options) = ts_config.compiler_options.take() {
+            // Sourcemaps
+
+            if let Some(sourcemap) = compiler_options.source_map {
+                cfg.source_maps = Some(SourceMapsConfig::Bool(sourcemap));
+            } else if let Some(true) = compiler_options.inline_source_map {
+                cfg.source_maps = Some(SourceMapsConfig::Str(String::from("inline")));
+            };
+
+            // Module type
+            if let Some(module) = compiler_options.module {
+                use tsconfig::Module;
+                cfg.module = Some(match module {
+                    Module::Amd => ModuleConfig::Amd(modules::amd::Config {
+                        ..Default::default()
+                    }),
+                    Module::CommonJs => ModuleConfig::CommonJs(modules::common_js::Config {
+                        ..Default::default()
+                    }),
+                    Module::Umd => ModuleConfig::Umd(modules::umd::Config {
+                        ..Default::default()
+                    }),
+                    _ => ModuleConfig::Es6,
+                })
+            }
+
+            // JSConfig
+
+            // Target
+            if let Some(target) = compiler_options.target.and_then(|target| {
+                use tsconfig::Target;
+                match target {
+                    Target::Es3 => Some(EsVersion::Es3),
+                    Target::Es5 => Some(EsVersion::Es5),
+                    Target::Es6 | Target::Es2015 => Some(EsVersion::Es2015),
+                    Target::Es7 | Target::Es2016 => Some(EsVersion::Es2016),
+                    Target::Es2017 => Some(EsVersion::Es2017),
+                    Target::Es2018 => Some(EsVersion::Es2018),
+                    Target::Es2019 => Some(EsVersion::Es2019),
+                    Target::Es2020 => Some(EsVersion::Es2020),
+                    Target::EsNext => Some(EsVersion::latest()),
+                    Target::Other(_) => None,
+                }
+            }) {
+                cfg.jsc.target = Some(target);
+            }
+
+            // importHelpers
+            if let Some(b) = compiler_options.import_helpers {
+                cfg.jsc.external_helpers = b;
+            }
+
+            // TransformConfig
+            let mut transform = TransformConfig::default();
+            let mut used_transform = false;
+
+            // experimentalDecorators
+            if let Some(b) = compiler_options.experimental_decorators {
+                set_decorators_true(&mut cfg.jsc.syntax);
+                transform.legacy_decorator = b;
+                used_transform = true;
+            }
+            // decoratorMetadata
+            if let Some(b) = compiler_options.emit_decorator_metadata {
+                set_decorators_true(&mut cfg.jsc.syntax);
+                transform.decorator_metadata = b;
+                used_transform = true;
+            }
+            // JSX transform
+            if let Some(j) = compiler_options.jsx {
+                transform.react.runtime = Some(convert_runtime(j));
+                used_transform = true;
+            }
+
+            // React import source
+            if let Some(i_s) = compiler_options.jsx_import_source {
+                transform.react.import_source = i_s;
+                used_transform = true;
+            }
+
+            // JSX Pragma
+            if let Some(f) = compiler_options.jsx_factory {
+                transform.react.pragma = f;
+                used_transform = true;
+            }
+            // JSX Fragment Pragma
+            if let Some(f) = compiler_options.jsx_fragment_factory {
+                transform.react.pragma_frag = f;
+                used_transform = true;
+            }
+
+            if used_transform {
+                cfg.jsc.transform = Some(transform);
+            }
+        }
+        cfg
     }
 }
 

@@ -2,7 +2,7 @@ pub use self::jsx::Runtime;
 pub use self::refresh::options::RefreshOptions;
 pub use self::{
     display_name::display_name,
-    jsx::{jsx, Options},
+    jsx::{jsx, Options, Runtime},
     jsx_self::jsx_self,
     jsx_src::jsx_src,
     pure_annotations::pure_annotations,
