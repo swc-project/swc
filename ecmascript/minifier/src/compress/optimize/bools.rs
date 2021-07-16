@@ -296,18 +296,13 @@ impl Optimizer<'_> {
         }
 
         match (l, r) {
-            (
-                Expr::Bin(BinExpr {
-                    op: op!("===") | op!("!==") | op!("==") | op!("!=") | op!("||") | op!("&&"),
-                    ..
-                }),
-                Expr::Bin(BinExpr {
-                    op: op!("===") | op!("!==") | op!("==") | op!("!=") | op!("||") | op!("&&"),
-                    ..
-                }),
-            ) => false,
+            (Expr::Bin(..), Expr::Bin(..)) => false,
 
             _ => {
+                if negate_cost(&l) + negate_cost(&r) >= 0 {
+                    return false;
+                }
+
                 is(l)
                     && ((is_return_value_ignored
                         && match l {
