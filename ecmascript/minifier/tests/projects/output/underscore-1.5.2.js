@@ -1328,7 +1328,7 @@
     ) {
         return function (
         ) {
-            if (1 > --times) return func.apply(
+            if (--times < 1) return func.apply(
                 this,
                 arguments
             );
