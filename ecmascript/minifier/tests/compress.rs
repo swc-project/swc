@@ -1,3 +1,5 @@
+extern crate swc_node_base;
+
 use ansi_term::Color;
 use anyhow::bail;
 use anyhow::Context;
@@ -39,6 +41,7 @@ use swc_ecma_visit::FoldWith;
 use testing::assert_eq;
 use testing::DebugUsingDisplay;
 use testing::NormalizedOutput;
+
 
 fn load_txt(filename: &str) -> Vec<String> {
     let lines = read_to_string(filename).unwrap();
