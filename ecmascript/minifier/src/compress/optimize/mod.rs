@@ -1944,11 +1944,13 @@ impl VisitMut for Optimizer<'_> {
 
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
 
+        self.optimize_expr_in_bool_ctx(&mut n.test);
+
         self.merge_nested_if(n);
 
         self.negate_if_else(n);
 
-        self.optimize_expr_in_bool_ctx(&mut n.test);
+        self.merge_else_if(n);
     }
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {

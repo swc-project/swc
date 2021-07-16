@@ -175,6 +175,8 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {}
+
     /// Merge simple return statements in if statements.
     ///
     /// # Example
