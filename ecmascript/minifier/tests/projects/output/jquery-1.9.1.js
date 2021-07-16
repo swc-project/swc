@@ -596,7 +596,7 @@
                 null != (elem = elems[i]);
                 i++
             )
-                tag || jQuery.nodeName(
+                tag && !jQuery.nodeName(
                     elem,
                     tag
                 )
@@ -1024,8 +1024,9 @@
                             jqXHR,
                         );
                         if (
-                            ("string" == typeof dataTypeOrTransport && !seekingTransport) ||
-              inspected[dataTypeOrTransport]
+                            "string" == typeof dataTypeOrTransport &&
+              !seekingTransport &&
+              !inspected[dataTypeOrTransport]
                         )
                             return (
                                 options.dataTypes.unshift(
@@ -2052,11 +2053,12 @@
                     return !1;
                 try {
                     if (
-                        (obj.constructor && !core_hasOwn.call(
-                            obj,
-                            "constructor"
-                        )) ||
-            core_hasOwn.call(
+                        obj.constructor &&
+            !core_hasOwn.call(
+                obj,
+                "constructor"
+            ) &&
+            !core_hasOwn.call(
                 obj.constructor.prototype,
                 "isPrototypeOf"
             )
@@ -2263,7 +2265,7 @@
                 return obj;
             },
             trim:
-        core_trim || core_trim.call(
+        core_trim && !core_trim.call(
             "\uFEFF\xA0"
         )
             ? function (
@@ -3441,7 +3443,7 @@
                                 type = (type || "fx") + "queue")
                         )),
                         data &&
-              (queue || jQuery.isArray(
+              (queue && !jQuery.isArray(
                   data
               )
                   ? queue.push(
@@ -3998,7 +4000,7 @@
                         elem
                     ) {
                         var val = elem.attributes.value;
-                        return val || val.specified ? elem.text : elem.value;
+                        return val && !val.specified ? elem.text : elem.value;
                     },
                 },
                 select: {
@@ -4854,7 +4856,7 @@
                   data
               )))
             ) {
-                if ((!onlyHandlers && !special.noBubble) || jQuery.isWindow(
+                if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(
                     elem
                 )) {
                     for (
@@ -6001,7 +6003,7 @@
             )
                 return results;
             if (1 !== (nodeType = context.nodeType) && 9 !== nodeType) return [];
-            if (!documentIsXML || seed) {
+            if (!documentIsXML && !seed) {
                 if ((match = rquickExpr.exec(
                     selector
                 ))) {
@@ -6059,7 +6061,7 @@
                             results
                         );
                 }
-                if (support.qsa || rbuggyQSA.test(
+                if (support.qsa && !rbuggyQSA.test(
                     selector
                 )) {
                     if (
@@ -6981,8 +6983,8 @@
                     id, context
                 ) {
                     if (
-                        typeof context.getElementById !== strundefined ||
-                    documentIsXML
+                        typeof context.getElementById !== strundefined &&
+                    !documentIsXML
                     ) {
                         var m = context.getElementById(
                             id
@@ -7009,8 +7011,8 @@
                     id, context
                 ) {
                     if (
-                        typeof context.getElementById !== strundefined ||
-                    documentIsXML
+                        typeof context.getElementById !== strundefined &&
+                    !documentIsXML
                     ) {
                         var m = context.getElementById(
                             id
@@ -7087,8 +7089,8 @@
                   className, context
               ) {
                   if (
-                      typeof context.getElementsByClassName !== strundefined ||
-                  documentIsXML
+                      typeof context.getElementsByClassName !== strundefined &&
+                  !documentIsXML
                   )
                       return context.getElementsByClassName(
                           className
@@ -8517,7 +8519,7 @@
                   ret
               )),
                     (ret =
-              this.length > 1 || guaranteedUnique[name]
+              this.length > 1 && !guaranteedUnique[name]
                   ? jQuery.unique(
                       ret
                   )
@@ -8909,18 +8911,18 @@
                                 )
                                 : void 0;
                         if (
-                            ("string" == typeof value &&
-                !rnoInnerhtml.test(
-                    value
-                ) &&
-                (jQuery.support.htmlSerialize || !rnoshimcache.test(
+                            "string" == typeof value &&
+              !rnoInnerhtml.test(
+                  value
+              ) &&
+              (jQuery.support.htmlSerialize || !rnoshimcache.test(
+                  value
+              )) &&
+              (jQuery.support.leadingWhitespace ||
+                !rleadingWhitespace.test(
                     value
                 )) &&
-                (jQuery.support.leadingWhitespace ||
-                  !rleadingWhitespace.test(
-                      value
-                  ))) ||
-              wrapMap[(rtagName.exec(
+              !wrapMap[(rtagName.exec(
                   value
               ) || ["", "",])[1].toLowerCase(
               )]
