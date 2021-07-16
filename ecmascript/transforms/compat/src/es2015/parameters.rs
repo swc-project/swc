@@ -263,8 +263,72 @@ impl Params {
 impl Fold for Params {
     noop_fold_type!();
 
+    fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
+        let f = f.fold_children_with(self);
+
+        let (mut params, body) = match f.param {
+            Some(pat) => self.fold_fn_like(
+                vec![Param {
+                    span: DUMMY_SP,
+                    decorators: vec![],
+                    pat,
+                }],
+                f.body,
+            ),
+            None => self.fold_fn_like(vec![], f.body),
+        };
+        assert!(
+            params.len() == 0 || params.len() == 1,
+            "fold_fn_like should return 0 ~ 1 parameter while handling catch clause"
+        );
+
+        let param = if params.is_empty() {
+            None
+        } else {
+            Some(params.pop().unwrap())
+        };
+
+        CatchClause {
+            param: param.map(|param| param.pat),
+            body,
+            ..f
+        }
+    }
+
+    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
+        if f.body.is_none() {
+            return f;
+        }
+
+        let f = f.fold_children_with(self);
+
+        let params = f
+            .params
+            .into_iter()
+            .map(|pat| match pat {
+                ParamOrTsParamProp::Param(p) => p,
+                _ => {
+                    unreachable!("TsParameterProperty should be removed by typescript::strip pass")
+                }
+            })
+            .collect();
+
+        let (params, body) = self.fold_fn_like(params, f.body.unwrap());
+
+        Constructor {
+            params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
+            body: Some(body),
+            ..f
+        }
+    }
+
     fn fold_expr(&mut self, e: Expr) -> Expr {
+        let mut vars = self.vars.take();
+
         let e = e.fold_children_with(self);
+
+        vars.extend(self.vars.take());
+        self.vars = vars;
 
         match e {
             Expr::Arrow(f) => {
@@ -357,65 +421,6 @@ impl Fold for Params {
                 });
             }
             _ => e,
-        }
-    }
-
-    fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
-        let f = f.fold_children_with(self);
-
-        let (mut params, body) = match f.param {
-            Some(pat) => self.fold_fn_like(
-                vec![Param {
-                    span: DUMMY_SP,
-                    decorators: vec![],
-                    pat,
-                }],
-                f.body,
-            ),
-            None => self.fold_fn_like(vec![], f.body),
-        };
-        assert!(
-            params.len() == 0 || params.len() == 1,
-            "fold_fn_like should return 0 ~ 1 parameter while handling catch clause"
-        );
-
-        let param = if params.is_empty() {
-            None
-        } else {
-            Some(params.pop().unwrap())
-        };
-
-        CatchClause {
-            param: param.map(|param| param.pat),
-            body,
-            ..f
-        }
-    }
-
-    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
-        if f.body.is_none() {
-            return f;
-        }
-
-        let f = f.fold_children_with(self);
-
-        let params = f
-            .params
-            .into_iter()
-            .map(|pat| match pat {
-                ParamOrTsParamProp::Param(p) => p,
-                _ => {
-                    unreachable!("TsParameterProperty should be removed by typescript::strip pass")
-                }
-            })
-            .collect();
-
-        let (params, body) = self.fold_fn_like(params, f.body.unwrap());
-
-        Constructor {
-            params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
-            body: Some(body),
-            ..f
         }
     }
 
