@@ -1,5 +1,6 @@
 use crate::option::CompressOptions;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub fn postcompress_optimizer<'a>(options: &'a CompressOptions) -> impl 'a + VisitMut {
@@ -11,9 +12,41 @@ struct PostcompressOptimizer<'a> {
 }
 
 impl PostcompressOptimizer<'_> {
-    fn optimize_in_bool_ctx(&mut self, _e: &mut Expr) {
+    fn optimize_in_bool_ctx(&mut self, e: &mut Expr) {
         if !self.options.bools {
             return;
+        }
+
+        // Note: `||` is not handled because of precedence.
+        match e {
+            Expr::Bin(BinExpr {
+                op: op @ op!("&&"),
+                right,
+                ..
+            }) => match &mut **right {
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }) if arg.is_ident() => {
+                    let new_op = if *op == op!("&&") {
+                        op!("||")
+                    } else {
+                        op!("&&")
+                    };
+
+                    log::trace!(
+                        "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
+                        *op,
+                        new_op
+                    );
+                    *op = new_op;
+                    *right = arg.take();
+                    return;
+                }
+
+                _ => {}
+            },
+
+            _ => {}
         }
     }
 }
