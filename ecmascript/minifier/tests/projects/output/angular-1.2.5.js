@@ -9950,7 +9950,8 @@
         ) || !isFinite(
             number
         )) return "";
-        var isNegative = number < 0,
+        var i,
+            isNegative = number < 0,
             numStr = (number = Math.abs(
                 number
             )) + "",
@@ -9999,8 +10000,7 @@
                 ),
                 whole = fraction[0];
             fraction = fraction[1] || "";
-            var i,
-                pos = 0,
+            var pos = 0,
                 lgroup = pattern.lgSize,
                 group = pattern.gSize;
             if (whole.length >= lgroup + group)

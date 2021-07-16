@@ -879,18 +879,26 @@
             remove: function (
                 models, options
             ) {
-                var singular = !_.isArray(
-                    models
-                );
-                (models = singular
-                    ? [models,]
-                    : _.clone(
+                var i,
+                    l,
+                    index,
+                    model,
+                    singular = !_.isArray(
                         models
-                    )),
-                options || (options = {
-                });
-                var i, l, index, model;
-                for (i = 0, l = models.length; i < l; i++)
+                    );
+                for (
+                    i = 0,
+                    models = singular
+                        ? [models,]
+                        : _.clone(
+                            models
+                        ),
+                    options || (options = {
+                    }),
+                    l = models.length;
+                    i < l;
+                    i++
+                )
                     (model = models[i] = this.get(
                         models[i]
                     )) &&
@@ -929,21 +937,21 @@
             models,
             options
         ));
-                var singular = !_.isArray(
-                    models
-                );
-                models = singular
-                    ? (models ? [models,] : [])
-                    : _.clone(
-                        models
-                    );
                 var i,
                     l,
                     model,
                     attrs,
                     existing,
                     sort,
-                    at = options.at,
+                    singular = !_.isArray(
+                        models
+                    );
+                models = singular
+                    ? (models ? [models,] : [])
+                    : _.clone(
+                        models
+                    );
+                var at = options.at,
                     targetModel = this.model,
                     sortable = this.comparator && null == at && !1 !== options.sort,
                     sortAttr = _.isString(

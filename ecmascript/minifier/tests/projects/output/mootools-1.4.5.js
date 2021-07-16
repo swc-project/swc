@@ -3062,7 +3062,9 @@ function (
             return "";
         if (combinator || combinatorChildren || -1 === combinatorIndex) {
             combinator = combinator || " ";
-            var currentSeparator = parsed.expressions[separatorIndex];
+            var test,
+                regexp,
+                currentSeparator = parsed.expressions[separatorIndex];
             reversed &&
           currentSeparator[combinatorIndex] &&
           (currentSeparator[
@@ -3124,39 +3126,40 @@ function (
                 }
             );
         else if (attributeKey) {
-            (attributeKey = attributeKey.replace(
-                reUnescape,
-                ""
-            )),
-            (attributeValue = (attributeValue || "").replace(
-                reUnescape,
-                ""
-            ));
-            var test, regexp1;
-            switch (attributeOperator) {
+            switch (
+                ((attributeKey = attributeKey.replace(
+                    reUnescape,
+                    ""
+                )),
+                (attributeValue = (attributeValue || "").replace(
+                    reUnescape,
+                    ""
+                )),
+                attributeOperator)
+            ) {
             case "^=":
-                regexp1 = new RegExp(
+                regexp = new RegExp(
                     "^" + escapeRegExp(
                         attributeValue
                     )
                 );
                 break;
             case "$=":
-                regexp1 = new RegExp(
+                regexp = new RegExp(
                     escapeRegExp(
                         attributeValue
                     ) + "$"
                 );
                 break;
             case "~=":
-                regexp1 = new RegExp(
+                regexp = new RegExp(
                     "(^|\\s)" + escapeRegExp(
                         attributeValue
                     ) + "(\\s|$)",
                 );
                 break;
             case "|=":
-                regexp1 = new RegExp(
+                regexp = new RegExp(
                     "^" + escapeRegExp(
                         attributeValue
                     ) + "(-|$)"
@@ -3204,7 +3207,7 @@ function (
             (test = function (
                 value
             ) {
-                return value && regexp1.test(
+                return value && regexp.test(
                     value
                 );
             }),
@@ -3264,21 +3267,21 @@ function (
     (local.setDocument = function (
         document
     ) {
-        var nodeType = document.nodeType;
+        var feature,
+            starSelectsClosed,
+            starSelectsComments,
+            brokenSecondClassNameGEBCN,
+            cachedGetElementsByClassName,
+            brokenFormAttributeGetter,
+            selected,
+            nodeType = document.nodeType;
         if (9 == nodeType);
         else if (nodeType) document = document.ownerDocument;
         else if (!document.navigator) return;
         else document = document.document;
         if (this.document !== document) {
             this.document = document;
-            var feature,
-                starSelectsClosed,
-                starSelectsComments,
-                brokenSecondClassNameGEBCN,
-                cachedGetElementsByClassName,
-                brokenFormAttributeGetter,
-                selected,
-                root = document.documentElement,
+            var root = document.documentElement,
                 rootUid = this.getUIDXML(
                     root
                 ),
@@ -4118,10 +4121,13 @@ function (
         pseudos,
     ) {
         if (tag) {
-            var nodeName = this.isXMLDocument
-                ? node.nodeName
-                : node.nodeName.toUpperCase(
-                );
+            var i,
+                part,
+                cls,
+                nodeName = this.isXMLDocument
+                    ? node.nodeName
+                    : node.nodeName.toUpperCase(
+                    );
             if ("*" == tag) {
                 if (nodeName < "@") return !1;
             } else if (nodeName != tag) return !1;
@@ -4129,7 +4135,6 @@ function (
         if (id && node.getAttribute(
             "id"
         ) != id) return !1;
-        var i, part, cls;
         if (classes)
             for (i = classes.length; i--; )
                 if (
@@ -4803,10 +4808,10 @@ function (
             : null;
     }),
     (Slick.override = function (
-        regexp2, fn
+        regexp, fn
     ) {
         return local.override(
-            regexp2,
+            regexp,
             fn
         ), this;
     }),
@@ -5109,7 +5114,8 @@ Elements.alias(
 ),
 (function (
 ) {
-    var splice = Array.prototype.splice,
+    var createElementAcceptsHTML,
+        splice = Array.prototype.splice,
         object = {
             0: 0,
             1: 1,
@@ -5151,7 +5157,6 @@ Elements.alias(
     Array.mirror(
         Elements
     );
-    var createElementAcceptsHTML;
     try {
         createElementAcceptsHTML =
         "x" == document.createElement(
@@ -7842,7 +7847,9 @@ Elements.alias(
             removeEvent: function (
                 type, match, fn, _uid
             ) {
-                var storage = this.retrieve(
+                var __uid,
+                    s,
+                    storage = this.retrieve(
                         "$delegates",
                         {
                         }
@@ -7869,7 +7876,6 @@ Elements.alias(
                         )
                     );
                 }
-                var __uid, s;
                 if (fn)
                     for (__uid in stored)
                         if ((s = stored[__uid]).match == match && s.fn == fn)
