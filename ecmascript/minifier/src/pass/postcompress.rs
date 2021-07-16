@@ -22,29 +22,37 @@ impl PostcompressOptimizer<'_> {
             Expr::Bin(BinExpr {
                 op: op @ op!("&&"),
                 right,
+                left,
                 ..
-            }) => match &mut **right {
-                Expr::Unary(UnaryExpr {
-                    op: op!("!"), arg, ..
-                }) if arg.is_ident() => {
-                    let new_op = if *op == op!("&&") {
-                        op!("||")
-                    } else {
-                        op!("&&")
-                    };
-
-                    log::trace!(
-                        "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
-                        *op,
-                        new_op
-                    );
-                    *op = new_op;
-                    *right = arg.take();
-                    return;
+            }) => {
+                match &**left {
+                    Expr::Bin(BinExpr { op: op!("&&"), .. }) => return,
+                    _ => {}
                 }
 
-                _ => {}
-            },
+                match &mut **right {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"), arg, ..
+                    }) if arg.is_ident() => {
+                        let new_op = if *op == op!("&&") {
+                            op!("||")
+                        } else {
+                            op!("&&")
+                        };
+
+                        log::trace!(
+                            "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
+                            *op,
+                            new_op
+                        );
+                        *op = new_op;
+                        *right = arg.take();
+                        return;
+                    }
+
+                    _ => {}
+                }
+            }
 
             _ => {}
         }
