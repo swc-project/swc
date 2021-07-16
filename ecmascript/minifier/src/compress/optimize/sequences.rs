@@ -733,6 +733,10 @@ impl Optimizer<'_> {
                 if self.merge_sequential_expr(a, &mut **b_callee) {
                     return true;
                 }
+
+                if b_callee.may_have_side_effects() {
+                    return false;
+                }
             }
 
             _ => {}
