@@ -637,6 +637,13 @@ impl Optimizer<'_> {
                     return true;
                 }
 
+                match &**left {
+                    Expr::Ident(..) => {}
+                    _ => {
+                        return false;
+                    }
+                }
+
                 match *op {
                     op!("&&") | op!("||") | op!("??") => return false,
                     _ => {}
