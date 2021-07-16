@@ -1117,14 +1117,17 @@
     function snake_case(
         name, separator
     ) {
-        return name.replace(
-            SNAKE_CASE_REGEXP,
-            function (
-                letter, pos
-            ) {
-                return (pos ? (separator = separator || "_") : "") + letter.toLowerCase(
-                );
-            }
+        return (
+            (separator = separator || "_"),
+            name.replace(
+                SNAKE_CASE_REGEXP,
+                function (
+                    letter, pos
+                ) {
+                    return (pos ? separator : "") + letter.toLowerCase(
+                    );
+                }
+            )
         );
     }
     function assertArg(
@@ -1469,7 +1472,6 @@
                         setIndex++
                     )
                         for (
-                            childIndex = 0,
                             element = jqLite(
                                 set[setIndex]
                             ),
@@ -1478,6 +1480,7 @@
                                     "$destroy"
                                 )
                                 : (fireEvent = !fireEvent),
+                            childIndex = 0,
                             childLength = (children = element.children(
                             )).length;
                             childIndex < childLength;
@@ -1763,13 +1766,13 @@
                 function (
                     cssClass
                 ) {
-                    -1 ===
-          existingClasses.indexOf(
-              " " + (cssClass = trim(
-                  cssClass
-              )) + " "
-          ) &&
-          (existingClasses += cssClass + " ");
+                    (cssClass = trim(
+                        cssClass
+                    )),
+                    -1 === existingClasses.indexOf(
+                        " " + cssClass + " "
+                    ) &&
+            (existingClasses += cssClass + " ");
                 }
             ),
             element.setAttribute(
@@ -2254,13 +2257,14 @@
                                     module
                                 ))
                                     for (
+                                        moduleFn = angularModule(
+                                            module
+                                        ),
                                         runBlocks = runBlocks
                                             .concat(
                                                 loadModules(
-                                                    (moduleFn = angularModule(
-                                                        module
-                                                    )).requires
-                                                ),
+                                                    moduleFn.requires
+                                                )
                                             )
                                             .concat(
                                                 moduleFn._runBlocks
@@ -3533,10 +3537,11 @@
                                 )),
                                 nodeLinkFn
                                     ? (nodeLinkFn.scope
-                                        ? ($node.data(
+                                        ? ((childScope = scope.$new(
+                                        )),
+                                        $node.data(
                                             "$scope",
-                                            (childScope = scope.$new(
-                                            )),
+                                            childScope
                                         ),
                                         safeAddClass(
                                             $node,
@@ -3637,16 +3642,18 @@
                                 attrEndName = !1;
                             (attr = nAttrs[j]),
                             (msie && !(msie >= 8) && !attr.specified) ||
-                      (NG_ATTR_BINDING.test(
-                          (ngAttrName = directiveNormalize(
-                              (name = attr.name)
-                          )),
-                      ) && (name = snake_case(
-                          ngAttrName.substr(
-                              6
-                          ),
-                          "-"
+                      ((ngAttrName = directiveNormalize(
+                          (name = attr.name)
                       )),
+                      NG_ATTR_BINDING.test(
+                          ngAttrName
+                      ) &&
+                        (name = snake_case(
+                            ngAttrName.substr(
+                                6
+                            ),
+                            "-"
+                        )),
                       ngAttrName ===
                         ngAttrName.replace(
                             /(Start|End)$/,
@@ -4114,25 +4121,24 @@
                             );
                         }
                         for (
-                            i = 0,
                             transcludeFn =
-                    boundTranscludeFn &&
-                    function (
-                        scope, cloneAttachFn
-                    ) {
-                        var transcludeControllers;
-                        return (
-                            arguments.length < 2 &&
-                          ((cloneAttachFn = scope), (scope = void 0)),
-                            hasElementTranscludeDirective &&
-                          (transcludeControllers = elementControllers),
-                            boundTranscludeFn(
-                                scope,
-                                cloneAttachFn,
-                                transcludeControllers,
-                            )
-                        );
-                    },
+                  boundTranscludeFn &&
+                  function (
+                      scope, cloneAttachFn
+                  ) {
+                      var transcludeControllers;
+                      return (
+                          arguments.length < 2 &&
+                        ((cloneAttachFn = scope), (scope = void 0)),
+                          hasElementTranscludeDirective &&
+                        (transcludeControllers = elementControllers),
+                          boundTranscludeFn(
+                              scope,
+                              cloneAttachFn,
+                              transcludeControllers,
+                          )
+                      );
+                  },
                             controllerDirectives &&
                     forEach(
                         controllerDirectives,
@@ -4170,6 +4176,7 @@
                           ] = controllerInstance);
                         }
                     ),
+                            i = 0,
                             ii = preLinkFns.length;
                             i < ii;
                             i++
@@ -5409,18 +5416,19 @@
                             isString(
                                 data
                             ) &&
-                JSON_START.test(
-                    (data = data.replace(
-                        PROTECTION_PREFIX,
-                        ""
-                    ))
-                ) &&
-                JSON_END.test(
-                    data
-                ) &&
-                (data = fromJson(
-                    data
+                ((data = data.replace(
+                    PROTECTION_PREFIX,
+                    ""
                 )),
+                JSON_START.test(
+                    data
+                ) &&
+                  JSON_END.test(
+                      data
+                  ) &&
+                  (data = fromJson(
+                      data
+                  ))),
                             data
                         );
                     },
@@ -9775,13 +9783,12 @@
                     obj, text
                 ) {
                     return (
-                        ("" + obj)
-                            .toLowerCase(
-                            )
-                            .indexOf(
-                                (text = ("" + text).toLowerCase(
-                                ))
-                            ) > -1
+                        (text = ("" + text).toLowerCase(
+                        )),
+                        ("" + obj).toLowerCase(
+                        ).indexOf(
+                            text
+                        ) > -1
                     );
                 });
             var search = function (
@@ -10591,18 +10598,18 @@
         function toggleValidCss(
             isValid, validationErrorKey
         ) {
-            element
-                .removeClass(
-                    (isValid ? INVALID_CLASS : VALID_CLASS) +
             (validationErrorKey = validationErrorKey
                 ? "-" + snake_case(
                     validationErrorKey,
                     "-"
                 )
                 : ""),
+            element
+                .removeClass(
+                    (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
                 )
                 .addClass(
-                    (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey
+                    (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
                 );
         }
         (form.$name = attrs.name || attrs.ngForm),
@@ -10965,44 +10972,45 @@
             };
         if (
             (pattern &&
-        (ctrl.$formatters.push(
-            (patternValidator = (match = pattern.match(
-                /^\/(.*)\/([gim]*)$/
-            ))
-                ? function (
-                    value
-                ) {
-                    return validate(
-                        (pattern = new RegExp(
-                            match[1],
-                            match[2]
-                        )),
-                        value,
-                    );
-                }
-                : function (
-                    value
-                ) {
-                    var patternObj = scope.$eval(
-                        pattern
-                    );
-                    if (!patternObj || !patternObj.test)
-                        throw minErr(
-                            "ngPattern"
-                        )(
-                            "noregexp",
-                            "Expected {0} to be a RegExp but was {1}. Element: {2}",
-                            pattern,
-                            patternObj,
-                            startingTag(
-                                element
-                            ),
-                        );
-                    return validate(
+        ((patternValidator = (match = pattern.match(
+            /^\/(.*)\/([gim]*)$/
+        ))
+            ? function (
+                value
+            ) {
+                return validate(
+                    (pattern = new RegExp(
+                        match[1],
+                        match[2]
+                    )),
+                    value,
+                );
+            }
+            : function (
+                value
+            ) {
+                var patternObj = scope.$eval(
+                    pattern
+                );
+                if (!patternObj || !patternObj.test)
+                    throw minErr(
+                        "ngPattern"
+                    )(
+                        "noregexp",
+                        "Expected {0} to be a RegExp but was {1}. Element: {2}",
+                        pattern,
                         patternObj,
-                        value
+                        startingTag(
+                            element
+                        ),
                     );
-                }),
+                return validate(
+                    patternObj,
+                    value
+                );
+            }),
+        ctrl.$formatters.push(
+            patternValidator
         ),
         ctrl.$parsers.push(
             patternValidator
@@ -11413,15 +11421,15 @@
                 function toggleValidCss(
                     isValid, validationErrorKey
                 ) {
+                    (validationErrorKey = validationErrorKey
+                        ? "-" + snake_case(
+                            validationErrorKey,
+                            "-"
+                        )
+                        : ""),
                     $element
                         .removeClass(
-                            (isValid ? INVALID_CLASS : VALID_CLASS) +
-                (validationErrorKey = validationErrorKey
-                    ? "-" + snake_case(
-                        validationErrorKey,
-                        "-"
-                    )
-                    : ""),
+                            (isValid ? INVALID_CLASS : VALID_CLASS) + validationErrorKey,
                         )
                         .addClass(
                             (isValid ? VALID_CLASS : INVALID_CLASS) + validationErrorKey,
@@ -12531,10 +12539,11 @@
                                     lastBlockMap.hasOwnProperty(
                                         key
                                     ) &&
-                  ($animate.leave(
-                      (elementsToRemove = getBlockElements(
-                          (block = lastBlockMap[key]).clone,
-                      )),
+                  ((elementsToRemove = getBlockElements(
+                      (block = lastBlockMap[key]).clone,
+                  )),
+                  $animate.leave(
+                      elementsToRemove
                   ),
                   forEach(
                       elementsToRemove,
@@ -13299,48 +13308,48 @@
                                         );
                                     }
                                     for (
-                                        groupIndex = 0,
                                         multiple ||
-                        (nullOption || null === modelValue
-                            ? optionGroups[""].unshift(
-                                {
-                                    id: "",
-                                    label: "",
-                                    selected: !selectedSet,
-                                }
-                            )
-                            : selectedSet ||
-                            optionGroups[""].unshift(
-                                {
-                                    id: "?",
-                                    label: "",
-                                    selected: !0,
-                                }
-                            )),
+                      (nullOption || null === modelValue
+                          ? optionGroups[""].unshift(
+                              {
+                                  id: "",
+                                  label: "",
+                                  selected: !selectedSet,
+                              }
+                          )
+                          : selectedSet ||
+                          optionGroups[""].unshift(
+                              {
+                                  id: "?",
+                                  label: "",
+                                  selected: !0,
+                              }
+                          )),
+                                        groupIndex = 0,
                                         groupLength = optionGroupNames.length;
                                         groupIndex < groupLength;
                                         groupIndex++
                                     ) {
                                         for (
-                                            index = 0,
                                             optionGroup =
-                          optionGroups[
-                              (optionGroupName = optionGroupNames[groupIndex])
-                          ],
+                        optionGroups[
+                            (optionGroupName = optionGroupNames[groupIndex])
+                        ],
                                             optionGroupsCache.length <= groupIndex
-                                                ? (optionGroupsCache.push(
-                                                    (existingOptions = [
-                                                        (existingParent = {
-                                                            element: optGroupTemplate
-                                                                .clone(
-                                                                )
-                                                                .attr(
-                                                                    "label",
-                                                                    optionGroupName
-                                                                ),
-                                                            label: optionGroup.label,
-                                                        }),
-                                                    ]),
+                                                ? ((existingOptions = [
+                                                    (existingParent = {
+                                                        element: optGroupTemplate
+                                                            .clone(
+                                                            )
+                                                            .attr(
+                                                                "label",
+                                                                optionGroupName
+                                                            ),
+                                                        label: optionGroup.label,
+                                                    }),
+                                                ]),
+                                                optionGroupsCache.push(
+                                                    existingOptions
                                                 ),
                                                 selectElement.append(
                                                     existingParent.element
@@ -13353,6 +13362,7 @@
                                 (existingParent.label = optionGroupName),
                             ),
                                             lastElement = null,
+                                            index = 0,
                                             length = optionGroup.length;
                                             index < length;
                                             index++

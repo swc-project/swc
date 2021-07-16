@@ -291,17 +291,18 @@
             options
         ) || {
         }),
+        (attrs = _.defaults(
+            {
+            },
+            attrs,
+            _.result(
+                this,
+                "defaults"
+            )
+        )),
         this.set(
-            (attrs = _.defaults(
-                {
-                },
-                attrs,
-                _.result(
-                    this,
-                    "defaults"
-                )
-            )),
-            options,
+            attrs,
+            options
         ),
         (this.changed = {
         }),
@@ -755,15 +756,16 @@
                 attrs, options
             ) {
                 if (!options.validate || !this.validate) return !0;
+                attrs = _.extend(
+                    {
+                    },
+                    this.attributes,
+                    attrs
+                );
                 var error = (this.validationError =
         this.validate(
-            (attrs = _.extend(
-                {
-                },
-                this.attributes,
-                attrs
-            )),
-            options,
+            attrs,
+            options
         ) || null);
                 return (
                     !error ||
@@ -887,7 +889,6 @@
                         models
                     );
                 for (
-                    i = 0,
                     models = singular
                         ? [models,]
                         : _.clone(
@@ -895,6 +896,7 @@
                         ),
                     options || (options = {
                     }),
+                    i = 0,
                     l = models.length;
                     i < l;
                     i++
@@ -904,10 +906,11 @@
                     )) &&
           (delete this._byId[model.id],
           delete this._byId[model.cid],
+          (index = this.indexOf(
+              model
+          )),
           this.models.splice(
-              (index = this.indexOf(
-                  model
-              )),
+              index,
               1
           ),
           this.length--,
@@ -939,6 +942,7 @@
         ));
                 var i,
                     l,
+                    id,
                     model,
                     attrs,
                     existing,
@@ -968,44 +972,46 @@
                     remove = options.remove,
                     order = !sortable && !!add && !!remove && [];
                 for (i = 0, l = models.length; i < l; i++)
+                    (id =
+          (attrs = models[i]) instanceof Model
+              ? (model = attrs)
+              : attrs[targetModel.prototype.idAttribute]),
                     (existing = this.get(
-                        (attrs = models[i]) instanceof Model
-                            ? (model = attrs)
-                            : attrs[targetModel.prototype.idAttribute],
+                        id
                     ))
                         ? (remove && (modelMap[existing.cid] = !0),
                         merge &&
-              ((attrs = attrs === model ? model.attributes : attrs),
-              options.parse && (attrs = existing.parse(
-                  attrs,
-                  options
-              )),
-              existing.set(
-                  attrs,
-                  options
-              ),
-              sortable &&
-                !sort &&
-                existing.hasChanged(
-                    sortAttr
-                ) &&
-                (sort = !0)),
+                ((attrs = attrs === model ? model.attributes : attrs),
+                options.parse && (attrs = existing.parse(
+                    attrs,
+                    options
+                )),
+                existing.set(
+                    attrs,
+                    options
+                ),
+                sortable &&
+                  !sort &&
+                  existing.hasChanged(
+                      sortAttr
+                  ) &&
+                  (sort = !0)),
                         (models[i] = existing))
                         : add &&
-            (model = models[i] = this._prepareModel(
-                attrs,
-                options
-            )) &&
-            (toAdd.push(
-                model
-            ),
-            model.on(
-                "all",
-                this._onModelEvent,
-                this
-            ),
-            (this._byId[model.cid] = model),
-            null != model.id && (this._byId[model.id] = model)),
+              (model = models[i] = this._prepareModel(
+                  attrs,
+                  options
+              )) &&
+              (toAdd.push(
+                  model
+              ),
+              model.on(
+                  "all",
+                  this._onModelEvent,
+                  this
+              ),
+              (this._byId[model.cid] = model),
+              null != model.id && (this._byId[model.id] = model)),
                     order && order.push(
                         existing || model
                     );

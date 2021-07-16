@@ -1714,11 +1714,12 @@
               (element = suppressDisabledCheck),
               (suppressDisabledCheck = !1)),
                     handlers
-                        ? (this.bindings = this.bindings.add(
-                            (element = delegateElement = jQuery(
-                                element
-                            )),
-                        ))
+                        ? ((element = delegateElement = jQuery(
+                            element
+                        )),
+                        (this.bindings = this.bindings.add(
+                            element
+                        )))
                         : ((handlers = element),
                         (element = this.element),
                         (delegateElement = this.widget(
@@ -1770,19 +1771,18 @@
                 _off: function (
                     element, eventName
                 ) {
-                    element
-                        .unbind(
-                            (eventName =
-                  (eventName || "").split(
-                      " "
-                  ).join(
-                      this.eventNamespace + " "
-                  ) +
-                  this.eventNamespace),
-                        )
-                        .undelegate(
-                            eventName
-                        );
+                    (eventName =
+              (eventName || "").split(
+                  " "
+              ).join(
+                  this.eventNamespace + " "
+              ) +
+              this.eventNamespace),
+                    element.unbind(
+                        eventName
+                    ).undelegate(
+                        eventName
+                    );
                 },
                 _delay: function (
                     handler, delay
@@ -3303,11 +3303,12 @@
                   0,
                   stateIndex
               ))),
+                        (href = path.makeUrlAbsolute(
+                            cleanedUrl,
+                            resolutionUrl
+                        )),
                         this.parseUrl(
-                            (href = path.makeUrlAbsolute(
-                                cleanedUrl,
-                                resolutionUrl
-                            )),
+                            href
                         ).search,
                         isPath
                             ? ((path.isPath(
@@ -3339,10 +3340,7 @@
                   href.host +
                   href.pathname +
                   this.parseUrl(
-                      (href = path.makeUrlAbsolute(
-                          cleanedUrl,
-                          resolutionUrl
-                      )),
+                      href
                   ).search +
                   preservedHash))
                             : (href += href.indexOf(
@@ -3637,12 +3635,13 @@
                                 )
                                 : url;
                         return (
+                            (href = path.squash(
+                                url
+                            )),
                             (state = jQuery.extend(
                                 {
                                     hash: hash,
-                                    url: (href = path.squash(
-                                        url
-                                    )),
+                                    url: href,
                                 },
                                 data,
                             )),
@@ -4215,10 +4214,11 @@
               (target = event.target)
           ))
               .hasVirtualBinding &&
-          (jQuery.data(
+          ((lastTouchID = nextTouchID++),
+          jQuery.data(
               target,
               touchTargetPropertyName,
-              (lastTouchID = nextTouchID++),
+              lastTouchID
           ),
           clearResetTimer(
           ),
@@ -4860,13 +4860,14 @@
                         this,
                         "mobile-events"
                     )) ||
+              ((events = {
+                  length: 0,
+              }),
               jQuery.data(
                   this,
                   "mobile-events",
-                  (events = {
-                      length: 0,
-                  }),
-              ),
+                  events
+              )),
                     events.length++,
                     (events.swipe = context),
                     (context.start = function (
@@ -5737,6 +5738,8 @@
                   to
               )),
                             to &&
+              ((history = this._getHistory(
+              )),
               (to = jQuery.mobile.path.isPath(
                   to
               )
@@ -5747,19 +5750,18 @@
                       ),
                   )) ===
                 jQuery.mobile.path.makeUrlAbsolute(
-                    "#" + (history = this._getHistory(
-                    )).initialDst,
+                    "#" + history.initialDst,
                     this._getDocumentBase(
                     ),
                 ) &&
-              history.stack.length &&
-              history.stack[0].url !==
-                history.initialDst.replace(
-                    jQuery.mobile.dialogHashKey,
-                    ""
-                ) &&
-              (to = this._getInitialContent(
-              )),
+                history.stack.length &&
+                history.stack[0].url !==
+                  history.initialDst.replace(
+                      jQuery.mobile.dialogHashKey,
+                      ""
+                  ) &&
+                (to = this._getInitialContent(
+                ))),
                             to || this._getInitialContent(
                             )
                         );
@@ -6027,13 +6029,14 @@
             !page.jqmData(
                 "title"
             ) &&
+            ((newPageTitle = jQuery(
+                "<div>" + newPageTitle + "</div>"
+            ).text(
+            )),
             page.jqmData(
                 "title",
-                (newPageTitle = jQuery(
-                    "<div>" + newPageTitle + "</div>"
-                ).text(
-                )),
-            );
+                newPageTitle
+            ));
                     },
                     _isRewritableBaseTag: function (
                     ) {
@@ -6657,9 +6660,8 @@
                                     ).blur(
                                     );
                             } catch (e) {}
-                            return (
-                                (alreadyThere = !1),
-                                isDialog &&
+                            (alreadyThere = !1),
+                            isDialog &&
                 active &&
                 (active.url &&
                   active.url.indexOf(
@@ -6680,10 +6682,10 @@
                 0 === jQuery.mobile.navigate.history.activeIndex &&
                   url === jQuery.mobile.navigate.history.initialDst &&
                   (url += jQuery.mobile.dialogHashKey)),
-                                (newPageTitle = active
-                                    ? toPage.jqmData(
-                                        "title"
-                                    ) ||
+                            (newPageTitle = active
+                                ? toPage.jqmData(
+                                    "title"
+                                ) ||
                   toPage
                       .children(
                           ":jqmData(role='header')"
@@ -6693,16 +6695,16 @@
                       )
                       .text(
                       )
-                                    : pageTitle) &&
+                                : pageTitle) &&
                 pageTitle === document.title &&
                 (pageTitle = newPageTitle),
-                                toPage.jqmData(
-                                    "title"
-                                ) || toPage.jqmData(
-                                    "title",
-                                    pageTitle
-                                ),
-                                (settings.transition =
+                            toPage.jqmData(
+                                "title"
+                            ) || toPage.jqmData(
+                                "title",
+                                pageTitle
+                            ),
+                            (settings.transition =
                 settings.transition ||
                 (historyDir && !activeIsInitialPage
                     ? active.transition
@@ -6710,11 +6712,11 @@
                 (isDialog
                     ? jQuery.mobile.defaultDialogTransition
                     : jQuery.mobile.defaultPageTransition)),
-                                historyDir ||
+                            historyDir ||
                 !alreadyThere ||
                 (jQuery.mobile.navigate.history.getActive(
                 ).pageUrl = pageUrl),
-                                url &&
+                            url &&
                 !settings.fromHashChange &&
                 (jQuery.mobile.path.isPath(
                     url
@@ -6740,51 +6742,51 @@
                         url,
                         params
                     )),
-                                (document.title = pageTitle),
-                                (jQuery.mobile.activePage = toPage),
-                                (this.activePage = toPage),
-                                (settings.reverse = settings.reverse || historyDir < 0),
-                                void (this._cssTransition(
-                                    toPage,
-                                    settings.fromPage,
-                                    {
-                                        transition: settings.transition,
-                                        reverse: settings.reverse,
-                                        deferred: (cssTransitionDeferred = jQuery.Deferred(
-                                        )),
-                                    }
-                                ),
-                                cssTransitionDeferred.done(
-                                    jQuery.proxy(
-                                        function (
-                                            name,
-                                            reverse,
-                                            $to,
-                                            $from,
-                                            alreadyFocused,
-                                        ) {
-                                            jQuery.mobile.removeActiveLinkClass(
-                                            ),
-                                            settings.duplicateCachedPage &&
+                            (document.title = pageTitle),
+                            (jQuery.mobile.activePage = toPage),
+                            (this.activePage = toPage),
+                            (settings.reverse = settings.reverse || historyDir < 0),
+                            (cssTransitionDeferred = jQuery.Deferred(
+                            )),
+                            this._cssTransition(
+                                toPage,
+                                settings.fromPage,
+                                {
+                                    transition: settings.transition,
+                                    reverse: settings.reverse,
+                                    deferred: cssTransitionDeferred,
+                                }
+                            ),
+                            cssTransitionDeferred.done(
+                                jQuery.proxy(
+                                    function (
+                                        name,
+                                        reverse,
+                                        $to,
+                                        $from,
+                                        alreadyFocused,
+                                    ) {
+                                        jQuery.mobile.removeActiveLinkClass(
+                                        ),
+                                        settings.duplicateCachedPage &&
                       settings.duplicateCachedPage.remove(
                       ),
-                                            alreadyFocused || jQuery.mobile.focusPage(
-                                                toPage
-                                            ),
-                                            this._releaseTransitionLock(
-                                            ),
-                                            this.element.trigger(
-                                                "pagechange",
-                                                triggerData
-                                            ),
-                                            this._triggerWithDeprecated(
-                                                "transition",
-                                                triggerData
-                                            );
-                                        },
-                                        this
-                                    ),
-                                ))
+                                        alreadyFocused || jQuery.mobile.focusPage(
+                                            toPage
+                                        ),
+                                        this._releaseTransitionLock(
+                                        ),
+                                        this.element.trigger(
+                                            "pagechange",
+                                            triggerData
+                                        ),
+                                        this._triggerWithDeprecated(
+                                            "transition",
+                                            triggerData
+                                        );
+                                    },
+                                    this
+                                ),
                             );
                         }
                     },
@@ -7722,6 +7724,7 @@
                         var html,
                             hasType,
                             findstr,
+                            repstr,
                             element = jQuery(
                                 this
                             ),
@@ -7742,18 +7745,20 @@
               ) > -1)
                 ? /\s+type=["']?\w+['"]?/
                 : /\/?>/),
+            (repstr =
+              ' type="' +
+              optType +
+              '" data-' +
+              jQuery.mobile.ns +
+              'type="' +
+              type +
+              '"' +
+              (hasType ? "" : ">")),
             element.replaceWith(
                 html.replace(
                     findstr,
-                    ' type="' +
-                  optType +
-                  '" data-' +
-                  jQuery.mobile.ns +
-                  'type="' +
-                  type +
-                  '"' +
-                  (hasType ? "" : ">"),
-                ),
+                    repstr
+                )
             ));
                     }
                 );
@@ -7849,7 +7854,8 @@
                 _setCloseBtn: function (
                     location, text
                 ) {
-                    var btn = this._headerCloseButton;
+                    var dst,
+                        btn = this._headerCloseButton;
                     "none" ==
         (location =
           "left" === location
@@ -7870,7 +7876,11 @@
                             text && btn.text(
                                 text
                             ))
-                            : (btn = jQuery(
+                            : ((dst = this._inner.find(
+                                ":jqmData(role='header')"
+                            ).first(
+                            )),
+                            (btn = jQuery(
                                 "<a></a>",
                                 {
                                     href: "#",
@@ -7887,11 +7897,8 @@
                                     text || this.options.closeBtnText || ""
                                 )
                                 .prependTo(
-                                    this._inner.find(
-                                        ":jqmData(role='header')"
-                                    ).first(
-                                    )
-                                )),
+                                    dst
+                                ))),
                     (this._headerCloseButton = btn);
                 },
             }
@@ -8018,7 +8025,8 @@
                 _setCloseBtn: function (
                     location, text
                 ) {
-                    var btn = this._headerCloseButton;
+                    var dst,
+                        btn = this._headerCloseButton;
                     "none" ==
         (location =
           "left" === location
@@ -8039,30 +8047,32 @@
                             text && btn.text(
                                 text
                             ))
-                            : this._on(
-                                (btn = jQuery(
-                                    "<a></a>",
-                                    {
-                                        role: "button",
-                                        href: "#",
-                                        class:
-                  "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
-                  location,
-                                    }
+                            : ((dst = this._inner.find(
+                                ":jqmData(role='header')"
+                            ).first(
+                            )),
+                            (btn = jQuery(
+                                "<a></a>",
+                                {
+                                    role: "button",
+                                    href: "#",
+                                    class:
+                "ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-" +
+                location,
+                                }
+                            )
+                                .text(
+                                    text || this.options.closeBtnText || ""
                                 )
-                                    .text(
-                                        text || this.options.closeBtnText || ""
-                                    )
-                                    .prependTo(
-                                        this._inner.find(
-                                            ":jqmData(role='header')"
-                                        ).first(
-                                        ),
-                                    )),
+                                .prependTo(
+                                    dst
+                                )),
+                            this._on(
+                                btn,
                                 {
                                     click: "close",
-                                },
-                            ),
+                                }
+                            )),
                     (this._headerCloseButton = btn);
                 },
                 close: function (
@@ -8324,6 +8334,8 @@
                         options
                     ) {
                         var isCollapsed,
+                            newTheme,
+                            oldTheme,
                             hasCorners,
                             hasIcon,
                             elem = this.element,
@@ -8402,33 +8414,33 @@
                         ),
                 )),
                         void 0 !== opts.theme &&
-              anchor
-                  .removeClass(
-                      this._themeClassFromOption(
-                          "ui-btn-",
-                          currentOpts.theme
-                      ),
-                  )
-                  .addClass(
-                      this._themeClassFromOption(
-                          "ui-btn-",
-                          opts.theme
-                      )
-                  ),
+              ((oldTheme = this._themeClassFromOption(
+                  "ui-btn-",
+                  currentOpts.theme,
+              )),
+              (newTheme = this._themeClassFromOption(
+                  "ui-btn-",
+                  opts.theme
+              )),
+              anchor.removeClass(
+                  oldTheme
+              ).addClass(
+                  newTheme
+              )),
                         void 0 !== opts.contentTheme &&
-              ui.content
-                  .removeClass(
-                      this._themeClassFromOption(
-                          "ui-body-",
-                          currentOpts.contentTheme,
-                      ),
-                  )
-                  .addClass(
-                      this._themeClassFromOption(
-                          "ui-body-",
-                          opts.contentTheme
-                      ),
-                  ),
+              ((oldTheme = this._themeClassFromOption(
+                  "ui-body-",
+                  currentOpts.contentTheme,
+              )),
+              (newTheme = this._themeClassFromOption(
+                  "ui-body-",
+                  opts.contentTheme,
+              )),
+              ui.content.removeClass(
+                  oldTheme
+              ).addClass(
+                  newTheme
+              )),
                         void 0 !== opts.inset &&
               (elem.toggleClass(
                   "ui-collapsible-inset",
@@ -9145,6 +9157,8 @@
                                 icon,
                                 a,
                                 isDivider,
+                                startCount,
+                                newStartCount,
                                 value,
                                 last,
                                 splittheme,
@@ -9175,26 +9189,28 @@
                                     ? "ui-body-" + countTheme
                                     : "ui-body-inherit";
                             for (
-                                pos = 0,
                                 o.theme && $list.addClass(
                                     "ui-group-theme-" + o.theme
                                 ),
                                 ol &&
                     (start || 0 === start) &&
+                    ((startCount = parseInt(
+                        start,
+                        10
+                    ) - 1),
                     $list.css(
                         "counter-reset",
-                        "listnumbering " + (parseInt(
-                            start,
-                            10
-                        ) - 1),
-                    ),
+                        "listnumbering " + startCount
+                    )),
                                 this._beforeListviewRefresh(
                                 ),
-                                numli = (li = this._getChildrenByTagName(
+                                li = this._getChildrenByTagName(
                                     $list[0],
                                     "li",
-                                    "LI",
-                                )).length;
+                                    "LI"
+                                ),
+                                pos = 0,
+                                numli = li.length;
                                 pos < numli;
                                 pos++
                             )
@@ -9308,13 +9324,14 @@
                           "ui-li-static ui-body-" + (itemTheme || "inherit")),
                     ol &&
                       value &&
+                      ((newStartCount = parseInt(
+                          value,
+                          10
+                      ) - 1),
                       item.css(
                           "counter-reset",
-                          "listnumbering " + (parseInt(
-                              value,
-                              10
-                          ) - 1),
-                      )),
+                          "listnumbering " + newStartCount,
+                      ))),
                                 itemClassDict[itemClass] || (itemClassDict[itemClass] = []),
                                 itemClassDict[itemClass].push(
                                     item[0]
@@ -9409,38 +9426,39 @@
                             lastDividerText = null,
                             list = this.element;
                         for (
-                            i = 0,
                             list.children(
                                 "li:jqmData(role='list-divider')"
                             ).remove(
                             ),
                             lis = list.children(
                                 "li"
-                            );
+                            ),
+                            i = 0;
                             i < lis.length;
                             i++
                         )
+                            (li = lis[i]),
                             (dividerText = this.options.autodividersSelector(
                                 jQuery(
-                                    (li = lis[i])
-                                ),
+                                    li
+                                )
                             )) &&
-              lastDividerText !== dividerText &&
-              ((divider = document.createElement(
-                  "li"
-              )).appendChild(
-                  document.createTextNode(
-                      dividerText
-                  ),
-              ),
-              divider.setAttribute(
-                  "data-" + jQuery.mobile.ns + "role",
-                  "list-divider",
-              ),
-              li.parentNode.insertBefore(
-                  divider,
-                  li
-              )),
+                lastDividerText !== dividerText &&
+                ((divider = document.createElement(
+                    "li"
+                )).appendChild(
+                    document.createTextNode(
+                        dividerText
+                    ),
+                ),
+                divider.setAttribute(
+                    "data-" + jQuery.mobile.ns + "role",
+                    "list-divider",
+                ),
+                li.parentNode.insertBefore(
+                    divider,
+                    li
+                )),
                             (lastDividerText = dividerText);
                     },
                 }
@@ -10144,9 +10162,10 @@
                 refresh: function (
                     create
                 ) {
-                    var isDisabled = this.element.prop(
-                        "disabled"
-                    );
+                    var originalElement,
+                        isDisabled = this.element.prop(
+                            "disabled"
+                        );
                     this.options.icon &&
           "notext" === this.options.iconpos &&
           this.element.attr(
@@ -10158,6 +10177,8 @@
               )
           ),
                     create ||
+            ((originalElement = this.element.detach(
+            )),
             jQuery(
                 this.wrapper
             )
@@ -10166,9 +10187,8 @@
                     )
                 )
                 .append(
-                    this.element.detach(
-                    )
-                ),
+                    originalElement
+                )),
                     this.options.disabled !== isDisabled &&
             this._setOptions(
                 {
@@ -10630,14 +10650,13 @@
                             isToggleSwitch)
                         ) {
                             for (
-                                j = 0,
                                 (origTabIndex = control.attr(
                                     "tabindex"
                                 )) &&
-                    handle.attr(
-                        "tabindex",
-                        origTabIndex
-                    ),
+                  handle.attr(
+                      "tabindex",
+                      origTabIndex
+                  ),
                                 control.attr(
                                     "tabindex",
                                     "-1"
@@ -10651,6 +10670,7 @@
                                         );
                                     }
                                 ),
+                                j = 0,
                                 (wrapper = document.createElement(
                                     "div"
                                 )).className =
@@ -10663,16 +10683,17 @@
                                     domSlider.childNodes[j]
                                 );
                             for (
-                                i = 0,
                                 domSlider.appendChild(
                                     wrapper
                                 ),
                                 handle.addClass(
                                     "ui-slider-handle-snapping"
                                 ),
-                                optionsCount = (options = control.find(
+                                options = control.find(
                                     "option"
-                                )).length;
+                                ),
+                                i = 0,
+                                optionsCount = options.length;
                                 i < optionsCount;
                                 i++
                             )
@@ -10749,15 +10770,14 @@
                         ),
                         isToggleSwitch ||
                 isRangeslider ||
-                control
-                    .add(
-                        slider
-                    )
-                    .wrapAll(
-                        (wrapper = this.options.mini
-                            ? "<div class='ui-slider ui-mini'>"
-                            : "<div class='ui-slider'>"),
-                    ),
+                ((wrapper = this.options.mini
+                    ? "<div class='ui-slider ui-mini'>"
+                    : "<div class='ui-slider'>"),
+                control.add(
+                    slider
+                ).wrapAll(
+                    wrapper
+                )),
                         this._on(
                             this.handle,
                             {
@@ -11309,9 +11329,10 @@
                     _setDisabled: function (
                         value
                     ) {
+                        (value = !!value),
                         this.element.prop(
-                            "disabled", (
-                                value = !!value)
+                            "disabled",
+                            value
                         ),
                         this.slider
                             .toggleClass(
@@ -14011,14 +14032,15 @@
                     _reposition: function (
                         openOptions
                     ) {
+                        (openOptions = {
+                            x: openOptions.x,
+                            y: openOptions.y,
+                            positionTo: openOptions.positionTo,
+                        }),
                         this._trigger(
                             "beforeposition",
                             void 0,
-                            (openOptions = {
-                                x: openOptions.x,
-                                y: openOptions.y,
-                                positionTo: openOptions.positionTo,
-                            }),
+                            openOptions
                         ),
                         this._ui.container.offset(
                             this._placementCoords(
@@ -15147,13 +15169,13 @@
                             ),
                             isPlaceholderItem = !1;
                         for (
-                            i = 0,
                             self.list.empty(
                             ).filter(
                                 ".ui-listview"
                             ).listview(
                                 "destroy"
                             ),
+                            i = 0,
                             numOptions = ($options = this._selectOptions(
                             )).length,
                             select = this.select[0];
@@ -15751,23 +15773,25 @@
                     },
                     _destroy: function (
                     ) {
-                        var opts = this.options;
+                        var buttons,
+                            opts = this.options;
                         if (opts.enhanced) return this;
                         this._ui,
+                        (buttons = this.element
+                            .removeClass(
+                                "ui-controlgroup ui-controlgroup-horizontal ui-controlgroup-vertical ui-corner-all ui-mini " +
+                    this._themeClassFromOption(
+                        opts.theme
+                    ),
+                            )
+                            .find(
+                                ".ui-btn"
+                            )
+                            .not(
+                                ".ui-slider-handle"
+                            )),
                         this._removeFirstLastClasses(
-                            this.element
-                                .removeClass(
-                                    "ui-controlgroup ui-controlgroup-horizontal ui-controlgroup-vertical ui-corner-all ui-mini " +
-                      this._themeClassFromOption(
-                          opts.theme
-                      ),
-                                )
-                                .find(
-                                    ".ui-btn"
-                                )
-                                .not(
-                                    ".ui-slider-handle"
-                                ),
+                            buttons
                         ),
                         this._ui.groupLegend.unwrap(
                         ),
@@ -16896,7 +16920,8 @@
                     _setOptions: function (
                         opts
                     ) {
-                        var oldTheme = this.options.theme,
+                        var newTheme,
+                            oldTheme = this.options.theme,
                             ret = this._super(
                                 opts
                             );
@@ -16915,19 +16940,19 @@
                             this._ui.arrow,
                             this._ui.arrow &&
               (void 0 !== opts.theme &&
-                this._ui.arrow.ar
-                    .removeClass(
-                        (oldTheme = this._themeClassFromOption(
-                            "ui-body-",
-                            oldTheme,
-                        )),
-                    )
-                    .addClass(
-                        this._themeClassFromOption(
-                            "ui-body-",
-                            opts.theme
-                        )
-                    ),
+                ((oldTheme = this._themeClassFromOption(
+                    "ui-body-",
+                    oldTheme
+                )),
+                (newTheme = this._themeClassFromOption(
+                    "ui-body-",
+                    opts.theme
+                )),
+                this._ui.arrow.ar.removeClass(
+                    oldTheme
+                ).addClass(
+                    newTheme
+                )),
               void 0 !== opts.shadow &&
                 this._ui.arrow.ar.toggleClass(
                     "ui-overlay-shadow",
@@ -18044,12 +18069,13 @@
                         (popup = jQuery(
                             "<div class='" + opts.classes.popup + "' id='" + id + "'></div>",
                         )),
+                        (menu = jQuery(
+                            "<fieldset></fieldset>"
+                        ).controlgroup(
+                        )),
                         this._addToggles(
-                            (menu = jQuery(
-                                "<fieldset></fieldset>"
-                            ).controlgroup(
-                            )),
-                            !1,
+                            menu,
+                            !1
                         ),
                         menu.appendTo(
                             popup
@@ -18450,22 +18476,23 @@
                   "keyup change input"
               ), (search = null)),
                         selector &&
+              ((search = selector.jquery
+                  ? selector
+                  : selector.nodeName
+                      ? jQuery(
+                          selector
+                      )
+                      : this.document.find(
+                          selector
+                      )),
               this._on(
-                  (search = selector.jquery
-                      ? selector
-                      : selector.nodeName
-                          ? jQuery(
-                              selector
-                          )
-                          : this.document.find(
-                              selector
-                          )),
+                  search,
                   {
                       keyup: "_onKeyUp",
                       change: "_onKeyUp",
                       input: "_onKeyUp",
-                  },
-              ),
+                  }
+              )),
                         (this._search = search);
                     },
                     _setOptions: function (
@@ -19102,15 +19129,14 @@
                         index, goingForward
                     ) {
                         return (
-                            this.tabs
-                                .eq(
-                                    (index = this._findNextTab(
-                                        index,
-                                        goingForward
-                                    ))
-                                )
-                                .focus(
-                                ),
+                            (index = this._findNextTab(
+                                index,
+                                goingForward
+                            )),
+                            this.tabs.eq(
+                                index
+                            ).focus(
+                            ),
                             index
                         );
                     },
@@ -19337,11 +19363,12 @@
                                 isLocal(
                                     anchor
                                 )
-                                    ? (panel = that.element.find(
+                                    ? ((selector = anchor.hash),
+                                    (panel = that.element.find(
                                         that._sanitizeSelector(
-                                            (selector = anchor.hash)
-                                        ),
-                                    ))
+                                            selector
+                                        )
+                                    )))
                                     : ((selector = "#" + (panelId = that._tabId(
                                         tab
                                     ))),
@@ -19958,22 +19985,22 @@
                         !0 !== disabled &&
             (void 0 === index
                 ? (disabled = !0)
-                : -1 ===
-                  jQuery.inArray(
-                      (index = this._getIndex(
-                          index
-                      )),
-                      disabled
-                  ) &&
-                (jQuery.isArray(
+                : ((index = this._getIndex(
+                    index
+                )),
+                -1 === jQuery.inArray(
+                    index,
                     disabled
-                )
-                    ? (disabled = jQuery.merge(
-                        [index,],
-                        disabled
-                    ).sort(
-                    ))
-                    : (disabled = [index,])),
+                ) &&
+                  (jQuery.isArray(
+                      disabled
+                  )
+                      ? (disabled = jQuery.merge(
+                          [index,],
+                          disabled
+                      ).sort(
+                      ))
+                      : (disabled = [index,]))),
             this._setupDisabled(
                 disabled
             ));

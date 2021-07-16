@@ -197,7 +197,6 @@
             if (cache[id]) {
                 if (name && (thisCache = pvt ? cache[id] : cache[id].data)) {
                     for (
-                        i = 0,
                         jQuery.isArray(
                             name
                         )
@@ -208,15 +207,16 @@
                                 )
                             ))
                             : (name =
-                    (name in thisCache)
-                        ? [name,]
-                        : ((name = jQuery.camelCase(
-                            name
-                        )) in thisCache)
-                            ? [name,]
-                            : name.split(
-                                " "
-                            )),
+                  (name in thisCache)
+                      ? [name,]
+                      : ((name = jQuery.camelCase(
+                          name
+                      )) in thisCache)
+                          ? [name,]
+                          : name.split(
+                              " "
+                          )),
+                        i = 0,
                         l = name.length;
                         i < l;
                         i++
@@ -334,9 +334,9 @@
     function winnow(
         elements, qualifier, keep
     ) {
-        if (jQuery.isFunction(
-            (qualifier = qualifier || 0)
-        ))
+        if (((qualifier = qualifier || 0), jQuery.isFunction(
+            qualifier
+        )))
             return jQuery.grep(
                 elements,
                 function (
@@ -679,14 +679,15 @@
         elem, el
     ) {
         return (
+            (elem = el || elem),
             "none" === jQuery.css(
-                (elem = el || elem),
+                elem,
                 "display"
             ) ||
-      !jQuery.contains(
-          elem.ownerDocument,
-          elem
-      )
+        !jQuery.contains(
+            elem.ownerDocument,
+            elem
+        )
         );
     }
     function showHide(
@@ -1157,11 +1158,11 @@
                                 !0 === conv
                                     ? (conv = converters[conv2])
                                     : !0 !== converters[conv2] &&
-                    dataTypes.splice(
+                    ((current = tmp[0]), dataTypes.splice(
                         i--,
-                        0, (
-                            current = tmp[0])
-                    );
+                        0,
+                        current
+                    ));
                                 break;
                             }
                     if (!0 !== conv) {
@@ -1487,8 +1488,9 @@
                 ((easing = specialEasing[(name = jQuery.camelCase(
                     index
                 ))]),
+                (value = props[index]),
                 jQuery.isArray(
-                    (value = props[index])
+                    value
                 ) &&
           ((easing = value[1]), (value = props[index] = value[0])),
                 index !== name && ((props[name] = value), delete props[index]),
@@ -1581,29 +1583,29 @@
             }
         )),
         props))
+            (value = props[index]),
             rfxtypes.exec(
-                (value = props[index])
+                value
             ) &&
-        (delete props[index],
-        (toggle = toggle || "toggle" === value),
-        value !== (hidden ? "hide" : "show") && handled.push(
-            index
-        ));
+          (delete props[index],
+          (toggle = toggle || "toggle" === value),
+          value !== (hidden ? "hide" : "show") && handled.push(
+              index
+          ));
         if ((length = handled.length))
             for (
-                index = 0,
                 ("hidden" in
-            (dataShow =
-              jQuery._data(
-                  elem,
-                  "fxshow"
-              ) ||
-              jQuery._data(
-                  elem,
-                  "fxshow",
-                  {
-                  }
-              ))) && (hidden = dataShow.hidden),
+          (dataShow =
+            jQuery._data(
+                elem,
+                "fxshow"
+            ) ||
+            jQuery._data(
+                elem,
+                "fxshow",
+                {
+                }
+            ))) && (hidden = dataShow.hidden),
                 toggle && (dataShow.hidden = !hidden),
                 hidden
                     ? jQuery(
@@ -1633,7 +1635,8 @@
                                 orig[prop]
                             );
                     }
-                );
+                ),
+                index = 0;
                 index < length;
                 index++
             )
@@ -3438,9 +3441,10 @@
                 var queue;
                 if (elem)
                     return (
+                        (type = (type || "fx") + "queue"),
                         (queue = jQuery._data(
-                            elem, (
-                                type = (type || "fx") + "queue")
+                            elem,
+                            type
                         )),
                         data &&
               (queue && !jQuery.isArray(
@@ -3462,9 +3466,10 @@
             dequeue: function (
                 elem, type
             ) {
+                type = type || "fx";
                 var queue = jQuery.queue(
-                        elem, (
-                            type = type || "fx")
+                        elem,
+                        type
                     ),
                     startLength = queue.length,
                     fn = queue.shift(
@@ -3580,22 +3585,26 @@
             delay: function (
                 time, type
             ) {
-                return this.queue(
+                return (
+                    (time = jQuery.fx ? jQuery.fx.speeds[time] || time : time),
                     (type = type || "fx"),
-                    function (
-                        next, hooks
-                    ) {
-                        var timeout = setTimeout(
-                            next,
-                            (time = jQuery.fx ? jQuery.fx.speeds[time] || time : time),
-                        );
-                        hooks.stop = function (
+                    this.queue(
+                        type,
+                        function (
+                            next, hooks
                         ) {
-                            clearTimeout(
-                                timeout
+                            var timeout = setTimeout(
+                                next,
+                                time
                             );
-                        };
-                    }
+                            hooks.stop = function (
+                            ) {
+                                clearTimeout(
+                                    timeout
+                                );
+                            };
+                        }
+                    )
                 );
             },
             clearQueue: function (
@@ -9106,48 +9115,49 @@
                         );
                     if (hasScripts)
                         for (
-                            i = 0,
                             doc = scripts[scripts.length - 1].ownerDocument,
                             jQuery.map(
                                 scripts,
                                 restoreScript
-                            );
+                            ),
+                            i = 0;
                             i < hasScripts;
                             i++
                         )
+                            (node = scripts[i]),
                             rscriptType.test(
-                                (node = scripts[i]).type || ""
+                                node.type || ""
                             ) &&
-                !jQuery._data(
-                    node,
-                    "globalEval"
-                ) &&
-                jQuery.contains(
-                    doc,
-                    node
-                ) &&
-                (node.src
-                    ? jQuery.ajax(
-                        {
-                            url: node.src,
-                            type: "GET",
-                            dataType: "script",
-                            async: !1,
-                            global: !1,
-                            throws: !0,
-                        }
-                    )
-                    : jQuery.globalEval(
-                        (
-                            node.text ||
-                        node.textContent ||
-                        node.innerHTML ||
-                        ""
-                        ).replace(
-                            rcleanScript,
-                            ""
-                        ),
-                    ));
+                  !jQuery._data(
+                      node,
+                      "globalEval"
+                  ) &&
+                  jQuery.contains(
+                      doc,
+                      node
+                  ) &&
+                  (node.src
+                      ? jQuery.ajax(
+                          {
+                              url: node.src,
+                              type: "GET",
+                              dataType: "script",
+                              async: !1,
+                              global: !1,
+                              throws: !0,
+                          }
+                      )
+                      : jQuery.globalEval(
+                          (
+                              node.text ||
+                          node.textContent ||
+                          node.innerHTML ||
+                          ""
+                          ).replace(
+                              rcleanScript,
+                              ""
+                          ),
+                      ));
                     fragment = first = null;
                 }
                 return this;
@@ -9978,17 +9988,20 @@
                           elem, computed
                       ) {
                           if (computed)
-                              return rnumnonpx.test(
+                              return (
                                   (computed = curCSS(
                                       elem,
                                       prop
-                                  ))
-                              )
-                                  ? jQuery(
-                                      elem
-                                  ).position(
-                                  )[prop] + "px"
-                                  : computed;
+                                  )),
+                                  rnumnonpx.test(
+                                      computed
+                                  )
+                                      ? jQuery(
+                                          elem
+                                      ).position(
+                                      )[prop] + "px"
+                                      : computed
+                              );
                       },
                   };
               }
@@ -10444,9 +10457,8 @@
                     responseHeaders,
                     s = jQuery.ajaxSetup(
                         {
-                        }, (
-                            options = options || {
-                            })
+                        },
+                        options
                     ),
                     callbackContext = s.context || s,
                     globalEventContext =
@@ -10633,6 +10645,8 @@
                 }
                 if (
                     ("object" == typeof url && ((options = url), (url = void 0)),
+                    (options = options || {
+                    }),
                     (deferred.promise(
                         jqXHR
                     ).complete = completeDeferred.add),

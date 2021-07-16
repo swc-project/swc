@@ -70,14 +70,14 @@
                 );
                 if (enumerables)
                     for (var i = enumerables.length; i--; )
+                        (k = enumerables[i]),
                         a.hasOwnProperty(
-                            (k = enumerables[i])
-                        ) &&
-                self.call(
-                    this,
-                    k,
-                    a[k]
-                );
+                            k
+                        ) && self.call(
+                            this,
+                            k,
+                            a[k]
+                        );
             } else self.call(
                 this,
                 a,
@@ -3908,10 +3908,12 @@ function (
         var uid = node.getAttribute(
             this.uidk
         );
-        return uid || node.setAttribute(
-            this.uidk, (
-                uid = this.uidx++)
-        ), uid;
+        return (
+            uid || ((uid = this.uidx++), node.setAttribute(
+                this.uidk,
+                uid
+            )), uid
+        );
     }),
     (local.getUIDHTML = function (
         node
@@ -4195,7 +4197,7 @@ function (
               (children = node.all[id])
                     ) {
                         for (
-                            i = 0, children[0] || (children = [children,]);
+                            children[0] || (children = [children,]), i = 0;
                             (item = children[i++]);
 
                         ) {
@@ -4271,7 +4273,7 @@ function (
                 )
                     break getByTag;
                 for (
-                    i = 0, this.brokenStarGEBTN || (tag = null);
+                    this.brokenStarGEBTN || (tag = null), i = 0;
                     (item = children[i++]);
 
                 )
@@ -6187,11 +6189,11 @@ Elements.alias(
             wraps: function (
                 el, where
             ) {
-                return this.replaces(
-                    (el = document.id(
-                        el,
-                        !0
-                    ))
+                return (el = document.id(
+                    el,
+                    !0
+                )), this.replaces(
+                    el
                 ).grab(
                     el,
                     where
@@ -6343,9 +6345,10 @@ Elements.alias(
             clone: function (
                 contents, keepid
             ) {
+                contents = !1 !== contents;
                 var i,
                     clone = this.cloneNode(
-                        (contents = !1 !== contents)
+                        contents
                     ),
                     ce = [clone,],
                     te = [this,];
@@ -8708,15 +8711,15 @@ Element1.alias(
                         (value = element.style.pixelLeft),
                         (element.style.left = left);
                     }
+                    (from =
+            ((to || 1) / (parseFloat(
+                value
+            ) || 1)) * (parseFloat(
+                from
+            ) || 0)),
                     element.setStyle(
                         property,
-                        (from =
-              ((to || 1) / (parseFloat(
-                  value
-              ) || 1)) *
-              (parseFloat(
-                  from
-              ) || 0)) + unit,
+                        from + unit
                     );
                 }
             }
@@ -9065,15 +9068,16 @@ Element1.alias(
         );
         return (
             tween ||
+          ((tween = new Fx.Tween(
+              this,
+              {
+                  link: "cancel",
+              }
+          )),
           this.store(
               "tween",
-              (tween = new Fx.Tween(
-                  this,
-                  {
-                      link: "cancel",
-                  }
-              )),
-          ),
+              tween
+          )),
             tween
         );
     },
@@ -9286,15 +9290,16 @@ Element1.implement(
         );
         return (
             morph ||
+          ((morph = new Fx.Morph(
+              this,
+              {
+                  link: "cancel",
+              }
+          )),
           this.store(
               "morph",
-              (morph = new Fx.Morph(
-                  this,
-                  {
-                      link: "cancel",
-                  }
-              )),
-          ),
+              morph
+          )),
             morph
         );
     },
@@ -9894,21 +9899,22 @@ Fx.Transitions.extend(
             );
             return (
                 send ||
+              ((send = new Request1(
+                  {
+                      data: this,
+                      link: "cancel",
+                      method: this.get(
+                          "method"
+                      ) || "post",
+                      url: this.get(
+                          "action"
+                      ),
+                  }
+              )),
               this.store(
                   "send",
-                  (send = new Request1(
-                      {
-                          data: this,
-                          link: "cancel",
-                          method: this.get(
-                              "method"
-                          ) || "post",
-                          url: this.get(
-                              "action"
-                          ),
-                      }
-                  )),
-              ),
+                  send
+              )),
                 send
             );
         },
@@ -10033,17 +10039,18 @@ Fx.Transitions.extend(
         );
         return (
             load ||
+          ((load = new Request.HTML(
+              {
+                  data: this,
+                  link: "cancel",
+                  update: this,
+                  method: "get",
+              }
+          )),
           this.store(
               "load",
-              (load = new Request.HTML(
-                  {
-                      data: this,
-                      link: "cancel",
-                      update: this,
-                      method: "get",
-                  }
-              )),
-          ),
+              load
+          )),
             load
         );
     },
@@ -10105,7 +10112,7 @@ void 0 === JSON && (this.JSON = {
     (JSON.validate = function (
         string
     ) {
-        return /^[\],:{}\s]*$/.test(
+        return (
             (string = string
                 .replace(
                     /\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,
@@ -10119,6 +10126,9 @@ void 0 === JSON && (this.JSON = {
                     /(?:^|:|,)(?:\s*\[)+/g,
                     ""
                 )),
+            /^[\],:{}\s]*$/.test(
+                string
+            )
         );
     }),
     (JSON.encode = JSON.stringify
