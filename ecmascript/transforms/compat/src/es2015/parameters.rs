@@ -263,6 +263,40 @@ impl Params {
 impl Fold for Params {
     noop_fold_type!();
 
+    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let body = body.fold_children_with(self);
+
+        if self.vars.is_empty() {
+            return body;
+        }
+
+        let body = match body {
+            BlockStmtOrExpr::BlockStmt(v) => v,
+            BlockStmtOrExpr::Expr(v) => {
+                let mut stmts = vec![];
+                prepend(
+                    &mut stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: self.vars.take(),
+                    })),
+                );
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(v),
+                }));
+                BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                }
+            }
+        };
+
+        BlockStmtOrExpr::BlockStmt(body)
+    }
+
     fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
         let f = f.fold_children_with(self);
 
