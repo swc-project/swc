@@ -1649,3 +1649,15 @@ test!(
     ",
     ""
 );
+
+test!(
+    syntax(),
+    |_| parameters(),
+    rest_in_top_level_arrow_2,
+    "
+    const arrow = () => (...args) => {
+      console.log(args);
+    }
+    ",
+    ""
+);
