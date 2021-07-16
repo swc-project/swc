@@ -1685,7 +1685,18 @@ test!(
       console.log(this, args);
     }
     ",
-    ""
+    "
+    const arrow = ()=>{
+        var self = this;
+        return function() {
+            for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
+     _key++){
+                args[_key] = arguments[_key];
+            }
+            console.log(self, args);
+        };
+    };
+    "
 );
 
 test!(
@@ -1698,7 +1709,15 @@ test!(
     })
     ",
     "
-    
+    const arrow = ()=>{
+      var self = this;
+      return this, function() {
+          for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+              args[_key] = arguments[_key];
+          }
+          console.log(self, args);
+      };
+    };
     "
 );
 
@@ -1711,5 +1730,22 @@ test!(
       console.log(this, args);
     })
     ",
-    ""
+    "
+    var self = this;
+    const arrow = function() {
+        for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
+        }
+        return self, ()=>{
+            var self1 = this;
+            return function() {
+                for(let _len1 = arguments.length, args = new Array(_len1), _key1 = 0; _key1 < \
+     _len1; _key1++){
+                    args[_key1] = arguments[_key1];
+                }
+                console.log(self1, args);
+            };
+        };
+    };
+    "
 );
