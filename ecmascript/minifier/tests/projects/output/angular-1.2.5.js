@@ -4596,12 +4596,12 @@
                                         ) + ";" + value,
                                     ),
                                     (dst.style = (dst.style ? dst.style + ";" : "") + value))
-                                    : "$" == key.charAt(
+                                    : "$" != key.charAt(
                                         0
-                                    ) ||
-                    dst.hasOwnProperty(
+                                    ) &&
+                    !dst.hasOwnProperty(
                         key
-                    ) ||
+                    ) &&
                     ((dst[key] = value), (dstAttr[key] = srcAttr[key]));
                         }
                     );
@@ -5870,10 +5870,10 @@
                             function (
                                 value, key
                             ) {
-                                null === value ||
-                isUndefined(
+                                null !== value &&
+                !isUndefined(
                     value
-                ) ||
+                ) &&
                 (isArray(
                     value
                 ) || (value = [value,]),

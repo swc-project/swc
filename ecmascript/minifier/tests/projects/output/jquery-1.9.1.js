@@ -866,7 +866,7 @@
             nodeName,
             doc
         )),
-        ("none" !== display && display) ||
+        ("none" === display || !display) &&
           ((doc = (
               (iframe = (
                   iframe ||
@@ -1906,10 +1906,10 @@
             "boolean" == typeof target &&
           ((deep = target), (target = arguments[1] || {
           }), (i = 2)),
-            "object" == typeof target ||
-            jQuery.isFunction(
+            "object" != typeof target &&
+            !jQuery.isFunction(
                 target
-            ) ||
+            ) &&
             (target = {
             }),
             length === i && ((target = this), --i);
@@ -4240,9 +4240,9 @@
                     nType = elem.nodeType;
                 if (!!elem && 3 !== nType && 8 !== nType && 2 !== nType) {
                     if (
-                        ((1 === nType && jQuery.isXMLDoc(
+                        ((1 !== nType || !jQuery.isXMLDoc(
                             elem
-                        )) ||
+                        )) &&
               ((name = jQuery.propFix[name] || name),
               (hooks = jQuery.propHooks[name])),
                         void 0 !== value)
@@ -6877,9 +6877,9 @@
         ) {
             var doc = node ? node.ownerDocument || node : preferredDoc;
             return (
-                doc !== document &&
-            9 === doc.nodeType &&
-            doc.documentElement &&
+                doc === document ||
+            9 !== doc.nodeType ||
+            !doc.documentElement ||
             ((document = doc),
             (docElem = doc.documentElement),
             (documentIsXML = isXML(
@@ -9378,15 +9378,15 @@
                                 for (
                                     j =
                     (elem =
-                      "table" !== tag || rtbody.test(
+                      "table" === tag && !rtbody.test(
                           elem
                       )
-                          ? "<table>" !== wrap[1] || rtbody.test(
+                          ? tmp.firstChild
+                          : "<table>" === wrap[1] && !rtbody.test(
                               elem
                           )
-                              ? 0
-                              : tmp
-                          : tmp.firstChild) && elem.childNodes.length;
+                              ? tmp
+                              : 0) && elem.childNodes.length;
                                     j--;
 
                                 )
@@ -9668,8 +9668,8 @@
                 ("number" !== type || !isNaN(
                     value
                 )) &&
-                ("number" !== type ||
-                  jQuery.cssNumber[origName] ||
+                ("number" === type &&
+                  !jQuery.cssNumber[origName] &&
                   (value += "px"),
                 jQuery.support.clearCloneStyle ||
                   "" !== value ||
@@ -9789,11 +9789,11 @@
                 style = elem.style;
             return (
                 computed &&
-              ("" !== ret ||
-                jQuery.contains(
+              ("" === ret &&
+                !jQuery.contains(
                     elem.ownerDocument,
                     elem
-                ) ||
+                ) &&
                 (ret = jQuery.style(
                     elem,
                     name

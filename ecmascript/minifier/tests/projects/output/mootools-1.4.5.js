@@ -263,7 +263,7 @@
                         );
                 }
                 var previous = this.prototype[name];
-                (null != previous && previous.$protected) ||
+                (null == previous || !previous.$protected) &&
           (this.prototype[name] = method),
                 null == this[name] &&
             "function" == typeOf(
@@ -291,7 +291,7 @@
         ) {
             if (!method || !method.$hidden) {
                 var previous = this[name];
-                (null != previous && previous.$protected) || (this[name] = method);
+                (null == previous || !previous.$protected) && (this[name] = method);
             }
         };
     Type.implement(
@@ -6256,11 +6256,11 @@ Elements.alias(
                             );
                         }
                     )
-                    : ("radio" != type && "checkbox" != type) || el.checked
-                        ? el.get(
+                    : ("radio" == type || "checkbox" == type) && !el.checked
+                        ? null
+                        : el.get(
                             "value"
-                        )
-                        : null;
+                        );
                                 Array.from(
                                     value
                                 ).each(

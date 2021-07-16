@@ -490,9 +490,9 @@
             previous: function (
                 attr
             ) {
-                return null != attr && this._previousAttributes
-                    ? this._previousAttributes[attr]
-                    : null;
+                return null == attr || !this._previousAttributes
+                    ? null
+                    : this._previousAttributes[attr];
             },
             previousAttributes: function (
             ) {
@@ -1699,7 +1699,9 @@
                     );
             };
         }
-        "GET" === params.type || options.emulateJSON || (params.processData = !1),
+        "GET" !== params.type &&
+        !options.emulateJSON &&
+        (params.processData = !1),
         "PATCH" === params.type &&
           noXhrPatch &&
           (params.xhr = function (
