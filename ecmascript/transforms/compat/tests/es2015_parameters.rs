@@ -1641,13 +1641,20 @@ export default function reducer(state = initialState, action = {}) {
 test!(
     syntax(),
     |_| parameters(),
-    rest_in_top_level_arrow,
+    rest_in_top_level_arrow_1,
     "
     const arrow = (...args) => {
       console.log(args);
     }
     ",
-    ""
+    "
+    const arrow = function() {
+        for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
+        }
+        console.log(args);
+    };
+    "
 );
 
 test!(
@@ -1659,7 +1666,14 @@ test!(
       console.log(args);
     }
     ",
-    ""
+    "
+    const arrow = ()=>function() {
+        for(let _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
+            args[_key] = arguments[_key];
+        }
+        console.log(args);
+    };
+    "
 );
 
 test!(
@@ -1683,5 +1697,7 @@ test!(
       console.log(this, args);
     })
     ",
-    ""
+    "
+    
+    "
 );
