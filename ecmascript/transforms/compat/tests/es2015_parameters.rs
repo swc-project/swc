@@ -1707,9 +1707,9 @@ test!(
     |_| parameters(),
     rest_in_top_level_arrow_nested_1,
     "
-    const arrow = (...args) => () => (...args) => {
+    const arrow = (...args) => (this, () => (...args) => {
       console.log(this, args);
-    }
+    })
     ",
     ""
 );
