@@ -7,6 +7,7 @@ use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_type;
@@ -175,7 +176,61 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {}
+    pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {
+        match s.alt.as_deref_mut() {
+            Some(Stmt::If(IfStmt {
+                span: span_of_alt,
+                test: test_of_alt,
+                cons: cons_of_alt,
+                alt: Some(alt_of_alt),
+                ..
+            })) => {
+                match &**cons_of_alt {
+                    Stmt::Return(..) => {}
+                    _ => return,
+                }
+
+                match &mut **alt_of_alt {
+                    Stmt::Block(..) => {}
+                    Stmt::Expr(..) => {
+                        *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![*alt_of_alt.take()],
+                        }));
+                    }
+                    _ => {
+                        return;
+                    }
+                }
+
+                self.changed = true;
+                log::trace!("if_return: Merging `else if` into `else`");
+
+                match &mut **alt_of_alt {
+                    Stmt::Block(alt_of_alt) => {
+                        prepend(
+                            &mut alt_of_alt.stmts,
+                            Stmt::If(IfStmt {
+                                span: *span_of_alt,
+                                test: test_of_alt.take(),
+                                cons: cons_of_alt.take(),
+                                alt: None,
+                            }),
+                        );
+                    }
+
+                    _ => {
+                        unreachable!()
+                    }
+                }
+
+                s.alt = Some(alt_of_alt.take());
+                return;
+            }
+
+            _ => {}
+        }
+    }
 
     /// Merge simple return statements in if statements.
     ///
