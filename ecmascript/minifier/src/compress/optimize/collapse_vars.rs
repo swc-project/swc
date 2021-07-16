@@ -92,6 +92,13 @@ impl Optimizer<'_> {
                             _ => return,
                         }
                     }
+
+                    if usage.usage_count >= 2 {
+                        match &*assign.right {
+                            Expr::Lit(..) => {}
+                            _ => return,
+                        }
+                    }
                 }
 
                 let value = match &*assign.right {
