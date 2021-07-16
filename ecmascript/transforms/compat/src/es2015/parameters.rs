@@ -259,53 +259,68 @@ impl Params {
 impl Fold for Params {
     noop_fold_type!();
 
-    fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
-        let f = f.fold_children_with(self);
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let e = e.fold_children_with(self);
 
-        let was_expr = match f.body {
-            BlockStmtOrExpr::Expr(..) => true,
-            _ => false,
-        };
-        let body_span = f.body.span();
-        let (params, mut body) = self.fold_fn_like(
-            f.params
-                .into_iter()
-                .map(|pat| Param {
-                    span: DUMMY_SP,
-                    decorators: Default::default(),
-                    pat,
-                })
-                .collect(),
-            match f.body {
-                BlockStmtOrExpr::BlockStmt(block) => block,
-                BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                    span: body_span,
-                    stmts: vec![Stmt::Return(ReturnStmt {
-                        span: DUMMY_SP,
-                        arg: Some(expr),
-                    })],
-                },
-            },
-        );
+        match e {
+            Expr::Arrow(f) => {
+                let f = f.fold_children_with(self);
 
-        let body = if was_expr
-            && body.stmts.len() == 1
-            && match body.stmts[0] {
-                Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
-                _ => false,
-            } {
-            match body.stmts.pop().unwrap() {
-                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => BlockStmtOrExpr::Expr(arg),
-                _ => unreachable!(),
+                let was_expr = match f.body {
+                    BlockStmtOrExpr::Expr(..) => true,
+                    _ => false,
+                };
+
+                let need_arrow_to_function = f.params.iter().any(|p| match p {
+                    Pat::Rest(..) => true,
+                    _ => false,
+                });
+
+                let body_span = f.body.span();
+                let (params, mut body) = self.fold_fn_like(
+                    f.params
+                        .into_iter()
+                        .map(|pat| Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat,
+                        })
+                        .collect(),
+                    match f.body {
+                        BlockStmtOrExpr::BlockStmt(block) => block,
+                        BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                            span: body_span,
+                            stmts: vec![Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(expr),
+                            })],
+                        },
+                    },
+                );
+
+                let body = if was_expr
+                    && body.stmts.len() == 1
+                    && match body.stmts[0] {
+                        Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
+                        _ => false,
+                    } {
+                    match body.stmts.pop().unwrap() {
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                            BlockStmtOrExpr::Expr(arg)
+                        }
+                        _ => unreachable!(),
+                    }
+                } else {
+                    BlockStmtOrExpr::BlockStmt(body)
+                };
+
+                return Expr::Arrow(ArrowExpr {
+                    params: params.into_iter().map(|param| param.pat).collect(),
+                    body,
+                    ..f
+                });
             }
-        } else {
-            BlockStmtOrExpr::BlockStmt(body)
-        };
-
-        ArrowExpr {
-            params: params.into_iter().map(|param| param.pat).collect(),
-            body,
-            ..f
+            _ => e,
         }
     }
 
