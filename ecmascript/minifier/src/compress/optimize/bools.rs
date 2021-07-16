@@ -440,10 +440,34 @@ impl Optimizer<'_> {
 
         match n {
             Expr::Bin(BinExpr {
-                op: op!("&&") | op!("||"),
+                op: op @ op!("&&") | op @ op!("||"),
                 right,
                 ..
             }) => {
+                match &mut **right {
+                    Expr::Unary(UnaryExpr {
+                        op: op!("!"), arg, ..
+                    }) => {
+                        let new_op = if *op == op!("&&") {
+                            op!("||")
+                        } else {
+                            op!("&&")
+                        };
+
+                        self.changed = true;
+                        log::trace!(
+                            "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
+                            *op,
+                            new_op
+                        );
+                        *op = new_op;
+                        *right = arg.take();
+                        return;
+                    }
+
+                    _ => {}
+                }
+
                 self.optimize_expr_in_bool_ctx(&mut **right);
             }
 
