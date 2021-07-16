@@ -14,7 +14,8 @@ pub fn parameters() -> impl 'static + Fold {
 
 #[derive(Clone, Default)]
 struct Params {
-    /// Stores `this.
+    /// Used ti store `this, in case if `arguments` is used and we should
+    /// transform an arrow expression to a function expression.
     vars: Vec<VarDeclarator>,
 }
 // prevent_recurse!(Params, Pat);
