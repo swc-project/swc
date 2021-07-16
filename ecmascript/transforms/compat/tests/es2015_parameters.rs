@@ -1661,3 +1661,27 @@ test!(
     ",
     ""
 );
+
+test!(
+    syntax(),
+    |_| parameters(),
+    rest_in_top_level_arrow_3,
+    "
+    const arrow = () => (...args) => {
+      console.log(this, args);
+    }
+    ",
+    ""
+);
+
+test!(
+    syntax(),
+    |_| parameters(),
+    rest_in_top_level_arrow_4,
+    "
+    const arrow = () => (this, (...args) => {
+      console.log(this, args);
+    })
+    ",
+    ""
+);
