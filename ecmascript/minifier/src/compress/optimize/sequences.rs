@@ -628,6 +628,8 @@ impl Optimizer<'_> {
         match b {
             Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
 
+            Expr::Unary(b) => return self.merge_sequential_expr(a, &mut b.arg),
+
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => {
@@ -670,12 +672,6 @@ impl Optimizer<'_> {
                         match &**b {
                             Expr::Ident(..) => {}
 
-                            Expr::Member(MemberExpr {
-                                obj: ExprOrSuper::Expr(obj),
-                                computed: false,
-                                ..
-                            }) if !obj.may_have_side_effects() => {}
-
                             _ => {
                                 return false;
                             }
@@ -689,11 +685,6 @@ impl Optimizer<'_> {
 
                             match &**b {
                                 Expr::Ident(..) => {}
-                                Expr::Member(MemberExpr {
-                                    obj: ExprOrSuper::Expr(obj),
-                                    computed: false,
-                                    ..
-                                }) if !obj.may_have_side_effects() => {}
                                 _ => {
                                     return false;
                                 }
