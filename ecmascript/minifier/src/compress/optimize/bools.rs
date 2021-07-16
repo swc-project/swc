@@ -299,7 +299,7 @@ impl Optimizer<'_> {
             (Expr::Bin(..), Expr::Bin(..)) => false,
 
             _ => {
-                if negate_cost(&l) + negate_cost(&r) >= 0 {
+                if negate_cost(&l) >= 0 {
                     return false;
                 }
 
