@@ -503,13 +503,13 @@
             fetch: function (
                 options
             ) {
-                void 0 === (options = options
+                (options = options
                     ? _.clone(
                         options
                     )
                     : {
-                    }).parse &&
-        (options.parse = !0);
+                    }),
+                void 0 === options.parse && (options.parse = !0);
                 var model = this,
                     success = options.success;
                 return (
@@ -624,13 +624,11 @@
                         this,
                         options
                     ),
-                    "patch" ==
-          (method = this.isNew(
-          )
-              ? "create"
-              : options.patch
-                  ? "patch"
-                  : "update") && (options.attrs = attrs),
+                    (method = this.isNew(
+                    )
+                        ? "create"
+                        : options.patch ? "patch" : "update"),
+                    "patch" === method && (options.attrs = attrs),
                     (xhr = this.sync(
                         method,
                         this,
@@ -1238,13 +1236,13 @@
             fetch: function (
                 options
             ) {
-                void 0 === (options = options
+                (options = options
                     ? _.clone(
                         options
                     )
                     : {
-                    }).parse &&
-        (options.parse = !0);
+                    }),
+                void 0 === options.parse && (options.parse = !0);
                 var success = options.success,
                     collection = this;
                 return (
@@ -1282,15 +1280,16 @@
                 model, options
             ) {
                 if (
+                    ((options = options
+                        ? _.clone(
+                            options
+                        )
+                        : {
+                        }),
                     !(model = this._prepareModel(
                         model,
-                        (options = options
-                            ? _.clone(
-                                options
-                            )
-                            : {
-                            }),
-                    ))
+                        options
+                    )))
                 )
                     return !1;
                 options.wait || this.add(
@@ -2133,10 +2132,13 @@
                 var url = this.root + (fragment = this.getFragment(
                     fragment || ""
                 ));
-                if (this.fragment !== (fragment = fragment.replace(
-                    pathStripper,
-                    ""
-                ))) {
+                if (
+                    ((fragment = fragment.replace(
+                        pathStripper,
+                        ""
+                    )),
+                    this.fragment !== fragment)
+                ) {
                     if (
                         ((this.fragment = fragment),
                         "" === fragment && "/" !== url && (url = url.slice(
@@ -2151,10 +2153,10 @@
                             document.title,
                             url,
                         );
-                    else if (!this._wantsHashChange) return this.location.assign(
-                        url
-                    );
-                    else
+                    else {
+                        if (!this._wantsHashChange) return this.location.assign(
+                            url
+                        );
                         this._updateHash(
                             this.location,
                             fragment,
@@ -2174,6 +2176,7 @@
                     fragment,
                     options.replace,
                 ));
+                    }
                     if (options.trigger) return this.loadUrl(
                         fragment
                     );

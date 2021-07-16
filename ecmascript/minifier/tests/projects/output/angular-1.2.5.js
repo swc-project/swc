@@ -47,7 +47,9 @@
                               -1
                           );
                       if (index + 2 < templateArgs.length) {
-                          if ("function" == typeof (arg = templateArgs[index + 2]))
+                          if (
+                              ((arg = templateArgs[index + 2]), "function" == typeof arg)
+                          )
                               return arg.toString(
                               ).replace(
                                   / ?\{[\s\S]*$/,
@@ -224,9 +226,9 @@
     function nextUid(
     ) {
         for (var index = uid.length, digit; index; ) {
-            if ((index--, 57 == (digit = uid[index].charCodeAt(
+            if ((index--, (digit = uid[index].charCodeAt(
                 0
-            ))))
+            )), 57 == digit))
                 return (uid[index] = "A"), uid.join(
                     ""
                 );
@@ -586,22 +588,21 @@
                         )) return !1;
                     return !0;
                 }
-            } else if (isDate(
-                o1
-            )) return isDate(
-                o2
-            ) && o1.getTime(
-            ) == o2.getTime(
-            );
-            else if (isRegExp(
-                o1
-            ) && isRegExp(
-                o2
-            ))
-                return o1.toString(
+            } else {
+                if (isDate(
+                    o1
+                )) return isDate(
+                    o2
+                ) && o1.getTime(
+                ) == o2.getTime(
+                );
+                if (isRegExp(
+                    o1
+                ) && isRegExp(
+                    o2
+                )) return o1.toString(
                 ) == o2.toString(
                 );
-            else {
                 if (
                     isScope(
                         o1
@@ -1496,8 +1497,8 @@
                 arguments
             );
         }
-        (removePatch.$original = originalJqFn =
-      originalJqFn.$original || originalJqFn),
+        (originalJqFn = originalJqFn.$original || originalJqFn),
+        (removePatch.$original = originalJqFn),
         (jQuery.fn[name] = removePatch);
     }
     function JQLite(
@@ -1811,12 +1812,12 @@
     function jqLiteInheritedData(
         element, name, value
     ) {
-        9 == (element = jqLite(
+        (element = jqLite(
             element
-        ))[0].nodeType &&
-      (element = element.find(
-          "html"
-      ));
+        )),
+        9 == element[0].nodeType && (element = element.find(
+            "html"
+        ));
         for (var names = isArray(
             name
         )
@@ -2375,7 +2376,7 @@
                         fn
                     );
                 for (i = 0, length = $inject.length; i < length; i++) {
-                    if ("string" != typeof (key = $inject[i]))
+                    if (((key = $inject[i]), "string" != typeof key))
                         throw $injectorMinErr(
                             "itkn",
                             "Incorrect injection token! Expected service name as string, got {0}",
@@ -2939,18 +2940,18 @@
                         (index = (cookie = cookieArray[i]).indexOf(
                             "="
                         )) > 0 &&
-                void 0 ===
-                  lastCookies[(name = unescape(
-                      cookie.substring(
-                          0,
-                          index
-                      )
-                  ))] &&
-                (lastCookies[name] = unescape(
+                ((name = unescape(
                     cookie.substring(
-                        index + 1
+                        0,
+                        index
                     )
-                ));
+                )),
+                void 0 === lastCookies[name] &&
+                  (lastCookies[name] = unescape(
+                      cookie.substring(
+                          index + 1
+                      )
+                  )));
                 return lastCookies;
             }
         }),
@@ -4156,8 +4157,9 @@
                                     $attrs: attrs,
                                     $transclude: transcludeFn,
                                 };
-                            "@" == (controller = directive.controller) &&
-                        (controller = attrs[directive.name]),
+                            (controller = directive.controller),
+                            "@" == controller &&
+                          (controller = attrs[directive.name]),
                             (controllerInstance = $controller(
                                 controller,
                                 locals
@@ -5107,10 +5109,10 @@
                           key,
                           "-"
                       )),
-                            (("A" === (nodeName = nodeName_(
+                            (nodeName = nodeName_(
                                 this.$$element
-                            )) &&
-                    "href" === key) ||
+                            )),
+                            (("A" === nodeName && "href" === key) ||
                     ("IMG" === nodeName && "src" === key)) &&
                     (this[key] = value = $$sanitizeUri(
                         value,
@@ -5594,8 +5596,9 @@
                                     isFunction(
                                         headerFn
                                     ) &&
-                  (null != (headerContent = headerFn(
-                  ))
+                  ((headerContent = headerFn(
+                  )),
+                  null != headerContent
                       ? (headers[header] = headerContent)
                       : delete headers[header]);
                                 }
@@ -6353,15 +6356,15 @@
                         ((part = part(
                             context
                         )),
-                        null ===
-                          (part = trustedContext
-                              ? $sce.getTrusted(
-                                  trustedContext,
-                                  part
-                              )
-                              : $sce.valueOf(
-                                  part
-                              )) || isUndefined(
+                        (part = trustedContext
+                            ? $sce.getTrusted(
+                                trustedContext,
+                                part
+                            )
+                            : $sce.valueOf(
+                                part
+                            )),
+                        null === part || isUndefined(
                             part
                         )
                             ? (part = "")
@@ -7279,22 +7282,23 @@
                 self, locals, a, b
             ) {
                 return (
+                    (a = a(
+                        self,
+                        locals
+                    )),
+                    (b = b(
+                        self,
+                        locals
+                    )),
                     (isDefined(
-                        (a = a(
-                            self,
-                            locals
-                        ))
+                        a
                     )
                         ? a
-                        : 0) -
-          (isDefined(
-              (b = b(
-                  self,
-                  locals
-              ))
-          )
-              ? b
-              : 0)
+                        : 0) - (isDefined(
+                        b
+                    )
+                        ? b
+                        : 0)
                 );
             },
             "*": function (
@@ -8936,7 +8940,8 @@
                             do {
                                 for (
                                     i = 0,
-                                    event.currentScope = current = next,
+                                    current = next,
+                                    event.currentScope = current,
                                     length = (listeners = current.$$listeners[name] || [])
                                         .length;
                                     i < length;
@@ -9009,14 +9014,15 @@
             ) {
                 var normalizedVal;
                 return (msie && !(msie >= 8)) ||
-            "" === (normalizedVal = urlResolve(
+            ((normalizedVal = urlResolve(
                 uri
-            ).href) ||
-            normalizedVal.match(
-                isImage
-                    ? imgSrcSanitizationWhitelist
-                    : aHrefSanitizationWhitelist,
-            )
+            ).href),
+            "" === normalizedVal ||
+              normalizedVal.match(
+                  isImage
+                      ? imgSrcSanitizationWhitelist
+                      : aHrefSanitizationWhitelist,
+              ))
                     ? uri
                     : "unsafe:" + normalizedVal;
             };
@@ -9546,7 +9552,7 @@
                             invokeApply
                         ) && !invokeApply;
                     return (
-                        (promise.$$timeoutId = timeoutId = $browser.defer(
+                        (timeoutId = $browser.defer(
                             function (
                             ) {
                                 try {
@@ -9568,6 +9574,7 @@
                             },
                             delay
                         )),
+                        (promise.$$timeoutId = timeoutId),
                         (deferreds[timeoutId] = deferred),
                         promise
                     );
@@ -9998,13 +10005,14 @@
             pattern.maxFrac,
         ));
             var pow = Math.pow(
-                    10,
-                    fractionSize
-                ),
-                fraction = ("" + (number = Math.round(
-                    number * pow
-                ) / pow)).split(
-                    DECIMAL_SEP,
+                10,
+                fractionSize
+            );
+            number = Math.round(
+                number * pow
+            ) / pow;
+            var fraction = ("" + number).split(
+                    DECIMAL_SEP
                 ),
                 whole = fraction[0];
             fraction = fraction[1] || "";
@@ -13234,10 +13242,10 @@
                                         if (
                                             ((key = index),
                                             keyName &&
-                        "$" !== (key = keys[index]).charAt(
+                        ((key = keys[index]),
+                        "$" !== key.charAt(
                             0
-                        ) &&
-                        (locals[keyName] = key),
+                        ) && (locals[keyName] = key)),
                                             (locals[valueName] = values[key]),
                                             (optionGroup =
                         optionGroups[
@@ -13515,8 +13523,10 @@
                                                                         locals
                                                                     )
                                                                 );
-                                                            } else if ("?" == (key = selectElement.val(
-                                                            )))
+                                                            } else if (
+                                                                ((key = selectElement.val(
+                                                                )), "?" == key)
+                                                            )
                                                                 value = void 0;
                                                             else if ("" === key) value = null;
                                                             else if (trackFn)
@@ -13843,9 +13853,8 @@
                     var val;
                     return (
                         msie <= 8 &&
-                "" ===
-                  (val = element.currentStyle && element.currentStyle[name]) &&
-                (val = "auto"),
+                ((val = element.currentStyle && element.currentStyle[name]),
+                "" === val && (val = "auto")),
                         (val = val || element.style[name]),
                         msie <= 8 && (val = "" === val ? void 0 : val),
                         val
@@ -14803,15 +14812,14 @@
 
             ) {
                 if (
-                    "." === (ch = this.text.charAt(
+                    ((ch = this.text.charAt(
                         this.index
-                    )) ||
-            this.isIdent(
-                ch
-            ) ||
-            this.isNumber(
-                ch
-            )
+                    )),
+                    "." === ch || this.isIdent(
+                        ch
+                    ) || this.isNumber(
+                        ch
+                    ))
                 )
                     "." === ch && (lastDot = this.index), (ident += ch);
                 else break;
@@ -14819,9 +14827,9 @@
             }
             if (lastDot)
                 for (peekIndex = this.index; peekIndex < this.text.length; ) {
-                    if ("(" === (ch = this.text.charAt(
+                    if (((ch = this.text.charAt(
                         peekIndex
-                    ))) {
+                    )), "(" === ch)) {
                         (methodName = ident.substr(
                             lastDot - start + 1
                         )),
@@ -14932,24 +14940,26 @@
                     }
                     escape = !1;
                 } else if ("\\" === ch) escape = !0;
-                else if (ch === quote)
-                    return (
-                        this.index++,
-                        this.tokens.push(
-                            {
-                                index: start,
-                                text: rawString,
-                                string: string,
-                                json: !0,
-                                fn: function (
-                                ) {
-                                    return string;
-                                },
-                            }
-                        ),
-                        void 0
-                    );
-                else string += ch;
+                else {
+                    if (ch === quote)
+                        return (
+                            this.index++,
+                            this.tokens.push(
+                                {
+                                    index: start,
+                                    text: rawString,
+                                    string: string,
+                                    json: !0,
+                                    fn: function (
+                                    ) {
+                                        return string;
+                                    },
+                                }
+                            ),
+                            void 0
+                        );
+                    string += ch;
+                }
                 this.index++;
             }
             this.throwError(

@@ -173,10 +173,10 @@
                     name
                 )] = data),
                 getByName
-                    ? null == (ret = thisCache[name]) &&
-              (ret = thisCache[jQuery.camelCase(
-                  name
-              )])
+                    ? ((ret = thisCache[name]),
+                    null == ret && (ret = thisCache[jQuery.camelCase(
+                        name
+                    )]))
                     : (ret = thisCache),
                 ret)
                 : void 0;
@@ -251,9 +251,9 @@
                 "-$1"
             ).toLowerCase(
             );
-            if ("string" == typeof (data = elem.getAttribute(
+            if (((data = elem.getAttribute(
                 name
-            ))) {
+            )), "string" == typeof data)) {
                 try {
                     data =
             "true" === data ||
@@ -862,10 +862,11 @@
             display = elemdisplay[nodeName];
         return (
             display ||
-        (("none" !== (display = actualDisplay(
+        ((display = actualDisplay(
             nodeName,
             doc
-        )) && display) ||
+        )),
+        ("none" !== display && display) ||
           ((doc = (
               (iframe = (
                   iframe ||
@@ -1248,9 +1249,8 @@
                     if (parts) {
                         if (
                             ((end = +parts[2]),
-                            "px" !==
-                (unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px")) &&
-                start)
+                            (unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px")),
+                            "px" !== unit && start)
                         ) {
                             start = jQuery.css(
                                 tween.elem,
@@ -1526,10 +1526,11 @@
                 elem
             );
         for (index in (opts.queue ||
-      (null == (hooks = jQuery._queueHooks(
+      ((hooks = jQuery._queueHooks(
           elem,
           "fx"
-      )).unqueued &&
+      )),
+      null == hooks.unqueued &&
         ((hooks.unqueued = 0),
         (oldfire = hooks.empty.fire),
         (hooks.empty.fire = function (
@@ -1594,18 +1595,17 @@
           ));
         if ((length = handled.length))
             for (
-                ("hidden" in
-          (dataShow =
-            jQuery._data(
-                elem,
-                "fxshow"
-            ) ||
-            jQuery._data(
-                elem,
-                "fxshow",
-                {
-                }
-            ))) && (hidden = dataShow.hidden),
+                dataShow =
+          jQuery._data(
+              elem,
+              "fxshow"
+          ) || jQuery._data(
+              elem,
+              "fxshow",
+              {
+              }
+          ),
+                ("hidden" in dataShow) && (hidden = dataShow.hidden),
                 toggle && (dataShow.hidden = !hidden),
                 hidden
                     ? jQuery(
@@ -2235,7 +2235,8 @@
             each: function (
                 obj, callback, args
             ) {
-                var i = 0,
+                var value,
+                    i = 0,
                     length = obj.length,
                     isArray = isArraylike(
                         obj
@@ -2243,28 +2244,33 @@
                 if (args) {
                     if (isArray)
                         for (; i < length; i++)
-                            if (!1 === callback.apply(
+                            if (((value = callback.apply(
                                 obj[i],
                                 args
-                            )) break;
+                            )), !1 === value)) break;
                             else
-                                for (i in obj) if (!1 === callback.apply(
-                                    obj[i],
-                                    args
-                                )) break;
+                                for (i in obj)
+                                    if (((value = callback.apply(
+                                        obj[i],
+                                        args
+                                    )), !1 === value))
+                                        break;
                 } else if (isArray)
                     for (; i < length; i++)
-                        if (!1 === callback.call(
+                        if (((value = callback.call(
                             obj[i],
                             i,
                             obj[i]
-                        )) break;
+                        )), !1 === value))
+                            break;
                         else
-                            for (i in obj) if (!1 === callback.call(
-                                obj[i],
-                                i,
-                                obj[i]
-                            )) break;
+                            for (i in obj)
+                                if (((value = callback.call(
+                                    obj[i],
+                                    i,
+                                    obj[i]
+                                )), !1 === value))
+                                    break;
                 return obj;
             },
             trim:
@@ -2375,20 +2381,20 @@
                     ret = [];
                 if (isArray)
                     for (; i < length; i++)
-                        null != (value = callback(
+                        (value = callback(
                             elems[i],
                             i,
                             arg
-                        )) &&
-              (ret[ret.length] = value);
+                        )),
+                        null != value && (ret[ret.length] = value);
                 else
                     for (i in elems)
-                        null != (value = callback(
+                        (value = callback(
                             elems[i],
                             i,
                             arg
-                        )) &&
-              (ret[ret.length] = value);
+                        )),
+                        null != value && (ret[ret.length] = value);
                 return core_concat.apply(
                     [],
                     ret
@@ -3938,14 +3944,17 @@
               ))
                         )
                             return ret;
-                        return "string" == typeof (ret = elem.value)
-                            ? ret.replace(
-                                rreturn,
-                                ""
-                            )
-                            : null == ret
-                                ? ""
-                                : ret;
+                        return (
+                            (ret = elem.value),
+                            "string" == typeof ret
+                                ? ret.replace(
+                                    rreturn,
+                                    ""
+                                )
+                                : null == ret
+                                    ? ""
+                                    : ret
+                        );
                     }
                     return;
                 }
@@ -3959,8 +3968,7 @@
                         ) {
                             var val;
                             1 === this.nodeType &&
-              (null ==
-              (val = isFunction
+              ((val = isFunction
                   ? value.call(
                       this,
                       i,
@@ -3969,7 +3977,8 @@
                       ).val(
                       )
                   )
-                  : value)
+                  : value),
+              null == val
                   ? (val = "")
                   : "number" == typeof val
                       ? (val += "")
@@ -4998,15 +5007,15 @@
                 )) ||
                 ((event.handleObj = handleObj),
                 (event.data = handleObj.data),
-                void 0 !==
-                  (ret = (
-                      (jQuery.event.special[handleObj.origType] || {
-                      }).handle ||
-                    handleObj.handler
-                  ).apply(
-                      matched.elem,
-                      args
-                  )) &&
+                (ret = (
+                    (jQuery.event.special[handleObj.origType] || {
+                    }).handle ||
+                  handleObj.handler
+                ).apply(
+                    matched.elem,
+                    args
+                )),
+                void 0 !== ret &&
                   !1 === (event.result = ret) &&
                   (event.preventDefault(
                   ), event.stopPropagation(
@@ -5041,21 +5050,21 @@
               (!0 !== cur.disabled || "click" !== event.type)
                     ) {
                         for (i = 0, matches = []; i < delegateCount; i++)
-                            void 0 ===
-                  matches[(sel = (handleObj = handlers[i]).selector + " ")] &&
-                  (matches[sel] = handleObj.needsContext
-                      ? jQuery(
-                          sel,
-                          this
-                      ).index(
-                          cur
-                      ) >= 0
-                      : jQuery.find(
-                          sel,
-                          this,
-                          null,
-                          [cur,]
-                      ).length),
+                            (sel = (handleObj = handlers[i]).selector + " "),
+                            void 0 === matches[sel] &&
+                    (matches[sel] = handleObj.needsContext
+                        ? jQuery(
+                            sel,
+                            this
+                        ).index(
+                            cur
+                        ) >= 0
+                        : jQuery.find(
+                            sel,
+                            this,
+                            null,
+                            [cur,]
+                        ).length),
                             matches[sel] && matches.push(
                                 handleObj
                             );
@@ -6856,7 +6865,14 @@
                 return results;
             };
         }
-        for (i in ((setDocument = Sizzle.setDocument = function (
+        for (i in ((isXML = Sizzle.isXML = function (
+            elem
+        ) {
+            var documentElement =
+          elem && (elem.ownerDocument || elem).documentElement;
+            return !!documentElement && "HTML" !== documentElement.nodeName;
+        }),
+        (setDocument = Sizzle.setDocument = function (
             node
         ) {
             var doc = node ? node.ownerDocument || node : preferredDoc;
@@ -6866,13 +6882,7 @@
             doc.documentElement &&
             ((document = doc),
             (docElem = doc.documentElement),
-            (documentIsXML = (isXML = Sizzle.isXML = function (
-                elem
-            ) {
-                var documentElement =
-                elem && (elem.ownerDocument || elem).documentElement;
-                return !!documentElement && "HTML" !== documentElement.nodeName;
-            })(
+            (documentIsXML = isXML(
                 doc
             )),
             (support.tagNameNoComments = assert(
@@ -8942,15 +8952,16 @@
                             );
                             try {
                                 for (; i < l; i++)
-                                    1 === (elem = this[i] || {
-                                    }).nodeType &&
-                    (jQuery.cleanData(
-                        getAll(
-                            elem,
-                            !1
-                        )
-                    ),
-                    (elem.innerHTML = value));
+                                    (elem = this[i] || {
+                                    }),
+                                    1 === elem.nodeType &&
+                      (jQuery.cleanData(
+                          getAll(
+                              elem,
+                              !1
+                          )
+                      ),
+                      (elem.innerHTML = value));
                                 elem = 0;
                             } catch (e) {}
                         }
@@ -9328,25 +9339,23 @@
                             elem
                         )) {
                             for (
-                                (tmp =
-                  tmp ||
-                  safe.appendChild(
-                      context.createElement(
-                          "div"
-                      )
-                  )).innerHTML =
-                  (wrap =
+                                tmp = tmp || safe.appendChild(
+                                    context.createElement(
+                                        "div"
+                                    )
+                                ),
+                                wrap =
                     wrapMap[
                         (tag = (rtagName.exec(
                             elem
                         ) || ["", "",])[1].toLowerCase(
                         ))
-                    ] || wrapMap._default)[1] +
-                  elem.replace(
-                      rxhtmlTag,
-                      "<$1></$2>"
-                  ) +
-                  wrap[2],
+                    ] || wrapMap._default,
+                                tmp.innerHTML =
+                    wrap[1] + elem.replace(
+                        rxhtmlTag,
+                        "<$1></$2>"
+                    ) + wrap[2],
                                 j = wrap[0];
                                 j--;
 
@@ -9642,7 +9651,8 @@
                         void 0 !== value)
                     ) {
                         if (
-                            ("string" == (type = typeof value) &&
+                            ((type = typeof value),
+                            "string" === type &&
                 (ret = rrelNum.exec(
                     value
                 )) &&
@@ -11698,11 +11708,12 @@
             elem = this[0],
             doc = elem && elem.ownerDocument;
         return doc
-            ? jQuery.contains(
-                (docElem = doc.documentElement),
+            ? ((docElem = doc.documentElement), !jQuery.contains(
+                docElem,
                 elem
-            )
-                ? (typeof elem.getBoundingClientRect !== core_strundefined &&
+            ))
+                ? box
+                : (typeof elem.getBoundingClientRect !== core_strundefined &&
               (box = elem.getBoundingClientRect(
               )),
                 (win = getWindow(
@@ -11718,7 +11729,6 @@
                 (win.pageXOffset || docElem.scrollLeft) -
                 (docElem.clientLeft || 0),
                 })
-                : box
             : void 0;
     }),
     (jQuery.offset = {

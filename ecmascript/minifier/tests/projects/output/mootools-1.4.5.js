@@ -1316,15 +1316,15 @@ Number.implement(
             precision
         ) {
             return (
+                (precision = Math.pow(
+                    10,
+                    precision || 0
+                ).toFixed(
+                    precision < 0 ? -precision : 0,
+                )),
                 Math.round(
                     this * precision
-                ) /
-        (precision = Math.pow(
-            10,
-            precision || 0
-        ).toFixed(
-            precision < 0 ? -precision : 0,
-        ))
+                ) / precision
             );
         },
         times: function (
@@ -2664,10 +2664,10 @@ var Event1 = DOMEvent;
                 Class.Mutators.hasOwnProperty(
                     key
                 ) &&
-          null == (value = Class.Mutators[key].call(
+          ((value = Class.Mutators[key].call(
               this,
               value
-          ))
+          )), null == value)
             )
                 return this;
             if ("function" == typeOf(
@@ -3275,11 +3275,13 @@ function (
             brokenFormAttributeGetter,
             selected,
             nodeType = document.nodeType;
-        if (9 == nodeType);
-        else if (nodeType) document = document.ownerDocument;
-        else if (!document.navigator) return;
-        else document = document.document;
-        if (this.document !== document) {
+        if (
+            (9 == nodeType ||
+            (nodeType
+                ? (document = document.ownerDocument)
+                : document.navigator && (document = document.document)),
+            this.document !== document)
+        ) {
             this.document = document;
             var root = document.documentElement,
                 rootUid = this.getUIDXML(
@@ -3369,10 +3371,11 @@ function (
                 if (testNode.querySelectorAll) {
                     try {
                         (testNode.innerHTML = "foo</foo>"),
+                        (selected = testNode.querySelectorAll(
+                            "*"
+                        )),
                         (features.starSelectsClosedQSA =
-                    (selected = testNode.querySelectorAll(
-                        "*"
-                    )) &&
+                    selected &&
                     !!selected.length &&
                     "/" == selected[0].nodeName.charAt(
                         0
@@ -3474,11 +3477,11 @@ function (
                   : function (
                       node, attribute
                   ) {
-                      return (
+                      return !!(
                           (node = node.getAttributeNode(
                               attribute
-                          )),
-                          !!(node && (node.specified || node.nodeValue))
+                          )) &&
+                      (node.specified || node.nodeValue)
                       );
                   });
             var nativeRootContains = root && this.isNativeCode(
@@ -4140,13 +4143,15 @@ function (
         if (classes)
             for (i = classes.length; i--; )
                 if (
-                    ((cls = this.getAttribute(
-                        node,
-                        "class"
-                    )),
-                    !(cls && classes[i].regexp.test(
-                        cls
-                    )))
+                    !(
+                        (cls = this.getAttribute(
+                            node,
+                            "class"
+                        )) &&
+                classes[i].regexp.test(
+                    cls
+                )
+                    )
                 )
                     return !1;
         if (attributes)
@@ -4244,12 +4249,14 @@ function (
             !this.brokenGEBCN
                 ) {
                     if (
-                        ((children = node.getElementsByClassName(
-                            classList.join(
-                                " "
-                            )
-                        )),
-                        !(children && children.length))
+                        !(
+                            (children = node.getElementsByClassName(
+                                classList.join(
+                                    " "
+                                )
+                            )) &&
+                children.length
+                        )
                     )
                         break getByClass;
                     for (i = 0; (item = children[i++]); )
@@ -4265,12 +4272,9 @@ function (
                 }
             }
             getByTag: {
-                if (
-                    ((children = node.getElementsByTagName(
-                        tag
-                    )),
-                    !(children && children.length))
-                )
+                if (!((children = node.getElementsByTagName(
+                    tag
+                )) && children.length))
                     break getByTag;
                 for (
                     this.brokenStarGEBTN || (tag = null), i = 0;
@@ -4853,10 +4857,11 @@ var Element1 = function (
         var attributes = parsed.attributes;
         if (attributes)
             for (var attr, i = 0, l = attributes.length; i < l; i++)
-                null == props[(attr = attributes[i]).key] &&
-          (null != attr.value && "=" == attr.operator
-              ? (props[attr.key] = attr.value)
-              : attr.value || attr.operator || (props[attr.key] = !0));
+                (attr = attributes[i]),
+                null == props[attr.key] &&
+            (null != attr.value && "=" == attr.operator
+                ? (props[attr.key] = attr.value)
+                : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList &&
       null == props.class &&
       (props.class = parsed.classList.join(
@@ -8703,8 +8708,9 @@ Element1.alias(
                         !/px$/.test(
                             value
                         ) &&
-            null == (value = element.style[("pixel-" + property).camelCase(
-            )])
+            ((value = element.style[("pixel-" + property).camelCase(
+            )]),
+            null == value)
                     ) {
                         var left = element.style.left;
                         (element.style.left = to + unit),
@@ -9167,16 +9173,13 @@ Element1.implement(
             start, end
         ) {
             end ||
-        (end =
-          "transparent" ==
-          (end = this.retrieve(
-              "highlight:original",
-              this.getStyle(
-                  "background-color"
-              ),
-          ))
-              ? "#fff"
-              : end);
+        ((end = this.retrieve(
+            "highlight:original",
+            this.getStyle(
+                "background-color"
+            ),
+        )),
+        (end = "transparent" == end ? "#fff" : end));
             var tween = this.get(
                 "tween"
             );
@@ -9443,10 +9446,10 @@ Fx.Transitions.extend(
         Back: function (
             p, x
         ) {
-            return Math.pow(
+            return (x = (x && x[0]) || 1.618), Math.pow(
                 p,
                 2
-            ) * (((x = (x && x[0]) || 1.618) + 1) * p - x);
+            ) * ((x + 1) * p - x);
         },
         Bounce: function (
             p
@@ -10515,8 +10518,9 @@ var Cookie = new Class(
                 )),
                 this.setOptions(
                     options
-                );
-                var id = (this.id = (options = this.options).id || this.instance),
+                ),
+                (options = this.options);
+                var id = (this.id = options.id || this.instance),
                     container = document.id(
                         options.container
                     );
