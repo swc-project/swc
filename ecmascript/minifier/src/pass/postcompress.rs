@@ -11,14 +11,14 @@ struct PostcompressOptimizer<'a> {
     options: &'a CompressOptions,
 }
 
-impl VisitMut for PostcompressOptimizer<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
-        s.visit_mut_children_with(self);
+impl PostcompressOptimizer<'_> {
+    fn optimize_in_bool_ctx(&mut self, e: &mut Expr) {
+        if !self.options.bools {
+            return;
+        }
 
         // Note: `||` is not handled because of precedence.
-        match &mut *s.test {
+        match e {
             Expr::Bin(BinExpr {
                 op: op @ op!("&&"),
                 right,
@@ -48,5 +48,21 @@ impl VisitMut for PostcompressOptimizer<'_> {
 
             _ => {}
         }
+    }
+}
+
+impl VisitMut for PostcompressOptimizer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
+        e.visit_mut_children_with(self);
+
+        self.optimize_in_bool_ctx(&mut *e.test);
+    }
+
+    fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
+        s.visit_mut_children_with(self);
+
+        self.optimize_in_bool_ctx(&mut *s.test);
     }
 }
