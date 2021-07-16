@@ -3743,7 +3743,7 @@
                     popstate: function (
                         event
                     ) {
-                        var state;
+                        var hash, state;
                         if (jQuery.event.special.navigate.isPushStateEnabled(
                         )) {
                             if (this.preventHashAssignPopState)
@@ -3768,13 +3768,11 @@
                                 );
                                 return;
                             }
-                            return (path.parseLocation(
-                            ).hash,
-                            !event.originalEvent.state && path.parseLocation(
-                            ).hash)
+                            return ((hash = path.parseLocation(
+                            ).hash),
+                            !event.originalEvent.state && hash)
                                 ? ((state = this.squash(
-                                    path.parseLocation(
-                                    ).hash
+                                    hash
                                 )),
                                 this.history.add(
                                     state.url,
@@ -3784,11 +3782,8 @@
                                 void 0)
                                 : void this.history.direct(
                                     {
-                                        url:
-                      (event.originalEvent.state || {
-                      }).url ||
-                      path.parseLocation(
-                      ).hash,
+                                        url: (event.originalEvent.state || {
+                                        }).url || hash,
                                         present: function (
                                             historyEntry, direction
                                         ) {
@@ -6530,23 +6525,23 @@
                             };
                         return ((settings.fromPage = settings.fromPage || this.activePage),
                         !this._triggerPageBeforeChange(
-                            triggerData.toPage,
+                            to,
                             triggerData,
-                            settings,
+                            settings
                         ))
                             ? void 0
-                            : void (triggerData.toPage,
+                            : void ((to = triggerData.toPage),
                             "string" === jQuery.type(
-                                triggerData.toPage
+                                to
                             )
                                 ? ((isPageTransitioning = !0),
                                 this._loadUrl(
-                                    triggerData.toPage,
+                                    to,
                                     triggerData,
                                     settings
                                 ))
                                 : this.transition(
-                                    triggerData.toPage,
+                                    to,
                                     triggerData,
                                     settings
                                 ));
@@ -6554,7 +6549,8 @@
                     transition: function (
                         toPage, triggerData, settings
                     ) {
-                        var url,
+                        var fromPage,
+                            url,
                             pageUrl,
                             active,
                             activeIsInitialPage,
@@ -6591,6 +6587,7 @@
                                 toPage[0] !== jQuery.mobile.firstPage[0] ||
                 settings.dataUrl ||
                 (settings.dataUrl = jQuery.mobile.path.documentUrl.hrefNoHash),
+                                (fromPage = settings.fromPage),
                                 (pageUrl = url =
                 (settings.dataUrl &&
                   jQuery.mobile.path.convertUrlToDataUrl(
@@ -6616,8 +6613,8 @@
                 !0 !== toPage.jqmData(
                     "dialog"
                 )),
-                                settings.fromPage &&
-                settings.fromPage[0] === toPage[0] &&
+                                fromPage &&
+                fromPage[0] === toPage[0] &&
                 !settings.allowSamePageTransition)
                             )
                                 return (
@@ -6748,7 +6745,7 @@
                             )),
                             this._cssTransition(
                                 toPage,
-                                settings.fromPage,
+                                fromPage,
                                 {
                                     transition: settings.transition,
                                     reverse: settings.reverse,
@@ -11076,31 +11073,31 @@
                             (control = this.element),
                             ((optionElements = (isInput = !this.isToggleSwitch)
                                 ? []
-                                : this.element.find(
+                                : control.find(
                                     "option"
                                 )),
                             (min = isInput
                                 ? parseFloat(
-                                    this.element.attr(
+                                    control.attr(
                                         "min"
                                     )
                                 )
                                 : 0),
                             (max = isInput
                                 ? parseFloat(
-                                    this.element.attr(
+                                    control.attr(
                                         "max"
                                     )
                                 )
                                 : optionElements.length - 1),
                             (step =
                 isInput && parseFloat(
-                    this.element.attr(
+                    control.attr(
                         "step"
                     )
                 ) > 0
                     ? parseFloat(
-                        this.element.attr(
+                        control.attr(
                             "step"
                         )
                     )
@@ -11125,10 +11122,10 @@
                                 : (null == val &&
                     (val = isInput
                         ? parseFloat(
-                            this.element.val(
+                            control.val(
                             ) || 0
                         )
-                        : this.element[0].selectedIndex),
+                        : control[0].selectedIndex),
                                 (percent = ((parseFloat(
                                     val
                                 ) - min) / (max - min)) * 100)),
@@ -11229,20 +11226,20 @@
                             if (
                                 ((valueChanged = !1),
                                 isInput
-                                    ? ((valueChanged = this.element.val(
+                                    ? ((valueChanged = control.val(
                                     ) !== newval),
-                                    this.element.val(
+                                    control.val(
                                         newval
                                     ))
-                                    : ((valueChanged = this.element[0].selectedIndex !== newval),
-                                    (this.element[0].selectedIndex = newval)),
+                                    : ((valueChanged = control[0].selectedIndex !== newval),
+                                    (control[0].selectedIndex = newval)),
                                 !1 === this._trigger(
                                     "beforechange",
                                     val
                                 ))
                             )
                                 return !1;
-                            isfromControl || !valueChanged || this.element.trigger(
+                            isfromControl || !valueChanged || control.trigger(
                                 "change"
                             );
                         }
@@ -14356,7 +14353,10 @@
                         options
                     ) {
                         var url,
+                            hashkey,
+                            activePage,
                             currentIsDialog,
+                            urlHistory,
                             self = this,
                             currentOptions = this.options;
                         return jQuery.mobile.popup.active || currentOptions.disabled
@@ -14382,42 +14382,37 @@
                                     },
                                 ),
                                 this)
-                                : (jQuery.mobile.navigate.history,
-                                jQuery.mobile.dialogHashKey,
+                                : ((urlHistory = jQuery.mobile.navigate.history),
+                                (hashkey = jQuery.mobile.dialogHashKey),
                                 (currentIsDialog =
-                !!jQuery.mobile.activePage &&
-                jQuery.mobile.activePage.hasClass(
+                !!(activePage = jQuery.mobile.activePage) &&
+                activePage.hasClass(
                     "ui-dialog"
                 )),
-                                (this._myUrl = url = jQuery.mobile.navigate.history.getActive(
-                                )
-                                    .url),
+                                (this._myUrl = url = urlHistory.getActive(
+                                ).url),
                                 url.indexOf(
-                                    jQuery.mobile.dialogHashKey
+                                    hashkey
                                 ) > -1 &&
                 !currentIsDialog &&
-                jQuery.mobile.navigate.history.activeIndex > 0)
+                urlHistory.activeIndex > 0)
                                     ? (self._open(
                                         options
                                     ), self._bindContainerClose(
                                     ), this)
                                     : (-1 !== url.indexOf(
-                                        jQuery.mobile.dialogHashKey
-                                    ) ||
-              currentIsDialog
-                                        ? (url =
-                    jQuery.mobile.path.parseLocation(
-                    ).hash +
-                    jQuery.mobile.dialogHashKey)
-                                        : (url +=
-                    url.indexOf(
-                        "#"
-                    ) > -1
-                        ? jQuery.mobile.dialogHashKey
-                        : "#" + jQuery.mobile.dialogHashKey),
-                                    0 === jQuery.mobile.navigate.history.activeIndex &&
-                url === jQuery.mobile.navigate.history.initialDst &&
-                (url += jQuery.mobile.dialogHashKey),
+                                        hashkey
+                                    ) || currentIsDialog
+                                        ? (url = jQuery.mobile.path.parseLocation(
+                                        ).hash + hashkey)
+                                        : (url += url.indexOf(
+                                            "#"
+                                        ) > -1
+                                            ? hashkey
+                                            : "#" + hashkey),
+                                    0 === urlHistory.activeIndex &&
+                url === urlHistory.initialDst &&
+                (url += hashkey),
                                     this.window.one(
                                         "beforenavigate",
                                         function (
@@ -14677,9 +14672,12 @@
                     },
                     build: function (
                     ) {
-                        var popupId,
+                        var selectId,
+                            popupId,
                             dialogId,
+                            label,
                             thisPage,
+                            isMultiple,
                             menuId,
                             themeAttr,
                             overlayTheme,
@@ -14699,14 +14697,14 @@
                             ? this._super(
                             )
                             : ((self = this),
-                            (popupId = this.selectId + "-listbox"),
-                            (dialogId = this.selectId + "-dialog"),
-                            this.label,
+                            (popupId = (selectId = this.selectId) + "-listbox"),
+                            (dialogId = selectId + "-dialog"),
+                            (label = this.label),
                             (thisPage = this.element.closest(
                                 ".ui-page"
                             )),
-                            this.element[0].multiple,
-                            (menuId = this.selectId + "-menu"),
+                            (isMultiple = this.element[0].multiple),
+                            (menuId = selectId + "-menu"),
                             (themeAttr = o.theme
                                 ? " data-" + jQuery.mobile.ns + "theme='" + o.theme + "'"
                                 : ""),
@@ -14719,7 +14717,7 @@
                   "'"
                                 : ""),
                             (dividerThemeAttr =
-                o.dividerTheme && this.element[0].multiple
+                o.dividerTheme && isMultiple
                     ? " data-" +
                     jQuery.mobile.ns +
                     "divider-theme='" +
@@ -14737,7 +14735,7 @@
                   "><div data-" +
                   jQuery.mobile.ns +
                   "role='header'><div class='ui-title'>" +
-                  this.label.getEncodedText(
+                  label.getEncodedText(
                   ) +
                   "</div></div><div data-" +
                   jQuery.mobile.ns +
@@ -14794,14 +14792,14 @@
                             jQuery.extend(
                                 this,
                                 {
-                                    selectId: this.selectId,
+                                    selectId: selectId,
                                     menuId: menuId,
                                     popupId: popupId,
                                     dialogId: dialogId,
                                     thisPage: thisPage,
                                     menuPage: menuPage,
-                                    label: this.label,
-                                    isMultiple: this.element[0].multiple,
+                                    label: label,
+                                    isMultiple: isMultiple,
                                     theme: o.theme,
                                     listbox: listbox,
                                     list: list,
@@ -15771,10 +15769,11 @@
                     },
                     _destroy: function (
                     ) {
-                        var buttons,
+                        var ui,
+                            buttons,
                             opts = this.options;
                         if (opts.enhanced) return this;
-                        this._ui,
+                        (ui = this._ui),
                         (buttons = this.element
                             .removeClass(
                                 "ui-controlgroup ui-controlgroup-horizontal ui-controlgroup-vertical ui-corner-all ui-mini " +
@@ -15791,9 +15790,9 @@
                         this._removeFirstLastClasses(
                             buttons
                         ),
-                        this._ui.groupLegend.unwrap(
+                        ui.groupLegend.unwrap(
                         ),
-                        this._ui.childWrapper.children(
+                        ui.childWrapper.children(
                         ).unwrap(
                         );
                     },
@@ -16920,23 +16919,21 @@
                     ) {
                         var newTheme,
                             oldTheme = this.options.theme,
+                            ar = this._ui.arrow,
                             ret = this._super(
                                 opts
                             );
-                        if ((this._ui.arrow, void 0 !== opts.arrow)) {
-                            if (!this._ui.arrow && opts.arrow) {
+                        if (void 0 !== opts.arrow) {
+                            if (!ar && opts.arrow) {
                                 this._ui.arrow = this._addArrow(
                                 );
                                 return;
                             } else
-                                this._ui.arrow &&
-                !opts.arrow &&
-                (this._ui.arrow.arEls.remove(
-                ), (this._ui.arrow = null));
+                                ar && !opts.arrow && (ar.arEls.remove(
+                                ), (this._ui.arrow = null));
                         }
                         return (
-                            this._ui.arrow,
-                            this._ui.arrow &&
+                            (ar = this._ui.arrow) &&
               (void 0 !== opts.theme &&
                 ((oldTheme = this._themeClassFromOption(
                     "ui-body-",
@@ -16946,15 +16943,15 @@
                     "ui-body-",
                     opts.theme
                 )),
-                this._ui.arrow.ar.removeClass(
+                ar.ar.removeClass(
                     oldTheme
                 ).addClass(
                     newTheme
                 )),
               void 0 !== opts.shadow &&
-                this._ui.arrow.ar.toggleClass(
+                ar.ar.toggleClass(
                     "ui-overlay-shadow",
-                    opts.shadow,
+                    opts.shadow
                 )),
                             ret
                         );

@@ -358,7 +358,7 @@
             set: function (
                 key, val, options
             ) {
-                var attr, attrs, unset, changes, prev, current;
+                var attr, attrs, unset, changes, silent, changing, prev, current;
                 if (null == key) return this;
                 if (
                     ("object" == typeof key
@@ -374,10 +374,11 @@
                 )
                     return !1;
                 for (attr in ((unset = options.unset),
+                (silent = options.silent),
                 (changes = []),
-                this._changing,
+                (changing = this._changing),
                 (this._changing = !0),
-                this._changing ||
+                changing ||
         ((this._previousAttributes = _.clone(
             this.attributes
         )),
@@ -401,7 +402,7 @@
                         ? delete this.changed[attr]
                         : (this.changed[attr] = val),
                     unset ? delete current[attr] : (current[attr] = val);
-                if (!options.silent) {
+                if (!silent) {
                     changes.length && (this._pending = !0);
                     for (var i = 0, l = changes.length; i < l; i++)
                         this.trigger(
@@ -411,8 +412,8 @@
                             options,
                         );
                 }
-                if (this._changing) return this;
-                if (!options.silent)
+                if (changing) return this;
+                if (!silent)
                     for (; this._pending; )
                         (this._pending = !1), this.trigger(
                             "change",

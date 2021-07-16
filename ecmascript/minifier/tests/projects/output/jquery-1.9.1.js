@@ -11689,7 +11689,8 @@
                         );
                     }
                 );
-        var win,
+        var docElem,
+            win,
             box = {
                 top: 0,
                 left: 0,
@@ -11697,12 +11698,11 @@
             elem = this[0],
             doc = elem && elem.ownerDocument;
         return doc
-            ? (doc.documentElement, !jQuery.contains(
-                doc.documentElement,
+            ? jQuery.contains(
+                (docElem = doc.documentElement),
                 elem
-            ))
-                ? box
-                : (typeof elem.getBoundingClientRect !== core_strundefined &&
+            )
+                ? (typeof elem.getBoundingClientRect !== core_strundefined &&
               (box = elem.getBoundingClientRect(
               )),
                 (win = getWindow(
@@ -11711,13 +11711,14 @@
                 {
                     top:
                 box.top +
-                (win.pageYOffset || doc.documentElement.scrollTop) -
-                (doc.documentElement.clientTop || 0),
+                (win.pageYOffset || docElem.scrollTop) -
+                (docElem.clientTop || 0),
                     left:
                 box.left +
-                (win.pageXOffset || doc.documentElement.scrollLeft) -
-                (doc.documentElement.clientLeft || 0),
+                (win.pageXOffset || docElem.scrollLeft) -
+                (docElem.clientLeft || 0),
                 })
+                : box
             : void 0;
     }),
     (jQuery.offset = {
@@ -11955,18 +11956,20 @@
                             function (
                                 elem, type, value
                             ) {
+                                var doc;
                                 return jQuery.isWindow(
                                     elem
                                 )
                                     ? elem.document.documentElement["client" + name]
                                     : 9 === elem.nodeType
-                                        ? Math.max(
+                                        ? ((doc = elem.documentElement),
+                                        Math.max(
                                             elem.body["scroll" + name],
-                                            elem.documentElement["scroll" + name],
+                                            doc["scroll" + name],
                                             elem.body["offset" + name],
-                                            elem.documentElement["offset" + name],
-                                            elem.documentElement["client" + name],
-                                        )
+                                            doc["offset" + name],
+                                            doc["client" + name],
+                                        ))
                                         : void 0 === value
                                             ? jQuery.css(
                                                 elem,
