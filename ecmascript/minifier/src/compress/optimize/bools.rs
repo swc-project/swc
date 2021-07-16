@@ -1,5 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::{is_pure_undefined, Ctx};
+use crate::debug::dump;
 use crate::util::make_bool;
 use swc_atoms::js_word;
 use swc_common::Spanned;
@@ -246,6 +247,7 @@ impl Optimizer<'_> {
                  for negation)",
                 self.line_col(e.span)
             );
+            let start = dump(&*e);
 
             e.op = if e.op == op!("&&") {
                 op!("||")
@@ -261,6 +263,10 @@ impl Optimizer<'_> {
             self.changed = true;
             self.with_ctx(ctx).negate(&mut e.left);
             self.with_ctx(ctx).negate(&mut e.right);
+
+            if cfg!(feature = "debug") {
+                log::trace!("[Change] {} => {}", start, dump(&*e));
+            }
 
             true
         } else {
