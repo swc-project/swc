@@ -1,7 +1,9 @@
 use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::member_expr;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
@@ -258,8 +260,6 @@ impl Fold for Params {
     noop_fold_type!();
 
     fn fold_arrow_expr(&mut self, f: ArrowExpr) -> ArrowExpr {
-        use swc_common::Spanned;
-
         let f = f.fold_children_with(self);
 
         let was_expr = match f.body {
@@ -400,6 +400,24 @@ impl Fold for Params {
         }
     }
 
+    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let mut stmts = stmts.fold_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                }))),
+            )
+        }
+
+        stmts
+    }
+
     fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
         if f.body.is_none() {
             return f;
@@ -422,5 +440,23 @@ impl Fold for Params {
             body: Some(body),
             ..f
         }
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let mut stmts = stmts.fold_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                })),
+            )
+        }
+
+        stmts
     }
 }
