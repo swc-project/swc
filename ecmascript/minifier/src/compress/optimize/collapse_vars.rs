@@ -308,6 +308,7 @@ impl Optimizer<'_> {
         let vars = {
             let mut v = VarCollector {
                 vars: Default::default(),
+                var_decl_kind: Default::default(),
             };
             stmts.visit_mut_with(&mut v);
 
@@ -384,6 +385,7 @@ impl Visit for VarWithOutInitCounter {
 /// Collects all varaible without init.
 pub(super) struct VarCollector {
     vars: Vec<VarDeclarator>,
+    var_decl_kind: Option<VarDeclKind>,
 }
 
 impl VisitMut for VarCollector {
@@ -426,11 +428,24 @@ impl VisitMut for VarCollector {
         }
     }
 
+    fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
+        let old = self.var_decl_kind.take();
+        self.var_decl_kind = Some(v.kind);
+        v.visit_mut_children_with(self);
+        self.var_decl_kind = old;
+    }
+
     fn visit_mut_var_decl_or_expr(&mut self, _: &mut VarDeclOrExpr) {}
 
     fn visit_mut_var_decl_or_pat(&mut self, _: &mut VarDeclOrPat) {}
 
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
+        d.visit_mut_children_with(self);
+
+        if self.var_decl_kind.unwrap() != VarDeclKind::Var {
+            return;
+        }
+
         if d.iter().all(|v| v.init.is_some()) {
             return;
         }
@@ -458,6 +473,10 @@ impl VisitMut for VarPrepender {
 
     fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
         if self.vars.is_empty() {
+            return;
+        }
+
+        if v.kind != VarDeclKind::Var {
             return;
         }
 
