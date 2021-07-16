@@ -596,7 +596,7 @@
                 null != (elem = elems[i]);
                 i++
             )
-                tag && !jQuery.nodeName(
+                tag || jQuery.nodeName(
                     elem,
                     tag
                 )
@@ -2263,7 +2263,7 @@
                 return obj;
             },
             trim:
-        core_trim && !core_trim.call(
+        core_trim || core_trim.call(
             "\uFEFF\xA0"
         )
             ? function (
@@ -3441,7 +3441,7 @@
                                 type = (type || "fx") + "queue")
                         )),
                         data &&
-              (queue && !jQuery.isArray(
+              (queue || jQuery.isArray(
                   data
               )
                   ? queue.push(
@@ -3998,7 +3998,7 @@
                         elem
                     ) {
                         var val = elem.attributes.value;
-                        return val && !val.specified ? elem.text : elem.value;
+                        return val || val.specified ? elem.text : elem.value;
                     },
                 },
                 select: {
@@ -8517,7 +8517,7 @@
                   ret
               )),
                     (ret =
-              this.length > 1 && !guaranteedUnique[name]
+              this.length > 1 || guaranteedUnique[name]
                   ? jQuery.unique(
                       ret
                   )

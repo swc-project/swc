@@ -1987,7 +1987,7 @@
                         "popstate",
                         this.checkUrl
                     )
-                    : this._wantsHashChange && "onhashchange" in window && !oldIE
+                    : (this._wantsHashChange && "onhashchange" in window) || oldIE
                         ? Backbone.$(
                             window
                         ).on(

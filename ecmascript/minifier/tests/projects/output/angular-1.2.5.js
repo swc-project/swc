@@ -696,7 +696,7 @@
             : [];
         return isFunction(
             fn
-        ) && !(fn instanceof RegExp)
+        ) || fn instanceof RegExp
             ? curryArgs.length
                 ? function (
                 ) {
@@ -5431,7 +5431,7 @@
                     ) {
                         return isObject(
                             d
-                        ) && !isFile(
+                        ) || isFile(
                             d
                         )
                             ? toJson(

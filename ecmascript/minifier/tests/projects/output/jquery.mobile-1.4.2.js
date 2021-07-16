@@ -3809,8 +3809,8 @@
                     ) {
                         var history, hash;
                         return jQuery.event.special.navigate.isHashChangeEnabled(
-                        ) &&
-              !jQuery.event.special.navigate.isPushStateEnabled(
+                        ) ||
+              jQuery.event.special.navigate.isPushStateEnabled(
               )
                             ? this.preventNextHashChange
                                 ? ((this.preventNextHashChange = !1),
@@ -5770,7 +5770,7 @@
                         var active,
                             activeContent = this.getActivePage(
                             );
-                        return activeContent && !activeContent.hasClass(
+                        return activeContent || activeContent.hasClass(
                             "ui-dialog"
                         )
                             ? ("back" === data.direction
@@ -6704,7 +6704,7 @@
                                 ),
                                 (settings.transition =
                 settings.transition ||
-                (historyDir && !activeIsInitialPage
+                (historyDir || activeIsInitialPage
                     ? active.transition
                     : void 0) ||
                 (isDialog
@@ -7552,7 +7552,7 @@
                   )),
                             this.toggleViewportClass(
                             ),
-                            this.$from && !none
+                            this.$from || none
                                 ? this.startOut(
                                     screenHeight,
                                     reverseClass,
@@ -11410,7 +11410,7 @@
                         ),
                         "showValue" === key
                             ? this.handle.html(
-                                value && !this.options.mini
+                                value || this.options.mini
                                     ? this._value(
                                     )
                                     : "",
@@ -12168,7 +12168,7 @@
                             );
                         else if ("mousedown" === event.type) return;
                         if (
-                            (min > max && !this._sliderTarget
+                            (min > max || this._sliderTarget
                                 ? (thisSlider.val(
                                     first ? max : min
                                 ).slider(
@@ -15837,18 +15837,18 @@
                 ) {
                     if (
                         (void 0 !== o.addBackBtn &&
-            (this.options.addBackBtn &&
-            "header" === this.role &&
-            jQuery(
-                ".ui-page"
-            ).length > 1 &&
-            this.page[0].getAttribute(
-                "data-" + jQuery.mobile.ns + "url"
-            ) !==
-              jQuery.mobile.path.stripHash(
-                  location.hash
-              ) &&
-            !this.leftbtn
+            ((this.options.addBackBtn &&
+              "header" === this.role &&
+              jQuery(
+                  ".ui-page"
+              ).length > 1 &&
+              this.page[0].getAttribute(
+                  "data-" + jQuery.mobile.ns + "url"
+              ) !==
+                jQuery.mobile.path.stripHash(
+                    location.hash
+                )) ||
+            this.leftbtn
                 ? this._addBackButton(
                 )
                 : this.element.find(
@@ -19187,8 +19187,8 @@
                         this._processTabs(
                         ),
                         !1 !== options.active && this.anchors.length
-                            ? this.active.length &&
-                !jQuery.contains(
+                            ? this.active.length ||
+                jQuery.contains(
                     this.tablist[0],
                     this.active[0]
                 )
