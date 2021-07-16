@@ -118,9 +118,12 @@ impl Optimizer<'_> {
                     .data
                     .as_ref()
                     .and_then(|data| {
-                        data.vars
-                            .get(&name.to_id())
-                            .map(|v| v.ref_count == 1 && v.has_property_access && v.is_fn_local)
+                        data.vars.get(&name.to_id()).map(|v| {
+                            v.ref_count == 1
+                                && v.has_property_access
+                                && v.is_fn_local
+                                && !v.used_in_loop
+                        })
                     })
                     .unwrap_or(false)
                 {
