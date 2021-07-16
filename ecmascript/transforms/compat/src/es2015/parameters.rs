@@ -9,6 +9,9 @@ use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn parameters() -> impl 'static + Fold {
@@ -303,21 +306,32 @@ impl Fold for Params {
                     // We are converting an arrow expression to a function experession, and we
                     // should handle usage of this.
                     if contains_this_expr(&body) {
-                    } else {
-                        return Expr::Fn(FnExpr {
-                            ident: None,
-                            function: Function {
-                                params,
-                                decorators: Default::default(),
-                                span: f.span,
-                                body: Some(body),
-                                is_generator: f.is_generator,
-                                is_async: f.is_async,
-                                type_params: Default::default(),
-                                return_type: Default::default(),
-                            },
+                        // Replace this to `self`.
+                        let this_ident = private_ident!("self");
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(this_ident.clone().into()),
+                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                            definite: Default::default(),
                         });
+
+                        // this -> `self`
+                        body.visit_mut_with(&mut ThisReplacer { to: &this_ident })
                     }
+
+                    return Expr::Fn(FnExpr {
+                        ident: None,
+                        function: Function {
+                            params,
+                            decorators: Default::default(),
+                            span: f.span,
+                            body: Some(body),
+                            is_generator: f.is_generator,
+                            is_async: f.is_async,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    });
                 }
 
                 let body = if was_expr
@@ -496,4 +510,30 @@ impl Fold for Params {
 
         stmts
     }
+}
+
+struct ThisReplacer<'a> {
+    to: &'a Ident,
+}
+
+impl VisitMut for ThisReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::This(..) => {
+                *e = Expr::Ident(self.to.clone());
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }
