@@ -2,6 +2,7 @@ use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::contains_this_expr;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::prepend;
 use swc_ecma_utils::prepend_stmts;
@@ -297,6 +298,12 @@ impl Fold for Params {
                         },
                     },
                 );
+
+                if need_arrow_to_function {
+                    // We are converting an arrow expression to a function experession, and we
+                    // should handle usage of this.
+                    if contains_this_expr(&body) {}
+                }
 
                 let body = if was_expr
                     && body.stmts.len() == 1
