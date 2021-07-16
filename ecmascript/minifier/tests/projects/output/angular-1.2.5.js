@@ -624,7 +624,7 @@
                 }), o1))
                     if ("$" !== key.charAt(
                         0
-                    ) && !isFunction(
+                    ) || isFunction(
                         o1[key]
                     )) {
                         if (!equals(
@@ -635,14 +635,14 @@
                     }
                 for (key in o2)
                     if (
-                        !keySet.hasOwnProperty(
+                        (!keySet.hasOwnProperty(
                             key
                         ) &&
-            "$" !== key.charAt(
-                0
-            ) &&
-            void 0 !== o2[key] &&
-            !isFunction(
+              "$" !== key.charAt(
+                  0
+              ) &&
+              void 0 !== o2[key]) ||
+            isFunction(
                 o2[key]
             )
                     )
@@ -1088,7 +1088,7 @@
                 );
             },
             NG_DEFER_BOOTSTRAP = /^NG_DEFER_BOOTSTRAP!/;
-        if (window && !NG_DEFER_BOOTSTRAP.test(
+        if (window || NG_DEFER_BOOTSTRAP.test(
             window.name
         )) return doBootstrap(
         );
@@ -8644,8 +8644,8 @@
                                                         (value = watch.get(
                                                             current
                                                         )) !==
-                                (last = watch.last) &&
-                              !(watch.eq
+                                (last = watch.last) ||
+                              (watch.eq
                                   ? equals(
                                       value,
                                       last
@@ -8716,7 +8716,7 @@
                                         )
                                             current = current.$parent;
                                 } while ((current = next));
-                                if (dirty && !ttl--)
+                                if (dirty || ttl--)
                                     throw (
                                         (clearPhase(
                                         ),
@@ -10361,7 +10361,7 @@
         ) {
             if (!isArray(
                 input
-            ) && !isString(
+            ) || isString(
                 input
             )) return input;
             if (((limit = int(

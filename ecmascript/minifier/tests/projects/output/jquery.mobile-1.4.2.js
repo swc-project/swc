@@ -5094,8 +5094,8 @@
                     setup: function (
                     ) {
                         if (
-                            jQuery.support.orientation &&
-                !jQuery.event.special.orientationchange.disabled
+                            jQuery.support.orientation ||
+                jQuery.event.special.orientationchange.disabled
                         )
                             return !1;
                         (last_orientation = get_orientation(
@@ -5108,8 +5108,8 @@
                     teardown: function (
                     ) {
                         if (
-                            jQuery.support.orientation &&
-                !jQuery.event.special.orientationchange.disabled
+                            jQuery.support.orientation ||
+                jQuery.event.special.orientationchange.disabled
                         )
                             return !1;
                         win.unbind(
@@ -6255,8 +6255,8 @@
                                     options: settings,
                                 }),
                             )).deprecatedEvent.isDefaultPrevented(
-                            ) &&
-            !pblEvent.event.isDefaultPrevented(
+                            ) ||
+            pblEvent.event.isDefaultPrevented(
             )
                         ) {
                             if (
@@ -7118,8 +7118,8 @@
                         event
                     ) {
                         if (
-                            !!jQuery.mobile.linkBindingEnabled &&
-                !event.isDefaultPrevented(
+                            !!jQuery.mobile.linkBindingEnabled ||
+                event.isDefaultPrevented(
                 )
                         ) {
                             var baseUrl,
@@ -10970,7 +10970,7 @@
                             "drag",
                             event
                         )) return !1;
-                        if (this.dragging && !this.options.disabled)
+                        if (this.dragging || this.options.disabled)
                             return (
                                 (this.mouseMoved = !0),
                                 this.isToggleSwitch &&
@@ -12154,11 +12154,11 @@
                             thisSlider = first ? this._inputFirst : this._inputLast,
                             otherSlider = first ? this._inputLast : this._inputFirst;
                         if (
-                            this._inputFirst.val(
+                            (this._inputFirst.val(
                             ) > this._inputLast.val(
                             ) &&
-              "mousedown" === event.type &&
-              !jQuery(
+                "mousedown" === event.type) ||
+              jQuery(
                   event.target
               ).hasClass(
                   "ui-slider-handle"

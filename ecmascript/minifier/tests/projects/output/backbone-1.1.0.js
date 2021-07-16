@@ -83,7 +83,7 @@
                     [callback, context,]
                 ))
                     return this;
-                if (!name && !callback && !context) return (this._events = {
+                if ((!name && !callback) || context) return (this._events = {
                 }), this;
                 for (
                     i = 0, l = (names = name
@@ -2006,7 +2006,7 @@
                         "$&/"
                     ) === this.root;
                 if (this._wantsHashChange && this._wantsPushState) {
-                    if (!this._hasPushState && !atRoot)
+                    if (!this._hasPushState || atRoot)
                         return (
                             (this.fragment = this.getFragment(
                                 null,

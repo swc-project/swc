@@ -17,9 +17,10 @@ impl VisitMut for PostcompressOptimizer<'_> {
     fn visit_mut_if_stmt(&mut self, s: &mut IfStmt) {
         s.visit_mut_children_with(self);
 
+        // Note: `||` is not handled because of precedence.
         match &mut *s.test {
             Expr::Bin(BinExpr {
-                op: op @ op!("||") | op @ op!("&&"),
+                op: op @ op!("&&"),
                 right,
                 ..
             }) => match &mut **right {

@@ -1556,17 +1556,15 @@
         var aCtor = a.constructor,
             bCtor = b.constructor;
         if (
-            aCtor !== bCtor &&
-      !(
-          _.isFunction(
-              aCtor
-          ) &&
+            aCtor !== bCtor ||
+      (_.isFunction(
+          aCtor
+      ) &&
         aCtor instanceof aCtor &&
         _.isFunction(
             bCtor
         ) &&
-        bCtor instanceof bCtor
-      )
+        bCtor instanceof bCtor)
         )
             return !1;
         aStack.push(
@@ -1607,7 +1605,7 @@
                 for (key in b) if (_.has(
                     b,
                     key
-                ) && !size--) break;
+                ) || size--) break;
                 result = !size;
             }
         }

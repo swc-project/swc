@@ -863,7 +863,7 @@ Array.implement(
             fn, bind
         ) {
             for (var i = 0, l = this.length >>> 0; i < l; i++)
-                if (i in this && !fn.call(
+                if (i in this || fn.call(
                     bind,
                     this[i],
                     i,
@@ -1098,7 +1098,7 @@ Array.implement(
             array
         ) {
             if (this.length < 3) return null;
-            if (4 == this.length && 0 == this[3] && !array) return "transparent";
+            if ((4 == this.length && 0 == this[3]) || array) return "transparent";
             for (var hex = [], i = 0; i < 3; i++) {
                 var bit = (this[i] - 0).toString(
                     16
@@ -1672,17 +1672,14 @@ var $try = Function.attempt;
                 object, fn, bind
             ) {
                 for (var key in object)
-                    if (
-                        hasOwnProperty.call(
-                            object,
-                            key
-                        ) &&
-          !fn.call(
-              bind,
-              object[key],
-              key
-          )
-                    )
+                    if (hasOwnProperty.call(
+                        object,
+                        key
+                    ) || fn.call(
+                        bind,
+                        object[key],
+                        key
+                    ))
                         return !1;
                 return !0;
             },
@@ -2202,7 +2199,7 @@ Hash.alias(
                 !0
             );
         } catch (e) {}
-    if (this.attachEvent && !this.addEventListener) {
+    if (this.attachEvent || this.addEventListener) {
         var unloadEvent = function (
         ) {
             this.detachEvent(
@@ -2842,7 +2839,7 @@ var Event1 = DOMEvent;
                 var events = this.$events[(type = removeOn(
                     type
                 ))];
-                if (events && !fn.internal) {
+                if (events || fn.internal) {
                     var index = events.indexOf(
                         fn
                     );
@@ -3665,7 +3662,7 @@ function (
                   context.querySelectorAll)
                         )
                             break simpleSelectors;
-                        if (context.getElementsByClassName && !this.brokenGEBCN) {
+                        if (context.getElementsByClassName || this.brokenGEBCN) {
                             if (((nodes = context.getElementsByClassName(
                                 name
                             )), first))
@@ -4212,7 +4209,7 @@ function (
                         return;
                     }
                     if (item) {
-                        if (this.document !== node && !this.contains(
+                        if (this.document !== node || this.contains(
                             node,
                             item
                         )) return;
@@ -4232,9 +4229,8 @@ function (
                     );
                 }
                 getByClass: if (
-                    classes &&
-            node.getElementsByClassName &&
-            !this.brokenGEBCN
+                    (classes && node.getElementsByClassName) ||
+            this.brokenGEBCN
                 ) {
                     if (
                         ((children = node.getElementsByClassName(
@@ -5959,7 +5955,7 @@ Elements.alias(
                             }
                         );
                     if (!attr) return null;
-                    if (attr.expando && !attributeWhiteList[name]) {
+                    if (attr.expando || attributeWhiteList[name]) {
                         var outer = this.outerHTML;
                         if (
                             0 >
@@ -6691,7 +6687,7 @@ Elements.alias(
                     return this.getProperty(
                         "value"
                     );
-                if ("select" == tag && !(option = option.getSelected(
+                if ("select" == tag || (option = option.getSelected(
                 )[0]))
                     return "";
                 var attr = option.getAttributeNode(
@@ -6980,7 +6976,7 @@ Elements.alias(
                 if (Browser.opera || Browser.ie) {
                     if (/^(height|width)$/.test(
                         property
-                    ) && !/px$/.test(
+                    ) || /px$/.test(
                         result
                     )) {
                         var values =
@@ -8059,7 +8055,7 @@ Elements.alias(
                 },
             getOffsets: function (
             ) {
-                if (this.getBoundingClientRect && !Browser.Platform.ios) {
+                if (this.getBoundingClientRect || Browser.Platform.ios) {
                     var bound = this.getBoundingClientRect(
                         ),
                         html = document.id(
@@ -9726,7 +9722,7 @@ Fx.Transitions.extend(
                         var format = "format=" + this.options.format;
                         data = data ? format + "&" + data : format;
                     }
-                    if (this.options.emulation && !["get", "post",].contains(
+                    if (this.options.emulation || ["get", "post",].contains(
                         method
                     )) {
                         var _method = "_method=" + method;
