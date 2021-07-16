@@ -2021,7 +2021,7 @@
                         "$&/"
                     ) === this.root;
                 if (this._wantsHashChange && this._wantsPushState) {
-                    if (!this._hasPushState && !atRoot)
+                    if (!this._hasPushState || atRoot)
                         return (
                             (this.fragment = this.getFragment(
                                 null,

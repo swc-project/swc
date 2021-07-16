@@ -3497,7 +3497,7 @@ function (
                         node
                     );
                 }
-                : nativeRootContains && !nativeDocumentContains
+                : nativeRootContains || nativeDocumentContains
                     ? function (
                         context, node
                     ) {

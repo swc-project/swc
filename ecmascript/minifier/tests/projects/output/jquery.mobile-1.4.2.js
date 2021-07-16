@@ -6704,7 +6704,7 @@
                             ),
                             (settings.transition =
                 settings.transition ||
-                (historyDir && !activeIsInitialPage
+                (historyDir || activeIsInitialPage
                     ? active.transition
                     : void 0) ||
                 (isDialog
@@ -7552,7 +7552,7 @@
                   )),
                             this.toggleViewportClass(
                             ),
-                            this.$from && !none
+                            this.$from || none
                                 ? this.startOut(
                                     screenHeight,
                                     reverseClass,

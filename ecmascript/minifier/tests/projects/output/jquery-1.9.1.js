@@ -6012,7 +6012,7 @@
             )
                 return results;
             if (1 !== (nodeType = context.nodeType) && 9 !== nodeType) return [];
-            if (!documentIsXML && !seed) {
+            if (!documentIsXML || seed) {
                 if ((match = rquickExpr.exec(
                     selector
                 ))) {
@@ -6992,8 +6992,8 @@
                     id, context
                 ) {
                     if (
-                        typeof context.getElementById !== strundefined &&
-                    !documentIsXML
+                        typeof context.getElementById !== strundefined ||
+                    documentIsXML
                     ) {
                         var m = context.getElementById(
                             id
@@ -7020,8 +7020,8 @@
                     id, context
                 ) {
                     if (
-                        typeof context.getElementById !== strundefined &&
-                    !documentIsXML
+                        typeof context.getElementById !== strundefined ||
+                    documentIsXML
                     ) {
                         var m = context.getElementById(
                             id
@@ -7098,8 +7098,8 @@
                   className, context
               ) {
                   if (
-                      typeof context.getElementsByClassName !== strundefined &&
-                  !documentIsXML
+                      typeof context.getElementsByClassName !== strundefined ||
+                  documentIsXML
                   )
                       return context.getElementsByClassName(
                           className
