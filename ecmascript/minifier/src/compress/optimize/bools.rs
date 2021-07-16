@@ -577,43 +577,6 @@ impl Optimizer<'_> {
                 }
             }
         }
-
-        match n {
-            Expr::Bin(BinExpr {
-                op: op @ op!("&&") | op @ op!("||"),
-                left,
-                right,
-                ..
-            }) => {
-                let new_op = if *op == op!("&&") {
-                    op!("||")
-                } else {
-                    op!("&&")
-                };
-                match &**left {
-                    Expr::Bin(BinExpr { op: l_op, .. }) if *l_op == new_op => match &mut **right {
-                        Expr::Unary(UnaryExpr {
-                            op: op!("!"), arg, ..
-                        }) => {
-                            self.changed = true;
-                            log::trace!(
-                                "bools: `(a {} !b)` => `(a {} b)` (in bool context)",
-                                *op,
-                                new_op
-                            );
-                            *op = new_op;
-                            *right = arg.take();
-                            return;
-                        }
-
-                        _ => {}
-                    },
-                    _ => {}
-                }
-            }
-
-            _ => {}
-        }
     }
 
     pub(super) fn compress_if_stmt_as_expr(&mut self, s: &mut Stmt) {
