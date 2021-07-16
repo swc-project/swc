@@ -1844,30 +1844,31 @@
             _routeToRegExp: function (
                 route
             ) {
-                return new RegExp(
-                    "^" +
-          (route = route
-              .replace(
-                  escapeRegExp,
-                  "\\$&"
-              )
-              .replace(
-                  optionalParam,
-                  "(?:$1)?"
-              )
-              .replace(
-                  namedParam,
-                  function (
-                      match, optional
-                  ) {
-                      return optional ? match : "([^/]+)";
-                  }
-              )
-              .replace(
-                  splatParam,
-                  "(.*?)"
-              )) +
-          "$",
+                return (
+                    (route = route
+                        .replace(
+                            escapeRegExp,
+                            "\\$&"
+                        )
+                        .replace(
+                            optionalParam,
+                            "(?:$1)?"
+                        )
+                        .replace(
+                            namedParam,
+                            function (
+                                match, optional
+                            ) {
+                                return optional ? match : "([^/]+)";
+                            }
+                        )
+                        .replace(
+                            splatParam,
+                            "(.*?)"
+                        )),
+                    new RegExp(
+                        "^" + route + "$"
+                    )
                 );
             },
             _extractParameters: function (

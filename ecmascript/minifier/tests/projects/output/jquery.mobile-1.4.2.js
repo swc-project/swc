@@ -6378,8 +6378,7 @@
                     _cssTransition: function (
                         to, from, options
                     ) {
-                        var TransitionHandler,
-                            promise,
+                        var promise,
                             transition = options.transition,
                             reverse = options.reverse,
                             deferred = options.deferred;
@@ -6390,10 +6389,9 @@
                         ),
                         this._hideLoading(
                         ),
-                        (TransitionHandler = this._getTransitionHandler(
+                        (promise = new (this._getTransitionHandler(
                             transition
-                        )),
-                        (promise = new TransitionHandler(
+                        ))(
                             transition,
                             reverse,
                             to,

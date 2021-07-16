@@ -9060,20 +9060,21 @@
                     "Illegal sequence *** in string matcher.  String: {0}",
                     matcher,
                 );
-            return new RegExp(
-                "^" +
-          (matcher = escapeForRegexp(
-              matcher
-          )
-              .replace(
-                  "\\*\\*",
-                  ".*"
-              )
-              .replace(
-                  "\\*",
-                  "[^:/.?&;]*"
-              )) +
-          "$",
+            return (
+                (matcher = escapeForRegexp(
+                    matcher
+                )
+                    .replace(
+                        "\\*\\*",
+                        ".*"
+                    )
+                    .replace(
+                        "\\*",
+                        "[^:/.?&;]*"
+                    )),
+                new RegExp(
+                    "^" + matcher + "$"
+                )
             );
         } else if (isRegExp(
             matcher
