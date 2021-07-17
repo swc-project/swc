@@ -126,7 +126,11 @@ where
                         Some(v) => v,
                         None => continue,
                     };
-                    let capture = captures.iter().next().flatten().expect(
+
+                    let mut iter = captures.iter();
+                    let _ = iter.next();
+
+                    let capture = iter.next().flatten().expect(
                         "capture group should be created by initializer of TsConfigResolver",
                     );
                     let mut errors = vec![];
