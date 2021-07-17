@@ -22,6 +22,5 @@ it("should respect paths", async () => {
         },
     });
 
-    expect(code).toContain(``);
-    expect(code).toEqual(``)
+    expect(code).toContain(`bar/app`);
 })
