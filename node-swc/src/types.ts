@@ -281,6 +281,10 @@ export interface JscConfig {
    * Keep class names.
    */
   keepClassNames?: boolean
+
+  paths?: {
+    [from: string]: [string]
+  }
 }
 
 export type JscTarget =

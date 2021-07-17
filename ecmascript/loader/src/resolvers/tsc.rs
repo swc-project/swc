@@ -126,7 +126,11 @@ where
                         Some(v) => v,
                         None => continue,
                     };
-                    let capture = captures.iter().next().flatten().expect(
+
+                    let mut iter = captures.iter();
+                    let _ = iter.next();
+
+                    let capture = iter.next().flatten().expect(
                         "capture group should be created by initializer of TsConfigResolver",
                     );
                     let mut errors = vec![];
@@ -140,10 +144,15 @@ where
                                 replaced, src
                             )
                         });
+
                         errors.push(match res {
                             Ok(v) => return Ok(v),
                             Err(err) => err,
-                        })
+                        });
+
+                        if to.len() == 1 {
+                            return Ok(FileName::Custom(replaced));
+                        }
                     }
 
                     bail!(
