@@ -147,7 +147,7 @@ where
                         });
 
                         if to.len() == 1 {
-                            return Ok(FileName::Real(replaced.into()));
+                            return Ok(FileName::Custom(replaced));
                         }
                     }
 
