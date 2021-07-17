@@ -283,7 +283,7 @@ export interface JscConfig {
   keepClassNames?: boolean
 
   paths?: {
-    [from: string]: string
+    [from: string]: [string]
   }
 }
 
