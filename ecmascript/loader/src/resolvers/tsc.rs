@@ -140,10 +140,15 @@ where
                                 replaced, src
                             )
                         });
+
                         errors.push(match res {
                             Ok(v) => return Ok(v),
                             Err(err) => err,
-                        })
+                        });
+
+                        if to.len() == 1 {
+                            return Ok(FileName::Real(replaced.into()));
+                        }
                     }
 
                     bail!(
