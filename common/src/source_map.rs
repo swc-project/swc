@@ -1074,8 +1074,8 @@ impl SourceMap {
         let mut src_id = 0u32;
 
         if let Some(orig) = orig {
-            for (idx, src) in orig.sources().enumerate() {
-                builder.set_source(idx as _, src);
+            for src in orig.sources() {
+                let idx = builder.add_source(src);
                 src_id = idx as u32 + 1;
             }
             for (idx, contents) in orig.source_contents().enumerate() {

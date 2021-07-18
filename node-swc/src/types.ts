@@ -281,6 +281,10 @@ export interface JscConfig {
    * Keep class names.
    */
   keepClassNames?: boolean
+
+  paths?: {
+    [from: string]: [string]
+  }
 }
 
 export type JscTarget =
@@ -2047,7 +2051,7 @@ export interface TsEnumDeclaration extends Node, HasSpan {
   declare: boolean;
   is_const: boolean;
   id: Identifier;
-  member: TsEnumMember[];
+  members: TsEnumMember[];
 }
 
 export interface TsEnumMember extends Node, HasSpan {
