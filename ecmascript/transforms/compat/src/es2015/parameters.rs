@@ -1,19 +1,29 @@
 use arrayvec::ArrayVec;
 use swc_common::{Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::contains_this_expr;
 use swc_ecma_utils::member_expr;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::prepend_stmts;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
 use swc_ecma_utils::ExprFactory;
+use swc_ecma_visit::noop_visit_mut_type;
+use swc_ecma_visit::VisitMut;
+use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith};
 
 pub fn parameters() -> impl 'static + Fold {
-    Params
+    Params::default()
 }
 
-#[derive(Clone, Copy)]
-struct Params;
+#[derive(Clone, Default)]
+struct Params {
+    /// Used ti store `this, in case if `arguments` is used and we should
+    /// transform an arrow expression to a function expression.
+    vars: Vec<VarDeclarator>,
+}
 // prevent_recurse!(Params, Pat);
 
 impl Params {
@@ -253,5 +263,316 @@ impl Params {
 impl Fold for Params {
     noop_fold_type!();
 
-    impl_fold_fn!();
+    fn fold_block_stmt_or_expr(&mut self, body: BlockStmtOrExpr) -> BlockStmtOrExpr {
+        let body = body.fold_children_with(self);
+
+        if self.vars.is_empty() {
+            return body;
+        }
+
+        let body = match body {
+            BlockStmtOrExpr::BlockStmt(v) => v,
+            BlockStmtOrExpr::Expr(v) => {
+                let mut stmts = vec![];
+                prepend(
+                    &mut stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: self.vars.take(),
+                    })),
+                );
+                stmts.push(Stmt::Return(ReturnStmt {
+                    span: DUMMY_SP,
+                    arg: Some(v),
+                }));
+                BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                }
+            }
+        };
+
+        BlockStmtOrExpr::BlockStmt(body)
+    }
+
+    fn fold_catch_clause(&mut self, f: CatchClause) -> CatchClause {
+        let f = f.fold_children_with(self);
+
+        let (mut params, body) = match f.param {
+            Some(pat) => self.fold_fn_like(
+                vec![Param {
+                    span: DUMMY_SP,
+                    decorators: vec![],
+                    pat,
+                }],
+                f.body,
+            ),
+            None => self.fold_fn_like(vec![], f.body),
+        };
+        assert!(
+            params.len() == 0 || params.len() == 1,
+            "fold_fn_like should return 0 ~ 1 parameter while handling catch clause"
+        );
+
+        let param = if params.is_empty() {
+            None
+        } else {
+            Some(params.pop().unwrap())
+        };
+
+        CatchClause {
+            param: param.map(|param| param.pat),
+            body,
+            ..f
+        }
+    }
+
+    fn fold_constructor(&mut self, f: Constructor) -> Constructor {
+        if f.body.is_none() {
+            return f;
+        }
+
+        let f = f.fold_children_with(self);
+
+        let params = f
+            .params
+            .into_iter()
+            .map(|pat| match pat {
+                ParamOrTsParamProp::Param(p) => p,
+                _ => {
+                    unreachable!("TsParameterProperty should be removed by typescript::strip pass")
+                }
+            })
+            .collect();
+
+        let (params, body) = self.fold_fn_like(params, f.body.unwrap());
+
+        Constructor {
+            params: params.into_iter().map(ParamOrTsParamProp::Param).collect(),
+            body: Some(body),
+            ..f
+        }
+    }
+
+    fn fold_expr(&mut self, e: Expr) -> Expr {
+        let mut vars = self.vars.take();
+
+        let e = e.fold_children_with(self);
+
+        vars.extend(self.vars.take());
+        self.vars = vars;
+
+        match e {
+            Expr::Arrow(f) => {
+                let f = f.fold_children_with(self);
+
+                let was_expr = match f.body {
+                    BlockStmtOrExpr::Expr(..) => true,
+                    _ => false,
+                };
+
+                let need_arrow_to_function = f.params.iter().any(|p| match p {
+                    Pat::Rest(..) => true,
+                    _ => false,
+                });
+
+                let body_span = f.body.span();
+                let (params, mut body) = self.fold_fn_like(
+                    f.params
+                        .into_iter()
+                        .map(|pat| Param {
+                            span: DUMMY_SP,
+                            decorators: Default::default(),
+                            pat,
+                        })
+                        .collect(),
+                    match f.body {
+                        BlockStmtOrExpr::BlockStmt(block) => block,
+                        BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                            span: body_span,
+                            stmts: vec![Stmt::Return(ReturnStmt {
+                                span: DUMMY_SP,
+                                arg: Some(expr),
+                            })],
+                        },
+                    },
+                );
+
+                if need_arrow_to_function {
+                    // We are converting an arrow expression to a function experession, and we
+                    // should handle usage of this.
+                    if contains_this_expr(&body) {
+                        // Replace this to `self`.
+                        let this_ident = private_ident!("self");
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(this_ident.clone().into()),
+                            init: Some(Box::new(Expr::This(ThisExpr { span: DUMMY_SP }))),
+                            definite: Default::default(),
+                        });
+
+                        // this -> `self`
+                        body.visit_mut_with(&mut ThisReplacer { to: &this_ident })
+                    }
+
+                    return Expr::Fn(FnExpr {
+                        ident: None,
+                        function: Function {
+                            params,
+                            decorators: Default::default(),
+                            span: f.span,
+                            body: Some(body),
+                            is_generator: f.is_generator,
+                            is_async: f.is_async,
+                            type_params: Default::default(),
+                            return_type: Default::default(),
+                        },
+                    });
+                }
+
+                let body = if was_expr
+                    && body.stmts.len() == 1
+                    && match body.stmts[0] {
+                        Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
+                        _ => false,
+                    } {
+                    match body.stmts.pop().unwrap() {
+                        Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                            BlockStmtOrExpr::Expr(arg)
+                        }
+                        _ => unreachable!(),
+                    }
+                } else {
+                    BlockStmtOrExpr::BlockStmt(body)
+                };
+
+                return Expr::Arrow(ArrowExpr {
+                    params: params.into_iter().map(|param| param.pat).collect(),
+                    body,
+                    ..f
+                });
+            }
+            _ => e,
+        }
+    }
+
+    fn fold_function(&mut self, f: Function) -> Function {
+        if f.body.is_none() {
+            return f;
+        }
+
+        let f = f.fold_children_with(self);
+
+        let (params, body) = self.fold_fn_like(f.params, f.body.unwrap());
+
+        Function {
+            params,
+            body: Some(body),
+            ..f
+        }
+    }
+
+    fn fold_getter_prop(&mut self, f: GetterProp) -> GetterProp {
+        if f.body.is_none() {
+            return f;
+        }
+
+        let f = f.fold_children_with(self);
+
+        let (params, body) = self.fold_fn_like(vec![], f.body.unwrap());
+        debug_assert_eq!(params, vec![]);
+
+        GetterProp {
+            body: Some(body),
+            ..f
+        }
+    }
+
+    fn fold_module_items(&mut self, stmts: Vec<ModuleItem>) -> Vec<ModuleItem> {
+        let mut stmts = stmts.fold_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                }))),
+            )
+        }
+
+        stmts
+    }
+
+    fn fold_setter_prop(&mut self, f: SetterProp) -> SetterProp {
+        if f.body.is_none() {
+            return f;
+        }
+
+        let f = f.fold_children_with(self);
+
+        let (mut params, body) = self.fold_fn_like(
+            vec![Param {
+                span: DUMMY_SP,
+                decorators: Default::default(),
+                pat: f.param,
+            }],
+            f.body.unwrap(),
+        );
+        debug_assert!(params.len() == 1);
+
+        SetterProp {
+            param: params.pop().unwrap().pat,
+            body: Some(body),
+            ..f
+        }
+    }
+
+    fn fold_stmts(&mut self, stmts: Vec<Stmt>) -> Vec<Stmt> {
+        let mut stmts = stmts.fold_children_with(self);
+
+        if !self.vars.is_empty() {
+            prepend(
+                &mut stmts,
+                Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: self.vars.take(),
+                })),
+            )
+        }
+
+        stmts
+    }
+}
+
+struct ThisReplacer<'a> {
+    to: &'a Ident,
+}
+
+impl VisitMut for ThisReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        match e {
+            Expr::This(..) => {
+                *e = Expr::Ident(self.to.clone());
+            }
+
+            _ => {}
+        }
+    }
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
 }

@@ -5,6 +5,7 @@ use either::Either;
 use once_cell::sync::Lazy;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::hash::BuildHasher;
 use std::rc::Rc as RustRc;
 use std::{
     cell::RefCell,
@@ -908,6 +909,24 @@ impl Merge for JscConfig {
         self.target.merge(&from.target);
         self.external_helpers.merge(&from.external_helpers);
         self.keep_class_names.merge(&from.keep_class_names);
+        self.paths.merge(&from.paths);
+    }
+}
+
+impl<K, V, S> Merge for HashMap<K, V, S>
+where
+    K: Clone + Eq + std::hash::Hash,
+    V: Clone,
+    S: Clone + BuildHasher,
+{
+    fn merge(&mut self, from: &Self) {
+        if self.is_empty() {
+            *self = (*from).clone();
+        } else {
+            for (k, v) in from {
+                self.entry(k.clone()).or_insert(v.clone());
+            }
+        }
     }
 }
 

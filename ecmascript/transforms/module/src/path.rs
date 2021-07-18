@@ -1,6 +1,6 @@
 use anyhow::Error;
 use pathdiff::diff_paths;
-use std::{borrow::Cow, path::Component, sync::Arc};
+use std::{borrow::Cow, env::current_dir, path::Component, sync::Arc};
 use swc_atoms::JsWord;
 use swc_common::FileName;
 use swc_ecma_loader::resolve::Resolve;
@@ -22,8 +22,8 @@ impl ImportResolver for NoopImportResolver {
 
 /// [ImportResolver] implementation for node.js
 ///
-/// Supports [FileName::Real] for `base`, [FileName::Real] and
-/// [FileName::Custom] for `target`. ([FileName::Custom] is used for core
+/// Supports [FileName::Real] and [FileName::Anon] for `base`, [FileName::Real]
+/// and [FileName::Custom] for `target`. ([FileName::Custom] is used for core
 /// modules)
 #[derive(Debug, Clone, Default)]
 pub struct NodeImportResolver<R>
@@ -64,7 +64,8 @@ where
             }
         };
         let base = match base {
-            FileName::Real(v) => v,
+            FileName::Real(v) => Cow::Borrowed(v),
+            FileName::Anon => Cow::Owned(current_dir().expect("failed to get current directory")),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a base file name",
