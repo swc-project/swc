@@ -23,9 +23,12 @@ use crate::pass::hygiene::hygiene_optimizer;
 pub use crate::pass::hygiene::optimize_hygiene;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
-use crate::pass::single::single_pass_optimizer;
+use crate::pass::precompress::precompress_optimizer;
 use analyzer::analyze;
+use pass::postcompress::postcompress_optimizer;
 use swc_common::comments::Comments;
+use swc_common::sync::Lrc;
+use swc_common::SourceMap;
 use swc_ecma_ast::Module;
 use swc_ecma_visit::FoldWith;
 use swc_ecma_visit::VisitMutWith;
@@ -43,6 +46,7 @@ mod util;
 #[inline]
 pub fn optimize(
     mut m: Module,
+    cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
@@ -61,9 +65,9 @@ pub fn optimize(
         }
     }
 
-    m.visit_mut_with(&mut single_pass_optimizer(
-        options.compress.clone().unwrap_or_default(),
-    ));
+    if let Some(options) = &options.compress {
+        m.visit_mut_with(&mut precompress_optimizer(options.clone()));
+    }
 
     m.visit_mut_with(&mut unique_marker());
 
@@ -95,8 +99,10 @@ pub fn optimize(
         t.section("compress");
     }
     if let Some(options) = &options.compress {
-        m = m.fold_with(&mut compressor(&options, comments));
+        m = m.fold_with(&mut compressor(cm.clone(), &options, comments));
         // Again, we don't need to validate ast
+
+        m.visit_mut_with(&mut postcompress_optimizer(options));
     }
 
     if let Some(ref mut _t) = timings {

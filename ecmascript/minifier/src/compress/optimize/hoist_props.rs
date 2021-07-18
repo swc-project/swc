@@ -118,9 +118,12 @@ impl Optimizer<'_> {
                     .data
                     .as_ref()
                     .and_then(|data| {
-                        data.vars
-                            .get(&name.to_id())
-                            .map(|v| v.ref_count == 1 && v.has_property_access)
+                        data.vars.get(&name.to_id()).map(|v| {
+                            v.ref_count == 1
+                                && v.has_property_access
+                                && v.is_fn_local
+                                && !v.used_in_loop
+                        })
                     })
                     .unwrap_or(false)
                 {
@@ -132,6 +135,15 @@ impl Optimizer<'_> {
                     None => return,
                 };
 
+                match &*init {
+                    Expr::This(..) => {
+                        n.init = Some(init);
+                        return;
+                    }
+
+                    _ => {}
+                }
+
                 match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
                     Some(prev) => {
                         panic!(
@@ -140,7 +152,13 @@ impl Optimizer<'_> {
                             prev
                         );
                     }
-                    None => {}
+                    None => {
+                        log::trace!(
+                            "hoist_props: Stored {}{:?} to inline property access",
+                            name.id.sym,
+                            name.id.span.ctxt
+                        );
+                    }
                 }
             }
             _ => {}

@@ -1,5 +1,6 @@
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
+use crate::util::idents_used_by;
 
 use super::Optimizer;
 use swc_atoms::js_word;
@@ -64,6 +65,15 @@ impl Optimizer<'_> {
                         return;
                     }
 
+                    if !usage.is_fn_local {
+                        match &**init {
+                            Expr::Lit(..) => {}
+                            _ => {
+                                return;
+                            }
+                        }
+                    }
+
                     if !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
@@ -95,11 +105,8 @@ impl Optimizer<'_> {
                         && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
-                                Lit::Str(_)
-                                | Lit::Bool(_)
-                                | Lit::Null(_)
-                                | Lit::Num(_)
-                                | Lit::BigInt(_) => true,
+                                Lit::Str(_) => false,
+                                Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
@@ -168,6 +175,15 @@ impl Optimizer<'_> {
                             }
 
                             _ => {}
+                        }
+
+                        if usage.used_in_loop {
+                            match &**init {
+                                Expr::Lit(..) | Expr::Ident(..) => {}
+                                _ => {
+                                    return;
+                                }
+                            }
                         }
 
                         if init.may_have_side_effects() {
@@ -295,7 +311,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if usage.reassigned {
+            if usage.reassigned || usage.inline_prevented {
                 return;
             }
 
@@ -399,10 +415,28 @@ impl Optimizer<'_> {
                     return;
                 }
                 //
-                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                if let Some(value) = self
+                    .lits
+                    .get(&i.to_id())
+                    .and_then(|v| {
+                        // Prevent infinite recursion.
+                        let ids = idents_used_by(&**v);
+                        if ids.contains(&i.to_id()) {
+                            None
+                        } else {
+                            Some(v)
+                        }
+                    })
+                    .cloned()
+                {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
                             if self.ctx.in_lhs_of_assign {
+                                return;
+                            }
+                        }
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
                                 return;
                             }
                         }
@@ -416,6 +450,15 @@ impl Optimizer<'_> {
                 } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
+                    }
+
+                    match &**value {
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
+                                return;
+                            }
+                        }
+                        _ => {}
                     }
 
                     self.changed = true;

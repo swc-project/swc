@@ -13,12 +13,12 @@ use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::DestructuringFinder;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::{find_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
@@ -26,7 +26,7 @@ use swc_ecma_visit::VisitWith;
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife || self.ctx.in_bang_arg {
+        if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
             return;
         }
 
@@ -54,21 +54,23 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if it did any work.
+    ///
     ///
     /// - `iife ? foo : bar` => `!iife ? bar : foo`
-    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
+    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) -> bool {
         let cond = match e {
             Expr::Cond(v) => v,
-            _ => return,
+            _ => return false,
         };
 
         let test_call = match &mut *cond.test {
             Expr::Call(e) => e,
-            _ => return,
+            _ => return false,
         };
 
         let callee = match &mut test_call.callee {
-            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Super(_) => return false,
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
@@ -81,10 +83,42 @@ impl Optimizer<'_> {
                     arg: cond.test.take(),
                 }));
                 swap(&mut cond.cons, &mut cond.alt);
-                return;
+                return true;
             }
-            _ => {}
+            _ => false,
         }
+    }
+
+    pub(super) fn restore_negated_iife(&mut self, cond: &mut CondExpr) {
+        if !self.ctx.dont_use_negated_iife {
+            return;
+        }
+
+        match &mut *cond.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Call(CallExpr {
+                    span: call_span,
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                    ..
+                }) => match &**callee {
+                    Expr::Fn(..) => {
+                        cond.test = Box::new(Expr::Call(CallExpr {
+                            span: *call_span,
+                            callee: callee.take().as_callee(),
+                            args: args.take(),
+                            type_args: Default::default(),
+                        }));
+                        swap(&mut cond.cons, &mut cond.alt);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+            _ => {}
+        };
     }
 }
 
@@ -206,10 +240,11 @@ impl Optimizer<'_> {
         }
     }
 
-    fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {
+        log::trace!("inline: inline_vars_in_node");
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx

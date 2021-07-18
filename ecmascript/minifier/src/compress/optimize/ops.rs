@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::compress::optimize::is_pure_undefined;
 use crate::util::make_bool;
 use crate::util::ValueExt;
 use std::mem::swap;
@@ -279,8 +280,6 @@ impl Optimizer<'_> {
     /// TODO: Handle special cases like !1 or !0
     pub(super) fn negate(&mut self, e: &mut Expr) {
         self.changed = true;
-        let arg = Box::new(e.take());
-
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("=="), .. })
             | Expr::Bin(bin @ BinExpr { op: op!("!="), .. })
@@ -308,6 +307,48 @@ impl Optimizer<'_> {
                 return;
             }
 
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("&&"),
+                ..
+            }) => {
+                log::trace!("negate: a && b => !a || !b");
+
+                self.negate(&mut **left);
+                self.negate(&mut **right);
+                *op = op!("||");
+                return;
+            }
+
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("||"),
+                ..
+            }) => {
+                log::trace!("negate: a || b => !a && !b");
+
+                self.negate(&mut **left);
+                self.negate(&mut **right);
+                *op = op!("&&");
+                return;
+            }
+
+            Expr::Cond(CondExpr { cons, alt, .. }) => {
+                log::trace!("negate: cond");
+
+                self.negate(&mut **cons);
+                self.negate(&mut **alt);
+                return;
+            }
+
+            _ => {}
+        }
+
+        let mut arg = Box::new(e.take());
+
+        match &mut *arg {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => match &mut **arg {
@@ -325,8 +366,15 @@ impl Optimizer<'_> {
                     *e = *arg.take();
                     return;
                 }
-                _ => {}
+                _ => {
+                    if self.ctx.in_bool_ctx {
+                        log::trace!("negate: !expr => expr (in bool context)");
+                        *e = *arg.take();
+                        return;
+                    }
+                }
             },
+
             _ => {}
         }
 
@@ -434,17 +482,53 @@ impl Optimizer<'_> {
         e.right = left.take();
     }
 
+    /// Rules:
+    ///  - `l > i` => `i < l`
     fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
         match (l, r) {
-            (Expr::Ident(l), Expr::Ident(r)) => {
-                self.options.comparisons && (is_for_rel || l.sym > r.sym)
+            (Expr::Member(_), _) if is_for_rel => false,
+
+            (Expr::Update(..), Expr::Lit(..)) if is_for_rel => false,
+
+            (
+                Expr::Member(..)
+                | Expr::Call(..)
+                | Expr::Assign(..)
+                | Expr::Update(..)
+                | Expr::Bin(BinExpr {
+                    op: op!("&&") | op!("||"),
+                    ..
+                }),
+                Expr::Lit(..),
+            ) => true,
+
+            (
+                Expr::Member(..) | Expr::Call(..) | Expr::Assign(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }),
+            ) if match &**arg {
+                Expr::Lit(..) => true,
+                _ => false,
+            } =>
+            {
+                true
             }
+
+            (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
+                true
+            }
+
+            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
+
+            (Expr::Ident(..), Expr::Ident(..)) => false,
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
-                Expr::Ident(..),
+                Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void") | op!("!"),
+                    ..
                 }),
             )
             | (

@@ -1,10 +1,18 @@
 use super::Optimizer;
-use crate::util::ExprOptExt;
+use crate::compress::optimize::util::get_lhs_ident_mut;
+use crate::util::{idents_used_by, ExprOptExt};
+use std::collections::HashMap;
 use std::mem::take;
+use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::StmtLike;
+use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{undefined, ExprExt, StmtLike};
+use swc_ecma_visit::noop_visit_type;
+use swc_ecma_visit::Node;
+use swc_ecma_visit::Visit;
+use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `sequences`. All methods are noop if
 /// `sequences` is false.
@@ -69,7 +77,9 @@ impl Optimizer<'_> {
                                 | Stmt::For(ForStmt {
                                     init: Some(VarDeclOrExpr::Expr(..)),
                                     ..
-                                }) => true,
+                                })
+                                | Stmt::ForIn(..)
+                                | Stmt::ForOf(..) => true,
                                 _ => false,
                             }
                         }
@@ -115,7 +125,17 @@ impl Optimizer<'_> {
                         }
 
                         Stmt::Return(mut stmt) => {
-                            stmt.arg.as_mut().unwrap().prepend_exprs(take(&mut exprs));
+                            match stmt.arg.as_deref_mut() {
+                                Some(e) => {
+                                    e.prepend_exprs(take(&mut exprs));
+                                }
+                                _ => {
+                                    let mut e = undefined(stmt.span);
+                                    e.prepend_exprs(take(&mut exprs));
+
+                                    stmt.arg = Some(e);
+                                }
+                            }
 
                             new_stmts.push(T::from_stmt(Stmt::Return(stmt)));
                         }
@@ -138,6 +158,49 @@ impl Optimizer<'_> {
                         ) => {
                             match &mut stmt.init {
                                 Some(VarDeclOrExpr::Expr(e)) => {
+                                    if exprs.iter().all(|expr| match &**expr {
+                                        Expr::Assign(..) => true,
+                                        _ => false,
+                                    }) {
+                                        // I(kdy1) don't know why we need this, but terser appends
+                                        // instead of prependig if initializer is (exactly)
+                                        //
+                                        // "identifier" = "literal".
+                                        //
+                                        // Note that only the form above makes terser to append.
+                                        //
+                                        // When I tested in by changing input multiple times, terser
+                                        // seems to be aware of side effects.
+                                        //
+                                        // Maybe there exists an optimization related to it in v8.
+                                        match e.first_expr_mut() {
+                                            Expr::Assign(AssignExpr {
+                                                op: op!("="),
+                                                left,
+                                                right,
+                                                ..
+                                            }) => {
+                                                if get_lhs_ident_mut(left).is_some()
+                                                    && match &**right {
+                                                        Expr::Lit(Lit::Regex(..)) => false,
+                                                        Expr::Lit(..) => true,
+                                                        _ => false,
+                                                    }
+                                                {
+                                                    let seq = e.force_seq();
+                                                    let extra =
+                                                        seq.exprs.drain(1..).collect::<Vec<_>>();
+                                                    seq.exprs.extend(take(&mut exprs));
+                                                    seq.exprs.extend(extra);
+
+                                                    new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+
+                                                    continue;
+                                                }
+                                            }
+                                            _ => {}
+                                        }
+                                    }
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 None => {
@@ -152,6 +215,18 @@ impl Optimizer<'_> {
                                 }
                             }
                             new_stmts.push(T::from_stmt(Stmt::For(stmt)));
+                        }
+
+                        Stmt::ForIn(mut stmt) => {
+                            stmt.right.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::ForIn(stmt)));
+                        }
+
+                        Stmt::ForOf(mut stmt) => {
+                            stmt.right.prepend_exprs(take(&mut exprs));
+
+                            new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
                         }
 
                         _ => {
@@ -196,6 +271,43 @@ impl Optimizer<'_> {
         }
 
         *stmts = new_stmts;
+    }
+
+    ///
+    /// - `(a, b, c) && d` => `a, b, c && d`
+    pub(super) fn lift_seqs_of_bin(&mut self, e: &mut Expr) {
+        let bin = match e {
+            Expr::Bin(b) => b,
+            _ => return,
+        };
+
+        match &mut *bin.left {
+            Expr::Seq(left) => {
+                if left.exprs.is_empty() {
+                    return;
+                }
+
+                self.changed = true;
+                log::trace!("sequences: Lifting sequence in a binary expression");
+
+                let left_last = left.exprs.pop().unwrap();
+
+                let mut exprs = left.exprs.take();
+
+                exprs.push(Box::new(Expr::Bin(BinExpr {
+                    span: left.span,
+                    op: bin.op,
+                    left: left_last,
+                    right: bin.right.take(),
+                })));
+
+                *e = Expr::Seq(SeqExpr {
+                    span: bin.span,
+                    exprs,
+                })
+            }
+            _ => {}
+        }
     }
 
     ///
@@ -248,6 +360,78 @@ impl Optimizer<'_> {
             }
             _ => {}
         }
+    }
+
+    /// Break assignments in sequences.
+    ///
+    /// This may result in less parenthesis.
+    pub(super) fn break_assignments_in_seqs<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        // TODO
+        if true {
+            return;
+        }
+        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(e)) => match &*e.expr {
+                Expr::Seq(seq) => {
+                    seq.exprs.len() > 1
+                        && seq.exprs.iter().all(|expr| match &**expr {
+                            Expr::Assign(..) => true,
+                            _ => false,
+                        })
+                }
+                _ => false,
+            },
+
+            _ => false,
+        });
+
+        if !need_work {
+            return;
+        }
+
+        let mut new_stmts = vec![];
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => match stmt {
+                    Stmt::Expr(es)
+                        if match &*es.expr {
+                            Expr::Seq(seq) => {
+                                seq.exprs.len() > 1
+                                    && seq.exprs.iter().all(|expr| match &**expr {
+                                        Expr::Assign(..) => true,
+                                        _ => false,
+                                    })
+                            }
+                            _ => false,
+                        } =>
+                    {
+                        let span = es.span;
+                        let seq = es.expr.seq().unwrap();
+                        new_stmts.extend(
+                            seq.exprs
+                                .into_iter()
+                                .map(|expr| ExprStmt { span, expr })
+                                .map(Stmt::Expr)
+                                .map(T::from_stmt),
+                        );
+                    }
+
+                    _ => {
+                        new_stmts.push(T::from_stmt(stmt));
+                    }
+                },
+                Err(stmt) => {
+                    new_stmts.push(stmt);
+                }
+            }
+        }
+        self.changed = true;
+        log::trace!("sequences: Splitted a sequence exprssion to multiple expression statements");
+        *stmts = new_stmts;
     }
 
     /// Lift sequence expressions in an assign expression.
@@ -378,5 +562,333 @@ impl Optimizer<'_> {
             }
             _ => {}
         }
+    }
+
+    pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        fn first_expr(s: &mut Stmt) -> Option<&mut Expr> {
+            match s {
+                Stmt::Expr(e) => Some(&mut *e.expr),
+                Stmt::Block(block) => {
+                    if block.stmts.is_empty() {
+                        return None;
+                    }
+
+                    first_expr(&mut block.stmts[0])
+                }
+                Stmt::Decl(Decl::Var(v)) => {
+                    if v.decls.is_empty() {
+                        return None;
+                    }
+
+                    v.decls.iter_mut().find_map(|d| d.init.as_deref_mut())
+                }
+                _ => None,
+            }
+        }
+
+        for idx in 1..stmts.len() {
+            let (a1, a2) = stmts.split_at_mut(idx - 1);
+
+            if a1.is_empty() || a2.is_empty() {
+                continue;
+            }
+
+            let e1 = first_expr(a1.last_mut().unwrap());
+            let e2 = first_expr(&mut a2[0]);
+
+            if let Some(e1) = e1 {
+                if let Some(e2) = e2 {
+                    self.merge_sequential_expr(e1, e2);
+                }
+            }
+        }
+    }
+
+    /// Calls `merge_sequential_expr`.
+    ///
+    ///
+    /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
+    /// if expressions between a and b are side-effect-free.
+    pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
+        for idx in 0..e.exprs.len() {
+            let (a1, a2) = e.exprs.split_at_mut(idx);
+
+            if a1.is_empty() || a2.is_empty() {
+                continue;
+            }
+
+            self.merge_sequential_expr(a1.last_mut().unwrap(), &mut a2[0]);
+        }
+
+        e.exprs.retain(|e| !e.is_invalid());
+    }
+
+    /// Returns true if something is modified.
+    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) -> bool {
+        match b {
+            Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
+
+            Expr::Unary(b) => return self.merge_sequential_expr(a, &mut b.arg),
+
+            Expr::Bin(BinExpr {
+                op, left, right, ..
+            }) => {
+                if self.merge_sequential_expr(a, &mut **left) {
+                    return true;
+                }
+
+                match &**left {
+                    Expr::Ident(..) => {}
+                    _ => {
+                        return false;
+                    }
+                }
+
+                match *op {
+                    op!("&&") | op!("||") | op!("??") => return false,
+                    _ => {}
+                }
+
+                return self.merge_sequential_expr(a, &mut **right);
+            }
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                computed: false,
+                ..
+            }) => return self.merge_sequential_expr(a, &mut **obj),
+
+            Expr::Member(MemberExpr {
+                obj: ExprOrSuper::Expr(obj),
+                prop,
+                computed: true,
+                ..
+            }) if obj.is_ident() => {
+                if self.merge_sequential_expr(a, &mut **prop) {
+                    return true;
+                }
+            }
+
+            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
+                match &mut b.left {
+                    PatOrExpr::Expr(b) => {
+                        if self.merge_sequential_expr(a, &mut **b) {
+                            return true;
+                        }
+
+                        match &**b {
+                            Expr::Ident(..) => {}
+
+                            _ => {
+                                return false;
+                            }
+                        }
+                    }
+                    PatOrExpr::Pat(b) => match &mut **b {
+                        Pat::Expr(b) => {
+                            if self.merge_sequential_expr(a, &mut **b) {
+                                return true;
+                            }
+
+                            match &**b {
+                                Expr::Ident(..) => {}
+                                _ => {
+                                    return false;
+                                }
+                            }
+                        }
+                        Pat::Ident(..) => {}
+                        _ => return false,
+                    },
+                }
+
+                return self.merge_sequential_expr(a, &mut b.right);
+            }
+
+            Expr::Array(b) => {
+                for elem in &mut b.elems {
+                    match elem {
+                        Some(elem) => {
+                            if self.merge_sequential_expr(a, &mut elem.expr) {
+                                return true;
+                            }
+
+                            match &*elem.expr {
+                                Expr::Ident(..) => {}
+                                _ => {
+                                    // To preserve side-effects, we need to abort.
+                                    break;
+                                }
+                            }
+                        }
+                        None => {}
+                    }
+                }
+
+                return false;
+            }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(b_callee),
+                ..
+            }) => {
+                if self.merge_sequential_expr(a, &mut **b_callee) {
+                    return true;
+                }
+
+                if b_callee.may_have_side_effects() {
+                    return false;
+                }
+            }
+
+            Expr::New(NewExpr {
+                callee: b_callee, ..
+            }) => {
+                if self.merge_sequential_expr(a, &mut **b_callee) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            _ => {}
+        }
+
+        match a {
+            Expr::Assign(AssignExpr {
+                op: op!("="),
+                left,
+                right,
+                ..
+            }) => {
+                if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
+                    return false;
+                }
+                if idents_used_by(&**right)
+                    .iter()
+                    .any(|v| v.0 == js_word!("arguments"))
+                {
+                    return false;
+                }
+
+                // (a = 5, console.log(a))
+                //
+                // =>
+                //
+                // (console.log(a = 5))
+
+                let left_id = match left {
+                    PatOrExpr::Pat(p) => match &**p {
+                        Pat::Ident(i) => &i.id,
+                        Pat::Expr(e) => match &**e {
+                            Expr::Ident(i) => i,
+                            _ => return false,
+                        },
+                        _ => return false,
+                    },
+                    PatOrExpr::Expr(e) => match &**e {
+                        Expr::Ident(i) => i,
+                        _ => return false,
+                    },
+                };
+
+                {
+                    // Abort this if there's some side effects.
+                    //
+                    //
+                    // (rand = _.random(
+                    //     index++
+                    // )),
+                    // (shuffled[index - 1] = shuffled[rand]),
+                    // (shuffled[rand] = value);
+                    //
+                    //
+                    // rand should not be inlined because of `index`.
+
+                    let deps = idents_used_by(&*right);
+
+                    let used_by_b = idents_used_by(&*b);
+
+                    for id in &deps {
+                        if *id == left_id.to_id() {
+                            continue;
+                        }
+
+                        if used_by_b.contains(id) {
+                            return false;
+                        }
+                    }
+                }
+
+                {
+                    let mut v = UsageCoutner {
+                        expr_usage: Default::default(),
+                        pat_usage: Default::default(),
+                        target: left_id,
+                        in_lhs: false,
+                    };
+                    b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+                    if v.expr_usage != 1 || v.pat_usage != 0 {
+                        return false;
+                    }
+                }
+
+                self.changed = true;
+                log::trace!("sequences: Inlining sequential expressions");
+
+                let mut vars = HashMap::default();
+                vars.insert(left_id.to_id(), Box::new(a.take()));
+                self.inline_vars_in_node(b, vars);
+                true
+            }
+            _ => false,
+        }
+    }
+}
+
+struct UsageCoutner<'a> {
+    expr_usage: usize,
+    pat_usage: usize,
+
+    target: &'a Ident,
+    in_lhs: bool,
+}
+
+impl Visit for UsageCoutner<'_> {
+    noop_visit_type!();
+
+    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
+        if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+            if self.in_lhs {
+                self.pat_usage += 1;
+            } else {
+                self.expr_usage += 1;
+            }
+        }
+    }
+
+    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
+        e.obj.visit_with(e, self);
+
+        if e.computed {
+            let old = self.in_lhs;
+            self.in_lhs = false;
+            e.prop.visit_with(e, self);
+            self.in_lhs = old;
+        }
+    }
+
+    fn visit_pat(&mut self, p: &Pat, _: &dyn Node) {
+        let old = self.in_lhs;
+        self.in_lhs = true;
+        p.visit_children_with(self);
+        self.in_lhs = old;
+    }
+
+    fn visit_pat_or_expr(&mut self, p: &PatOrExpr, _: &dyn Node) {
+        let old = self.in_lhs;
+        self.in_lhs = true;
+        p.visit_children_with(self);
+        self.in_lhs = old;
     }
 }

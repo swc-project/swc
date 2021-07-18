@@ -1,9 +1,13 @@
 use super::Optimizer;
 use crate::compress::optimize::is_pure_undefined;
 use crate::util::ExprOptExt;
+use std::fmt;
+use std::mem::swap;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_type;
@@ -14,6 +18,220 @@ use swc_ecma_visit::VisitWith;
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
+    pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {
+        match s.arg.as_deref() {
+            Some(e) => {
+                if is_pure_undefined(e) {
+                    self.changed = true;
+                    log::trace!("Dropped `undefined` from `return undefined`");
+                    s.arg.take();
+                }
+            }
+            None => {}
+        }
+    }
+
+    /// Negates the condition of a `if` statement to reduce body size.
+    pub(super) fn negate_if_else(&mut self, stmt: &mut IfStmt) {
+        let alt = match stmt.alt.as_deref_mut() {
+            Some(v) => v,
+            _ => return,
+        };
+
+        match &mut *stmt.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => {
+                match &*stmt.cons {
+                    Stmt::Return(..) => return,
+                    _ => {}
+                }
+
+                self.changed = true;
+                log::trace!(
+                    "if_return: Negating `!cond` as `cond` in for an if statement which has cons \
+                     and alt"
+                );
+                stmt.test = arg.take();
+                swap(alt, &mut *stmt.cons);
+            }
+            _ => match &*alt {
+                Stmt::Return(..) => {
+                    match &*stmt.cons {
+                        Stmt::Return(..) => return,
+                        _ => {}
+                    }
+
+                    self.changed = true;
+                    log::trace!("if_return: Negating an if statement because the alt is return");
+                    self.negate(&mut stmt.test);
+                    swap(alt, &mut *stmt.cons);
+                }
+                _ => return,
+            },
+        }
+    }
+
+    /// # Input
+    ///
+    /// ```js
+    /// function f(a, b) {
+    ///     if (a) return;
+    ///     console.log(b);
+    /// }
+    /// ```
+    ///
+    /// # Output
+    /// ```js
+    /// function f(a, b) {
+    ///     if (!a)
+    ///         console.log(b);
+    /// }
+    /// ```
+    pub(super) fn negate_if_terminate(&mut self, stmts: &mut Vec<Stmt>) {
+        let len = stmts.len();
+
+        let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
+            idx != len - 1
+                && match s {
+                    Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    }) => match &**cons {
+                        Stmt::Return(ReturnStmt { arg: None, .. }) => true,
+
+                        // TODO(kdy1): Verify if this is correct.
+                        Stmt::Continue(ContinueStmt { label: None, .. }) => true,
+                        _ => false,
+                    },
+                    _ => false,
+                }
+        });
+
+        let pos_of_if = match pos_of_if {
+            Some(v) => v,
+            _ => return,
+        };
+
+        self.changed = true;
+        log::trace!(
+            "if_return: Negating `foo` in `if (foo) return; bar()` to make it `if (!foo) bar()`"
+        );
+
+        let mut new = vec![];
+        new.extend(stmts.drain(..pos_of_if));
+        let cons = stmts.drain(1..).collect::<Vec<_>>();
+
+        let if_stmt = stmts.take().into_iter().next().unwrap();
+        match if_stmt
+            .try_into_stmt()
+            .expect("first value must be an if statement")
+        {
+            Stmt::If(mut s) => {
+                assert_eq!(s.alt, None);
+                self.negate(&mut s.test);
+
+                s.cons = if cons.len() == 1 {
+                    Box::new(cons.into_iter().next().unwrap())
+                } else {
+                    Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: cons,
+                    }))
+                };
+
+                new.push(Stmt::If(s))
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+
+        *stmts = new;
+    }
+
+    pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
+        if s.alt.is_some() {
+            return;
+        }
+
+        match &mut *s.cons {
+            Stmt::If(IfStmt {
+                test,
+                cons,
+                alt: None,
+                ..
+            }) => {
+                self.changed = true;
+                log::trace!("if_return: Merging nested if statements");
+
+                s.test = Box::new(Expr::Bin(BinExpr {
+                    span: s.test.span(),
+                    op: op!("&&"),
+                    left: s.test.take(),
+                    right: test.take(),
+                }));
+                s.cons = cons.take();
+            }
+            _ => {}
+        }
+    }
+
+    pub(super) fn merge_else_if(&mut self, s: &mut IfStmt) {
+        match s.alt.as_deref_mut() {
+            Some(Stmt::If(IfStmt {
+                span: span_of_alt,
+                test: test_of_alt,
+                cons: cons_of_alt,
+                alt: Some(alt_of_alt),
+                ..
+            })) => {
+                match &**cons_of_alt {
+                    Stmt::Return(..) => {}
+                    _ => return,
+                }
+
+                match &mut **alt_of_alt {
+                    Stmt::Block(..) => {}
+                    Stmt::Expr(..) => {
+                        *alt_of_alt = Box::new(Stmt::Block(BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![*alt_of_alt.take()],
+                        }));
+                    }
+                    _ => {
+                        return;
+                    }
+                }
+
+                self.changed = true;
+                log::trace!("if_return: Merging `else if` into `else`");
+
+                match &mut **alt_of_alt {
+                    Stmt::Block(alt_of_alt) => {
+                        prepend(
+                            &mut alt_of_alt.stmts,
+                            Stmt::If(IfStmt {
+                                span: *span_of_alt,
+                                test: test_of_alt.take(),
+                                cons: cons_of_alt.take(),
+                                alt: None,
+                            }),
+                        );
+                    }
+
+                    _ => {
+                        unreachable!()
+                    }
+                }
+
+                s.alt = Some(alt_of_alt.take());
+                return;
+            }
+
+            _ => {}
+        }
+    }
+
     /// Merge simple return statements in if statements.
     ///
     /// # Example
@@ -36,31 +254,62 @@ impl Optimizer<'_> {
     /// ```
     pub(super) fn merge_if_returns<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike,
+        T: StmtLike + fmt::Debug,
         Vec<T>: VisitWith<ReturnFinder>,
     {
-        if !self.options.if_return || stmts.is_empty() {
+        if !self.options.if_return || stmts.len() <= 1 {
             return;
         }
 
         {
             let return_count = count_leaping_returns(&*stmts);
 
-            let ends_with_if = stmts
-                .last()
-                .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::If(..)) => true,
-                    _ => false,
-                })
-                .unwrap();
-            if return_count <= 1 && ends_with_if {
+            // There's no return statment so merging requires injecting unnecessary `void 0`
+            if return_count == 0 {
+                return;
+            }
+
+            // If the last statement is a return statement and last - 1 is an if statement
+            // is without return, we don't need to fold it as `void 0` is too much for such
+            // cases.
+
+            match (
+                &stmts[stmts.len() - 2].as_stmt(),
+                &stmts[stmts.len() - 1].as_stmt(),
+            ) {
+                (_, Some(Stmt::If(IfStmt { alt: None, .. }))) => return,
+
+                (
+                    Some(Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    })),
+                    Some(Stmt::Return(..)),
+                ) => match &**cons {
+                    Stmt::Return(..) => {}
+                    _ => return,
+                },
+
+                _ => {}
+            }
+
+            // TODO: Find correct condition
+
+            if return_count == 1 {
                 return;
             }
         }
 
+        let idx_of_not_mergable = stmts.iter().rposition(|stmt| match stmt.as_stmt() {
+            Some(v) => !self.can_merge_stmt_as_if_return(v),
+            None => true,
+        });
+
         {
+            let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
+
             let start = stmts
                 .iter()
+                .skip(skip)
                 .position(|stmt| match stmt.as_stmt() {
                     Some(v) => self.can_merge_stmt_as_if_return(v),
                     None => false,
@@ -70,16 +319,16 @@ impl Optimizer<'_> {
             let ends_with_mergable = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::Return(..)) | Some(Stmt::Expr(..)) => true,
+                    Some(Stmt::Return(..) | Stmt::Expr(..)) => true,
                     _ => false,
                 })
                 .unwrap();
 
-            if stmts.len() - start == 1 && ends_with_mergable {
+            if stmts.len() == start + skip + 1 || !ends_with_mergable {
                 return;
             }
 
-            let can_merge = stmts.iter().skip(start).all(|stmt| match stmt.as_stmt() {
+            let can_merge = stmts.iter().skip(skip).all(|stmt| match stmt.as_stmt() {
                 Some(s) => self.can_merge_stmt_as_if_return(s),
                 _ => false,
             });
@@ -94,7 +343,14 @@ impl Optimizer<'_> {
         let mut cur: Option<Box<Expr>> = None;
         let mut new = Vec::with_capacity(stmts.len());
 
-        for stmt in stmts.take() {
+        for (idx, stmt) in stmts.take().into_iter().enumerate() {
+            if let Some(not_mergable) = idx_of_not_mergable {
+                if idx < not_mergable {
+                    new.push(stmt);
+                    continue;
+                }
+            }
+
             let stmt = match stmt.try_into_stmt() {
                 Ok(stmt) => {
                     if !self.can_merge_stmt_as_if_return(&stmt) {
@@ -278,7 +534,7 @@ impl Optimizer<'_> {
     fn can_merge_stmt_as_if_return(&self, s: &Stmt) -> bool {
         match s {
             Stmt::Expr(..) | Stmt::Return(..) => true,
-            Stmt::If(stmt) if self.options.conditionals => {
+            Stmt::If(stmt) => {
                 self.can_merge_stmt_as_if_return(&stmt.cons)
                     && stmt
                         .alt

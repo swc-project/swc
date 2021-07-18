@@ -38,6 +38,8 @@ where
 
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
+    pub inline_prevented: bool,
+
     /// The number of reference to this identifier.
     pub ref_count: usize,
 
@@ -82,6 +84,8 @@ pub(crate) struct VarUsageInfo {
     ///
     /// Indicates a variable or function is overrided without using it.
     pub overriden_without_used: bool,
+
+    pub no_side_effect_for_member_access: bool,
 
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
@@ -146,6 +150,8 @@ impl ProgramData {
         for (id, var_info) in child.vars {
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    e.get_mut().inline_prevented |= var_info.inline_prevented;
+
                     e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= var_info.cond_init;
 
@@ -171,6 +177,10 @@ impl ProgramData {
                     e.get_mut().declared_as_catch_param |= var_info.declared_as_catch_param;
 
                     e.get_mut().infects.extend(var_info.infects);
+
+                    e.get_mut().no_side_effect_for_member_access =
+                        e.get_mut().no_side_effect_for_member_access
+                            && var_info.no_side_effect_for_member_access;
 
                     match kind {
                         ScopeKind::Fn => {
@@ -236,6 +246,8 @@ impl UsageAnalyzer {
             ..Default::default()
         });
 
+        e.inline_prevented |= self.ctx.inline_prevented;
+
         e.ref_count += 1;
         e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
         // Passing object as a argument is possibly modification.
@@ -258,7 +270,7 @@ impl UsageAnalyzer {
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        self.report(i.to_id(), is_assign, &mut Default::default())
+        self.report(i.to_id(), is_assign, &mut Default::default());
     }
 
     fn declare_decl(
@@ -267,6 +279,8 @@ impl UsageAnalyzer {
         has_init: bool,
         kind: Option<VarDeclKind>,
     ) -> &mut VarUsageInfo {
+        let ctx = self.ctx;
+
         let v = self
             .data
             .vars
@@ -282,6 +296,9 @@ impl UsageAnalyzer {
                 is_fn_local: true,
                 var_kind: kind,
                 var_initialized: has_init,
+                no_side_effect_for_member_access: ctx
+                    .in_var_decl_with_no_side_effect_for_member_access,
+
                 ..Default::default()
             });
         self.scope
@@ -385,6 +402,20 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+        n.decorators.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                inline_prevented: true,
+                ..self.ctx
+            };
+            n.super_class.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+
+        n.body.visit_with(n, self);
+    }
+
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
         self.declare_decl(&n.ident, true, None);
 
@@ -432,12 +463,14 @@ impl Visit for UsageAnalyzer {
             };
             n.left.visit_with(n, &mut *child.with_ctx(ctx));
 
+            n.right.visit_with(n, child);
+
             let ctx = Ctx {
                 in_loop: true,
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+            n.body.visit_with(n, &mut *child.with_ctx(ctx));
         });
     }
 
@@ -735,6 +768,10 @@ impl Visit for UsageAnalyzer {
         let ctx = Ctx {
             in_pat_of_var_decl: true,
             in_pat_of_var_decl_with_init: e.init.is_some(),
+            in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
+                Some(Expr::Array(..) | Expr::Lit(..)) => true,
+                _ => false,
+            },
             ..self.ctx
         };
         e.name.visit_with(e, &mut *self.with_ctx(ctx));

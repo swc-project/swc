@@ -41,6 +41,10 @@ pub(crate) fn dump<N>(node: &N) -> String
 where
     N: swc_ecma_codegen::Node + Clone + VisitMutWith<DropSpan> + VisitMutWith<Debugger>,
 {
+    if !cfg!(feature = "debug") {
+        return String::new();
+    }
+
     let mut node = node.clone();
     node.visit_mut_with(&mut Debugger);
     node = drop_span(node);
