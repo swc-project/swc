@@ -14,7 +14,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
     });
     desc.enumerable = !!desc.enumerable;
     desc.configurable = !!desc.configurable;
-    if (("value" in desc) || desc.initializer) {
+    if ("value" in desc || desc.initializer) {
         desc.writable = true;
     }
     desc = decorators.slice().reverse().reduce(function(desc, decorator) {

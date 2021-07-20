@@ -384,7 +384,7 @@ function _inherits(subClass, superClass) {
     if (superClass) _setPrototypeOf(subClass, superClass);
 }
 function _iterableToArray(iter) {
-    if ((Symbol.iterator in Object(iter)) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 function _nonIterableRest() {
     throw new TypeError("Invalid attempt to destructure non-iterable instance");
