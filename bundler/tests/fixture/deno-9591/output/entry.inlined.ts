@@ -3950,7 +3950,7 @@ class SemVer {
                     ];
                 } else {
                     let i1 = this.prerelease.length;
-                    while((--i1) >= 0){
+                    while(--i1 >= 0){
                         if (typeof this.prerelease[i1] === "number") {
                             this.prerelease[i1]++;
                             i1 = -2;
