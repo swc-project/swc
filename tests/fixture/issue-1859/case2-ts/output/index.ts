@@ -32,7 +32,7 @@ function _interopRequireWildcard(obj) {
 Object.keys(_appConfig).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-    if (key in exports && exports[key] === _appConfig[key]) return;
+    if ((key in exports) && exports[key] === _appConfig[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
         get: function() {
@@ -43,7 +43,7 @@ Object.keys(_appConfig).forEach(function(key) {
 Object.keys(_databaseConfig).forEach(function(key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-    if (key in exports && exports[key] === _databaseConfig[key]) return;
+    if ((key in exports) && exports[key] === _databaseConfig[key]) return;
     Object.defineProperty(exports, key, {
         enumerable: true,
         get: function() {

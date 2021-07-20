@@ -41,7 +41,7 @@ function _construct(Parent, args, Class) {
     return _construct.apply(null, arguments);
 }
 function _iterableToArray(iter) {
-    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
+    if ((Symbol.iterator in Object(iter)) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter);
 }
 function _nonIterableSpread() {
     throw new TypeError("Invalid attempt to spread non-iterable instance");
