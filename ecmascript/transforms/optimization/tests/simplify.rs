@@ -2,7 +2,6 @@
 
 use std::cell::RefCell;
 use std::rc::Rc;
-
 use swc_common::chain;
 use swc_common::Mark;
 use swc_ecma_parser::EsConfig;
