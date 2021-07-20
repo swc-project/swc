@@ -22,7 +22,7 @@ impl Optimizer<'_> {
                     op: op!("void"),
                     arg,
                 })) => {
-                    log::trace!("unused: Removing `return void` in end of a function");
+                    log::debug!("unused: Removing `return void` in end of a function");
                     self.changed = true;
                     *s = Stmt::Expr(ExprStmt {
                         span: *span,
@@ -165,7 +165,7 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "unused: Dropping a variable '{}{:?}' because it is not used",
                         i.id.sym,
                         i.id.span.ctxt
@@ -303,7 +303,7 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
                         ident.span.ctxt
@@ -369,7 +369,7 @@ impl Optimizer<'_> {
                         .and_then(|data| data.vars.get(&i.to_id()))
                     {
                         if var.is_fn_local && var.usage_count == 0 {
-                            log::trace!(
+                            log::debug!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -405,7 +405,7 @@ impl Optimizer<'_> {
 
                 if can_remove_ident {
                     self.changed = true;
-                    log::trace!("Removing ident of an class / function expression");
+                    log::debug!("Removing ident of an class / function expression");
                     *name = None;
                 }
             }
@@ -429,7 +429,7 @@ impl Optimizer<'_> {
                 }
 
                 self.changed = true;
-                log::trace!(
+                log::debug!(
                     "unused: Removing the name of a function expression because it's not used by \
                      it'"
                 );

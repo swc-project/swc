@@ -21,7 +21,7 @@ UPDATE=1 ./scripts/base.sh base_fixture
 if [ -z "$@" ]; then
     ./scripts/sort.sh
 
-    SWC_RUN=0 GOLDEN_ONLY=1 cargo test --test compress --all-features 
+    SWC_RUN=0 GOLDEN_ONLY=1 cargo test -q --test compress --all-features 
 fi
 
 SKIP_GOLDEN=1 cargo test --test compress --all-features $@

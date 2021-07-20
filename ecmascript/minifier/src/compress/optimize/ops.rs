@@ -1,4 +1,8 @@
 use super::Optimizer;
+use crate::compress::optimize::bools::is_ok_to_negate_for_cond;
+use crate::compress::optimize::bools::is_ok_to_negate_rhs;
+use crate::compress::optimize::is_pure_undefined;
+use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::ValueExt;
 use std::mem::swap;
@@ -74,7 +78,7 @@ impl Optimizer<'_> {
                     match (lt, rt) {
                         (Type::Undefined, Type::Null) | (Type::Null, Type::Undefined) => {
                             if op == op!("===") {
-                                log::trace!(
+                                log::debug!(
                                     "Reducing `!== null || !== undefined` check to `!= null`"
                                 );
                                 return Some(BinExpr {
@@ -84,7 +88,7 @@ impl Optimizer<'_> {
                                     right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
                                 });
                             } else {
-                                log::trace!(
+                                log::debug!(
                                     "Reducing `=== null || === undefined` check to `== null`"
                                 );
                                 return Some(BinExpr {
@@ -167,7 +171,7 @@ impl Optimizer<'_> {
         if e.op == op!("===") || e.op == op!("!==") {
             if (e.left.is_ident() || e.left.is_member()) && e.left.eq_ignore_span(&e.right) {
                 self.changed = true;
-                log::trace!("Reducing comparison of same variable ({})", e.op);
+                log::debug!("Reducing comparison of same variable ({})", e.op);
 
                 e.op = if e.op == op!("===") {
                     op!("==")
@@ -187,7 +191,7 @@ impl Optimizer<'_> {
                     if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
-                        log::trace!("Reduced `===` to `==` because types of operands are identical")
+                        log::debug!("Reduced `===` to `==` because types of operands are identical")
                     }
                 }
             }
@@ -209,7 +213,7 @@ impl Optimizer<'_> {
 
                 let value = if n.op == op!("==") { l == r } else { l != r };
 
-                log::trace!("Optimizing: literal comparison => bool");
+                log::debug!("Optimizing: literal comparison => bool");
                 self.changed = true;
                 return Some(Expr::Lit(Lit::Bool(Bool {
                     span: n.span,
@@ -249,7 +253,7 @@ impl Optimizer<'_> {
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
                         if let Known(Type::Bool) = arg.get_type() {
                             self.changed = true;
-                            log::trace!("Optimizing: `!!expr` => `expr`");
+                            log::debug!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
                         }
 
@@ -278,9 +282,9 @@ impl Optimizer<'_> {
     ///
     /// TODO: Handle special cases like !1 or !0
     pub(super) fn negate(&mut self, e: &mut Expr) {
-        self.changed = true;
-        let arg = Box::new(e.take());
+        let start_str = dump(&*e);
 
+        self.changed = true;
         match e {
             Expr::Bin(bin @ BinExpr { op: op!("=="), .. })
             | Expr::Bin(bin @ BinExpr { op: op!("!="), .. })
@@ -304,15 +308,68 @@ impl Optimizer<'_> {
                     }
                 };
                 self.changed = true;
-                log::trace!("negate: binary");
+                log::debug!("negate: binary");
                 return;
             }
 
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("&&"),
+                ..
+            }) if is_ok_to_negate_rhs(&right) => {
+                log::debug!("negate: a && b => !a || !b");
+
+                self.negate(&mut **left);
+                self.negate(&mut **right);
+                *op = op!("||");
+                return;
+            }
+
+            Expr::Bin(BinExpr {
+                left,
+                right,
+                op: op @ op!("||"),
+                ..
+            }) if is_ok_to_negate_rhs(&right) => {
+                log::debug!("negate: a || b => !a && !b");
+
+                self.negate(&mut **left);
+                self.negate(&mut **right);
+                *op = op!("&&");
+                return;
+            }
+
+            Expr::Cond(CondExpr { cons, alt, .. })
+                if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
+            {
+                log::debug!("negate: cond");
+
+                self.negate(&mut **cons);
+                self.negate(&mut **alt);
+                return;
+            }
+
+            Expr::Seq(SeqExpr { exprs, .. }) => {
+                if let Some(last) = exprs.last_mut() {
+                    log::debug!("negate: seq");
+
+                    self.negate(&mut **last);
+                    return;
+                }
+            }
+
+            _ => {}
+        }
+
+        let mut arg = Box::new(e.take());
+
+        match &mut *arg {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => match &mut **arg {
                 Expr::Unary(UnaryExpr { op: op!("!"), .. }) => {
-                    log::trace!("negate: !!bool => !bool");
+                    log::debug!("negate: !!bool => !bool");
                     *e = *arg.take();
                     return;
                 }
@@ -321,22 +378,33 @@ impl Optimizer<'_> {
                     op: op!("instanceof"),
                     ..
                 }) => {
-                    log::trace!("negate: !bool => bool");
+                    log::debug!("negate: !bool => bool");
                     *e = *arg.take();
                     return;
                 }
-                _ => {}
+                _ => {
+                    if self.ctx.in_bool_ctx {
+                        log::debug!("negate: !expr => expr (in bool context)");
+                        *e = *arg.take();
+                        return;
+                    }
+                }
             },
+
             _ => {}
         }
 
-        log::trace!("negate: e => !e");
+        log::debug!("negate: e => !e");
 
         *e = Expr::Unary(UnaryExpr {
             span: DUMMY_SP,
             op: op!("!"),
             arg,
         });
+
+        if cfg!(feature = "debug") {
+            log::trace!("[Change] Negated `{}` as `{}`", start_str, dump(&*e));
+        }
     }
 
     pub(super) fn handle_negated_seq(&mut self, n: &mut Expr) {
@@ -352,7 +420,7 @@ impl Optimizer<'_> {
                         if exprs.is_empty() {
                             return;
                         }
-                        log::trace!("optimizing negated sequences");
+                        log::debug!("optimizing negated sequences");
 
                         {
                             let last = exprs.last_mut().unwrap();
@@ -427,24 +495,60 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        log::trace!("Compressing: `e = 3 & e` => `e &= 3`");
+        log::debug!("Compressing: `e = 3 & e` => `e &= 3`");
 
         self.changed = true;
         e.op = op;
         e.right = left.take();
     }
 
+    /// Rules:
+    ///  - `l > i` => `i < l`
     fn can_swap_bin_operands(&mut self, l: &Expr, r: &Expr, is_for_rel: bool) -> bool {
         match (l, r) {
-            (Expr::Ident(l), Expr::Ident(r)) => {
-                self.options.comparisons && (is_for_rel || l.sym > r.sym)
+            (Expr::Member(_), _) if is_for_rel => false,
+
+            (Expr::Update(..), Expr::Lit(..)) if is_for_rel => false,
+
+            (
+                Expr::Member(..)
+                | Expr::Call(..)
+                | Expr::Assign(..)
+                | Expr::Update(..)
+                | Expr::Bin(BinExpr {
+                    op: op!("&&") | op!("||"),
+                    ..
+                }),
+                Expr::Lit(..),
+            ) => true,
+
+            (
+                Expr::Member(..) | Expr::Call(..) | Expr::Assign(..),
+                Expr::Unary(UnaryExpr {
+                    op: op!("!"), arg, ..
+                }),
+            ) if match &**arg {
+                Expr::Lit(..) => true,
+                _ => false,
+            } =>
+            {
+                true
             }
+
+            (Expr::Member(..) | Expr::Call(..) | Expr::Assign(..), r) if is_pure_undefined(r) => {
+                true
+            }
+
+            (Expr::Ident(..), Expr::Lit(..)) if is_for_rel => false,
+
+            (Expr::Ident(..), Expr::Ident(..)) => false,
 
             (Expr::Ident(..), Expr::Lit(..))
             | (
-                Expr::Ident(..),
+                Expr::Ident(..) | Expr::Member(..),
                 Expr::Unary(UnaryExpr {
-                    op: op!("void"), ..
+                    op: op!("void") | op!("!"),
+                    ..
                 }),
             )
             | (
@@ -479,7 +583,7 @@ impl Optimizer<'_> {
         }
 
         if self.can_swap_bin_operands(&left, &right, false) {
-            log::trace!("Swapping operands of binary exprssion");
+            log::debug!("Swapping operands of binary exprssion");
             swap(left, right);
             return true;
         }
@@ -494,7 +598,7 @@ impl Optimizer<'_> {
             | Expr::Bin(e @ BinExpr { op: op!("<"), .. }) => {
                 if self.options.comparisons && self.can_swap_bin_operands(&e.left, &e.right, true) {
                     self.changed = true;
-                    log::trace!("comparisons: Swapping operands of {}", e.op);
+                    log::debug!("comparisons: Swapping operands of {}", e.op);
 
                     e.op = if e.op == op!("<=") {
                         op!(">=")
@@ -568,13 +672,13 @@ impl Optimizer<'_> {
 
                 if rb {
                     self.changed = true;
-                    log::trace!("Optimizing: e && true => !!e");
+                    log::debug!("Optimizing: e && true => !!e");
 
                     self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
                 } else {
                     self.changed = true;
-                    log::trace!("Optimizing: e && false => e");
+                    log::debug!("Optimizing: e && false => e");
 
                     *e = *bin.left.take();
                 }
@@ -588,7 +692,7 @@ impl Optimizer<'_> {
 
                 if !rb {
                     self.changed = true;
-                    log::trace!("Optimizing: e || false => !!e");
+                    log::debug!("Optimizing: e || false => !!e");
 
                     self.negate_twice(&mut bin.left);
                     *e = *bin.left.take();
@@ -648,7 +752,7 @@ impl Optimizer<'_> {
 
         match l {
             Expr::Lit(Lit::Null(..)) => {
-                log::trace!("Removing null from lhs of ??");
+                log::debug!("Removing null from lhs of ??");
                 self.changed = true;
                 *e = r.take();
                 return;
@@ -658,7 +762,7 @@ impl Optimizer<'_> {
             | Expr::Lit(Lit::BigInt(..))
             | Expr::Lit(Lit::Bool(..))
             | Expr::Lit(Lit::Regex(..)) => {
-                log::trace!("Removing rhs of ?? as lhs cannot be null nor undefined");
+                log::debug!("Removing rhs of ?? as lhs cannot be null nor undefined");
                 self.changed = true;
                 *e = l.take();
                 return;
@@ -682,7 +786,7 @@ impl Optimizer<'_> {
             }) => match &**arg {
                 Expr::Ident(arg) => {
                     if let Some(value) = self.typeofs.get(&arg.to_id()).cloned() {
-                        log::trace!(
+                        log::debug!(
                             "Converting typeof of variable to literal as we know the value"
                         );
                         self.changed = true;
@@ -697,7 +801,7 @@ impl Optimizer<'_> {
                 }
 
                 Expr::Arrow(..) | Expr::Fn(..) => {
-                    log::trace!("Converting typeof to 'function' as we know the value");
+                    log::debug!("Converting typeof to 'function' as we know the value");
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
@@ -709,7 +813,7 @@ impl Optimizer<'_> {
                 }
 
                 Expr::Array(..) | Expr::Object(..) => {
-                    log::trace!("Converting typeof to 'object' as we know the value");
+                    log::debug!("Converting typeof to 'object' as we know the value");
                     self.changed = true;
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,

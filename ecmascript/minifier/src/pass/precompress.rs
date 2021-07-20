@@ -9,10 +9,11 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::{ident::IdentLike, Id};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+/// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
-pub fn single_pass_optimizer(options: CompressOptions) -> impl VisitMut {
-    SinglePassOptimizer {
+pub fn precompress_optimizer(options: CompressOptions) -> impl VisitMut {
+    PrecompressOptimizer {
         options,
         data: Default::default(),
         fn_decl_count: Default::default(),
@@ -21,7 +22,7 @@ pub fn single_pass_optimizer(options: CompressOptions) -> impl VisitMut {
 }
 
 #[derive(Debug, Default)]
-struct SinglePassOptimizer {
+struct PrecompressOptimizer {
     options: CompressOptions,
     data: ProgramData,
     fn_decl_count: FxHashMap<Id, usize>,
@@ -33,7 +34,7 @@ struct Ctx {
     in_var_pat: bool,
 }
 
-impl VisitMut for SinglePassOptimizer {
+impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
     fn visit_mut_decl(&mut self, n: &mut Decl) {

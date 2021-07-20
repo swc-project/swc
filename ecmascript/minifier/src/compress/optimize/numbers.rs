@@ -9,7 +9,7 @@ impl Optimizer<'_> {
                 let value = if value.is_empty() { 0f64 } else { 1f64 };
 
                 self.changed = true;
-                log::trace!("numbers: Converting a string literal to {:?}", value);
+                log::debug!("numbers: Converting a string literal to {:?}", value);
                 *e = Expr::Lit(Lit::Num(Number { span: *span, value }));
                 return;
             }
@@ -37,7 +37,7 @@ impl Optimizer<'_> {
                         ..
                     }) => {
                         self.changed = true;
-                        log::trace!("numbers: Lifting `-`");
+                        log::debug!("numbers: Lifting `-`");
 
                         *e = Expr::Unary(UnaryExpr {
                             span: arg.span,
@@ -55,7 +55,7 @@ impl Optimizer<'_> {
                     Expr::Lit(Lit::Num(Number { span, value, .. })) => {
                         if value.is_sign_negative() {
                             self.changed = true;
-                            log::trace!("numbers: Lifting `-` in a literal");
+                            log::debug!("numbers: Lifting `-` in a literal");
 
                             *e = Expr::Unary(UnaryExpr {
                                 span: arg.span,

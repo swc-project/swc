@@ -3,6 +3,7 @@ use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
+use crate::util::MoudleItemExt;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use retain_mut::RetainMut;
@@ -13,7 +14,9 @@ use swc_atoms::JsWord;
 use swc_common::comments::Comments;
 use swc_common::iter::IdentifyLast;
 use swc_common::pass::Repeated;
+use swc_common::sync::Lrc;
 use swc_common::Mark;
+use swc_common::SourceMap;
 use swc_common::Spanned;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -24,6 +27,8 @@ use swc_ecma_utils::undefined;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::IsEmpty;
+use swc_ecma_utils::ModuleItemLike;
 use swc_ecma_utils::StmtLike;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
@@ -41,6 +46,7 @@ mod computed_props;
 mod conditionals;
 mod dead_code;
 mod evaluate;
+mod fns;
 mod hoist_props;
 mod if_return;
 mod iife;
@@ -61,7 +67,8 @@ const DISABLE_BUGGY_PASSES: bool = true;
 
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
-    options: CompressOptions,
+    cm: Lrc<SourceMap>,
+    options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
@@ -72,6 +79,7 @@ pub(super) fn optimizer<'a>(
     let done = Mark::fresh(Mark::root());
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
+        cm,
         comments,
         changed: false,
         options,
@@ -99,6 +107,8 @@ pub(super) fn optimizer<'a>(
 struct Ctx {
     /// `true` if the [VarDecl] has const annotation.
     has_const_ann: bool,
+
+    in_bool_ctx: bool,
 
     var_kind: Option<VarDeclKind>,
 
@@ -129,6 +139,8 @@ struct Ctx {
     in_var_decl_of_for_in_or_of_loop: bool,
     /// `true` while handling inner statements of a labelled statement.
     stmt_lablled: bool,
+
+    dont_use_negated_iife: bool,
 
     /// `true` while handling top-level export decls.
     is_exported: bool,
@@ -172,10 +184,12 @@ impl Ctx {
 }
 
 struct Optimizer<'a> {
+    cm: Lrc<SourceMap>,
+
     comments: Option<&'a dyn Comments>,
 
     changed: bool,
-    options: CompressOptions,
+    options: &'a CompressOptions,
 
     /// Statements prepended to the current statement.
     prepend_stmts: Vec<Stmt>,
@@ -221,8 +235,12 @@ impl Repeated for Optimizer<'_> {
 impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
-        T: StmtLike + VisitMutWith<Self>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
+        T: StmtLike + ModuleItemLike + MoudleItemExt + VisitMutWith<Self>,
+        Vec<T>: VisitMutWith<Self>
+            + VisitWith<UsageAnalyzer>
+            + VisitWith<self::collapse_vars::VarWithOutInitCounter>
+            + VisitMutWith<self::collapse_vars::VarPrepender>
+            + VisitMutWith<self::collapse_vars::VarCollector>,
     {
         match self.data {
             Some(..) => {}
@@ -271,12 +289,20 @@ impl Optimizer<'_> {
             *stmts = new;
         }
 
+        self.reorder_stmts(stmts);
+
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
 
         self.make_sequences(stmts);
 
+        self.collapse_vars_without_init(stmts);
+
         self.collapse_consequtive_vars(stmts);
+
+        self.drop_else_token(stmts);
+
+        self.break_assignments_in_seqs(stmts);
 
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
@@ -309,6 +335,15 @@ impl Optimizer<'_> {
             },
             _ => return,
         };
+
+        // Don't break code for old browsers.
+        match op {
+            BinaryOp::LogicalOr => return,
+            BinaryOp::LogicalAnd => return,
+            BinaryOp::Exp => return,
+            BinaryOp::NullishCoalescing => return,
+            _ => {}
+        }
 
         let op = match op {
             BinaryOp::In | BinaryOp::InstanceOf => return,
@@ -540,7 +575,7 @@ impl Optimizer<'_> {
             }
         }
 
-        log::trace!("Compressing array.join()");
+        log::debug!("Compressing array.join()");
 
         self.changed = true;
         *e = Expr::Lit(Lit::Str(Str {
@@ -580,7 +615,7 @@ impl Optimizer<'_> {
             match lit {
                 Lit::Bool(v) => {
                     self.changed = true;
-                    log::trace!("Compressing boolean literal");
+                    log::debug!("Compressing boolean literal");
                     *e = Expr::Unary(UnaryExpr {
                         span: v.span,
                         op: op!("!"),
@@ -618,15 +653,26 @@ impl Optimizer<'_> {
     /// Returns [None] if expression is side-effect-free.
     /// If an expression has a side effect, only side effects are returned.
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
+        self.optimize_bang_within_logical_ops(e, true);
+
+        match e {
+            Expr::Bin(e) => {
+                self.optimize_bang_in_nested_logical_ops(e);
+            }
+            _ => {}
+        }
+
+        self.compress_cond_to_logical_ignoring_return_value(e);
+
         match e {
             Expr::Ident(..) | Expr::This(_) | Expr::Invalid(_) | Expr::Lit(..) => {
-                log::trace!("ignore_return_value: Dropping unused expr");
+                log::debug!("ignore_return_value: Dropping unused expr");
                 self.changed = true;
                 return None;
             }
             // Function expression cannot have a side effect.
             Expr::Fn(_) => {
-                log::trace!(
+                log::debug!(
                     "ignore_return_value: Dropping unused fn expr as it does not have any side \
                      effect"
                 );
@@ -692,7 +738,12 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let new_r = self.ignore_return_value(right);
+                let ctx = Ctx {
+                    dont_use_negated_iife: self.ctx.dont_use_negated_iife
+                        || self.options.side_effects,
+                    ..self.ctx
+                };
+                let new_r = self.with_ctx(ctx).ignore_return_value(right);
 
                 match new_r {
                     Some(r) => {
@@ -763,15 +814,36 @@ impl Optimizer<'_> {
                 _ => false,
             } && args.is_empty() =>
             {
-                log::trace!("ignore_return_value: Dropping a pure call");
+                log::debug!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
                 return None;
             }
 
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(callee),
+                args,
+                ..
+            }) => {
+                if args.is_empty() {
+                    match &mut **callee {
+                        Expr::Fn(f) => {
+                            if f.function.body.is_none()
+                                || f.function.body.as_ref().unwrap().is_empty()
+                            {
+                                return None;
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+
+                return Some(e.take());
+            }
+
             Expr::MetaProp(_)
             | Expr::Await(_)
-            | Expr::Call(_)
             | Expr::New(..)
+            | Expr::Call(..)
             | Expr::Yield(_)
             | Expr::Assign(_)
             | Expr::PrivateName(_)
@@ -796,6 +868,10 @@ impl Optimizer<'_> {
                         if usage.var_kind.is_none() {
                             return None;
                         }
+
+                        if !usage.reassigned && usage.no_side_effect_for_member_access {
+                            return None;
+                        }
                     }
                 }
                 _ => {}
@@ -818,7 +894,7 @@ impl Optimizer<'_> {
             Expr::Array(arr) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                log::trace!("ignore_return_value: Inverting an array literal");
+                log::debug!("ignore_return_value: Inverting an array literal");
                 for elem in arr.elems.take() {
                     match elem {
                         Some(mut elem) => {
@@ -841,7 +917,7 @@ impl Optimizer<'_> {
             Expr::Object(obj) => {
                 let mut exprs = vec![];
                 self.changed = true;
-                log::trace!("ignore_return_value: Inverting an object literal");
+                log::debug!("ignore_return_value: Inverting an object literal");
                 for prop in obj.props.take() {
                     match prop {
                         PropOrSpread::Spread(mut e) => {
@@ -898,6 +974,7 @@ impl Optimizer<'_> {
             }) if (self.options.negate_iife
                 || self.options.reduce_vars
                 || self.options.side_effects)
+                && !self.ctx.dont_use_negated_iife
                 && match &**arg {
                     Expr::Call(arg) => match &arg.callee {
                         ExprOrSuper::Expr(callee) => match &**callee {
@@ -909,14 +986,14 @@ impl Optimizer<'_> {
                     _ => false,
                 } =>
             {
-                log::trace!("ignore_return_value: Preserving negated iife");
+                log::debug!("ignore_return_value: Preserving negated iife");
                 return Some(e.take());
             }
 
             // `delete` is handled above
             Expr::Unary(expr) => {
                 self.changed = true;
-                log::trace!("ignore_return_value: Reducing unary ({})", expr.op);
+                log::debug!("ignore_return_value: Reducing unary ({})", expr.op);
                 return self.ignore_return_value(&mut expr.arg);
             }
 
@@ -934,10 +1011,24 @@ impl Optimizer<'_> {
             }
 
             Expr::Cond(cond) => {
+                self.restore_negated_iife(cond);
+
+                let ctx = Ctx {
+                    dont_use_negated_iife: self.ctx.dont_use_negated_iife
+                        || self.options.side_effects,
+                    ..self.ctx
+                };
+
                 let cons_span = cond.cons.span();
                 let alt_span = cond.alt.span();
-                let cons = self.ignore_return_value(&mut cond.cons).map(Box::new);
-                let alt = self.ignore_return_value(&mut cond.alt).map(Box::new);
+                let cons = self
+                    .with_ctx(ctx)
+                    .ignore_return_value(&mut cond.cons)
+                    .map(Box::new);
+                let alt = self
+                    .with_ctx(ctx)
+                    .ignore_return_value(&mut cond.alt)
+                    .map(Box::new);
 
                 // TODO: Remove if test is side effect free.
 
@@ -973,7 +1064,11 @@ impl Optimizer<'_> {
                         if idx == 0 && self.ctx.is_this_aware_callee && is_injected_zero {
                             return Some(*expr.take());
                         }
-                        self.ignore_return_value(&mut **expr)
+                        let ctx = Ctx {
+                            dont_use_negated_iife: idx != 0,
+                            ..self.ctx
+                        };
+                        self.with_ctx(ctx).ignore_return_value(&mut **expr)
                     })
                     .map(Box::new)
                     .collect::<Vec<_>>();
@@ -996,6 +1091,10 @@ impl Optimizer<'_> {
                                 arg: last.take(),
                             }));
                         }
+                    }
+
+                    if exprs.is_empty() {
+                        return None;
                     }
 
                     return Some(Expr::Seq(SeqExpr {
@@ -1082,7 +1181,7 @@ impl Optimizer<'_> {
             })
             .unwrap_or(js_word!(""));
 
-        log::trace!("Converting call to RegExp into a regexp literal");
+        log::debug!("Converting call to RegExp into a regexp literal");
         self.changed = true;
         *e = Expr::Lit(Lit::Regex(Regex {
             span,
@@ -1147,7 +1246,7 @@ impl Optimizer<'_> {
             _ => false,
         }) {
             self.changed = true;
-            log::trace!("Merging variable declarations");
+            log::debug!("Merging variable declarations");
 
             let orig = take(stmts);
             let mut new = Vec::with_capacity(orig.len());
@@ -1195,7 +1294,7 @@ impl Optimizer<'_> {
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
-                        log::trace!("optimizer: Removing nested block");
+                        log::debug!("optimizer: Removing nested block");
                         self.changed = true;
                         bs.stmts = block.stmts.take();
                     }
@@ -1213,7 +1312,7 @@ impl Optimizer<'_> {
                         _ => false,
                     })
                 {
-                    log::trace!("optimizer: Unwrapping a block with variable statements");
+                    log::debug!("optimizer: Unwrapping a block with variable statements");
                     self.changed = true;
                     *s = bs.stmts[0].take();
                     return;
@@ -1223,7 +1322,7 @@ impl Optimizer<'_> {
                     if let Stmt::Block(block) = &stmt {
                         if block.stmts.is_empty() {
                             self.changed = true;
-                            log::trace!("optimizer: Removing empty block");
+                            log::debug!("optimizer: Removing empty block");
                             *stmt = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         }
                     }
@@ -1233,12 +1332,12 @@ impl Optimizer<'_> {
                     match &bs.stmts[0] {
                         Stmt::Expr(..) | Stmt::If(..) => {
                             *s = bs.stmts[0].take();
-                            log::trace!("optimizer: Unwrapping block stmt");
+                            log::debug!("optimizer: Unwrapping block stmt");
                             self.changed = true;
                         }
                         Stmt::Decl(Decl::Fn(..)) if !self.ctx.in_strict => {
                             *s = bs.stmts[0].take();
-                            log::trace!("optimizer: Unwrapping block stmt in non strcit mode");
+                            log::debug!("optimizer: Unwrapping block stmt in non strcit mode");
                             self.changed = true;
                         }
                         _ => {}
@@ -1264,6 +1363,14 @@ impl Optimizer<'_> {
             }
 
             Stmt::ForIn(s) => {
+                self.try_removing_block(&mut s.body, true);
+            }
+
+            Stmt::For(s) => {
+                self.try_removing_block(&mut s.body, true);
+            }
+
+            Stmt::ForOf(s) => {
                 self.try_removing_block(&mut s.body, true);
             }
 
@@ -1303,7 +1410,7 @@ impl Optimizer<'_> {
             match &mut *stmt.cons {
                 Stmt::Expr(cons) => {
                     self.changed = true;
-                    log::trace!("Converting if statement to a form `test && cons`");
+                    log::debug!("Converting if statement to a form `test && cons`");
                     *s = Stmt::Expr(ExprStmt {
                         span: stmt.span,
                         expr: Box::new(stmt.test.take().make_bin(op!("&&"), *cons.expr.take())),
@@ -1363,7 +1470,22 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_bin_expr(&mut self, n: &mut BinExpr) {
-        n.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                in_cond: self.ctx.in_cond
+                    || match n.op {
+                        op!("&&") | op!("||") | op!("??") => true,
+                        _ => false,
+                    },
+                ..self.ctx
+            };
+
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
+
+        self.compress_typeof_undefined(n);
+
+        self.compress_comparsion_of_typeof(n);
 
         self.optimize_bin_operator(n);
 
@@ -1470,6 +1592,8 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_cond_expr(&mut self, n: &mut CondExpr) {
         n.visit_mut_children_with(self);
+
+        self.negate_cond_expr(n);
 
         self.optimize_expr_in_bool_ctx(&mut n.test);
     }
@@ -1583,7 +1707,7 @@ impl VisitMut for Optimizer<'_> {
             Expr::Bin(bin) => {
                 let expr = self.optimize_lit_cmp(bin);
                 if let Some(expr) = expr {
-                    log::trace!("Optimizing: Literal comparison");
+                    log::debug!("Optimizing: Literal comparison");
                     self.changed = true;
                     *e = expr;
                 }
@@ -1598,13 +1722,13 @@ impl VisitMut for Optimizer<'_> {
         self.handle_negated_seq(e);
         self.compress_array_join(e);
 
-        self.compress_logical_exprs_with_negated_lhs(e);
-
         self.remove_useless_pipes(e);
 
         self.optimize_bools(e);
 
         self.handle_property_access(e);
+
+        self.lift_seqs_of_bin(e);
 
         self.lift_seqs_of_cond_assign(e);
 
@@ -1624,6 +1748,18 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
         n.visit_mut_children_with(self);
 
+        let mut need_ignore_return_value = false;
+
+        // If negate_iife is true, it's already handled by
+        // visit_mut_children_with(self) above.
+        if !self.options.negate_iife {
+            // I(kdy1) don't know why this check if required, but there are two test cases
+            // with `options.expressions` as only difference.
+            if !self.options.expr {
+                need_ignore_return_value |= self.negate_iife_in_cond(&mut n.expr);
+            }
+        }
+
         self.negate_iife_ignoring_ret(&mut n.expr);
 
         let is_directive = match &*n.expr {
@@ -1635,9 +1771,18 @@ impl VisitMut for Optimizer<'_> {
             return;
         }
 
-        if self.options.unused
+        if need_ignore_return_value
+            || self.options.unused
             || self.options.side_effects
             || (self.options.sequences() && n.expr.is_seq())
+            || (self.options.conditionals
+                && match &*n.expr {
+                    Expr::Bin(BinExpr {
+                        op: op!("||") | op!("&&"),
+                        ..
+                    }) => true,
+                    _ => false,
+                })
         {
             // Preserve top-level negated iifes.
             match &*n.expr {
@@ -1656,6 +1801,18 @@ impl VisitMut for Optimizer<'_> {
             }
             let expr = self.ignore_return_value(&mut n.expr);
             n.expr = expr.map(Box::new).unwrap_or_else(|| undefined(DUMMY_SP));
+        } else {
+            match &mut *n.expr {
+                Expr::Seq(e) => {
+                    // Non-last items are handled by visit_mut_seq_expr
+                    if let Some(e) = e.exprs.last_mut() {
+                        self.optimize_bang_within_logical_ops(e, true);
+                    }
+                }
+                _ => {
+                    self.optimize_bang_within_logical_ops(&mut *n.expr, true);
+                }
+            }
         }
     }
 
@@ -1700,14 +1857,21 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
-        s.visit_mut_children_with(self);
+        let ctx = Ctx {
+            executed_multiple_time: true,
+            ..self.ctx
+        };
 
-        self.optimize_init_of_for_stmt(s);
+        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        self.drop_if_break(s);
+        self.with_ctx(ctx).merge_for_if_break(s);
+
+        self.with_ctx(ctx).optimize_init_of_for_stmt(s);
+
+        self.with_ctx(ctx).drop_if_break(s);
 
         if let Some(test) = &mut s.test {
-            self.optimize_expr_in_bool_ctx(test);
+            self.with_ctx(ctx).optimize_expr_in_bool_ctx(test);
         }
     }
 
@@ -1745,16 +1909,16 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
+        if let Some(body) = &mut n.body {
+            self.merge_if_returns(&mut body.stmts);
+        }
+
         {
             let ctx = Ctx {
                 can_inline_arguments: true,
                 ..self.ctx
             };
             self.with_ctx(ctx).optimize_usage_of_arguments(n);
-        }
-
-        if let Some(body) = &mut n.body {
-            self.merge_if_returns(&mut body.stmts);
         }
 
         self.vars_accessible_without_side_effect = old_vars;
@@ -1773,6 +1937,12 @@ impl VisitMut for Optimizer<'_> {
         n.alt.visit_mut_with(&mut *self.with_ctx(ctx));
 
         self.optimize_expr_in_bool_ctx(&mut n.test);
+
+        self.merge_nested_if(n);
+
+        self.negate_if_else(n);
+
+        self.merge_else_if(n);
     }
 
     fn visit_mut_labeled_stmt(&mut self, n: &mut LabeledStmt) {
@@ -1833,6 +2003,27 @@ impl VisitMut for Optimizer<'_> {
         self.vars_accessible_without_side_effect.clear();
     }
 
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+                Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
+                    *n = None;
+                    return;
+                }
+                _ => {}
+            },
+            Some(VarDeclOrExpr::VarDecl(v)) => {
+                if v.decls.is_empty() {
+                    *n = None;
+                    return;
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_param(&mut self, n: &mut Param) {
         n.visit_mut_children_with(self);
 
@@ -1860,13 +2051,22 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
+        self.drop_undefined_from_return_arg(n);
+
         if let Some(arg) = &mut n.arg {
             self.optimize_in_fn_termiation(&mut **arg);
         }
     }
 
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        n.visit_mut_children_with(self);
+        {
+            let ctx = Ctx {
+                dont_use_negated_iife: true,
+                ..self.ctx
+            };
+
+            n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+        }
 
         {
             let exprs = n
@@ -1879,6 +2079,7 @@ impl VisitMut for Optimizer<'_> {
                         Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
                         _ => false,
                     };
+
                     let can_remove =
                         !last && (idx != 0 || !is_injected_zero || !self.ctx.is_this_aware_callee);
 
@@ -1897,6 +2098,8 @@ impl VisitMut for Optimizer<'_> {
                 .collect::<Vec<_>>();
             n.exprs = exprs;
         }
+
+        self.merge_sequences_in_seq_expr(n);
 
         self.lift_seqs_of_assign(n);
     }
@@ -1932,7 +2135,7 @@ impl VisitMut for Optimizer<'_> {
                             _ => false,
                         }
                     {
-                        log::trace!("Removing 'use strict'");
+                        log::debug!("Removing 'use strict'");
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
@@ -1943,7 +2146,7 @@ impl VisitMut for Optimizer<'_> {
 
                     if can_be_removed {
                         self.changed = true;
-                        log::trace!("Dropping an expression without side effect");
+                        log::debug!("Dropping an expression without side effect");
                         *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                         return;
                     }
@@ -1957,7 +2160,7 @@ impl VisitMut for Optimizer<'_> {
                 Stmt::Debugger(..) => {
                     self.changed = true;
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
-                    log::trace!("drop_debugger: Dropped a debugger statement");
+                    log::debug!("drop_debugger: Dropped a debugger statement");
                     return;
                 }
                 _ => {}
@@ -1997,6 +2200,10 @@ impl VisitMut for Optimizer<'_> {
             top_level: false,
             ..self.ctx
         };
+
+        self.merge_sequences_in_stmts(stmts);
+
+        self.negate_if_terminate(stmts);
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         self.with_ctx(ctx).merge_var_decls(stmts);
@@ -2131,7 +2338,7 @@ impl VisitMut for Optimizer<'_> {
                 if let Some(e) = &var.init {
                     if is_pure_undefined(e) {
                         self.changed = true;
-                        log::trace!("Dropping explicit initializer which evaluates to `undefined`");
+                        log::debug!("Dropping explicit initializer which evaluates to `undefined`");
 
                         var.init = None;
                     }

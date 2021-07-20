@@ -36,7 +36,7 @@ impl Optimizer<'_> {
                 }
 
                 self.changed = true;
-                log::trace!("arguments: Optimizing computed access to arguments");
+                log::debug!("arguments: Optimizing computed access to arguments");
                 member.computed = false;
                 member.prop = Box::new(Expr::Ident(Ident {
                     span: prop.span,
@@ -113,7 +113,7 @@ impl ArgReplacer<'_> {
         let new_args = idx + 1 - self.params.len();
 
         self.changed = true;
-        log::trace!("arguments: Injecting {} parameters", new_args);
+        log::debug!("arguments: Injecting {} parameters", new_args);
         let mut start = self.params.len();
         self.params.extend(
             repeat_with(|| {
@@ -191,7 +191,7 @@ impl VisitMut for ArgReplacer<'_> {
                                     if let Some(param) = self.params.get(idx) {
                                         match &param.pat {
                                             Pat::Ident(i) => {
-                                                log::trace!(
+                                                log::debug!(
                                                     "arguments: Replacing access to arguments to \
                                                      normal reference",
                                                 );

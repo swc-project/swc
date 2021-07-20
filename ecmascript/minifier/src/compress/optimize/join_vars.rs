@@ -46,7 +46,7 @@ impl Optimizer<'_> {
             }
         }
 
-        log::trace!("join_vars: Joining variables");
+        log::debug!("join_vars: Joining variables");
         self.changed = true;
 
         let mut cur: Option<VarDecl> = None;

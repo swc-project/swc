@@ -36,5 +36,6 @@ swc_ecma_visit = {version = "0.35.0", path = "../visit"}
 ansi_term = "0.12.1"
 anyhow = "1"
 pretty_assertions = "0.6.1"
+swc_node_base = {version = "0.2.0", path = "../../node/base"}
 testing = {version = "0.12.0", path = "../../testing"}
 walkdir = "2.3.1"

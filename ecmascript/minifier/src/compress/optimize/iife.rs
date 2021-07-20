@@ -13,12 +13,12 @@ use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
-use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::DestructuringFinder;
 use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
+use swc_ecma_utils::{find_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::VisitWith;
 
@@ -26,7 +26,7 @@ use swc_ecma_visit::VisitWith;
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
     pub(super) fn negate_iife_ignoring_ret(&mut self, e: &mut Expr) {
-        if !self.options.negate_iife || self.ctx.in_bang_arg {
+        if !self.options.negate_iife || self.ctx.in_bang_arg || self.ctx.dont_use_negated_iife {
             return;
         }
 
@@ -42,7 +42,7 @@ impl Optimizer<'_> {
 
         match callee {
             Expr::Fn(..) => {
-                log::trace!("negate_iife: Negating iife");
+                log::debug!("negate_iife: Negating iife");
                 *e = Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
@@ -54,37 +54,71 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Returns true if it did any work.
+    ///
     ///
     /// - `iife ? foo : bar` => `!iife ? bar : foo`
-    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) {
+    pub(super) fn negate_iife_in_cond(&mut self, e: &mut Expr) -> bool {
         let cond = match e {
             Expr::Cond(v) => v,
-            _ => return,
+            _ => return false,
         };
 
         let test_call = match &mut *cond.test {
             Expr::Call(e) => e,
-            _ => return,
+            _ => return false,
         };
 
         let callee = match &mut test_call.callee {
-            ExprOrSuper::Super(_) => return,
+            ExprOrSuper::Super(_) => return false,
             ExprOrSuper::Expr(e) => &mut **e,
         };
 
         match callee {
             Expr::Fn(..) => {
-                log::trace!("negate_iife: Swapping cons and alt");
+                log::debug!("negate_iife: Swapping cons and alt");
                 cond.test = Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: cond.test.take(),
                 }));
                 swap(&mut cond.cons, &mut cond.alt);
-                return;
+                return true;
             }
-            _ => {}
+            _ => false,
         }
+    }
+
+    pub(super) fn restore_negated_iife(&mut self, cond: &mut CondExpr) {
+        if !self.ctx.dont_use_negated_iife {
+            return;
+        }
+
+        match &mut *cond.test {
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => match &mut **arg {
+                Expr::Call(CallExpr {
+                    span: call_span,
+                    callee: ExprOrSuper::Expr(callee),
+                    args,
+                    ..
+                }) => match &**callee {
+                    Expr::Fn(..) => {
+                        cond.test = Box::new(Expr::Call(CallExpr {
+                            span: *call_span,
+                            callee: callee.take().as_callee(),
+                            args: args.take(),
+                            type_args: Default::default(),
+                        }));
+                        swap(&mut cond.cons, &mut cond.alt);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            },
+            _ => {}
+        };
     }
 }
 
@@ -173,7 +207,7 @@ impl Optimizer<'_> {
                     if let Some(arg) = arg {
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
-                            log::trace!(
+                            log::debug!(
                                 "iife: Trying to inline {}{:?}",
                                 param.id.sym,
                                 param.id.span.ctxt
@@ -181,7 +215,7 @@ impl Optimizer<'_> {
                             vars.insert(param.to_id(), arg.clone());
                         }
                     } else {
-                        log::trace!(
+                        log::debug!(
                             "iife: Trying to inline {}{:?} (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
@@ -194,11 +228,11 @@ impl Optimizer<'_> {
 
             match find_body(callee) {
                 Some(Either::Left(body)) => {
-                    log::debug!("inline: Inlining arguments");
+                    log::info!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
-                    log::debug!("inline: Inlining arguments");
+                    log::info!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
@@ -206,10 +240,11 @@ impl Optimizer<'_> {
         }
     }
 
-    fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, vars: FxHashMap<Id, Box<Expr>>)
     where
         N: VisitMutWith<Self>,
     {
+        log::debug!("inline: inline_vars_in_node");
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx
@@ -291,7 +326,7 @@ impl Optimizer<'_> {
                         let new = self.inline_fn_like(body);
                         if let Some(new) = new {
                             self.changed = true;
-                            log::trace!("inline: Inlining a function call (arrow)");
+                            log::debug!("inline: Inlining a function call (arrow)");
 
                             *e = new;
                         }
@@ -330,7 +365,7 @@ impl Optimizer<'_> {
                     }
                     BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
-                        log::trace!("inline: Inlining a call to an arrow function");
+                        log::debug!("inline: Inlining a call to an arrow function");
                         *e = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
                             exprs: vec![Box::new(make_number(DUMMY_SP, 0.0)), body.take()],
@@ -371,7 +406,7 @@ impl Optimizer<'_> {
                 let new = self.inline_fn_like(body);
                 if let Some(new) = new {
                     self.changed = true;
-                    log::trace!("inline: Inlining a function call");
+                    log::debug!("inline: Inlining a function call");
 
                     *e = new;
                 }

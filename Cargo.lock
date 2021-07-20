@@ -2522,6 +2522,7 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_node_base",
  "testing",
  "walkdir",
 ]
@@ -2940,7 +2941,7 @@ dependencies = [
  "env_logger 0.7.1",
  "log",
  "once_cell",
- "pretty_assertions 0.6.1",
+ "pretty_assertions 0.7.2",
  "regex",
  "swc_common",
  "testing_macros",

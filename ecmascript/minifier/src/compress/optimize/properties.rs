@@ -87,7 +87,7 @@ impl Optimizer<'_> {
                     Prop::Shorthand(_) => {}
                     Prop::KeyValue(p) => {
                         if prop_name_eq(&p.key, &key.sym) {
-                            log::trace!("properties: Inlining a key-value property `{}`", key.sym);
+                            log::debug!("properties: Inlining a key-value property `{}`", key.sym);
                             self.changed = true;
                             *e = *p.value.clone();
                             return;

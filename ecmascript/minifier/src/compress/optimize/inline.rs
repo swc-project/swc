@@ -1,5 +1,6 @@
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
+use crate::util::idents_used_by;
 
 use super::Optimizer;
 use swc_atoms::js_word;
@@ -64,6 +65,15 @@ impl Optimizer<'_> {
                         return;
                     }
 
+                    if !usage.is_fn_local {
+                        match &**init {
+                            Expr::Lit(..) => {}
+                            _ => {
+                                return;
+                            }
+                        }
+                    }
+
                     if !usage.reassigned {
                         match &**init {
                             Expr::Fn(..) | Expr::Arrow(..) => {
@@ -95,11 +105,8 @@ impl Optimizer<'_> {
                         && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
-                                Lit::Str(_)
-                                | Lit::Bool(_)
-                                | Lit::Null(_)
-                                | Lit::Num(_)
-                                | Lit::BigInt(_) => true,
+                                Lit::Str(_) => false,
+                                Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
@@ -114,7 +121,7 @@ impl Optimizer<'_> {
                                 _ => true,
                             }
                         {
-                            log::trace!(
+                            log::debug!(
                                 "inline: Decided to inline '{}{:?}' because it's simple",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -122,7 +129,7 @@ impl Optimizer<'_> {
 
                             self.lits.insert(i.to_id(), init.take());
                         } else {
-                            log::trace!(
+                            log::debug!(
                                 "inline: Decided to copy '{}{:?}' because it's simple",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -170,6 +177,15 @@ impl Optimizer<'_> {
                             _ => {}
                         }
 
+                        if usage.used_in_loop {
+                            match &**init {
+                                Expr::Lit(..) | Expr::Ident(..) => {}
+                                _ => {
+                                    return;
+                                }
+                            }
+                        }
+
                         if init.may_have_side_effects() {
                             if !self
                                 .vars_accessible_without_side_effect
@@ -180,7 +196,7 @@ impl Optimizer<'_> {
                             }
                         }
 
-                        log::trace!(
+                        log::debug!(
                             "inline: Decided to inline '{}{:?}' because it's used only once",
                             i.id.sym,
                             i.id.span.ctxt
@@ -210,6 +226,10 @@ impl Optimizer<'_> {
                     _ => {}
                 },
 
+                Stmt::Try(TryStmt { block, .. }) => {
+                    return self.is_fn_body_simple_enough_to_inline(block)
+                }
+
                 _ => {}
             }
         }
@@ -234,7 +254,7 @@ impl Optimizer<'_> {
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if !usage.reassigned {
-                log::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
+                log::debug!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
                         self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -295,7 +315,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if usage.reassigned {
+            if usage.reassigned || usage.inline_prevented {
                 return;
             }
 
@@ -305,7 +325,7 @@ impl Optimizer<'_> {
                     match &f.function.body {
                         Some(body) => {
                             if self.is_fn_body_simple_enough_to_inline(body) {
-                                log::trace!(
+                                log::debug!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
                                     f.ident.sym,
@@ -351,14 +371,14 @@ impl Optimizer<'_> {
                 self.changed = true;
                 match &decl {
                     Decl::Class(c) => {
-                        log::trace!(
+                        log::debug!(
                             "inline: Decided to inline class '{}{:?}' as it's used only once",
                             c.ident.sym,
                             c.ident.span.ctxt
                         );
                     }
                     Decl::Fn(f) => {
-                        log::trace!(
+                        log::debug!(
                             "inline: Decided to inline function '{}{:?}' as it's used only once",
                             f.ident.sym,
                             f.ident.span.ctxt
@@ -399,10 +419,28 @@ impl Optimizer<'_> {
                     return;
                 }
                 //
-                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                if let Some(value) = self
+                    .lits
+                    .get(&i.to_id())
+                    .and_then(|v| {
+                        // Prevent infinite recursion.
+                        let ids = idents_used_by(&**v);
+                        if ids.contains(&i.to_id()) {
+                            None
+                        } else {
+                            Some(v)
+                        }
+                    })
+                    .cloned()
+                {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
                             if self.ctx.in_lhs_of_assign {
+                                return;
+                            }
+                        }
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
                                 return;
                             }
                         }
@@ -410,7 +448,7 @@ impl Optimizer<'_> {
                     }
 
                     self.changed = true;
-                    log::trace!("inline: Replacing a variable with cheap expression");
+                    log::debug!("inline: Replacing a variable with cheap expression");
 
                     *e = *value;
                 } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
@@ -418,8 +456,17 @@ impl Optimizer<'_> {
                         return;
                     }
 
+                    match &**value {
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    }
+
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "inline: Replacing '{}{:?}' with an expression",
                         i.sym,
                         i.span.ctxt

@@ -13,11 +13,13 @@ use std::fmt;
 use std::fmt::Debug;
 use std::fmt::Display;
 use std::fmt::Formatter;
-use swc_common::chain;
+use std::time::Instant;
 use swc_common::comments::Comments;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeat;
 use swc_common::pass::Repeated;
+use swc_common::sync::Lrc;
+use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
@@ -35,6 +37,7 @@ mod hoist_decls;
 mod optimize;
 
 pub fn compressor<'a>(
+    cm: Lrc<SourceMap>,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + JsPass {
@@ -43,6 +46,7 @@ pub fn compressor<'a>(
         visitor: drop_console(),
     };
     let compressor = Compressor {
+        cm,
         comments,
         options,
         pass: 0,
@@ -57,6 +61,7 @@ pub fn compressor<'a>(
 }
 
 struct Compressor<'a> {
+    cm: Lrc<SourceMap>,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
     changed: bool,
@@ -127,31 +132,36 @@ impl VisitMut for Compressor<'_> {
     fn visit_mut_module(&mut self, n: &mut Module) {
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
-            log::trace!("===== Done =====\n{}", done);
+            log::debug!("===== Done =====\n{}", done);
             return;
         }
 
         // Temporary
-        if self.pass > 10 {
-            panic!("Infinite loop detected")
+        if self.pass > 30 {
+            panic!("Infinite loop detected (current pass = {})", self.pass)
         }
 
         let start = if cfg!(feature = "debug") {
             let start = dump(&*n);
-            log::trace!("===== Start =====\n{}", start);
+            log::debug!("===== Start =====\n{}", start);
             start
         } else {
             String::new()
         };
 
         {
+            log::info!(
+                "compress: Running expression simplifier (pass = {})",
+                self.pass
+            );
+
             let mut visitor = expr_simplifier();
-            n.map_with_mut(|m| m.fold_with(&mut visitor));
+            n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
             if visitor.changed() {
-                log::trace!("compressor: Simplified expressions");
+                log::debug!("compressor: Simplified expressions");
                 if cfg!(feature = "debug") {
-                    log::trace!("===== Simplified =====\n{}", dump(&*n));
+                    log::debug!("===== Simplified =====\n{}", dump(&*n));
                 }
             }
 
@@ -169,12 +179,25 @@ impl VisitMut for Compressor<'_> {
         }
 
         {
+            log::info!("compress: Running optimizer (pass = {})", self.pass);
+
+            let start_time = Instant::now();
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = optimizer(self.options.clone(), self.comments);
+            let mut visitor = optimizer(self.cm.clone(), self.options, self.comments);
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
+
+            let end_time = Instant::now();
+
+            log::info!(
+                "compress: Optimizer took {:?} (pass = {})",
+                end_time - start_time,
+                self.pass
+            );
+            // let done = dump(&*n);
+            // log::debug!("===== Result =====\n{}", done);
         }
 
         if self.options.conditionals || self.options.dead_code {
@@ -191,7 +214,7 @@ impl VisitMut for Compressor<'_> {
                 let simplified = dump(&*n);
 
                 if start != simplified {
-                    log::trace!(
+                    log::debug!(
                         "===== Removed dead branches =====\n{}\n==== ===== ===== ===== ======\n{}",
                         start,
                         simplified
@@ -205,13 +228,6 @@ impl VisitMut for Compressor<'_> {
         n.visit_mut_children_with(self);
 
         invoke(&*n);
-    }
-
-    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
-        // TODO: Skip if node is already optimized.
-        // if (has_flag(node, SQUEEZED)) return node;
-
-        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
