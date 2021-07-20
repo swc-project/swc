@@ -191,6 +191,7 @@ impl VisitMut for Fixer<'_> {
 
                 _ => {}
             },
+
             _ => {}
         }
 
@@ -220,10 +221,7 @@ impl VisitMut for Fixer<'_> {
         };
 
         match &mut *expr.left {
-            Expr::Bin(BinExpr {
-                op: op!("??") | op!("in"),
-                ..
-            }) => {
+            Expr::Bin(BinExpr { op: op!("??"), .. }) => {
                 self.wrap(&mut expr.left);
             }
 
