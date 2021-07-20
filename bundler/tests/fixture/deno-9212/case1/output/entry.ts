@@ -835,7 +835,8 @@ var ia = Bn((re1)=>{
             var n = t.stack.trim().match(/\n( *(at )?)/);
             wl = n && n[1] || "";
         }
-        return `\n` + wl + e;
+        return `
+` + wl + e;
     }
     var kl = !1;
     function Gt(e, n) {
@@ -876,9 +877,12 @@ var ia = Bn((re1)=>{
             }
         } catch (s) {
             if (s && r && typeof s.stack == "string") {
-                for(var l = s.stack.split(`\n`), i = r.stack.split(`\n`), o = l.length - 1, u = i.length - 1; 1 <= o && 0 <= u && l[o] !== i[u];)u--;
+                for(var l = s.stack.split(`
+`), i = r.stack.split(`
+`), o = l.length - 1, u = i.length - 1; 1 <= o && 0 <= u && l[o] !== i[u];)u--;
                 for(; 1 <= o && 0 <= u; o--, u--)if (l[o] !== i[u]) {
-                    if (o !== 1 || u !== 1) do if (o--, u--, 0 > u || l[o] !== i[u]) return `\n` + l[o].replace(" at new ", " at ");
+                    if (o !== 1 || u !== 1) do if (o--, u--, 0 > u || l[o] !== i[u]) return `
+` + l[o].replace(" at new ", " at ");
                     while (1 <= o && 0 <= u)
                     break;
                 }
@@ -4358,7 +4362,9 @@ var ia = Bn((re1)=>{
             while (r)
             var l = t;
         } catch (i) {
-            l = `\nError generating stack: ` + i.message + `\n` + i.stack;
+            l = `
+Error generating stack: ` + i.message + `
+` + i.stack;
         }
         return {
             value: e,
@@ -5016,7 +5022,9 @@ var ia = Bn((re1)=>{
                             }
                             h = h.return;
                         }while (h !== null)
-                        s = Error((dn(u.type) || "A React component") + ` suspended while rendering, but no fallback UI was specified.\n\nAdd a <Suspense fallback=...> component higher in the tree to provide a loading indicator or placeholder to display.`);
+                        s = Error((dn(u.type) || "A React component") + ` suspended while rendering, but no fallback UI was specified.
+
+Add a <Suspense fallback=...> component higher in the tree to provide a loading indicator or placeholder to display.`);
                     }
                     H !== 5 && (H = 2), s = Ai(s, u), h = o;
                     do {
