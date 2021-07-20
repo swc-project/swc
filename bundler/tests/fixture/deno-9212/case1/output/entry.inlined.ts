@@ -1612,7 +1612,7 @@ var ia = Bn((re1)=>{
     }, Hl = {
     }, bo = {
     };
-    we1 && (bo = document.createElement("div").style, ("AnimationEvent" in window) || (delete yn.animationend.animation, delete yn.animationiteration.animation, delete yn.animationstart.animation), ("TransitionEvent" in window) || delete yn.transitionend.transition);
+    we1 && (bo = document.createElement("div").style, "AnimationEvent" in window || (delete yn.animationend.animation, delete yn.animationiteration.animation, delete yn.animationstart.animation), "TransitionEvent" in window || delete yn.transitionend.transition);
     function lr(e) {
         if (Hl[e]) return Hl[e];
         if (!yn[e]) return e;
@@ -2249,7 +2249,7 @@ var ia = Bn((re1)=>{
     var Df = we1 && "documentMode" in document && 11 >= document.documentMode, xn = null, ti = null, mt = null, ri = !1;
     function Pu(e, n, t) {
         var r = t.window === t ? t.document : t.nodeType === 9 ? t : t.ownerDocument;
-        ri || xn == null || xn !== Jt(r) || (r = xn, ("selectionStart" in r) && ni(r) ? r = {
+        ri || xn == null || xn !== Jt(r) || (r = xn, "selectionStart" in r && ni(r) ? r = {
             start: r.selectionStart,
             end: r.selectionEnd
         } : (r = (r.ownerDocument && r.ownerDocument.defaultView || window).getSelection(), r = {
