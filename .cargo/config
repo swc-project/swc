@@ -12,7 +12,6 @@ rustdocflags = [
 [target.aarch64-apple-darwin]
 rustflags = [
     "--cfg", "procmacro2_semver_exempt",
-    "-C", "target-feature=+sse2,+aes"
 ]
 
 [target.aarch64-unknown-linux-gnu]

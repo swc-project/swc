@@ -72,12 +72,12 @@ jobs:
           choco install nodejs-lts --x86 -y --force
           refreshenv
 
-      - name: Set 32bit NodeJS path
+      - name: Set 32bit Node.js path
         run: |
           echo "C:\\Program Files (x86)\\nodejs" >> $GITHUB_PATH
         shell: bash
 
-      - name: NodeJS arch
+      - name: Node.js arch
         run: node -e "console.log(process.arch)"
 
       - name: Install Rust
@@ -215,7 +215,13 @@ jobs:
         run: npm i
 
       - name: Cross build aarch64
-        run: yarn build --target aarch64-apple-darwin
+        run: |
+          sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
+          export CC=$(xcrun -f clang);
+          export CXX=$(xcrun -f clang++);
+          SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
+          export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
+          yarn build --target aarch64-apple-darwin
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
