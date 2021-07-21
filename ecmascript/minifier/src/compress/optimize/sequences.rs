@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
+use retain_mut::RetainMut;
 use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use std::mem::take;
@@ -610,22 +611,26 @@ impl Optimizer<'_> {
             }
         }
 
-        for idx in 1..stmts.len() {
-            let (a1, a2) = stmts.split_at_mut(idx - 1);
+        let mut exprs = vec![];
 
-            if a1.is_empty() || a2.is_empty() {
-                continue;
-            }
-
-            let e1 = first_expr(a1.last_mut().unwrap());
-            let e2 = first_expr(&mut a2[0]);
-
-            if let Some(e1) = e1 {
-                if let Some(e2) = e2 {
-                    self.merge_sequential_expr(e1, e2);
-                }
-            }
+        for stmt in stmts.iter_mut() {
+            exprs.extend(exprs_of(stmt))
         }
+
+        self.merge_sequences_in_exprs(&mut exprs);
+
+        stmts.retain_mut(|stmt| match stmt {
+            Stmt::Decl(Decl::Var(v)) => {
+                v.decls.retain(|decl| match decl.init.as_deref() {
+                    Some(Expr::Invalid(..)) => false,
+                    _ => true,
+                });
+
+                !v.decls.is_empty()
+            }
+            Stmt::Expr(s) if s.expr.is_invalid() => false,
+            _ => true,
+        });
     }
 
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
