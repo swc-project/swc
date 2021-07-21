@@ -467,7 +467,27 @@ impl VisitMut for VarMover {
             return;
         }
 
+        let has_init = d.iter().any(|v| v.init.is_some());
+
+        if has_init {
+            let mut new = vec![];
+
+            for v in d.take() {
+                if v.init.is_some() {
+                    new.push(v)
+                } else {
+                    self.vars.push(v)
+                }
+            }
+
+            *d = new;
+        }
+
         let mut new = vec![];
+
+        if has_init {
+            new.extend(self.vars.drain(..));
+        }
 
         for v in d.take() {
             if v.init.is_some() {
