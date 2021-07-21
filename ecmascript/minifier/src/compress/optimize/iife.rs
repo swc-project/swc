@@ -202,6 +202,9 @@ impl Optimizer<'_> {
                         if usage.reassigned {
                             continue;
                         }
+                        if usage.ref_count > 1 {
+                            continue;
+                        }
                     }
 
                     if let Some(arg) = arg {
@@ -228,11 +231,11 @@ impl Optimizer<'_> {
 
             match find_body(callee) {
                 Some(Either::Left(body)) => {
-                    log::info!("inline: Inlining arguments");
+                    log::debug!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
-                    log::info!("inline: Inlining arguments");
+                    log::debug!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
