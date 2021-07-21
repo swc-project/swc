@@ -202,6 +202,10 @@ impl Optimizer<'_> {
                         if usage.reassigned {
                             continue;
                         }
+
+                        if usage.ref_count > 1 {
+                            continue;
+                        }
                     }
 
                     if let Some(arg) = arg {
