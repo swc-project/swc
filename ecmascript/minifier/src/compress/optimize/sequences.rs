@@ -2,6 +2,7 @@ use super::Optimizer;
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
+use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -592,24 +593,20 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        fn first_expr(s: &mut Stmt) -> Option<&mut Expr> {
+        fn exprs_of(s: &mut Stmt) -> Vec<&mut Expr> {
             match s {
-                Stmt::Expr(e) => Some(&mut *e.expr),
-                Stmt::Block(block) => {
-                    if block.stmts.is_empty() {
-                        return None;
-                    }
-
-                    first_expr(&mut block.stmts[0])
-                }
+                Stmt::Expr(e) => vec![&mut *e.expr],
                 Stmt::Decl(Decl::Var(v)) => {
                     if v.decls.is_empty() {
-                        return None;
+                        return Default::default();
                     }
 
-                    v.decls.iter_mut().find_map(|d| d.init.as_deref_mut())
+                    v.decls
+                        .iter_mut()
+                        .filter_map(|d| d.init.as_deref_mut())
+                        .collect()
                 }
-                _ => None,
+                _ => Default::default(),
             }
         }
 
@@ -631,32 +628,44 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
+        self.normalize_sequences(e);
+
+        self.merge_sequences_in_exprs(&mut e.exprs);
+
+        e.exprs.retain(|e| !e.is_invalid());
+    }
+
     /// Calls `merge_sequential_expr`.
     ///
     ///
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
-    pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
-        self.normalize_sequences(e);
-
-        for idx in 0..e.exprs.len() {
-            for j in idx..e.exprs.len() {
-                let (a1, a2) = e.exprs.split_at_mut(idx);
+    pub(super) fn merge_sequences_in_exprs<E>(&mut self, exprs: &mut Vec<E>)
+    where
+        E: BorrowMut<Expr>,
+    {
+        for idx in 0..exprs.len() {
+            for j in idx..exprs.len() {
+                let (a1, a2) = exprs.split_at_mut(idx);
 
                 if a1.is_empty() || a2.is_empty() {
                     break;
                 }
 
-                if self.merge_sequential_expr(a1.last_mut().unwrap(), &mut a2[j - idx]) {
+                if self.merge_sequential_expr(
+                    a1.last_mut().unwrap().borrow_mut(),
+                    &mut a2[j - idx].borrow_mut(),
+                ) {
                     break;
                 }
 
-                if !can_skip_expr_for_seqs(&*a2[j - idx]) {
+                if !can_skip_expr_for_seqs(&*a2[j - idx].borrow()) {
                     if cfg!(feature = "debug") && false {
                         log::trace!(
                             "Cannot skip: {} from {}",
-                            dump(&*a2[j - idx]),
-                            dump(a1.last().unwrap())
+                            dump(&*a2[j - idx].borrow()),
+                            dump(a1.last().unwrap().borrow())
                         );
                     }
 
@@ -664,8 +673,6 @@ impl Optimizer<'_> {
                 }
             }
         }
-
-        e.exprs.retain(|e| !e.is_invalid());
     }
 
     /// Returns true if something is modified.
