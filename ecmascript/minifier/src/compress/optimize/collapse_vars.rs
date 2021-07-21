@@ -236,6 +236,8 @@ impl Optimizer<'_> {
                         } else {
                             unreachable!()
                         }
+
+                        new.push(T::from_stmt(Stmt::Decl(Decl::Var(v))));
                     }
                     _ => {
                         stmt.visit_mut_with(&mut Inliner {
