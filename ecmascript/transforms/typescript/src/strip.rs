@@ -1216,6 +1216,13 @@ impl Visit for Strip {
         }
     }
 
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
+    }
+
     fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
         let old = self.non_top_level;
         self.non_top_level = false;
