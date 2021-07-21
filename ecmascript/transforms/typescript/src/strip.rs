@@ -1129,12 +1129,6 @@ impl Strip {
 }
 
 impl Visit for Strip {
-    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
-        if !self.in_var_pat {
-            n.visit_children_with(self)
-        }
-    }
-
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
         if !self.in_var_pat {
             n.key.visit_with(n, self);
@@ -1142,27 +1136,14 @@ impl Visit for Strip {
         n.value.visit_with(n, self);
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
-        match n {
-            PropName::Computed(e) => e.visit_with(n, self),
-            _ => {}
-        }
-    }
-
     fn visit_assign_prop(&mut self, n: &AssignProp, _: &dyn Node) {
         n.value.visit_with(n, self);
     }
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
-        let is_type_only_export = self.is_type_only_export;
-        let entry = self
-            .scope
-            .referenced_idents
-            .entry((n.sym.clone(), n.span.ctxt()))
-            .or_default();
-        entry.has_concrete |= !is_type_only_export;
-
-        n.visit_children_with(self);
+    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
+        if !self.in_var_pat {
+            n.visit_children_with(self)
+        }
     }
 
     fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
@@ -1205,25 +1186,16 @@ impl Visit for Strip {
         self.non_top_level = old;
     }
 
-    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
-        let old = self.non_top_level;
-        self.non_top_level = true;
-        n.iter()
-            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
-        self.non_top_level = old;
-    }
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        let is_type_only_export = self.is_type_only_export;
+        let entry = self
+            .scope
+            .referenced_idents
+            .entry((n.sym.clone(), n.span.ctxt()))
+            .or_default();
+        entry.has_concrete |= !is_type_only_export;
 
-    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
-        let old = self.non_top_level;
-        self.non_top_level = false;
-        n.iter().for_each(|n| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = n {
-                self.is_type_only_export = export.type_only;
-            }
-            n.visit_with(&Invalid { span: DUMMY_SP }, self);
-            self.is_type_only_export = false;
-        });
-        self.non_top_level = old;
+        n.visit_children_with(self);
     }
 
     fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
@@ -1242,6 +1214,41 @@ impl Visit for Strip {
                 ImportSpecifier::Namespace(ref import) => store!(import.local),
             }
         }
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = false;
+        n.iter().for_each(|n| {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = n {
+                self.is_type_only_export = export.type_only;
+            }
+            n.visit_with(&Invalid { span: DUMMY_SP }, self);
+            self.is_type_only_export = false;
+        });
+        self.non_top_level = old;
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(e) => e.visit_with(n, self),
+            _ => {}
+        }
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        n.iter()
+            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        self.non_top_level = old;
     }
 
     fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
