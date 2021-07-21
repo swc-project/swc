@@ -142,6 +142,10 @@ impl Optimizer<'_> {
                         return;
                     }
 
+                    if self.ctx.inline_as_assignment {
+                        return;
+                    }
+
                     // Single use => inlined
                     if is_inline_enabled
                         && !should_preserve
@@ -308,6 +312,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.inline_as_assignment {
+            return;
+        }
+
         if let Some(usage) = self
             .data
             .as_ref()
@@ -388,6 +396,7 @@ impl Optimizer<'_> {
                     }
                     _ => {}
                 }
+
                 self.vars_for_inlining.insert(
                     i.to_id(),
                     match decl.take() {
