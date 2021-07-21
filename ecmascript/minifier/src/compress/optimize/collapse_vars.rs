@@ -386,8 +386,6 @@ impl Visit for VarWithOutInitCounter {
         }
     }
 
-    fn visit_var_decl_or_expr(&mut self, _: &VarDeclOrExpr, _: &dyn Node) {}
-
     fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat, _: &dyn Node) {}
 }
 
@@ -425,6 +423,19 @@ impl VisitMut for VarCollector {
         }
     }
 
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            Some(VarDeclOrExpr::VarDecl(var)) => {
+                if var.decls.is_empty() {
+                    *n = None;
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         s.visit_mut_children_with(self);
 
@@ -443,8 +454,6 @@ impl VisitMut for VarCollector {
         v.visit_mut_children_with(self);
         self.var_decl_kind = old;
     }
-
-    fn visit_mut_var_decl_or_expr(&mut self, _: &mut VarDeclOrExpr) {}
 
     fn visit_mut_var_decl_or_pat(&mut self, _: &mut VarDeclOrPat) {}
 
