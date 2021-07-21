@@ -903,10 +903,10 @@
                     i < l;
                     i++
                 )
-                    (model = models[i] = this.get(
-                        models[i]
-                    )) &&
-          (delete this._byId[model.id],
+                    model &&
+          (delete this._byId[(model = models[i] = this.get(
+              models[i]
+          )).id],
           delete this._byId[model.cid],
           (index = this.indexOf(
               model
@@ -1237,14 +1237,13 @@
             fetch: function (
                 options
             ) {
-                (options = options
-                    ? _.clone(
-                        options
-                    )
-                    : {
-                    }),
                 void 0 === options.parse && (options.parse = !0);
-                var success = options.success,
+                var success = (options = options
+                        ? _.clone(
+                            options
+                        )
+                        : {
+                        }).success,
                     collection = this;
                 return (
                     (options.success = function (

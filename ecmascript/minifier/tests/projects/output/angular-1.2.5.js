@@ -639,7 +639,7 @@
             "$" !== key.charAt(
                 0
             ) &&
-            void 0 !== o2[key] &&
+            undefined !== o2[key] &&
             !isFunction(
                 o2[key]
             )
@@ -733,7 +733,7 @@
             "string" == typeof key && "$" === key.charAt(
                 0
             )
-                ? (val = void 0)
+                ? (val = undefined)
                 : isWindow(
                     value
                 )
@@ -880,6 +880,59 @@
                 }
             ),
             obj
+        );
+    }
+    function toKeyValue(
+        obj
+    ) {
+        var parts = [];
+        return (
+            forEach(
+                obj,
+                function (
+                    value, key
+                ) {
+                    isArray(
+                        value
+                    )
+                        ? forEach(
+                            value,
+                            function (
+                                arrayValue
+                            ) {
+                                parts.push(
+                                    encodeUriQuery(
+                                        key,
+                                        !0
+                                    ) +
+                  (!0 === arrayValue
+                      ? ""
+                      : "=" + encodeUriQuery(
+                          arrayValue,
+                          !0
+                      )),
+                                );
+                            }
+                        )
+                        : parts.push(
+                            encodeUriQuery(
+                                key,
+                                !0
+                            ) +
+                (!0 === value
+                    ? ""
+                    : "=" + encodeUriQuery(
+                        value,
+                        !0
+                    )),
+                        );
+                }
+            ),
+            parts.length
+                ? parts.join(
+                    "&"
+                )
+                : ""
         );
     }
     function encodeUriSegment(
@@ -1571,6 +1624,10 @@
                 "offargs",
                 "jqLite#off() does not support the `selector` argument",
             );
+        var events = jqLiteExpandoStore(
+            element,
+            "events"
+        );
         jqLiteExpandoStore(
             element,
             "handle"
@@ -1634,7 +1691,7 @@
             element
         )),
             delete jqCache[expandoId],
-            (element[jqName] = void 0);
+            (element[jqName] = undefined);
         }
     }
     function jqLiteExpandoStore(
@@ -1682,13 +1739,11 @@
             data[key] = value;
         else {
             if (!keyDefined) return data;
-            {
-                if (isSimpleGetter) return data && data[key];
-                extend(
-                    data,
-                    key
-                );
-            }
+            if (isSimpleGetter) return data && data[key];
+            extend(
+                data,
+                key
+            );
         }
     }
     function jqLiteHasClass(
@@ -1819,7 +1874,7 @@
             ? name
             : [name,]; element.length; ) {
             for (var i = 0, ii = names.length; i < ii; i++)
-                if (void 0 !== (value = element.data(
+                if (undefined !== (value = element.data(
                     names[i]
                 ))) return value;
             element = element.parent(
@@ -1974,7 +2029,7 @@
                 ? "function" == typeof (key = obj.$$hashKey)
                     ? (key = obj.$$hashKey(
                     ))
-                    : void 0 === key && (key = obj.$$hashKey = nextUid(
+                    : key === undefined && (key = obj.$$hashKey = nextUid(
                     ))
                 : (key = obj),
             objType + ":" + key
@@ -2893,7 +2948,7 @@
         ) {
             var cookieLength, cookieArray, cookie, i, index;
             if (name)
-                void 0 === value
+                value === undefined
                     ? (rawDocument.cookie =
                 escape(
                     name
@@ -2934,18 +2989,18 @@
                         (index = (cookie = cookieArray[i]).indexOf(
                             "="
                         )) > 0 &&
-                ((name = unescape(
-                    cookie.substring(
-                        0,
-                        index
-                    )
-                )),
-                void 0 === lastCookies[name] &&
-                  (lastCookies[name] = unescape(
+                undefined ===
+                  lastCookies[(name = unescape(
                       cookie.substring(
-                          index + 1
+                          0,
+                          index
                       )
-                  )));
+                  ))] &&
+                (lastCookies[name] = unescape(
+                    cookie.substring(
+                        index + 1
+                    )
+                ));
                 return lastCookies;
             }
         }),
@@ -3474,7 +3529,7 @@
                     [],
                     (attrs = new Attributes(
                     )),
-                    0 === i ? maxPriority : void 0,
+                    0 === i ? maxPriority : undefined,
                     ignoreDirective,
                 )).length
                     ? applyDirectivesToNode(
@@ -3561,7 +3616,7 @@
                           childLinkFn(
                               scope,
                               node.childNodes,
-                              void 0,
+                              undefined,
                               boundTranscludeFn,
                           );
                         }
@@ -3637,10 +3692,7 @@
                                 attrEndName = !1;
                             (attr = nAttrs[j]),
                             (msie && !(msie >= 8) && !attr.specified) ||
-                      ((ngAttrName = directiveNormalize(
-                          (name = attr.name)
-                      )),
-                      NG_ATTR_BINDING.test(
+                      (NG_ATTR_BINDING.test(
                           ngAttrName
                       ) &&
                         (name = snake_case(
@@ -3650,10 +3702,13 @@
                             "-"
                         )),
                       ngAttrName ===
-                        ngAttrName.replace(
+                        (ngAttrName = directiveNormalize(
+                            (name = attr.name),
+                        )).replace(
                             /(Start|End)$/,
                             ""
-                        ) + "Start" &&
+                        ) +
+                          "Start" &&
                         ((attrStartName = name),
                         (attrEndName = name.substr(
                             0,
@@ -3896,15 +3951,14 @@
                                 "^" == value && (retrievalMethod = "inheritedData"),
                                 (optional = optional || "?" == value);
                             if (
-                                ((value = null),
-                                elementControllers &&
+                                (elementControllers &&
                     "data" === retrievalMethod &&
                     (value = elementControllers[require]),
                                 !(value =
-                    value ||
+                    ((value = null),
                     $element[retrievalMethod](
                         "$" + require + "Controller"
-                    )) &&
+                    ))) &&
                     !optional)
                             )
                                 throw $compileMinErr(
@@ -4028,10 +4082,7 @@
                                         break;
                                     case "=":
                                         if (!optional || attrs[attrName]) {
-                                            (compare = (parentGet = $parse(
-                                                attrs[attrName]
-                                            ))
-                                                .literal
+                                            (compare = parentGet.literal
                                                 ? equals
                                                 : function (
                                                     a, b
@@ -4039,7 +4090,9 @@
                                                     return a === b;
                                                 }),
                                             (parentSet =
-                                parentGet.assign ||
+                                (parentGet = $parse(
+                                    attrs[attrName]
+                                )).assign ||
                                 function (
                                 ) {
                                     throw (
@@ -4124,7 +4177,7 @@
                       var transcludeControllers;
                       return (
                           arguments.length < 2 &&
-                        ((cloneAttachFn = scope), (scope = void 0)),
+                        ((cloneAttachFn = scope), (scope = undefined)),
                           hasElementTranscludeDirective &&
                         (transcludeControllers = elementControllers),
                           boundTranscludeFn(
@@ -4151,11 +4204,10 @@
                                     $attrs: attrs,
                                     $transclude: transcludeFn,
                                 };
-                            "@" == (controller = directive.controller) &&
-                        (controller = attrs[directive.name]),
+                            "@" == controller && (controller = attrs[directive.name]),
                             (controllerInstance = $controller(
-                                controller,
-                                locals
+                                (controller = directive.controller),
+                                locals,
                             )),
                             (elementControllers[
                                 directive.name
@@ -4206,7 +4258,7 @@
                     childLinkFn(
                         scopeToChild,
                         linkNode.childNodes,
-                        void 0,
+                        undefined,
                         boundTranscludeFn,
                     ),
                             i = postLinkFns.length - 1;
@@ -4247,7 +4299,7 @@
                       attrStart,
                       attrEnd
                   )),
-                            ($template = void 0),
+                            ($template = undefined),
                             terminalPriority > directive.priority)
                         )
                             break;
@@ -4280,7 +4332,7 @@
                   ),
                   (controllerDirectives[directiveName] = directive)),
                             (directiveValue = directive.transclude) &&
-                  (((hasTranscludeDirective = !0),
+                  ((hasTranscludeDirective = !0),
                   directive.$$tlb ||
                     (assertNoDuplicate(
                         "transclusion",
@@ -4289,7 +4341,7 @@
                         $compileNode,
                     ),
                     (nonTlbTranscludeDirective = directive)),
-                  "element" == directiveValue)
+                  "element" == directiveValue
                       ? ((hasElementTranscludeDirective = !0),
                       (terminalPriority = directive.priority),
                       ($template = groupScan(
@@ -4360,12 +4412,6 @@
                             ) {
                                 if (
                                     ((replaceDirective = directive),
-                                    (compileNode = ($template = jqLite(
-                                        "<div>" + trim(
-                                            directiveValue
-                                        ) + "</div>",
-                                    ).contents(
-                                    ))[0]),
                                     1 != $template.length || 1 !== compileNode.nodeType)
                                 )
                                     throw $compileMinErr(
@@ -4377,7 +4423,12 @@
                                 replaceWith(
                                     jqCollection,
                                     $compileNode,
-                                    compileNode
+                                    (compileNode = ($template = jqLite(
+                                        "<div>" + trim(
+                                            directiveValue
+                                        ) + "</div>",
+                                    ).contents(
+                                    ))[0]),
                                 );
                                 var newTemplateAttrs = {
                                         $attr: {
@@ -4418,7 +4469,6 @@
                                 directive,
                                 $compileNode,
                             ),
-                            (templateDirective = directive),
                             directive.replace && (replaceDirective = directive),
                             (nodeLinkFn = compileTemplateUrl(
                                 directives.splice(
@@ -4434,7 +4484,7 @@
                                 {
                                     controllerDirectives: controllerDirectives,
                                     newIsolateScopeDirective: newIsolateScopeDirective,
-                                    templateDirective: templateDirective,
+                                    templateDirective: (templateDirective = directive),
                                     nonTlbTranscludeDirective: nonTlbTranscludeDirective,
                                 },
                             )),
@@ -4521,7 +4571,7 @@
                         )
                             try {
                                 (directive = directives[i]),
-                                (void 0 === maxPriority ||
+                                (maxPriority === undefined ||
                       maxPriority > directive.priority) &&
                       -1 != directive.restrict.indexOf(
                           location
@@ -5112,7 +5162,7 @@
                         "src" === key
                     )),
                             !1 !== writeAttr &&
-                    (null == value
+                    (null === value || value === undefined
                         ? this.$$element.removeAttr(
                             attrName
                         )
@@ -5353,7 +5403,7 @@
             headers
         )
             ? headers
-            : void 0;
+            : undefined;
         return function (
             name
         ) {
@@ -5492,7 +5542,7 @@
                             )[
                                 config.xsrfCookieName || defaults.xsrfCookieName
                             ]
-                            : void 0,
+                            : undefined,
                         chain = [
                             function (
                                 config
@@ -5537,7 +5587,7 @@
                                     )
                                 );
                             },
-                            void 0,
+                            undefined,
                         ],
                         promise = $q.when(
                             config
@@ -6697,6 +6747,9 @@
         }),
         (this.$$compose = function (
         ) {
+            var search = toKeyValue(
+                this.$$search
+            );
             (this.$$url =
           encodePath(
               this.$$path
@@ -6715,13 +6768,13 @@
             url
         ) {
             var appUrl, prevAppUrl;
-            if (void 0 !== (appUrl = beginsWith(
+            if (undefined !== (appUrl = beginsWith(
                 appBase,
                 url
             ))) {
                 if (
                     ((prevAppUrl = appUrl),
-                    void 0 !== (appUrl = beginsWith(
+                    undefined !== (appUrl = beginsWith(
                         basePrefix,
                         appUrl
                     )))
@@ -6731,7 +6784,7 @@
                         appUrl
                     ) || appUrl);
                 return appBase + prevAppUrl;
-            } else if (void 0 !== (appUrl = beginsWith(
+            } else if (undefined !== (appUrl = beginsWith(
                 appBaseNoFile,
                 url
             )))
@@ -6792,12 +6845,11 @@
                 var firstPathSegmentMatch,
                     windowsFilePathExp = /^\/?.*?:(\/.*)/;
                 return (0 === url.indexOf(
-                    appBase
-                ) &&
-              (url = url.replace(
-                  appBase,
-                  ""
-              )),
+                    base
+                ) && (url = url.replace(
+                    base,
+                    ""
+                )),
                 windowsFilePathExp.exec(
                     url
                 ))
@@ -6817,6 +6869,9 @@
         }),
         (this.$$compose = function (
         ) {
+            var search = toKeyValue(
+                this.$$search
+            );
             (this.$$url =
           encodePath(
               this.$$path
@@ -7268,7 +7323,7 @@
                     b
                 )
                     ? b
-                    : void 0;
+                    : undefined;
             },
             "-": function (
                 self, locals, a, b
@@ -7524,14 +7579,20 @@
               fullExp
           ),
           "$$v" in obj ||
-            obj.then(
-                function (
-                    val
-                ) {
-                    obj.$$v = val;
-                }
+            (function (
+                promise
+            ) {
+                promise.then(
+                    function (
+                        val
+                    ) {
+                        promise.$$v = val;
+                    }
+                );
+            })(
+                obj
             ),
-          void 0 === obj.$$v && (obj.$$v = {
+          undefined === obj.$$v && (obj.$$v = {
           }),
           (obj = obj.$$v));
         }
@@ -7581,14 +7642,15 @@
                             ? locals
                             : scope;
                     return (
-                        null == pathVal ||
-                ((pathVal = pathVal[key0]) &&
+                        null === pathVal ||
+                pathVal === undefined ||
+                (pathVal &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
                   ),
                   "$$v" in pathVal ||
-                    (((promise = pathVal).$$v = void 0),
+                    (((promise = pathVal).$$v = undefined),
                     promise.then(
                         function (
                             val
@@ -7598,14 +7660,15 @@
                     )),
                   (pathVal = pathVal.$$v)),
                 key1 &&
-                  null != pathVal &&
-                  ((pathVal = pathVal[key1]) &&
+                  null !== pathVal &&
+                  pathVal !== undefined &&
+                  (pathVal &&
                     pathVal.then &&
                     (promiseWarning(
                         fullExp
                     ),
                     "$$v" in pathVal ||
-                      (((promise = pathVal).$$v = void 0),
+                      (((promise = pathVal).$$v = undefined),
                       promise.then(
                           function (
                               val
@@ -7615,14 +7678,15 @@
                       )),
                     (pathVal = pathVal.$$v)),
                   key2 &&
-                    null != pathVal &&
-                    ((pathVal = pathVal[key2]) &&
+                    null !== pathVal &&
+                    pathVal !== undefined &&
+                    (pathVal &&
                       pathVal.then &&
                       (promiseWarning(
                           fullExp
                       ),
                       "$$v" in pathVal ||
-                        (((promise = pathVal).$$v = void 0),
+                        (((promise = pathVal).$$v = undefined),
                         promise.then(
                             function (
                                 val
@@ -7632,14 +7696,15 @@
                         )),
                       (pathVal = pathVal.$$v)),
                     key3 &&
-                      null != pathVal &&
-                      ((pathVal = pathVal[key3]) &&
+                      null !== pathVal &&
+                      pathVal !== undefined &&
+                      (pathVal &&
                         pathVal.then &&
                         (promiseWarning(
                             fullExp
                         ),
                         "$$v" in pathVal ||
-                          (((promise = pathVal).$$v = void 0),
+                          (((promise = pathVal).$$v = undefined),
                           promise.then(
                               function (
                                   val
@@ -7648,14 +7713,15 @@
                               }
                           )),
                         (pathVal = pathVal.$$v)),
-                      key4 && null != pathVal))) &&
-                  (pathVal = pathVal[key4]) &&
+                      key4 && null !== pathVal && pathVal !== undefined))) &&
+                  (pathVal = (pathVal = (pathVal = (pathVal = (pathVal =
+                    pathVal[key0])[key1])[key2])[key3])[key4]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
                   ),
                   "$$v" in pathVal ||
-                    (((promise = pathVal).$$v = void 0),
+                    (((promise = pathVal).$$v = undefined),
                     promise.then(
                         function (
                             val
@@ -7676,19 +7742,22 @@
               )
                   ? locals
                   : scope;
-                    return null == pathVal
+                    return null === pathVal || pathVal === undefined
                         ? pathVal
-                        : ((pathVal = pathVal[key0]),
-                        key1 &&
-                  null != pathVal &&
-                  ((pathVal = pathVal[key1]),
-                  key2 &&
-                    null != pathVal &&
-                    ((pathVal = pathVal[key2]),
-                    key3 &&
-                      null != pathVal &&
-                      ((pathVal = pathVal[key3]), key4 && null != pathVal))))
-                            ? (pathVal = pathVal[key4])
+                        : key1 &&
+                null !== pathVal &&
+                pathVal !== undefined &&
+                key2 &&
+                null !== pathVal &&
+                pathVal !== undefined &&
+                key3 &&
+                null !== pathVal &&
+                pathVal !== undefined &&
+                key4 &&
+                null !== pathVal &&
+                pathVal !== undefined
+                            ? (pathVal = (pathVal = (pathVal = (pathVal = (pathVal =
+                  pathVal[key0])[key1])[key2])[key3])[key4])
                             : pathVal;
                 }
         );
@@ -7722,8 +7791,7 @@
                 var val,
                     i = 0;
                 do
-                    (locals = void 0),
-                    (scope = val = cspSafeGetterFn(
+                    (val = cspSafeGetterFn(
                         pathKeys[i++],
                         pathKeys[i++],
                         pathKeys[i++],
@@ -7734,7 +7802,9 @@
                     )(
                         scope,
                         locals
-                    ));
+                    )),
+                    (locals = undefined),
+                    (scope = val);
                 while (i < pathKeysLength);
                 return val;
             };
@@ -7847,6 +7917,9 @@
                             if (cache.hasOwnProperty(
                                 exp
                             )) return cache[exp];
+                            var lexer = new Lexer(
+                                $parseOptions
+                            );
                             return (
                                 (parsedExpression = new Parser(
                                     lexer,
@@ -7904,7 +7977,7 @@
                     ) {
                         if (pending) {
                             var callbacks = pending;
-                            (pending = void 0),
+                            (pending = undefined),
                             (value = ref(
                                 val
                             )),
@@ -9257,7 +9330,11 @@
                                     type,
                                     trustedValue,
                                 );
-                            if (null == trustedValue || "" === trustedValue)
+                            if (
+                                null === trustedValue ||
+                  trustedValue === undefined ||
+                  "" === trustedValue
+                            )
                                 return trustedValue;
                             if ("string" != typeof trustedValue)
                                 throw $sceMinErr(
@@ -9272,7 +9349,11 @@
                         getTrusted: function (
                             type, maybeTrusted
                         ) {
-                            if (null == maybeTrusted || "" === maybeTrusted)
+                            if (
+                                null === maybeTrusted ||
+                  maybeTrusted === undefined ||
+                  "" === maybeTrusted
+                            )
                                 return maybeTrusted;
                             var constructor = byType.hasOwnProperty(
                                 type
@@ -9680,24 +9761,22 @@
                 name + suffix,
                 factory
             );
-            {
-                var filters = {
-                };
-                return (
-                    forEach(
-                        name,
-                        function (
-                            filter, key
-                        ) {
-                            filters[key] = register(
-                                key,
-                                filter
-                            );
-                        }
-                    ),
-                    filters
-                );
-            }
+            var filters = {
+            };
+            return (
+                forEach(
+                    name,
+                    function (
+                        filter, key
+                    ) {
+                        filters[key] = register(
+                            key,
+                            filter
+                        );
+                    }
+                ),
+                filters
+            );
         }
         (this.register = register),
         (this.$get = [
@@ -10092,7 +10171,10 @@
         ) {
             return formats[uppercase(
                 shortForm ? "SHORT" + name : name
-            )][value];
+            )][
+                date["get" + name](
+                )
+            ];
         };
     }
     var DATE_FORMATS = {
@@ -10437,18 +10519,19 @@
             ) {
                 var t1 = typeof v1,
                     t2 = typeof v2;
-                if (t1 != t2) return t1 < t2 ? -1 : 1;
-                {
-                    if (
-                        ("string" == t1 &&
+                return t1 != t2
+                    ? t1 < t2
+                        ? -1
+                        : 1
+                    : ("string" == t1 &&
               ((v1 = v1.toLowerCase(
               )), (v2 = v2.toLowerCase(
               ))),
-                        v1 === v2)
-                    )
-                        return 0;
-                    return v1 < v2 ? -1 : 1;
-                }
+                    v1 === v2)
+                        ? 0
+                        : v1 < v2
+                            ? -1
+                            : 1;
             }
             if (!isArray(
                 array
@@ -10821,7 +10904,7 @@
                               alias && setter(
                                   scope,
                                   alias,
-                                  void 0,
+                                  undefined,
                                   alias
                               ),
                               extend(
@@ -10955,22 +11038,19 @@
             validate = function (
                 regexp, value
             ) {
-                if (ctrl.$isEmpty(
+                return ctrl.$isEmpty(
                     value
                 ) || regexp.test(
                     value
-                ))
-                    return ctrl.$setValidity(
+                )
+                    ? (ctrl.$setValidity(
                         "pattern",
                         !0
-                    ), value;
-                {
-                    ctrl.$setValidity(
+                    ), value)
+                    : (ctrl.$setValidity(
                         "pattern",
                         !1
-                    );
-                    return;
-                }
+                    ), void 0);
             };
         if (
             (pattern &&
@@ -11025,20 +11105,17 @@
                 minLengthValidator = function (
                     value
                 ) {
-                    if (ctrl.$isEmpty(
+                    return ctrl.$isEmpty(
                         value
-                    ) || !(value.length < minlength))
-                        return ctrl.$setValidity(
+                    ) || !(value.length < minlength)
+                        ? (ctrl.$setValidity(
                             "minlength",
                             !0
-                        ), value;
-                    {
-                        ctrl.$setValidity(
+                        ), value)
+                        : (ctrl.$setValidity(
                             "minlength",
                             !1
-                        );
-                        return;
-                    }
+                        ), void 0);
                 };
             ctrl.$parsers.push(
                 minLengthValidator
@@ -11054,20 +11131,17 @@
                 maxLengthValidator = function (
                     value
                 ) {
-                    if (ctrl.$isEmpty(
+                    return ctrl.$isEmpty(
                         value
-                    ) || !(value.length > maxlength))
-                        return ctrl.$setValidity(
+                    ) || !(value.length > maxlength)
+                        ? (ctrl.$setValidity(
                             "maxlength",
                             !0
-                        ), value;
-                    {
-                        ctrl.$setValidity(
+                        ), value)
+                        : (ctrl.$setValidity(
                             "maxlength",
                             !1
-                        );
-                        return;
-                    }
+                        ), void 0);
                 };
             ctrl.$parsers.push(
                 maxLengthValidator
@@ -11096,29 +11170,24 @@
                     var empty = ctrl.$isEmpty(
                         value
                     );
-                    if (empty || NUMBER_REGEXP.test(
+                    return empty || NUMBER_REGEXP.test(
                         value
-                    ))
-                        return (
-                            ctrl.$setValidity(
-                                "number",
-                                !0
-                            ),
-                            "" === value
-                                ? null
-                                : empty
-                                    ? value
-                                    : parseFloat(
-                                        value
-                                    )
-                        );
-                    {
-                        ctrl.$setValidity(
+                    )
+                        ? (ctrl.$setValidity(
+                            "number",
+                            !0
+                        ),
+                        "" === value
+                            ? null
+                            : empty
+                                ? value
+                                : parseFloat(
+                                    value
+                                ))
+                        : (ctrl.$setValidity(
                             "number",
                             !1
-                        );
-                        return;
-                    }
+                        ), void 0);
                 }
             ),
             ctrl.$formatters.push(
@@ -11140,20 +11209,17 @@
                 var min = parseFloat(
                     attr.min
                 );
-                if (ctrl.$isEmpty(
+                return ctrl.$isEmpty(
                     value
-                ) || !(value < min))
-                    return ctrl.$setValidity(
+                ) || !(value < min)
+                    ? (ctrl.$setValidity(
                         "min",
                         !0
-                    ), value;
-                {
-                    ctrl.$setValidity(
+                    ), value)
+                    : (ctrl.$setValidity(
                         "min",
                         !1
-                    );
-                    return;
-                }
+                    ), void 0);
             };
             ctrl.$parsers.push(
                 minValidator
@@ -11168,20 +11234,17 @@
                 var max = parseFloat(
                     attr.max
                 );
-                if (ctrl.$isEmpty(
+                return ctrl.$isEmpty(
                     value
-                ) || !(value > max))
-                    return ctrl.$setValidity(
+                ) || !(value > max)
+                    ? (ctrl.$setValidity(
                         "max",
                         !0
-                    ), value;
-                {
-                    ctrl.$setValidity(
+                    ), value)
+                    : (ctrl.$setValidity(
                         "max",
                         !1
-                    );
-                    return;
-                }
+                    ), void 0);
             };
             ctrl.$parsers.push(
                 maxValidator
@@ -11193,22 +11256,19 @@
             function (
                 value
             ) {
-                if (ctrl.$isEmpty(
+                return ctrl.$isEmpty(
                     value
                 ) || isNumber(
                     value
-                ))
-                    return ctrl.$setValidity(
+                )
+                    ? (ctrl.$setValidity(
                         "number",
                         !0
-                    ), value;
-                {
-                    ctrl.$setValidity(
+                    ), value)
+                    : (ctrl.$setValidity(
                         "number",
                         !1
-                    );
-                    return;
-                }
+                    ), void 0);
             }
         );
     }
@@ -11226,22 +11286,19 @@
         var urlValidator = function (
             value
         ) {
-            if (ctrl.$isEmpty(
+            return ctrl.$isEmpty(
                 value
             ) || URL_REGEXP.test(
                 value
-            ))
-                return ctrl.$setValidity(
+            )
+                ? (ctrl.$setValidity(
                     "url",
                     !0
-                ), value;
-            {
-                ctrl.$setValidity(
+                ), value)
+                : (ctrl.$setValidity(
                     "url",
                     !1
-                );
-                return;
-            }
+                ), void 0);
         };
         ctrl.$formatters.push(
             urlValidator
@@ -11263,22 +11320,19 @@
         var emailValidator = function (
             value
         ) {
-            if (ctrl.$isEmpty(
+            return ctrl.$isEmpty(
                 value
             ) || EMAIL_REGEXP.test(
                 value
-            ))
-                return ctrl.$setValidity(
+            )
+                ? (ctrl.$setValidity(
                     "email",
                     !0
-                ), value;
-            {
-                ctrl.$setValidity(
+                ), value)
+                : (ctrl.$setValidity(
                     "email",
                     !1
-                );
-                return;
-            }
+                ), void 0);
         };
         ctrl.$formatters.push(
             emailValidator
@@ -11641,20 +11695,17 @@
                         var validator = function (
                             value
                         ) {
-                            if (!(attr.required && ctrl.$isEmpty(
+                            return attr.required && ctrl.$isEmpty(
                                 value
-                            )))
-                                return ctrl.$setValidity(
-                                    "required",
-                                    !0
-                                ), value;
-                            {
-                                ctrl.$setValidity(
+                            )
+                                ? (ctrl.$setValidity(
                                     "required",
                                     !1
-                                );
-                                return;
-                            }
+                                ), void 0)
+                                : (ctrl.$setValidity(
+                                    "required",
+                                    !0
+                                ), value);
                         };
                         ctrl.$formatters.push(
                             validator
@@ -11793,7 +11844,7 @@
                         value
                     ) {
                         element.text(
-                            void 0 == value ? "" : value
+                            value == undefined ? "" : value
                         );
                     }
                 );
@@ -12005,7 +12056,7 @@
                 ) {
                     attr.$set(
                         "ngCloak",
-                        void 0
+                        undefined
                     ), element.removeClass(
                         "ng-cloak"
                     );
@@ -12427,16 +12478,17 @@
                                 ) {
                                     return key;
                                 })),
-                            !(match = lhs.match(
-                                /^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/,
-                            )))
+                            !match)
                         )
                             throw ngRepeatMinErr(
                                 "iidexp",
                                 "'_item_' in '_item_ in _collection_' should be an identifier or '(_key_, _value_)' expression, but got '{0}'.",
                                 lhs,
                             );
-                        (valueIdentifier = match[3] || match[1]),
+                        (valueIdentifier =
+              (match = lhs.match(
+                  /^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/,
+              ))[3] || match[1]),
                         (keyIdentifier = match[2]);
                         var lastBlockMap = {
                         };
@@ -12468,7 +12520,6 @@
                                     (trackByIdFn = trackByIdExpFn || trackByIdArrayFn);
                                 else {
                                     for (key in ((trackByIdFn = trackByIdExpFn || trackByIdObjFn),
-                                    (collectionKeys = []),
                                     collection))
                                         collection.hasOwnProperty(
                                             key
@@ -12479,7 +12530,7 @@
                     collectionKeys.push(
                         key
                     );
-                                    collectionKeys.sort(
+                                    (collectionKeys = []).sort(
                                     );
                                 }
                                 for (
@@ -13514,7 +13565,7 @@
                                                             }
                                                 } else if ("?" == (key = selectElement.val(
                                                 )))
-                                                    value = void 0;
+                                                    value = undefined;
                                                 else if ("" === key) value = null;
                                                 else if (trackFn) {
                                                     for (
@@ -13845,7 +13896,7 @@
                   (val = element.currentStyle && element.currentStyle[name]) &&
                 (val = "auto"),
                         (val = val || element.style[name]),
-                        msie <= 8 && (val = "" === val ? void 0 : val),
+                        msie <= 8 && (val = "" === val ? undefined : val),
                         val
                     );
                 }
@@ -13865,7 +13916,7 @@
                     name
                 ) || noop).specified
                             ? lowercasedName
-                            : void 0;
+                            : undefined;
                     value
                         ? ((element[name] = !0),
                         element.setAttribute(
@@ -13886,7 +13937,7 @@
                         name,
                         2
                     );
-                    return null === ret ? void 0 : ret;
+                    return null === ret ? undefined : ret;
                 }
             },
             prop: function (
@@ -13977,7 +14028,7 @@
                     fn !== jqLiteEmpty &&
             (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController
                 ? arg1
-                : arg2) === void 0
+                : arg2) === undefined
                 )
                     if (isObject(
                         arg1
@@ -13997,7 +14048,7 @@
                         for (
                             var value = fn.$dv,
                                 jj =
-                    void 0 === value
+                    value === undefined
                         ? Math.min(
                             this.length,
                             1
@@ -14518,7 +14569,7 @@
         ) {
             (this.text = text),
             (this.index = 0),
-            (this.ch = void 0),
+            (this.ch = undefined),
             (this.lastCh = ":"),
             (this.tokens = []);
             for (var token, json = []; this.index < this.text.length; ) {
@@ -15325,22 +15376,20 @@
             if (!(token = this.expect(
                 "?"
             ))) return left;
-            {
-                if (((middle = this.ternary(
-                )), (token = this.expect(
-                    ":"
-                ))))
-                    return this.ternaryFn(
-                        left,
-                        middle,
-                        this.ternary(
-                        )
-                    );
-                this.throwError(
-                    "expected :",
-                    token
+            if (((middle = this.ternary(
+            )), (token = this.expect(
+                ":"
+            ))))
+                return this.ternaryFn(
+                    left,
+                    middle,
+                    this.ternary(
+                    )
                 );
-            }
+            this.throwError(
+                "expected :",
+                token
+            );
         },
         logicalOR: function (
         ) {
@@ -15559,7 +15608,7 @@
                     parser.options.unwrapPromises &&
                     ((p = v),
                     "$$v" in v ||
-                      ((p.$$v = void 0),
+                      ((p.$$v = undefined),
                       p.then(
                           function (
                               val
@@ -15950,10 +15999,7 @@
                 $$minErr: minErr,
                 $$csp: csp,
             }
-        ),
-        (angularModule = setupModuleLoader(
-            window
-        ));
+        );
         try {
             angularModule(
                 "ngLocale"
@@ -15967,7 +16013,9 @@
                 $LocaleProvider
             );
         }
-        angularModule(
+        (angularModule = setupModuleLoader(
+            window
+        ))(
             "ng",
             ["ngLocale",],
             [

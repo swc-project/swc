@@ -128,91 +128,83 @@
         function warn(
             format
         ) {
-            {
-                for (
-                    var _len = arguments.length,
-                        args = new Array(
-                            _len > 1 ? _len - 1 : 0
-                        ),
-                        _key = 1;
-                    _key < _len;
-                    _key++
-                )
-                    args[_key - 1] = arguments[_key];
-                printWarning(
-                    "warn",
-                    format,
-                    args
-                );
-            }
+            for (
+                var _len = arguments.length,
+                    args = new Array(
+                        _len > 1 ? _len - 1 : 0
+                    ),
+                    _key = 1;
+                _key < _len;
+                _key++
+            )
+                args[_key - 1] = arguments[_key];
+            printWarning(
+                "warn",
+                format,
+                args
+            );
         }
         function error(
             format
         ) {
-            {
-                for (
-                    var _len2 = arguments.length,
-                        args = new Array(
-                            _len2 > 1 ? _len2 - 1 : 0
-                        ),
-                        _key2 = 1;
-                    _key2 < _len2;
-                    _key2++
-                )
-                    args[_key2 - 1] = arguments[_key2];
-                printWarning(
-                    "error",
-                    format,
-                    args
-                );
-            }
+            for (
+                var _len2 = arguments.length,
+                    args = new Array(
+                        _len2 > 1 ? _len2 - 1 : 0
+                    ),
+                    _key2 = 1;
+                _key2 < _len2;
+                _key2++
+            )
+                args[_key2 - 1] = arguments[_key2];
+            printWarning(
+                "error",
+                format,
+                args
+            );
         }
         function printWarning(
             level, format, args
         ) {
-            {
-                var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame,
-                    stack = ReactDebugCurrentFrame.getStackAddendum(
-                    );
-                "" !== stack && ((format += "%s"), (args = args.concat(
-                    [stack,]
-                )));
-                var argsWithFormat = args.map(
-                    function (
-                        item
-                    ) {
-                        return "" + item;
-                    }
+            var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame,
+                stack = ReactDebugCurrentFrame.getStackAddendum(
                 );
-                argsWithFormat.unshift(
-                    "Warning: " + format
-                ),
-                Function.prototype.apply.call(
-                    console[level],
-                    console,
-                    argsWithFormat
-                );
-            }
+            "" !== stack && ((format += "%s"), (args = args.concat(
+                [stack,]
+            )));
+            var argsWithFormat = args.map(
+                function (
+                    item
+                ) {
+                    return "" + item;
+                }
+            );
+            argsWithFormat.unshift(
+                "Warning: " + format
+            ),
+            Function.prototype.apply.call(
+                console[level],
+                console,
+                argsWithFormat
+            );
         }
         var didWarnStateUpdateForUnmountedComponent = {
         };
         function warnNoop(
             publicInstance, callerName
         ) {
-            {
-                var _constructor = publicInstance.constructor,
-                    componentName =
-          (_constructor && (_constructor.displayName || _constructor.name)) ||
-          "ReactClass",
-                    warningKey = componentName + "." + callerName;
-                didWarnStateUpdateForUnmountedComponent[warningKey] ||
-        (error(
-            "Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.",
-            callerName,
-            componentName,
-        ),
-        (didWarnStateUpdateForUnmountedComponent[warningKey] = !0));
-            }
+            var _constructor = publicInstance.constructor,
+                componentName =
+        (_constructor && (_constructor.displayName || _constructor.name)) ||
+        "ReactClass",
+                warningKey = componentName + "." + callerName;
+            didWarnStateUpdateForUnmountedComponent[warningKey] ||
+      (error(
+          "Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.",
+          callerName,
+          componentName,
+      ),
+      (didWarnStateUpdateForUnmountedComponent[warningKey] = !0));
         }
         var ReactNoopUpdateQueue = {
                 isMounted: function (
@@ -261,6 +253,35 @@
             (this.refs = emptyObject),
             (this.updater = updater || ReactNoopUpdateQueue);
         }
+        var deprecatedAPIs = {
+                isMounted: [
+                    "isMounted",
+                    "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.",
+                ],
+                replaceState: [
+                    "replaceState",
+                    "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236).",
+                ],
+            },
+            defineDeprecationWarning = function (
+                methodName, info
+            ) {
+                Object.defineProperty(
+                    Component.prototype,
+                    methodName,
+                    {
+                        get: function (
+                        ) {
+                            warn(
+                                "%s(...) is deprecated in plain JavaScript React classes. %s",
+                                info[0],
+                                info[1],
+                            );
+                            return;
+                        },
+                    }
+                );
+            };
         function ComponentDummy(
         ) {}
         function PureComponent(
@@ -341,7 +362,7 @@
                     return getComponentName(
                         type._render
                     );
-                case REACT_LAZY_TYPE: {
+                case REACT_LAZY_TYPE:
                     var lazyComponent = type,
                         payload = lazyComponent._payload,
                         init = lazyComponent._init;
@@ -354,7 +375,6 @@
                     } catch (x) {
                         return null;
                     }
-                }
                 }
             return null;
         }
@@ -961,145 +981,137 @@
         ) {}
         function disableLogs(
         ) {
-            {
-                if (0 === disabledDepth) {
-                    (prevLog = console.log),
-                    (prevInfo = console.info),
-                    (prevWarn = console.warn),
-                    (prevError = console.error),
-                    (prevGroup = console.group),
-                    (prevGroupCollapsed = console.groupCollapsed),
-                    (prevGroupEnd = console.groupEnd);
-                    var props = {
-                        configurable: !0,
-                        enumerable: !0,
-                        value: disabledLog,
-                        writable: !0,
-                    };
-                    Object.defineProperties(
-                        console,
-                        {
-                            info: props,
-                            log: props,
-                            warn: props,
-                            error: props,
-                            group: props,
-                            groupCollapsed: props,
-                            groupEnd: props,
-                        }
-                    );
-                }
-                disabledDepth++;
+            if (0 === disabledDepth) {
+                (prevLog = console.log),
+                (prevInfo = console.info),
+                (prevWarn = console.warn),
+                (prevError = console.error),
+                (prevGroup = console.group),
+                (prevGroupCollapsed = console.groupCollapsed),
+                (prevGroupEnd = console.groupEnd);
+                var props = {
+                    configurable: !0,
+                    enumerable: !0,
+                    value: disabledLog,
+                    writable: !0,
+                };
+                Object.defineProperties(
+                    console,
+                    {
+                        info: props,
+                        log: props,
+                        warn: props,
+                        error: props,
+                        group: props,
+                        groupCollapsed: props,
+                        groupEnd: props,
+                    }
+                );
             }
+            disabledDepth++;
         }
         function reenableLogs(
         ) {
-            {
-                if ((disabledDepth--, 0 === disabledDepth)) {
-                    var props = {
-                        configurable: !0,
-                        enumerable: !0,
-                        writable: !0,
-                    };
-                    Object.defineProperties(
-                        console,
-                        {
-                            log: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevLog,
-                                }
-                            ),
-                            info: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevInfo,
-                                }
-                            ),
-                            warn: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevWarn,
-                                }
-                            ),
-                            error: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevError,
-                                }
-                            ),
-                            group: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevGroup,
-                                }
-                            ),
-                            groupCollapsed: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevGroupCollapsed,
-                                }
-                            ),
-                            groupEnd: assign(
-                                {
-                                },
-                                props,
-                                {
-                                    value: prevGroupEnd,
-                                }
-                            ),
-                        }
-                    );
-                }
-                disabledDepth < 0 &&
-        error(
-            "disabledDepth fell below zero. This is a bug in React. Please file an issue.",
-        );
+            if ((disabledDepth--, 0 === disabledDepth)) {
+                var props = {
+                    configurable: !0,
+                    enumerable: !0,
+                    writable: !0,
+                };
+                Object.defineProperties(
+                    console,
+                    {
+                        log: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevLog,
+                            }
+                        ),
+                        info: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevInfo,
+                            }
+                        ),
+                        warn: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevWarn,
+                            }
+                        ),
+                        error: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevError,
+                            }
+                        ),
+                        group: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevGroup,
+                            }
+                        ),
+                        groupCollapsed: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevGroupCollapsed,
+                            }
+                        ),
+                        groupEnd: assign(
+                            {
+                            },
+                            props,
+                            {
+                                value: prevGroupEnd,
+                            }
+                        ),
+                    }
+                );
             }
+            disabledDepth < 0 &&
+      error(
+          "disabledDepth fell below zero. This is a bug in React. Please file an issue.",
+      );
         }
         var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
         function describeBuiltInComponentFrame(
             name, source, ownerFn
         ) {
-            {
-                if (void 0 === prefix)
-                    try {
-                        throw Error(
-                        );
-                    } catch (x) {
-                        var match = x.stack.trim(
-                        ).match(
-                            /\n( *(at )?)/
-                        );
-                        prefix = (match && match[1]) || "";
-                    }
-                return "\n" + prefix + name;
-            }
+            if (void 0 === prefix)
+                try {
+                    throw Error(
+                    );
+                } catch (x) {
+                    var match = x.stack.trim(
+                    ).match(
+                        /\n( *(at )?)/
+                    );
+                    prefix = (match && match[1]) || "";
+                }
+            return "\n" + prefix + name;
         }
         var reentry = !1;
         function describeNativeComponentFrame(
             fn, construct
         ) {
             if (!fn || reentry) return "";
-            {
-                var control,
-                    frame = componentFrameCache.get(
-                        fn
-                    );
-                if (void 0 !== frame) return frame;
-            }
+            var control,
+                frame = componentFrameCache.get(
+                    fn
+                );
+            if (void 0 !== frame) return frame;
             reentry = !0;
             var previousPrepareStackTrace = Error.prepareStackTrace;
             (Error.prepareStackTrace = void 0),
@@ -1275,7 +1287,7 @@
                     return describeFunctionComponentFrame(
                         type._render
                     );
-                case REACT_LAZY_TYPE: {
+                case REACT_LAZY_TYPE:
                     var lazyComponent = type,
                         payload = lazyComponent._payload,
                         init = lazyComponent._init;
@@ -1288,7 +1300,6 @@
                             ownerFn,
                         );
                     } catch (x) {}
-                }
                 }
             return "";
         }
@@ -1315,72 +1326,70 @@
         function checkPropTypes(
             typeSpecs, values, location, componentName, element
         ) {
-            {
-                var has = Function.call.bind(
-                    Object.prototype.hasOwnProperty
-                );
-                for (var typeSpecName in typeSpecs)
-                    if (has(
-                        typeSpecs,
-                        typeSpecName
-                    )) {
-                        var error$1 = void 0;
-                        try {
-                            if ("function" != typeof typeSpecs[typeSpecName]) {
-                                var err = Error(
-                                    (componentName || "React class") +
-                  ": " +
-                  location +
-                  " type `" +
-                  typeSpecName +
-                  "` is invalid; it must be a function, usually from the `prop-types` package, but received `" +
-                  typeof typeSpecs[typeSpecName] +
-                  "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.",
-                                );
-                                throw ((err.name = "Invariant Violation"), err);
-                            }
-                            error$1 = typeSpecs[typeSpecName](
-                                values,
-                                typeSpecName,
-                                componentName,
-                                location,
-                                null,
-                                "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED",
+            var has = Function.call.bind(
+                Object.prototype.hasOwnProperty
+            );
+            for (var typeSpecName in typeSpecs)
+                if (has(
+                    typeSpecs,
+                    typeSpecName
+                )) {
+                    var error$1 = void 0;
+                    try {
+                        if ("function" != typeof typeSpecs[typeSpecName]) {
+                            var err = Error(
+                                (componentName || "React class") +
+                ": " +
+                location +
+                " type `" +
+                typeSpecName +
+                "` is invalid; it must be a function, usually from the `prop-types` package, but received `" +
+                typeof typeSpecs[typeSpecName] +
+                "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.",
                             );
-                        } catch (ex) {
-                            error$1 = ex;
+                            throw ((err.name = "Invariant Violation"), err);
                         }
-                        error$1 &&
-            !(error$1 instanceof Error) &&
-            (setCurrentlyValidatingElement(
+                        error$1 = typeSpecs[typeSpecName](
+                            values,
+                            typeSpecName,
+                            componentName,
+                            location,
+                            null,
+                            "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED",
+                        );
+                    } catch (ex) {
+                        error$1 = ex;
+                    }
+                    error$1 &&
+          !(error$1 instanceof Error) &&
+          (setCurrentlyValidatingElement(
+              element
+          ),
+          error(
+              "%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).",
+              componentName || "React class",
+              location,
+              typeSpecName,
+              typeof error$1,
+          ),
+          setCurrentlyValidatingElement(
+              null
+          )),
+                    error$1 instanceof Error &&
+            !(error$1.message in loggedTypeFailures) &&
+            ((loggedTypeFailures[error$1.message] = !0),
+            setCurrentlyValidatingElement(
                 element
             ),
             error(
-                "%s: type specification of %s `%s` is invalid; the type checker function must return `null` or an `Error` but returned a %s. You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument).",
-                componentName || "React class",
+                "Failed %s type: %s",
                 location,
-                typeSpecName,
-                typeof error$1,
+                error$1.message
             ),
             setCurrentlyValidatingElement(
                 null
-            )),
-                        error$1 instanceof Error &&
-              !(error$1.message in loggedTypeFailures) &&
-              ((loggedTypeFailures[error$1.message] = !0),
-              setCurrentlyValidatingElement(
-                  element
-              ),
-              error(
-                  "Failed %s type: %s",
-                  location,
-                  error$1.message
-              ),
-              setCurrentlyValidatingElement(
-                  null
-              ));
-                    }
-            }
+            ));
+                }
         }
         function setCurrentlyValidatingElement$1(
             element
@@ -1529,84 +1538,76 @@
         function validatePropTypes(
             element
         ) {
-            {
-                var propTypes,
-                    type = element.type;
-                if (null != type && "string" != typeof type) {
-                    if (
-                        ("function" == typeof type
-                            ? (propTypes = type.propTypes)
-                            : "object" == typeof type &&
-              (type.$$typeof === REACT_FORWARD_REF_TYPE ||
-                type.$$typeof === REACT_MEMO_TYPE) &&
-              (propTypes = type.propTypes),
-                        propTypes)
-                    ) {
-                        var name = getComponentName(
-                            type
-                        );
-                        checkPropTypes(
-                            propTypes,
-                            element.props,
-                            "prop",
-                            name,
-                            element
-                        );
-                    } else if (void 0 !== type.PropTypes || propTypesMisspellWarningShown) {
-                        propTypesMisspellWarningShown = !0;
-                        var _name = getComponentName(
-                            type
-                        );
-                        error(
-                            "Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?",
-                            _name || "Unknown",
-                        );
-                    }
-                    "function" != typeof type.getDefaultProps ||
-          type.getDefaultProps.isReactClassApproved ||
-          error(
-              "getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.",
-          );
+            var propTypes,
+                type = element.type;
+            if (null != type && "string" != typeof type) {
+                if (
+                    ("function" == typeof type
+                        ? (propTypes = type.propTypes)
+                        : "object" == typeof type &&
+            (type.$$typeof === REACT_FORWARD_REF_TYPE ||
+              type.$$typeof === REACT_MEMO_TYPE) &&
+            (propTypes = type.propTypes),
+                    propTypes)
+                ) {
+                    var name = getComponentName(
+                        type
+                    );
+                    checkPropTypes(
+                        propTypes,
+                        element.props,
+                        "prop",
+                        name,
+                        element
+                    );
+                } else if (void 0 !== type.PropTypes || propTypesMisspellWarningShown) {
+                    propTypesMisspellWarningShown = !0;
+                    var _name = getComponentName(
+                        type
+                    );
+                    error(
+                        "Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?",
+                        _name || "Unknown",
+                    );
                 }
+                "function" != typeof type.getDefaultProps ||
+        type.getDefaultProps.isReactClassApproved ||
+        error(
+            "getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.",
+        );
             }
         }
         function validateFragmentProps(
             fragment
         ) {
-            {
-                for (
-                    var keys = Object.keys(
-                            fragment.props
-                        ), i = 0;
-                    i < keys.length;
-                    i++
-                ) {
-                    var key = keys[i];
-                    if ("children" !== key && "key" !== key) {
-                        setCurrentlyValidatingElement$1(
-                            fragment
-                        ),
-                        error(
-                            "Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.",
-                            key,
-                        ),
-                        setCurrentlyValidatingElement$1(
-                            null
-                        );
-                        break;
-                    }
+            for (var keys = Object.keys(
+                    fragment.props
+                ), i = 0; i < keys.length; i++) {
+                var key = keys[i];
+                if ("children" !== key && "key" !== key) {
+                    setCurrentlyValidatingElement$1(
+                        fragment
+                    ),
+                    error(
+                        "Invalid prop `%s` supplied to `React.Fragment`. React.Fragment can only have `key` and `children` props.",
+                        key,
+                    ),
+                    setCurrentlyValidatingElement$1(
+                        null
+                    );
+                    break;
                 }
-                null !== fragment.ref &&
-        (setCurrentlyValidatingElement$1(
-            fragment
-        ),
-        error(
-            "Invalid attribute `ref` supplied to `React.Fragment`."
-        ),
-        setCurrentlyValidatingElement$1(
-            null
-        ));
             }
+            null !== fragment.ref &&
+      (setCurrentlyValidatingElement$1(
+          fragment
+      ),
+      error(
+          "Invalid attribute `ref` supplied to `React.Fragment`."
+      ),
+      setCurrentlyValidatingElement$1(
+          null
+      ));
         }
         function createElementWithValidation(
             type, props, children
@@ -1702,17 +1703,13 @@
         ) {
             var first = heap[0];
             if (void 0 === first) return null;
-            {
-                var last = heap.pop(
-                );
-                return (
-                    last !== first && ((heap[0] = last), siftDown(
-                        heap,
-                        last,
-                        0
-                    )), first
-                );
-            }
+            var last = heap.pop(
+            );
+            return last !== first && ((heap[0] = last), siftDown(
+                heap,
+                last,
+                0
+            )), first;
         }
         function siftUp(
             heap, node, i
@@ -1892,8 +1889,6 @@
                         continuationCallback = callback(
                             didUserCallbackTimeout
                         );
-                    (currentTime = getCurrentTime(
-                    )),
                     "function" == typeof continuationCallback
                         ? (currentTask.callback = continuationCallback)
                         : currentTask === peek(
@@ -1902,7 +1897,8 @@
                             taskQueue
                         ),
                     advanceTimers(
-                        currentTime
+                        (currentTime = getCurrentTime(
+                        ))
                     );
                 } else pop(
                     taskQueue
@@ -1912,19 +1908,17 @@
                 );
             }
             if (null !== currentTask) return !0;
-            {
-                var firstTimer = peek(
-                    timerQueue
-                );
-                return (
-                    null !== firstTimer &&
-          requestHostTimeout(
-              handleTimeout,
-              firstTimer.startTime - currentTime
-          ),
-                    !1
-                );
-            }
+            var firstTimer = peek(
+                timerQueue
+            );
+            return (
+                null !== firstTimer &&
+        requestHostTimeout(
+            handleTimeout,
+            firstTimer.startTime - currentTime
+        ),
+                !1
+            );
         }
         var Scheduler = Object.freeze(
                 {
@@ -2550,8 +2544,8 @@
                 "react.legacy_hidden"
             ));
         }
-        (ReactDebugCurrentFrame.setExtraStackFrame = function (
-            stack
+        for (var fnName in ((ReactDebugCurrentFrame.setExtraStackFrame = function (
+            stack,
         ) {
             currentExtraStackFrame = stack;
         }),
@@ -2576,8 +2570,8 @@
             if (
                 !(
                     "object" == typeof partialState ||
-          "function" == typeof partialState ||
-          null == partialState
+        "function" == typeof partialState ||
+        null == partialState
                 )
             )
                 throw Error(
@@ -2598,46 +2592,15 @@
                 callback,
                 "forceUpdate"
             );
-        });
-        {
-            var deprecatedAPIs = {
-                    isMounted: [
-                        "isMounted",
-                        "Instead, make sure to clean up subscriptions and pending requests in componentWillUnmount to prevent memory leaks.",
-                    ],
-                    replaceState: [
-                        "replaceState",
-                        "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236).",
-                    ],
-                },
-                defineDeprecationWarning = function (
-                    methodName, info
-                ) {
-                    Object.defineProperty(
-                        Component.prototype,
-                        methodName,
-                        {
-                            get: function (
-                            ) {
-                                warn(
-                                    "%s(...) is deprecated in plain JavaScript React classes. %s",
-                                    info[0],
-                                    info[1],
-                                );
-                                return;
-                            },
-                        }
-                    );
-                };
-            for (var fnName in deprecatedAPIs)
-                deprecatedAPIs.hasOwnProperty(
-                    fnName
-                ) &&
-        defineDeprecationWarning(
-            fnName,
-            deprecatedAPIs[fnName]
-        );
-        }
+        }),
+        deprecatedAPIs))
+            deprecatedAPIs.hasOwnProperty(
+                fnName
+            ) &&
+      defineDeprecationWarning(
+          fnName,
+          deprecatedAPIs[fnName]
+      );
         if (
             ((ComponentDummy.prototype = Component.prototype),
             (pureComponentPrototype.constructor = PureComponent),
@@ -2947,13 +2910,13 @@
             };
             var hasWarnedAboutUsingNestedContextConsumers = !1,
                 hasWarnedAboutUsingConsumerProvider = !1,
-                hasWarnedAboutDisplayNameOnConsumer = !1;
-            {
-                var Consumer = {
+                hasWarnedAboutDisplayNameOnConsumer = !1,
+                Consumer = {
                     $$typeof: REACT_CONTEXT_TYPE,
                     _context: context,
                     _calculateChangedBits: context._calculateChangedBits,
                 };
+            return (
                 Object.defineProperties(
                     Consumer,
                     {
@@ -3039,9 +3002,7 @@
                         },
                     }
                 ),
-                (context.Consumer = Consumer);
-            }
-            return (
+                (context.Consumer = Consumer),
                 (context._currentRenderer = null),
                 (context._currentRenderer2 = null),
                 context

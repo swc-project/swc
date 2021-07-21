@@ -2785,11 +2785,12 @@ var Event1 = DOMEvent;
                 type, fn, internal
             ) {
                 return (
-                    (type = removeOn(
-                        type
-                    )),
                     fn == $empty ||
-            ((this.$events[type] = (this.$events[type] || []).include(
+            ((this.$events[(type = removeOn(
+                type
+            ))] = (
+                this.$events[type] || []
+            ).include(
                 fn
             )),
             internal && (fn.internal = !0)),
@@ -2929,7 +2930,15 @@ function (
             var currentCache = (reversed = !!isReversed) ? reverseCache : cache;
             if (currentCache[expression]) return currentCache[expression];
             for (
-                parsed = {
+                separatorIndex = -1;
+                expression != (expression = expression.replace(
+                    regexp,
+                    parser
+                ));
+
+            );
+            return (
+                ((parsed = {
                     Slick: !0,
                     expressions: [],
                     raw: expression,
@@ -2940,16 +2949,7 @@ function (
                             !0
                         );
                     },
-                },
-                separatorIndex = -1;
-                expression != (expression = expression.replace(
-                    regexp,
-                    parser
-                ));
-
-            );
-            return (
-                (parsed.length = parsed.expressions.length),
+                }).length = parsed.expressions.length),
                 (currentCache[parsed.raw] = reversed
                     ? reverse(
                         parsed
@@ -4878,15 +4878,21 @@ var Element1 = function (
 };
 Browser.Element &&
   ((Element1.prototype = Browser.Element.prototype),
-  (Element1.prototype._fireEvent = function (
-      type, event
+  (Element1.prototype._fireEvent = (function (
+      fireEvent
   ) {
-      return Element1.prototype.fireEvent.call(
-          this,
-          type,
-          event
-      );
-  })),
+      return function (
+          type, event
+      ) {
+          return (fireEvent = Element1.prototype.fireEvent).call(
+              this,
+              type,
+              event
+          );
+      };
+  })(
+      Element1.prototype.fireEvent
+  ))),
 new Type(
     "Element",
     Element1
@@ -5432,7 +5438,7 @@ Elements.alias(
             return (
                 addSlickPseudos(
                 ),
-                Slick.search.call(
+                (search = Slick.search).call(
                     this,
                     context,
                     expression,
@@ -5445,7 +5451,8 @@ Elements.alias(
         ) {
             return (
                 addSlickPseudos(
-                ), Slick.find.call(
+                ),
+                (find = Slick.find).call(
                     this,
                     context,
                     expression
@@ -5455,11 +5462,14 @@ Elements.alias(
         (Slick.match = function (
             node, selector
         ) {
-            return addSlickPseudos(
-            ), Slick.match.call(
-                this,
-                node,
-                selector
+            return (
+                addSlickPseudos(
+                ),
+                (match = Slick.match).call(
+                    this,
+                    node,
+                    selector
+                )
             );
         });
     })(
@@ -6625,7 +6635,7 @@ Elements.alias(
                     if (
                         (wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap)
                     )
-                        return Element1.Properties.html.set.call(
+                        return (set = Element1.Properties.html.set).call(
                             this,
                             html
                         );
@@ -6899,16 +6909,9 @@ Elements.alias(
                         ),
                         this
                     );
-                if (
-                    ((property = ("float" == property
-                        ? floatName
-                        : property
-                    ).camelCase(
-                    )),
-                    "string" != typeOf(
-                        value
-                    ))
-                ) {
+                if ("string" != typeOf(
+                    value
+                )) {
                     var map = (Element1.Styles[property] || "@").split(
                         " "
                     );
@@ -6944,7 +6947,13 @@ Elements.alias(
                     value
                 ));
                 return (
-                    (this.style[property] = value),
+                    (this.style[
+                        (property = ("float" == property
+                            ? floatName
+                            : property
+                        ).camelCase(
+                        ))
+                    ] = value),
                     ("" == value || null == value) &&
             doesNotRemoveStyles &&
             this.style.removeAttribute &&
