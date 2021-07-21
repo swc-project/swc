@@ -111,7 +111,7 @@ struct Ctx {
     in_bool_ctx: bool,
 
     /// If this is `true`, the first usage will be inlined as an assignment.
-    inlining_arguments: bool,
+    inline_as_assignment: bool,
 
     var_kind: Option<VarDeclKind>,
 

@@ -227,7 +227,7 @@ impl Optimizer<'_> {
             }
 
             let ctx = Ctx {
-                inlining_arguments: true,
+                inline_as_assignment: true,
                 ..self.ctx
             };
 
