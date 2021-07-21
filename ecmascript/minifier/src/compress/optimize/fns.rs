@@ -66,6 +66,7 @@ impl Optimizer<'_> {
                 }
 
                 _ => {
+                    other.extend(fns.drain(..));
                     other.push(T::from_module_item(stmt));
                 }
             }
