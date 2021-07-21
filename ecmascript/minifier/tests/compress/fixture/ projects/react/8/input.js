@@ -1,4 +1,6 @@
 function mapIntoArray(children, array, escapedPrefix, nameSoFar, callback) {
+    const SEPARATOR = '.';
+
     var type = typeof children;
 
     if (type === 'undefined' || type === 'boolean') {
