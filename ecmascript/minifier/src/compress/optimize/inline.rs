@@ -6,6 +6,7 @@ use crate::util::idents_used_by;
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Spanned;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
@@ -452,7 +453,10 @@ impl Optimizer<'_> {
                     log::debug!("inline: Replacing a variable with cheap expression");
 
                     *e = *value;
-                } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                    return;
+                }
+
+                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
@@ -465,7 +469,32 @@ impl Optimizer<'_> {
                         }
                         _ => {}
                     }
+                }
 
+                if self.ctx.inline_as_assignment {
+                    if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                        self.changed = true;
+                        log::debug!(
+                            "inline: Inlining '{}{:?}' using assignment",
+                            i.sym,
+                            i.span.ctxt
+                        );
+
+                        *e = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                            right: value,
+                        });
+
+                        if cfg!(feature = "debug") {
+                            log::trace!("inline: [Change] {}", dump(&*e))
+                        }
+                        return;
+                    }
+                }
+
+                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     self.changed = true;
                     log::debug!(
                         "inline: Replacing '{}{:?}' with an expression",
