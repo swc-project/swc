@@ -19,27 +19,7 @@
     function (
         exports
     ) {
-        var specialPropKeyWarningShown,
-            specialPropRefWarningShown,
-            didWarnAboutStringRefs,
-            prevLog,
-            prevInfo,
-            prevWarn,
-            prevError,
-            prevGroup,
-            prevGroupCollapsed,
-            prevGroupEnd,
-            prefix,
-            componentFrameCache,
-            propTypesMisspellWarningShown,
-            requestHostCallback,
-            requestHostTimeout,
-            cancelHostTimeout,
-            shouldYieldToHost,
-            requestPaint,
-            getCurrentTime,
-            forceFrameRate,
-            REACT_ELEMENT_TYPE = 60103,
+        var REACT_ELEMENT_TYPE = 60103,
             REACT_PORTAL_TYPE = 60106,
             REACT_PROVIDER_TYPE = 60109,
             REACT_CONTEXT_TYPE = 60110,
@@ -378,7 +358,10 @@
                 }
             return null;
         }
-        var hasOwnProperty$1 = Object.prototype.hasOwnProperty,
+        var specialPropKeyWarningShown,
+            specialPropRefWarningShown,
+            didWarnAboutStringRefs,
+            hasOwnProperty$1 = Object.prototype.hasOwnProperty,
             RESERVED_PROPS = {
                 key: !0,
                 ref: !0,
@@ -631,8 +614,8 @@
           element +
           ".",
                 );
-            var propName,
-                defaultProps,
+            var defaultProps,
+                propName,
                 props = assign(
                     {
                     },
@@ -740,9 +723,7 @@
         function mapIntoArray(
             children, array, escapedPrefix, nameSoFar, callback
         ) {
-            var child,
-                nextName,
-                type = typeof children;
+            var type = typeof children;
             ("undefined" === type || "boolean" === type) && (children = null);
             var invokeCallback = !1;
             if (null === children) invokeCallback = !0;
@@ -810,7 +791,9 @@
           ));
                 return 1;
             }
-            var subtreeCount = 0,
+            var child,
+                nextName,
+                subtreeCount = 0,
                 nextNamePrefix = "" === nameSoFar ? SEPARATOR : nameSoFar + ":";
             if (Array.isArray(
                 children
@@ -841,9 +824,9 @@
             ),
           (didWarnAboutMaps = !0));
                     for (
-                        var iterator = iteratorFn.call(
+                        var step, iterator = iteratorFn.call(
                                 iterableChildren
-                            ), step, ii = 0;
+                            ), ii = 0;
                         !(step = iterator.next(
                         )).done;
 
@@ -976,7 +959,14 @@
                 );
             return dispatcher;
         }
-        var disabledDepth = 0;
+        var prevLog,
+            prevInfo,
+            prevWarn,
+            prevError,
+            prevGroup,
+            prevGroupCollapsed,
+            prevGroupEnd,
+            disabledDepth = 0;
         function disabledLog(
         ) {}
         function disableLogs(
@@ -1085,7 +1075,8 @@
           "disabledDepth fell below zero. This is a bug in React. Please file an issue.",
       );
         }
-        var ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
+        var prefix,
+            ReactCurrentDispatcher$1 = ReactSharedInternals.ReactCurrentDispatcher;
         function describeBuiltInComponentFrame(
             name, source, ownerFn
         ) {
@@ -1102,7 +1093,8 @@
                 }
             return "\n" + prefix + name;
         }
-        var reentry = !1;
+        var componentFrameCache,
+            reentry = !1;
         function describeNativeComponentFrame(
             fn, construct
         ) {
@@ -1518,9 +1510,9 @@
                     );
                     if ("function" == typeof iteratorFn && iteratorFn !== node.entries)
                         for (
-                            var iterator = iteratorFn.call(
-                                    node
-                                ), step;
+                            var step, iterator = iteratorFn.call(
+                                node
+                            );
                             !(step = iterator.next(
                             )).done;
 
@@ -1612,12 +1604,12 @@
         function createElementWithValidation(
             type, props, children
         ) {
-            var typeString,
-                validType = isValidElementType(
-                    type
-                );
+            var validType = isValidElementType(
+                type
+            );
             if (!validType) {
-                var info = "";
+                var typeString,
+                    info = "";
                 (void 0 === type ||
         ("object" == typeof type &&
           null !== type &&
@@ -1675,7 +1667,15 @@
                 element
             );
         }
-        var didWarnAboutDeprecatedCreateFactory = !1,
+        var propTypesMisspellWarningShown,
+            requestHostCallback,
+            requestHostTimeout,
+            cancelHostTimeout,
+            shouldYieldToHost,
+            requestPaint,
+            getCurrentTime,
+            forceFrameRate,
+            didWarnAboutDeprecatedCreateFactory = !1,
             enableSchedulerDebugging = !1,
             enableProfiling = !1,
             hasPerformanceNow =
@@ -1979,8 +1979,8 @@
                         callback,
                         options,
                     ) {
-                        var startTime,
-                            timeout,
+                        var timeout,
+                            startTime,
                             currentTime = getCurrentTime(
                             );
                         if ("object" == typeof options && null !== options) {
@@ -2293,8 +2293,7 @@
                     unstable_trace: function unstable_trace(
                         name, timestamp, callback
                     ) {
-                        var returnValue,
-                            threadID =
+                        var threadID =
             arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0,
                             interaction = {
                                 __count: 1,
@@ -2309,7 +2308,8 @@
                         interactions.add(
                             interaction
                         ), (interactionsRef.current = interactions);
-                        var subscriber = subscriberRef.current;
+                        var returnValue,
+                            subscriber = subscriberRef.current;
                         try {
                             null !== subscriber && subscriber.onInteractionTraced(
                                 interaction

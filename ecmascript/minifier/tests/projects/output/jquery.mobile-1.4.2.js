@@ -691,9 +691,9 @@
                         );
                         if (this.length)
                             for (
-                                var elem = $(
-                                        this[0]
-                                    ), position, value;
+                                var position, value, elem = $(
+                                    this[0]
+                                );
                                 elem.length && elem[0] !== document;
 
                             ) {
@@ -889,11 +889,11 @@
                         el, defaultTheme
                     ) {
                         for (
-                            var e = el[0],
+                            var c,
+                                m,
+                                e = el[0],
                                 ltr = "",
-                                re = /ui-(bar|body|overlay)-([a-z])\b/,
-                                c,
-                                m;
+                                re = /ui-(bar|body|overlay)-([a-z])\b/;
                             e;
 
                         ) {
@@ -1192,7 +1192,7 @@
             ($.cleanData = function (
                 elems
             ) {
-                for (var i = 0, elem; null != (elem = elems[i]); i++)
+                for (var elem, i = 0; null != (elem = elems[i]); i++)
                     try {
                         $(
                             elem
@@ -1361,14 +1361,14 @@
                 target
             ) {
                 for (
-                    var input = slice.call(
+                    var key,
+                        value,
+                        input = slice.call(
                             arguments,
                             1
                         ),
                         inputIndex = 0,
-                        inputLength = input.length,
-                        key,
-                        value;
+                        inputLength = input.length;
                     inputIndex < inputLength;
                     inputIndex++
                 )
@@ -4107,8 +4107,8 @@
             function getVirtualBindingFlags(
                 element
             ) {
-                for (var flags = {
-                    }, b, k; element; ) {
+                for (var b, k, flags = {
+                }; element; ) {
                     for (k in (b = $.data(
                         element,
                         dataPropertyName
@@ -19626,7 +19626,7 @@
             (disabled.length
                 ? disabled.length === this.anchors.length && (disabled = !0)
                 : (disabled = !1));
-                        for (var i = 0, li; (li = this.tabs[i]); i++)
+                        for (var li, i = 0; (li = this.tabs[i]); i++)
                             !0 === disabled || -1 !== $.inArray(
                                 i,
                                 disabled

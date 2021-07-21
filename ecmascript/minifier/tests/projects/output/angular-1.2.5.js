@@ -89,7 +89,6 @@
         jQuery,
         angularModule,
         nodeName_,
-        promiseWarning,
         lowercase = function (
             string
         ) {
@@ -222,7 +221,7 @@
     }
     function nextUid(
     ) {
-        for (var index = uid.length, digit; index; ) {
+        for (var digit, index = uid.length; index; ) {
             if ((index--, 57 == (digit = uid[index].charCodeAt(
                 0
             ))))
@@ -1226,10 +1225,10 @@
     ) {
         if (!path) return obj;
         for (
-            var keys = path.split(
+            var key,
+                keys = path.split(
                     "."
                 ),
-                key,
                 lastInstance = obj,
                 len = keys.length,
                 i = 0;
@@ -2733,8 +2732,7 @@
     function Browser(
         window, document, $log, $sniffer
     ) {
-        var pollTimeout,
-            self = this,
+        var self = this,
             rawDocument = document[0],
             location = window.location,
             history = window.history,
@@ -2769,7 +2767,8 @@
                         }
             }
         }
-        var pollFns = [];
+        var pollTimeout,
+            pollFns = [];
         function startPoller(
             interval, setTimeout
         ) {
@@ -6331,12 +6330,12 @@
                     for (
                         var startIndex,
                             endIndex,
+                            fn,
+                            exp,
                             index = 0,
                             parts = [],
                             length = text.length,
                             hasInterpolation = !1,
-                            fn,
-                            exp,
                             concat = [];
                         index < length;
 
@@ -6392,7 +6391,7 @@
                                 context
                             ) {
                                 try {
-                                    for (var i = 0, ii = length, part; i < ii; i++)
+                                    for (var part, i = 0, ii = length; i < ii; i++)
                                         "function" == typeof (part = parts[i]) &&
                         ((part = part(
                             context
@@ -7247,7 +7246,8 @@
             },
         ]);
     }
-    var $parseMinErr = minErr(
+    var promiseWarning,
+        $parseMinErr = minErr(
             "$parse"
         ),
         promiseWarningCache = {
@@ -7562,9 +7562,9 @@
     ) {
         options = options || {
         };
-        for (var element = path.split(
+        for (var key, element = path.split(
                 "."
-            ), key, i = 0; element.length > 1; i++) {
+            ), i = 0; element.length > 1; i++) {
             var propertyObj =
         obj[(key = ensureSafeMemberName(
             element.shift(
@@ -10038,8 +10038,7 @@
         ) || !isFinite(
             number
         )) return "";
-        var i,
-            isNegative = number < 0,
+        var isNegative = number < 0,
             numStr = (number = Math.abs(
                 number
             )) + "",
@@ -10088,7 +10087,8 @@
                 ),
                 whole = fraction[0];
             fraction = fraction[1] || "";
-            var pos = 0,
+            var i,
+                pos = 0,
                 lgroup = pattern.lgSize,
                 group = pattern.gSize;
             if (whole.length >= lgroup + group)
@@ -10943,10 +10943,7 @@
     function textInputType(
         scope, element, attr, ctrl, $sniffer, $browser
     ) {
-        var timeout,
-            patternValidator,
-            match,
-            composing = !1;
+        var composing = !1;
         element.on(
             "compositionstart",
             function (
@@ -10989,17 +10986,18 @@
             listener
         );
         else {
-            var deferListener = function (
-            ) {
-                timeout ||
-          (timeout = $browser.defer(
-              function (
-              ) {
-                  listener(
-                  ), (timeout = null);
-              }
-          ));
-            };
+            var timeout,
+                deferListener = function (
+                ) {
+                    timeout ||
+            (timeout = $browser.defer(
+                function (
+                ) {
+                    listener(
+                    ), (timeout = null);
+                }
+            ));
+                };
             element.on(
                 "keydown",
                 function (
@@ -11034,7 +11032,9 @@
                     : ctrl.$viewValue
             );
         });
-        var pattern = attr.ngPattern,
+        var patternValidator,
+            match,
+            pattern = attr.ngPattern,
             validate = function (
                 regexp, value
             ) {
@@ -14842,13 +14842,13 @@
         readIdent: function (
         ) {
             for (
-                var parser = this,
-                    ident = "",
-                    start = this.index,
-                    lastDot,
+                var lastDot,
                     peekIndex,
                     methodName,
-                    ch;
+                    ch,
+                    parser = this,
+                    ident = "",
+                    start = this.index;
                 this.index < this.text.length;
 
             ) {
@@ -15054,7 +15054,6 @@
         },
         primary: function (
         ) {
-            var primary;
             if (this.expect(
                 "("
             )) (primary = this.filterChain(
@@ -15070,8 +15069,11 @@
             )) primary = this.object(
             );
             else {
-                var token = this.expect(
-                );
+                var primary,
+                    next,
+                    context,
+                    token = this.expect(
+                    );
                 (primary = token.fn) ||
             this.throwError(
                 "not a primary expression",
@@ -15079,7 +15081,7 @@
             ),
                 token.json && ((primary.constant = !0), (primary.literal = !0));
             }
-            for (var next, context; (next = this.expect(
+            for (; (next = this.expect(
                 "(",
                 "[",
                 "."
@@ -15277,8 +15279,8 @@
         },
         filterChain: function (
         ) {
-            for (var left = this.expression(
-                ), token; ; ) {
+            for (var token, left = this.expression(
+            ); ; ) {
                 if (!(token = this.expect(
                     "|"
                 ))) return left;
@@ -15393,8 +15395,8 @@
         },
         logicalOR: function (
         ) {
-            for (var left = this.logicalAND(
-                ), token; ; ) {
+            for (var token, left = this.logicalAND(
+            ); ; ) {
                 if (!(token = this.expect(
                     "||"
                 ))) return left;
@@ -15469,8 +15471,8 @@
         additive: function (
         ) {
             for (
-                var left = this.multiplicative(
-                    ), token;
+                var token, left = this.multiplicative(
+                );
                 (token = this.expect(
                     "+",
                     "-"
@@ -15488,8 +15490,8 @@
         multiplicative: function (
         ) {
             for (
-                var left = this.unary(
-                    ), token;
+                var token, left = this.unary(
+                );
                 (token = this.expect(
                     "*",
                     "/",

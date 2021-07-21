@@ -874,7 +874,7 @@ Array.implement(
         filter: function (
             fn, bind
         ) {
-            for (var results = [], value, i = 0, l = this.length >>> 0; i < l; i++)
+            for (var value, results = [], i = 0, l = this.length >>> 0; i < l; i++)
                 i in this &&
           ((value = this[i]),
           fn.call(
@@ -3267,14 +3267,7 @@ function (
     (local.setDocument = function (
         document
     ) {
-        var feature,
-            starSelectsClosed,
-            starSelectsComments,
-            brokenSecondClassNameGEBCN,
-            cachedGetElementsByClassName,
-            brokenFormAttributeGetter,
-            selected,
-            nodeType = document.nodeType;
+        var nodeType = document.nodeType;
         if (
             (9 == nodeType ||
             (nodeType
@@ -3283,7 +3276,8 @@ function (
             this.document !== document)
         ) {
             this.document = document;
-            var root = document.documentElement,
+            var feature,
+                root = document.documentElement,
                 rootUid = this.getUIDXML(
                     root
                 ),
@@ -3298,7 +3292,13 @@ function (
                 document
             )),
             (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
-            var id = "slick_uniqueid",
+            var starSelectsClosed,
+                starSelectsComments,
+                brokenSecondClassNameGEBCN,
+                cachedGetElementsByClassName,
+                brokenFormAttributeGetter,
+                selected,
+                id = "slick_uniqueid",
                 testNode = document.createElement(
                     "div"
                 ),
@@ -3600,29 +3600,13 @@ function (
     (local.search = function (
         context, expression, append, first
     ) {
-        var parsed,
-            i,
-            node,
-            nodes,
-            j,
-            m,
-            n,
-            combinator,
-            tag,
-            id,
-            classList,
-            classes,
-            attributes,
-            pseudos,
-            currentItems,
-            currentExpression,
-            currentBit,
-            lastBit,
-            found = (this.found = first ? null : append || []);
+        var found = (this.found = first ? null : append || []);
         if (!context) return found;
         if (context.navigator) context = context.document;
         else if (!context.nodeType) return found;
-        var uniques = (this.uniques = {
+        var parsed,
+            i,
+            uniques = (this.uniques = {
             }),
             hasOthers = !!(append && append.length),
             contextIsDocument = 9 == context.nodeType;
@@ -3642,7 +3626,9 @@ function (
                 reSimpleSelector
             );
             simpleSelectors: if (simpleSelector) {
-                var symbol = simpleSelector[1],
+                var node,
+                    nodes,
+                    symbol = simpleSelector[1],
                     name = simpleSelector[2];
                 if (symbol) {
                     if ("#" == symbol) {
@@ -3831,7 +3817,21 @@ function (
               ? this.pushArray
               : this.pushUID),
         null == found && (found = []);
-        var expressions = parsed.expressions;
+        var j,
+            m,
+            n,
+            combinator,
+            tag,
+            id,
+            classList,
+            classes,
+            attributes,
+            pseudos,
+            currentItems,
+            currentExpression,
+            currentBit,
+            lastBit,
+            expressions = parsed.expressions;
         search: for (i = 0; (currentExpression = expressions[i]); i++)
             for (j = 0; (currentBit = currentExpression[j]); j++) {
                 if (!this[(combinator = "combinator:" + currentBit.combinator)])
@@ -4068,13 +4068,12 @@ function (
                     ),
                 );
             } catch (matchError) {}
-        var i,
-            item,
-            parsed = this.Slick.parse(
-                selector
-            );
+        var parsed = this.Slick.parse(
+            selector
+        );
         if (!parsed) return !0;
-        var expressions = parsed.expressions,
+        var i,
+            expressions = parsed.expressions,
             simpleExpCounter = 0;
         for (i = 0; (currentExpression = expressions[i]); i++)
             if (1 == currentExpression.length) {
@@ -4096,10 +4095,11 @@ function (
                 simpleExpCounter++;
             }
         if (simpleExpCounter == parsed.length) return !1;
-        var nodes = this.search(
-            this.document,
-            parsed
-        );
+        var item,
+            nodes = this.search(
+                this.document,
+                parsed
+            );
         for (i = 0; (item = nodes[i++]); ) if (item === node) return !0;
         return !1;
     }),
@@ -5013,8 +5013,8 @@ var IFrame = new Type(
         nodes
     ) {
         if (nodes && nodes.length)
-            for (var uniques = {
-                }, node, i = 0; (node = nodes[i++]); ) {
+            for (var node, uniques = {
+                }, i = 0; (node = nodes[i++]); ) {
                 var uid = Slick.uidOf(
                     node
                 );

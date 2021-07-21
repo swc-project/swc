@@ -3,17 +3,6 @@
 ) {
     var readyList,
         rootjQuery,
-        nodeHook,
-        boolHook,
-        iframe,
-        getStyles,
-        curCSS,
-        ajaxLocParts,
-        ajaxLocation,
-        xhrCallbacks,
-        xhrSupported,
-        fxNow,
-        timerId,
         core_strundefined = "undefined",
         document = window.document,
         location = window.location,
@@ -293,7 +282,9 @@
                 return !1;
         return !0;
     }
-    var rclass = /[\t\r\n]/g,
+    var nodeHook,
+        boolHook,
+        rclass = /[\t\r\n]/g,
         rreturn = /\r/g,
         rfocusable = /^(?:input|select|textarea|button|object)$/i,
         rclickable = /^(?:a|area)$/i,
@@ -628,7 +619,10 @@
         ) &&
       (elem.defaultChecked = elem.checked);
     }
-    var ralpha = /alpha\([^)]*\)/i,
+    var iframe,
+        getStyles,
+        curCSS,
+        ralpha = /alpha\([^)]*\)/i,
         ropacity = /opacity\s*=\s*([^)]*)/,
         rposition = /^(top|right|bottom|left)$/,
         rdisplayswap = /^(none|table(?!-c[ea]).+)/,
@@ -959,7 +953,9 @@
                     add
                 );
     }
-    var ajax_nonce = jQuery.now(
+    var ajaxLocParts,
+        ajaxLocation,
+        ajax_nonce = jQuery.now(
         ),
         ajax_rquery = /\?/,
         rhash = /#.*$/,
@@ -1201,7 +1197,9 @@
             data: response,
         };
     }
-    var oldCallbacks = [],
+    var xhrCallbacks,
+        xhrSupported,
+        oldCallbacks = [],
         rjsonp = /(=)\?(?=&|$)|\?\?/,
         xhrId = 0,
         xhrOnUnloadAbort =
@@ -1229,7 +1227,9 @@
             );
         } catch (e) {}
     }
-    var rfxtypes = /^(?:toggle|show|hide)$/,
+    var fxNow,
+        timerId,
+        rfxtypes = /^(?:toggle|show|hide)$/,
         rfxnum = new RegExp(
             "^(?:([+-])=|)(" + core_pnum + ")([a-z%]*)$",
             "i"
@@ -11724,14 +11724,14 @@
         setOffset: function (
             elem, options, i
         ) {
+            var position = jQuery.css(
+                elem,
+                "position"
+            );
+            "static" === position && (elem.style.position = "relative");
             var curTop,
                 curLeft,
-                position = jQuery.css(
-                    elem,
-                    "position"
-                );
-            "static" === position && (elem.style.position = "relative");
-            var curElem = jQuery(
+                curElem = jQuery(
                     elem
                 ),
                 curOffset = curElem.offset(

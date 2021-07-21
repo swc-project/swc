@@ -942,6 +942,14 @@
             models,
             options
         ));
+                var singular = !_.isArray(
+                    models
+                );
+                models = singular
+                    ? (models ? [models,] : [])
+                    : _.clone(
+                        models
+                    );
                 var i,
                     l,
                     id,
@@ -949,15 +957,7 @@
                     attrs,
                     existing,
                     sort,
-                    singular = !_.isArray(
-                        models
-                    );
-                models = singular
-                    ? (models ? [models,] : [])
-                    : _.clone(
-                        models
-                    );
-                var at = options.at,
+                    at = options.at,
                     targetModel = this.model,
                     sortable = this.comparator && null == at && !1 !== options.sort,
                     sortAttr = _.isString(
