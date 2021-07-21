@@ -5,7 +5,16 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 
 impl Optimizer<'_> {
+    /// Calls `reorder_stmts_inner` after splitting stmts.
     pub(super) fn reorder_stmts<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: MoudleItemExt,
+    {
+        self.reorder_stmts_inner(stmts);
+    }
+
+    /// Sorts given statements.
+    fn reorder_stmts_inner<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: MoudleItemExt,
     {
@@ -66,7 +75,6 @@ impl Optimizer<'_> {
                 }
 
                 _ => {
-                    other.extend(fns.drain(..));
                     other.push(T::from_module_item(stmt));
                 }
             }
