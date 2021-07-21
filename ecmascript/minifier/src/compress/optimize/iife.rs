@@ -208,7 +208,7 @@ impl Optimizer<'_> {
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
                             log::debug!(
-                                "iife: Trying to inline {}{:?}",
+                                "iife: Trying to inline argument ({}{:?})",
                                 param.id.sym,
                                 param.id.span.ctxt
                             );
@@ -216,7 +216,7 @@ impl Optimizer<'_> {
                         }
                     } else {
                         log::debug!(
-                            "iife: Trying to inline {}{:?} (undefined)",
+                            "iife: Trying to inline argument ({}{:?}) (undefined)",
                             param.id.sym,
                             param.id.span.ctxt
                         );
