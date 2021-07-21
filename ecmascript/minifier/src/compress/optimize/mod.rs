@@ -289,6 +289,8 @@ impl Optimizer<'_> {
             *stmts = new;
         }
 
+        self.drop_useless_blocks(stmts);
+
         self.reorder_stmts(stmts);
 
         self.merge_simillar_ifs(stmts);
