@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::compress::optimize::Ctx;
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
@@ -909,9 +910,14 @@ impl Optimizer<'_> {
                     left_id.span.ctxt
                 );
 
+                let ctx = Ctx {
+                    inline_as_assignment: false,
+                    ..self.ctx
+                };
+
                 let mut vars = HashMap::default();
                 vars.insert(left_id.to_id(), Box::new(a.take()));
-                self.inline_vars_in_node(b, vars);
+                self.with_ctx(ctx).inline_vars_in_node(b, vars);
                 true
             }
             _ => false,
