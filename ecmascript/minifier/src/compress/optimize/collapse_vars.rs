@@ -266,9 +266,8 @@ impl Optimizer<'_> {
     pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitWith<VarWithOutInitCounter>
-            + VisitMutWith<VarCollector>
-            + VisitMutWith<VarPrepender>,
+        Vec<T>:
+            VisitWith<VarWithOutInitCounter> + VisitMutWith<VarMover> + VisitMutWith<VarPrepender>,
     {
         if !self.options.collapse_vars {
             return;
@@ -315,7 +314,7 @@ impl Optimizer<'_> {
         log::debug!("collapse_vars: Collapsing variables without an initializer");
 
         let vars = {
-            let mut v = VarCollector {
+            let mut v = VarMover {
                 vars: Default::default(),
                 var_decl_kind: Default::default(),
             };
@@ -389,13 +388,13 @@ impl Visit for VarWithOutInitCounter {
     fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat, _: &dyn Node) {}
 }
 
-/// Collects all varaible without init.
-pub(super) struct VarCollector {
+/// Moves all varaible without initializer.
+pub(super) struct VarMover {
     vars: Vec<VarDeclarator>,
     var_decl_kind: Option<VarDeclKind>,
 }
 
-impl VisitMut for VarCollector {
+impl VisitMut for VarMover {
     noop_visit_mut_type!();
 
     /// Noop

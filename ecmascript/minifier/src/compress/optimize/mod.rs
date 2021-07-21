@@ -243,7 +243,7 @@ impl Optimizer<'_> {
             + VisitWith<UsageAnalyzer>
             + VisitWith<self::collapse_vars::VarWithOutInitCounter>
             + VisitMutWith<self::collapse_vars::VarPrepender>
-            + VisitMutWith<self::collapse_vars::VarCollector>,
+            + VisitMutWith<self::collapse_vars::VarMover>,
     {
         match self.data {
             Some(..) => {}
