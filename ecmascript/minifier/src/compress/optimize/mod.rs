@@ -2373,14 +2373,6 @@ impl VisitMut for Optimizer<'_> {
 
             var.name.visit_mut_with(&mut *self.with_ctx(ctx));
 
-            match &var.name {
-                Pat::Ident(name) => {
-                    self.vars_accessible_without_side_effect
-                        .insert(name.to_id());
-                }
-                _ => {}
-            }
-
             var.init.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
