@@ -1,8 +1,8 @@
 export const obj = {
     setOffset: function(elem, options, i) {
-        var curTop, curLeft, position = jQuery.css(elem, "position");
+        var position = jQuery.css(elem, "position");
         "static" === position && (elem.style.position = "relative");
-        var curElem = jQuery(elem), curOffset = curElem.offset(), curCSSTop = jQuery.css(elem, "top"), curCSSLeft = jQuery.css(elem, "left"), calculatePosition = ("absolute" === position || "fixed" === position) && jQuery.inArray("auto", [curCSSTop,
+        var curTop, curLeft, curElem = jQuery(elem), curOffset = curElem.offset(), curCSSTop = jQuery.css(elem, "top"), curCSSLeft = jQuery.css(elem, "left"), calculatePosition = ("absolute" === position || "fixed" === position) && jQuery.inArray("auto", [curCSSTop,
             curCSSLeft]) > -1, props = {
         }, curPosition = {
         };
