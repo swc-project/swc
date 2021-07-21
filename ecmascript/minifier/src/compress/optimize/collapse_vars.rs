@@ -347,7 +347,7 @@ impl Optimizer<'_> {
 #[derive(Default)]
 pub(super) struct VarWithOutInitCounter {
     need_work: bool,
-    found_var_decl_without_init: bool,
+    found_var_without_init: bool,
     found_var_with_init: bool,
 }
 
@@ -367,21 +367,25 @@ impl Visit for VarWithOutInitCounter {
             return;
         }
 
-        if v.decls.iter().any(|v| v.init.is_none()) {
-            if self.found_var_decl_without_init {
-                self.need_work = true;
-            }
-            self.found_var_decl_without_init = true;
-        }
-
+        let mut found_init = false;
         for d in &v.decls {
             if d.init.is_some() {
-                self.found_var_with_init = true
+                found_init = true;
             } else {
-                if self.found_var_with_init {
+                if found_init {
                     self.need_work = true;
+                    return;
                 }
             }
+        }
+
+        if v.decls.iter().all(|v| v.init.is_none()) {
+            if self.found_var_without_init || self.found_var_with_init {
+                self.need_work = true;
+            }
+            self.found_var_without_init = true;
+        } else {
+            self.found_var_with_init = true;
         }
     }
 
