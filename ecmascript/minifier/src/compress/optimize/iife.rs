@@ -4,6 +4,7 @@ use crate::util::idents_used_by;
 use crate::util::make_number;
 use crate::util::IdentUsageCollector;
 use fxhash::FxHashMap;
+use indexmap::IndexSet;
 use std::collections::HashMap;
 use std::mem::replace;
 use std::mem::swap;
@@ -399,6 +400,8 @@ impl Optimizer<'_> {
                 }
 
                 let injected_vars: Vec<Ident> = find_ids(&f.function.params);
+                let injected_vars = injected_vars.into_iter().collect::<IndexSet<_>>();
+                let injected_vars = injected_vars.into_iter().collect::<Vec<_>>();
                 if !injected_vars.is_empty() {
                     self.append_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
                         span: DUMMY_SP,
