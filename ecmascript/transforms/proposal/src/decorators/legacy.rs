@@ -471,7 +471,7 @@ impl Legacy {
                 }))
             }
 
-            ClassMember::ClassProp(mut p) if !p.decorators.is_empty() => {
+            ClassMember::ClassProp(p) if !p.decorators.is_empty() => {
                 let prototype = if p.is_static {
                     cls_ident.clone().as_arg()
                 } else {
