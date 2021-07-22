@@ -310,6 +310,15 @@ impl Legacy {
             computed: false,
         };
 
+        c.class.body.iter_mut().for_each(|m| match m {
+            ClassMember::ClassProp(p) => {
+                if let Some(name) = &cls_name {
+                    replace_ident(&mut p.value, name.to_id(), &cls_ident);
+                }
+            }
+            _ => {}
+        });
+
         c.class.body = c.class.body.move_flat_map(|m| match m {
             ClassMember::Method(mut m)
                 if !m.function.decorators.is_empty()
