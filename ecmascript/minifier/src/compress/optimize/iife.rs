@@ -399,6 +399,16 @@ impl Optimizer<'_> {
                     }
                 }
 
+                for arg in &call.args {
+                    if arg.spread.is_some() {
+                        return;
+                    }
+                    match &*arg.expr {
+                        Expr::Fn(..) | Expr::Arrow(..) => return,
+                        _ => {}
+                    }
+                }
+
                 let injected_vars: Vec<Ident> = find_ids(&f.function.params);
 
                 let body = f.function.body.as_mut().unwrap();
