@@ -1533,6 +1533,10 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
+        let is_this_undefined = match &e.callee {
+            ExprOrSuper::Super(_) => false,
+            ExprOrSuper::Expr(e) => e.is_ident(),
+        };
         {
             let ctx = Ctx {
                 is_this_aware_callee: match &e.callee {
@@ -1542,6 +1546,26 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        if is_this_undefined {
+            match &mut e.callee {
+                ExprOrSuper::Expr(callee) => match &mut **callee {
+                    Expr::Member(..) => {
+                        let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                            span: DUMMY_SP,
+                            value: 0.0,
+                        })));
+
+                        *callee = Box::new(Expr::Seq(SeqExpr {
+                            span: callee.span(),
+                            exprs: vec![zero, callee.take()],
+                        }));
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
         }
 
         {
