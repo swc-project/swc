@@ -1557,6 +1557,7 @@ impl VisitMut for Optimizer<'_> {
                             span: DUMMY_SP,
                             value: 0.0,
                         })));
+                        log::trace!("injecting zero to preserve `this` in call");
 
                         *callee = Box::new(Expr::Seq(SeqExpr {
                             span: callee.span(),
@@ -2469,7 +2470,7 @@ fn is_pure_undefined_or_null(e: &Expr) -> bool {
 fn is_callee_this_aware(callee: &Expr) -> bool {
     match &*callee {
         Expr::Arrow(..) => return false,
-        Expr::Seq(s) => return is_callee_this_aware(s.exprs.last().unwrap()),
+        Expr::Seq(..) => return true,
         Expr::Member(MemberExpr {
             obj: ExprOrSuper::Expr(obj),
             ..
