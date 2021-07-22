@@ -1316,13 +1316,13 @@ impl VisitMut for SimplifyExpr {
                                 if expr.is_object() =>
                             {
                                 let props = expr.object().unwrap().props;
-                                ps.extend(props)
+                                ps.extend(props);
+                                self.changed = true;
                             }
 
                             _ => ps.push(p),
                         }
                     }
-                    self.changed = true;
                     ObjectLit { span, props: ps }.into()
                 }
 
