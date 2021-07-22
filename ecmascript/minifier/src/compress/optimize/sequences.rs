@@ -660,7 +660,10 @@ impl Optimizer<'_> {
                 if self.merge_sequential_expr(
                     a1.last_mut().unwrap(),
                     match &mut a2[j - idx] {
-                        Mergable::Var(..) => continue,
+                        Mergable::Var(b) => match b.init.as_deref_mut() {
+                            Some(v) => v,
+                            None => continue,
+                        },
                         Mergable::Expr(e) => e,
                     },
                 ) {
