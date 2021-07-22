@@ -43,6 +43,16 @@ jobs:
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.13"
 
+      - name: Strip (linux)
+        shell: bash
+        if: matrix.os == 'ubuntu-18.04'
+        run: strip swc.*.node
+
+      - name: Strip (mac os x)
+        shell: bash
+        if: matrix.os == 'macos-latest'
+        run: strip -x swc.*.node
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
