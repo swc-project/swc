@@ -192,6 +192,10 @@ impl Optimizer<'_> {
                             }
                         }
 
+                        if init.may_have_side_effects() {
+                            return;
+                        }
+
                         log::debug!(
                             "inline: Decided to inline '{}{:?}' because it's used only once",
                             i.id.sym,
