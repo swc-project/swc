@@ -192,16 +192,6 @@ impl Optimizer<'_> {
                             }
                         }
 
-                        if init.may_have_side_effects() {
-                            if !self
-                                .vars_accessible_without_side_effect
-                                .contains(&i.to_id())
-                            {
-                                // TODO: Inline partially
-                                return;
-                            }
-                        }
-
                         log::debug!(
                             "inline: Decided to inline '{}{:?}' because it's used only once",
                             i.id.sym,

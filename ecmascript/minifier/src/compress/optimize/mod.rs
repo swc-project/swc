@@ -5,7 +5,6 @@ use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
 use crate::util::MoudleItemExt;
 use fxhash::FxHashMap;
-use fxhash::FxHashSet;
 use retain_mut::RetainMut;
 use std::fmt::Write;
 use std::mem::take;
@@ -95,7 +94,6 @@ pub(super) fn optimizer<'a>(
         ctx: Default::default(),
         done,
         done_ctxt,
-        vars_accessible_without_side_effect: Default::default(),
         label: Default::default(),
     }
 }
@@ -218,8 +216,6 @@ struct Optimizer<'a> {
     /// In future: This will be used to `mark` node as done.
     done: Mark,
     done_ctxt: SyntaxContext,
-
-    vars_accessible_without_side_effect: FxHashSet<Id>,
 
     /// Closest label.
     label: Option<Id>,
@@ -1465,8 +1461,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.compress_bin_assignment_to_left(e);
         self.compress_bin_assignment_to_right(e);
-
-        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
@@ -1550,15 +1544,6 @@ impl VisitMut for Optimizer<'_> {
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        match &e.callee {
-            ExprOrSuper::Super(_) => {}
-            ExprOrSuper::Expr(e) => {
-                if e.may_have_side_effects() {
-                    self.vars_accessible_without_side_effect.clear();
-                }
-            }
-        }
-
         {
             let ctx = Ctx {
                 is_this_aware_callee: false,
@@ -1571,8 +1556,6 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_symbol_call_unsafely(e);
 
         self.inline_args_of_iife(e);
-
-        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
@@ -1889,7 +1872,6 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
-        let old_vars = take(&mut self.vars_accessible_without_side_effect);
         {
             let ctx = Ctx {
                 stmt_lablled: false,
@@ -1933,8 +1915,6 @@ impl VisitMut for Optimizer<'_> {
             };
             self.with_ctx(ctx).optimize_usage_of_arguments(n);
         }
-
-        self.vars_accessible_without_side_effect = old_vars;
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
@@ -2007,15 +1987,9 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
         n.callee.visit_mut_with(self);
 
-        if n.callee.may_have_side_effects() {
-            self.vars_accessible_without_side_effect.clear();
-        }
-
         {
             n.args.visit_mut_with(self);
         }
-
-        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
@@ -2332,8 +2306,6 @@ impl VisitMut for Optimizer<'_> {
         };
 
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-        self.vars_accessible_without_side_effect.clear();
     }
 
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
