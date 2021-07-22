@@ -1,10 +1,8 @@
 use super::Optimizer;
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
 use crate::compress::optimize::Ctx;
-use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;
-use std::borrow::BorrowMut;
 use std::collections::HashMap;
 use std::mem::take;
 use swc_atoms::js_word;
@@ -633,7 +631,14 @@ impl Optimizer<'_> {
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
-        self.merge_sequences_in_exprs(&mut e.exprs);
+        let mut exprs = e
+            .exprs
+            .iter_mut()
+            .map(|e| &mut **e)
+            .map(Mergable::Expr)
+            .collect();
+
+        self.merge_sequences_in_exprs(&mut exprs);
 
         e.exprs.retain(|e| !e.is_invalid());
     }
@@ -643,7 +648,7 @@ impl Optimizer<'_> {
     ///
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
-    pub(super) fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
+    fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
                 let (a1, a2) = exprs.split_at_mut(idx);
@@ -655,7 +660,7 @@ impl Optimizer<'_> {
                 if self.merge_sequential_expr(
                     a1.last_mut().unwrap(),
                     match &mut a2[j - idx] {
-                        Mergable::Var(v) => continue,
+                        Mergable::Var(..) => continue,
                         Mergable::Expr(e) => e,
                     },
                 ) {
@@ -821,108 +826,138 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        if cfg!(feature = "debug") && false {
-            log::trace!(
-                "sequences: Trying to merge `{}` => `{}`",
-                dump(&*a),
-                dump(&*b)
-            );
-        }
+        // if cfg!(feature = "debug") && false {
+        //     log::trace!(
+        //         "sequences: Trying to merge `{}` => `{}`",
+        //         dump(&*a),
+        //         dump(&*b)
+        //     );
+        // }
 
-        match a {
-            Expr::Assign(AssignExpr {
-                op: op!("="),
-                left,
-                right,
-                ..
-            }) => {
-                if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
-                    return false;
-                }
-                if idents_used_by_ignoring_nested(&**right)
-                    .iter()
-                    .any(|v| v.0 == js_word!("arguments"))
-                {
-                    return false;
-                }
+        let (left_id, right) = match a {
+            Mergable::Expr(a) => {
+                match a {
+                    Expr::Assign(AssignExpr {
+                        op: op!("="),
+                        left,
+                        right,
+                        ..
+                    }) => {
+                        // (a = 5, console.log(a))
+                        //
+                        // =>
+                        //
+                        // (console.log(a = 5))
 
-                // (a = 5, console.log(a))
-                //
-                // =>
-                //
-                // (console.log(a = 5))
+                        let left_id = match get_lhs_ident(left) {
+                            Some(v) => v,
+                            None => {
+                                log::trace!("[X] sequences: Aborting because lhs is not an id");
 
-                let left_id = match get_lhs_ident(left) {
-                    Some(v) => v,
-                    None => {
-                        log::trace!("[X] sequences: Aborting because lhs is not an id");
+                                return false;
+                            }
+                        };
 
-                        return false;
+                        (left_id.clone(), right)
                     }
-                };
-
-                {
-                    // Abort this if there's some side effects.
-                    //
-                    //
-                    // (rand = _.random(
-                    //     index++
-                    // )),
-                    // (shuffled[index - 1] = shuffled[rand]),
-                    // (shuffled[rand] = value);
-                    //
-                    //
-                    // rand should not be inlined because of `index`.
-
-                    let deps = idents_used_by_ignoring_nested(&*right);
-
-                    let used_by_b = idents_used_by(&*b);
-
-                    for id in &deps {
-                        if *id == left_id.to_id() {
-                            continue;
-                        }
-
-                        if used_by_b.contains(id) {
-                            log::trace!("[X] sequences: Aborting because of deps");
-                            return false;
-                        }
-                    }
+                    _ => return false,
                 }
-
-                {
-                    let mut v = UsageCoutner {
-                        expr_usage: Default::default(),
-                        pat_usage: Default::default(),
-                        target: left_id,
-                        in_lhs: false,
-                    };
-                    b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
-                    if v.expr_usage != 1 || v.pat_usage != 0 {
-                        log::trace!("[X] sequences: Aborting because counts");
-                        return false;
-                    }
-                }
-
-                self.changed = true;
-                log::debug!(
-                    "sequences: Inlining sequential expressions (`{}{:?}`)",
-                    left_id.sym,
-                    left_id.span.ctxt
-                );
-
-                let ctx = Ctx {
-                    inline_as_assignment: false,
-                    ..self.ctx
-                };
-
-                let mut vars = HashMap::default();
-                vars.insert(left_id.to_id(), Box::new(a.take()));
-                self.with_ctx(ctx).inline_vars_in_node(b, vars);
-                true
             }
-            _ => false,
+
+            Mergable::Var(a) => {
+                let left = match &a.name {
+                    Pat::Ident(i) => i.id.clone(),
+                    _ => return false,
+                };
+
+                match &mut a.init {
+                    Some(v) => (left, v),
+                    None => return false,
+                }
+            }
+        };
+
+        if right.is_this() || right.is_ident_ref_to(js_word!("arguments")) {
+            return false;
         }
+        if idents_used_by_ignoring_nested(&**right)
+            .iter()
+            .any(|v| v.0 == js_word!("arguments"))
+        {
+            return false;
+        }
+
+        {
+            // Abort this if there's some side effects.
+            //
+            //
+            // (rand = _.random(
+            //     index++
+            // )),
+            // (shuffled[index - 1] = shuffled[rand]),
+            // (shuffled[rand] = value);
+            //
+            //
+            // rand should not be inlined because of `index`.
+
+            let deps = idents_used_by_ignoring_nested(&*right);
+
+            let used_by_b = idents_used_by(&*b);
+
+            for id in &deps {
+                if *id == left_id.to_id() {
+                    continue;
+                }
+
+                if used_by_b.contains(id) {
+                    log::trace!("[X] sequences: Aborting because of deps");
+                    return false;
+                }
+            }
+        }
+
+        {
+            let mut v = UsageCoutner {
+                expr_usage: Default::default(),
+                pat_usage: Default::default(),
+                target: &left_id,
+                in_lhs: false,
+            };
+            b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
+            if v.expr_usage != 1 || v.pat_usage != 0 {
+                log::trace!("[X] sequences: Aborting because counts");
+                return false;
+            }
+        }
+
+        self.changed = true;
+        log::debug!(
+            "sequences: Inlining sequential expressions (`{}{:?}`)",
+            left_id.sym,
+            left_id.span.ctxt
+        );
+
+        let ctx = Ctx {
+            inline_as_assignment: false,
+            ..self.ctx
+        };
+
+        let mut vars = HashMap::default();
+        vars.insert(
+            left_id.to_id(),
+            match a {
+                Mergable::Var(a) => Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(a.name.take())),
+                    right: a.init.take().unwrap(),
+                })),
+                Mergable::Expr(a) => Box::new(a.take()),
+            },
+        );
+        self.with_ctx(ctx).inline_vars_in_node(b, vars);
+
+        true
     }
 }
 
