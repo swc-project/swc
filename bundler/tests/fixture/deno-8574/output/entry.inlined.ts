@@ -100,7 +100,7 @@ function drainQueue() {
     while(len){
         currentQueue = queue;
         queue = [];
-        while((++queueIndex) < len){
+        while(++queueIndex < len){
             if (currentQueue) {
                 currentQueue[queueIndex].run();
             }

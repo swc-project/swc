@@ -9,6 +9,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::replace_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
@@ -196,7 +197,12 @@ impl Strip {
 }
 
 impl Strip {
-    fn fold_class_as_decl(&mut self, ident: Ident, mut class: Class) -> (Decl, Vec<Box<Expr>>) {
+    fn fold_class_as_decl(
+        &mut self,
+        ident: Ident,
+        orig_ident: Option<Ident>,
+        mut class: Class,
+    ) -> (Decl, Vec<Box<Expr>>) {
         class.is_abstract = false;
         class.type_params = None;
         class.super_type_params = None;
@@ -253,6 +259,17 @@ impl Strip {
                 class.body = param_class_fields;
             }
         } else {
+            for m in class.body.iter_mut() {
+                match m {
+                    ClassMember::ClassProp(m) => {
+                        if let Some(orig_ident) = &orig_ident {
+                            replace_ident(&mut m.value, orig_ident.to_id(), &ident)
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             let mut key_computations = vec![];
             let mut assign_exprs = vec![];
             let mut new_body = vec![];
@@ -410,7 +427,9 @@ impl Strip {
                         declare: false,
                         class,
                     })) => {
-                        let (decl, extra_exprs) = self.fold_class_as_decl(ident, class);
+                        let orig_ident = ident.clone();
+                        let (decl, extra_exprs) =
+                            self.fold_class_as_decl(ident, Some(orig_ident), class);
                         stmts.push(T::from_stmt(Stmt::Decl(decl)));
                         stmts.extend(extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())));
                     }
@@ -423,8 +442,10 @@ impl Strip {
                             decl: DefaultDecl::Class(ClassExpr { ident, class }),
                             ..
                         }) => {
+                            let orig_ident = ident.clone();
                             let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                            let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
+                            let (decl, extra_exprs) =
+                                self.fold_class_as_decl(ident.clone(), orig_ident, class);
                             stmts.push(T::from_stmt(Stmt::Decl(decl)));
                             stmts.extend(
                                 extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
@@ -462,7 +483,9 @@ impl Strip {
                                 }),
                             ..
                         }) => {
-                            let (decl, extra_exprs) = self.fold_class_as_decl(ident, class);
+                            let orig_ident = ident.clone();
+                            let (decl, extra_exprs) =
+                                self.fold_class_as_decl(ident, Some(orig_ident), class);
                             stmts.push(
                                 match T::try_from_module_decl(ModuleDecl::ExportDecl(ExportDecl {
                                     span,
@@ -495,7 +518,8 @@ impl Strip {
                 class,
             } = n.take().class().unwrap();
             let ident = private_ident!("_class");
-            let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
+            let (decl, extra_exprs) =
+                self.fold_class_as_decl(ident.clone(), old_ident.clone(), class);
             let class_expr = Box::new(Expr::Class(ClassExpr {
                 ident: old_ident,
                 class: decl.class().unwrap().class,
@@ -1281,8 +1305,9 @@ impl VisitMut for Strip {
                 let span = expr.span();
 
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
+                let orig_ident = ident.clone();
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
+                let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), orig_ident, class);
                 let mut stmts = vec![];
                 stmts.push(Stmt::Decl(decl));
                 stmts.extend(

@@ -5126,7 +5126,7 @@ Add a <Suspense fallback=...> component higher in the tree to provide a loading 
                         for(var a; S !== u || i !== 0 && S.nodeType !== 3 || (_4 = y + i), S !== s || d !== 0 && S.nodeType !== 3 || (h = y + d), S.nodeType === 3 && (y += S.nodeValue.length), (a = S.firstChild) !== null;)c = S, S = a;
                         for(;;){
                             if (S === o) break n;
-                            if (c === u && (++k) === i && (_4 = y), c === s && (++E) === d && (h = y), (a = S.nextSibling) !== null) break;
+                            if (c === u && ++k === i && (_4 = y), c === s && ++E === d && (h = y), (a = S.nextSibling) !== null) break;
                             S = c, c = S.parentNode;
                         }
                         S = a;

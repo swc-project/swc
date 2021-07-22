@@ -436,7 +436,7 @@ var load = __spack_require__.bind(void 0, function(module, exports) {
                 if (typeof iterable.next === "function") return iterable;
                 if (!isNaN(iterable.length)) {
                     var i = -1, next = function next1() {
-                        while((++i) < iterable.length)if (hasOwn.call(iterable, i)) {
+                        while(++i < iterable.length)if (hasOwn.call(iterable, i)) {
                             next1.value = iterable[i];
                             next1.done = false;
                             return next1;
