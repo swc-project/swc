@@ -3119,16 +3119,17 @@
                     put: function (
                         key, value
                     ) {
-                        var lruEntry =
-              lruHash[key] ||
-              (lruHash[key] = {
-                  key: key,
-              });
-                        if ((refresh(
-                            lruEntry
-                        ), !isUndefined(
-                            value
-                        )))
+                        if (
+                            (refresh(
+                                lruHash[key] ||
+                  (lruHash[key] = {
+                      key: key,
+                  }),
+                            ),
+                            !isUndefined(
+                                value
+                            ))
+                        )
                             return (
                                 key in data || size++,
                                 (data[key] = value),
@@ -3691,7 +3692,10 @@
                                 attrEndName = !1;
                             (attr = nAttrs[j]),
                             (msie && !(msie >= 8) && !attr.specified) ||
-                      (NG_ATTR_BINDING.test(
+                      ((ngAttrName = directiveNormalize(
+                          (name = attr.name)
+                      )),
+                      NG_ATTR_BINDING.test(
                           ngAttrName
                       ) &&
                         (name = snake_case(
@@ -3701,13 +3705,10 @@
                             "-"
                         )),
                       ngAttrName ===
-                        (ngAttrName = directiveNormalize(
-                            (name = attr.name),
-                        )).replace(
+                        ngAttrName.replace(
                             /(Start|End)$/,
                             ""
-                        ) +
-                          "Start" &&
+                        ) + "Start" &&
                         ((attrStartName = name),
                         (attrEndName = name.substr(
                             0,
@@ -3950,14 +3951,15 @@
                                 "^" == value && (retrievalMethod = "inheritedData"),
                                 (optional = optional || "?" == value);
                             if (
-                                (elementControllers &&
+                                ((value = null),
+                                elementControllers &&
                     "data" === retrievalMethod &&
                     (value = elementControllers[require]),
                                 !(value =
-                    ((value = null),
+                    value ||
                     $element[retrievalMethod](
                         "$" + require + "Controller"
-                    ))) &&
+                    )) &&
                     !optional)
                             )
                                 throw $compileMinErr(
@@ -4081,7 +4083,10 @@
                                         break;
                                     case "=":
                                         if (!optional || attrs[attrName]) {
-                                            (compare = parentGet.literal
+                                            (compare = (parentGet = $parse(
+                                                attrs[attrName]
+                                            ))
+                                                .literal
                                                 ? equals
                                                 : function (
                                                     a, b
@@ -4089,9 +4094,7 @@
                                                     return a === b;
                                                 }),
                                             (parentSet =
-                                (parentGet = $parse(
-                                    attrs[attrName]
-                                )).assign ||
+                                parentGet.assign ||
                                 function (
                                 ) {
                                     throw (
@@ -4203,10 +4206,11 @@
                                     $attrs: attrs,
                                     $transclude: transcludeFn,
                                 };
-                            "@" == controller && (controller = attrs[directive.name]),
+                            "@" == (controller = directive.controller) &&
+                        (controller = attrs[directive.name]),
                             (controllerInstance = $controller(
-                                (controller = directive.controller),
-                                locals,
+                                controller,
+                                locals
                             )),
                             (elementControllers[
                                 directive.name
@@ -4411,6 +4415,12 @@
                             ) {
                                 if (
                                     ((replaceDirective = directive),
+                                    (compileNode = ($template = jqLite(
+                                        "<div>" + trim(
+                                            directiveValue
+                                        ) + "</div>",
+                                    ).contents(
+                                    ))[0]),
                                     1 != $template.length || 1 !== compileNode.nodeType)
                                 )
                                     throw $compileMinErr(
@@ -4422,12 +4432,7 @@
                                 replaceWith(
                                     jqCollection,
                                     $compileNode,
-                                    (compileNode = ($template = jqLite(
-                                        "<div>" + trim(
-                                            directiveValue
-                                        ) + "</div>",
-                                    ).contents(
-                                    ))[0]),
+                                    compileNode
                                 );
                                 var newTemplateAttrs = {
                                         $attr: {
@@ -4468,6 +4473,7 @@
                                 directive,
                                 $compileNode,
                             ),
+                            (templateDirective = directive),
                             directive.replace && (replaceDirective = directive),
                             (nodeLinkFn = compileTemplateUrl(
                                 directives.splice(
@@ -4483,7 +4489,7 @@
                                 {
                                     controllerDirectives: controllerDirectives,
                                     newIsolateScopeDirective: newIsolateScopeDirective,
-                                    templateDirective: (templateDirective = directive),
+                                    templateDirective: templateDirective,
                                     nonTlbTranscludeDirective: nonTlbTranscludeDirective,
                                 },
                             )),
@@ -6416,15 +6422,14 @@
                                         ""
                                     );
                                 } catch (err) {
-                                    var newErr = $interpolateMinErr(
-                                        "interr",
-                                        "Can't interpolate: {0}\n{1}",
-                                        text,
-                                        err.toString(
-                                        ),
-                                    );
                                     $exceptionHandler(
-                                        newErr
+                                        $interpolateMinErr(
+                                            "interr",
+                                            "Can't interpolate: {0}\n{1}",
+                                            text,
+                                            err.toString(
+                                            ),
+                                        ),
                                     );
                                 }
                             }).exp = text),
@@ -7644,7 +7649,7 @@
                     return (
                         null === pathVal ||
                 pathVal === undefined ||
-                (pathVal &&
+                ((pathVal = pathVal[key0]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -7662,7 +7667,7 @@
                 key1 &&
                   null !== pathVal &&
                   pathVal !== undefined &&
-                  (pathVal &&
+                  ((pathVal = pathVal[key1]) &&
                     pathVal.then &&
                     (promiseWarning(
                         fullExp
@@ -7680,7 +7685,7 @@
                   key2 &&
                     null !== pathVal &&
                     pathVal !== undefined &&
-                    (pathVal &&
+                    ((pathVal = pathVal[key2]) &&
                       pathVal.then &&
                       (promiseWarning(
                           fullExp
@@ -7698,7 +7703,7 @@
                     key3 &&
                       null !== pathVal &&
                       pathVal !== undefined &&
-                      (pathVal &&
+                      ((pathVal = pathVal[key3]) &&
                         pathVal.then &&
                         (promiseWarning(
                             fullExp
@@ -7714,8 +7719,7 @@
                           )),
                         (pathVal = pathVal.$$v)),
                       key4 && null !== pathVal && pathVal !== undefined))) &&
-                  (pathVal = (pathVal = (pathVal = (pathVal = (pathVal =
-                    pathVal[key0])[key1])[key2])[key3])[key4]) &&
+                  (pathVal = pathVal[key4]) &&
                   pathVal.then &&
                   (promiseWarning(
                       fullExp
@@ -7744,20 +7748,21 @@
                   : scope;
                     return null === pathVal || pathVal === undefined
                         ? pathVal
-                        : key1 &&
-                null !== pathVal &&
-                pathVal !== undefined &&
-                key2 &&
-                null !== pathVal &&
-                pathVal !== undefined &&
-                key3 &&
-                null !== pathVal &&
-                pathVal !== undefined &&
-                key4 &&
-                null !== pathVal &&
-                pathVal !== undefined
-                            ? (pathVal = (pathVal = (pathVal = (pathVal = (pathVal =
-                  pathVal[key0])[key1])[key2])[key3])[key4])
+                        : ((pathVal = pathVal[key0]),
+                        key1 &&
+                  null !== pathVal &&
+                  pathVal !== undefined &&
+                  ((pathVal = pathVal[key1]),
+                  key2 &&
+                    null !== pathVal &&
+                    pathVal !== undefined &&
+                    ((pathVal = pathVal[key2]),
+                    key3 &&
+                      null !== pathVal &&
+                      pathVal !== undefined &&
+                      ((pathVal = pathVal[key3]),
+                      key4 && null !== pathVal && pathVal !== undefined))))
+                            ? (pathVal = pathVal[key4])
                             : pathVal;
                 }
         );
@@ -10038,10 +10043,11 @@
         ) || !isFinite(
             number
         )) return "";
-        var isNegative = number < 0,
-            numStr = (number = Math.abs(
-                number
-            )) + "",
+        var isNegative = number < 0;
+        number = Math.abs(
+            number
+        );
+        var numStr = number + "",
             formatedText = "",
             parts = [],
             hasExponent = !1;
@@ -12478,17 +12484,16 @@
                                 ) {
                                     return key;
                                 })),
-                            !match)
+                            !(match = lhs.match(
+                                /^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/,
+                            )))
                         )
                             throw ngRepeatMinErr(
                                 "iidexp",
                                 "'_item_' in '_item_ in _collection_' should be an identifier or '(_key_, _value_)' expression, but got '{0}'.",
                                 lhs,
                             );
-                        (valueIdentifier =
-              (match = lhs.match(
-                  /^(?:([\$\w]+)|\(([\$\w]+)\s*,\s*([\$\w]+)\))$/,
-              ))[3] || match[1]),
+                        (valueIdentifier = match[3] || match[1]),
                         (keyIdentifier = match[2]);
                         var lastBlockMap = {
                         };
@@ -12520,6 +12525,7 @@
                                     (trackByIdFn = trackByIdExpFn || trackByIdArrayFn);
                                 else {
                                     for (key in ((trackByIdFn = trackByIdExpFn || trackByIdObjFn),
+                                    (collectionKeys = []),
                                     collection))
                                         collection.hasOwnProperty(
                                             key
@@ -12530,7 +12536,7 @@
                     collectionKeys.push(
                         key
                     );
-                                    (collectionKeys = []).sort(
+                                    collectionKeys.sort(
                                     );
                                 }
                                 for (
@@ -13197,6 +13203,7 @@
                                 scope, selectElement, ctrl
                             ) {
                                 var match,
+                                    track,
                                     displayFn = $parse(
                                         match[2] || match[1]
                                     ),
@@ -13211,8 +13218,7 @@
                                     valuesFn = $parse(
                                         match[7]
                                     ),
-                                    track = match[8],
-                                    trackFn = track
+                                    trackFn = match[8]
                                         ? $parse(
                                             match[8]
                                         )
@@ -16001,7 +16007,10 @@
                 $$minErr: minErr,
                 $$csp: csp,
             }
-        );
+        ),
+        (angularModule = setupModuleLoader(
+            window
+        ));
         try {
             angularModule(
                 "ngLocale"
@@ -16015,9 +16024,7 @@
                 $LocaleProvider
             );
         }
-        (angularModule = setupModuleLoader(
-            window
-        ))(
+        angularModule(
             "ng",
             ["ngLocale",],
             [

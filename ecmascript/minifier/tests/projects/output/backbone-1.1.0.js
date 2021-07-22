@@ -252,12 +252,13 @@
                 obj, name, callback
             ) {
                 var listeningTo = this._listeningTo || (this._listeningTo = {
-                    }),
-                    id = obj._listenId || (obj._listenId = _.uniqueId(
-                        "l"
-                    ));
+                });
                 return (
-                    (listeningTo[id] = obj),
+                    (listeningTo[
+                        obj._listenId || (obj._listenId = _.uniqueId(
+                            "l"
+                        ))
+                    ] = obj),
                     callback || "object" != typeof name || (callback = this),
                     obj[implementation](
                         name,
@@ -903,10 +904,10 @@
                     i < l;
                     i++
                 )
-                    model &&
-          (delete this._byId[(model = models[i] = this.get(
-              models[i]
-          )).id],
+                    (model = models[i] = this.get(
+                        models[i]
+                    )) &&
+          (delete this._byId[model.id],
           delete this._byId[model.cid],
           (index = this.indexOf(
               model
@@ -1237,13 +1238,14 @@
             fetch: function (
                 options
             ) {
+                (options = options
+                    ? _.clone(
+                        options
+                    )
+                    : {
+                    }),
                 void 0 === options.parse && (options.parse = !0);
-                var success = (options = options
-                        ? _.clone(
-                            options
-                        )
-                        : {
-                        }).success,
+                var success = options.success,
                     collection = this;
                 return (
                     (options.success = function (

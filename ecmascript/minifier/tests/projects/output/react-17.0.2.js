@@ -146,9 +146,8 @@
         function printWarning(
             level, format, args
         ) {
-            var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame,
-                stack = ReactDebugCurrentFrame.getStackAddendum(
-                );
+            var stack = ReactSharedInternals.ReactDebugCurrentFrame.getStackAddendum(
+            );
             "" !== stack && ((format += "%s"), (args = args.concat(
                 [stack,]
             )));
@@ -889,8 +888,7 @@
             payload
         ) {
             if (-1 === payload._status) {
-                var ctor = payload._result,
-                    thenable = ctor(
+                var thenable = payload._result(
                     ),
                     pending = payload;
                 (pending._status = 0),
@@ -1387,14 +1385,13 @@
             element
         ) {
             if (element) {
-                var owner = element._owner,
-                    stack = describeUnknownElementTypeFrameInDEV(
+                var owner = element._owner;
+                setExtraStackFrame(
+                    describeUnknownElementTypeFrameInDEV(
                         element.type,
                         element._source,
                         owner ? owner.type : null,
-                    );
-                setExtraStackFrame(
-                    stack
+                    ),
                 );
             } else setExtraStackFrame(
                 null
@@ -1532,42 +1529,38 @@
         ) {
             var propTypes,
                 type = element.type;
-            if (null != type && "string" != typeof type) {
-                if (
-                    ("function" == typeof type
-                        ? (propTypes = type.propTypes)
-                        : "object" == typeof type &&
-            (type.$$typeof === REACT_FORWARD_REF_TYPE ||
-              type.$$typeof === REACT_MEMO_TYPE) &&
-            (propTypes = type.propTypes),
-                    propTypes)
-                ) {
-                    var name = getComponentName(
-                        type
-                    );
-                    checkPropTypes(
-                        propTypes,
-                        element.props,
-                        "prop",
-                        name,
-                        element
-                    );
-                } else if (void 0 !== type.PropTypes || propTypesMisspellWarningShown) {
-                    propTypesMisspellWarningShown = !0;
-                    var _name = getComponentName(
-                        type
-                    );
-                    error(
-                        "Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?",
-                        _name || "Unknown",
-                    );
-                }
-                "function" != typeof type.getDefaultProps ||
+            null != type &&
+      "string" != typeof type &&
+      ("function" == typeof type
+          ? (propTypes = type.propTypes)
+          : "object" == typeof type &&
+          (type.$$typeof === REACT_FORWARD_REF_TYPE ||
+            type.$$typeof === REACT_MEMO_TYPE) &&
+          (propTypes = type.propTypes),
+      propTypes
+          ? checkPropTypes(
+              propTypes,
+              element.props,
+              "prop",
+              getComponentName(
+                  type
+              ),
+              element,
+          )
+          : void 0 === type.PropTypes ||
+          propTypesMisspellWarningShown ||
+          ((propTypesMisspellWarningShown = !0),
+          error(
+              "Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?",
+              getComponentName(
+                  type
+              ) || "Unknown",
+          )),
+      "function" != typeof type.getDefaultProps ||
         type.getDefaultProps.isReactClassApproved ||
         error(
             "getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.",
-        );
-            }
+        ));
         }
         function validateFragmentProps(
             fragment
@@ -1845,16 +1838,16 @@
                         initialTime
                     );
                 } catch (error) {
-                    if (null !== currentTask) {
-                        var currentTime = getCurrentTime(
-                        );
-                        markTaskErrored(
-                            currentTask,
-                            currentTime
-                        ),
-                        (currentTask.isQueued = !1);
-                    }
-                    throw error;
+                    throw (
+                        (null !== currentTask &&
+            (markTaskErrored(
+                currentTask,
+                getCurrentTime(
+                )
+            ),
+            (currentTask.isQueued = !1)),
+                        error)
+                    );
                 }
             } finally {
                 (currentTask = null),
@@ -1889,6 +1882,8 @@
                         continuationCallback = callback(
                             didUserCallbackTimeout
                         );
+                    (currentTime = getCurrentTime(
+                    )),
                     "function" == typeof continuationCallback
                         ? (currentTask.callback = continuationCallback)
                         : currentTask === peek(
@@ -1897,8 +1892,7 @@
                             taskQueue
                         ),
                     advanceTimers(
-                        (currentTime = getCurrentTime(
-                        ))
+                        currentTime
                     );
                 } else pop(
                     taskQueue
@@ -2642,11 +2636,11 @@
                 ) {
                     if (null !== _callback)
                         try {
-                            var currentTime = getCurrentTime(
-                                ),
-                                hasRemainingTime = !0;
+                            var hasRemainingTime,
+                                currentTime = getCurrentTime(
+                                );
                             _callback(
-                                hasRemainingTime,
+                                !0,
                                 currentTime
                             ), (_callback = null);
                         } catch (e) {
@@ -2694,13 +2688,12 @@
             var _setTimeout = window.setTimeout,
                 _clearTimeout = window.clearTimeout;
             if (void 0 !== console) {
-                var requestAnimationFrame = window.requestAnimationFrame,
-                    cancelAnimationFrame = window.cancelAnimationFrame;
+                var requestAnimationFrame = window.requestAnimationFrame;
                 "function" != typeof requestAnimationFrame &&
         console.error(
             "This browser doesn't support requestAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills",
         ),
-                "function" != typeof cancelAnimationFrame &&
+                "function" != typeof window.cancelAnimationFrame &&
           console.error(
               "This browser doesn't support cancelAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills",
           );

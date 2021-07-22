@@ -1119,13 +1119,14 @@ Array.alias(
     "extend",
     "append"
 );
-var $pick = function (
-) {
-    return Array.from(
-        arguments
-    ).pick(
-    );
-};
+var fireEvent,
+    $pick = function (
+    ) {
+        return Array.from(
+            arguments
+        ).pick(
+        );
+    };
 String.implement(
     {
         test: function (
@@ -2785,12 +2786,11 @@ var Event1 = DOMEvent;
                 type, fn, internal
             ) {
                 return (
+                    (type = removeOn(
+                        type
+                    )),
                     fn == $empty ||
-            ((this.$events[(type = removeOn(
-                type
-            ))] = (
-                this.$events[type] || []
-            ).include(
+            ((this.$events[type] = (this.$events[type] || []).include(
                 fn
             )),
             internal && (fn.internal = !0)),
@@ -2923,22 +2923,15 @@ function (
         ) {
             if (null == expression) return null;
             if (!0 === expression.Slick) return expression;
-            expression = ("" + expression).replace(
+            (expression = ("" + expression).replace(
                 /^\s+|\s+$/g,
                 ""
-            );
-            var currentCache = (reversed = !!isReversed) ? reverseCache : cache;
+            )),
+            (reversed = !!isReversed);
+            var currentCache = reversed ? reverseCache : cache;
             if (currentCache[expression]) return currentCache[expression];
             for (
-                separatorIndex = -1;
-                expression != (expression = expression.replace(
-                    regexp,
-                    parser
-                ));
-
-            );
-            return (
-                ((parsed = {
+                parsed = {
                     Slick: !0,
                     expressions: [],
                     raw: expression,
@@ -2949,7 +2942,16 @@ function (
                             !0
                         );
                     },
-                }).length = parsed.expressions.length),
+                },
+                separatorIndex = -1;
+                expression != (expression = expression.replace(
+                    regexp,
+                    parser
+                ));
+
+            );
+            return (
+                (parsed.length = parsed.expressions.length),
                 (currentCache[parsed.raw] = reversed
                     ? reverse(
                         parsed
@@ -4000,9 +4002,9 @@ function (
                   )] = count++);
                     while ((el = el[sibling]));
             }
+            argument = argument || "n";
             var parsed =
-            this.cacheNTH[(argument = argument || "n")] ||
-            this.parseNTHArgument(
+            this.cacheNTH[argument] || this.parseNTHArgument(
                 argument
             );
             if (!parsed) return !1;
@@ -4878,21 +4880,15 @@ var Element1 = function (
 };
 Browser.Element &&
   ((Element1.prototype = Browser.Element.prototype),
-  (Element1.prototype._fireEvent = (function (
-      fireEvent
+  (Element1.prototype._fireEvent = function (
+      type, event
   ) {
-      return function (
-          type, event
-      ) {
-          return (fireEvent = Element1.prototype.fireEvent).call(
-              this,
-              type,
-              event
-          );
-      };
-  })(
-      Element1.prototype.fireEvent
-  ))),
+      return Element1.prototype.fireEvent.call(
+          this,
+          type,
+          event
+      );
+  })),
 new Type(
     "Element",
     Element1
@@ -4987,14 +4983,15 @@ var IFrame = new Type(
                     : "IFrame_" + String.uniqueID(
                     ),
             ].pick(
+            )),
+            (iframe = new Element1(
+                iframe || "iframe",
+                props
             ));
             var onLoad = function (
             ) {
                 onload.call(
-                    (iframe = new Element1(
-                        iframe || "iframe",
-                        props
-                    )).contentWindow,
+                    iframe.contentWindow
                 );
             };
             return (
@@ -5281,11 +5278,11 @@ Elements.alias(
                       el.tagName
                   ))
                         ) {
-                            var fireEvent = el.fireEvent;
+                            var fireEvent1 = el.fireEvent;
                             (el._fireEvent = function (
                                 type, event
                             ) {
-                                return fireEvent(
+                                return fireEvent1(
                                     type,
                                     event
                                 );
@@ -5438,7 +5435,7 @@ Elements.alias(
             return (
                 addSlickPseudos(
                 ),
-                (search = Slick.search).call(
+                Slick.search.call(
                     this,
                     context,
                     expression,
@@ -5451,8 +5448,7 @@ Elements.alias(
         ) {
             return (
                 addSlickPseudos(
-                ),
-                (find = Slick.find).call(
+                ), Slick.find.call(
                     this,
                     context,
                     expression
@@ -5462,14 +5458,11 @@ Elements.alias(
         (Slick.match = function (
             node, selector
         ) {
-            return (
-                addSlickPseudos(
-                ),
-                (match = Slick.match).call(
-                    this,
-                    node,
-                    selector
-                )
+            return addSlickPseudos(
+            ), Slick.match.call(
+                this,
+                node,
+                selector
             );
         });
     })(
@@ -5481,14 +5474,13 @@ Elements.alias(
         expression, combinator
     ) {
         if (!expression) return combinator;
+        expression = Object.clone(
+            Slick.parse(
+                expression
+            )
+        );
         for (
-            var expressions = (expression = Object.clone(
-                    Slick.parse(
-                        expression
-                    )
-                ))
-                    .expressions,
-                i = expressions.length;
+            var expressions = expression.expressions, i = expressions.length;
             i--;
 
         )
@@ -6500,12 +6492,11 @@ Elements.alias(
             store: function (
                 property, value
             ) {
-                var storage = get(
+                return (get(
                     Slick.uidOf(
                         this
                     )
-                );
-                return (storage[property] = value), this;
+                )[property] = value), this;
             },
             eliminate: function (
                 property
@@ -6635,7 +6626,7 @@ Elements.alias(
                     if (
                         (wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap)
                     )
-                        return (set = Element1.Properties.html.set).call(
+                        return Element1.Properties.html.set.call(
                             this,
                             html
                         );
@@ -6909,9 +6900,16 @@ Elements.alias(
                         ),
                         this
                     );
-                if ("string" != typeOf(
-                    value
-                )) {
+                if (
+                    ((property = ("float" == property
+                        ? floatName
+                        : property
+                    ).camelCase(
+                    )),
+                    "string" != typeOf(
+                        value
+                    ))
+                ) {
                     var map = (Element1.Styles[property] || "@").split(
                         " "
                     );
@@ -6947,13 +6945,7 @@ Elements.alias(
                     value
                 ));
                 return (
-                    (this.style[
-                        (property = ("float" == property
-                            ? floatName
-                            : property
-                        ).camelCase(
-                        ))
-                    ] = value),
+                    (this.style[property] = value),
                     ("" == value || null == value) &&
             doesNotRemoveStyles &&
             this.style.removeAttribute &&
@@ -6969,10 +6961,9 @@ Elements.alias(
                 if ("opacity" == property) return getOpacity(
                     this
                 );
-                var result = this.style[
-                    (property = ("float" == property ? floatName : property).camelCase(
-                    ))
-                ];
+                property = ("float" == property ? floatName : property).camelCase(
+                );
+                var result = this.style[property];
                 if (!result || "zIndex" == property) {
                     for (var style in ((result = []), Element1.ShortStyles))
                         if (property == style) {
@@ -8459,8 +8450,8 @@ Element1.alias(
                 now
             ) {
                 if (this.options.frameSkip) {
-                    var diff = null != this.time ? now - this.time : 0,
-                        frames = diff / this.frameInterval;
+                    var frames =
+            (null != this.time ? now - this.time : 0) / this.frameInterval;
                     (this.time = now), (this.frame += frames);
                 } else this.frame++;
                 if (this.frame < this.frames) {
@@ -9721,15 +9712,16 @@ Fx.Transitions.extend(
             (options = {
                 data: options,
             });
-                    var old = this.options,
-                        data = (options = Object.append(
-                            {
-                                data: old.data,
-                                url: old.url,
-                                method: old.method,
-                            },
-                            options,
-                        )).data,
+                    var old = this.options;
+                    options = Object.append(
+                        {
+                            data: old.data,
+                            url: old.url,
+                            method: old.method,
+                        },
+                        options,
+                    );
+                    var data = options.data,
                         url = String(
                             options.url
                         ),

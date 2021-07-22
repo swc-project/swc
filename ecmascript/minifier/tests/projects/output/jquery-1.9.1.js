@@ -1536,7 +1536,10 @@
                 elem
             );
         for (index in (opts.queue ||
-      (null == hooks.unqueued &&
+      (null == (hooks = jQuery._queueHooks(
+          elem,
+          "fx"
+      )).unqueued &&
         ((hooks.unqueued = 0),
         (oldfire = hooks.empty.fire),
         (hooks.empty.fire = function (
@@ -1544,10 +1547,7 @@
             hooks.unqueued || oldfire(
             );
         })),
-      (hooks = jQuery._queueHooks(
-          elem,
-          "fx"
-      )).unqueued++,
+      hooks.unqueued++,
       anim.always(
           function (
           ) {
@@ -6088,6 +6088,9 @@
                         ))
                     ) {
                         for (
+                            groups = tokenize(
+                                selector
+                            ),
                             (old = context.getAttribute(
                                 "id"
                             ))
@@ -6100,9 +6103,7 @@
                                     nid
                                 ),
                             nid = "[id='" + nid + "'] ",
-                            i = (groups = tokenize(
-                                selector
-                            )).length;
+                            i = groups.length;
                             i--;
 
                         )
@@ -7040,7 +7041,7 @@
                               "id"
                           ).value === id)
                                 ? [m,]
-                                : (undefined = void 0)
+                                : void 0
                             : [];
                     }
                 }),
