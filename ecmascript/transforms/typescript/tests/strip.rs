@@ -4041,5 +4041,14 @@ to!(
     }
     ",
     "
+    var _class;
+    var _class1;
+    let TestClass = _class1 = someClassDecorator((_class1 = (_class = class TestClass {
+    }, _class.Something = 'hello', _class.SomeProperties = {
+        firstProp: _class.Something
+    }, _class)) || _class1) || _class1;
+    function someClassDecorator(c) {
+        return c;
+    }
     "
 );
