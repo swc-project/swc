@@ -202,10 +202,6 @@ impl Optimizer<'_> {
                         if usage.reassigned {
                             continue;
                         }
-
-                        if usage.ref_count > 1 {
-                            continue;
-                        }
                     }
 
                     if let Some(arg) = arg {
@@ -402,9 +398,9 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if is_param_used_by_body(&f.function.params, &f.function.body) {
-                    return;
-                }
+                // if is_param_used_by_body(&f.function.params, &f.function.body) {
+                //     return;
+                // }
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() {
