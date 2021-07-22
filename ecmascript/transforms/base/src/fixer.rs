@@ -317,6 +317,15 @@ impl VisitMut for Fixer<'_> {
         self.handle_expr_stmt(&mut *s.expr);
     }
 
+    fn visit_mut_for_of_stmt(&mut self, s: &mut ForOfStmt) {
+        s.visit_mut_children_with(self);
+
+        match &*s.right {
+            Expr::Seq(..) | Expr::Await(..) => self.wrap(&mut s.right),
+            _ => {}
+        }
+    }
+
     fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
         let old = self.in_for_stmt_head;
         self.in_for_stmt_head = true;
