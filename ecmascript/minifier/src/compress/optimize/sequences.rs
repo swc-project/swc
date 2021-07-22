@@ -881,6 +881,9 @@ impl Optimizer<'_> {
                     if usage.ref_count != 1 {
                         return false;
                     }
+                    if usage.reassigned {
+                        return false;
+                    }
                 }
 
                 match &mut a.init {
