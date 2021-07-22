@@ -415,6 +415,57 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                if !self.can_inline_fn_like(body) {
+                    return;
+                }
+
+                {
+                    let mut vars = HashMap::default();
+                    // We check for parameter and argument
+                    for (idx, param) in f.function.params.iter().enumerate() {
+                        let arg = call.args.get(idx).map(|v| &v.expr);
+                        if let Pat::Ident(param) = &param.pat {
+                            if let Some(usage) = self
+                                .data
+                                .as_ref()
+                                .and_then(|data| data.vars.get(&param.to_id()))
+                            {
+                                if usage.reassigned {
+                                    continue;
+                                }
+                            }
+
+                            if let Some(arg) = arg {
+                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                                if should_be_inlined {
+                                    log::debug!(
+                                        "iife: Trying to inline argument ({}{:?})",
+                                        param.id.sym,
+                                        param.id.span.ctxt
+                                    );
+                                    vars.insert(param.to_id(), arg.clone());
+                                }
+                            } else {
+                                log::debug!(
+                                    "iife: Trying to inline argument ({}{:?}) (undefined)",
+                                    param.id.sym,
+                                    param.id.span.ctxt
+                                );
+
+                                vars.insert(param.to_id(), undefined(param.span()));
+                            }
+                        }
+                    }
+
+                    let ctx = Ctx {
+                        inline_as_assignment: true,
+                        ..self.ctx
+                    };
+
+                    log::debug!("inline: Inlining arguments");
+                    self.with_ctx(ctx).inline_vars_in_node(body, vars);
+                }
+
                 let new = self.inline_fn_like(body);
                 if let Some(new) = new {
                     self.changed = true;
@@ -449,7 +500,7 @@ impl Optimizer<'_> {
         }
     }
 
-    fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
+    fn can_inline_fn_like(&self, body: &BlockStmt) -> bool {
         if !body.stmts.iter().all(|stmt| match stmt {
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
@@ -477,13 +528,21 @@ impl Optimizer<'_> {
             },
             _ => false,
         }) {
-            return None;
+            return false;
         }
 
         if idents_used_by(&*body)
             .iter()
             .any(|v| v.0 == js_word!("arguments"))
         {
+            return false;
+        }
+
+        true
+    }
+
+    fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
+        if !self.can_inline_fn_like(&*body) {
             return None;
         }
 
