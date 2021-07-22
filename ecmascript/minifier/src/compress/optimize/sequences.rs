@@ -643,10 +643,7 @@ impl Optimizer<'_> {
     ///
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
-    pub(super) fn merge_sequences_in_exprs<E>(&mut self, exprs: &mut Vec<E>)
-    where
-        E: BorrowMut<Expr>,
-    {
+    pub(super) fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
                 let (a1, a2) = exprs.split_at_mut(idx);
@@ -656,22 +653,30 @@ impl Optimizer<'_> {
                 }
 
                 if self.merge_sequential_expr(
-                    a1.last_mut().unwrap().borrow_mut(),
-                    &mut a2[j - idx].borrow_mut(),
+                    a1.last_mut().unwrap(),
+                    match &mut a2[j - idx] {
+                        Mergable::Var(v) => continue,
+                        Mergable::Expr(e) => e,
+                    },
                 ) {
                     break;
                 }
 
-                if !can_skip_expr_for_seqs(&*a2[j - idx].borrow()) {
-                    if cfg!(feature = "debug") && false {
-                        log::trace!(
-                            "Cannot skip: {} from {}",
-                            dump(&*a2[j - idx].borrow()),
-                            dump(a1.last().unwrap().borrow())
-                        );
-                    }
+                match &a2[j - idx] {
+                    Mergable::Var(_) => break,
+                    Mergable::Expr(e2) => {
+                        if !can_skip_expr_for_seqs(&e2) {
+                            // if cfg!(feature = "debug") && false {
+                            //     log::trace!(
+                            //         "Cannot skip: {} from {}",
+                            //         dump(&*a2[j - idx].borrow()),
+                            //         dump(a1.last().unwrap().borrow())
+                            //     );
+                            // }
 
-                    break;
+                            break;
+                        }
+                    }
                 }
             }
         }
