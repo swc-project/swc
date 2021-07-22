@@ -443,11 +443,20 @@ impl Optimizer<'_> {
 
     fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Expr(e) if e.expr.is_await_expr() => false,
+            Stmt::Expr(e) => match &*e.expr {
+                Expr::Await(..) => false,
 
-            Stmt::Expr(..) => true,
+                // TODO: Check if paramter is used and inline if call is not related to parameters.
+                Expr::Call(..) => false,
+
+                _ => true,
+            },
+
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                Some(Expr::Await(..) | Expr::Call(..)) => false,
+                Some(Expr::Await(..)) => false,
+
+                // TODO: Check if paramter is used and inline if call is not related to parameters.
+                Some(Expr::Call(..)) => false,
 
                 Some(Expr::Lit(Lit::Num(..))) => {
                     if self.ctx.in_obj_of_non_computed_member {
@@ -460,6 +469,13 @@ impl Optimizer<'_> {
             },
             _ => false,
         }) {
+            return None;
+        }
+
+        if idents_used_by(&*body)
+            .iter()
+            .any(|v| v.0 == js_word!("arguments"))
+        {
             return None;
         }
 

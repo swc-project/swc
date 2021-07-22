@@ -251,6 +251,8 @@ impl Optimizer<'_> {
                 self.data = Some(analyze(stmts));
             }
         }
+        let prepend_stmts = self.prepend_stmts.take();
+        let append_stmts = self.append_stmts.take();
 
         {
             let mut child_ctx = Ctx { ..self.ctx };
@@ -309,10 +311,16 @@ impl Optimizer<'_> {
 
         self.break_assignments_in_seqs(stmts);
 
+        stmts.extend(self.append_stmts.drain(..).map(T::from_stmt));
+
         stmts.retain(|stmt| match stmt.as_stmt() {
             Some(Stmt::Empty(..)) => false,
             _ => true,
-        })
+        });
+
+        debug_assert_eq!(self.prepend_stmts, vec![]);
+        self.prepend_stmts = prepend_stmts;
+        self.append_stmts = append_stmts;
     }
 
     /// `a = a + 1` => `a += 1`.
