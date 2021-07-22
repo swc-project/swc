@@ -888,7 +888,7 @@
             payload
         ) {
             if (-1 === payload._status) {
-                var thenable = payload._result(
+                var thenable = (0, payload._result)(
                     ),
                     pending = payload;
                 (pending._status = 0),

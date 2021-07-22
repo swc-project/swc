@@ -14007,7 +14007,7 @@
             warnAboutMultipleRenderersDEV(
                 source
             );
-            var version = source._getVersion(
+            var version = (0, source._getVersion)(
                     source._source
                 ),
                 isSafeToReadFromSource = !1,
@@ -22747,7 +22747,7 @@
         function registerMutableSourceForHydration(
             root, mutableSource
         ) {
-            var version = mutableSource._getVersion(
+            var version = (0, mutableSource._getVersion)(
                 mutableSource._source
             );
             null == root.mutableSourceEagerHydrationData
