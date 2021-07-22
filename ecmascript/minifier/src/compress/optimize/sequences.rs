@@ -1,6 +1,6 @@
 use super::Optimizer;
-use crate::compress::optimize::Ctx;
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
+use crate::compress::optimize::Ctx;
 use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;
