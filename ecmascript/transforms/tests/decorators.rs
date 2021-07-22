@@ -5953,6 +5953,7 @@ let Store = ((_class = class Store extends BaseStore {
 test!(
     syntax(false),
     |_| decorators(Config {
+        legacy: true,
         ..Default::default()
     }),
     issue_1869_1,
