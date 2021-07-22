@@ -6,6 +6,7 @@ use retain_mut::RetainMut;
 use std::collections::HashMap;
 use std::mem::take;
 use swc_atoms::js_word;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -859,7 +860,27 @@ impl Optimizer<'_> {
                 callee: ExprOrSuper::Expr(b_callee),
                 ..
             }) => {
+                let is_this_undefined = b_callee.is_ident();
                 if self.merge_sequential_expr(a, &mut **b_callee) {
+                    if is_this_undefined {
+                        match &**b_callee {
+                            Expr::Member(..) => {
+                                let zero = Box::new(Expr::Lit(Lit::Num(Number {
+                                    span: DUMMY_SP,
+                                    value: 0.0,
+                                })));
+                                log::trace!("injecting zero to preserve `this` in call");
+
+                                *b_callee = Box::new(Expr::Seq(SeqExpr {
+                                    span: b_callee.span(),
+                                    exprs: vec![zero, b_callee.take()],
+                                }));
+                            }
+
+                            _ => {}
+                        }
+                    }
+
                     return true;
                 }
 
