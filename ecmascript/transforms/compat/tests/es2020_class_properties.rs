@@ -5497,5 +5497,15 @@ test!(
         return c;
     }
     ",
-    ""
+    "
+    class TestClass {
+    }
+    _defineProperty(TestClass, 'Something', 'hello');
+    _defineProperty(TestClass, 'SomeProperties', {
+        firstProp: TestClass.Something
+    });
+    function someClassDecorator(c) {
+        return c;
+    }
+    "
 );
