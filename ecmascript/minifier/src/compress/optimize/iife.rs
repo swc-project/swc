@@ -398,9 +398,25 @@ impl Optimizer<'_> {
                     }
                 }
 
-                // if is_param_used_by_body(&f.function.params, &f.function.body) {
-                //     return;
-                // }
+                let injected_vars: Vec<Ident> = find_ids(&f.function.params);
+                if !injected_vars.is_empty() {
+                    self.append_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: injected_vars
+                            .into_iter()
+                            .map(BindingIdent::from)
+                            .map(Pat::Ident)
+                            .map(|name| VarDeclarator {
+                                span: DUMMY_SP,
+                                name,
+                                init: None,
+                                definite: Default::default(),
+                            })
+                            .collect(),
+                    })));
+                }
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() {
