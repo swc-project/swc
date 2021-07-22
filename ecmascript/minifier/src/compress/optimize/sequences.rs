@@ -881,7 +881,7 @@ impl Optimizer<'_> {
                     if usage.ref_count != 1 {
                         return false;
                     }
-                    if usage.reassigned {
+                    if usage.reassigned || !usage.is_fn_local {
                         return false;
                     }
                 }
