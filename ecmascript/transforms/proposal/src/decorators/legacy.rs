@@ -310,15 +310,6 @@ impl Legacy {
             computed: false,
         };
 
-        c.class.body.iter_mut().for_each(|m| match m {
-            ClassMember::ClassProp(p) => {
-                if let Some(name) = &cls_name {
-                    replace_ident(&mut p.value, name.to_id(), &cls_ident);
-                }
-            }
-            _ => {}
-        });
-
         c.class.body = c.class.body.move_flat_map(|m| match m {
             ClassMember::Method(mut m)
                 if !m.function.decorators.is_empty()
@@ -480,7 +471,7 @@ impl Legacy {
                 }))
             }
 
-            ClassMember::ClassProp(p) if !p.decorators.is_empty() => {
+            ClassMember::ClassProp(mut p) if !p.decorators.is_empty() => {
                 let prototype = if p.is_static {
                     cls_ident.clone().as_arg()
                 } else {

@@ -5976,7 +5976,7 @@ test!(
     let TestClass = _class = someClassDecorator((_class = class TestClass {
         static Something = 'hello';
         static SomeProperties = {
-            firstProp: _class.Something
+            firstProp: TestClass.Something
         };
     }) || _class) || _class;
     function someClassDecorator(c) {
