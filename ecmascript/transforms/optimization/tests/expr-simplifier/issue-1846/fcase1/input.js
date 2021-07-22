@@ -16,5 +16,4 @@ const Test = (target) => {
     console.dir(metadata, { depth: 5 });
 };
 
-@Test
 export class Foo { }
