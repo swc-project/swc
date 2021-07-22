@@ -5479,3 +5479,23 @@ test!(
     new Foo();
     "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1869_1,
+    "
+    class TestClass {
+        static Something = 'hello';
+
+        static SomeProperties = {
+            firstProp: TestClass.Something,
+        };
+    }
+
+    function someClassDecorator(c) {
+        return c;
+    }
+    ",
+    ""
+);
