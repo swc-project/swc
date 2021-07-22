@@ -206,6 +206,15 @@ impl Optimizer<'_> {
                     }
 
                     if let Some(arg) = arg {
+                        match &**arg {
+                            Expr::Ident(arg) => {
+                                if arg.sym == param.id.sym {
+                                    continue;
+                                }
+                            }
+                            _ => {}
+                        }
+
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
                             log::debug!(
