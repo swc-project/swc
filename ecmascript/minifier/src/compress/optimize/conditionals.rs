@@ -49,6 +49,28 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn negate_if_stmt(&mut self, s: &mut IfStmt) {
+        if s.alt.is_none() {
+            return;
+        }
+
+        if negate_cost(&s.test, true, false).unwrap_or(isize::MAX) >= 0 {
+            return;
+        }
+
+        self.changed = true;
+        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
+
+        {
+            let ctx = Ctx {
+                in_bool_ctx: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).negate(&mut s.test);
+        }
+        swap(&mut s.cons, s.alt.as_mut().unwrap());
+    }
+
     /// This method may change return value.
     ///
     /// - `a ? b : false` => `a && b`
