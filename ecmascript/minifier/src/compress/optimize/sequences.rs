@@ -736,9 +736,13 @@ impl Optimizer<'_> {
                 prop,
                 computed: true,
                 ..
-            }) if obj.is_ident() => {
+            }) => {
                 if self.merge_sequential_expr(a, &mut **obj) {
                     return true;
+                }
+
+                if obj.may_have_side_effects() {
+                    return false;
                 }
 
                 return self.merge_sequential_expr(a, &mut **prop);
