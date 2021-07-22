@@ -6444,3 +6444,26 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |t| tr(t),
+    issue_1869_1,
+    "
+    var _class;
+    let TestClass = _class = someClassDecorator((_class = function() {
+        class TestClass {
+        }
+        _defineProperty(TestClass, 'Something', 'hello');
+        _defineProperty(TestClass, 'SomeProperties', {
+            firstProp: TestClass.Something
+        });
+        return TestClass;
+    }()) || _class) || _class;
+    function someClassDecorator(c) {
+        return c;
+    }
+    ",
+    "
+    "
+);
