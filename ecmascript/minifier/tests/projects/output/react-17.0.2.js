@@ -683,13 +683,12 @@
         function escape(
             key
         ) {
-            var escapeRegex = /[=:]/g,
-                escaperLookup = {
+            var escaperLookup = {
                     "=": "=0",
                     ":": "=2",
                 },
                 escapedString = key.replace(
-                    escapeRegex,
+                    /[=:]/g,
                     function (
                         match
                     ) {

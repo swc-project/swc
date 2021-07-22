@@ -961,7 +961,6 @@
         rhash = /#.*$/,
         rts = /([?&])_=[^&]*/,
         rheaders = /^(.*?):[ \t]*([^\r\n]*)\r?$/gm,
-        rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/,
         rnoContent = /^(?:GET|HEAD)$/,
         rprotocol = /^\/\//,
         rurl = /^([\w.+-]+:)(?:\/\/([^\/?#:]*)(?::(\d+)|)|)/,
@@ -10389,8 +10388,8 @@
             ajaxSettings: {
                 url: ajaxLocation,
                 type: "GET",
-                isLocal: rlocalProtocol.test(
-                    ajaxLocParts[1]
+                isLocal: /^(?:about|app|app-storage|.+-extension|file|res|widget):$/.test(
+                    ajaxLocParts[1],
                 ),
                 global: !0,
                 processData: !0,
