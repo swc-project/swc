@@ -1539,10 +1539,11 @@ impl VisitMut for Optimizer<'_> {
         };
         {
             let ctx = Ctx {
-                is_this_aware_callee: match &e.callee {
-                    ExprOrSuper::Super(_) => false,
-                    ExprOrSuper::Expr(callee) => is_callee_this_aware(&callee),
-                },
+                is_this_aware_callee: is_this_undefined
+                    || match &e.callee {
+                        ExprOrSuper::Super(_) => false,
+                        ExprOrSuper::Expr(callee) => is_callee_this_aware(&callee),
+                    },
                 ..self.ctx
             };
             e.callee.visit_mut_with(&mut *self.with_ctx(ctx));
