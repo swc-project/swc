@@ -96,7 +96,7 @@
                     i < l;
                     i++
                 )
-                    if ((events = this._events[(name = names[i])])) {
+                    if (((name = names[i]), (events = this._events[name]))) {
                         if (((this._events[name] = retain = []), callback || context))
                             for (j = 0, k = events.length; j < k; j++)
                                 (ev = events[j]),

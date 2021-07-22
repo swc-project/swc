@@ -4109,14 +4109,15 @@
                         ((notxml = 1 !== nType || !jQuery.isXMLDoc(
                             elem
                         )) &&
+              ((name = name.toLowerCase(
+              )),
               (hooks =
-                jQuery.attrHooks[(name = name.toLowerCase(
-                ))] ||
+                jQuery.attrHooks[name] ||
                 (rboolean.test(
                     name
                 )
                     ? boolHook
-                    : nodeHook)),
+                    : nodeHook))),
                         value !== undefined)
                     )
                         if (null === value) jQuery.removeAttr(
@@ -4619,13 +4620,10 @@
                     )),
                     (special = jQuery.event.special[type] || {
                     }),
-                    (special =
-                jQuery.event.special[
                     (type =
-                    (selector ? special.delegateType : special.bindType) ||
-                    type)
-                ] || {
-                }),
+                (selector ? special.delegateType : special.bindType) || type),
+                    (special = jQuery.event.special[type] || {
+                    }),
                     (handleObj = jQuery.extend(
                         {
                             type: type,
@@ -6796,7 +6794,8 @@
                     i--;
 
                 ) {
-                    if (Expr.relative[(type = (token = tokens[i]).type)]) break;
+                    if (((token = tokens[i]), Expr.relative[(type = token.type)]))
+                        break;
                     if (
                         (find = Expr.find[type]) &&
               (seed = find(

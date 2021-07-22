@@ -10371,9 +10371,8 @@
                 text = "",
                 parts = [];
             if (
-                ((format =
-          $locale.DATETIME_FORMATS[(format = format || "mediumDate")] ||
-          format),
+                ((format = format || "mediumDate"),
+                (format = $locale.DATETIME_FORMATS[format] || format),
                 isString(
                     date
                 ) &&

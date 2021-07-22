@@ -18598,15 +18598,16 @@
                                 "listview",
                             ];
                         for (idx = recognizedWidgets.length - 1; idx > -1; idx--)
-                            $7.mobile[(widget = recognizedWidgets[idx])] &&
-              (widget = this.element.data(
-                  "mobile-" + widget
-              )) &&
-              $7.isFunction(
-                  widget.refresh
-              ) &&
-              widget.refresh(
-              );
+                            (widget = recognizedWidgets[idx]),
+                            $7.mobile[widget] &&
+                (widget = this.element.data(
+                    "mobile-" + widget
+                )) &&
+                $7.isFunction(
+                    widget.refresh
+                ) &&
+                widget.refresh(
+                );
                     },
                     _setInput: function (
                         selector
@@ -18757,7 +18758,9 @@
                             idx > -1;
                             idx--
                         )
-                            if ($7.mobile[(widgetName = recognizedWidgets[idx])]) {
+                            if (
+                                ((widgetName = recognizedWidgets[idx]), $7.mobile[widgetName])
+                            ) {
                                 if (this._setWidget(
                                     elem.data(
                                         "mobile-" + widgetName

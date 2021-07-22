@@ -18039,7 +18039,10 @@
                 );
                 if (!1 !== logError) {
                     var error = errorInfo.value;
-                    if (1) {
+                    if (0) console.error(
+                        error
+                    );
+                    else {
                         var source = errorInfo.source,
                             stack = errorInfo.stack,
                             componentStack = null !== stack ? stack : "";
@@ -18078,9 +18081,7 @@
                         console.error(
                             combinedMessage
                         );
-                    } else console.error(
-                        error
-                    );
+                    }
                 }
             } catch (e) {
                 setTimeout(

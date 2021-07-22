@@ -2809,9 +2809,10 @@ var Event1 = DOMEvent;
             fireEvent: function (
                 type, args, delay
             ) {
-                var events = this.$events[(type = removeOn(
+                type = removeOn(
                     type
-                ))];
+                );
+                var events = this.$events[type];
                 return (
                     events &&
             ((args = Array.from(
@@ -2840,9 +2841,10 @@ var Event1 = DOMEvent;
             removeEvent: function (
                 type, fn
             ) {
-                var events = this.$events[(type = removeOn(
+                type = removeOn(
                     type
-                ))];
+                );
+                var events = this.$events[type];
                 if (events && !fn.internal) {
                     var index = events.indexOf(
                         fn
