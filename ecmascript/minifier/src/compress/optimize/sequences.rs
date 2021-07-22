@@ -870,6 +870,16 @@ impl Optimizer<'_> {
                     _ => return false,
                 };
 
+                if let Some(usage) = self
+                    .data
+                    .as_ref()
+                    .and_then(|data| data.vars.get(&left.to_id()))
+                {
+                    if usage.ref_count != 1 {
+                        return false;
+                    }
+                }
+
                 match &mut a.init {
                     Some(v) => (left, v),
                     None => return false,
@@ -946,12 +956,7 @@ impl Optimizer<'_> {
         vars.insert(
             left_id.to_id(),
             match a {
-                Mergable::Var(a) => Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
-                    op: op!("="),
-                    left: PatOrExpr::Pat(Box::new(a.name.take())),
-                    right: a.init.take().unwrap(),
-                })),
+                Mergable::Var(a) => a.init.take().unwrap(),
                 Mergable::Expr(a) => Box::new(a.take()),
             },
         );
