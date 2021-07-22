@@ -243,7 +243,7 @@ impl VisitMut for Fixer<'_> {
                 || expr.op == op!("!==") => {}
 
             Expr::Seq(..)
-            | Expr::Update(..)
+            | Expr::Update(UpdateExpr { prefix: false, .. })
             | Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             })
@@ -1340,6 +1340,8 @@ var store = global[SHARED] || (global[SHARED] = {});
         "(--remaining) || deferred.resolveWith()",
         "--remaining || deferred.resolveWith()"
     );
+
+    test_fixer!(minifier_010, "(--remaining) + ''", "--remaining + ''");
 
     identical!(
         if_stmt_001,
