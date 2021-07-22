@@ -6,3 +6,4 @@
 
 set -eux
 terser --compress --format beautify -- lab.js
+node lab.js
