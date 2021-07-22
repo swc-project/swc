@@ -203,18 +203,12 @@ impl Optimizer<'_> {
                         if usage.reassigned {
                             continue;
                         }
+                        if usage.ref_count != 1 {
+                            continue;
+                        }
                     }
 
                     if let Some(arg) = arg {
-                        match &**arg {
-                            Expr::Ident(arg) => {
-                                if arg.sym == param.id.sym {
-                                    continue;
-                                }
-                            }
-                            _ => {}
-                        }
-
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
                             log::debug!(
@@ -236,19 +230,14 @@ impl Optimizer<'_> {
                 }
             }
 
-            let ctx = Ctx {
-                inline_as_assignment: true,
-                ..self.ctx
-            };
-
             match find_body(callee) {
                 Some(Either::Left(body)) => {
                     log::debug!("inline: Inlining arguments");
-                    self.with_ctx(ctx).inline_vars_in_node(body, vars);
+                    self.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
                     log::debug!("inline: Inlining arguments");
-                    self.with_ctx(ctx).inline_vars_in_node(body, vars);
+                    self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
             }
