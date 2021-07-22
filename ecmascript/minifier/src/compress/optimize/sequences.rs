@@ -91,6 +91,9 @@ impl Optimizer<'_> {
                                         ..
                                     },
                                 )) => v.decls.iter().all(|vd| vd.init.is_none()),
+
+                                Stmt::Decl(Decl::Fn(..)) => true,
+
                                 _ => false,
                             }
                         }
@@ -99,6 +102,27 @@ impl Optimizer<'_> {
 
             if !can_work {
                 return;
+            }
+
+            if stmts.len() == 2 {
+                match stmts[1].as_stmt() {
+                    Some(Stmt::Decl(Decl::Var(
+                        v
+                        @
+                        VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        },
+                    ))) => {
+                        if v.decls.iter().all(|vd| vd.init.is_none()) {
+                            return;
+                        }
+                    }
+
+                    Some(Stmt::Decl(Decl::Fn(..))) => return,
+
+                    _ => {}
+                }
             }
         }
 
@@ -249,6 +273,10 @@ impl Optimizer<'_> {
                             },
                         )) if var.decls.iter().all(|v| v.init.is_none()) => {
                             new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
+                        }
+
+                        Stmt::Decl(Decl::Fn(..)) => {
+                            new_stmts.push(T::from_stmt(stmt));
                         }
 
                         _ => {
