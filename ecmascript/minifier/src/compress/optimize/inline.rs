@@ -171,7 +171,11 @@ impl Optimizer<'_> {
                             _ => {}
                         }
                         match &**init {
-                            Expr::Lit(Lit::Regex(..)) => return,
+                            Expr::Lit(Lit::Regex(..)) => {
+                                if !usage.is_fn_local || usage.used_in_loop {
+                                    return;
+                                }
+                            }
 
                             Expr::This(..) => {
                                 // Don't inline this if it passes function boundaries.
