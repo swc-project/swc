@@ -1,4 +1,9 @@
 function lazyInitializer(payload) {
+    var Uninitialized = -1;
+    var Pending = 0;
+    var Resolved = 1;
+    var Rejected = 2;
+
     if (payload._status === Uninitialized) {
         var ctor = payload._result;
         var thenable = ctor(); // Transition to the next state.
