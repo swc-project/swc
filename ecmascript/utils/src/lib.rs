@@ -2021,6 +2021,14 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
     }
 }
 
+/// Replace all `from` in `expr` with `to`.
+///
+/// # Usage
+
+///
+/// ```ignore
+/// replace_ident(&mut dec.expr, cls_name.to_id(), alias);
+/// ```
 pub fn replace_ident<T>(node: &mut T, from: Id, to: &Ident)
 where
     T: for<'any> VisitMutWith<IdentReplacer<'any>>,
