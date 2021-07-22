@@ -83,9 +83,14 @@ impl Optimizer<'_> {
                                 | Stmt::ForIn(..)
                                 | Stmt::ForOf(..) => true,
 
-                                Stmt::Decl(Decl::Var(v)) => {
-                                    v.decls.iter().all(|vd| vd.init.is_none())
-                                }
+                                Stmt::Decl(Decl::Var(
+                                    v
+                                    @
+                                    VarDecl {
+                                        kind: VarDeclKind::Var,
+                                        ..
+                                    },
+                                )) => v.decls.iter().all(|vd| vd.init.is_none()),
                                 _ => false,
                             }
                         }
@@ -235,9 +240,14 @@ impl Optimizer<'_> {
                             new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
                         }
 
-                        Stmt::Decl(Decl::Var(var))
-                            if var.decls.iter().all(|v| v.init.is_none()) =>
-                        {
+                        Stmt::Decl(Decl::Var(
+                            var
+                            @
+                            VarDecl {
+                                kind: VarDeclKind::Var,
+                                ..
+                            },
+                        )) if var.decls.iter().all(|v| v.init.is_none()) => {
                             new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
                         }
 
