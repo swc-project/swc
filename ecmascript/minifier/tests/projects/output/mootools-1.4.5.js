@@ -1764,11 +1764,10 @@ var $try = Function.attempt;
                         function (
                             value, key
                         ) {
-                            base && (key = base + "[" + key + "]");
                             var result;
-                            switch (typeOf(
+                            switch ((base && (key = base + "[" + key + "]"), typeOf(
                                 value
-                            )) {
+                            ))) {
                             case "object":
                                 result = Object.toQueryString(
                                     value,

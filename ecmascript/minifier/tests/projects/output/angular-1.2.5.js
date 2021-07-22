@@ -8617,12 +8617,11 @@
                             return this.$watch(
                                 function (
                                 ) {
-                                    newValue = objGetter(
-                                        self
-                                    );
                                     var newLength, key;
                                     if (isObject(
-                                        newValue
+                                        (newValue = objGetter(
+                                            self
+                                        ))
                                     ))
                                         if (isArrayLike(
                                             newValue

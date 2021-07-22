@@ -15893,13 +15893,13 @@
             nextProps,
             renderLanes,
         ) {
-            null !== _current &&
-      ((_current.alternate = null),
-      (workInProgress.alternate = null),
-      (workInProgress.flags |= Placement)),
-            (workInProgress.tag = 1);
             var hasContext;
             return (
+                null !== _current &&
+        ((_current.alternate = null),
+        (workInProgress.alternate = null),
+        (workInProgress.flags |= Placement)),
+                (workInProgress.tag = 1),
                 isContextProvider(
                     Component
                 )
@@ -19898,11 +19898,11 @@
                 throw Error(
                     "Should not already be working."
                 );
-            flushPassiveEffects(
-            );
             var lanes, exitStatus;
             if (
-                (root === workInProgressRoot &&
+                (flushPassiveEffects(
+                ),
+                root === workInProgressRoot &&
       includesSomeLane(
           root.expiredLanes,
           workInProgressRootRenderLanes
