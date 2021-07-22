@@ -1,5 +1,3 @@
-cargo-features = ["strip"]
-
 [workspace]
 members = ["ecmascript", "ecmascript/jsdoc", "node/binding", "wasm"]
 
@@ -63,7 +61,6 @@ name = "usage"
 [profile.release]
 codegen-units = 1
 lto = true
-strip = 'symbols'
 # debug = true
 # opt-level = 'z'
 
