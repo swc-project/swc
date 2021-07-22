@@ -5949,3 +5949,26 @@ let Store = ((_class = class Store extends BaseStore {
 }), _class);
 "
 );
+
+test!(
+    syntax(false),
+    |_| decorators(Config {
+        ..Default::default()
+    }),
+    issue_1869_1,
+    "
+    @someClassDecorator
+    class TestClass {
+        static Something = 'hello';
+
+        static SomeProperties = {
+            firstProp: TestClass.Something,
+        };
+    }
+
+    function someClassDecorator(c) {
+        return c;
+    }
+    ",
+    ""
+);
