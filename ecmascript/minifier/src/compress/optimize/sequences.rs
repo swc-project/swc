@@ -595,27 +595,23 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        fn exprs_of(s: &mut Stmt) -> Vec<&mut Expr> {
-            match s {
-                Stmt::Expr(e) => vec![&mut *e.expr],
-                Stmt::Decl(Decl::Var(v)) => {
-                    if v.decls.is_empty() {
-                        return Default::default();
-                    }
-
-                    v.decls
-                        .iter_mut()
-                        .filter_map(|d| d.init.as_deref_mut())
-                        .collect()
-                }
-                _ => Default::default(),
-            }
+        fn exprs_of(s: &mut Stmt) -> Option<Vec<Mergable>> {
+            Some(match s {
+                Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
+                Stmt::Decl(Decl::Var(v)) => v.decls.iter_mut().map(Mergable::Var).collect(),
+                _ => return None,
+            })
         }
 
         let mut exprs = vec![];
 
         for stmt in stmts.iter_mut() {
-            exprs.extend(exprs_of(stmt))
+            let items = exprs_of(stmt);
+            if let Some(items) = items {
+                exprs.extend(items)
+            } else {
+                break;
+            }
         }
 
         self.merge_sequences_in_exprs(&mut exprs);
@@ -682,7 +678,7 @@ impl Optimizer<'_> {
     }
 
     /// Returns true if something is modified.
-    fn merge_sequential_expr(&mut self, a: &mut Expr, b: &mut Expr) -> bool {
+    fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
         match b {
             Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
 
@@ -1015,4 +1011,9 @@ fn can_skip_expr_for_seqs(e: &Expr) -> bool {
 
         _ => false,
     }
+}
+
+enum Mergable<'a> {
+    Var(&'a mut VarDeclarator),
+    Expr(&'a mut Expr),
 }
