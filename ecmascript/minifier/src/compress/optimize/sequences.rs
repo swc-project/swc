@@ -82,6 +82,10 @@ impl Optimizer<'_> {
                                 })
                                 | Stmt::ForIn(..)
                                 | Stmt::ForOf(..) => true,
+
+                                Stmt::Decl(Decl::Var(v)) => {
+                                    v.decls.iter().all(|vd| vd.init.is_none())
+                                }
                                 _ => false,
                             }
                         }
@@ -229,6 +233,12 @@ impl Optimizer<'_> {
                             stmt.right.prepend_exprs(take(&mut exprs));
 
                             new_stmts.push(T::from_stmt(Stmt::ForOf(stmt)));
+                        }
+
+                        Stmt::Decl(Decl::Var(var))
+                            if var.decls.iter().all(|v| v.init.is_none()) =>
+                        {
+                            new_stmts.push(T::from_stmt(Stmt::Decl(Decl::Var(var))));
                         }
 
                         _ => {
