@@ -496,6 +496,9 @@ impl Optimizer<'_> {
             return None;
         }
 
+        self.changed = true;
+        log::debug!("inline: Inling an iife");
+
         let mut exprs = vec![];
 
         {
