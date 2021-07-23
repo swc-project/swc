@@ -902,6 +902,16 @@ impl Optimizer<'_> {
                 return false;
             }
 
+            Expr::Seq(SeqExpr { exprs: b_exprs, .. }) => {
+                if let Some(first) = b_exprs.first_mut() {
+                    if self.merge_sequential_expr(a, &mut **first) {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+
             _ => {}
         }
 
