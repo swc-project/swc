@@ -21,7 +21,9 @@ use std::{
 use swc_atoms::{js_word, JsWord};
 use swc_common::{errors::Handler, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{
+    noop_visit_mut_type, noop_visit_type, Node, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 use unicode_xid::UnicodeXID;
 
 #[macro_use]
@@ -2016,5 +2018,44 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
             _ => false,
         },
+    }
+}
+
+/// Replace all `from` in `expr` with `to`.
+///
+/// # Usage
+
+///
+/// ```ignore
+/// replace_ident(&mut dec.expr, cls_name.to_id(), alias);
+/// ```
+pub fn replace_ident<T>(node: &mut T, from: Id, to: &Ident)
+where
+    T: for<'any> VisitMutWith<IdentReplacer<'any>>,
+{
+    node.visit_mut_with(&mut IdentReplacer { from, to })
+}
+
+pub struct IdentReplacer<'a> {
+    from: Id,
+    to: &'a Ident,
+}
+
+impl VisitMut for IdentReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_ident(&mut self, node: &mut Ident) {
+        if node.sym == self.from.0 && node.span.ctxt == self.from.1 {
+            *node = self.to.clone();
+            return;
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, node: &mut MemberExpr) {
+        node.obj.visit_mut_with(self);
+
+        if node.computed {
+            node.prop.visit_mut_with(self);
+        }
     }
 }

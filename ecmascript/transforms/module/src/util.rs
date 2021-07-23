@@ -364,9 +364,25 @@ impl Scope {
             let mut has_non_default = false;
             for s in import.specifiers {
                 match s {
-                    ImportSpecifier::Namespace(..) => unreachable!(
-                        "import * as foo cannot be used with other type of import specifiers"
-                    ),
+                    ImportSpecifier::Namespace(ref ns) => {
+                        self.idents.insert(
+                            (ns.local.sym.clone(), ns.local.span.ctxt()),
+                            (import.src.value.clone(), "".into()),
+                        );
+
+                        // Override symbol if one exists
+                        self.imports
+                            .entry(import.src.value.clone())
+                            .and_modify(|v| match *v {
+                                Some(ref mut v) => v.0 = ns.local.sym.clone(),
+                                None => *v = Some((ns.local.sym.clone(), ns.local.span)),
+                            })
+                            .or_insert_with(|| Some((ns.local.sym.clone(), ns.local.span)));
+
+                        if &*import.src.value != "@swc/helpers" {
+                            self.import_types.insert(import.src.value.clone(), true);
+                        }
+                    }
                     ImportSpecifier::Default(i) => {
                         self.idents.insert(
                             i.local.to_id(),

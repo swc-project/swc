@@ -4005,3 +4005,50 @@ to!(
 
     console.log(A, AB, CB);"#
 );
+
+to!(
+    deno_10684,
+    "
+    import { Foo } from './temp2.ts';
+
+    const a: Foo = null;
+    console.log(a);
+    const b = { Foo: 1 };
+    console.log(b.Foo)
+    ",
+    "
+    const a = null;
+    console.log(a);
+    const b = {
+        Foo: 1
+    };
+    console.log(b.Foo);
+    "
+);
+
+to!(
+    issue_1869_3,
+    "
+    var _class;
+    let TestClass = _class = someClassDecorator((_class = class TestClass {
+        static Something = 'hello';
+        static SomeProperties = {
+            firstProp: TestClass.Something
+        };
+    }) || _class) || _class;
+    function someClassDecorator(c) {
+        return c;
+    }
+    ",
+    "
+    var _class;
+    var _class1;
+    let TestClass = _class1 = someClassDecorator((_class1 = (_class = class TestClass {
+    }, _class.Something = 'hello', _class.SomeProperties = {
+        firstProp: _class.Something
+    }, _class)) || _class1) || _class1;
+    function someClassDecorator(c) {
+        return c;
+    }
+    "
+);

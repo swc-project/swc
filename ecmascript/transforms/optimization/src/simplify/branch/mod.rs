@@ -1,4 +1,4 @@
-use std::{borrow::Cow, cmp::min, iter::once};
+use std::{borrow::Cow, cmp::min, iter::once, mem::take};
 use swc_atoms::js_word;
 use swc_common::{
     pass::{CompilerPass, Repeated},
@@ -692,18 +692,47 @@ impl VisitMut for Remover {
                             return block;
                         }
                     } else if are_all_tests_known {
+                        let mut vars = vec![];
+
                         match *s.discriminant {
                             Expr::Lit(..) => {
                                 let idx = s.cases.iter().position(|v| v.test.is_none());
+
                                 if let Some(i) = idx {
+                                    for case in &s.cases[..i] {
+                                        for cons in &case.cons {
+                                            vars.extend(cons.extract_var_ids().into_iter().map(
+                                                |name| VarDeclarator {
+                                                    span: DUMMY_SP,
+                                                    name: Pat::Ident(name.into()),
+                                                    init: None,
+                                                    definite: Default::default(),
+                                                },
+                                            ));
+                                        }
+                                    }
+
                                     if !has_conditional_stopper(&s.cases[i].cons) {
                                         let stmts = s.cases.remove(i).cons;
-                                        let stmts = remove_break(stmts);
+                                        let mut stmts = remove_break(stmts);
+
+                                        if !vars.is_empty() {
+                                            prepend(
+                                                &mut stmts,
+                                                Stmt::Decl(Decl::Var(VarDecl {
+                                                    span: DUMMY_SP,
+                                                    kind: VarDeclKind::Var,
+                                                    declare: Default::default(),
+                                                    decls: take(&mut vars),
+                                                })),
+                                            )
+                                        }
 
                                         let mut block = Stmt::Block(BlockStmt {
                                             span: s.span,
                                             stmts,
                                         });
+
                                         block.visit_mut_with(self);
                                         return block;
                                     }

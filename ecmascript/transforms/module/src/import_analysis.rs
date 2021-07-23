@@ -101,9 +101,11 @@ impl Visit for ImportAnalyzer {
             let mut has_non_default = false;
             for s in &import.specifiers {
                 match *s {
-                    ImportSpecifier::Namespace(..) => unreachable!(
-                        "import * as foo cannot be used with other type of import specifiers"
-                    ),
+                    ImportSpecifier::Namespace(ref _ns) => {
+                        if &*import.src.value != "@swc/helpers" {
+                            scope.import_types.insert(import.src.value.clone(), true);
+                        }
+                    }
                     ImportSpecifier::Default(_) => {
                         scope
                             .import_types

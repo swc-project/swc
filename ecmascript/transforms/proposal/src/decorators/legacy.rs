@@ -11,14 +11,12 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::replace_ident;
 use swc_ecma_utils::{
     alias_if_required, default_constructor, prepend, prop_name_to_expr_value, undefined,
     ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_utils::{ident::IdentLike, Id};
-use swc_ecma_visit::noop_visit_mut_type;
-use swc_ecma_visit::VisitMut;
-use swc_ecma_visit::VisitMutWith;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, Node, Visit, VisitWith};
 
 mod metadata;
@@ -330,7 +328,7 @@ impl Legacy {
 
                 let mut dec_exprs = vec![];
                 let mut dec_inits = vec![];
-                for dec in m.function.decorators.into_iter() {
+                for mut dec in m.function.decorators.into_iter() {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
                         self.uninitialized_vars.push(VarDeclarator {
@@ -353,10 +351,9 @@ impl Legacy {
                         //
                         // See: https://github.com/swc-project/swc/issues/823
                         let right = if let Some(cls_name) = cls_name.clone() {
-                            dec.expr.fold_with(&mut ClassFieldAccessConverter {
-                                cls_name,
-                                alias: cls_ident.clone(),
-                            })
+                            replace_ident(&mut dec.expr, cls_name.to_id(), &cls_ident);
+
+                            dec.expr
                         } else {
                             dec.expr
                         };
@@ -378,10 +375,7 @@ impl Legacy {
                         if aliased {
                             let mut init = e.expr.clone();
                             if let Some(name) = &cls_name {
-                                init.visit_mut_with(&mut IdentReplacer {
-                                    from: name,
-                                    to: &cls_ident,
-                                });
+                                replace_ident(&mut init, name.to_id(), &cls_ident);
                             }
 
                             dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -503,10 +497,7 @@ impl Legacy {
                     let (i, aliased) = alias_if_required(&dec.expr, "_dec");
                     if aliased {
                         if let Some(name) = &cls_name {
-                            dec.expr.visit_mut_with(&mut IdentReplacer {
-                                from: name,
-                                to: &cls_ident,
-                            });
+                            replace_ident(&mut dec.expr, name.to_id(), &cls_ident);
                         }
 
                         dec_init_exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -887,53 +878,5 @@ impl Legacy {
         }
 
         expr
-    }
-}
-
-struct ClassFieldAccessConverter {
-    cls_name: Ident,
-    /// `_class`
-    alias: Ident,
-}
-
-impl Fold for ClassFieldAccessConverter {
-    noop_fold_type!();
-
-    fn fold_ident(&mut self, node: Ident) -> Ident {
-        if node.sym == self.cls_name.sym && node.span.ctxt() == self.cls_name.span.ctxt() {
-            return self.alias.clone();
-        }
-
-        node
-    }
-
-    fn fold_member_expr(&mut self, node: MemberExpr) -> MemberExpr {
-        if node.computed {
-            MemberExpr {
-                obj: node.obj.fold_with(self),
-                prop: node.prop.fold_with(self),
-                ..node
-            }
-        } else {
-            MemberExpr {
-                obj: node.obj.fold_with(self),
-                ..node
-            }
-        }
-    }
-}
-
-struct IdentReplacer<'a> {
-    from: &'a Ident,
-    to: &'a Ident,
-}
-
-impl VisitMut for IdentReplacer<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_ident(&mut self, i: &mut Ident) {
-        if self.from.sym == i.sym && self.from.span.ctxt == i.span.ctxt {
-            *i = self.to.clone();
-        }
     }
 }

@@ -1316,13 +1316,13 @@ impl VisitMut for SimplifyExpr {
                                 if expr.is_object() =>
                             {
                                 let props = expr.object().unwrap().props;
-                                ps.extend(props)
+                                ps.extend(props);
+                                self.changed = true;
                             }
 
                             _ => ps.push(p),
                         }
                     }
-                    self.changed = true;
                     ObjectLit { span, props: ps }.into()
                 }
 
@@ -1377,6 +1377,21 @@ impl VisitMut for SimplifyExpr {
     /// Currently noop
     #[inline]
     fn visit_mut_opt_chain_expr(&mut self, _: &mut OptChainExpr) {}
+
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        match n {
+            Some(VarDeclOrExpr::Expr(e)) => match &mut **e {
+                Expr::Seq(SeqExpr { exprs, .. }) if exprs.is_empty() => {
+                    *n = None;
+                    return;
+                }
+                _ => {}
+            },
+            _ => {}
+        }
+
+        n.visit_mut_children_with(self);
+    }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         p.visit_mut_children_with(self);

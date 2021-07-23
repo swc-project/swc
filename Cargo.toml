@@ -1,5 +1,3 @@
-cargo-features = ["strip"]
-
 [workspace]
 members = ["ecmascript", "ecmascript/jsdoc", "node/binding", "wasm"]
 
@@ -11,7 +9,7 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.29.1"
+version = "0.30.0"
 
 [lib]
 name = "swc"
@@ -63,7 +61,6 @@ name = "usage"
 [profile.release]
 codegen-units = 1
 lto = true
-strip = 'symbols'
 # debug = true
 # opt-level = 'z'
 

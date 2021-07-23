@@ -9,6 +9,7 @@ pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold + VisitMu
         comments,
         ctx: Default::default(),
         span_map: Default::default(),
+        in_for_stmt_head: Default::default(),
     })
 }
 
@@ -20,6 +21,8 @@ struct Fixer<'a> {
     /// Key is span of inner expression, and value is span of the paren
     /// expression.
     span_map: FxHashMap<Span, Span>,
+
+    in_for_stmt_head: bool,
 }
 
 #[repr(u8)]
@@ -66,6 +69,18 @@ impl VisitMut for Fixer<'_> {
 
     array!(visit_mut_array_lit, ArrayLit);
     // array!(ArrayPat);
+
+    fn visit_mut_for_stmt(&mut self, n: &mut ForStmt) {
+        let old = self.in_for_stmt_head;
+        self.in_for_stmt_head = true;
+        n.init.visit_mut_with(self);
+        n.test.visit_mut_with(self);
+        n.update.visit_mut_with(self);
+
+        self.in_for_stmt_head = false;
+        n.body.visit_mut_with(self);
+        self.in_for_stmt_head = old;
+    }
 
     fn visit_mut_new_expr(&mut self, node: &mut NewExpr) {
         let old = self.ctx;
@@ -155,6 +170,31 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
         expr.visit_mut_children_with(self);
 
+        match expr.op {
+            op!("||") | op!("&&") => match (&*expr.left, &*expr.right) {
+                (Expr::Update(..), Expr::Call(..)) => {
+                    return;
+                }
+
+                (Expr::Update(..), Expr::Assign(..)) => {
+                    self.wrap(&mut expr.right);
+                    return;
+                }
+
+                _ => {}
+            },
+
+            op!(">") | op!(">=") | op!("<") | op!("<=") => match (&*expr.left, &*expr.right) {
+                (Expr::Update(..) | Expr::Lit(..), Expr::Update(..) | Expr::Lit(..)) => {
+                    return;
+                }
+
+                _ => {}
+            },
+
+            _ => {}
+        }
+
         match &mut *expr.right {
             Expr::Assign(..)
             | Expr::Seq(..)
@@ -195,8 +235,15 @@ impl VisitMut for Fixer<'_> {
                 }
             }
 
+            Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            }) if expr.op == op!("==")
+                || expr.op == op!("===")
+                || expr.op == op!("!=")
+                || expr.op == op!("!==") => {}
+
             Expr::Seq(..)
-            | Expr::Update(..)
+            | Expr::Update(UpdateExpr { prefix: false, .. })
             | Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             })
@@ -284,6 +331,17 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         match &*n.arg {
+            Expr::Bin(BinExpr {
+                op: op!("/") | op!("*"),
+                left,
+                right,
+                ..
+            }) if n.op == op!(unary, "-")
+                && match (&**left, &**right) {
+                    (Expr::Lit(Lit::Num(..)), Expr::Lit(Lit::Num(..))) => true,
+                    _ => false,
+                } => {}
+
             Expr::Assign(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
@@ -367,15 +425,11 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_if_stmt(&mut self, node: &mut IfStmt) {
         node.visit_mut_children_with(self);
 
-        match *node.cons {
-            Stmt::If(..) => {
-                node.cons = Box::new(Stmt::Block(BlockStmt {
-                    span: node.cons.span(),
-                    stmts: vec![*node.cons.take()],
-                }));
-            }
-
-            _ => {}
+        if will_eat_else_token(&node.cons) {
+            node.cons = Box::new(Stmt::Block(BlockStmt {
+                span: node.cons.span(),
+                stmts: vec![*node.cons.take()],
+            }));
         }
     }
 
@@ -485,6 +539,10 @@ impl Fixer<'_> {
     fn wrap_with_paren_if_required(&mut self, e: &mut Expr) {
         let mut has_padding_value = false;
         match e {
+            Expr::Bin(BinExpr { op: op!("in"), .. }) if self.in_for_stmt_head => {
+                self.wrap(e);
+            }
+
             // Flatten seq expr
             Expr::Seq(SeqExpr { span, exprs }) => {
                 let len = exprs
@@ -790,6 +848,29 @@ fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
             .collect()
     } else {
         exprs
+    }
+}
+
+fn will_eat_else_token(s: &Stmt) -> bool {
+    match s {
+        Stmt::If(s) => match &s.alt {
+            Some(alt) => will_eat_else_token(&alt),
+            None => true,
+        },
+        // Ends with `}`.
+        Stmt::Block(..) => false,
+
+        Stmt::Labeled(s) => will_eat_else_token(&s.body),
+
+        Stmt::While(s) => will_eat_else_token(&s.body),
+
+        Stmt::For(s) => will_eat_else_token(&s.body),
+
+        Stmt::ForIn(s) => will_eat_else_token(&s.body),
+
+        Stmt::ForOf(s) => will_eat_else_token(&s.body),
+
+        _ => false,
     }
 }
 
@@ -1246,5 +1327,44 @@ var store = global[SHARED] || (global[SHARED] = {});
     identical!(
         new_await_1,
         "async function foo() { new (await getServerImpl())(options) }"
+    );
+    test_fixer!(minifier_005, "-(1/0)", "-1/0");
+
+    test_fixer!(minifier_006, "-('s'/'b')", "-('s'/'b')");
+
+    test_fixer!(minifier_007, "(void 0) === value", "void 0 === value");
+    test_fixer!(minifier_008, "(size--) && (b = (c))", "size-- && (b = c)");
+
+    test_fixer!(
+        minifier_009,
+        "(--remaining) || deferred.resolveWith()",
+        "--remaining || deferred.resolveWith()"
+    );
+
+    test_fixer!(minifier_010, "(--remaining) + ''", "--remaining + ''");
+
+    identical!(
+        if_stmt_001,
+        "
+        export const obj = {
+            each: function (obj, callback, args) {
+                var i = 0, length = obj.length, isArray = isArraylike(obj);
+                if (args) {
+                    if (isArray)
+                        for (; i < length && !1 !== callback.apply(obj[i], args); i++);
+                    else
+                        for (i in obj)
+                            if (!1 === callback.apply(obj[i], args))
+                                break
+                } else if (isArray)
+                    for (; i < length && !1 !== callback.call(obj[i], i, obj[i]); i++);
+                else
+                    for (i in obj)
+                        if (!1 === callback.call(obj[i], i, obj[i]))
+                            break;
+                return obj
+            }
+        };
+        "
     );
 }

@@ -5479,3 +5479,66 @@ test!(
     new Foo();
     "
 );
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1869_1,
+    "
+    class TestClass {
+        static Something = 'hello';
+
+        static SomeProperties = {
+            firstProp: TestClass.Something,
+        };
+    }
+
+    function someClassDecorator(c) {
+        return c;
+    }
+    ",
+    "
+    class TestClass {
+    }
+    _defineProperty(TestClass, 'Something', 'hello');
+    _defineProperty(TestClass, 'SomeProperties', {
+        firstProp: TestClass.Something
+    });
+    function someClassDecorator(c) {
+        return c;
+    }
+    "
+);
+
+test!(
+    syntax(),
+    |_| class_properties(),
+    issue_1869_2,
+    "
+    var _class;
+    let TestClass = _class = someClassDecorator((_class = class TestClass {
+        static Something = 'hello';
+        static SomeProperties = {
+            firstProp: TestClass.Something
+        };
+    }) || _class) || _class;
+    function someClassDecorator(c) {
+        return c;
+    }
+    ",
+    "
+    var _class;
+    let TestClass = _class = someClassDecorator((_class = function() {
+        class TestClass {
+        }
+        _defineProperty(TestClass, 'Something', 'hello');
+        _defineProperty(TestClass, 'SomeProperties', {
+            firstProp: TestClass.Something
+        });
+        return TestClass;
+    }()) || _class) || _class;
+    function someClassDecorator(c) {
+        return c;
+    }
+    "
+);

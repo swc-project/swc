@@ -9,6 +9,7 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::member_expr;
 use swc_ecma_utils::private_ident;
 use swc_ecma_utils::quote_ident;
+use swc_ecma_utils::replace_ident;
 use swc_ecma_utils::var::VarCollector;
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::{constructor::inject_after_super, default_constructor};
@@ -196,7 +197,12 @@ impl Strip {
 }
 
 impl Strip {
-    fn fold_class_as_decl(&mut self, ident: Ident, mut class: Class) -> (Decl, Vec<Box<Expr>>) {
+    fn fold_class_as_decl(
+        &mut self,
+        ident: Ident,
+        orig_ident: Option<Ident>,
+        mut class: Class,
+    ) -> (Decl, Vec<Box<Expr>>) {
         class.is_abstract = false;
         class.type_params = None;
         class.super_type_params = None;
@@ -253,6 +259,17 @@ impl Strip {
                 class.body = param_class_fields;
             }
         } else {
+            for m in class.body.iter_mut() {
+                match m {
+                    ClassMember::ClassProp(m) => {
+                        if let Some(orig_ident) = &orig_ident {
+                            replace_ident(&mut m.value, orig_ident.to_id(), &ident)
+                        }
+                    }
+                    _ => {}
+                }
+            }
+
             let mut key_computations = vec![];
             let mut assign_exprs = vec![];
             let mut new_body = vec![];
@@ -410,7 +427,9 @@ impl Strip {
                         declare: false,
                         class,
                     })) => {
-                        let (decl, extra_exprs) = self.fold_class_as_decl(ident, class);
+                        let orig_ident = ident.clone();
+                        let (decl, extra_exprs) =
+                            self.fold_class_as_decl(ident, Some(orig_ident), class);
                         stmts.push(T::from_stmt(Stmt::Decl(decl)));
                         stmts.extend(extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())));
                     }
@@ -423,8 +442,10 @@ impl Strip {
                             decl: DefaultDecl::Class(ClassExpr { ident, class }),
                             ..
                         }) => {
+                            let orig_ident = ident.clone();
                             let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                            let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
+                            let (decl, extra_exprs) =
+                                self.fold_class_as_decl(ident.clone(), orig_ident, class);
                             stmts.push(T::from_stmt(Stmt::Decl(decl)));
                             stmts.extend(
                                 extra_exprs.into_iter().map(|e| T::from_stmt(e.into_stmt())),
@@ -462,7 +483,9 @@ impl Strip {
                                 }),
                             ..
                         }) => {
-                            let (decl, extra_exprs) = self.fold_class_as_decl(ident, class);
+                            let orig_ident = ident.clone();
+                            let (decl, extra_exprs) =
+                                self.fold_class_as_decl(ident, Some(orig_ident), class);
                             stmts.push(
                                 match T::try_from_module_decl(ModuleDecl::ExportDecl(ExportDecl {
                                     span,
@@ -495,7 +518,8 @@ impl Strip {
                 class,
             } = n.take().class().unwrap();
             let ident = private_ident!("_class");
-            let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
+            let (decl, extra_exprs) =
+                self.fold_class_as_decl(ident.clone(), old_ident.clone(), class);
             let class_expr = Box::new(Expr::Class(ClassExpr {
                 ident: old_ident,
                 class: decl.class().unwrap().class,
@@ -1129,12 +1153,6 @@ impl Strip {
 }
 
 impl Visit for Strip {
-    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
-        if !self.in_var_pat {
-            n.visit_children_with(self)
-        }
-    }
-
     fn visit_assign_pat_prop(&mut self, n: &AssignPatProp, _: &dyn Node) {
         if !self.in_var_pat {
             n.key.visit_with(n, self);
@@ -1142,27 +1160,14 @@ impl Visit for Strip {
         n.value.visit_with(n, self);
     }
 
-    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
-        match n {
-            PropName::Computed(e) => e.visit_with(n, self),
-            _ => {}
-        }
-    }
-
     fn visit_assign_prop(&mut self, n: &AssignProp, _: &dyn Node) {
         n.value.visit_with(n, self);
     }
 
-    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
-        let is_type_only_export = self.is_type_only_export;
-        let entry = self
-            .scope
-            .referenced_idents
-            .entry((n.sym.clone(), n.span.ctxt()))
-            .or_default();
-        entry.has_concrete |= !is_type_only_export;
-
-        n.visit_children_with(self);
+    fn visit_binding_ident(&mut self, n: &BindingIdent, _: &dyn Node) {
+        if !self.in_var_pat {
+            n.visit_children_with(self)
+        }
     }
 
     fn visit_decl(&mut self, n: &Decl, _: &dyn Node) {
@@ -1205,25 +1210,16 @@ impl Visit for Strip {
         self.non_top_level = old;
     }
 
-    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
-        let old = self.non_top_level;
-        self.non_top_level = true;
-        n.iter()
-            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
-        self.non_top_level = old;
-    }
+    fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
+        let is_type_only_export = self.is_type_only_export;
+        let entry = self
+            .scope
+            .referenced_idents
+            .entry((n.sym.clone(), n.span.ctxt()))
+            .or_default();
+        entry.has_concrete |= !is_type_only_export;
 
-    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
-        let old = self.non_top_level;
-        self.non_top_level = false;
-        n.iter().for_each(|n| {
-            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = n {
-                self.is_type_only_export = export.type_only;
-            }
-            n.visit_with(&Invalid { span: DUMMY_SP }, self);
-            self.is_type_only_export = false;
-        });
-        self.non_top_level = old;
+        n.visit_children_with(self);
     }
 
     fn visit_import_decl(&mut self, n: &ImportDecl, _: &dyn Node) {
@@ -1242,6 +1238,41 @@ impl Visit for Strip {
                 ImportSpecifier::Namespace(ref import) => store!(import.local),
             }
         }
+    }
+
+    fn visit_member_expr(&mut self, n: &MemberExpr, _: &dyn Node) {
+        n.obj.visit_with(n, self);
+        if n.computed {
+            n.prop.visit_with(n, self);
+        }
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = false;
+        n.iter().for_each(|n| {
+            if let ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) = n {
+                self.is_type_only_export = export.type_only;
+            }
+            n.visit_with(&Invalid { span: DUMMY_SP }, self);
+            self.is_type_only_export = false;
+        });
+        self.non_top_level = old;
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(e) => e.visit_with(n, self),
+            _ => {}
+        }
+    }
+
+    fn visit_stmts(&mut self, n: &[Stmt], _: &dyn Node) {
+        let old = self.non_top_level;
+        self.non_top_level = true;
+        n.iter()
+            .for_each(|n| n.visit_with(&Invalid { span: DUMMY_SP }, self));
+        self.non_top_level = old;
     }
 
     fn visit_ts_entity_name(&mut self, name: &TsEntityName, _: &dyn Node) {
@@ -1274,8 +1305,9 @@ impl VisitMut for Strip {
                 let span = expr.span();
 
                 let ClassExpr { ident, class } = expr.take().class().unwrap();
+                let orig_ident = ident.clone();
                 let ident = ident.unwrap_or_else(|| private_ident!("_class"));
-                let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), class);
+                let (decl, extra_exprs) = self.fold_class_as_decl(ident.clone(), orig_ident, class);
                 let mut stmts = vec![];
                 stmts.push(Stmt::Decl(decl));
                 stmts.extend(
