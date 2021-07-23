@@ -520,9 +520,6 @@ impl Optimizer<'_> {
             Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
                 Some(Expr::Await(..)) => false,
 
-                // TODO: Check if paramter is used and inline if call is not related to parameters.
-                Some(Expr::Call(..)) => false,
-
                 Some(Expr::Lit(Lit::Num(..))) => {
                     if self.ctx.in_obj_of_non_computed_member {
                         false
