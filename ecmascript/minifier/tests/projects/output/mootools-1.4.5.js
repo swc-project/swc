@@ -1132,14 +1132,15 @@ String.implement(
         test: function (
             regex, params
         ) {
-            return ("regexp" == typeOf(
-                regex
-            )
-                ? regex
-                : new RegExp(
-                    "" + regex,
-                    params
+            return (
+                "regexp" == typeOf(
+                    regex
                 )
+                    ? regex
+                    : new RegExp(
+                        "" + regex,
+                        params
+                    )
             ).test(
                 this
             );
@@ -2172,10 +2173,11 @@ Hash.alias(
                 window[name] = method;
             }
         ),
-        (this.Document = document.$constructor = new Type(
+        (this.Document = document.$constructor =
+        new Type(
             "Document",
             function (
-            ) {},
+            ) {}
         )),
         (document.$family = Function.from(
             "document"
@@ -2557,18 +2559,17 @@ var Event1 = DOMEvent;
           });
                 var newClass = function (
                 ) {
-                    return (reset(
+                    if ((reset(
                         this
-                    ), newClass.$prototyping)
-                        ? this
-                        : ((this.$caller = null),
-                        (this.$caller = this.caller = null),
-                        this.initialize
-                            ? this.initialize.apply(
-                                this,
-                                arguments
-                            )
-                            : this);
+                    ), newClass.$prototyping)) return this;
+                    this.$caller = null;
+                    var value = this.initialize
+                        ? this.initialize.apply(
+                            this,
+                            arguments
+                        )
+                        : this;
+                    return (this.$caller = this.caller = null), value;
                 }
                     .extend(
                         this
@@ -2638,16 +2639,12 @@ var Event1 = DOMEvent;
                     );
                 var caller = this.caller,
                     current = this.$caller;
-                return (
-                    (this.caller = current),
-                    (this.$caller = wrapper),
-                    (this.$caller = current),
-                    (this.caller = caller),
-                    method.apply(
-                        this,
-                        arguments
-                    )
+                (this.caller = current), (this.$caller = wrapper);
+                var result = method.apply(
+                    this,
+                    arguments
                 );
+                return (this.$caller = current), (this.caller = caller), result;
             }.extend(
                 {
                     $owner: self,
@@ -2691,10 +2688,10 @@ var Event1 = DOMEvent;
         getInstance = function (
             klass
         ) {
-            return (
-                (klass.$prototyping = !0), delete klass.$prototyping, new klass(
-                )
+            klass.$prototyping = !0;
+            var proto = new klass(
             );
+            return delete klass.$prototyping, proto;
         };
     Class.implement(
         "implement",
@@ -2924,12 +2921,11 @@ function (
         ) {
             if (null == expression) return null;
             if (!0 === expression.Slick) return expression;
-            (expression = ("" + expression).replace(
+            expression = ("" + expression).replace(
                 /^\s+|\s+$/g,
                 ""
-            )),
-            (reversed = !!isReversed);
-            var currentCache = reversed ? reverseCache : cache;
+            );
+            var currentCache = (reversed = !!isReversed) ? reverseCache : cache;
             if (currentCache[expression]) return currentCache[expression];
             for (
                 parsed = {
@@ -3070,11 +3066,10 @@ function (
                 currentSeparator = parsed.expressions[separatorIndex];
             reversed &&
           currentSeparator[combinatorIndex] &&
-          (currentSeparator[
-              combinatorIndex
-          ].reverseCombinator = reverseCombinator(
-              combinator
-          )),
+          (currentSeparator[combinatorIndex].reverseCombinator =
+            reverseCombinator(
+                combinator
+            )),
             (currentSeparator[++combinatorIndex] = {
                 combinator: combinator,
                 tag: "*",
@@ -3294,7 +3289,16 @@ function (
             (features.isXMLDocument = this.isXML(
                 document
             )),
-            (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
+            (features.brokenStarGEBTN =
+              features.starSelectsClosedQSA =
+              features.idGetsName =
+              features.brokenMixedCaseQSA =
+              features.brokenGEBCN =
+              features.brokenCheckedQSA =
+              features.brokenEmptyAttributeQSA =
+              features.isHTMLDocument =
+              features.nativeMatchesSelector =
+                !1);
             var starSelectsClosed,
                 starSelectsComments,
                 brokenSecondClassNameGEBCN,
@@ -3386,9 +3390,10 @@ function (
                     } catch (e) {}
                     try {
                         (testNode.innerHTML = '<a class="MiX"></a>'),
-                        (features.brokenMixedCaseQSA = !testNode.querySelectorAll(
-                            ".MiX",
-                        ).length);
+                        (features.brokenMixedCaseQSA =
+                    !testNode.querySelectorAll(
+                        ".MiX"
+                    ).length);
                     } catch (e) {}
                     try {
                         (testNode.innerHTML =
@@ -4976,23 +4981,23 @@ var IFrame = new Type(
             var onload = props.onload || function (
             ) {};
             delete props.onload,
-            (props.id = props.name = [
-                props.id,
-                props.name,
-                iframe
-                    ? iframe.id || iframe.name
-                    : "IFrame_" + String.uniqueID(
-                    ),
-            ].pick(
-            )),
-            (iframe = new Element1(
-                iframe || "iframe",
-                props
-            ));
+            (props.id = props.name =
+        [
+            props.id,
+            props.name,
+            iframe
+                ? iframe.id || iframe.name
+                : "IFrame_" + String.uniqueID(
+                ),
+        ].pick(
+        ));
             var onLoad = function (
             ) {
                 onload.call(
-                    iframe.contentWindow
+                    (iframe = new Element1(
+                        iframe || "iframe",
+                        props
+                    )).contentWindow,
                 );
             };
             return (
@@ -5309,11 +5314,15 @@ Elements.alias(
                     },
                 };
                 return (
-                    (types.textnode = types.whitespace = types.window = types.document = function (
-                        zero,
-                    ) {
-                        return zero;
-                    }),
+                    (types.textnode =
+              types.whitespace =
+              types.window =
+              types.document =
+                function (
+                    zero
+                ) {
+                    return zero;
+                }),
                     function (
                         el, nocash, doc
                     ) {
@@ -5475,13 +5484,14 @@ Elements.alias(
         expression, combinator
     ) {
         if (!expression) return combinator;
-        expression = Object.clone(
-            Slick.parse(
-                expression
-            )
-        );
         for (
-            var expressions = expression.expressions, i = expressions.length;
+            var expressions = (expression = Object.clone(
+                    Slick.parse(
+                        expression
+                    )
+                ))
+                    .expressions,
+                i = expressions.length;
             i--;
 
         )
@@ -5902,7 +5912,8 @@ Elements.alias(
         (propertySetters.type = function (
             node, type
         ) {
-            (node.type = type), (node.value = node.value);
+            var value = node.value;
+            (node.type = type), (node.value = value);
         }),
     (input = null);
     var pollutesGetAttribute = (function (
@@ -6575,9 +6586,10 @@ Elements.alias(
     var supportsHTML5Elements = 1 == div.childNodes.length;
     if (!supportsHTML5Elements)
         for (
-            var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(
-                    " ",
-                ),
+            var tags =
+            "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(
+                " ",
+            ),
                 fragment = document.createDocumentFragment(
                 ),
                 l = tags.length;
@@ -6902,9 +6914,8 @@ Elements.alias(
                         this
                     );
                 if (
-                    ((property = ("float" == property
-                        ? floatName
-                        : property
+                    ((property = (
+                        "float" == property ? floatName : property
                     ).camelCase(
                     )),
                     "string" != typeOf(
@@ -9713,16 +9724,15 @@ Fx.Transitions.extend(
             (options = {
                 data: options,
             });
-                    var old = this.options;
-                    options = Object.append(
-                        {
-                            data: old.data,
-                            url: old.url,
-                            method: old.method,
-                        },
-                        options,
-                    );
-                    var data = options.data,
+                    var old = this.options,
+                        data = (options = Object.append(
+                            {
+                                data: old.data,
+                                url: old.url,
+                                method: old.method,
+                            },
+                            options,
+                        )).data,
                         url = String(
                             options.url
                         ),
@@ -10577,12 +10587,13 @@ var Cookie = new Class(
             (build +=
               '<param name="' + param + '" value="' + params[param] + '" />');
                 (build += "</object>"),
-                (this.object = (container
-                    ? container.empty(
-                    )
-                    : new Element1(
-                        "div"
-                    )
+                (this.object = (
+                    container
+                        ? container.empty(
+                        )
+                        : new Element1(
+                            "div"
+                        )
                 ).set(
                     "html",
                     build

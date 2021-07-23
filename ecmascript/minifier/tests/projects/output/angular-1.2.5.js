@@ -2455,11 +2455,12 @@
                         Constructor = function (
                         ) {};
                     return (
-                        (Constructor.prototype = (isArray(
-                            Type
-                        )
-                            ? Type[Type.length - 1]
-                            : Type
+                        (Constructor.prototype = (
+                            isArray(
+                                Type
+                            )
+                                ? Type[Type.length - 1]
+                                : Type
                         ).prototype),
                         isObject(
                             (returnedValue = invoke(
@@ -3426,14 +3427,13 @@
                   node.nodeValue.match(
                       /\S+/
                   ) &&
-                  ($compileNodes[index] = node = jqLite(
-                      node
-                  )
-                      .wrap(
-                          "<span></span>"
-                      )
-                      .parent(
-                      )[0]);
+                  ($compileNodes[index] = node =
+                    jqLite(
+                        node
+                    ).wrap(
+                        "<span></span>"
+                    ).parent(
+                    )[0]);
                         }
                     );
                     var compositeLinkFn = compileNodes(
@@ -3724,16 +3724,17 @@
                               )
                           ))
                       ] = name),
-                      (attrs[nName] = value = trim(
-                          msie && "href" == name
-                              ? decodeURIComponent(
-                                  node.getAttribute(
-                                      name,
-                                      2
-                                  )
-                              )
-                              : attr.value,
-                      )),
+                      (attrs[nName] = value =
+                        trim(
+                            msie && "href" == name
+                                ? decodeURIComponent(
+                                    node.getAttribute(
+                                        name,
+                                        2
+                                    )
+                                )
+                                : attr.value,
+                        )),
                       getBooleanAttrName(
                           node,
                           nName
@@ -4098,11 +4099,10 @@
                                 function (
                                 ) {
                                     throw (
-                                        ((lastValue = isolateScope[
-                                            scopeName
-                                        ] = parentGet(
-                                            scope
-                                        )),
+                                        ((lastValue = isolateScope[scopeName] =
+                                      parentGet(
+                                          scope
+                                      )),
                                         $compileMinErr(
                                             "nonassign",
                                             "Expression '{0}' used with directive '{1}' is non-assignable!",
@@ -4111,9 +4111,10 @@
                                         ))
                                     );
                                 }),
-                                            (lastValue = isolateScope[scopeName] = parentGet(
-                                                scope,
-                                            )),
+                                            (lastValue = isolateScope[scopeName] =
+                                parentGet(
+                                    scope
+                                )),
                                             isolateScope.$watch(
                                                 function (
                                                 ) {
@@ -4134,9 +4135,8 @@
                                               (parentValue =
                                               isolateScope[scopeName]),
                                           )
-                                          : (isolateScope[
-                                              scopeName
-                                          ] = parentValue)),
+                                          : (isolateScope[scopeName] =
+                                            parentValue)),
                                                         (lastValue = parentValue)
                                                     );
                                                 },
@@ -4212,18 +4212,16 @@
                                 controller,
                                 locals
                             )),
-                            (elementControllers[
-                                directive.name
-                            ] = controllerInstance),
+                            (elementControllers[directive.name] =
+                          controllerInstance),
                             hasElementTranscludeDirective ||
                           $element.data(
                               "$" + directive.name + "Controller",
                               controllerInstance,
                           ),
                             directive.controllerAs &&
-                          (locals.$scope[
-                              directive.controllerAs
-                          ] = controllerInstance);
+                          (locals.$scope[directive.controllerAs] =
+                            controllerInstance);
                         }
                     ),
                             i = 0,
@@ -4352,15 +4350,16 @@
                           attrStart,
                           attrEnd
                       )),
-                      (compileNode = ($compileNode = templateAttrs.$$element = jqLite(
-                          document.createComment(
-                              " " +
-                            directiveName +
-                            ": " +
-                            templateAttrs[directiveName] +
-                            " ",
-                          ),
-                      ))[0]),
+                      (compileNode = ($compileNode = templateAttrs.$$element =
+                        jqLite(
+                            document.createComment(
+                                " " +
+                              directiveName +
+                              ": " +
+                              templateAttrs[directiveName] +
+                              " ",
+                            ),
+                        ))[0]),
                       replaceWith(
                           jqCollection,
                           jqLite(
@@ -4809,12 +4808,13 @@
                               compileNode
                           )),
                       ),
-                                        (childBoundTranscludeFn = afterTemplateNodeLinkFn.transclude
-                                            ? createBoundTranscludeFn(
-                                                scope,
-                                                afterTemplateNodeLinkFn.transclude,
-                                            )
-                                            : boundTranscludeFn),
+                                        (childBoundTranscludeFn =
+                        afterTemplateNodeLinkFn.transclude
+                            ? createBoundTranscludeFn(
+                                scope,
+                                afterTemplateNodeLinkFn.transclude,
+                            )
+                            : boundTranscludeFn),
                                         afterTemplateNodeLinkFn(
                                             afterTemplateChildLinkFn,
                                             scope,
@@ -5665,9 +5665,10 @@
                             reqHeaders
                         );
                         defaultHeadersIteration: for (defHeaderName in defHeaders) {
-                            for (reqHeaderName in ((lowercaseDefHeaderName = lowercase(
-                                defHeaderName,
-                            )),
+                            for (reqHeaderName in ((lowercaseDefHeaderName =
+                lowercase(
+                    defHeaderName
+                )),
                             reqHeaders))
                                 if (lowercase(
                                     reqHeaderName
@@ -5687,9 +5688,8 @@
                             config.method
                         ),
                         xsrfValue &&
-                (headers[
-                    config.xsrfHeaderName || defaults.xsrfHeaderName
-                ] = xsrfValue),
+                (headers[config.xsrfHeaderName || defaults.xsrfHeaderName] =
+                  xsrfValue),
                         forEach(
                             reversedInterceptors,
                             function (
@@ -6156,11 +6156,12 @@
                         ) && doneWrapper(
                         );
                     })
-                    : (script.onload = script.onerror = function (
-                    ) {
-                        doneWrapper(
-                        );
-                    }),
+                    : (script.onload = script.onerror =
+              function (
+              ) {
+                  doneWrapper(
+                  );
+              }),
                 rawDocument.body.appendChild(
                     script
                 ),
@@ -6187,6 +6188,9 @@
             function completeRequest(
                 callback, status, response, headersString
             ) {
+                var protocol = urlResolve(
+                    url
+                ).protocol;
                 timeoutId && $browserDefer.cancel(
                     timeoutId
                 ),
@@ -6194,9 +6198,7 @@
                 (status =
             1223 ==
             (status =
-              "file" == urlResolve(
-                  url
-              ).protocol && 0 === status
+              "file" == protocol && 0 === status
                   ? response
                       ? 200
                       : 404
@@ -6567,9 +6569,10 @@
                     CURRENCY_SYM: "$",
                 },
                 DATETIME_FORMATS: {
-                    MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(
-                        ",",
-                    ),
+                    MONTH:
+            "January,February,March,April,May,June,July,August,September,October,November,December".split(
+                ",",
+            ),
                     SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(
                         ",",
                     ),
@@ -6752,18 +6755,17 @@
         (this.$$compose = function (
         ) {
             var search = toKeyValue(
-                this.$$search
-            );
+                    this.$$search
+                ),
+                hash = this.$$hash
+                    ? "#" + encodeUriSegment(
+                        this.$$hash
+                    )
+                    : "";
             (this.$$url =
           encodePath(
               this.$$path
-          ) +
-          (search ? "?" + search : "") +
-          (this.$$hash
-              ? "#" + encodeUriSegment(
-                  this.$$hash
-              )
-              : "")),
+          ) + (search ? "?" + search : "") + hash),
             (this.$$absUrl = appBaseNoFile + this.$$url.substr(
                 1
             ));
@@ -6874,18 +6876,17 @@
         (this.$$compose = function (
         ) {
             var search = toKeyValue(
-                this.$$search
-            );
+                    this.$$search
+                ),
+                hash = this.$$hash
+                    ? "#" + encodeUriSegment(
+                        this.$$hash
+                    )
+                    : "";
             (this.$$url =
           encodePath(
               this.$$path
-          ) +
-          (search ? "?" + search : "") +
-          (this.$$hash
-              ? "#" + encodeUriSegment(
-                  this.$$hash
-              )
-              : "")),
+          ) + (search ? "?" + search : "") + hash),
             (this.$$absUrl =
             appBase + (this.$$url ? hashPrefix + this.$$url : ""));
         }),
@@ -8331,11 +8332,13 @@
                         progress
                     ) {
                         try {
-                            return (isFunction(
-                                progressback
-                            )
-                                ? progressback
-                                : defaultCallback)(
+                            return (
+                                isFunction(
+                                    progressback
+                                )
+                                    ? progressback
+                                    : defaultCallback
+                            )(
                                 progress
                             );
                         } catch (e) {
@@ -8467,7 +8470,14 @@
                 ) {
                     (this.$id = nextUid(
                     )),
-                    (this.$$phase = this.$parent = this.$$watchers = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null),
+                    (this.$$phase =
+                this.$parent =
+                this.$$watchers =
+                this.$$nextSibling =
+                this.$$prevSibling =
+                this.$$childHead =
+                this.$$childTail =
+                  null),
                     (this.this = this.$root = this),
                     (this.$$destroyed = !1),
                     (this.$$asyncQueue = []),
@@ -8529,7 +8539,11 @@
                                 (child.$$listeners = {
                                 }),
                                 (child.$parent = this),
-                                (child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null),
+                                (child.$$watchers =
+                    child.$$nextSibling =
+                    child.$$childHead =
+                    child.$$childTail =
+                      null),
                                 (child.$$prevSibling = this.$$childTail),
                                 this.$$childHead
                                     ? ((this.$$childTail.$$nextSibling = child),
@@ -8841,7 +8855,12 @@
                         (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
                       this.$$nextSibling &&
                         (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
-                      (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
+                      (this.$parent =
+                        this.$$nextSibling =
+                        this.$$prevSibling =
+                        this.$$childHead =
+                        this.$$childTail =
+                          null));
                             }
                         },
                         $eval: function (
@@ -9431,11 +9450,12 @@
                 (sce.getTrusted = $sceDelegate.getTrusted),
                 (sce.valueOf = $sceDelegate.valueOf),
                 enabled ||
-              ((sce.trustAs = sce.getTrusted = function (
-                  type, value
-              ) {
-                  return value;
-              }),
+              ((sce.trustAs = sce.getTrusted =
+                function (
+                    type, value
+                ) {
+                    return value;
+                }),
               (sce.valueOf = identity)),
                 (sce.parseAs = function (
                     type, expr
@@ -9584,17 +9604,16 @@
                     hasEvent: function (
                         event
                     ) {
-                        return (
-                            ("input" != event || 9 != msie) &&
-              (isUndefined(
-                  eventSupport[event]
-              ) &&
-                (eventSupport[event] =
-                  "on" + event in document.createElement(
-                      "div"
-                  )),
-              eventSupport[event])
-                        );
+                        if ("input" == event && 9 == msie) return !1;
+                        if (isUndefined(
+                            eventSupport[event]
+                        )) {
+                            var divElm = document.createElement(
+                                "div"
+                            );
+                            eventSupport[event] = "on" + event in divElm;
+                        }
+                        return eventSupport[event];
                     },
                     csp: csp(
                     ),
@@ -10042,11 +10061,10 @@
         ) || !isFinite(
             number
         )) return "";
-        var isNegative = number < 0;
-        number = Math.abs(
-            number
-        );
-        var numStr = number + "",
+        var isNegative = number < 0,
+            numStr = (number = Math.abs(
+                number
+            )) + "",
             formatedText = "",
             parts = [],
             hasExponent = !1;
@@ -10174,12 +10192,11 @@
         return function (
             date, formats
         ) {
+            var value = date["get" + name](
+            );
             return formats[uppercase(
                 shortForm ? "SHORT" + name : name
-            )][
-                date["get" + name](
-                )
-            ];
+            )][value];
         };
     }
     var DATE_FORMATS = {
@@ -10299,12 +10316,14 @@
                 );
             },
         },
-        DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
+        DATE_FORMATS_SPLIT =
+      /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
         NUMBER_STRING = /^\-?\d+$/;
     function dateFilter(
         $locale
     ) {
-        var R_ISO8601_STR = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
+        var R_ISO8601_STR =
+      /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
         function jsonStringToDate(
             string
         ) {
@@ -10843,6 +10862,7 @@
                 function (
                     $timeout
                 ) {
+                    var formDirective;
                     return {
                         name: "form",
                         restrict: isNgForm ? "EAC" : "E",
@@ -10929,7 +10949,8 @@
         ngFormDirective = formDirectiveFactory(
             !0
         ),
-        URL_REGEXP = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
+        URL_REGEXP =
+      /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
         EMAIL_REGEXP = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
         NUMBER_REGEXP = /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/,
         inputType = {
@@ -11371,7 +11392,8 @@
         ),
         (ctrl.$render = function (
         ) {
-            element[0].checked = attr.value == ctrl.$viewValue;
+            var value = attr.value;
+            element[0].checked = value == ctrl.$viewValue;
         }),
         attr.$observe(
             "value",
@@ -12965,7 +12987,8 @@
             function (
                 $compile, $parse
             ) {
-                var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
+                var NG_OPTIONS_REGEXP =
+            /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
                     nullModelCtrl = {
                         $setViewValue: noop,
                     };
@@ -14468,104 +14491,108 @@
         remove: function (
             key
         ) {
-            return delete this[key], this[(key = hashKey(
+            var value = this[(key = hashKey(
                 key
             ))];
+            return delete this[key], value;
         },
     }),
     ($CompileProvider.$inject = ["$provide", "$$sanitizeUriProvider",]),
-    (LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
-        $$html5: !1,
-        $$replace: !1,
-        absUrl: locationGetter(
-            "$$absUrl"
-        ),
-        url: function (
-            url, replace
-        ) {
-            if (isUndefined(
-                url
-            )) return this.$$url;
-            var match = PATH_MATCH.exec(
-                url
-            );
-            return (
-                match[1] && this.path(
-                    decodeURIComponent(
-                        match[1]
-                    )
-                ),
-                (match[2] || match[1]) && this.search(
-                    match[3] || ""
-                ),
-                this.hash(
-                    match[5] || "",
-                    replace
-                ),
-                this
-            );
-        },
-        protocol: locationGetter(
-            "$$protocol"
-        ),
-        host: locationGetter(
-            "$$host"
-        ),
-        port: locationGetter(
-            "$$port"
-        ),
-        path: locationGetterSetter(
-            "$$path",
-            function (
-                path
+    (LocationHashbangInHtml5Url.prototype =
+      LocationHashbangUrl.prototype =
+      LocationHtml5Url.prototype =
+        {
+            $$html5: !1,
+            $$replace: !1,
+            absUrl: locationGetter(
+                "$$absUrl"
+            ),
+            url: function (
+                url, replace
             ) {
-                return "/" == path.charAt(
-                    0
-                )
-                    ? path
-                    : "/" + path;
-            }
-        ),
-        search: function (
-            search, paramValue
-        ) {
-            switch (arguments.length) {
-            case 0:
-                return this.$$search;
-            case 1:
-                if (isString(
-                    search
-                )) this.$$search = parseKeyValue(
-                    search
+                if (isUndefined(
+                    url
+                )) return this.$$url;
+                var match = PATH_MATCH.exec(
+                    url
                 );
-                else if (isObject(
-                    search
-                )) this.$$search = search;
-                else
-                    throw $locationMinErr(
-                        "isrcharg",
-                        "The first argument of the `$location#search()` call must be a string or an object.",
+                return (
+                    match[1] && this.path(
+                        decodeURIComponent(
+                            match[1]
+                        )
+                    ),
+                    (match[2] || match[1]) && this.search(
+                        match[3] || ""
+                    ),
+                    this.hash(
+                        match[5] || "",
+                        replace
+                    ),
+                    this
+                );
+            },
+            protocol: locationGetter(
+                "$$protocol"
+            ),
+            host: locationGetter(
+                "$$host"
+            ),
+            port: locationGetter(
+                "$$port"
+            ),
+            path: locationGetterSetter(
+                "$$path",
+                function (
+                    path
+                ) {
+                    return "/" == path.charAt(
+                        0
+                    )
+                        ? path
+                        : "/" + path;
+                }
+            ),
+            search: function (
+                search, paramValue
+            ) {
+                switch (arguments.length) {
+                case 0:
+                    return this.$$search;
+                case 1:
+                    if (isString(
+                        search
+                    )) this.$$search = parseKeyValue(
+                        search
                     );
-                break;
-            default:
-                isUndefined(
-                    paramValue
-                ) || null === paramValue
-                    ? delete this.$$search[search]
-                    : (this.$$search[search] = paramValue);
-            }
-            return this.$$compose(
-            ), this;
-        },
-        hash: locationGetterSetter(
-            "$$hash",
-            identity
-        ),
-        replace: function (
-        ) {
-            return (this.$$replace = !0), this;
-        },
-    }),
+                    else if (isObject(
+                        search
+                    )) this.$$search = search;
+                    else
+                        throw $locationMinErr(
+                            "isrcharg",
+                            "The first argument of the `$location#search()` call must be a string or an object.",
+                        );
+                    break;
+                default:
+                    isUndefined(
+                        paramValue
+                    ) || null === paramValue
+                        ? delete this.$$search[search]
+                        : (this.$$search[search] = paramValue);
+                }
+                return this.$$compose(
+                ), this;
+            },
+            hash: locationGetterSetter(
+                "$$hash",
+                identity
+            ),
+            replace: function (
+            ) {
+                return (this.$$replace = !0), this;
+            },
+        }),
     (Lexer.prototype = {
         constructor: Lexer,
         lex: function (
@@ -15030,16 +15057,20 @@
             )),
             json &&
             ((this.assignment = this.logicalOR),
-            (this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function (
-            ) {
-                this.throwError(
-                    "is not valid json",
-                    {
-                        text: text,
-                        index: 0,
-                    }
-                );
-            }));
+            (this.functionCall =
+              this.fieldAccess =
+              this.objectIndex =
+              this.filterChain =
+                function (
+                ) {
+                    this.throwError(
+                        "is not valid json",
+                        {
+                            text: text,
+                            index: 0,
+                        }
+                    );
+                }));
             var value = json
                 ? this.primary(
                 )
@@ -15631,17 +15662,17 @@
                             self, value, locals
                         ) {
                             var key = indexFn(
+                                self,
+                                locals
+                            );
+                            return (ensureSafeObject(
+                                obj(
                                     self,
                                     locals
                                 ),
-                                safe = ensureSafeObject(
-                                    obj(
-                                        self,
-                                        locals
-                                    ),
-                                    parser.text
-                                );
-                            return (safe[key] = value);
+                                parser.text
+                            )[key] =
+                  value);
                         },
                     },
                 )
@@ -15690,29 +15721,30 @@
                     locals,
                     context
                 ) || noop;
-                ensureSafeObject(
-                    context,
-                    parser.text
-                ),
-                ensureSafeObject(
-                    fnPtr,
-                    parser.text
-                );
-                var v = fnPtr.apply
-                    ? fnPtr.apply(
+                return (
+                    ensureSafeObject(
                         context,
-                        args
+                        parser.text
+                    ),
+                    ensureSafeObject(
+                        fnPtr,
+                        parser.text
+                    ),
+                    ensureSafeObject(
+                        fnPtr.apply
+                            ? fnPtr.apply(
+                                context,
+                                args
+                            )
+                            : fnPtr(
+                                args[0],
+                                args[1],
+                                args[2],
+                                args[3],
+                                args[4]
+                            ),
+                        parser.text,
                     )
-                    : fnPtr(
-                        args[0],
-                        args[1],
-                        args[2],
-                        args[3],
-                        args[4]
-                    );
-                return ensureSafeObject(
-                    v,
-                    parser.text
                 );
             };
         },

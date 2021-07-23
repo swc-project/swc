@@ -774,6 +774,9 @@
                     ),
                     externalFooters = pageParent.children(
                         ":jqmData(role='footer')"
+                    ),
+                    internalFooters = page.children(
+                        ":jqmData(role='footer')"
                     );
                 return (
                     0 === internalHeaders.length &&
@@ -782,9 +785,7 @@
                 externalHeaders.toArray(
                 ),
             )),
-                    0 === page.children(
-                        ":jqmData(role='footer')"
-                    ).length &&
+                    0 === internalFooters.length &&
             externalFooters.length > 0 &&
             (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(
                 externalFooters.toArray(
@@ -1088,9 +1089,8 @@
                                         keepNative
                                     )),
                                     elements.length > 0 &&
-                    (widgetElements[
-                        constructor.prototype.widgetName
-                    ] = elements);
+                    (widgetElements[constructor.prototype.widgetName] =
+                      elements);
                                 }
                             }
                         ),
@@ -1238,18 +1238,20 @@
                     ($7[namespace] = $7[namespace] || {
                     }),
                     (existingConstructor = $7[namespace][name]),
-                    (constructor = $7[namespace][name] = function (
-                        options, element
-                    ) {
-                        if (!this._createWidget) return new constructor(
-                            options,
-                            element
-                        );
-                        arguments.length && this._createWidget(
-                            options,
-                            element
-                        );
-                    }),
+                    (constructor = $7[namespace][name] =
+              function (
+                  options, element
+              ) {
+                  if (!this._createWidget)
+                      return new constructor(
+                          options,
+                          element
+                      );
+                  arguments.length && this._createWidget(
+                      options,
+                      element
+                  );
+              }),
                     $7.extend(
                         constructor,
                         existingConstructor,
@@ -1648,11 +1650,12 @@
                         ) {
                             for (
                                 i = 0,
-                                curOption = options[key] = $7.widget.extend(
-                                    {
-                                    },
-                                    this.options[key],
-                                );
+                                curOption = options[key] =
+                      $7.widget.extend(
+                          {
+                          },
+                          this.options[key]
+                      );
                                 i < parts.length - 1;
                                 i++
                             )
@@ -1758,9 +1761,8 @@
                         ))
                                     )
                                 )
-                                    return ("string" == typeof handler
-                                        ? instance[handler]
-                                        : handler
+                                    return (
+                                        "string" == typeof handler ? instance[handler] : handler
                                     ).apply(
                                         instance,
                                         arguments
@@ -1810,9 +1812,8 @@
                     return setTimeout(
                         function (
                         ) {
-                            return ("string" == typeof handler
-                                ? instance[handler]
-                                : handler
+                            return (
+                                "string" == typeof handler ? instance[handler] : handler
                             ).apply(
                                 instance,
                                 arguments
@@ -1892,9 +1893,10 @@
                         }),
                         ((event = $7.Event(
                             event
-                        )).type = (type === this.widgetEventPrefix
-                            ? type
-                            : this.widgetEventPrefix + type
+                        )).type = (
+                            type === this.widgetEventPrefix
+                                ? type
+                                : this.widgetEventPrefix + type
                         ).toLowerCase(
                         )),
                         (event.target = this.element[0]),
@@ -2638,8 +2640,7 @@
             !operamini,
                     dynamicBaseTag: (function (
                     ) {
-                        var link,
-                            fauxBase =
+                        var fauxBase =
                 location.protocol +
                 "//" +
                 location.host +
@@ -2655,25 +2656,33 @@
                                 ? (href = base.attr(
                                     "href"
                                 ))
-                                : (base = fauxEle = $7(
-                                    "<base>",
-                                    {
-                                        href: fauxBase,
-                                    }
-                                ).appendTo(
-                                    "head"
-                                )),
-                            (link = $7(
+                                : (base = fauxEle =
+                    $7(
+                        "<base>",
+                        {
+                            href: fauxBase,
+                        }
+                    ).appendTo(
+                        "head"
+                    )),
+                            $7(
                                 "<a href='testurl' />"
                             ).prependTo(
                                 fakeBody
-                            ))[0].href,
+                            )[0].href,
                             (base[0].href = href || location.pathname),
                             fauxEle && fauxEle.remove(
                             ),
-                            0 === link[0].href.indexOf(
-                                fauxBase
-                            )
+                            0 ===
+                $7(
+                    "<a href='testurl' />"
+                )
+                    .prependTo(
+                        fakeBody
+                    )[0]
+                    .href.indexOf(
+                        fauxBase
+                    )
                         );
                     })(
                     ),
@@ -2835,102 +2844,103 @@
                     );
                 },
             }),
-            ($7.event.special.navigate = self = {
-                bound: !1,
-                pushStateEnabled: !0,
-                originalEventName: void 0,
-                isPushStateEnabled: function (
-                ) {
-                    return (
-                        $7.support.pushState &&
-              !0 === $7.mobile.pushStateEnabled &&
-              this.isHashChangeEnabled(
-              )
-                    );
-                },
-                isHashChangeEnabled: function (
-                ) {
-                    return !0 === $7.mobile.hashListeningEnabled;
-                },
-                popstate: function (
-                    event
-                ) {
-                    var newEvent = new $7.Event(
-                            "navigate"
-                        ),
-                        beforeNavigate = new $7.Event(
-                            "beforenavigate"
-                        ),
-                        state = event.originalEvent.state || {
-                        };
-                    (beforeNavigate.originalEvent = event),
-                    $win.trigger(
-                        beforeNavigate
-                    ),
-                    beforeNavigate.isDefaultPrevented(
-                    ) ||
-                (event.historyState && $7.extend(
-                    state,
-                    event.historyState
-                ),
-                (newEvent.originalEvent = event),
-                setTimeout(
-                    function (
-                    ) {
-                        $win.trigger(
-                            newEvent,
-                            {
-                                state: state,
-                            }
-                        );
-                    },
-                    0
-                ));
-                },
-                hashchange: function (
-                    event
-                ) {
-                    var newEvent = new $7.Event(
-                            "navigate"
-                        ),
-                        beforeNavigate = new $7.Event(
-                            "beforenavigate"
-                        );
-                    (beforeNavigate.originalEvent = event),
-                    $win.trigger(
-                        beforeNavigate
-                    ),
-                    beforeNavigate.isDefaultPrevented(
-                    ) ||
-                ((newEvent.originalEvent = event),
-                $win.trigger(
-                    newEvent,
-                    {
-                        state: event.hashchangeState || {
-                        },
-                    }
-                ));
-                },
-                setup: function (
-                ) {
-                    self.bound ||
-              ((self.bound = !0),
-              self.isPushStateEnabled(
-              )
-                  ? ((self.originalEventName = "popstate"),
-                  $win.bind(
-                      "popstate.navigate",
-                      self.popstate
-                  ))
-                  : self.isHashChangeEnabled(
-                  ) &&
-                  ((self.originalEventName = "hashchange"),
-                  $win.bind(
-                      "hashchange.navigate",
-                      self.hashchange
-                  )));
-                },
-            });
+            ($7.event.special.navigate = self =
+          {
+              bound: !1,
+              pushStateEnabled: !0,
+              originalEventName: void 0,
+              isPushStateEnabled: function (
+              ) {
+                  return (
+                      $7.support.pushState &&
+                !0 === $7.mobile.pushStateEnabled &&
+                this.isHashChangeEnabled(
+                )
+                  );
+              },
+              isHashChangeEnabled: function (
+              ) {
+                  return !0 === $7.mobile.hashListeningEnabled;
+              },
+              popstate: function (
+                  event
+              ) {
+                  var newEvent = new $7.Event(
+                          "navigate"
+                      ),
+                      beforeNavigate = new $7.Event(
+                          "beforenavigate"
+                      ),
+                      state = event.originalEvent.state || {
+                      };
+                  (beforeNavigate.originalEvent = event),
+                  $win.trigger(
+                      beforeNavigate
+                  ),
+                  beforeNavigate.isDefaultPrevented(
+                  ) ||
+                  (event.historyState && $7.extend(
+                      state,
+                      event.historyState
+                  ),
+                  (newEvent.originalEvent = event),
+                  setTimeout(
+                      function (
+                      ) {
+                          $win.trigger(
+                              newEvent,
+                              {
+                                  state: state,
+                              }
+                          );
+                      },
+                      0
+                  ));
+              },
+              hashchange: function (
+                  event
+              ) {
+                  var newEvent = new $7.Event(
+                          "navigate"
+                      ),
+                      beforeNavigate = new $7.Event(
+                          "beforenavigate"
+                      );
+                  (beforeNavigate.originalEvent = event),
+                  $win.trigger(
+                      beforeNavigate
+                  ),
+                  beforeNavigate.isDefaultPrevented(
+                  ) ||
+                  ((newEvent.originalEvent = event),
+                  $win.trigger(
+                      newEvent,
+                      {
+                          state: event.hashchangeState || {
+                          },
+                      }
+                  ));
+              },
+              setup: function (
+              ) {
+                  self.bound ||
+                ((self.bound = !0),
+                self.isPushStateEnabled(
+                )
+                    ? ((self.originalEventName = "popstate"),
+                    $win.bind(
+                        "popstate.navigate",
+                        self.popstate
+                    ))
+                    : self.isHashChangeEnabled(
+                    ) &&
+                    ((self.originalEventName = "hashchange"),
+                    $win.bind(
+                        "hashchange.navigate",
+                        self.hashchange
+                    )));
+              },
+          });
         })(
             jQuery
         ),
@@ -2940,499 +2950,505 @@
             var path,
                 $base,
                 dialogHashKey = "&ui-state=dialog";
-            ($7.mobile.path = path = {
-                uiStateKey: "&ui-state",
-                urlParseRE: /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
-                getLocation: function (
-                    url
-                ) {
-                    var uri = url
-                            ? this.parseUrl(
-                                url
-                            )
-                            : location,
-                        hash = this.parseUrl(
-                            url || location.href
-                        ).hash;
-                    return (
-                        (hash = "#" === hash ? "" : hash),
-                        uri.protocol + "//" + uri.host + uri.pathname + uri.search + hash
-                    );
-                },
-                getDocumentUrl: function (
-                    asParsedObject
-                ) {
-                    return asParsedObject
-                        ? $7.extend(
-                            {
-                            },
-                            path.documentUrl
+            ($7.mobile.path = path =
+        {
+            uiStateKey: "&ui-state",
+            urlParseRE:
+            /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
+            getLocation: function (
+                url
+            ) {
+                var uri = url
+                        ? this.parseUrl(
+                            url
                         )
-                        : path.documentUrl.href;
-                },
-                parseLocation: function (
-                ) {
-                    return this.parseUrl(
-                        this.getLocation(
-                        )
-                    );
-                },
-                parseUrl: function (
-                    url
-                ) {
-                    if ("object" === $7.type(
-                        url
-                    )) return url;
-                    var matches = path.urlParseRE.exec(
-                        url || ""
-                    ) || [];
-                    return {
-                        href: matches[0] || "",
-                        hrefNoHash: matches[1] || "",
-                        hrefNoSearch: matches[2] || "",
-                        domain: matches[3] || "",
-                        protocol: matches[4] || "",
-                        doubleSlash: matches[5] || "",
-                        authority: matches[6] || "",
-                        username: matches[8] || "",
-                        password: matches[9] || "",
-                        host: matches[10] || "",
-                        hostname: matches[11] || "",
-                        port: matches[12] || "",
-                        pathname: matches[13] || "",
-                        directory: matches[14] || "",
-                        filename: matches[15] || "",
-                        search: matches[16] || "",
-                        hash: matches[17] || "",
-                    };
-                },
-                makePathAbsolute: function (
-                    relPath, absPath
-                ) {
-                    var absStack, relStack, i, d;
-                    if (relPath && "/" === relPath.charAt(
-                        0
-                    )) return relPath;
-                    for (
-                        i = 0,
-                        relPath = relPath || "",
-                        absStack = (absPath = absPath
-                            ? absPath.replace(
-                                /^\/|(\/[^\/]*|[^\/]+)$/g,
-                                ""
-                            )
-                            : "")
-                            ? absPath.split(
-                                "/"
-                            )
-                            : [],
-                        relStack = relPath.split(
-                            "/"
-                        );
-                        i < relStack.length;
-                        i++
+                        : location,
+                    hash = this.parseUrl(
+                        url || location.href
+                    ).hash;
+                return (
+                    (hash = "#" === hash ? "" : hash),
+                    uri.protocol + "//" + uri.host + uri.pathname + uri.search + hash
+                );
+            },
+            getDocumentUrl: function (
+                asParsedObject
+            ) {
+                return asParsedObject
+                    ? $7.extend(
+                        {
+                        },
+                        path.documentUrl
                     )
-                        switch ((d = relStack[i])) {
-                        case ".":
-                            break;
-                        case "..":
-                            absStack.length && absStack.pop(
-                            );
-                            break;
-                        default:
-                            absStack.push(
-                                d
-                            );
-                            break;
-                        }
-                    return "/" + absStack.join(
+                    : path.documentUrl.href;
+            },
+            parseLocation: function (
+            ) {
+                return this.parseUrl(
+                    this.getLocation(
+                    )
+                );
+            },
+            parseUrl: function (
+                url
+            ) {
+                if ("object" === $7.type(
+                    url
+                )) return url;
+                var matches = path.urlParseRE.exec(
+                    url || ""
+                ) || [];
+                return {
+                    href: matches[0] || "",
+                    hrefNoHash: matches[1] || "",
+                    hrefNoSearch: matches[2] || "",
+                    domain: matches[3] || "",
+                    protocol: matches[4] || "",
+                    doubleSlash: matches[5] || "",
+                    authority: matches[6] || "",
+                    username: matches[8] || "",
+                    password: matches[9] || "",
+                    host: matches[10] || "",
+                    hostname: matches[11] || "",
+                    port: matches[12] || "",
+                    pathname: matches[13] || "",
+                    directory: matches[14] || "",
+                    filename: matches[15] || "",
+                    search: matches[16] || "",
+                    hash: matches[17] || "",
+                };
+            },
+            makePathAbsolute: function (
+                relPath, absPath
+            ) {
+                var absStack, relStack, i, d;
+                if (relPath && "/" === relPath.charAt(
+                    0
+                )) return relPath;
+                for (
+                    i = 0,
+                    relPath = relPath || "",
+                    absStack = (absPath = absPath
+                        ? absPath.replace(
+                            /^\/|(\/[^\/]*|[^\/]+)$/g,
+                            ""
+                        )
+                        : "")
+                        ? absPath.split(
+                            "/"
+                        )
+                        : [],
+                    relStack = relPath.split(
                         "/"
                     );
-                },
-                isSameDomain: function (
-                    absUrl1, absUrl2
-                ) {
-                    return (
-                        path.parseUrl(
-                            absUrl1
-                        ).domain === path.parseUrl(
-                            absUrl2
-                        ).domain
-                    );
-                },
-                isRelativeUrl: function (
+                    i < relStack.length;
+                    i++
+                )
+                    switch ((d = relStack[i])) {
+                    case ".":
+                        break;
+                    case "..":
+                        absStack.length && absStack.pop(
+                        );
+                        break;
+                    default:
+                        absStack.push(
+                            d
+                        );
+                        break;
+                    }
+                return "/" + absStack.join(
+                    "/"
+                );
+            },
+            isSameDomain: function (
+                absUrl1, absUrl2
+            ) {
+                return (
+                    path.parseUrl(
+                        absUrl1
+                    ).domain === path.parseUrl(
+                        absUrl2
+                    ).domain
+                );
+            },
+            isRelativeUrl: function (
+                url
+            ) {
+                return "" === path.parseUrl(
                     url
-                ) {
-                    return "" === path.parseUrl(
-                        url
-                    ).protocol;
-                },
-                isAbsoluteUrl: function (
+                ).protocol;
+            },
+            isAbsoluteUrl: function (
+                url
+            ) {
+                return "" !== path.parseUrl(
                     url
-                ) {
-                    return "" !== path.parseUrl(
-                        url
-                    ).protocol;
-                },
-                makeUrlAbsolute: function (
-                    relUrl, absUrl
-                ) {
-                    if (!path.isRelativeUrl(
+                ).protocol;
+            },
+            makeUrlAbsolute: function (
+                relUrl, absUrl
+            ) {
+                if (!path.isRelativeUrl(
+                    relUrl
+                )) return relUrl;
+                absUrl === undefined && (absUrl = this.documentBase);
+                var relObj = path.parseUrl(
                         relUrl
-                    )) return relUrl;
-                    absUrl === undefined && (absUrl = this.documentBase);
-                    var relObj = path.parseUrl(
-                            relUrl
-                        ),
-                        absObj = path.parseUrl(
-                            absUrl
-                        ),
-                        protocol = relObj.protocol || absObj.protocol,
-                        doubleSlash = relObj.protocol
-                            ? relObj.doubleSlash
-                            : relObj.doubleSlash || absObj.doubleSlash,
-                        authority = relObj.authority || absObj.authority,
-                        hasPath = "" !== relObj.pathname,
-                        pathname = path.makePathAbsolute(
-                            relObj.pathname || absObj.filename,
-                            absObj.pathname,
-                        ),
-                        search = relObj.search || (!hasPath && absObj.search) || "",
-                        hash = relObj.hash;
-                    return protocol + doubleSlash + authority + pathname + search + hash;
-                },
-                addSearchParams: function (
-                    url, params
-                ) {
-                    var u = path.parseUrl(
-                            url
-                        ),
-                        p = "object" == typeof params
-                            ? $7.param(
-                                params
-                            )
-                            : params,
-                        s = u.search || "?";
-                    return (
-                        u.hrefNoSearch +
-            s +
-            ("?" !== s.charAt(
-                s.length - 1
-            )
-                ? "&"
-                : "") +
-            p +
-            (u.hash || "")
-                    );
-                },
-                convertUrlToDataUrl: function (
-                    absUrl
-                ) {
-                    var u = path.parseUrl(
+                    ),
+                    absObj = path.parseUrl(
                         absUrl
-                    );
-                    return path.isEmbeddedPage(
-                        u
+                    ),
+                    protocol = relObj.protocol || absObj.protocol,
+                    doubleSlash = relObj.protocol
+                        ? relObj.doubleSlash
+                        : relObj.doubleSlash || absObj.doubleSlash,
+                    authority = relObj.authority || absObj.authority,
+                    hasPath = "" !== relObj.pathname,
+                    pathname = path.makePathAbsolute(
+                        relObj.pathname || absObj.filename,
+                        absObj.pathname,
+                    ),
+                    search = relObj.search || (!hasPath && absObj.search) || "",
+                    hash = relObj.hash;
+                return (
+                    protocol + doubleSlash + authority + pathname + search + hash
+                );
+            },
+            addSearchParams: function (
+                url, params
+            ) {
+                var u = path.parseUrl(
+                        url
+                    ),
+                    p = "object" == typeof params
+                        ? $7.param(
+                            params
+                        )
+                        : params,
+                    s = u.search || "?";
+                return (
+                    u.hrefNoSearch +
+              s +
+              ("?" !== s.charAt(
+                  s.length - 1
+              )
+                  ? "&"
+                  : "") +
+              p +
+              (u.hash || "")
+                );
+            },
+            convertUrlToDataUrl: function (
+                absUrl
+            ) {
+                var u = path.parseUrl(
+                    absUrl
+                );
+                return path.isEmbeddedPage(
+                    u
+                )
+                    ? u.hash
+                        .split(
+                            dialogHashKey
+                        )[0]
+                        .replace(
+                            /^#/,
+                            ""
+                        )
+                        .replace(
+                            /\?.*$/,
+                            ""
+                        )
+                    : path.isSameDomain(
+                        u,
+                        this.documentBase
                     )
-                        ? u.hash
+                        ? u.hrefNoHash
+                            .replace(
+                                this.documentBase.domain,
+                                ""
+                            )
                             .split(
                                 dialogHashKey
                             )[0]
-                            .replace(
-                                /^#/,
-                                ""
-                            )
-                            .replace(
-                                /\?.*$/,
-                                ""
-                            )
-                        : path.isSameDomain(
-                            u,
-                            this.documentBase
-                        )
-                            ? u.hrefNoHash
-                                .replace(
-                                    this.documentBase.domain,
-                                    ""
-                                )
-                                .split(
-                                    dialogHashKey
-                                )[0]
-                            : window.decodeURIComponent(
-                                absUrl
-                            );
-                },
-                get: function (
-                    newPath
-                ) {
-                    return (
-                        newPath === undefined && (newPath = path.parseLocation(
-                        ).hash),
-                        path.stripHash(
-                            newPath
-                        ).replace(
-                            /[^\/]*\.[^\/*]+$/,
-                            ""
-                        )
-                    );
-                },
-                set: function (
-                    path
-                ) {
-                    location.hash = path;
-                },
-                isPath: function (
-                    url
-                ) {
-                    return /\//.test(
-                        url
-                    );
-                },
-                clean: function (
-                    url
-                ) {
-                    return url.replace(
-                        this.documentBase.domain,
+                        : window.decodeURIComponent(
+                            absUrl
+                        );
+            },
+            get: function (
+                newPath
+            ) {
+                return (
+                    newPath === undefined && (newPath = path.parseLocation(
+                    ).hash),
+                    path.stripHash(
+                        newPath
+                    ).replace(
+                        /[^\/]*\.[^\/*]+$/,
                         ""
-                    );
-                },
-                stripHash: function (
+                    )
+                );
+            },
+            set: function (
+                path
+            ) {
+                location.hash = path;
+            },
+            isPath: function (
+                url
+            ) {
+                return /\//.test(
                     url
-                ) {
-                    return url.replace(
-                        /^#/,
-                        ""
-                    );
-                },
-                stripQueryParams: function (
-                    url
-                ) {
-                    return url.replace(
+                );
+            },
+            clean: function (
+                url
+            ) {
+                return url.replace(
+                    this.documentBase.domain,
+                    ""
+                );
+            },
+            stripHash: function (
+                url
+            ) {
+                return url.replace(
+                    /^#/,
+                    ""
+                );
+            },
+            stripQueryParams: function (
+                url
+            ) {
+                return url.replace(
+                    /\?.*$/,
+                    ""
+                );
+            },
+            cleanHash: function (
+                hash
+            ) {
+                return path.stripHash(
+                    hash.replace(
                         /\?.*$/,
                         ""
-                    );
-                },
-                cleanHash: function (
+                    ).replace(
+                        dialogHashKey,
+                        ""
+                    ),
+                );
+            },
+            isHashValid: function (
+                hash
+            ) {
+                return /^#[^#]+$/.test(
                     hash
-                ) {
-                    return path.stripHash(
-                        hash.replace(
-                            /\?.*$/,
-                            ""
-                        ).replace(
-                            dialogHashKey,
-                            ""
-                        ),
-                    );
-                },
-                isHashValid: function (
-                    hash
-                ) {
-                    return /^#[^#]+$/.test(
-                        hash
-                    );
-                },
-                isExternal: function (
+                );
+            },
+            isExternal: function (
+                url
+            ) {
+                var u = path.parseUrl(
                     url
-                ) {
-                    var u = path.parseUrl(
-                        url
-                    );
-                    return !!u.protocol && u.domain !== this.documentUrl.domain;
-                },
-                hasProtocol: function (
+                );
+                return !!u.protocol && u.domain !== this.documentUrl.domain;
+            },
+            hasProtocol: function (
+                url
+            ) {
+                return /^(:?\w+:)/.test(
                     url
-                ) {
-                    return /^(:?\w+:)/.test(
-                        url
-                    );
-                },
-                isEmbeddedPage: function (
+                );
+            },
+            isEmbeddedPage: function (
+                url
+            ) {
+                var u = path.parseUrl(
                     url
-                ) {
-                    var u = path.parseUrl(
-                        url
+                );
+                return "" !== u.protocol
+                    ? !this.isPath(
+                        u.hash
+                    ) &&
+                  u.hash &&
+                  (u.hrefNoHash === this.documentUrl.hrefNoHash ||
+                    (this.documentBaseDiffers &&
+                      u.hrefNoHash === this.documentBase.hrefNoHash))
+                    : /^#/.test(
+                        u.href
                     );
-                    return "" !== u.protocol
-                        ? !this.isPath(
-                            u.hash
-                        ) &&
-                u.hash &&
-                (u.hrefNoHash === this.documentUrl.hrefNoHash ||
-                  (this.documentBaseDiffers &&
-                    u.hrefNoHash === this.documentBase.hrefNoHash))
-                        : /^#/.test(
-                            u.href
-                        );
-                },
-                squash: function (
-                    url, resolutionUrl
-                ) {
-                    var href,
-                        cleanedUrl,
-                        stateIndex,
-                        isPath = this.isPath(
+            },
+            squash: function (
+                url, resolutionUrl
+            ) {
+                var href,
+                    cleanedUrl,
+                    stateIndex,
+                    isPath = this.isPath(
+                        url
+                    ),
+                    uri = this.parseUrl(
+                        url
+                    ),
+                    preservedHash = uri.hash,
+                    uiState = "";
+                return (
+                    (resolutionUrl =
+                resolutionUrl ||
+                (path.isPath(
+                    url
+                )
+                    ? path.getLocation(
+                    )
+                    : path.getDocumentUrl(
+                    ))),
+                    (cleanedUrl = isPath
+                        ? path.stripHash(
                             url
-                        ),
-                        uri = this.parseUrl(
-                            url
-                        ),
-                        preservedHash = uri.hash,
-                        uiState = "";
-                    return (
-                        (resolutionUrl =
-              resolutionUrl ||
-              (path.isPath(
-                  url
-              )
-                  ? path.getLocation(
-                  )
-                  : path.getDocumentUrl(
-                  ))),
-                        (cleanedUrl = isPath
-                            ? path.stripHash(
-                                url
-                            )
-                            : url),
-                        (stateIndex = (cleanedUrl = path.isPath(
+                        )
+                        : url),
+                    (stateIndex = (cleanedUrl = path.isPath(
+                        uri.hash
+                    )
+                        ? path.stripHash(
                             uri.hash
                         )
-                            ? path.stripHash(
-                                uri.hash
-                            )
-                            : cleanedUrl).indexOf(
-                            this.uiStateKey
-                        )) > -1 &&
-              ((uiState = cleanedUrl.slice(
-                  stateIndex
-              )),
-              (cleanedUrl = cleanedUrl.slice(
-                  0,
-                  stateIndex
-              ))),
-                        (href = path.makeUrlAbsolute(
-                            cleanedUrl,
-                            resolutionUrl
-                        )),
-                        this.parseUrl(
-                            href
-                        ).search,
-                        isPath
-                            ? ((path.isPath(
-                                preservedHash
-                            ) ||
-                  0 ===
-                    preservedHash.replace(
-                        "#",
-                        ""
-                    ).indexOf(
+                        : cleanedUrl).indexOf(
                         this.uiStateKey
-                    )) &&
-                  (preservedHash = ""),
-                            uiState &&
-                  -1 === preservedHash.indexOf(
-                      this.uiStateKey
-                  ) &&
-                  (preservedHash += uiState),
-                            -1 === preservedHash.indexOf(
-                                "#"
-                            ) &&
-                  "" !== preservedHash &&
-                  (preservedHash = "#" + preservedHash),
-                            (href =
-                  (href = path.parseUrl(
-                      href
-                  )).protocol +
-                  "//" +
-                  href.host +
-                  href.pathname +
-                  this.parseUrl(
-                      href
-                  ).search +
-                  preservedHash))
-                            : (href += href.indexOf(
-                                "#"
-                            ) > -1
-                                ? uiState
-                                : "#" + uiState),
+                    )) > -1 &&
+                ((uiState = cleanedUrl.slice(
+                    stateIndex
+                )),
+                (cleanedUrl = cleanedUrl.slice(
+                    0,
+                    stateIndex
+                ))),
+                    (href = path.makeUrlAbsolute(
+                        cleanedUrl,
+                        resolutionUrl
+                    )),
+                    this.parseUrl(
                         href
-                    );
-                },
-                isPreservableHash: function (
-                    hash
-                ) {
-                    return 0 === hash.replace(
-                        "#",
-                        ""
-                    ).indexOf(
+                    ).search,
+                    isPath
+                        ? ((path.isPath(
+                            preservedHash
+                        ) ||
+                    0 ===
+                      preservedHash
+                          .replace(
+                              "#",
+                              ""
+                          )
+                          .indexOf(
+                              this.uiStateKey
+                          )) &&
+                    (preservedHash = ""),
+                        uiState &&
+                    -1 === preservedHash.indexOf(
                         this.uiStateKey
-                    );
-                },
-                hashToSelector: function (
-                    hash
-                ) {
-                    var hasHash = "#" === hash.substring(
-                        0,
+                    ) &&
+                    (preservedHash += uiState),
+                        -1 === preservedHash.indexOf(
+                            "#"
+                        ) &&
+                    "" !== preservedHash &&
+                    (preservedHash = "#" + preservedHash),
+                        (href =
+                    (href = path.parseUrl(
+                        href
+                    )).protocol +
+                    "//" +
+                    href.host +
+                    href.pathname +
+                    this.parseUrl(
+                        href
+                    ).search +
+                    preservedHash))
+                        : (href += href.indexOf(
+                            "#"
+                        ) > -1
+                            ? uiState
+                            : "#" + uiState),
+                    href
+                );
+            },
+            isPreservableHash: function (
+                hash
+            ) {
+                return 0 === hash.replace(
+                    "#",
+                    ""
+                ).indexOf(
+                    this.uiStateKey
+                );
+            },
+            hashToSelector: function (
+                hash
+            ) {
+                var hasHash = "#" === hash.substring(
+                    0,
+                    1
+                );
+                return (
+                    hasHash && (hash = hash.substring(
                         1
-                    );
-                    return (
-                        hasHash && (hash = hash.substring(
-                            1
-                        )),
-                        (hasHash ? "#" : "") +
-              hash.replace(
-                  /([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g,
-                  "\\$1"
+                    )),
+                    (hasHash ? "#" : "") +
+                hash.replace(
+                    /([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g,
+                    "\\$1"
+                )
+                );
+            },
+            getFilePath: function (
+                path
+            ) {
+                var splitkey = "&" + $7.mobile.subPageUrlKey;
+                return path && path.split(
+                    splitkey
+                )[0].split(
+                    dialogHashKey
+                )[0];
+            },
+            isFirstPageUrl: function (
+                url
+            ) {
+                var u = path.parseUrl(
+                        path.makeUrlAbsolute(
+                            url,
+                            this.documentBase
+                        )
+                    ),
+                    samePath =
+                u.hrefNoHash === this.documentUrl.hrefNoHash ||
+                (this.documentBaseDiffers &&
+                  u.hrefNoHash === this.documentBase.hrefNoHash),
+                    fp = $7.mobile.firstPage,
+                    fpId = fp && fp[0] ? fp[0].id : undefined;
+                return (
+                    samePath &&
+              (!u.hash ||
+                "#" === u.hash ||
+                (fpId && u.hash.replace(
+                    /^#/,
+                    ""
+                ) === fpId))
+                );
+            },
+            isPermittedCrossDomainRequest: function (
+                docUrl, reqUrl
+            ) {
+                return (
+                    $7.mobile.allowCrossDomainPages &&
+              ("file:" === docUrl.protocol || "content:" === docUrl.protocol) &&
+              -1 !== reqUrl.search(
+                  /^https?:/
               )
-                    );
-                },
-                getFilePath: function (
-                    path
-                ) {
-                    var splitkey = "&" + $7.mobile.subPageUrlKey;
-                    return path && path.split(
-                        splitkey
-                    )[0].split(
-                        dialogHashKey
-                    )[0];
-                },
-                isFirstPageUrl: function (
-                    url
-                ) {
-                    var u = path.parseUrl(
-                            path.makeUrlAbsolute(
-                                url,
-                                this.documentBase
-                            )
-                        ),
-                        samePath =
-              u.hrefNoHash === this.documentUrl.hrefNoHash ||
-              (this.documentBaseDiffers &&
-                u.hrefNoHash === this.documentBase.hrefNoHash),
-                        fp = $7.mobile.firstPage,
-                        fpId = fp && fp[0] ? fp[0].id : undefined;
-                    return (
-                        samePath &&
-            (!u.hash ||
-              "#" === u.hash ||
-              (fpId && u.hash.replace(
-                  /^#/,
-                  ""
-              ) === fpId))
-                    );
-                },
-                isPermittedCrossDomainRequest: function (
-                    docUrl, reqUrl
-                ) {
-                    return (
-                        $7.mobile.allowCrossDomainPages &&
-            ("file:" === docUrl.protocol || "content:" === docUrl.protocol) &&
-            -1 !== reqUrl.search(
-                /^https?:/
-            )
-                    );
-                },
-            }),
+                );
+            },
+        }),
             (path.documentUrl = path.parseLocation(
             )),
             ($base = $7(
@@ -4015,9 +4031,10 @@
                 i,
                 dataPropertyName = "virtualMouseBindings",
                 touchTargetPropertyName = "virtualTouchID",
-                virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
-                    " ",
-                ),
+                virtualEventNames =
+          "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
+              " ",
+          ),
                 touchEventProps = "clientX clientY pageX pageY screenX screenY".split(
                     " ",
                 ),
@@ -4377,12 +4394,11 @@
                             dataPropertyName,
                             {
                             }
-                        );
-                        var bindings = $7.data(
+                        ),
+                        ($7.data(
                             this,
                             dataPropertyName
-                        );
-                        (bindings[eventType] = !0),
+                        )[eventType] = !0),
                         (activeDocHandlers[eventType] =
                 (activeDocHandlers[eventType] || 0) + 1),
                         1 === activeDocHandlers[eventType] &&
@@ -5145,17 +5161,18 @@
                     },
                 },
             )),
-            ($7.event.special.orientationchange.orientation = get_orientation = function (
-            ) {
-                var elem = document.documentElement;
-                return (
-                    $7.support.orientation
-                        ? portrait_map[window.orientation]
-                        : elem && elem.clientWidth / elem.clientHeight < 1.1
-                )
-                    ? "portrait"
-                    : "landscape";
-            }),
+            ($7.event.special.orientationchange.orientation = get_orientation =
+          function (
+          ) {
+              var elem = document.documentElement;
+              return (
+                  $7.support.orientation
+                      ? portrait_map[window.orientation]
+                      : elem && elem.clientWidth / elem.clientHeight < 1.1
+              )
+                  ? "portrait"
+                  : "landscape";
+          }),
             ($7.fn[event_name] = function (
                 fn
             ) {
@@ -5380,12 +5397,14 @@
                                 function (
                                 ) {
                                     var $this = $7(
-                                        this
-                                    );
+                                            this
+                                        ),
+                                        theme =
+                      this.getAttribute(
+                          attrPrefix + "theme"
+                      ) || undefined;
                                     (self.options.contentTheme =
-                    this.getAttribute(
-                        attrPrefix + "theme"
-                    ) ||
+                    theme ||
                     self.options.contentTheme ||
                     (self.options.dialog && self.options.theme) ||
                     ("dialog" === self.element.jqmData(
@@ -5720,13 +5739,14 @@
                                     steps,
                                     10
                                 ),
-                                url = $7.mobile.navigate.history.stack[index].url;
+                                url = $7.mobile.navigate.history.stack[index].url,
+                                direction = steps >= 1 ? "forward" : "back";
                             ($7.mobile.navigate.history.activeIndex = index),
                             ($7.mobile.navigate.history.previousIndex = activeIndex),
                             this.change(
                                 url,
                                 {
-                                    direction: steps >= 1 ? "forward" : "back",
+                                    direction: direction,
                                     changeHash: !1,
                                     fromHashChange: !0,
                                 }
@@ -6099,20 +6119,22 @@
                             function (
                                 html, textStatus, xhr
                             ) {
-                                var content;
-                                new RegExp(
-                                    "(<[^>]+\\bdata-" +
-                this._getNs(
-                ) +
-                "role=[\"']?page[\"']?[^>]*>)",
-                                ).test(
+                                var content,
+                                    pageElemRegex = new RegExp(
+                                        "(<[^>]+\\bdata-" +
+                  this._getNs(
+                  ) +
+                  "role=[\"']?page[\"']?[^>]*>)",
+                                    ),
+                                    dataUrlRegex = new RegExp(
+                                        "\\bdata-" + this._getNs(
+                                        ) + "url=[\"']?([^\"'>]*)[\"']?",
+                                    );
+                                pageElemRegex.test(
                                     html
                                 ) &&
               RegExp.$1 &&
-              new RegExp(
-                  "\\bdata-" + this._getNs(
-                  ) + "url=[\"']?([^\"'>]*)[\"']?",
-              ).test(
+              dataUrlRegex.test(
                   RegExp.$1
               ) &&
               RegExp.$1 &&
@@ -6802,11 +6824,12 @@
                     },
                     _findBaseWithDefault: function (
                     ) {
-                        var closestBase =
-            this.activePage && $7.mobile.getClosestBaseUrl(
-                this.activePage
-            );
-                        return closestBase || $7.mobile.path.documentBase.hrefNoHash;
+                        return (
+                            (this.activePage && $7.mobile.getClosestBaseUrl(
+                                this.activePage
+                            )) ||
+            $7.mobile.path.documentBase.hrefNoHash
+                        );
                     },
                 }
             ),
@@ -7103,12 +7126,13 @@
                                     "buttonElements"
                                 )),
                             btnEls ? (target = btnEls.outer) : (needClosest = !0),
+                            ($btn = $7(
+                                target
+                            )),
                             needClosest && ($btn = $btn.closest(
                                 ".ui-btn"
                             )),
-                            ($btn = $7(
-                                target
-                            )).length > 0 &&
+                            $btn.length > 0 &&
                     !$btn.hasClass(
                         "ui-state-disabled"
                     ) &&
@@ -8212,9 +8236,10 @@
                         )),
                         accordion.length &&
             !accordionWidget &&
-            (this._ui.accordionWidget = accordionWidget = accordion.data(
-                "mobile-collapsibleset",
-            )),
+            (this._ui.accordionWidget = accordionWidget =
+              accordion.data(
+                  "mobile-collapsibleset"
+              )),
                         options))
                             (options[key] =
               null != options[key]
@@ -10236,9 +10261,10 @@
                 ),
                 disabledZoom = initialContent + ",maximum-scale=1, user-scalable=no",
                 enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes",
-                disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(
-                    initialContent,
-                );
+                disabledInitially =
+          /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(
+              initialContent,
+          );
             $7.mobile.zoom = $7.extend(
                 {
                 },
@@ -11813,7 +11839,12 @@
                         },
                         refresh: function (
                         ) {
-                            var direction;
+                            var direction,
+                                existingDirection = this.flipswitch.hasClass(
+                                    "ui-flipswitch-active",
+                                )
+                                    ? "_right"
+                                    : "_left";
                             (direction =
                 "SELECT" === this.type
                     ? this.element.get(
@@ -11825,12 +11856,7 @@
                         "checked"
                     )
                         ? "_right"
-                        : "_left") !==
-                (this.flipswitch.hasClass(
-                    "ui-flipswitch-active"
-                )
-                    ? "_right"
-                    : "_left") && this[direction](
+                        : "_left") !== existingDirection && this[direction](
                             );
                         },
                         _toggle: function (
@@ -12089,8 +12115,9 @@
                                     this._inputFirst.get(
                                         0
                                     ),
-                                    "mobile-slider",
-                                ).dragging = !0),
+                                    "mobile-slider"
+                                ).dragging =
+                  !0),
                                 $7
                                     .data(
                                         this._inputFirst.get(
@@ -12139,6 +12166,11 @@
                         _slidestop: function (
                             event
                         ) {
+                            var first = $7(
+                                event.target
+                            ).is(
+                                this._inputFirst
+                            );
                             (this._proxy = !1),
                             this.element.find(
                                 "input"
@@ -12147,13 +12179,7 @@
                             ),
                             this._sliderFirst.css(
                                 "z-index",
-                                $7(
-                                    event.target
-                                ).is(
-                                    this._inputFirst
-                                )
-                                    ? 1
-                                    : "",
+                                first ? 1 : ""
                             );
                         },
                         _slidebeforestart: function (
@@ -12765,7 +12791,11 @@
                     },
                     _updateHeight: function (
                     ) {
-                        var paddingTop, borderHeight, height;
+                        var paddingTop,
+                            borderTop,
+                            height,
+                            scrollTop = this.window.scrollTop(
+                            );
                         (this.keyupTimeout = 0),
                         "onpage" in this.element[0] ||
               this.element.css(
@@ -12777,18 +12807,20 @@
               ),
                         this.element[0].scrollHeight,
                         this.element[0].clientHeight,
-                        (borderHeight =
-              parseFloat(
-                  this.element.css(
-                      "border-top-width"
-                  )
-              ) +
-              parseFloat(
-                  this.element.css(
-                      "border-bottom-width"
-                  )
-              )),
-                        (height = this.element[0].scrollHeight + borderHeight + 15),
+                        (borderTop = parseFloat(
+                            this.element.css(
+                                "border-top-width"
+                            )
+                        )),
+                        (height =
+              this.element[0].scrollHeight +
+              (borderTop +
+                parseFloat(
+                    this.element.css(
+                        "border-bottom-width"
+                    )
+                )) +
+              15),
                         0 === this.element[0].clientHeight &&
               ((paddingTop = parseFloat(
                   this.element.css(
@@ -12809,8 +12841,7 @@
                             }
                         ),
                         this.window.scrollTop(
-                            this.window.scrollTop(
-                            )
+                            scrollTop
                         );
                     },
                     refresh: function (
@@ -13465,8 +13496,9 @@
                                 currentOptions.transition
                             )),
                         (this._setTolerance(
-                            currentOptions.tolerance,
-                        )._ui.focusElement = this._ui.container),
+                            currentOptions.tolerance
+                        )._ui.focusElement =
+              this._ui.container),
                         this._on(
                             this._ui.screen,
                             {
@@ -13767,9 +13799,10 @@
                   this._fallbackTransition
               ),
               "none" !== value &&
-                ((this._fallbackTransition = $7.mobile._maybeDegradeTransition(
-                    value,
-                )),
+                ((this._fallbackTransition =
+                  $7.mobile._maybeDegradeTransition(
+                      value
+                  )),
                 "none" === this._fallbackTransition &&
                   (this._fallbackTransition = ""),
                 this._ui.container.addClass(
@@ -14185,11 +14218,34 @@
                         options
                     ) {
                         var openOptions = $7.extend(
-                            {
-                            },
-                            this.options,
-                            options
-                        );
+                                {
+                                },
+                                this.options,
+                                options
+                            ),
+                            androidBlacklist = (function (
+                            ) {
+                                var ua = navigator.userAgent,
+                                    wkmatch = ua.match(
+                                        /AppleWebKit\/([0-9\.]+)/
+                                    ),
+                                    wkversion = !!wkmatch && wkmatch[1],
+                                    androidmatch = ua.match(
+                                        /Android (\d+(?:\.\d+))/
+                                    ),
+                                    andversion = !!androidmatch && androidmatch[1],
+                                    chromematch = ua.indexOf(
+                                        "Chrome"
+                                    ) > -1;
+                                return (
+                                    null !== androidmatch &&
+                "4.0" === andversion &&
+                !!wkversion &&
+                wkversion > 534.13 &&
+                !chromematch
+                                );
+                            })(
+                            );
                         this._createPrerequisites(
                             $7.noop,
                             $7.noop,
@@ -14215,29 +14271,7 @@
                             "ui-popup-hidden"
                         ),
                         this.options.overlayTheme &&
-              (function (
-              ) {
-                  var ua = navigator.userAgent,
-                      wkmatch = ua.match(
-                          /AppleWebKit\/([0-9\.]+)/
-                      ),
-                      wkversion = !!wkmatch && wkmatch[1],
-                      androidmatch = ua.match(
-                          /Android (\d+(?:\.\d+))/
-                      ),
-                      andversion = !!androidmatch && androidmatch[1],
-                      chromematch = ua.indexOf(
-                          "Chrome"
-                      ) > -1;
-                  return (
-                      null !== androidmatch &&
-                  "4.0" === andversion &&
-                  !!wkversion &&
-                  wkversion > 534.13 &&
-                  !chromematch
-                  );
-              })(
-              ) &&
+              androidBlacklist &&
               this.element.closest(
                   ".ui-page"
               ).addClass(
@@ -15023,15 +15057,16 @@
                     },
                     _isRebuildRequired: function (
                     ) {
+                        var list = this.list.find(
+                            "li"
+                        );
                         return (
                             this._selectOptions(
                             ).not(
                                 ".ui-screen-hidden"
                             ).text(
                             ) !==
-            this.list.find(
-                "li"
-            ).text(
+            list.text(
             )
                         );
                     },
@@ -15666,7 +15701,8 @@
                         },
                         _create: function (
                         ) {
-                            var elem = this.element;
+                            var elem = this.element,
+                                opts = this.options;
                             $7.fn.buttonMarkup &&
                 this.element
                     .find(
@@ -15702,7 +15738,7 @@
                                     _initialRefresh: !0,
                                 }
                             ),
-                            this.options.enhanced
+                            opts.enhanced
                                 ? (this._ui = {
                                     groupLegend: elem
                                         .children(
@@ -17213,13 +17249,13 @@
                     },
                     _getPage: function (
                     ) {
-                        var page =
-            this._openedPage ||
+                        return (
+                            this._openedPage ||
             this._parentPage ||
             $7(
                 "." + $7.mobile.activePageClass
-            );
-                        return page;
+            )
+                        );
                     },
                     _getWrapper: function (
                     ) {
@@ -17250,15 +17286,14 @@
                             intFixedToolbars = this._page(
                             ).find(
                                 ".ui-header-fixed, .ui-footer-fixed",
-                            ),
-                            fixedToolbars = extFixedToolbars
-                                .add(
-                                    intFixedToolbars
-                                )
-                                .addClass(
-                                    this.options.classes.pageFixedToolbar
-                                );
-                        return fixedToolbars;
+                            );
+                        return extFixedToolbars
+                            .add(
+                                intFixedToolbars
+                            )
+                            .addClass(
+                                this.options.classes.pageFixedToolbar
+                            );
                     },
                     _getPosDisplayClasses: function (
                         prefix
@@ -17901,15 +17936,16 @@
                     },
                     _setHeaders: function (
                     ) {
+                        var trs = this.element.find(
+                            "thead tr"
+                        );
                         (this.headers = this.element.find(
                             "tr:eq(0)"
                         ).children(
                         )),
                         (this.allHeaders = this.headers.add(
-                            this.element.find(
-                                "thead tr"
-                            ).children(
-                            ),
+                            trs.children(
+                            )
                         ));
                     },
                     refresh: function (

@@ -241,7 +241,8 @@ var YUI = function (
                         _guidp: "y",
                         _loaded: {
                         },
-                        _BASE_RE: /(?:\?(?:[^&]*&)*([^&]*))?\b(simpleyui|yui(?:-\w+)?)\/\2(?:-(min|debug))?\.js/,
+                        _BASE_RE:
+              /(?:\?(?:[^&]*&)*([^&]*))?\b(simpleyui|yui(?:-\w+)?)\/\2(?:-(min|debug))?\.js/,
                         parseBasePath: function (
                             src, pattern
                         ) {
@@ -1228,10 +1229,11 @@ YUI.add(
             }.propertyIsEnumerable(
                 "valueOf"
             )),
-            hasProtoEnumBug = (O._hasProtoEnumBug = function (
-            ) {}.propertyIsEnumerable(
-                "prototype",
-            )),
+            hasProtoEnumBug = (O._hasProtoEnumBug =
+          function (
+          ) {}.propertyIsEnumerable(
+              "prototype"
+          )),
             owns = (O.owns = function (
                 obj, key
             ) {
@@ -1476,30 +1478,35 @@ YUI.add(
                     ));
                 return results;
             }),
-        (YArray.each = YArray.forEach = Lang._isNative(
-            Native.forEach
-        )
-            ? function (
-                array, fn, thisObj
-            ) {
-                return Native.forEach.call(
-                    array || [],
-                    fn,
-                    thisObj || Y
-                ), Y;
-            }
-            : function (
-                array, fn, thisObj
-            ) {
-                for (var i = 0, len = (array && array.length) || 0; i < len; ++i)
-                    i in array && fn.call(
-                        thisObj || Y,
-                        array[i],
-                        i,
-                        array
-                    );
-                return Y;
-            }),
+        (YArray.each = YArray.forEach =
+          Lang._isNative(
+              Native.forEach
+          )
+              ? function (
+                  array, fn, thisObj
+              ) {
+                  return Native.forEach.call(
+                      array || [],
+                      fn,
+                      thisObj || Y
+                  ), Y;
+              }
+              : function (
+                  array, fn, thisObj
+              ) {
+                  for (
+                      var i = 0, len = (array && array.length) || 0;
+                      i < len;
+                      ++i
+                  )
+                      i in array && fn.call(
+                          thisObj || Y,
+                          array[i],
+                          i,
+                          array
+                      );
+                  return Y;
+              }),
         (YArray.hash = function (
             keys, values
         ) {
@@ -2436,7 +2443,8 @@ YUI.add(
             Get,
             Transaction,
             Lang = Y.Lang;
-        (Y.Get = Get = {
+        (Y.Get = Get =
+        {
             cssOptions: {
                 attributes: {
                     rel: "stylesheet",
@@ -2519,10 +2527,10 @@ YUI.add(
                 threshold
             ) {
                 threshold &&
-            this._purgeNodes.length >= threshold &&
-            this._purge(
-                this._purgeNodes
-            );
+              this._purgeNodes.length >= threshold &&
+              this._purge(
+                  this._purgeNodes
+              );
             },
             _getEnv: function (
             ) {
@@ -2530,26 +2538,27 @@ YUI.add(
                     ua = Y.UA;
                 return (this._env = {
                     async:
-              (doc && !0 === doc.createElement(
-                  "script"
-              ).async) || ua.ie >= 10,
+                (doc && !0 === doc.createElement(
+                    "script"
+                ).async) ||
+                ua.ie >= 10,
                     cssFail:
-              ua.gecko >= 9 || ua.compareVersions(
-                  ua.webkit,
-                  535.24
-              ) >= 0,
-                    cssLoad:
-              ((!ua.gecko && !ua.webkit) ||
-                ua.gecko >= 9 ||
-                ua.compareVersions(
+                ua.gecko >= 9 || ua.compareVersions(
                     ua.webkit,
                     535.24
-                ) >= 0) &&
-              !(ua.chrome && ua.chrome <= 18),
+                ) >= 0,
+                    cssLoad:
+                ((!ua.gecko && !ua.webkit) ||
+                  ua.gecko >= 9 ||
+                  ua.compareVersions(
+                      ua.webkit,
+                      535.24
+                  ) >= 0) &&
+                !(ua.chrome && ua.chrome <= 18),
                     preservesScriptOrder: !!(
                         ua.gecko ||
-              ua.opera ||
-              (ua.ie && ua.ie >= 10)
+                ua.opera ||
+                (ua.ie && ua.ie >= 10)
                     ),
                 });
             },
@@ -2586,14 +2595,15 @@ YUI.add(
                         "string" == typeof url)
                     )
                         req.url = url;
-                    else if (url.url) Y.mix(
-                        req,
-                        url,
-                        !1,
-                        null,
-                        0,
-                        !0
-                    ), (url = url.url);
+                    else if (url.url)
+                        Y.mix(
+                            req,
+                            url,
+                            !1,
+                            null,
+                            0,
+                            !0
+                        ), (url = url.url);
                     else continue;
                     if ((Y.mix(
                         req,
@@ -2641,8 +2651,8 @@ YUI.add(
                 var transaction;
                 return (
                     "function" == typeof options &&
-              ((callback = options), (options = {
-              })),
+                ((callback = options), (options = {
+                })),
                     options || (options = {
                     }),
                     (options.type = type),
@@ -2673,11 +2683,11 @@ YUI.add(
             ) {
                 var item;
                 !this._pending &&
-            (item = this._queue.shift(
-            )) &&
-            ((this._pending = item), item.transaction.execute(
-                item.callback
-            ));
+              (item = this._queue.shift(
+              )) &&
+              ((this._pending = item), item.transaction.execute(
+                  item.callback
+              ));
             },
             _purge: function (
                 nodes
@@ -2692,37 +2702,38 @@ YUI.add(
 
                 )
                     node._yuiget_finished &&
-              (node.parentNode && node.parentNode.removeChild(
-                  node
-              ),
-              isTransaction &&
-                (index = Y.Array.indexOf(
-                    purgeNodes,
+                (node.parentNode && node.parentNode.removeChild(
                     node
-                )) > -1 &&
-                purgeNodes.splice(
-                    index,
-                    1
-                ));
+                ),
+                isTransaction &&
+                  (index = Y.Array.indexOf(
+                      purgeNodes,
+                      node
+                  )) > -1 &&
+                  purgeNodes.splice(
+                      index,
+                      1
+                  ));
             },
         }),
         (Get.script = Get.js),
-        (Get.Transaction = Transaction = function (
-            requests, options
-        ) {
-            var self = this;
-            (self.id = Transaction._lastId += 1),
-            (self.data = options.data),
-            (self.errors = []),
-            (self.nodes = []),
-            (self.options = options),
-            (self.requests = requests),
-            (self._callbacks = []),
-            (self._queue = []),
-            (self._reqsWaiting = 0),
-            (self.tId = self.id),
-            (self.win = options.win || Y.config.win);
-        }),
+        (Get.Transaction = Transaction =
+          function (
+              requests, options
+          ) {
+              var self = this;
+              (self.id = Transaction._lastId += 1),
+              (self.data = options.data),
+              (self.errors = []),
+              (self.nodes = []),
+              (self.options = options),
+              (self.requests = requests),
+              (self._callbacks = []),
+              (self._queue = []),
+              (self._reqsWaiting = 0),
+              (self.tId = self.id),
+              (self.win = options.win || Y.config.win);
+          }),
         (Transaction._lastId = 0),
         (Transaction.prototype = {
             _state: "new",
@@ -2965,11 +2976,12 @@ YUI.add(
                   : env.cssLoad || !ua.gecko
                       ? "link"
                       : "style"),
-              (node = req.node = this._createNode(
-                  nodeType,
-                  req.attributes,
-                  req.doc,
-              ))),
+              (node = req.node =
+                this._createNode(
+                    nodeType,
+                    req.attributes,
+                    req.doc
+                ))),
                 isScript
                     ? (node.setAttribute(
                         "src",
@@ -4653,12 +4665,13 @@ YUI.add(
                     for (j = 0, langs = yArray(
                         o.lang
                     ); j < langs.length; j++)
-                        (smod = this.moduleInfo[
-                            (packName = this.getLangPackName(
-                                (lang = langs[j]),
-                                name
-                            ))
-                        ]) || (smod = this._addLangPack(
+                        (smod =
+                  this.moduleInfo[
+                      (packName = this.getLangPackName(
+                          (lang = langs[j]),
+                          name
+                      ))
+                  ]) || (smod = this._addLangPack(
                             lang,
                             o,
                             packName
@@ -6195,9 +6208,10 @@ YUI.add(
                                                 resCombos[base].group
                                             ),
                                         );
-                                resolved[type + "Mods"] = resolved[type + "Mods"].concat(
-                                    mods,
-                                );
+                                resolved[type + "Mods"] =
+                      resolved[type + "Mods"].concat(
+                          mods
+                      );
                             }
                     }
                 return (resCombos = null), resolved;

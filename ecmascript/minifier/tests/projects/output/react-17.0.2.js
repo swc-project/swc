@@ -319,9 +319,8 @@
             if ("object" == typeof type)
                 switch (type.$$typeof) {
                 case REACT_CONTEXT_TYPE:
-                    var context = type;
                     return getContextName(
-                        context
+                        type
                     ) + ".Consumer";
                 case REACT_PROVIDER_TYPE:
                     return getContextName(
@@ -593,7 +592,7 @@
         function cloneAndReplaceKey(
             oldElement, newKey
         ) {
-            var newElement = ReactElement(
+            return ReactElement(
                 oldElement.type,
                 newKey,
                 oldElement.ref,
@@ -602,7 +601,6 @@
                 oldElement._owner,
                 oldElement.props,
             );
-            return newElement;
         }
         function cloneElement(
             element, config, children
@@ -684,18 +682,20 @@
             key
         ) {
             var escaperLookup = {
-                    "=": "=0",
-                    ":": "=2",
-                },
-                escapedString = key.replace(
-                    /[=:]/g,
-                    function (
-                        match
-                    ) {
-                        return escaperLookup[match];
-                    }
-                );
-            return "$" + escapedString;
+                "=": "=0",
+                ":": "=2",
+            };
+            return (
+                "$" +
+      key.replace(
+          /[=:]/g,
+          function (
+              match
+          ) {
+              return escaperLookup[match];
+          }
+      )
+            );
         }
         var didWarnAboutMaps = !1,
             userProvidedKeyEscapeRegex = /\/+/g;
@@ -2068,10 +2068,11 @@
                             }
                         };
                     },
-                    unstable_getCurrentPriorityLevel: function unstable_getCurrentPriorityLevel(
-                    ) {
-                        return currentPriorityLevel;
-                    },
+                    unstable_getCurrentPriorityLevel:
+        function unstable_getCurrentPriorityLevel(
+        ) {
+            return currentPriorityLevel;
+        },
                     get unstable_shouldYield(
                     ) {
                         return shouldYieldToHost;
@@ -2251,7 +2252,14 @@
             )
                 throw caughtError;
         }
-        var SchedulerTracing = Object.freeze(
+        var ReactSharedInternals$1 = {
+            ReactCurrentDispatcher: ReactCurrentDispatcher,
+            ReactCurrentOwner: ReactCurrentOwner,
+            IsSomeRendererActing: IsSomeRendererActing,
+            ReactCurrentBatchConfig: ReactCurrentBatchConfig,
+            assign: assign,
+            Scheduler: Scheduler,
+            SchedulerTracing: Object.freeze(
                 {
                     __proto__: null,
                     get __interactionsRef(
@@ -2441,7 +2449,8 @@
                         ),
                         1 === subscribers.size &&
             (subscriberRef.current = {
-                onInteractionScheduledWorkCompleted: onInteractionScheduledWorkCompleted,
+                onInteractionScheduledWorkCompleted:
+                onInteractionScheduledWorkCompleted,
                 onInteractionTraced: onInteractionTraced,
                 onWorkCanceled: onWorkCanceled,
                 onWorkScheduled: onWorkScheduled,
@@ -2459,15 +2468,7 @@
                     },
                 }
             ),
-            ReactSharedInternals$1 = {
-                ReactCurrentDispatcher: ReactCurrentDispatcher,
-                ReactCurrentOwner: ReactCurrentOwner,
-                IsSomeRendererActing: IsSomeRendererActing,
-                ReactCurrentBatchConfig: ReactCurrentBatchConfig,
-                assign: assign,
-                Scheduler: Scheduler,
-                SchedulerTracing: SchedulerTracing,
-            };
+        };
         if (
             ((exports.Fragment = 60107),
             (exports.StrictMode = 60108),
@@ -2605,9 +2606,9 @@
             (didWarnAboutStringRefs = {
             }),
             (disabledLog.__reactDisabledLog = !0),
-            (componentFrameCache = new ("function" == typeof WeakMap
-                ? WeakMap
-                : Map)(
+            (componentFrameCache = new (
+                "function" == typeof WeakMap ? WeakMap : Map
+            )(
             )),
             (propTypesMisspellWarningShown = !1),
             hasPerformanceNow)
@@ -2687,12 +2688,13 @@
             var _setTimeout = window.setTimeout,
                 _clearTimeout = window.clearTimeout;
             if (void 0 !== console) {
-                var requestAnimationFrame = window.requestAnimationFrame;
+                var requestAnimationFrame = window.requestAnimationFrame,
+                    cancelAnimationFrame = window.cancelAnimationFrame;
                 "function" != typeof requestAnimationFrame &&
         console.error(
             "This browser doesn't support requestAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills",
         ),
-                "function" != typeof window.cancelAnimationFrame &&
+                "function" != typeof cancelAnimationFrame &&
           console.error(
               "This browser doesn't support cancelAnimationFrame. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills",
           );
@@ -2863,7 +2865,8 @@
         }),
         (exports.Component = Component),
         (exports.PureComponent = PureComponent),
-        (exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals$1),
+        (exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED =
+      ReactSharedInternals$1),
         (exports.cloneElement = function (
             element, props, children
         ) {
