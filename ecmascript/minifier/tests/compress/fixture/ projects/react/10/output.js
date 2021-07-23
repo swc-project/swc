@@ -1,9 +1,9 @@
 function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
     if (null == type) return '';
-    if ('function' == typeof type) return describeNativeComponentFrame(type, function(Component) {
-        var prototype = type.prototype;
-        return !!(prototype && prototype.isReactComponent);
-    }(type));
+    if ('function' == typeof type) {
+        var prototype;
+        return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
+    }
     if ('string' == typeof type) return describeBuiltInComponentFrame(type);
     switch(type){
         case exports.Suspense: return describeBuiltInComponentFrame('Suspense');
