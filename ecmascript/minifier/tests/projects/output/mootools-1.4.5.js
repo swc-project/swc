@@ -5391,7 +5391,8 @@ Elements.alias(
             },
         }
     );
-    var translations,
+    var set,
+        translations,
         set,
         contains = {
             contains: function (
@@ -5421,6 +5422,9 @@ Elements.alias(
             );
         }
     ),
+    (search = Slick.search),
+    (find = Slick.find),
+    (match = Slick.match),
     (this.Selectors = {
     }),
     (pseudos = this.Selectors.Pseudo = new Hash(
@@ -5441,8 +5445,7 @@ Elements.alias(
     ) {
         return (
             addSlickPseudos(
-            ),
-            (search = Slick.search).call(
+            ), search.call(
                 this,
                 context,
                 expression,
@@ -5453,28 +5456,27 @@ Elements.alias(
     (Slick.find = function (
         context, expression
     ) {
-        return (
-            addSlickPseudos(
-            ), (find = Slick.find).call(
-                this,
-                context,
-                expression
-            )
+        return addSlickPseudos(
+        ), find.call(
+            this,
+            context,
+            expression
         );
     }),
     (Slick.match = function (
         node, selector
     ) {
-        return (
-            addSlickPseudos(
-            ), (match = Slick.match).call(
-                this,
-                node,
-                selector
-            )
+        return addSlickPseudos(
+        ), match.call(
+            this,
+            node,
+            selector
         );
     });
     var types,
+        search,
+        find,
+        match,
         pseudos,
         addSlickPseudos,
         search,
@@ -5916,19 +5918,15 @@ Elements.alias(
             (node.type = type), (node.value = value);
         }),
     (input = null);
-    var pollutesGetAttribute = (function (
-        div
-    ) {
-        return (
-            (div.random = "attribute"), "attribute" == div.getAttribute(
-                "random"
-            )
-        );
-    })(
-        document.createElement(
+    var div,
+        div,
+        pollutesGetAttribute =
+        (((div = document.createElement(
             "div"
-        )
-    );
+        )).random = "attribute"),
+        "attribute" == div.getAttribute(
+            "random"
+        ));
     Element1.implement(
         {
             setProperty: function (
@@ -6579,11 +6577,11 @@ Elements.alias(
             this.innerHTML = "";
         },
     });
-    var div = document.createElement(
+    var div1 = document.createElement(
         "div"
     );
-    div.innerHTML = "<nav></nav>";
-    var supportsHTML5Elements = 1 == div.childNodes.length;
+    div1.innerHTML = "<nav></nav>";
+    var supportsHTML5Elements = 1 == div1.childNodes.length;
     if (!supportsHTML5Elements)
         for (
             var tags =
@@ -6599,7 +6597,7 @@ Elements.alias(
             fragment.createElement(
                 tags[l]
             );
-    div = null;
+    div1 = null;
     var supportsTableInnerHTML = Function.attempt(
             function (
             ) {
@@ -6619,7 +6617,8 @@ Elements.alias(
     (supportsTableInnerHTML &&
         supportsTRInnerHTML &&
         supportsHTML5Elements) ||
-        (((translations = {
+        ((set = Element1.Properties.html.set),
+        ((translations = {
             table: [1, "<table>", "</table>",],
             select: [1, "<select>", "</select>",],
             tbody: [2, "<table><tbody>", "</tbody></table>",],
@@ -6633,7 +6632,7 @@ Elements.alias(
                 "tag"
             )];
             if ((wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap))
-                return (set = Element1.Properties.html.set).call(
+                return set.call(
                     this,
                     html
                 );

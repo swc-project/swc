@@ -25,21 +25,27 @@
     function (
         jQuery, window, document, undefined
     ) {
-        var rcapitals,
+        var $,
+            rcapitals,
             replaceFunction,
             $,
+            doc,
             bool,
             docElem,
             refNode,
             fakeBody,
             div,
             doc,
+            $1,
             support,
             $1,
+            $2,
             self,
             $win,
             dummyFnToInitNavigate,
             $2,
+            $3,
+            undefined,
             path,
             $base,
             dialogHashKey,
@@ -47,46 +53,62 @@
             undefined,
             $4,
             undefined,
+            $4,
+            undefined,
+            $5,
             path1,
             initialHref,
             $5,
+            $6,
             heldCall,
             curr,
             diff,
             handler,
             lastCall,
             $6,
+            $7,
             baseElement,
             base,
             $7,
             $8,
+            $8,
+            $9,
             $9,
             $10,
+            $10,
+            $12,
+            undefined,
             rInitialLetter,
             iconposClass,
-            $11,
-            undefined,
             $12,
+            undefined,
             $13,
+            $13,
+            $14,
+            $14,
+            $15,
             meta,
             initialContent,
             disabledZoom,
             enabledZoom,
             disabledInitially,
-            $14,
             $15,
+            $16,
+            $16,
+            $17,
+            undefined,
             replaceSetOptions,
             rDividerListItem,
             origDefaultFilterCallback,
-            $16,
+            $17,
             undefined;
         (jQuery.mobile = {
         }),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
-            $17.extend(
-                $17.mobile,
+            $18.extend(
+                $18.mobile,
                 {
                     version: "1.4.2",
                     subPageUrlKey: "ui-page",
@@ -112,7 +134,7 @@
                         hoverDelay: 200,
                     },
                     dynamicBaseEnabled: !0,
-                    pageContainer: $17(
+                    pageContainer: $18(
                     ),
                     allowCrossDomainPages: !1,
                     dialogHashKey: "&ui-state=dialog",
@@ -123,15 +145,15 @@
             this
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
             var nsNormalizeDict = {
                 },
-                oldFind = $17.find,
+                oldFind = $18.find,
                 rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/,
                 jqmDataRE = /:jqmData\(([^)]*)\)/g;
-            $17.extend(
-                $17.mobile,
+            $18.extend(
+                $18.mobile,
                 {
                     ns: "",
                     getAttribute: function (
@@ -141,7 +163,7 @@
                         (element = element.jquery ? element[0] : element) &&
             element.getAttribute &&
             (data = element.getAttribute(
-                "data-" + $17.mobile.ns + key
+                "data-" + $18.mobile.ns + key
             ));
                         try {
                             data =
@@ -167,8 +189,8 @@
                     ) {
                         return (
                             nsNormalizeDict[prop] ||
-            (nsNormalizeDict[prop] = $17.camelCase(
-                $17.mobile.ns + prop
+            (nsNormalizeDict[prop] = $18.camelCase(
+                $18.mobile.ns + prop
             ))
                         );
                     },
@@ -185,13 +207,13 @@
                     },
                 }
             ),
-            ($17.fn.jqmData = function (
+            ($18.fn.jqmData = function (
                 prop, value
             ) {
                 var result;
                 return (
                     void 0 !== prop &&
-              (prop && (prop = $17.mobile.nsNormalize(
+              (prop && (prop = $18.mobile.nsNormalize(
                   prop
               )),
               (result =
@@ -206,16 +228,16 @@
                     result
                 );
             }),
-            ($17.jqmData = function (
+            ($18.jqmData = function (
                 elem, prop, value
             ) {
                 var result;
                 return (
                     void 0 !== prop &&
-              (result = $17.data(
+              (result = $18.data(
                   elem,
                   prop
-                      ? $17.mobile.nsNormalize(
+                      ? $18.mobile.nsNormalize(
                           prop
                       )
                       : prop,
@@ -224,26 +246,26 @@
                     result
                 );
             }),
-            ($17.fn.jqmRemoveData = function (
+            ($18.fn.jqmRemoveData = function (
                 prop
             ) {
                 return this.removeData(
-                    $17.mobile.nsNormalize(
+                    $18.mobile.nsNormalize(
                         prop
                     )
                 );
             }),
-            ($17.jqmRemoveData = function (
+            ($18.jqmRemoveData = function (
                 elem, prop
             ) {
-                return $17.removeData(
+                return $18.removeData(
                     elem,
-                    $17.mobile.nsNormalize(
+                    $18.mobile.nsNormalize(
                         prop
                     )
                 );
             }),
-            ($17.find = function (
+            ($18.find = function (
                 selector, context, ret, extra
             ) {
                 return (
@@ -252,7 +274,7 @@
                     ) > -1 &&
               (selector = selector.replace(
                   jqmDataRE,
-                  "[data-" + ($17.mobile.ns || "") + "$1]",
+                  "[data-" + ($18.mobile.ns || "") + "$1]",
               )),
                     oldFind.call(
                         this,
@@ -263,8 +285,8 @@
                     )
                 );
             }),
-            $17.extend(
-                $17.find,
+            $18.extend(
+                $18.find,
                 oldFind
             );
         })(
@@ -272,7 +294,7 @@
             this
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var uuid = 0,
                 runiqueId = /^ui-id-\d+$/;
@@ -292,7 +314,7 @@
                     )
                         return !1;
                     return (
-                        !!(img = $17(
+                        !!(img = $18(
                             "img[usemap=#" + mapName + "]"
                         )[0]) && visible(
                             img
@@ -315,10 +337,10 @@
                 element
             ) {
                 return (
-                    $17.expr.filters.visible(
+                    $18.expr.filters.visible(
                         element
                     ) &&
-          !$17(
+          !$18(
               element
           )
               .parents(
@@ -328,7 +350,7 @@
               .filter(
                   function (
                   ) {
-                      return "hidden" === $17.css(
+                      return "hidden" === $18.css(
                           this,
                           "visibility"
                       );
@@ -336,10 +358,10 @@
               ).length
                 );
             }
-            ($17.ui = $17.ui || {
+            ($18.ui = $18.ui || {
             }),
-            $17.extend(
-                $17.ui,
+            $18.extend(
+                $18.ui,
                 {
                     version: "c0ab71056b936627e8a7821f03c044aec6280a40",
                     keyCode: {
@@ -362,7 +384,7 @@
                     },
                 }
             ),
-            $17.fn.extend(
+            $18.fn.extend(
                 {
                     focus: (function (
                         orig
@@ -378,7 +400,7 @@
                                         setTimeout(
                                             function (
                                             ) {
-                                                $17(
+                                                $18(
                                                     elem
                                                 ).focus(
                                                 ), fn && fn.call(
@@ -395,14 +417,14 @@
                                 );
                         };
                     })(
-                        $17.fn.focus
+                        $18.fn.focus
                     ),
                     scrollParent: function (
                     ) {
                         var scrollParent;
                         return (
                             (scrollParent =
-                ($17.ui.ie && /(static|relative)/.test(
+                ($18.ui.ie && /(static|relative)/.test(
                     this.css(
                         "position"
                     )
@@ -419,21 +441,21 @@
                             ) {
                                 return (
                                     /(relative|absolute|fixed)/.test(
-                                        $17.css(
+                                        $18.css(
                                             this,
                                             "position"
                                         ),
                                     ) &&
                           /(auto|scroll)/.test(
-                              $17.css(
+                              $18.css(
                                   this,
                                   "overflow"
                               ) +
-                              $17.css(
+                              $18.css(
                                   this,
                                   "overflow-y"
                               ) +
-                              $17.css(
+                              $18.css(
                                   this,
                                   "overflow-x"
                               ),
@@ -450,15 +472,15 @@
                             function (
                             ) {
                                 return /(auto|scroll)/.test(
-                                    $17.css(
+                                    $18.css(
                                         this,
                                         "overflow"
                                     ) +
-                            $17.css(
+                            $18.css(
                                 this,
                                 "overflow-y"
                             ) +
-                            $17.css(
+                            $18.css(
                                 this,
                                 "overflow-x"
                             ),
@@ -473,7 +495,7 @@
                                     "position"
                                 )
                             ) || !scrollParent.length
-                                ? $17(
+                                ? $18(
                                     this[0].ownerDocument || document
                                 )
                                 : scrollParent
@@ -495,7 +517,7 @@
                             ) {
                                 runiqueId.test(
                                     this.id
-                                ) && $17(
+                                ) && $18(
                                     this
                                 ).removeAttr(
                                     "id"
@@ -505,18 +527,18 @@
                     },
                 }
             ),
-            $17.extend(
-                $17.expr[":"],
+            $18.extend(
+                $18.expr[":"],
                 {
-                    data: $17.expr.createPseudo
-                        ? $17.expr.createPseudo(
+                    data: $18.expr.createPseudo
+                        ? $18.expr.createPseudo(
                             function (
                                 dataName
                             ) {
                                 return function (
                                     elem
                                 ) {
-                                    return !!$17.data(
+                                    return !!$18.data(
                                         elem,
                                         dataName
                                     );
@@ -526,7 +548,7 @@
                         : function (
                             elem, i, match
                         ) {
-                            return !!$17.data(
+                            return !!$18.data(
                                 elem,
                                 match[3]
                             );
@@ -537,7 +559,7 @@
                         return focusable(
                             element,
                             !isNaN(
-                                $17.attr(
+                                $18.attr(
                                     element,
                                     "tabindex"
                                 )
@@ -547,7 +569,7 @@
                     tabbable: function (
                         element
                     ) {
-                        var tabIndex = $17.attr(
+                        var tabIndex = $18.attr(
                                 element,
                                 "tabindex"
                             ),
@@ -564,12 +586,12 @@
                     },
                 }
             ),
-            $17(
+            $18(
                 "<a>"
             ).outerWidth(
                 1
             ).jquery ||
-          $17.each(
+          $18.each(
               ["Width", "Height",],
               function (
                   i, name
@@ -578,21 +600,21 @@
                       type = name.toLowerCase(
                       ),
                       orig = {
-                          innerWidth: $17.fn.innerWidth,
-                          innerHeight: $17.fn.innerHeight,
-                          outerWidth: $17.fn.outerWidth,
-                          outerHeight: $17.fn.outerHeight,
+                          innerWidth: $18.fn.innerWidth,
+                          innerHeight: $18.fn.innerHeight,
+                          outerWidth: $18.fn.outerWidth,
+                          outerHeight: $18.fn.outerHeight,
                       };
                   function reduce(
                       elem, size, border, margin
                   ) {
                       return (
-                          $17.each(
+                          $18.each(
                               side,
                               function (
                               ) {
                                   (size -= parseFloat(
-                                      $17.css(
+                                      $18.css(
                                           elem,
                                           "padding" + this
                                       )
@@ -600,7 +622,7 @@
                                   border &&
                       (size -=
                         parseFloat(
-                            $17.css(
+                            $18.css(
                                 elem,
                                 "border" + this + "Width"
                             )
@@ -608,7 +630,7 @@
                         0),
                                   margin &&
                       (size -= parseFloat(
-                          $17.css(
+                          $18.css(
                               elem,
                               "margin" + this
                           )
@@ -618,7 +640,7 @@
                           size
                       );
                   }
-                  ($17.fn["inner" + name] = function (
+                  ($18.fn["inner" + name] = function (
                       size
                   ) {
                       return size === undefined
@@ -628,7 +650,7 @@
                           : this.each(
                               function (
                               ) {
-                                  $17(
+                                  $18(
                                       this
                                   ).css(
                                       type,
@@ -640,7 +662,7 @@
                               }
                           );
                   }),
-                  ($17.fn["outer" + name] = function (
+                  ($18.fn["outer" + name] = function (
                       size, margin
                   ) {
                       return "number" != typeof size
@@ -651,7 +673,7 @@
                           : this.each(
                               function (
                               ) {
-                                  $17(
+                                  $18(
                                       this
                                   ).css(
                                       type,
@@ -667,8 +689,8 @@
                   });
               }
           ),
-            $17.fn.addBack ||
-          ($17.fn.addBack = function (
+            $18.fn.addBack ||
+          ($18.fn.addBack = function (
               selector
           ) {
               return this.add(
@@ -679,7 +701,7 @@
                       ),
               );
           }),
-            $17(
+            $18(
                 "<a>"
             ).data(
                 "a-b",
@@ -689,7 +711,7 @@
             ).data(
                 "a-b"
             ) &&
-          ($17.fn.removeData = (function (
+          ($18.fn.removeData = (function (
               removeData
           ) {
               return function (
@@ -698,7 +720,7 @@
                   return arguments.length
                       ? removeData.call(
                           this,
-                          $17.camelCase(
+                          $18.camelCase(
                               key
                           )
                       )
@@ -707,22 +729,22 @@
                       );
               };
           })(
-              $17.fn.removeData
+              $18.fn.removeData
           )),
-            ($17.ui.ie = !!/msie [\w.]+/.exec(
+            ($18.ui.ie = !!/msie [\w.]+/.exec(
                 navigator.userAgent.toLowerCase(
                 )
             )),
-            ($17.support.selectstart =
+            ($18.support.selectstart =
           "onselectstart" in document.createElement(
               "div"
           )),
-            $17.fn.extend(
+            $18.fn.extend(
                 {
                     disableSelection: function (
                     ) {
                         return this.bind(
-                            ($17.support.selectstart ? "selectstart" : "mousedown") +
+                            ($18.support.selectstart ? "selectstart" : "mousedown") +
                 ".ui-disableSelection",
                             function (
                                 event
@@ -747,7 +769,7 @@
                         );
                         if (this.length)
                             for (
-                                var position, value, elem = $17(
+                                var position, value, elem = $18(
                                     this[0]
                                 );
                                 elem.length && elem[0] !== document;
@@ -777,12 +799,12 @@
                     },
                 }
             ),
-            ($17.ui.plugin = {
+            ($18.ui.plugin = {
                 add: function (
                     module, option, set
                 ) {
                     var i,
-                        proto = $17.ui[module].prototype;
+                        proto = $18.ui[module].prototype;
                     for (i in set)
                         (proto.plugins[i] = proto.plugins[i] || []),
                         proto.plugins[i].push(
@@ -812,7 +834,7 @@
             jQuery
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
             var compensateToolbars = function (
                 page, desiredHeight
@@ -845,12 +867,12 @@
                 externalFooters.toArray(
                 ),
             )),
-                    $17.each(
+                    $18.each(
                         toolbarsAffectingHeight,
                         function (
                             index, value
                         ) {
-                            desiredHeight -= $17(
+                            desiredHeight -= $18(
                                 value
                             ).outerHeight(
                             );
@@ -862,25 +884,25 @@
                     )
                 );
             };
-            $17.extend(
-                $17.mobile,
+            $18.extend(
+                $18.mobile,
                 {
-                    window: $17(
+                    window: $18(
                         window
                     ),
-                    document: $17(
+                    document: $18(
                         document
                     ),
-                    keyCode: $17.ui.keyCode,
+                    keyCode: $18.ui.keyCode,
                     behaviors: {
                     },
                     silentScroll: function (
                         ypos
                     ) {
-                        "number" !== $17.type(
+                        "number" !== $18.type(
                             ypos
-                        ) && (ypos = $17.mobile.defaultHomeScroll),
-                        ($17.event.special.scrollstart.enabled = !1),
+                        ) && (ypos = $18.mobile.defaultHomeScroll),
+                        ($18.event.special.scrollstart.enabled = !1),
                         setTimeout(
                             function (
                             ) {
@@ -888,7 +910,7 @@
                                     0,
                                     ypos
                                 ),
-                                $17.mobile.document.trigger(
+                                $18.mobile.document.trigger(
                                     "silentscroll",
                                     {
                                         x: 0,
@@ -901,7 +923,7 @@
                         setTimeout(
                             function (
                             ) {
-                                $17.event.special.scrollstart.enabled = !0;
+                                $18.event.special.scrollstart.enabled = !0;
                             },
                             150
                         );
@@ -909,22 +931,22 @@
                     getClosestBaseUrl: function (
                         ele
                     ) {
-                        var url = $17(
+                        var url = $18(
                                 ele
                             ).closest(
                                 ".ui-page"
                             ).jqmData(
                                 "url"
                             ),
-                            base = $17.mobile.path.documentBase.hrefNoHash;
+                            base = $18.mobile.path.documentBase.hrefNoHash;
                         return (
-                            ($17.mobile.dynamicBaseEnabled &&
+                            ($18.mobile.dynamicBaseEnabled &&
               url &&
-              $17.mobile.path.isPath(
+              $18.mobile.path.isPath(
                   url
               )) ||
               (url = base),
-                            $17.mobile.path.makeUrlAbsolute(
+                            $18.mobile.path.makeUrlAbsolute(
                                 url,
                                 base
                             )
@@ -933,15 +955,15 @@
                     removeActiveLinkClass: function (
                         forceRemoval
                     ) {
-                        $17.mobile.activeClickedLink &&
-            (!$17.mobile.activeClickedLink.closest(
-                "." + $17.mobile.activePageClass,
+                        $18.mobile.activeClickedLink &&
+            (!$18.mobile.activeClickedLink.closest(
+                "." + $18.mobile.activePageClass,
             ).length ||
               forceRemoval) &&
-            $17.mobile.activeClickedLink.removeClass(
-                $17.mobile.activeBtnClass
+            $18.mobile.activeClickedLink.removeClass(
+                $18.mobile.activeBtnClass
             ),
-                        ($17.mobile.activeClickedLink = null);
+                        ($18.mobile.activeClickedLink = null);
                     },
                     getInheritedTheme: function (
                         el, defaultTheme
@@ -982,13 +1004,13 @@
                     haveParents: function (
                         elements, attr
                     ) {
-                        if (!$17.mobile.ignoreContentEnabled) return elements;
+                        if (!$18.mobile.ignoreContentEnabled) return elements;
                         var e,
                             $element,
                             excluded,
                             i,
                             count = elements.length,
-                            $newSet = $17(
+                            $newSet = $18(
                             );
                         for (i = 0; i < count; i++) {
                             for (
@@ -1002,7 +1024,7 @@
                                     "false" ===
                 (e.getAttribute
                     ? e.getAttribute(
-                        "data-" + $17.mobile.ns + attr
+                        "data-" + $18.mobile.ns + attr
                     )
                     : "")
                                 ) {
@@ -1019,14 +1041,14 @@
                     },
                     getScreenHeight: function (
                     ) {
-                        return window.innerHeight || $17.mobile.window.height(
+                        return window.innerHeight || $18.mobile.window.height(
                         );
                     },
                     resetActivePageHeight: function (
                         height
                     ) {
-                        var page = $17(
-                                "." + $17.mobile.activePageClass
+                        var page = $18(
+                                "." + $18.mobile.activePageClass
                             ),
                             pageHeight = page.height(
                             ),
@@ -1037,7 +1059,7 @@
                             page,
                             "number" == typeof height
                                 ? height
-                                : $17.mobile.getScreenHeight(
+                                : $18.mobile.getScreenHeight(
                                 ),
                         )),
                         page.css(
@@ -1049,8 +1071,8 @@
                     ) {
                         var loader =
               this.loading._widget ||
-              $17(
-                  $17.mobile.loader.prototype.defaultHtml
+              $18(
+                  $18.mobile.loader.prototype.defaultHtml
               ).loader(
               ),
                             returnValue = loader.loader.apply(
@@ -1061,30 +1083,30 @@
                     },
                 }
             ),
-            ($17.addDependents = function (
+            ($18.addDependents = function (
                 elem, newDependents
             ) {
-                var $elem = $17(
+                var $elem = $18(
                         elem
                     ),
                     dependents = $elem.jqmData(
                         "dependents"
-                    ) || $17(
+                    ) || $18(
                     );
                 $elem.jqmData(
                     "dependents",
-                    $17(
+                    $18(
                         dependents
                     ).add(
                         newDependents
                     )
                 );
             }),
-            $17.fn.extend(
+            $18.fn.extend(
                 {
                     removeWithDependents: function (
                     ) {
-                        $17.removeWithDependents(
+                        $18.removeWithDependents(
                             this
                         );
                     },
@@ -1093,22 +1115,22 @@
                         var index,
                             widgetElements = {
                             },
-                            keepNative = $17.mobile.page.prototype.keepNativeSelector(
+                            keepNative = $18.mobile.page.prototype.keepNativeSelector(
                             ),
                             that = this;
-                        for (index in ($17.mobile.nojs && $17.mobile.nojs(
+                        for (index in ($18.mobile.nojs && $18.mobile.nojs(
                             this
                         ),
-                        $17.mobile.links && $17.mobile.links(
+                        $18.mobile.links && $18.mobile.links(
                             this
                         ),
-                        $17.mobile.degradeInputsWithin &&
-              $17.mobile.degradeInputsWithin(
+                        $18.mobile.degradeInputsWithin &&
+              $18.mobile.degradeInputsWithin(
                   this
               ),
-                        $17.fn.buttonMarkup &&
+                        $18.fn.buttonMarkup &&
               this.find(
-                  $17.fn.buttonMarkup.initSelector
+                  $18.fn.buttonMarkup.initSelector
               )
                   .not(
                       keepNative
@@ -1117,7 +1139,7 @@
                   )
                   .buttonMarkup(
                   ),
-                        $17.fn.fieldcontain &&
+                        $18.fn.fieldcontain &&
               this.find(
                   ":jqmData(role='fieldcontain')"
               )
@@ -1128,13 +1150,13 @@
                   )
                   .fieldcontain(
                   ),
-                        $17.each(
-                            $17.mobile.widgets,
+                        $18.each(
+                            $18.mobile.widgets,
                             function (
                                 name, constructor
                             ) {
                                 if (constructor.initSelector) {
-                                    var elements = $17.mobile.enhanceable(
+                                    var elements = $18.mobile.enhanceable(
                                         that.find(
                                             constructor.initSelector
                                         ),
@@ -1156,14 +1178,14 @@
                     addDependents: function (
                         newDependents
                     ) {
-                        $17.addDependents(
+                        $18.addDependents(
                             this,
                             newDependents
                         );
                     },
                     getEncodedText: function (
                     ) {
-                        return $17(
+                        return $18(
                             "<a>"
                         ).text(
                             this.text(
@@ -1173,64 +1195,64 @@
                     },
                     jqmEnhanceable: function (
                     ) {
-                        return $17.mobile.enhanceable(
+                        return $18.mobile.enhanceable(
                             this
                         );
                     },
                     jqmHijackable: function (
                     ) {
-                        return $17.mobile.hijackable(
+                        return $18.mobile.hijackable(
                             this
                         );
                     },
                 }
             ),
-            ($17.removeWithDependents = function (
+            ($18.removeWithDependents = function (
                 nativeElement
             ) {
-                var element = $17(
+                var element = $18(
                     nativeElement
                 );
                 (element.jqmData(
                     "dependents"
-                ) || $17(
+                ) || $18(
                 )).remove(
                 ), element.remove(
                 );
             }),
-            ($17.addDependents = function (
+            ($18.addDependents = function (
                 nativeElement, newDependents
             ) {
-                var element = $17(
+                var element = $18(
                         nativeElement
                     ),
                     dependents = element.jqmData(
                         "dependents"
-                    ) || $17(
+                    ) || $18(
                     );
                 element.jqmData(
                     "dependents",
-                    $17(
+                    $18(
                         dependents
                     ).add(
                         newDependents
                     )
                 );
             }),
-            ($17.find.matches = function (
+            ($18.find.matches = function (
                 expr, set
             ) {
-                return $17.find(
+                return $18.find(
                     expr,
                     null,
                     null,
                     set
                 );
             }),
-            ($17.find.matchesSelector = function (
+            ($18.find.matchesSelector = function (
                 node, expr
             ) {
-                return $17.find(
+                return $18.find(
                     expr,
                     null,
                     null,
@@ -1242,17 +1264,17 @@
             this
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var uuid = 0,
                 slice = Array.prototype.slice,
-                _cleanData = $17.cleanData;
-            ($17.cleanData = function (
+                _cleanData = $18.cleanData;
+            ($18.cleanData = function (
                 elems
             ) {
                 for (var elem, i = 0; null != (elem = elems[i]); i++)
                     try {
-                        $17(
+                        $18(
                             elem
                         ).triggerHandler(
                             "remove"
@@ -1262,7 +1284,7 @@
                     elems
                 );
             }),
-            ($17.widget = function (
+            ($18.widget = function (
                 name, base, prototype
             ) {
                 var fullName,
@@ -1279,20 +1301,20 @@
                         "."
                     )[1]),
                     (fullName = namespace + "-" + name),
-                    prototype || ((prototype = base), (base = $17.Widget)),
-                    ($17.expr[":"][fullName.toLowerCase(
+                    prototype || ((prototype = base), (base = $18.Widget)),
+                    ($18.expr[":"][fullName.toLowerCase(
                     )] = function (
                         elem
                     ) {
-                        return !!$17.data(
+                        return !!$18.data(
                             elem,
                             fullName
                         );
                     }),
-                    ($17[namespace] = $17[namespace] || {
+                    ($18[namespace] = $18[namespace] || {
                     }),
-                    (existingConstructor = $17[namespace][name]),
-                    (constructor = $17[namespace][name] =
+                    (existingConstructor = $18[namespace][name]),
+                    (constructor = $18[namespace][name] =
               function (
                   options, element
               ) {
@@ -1306,12 +1328,12 @@
                       element
                   );
               }),
-                    $17.extend(
+                    $18.extend(
                         constructor,
                         existingConstructor,
                         {
                             version: prototype.version,
-                            _proto: $17.extend(
+                            _proto: $18.extend(
                                 {
                                 },
                                 prototype
@@ -1320,17 +1342,17 @@
                         }
                     ),
                     ((basePrototype = new base(
-                    )).options = $17.widget.extend(
+                    )).options = $18.widget.extend(
                         {
                         },
                         basePrototype.options,
                     )),
-                    $17.each(
+                    $18.each(
                         prototype,
                         function (
                             prop, value
                         ) {
-                            if (!$17.isFunction(
+                            if (!$18.isFunction(
                                 value
                             )) {
                                 proxiedPrototype[prop] = value;
@@ -1374,7 +1396,7 @@
                             );
                         }
                     ),
-                    (constructor.prototype = $17.widget.extend(
+                    (constructor.prototype = $18.widget.extend(
                         basePrototype,
                         {
                             widgetEventPrefix: existingConstructor
@@ -1390,13 +1412,13 @@
                         },
                     )),
                     existingConstructor
-                        ? ($17.each(
+                        ? ($18.each(
                             existingConstructor._childConstructors,
                             function (
                                 i, child
                             ) {
                                 var childPrototype = child.prototype;
-                                $17.widget(
+                                $18.widget(
                                     childPrototype.namespace +
                         "." +
                         childPrototype.widgetName,
@@ -1409,14 +1431,14 @@
                         : base._childConstructors.push(
                             constructor
                         ),
-                    $17.widget.bridge(
+                    $18.widget.bridge(
                         name,
                         constructor
                     ),
                     constructor
                 );
             }),
-            ($17.widget.extend = function (
+            ($18.widget.extend = function (
                 target
             ) {
                 for (
@@ -1437,19 +1459,19 @@
                             key
                         ) &&
                   value !== undefined &&
-                  ($17.isPlainObject(
+                  ($18.isPlainObject(
                       value
                   )
-                      ? (target[key] = $17.isPlainObject(
+                      ? (target[key] = $18.isPlainObject(
                           target[key]
                       )
-                          ? $17.widget.extend(
+                          ? $18.widget.extend(
                               {
                               },
                               target[key],
                               value
                           )
-                          : $17.widget.extend(
+                          : $18.widget.extend(
                               {
                               },
                               value
@@ -1457,11 +1479,11 @@
                       : (target[key] = value));
                 return target;
             }),
-            ($17.widget.bridge = function (
+            ($18.widget.bridge = function (
                 name, object
             ) {
                 var fullName = object.prototype.widgetFullName || name;
-                $17.fn[name] = function (
+                $18.fn[name] = function (
                     options
                 ) {
                     var isMethodCall = "string" == typeof options,
@@ -1473,7 +1495,7 @@
                     return (
                         (options =
                 !isMethodCall && args.length
-                    ? $17.widget.extend.apply(
+                    ? $18.widget.extend.apply(
                         null,
                         [options,].concat(
                             args
@@ -1485,14 +1507,14 @@
                                 function (
                                 ) {
                                     var methodValue,
-                                        instance = $17.data(
+                                        instance = $18.data(
                                             this,
                                             fullName
                                         );
                                     if ("instance" === options)
                                         return (returnValue = instance), !1;
                                     if (!instance)
-                                        return $17.error(
+                                        return $18.error(
                                             "cannot call methods on " +
                           name +
                           " prior to initialization; attempted to call method '" +
@@ -1500,14 +1522,14 @@
                           "'",
                                         );
                                     if (
-                                        !$17.isFunction(
+                                        !$18.isFunction(
                                             instance[options]
                                         ) ||
                       "_" === options.charAt(
                           0
                       )
                                     )
-                                        return $17.error(
+                                        return $18.error(
                                             "no such method '" +
                           options +
                           "' for " +
@@ -1536,7 +1558,7 @@
                             : this.each(
                                 function (
                                 ) {
-                                    var instance = $17.data(
+                                    var instance = $18.data(
                                         this,
                                         fullName
                                     );
@@ -1546,7 +1568,7 @@
                                             }
                                         )._init(
                                         )
-                                        : $17.data(
+                                        : $18.data(
                                             this,
                                             fullName,
                                             new object(
@@ -1560,10 +1582,10 @@
                     );
                 };
             }),
-            ($17.Widget = function (
+            ($18.Widget = function (
             ) {}),
-            ($17.Widget._childConstructors = []),
-            ($17.Widget.prototype = {
+            ($18.Widget._childConstructors = []),
+            ($18.Widget.prototype = {
                 widgetName: "widget",
                 widgetEventPrefix: "",
                 defaultElement: "<div>",
@@ -1574,15 +1596,15 @@
                 _createWidget: function (
                     options, element
                 ) {
-                    (element = $17(
+                    (element = $18(
                         element || this.defaultElement || this
                     )[0]),
-                    (this.element = $17(
+                    (this.element = $18(
                         element
                     )),
                     (this.uuid = uuid++),
                     (this.eventNamespace = "." + this.widgetName + this.uuid),
-                    (this.options = $17.widget.extend(
+                    (this.options = $18.widget.extend(
                         {
                         },
                         this.options,
@@ -1590,14 +1612,14 @@
                         ),
                         options,
                     )),
-                    (this.bindings = $17(
+                    (this.bindings = $18(
                     )),
-                    (this.hoverable = $17(
+                    (this.hoverable = $18(
                     )),
-                    (this.focusable = $17(
+                    (this.focusable = $18(
                     )),
                     element !== this &&
-                ($17.data(
+                ($18.data(
                     element,
                     this.widgetFullName,
                     this
@@ -1614,12 +1636,12 @@
                         },
                     }
                 ),
-                (this.document = $17(
+                (this.document = $18(
                     element.style
                         ? element.ownerDocument
                         : element.document || element,
                 )),
-                (this.window = $17(
+                (this.window = $18(
                     this.document[0].defaultView || this.document[0].parentWindow,
                 ))),
                     this._create(
@@ -1633,10 +1655,10 @@
                     this._init(
                     );
                 },
-                _getCreateOptions: $17.noop,
-                _getCreateEventData: $17.noop,
-                _create: $17.noop,
-                _init: $17.noop,
+                _getCreateOptions: $18.noop,
+                _getCreateEventData: $18.noop,
+                _create: $18.noop,
+                _init: $18.noop,
                 destroy: function (
                 ) {
                     this._destroy(
@@ -1649,7 +1671,7 @@
                             this.widgetFullName
                         )
                         .removeData(
-                            $17.camelCase(
+                            $18.camelCase(
                                 this.widgetFullName
                             )
                         ),
@@ -1674,7 +1696,7 @@
                         "ui-state-focus"
                     );
                 },
-                _destroy: $17.noop,
+                _destroy: $18.noop,
                 widget: function (
                 ) {
                     return this.element;
@@ -1687,7 +1709,7 @@
                         i,
                         options = key;
                     if (0 === arguments.length)
-                        return $17.widget.extend(
+                        return $18.widget.extend(
                             {
                             },
                             this.options
@@ -1705,7 +1727,7 @@
                             for (
                                 i = 0,
                                 curOption = options[key] =
-                      $17.widget.extend(
+                      $18.widget.extend(
                           {
                           },
                           this.options[key]
@@ -1787,7 +1809,7 @@
               (element = suppressDisabledCheck),
               (suppressDisabledCheck = !1)),
                     handlers
-                        ? ((element = delegateElement = $17(
+                        ? ((element = delegateElement = $18(
                             element
                         )),
                         (this.bindings = this.bindings.add(
@@ -1797,7 +1819,7 @@
                         (element = this.element),
                         (delegateElement = this.widget(
                         ))),
-                    $17.each(
+                    $18.each(
                         handlers,
                         function (
                             event, handler
@@ -1808,7 +1830,7 @@
                                     !(
                                         !suppressDisabledCheck &&
                       (!0 === instance.options.disabled ||
-                        $17(
+                        $18(
                             this
                         ).hasClass(
                             "ui-state-disabled"
@@ -1824,7 +1846,7 @@
                             }
                             "string" != typeof handler &&
                   (handlerProxy.guid = handler.guid =
-                    handler.guid || handlerProxy.guid || $17.guid++);
+                    handler.guid || handlerProxy.guid || $18.guid++);
                             var match = event.match(
                                     /^(\w+)\s*(.*)$/
                                 ),
@@ -1888,7 +1910,7 @@
                             mouseenter: function (
                                 event
                             ) {
-                                $17(
+                                $18(
                                     event.currentTarget
                                 ).addClass(
                                     "ui-state-hover"
@@ -1897,7 +1919,7 @@
                             mouseleave: function (
                                 event
                             ) {
-                                $17(
+                                $18(
                                     event.currentTarget
                                 ).removeClass(
                                     "ui-state-hover"
@@ -1918,7 +1940,7 @@
                             focusin: function (
                                 event
                             ) {
-                                $17(
+                                $18(
                                     event.currentTarget
                                 ).addClass(
                                     "ui-state-focus"
@@ -1927,7 +1949,7 @@
                             focusout: function (
                                 event
                             ) {
-                                $17(
+                                $18(
                                     event.currentTarget
                                 ).removeClass(
                                     "ui-state-focus"
@@ -1945,7 +1967,7 @@
                     if (
                         ((data = data || {
                         }),
-                        ((event = $17.Event(
+                        ((event = $18.Event(
                             event
                         )).type = (
                             type === this.widgetEventPrefix
@@ -1963,7 +1985,7 @@
                             data
                         ),
                         !(
-                            ($17.isFunction(
+                            ($18.isFunction(
                                 callback
                             ) &&
                   !1 ===
@@ -1979,7 +2001,7 @@
                     );
                 },
             }),
-            $17.each(
+            $18.each(
                 {
                     show: "fadeIn",
                     hide: "fadeOut",
@@ -1987,7 +2009,7 @@
                 function (
                     method, defaultEffect
                 ) {
-                    $17.Widget.prototype["_" + method] = function (
+                    $18.Widget.prototype["_" + method] = function (
                         element,
                         options,
                         callback,
@@ -2007,14 +2029,14 @@
                 (options = {
                     duration: options,
                 }),
-                        (hasOptions = !$17.isEmptyObject(
+                        (hasOptions = !$18.isEmptyObject(
                             options
                         )),
                         (options.complete = callback),
                         options.delay && element.delay(
                             options.delay
                         ),
-                        hasOptions && $17.effects && $17.effects.effect[effectName]
+                        hasOptions && $18.effects && $18.effects.effect[effectName]
                             ? element[method](
                                 options
                             )
@@ -2028,7 +2050,7 @@
                                     function (
                                         next
                                     ) {
-                                        $17(
+                                        $18(
                                             this
                                         )[method](
                                         ),
@@ -2045,6 +2067,7 @@
         })(
             jQuery
         ),
+        ($ = jQuery),
         (rcapitals = /[A-Z]/g),
         (replaceFunction = function (
             c
@@ -2052,7 +2075,7 @@
             return "-" + c.toLowerCase(
             );
         }),
-        ($ = jQuery).extend(
+        $.extend(
             $.Widget.prototype,
             {
                 _getCreateOptions: function (
@@ -2081,13 +2104,13 @@
         ),
         ($.mobile.widget = $.Widget),
         (function (
-            $17
+            $18
         ) {
             var loaderClass = "ui-loader",
-                $html = $17(
+                $html = $18(
                     "html"
                 );
-            $17.widget(
+            $18.widget(
                 "mobile.loader",
                 {
                     options: {
@@ -2102,14 +2125,14 @@
           "'><span class='ui-icon-loading'></span><h1></h1></div>",
                     fakeFixLoader: function (
                     ) {
-                        var activeBtn = $17(
-                            "." + $17.mobile.activeBtnClass
+                        var activeBtn = $18(
+                            "." + $18.mobile.activeBtnClass
                         ).first(
                         );
                         this.element.css(
                             {
                                 top:
-              ($17.support.scrollTop &&
+              ($18.support.scrollTop &&
                 this.window.scrollTop(
                 ) + this.window.height(
                 ) / 2) ||
@@ -2125,7 +2148,7 @@
                             ),
                             scrollTop = this.window.scrollTop(
                             ),
-                            screenHeight = $17.mobile.getScreenHeight(
+                            screenHeight = $18.mobile.getScreenHeight(
                             );
                         (offset.top < scrollTop || offset.top - scrollTop > screenHeight) &&
             (this.element.addClass(
@@ -2140,7 +2163,7 @@
                 )
                 .bind(
                     "scroll",
-                    $17.proxy(
+                    $18.proxy(
                         this.fakeFixLoader,
                         this
                     )
@@ -2149,7 +2172,7 @@
                     resetHtml: function (
                     ) {
                         this.element.html(
-                            $17(
+                            $18(
                                 this.defaultHtml
                             ).html(
                             )
@@ -2161,10 +2184,10 @@
                         var message, loadSettings;
                         this.resetHtml(
                         ),
-                        "object" === $17.type(
+                        "object" === $18.type(
                             theme
                         )
-                            ? (theme = (loadSettings = $17.extend(
+                            ? (theme = (loadSettings = $18.extend(
                                 {
                                 },
                                 this.options,
@@ -2202,13 +2225,13 @@
                                 message
                             ),
                         this.element.appendTo(
-                            $17.mobile.pageContainer
+                            $18.mobile.pageContainer
                         ),
                         this.checkLoaderPosition(
                         ),
                         this.window.bind(
                             "scroll",
-                            $17.proxy(
+                            $18.proxy(
                                 this.checkLoaderPosition,
                                 this
                             ),
@@ -2222,11 +2245,11 @@
                         this.options.text && this.element.removeClass(
                             "ui-loader-fakefix"
                         ),
-                        $17.mobile.window.unbind(
+                        $18.mobile.window.unbind(
                             "scroll",
                             this.fakeFixLoader
                         ),
-                        $17.mobile.window.unbind(
+                        $18.mobile.window.unbind(
                             "scroll",
                             this.checkLoaderPosition
                         );
@@ -2238,12 +2261,12 @@
             this
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
             var fake_onhashchange,
                 str_hashchange = "hashchange",
                 doc = document,
-                special = $17.event.special,
+                special = $18.event.special,
                 doc_mode = doc.documentMode,
                 supports_onhashchange =
           "on" + str_hashchange in window &&
@@ -2258,7 +2281,7 @@
                     )
                 );
             }
-            ($17.fn[str_hashchange] = function (
+            ($18.fn[str_hashchange] = function (
                 fn
             ) {
                 return fn
@@ -2270,21 +2293,21 @@
                         str_hashchange
                     );
             }),
-            ($17.fn[str_hashchange].delay = 50),
-            (special[str_hashchange] = $17.extend(
+            ($18.fn[str_hashchange].delay = 50),
+            (special[str_hashchange] = $18.extend(
                 special[str_hashchange],
                 {
                     setup: function (
                     ) {
                         if (supports_onhashchange) return !1;
-                        $17(
+                        $18(
                             fake_onhashchange.start
                         );
                     },
                     teardown: function (
                     ) {
                         if (supports_onhashchange) return !1;
-                        $17(
+                        $18(
                             fake_onhashchange.stop
                         );
                     },
@@ -2318,7 +2341,7 @@
                             (last_hash = hash),
                             history_hash
                         ),
-                        $17(
+                        $18(
                             window
                         ).trigger(
                             str_hashchange
@@ -2331,7 +2354,7 @@
                   ) + history_hash),
                     (timeout_id = setTimeout(
                         poll,
-                        $17.fn[str_hashchange].delay
+                        $18.fn[str_hashchange].delay
                     ));
                 }
                 return (
@@ -2353,10 +2376,10 @@
               ) {
                   iframe ||
                   ((iframe_src =
-                    (iframe_src = $17.fn[str_hashchange].src) &&
+                    (iframe_src = $18.fn[str_hashchange].src) &&
                     iframe_src + get_fragment(
                     )),
-                  (iframe = $17(
+                  (iframe = $18(
                       '<iframe tabindex="-1" title="empty"/>'
                   )
                       .hide(
@@ -2398,7 +2421,7 @@
                   hash, history_hash
               ) {
                   var iframe_doc = iframe.document,
-                      domain = $17.fn[str_hashchange].domain;
+                      domain = $18.fn[str_hashchange].domain;
                   hash !== history_hash &&
                   ((iframe_doc.title = doc.title),
                   iframe_doc.open(
@@ -2464,10 +2487,11 @@
                 q
             ).matches;
         }),
+        ($1 = jQuery),
         (support = {
             touch: "ontouchend" in document,
         }),
-        (($1 = jQuery).mobile.support = $1.mobile.support || {
+        ($1.mobile.support = $1.mobile.support || {
         }),
         $1.extend(
             $1.support,
@@ -2478,10 +2502,10 @@
             support
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.extend(
-                $17.support,
+            $18.extend(
+                $18.support,
                 {
                     orientation: "orientation" in window && "onorientationchange" in window,
                 }
@@ -2490,7 +2514,7 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             function propExists(
                 prop
@@ -2526,7 +2550,7 @@
                 getComputedStyle,
                 ua1,
                 nokiaLTE7_3,
-                fakeBody = $17(
+                fakeBody = $18(
                     "<body>"
                 ).prependTo(
                     "html"
@@ -2542,14 +2566,14 @@
                 bb = window.blackberry && !propExists(
                     "-webkit-transform"
                 );
-            $17.extend(
-                $17.mobile,
+            $18.extend(
+                $18.mobile,
                 {
                     browser: {
                     },
                 }
             ),
-            ($17.mobile.browser.oldIE = (function (
+            ($18.mobile.browser.oldIE = (function (
             ) {
                 var v = 3,
                     div = document.createElement(
@@ -2561,8 +2585,8 @@
                 return v > 4 ? v : !v;
             })(
             )),
-            $17.extend(
-                $17.support,
+            $18.extend(
+                $18.support,
                 {
                     pushState:
             "pushState" in history &&
@@ -2576,7 +2600,7 @@
             -1 === window.navigator.userAgent.search(
                 /CriOS/
             ),
-                    mediaquery: $17.mobile.media(
+                    mediaquery: $18.mobile.media(
                         "only all"
                     ),
                     cssPseudoElement: !!propExists(
@@ -2591,7 +2615,7 @@
                             transforms,
                             t,
                             mqProp = "transform-3d",
-                            ret = $17.mobile.media(
+                            ret = $18.mobile.media(
                                 "(-" +
                   vendors.join(
                       "-" + mqProp + "),(-"
@@ -2689,13 +2713,13 @@
               location.host +
               location.pathname +
               "ui-dir/"),
-            (base = $17(
+            (base = $18(
                 "head base"
             )).length
                 ? base.attr(
                     "href"
                 )
-                : (base = $17(
+                : (base = $18(
                     "<base>",
                     {
                         href: fauxBase,
@@ -2703,14 +2727,14 @@
                 ).appendTo(
                     "head"
                 )),
-            $17(
+            $18(
                 "<a href='testurl' />"
             ).prependTo(
                 fakeBody
             )[0].href,
             (base[0].href = location.pathname),
             0 ===
-              $17(
+              $18(
                   "<a href='testurl' />"
               )
                   .prependTo(
@@ -2760,7 +2784,7 @@
                             support = function (
                                 data
                             ) {
-                                (data && svg) || $17(
+                                (data && svg) || $18(
                                     "html"
                                 ).addClass(
                                     "ui-nosvg"
@@ -2802,26 +2826,26 @@
           ua1.match(
               /(BrowserNG|NokiaBrowser)\/7\.[0-3]/
           )),
-            ($17.mobile.gradeA = function (
+            ($18.mobile.gradeA = function (
             ) {
                 return (
-                    (($17.support.mediaquery && $17.support.cssPseudoElement) ||
-              ($17.mobile.browser.oldIE && $17.mobile.browser.oldIE >= 8)) &&
-            ($17.support.boundingRect ||
-              null !== $17.fn.jquery.match(
+                    (($18.support.mediaquery && $18.support.cssPseudoElement) ||
+              ($18.mobile.browser.oldIE && $18.mobile.browser.oldIE >= 8)) &&
+            ($18.support.boundingRect ||
+              null !== $18.fn.jquery.match(
                   /1\.[0-7+]\.[0-9+]?/
               ))
                 );
             }),
-            ($17.mobile.ajaxBlacklist =
+            ($18.mobile.ajaxBlacklist =
           (window.blackberry && !window.WebKitPoint) ||
           operamini ||
           nokiaLTE7_3),
             nokiaLTE7_3 &&
-          $17(
+          $18(
               function (
               ) {
-                  $17(
+                  $18(
                       "head link[rel='stylesheet']"
                   )
                       .attr(
@@ -2834,7 +2858,7 @@
                       );
               }
           ),
-            $17.support.boxShadow || $17(
+            $18.support.boxShadow || $18(
                 "html"
             ).addClass(
                 "ui-noboxshadow"
@@ -3101,7 +3125,7 @@
               if (!path.isRelativeUrl(
                   relUrl
               )) return relUrl;
-              absUrl === (undefined = void 0) && (absUrl = this.documentBase);
+              absUrl === undefined && (absUrl = this.documentBase);
               var relObj = path.parseUrl(
                       relUrl
                   ),
@@ -3572,14 +3596,13 @@
                     var closest,
                         a = this.activeIndex;
                     return (
-                        (closest = this.find(
+                        undefined === (closest = this.find(
                             url,
                             this.stack.slice(
                                 0,
                                 a
                             )
-                        )) ===
-            (undefined = void 0) &&
+                        )) &&
             (closest =
               undefined === (closest = this.find(
                   url,
@@ -3876,25 +3899,25 @@
             }
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            ($17.mobile.navigate = function (
+            ($18.mobile.navigate = function (
                 url, data, noEvents
             ) {
-                $17.mobile.navigate.navigator.go(
+                $18.mobile.navigate.navigator.go(
                     url,
                     data,
                     noEvents
                 );
             }),
-            ($17.mobile.navigate.history = new $17.mobile.History(
+            ($18.mobile.navigate.history = new $18.mobile.History(
             )),
-            ($17.mobile.navigate.navigator = new $17.mobile.Navigator(
-                $17.mobile.navigate.history,
+            ($18.mobile.navigate.navigator = new $18.mobile.Navigator(
+                $18.mobile.navigate.history,
             ));
-            var loc = $17.mobile.path.parseLocation(
+            var loc = $18.mobile.path.parseLocation(
             );
-            $17.mobile.navigate.history.add(
+            $18.mobile.navigate.history.add(
                 loc.href,
                 {
                     hash: loc.hash,
@@ -3904,7 +3927,7 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var props = {
                     animation: {
@@ -3916,27 +3939,27 @@
                     "a"
                 ),
                 vendorPrefixes = ["", "webkit-", "moz-", "o-",];
-            $17.each(
+            $18.each(
                 ["animation", "transition",],
                 function (
                     i, test
                 ) {
                     var testName = 0 === i ? test + "-name" : test;
-                    $17.each(
+                    $18.each(
                         vendorPrefixes,
                         function (
                             j, prefix
                         ) {
-                            if (undefined !== testElement.style[$17.camelCase(
+                            if (undefined !== testElement.style[$18.camelCase(
                                 prefix + testName
                             )])
                                 return (props[test].prefix = prefix), !1;
                         }
                     ),
-                    (props[test].duration = $17.camelCase(
+                    (props[test].duration = $18.camelCase(
                         props[test].prefix + test + "-duration",
                     )),
-                    (props[test].event = $17.camelCase(
+                    (props[test].event = $18.camelCase(
                         props[test].prefix + test + "-end",
                     )),
                     "" === props[test].prefix &&
@@ -3944,13 +3967,13 @@
             ));
                 }
             ),
-            ($17.support.cssTransitions = undefined !== props.transition.prefix),
-            ($17.support.cssAnimations = undefined !== props.animation.prefix),
-            $17(
+            ($18.support.cssTransitions = undefined !== props.transition.prefix),
+            ($18.support.cssAnimations = undefined !== props.animation.prefix),
+            $18(
                 testElement
             ).remove(
             ),
-            ($17.fn.animationComplete = function (
+            ($18.fn.animationComplete = function (
                 callback, type, fallbackTime
             ) {
                 var timer,
@@ -3958,17 +3981,17 @@
                     that = this,
                     animationType =
               type && "animation" !== type ? "transition" : "animation";
-                return ($17.support.cssTransitions &&
+                return ($18.support.cssTransitions &&
             "transition" === animationType) ||
-            ($17.support.cssAnimations && "animation" === animationType)
+            ($18.support.cssAnimations && "animation" === animationType)
                     ? (fallbackTime === undefined &&
-                ($17(
+                ($18(
                     this
                 ).context !== document &&
                   (duration =
                     3000 *
                     parseFloat(
-                        $17(
+                        $18(
                             this
                         ).css(
                             props[animationType].duration
@@ -3977,11 +4000,11 @@
                 (0 === duration || duration === undefined || isNaN(
                     duration
                 )) &&
-                  (duration = $17.fn.animationComplete.defaultDuration)),
+                  (duration = $18.fn.animationComplete.defaultDuration)),
                     (timer = setTimeout(
                         function (
                         ) {
-                            $17(
+                            $18(
                                 that
                             ).off(
                                 props[animationType].event
@@ -3991,7 +4014,7 @@
                         },
                         duration
                     )),
-                    $17(
+                    $18(
                         this
                     ).one(
                         props[animationType].event,
@@ -4006,21 +4029,21 @@
                         }
                     ))
                     : (setTimeout(
-                        $17.proxy(
+                        $18.proxy(
                             callback,
                             this
                         ),
                         0
-                    ), $17(
+                    ), $18(
                         this
                     ));
             }),
-            ($17.fn.animationComplete.defaultDuration = 1000);
+            ($18.fn.animationComplete.defaultDuration = 1000);
         })(
             jQuery
         ),
         (function (
-            $17, window, document, undefined
+            $18, window, document, undefined
         ) {
             var threshold,
                 i,
@@ -4033,8 +4056,8 @@
                 touchEventProps = "clientX clientY pageX pageY screenX screenY".split(
                     " ",
                 ),
-                mouseHookProps = $17.event.mouseHooks ? $17.event.mouseHooks.props : [],
-                mouseEventProps = $17.event.props.concat(
+                mouseHookProps = $18.event.mouseHooks ? $18.event.mouseHooks.props : [],
+                mouseEventProps = $18.event.props.concat(
                     mouseHookProps
                 ),
                 activeDocHandlers = {
@@ -4047,7 +4070,7 @@
                 blockMouseTriggers = !1,
                 blockTouchTriggers = !1,
                 eventCaptureSupported = "addEventListener" in document,
-                $document = $17(
+                $document = $18(
                     document
                 ),
                 nextTouchID = 1,
@@ -4073,11 +4096,11 @@
                     len,
                     t = event.type;
                 if (
-                    (((event = $17.Event(
+                    (((event = $18.Event(
                         event
                     )).type = eventType),
                     (oe = event.originalEvent),
-                    (props = $17.event.props),
+                    (props = $18.event.props),
                     t.search(
                         /^(mouse|click)/
                     ) > -1 && (props = mouseEventProps),
@@ -4108,7 +4131,7 @@
             ) {
                 for (var b, k, flags = {
                 }; element; ) {
-                    for (k in (b = $17.data(
+                    for (k in (b = $18.data(
                         element,
                         dataPropertyName
                     )))
@@ -4122,7 +4145,7 @@
             ) {
                 for (var b; element; ) {
                     if (
-                        (b = $17.data(
+                        (b = $18.data(
                             element,
                             dataPropertyName
                         )) &&
@@ -4164,7 +4187,7 @@
                         (resetTimerID = 0), enableMouseBindings(
                         );
                     },
-                    $17.vmouse.resetTimerDuration
+                    $18.vmouse.resetTimerDuration
                 ));
             }
             function clearResetTimer(
@@ -4188,7 +4211,7 @@
                 event,
                 eventType
             )),
-            $17(
+            $18(
                 event.target
             ).trigger(
                 ve
@@ -4200,7 +4223,7 @@
                 event
             ) {
                 var ve,
-                    touchID = $17.data(
+                    touchID = $18.data(
                         event.target,
                         touchTargetPropertyName
                     );
@@ -4237,7 +4260,7 @@
           ))
               .hasVirtualBinding &&
           ((lastTouchID = nextTouchID++),
-          $17.data(
+          $18.data(
               target,
               touchTargetPropertyName,
               lastTouchID
@@ -4286,7 +4309,7 @@
                             event
                         ).touches[0],
                         didCancel = didScroll,
-                        moveThreshold = $17.vmouse.moveDistanceThreshold,
+                        moveThreshold = $18.vmouse.moveDistanceThreshold,
                         flags = getVirtualBindingFlags(
                             event.target
                         );
@@ -4362,7 +4385,7 @@
                 ele
             ) {
                 var k,
-                    bindings = $17.data(
+                    bindings = $18.data(
                         ele,
                         dataPropertyName
                     );
@@ -4384,13 +4407,13 @@
                     ) {
                         hasVirtualBindings(
                             this
-                        ) || $17.data(
+                        ) || $18.data(
                             this,
                             dataPropertyName,
                             {
                             }
                         ),
-                        ($17.data(
+                        ($18.data(
                             this,
                             dataPropertyName
                         )[eventType] = !0),
@@ -4401,7 +4424,7 @@
                     realType,
                     mouseEventCallback
                 ),
-                        $17(
+                        $18(
                             this
                         ).bind(
                             realType,
@@ -4457,10 +4480,10 @@
                           "scroll",
                           handleScroll
                       ));
-                        var $this = $17(
+                        var $this = $18(
                                 this
                             ),
-                            bindings = $17.data(
+                            bindings = $18.data(
                                 this,
                                 dataPropertyName
                             );
@@ -4479,7 +4502,7 @@
             }
             for (
                 i = 0,
-                $17.vmouse = {
+                $18.vmouse = {
                     moveDistanceThreshold: 10,
                     clickDistanceThreshold: 10,
                     resetTimerDuration: 1500,
@@ -4487,7 +4510,7 @@
                 i < virtualEventNames.length;
                 i++
             )
-                $17.event.special[virtualEventNames[i]] = getSpecialEventObject(
+                $18.event.special[virtualEventNames[i]] = getSpecialEventObject(
                     virtualEventNames[i],
                 );
             eventCaptureSupported &&
@@ -4507,7 +4530,7 @@
                     for (
                         x = e.clientX,
                         y = e.clientY,
-                        threshold = $17.vmouse.clickDistanceThreshold,
+                        threshold = $18.vmouse.clickDistanceThreshold,
                         ele = target;
                         ele;
 
@@ -4522,7 +4545,7 @@
                       Math.abs(
                           o.y - y
                       ) < threshold) ||
-                      $17.data(
+                      $18.data(
                           ele,
                           touchTargetPropertyName
                       ) === o.touchID)
@@ -4541,12 +4564,12 @@
             document
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
-            var $document = $17(
+            var $document = $18(
                     document
                 ),
-                supportTouch = $17.mobile.support.touch,
+                supportTouch = $18.mobile.support.touch,
                 scrollEvent = "touchmove scroll",
                 touchStartEvent = supportTouch ? "touchstart" : "mousedown",
                 touchStopEvent = supportTouch ? "touchend" : "mouseup",
@@ -4557,25 +4580,25 @@
                 var originalType = event.type;
                 (event.type = eventType),
                 bubble
-                    ? $17.event.trigger(
+                    ? $18.event.trigger(
                         event,
                         void 0,
                         obj
                     )
-                    : $17.event.dispatch.call(
+                    : $18.event.dispatch.call(
                         obj,
                         event
                     ),
                 (event.type = originalType);
             }
-            $17.each(
+            $18.each(
                 "touchstart touchmove touchend tap taphold swipe swipeleft swiperight scrollstart scrollstop".split(
                     " ",
                 ),
                 function (
                     i, name
                 ) {
-                    ($17.fn[name] = function (
+                    ($18.fn[name] = function (
                         fn
                     ) {
                         return fn
@@ -4587,17 +4610,17 @@
                                 name
                             );
                     }),
-                    $17.attrFn && ($17.attrFn[name] = !0);
+                    $18.attrFn && ($18.attrFn[name] = !0);
                 },
             ),
-            ($17.event.special.scrollstart = {
+            ($18.event.special.scrollstart = {
                 enabled: !0,
                 setup: function (
                 ) {
                     var scrolling,
                         timer,
                         thisObject = this,
-                        $this = $17(
+                        $this = $18(
                             thisObject
                         );
                     function trigger(
@@ -4614,7 +4637,7 @@
                         function (
                             event
                         ) {
-                            $17.event.special.scrollstart.enabled &&
+                            $18.event.special.scrollstart.enabled &&
                 (scrolling || trigger(
                     event,
                     !0
@@ -4637,20 +4660,20 @@
                 },
                 teardown: function (
                 ) {
-                    $17(
+                    $18(
                         this
                     ).unbind(
                         scrollEvent
                     );
                 },
             }),
-            ($17.event.special.tap = {
+            ($18.event.special.tap = {
                 tapholdThreshold: 750,
                 emitTapOnTaphold: !0,
                 setup: function (
                 ) {
                     var thisObject = this,
-                        $this = $17(
+                        $this = $18(
                             thisObject
                         ),
                         isTaphold = !1;
@@ -4717,11 +4740,11 @@
                             (timer = setTimeout(
                                 function (
                                 ) {
-                                    $17.event.special.tap.emitTapOnTaphold || (isTaphold = !0),
+                                    $18.event.special.tap.emitTapOnTaphold || (isTaphold = !0),
                                     triggerCustomEvent(
                                         thisObject,
                                         "taphold",
-                                        $17.Event(
+                                        $18.Event(
                                             "taphold",
                                             {
                                                 target: origTarget,
@@ -4729,14 +4752,14 @@
                                         ),
                                     );
                                 },
-                                $17.event.special.tap.tapholdThreshold
+                                $18.event.special.tap.tapholdThreshold
                             ));
                         }
                     );
                 },
                 teardown: function (
                 ) {
-                    $17(
+                    $18(
                         this
                     ).unbind(
                         "vmousedown"
@@ -4750,7 +4773,7 @@
                     );
                 },
             }),
-            ($17.event.special.swipe = {
+            ($18.event.special.swipe = {
                 scrollSupressionThreshold: 30,
                 durationThreshold: 1000,
                 horizontalDistanceThreshold: 30,
@@ -4788,7 +4811,7 @@
                     var data = event.originalEvent.touches
                             ? event.originalEvent.touches[0]
                             : event,
-                        location = $17.event.special.swipe.getLocation(
+                        location = $18.event.special.swipe.getLocation(
                             data
                         );
                     return {
@@ -4796,7 +4819,7 @@
                         ).getTime(
                         ),
                         coords: [location.x, location.y,],
-                        origin: $17(
+                        origin: $18(
                             event.target
                         ),
                     };
@@ -4807,7 +4830,7 @@
                     var data = event.originalEvent.touches
                             ? event.originalEvent.touches[0]
                             : event,
-                        location = $17.event.special.swipe.getLocation(
+                        location = $18.event.special.swipe.getLocation(
                             data
                         );
                     return {
@@ -4822,15 +4845,15 @@
                 ) {
                     if (
                         stop.time - start.time <
-                $17.event.special.swipe.durationThreshold &&
+                $18.event.special.swipe.durationThreshold &&
               Math.abs(
                   start.coords[0] - stop.coords[0]
               ) >
-                $17.event.special.swipe.horizontalDistanceThreshold &&
+                $18.event.special.swipe.horizontalDistanceThreshold &&
               Math.abs(
                   start.coords[1] - stop.coords[1]
               ) <
-                $17.event.special.swipe.verticalDistanceThreshold
+                $18.event.special.swipe.verticalDistanceThreshold
                     ) {
                         var direction =
                 start.coords[0] > stop.coords[0] ? "swipeleft" : "swiperight";
@@ -4838,7 +4861,7 @@
                             triggerCustomEvent(
                                 thisObject,
                                 "swipe",
-                                $17.Event(
+                                $18.Event(
                                     "swipe",
                                     {
                                         target: origTarget,
@@ -4851,7 +4874,7 @@
                             triggerCustomEvent(
                                 thisObject,
                                 direction,
-                                $17.Event(
+                                $18.Event(
                                     direction,
                                     {
                                         target: origTarget,
@@ -4871,19 +4894,19 @@
                 ) {
                     var events,
                         thisObject = this,
-                        $this = $17(
+                        $this = $18(
                             thisObject
                         ),
                         context = {
                         };
-                    (events = $17.data(
+                    (events = $18.data(
                         this,
                         "mobile-events"
                     )) ||
               ((events = {
                   length: 0,
               }),
-              $17.data(
+              $18.data(
                   this,
                   "mobile-events",
                   events
@@ -4893,10 +4916,10 @@
                     (context.start = function (
                         event
                     ) {
-                        if (!$17.event.special.swipe.eventInProgress) {
-                            $17.event.special.swipe.eventInProgress = !0;
+                        if (!$18.event.special.swipe.eventInProgress) {
+                            $18.event.special.swipe.eventInProgress = !0;
                             var stop,
-                                start = $17.event.special.swipe.start(
+                                start = $18.event.special.swipe.start(
                                     event
                                 ),
                                 origTarget = event.target,
@@ -4905,28 +4928,28 @@
                                 event
                             ) {
                                 start &&
-                      ((stop = $17.event.special.swipe.stop(
+                      ((stop = $18.event.special.swipe.stop(
                           event
                       )),
                       emitted ||
-                        ((emitted = $17.event.special.swipe.handleSwipe(
+                        ((emitted = $18.event.special.swipe.handleSwipe(
                             start,
                             stop,
                             thisObject,
                             origTarget,
                         )) &&
-                          ($17.event.special.swipe.eventInProgress = !1)),
+                          ($18.event.special.swipe.eventInProgress = !1)),
                       Math.abs(
                           start.coords[0] - stop.coords[0]
                       ) >
-                        $17.event.special.swipe.scrollSupressionThreshold &&
+                        $18.event.special.swipe.scrollSupressionThreshold &&
                         event.preventDefault(
                         ));
                             }),
                             (context.stop = function (
                             ) {
                                 (emitted = !0),
-                                ($17.event.special.swipe.eventInProgress = !1),
+                                ($18.event.special.swipe.eventInProgress = !1),
                                 $document.off(
                                     touchMoveEvent,
                                     context.move
@@ -4952,19 +4975,19 @@
                 teardown: function (
                 ) {
                     var events, context;
-                    (events = $17.data(
+                    (events = $18.data(
                         this,
                         "mobile-events"
                     )) &&
               ((context = events.swipe),
               delete events.swipe,
               events.length--,
-              0 === events.length && $17.removeData(
+              0 === events.length && $18.removeData(
                   this,
                   "mobile-events"
               )),
                     context &&
-                (context.start && $17(
+                (context.start && $18(
                     this
                 ).off(
                     touchStartEvent,
@@ -4980,7 +5003,7 @@
                 ));
                 },
             }),
-            $17.each(
+            $18.each(
                 {
                     scrollstop: "scrollstart",
                     taphold: "tap",
@@ -4990,19 +5013,19 @@
                 function (
                     event, sourceEvent
                 ) {
-                    $17.event.special[event] = {
+                    $18.event.special[event] = {
                         setup: function (
                         ) {
-                            $17(
+                            $18(
                                 this
                             ).bind(
                                 sourceEvent,
-                                $17.noop
+                                $18.noop
                             );
                         },
                         teardown: function (
                         ) {
-                            $17(
+                            $18(
                                 this
                             ).unbind(
                                 sourceEvent
@@ -5055,7 +5078,7 @@
         }),
         (lastCall = 0),
         (function (
-            $17, window
+            $18, window
         ) {
             var get_orientation,
                 last_orientation,
@@ -5064,7 +5087,7 @@
                 ww,
                 wh,
                 landscape_threshold,
-                win = $17(
+                win = $18(
                     window
                 ),
                 event_name = "orientationchange",
@@ -5081,7 +5104,7 @@
               event_name
           ));
             }
-            $17.support.orientation &&
+            $18.support.orientation &&
         ((landscape_threshold = 50),
         (initial_orientation_is_landscape =
           (ww = window.innerWidth || win.width(
@@ -5097,16 +5120,16 @@
               "-90": !0,
               90: !0,
           })),
-            ($17.event.special.orientationchange = $17.extend(
+            ($18.event.special.orientationchange = $18.extend(
                 {
                 },
-                $17.event.special.orientationchange,
+                $18.event.special.orientationchange,
                 {
                     setup: function (
                     ) {
                         if (
-                            $17.support.orientation &&
-                !$17.event.special.orientationchange.disabled
+                            $18.support.orientation &&
+                !$18.event.special.orientationchange.disabled
                         )
                             return !1;
                         (last_orientation = get_orientation(
@@ -5119,8 +5142,8 @@
                     teardown: function (
                     ) {
                         if (
-                            $17.support.orientation &&
-                !$17.event.special.orientationchange.disabled
+                            $18.support.orientation &&
+                !$18.event.special.orientationchange.disabled
                         )
                             return !1;
                         win.unbind(
@@ -5147,19 +5170,19 @@
                     },
                 },
             )),
-            ($17.event.special.orientationchange.orientation = get_orientation =
+            ($18.event.special.orientationchange.orientation = get_orientation =
           function (
           ) {
               var elem = document.documentElement;
               return (
-                  $17.support.orientation
+                  $18.support.orientation
                       ? portrait_map[window.orientation]
                       : elem && elem.clientWidth / elem.clientHeight < 1.1
               )
                   ? "portrait"
                   : "landscape";
           }),
-            ($17.fn[event_name] = function (
+            ($18.fn[event_name] = function (
                 fn
             ) {
                 return fn
@@ -5171,7 +5194,7 @@
                         event_name
                     );
             }),
-            $17.attrFn && ($17.attrFn[event_name] = !0);
+            $18.attrFn && ($18.attrFn[event_name] = !0);
         })(
             jQuery,
             this
@@ -5265,13 +5288,13 @@
         }),
         ($7.mobile.base = base),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.mobile.widgets = {
+            $18.mobile.widgets = {
             };
-            var originalWidget = $17.widget,
-                keepNativeFactoryDefault = $17.mobile.keepNative;
-            ($17.widget = (function (
+            var originalWidget = $18.widget,
+                keepNativeFactoryDefault = $18.mobile.keepNative;
+            ($18.widget = (function (
                 orig
             ) {
                 return function (
@@ -5286,41 +5309,41 @@
               undefined !== constructor.prototype.initSelector
                   ? constructor.prototype.initSelector
                   : ":jqmData(role='" + name + "')"),
-                        ($17.mobile.widgets[name] = constructor),
+                        ($18.mobile.widgets[name] = constructor),
                         constructor
                     );
                 };
             })(
-                $17.widget
+                $18.widget
             )),
-            $17.extend(
-                $17.widget,
+            $18.extend(
+                $18.widget,
                 originalWidget
             ),
-            $17.mobile.document.on(
+            $18.mobile.document.on(
                 "create",
                 function (
                     event
                 ) {
-                    $17(
+                    $18(
                         event.target
                     ).enhanceWithin(
                     );
                 }
             ),
-            $17.widget(
+            $18.widget(
                 "mobile.page",
                 {
                     options: {
                         theme: "a",
                         domCache: !1,
-                        keepNativeDefault: $17.mobile.keepNative,
+                        keepNativeDefault: $18.mobile.keepNative,
                         contentTheme: null,
                         enhanced: !1,
                     },
                     _createWidget: function (
                     ) {
-                        $17.Widget.prototype._createWidget.apply(
+                        $18.Widget.prototype._createWidget.apply(
                             this,
                             arguments
                         ),
@@ -5344,21 +5367,21 @@
                         ),
                         this.element.enhanceWithin(
                         ),
-                        "dialog" === $17.mobile.getAttribute(
+                        "dialog" === $18.mobile.getAttribute(
                             this.element[0],
                             "role"
                         ) &&
-                $17.mobile.dialog &&
+                $18.mobile.dialog &&
                 this.element.dialog(
                 );
                     },
                     _enhance: function (
                     ) {
-                        var attrPrefix = "data-" + $17.mobile.ns,
+                        var attrPrefix = "data-" + $18.mobile.ns,
                             self = this;
                         this.options.role &&
               this.element.attr(
-                  "data-" + $17.mobile.ns + "role",
+                  "data-" + $18.mobile.ns + "role",
                   this.options.role,
               ),
                         this.element
@@ -5376,7 +5399,7 @@
                             .each(
                                 function (
                                 ) {
-                                    var $this = $17(
+                                    var $this = $18(
                                             this
                                         ),
                                         theme =
@@ -5424,10 +5447,10 @@
                       e, data
                   ) {
                       if (!data.samePage) {
-                          var $this = $17(
+                          var $this = $18(
                                   this
                               ),
-                              prEvent = new $17.Event(
+                              prEvent = new $18.Event(
                                   "pageremove"
                               );
                           $this.trigger(
@@ -5455,7 +5478,7 @@
                         undefined !== o.contentTheme &&
                 this.element
                     .find(
-                        "[data-" + $17.mobile.ns + "='content']"
+                        "[data-" + $18.mobile.ns + "='content']"
                     )
                     .removeClass(
                         "ui-body-" + this.options.contentTheme
@@ -5492,13 +5515,13 @@
                     keepNativeSelector: function (
                     ) {
                         var options = this.options,
-                            keepNative = $17.trim(
+                            keepNative = $18.trim(
                                 options.keepNative || ""
                             ),
-                            globalValue = $17.trim(
-                                $17.mobile.keepNative
+                            globalValue = $18.trim(
+                                $18.mobile.keepNative
                             ),
-                            optionValue = $17.trim(
+                            optionValue = $18.trim(
                                 options.keepNativeDefault
                             ),
                             newDefault =
@@ -5521,9 +5544,9 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.pagecontainer",
                 {
                     options: {
@@ -5553,7 +5576,7 @@
                         ),
                         this.window.one(
                             "navigate",
-                            $17.proxy(
+                            $18.proxy(
                                 function (
                                 ) {
                                     this.setLastScrollEnabled = !0;
@@ -5625,7 +5648,7 @@
                     _delayedRecordScroll: function (
                     ) {
                         setTimeout(
-                            $17.proxy(
+                            $18.proxy(
                                 this,
                                 "_recordScroll"
                             ),
@@ -5639,11 +5662,11 @@
                     },
                     _getMinScroll: function (
                     ) {
-                        return $17.mobile.minScrollBack;
+                        return $18.mobile.minScrollBack;
                     },
                     _getDefaultScroll: function (
                     ) {
-                        return $17.mobile.defaultHomeScroll;
+                        return $18.mobile.defaultHomeScroll;
                     },
                     _filterNavigateEvents: function (
                         e, data
@@ -5661,7 +5684,7 @@
             (url &&
               "#" !== url &&
               0 !== url.indexOf(
-                  "#" + $17.mobile.path.uiStateKey
+                  "#" + $18.mobile.path.uiStateKey
               )) ||
               (url = location.href),
             this._handleNavigate(
@@ -5671,7 +5694,7 @@
                     },
                     _getHash: function (
                     ) {
-                        return $17.mobile.path.parseLocation(
+                        return $18.mobile.path.parseLocation(
                         ).hash;
                     },
                     getActivePage: function (
@@ -5680,20 +5703,20 @@
                     },
                     _getInitialContent: function (
                     ) {
-                        return $17.mobile.firstPage;
+                        return $18.mobile.firstPage;
                     },
                     _getHistory: function (
                     ) {
-                        return $17.mobile.navigate.history;
+                        return $18.mobile.navigate.history;
                     },
                     _getActiveHistory: function (
                     ) {
-                        return $17.mobile.navigate.history.getActive(
+                        return $18.mobile.navigate.history.getActive(
                         );
                     },
                     _getDocumentBase: function (
                     ) {
-                        return $17.mobile.path.documentBase;
+                        return $18.mobile.path.documentBase;
                     },
                     back: function (
                     ) {
@@ -5710,19 +5733,19 @@
                     go: function (
                         steps
                     ) {
-                        if ($17.mobile.hashListeningEnabled) window.history.go(
+                        if ($18.mobile.hashListeningEnabled) window.history.go(
                             steps
                         );
                         else {
-                            var activeIndex = $17.mobile.navigate.history.activeIndex,
+                            var activeIndex = $18.mobile.navigate.history.activeIndex,
                                 index = activeIndex + parseInt(
                                     steps,
                                     10
                                 ),
-                                url = $17.mobile.navigate.history.stack[index].url,
+                                url = $18.mobile.navigate.history.stack[index].url,
                                 direction = steps >= 1 ? "forward" : "back";
-                            ($17.mobile.navigate.history.activeIndex = index),
-                            ($17.mobile.navigate.history.previousIndex = activeIndex),
+                            ($18.mobile.navigate.history.activeIndex = index),
+                            ($18.mobile.navigate.history.previousIndex = activeIndex),
                             this.change(
                                 url,
                                 {
@@ -5738,24 +5761,24 @@
                     ) {
                         var history;
                         return (
-                            "string" === $17.type(
+                            "string" === $18.type(
                                 to
-                            ) && (to = $17.mobile.path.stripHash(
+                            ) && (to = $18.mobile.path.stripHash(
                                 to
                             )),
                             to &&
               ((history = this._getHistory(
               )),
-              (to = $17.mobile.path.isPath(
+              (to = $18.mobile.path.isPath(
                   to
               )
                   ? to
-                  : $17.mobile.path.makeUrlAbsolute(
+                  : $18.mobile.path.makeUrlAbsolute(
                       "#" + to,
                       this._getDocumentBase(
                       ),
                   )) ===
-                $17.mobile.path.makeUrlAbsolute(
+                $18.mobile.path.makeUrlAbsolute(
                     "#" + history.initialDst,
                     this._getDocumentBase(
                     ),
@@ -5763,7 +5786,7 @@
                 history.stack.length &&
                 history.stack[0].url !==
                   history.initialDst.replace(
-                      $17.mobile.dialogHashKey,
+                      $18.mobile.dialogHashKey,
                       ""
                   ) &&
                 (to = this._getInitialContent(
@@ -5788,7 +5811,7 @@
                                 ), !1)
                             : ((active = this._getActiveHistory(
                             )),
-                            $17.extend(
+                            $18.extend(
                                 changePageOptions,
                                 {
                                     role: active.role,
@@ -5801,7 +5824,7 @@
                     _handleNavigate: function (
                         url, data
                     ) {
-                        var to = $17.mobile.path.stripHash(
+                        var to = $18.mobile.path.stripHash(
                                 url
                             ),
                             history = this._getHistory(
@@ -5812,7 +5835,7 @@
                                 fromHashChange: !0,
                                 reverse: "back" === data.direction,
                             };
-                        $17.extend(
+                        $18.extend(
                             changePageOptions,
                             data,
                             {
@@ -5823,7 +5846,7 @@
                         ),
                         (history.activeIndex > 0 &&
               to.indexOf(
-                  $17.mobile.dialogHashKey
+                  $18.mobile.dialogHashKey
               ) > -1 &&
               history.initialDst !== to &&
               !1 === (to = this._handleDialog(
@@ -5840,18 +5863,18 @@
                     _changeContent: function (
                         to, opts
                     ) {
-                        $17.mobile.changePage(
+                        $18.mobile.changePage(
                             to,
                             opts
                         );
                     },
                     _getBase: function (
                     ) {
-                        return $17.mobile.base;
+                        return $18.mobile.base;
                     },
                     _getNs: function (
                     ) {
-                        return $17.mobile.ns;
+                        return $18.mobile.ns;
                     },
                     _enhance: function (
                         content, role
@@ -5895,12 +5918,12 @@
                   ) + "url='" + dataUrl + "']",
               )).length &&
               dataUrl &&
-              !$17.mobile.path.isPath(
+              !$18.mobile.path.isPath(
                   dataUrl
               ) &&
               (page = this.element
                   .children(
-                      $17.mobile.path.hashToSelector(
+                      $18.mobile.path.hashToSelector(
                           "#" + dataUrl
                       )
                   )
@@ -5914,13 +5937,13 @@
                       dataUrl
                   )),
                             0 === page.length &&
-              $17.mobile.path.isFirstPageUrl(
+              $18.mobile.path.isFirstPageUrl(
                   fileUrl
               ) &&
               initialContent &&
               initialContent.parent(
               ).length &&
-              (page = $17(
+              (page = $18(
                   initialContent
               )),
                             page
@@ -5928,7 +5951,7 @@
                     },
                     _getLoader: function (
                     ) {
-                        return $17.mobile.loading(
+                        return $18.mobile.loading(
                         );
                     },
                     _showLoading: function (
@@ -5936,7 +5959,7 @@
                     ) {
                         this._loadMsg ||
             (this._loadMsg = setTimeout(
-                $17.proxy(
+                $18.proxy(
                     function (
                     ) {
                         this._getLoader(
@@ -5970,12 +5993,12 @@
                         ),
                         this._showLoading(
                             0,
-                            $17.mobile.pageLoadErrorMessageTheme,
-                            $17.mobile.pageLoadErrorMessage,
+                            $18.mobile.pageLoadErrorMessageTheme,
+                            $18.mobile.pageLoadErrorMessage,
                             !0,
                         ),
                         setTimeout(
-                            $17.proxy(
+                            $18.proxy(
                                 this,
                                 "_hideLoading"
                             ),
@@ -5986,7 +6009,7 @@
                         html, fileUrl
                     ) {
                         var page,
-                            all = $17(
+                            all = $18(
                                 "<div></div>"
                             );
                         return (
@@ -5999,7 +6022,7 @@
                                 )
                                 .first(
                                 )).length ||
-              (page = $17(
+              (page = $18(
                   "<div data-" +
                   this._getNs(
                   ) +
@@ -6013,7 +6036,7 @@
                                 .attr(
                                     "data-" + this._getNs(
                                     ) + "url",
-                                    $17.mobile.path.convertUrlToDataUrl(
+                                    $18.mobile.path.convertUrlToDataUrl(
                                         fileUrl
                                     ),
                                 )
@@ -6035,7 +6058,7 @@
             !page.jqmData(
                 "title"
             ) &&
-            ((newPageTitle = $17(
+            ((newPageTitle = $18(
                 "<div>" + newPageTitle + "</div>"
             ).text(
             )),
@@ -6046,29 +6069,29 @@
                     },
                     _isRewritableBaseTag: function (
                     ) {
-                        return $17.mobile.dynamicBaseEnabled && !$17.support.dynamicBaseTag;
+                        return $18.mobile.dynamicBaseEnabled && !$18.support.dynamicBaseTag;
                     },
                     _createDataUrl: function (
                         absoluteUrl
                     ) {
-                        return $17.mobile.path.convertUrlToDataUrl(
+                        return $18.mobile.path.convertUrlToDataUrl(
                             absoluteUrl
                         );
                     },
                     _createFileUrl: function (
                         absoluteUrl
                     ) {
-                        return $17.mobile.path.getFilePath(
+                        return $18.mobile.path.getFilePath(
                             absoluteUrl
                         );
                     },
                     _triggerWithDeprecated: function (
                         name, data, page
                     ) {
-                        var deprecatedEvent = $17.Event(
+                        var deprecatedEvent = $18.Event(
                                 "page" + name
                             ),
-                            newEvent = $17.Event(
+                            newEvent = $18.Event(
                                 this.widgetName + name
                             );
                         return (
@@ -6095,7 +6118,7 @@
                             dataUrl = this._createDataUrl(
                                 absUrl
                             );
-                        return $17.proxy(
+                        return $18.proxy(
                             function (
                                 html, textStatus, xhr
                             ) {
@@ -6118,8 +6141,8 @@
                   RegExp.$1
               ) &&
               RegExp.$1 &&
-              (fileUrl = $17.mobile.path.getFilePath(
-                  $17(
+              (fileUrl = $18.mobile.path.getFilePath(
+                  $18(
                       "<div>" + RegExp.$1 + "</div>"
                   ).text(
                   ),
@@ -6158,7 +6181,7 @@
                     settings
                 ),
                 absUrl.indexOf(
-                    "&" + $17.mobile.subPageUrlKey
+                    "&" + $18.mobile.subPageUrlKey
                 ) > -1 &&
                   (content = this.element.children(
                       "[data-" + this._getNs(
@@ -6194,16 +6217,16 @@
                             dataUrl,
                             pblEvent,
                             triggerData,
-                            deferred = (options && options.deferred) || $17.Deferred(
+                            deferred = (options && options.deferred) || $18.Deferred(
                             ),
-                            settings = $17.extend(
+                            settings = $18.extend(
                                 {
                                 },
                                 this._loadDefaults,
                                 options
                             ),
                             content = null,
-                            absUrl = $17.mobile.path.makeUrlAbsolute(
+                            absUrl = $18.mobile.path.makeUrlAbsolute(
                                 url,
                                 this._findBaseWithDefault(
                                 ),
@@ -6212,7 +6235,7 @@
                             ((settings.reload = settings.reloadPage),
                             settings.data &&
               "get" === settings.type &&
-              ((absUrl = $17.mobile.path.addSearchParams(
+              ((absUrl = $18.mobile.path.addSearchParams(
                   absUrl,
                   settings.data,
               )),
@@ -6227,10 +6250,10 @@
                             0 === (content = this._find(
                                 absUrl
                             )).length &&
-              $17.mobile.path.isEmbeddedPage(
+              $18.mobile.path.isEmbeddedPage(
                   fileUrl
               ) &&
-              !$17.mobile.path.isFirstPageUrl(
+              !$18.mobile.path.isFirstPageUrl(
                   fileUrl
               ))
                         ) {
@@ -6285,9 +6308,9 @@
                                 ).reset(
                                 ),
                                 !(
-                                    $17.mobile.allowCrossDomainPages ||
-                $17.mobile.path.isSameDomain(
-                    $17.mobile.path.documentUrl,
+                                    $18.mobile.allowCrossDomainPages ||
+                $18.mobile.path.isSameDomain(
+                    $18.mobile.path.documentUrl,
                     absUrl,
                 )
                                 ))
@@ -6298,7 +6321,7 @@
                                 );
                                 return;
                             }
-                            $17.ajax(
+                            $18.ajax(
                                 {
                                     url: fileUrl,
                                     type: settings.type,
@@ -6324,13 +6347,13 @@
                     _loadError: function (
                         absUrl, triggerData, settings, deferred
                     ) {
-                        return $17.proxy(
+                        return $18.proxy(
                             function (
                                 xhr, textStatus, errorThrown
                             ) {
                                 this._getBase(
                                 ).set(
-                                    $17.mobile.path.get(
+                                    $18.mobile.path.get(
                                     )
                                 ),
                                 (triggerData.xhr = xhr),
@@ -6358,11 +6381,11 @@
                         transition
                     ) {
                         return (
-                            (transition = $17.mobile._maybeDegradeTransition(
+                            (transition = $18.mobile._maybeDegradeTransition(
                                 transition
                             )),
-                            $17.mobile.transitionHandlers[transition] ||
-              $17.mobile.defaultTransitionHandler
+                            $18.mobile.transitionHandlers[transition] ||
+              $18.mobile.defaultTransitionHandler
                         );
                     },
                     _triggerCssTransitionEvents: function (
@@ -6383,7 +6406,7 @@
                         this._triggerWithDeprecated(
                             prefix + "show",
                             {
-                                prevPage: from || $17(
+                                prevPage: from || $18(
                                     ""
                                 ),
                             },
@@ -6422,7 +6445,7 @@
                             }
                         ),
                         promise.done(
-                            $17.proxy(
+                            $18.proxy(
                                 function (
                                 ) {
                                     this._triggerCssTransitionEvents(
@@ -6438,7 +6461,7 @@
                     ) {
                         (isPageTransitioning = !1),
                         pageTransitionQueue.length > 0 &&
-              $17.mobile.changePage.apply(
+              $18.mobile.changePage.apply(
                   null,
                   pageTransitionQueue.pop(
                   )
@@ -6447,7 +6470,7 @@
                     _removeActiveLinkClass: function (
                         force
                     ) {
-                        $17.mobile.removeActiveLinkClass(
+                        $18.mobile.removeActiveLinkClass(
                             force
                         );
                     },
@@ -6455,14 +6478,14 @@
                         to, triggerData, settings
                     ) {
                         (settings.target = to),
-                        (settings.deferred = $17.Deferred(
+                        (settings.deferred = $18.Deferred(
                         )),
                         this.load(
                             to,
                             settings
                         ),
                         settings.deferred.done(
-                            $17.proxy(
+                            $18.proxy(
                                 function (
                                     url, options, content
                                 ) {
@@ -6478,7 +6501,7 @@
                             ),
                         ),
                         settings.deferred.fail(
-                            $17.proxy(
+                            $18.proxy(
                                 function (
                                 ) {
                                     this._removeActiveLinkClass(
@@ -6498,21 +6521,21 @@
                     _triggerPageBeforeChange: function (
                         to, triggerData, settings
                     ) {
-                        var pbcEvent = new $17.Event(
+                        var pbcEvent = new $18.Event(
                             "pagebeforechange"
                         );
                         return (
-                            $17.extend(
+                            $18.extend(
                                 triggerData,
                                 {
                                     toPage: to,
                                     options: settings,
                                 }
                             ),
-                            "string" === $17.type(
+                            "string" === $18.type(
                                 to
                             )
-                                ? (triggerData.absUrl = $17.mobile.path.makeUrlAbsolute(
+                                ? (triggerData.absUrl = $18.mobile.path.makeUrlAbsolute(
                                     to,
                                     this._findBaseWithDefault(
                                     ),
@@ -6535,10 +6558,10 @@
                             );
                             return;
                         }
-                        var settings = $17.extend(
+                        var settings = $18.extend(
                                 {
                                 },
-                                $17.mobile.changePage.defaults,
+                                $18.mobile.changePage.defaults,
                                 options,
                             ),
                             triggerData = {
@@ -6550,7 +6573,7 @@
                             settings
                         ) &&
               ((to = triggerData.toPage),
-              "string" === $17.type(
+              "string" === $18.type(
                   to
               )
                   ? ((isPageTransitioning = !0),
@@ -6605,25 +6628,25 @@
                         ) {
                             if (
                                 ((isPageTransitioning = !0),
-                                toPage[0] !== $17.mobile.firstPage[0] ||
+                                toPage[0] !== $18.mobile.firstPage[0] ||
                 settings.dataUrl ||
-                (settings.dataUrl = $17.mobile.path.documentUrl.hrefNoHash),
+                (settings.dataUrl = $18.mobile.path.documentUrl.hrefNoHash),
                                 (fromPage = settings.fromPage),
                                 (pageUrl = url =
                 (settings.dataUrl &&
-                  $17.mobile.path.convertUrlToDataUrl(
+                  $18.mobile.path.convertUrlToDataUrl(
                       settings.dataUrl
                   )) ||
                 toPage.jqmData(
                     "url"
                 )),
-                                $17.mobile.path.getFilePath(
+                                $18.mobile.path.getFilePath(
                                     url
                                 ),
-                                (active = $17.mobile.navigate.history.getActive(
+                                (active = $18.mobile.navigate.history.getActive(
                                 )),
                                 (activeIsInitialPage =
-                0 === $17.mobile.navigate.history.activeIndex),
+                0 === $18.mobile.navigate.history.activeIndex),
                                 (historyDir = 0),
                                 (pageTitle = document.title),
                                 (isDialog =
@@ -6649,7 +6672,7 @@
                                         triggerData
                                     ),
                                     settings.fromHashChange &&
-                  $17.mobile.navigate.history.direct(
+                  $18.mobile.navigate.history.direct(
                       {
                           url: url,
                       }
@@ -6667,11 +6690,11 @@
                                 document.activeElement &&
               "body" !== document.activeElement.nodeName.toLowerCase(
               )
-                                    ? $17(
+                                    ? $18(
                                         document.activeElement
                                     ).blur(
                                     )
-                                    : $17(
+                                    : $18(
                                         "input:focus, textarea:focus, select:focus"
                                     ).blur(
                                     );
@@ -6681,23 +6704,23 @@
                 active &&
                 (active.url &&
                   active.url.indexOf(
-                      $17.mobile.dialogHashKey
+                      $18.mobile.dialogHashKey
                   ) > -1 &&
                   this.activePage &&
                   !this.activePage.hasClass(
                       "ui-dialog"
                   ) &&
-                  $17.mobile.navigate.history.activeIndex > 0 &&
+                  $18.mobile.navigate.history.activeIndex > 0 &&
                   ((settings.changeHash = !1), (alreadyThere = !0)),
                 (url = active.url || ""),
                 !alreadyThere && url.indexOf(
                     "#"
                 ) > -1
-                    ? (url += $17.mobile.dialogHashKey)
-                    : (url += "#" + $17.mobile.dialogHashKey),
-                0 === $17.mobile.navigate.history.activeIndex &&
-                  url === $17.mobile.navigate.history.initialDst &&
-                  (url += $17.mobile.dialogHashKey)),
+                    ? (url += $18.mobile.dialogHashKey)
+                    : (url += "#" + $18.mobile.dialogHashKey),
+                0 === $18.mobile.navigate.history.activeIndex &&
+                  url === $18.mobile.navigate.history.initialDst &&
+                  (url += $18.mobile.dialogHashKey)),
                             (newPageTitle = active
                                 ? toPage.jqmData(
                                     "title"
@@ -6726,15 +6749,15 @@
                     ? active.transition
                     : undefined) ||
                 (isDialog
-                    ? $17.mobile.defaultDialogTransition
-                    : $17.mobile.defaultPageTransition)),
+                    ? $18.mobile.defaultDialogTransition
+                    : $18.mobile.defaultPageTransition)),
                             historyDir ||
                 !alreadyThere ||
-                ($17.mobile.navigate.history.getActive(
+                ($18.mobile.navigate.history.getActive(
                 ).pageUrl = pageUrl),
                             url &&
                 !settings.fromHashChange &&
-                ($17.mobile.path.isPath(
+                ($18.mobile.path.isPath(
                     url
                 ) ||
                   !(0 > url.indexOf(
@@ -6747,22 +6770,22 @@
                     pageUrl: pageUrl,
                     role: settings.role,
                 }),
-                !1 !== settings.changeHash && $17.mobile.hashListeningEnabled
-                    ? $17.mobile.navigate(
+                !1 !== settings.changeHash && $18.mobile.hashListeningEnabled
+                    ? $18.mobile.navigate(
                         url,
                         params,
                         !0
                     )
-                    : toPage[0] !== $17.mobile.firstPage[0] &&
-                    $17.mobile.navigate.history.add(
+                    : toPage[0] !== $18.mobile.firstPage[0] &&
+                    $18.mobile.navigate.history.add(
                         url,
                         params
                     )),
                             (document.title = pageTitle),
-                            ($17.mobile.activePage = toPage),
+                            ($18.mobile.activePage = toPage),
                             (this.activePage = toPage),
                             (settings.reverse = settings.reverse || historyDir < 0),
-                            (cssTransitionDeferred = $17.Deferred(
+                            (cssTransitionDeferred = $18.Deferred(
                             )),
                             this._cssTransition(
                                 toPage,
@@ -6774,16 +6797,16 @@
                                 }
                             ),
                             cssTransitionDeferred.done(
-                                $17.proxy(
+                                $18.proxy(
                                     function (
                                         name, reverse, $to, $from, alreadyFocused
                                     ) {
-                                        $17.mobile.removeActiveLinkClass(
+                                        $18.mobile.removeActiveLinkClass(
                                         ),
                                         settings.duplicateCachedPage &&
                       settings.duplicateCachedPage.remove(
                       ),
-                                        alreadyFocused || $17.mobile.focusPage(
+                                        alreadyFocused || $18.mobile.focusPage(
                                             toPage
                                         ),
                                         this._releaseTransitionLock(
@@ -6806,15 +6829,15 @@
                     ) {
                         return (
                             (this.activePage &&
-              $17.mobile.getClosestBaseUrl(
+              $18.mobile.getClosestBaseUrl(
                   this.activePage
               )) ||
-            $17.mobile.path.documentBase.hrefNoHash
+            $18.mobile.path.documentBase.hrefNoHash
                         );
                     },
                 }
             ),
-            ($17.mobile.navreadyDeferred = $17.Deferred(
+            ($18.mobile.navreadyDeferred = $18.Deferred(
             ));
             var pageTransitionQueue = [],
                 isPageTransitioning = !1;
@@ -6822,13 +6845,13 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            var domreadyDeferred = $17.Deferred(
+            var domreadyDeferred = $18.Deferred(
                 ),
-                loadDeferred = $17.Deferred(
+                loadDeferred = $18.Deferred(
                 ),
-                documentUrl = $17.mobile.path.documentUrl,
+                documentUrl = $18.mobile.path.documentUrl,
                 $lastVClicked = null;
             function findClosestLink(
                 ele
@@ -6844,15 +6867,15 @@
                 }
                 return ele;
             }
-            ($17.mobile.loadPage = function (
+            ($18.mobile.loadPage = function (
                 url, opts
             ) {
                 var container;
                 return (
                     (container =
             (opts = opts || {
-            }).pageContainer || $17.mobile.pageContainer),
-                    (opts.deferred = $17.Deferred(
+            }).pageContainer || $18.mobile.pageContainer),
+                    (opts.deferred = $18.Deferred(
                     )),
                     container.pagecontainer(
                         "load",
@@ -6863,7 +6886,7 @@
                     )
                 );
             }),
-            ($17.mobile.back = function (
+            ($18.mobile.back = function (
             ) {
                 var nav = window.navigator;
                 this.phonegapNavigationEnabled &&
@@ -6872,11 +6895,11 @@
           nav.app.backHistory
                     ? nav.app.backHistory(
                     )
-                    : $17.mobile.pageContainer.pagecontainer(
+                    : $18.mobile.pageContainer.pagecontainer(
                         "back"
                     );
             }),
-            ($17.mobile.focusPage = function (
+            ($18.mobile.focusPage = function (
                 page
             ) {
                 var autofocus = page.find(
@@ -6896,23 +6919,23 @@
                     : page.focus(
                     );
             }),
-            ($17.mobile._maybeDegradeTransition =
-          $17.mobile._maybeDegradeTransition ||
+            ($18.mobile._maybeDegradeTransition =
+          $18.mobile._maybeDegradeTransition ||
           function (
               transition
           ) {
               return transition;
           }),
-            ($17.mobile.changePage = function (
+            ($18.mobile.changePage = function (
                 to, options
             ) {
-                $17.mobile.pageContainer.pagecontainer(
+                $18.mobile.pageContainer.pagecontainer(
                     "change",
                     to,
                     options
                 );
             }),
-            ($17.mobile.changePage.defaults = {
+            ($18.mobile.changePage.defaults = {
                 transition: undefined,
                 reverse: !1,
                 changeHash: !0,
@@ -6925,7 +6948,7 @@
                 fromPage: undefined,
                 allowSamePageTransition: !1,
             }),
-            ($17.mobile._registerInternalEvents = function (
+            ($18.mobile._registerInternalEvents = function (
             ) {
                 var getAjaxFormData = function (
                     $form, calculateOnly
@@ -6937,7 +6960,7 @@
                         ret = !0;
                     return (
                         !(
-                            !$17.mobile.ajaxEnabled ||
+                            !$18.mobile.ajaxEnabled ||
                 $form.is(
                     ":jqmData(ajax='false')"
                 ) ||
@@ -6959,25 +6982,25 @@
               ) || "get").toLowerCase(
               )),
               url ||
-                ((url = $17.mobile.getClosestBaseUrl(
+                ((url = $18.mobile.getClosestBaseUrl(
                     $form
                 )),
                 "get" === method &&
-                  (url = $17.mobile.path.parseUrl(
+                  (url = $18.mobile.path.parseUrl(
                       url
                   ).hrefNoSearch),
-                url === $17.mobile.path.documentBase.hrefNoHash &&
+                url === $18.mobile.path.documentBase.hrefNoHash &&
                   (url = documentUrl.hrefNoSearch)),
-              (url = $17.mobile.path.makeUrlAbsolute(
+              (url = $18.mobile.path.makeUrlAbsolute(
                   url,
-                  $17.mobile.getClosestBaseUrl(
+                  $18.mobile.getClosestBaseUrl(
                       $form
                   ),
               )),
-              (!$17.mobile.path.isExternal(
+              (!$18.mobile.path.isExternal(
                   url
               ) ||
-                !!$17.mobile.path.isPermittedCrossDomainRequest(
+                !!$18.mobile.path.isPermittedCrossDomainRequest(
                     documentUrl,
                     url,
                 )) &&
@@ -6989,7 +7012,7 @@
                     (vclickedName = $lastVClicked.attr(
                         "name"
                     )) &&
-                    ($17.each(
+                    ($18.each(
                         formData,
                         function (
                             key, value
@@ -7011,7 +7034,7 @@
                       url: url,
                       options: {
                           type: method,
-                          data: $17.param(
+                          data: $18.param(
                               formData
                           ),
                           transition: $form.jqmData(
@@ -7026,7 +7049,7 @@
                 ret))
                     );
                 };
-                $17.mobile.document.delegate(
+                $18.mobile.document.delegate(
                     "form",
                     "submit",
                     function (
@@ -7036,11 +7059,11 @@
                         event.isDefaultPrevented(
                         ) ||
               ((formData = getAjaxFormData(
-                  $17(
+                  $18(
                       this
                   )
               )) &&
-                ($17.mobile.changePage(
+                ($18.mobile.changePage(
                     formData.url,
                     formData.options
                 ),
@@ -7048,7 +7071,7 @@
                 )));
                     }
                 ),
-                $17.mobile.document.bind(
+                $18.mobile.document.bind(
                     "vclick",
                     function (
                         event
@@ -7057,18 +7080,18 @@
                             btnEls,
                             target = event.target,
                             needClosest = !1;
-                        if (!(event.which > 1) && $17.mobile.linkBindingEnabled) {
+                        if (!(event.which > 1) && $18.mobile.linkBindingEnabled) {
                             if (
-                                (($lastVClicked = $17(
+                                (($lastVClicked = $18(
                                     target
                                 )),
-                                $17.data(
+                                $18.data(
                                     target,
                                     "mobile-button"
                                 ))
                             )
                                 getAjaxFormData(
-                                    $17(
+                                    $18(
                                         target
                                     ).closest(
                                         "form"
@@ -7082,13 +7105,13 @@
                                     target
                                 )) &&
                   "#" !==
-                    $17.mobile.path.parseUrl(
+                    $18.mobile.path.parseUrl(
                         target.getAttribute(
                             "href"
                         ) || "#"
                     )
                         .hash &&
-                  !$17(
+                  !$18(
                       target
                   ).jqmHijackable(
                   ).length
@@ -7098,16 +7121,16 @@
                                 "ui-link-inherit"
                             )
                                 ? target.parentNode &&
-                    (btnEls = $17.data(
+                    (btnEls = $18.data(
                         target.parentNode,
                         "buttonElements"
                     ))
-                                : (btnEls = $17.data(
+                                : (btnEls = $18.data(
                                     target,
                                     "buttonElements"
                                 )),
                             btnEls ? (target = btnEls.outer) : (needClosest = !0),
-                            ($btn = $17(
+                            ($btn = $18(
                                 target
                             )),
                             needClosest && ($btn = $btn.closest(
@@ -7117,23 +7140,23 @@
                     !$btn.hasClass(
                         "ui-state-disabled"
                     ) &&
-                    ($17.mobile.removeActiveLinkClass(
+                    ($18.mobile.removeActiveLinkClass(
                         !0
                     ),
-                    ($17.mobile.activeClickedLink = $btn),
-                    $17.mobile.activeClickedLink.addClass(
-                        $17.mobile.activeBtnClass,
+                    ($18.mobile.activeClickedLink = $btn),
+                    $18.mobile.activeClickedLink.addClass(
+                        $18.mobile.activeBtnClass,
                     ));
                         }
                     }
                 ),
-                $17.mobile.document.bind(
+                $18.mobile.document.bind(
                     "click",
                     function (
                         event
                     ) {
                         if (
-                            !(!$17.mobile.linkBindingEnabled || event.isDefaultPrevented(
+                            !(!$18.mobile.linkBindingEnabled || event.isDefaultPrevented(
                             ))
                         ) {
                             var baseUrl,
@@ -7144,7 +7167,7 @@
                                 link = findClosestLink(
                                     event.target
                                 ),
-                                $link = $17(
+                                $link = $18(
                                     link
                                 ),
                                 httpCleanup = function (
@@ -7152,7 +7175,7 @@
                                     window.setTimeout(
                                         function (
                                         ) {
-                                            $17.mobile.removeActiveLinkClass(
+                                            $18.mobile.removeActiveLinkClass(
                                                 !0
                                             );
                                         },
@@ -7160,8 +7183,8 @@
                                     );
                                 };
                             if (
-                                ($17.mobile.activeClickedLink &&
-                    $17.mobile.activeClickedLink[0] ===
+                                ($18.mobile.activeClickedLink &&
+                    $18.mobile.activeClickedLink[0] ===
                       event.target.parentNode &&
                     httpCleanup(
                     ),
@@ -7171,20 +7194,20 @@
                                 if ($link.is(
                                     ":jqmData(rel='back')"
                                 ))
-                                    return $17.mobile.back(
+                                    return $18.mobile.back(
                                     ), !1;
                                 if (
-                                    ((baseUrl = $17.mobile.getClosestBaseUrl(
+                                    ((baseUrl = $18.mobile.getClosestBaseUrl(
                                         $link
                                     )),
-                                    (href = $17.mobile.path.makeUrlAbsolute(
+                                    (href = $18.mobile.path.makeUrlAbsolute(
                                         $link.attr(
                                             "href"
                                         ) || "#",
                                         baseUrl,
                                     )),
-                                    !$17.mobile.ajaxEnabled &&
-                      !$17.mobile.path.isEmbeddedPage(
+                                    !$18.mobile.ajaxEnabled &&
+                      !$18.mobile.path.isEmbeddedPage(
                           href
                       ))
                                 ) {
@@ -7199,14 +7222,14 @@
                                         /[^#]*#/,
                                         ""
                                     )))
-                                        href = $17.mobile.path.isPath(
+                                        href = $18.mobile.path.isPath(
                                             href
                                         )
-                                            ? $17.mobile.path.makeUrlAbsolute(
+                                            ? $18.mobile.path.makeUrlAbsolute(
                                                 href,
                                                 baseUrl
                                             )
-                                            : $17.mobile.path.makeUrlAbsolute(
+                                            : $18.mobile.path.makeUrlAbsolute(
                                                 "#" + href,
                                                 documentUrl.hrefNoHash,
                                             );
@@ -7225,10 +7248,10 @@
                     $link.is(
                         "[target]"
                     ) ||
-                    ($17.mobile.path.isExternal(
+                    ($18.mobile.path.isExternal(
                         href
                     ) &&
-                      !$17.mobile.path.isPermittedCrossDomainRequest(
+                      !$18.mobile.path.isPermittedCrossDomainRequest(
                           documentUrl,
                           href,
                       ))
@@ -7249,9 +7272,9 @@
                       )),
                                 (role =
                       $link.attr(
-                          "data-" + $17.mobile.ns + "rel"
+                          "data-" + $18.mobile.ns + "rel"
                       ) || undefined),
-                                $17.mobile.changePage(
+                                $18.mobile.changePage(
                                     href,
                                     {
                                         transition: transition,
@@ -7266,13 +7289,13 @@
                         }
                     }
                 ),
-                $17.mobile.document.delegate(
+                $18.mobile.document.delegate(
                     ".ui-page",
                     "pageshow.prefetch",
                     function (
                     ) {
                         var urls = [];
-                        $17(
+                        $18(
                             this
                         )
                             .find(
@@ -7281,25 +7304,25 @@
                             .each(
                                 function (
                                 ) {
-                                    var $link = $17(
+                                    var $link = $18(
                                             this
                                         ),
                                         url = $link.attr(
                                             "href"
                                         );
                                     url &&
-                      -1 === $17.inArray(
+                      -1 === $18.inArray(
                           url,
                           urls
                       ) &&
                       (urls.push(
                           url
                       ),
-                      $17.mobile.loadPage(
+                      $18.mobile.loadPage(
                           url,
                           {
                               role: $link.attr(
-                                  "data-" + $17.mobile.ns + "rel"
+                                  "data-" + $18.mobile.ns + "rel"
                               ),
                               prefetch: !0,
                           }
@@ -7308,48 +7331,48 @@
                             );
                     },
                 ),
-                $17.mobile.pageContainer.pagecontainer(
+                $18.mobile.pageContainer.pagecontainer(
                 ),
-                $17.mobile.document.bind(
+                $18.mobile.document.bind(
                     "pageshow",
                     function (
                     ) {
                         loadDeferred
                             ? loadDeferred.done(
-                                $17.mobile.resetActivePageHeight
+                                $18.mobile.resetActivePageHeight
                             )
-                            : $17.mobile.resetActivePageHeight(
+                            : $18.mobile.resetActivePageHeight(
                             );
                     }
                 ),
-                $17.mobile.window.bind(
+                $18.mobile.window.bind(
                     "throttledresize",
-                    $17.mobile.resetActivePageHeight,
+                    $18.mobile.resetActivePageHeight,
                 );
             }),
-            $17(
+            $18(
                 function (
                 ) {
                     domreadyDeferred.resolve(
                     );
                 }
             ),
-            $17.mobile.window.load(
+            $18.mobile.window.load(
                 function (
                 ) {
                     loadDeferred.resolve(
                     ), (loadDeferred = null);
                 }
             ),
-            $17
+            $18
                 .when(
                     domreadyDeferred,
-                    $17.mobile.navreadyDeferred
+                    $18.mobile.navreadyDeferred
                 )
                 .done(
                     function (
                     ) {
-                        $17.mobile._registerInternalEvents(
+                        $18.mobile._registerInternalEvents(
                         );
                     }
                 );
@@ -7357,30 +7380,30 @@
             jQuery
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
-            ($17.mobile.Transition = function (
+            ($18.mobile.Transition = function (
             ) {
                 this.init.apply(
                     this,
                     arguments
                 );
             }),
-            $17.extend(
-                $17.mobile.Transition.prototype,
+            $18.extend(
+                $18.mobile.Transition.prototype,
                 {
                     toPreClass: " ui-page-pre-in",
                     init: function (
                         name, reverse, $to, $from
                     ) {
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 name: name,
                                 reverse: reverse,
                                 $to: $to,
                                 $from: $from,
-                                deferred: new $17.Deferred(
+                                deferred: new $18.Deferred(
                                 ),
                             }
                         );
@@ -7389,7 +7412,7 @@
                     ) {
                         this.$from
                             .removeClass(
-                                $17.mobile.activePageClass + " out in reverse " + this.name,
+                                $18.mobile.activePageClass + " out in reverse " + this.name,
                             )
                             .height(
                                 ""
@@ -7412,12 +7435,12 @@
                         ),
                         this.toggleViewportClass(
                         ),
-                        $17.mobile.window.scrollTop(
+                        $18.mobile.window.scrollTop(
                         ) !== this.toScroll &&
                 this.scrollPage(
                 ),
                         this.sequential || this.$to.addClass(
-                            $17.mobile.activePageClass
+                            $18.mobile.activePageClass
                         ),
                         this.deferred.resolve(
                             this.name,
@@ -7456,9 +7479,9 @@
                     },
                     scrollPage: function (
                     ) {
-                        ($17.event.special.scrollstart.enabled = !1),
-                        ($17.mobile.hideUrlBar ||
-                this.toScroll !== $17.mobile.defaultHomeScroll) &&
+                        ($18.event.special.scrollstart.enabled = !1),
+                        ($18.mobile.hideUrlBar ||
+                this.toScroll !== $18.mobile.defaultHomeScroll) &&
                 window.scrollTo(
                     0,
                     this.toScroll
@@ -7466,7 +7489,7 @@
                         setTimeout(
                             function (
                             ) {
-                                $17.event.special.scrollstart.enabled = !0;
+                                $18.event.special.scrollstart.enabled = !0;
                             },
                             150
                         );
@@ -7478,9 +7501,9 @@
                             function (
                             ) {
                                 this.$to.addClass(
-                                    $17.mobile.activePageClass + this.toPreClass
+                                    $18.mobile.activePageClass + this.toPreClass
                                 ),
-                                preventFocus || $17.mobile.focusPage(
+                                preventFocus || $18.mobile.focusPage(
                                     this.$to
                                 ),
                                 this.$to.height(
@@ -7501,7 +7524,7 @@
                             ? this.doneIn(
                             )
                             : this.$to.animationComplete(
-                                $17.proxy(
+                                $18.proxy(
                                     function (
                                     ) {
                                         this.doneIn(
@@ -7521,7 +7544,7 @@
                         ),
                         this.$from
                             .height(
-                                screenHeight + $17.mobile.window.scrollTop(
+                                screenHeight + $18.mobile.window.scrollTop(
                                 )
                             )
                             .addClass(
@@ -7530,7 +7553,7 @@
                     },
                     toggleViewportClass: function (
                     ) {
-                        $17.mobile.pageContainer.toggleClass(
+                        $18.mobile.pageContainer.toggleClass(
                             "ui-mobile-viewport-transitioning viewport-" + this.name,
                         );
                     },
@@ -7538,29 +7561,29 @@
                     ) {
                         var none,
                             reverseClass = this.reverse ? " reverse" : "",
-                            screenHeight = $17.mobile.getScreenHeight(
+                            screenHeight = $18.mobile.getScreenHeight(
                             ),
                             maxTransitionOverride =
-                !1 !== $17.mobile.maxTransitionWidth &&
-                $17.mobile.window.width(
-                ) > $17.mobile.maxTransitionWidth;
+                !1 !== $18.mobile.maxTransitionWidth &&
+                $18.mobile.window.width(
+                ) > $18.mobile.maxTransitionWidth;
                         return (
                             (this.toScroll =
-                $17.mobile.navigate.history.getActive(
+                $18.mobile.navigate.history.getActive(
                 ).lastScroll ||
-                $17.mobile.defaultHomeScroll),
+                $18.mobile.defaultHomeScroll),
                             (none =
-                !$17.support.cssTransitions ||
-                !$17.support.cssAnimations ||
+                !$18.support.cssTransitions ||
+                !$18.support.cssAnimations ||
                 maxTransitionOverride ||
                 !this.name ||
                 "none" === this.name ||
                 Math.max(
-                    $17.mobile.window.scrollTop(
+                    $18.mobile.window.scrollTop(
                     ),
                     this.toScroll
                 ) >
-                  $17.mobile.getMaxScrollForTransition(
+                  $18.mobile.getMaxScrollForTransition(
                   )),
                             this.toggleViewportClass(
                             ),
@@ -7587,18 +7610,18 @@
             this
         ),
         (function (
-            $17
+            $18
         ) {
-            ($17.mobile.SerialTransition = function (
+            ($18.mobile.SerialTransition = function (
             ) {
                 this.init.apply(
                     this,
                     arguments
                 );
             }),
-            $17.extend(
-                $17.mobile.SerialTransition.prototype,
-                $17.mobile.Transition.prototype,
+            $18.extend(
+                $18.mobile.SerialTransition.prototype,
+                $18.mobile.Transition.prototype,
                 {
                     sequential: !0,
                     beforeDoneOut: function (
@@ -7610,7 +7633,7 @@
                         screenHeight, reverseClass, none
                     ) {
                         this.$from.animationComplete(
-                            $17.proxy(
+                            $18.proxy(
                                 function (
                                 ) {
                                     this.doneOut(
@@ -7629,18 +7652,18 @@
             jQuery
         ),
         (function (
-            $17
+            $18
         ) {
-            ($17.mobile.ConcurrentTransition = function (
+            ($18.mobile.ConcurrentTransition = function (
             ) {
                 this.init.apply(
                     this,
                     arguments
                 );
             }),
-            $17.extend(
-                $17.mobile.ConcurrentTransition.prototype,
-                $17.mobile.Transition.prototype,
+            $18.extend(
+                $18.mobile.ConcurrentTransition.prototype,
+                $18.mobile.Transition.prototype,
                 {
                     sequential: !1,
                     beforeDoneIn: function (
@@ -7774,11 +7797,11 @@
                 );
         }),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.page",
-                $17.mobile.page,
+                $18.mobile.page,
                 {
                     options: {
                         closeBtn: "left",
@@ -7792,7 +7815,7 @@
                         this._super(
                         ),
                         this.options.dialog &&
-              ($17.extend(
+              ($18.extend(
                   this,
                   {
                       _inner: this.element.children(
@@ -7813,7 +7836,7 @@
               this.element.addClass(
                   "ui-dialog"
               ).wrapInner(
-                  $17(
+                  $18(
                       "<div/>",
                       {
                           role: "dialog",
@@ -7836,7 +7859,7 @@
                 !!options.corners
             ),
                         undefined !== options.overlayTheme &&
-              $17.mobile.activePage[0] === this.element[0] &&
+              $18.mobile.activePage[0] === this.element[0] &&
               ((currentOpts.overlayTheme = options.overlayTheme),
               this._handlePageBeforeShow(
               )),
@@ -7894,7 +7917,7 @@
                                     ":jqmData(role='header')"
                                 ).first(
                                 )),
-                                (btn = $17(
+                                (btn = $18(
                                     "<a></a>",
                                     {
                                         href: "#",
@@ -7904,7 +7927,7 @@
                                     }
                                 )
                                     .attr(
-                                        "data-" + $17.mobile.ns + "rel",
+                                        "data-" + $18.mobile.ns + "rel",
                                         "back"
                                     )
                                     .text(
@@ -7922,9 +7945,9 @@
             this
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.dialog",
                 {
                     options: {
@@ -7954,7 +7977,7 @@
                         event
                     ) {
                         var attrs,
-                            $target = $17(
+                            $target = $18(
                                 event.target
                             ).closest(
                                 "vclick" === event.type ? "a" : "form",
@@ -7964,12 +7987,12 @@
                 "transition"
             ) &&
             (((attrs = {
-            })["data-" + $17.mobile.ns + "transition"] =
-              ($17.mobile.navigate.history.getActive(
+            })["data-" + $18.mobile.ns + "transition"] =
+              ($18.mobile.navigate.history.getActive(
               ) || {
               }).transition ||
-              $17.mobile.defaultDialogTransition),
-            (attrs["data-" + $17.mobile.ns + "direction"] = "reverse"),
+              $18.mobile.defaultDialogTransition),
+            (attrs["data-" + $18.mobile.ns + "direction"] = "reverse"),
             $target.attr(
                 attrs
             ));
@@ -7981,7 +8004,7 @@
                         elem.addClass(
                             "ui-dialog"
                         ).wrapInner(
-                            $17(
+                            $18(
                                 "<div/>",
                                 {
                                     role: "dialog",
@@ -7991,7 +8014,7 @@
                                 }
                             ),
                         ),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 _isCloseable: !1,
@@ -8025,7 +8048,7 @@
                 !!options.corners
             ),
                         undefined !== options.overlayTheme &&
-              $17.mobile.activePage[0] === this.element[0] &&
+              $18.mobile.activePage[0] === this.element[0] &&
               ((currentOpts.overlayTheme = options.overlayTheme),
               this._handlePageBeforeShow(
               )),
@@ -8072,7 +8095,7 @@
                                     ":jqmData(role='header')"
                                 ).first(
                                 )),
-                                (btn = $17(
+                                (btn = $18(
                                     "<a></a>",
                                     {
                                         role: "button",
@@ -8100,11 +8123,11 @@
                     ) {
                         this._isCloseable &&
             ((this._isCloseable = !1),
-            $17.mobile.hashListeningEnabled &&
-            $17.mobile.navigate.history.activeIndex > 0
-                ? $17.mobile.back(
+            $18.mobile.hashListeningEnabled &&
+            $18.mobile.navigate.history.activeIndex > 0
+                ? $18.mobile.back(
                 )
-                : $17.mobile.pageContainer.pagecontainer(
+                : $18.mobile.pageContainer.pagecontainer(
                     "back"
                 ));
                     },
@@ -8114,13 +8137,14 @@
             jQuery,
             this
         ),
+        ($12 = jQuery),
         (rInitialLetter = /([A-Z])/g),
         (iconposClass = function (
             iconpos
         ) {
             return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
         }),
-        ($11 = jQuery).widget(
+        $12.widget(
             "mobile.collapsible",
             {
                 options: {
@@ -8145,7 +8169,7 @@
                             accordion: elem
                                 .closest(
                                     ":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')" +
-                  ($11.mobile.collapsibleset ? ", :mobile-collapsibleset" : ""),
+                  ($12.mobile.collapsibleset ? ", :mobile-collapsibleset" : ""),
                                 )
                                 .addClass(
                                     "ui-collapsible-set"
@@ -8156,13 +8180,13 @@
                         this.options
                     )),
                     this.options.enhanced
-                        ? ((ui.heading = $11(
+                        ? ((ui.heading = $12(
                             ".ui-collapsible-heading",
                             this.element[0]
                         )),
                         (ui.content = ui.heading.next(
                         )),
-                        (ui.anchor = $11(
+                        (ui.anchor = $12(
                             "a",
                             ui.heading[0]
                         ).first(
@@ -8183,7 +8207,7 @@
                                     "a"
                                 ).first(
                                 ).addClass(
-                                    $11.mobile.activeBtnClass
+                                    $12.mobile.activeBtnClass
                                 );
                             },
                             click: function (
@@ -8208,7 +8232,7 @@
                     var key,
                         accordion = this._ui.accordion,
                         accordionWidget = this._ui.accordionWidget;
-                    for (key in ((options = $11.extend(
+                    for (key in ((options = $12.extend(
                         {
                         },
                         options
@@ -8226,7 +8250,7 @@
                 : accordionWidget
                     ? accordionWidget.options[key]
                     : accordion.length
-                        ? $11.mobile.getAttribute(
+                        ? $12.mobile.getAttribute(
                             accordion[0],
                             key.replace(
                                 rInitialLetter,
@@ -8236,7 +8260,7 @@
                         )
                         : null),
                         null == options[key] &&
-              (options[key] = $11.mobile.collapsible.defaults[key]);
+              (options[key] = $12.mobile.collapsible.defaults[key]);
                     return options;
                 },
                 _themeClassFromOption: function (
@@ -8277,11 +8301,11 @@
                         ui.heading.is(
                             "legend"
                         ) &&
-            ((ui.heading = $11(
+            ((ui.heading = $12(
                 "<div role='heading'>" + ui.heading.html(
                 ) + "</div>",
             )),
-            (ui.placeholder = $11(
+            (ui.placeholder = $12(
                 "<div><!-- placeholder for legend --></div>",
             ).insertBefore(
                 ui.originalHeading
@@ -8295,7 +8319,7 @@
                             : opts.expandedIcon
                                 ? "ui-icon-" + opts.expandedIcon
                                 : ""),
-                        (ui.status = $11(
+                        (ui.status = $12(
                             "<span class='ui-collapsible-heading-status'></span>",
                         )),
                         (ui.anchor = ui.heading
@@ -8364,7 +8388,7 @@
                         opts = this._getOptions(
                             options
                         );
-                    (undefined = void 0) !== options.collapsed &&
+                    undefined !== options.collapsed &&
           this._handleExpandCollapse(
               options.collapsed
           ),
@@ -8524,7 +8548,7 @@
                             isCollapse || opts.expandedIcon === opts.collapsedIcon,
                         )
                         .removeClass(
-                            $11.mobile.activeBtnClass
+                            $12.mobile.activeBtnClass
                         ),
                     this.element.toggleClass(
                         "ui-collapsible-collapsed",
@@ -8595,7 +8619,7 @@
                 },
             }
         ),
-        ($11.mobile.collapsible.defaults = {
+        ($12.mobile.collapsible.defaults = {
             expandCueText: " click to expand contents",
             collapseCueText: " click to collapse contents",
             collapsedIcon: "plus",
@@ -8659,26 +8683,26 @@
             },
         }),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var childCollapsiblesSelector =
-        ":mobile-collapsible, " + $17.mobile.collapsible.initSelector;
-            $17.widget(
+        ":mobile-collapsible, " + $18.mobile.collapsible.initSelector;
+            $18.widget(
                 "mobile.collapsibleset",
-                $17.extend(
+                $18.extend(
                     {
                         initSelector:
               ":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')",
-                        options: $17.extend(
+                        options: $18.extend(
                             {
                                 enhanced: !1,
                             },
-                            $17.mobile.collapsible.defaults,
+                            $18.mobile.collapsible.defaults,
                         ),
                         _handleCollapsibleExpand: function (
                             event
                         ) {
-                            var closestCollapsible = $17(
+                            var closestCollapsible = $18(
                                 event.target
                             ).closest(
                                 ".ui-collapsible",
@@ -8701,7 +8725,7 @@
                         ) {
                             var elem = this.element,
                                 opts = this.options;
-                            $17.extend(
+                            $18.extend(
                                 this,
                                 {
                                     _classes: "",
@@ -8719,7 +8743,7 @@
                   ),
                   this.element
                       .find(
-                          $17.mobile.collapsible.initSelector
+                          $18.mobile.collapsible.initSelector
                       )
                       .collapsible(
                       )),
@@ -8832,7 +8856,7 @@
                             );
                             this.element
                                 .find(
-                                    $17.mobile.collapsible.initSelector
+                                    $18.mobile.collapsible.initSelector
                                 )
                                 .not(
                                     ".ui-collapsible"
@@ -8855,7 +8879,7 @@
                             );
                         },
                     },
-                    $17.mobile.behaviors.addFirstLastClasses,
+                    $18.mobile.behaviors.addFirstLastClasses,
                 ),
             );
         })(
@@ -8867,7 +8891,7 @@
                 "ui-field-contain"
             );
         }),
-        (($12 = jQuery).fn.grid = function (
+        (($13 = jQuery).fn.grid = function (
             options
         ) {
             return this.each(
@@ -8875,10 +8899,10 @@
                 ) {
                     var iterator,
                         letter,
-                        $this = $12(
+                        $this = $13(
                             this
                         ),
-                        o = $12.extend(
+                        o = $13.extend(
                             {
                                 grid: null,
                             },
@@ -8948,9 +8972,9 @@
             );
         }),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.navbar",
                 {
                     options: {
@@ -8989,11 +9013,11 @@
                         $navbtns.each(
                             function (
                             ) {
-                                var icon = $17.mobile.getAttribute(
+                                var icon = $18.mobile.getAttribute(
                                         this,
                                         "icon"
                                     ),
-                                    theme = $17.mobile.getAttribute(
+                                    theme = $18.mobile.getAttribute(
                                         this,
                                         "theme"
                                     ),
@@ -9001,7 +9025,7 @@
                                 theme && (classes += " ui-btn-" + theme),
                                 icon &&
                   (classes += " ui-icon-" + icon + " ui-btn-icon-" + iconpos),
-                                $17(
+                                $18(
                                     this
                                 ).addClass(
                                     classes
@@ -9013,7 +9037,7 @@
                             "vclick",
                             function (
                             ) {
-                                var activeBtn = $17(
+                                var activeBtn = $18(
                                     this
                                 );
                                 activeBtn.hasClass(
@@ -9023,22 +9047,22 @@
                     "ui-disabled"
                 ) ||
                 activeBtn.hasClass(
-                    $17.mobile.activeBtnClass
+                    $18.mobile.activeBtnClass
                 ) ||
                 ($navbtns.removeClass(
-                    $17.mobile.activeBtnClass
+                    $18.mobile.activeBtnClass
                 ),
                 activeBtn.addClass(
-                    $17.mobile.activeBtnClass
+                    $18.mobile.activeBtnClass
                 ),
-                $17(
+                $18(
                     document
                 ).one(
                     "pagehide",
                     function (
                     ) {
                         activeBtn.removeClass(
-                            $17.mobile.activeBtnClass
+                            $18.mobile.activeBtnClass
                         );
                     }
                 ));
@@ -9055,7 +9079,7 @@
                                         ".ui-state-persist"
                                     )
                                     .addClass(
-                                        $17.mobile.activeBtnClass
+                                        $18.mobile.activeBtnClass
                                     );
                             }
                         );
@@ -9066,12 +9090,12 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            var getAttr = $17.mobile.getAttribute;
-            $17.widget(
+            var getAttr = $18.mobile.getAttribute;
+            $18.widget(
                 "mobile.listview",
-                $17.extend(
+                $18.extend(
                     {
                         options: {
                             theme: null,
@@ -9122,7 +9146,7 @@
                                 img,
                                 len = containers.length;
                             for (i = 0; i < len; i++)
-                                (img = $17(
+                                (img = $18(
                                     this._findFirstElementByTagName(
                                         containers[i].firstChild,
                                         "nextSibling",
@@ -9130,7 +9154,7 @@
                                         "IMG",
                                     ),
                                 )).length &&
-                  $17(
+                  $18(
                       this._findFirstElementByTagName(
                           img[0].parentNode,
                           "parentNode",
@@ -9160,12 +9184,12 @@
                                     ele
                                 ),
                                 (ele = ele.nextSibling);
-                            return $17(
+                            return $18(
                                 results
                             );
                         },
-                        _beforeListviewRefresh: $17.noop,
-                        _afterListviewRefresh: $17.noop,
+                        _beforeListviewRefresh: $18.noop,
+                        _afterListviewRefresh: $18.noop,
                         refresh: function (
                             create
                         ) {
@@ -9190,7 +9214,7 @@
                                 li,
                                 o = this.options,
                                 $list = this.element,
-                                ol = !!$17.nodeName(
+                                ol = !!$18.nodeName(
                                     $list[0],
                                     "ol"
                                 ),
@@ -9307,7 +9331,7 @@
                             last
                                 .attr(
                                     "title",
-                                    $17.trim(
+                                    $18.trim(
                                         last.getEncodedText(
                                         )
                                     )
@@ -9358,7 +9382,7 @@
                                     item[0]
                                 );
                             for (itemClass in itemClassDict)
-                                $17(
+                                $18(
                                     itemClassDict[itemClass]
                                 ).addClass(
                                     itemClass
@@ -9366,7 +9390,7 @@
                             countBubbles.each(
                                 function (
                                 ) {
-                                    $17(
+                                    $18(
                                         this
                                     ).closest(
                                         "li"
@@ -9398,25 +9422,25 @@
                             );
                         },
                     },
-                    $17.mobile.behaviors.addFirstLastClasses,
+                    $18.mobile.behaviors.addFirstLastClasses,
                 ),
             );
         })(
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.listview",
-                $17.mobile.listview,
+                $18.mobile.listview,
                 {
                     options: {
                         autodividers: !1,
                         autodividersSelector: function (
                             elt
                         ) {
-                            var text = $17.trim(
+                            var text = $18.trim(
                                 elt.text(
                                 )
                             ) || null;
@@ -9460,7 +9484,7 @@
                         )
                             (li = lis[i]),
                             (dividerText = this.options.autodividersSelector(
-                                $17(
+                                $18(
                                     li
                                 )
                             )) &&
@@ -9473,7 +9497,7 @@
                     ),
                 ),
                 divider.setAttribute(
-                    "data-" + $17.mobile.ns + "role",
+                    "data-" + $18.mobile.ns + "role",
                     "list-divider",
                 ),
                 li.parentNode.insertBefore(
@@ -9488,13 +9512,13 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var rdivider = /(^|\s)ui-li-divider($|\s)/,
                 rhidden = /(^|\s)ui-screen-hidden($|\s)/;
-            $17.widget(
+            $18.widget(
                 "mobile.listview",
-                $17.mobile.listview,
+                $18.mobile.listview,
                 {
                     options: {
                         hideDividers: !1,
@@ -9533,10 +9557,10 @@
         })(
             jQuery
         ),
-        (($13 = jQuery).mobile.nojs = function (
+        (($14 = jQuery).mobile.nojs = function (
             target
         ) {
-            $13(
+            $14(
                 ":jqmData(role='nojs')",
                 target
             ).addClass(
@@ -9562,12 +9586,12 @@
             },
         }),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            var escapeId = $17.mobile.path.hashToSelector;
-            $17.widget(
+            var escapeId = $18.mobile.path.hashToSelector;
+            $18.widget(
                 "mobile.checkboxradio",
-                $17.extend(
+                $18.extend(
                     {
                         initSelector:
               "input:not( :jqmData(role='flipswitch' ) )[type='checkbox'],input[type='radio']:not( :jqmData(role='flipswitch' ))",
@@ -9624,14 +9648,14 @@
                       "iconpos"
                   ) ||
                   label.attr(
-                      "data-" + $17.mobile.ns + "iconpos"
+                      "data-" + $18.mobile.ns + "iconpos"
                   ) ||
                   o.iconpos),
                 (o.mini = inheritAttr(
                     input,
                     "mini"
                 ) || o.mini),
-                $17.extend(
+                $18.extend(
                     this,
                     {
                         input: input,
@@ -9695,7 +9719,7 @@
                         },
                         _wrapper: function (
                         ) {
-                            return $17(
+                            return $18(
                                 "<div class='" +
                   (this.options.wrapperClass ? this.options.wrapperClass : "") +
                   " ui-" +
@@ -9707,13 +9731,13 @@
                         _handleInputFocus: function (
                         ) {
                             this.label.addClass(
-                                $17.mobile.focusClass
+                                $18.mobile.focusClass
                             );
                         },
                         _handleInputBlur: function (
                         ) {
                             this.label.removeClass(
-                                $17.mobile.focusClass
+                                $18.mobile.focusClass
                             );
                         },
                         _handleInputVClick: function (
@@ -9785,10 +9809,10 @@
                             ).each(
                                 function (
                                 ) {
-                                    $17(
+                                    $18(
                                         this
                                     ).attr(
-                                        "data-" + $17.mobile.ns + "cacheVal",
+                                        "data-" + $18.mobile.ns + "cacheVal",
                                         this.checked,
                                     );
                                 }
@@ -9817,13 +9841,13 @@
                     ) + "']"),
                   form
                       ? ((formId = form.id) &&
-                        (radios = $17(
+                        (radios = $18(
                             selector + "[form='" + escapeId(
                                 formId
                             ) + "']",
                             doc,
                         )),
-                      (radios = $17(
+                      (radios = $18(
                           form
                       )
                           .find(
@@ -9838,7 +9862,7 @@
                           .add(
                               radios
                           )))
-                      : (radios = $17(
+                      : (radios = $18(
                           selector,
                           doc
                       ).filter(
@@ -9859,7 +9883,7 @@
                                     function (
                                     ) {
                                         (this.checked || "checkbox" === self.inputtype) &&
-                    $17(
+                    $18(
                         this
                     ).trigger(
                         "change"
@@ -9879,7 +9903,7 @@
                         ) {
                             var controlgroup,
                                 controlgroupWidget,
-                                controlgroupConstructor = $17.mobile.controlgroup;
+                                controlgroupConstructor = $18.mobile.controlgroup;
                             return (
                                 !controlgroupConstructor ||
                 !(
@@ -9888,13 +9912,13 @@
                       controlgroupConstructor.prototype.initSelector,
                     )).length > 0
                 ) ||
-                ((controlgroupWidget = $17.data(
+                ((controlgroupWidget = $18.data(
                     controlgroup[0],
                     "mobile-controlgroup",
                 ))
                     ? controlgroupWidget.options.type
                     : controlgroup.attr(
-                        "data-" + $17.mobile.ns + "type"
+                        "data-" + $18.mobile.ns + "type"
                     )) !==
                   "horizontal"
                             );
@@ -9904,7 +9928,7 @@
                             var hasIcon = this._hasIcon(
                                 ),
                                 isChecked = this.element[0].checked,
-                                active = $17.mobile.activeBtnClass,
+                                active = $18.mobile.activeBtnClass,
                                 iconposClass = "ui-btn-icon-" + this.options.iconpos,
                                 addClasses = [],
                                 removeClasses = [];
@@ -10006,16 +10030,16 @@
                             );
                         },
                     },
-                    $17.mobile.behaviors.formReset,
+                    $18.mobile.behaviors.formReset,
                 ),
             );
         })(
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.button",
                 {
                     initSelector:
@@ -10039,7 +10063,7 @@
                         ) && (this.options.disabled = !0),
                         this.options.enhanced || this._enhance(
                         ),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 wrapper: this.element.parent(
@@ -10052,14 +10076,14 @@
                                 ) {
                                     this.widget(
                                     ).addClass(
-                                        $17.mobile.focusClass
+                                        $18.mobile.focusClass
                                     );
                                 },
                                 blur: function (
                                 ) {
                                     this.widget(
                                     ).removeClass(
-                                        $17.mobile.focusClass
+                                        $18.mobile.focusClass
                                     );
                                 },
                             }
@@ -10081,7 +10105,7 @@
                             iconClasses = this._getIconClasses(
                                 this.options
                             );
-                        return $17(
+                        return $18(
                             "<div class='ui-btn ui-input-btn" +
               (options.wrapperClass ? " " + options.wrapperClass : "") +
               (options.theme ? " ui-btn-" + options.theme : "") +
@@ -10172,7 +10196,7 @@
                   )
                   .addClass(
                       this._getIconClasses(
-                          $17.extend(
+                          $18.extend(
                               {
                               },
                               this.options,
@@ -10204,7 +10228,7 @@
                         create ||
               ((originalElement = this.element.detach(
               )),
-              $17(
+              $18(
                   this.wrapper
               )
                   .text(
@@ -10227,7 +10251,7 @@
             jQuery
         ),
         (disabledZoom =
-      (initialContent = (meta = ($14 = jQuery)(
+      (initialContent = (meta = ($15 = jQuery)(
           "meta[name=viewport]"
       )).attr(
           "content",
@@ -10237,7 +10261,7 @@
       /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(
           initialContent,
       )),
-        ($14.mobile.zoom = $14.extend(
+        ($15.mobile.zoom = $15.extend(
             {
             },
             {
@@ -10247,25 +10271,25 @@
                     lock
                 ) {
                     disabledInitially ||
-            $14.mobile.zoom.locked ||
+            $15.mobile.zoom.locked ||
             (meta.attr(
                 "content",
                 disabledZoom
             ),
-            ($14.mobile.zoom.enabled = !1),
-            ($14.mobile.zoom.locked = lock || !1));
+            ($15.mobile.zoom.enabled = !1),
+            ($15.mobile.zoom.locked = lock || !1));
                 },
                 enable: function (
                     unlock
                 ) {
                     disabledInitially ||
-            ($14.mobile.zoom.locked && !0 !== unlock) ||
+            ($15.mobile.zoom.locked && !0 !== unlock) ||
             (meta.attr(
                 "content",
                 enabledZoom
             ),
-            ($14.mobile.zoom.enabled = !0),
-            ($14.mobile.zoom.locked = !1));
+            ($15.mobile.zoom.enabled = !0),
+            ($15.mobile.zoom.locked = !1));
                 },
                 restore: function (
                 ) {
@@ -10274,14 +10298,14 @@
                 "content",
                 initialContent
             ),
-            ($14.mobile.zoom.enabled = !0));
+            ($15.mobile.zoom.enabled = !0));
                 },
             },
         )),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.textinput",
                 {
                     initSelector:
@@ -10308,20 +10332,20 @@
                             ),
                             isTextarea = "TEXTAREA" === this.element[0].tagName,
                             isRange = this.element.is(
-                                "[data-" + ($17.mobile.ns || "") + "type='range']",
+                                "[data-" + ($18.mobile.ns || "") + "type='range']",
                             ),
                             inputNeedsWrap =
               (this.element.is(
                   "input"
               ) ||
                 this.element.is(
-                    "[data-" + ($17.mobile.ns || "") + "type='search']",
+                    "[data-" + ($18.mobile.ns || "") + "type='search']",
                 )) &&
               !isRange;
                         this.element.prop(
                             "disabled"
                         ) && (options.disabled = !0),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 classes: this._classesFromOptions(
@@ -10409,7 +10433,7 @@
                     },
                     _wrap: function (
                     ) {
-                        return $17(
+                        return $18(
                             "<div class='" +
               (this.isSearch ? "ui-input-search " : "ui-input-text ") +
               this.classes.join(
@@ -10421,7 +10445,7 @@
                     _autoCorrect: function (
                     ) {
                         void 0 === this.element[0].autocorrect ||
-            $17.support.touchOverflow ||
+            $18.support.touchOverflow ||
             (this.element[0].setAttribute(
                 "autocorrect",
                 "off"
@@ -10435,20 +10459,20 @@
                     ) {
                         this.widget(
                         ).removeClass(
-                            $17.mobile.focusClass
+                            $18.mobile.focusClass
                         ),
-                        this.options.preventFocusZoom && $17.mobile.zoom.enable(
+                        this.options.preventFocusZoom && $18.mobile.zoom.enable(
                             !0
                         );
                     },
                     _handleFocus: function (
                     ) {
-                        this.options.preventFocusZoom && $17.mobile.zoom.disable(
+                        this.options.preventFocusZoom && $18.mobile.zoom.disable(
                             !0
                         ),
                         this.widget(
                         ).addClass(
-                            $17.mobile.focusClass
+                            $18.mobile.focusClass
                         );
                     },
                     _setOptions: function (
@@ -10499,11 +10523,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.slider",
-                $17.extend(
+                $18.extend(
                     {
                         initSelector:
               "input[type='range'], :jqmData(type='range'), :jqmData(role='slider')",
@@ -10532,7 +10556,7 @@
                                 control = this.element,
                                 trackTheme =
                   this.options.trackTheme ||
-                  $17.mobile.getAttribute(
+                  $18.mobile.getAttribute(
                       control[0],
                       "theme"
                   ),
@@ -10560,7 +10584,7 @@
                                 controlID = control.attr(
                                     "id"
                                 ),
-                                $label = $17(
+                                $label = $18(
                                     "[for='" + controlID + "']"
                                 ),
                                 labelID = $label.attr(
@@ -10590,13 +10614,13 @@
                                 domHandle = document.createElement(
                                     "a"
                                 ),
-                                handle = $17(
+                                handle = $18(
                                     domHandle
                                 ),
                                 domSlider = document.createElement(
                                     "div"
                                 ),
-                                slider = $17(
+                                slider = $18(
                                     domSlider
                                 ),
                                 valuebg =
@@ -10605,8 +10629,8 @@
                   (((bg = document.createElement(
                       "div"
                   )).className =
-                    "ui-slider-bg " + $17.mobile.activeBtnClass),
-                  $17(
+                    "ui-slider-bg " + $18.mobile.activeBtnClass),
+                  $18(
                       bg
                   ).prependTo(
                       slider
@@ -10654,7 +10678,7 @@
                                         "aria-labelledby": labelID,
                                     }
                                 ),
-                                $17.extend(
+                                $18.extend(
                                     this,
                                     {
                                         slider: slider,
@@ -10688,7 +10712,7 @@
                                     ).focus(
                                         function (
                                         ) {
-                                            $17(
+                                            $18(
                                                 this
                                             ).blur(
                                             ), handle.focus(
@@ -10722,7 +10746,7 @@
                                     i++
                                 )
                                     (side = i ? "a" : "b"),
-                                    (activeClass = i ? " " + $17.mobile.activeBtnClass : ""),
+                                    (activeClass = i ? " " + $18.mobile.activeBtnClass : ""),
                                     ((sliderImg = document.createElement(
                                         "span"
                                     )).className = [
@@ -10741,12 +10765,12 @@
                                             options[i].innerHTML
                                         ),
                                     ),
-                                    $17(
+                                    $18(
                                         sliderImg
                                     ).prependTo(
                                         slider
                                     );
-                                self._labels = $17(
+                                self._labels = $18(
                                     ".ui-slider-label",
                                     slider
                                 );
@@ -10766,7 +10790,7 @@
                             slider
                                 .bind(
                                     "vmousedown",
-                                    $17.proxy(
+                                    $18.proxy(
                                         this._sliderVMouseDown,
                                         this
                                     )
@@ -10898,14 +10922,14 @@
                             );
                             if (!this.options.disabled) {
                                 switch (event.keyCode) {
-                                case $17.mobile.keyCode.HOME:
-                                case $17.mobile.keyCode.END:
-                                case $17.mobile.keyCode.PAGE_UP:
-                                case $17.mobile.keyCode.PAGE_DOWN:
-                                case $17.mobile.keyCode.UP:
-                                case $17.mobile.keyCode.RIGHT:
-                                case $17.mobile.keyCode.DOWN:
-                                case $17.mobile.keyCode.LEFT:
+                                case $18.mobile.keyCode.HOME:
+                                case $18.mobile.keyCode.END:
+                                case $18.mobile.keyCode.PAGE_UP:
+                                case $18.mobile.keyCode.PAGE_DOWN:
+                                case $18.mobile.keyCode.UP:
+                                case $18.mobile.keyCode.RIGHT:
+                                case $18.mobile.keyCode.DOWN:
+                                case $18.mobile.keyCode.LEFT:
                                     event.preventDefault(
                                     ),
                                     this._keySliding ||
@@ -10916,26 +10940,26 @@
                                     break;
                                 }
                                 switch (event.keyCode) {
-                                case $17.mobile.keyCode.HOME:
+                                case $18.mobile.keyCode.HOME:
                                     this.refresh(
                                         this.min
                                     );
                                     break;
-                                case $17.mobile.keyCode.END:
+                                case $18.mobile.keyCode.END:
                                     this.refresh(
                                         this.max
                                     );
                                     break;
-                                case $17.mobile.keyCode.PAGE_UP:
-                                case $17.mobile.keyCode.UP:
-                                case $17.mobile.keyCode.RIGHT:
+                                case $18.mobile.keyCode.PAGE_UP:
+                                case $18.mobile.keyCode.UP:
+                                case $18.mobile.keyCode.RIGHT:
                                     this.refresh(
                                         index + this.step
                                     );
                                     break;
-                                case $17.mobile.keyCode.PAGE_DOWN:
-                                case $17.mobile.keyCode.DOWN:
-                                case $17.mobile.keyCode.LEFT:
+                                case $18.mobile.keyCode.PAGE_DOWN:
+                                case $18.mobile.keyCode.DOWN:
+                                case $18.mobile.keyCode.LEFT:
                                     this.refresh(
                                         index - this.step
                                     );
@@ -11077,7 +11101,7 @@
                                 bPercent,
                                 valueChanged,
                                 self = this,
-                                parentTheme = $17.mobile.getAttribute(
+                                parentTheme = $18.mobile.getAttribute(
                                     this.element[0],
                                     "theme"
                                 ),
@@ -11112,8 +11136,8 @@
                     (((bg = document.createElement(
                         "div"
                     )).className =
-                      "ui-slider-bg " + $17.mobile.activeBtnClass),
-                    $17(
+                      "ui-slider-bg " + $18.mobile.activeBtnClass),
+                    $18(
                         bg
                     ).prependTo(
                         self.slider
@@ -11259,12 +11283,12 @@
                     this._labels.each(
                         function (
                         ) {
-                            var ab = $17(
+                            var ab = $18(
                                 this
                             ).hasClass(
                                 "ui-slider-label-a"
                             );
-                            $17(
+                            $18(
                                 this
                             ).width(
                                 (ab ? aPercent : bPercent) + "%"
@@ -11390,21 +11414,21 @@
                                 );
                         },
                     },
-                    $17.mobile.behaviors.formReset,
+                    $18.mobile.behaviors.formReset,
                 ),
             );
         })(
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var popup;
             function getPopup(
             ) {
                 return (
                     popup ||
-            (popup = $17(
+            (popup = $18(
                 "<div></div>",
                 {
                     class: "ui-slider-popup ui-shadow ui-corner-all",
@@ -11414,9 +11438,9 @@
                     )
                 );
             }
-            $17.widget(
+            $18.widget(
                 "mobile.slider",
-                $17.mobile.slider,
+                $18.mobile.slider,
                 {
                     options: {
                         popupEnabled: !1,
@@ -11426,7 +11450,7 @@
                     ) {
                         this._super(
                         ),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 _currentValue: null,
@@ -11559,11 +11583,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.flipswitch",
-                $17.extend(
+                $18.extend(
                     {
                         options: {
                             onText: "On",
@@ -11577,7 +11601,7 @@
                         _create: function (
                         ) {
                             this.options.enhanced
-                                ? $17.extend(
+                                ? $18.extend(
                                     this,
                                     {
                                         flipswitch: this.element.parent(
@@ -11691,19 +11715,19 @@
                         },
                         _enhance: function (
                         ) {
-                            var flipswitch = $17(
+                            var flipswitch = $18(
                                     "<div>"
                                 ),
                                 options = this.options,
                                 element = this.element,
                                 theme = options.theme ? options.theme : "inherit",
-                                on = $17(
+                                on = $18(
                                     "<a></a>",
                                     {
                                         href: "#",
                                     }
                                 ),
-                                off = $17(
+                                off = $18(
                                     "<span></span>"
                                 ),
                                 type = element.get(
@@ -11780,7 +11804,7 @@
                                 .appendTo(
                                     flipswitch
                                 ),
-                            $17.extend(
+                            $18.extend(
                                 this,
                                 {
                                     flipswitch: flipswitch,
@@ -11831,13 +11855,13 @@
                         _keydown: function (
                             e
                         ) {
-                            e.which === $17.mobile.keyCode.LEFT
+                            e.which === $18.mobile.keyCode.LEFT
                                 ? this._left(
                                 )
-                                : e.which === $17.mobile.keyCode.RIGHT
+                                : e.which === $18.mobile.keyCode.RIGHT
                                     ? this._right(
                                     )
-                                    : e.which === $17.mobile.keyCode.SPACE &&
+                                    : e.which === $18.mobile.keyCode.SPACE &&
                   (this._toggle(
                   ), e.preventDefault(
                   ));
@@ -11909,18 +11933,18 @@
                 ));
                         },
                     },
-                    $17.mobile.behaviors.formReset,
+                    $18.mobile.behaviors.formReset,
                 ),
             );
         })(
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.rangeslider",
-                $17.extend(
+                $18.extend(
                     {
                         options: {
                             theme: null,
@@ -11948,13 +11972,13 @@
                                 ).first(
                                 ),
                                 _sliderWidgetFirst =
-                  $17.data(
+                  $18.data(
                       _inputFirst.get(
                           0
                       ),
                       "mobile-slider"
                   ) ||
-                  $17.data(
+                  $18.data(
                       _inputFirst.slider(
                       ).get(
                           0
@@ -11962,13 +11986,13 @@
                       "mobile-slider"
                   ),
                                 _sliderWidgetLast =
-                  $17.data(
+                  $18.data(
                       _inputLast.get(
                           0
                       ),
                       "mobile-slider"
                   ) ||
-                  $17.data(
+                  $18.data(
                       _inputLast.slider(
                       ).get(
                           0
@@ -11978,7 +12002,7 @@
                                 _sliderFirst = _sliderWidgetFirst.slider,
                                 _sliderLast = _sliderWidgetLast.slider,
                                 firstHandle = _sliderWidgetFirst.handle,
-                                _sliders = $17(
+                                _sliders = $18(
                                     "<div class='ui-rangeslider-sliders' />",
                                 ).appendTo(
                                     $el
@@ -12004,7 +12028,7 @@
                             firstHandle.prependTo(
                                 _sliderLast
                             ),
-                            $17.extend(
+                            $18.extend(
                                 this,
                                 {
                                     _inputFirst: _inputFirst,
@@ -12069,14 +12093,14 @@
                             event
                         ) {
                             return (
-                                ($17.data(
+                                ($18.data(
                                     this._inputFirst.get(
                                         0
                                     ),
                                     "mobile-slider"
                                 ).dragging =
                   !0),
-                                $17
+                                $18
                                     .data(
                                         this._inputFirst.get(
                                             0
@@ -12092,7 +12116,7 @@
                         _slidedrag: function (
                             event
                         ) {
-                            var first = $17(
+                            var first = $18(
                                     event.target
                                 ).is(
                                     this._inputFirst
@@ -12104,13 +12128,13 @@
                   ("last" === this._proxy && !first))
                             )
                                 return (
-                                    ($17.data(
+                                    ($18.data(
                                         otherSlider.get(
                                             0
                                         ),
                                         "mobile-slider"
                                     ).dragging = !0),
-                                    $17.data(
+                                    $18.data(
                                         otherSlider.get(
                                             0
                                         ),
@@ -12124,7 +12148,7 @@
                         _slidestop: function (
                             event
                         ) {
-                            var first = $17(
+                            var first = $18(
                                 event.target
                             ).is(
                                 this._inputFirst
@@ -12144,13 +12168,13 @@
                             event
                         ) {
                             (this._sliderTarget = !1),
-                            $17(
+                            $18(
                                 event.originalEvent.target
                             ).hasClass(
                                 "ui-slider-track"
                             ) &&
                   ((this._sliderTarget = !0),
-                  (this._targetVal = $17(
+                  (this._targetVal = $18(
                       event.target
                   ).val(
                   )));
@@ -12225,7 +12249,7 @@
                                     ),
                                     10
                                 ),
-                                first = $17(
+                                first = $18(
                                     event.target
                                 ).hasClass(
                                     "ui-rangeslider-first"
@@ -12237,7 +12261,7 @@
                                 ) > this._inputLast.val(
                                 ) &&
                 "mousedown" === event.type &&
-                !$17(
+                !$18(
                     event.target
                 ).hasClass(
                     "ui-slider-handle"
@@ -12270,7 +12294,7 @@
                             ).slider(
                                 "refresh"
                             ),
-                            $17
+                            $18
                                 .data(
                                     otherSlider.get(
                                         0
@@ -12291,7 +12315,7 @@
                     ),
                     (this._proxy = first ? "first" : "last")),
                                 min === max
-                                    ? ($17
+                                    ? ($18
                                         .data(
                                             thisSlider.get(
                                                 0
@@ -12302,7 +12326,7 @@
                                             "z-index",
                                             1
                                         ),
-                                    $17
+                                    $18
                                         .data(
                                             otherSlider.get(
                                                 0
@@ -12313,7 +12337,7 @@
                                             "z-index",
                                             0
                                         ))
-                                    : ($17
+                                    : ($18
                                         .data(
                                             otherSlider.get(
                                                 0
@@ -12324,7 +12348,7 @@
                                             "z-index",
                                             ""
                                         ),
-                                    $17
+                                    $18
                                         .data(
                                             thisSlider.get(
                                                 0
@@ -12344,7 +12368,7 @@
                         _updateHighlight: function (
                         ) {
                             var min = parseInt(
-                                    $17
+                                    $18
                                         .data(
                                             this._inputFirst.get(
                                                 0
@@ -12358,7 +12382,7 @@
                                 ),
                                 width =
                   parseInt(
-                      $17
+                      $18
                           .data(
                               this._inputLast.get(
                                   0
@@ -12467,18 +12491,18 @@
                                 );
                         },
                     },
-                    $17.mobile.behaviors.formReset,
+                    $18.mobile.behaviors.formReset,
                 ),
             );
         })(
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.textinput",
-                $17.mobile.textinput,
+                $18.mobile.textinput,
                 {
                     options: {
                         clearBtn: !1,
@@ -12493,7 +12517,7 @@
                     },
                     clearButton: function (
                     ) {
-                        return $17(
+                        return $18(
                             "<a href='#' class='ui-input-clear ui-btn ui-icon-delete ui-btn-icon-notext ui-corner-all' title='" +
               this.options.clearBtnText +
               "'>" +
@@ -12520,7 +12544,7 @@
                     ) {
                         this.options.enhanced || this._enhanceClear(
                         ),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 _clearBtn: this.widget(
@@ -12641,11 +12665,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.textinput",
-                $17.mobile.textinput,
+                $18.mobile.textinput,
                 {
                     options: {
                         autogrow: !0,
@@ -12685,7 +12709,7 @@
                     _handleShow: function (
                         event
                     ) {
-                        $17.contains(
+                        $18.contains(
                             event.target,
                             this.element[0]
                         ) &&
@@ -12698,7 +12722,7 @@
                       "ui-textinput-autogrow-resize"
                   )
                   .animationComplete(
-                      $17.proxy(
+                      $18.proxy(
                           function (
                           ) {
                               this.element.removeClass(
@@ -12827,11 +12851,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.selectmenu",
-                $17.extend(
+                $18.extend(
                     {
                         initSelector:
               "select:not( :jqmData(role='slider')):not( :jqmData(role='flipswitch') )",
@@ -12859,7 +12883,7 @@
                         },
                         _button: function (
                         ) {
-                            return $17(
+                            return $18(
                                 "<div/>"
                             );
                         },
@@ -12931,7 +12955,7 @@
                       "id"
                   ) || "select-" + this.uuid),
                             (this.buttonId = this.selectId + "-button"),
-                            (this.label = $17(
+                            (this.label = $18(
                                 "label[for='" + this.selectId + "']"
                             )),
                             (this.isMultiple = this.select[0].multiple);
@@ -13000,7 +13024,7 @@
                       "ui-select-nativeonly"
                   ),
                             this.isMultiple &&
-                  (this.buttonCount = $17(
+                  (this.buttonCount = $18(
                       "<span>"
                   )
                       .addClass(
@@ -13049,7 +13073,7 @@
                                     function (
                                     ) {
                                         self.button.addClass(
-                                            $17.mobile.activeBtnClass
+                                            $18.mobile.activeBtnClass
                                         );
                                     }
                                 )
@@ -13058,7 +13082,7 @@
                                     function (
                                     ) {
                                         self.button.addClass(
-                                            $17.mobile.focusClass
+                                            $18.mobile.focusClass
                                         );
                                     }
                                 )
@@ -13067,7 +13091,7 @@
                                     function (
                                     ) {
                                         self.button.removeClass(
-                                            $17.mobile.focusClass
+                                            $18.mobile.focusClass
                                         );
                                     }
                                 )
@@ -13085,7 +13109,7 @@
                                     function (
                                     ) {
                                         self.button.removeClass(
-                                            $17.mobile.activeBtnClass
+                                            $18.mobile.activeBtnClass
                                         );
                                     }
                                 )
@@ -13098,7 +13122,7 @@
                                                 "vmouseout"
                                             )
                                             .removeClass(
-                                                $17.mobile.activeBtnClass
+                                                $18.mobile.activeBtnClass
                                             );
                                     }
                                 ),
@@ -13106,7 +13130,7 @@
                                 "vmousedown",
                                 function (
                                 ) {
-                                    self.options.preventFocusZoom && $17.mobile.zoom.disable(
+                                    self.options.preventFocusZoom && $18.mobile.zoom.disable(
                                         !0
                                     );
                                 }
@@ -13115,7 +13139,7 @@
                                 "click focus",
                                 function (
                                 ) {
-                                    self.options.preventFocusZoom && $17.mobile.zoom.disable(
+                                    self.options.preventFocusZoom && $18.mobile.zoom.disable(
                                         !0
                                     );
                                 }
@@ -13124,7 +13148,7 @@
                                 "focus",
                                 function (
                                 ) {
-                                    self.options.preventFocusZoom && $17.mobile.zoom.disable(
+                                    self.options.preventFocusZoom && $18.mobile.zoom.disable(
                                         !0
                                     );
                                 }
@@ -13137,7 +13161,7 @@
                     setTimeout(
                         function (
                         ) {
-                            $17.mobile.zoom.enable(
+                            $18.mobile.zoom.enable(
                                 !0
                             );
                         },
@@ -13149,7 +13173,7 @@
                                 "blur",
                                 function (
                                 ) {
-                                    self.options.preventFocusZoom && $17.mobile.zoom.enable(
+                                    self.options.preventFocusZoom && $18.mobile.zoom.enable(
                                         !0
                                     );
                                 }
@@ -13185,7 +13209,7 @@
                                 selected = this.selected(
                                 ),
                                 text = this.placeholder,
-                                span = $17(
+                                span = $18(
                                     document.createElement(
                                         "span"
                                     )
@@ -13209,7 +13233,7 @@
                                             .map(
                                                 function (
                                                 ) {
-                                                    return $17(
+                                                    return $18(
                                                         this
                                                     ).text(
                                                     );
@@ -13275,8 +13299,8 @@
                             this._refreshButton(
                             );
                         },
-                        open: $17.noop,
-                        close: $17.noop,
+                        open: $18.noop,
+                        close: $18.noop,
                         disable: function (
                         ) {
                             this._setDisabled(
@@ -13295,16 +13319,16 @@
                             );
                         },
                     },
-                    $17.mobile.behaviors.formReset,
+                    $18.mobile.behaviors.formReset,
                 ),
             );
         })(
             jQuery
         ),
-        (($15 = jQuery).mobile.links = function (
+        (($16 = jQuery).mobile.links = function (
             target
         ) {
-            $15(
+            $16(
                 target
             )
                 .find(
@@ -13349,7 +13373,7 @@
                 );
         }),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             function fitSegmentInsideSegment(
                 windowSize,
@@ -13381,7 +13405,7 @@
                     ),
                 };
             }
-            $17.widget(
+            $18.widget(
                 "mobile.popup",
                 {
                     options: {
@@ -13399,7 +13423,7 @@
                         closeEvents: "navigate.popup pagebeforechange.popup",
                         dismissible: !0,
                         enhanced: !1,
-                        history: !$17.mobile.browser.oldIE,
+                        history: !$18.mobile.browser.oldIE,
                     },
                     _create: function (
                     ) {
@@ -13410,9 +13434,9 @@
                             currentOptions = this.options;
                         (currentOptions.history =
             currentOptions.history &&
-            $17.mobile.ajaxEnabled &&
-            $17.mobile.hashListeningEnabled),
-                        $17.extend(
+            $18.mobile.ajaxEnabled &&
+            $18.mobile.hashListeningEnabled),
+                        $18.extend(
                             this,
                             {
                                 _scrollTop: 0,
@@ -13430,7 +13454,7 @@
                                 _orientationchangeInProgress: !1,
                             }
                         ),
-                        0 === this._page.length && (this._page = $17(
+                        0 === this._page.length && (this._page = $18(
                             "body"
                         )),
                         currentOptions.enhanced
@@ -13440,7 +13464,7 @@
                                 screen: theElement.parent(
                                 ).prev(
                                 ),
-                                placeholder: $17(
+                                placeholder: $18(
                                     this.document[0].getElementById(
                                         myId + "-placeholder"
                                     ),
@@ -13466,15 +13490,15 @@
                         this._on(
                             this.window,
                             {
-                                orientationchange: $17.proxy(
+                                orientationchange: $18.proxy(
                                     this,
                                     "_handleWindowOrientationchange",
                                 ),
-                                resize: $17.proxy(
+                                resize: $18.proxy(
                                     this,
                                     "_handleWindowResize"
                                 ),
-                                keyup: $17.proxy(
+                                keyup: $18.proxy(
                                     this,
                                     "_handleWindowKeyUp"
                                 ),
@@ -13493,7 +13517,7 @@
                         var currentOptions = this.options,
                             wrapperClass = currentOptions.wrapperClass,
                             ui = {
-                                screen: $17(
+                                screen: $18(
                                     "<div class='ui-screen-hidden ui-popup-screen " +
                   this._themeClassFromOption(
                       "ui-overlay-",
@@ -13501,10 +13525,10 @@
                   ) +
                   "'></div>",
                                 ),
-                                placeholder: $17(
+                                placeholder: $18(
                                     "<div style='display: none;'><!-- placeholder --></div>",
                                 ),
-                                container: $17(
+                                container: $18(
                                     "<div class='ui-popup-container ui-popup-hidden ui-popup-truncate" +
                   (wrapperClass ? " " + wrapperClass : "") +
                   "'></div>",
@@ -13597,7 +13621,7 @@
                     _handleWindowKeyUp: function (
                         theEvent
                     ) {
-                        if (this._isOpen && theEvent.keyCode === $17.mobile.keyCode.ESCAPE)
+                        if (this._isOpen && theEvent.keyCode === $18.mobile.keyCode.ESCAPE)
                             return this._eatEventAndClose(
                                 theEvent
                             );
@@ -13705,7 +13729,7 @@
                             if (targetElement !== ui.container[0]) {
                                 if (
                                     0 ===
-                (target = $17(
+                (target = $18(
                     targetElement
                 )).parents(
                 ).filter(
@@ -13714,7 +13738,7 @@
                     .length
                                 )
                                     return (
-                                        $17(
+                                        $18(
                                             this.document[0].activeElement
                                         ).one(
                                             "focus",
@@ -13758,7 +13782,7 @@
               ),
               "none" !== value &&
                 ((this._fallbackTransition =
-                  $17.mobile._maybeDegradeTransition(
+                  $18.mobile._maybeDegradeTransition(
                       value
                   )),
                 "none" === this._fallbackTransition &&
@@ -13860,7 +13884,7 @@
                                 ).split(
                                     ","
                                 )),
-                                $17.each(
+                                $18.each(
                                     ar,
                                     function (
                                         idx, val
@@ -13987,9 +14011,9 @@
                         var prerequisites,
                             self = this;
                         (prerequisites = {
-                            screen: $17.Deferred(
+                            screen: $18.Deferred(
                             ),
-                            container: $17.Deferred(
+                            container: $18.Deferred(
                             ),
                         }).screen.then(
                             function (
@@ -14005,7 +14029,7 @@
                                 );
                             }
                         ),
-                        $17
+                        $18
                             .when(
                                 prerequisites.screen,
                                 prerequisites.container
@@ -14048,7 +14072,7 @@
                                     args.classToRemove
                                 )
                                 .animationComplete(
-                                    $17.proxy(
+                                    $18.proxy(
                                         args.prerequisites.container,
                                         "resolve"
                                     ),
@@ -14078,7 +14102,7 @@
                                 (y = windowCoordinates.cy / 2 + windowCoordinates.y);
                             else {
                                 try {
-                                    dst = $17(
+                                    dst = $18(
                                         pTo
                                     );
                                 } catch (err) {
@@ -14095,13 +14119,13 @@
               ) / 2),
               (y = offset.top + dst.outerHeight(
               ) / 2)),
-                            ("number" !== $17.type(
+                            ("number" !== $18.type(
                                 x
                             ) || isNaN(
                                 x
                             )) &&
               (x = windowCoordinates.cx / 2 + windowCoordinates.x),
-                            ("number" !== $17.type(
+                            ("number" !== $18.type(
                                 y
                             ) || isNaN(
                                 y
@@ -14181,7 +14205,7 @@
                             androidmatch,
                             andversion,
                             chromematch,
-                            openOptions = $17.extend(
+                            openOptions = $18.extend(
                                 {
                                 },
                                 this.options,
@@ -14206,9 +14230,9 @@
                 wkversion > 534.13 &&
                 !chromematch);
                         this._createPrerequisites(
-                            $17.noop,
-                            $17.noop,
-                            $17.proxy(
+                            $18.noop,
+                            $18.noop,
+                            $18.proxy(
                                 this,
                                 "_openPrerequisitesComplete"
                             ),
@@ -14278,8 +14302,8 @@
                         container.removeAttr(
                             "tabindex"
                         ),
-                        ($17.mobile.popup.active = undefined),
-                        $17(
+                        ($18.mobile.popup.active = undefined),
+                        $18(
                             ":focus",
                             container[0]
                         ).add(
@@ -14310,15 +14334,15 @@
                         ),
                         (this._isOpen = !1),
                         this._createPrerequisites(
-                            $17.proxy(
+                            $18.proxy(
                                 this,
                                 "_closePrerequisiteScreen"
                             ),
-                            $17.proxy(
+                            $18.proxy(
                                 this,
                                 "_closePrerequisiteContainer"
                             ),
-                            $17.proxy(
+                            $18.proxy(
                                 this,
                                 "_closePrerequisitesDone"
                             ),
@@ -14342,7 +14366,7 @@
                         this.options.enhanced ||
             (this._setOptions(
                 {
-                    theme: $17.mobile.popup.prototype.options.theme,
+                    theme: $18.mobile.popup.prototype.options.theme,
                 }
             ),
             this.element
@@ -14364,10 +14388,10 @@
                     _destroy: function (
                     ) {
                         return (
-                            $17.mobile.popup.active === this
+                            $18.mobile.popup.active === this
                                 ? (this.element.one(
                                     "popupafterclose",
-                                    $17.proxy(
+                                    $18.proxy(
                                         this,
                                         "_unenhance"
                                     ),
@@ -14388,7 +14412,7 @@
                             immediate = !1;
                         (theEvent && theEvent.isDefaultPrevented(
                         )) ||
-            $17.mobile.popup.active !== this ||
+            $18.mobile.popup.active !== this ||
             (window.scrollTo(
                 0,
                 this._scrollTop
@@ -14403,12 +14427,12 @@
                         "url"
                     )),
               (toUrl =
-                (parsedDst = $17.mobile.path.parseUrl(
+                (parsedDst = $18.mobile.path.parseUrl(
                     parsedDst
                 )).pathname +
                 parsedDst.search +
                 parsedDst.hash),
-              this._myUrl !== $17.mobile.path.makeUrlAbsolute(
+              this._myUrl !== $18.mobile.path.makeUrlAbsolute(
                   toUrl
               )
                   ? (immediate = !0)
@@ -14429,7 +14453,7 @@
                     ) {
                         this.window.on(
                             this.options.closeEvents,
-                            $17.proxy(
+                            $18.proxy(
                                 this,
                                 "_closePopup"
                             ),
@@ -14449,16 +14473,16 @@
                             urlHistory,
                             self = this,
                             currentOptions = this.options;
-                        return $17.mobile.popup.active || currentOptions.disabled
+                        return $18.mobile.popup.active || currentOptions.disabled
                             ? this
-                            : (($17.mobile.popup.active = this),
+                            : (($18.mobile.popup.active = this),
                             (this._scrollTop = this.window.scrollTop(
                             )),
                             currentOptions.history)
-                                ? ((urlHistory = $17.mobile.navigate.history),
-                                (hashkey = $17.mobile.dialogHashKey),
+                                ? ((urlHistory = $18.mobile.navigate.history),
+                                (hashkey = $18.mobile.dialogHashKey),
                                 (currentIsDialog =
-                !!(activePage = $17.mobile.activePage) &&
+                !!(activePage = $18.mobile.activePage) &&
                 activePage.hasClass(
                     "ui-dialog"
                 )),
@@ -14476,7 +14500,7 @@
                                     : (-1 !== url.indexOf(
                                         hashkey
                                     ) || currentIsDialog
-                                        ? (url = $17.mobile.path.parseLocation(
+                                        ? (url = $18.mobile.path.parseLocation(
                                         ).hash + hashkey)
                                         : (url += url.indexOf(
                                             "#"
@@ -14501,7 +14525,7 @@
                                         }
                                     ),
                                     (this.urlAltered = !0),
-                                    $17.mobile.navigate(
+                                    $18.mobile.navigate(
                                         url,
                                         {
                                             role: "dialog",
@@ -14529,11 +14553,11 @@
                     close: function (
                     ) {
                         return (
-                            $17.mobile.popup.active !== this ||
+                            $18.mobile.popup.active !== this ||
               ((this._scrollTop = this.window.scrollTop(
               )),
               this.options.history && this.urlAltered
-                  ? ($17.mobile.back(
+                  ? ($18.mobile.back(
                   ), (this.urlAltered = !1))
                   : this._closePopup(
                   )),
@@ -14542,12 +14566,12 @@
                     },
                 }
             ),
-            ($17.mobile.popup.handleLink = function (
+            ($18.mobile.popup.handleLink = function (
                 $link
             ) {
                 var offset,
-                    path2 = $17.mobile.path,
-                    popup = $17(
+                    path2 = $18.mobile.path,
+                    popup = $18(
                         path2.hashToSelector(
                             path2.parseUrl(
                                 $link.attr(
@@ -14582,19 +14606,19 @@
                     function (
                     ) {
                         $link.removeClass(
-                            $17.mobile.activeBtnClass
+                            $18.mobile.activeBtnClass
                         );
                     },
                     300
                 );
             }),
-            $17.mobile.document.on(
+            $18.mobile.document.on(
                 "pagebeforechange",
                 function (
                     theEvent, data
                 ) {
                     "popup" === data.options.role &&
-            ($17.mobile.popup.handleLink(
+            ($18.mobile.popup.handleLink(
                 data.options.link
             ),
             theEvent.preventDefault(
@@ -14605,7 +14629,7 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var unfocusableItemSelector =
           ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
@@ -14631,9 +14655,9 @@
             ).focus(
             ));
                 };
-            $17.widget(
+            $18.widget(
                 "mobile.selectmenu",
-                $17.mobile.selectmenu,
+                $18.mobile.selectmenu,
                 {
                     _create: function (
                     ) {
@@ -14671,8 +14695,8 @@
             this.isOpen ||
             ("vclick" !== event.type &&
               (!event.keyCode ||
-                (event.keyCode !== $17.mobile.keyCode.ENTER &&
-                  event.keyCode !== $17.mobile.keyCode.SPACE))) ||
+                (event.keyCode !== $18.mobile.keyCode.ENTER &&
+                  event.keyCode !== $18.mobile.keyCode.SPACE))) ||
             (this._decideFormat(
             ),
             "overlay" === this.menuType
@@ -14682,7 +14706,7 @@
                         "#" + this.popupId
                     )
                     .attr(
-                        "data-" + ($17.mobile.ns || "") + "rel",
+                        "data-" + ($18.mobile.ns || "") + "rel",
                         "popup"
                     )
                 : this.button
@@ -14691,7 +14715,7 @@
                         "#" + this.dialogId
                     )
                     .attr(
-                        "data-" + ($17.mobile.ns || "") + "rel",
+                        "data-" + ($18.mobile.ns || "") + "rel",
                         "dialog"
                     ),
             (this.isOpen = !0));
@@ -14709,7 +14733,7 @@
                     tabindex: "-1",
                     event: "vmouseout",
                 };
-                        $17(
+                        $18(
                             e.target
                         ).attr(
                             "tabindex",
@@ -14721,7 +14745,7 @@
                     _handleListKeydown: function (
                         event
                     ) {
-                        var target = $17(
+                        var target = $18(
                                 event.target
                             ),
                             li = target.closest(
@@ -14794,12 +14818,12 @@
                             (isMultiple = this.element[0].multiple),
                             (menuId = selectId + "-menu"),
                             (themeAttr = o.theme
-                                ? " data-" + $17.mobile.ns + "theme='" + o.theme + "'"
+                                ? " data-" + $18.mobile.ns + "theme='" + o.theme + "'"
                                 : ""),
                             (overlayThemeAttr = (overlayTheme =
                 o.overlayTheme || o.theme || null)
                                 ? " data-" +
-                  $17.mobile.ns +
+                  $18.mobile.ns +
                   "overlay-theme='" +
                   overlayTheme +
                   "'"
@@ -14807,29 +14831,29 @@
                             (dividerThemeAttr =
                 o.dividerTheme && isMultiple
                     ? " data-" +
-                    $17.mobile.ns +
+                    $18.mobile.ns +
                     "divider-theme='" +
                     o.dividerTheme +
                     "'"
                     : ""),
-                            (menuPage = $17(
+                            (menuPage = $18(
                                 "<div data-" +
-                  $17.mobile.ns +
+                  $18.mobile.ns +
                   "role='dialog' class='ui-selectmenu' id='" +
                   dialogId +
                   "'" +
                   themeAttr +
                   overlayThemeAttr +
                   "><div data-" +
-                  $17.mobile.ns +
+                  $18.mobile.ns +
                   "role='header'><div class='ui-title'>" +
                   label.getEncodedText(
                   ) +
                   "</div></div><div data-" +
-                  $17.mobile.ns +
+                  $18.mobile.ns +
                   "role='content'></div></div>",
                             )),
-                            (listbox = $17(
+                            (listbox = $18(
                                 "<div id='" + popupId + "' class='ui-selectmenu'></div>",
                             )
                                 .insertAfter(
@@ -14840,7 +14864,7 @@
                                         theme: o.overlayTheme,
                                     }
                                 )),
-                            (list = $17(
+                            (list = $18(
                                 "<ul class='ui-selectmenu-list' id='" +
                   menuId +
                   "' role='listbox' aria-labelledby='" +
@@ -14852,20 +14876,20 @@
                             ).appendTo(
                                 listbox
                             )),
-                            (header = $17(
+                            (header = $18(
                                 "<div class='ui-header ui-bar-" +
                   (o.theme ? o.theme : "inherit") +
                   "'></div>",
                             ).prependTo(
                                 listbox
                             )),
-                            (headerTitle = $17(
+                            (headerTitle = $18(
                                 "<h1 class='ui-title'></h1>"
                             ).appendTo(
                                 header,
                             )),
                             this.isMultiple &&
-                (headerClose = $17(
+                (headerClose = $18(
                     "<a>",
                     {
                         role: "button",
@@ -14877,7 +14901,7 @@
                 ).appendTo(
                     header
                 )),
-                            $17.extend(
+                            $18.extend(
                                 this,
                                 {
                                     selectId: selectId,
@@ -14944,7 +14968,7 @@
                                     event
                                 ) {
                                     var oldIndex = self.select[0].selectedIndex,
-                                        newIndex = $17.mobile.getAttribute(
+                                        newIndex = $18.mobile.getAttribute(
                                             this,
                                             "option-index"
                                         ),
@@ -14954,7 +14978,7 @@
                                         )[0];
                                     (option.selected = !self.isMultiple || !option.selected),
                                     self.isMultiple &&
-                      $17(
+                      $18(
                           this
                       )
                           .find(
@@ -15061,7 +15085,7 @@
                                 "a"
                             )
                             .removeClass(
-                                $17.mobile.activeBtnClass
+                                $18.mobile.activeBtnClass
                             )
                             .end(
                             )
@@ -15073,11 +15097,11 @@
                                 function (
                                     i
                                 ) {
-                                    if ($17.inArray(
+                                    if ($18.inArray(
                                         i,
                                         indices
                                     ) > -1) {
-                                        var item = $17(
+                                        var item = $18(
                                             this
                                         );
                                         item.attr(
@@ -15105,12 +15129,12 @@
                                                         "a"
                                                     )
                                                     .addClass(
-                                                        $17.mobile.activeBtnClass
+                                                        $18.mobile.activeBtnClass
                                                     )
                                                 : item.find(
                                                     "a"
                                                 ).addClass(
-                                                    $17.mobile.activeBtnClass
+                                                    $18.mobile.activeBtnClass
                                                 );
                                     }
                                 }
@@ -15143,7 +15167,7 @@
                     _focusMenuItem: function (
                     ) {
                         var selector = this.list.find(
-                            "a." + $17.mobile.activeBtnClass
+                            "a." + $18.mobile.activeBtnClass
                         );
                         0 === selector.length &&
             (selector = this.list.find(
@@ -15166,9 +15190,9 @@
                             ).top,
                             screenHeight = $window.height(
                             );
-                        menuHeight > screenHeight - 80 || !$17.support.scrollTop
+                        menuHeight > screenHeight - 80 || !$18.support.scrollTop
                             ? (self.menuPage.appendTo(
-                                $17.mobile.pageContainer
+                                $18.mobile.pageContainer
                             ).page(
                             ),
                             (self.menuPageContent = self.menuPage.find(
@@ -15186,7 +15210,7 @@
                     "pagehide",
                     function (
                     ) {
-                        $17(
+                        $18(
                             this
                         ).jqmData(
                             "lastScroll",
@@ -15196,11 +15220,11 @@
                 ),
                             self.menuPage.one(
                                 {
-                                    pageshow: $17.proxy(
+                                    pageshow: $18.proxy(
                                         this,
                                         "_focusMenuItem"
                                     ),
-                                    pagehide: $17.proxy(
+                                    pagehide: $18.proxy(
                                         this,
                                         "close"
                                     ),
@@ -15219,7 +15243,7 @@
                             : ((self.menuType = "overlay"),
                             self.listbox.one(
                                 {
-                                    popupafteropen: $17.proxy(
+                                    popupafteropen: $18.proxy(
                                         this,
                                         "_focusMenuItem"
                                     ),
@@ -15246,7 +15270,7 @@
                             o = this.options,
                             placeholder = this.placeholder,
                             needPlaceholder = !0,
-                            dataPrefix = "data-" + $17.mobile.ns,
+                            dataPrefix = "data-" + $18.mobile.ns,
                             dataIndexAttr = dataPrefix + "option-index",
                             dataIconAttr = dataPrefix + "icon",
                             dataRoleAttr = dataPrefix + "role",
@@ -15268,7 +15292,7 @@
                             i < numOptions;
                             i++, isPlaceholderItem = !1
                         )
-                            ($option = $17(
+                            ($option = $18(
                                 (option = $options[i])
                             )).hasClass(
                                 "ui-screen-hidden",
@@ -15375,7 +15399,7 @@
                   "-1"
               ),
               this.isMultiple &&
-                $17(
+                $18(
                     anchor
                 ).addClass(
                     "ui-btn ui-checkbox-off ui-btn-icon-right",
@@ -15404,7 +15428,7 @@
                         return this.options.nativeMenu
                             ? this._super(
                             )
-                            : $17(
+                            : $18(
                                 "<a>",
                                 {
                                     href: "#",
@@ -15432,7 +15456,7 @@
             this._removePlaceholderAttr &&
               this._selectOptions(
               ).removeAttr(
-                  "data-" + $17.mobile.ns + "placeholder",
+                  "data-" + $18.mobile.ns + "placeholder",
               ),
             this.listbox.remove(
             ),
@@ -15447,7 +15471,7 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var reverseBoolOptionMap = {
                     "ui-shadow": "shadow",
@@ -15458,7 +15482,7 @@
                 },
                 getAttrFixed = function (
                 ) {
-                    var ret = $17.mobile.getAttribute.apply(
+                    var ret = $18.mobile.getAttribute.apply(
                         this,
                         arguments
                     );
@@ -15565,7 +15589,7 @@
                 return "-" + c.toLowerCase(
                 );
             }
-            ($17.fn.buttonMarkup = function (
+            ($18.fn.buttonMarkup = function (
                 options, overwriteClasses
             ) {
                 var idx,
@@ -15573,7 +15597,7 @@
                     el,
                     retrievedOptions,
                     optionKey,
-                    defaults = $17.fn.buttonMarkup.defaults;
+                    defaults = $18.fn.buttonMarkup.defaults;
                 for (idx = 0; idx < this.length; idx++) {
                     if (
                         ((el = this[idx]),
@@ -15585,7 +15609,7 @@
                             : classNameToOptions(
                                 el.className
                             )),
-                        (retrievedOptions = $17.extend(
+                        (retrievedOptions = $18.extend(
                             {
                             },
                             data.alreadyEnhanced
@@ -15606,7 +15630,7 @@
                     ),
                 ));
                     (el.className = optionsToClasses(
-                        $17.extend(
+                        $18.extend(
                             {
                             },
                             defaults,
@@ -15625,7 +15649,7 @@
                 }
                 return this;
             }),
-            ($17.fn.buttonMarkup.defaults = {
+            ($18.fn.buttonMarkup.defaults = {
                 icon: "",
                 iconpos: "left",
                 theme: null,
@@ -15635,8 +15659,8 @@
                 iconshadow: !1,
                 mini: !1,
             }),
-            $17.extend(
-                $17.fn.buttonMarkup,
+            $18.extend(
+                $18.fn.buttonMarkup,
                 {
                     initSelector:
             "a:jqmData(role='button'), .ui-bar > a, .ui-bar > :jqmData(role='controlgroup') > a, button",
@@ -15646,11 +15670,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.controlgroup",
-                $17.extend(
+                $18.extend(
                     {
                         options: {
                             enhanced: !1,
@@ -15665,26 +15689,26 @@
                         ) {
                             var elem = this.element,
                                 opts = this.options;
-                            $17.fn.buttonMarkup &&
+                            $18.fn.buttonMarkup &&
                 this.element
                     .find(
-                        $17.fn.buttonMarkup.initSelector
+                        $18.fn.buttonMarkup.initSelector
                     )
                     .buttonMarkup(
                     ),
-                            $17.each(
+                            $18.each(
                                 this._childWidgets,
-                                $17.proxy(
+                                $18.proxy(
                                     function (
                                         number, widgetName
                                     ) {
-                                        $17.mobile[widgetName] &&
+                                        $18.mobile[widgetName] &&
                       this.element
                           .find(
-                              $17.mobile[widgetName].initSelector
+                              $18.mobile[widgetName].initSelector
                           )
                           .not(
-                              $17.mobile.page.prototype.keepNativeSelector(
+                              $18.mobile.page.prototype.keepNativeSelector(
                               )
                           )
                           [widgetName](
@@ -15693,7 +15717,7 @@
                                     this
                                 ),
                             ),
-                            $17.extend(
+                            $18.extend(
                                 this,
                                 {
                                     _ui: null,
@@ -15757,7 +15781,7 @@
                                 };
                             return (
                                 ui.groupLegend.length > 0 &&
-                  $17(
+                  $18(
                       "<div role='heading' class='ui-controlgroup-label'></div>",
                   )
                       .append(
@@ -15845,7 +15869,7 @@
                                     ".ui-slider-handle"
                                 ),
                                 create = this._initialRefresh;
-                            $17.mobile.checkboxradio &&
+                            $18.mobile.checkboxradio &&
                 $el.find(
                     ":mobile-checkboxradio"
                 ).checkboxradio(
@@ -15893,16 +15917,16 @@
                             );
                         },
                     },
-                    $17.mobile.behaviors.addFirstLastClasses,
+                    $18.mobile.behaviors.addFirstLastClasses,
                 ),
             );
         })(
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.toolbar",
                 {
                     initSelector: ":jqmData(role='footer'), :jqmData(role='header')",
@@ -15932,7 +15956,7 @@
                     pageshow: "refresh",
                 }
             )),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 role: role,
@@ -15962,13 +15986,13 @@
                             (undefined !== o.addBackBtn &&
               (this.options.addBackBtn &&
               "header" === this.role &&
-              $17(
+              $18(
                   ".ui-page"
               ).length > 1 &&
               this.page[0].getAttribute(
-                  "data-" + $17.mobile.ns + "url"
+                  "data-" + $18.mobile.ns + "url"
               ) !==
-                $17.mobile.path.stripHash(
+                $18.mobile.path.stripHash(
                     location.hash
                 ) &&
               !this.leftbtn
@@ -16029,8 +16053,8 @@
                     },
                     _setRelative: function (
                     ) {
-                        $17(
-                            "[data-" + $17.mobile.ns + "role='page']"
+                        $18(
+                            "[data-" + $18.mobile.ns + "role='page']"
                         ).css(
                             {
                                 position: "relative",
@@ -16044,10 +16068,10 @@
                                 "a"
                             )
                             .filter(
-                                ":not([data-" + $17.mobile.ns + "role='none'])"
+                                ":not([data-" + $18.mobile.ns + "role='none'])"
                             )
                             .attr(
-                                "data-" + $17.mobile.ns + "role",
+                                "data-" + $18.mobile.ns + "role",
                                 "button"
                             ),
                         this.element.trigger(
@@ -16087,11 +16111,11 @@
                     ) {
                         var options = this.options,
                             theme = options.backBtnTheme || options.theme;
-                        $17(
+                        $18(
                             "<a role='button' href='javascript:void(0);' class='ui-btn ui-corner-all ui-shadow ui-btn-left " +
               (theme ? "ui-btn-" + theme + " " : "") +
               "ui-toolbar-back-btn ui-icon-carat-l ui-btn-icon-left' data-" +
-              $17.mobile.ns +
+              $18.mobile.ns +
               "rel='back'>" +
               options.backBtnText +
               "</a>",
@@ -16121,11 +16145,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.toolbar",
-                $17.mobile.toolbar,
+                $18.mobile.toolbar,
                 {
                     options: {
                         position: null,
@@ -16141,7 +16165,7 @@
                         trackPersistentToolbars: !0,
                         supportBlacklist: function (
                         ) {
-                            return !$17.support.fixedPosition;
+                            return !$18.support.fixedPosition;
                         },
                     },
                     _create: function (
@@ -16182,13 +16206,13 @@
                         ) {
                             var $page = this.page
                                 ? this.page
-                                : $17(
+                                : $18(
                                     ".ui-page-active"
                                 ).length > 0
-                                    ? $17(
+                                    ? $18(
                                         ".ui-page-active"
                                     )
-                                    : $17(
+                                    : $18(
                                         ".ui-page"
                                     ).eq(
                                         0
@@ -16253,7 +16277,7 @@
                     _handlePageBeforeShow: function (
                     ) {
                         var o = this.options;
-                        o.disablePageZoom && $17.mobile.zoom.disable(
+                        o.disablePageZoom && $18.mobile.zoom.disable(
                             !0
                         ),
                         o.visibleOnPageShow || this.hide(
@@ -16288,7 +16312,7 @@
                             nextFooter,
                             nextHeader,
                             o = this.options;
-                        o.disablePageZoom && $17.mobile.zoom.enable(
+                        o.disablePageZoom && $18.mobile.zoom.enable(
                             !0
                         ),
                         o.updatePagePadding && this._off(
@@ -16296,18 +16320,18 @@
                             "throttledresize"
                         ),
                         o.trackPersistentToolbars &&
-              ((thisFooter = $17(
+              ((thisFooter = $18(
                   ".ui-footer-fixed:jqmData(id)",
                   this.page
               )),
-              (thisHeader = $17(
+              (thisHeader = $18(
                   ".ui-header-fixed:jqmData(id)",
                   this.page
               )),
               (nextFooter =
                 (thisFooter.length &&
                   ui.nextPage &&
-                  $17(
+                  $18(
                       ".ui-footer-fixed:jqmData(id='" +
                       thisFooter.jqmData(
                           "id"
@@ -16315,12 +16339,12 @@
                       "')",
                       ui.nextPage,
                   )) ||
-                $17(
+                $18(
                 )),
               (nextHeader =
                 (thisHeader.length &&
                   ui.nextPage &&
-                  $17(
+                  $18(
                       ".ui-header-fixed:jqmData(id='" +
                       thisHeader.jqmData(
                           "id"
@@ -16328,13 +16352,13 @@
                       "')",
                       ui.nextPage,
                   )) ||
-                $17(
+                $18(
                 )),
               (nextFooter.length || nextHeader.length) &&
                 (nextFooter.add(
                     nextHeader
                 ).appendTo(
-                    $17.mobile.pageContainer
+                    $18.mobile.pageContainer
                 ),
                 ui.nextPage.one(
                     "pageshow",
@@ -16366,7 +16390,7 @@
               $el.closest(
                   ".ui-page"
               )),
-            $17(
+            $18(
                 (tbPage = this.page ? this.page : ".ui-page-active")
             ).css(
                 "padding-" + (header ? "top" : "bottom"),
@@ -16388,11 +16412,11 @@
                                     ".ui-page"
                                 ).height(
                                 )
-                                : $17(
+                                : $18(
                                     ".ui-page-active"
                                 ).height(
                                 ),
-                            viewportHeight = $17.mobile.getScreenHeight(
+                            viewportHeight = $18.mobile.getScreenHeight(
                             );
                         return (
                             !notransition &&
@@ -16483,7 +16507,7 @@
                             isVisible = !0;
                         (this.page
                             ? this.page
-                            : $17(
+                            : $18(
                                 ".ui-page"
                             ))
                             .bind(
@@ -16492,7 +16516,7 @@
                                     e
                                 ) {
                                     o.tapToggle &&
-                !$17(
+                !$18(
                     e.target
                 ).closest(
                     o.tapToggleBlacklist
@@ -16507,12 +16531,12 @@
                                     e
                                 ) {
                                     screen.width < 1025 &&
-                $17(
+                $18(
                     e.target
                 ).is(
                     o.hideDuringFocus
                 ) &&
-                !$17(
+                !$18(
                     e.target
                 ).closest(
                     ".ui-header-fixed, .ui-footer-fixed"
@@ -16551,8 +16575,8 @@
                     _setRelative: function (
                     ) {
                         "fixed" !== this.options.position &&
-            $17(
-                "[data-" + $17.mobile.ns + "role='page']"
+            $18(
+                "[data-" + $18.mobile.ns + "role='page']"
             ).css(
                 {
                     position: "relative",
@@ -16590,11 +16614,11 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.toolbar",
-                $17.mobile.toolbar,
+                $18.mobile.toolbar,
                 {
                     _makeFixed: function (
                     ) {
@@ -16686,13 +16710,13 @@
                     _triggerRedraw: function (
                     ) {
                         var paddingBottom = parseFloat(
-                            $17(
+                            $18(
                                 ".ui-page-active"
                             ).css(
                                 "padding-bottom"
                             ),
                         );
-                        $17(
+                        $18(
                             ".ui-page-active"
                         ).css(
                             "padding-bottom",
@@ -16701,7 +16725,7 @@
                         setTimeout(
                             function (
                             ) {
-                                $17(
+                                $18(
                                     ".ui-page-active"
                                 ).css(
                                     "padding-bottom",
@@ -16729,10 +16753,10 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            var ieHack = $17.mobile.browser.oldIE && $17.mobile.browser.oldIE <= 8,
-                uiTemplate = $17(
+            var ieHack = $18.mobile.browser.oldIE && $18.mobile.browser.oldIE <= 8,
+                uiTemplate = $18(
                     "<div class='ui-popup-arrow-guide'></div><div class='ui-popup-arrow-container" +
             (ieHack ? " ie" : "") +
             "'><div class='ui-popup-arrow'></div></div>",
@@ -16758,9 +16782,9 @@
                     ar: ar,
                 };
             }
-            $17.widget(
+            $18.widget(
                 "mobile.popup",
-                $17.mobile.popup,
+                $18.mobile.popup,
                 {
                     options: {
                         arrow: "",
@@ -16983,11 +17007,11 @@
                                     arrowOffsetFactor: 0,
                                 },
                             }),
-                            $17.each(
+                            $18.each(
                                 (!0 === optionValue ? "l,t,r,b" : optionValue).split(
                                     ","
                                 ),
-                                $17.proxy(
+                                $18.proxy(
                                     function (
                                         key, value
                                     ) {
@@ -17091,9 +17115,9 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.panel",
                 {
                     options: {
@@ -17132,7 +17156,7 @@
                             parentPage = el.closest(
                                 ".ui-page, :jqmData(role='page')"
                             );
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 _closeLink: el.find(
@@ -17150,7 +17174,7 @@
                         ),
                         this._addPanelClasses(
                         ),
-                        $17.support.cssTransform3d &&
+                        $18.support.cssTransform3d &&
               this.options.animate &&
               this.element.addClass(
                   this.options.classes.animate
@@ -17194,7 +17218,7 @@
                                 )
                                 : self.element.parent(
                                 );
-                        self._modal = $17(
+                        self._modal = $18(
                             "<div class='" + self.options.classes.modal + "'></div>",
                         )
                             .on(
@@ -17214,8 +17238,8 @@
                         return (
                             this._openedPage ||
             this._parentPage ||
-            $17(
-                "." + $17.mobile.activePageClass
+            $18(
+                "." + $18.mobile.activePageClass
             )
                         );
                     },
@@ -17240,7 +17264,7 @@
                     },
                     _getFixedToolbars: function (
                     ) {
-                        var extFixedToolbars = $17(
+                        var extFixedToolbars = $18(
                                 "body"
                             ).children(
                                 ".ui-header-fixed, .ui-footer-fixed",
@@ -17331,19 +17355,19 @@
                         var self = this,
                             panelInnerHeight = self._panelInner.outerHeight(
                             ),
-                            expand = panelInnerHeight > $17.mobile.getScreenHeight(
+                            expand = panelInnerHeight > $18.mobile.getScreenHeight(
                             );
                         expand || !self.options.positionFixed
                             ? (expand &&
                 (self._unfixPanel(
                 ),
-                $17.mobile.resetActivePageHeight(
+                $18.mobile.resetActivePageHeight(
                     panelInnerHeight
                 )),
                             scrollToTop &&
                 this.window[0].scrollTo(
                     0,
-                    $17.mobile.defaultHomeScroll
+                    $18.mobile.defaultHomeScroll
                 ))
                             : self._fixPanel(
                             );
@@ -17351,7 +17375,7 @@
                     _bindFixListener: function (
                     ) {
                         this._on(
-                            $17(
+                            $18(
                                 window
                             ),
                             {
@@ -17362,7 +17386,7 @@
                     _unbindFixListener: function (
                     ) {
                         this._off(
-                            $17(
+                            $18(
                                 window
                             ),
                             "throttledresize"
@@ -17371,7 +17395,7 @@
                     _unfixPanel: function (
                     ) {
                         this.options.positionFixed &&
-            $17.support.fixedPosition &&
+            $18.support.fixedPosition &&
             this.element.removeClass(
                 this.options.classes.panelFixed
             );
@@ -17379,7 +17403,7 @@
                     _fixPanel: function (
                     ) {
                         this.options.positionFixed &&
-            $17.support.fixedPosition &&
+            $18.support.fixedPosition &&
             this.element.addClass(
                 this.options.classes.panelFixed
             );
@@ -17421,20 +17445,20 @@
                             return (
                                 e.preventDefault(
                                 ),
-                                (link = $17(
+                                (link = $18(
                                     e.target
                                 )).hasClass(
                                     "ui-btn"
                                 ) &&
                 (link.addClass(
-                    $17.mobile.activeBtnClass
+                    $18.mobile.activeBtnClass
                 ),
                 this.element.one(
                     "panelopen panelclose",
                     function (
                     ) {
                         link.removeClass(
-                            $17.mobile.activeBtnClass
+                            $18.mobile.activeBtnClass
                         );
                     }
                 )),
@@ -17540,7 +17564,7 @@
                                         "panel",
                                         "open"
                                     ),
-                                    $17.support.cssTransform3d &&
+                                    $18.support.cssTransform3d &&
                     o.animate &&
                     "overlay" !== o.display &&
                     (self1._wrapper.addClass(
@@ -17550,7 +17574,7 @@
                     ).addClass(
                         o.classes.animate
                     )),
-                                    !immediate && $17.support.cssTransform3d && o.animate
+                                    !immediate && $18.support.cssTransform3d && o.animate
                                         ? self1.element.animationComplete(
                                             complete,
                                             "transition"
@@ -17682,7 +17706,7 @@
                         .removeClass(
                             self2._pageContentOpenClasses
                         )),
-                                    !immediate && $17.support.cssTransform3d && o.animate
+                                    !immediate && $18.support.cssTransform3d && o.animate
                                         ? self2.element.animationComplete(
                                             complete,
                                             "transition"
@@ -17733,7 +17757,7 @@
                         .removeClass(
                             o.classes.pageContentPrefix + "-open"
                         )),
-                                    $17.support.cssTransform3d &&
+                                    $18.support.cssTransform3d &&
                     o.animate &&
                     "overlay" !== o.display &&
                     (self2._wrapper.removeClass(
@@ -17747,7 +17771,7 @@
                                     ),
                                     self2._unbindFixListener(
                                     ),
-                                    $17.mobile.resetActivePageHeight(
+                                    $18.mobile.resetActivePageHeight(
                                     ),
                                     self2._page(
                                     ).jqmRemoveData(
@@ -17773,20 +17797,20 @@
                     ) {
                         var o = this.options,
                             multiplePanels =
-              $17(
+              $18(
                   "body > :mobile-panel"
               ).length +
-                $17.mobile.activePage.find(
+                $18.mobile.activePage.find(
                     ":mobile-panel"
                 ).length >
               1;
                         "overlay" !== o.display &&
             (0 ===
-              $17(
+              $18(
                   "body > :mobile-panel"
               )
                   .add(
-                      $17.mobile.activePage.find(
+                      $18.mobile.activePage.find(
                           ":mobile-panel"
                       )
                   )
@@ -17803,7 +17827,7 @@
               ).removeClass(
                   o.classes.pageContentPrefix + "-open",
               ),
-              $17.support.cssTransform3d &&
+              $18.support.cssTransform3d &&
                 o.animate &&
                 this._fixedToolbars(
                 ).removeClass(
@@ -17871,9 +17895,9 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.table",
                 {
                     options: {
@@ -17888,7 +17912,7 @@
             this.element.addClass(
                 this.options.classes.table
             ),
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 headers: undefined,
@@ -17918,7 +17942,7 @@
                         this._refresh(
                         );
                     },
-                    rebuild: $17.noop,
+                    rebuild: $18.noop,
                     _refresh: function (
                     ) {
                         var table = this.element,
@@ -17931,7 +17955,7 @@
                             function (
                             ) {
                                 var columnCount = 0;
-                                $17(
+                                $18(
                                     this
                                 )
                                     .children(
@@ -17949,7 +17973,7 @@
                                                 selector = ":nth-child(" + (columnCount + 1) + ")";
                                             if (
                                                 (this.setAttribute(
-                                                    "data-" + $17.mobile.ns + "colstart",
+                                                    "data-" + $18.mobile.ns + "colstart",
                                                     columnCount + 1,
                                                 ),
                                                 span)
@@ -17957,7 +17981,7 @@
                                                 for (j = 0; j < span - 1; j++)
                                                     columnCount++,
                                                     (selector += ", :nth-child(" + (columnCount + 1) + ")");
-                                            $17(
+                                            $18(
                                                 this
                                             ).jqmData(
                                                 "cells",
@@ -17989,19 +18013,19 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.table",
-                $17.mobile.table,
+                $18.mobile.table,
                 {
                     options: {
                         mode: "columntoggle",
                         columnBtnTheme: null,
                         columnPopupTheme: null,
                         columnBtnText: "Columns...",
-                        classes: $17.extend(
-                            $17.mobile.table.prototype.options.classes,
+                        classes: $18.extend(
+                            $18.mobile.table.prototype.options.classes,
                             {
                                 popup: "ui-table-columntoggle-popup",
                                 columnBtn: "ui-table-columntoggle-btn",
@@ -18015,14 +18039,14 @@
                         this._super(
                         ),
                         "columntoggle" === this.options.mode &&
-              ($17.extend(
+              ($18.extend(
                   this,
                   {
                       _menu: null,
                   }
               ),
               this.options.enhanced
-                  ? ((this._menu = $17(
+                  ? ((this._menu = $18(
                       this.document[0].getElementById(
                           this._id(
                           ) + "-popup"
@@ -18087,10 +18111,10 @@
                         ).each(
                             function (
                             ) {
-                                var header = $17(
+                                var header = $18(
                                         this
                                     ),
-                                    priority = $17.mobile.getAttribute(
+                                    priority = $18.mobile.getAttribute(
                                         this,
                                         "priority"
                                     ),
@@ -18107,7 +18131,7 @@
                     ? inputs.eq(
                         checkboxIndex++
                     )
-                    : $17(
+                    : $18(
                         "<label><input type='checkbox' checked />" +
                         (header.children(
                             "abbr"
@@ -18143,7 +18167,7 @@
                     _menuInputChange: function (
                         evt
                     ) {
-                        var input = $17(
+                        var input = $18(
                                 evt.target
                             ),
                             checked = input[0].checked;
@@ -18190,11 +18214,11 @@
                             menu,
                             table = this.element,
                             opts = this.options,
-                            ns = $17.mobile.ns,
+                            ns = $18.mobile.ns,
                             fragment = this.document[0].createDocumentFragment(
                             );
                         return (
-                            (menuButton = $17(
+                            (menuButton = $18(
                                 "<a href='#" +
                 (id = this._id(
                 ) + "-popup") +
@@ -18208,10 +18232,10 @@
                 opts.columnBtnText +
                 "</a>",
                             )),
-                            (popup = $17(
+                            (popup = $18(
                                 "<div class='" + opts.classes.popup + "' id='" + id + "'></div>",
                             )),
-                            (menu = $17(
+                            (menu = $18(
                                 "<fieldset></fieldset>"
                             ).controlgroup(
                             )),
@@ -18271,7 +18295,7 @@
                         ).each(
                             function (
                             ) {
-                                var checkbox = $17(
+                                var checkbox = $18(
                                     this
                                 );
                                 (this.checked =
@@ -18299,16 +18323,16 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
-            $17.widget(
+            $18.widget(
                 "mobile.table",
-                $17.mobile.table,
+                $18.mobile.table,
                 {
                     options: {
                         mode: "reflow",
-                        classes: $17.extend(
-                            $17.mobile.table.prototype.options.classes,
+                        classes: $18.extend(
+                            $18.mobile.table.prototype.options.classes,
                             {
                                 reflowTable: "ui-table-reflow",
                                 cellLabels: "ui-table-cell-label",
@@ -18347,7 +18371,7 @@
                     ) {
                         var table = this,
                             opts = this.options;
-                        $17(
+                        $18(
                             table.allHeaders.get(
                             ).reverse(
                             )
@@ -18356,12 +18380,12 @@
                             ) {
                                 var iteration,
                                     filter,
-                                    cells = $17(
+                                    cells = $18(
                                         this
                                     ).jqmData(
                                         "cells"
                                     ),
-                                    colstart = $17.mobile.getAttribute(
+                                    colstart = $18.mobile.getAttribute(
                                         this,
                                         "colstart"
                                     ),
@@ -18372,7 +18396,7 @@
                     "thead th"
                 ).length &&
                 " ui-table-cell-label-top",
-                                    text = $17(
+                                    text = $18(
                                         this
                                     ).text(
                                     );
@@ -18419,7 +18443,7 @@
             jQuery
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var defaultFilterCallback = function (
                 index, searchValue
@@ -18428,10 +18452,10 @@
                     -1 ===
           (
               "" +
-            ($17.mobile.getAttribute(
+            ($18.mobile.getAttribute(
                 this,
                 "filtertext"
-            ) || $17(
+            ) || $18(
                 this
             ).text(
             ))
@@ -18443,7 +18467,7 @@
               )
                 );
             };
-            $17.widget(
+            $18.widget(
                 "mobile.filterable",
                 {
                     initSelector: ":jqmData(filter='true')",
@@ -18458,7 +18482,7 @@
                     _create: function (
                     ) {
                         var opts = this.options;
-                        $17.extend(
+                        $18.extend(
                             this,
                             {
                                 _search: null,
@@ -18484,7 +18508,7 @@
             ((val = search.val(
             ).toLowerCase(
             )),
-            ((lastval = $17.mobile.getAttribute(
+            ((lastval = $18.mobile.getAttribute(
                 search[0],
                 "lastval"
             ) + "") &&
@@ -18504,7 +18528,7 @@
                           }
                       ),
                       search[0].setAttribute(
-                          "data-" + $17.mobile.ns + "lastval",
+                          "data-" + $18.mobile.ns + "lastval",
                           val,
                       ),
                       this._filterItems(
@@ -18519,13 +18543,13 @@
                     ) {
                         var children = this.options.children,
                             items = children
-                                ? $17.isFunction(
+                                ? $18.isFunction(
                                     children
                                 )
                                     ? children(
                                     )
                                     : children.nodeName
-                                        ? $17(
+                                        ? $18(
                                             children
                                         )
                                         : children.jquery
@@ -18571,12 +18595,12 @@
                             ? filterItems[opts.filterReveal ? "addClass" : "removeClass"](
                                 "ui-screen-hidden",
                             )
-                            : ($17(
+                            : ($18(
                                 hide
                             ).addClass(
                                 "ui-screen-hidden"
                             ),
-                            $17(
+                            $18(
                                 show
                             ).removeClass(
                                 "ui-screen-hidden"
@@ -18603,11 +18627,11 @@
                             ];
                         for (idx = recognizedWidgets.length - 1; idx > -1; idx--)
                             (widget = recognizedWidgets[idx]),
-                            $17.mobile[widget] &&
+                            $18.mobile[widget] &&
                 (widget = this.element.data(
                     "mobile-" + widget
                 )) &&
-                $17.isFunction(
+                $18.isFunction(
                     widget.refresh
                 ) &&
                 widget.refresh(
@@ -18629,7 +18653,7 @@
               ((search = selector.jquery
                   ? selector
                   : selector.nodeName
-                      ? $17(
+                      ? $18(
                           selector
                       )
                       : this.document.find(
@@ -18693,6 +18717,7 @@
         })(
             jQuery
         ),
+        ($17 = jQuery),
         (replaceSetOptions = function (
             self3, orig
         ) {
@@ -18708,9 +18733,9 @@
             };
         }),
         (rDividerListItem = /(^|\s)ui-li-divider(\s|$)/),
-        (origDefaultFilterCallback = ($16 = jQuery).mobile.filterable.prototype
-            .options.filterCallback),
-        ($16.mobile.filterable.prototype.options.filterCallback = function (
+        (origDefaultFilterCallback =
+      $17.mobile.filterable.prototype.options.filterCallback),
+        ($17.mobile.filterable.prototype.options.filterCallback = function (
             index,
             searchValue,
         ) {
@@ -18725,9 +18750,9 @@
         )
             );
         }),
-        $16.widget(
+        $17.widget(
             "mobile.filterable",
-            $16.mobile.filterable,
+            $17.mobile.filterable,
             {
                 options: {
                     filterPlaceholder: "Filter items...",
@@ -18749,7 +18774,7 @@
                     for (
                         this._super(
                         ),
-                        $16.extend(
+                        $17.extend(
                             this,
                             {
                                 _widget: null,
@@ -18759,7 +18784,7 @@
                         idx > -1;
                         idx--
                     )
-                        if (((widgetName = recognizedWidgets[idx]), $16.mobile[widgetName])) {
+                        if (((widgetName = recognizedWidgets[idx]), $17.mobile[widgetName])) {
                             if (this._setWidget(
                                 elem.data(
                                     "mobile-" + widgetName
@@ -18844,9 +18869,9 @@
           this._isSearchInternal(
           ) ||
           ((updatePlaceholder = !1),
-          (selector = $16(
+          (selector = $17(
               "<input data-" +
-              $16.mobile.ns +
+              $17.mobile.ns +
               "type='search' placeholder='" +
               opts.filterPlaceholder +
               "'></input>",
@@ -18854,7 +18879,7 @@
               "ui-filterable-" + this.uuid + "-internal",
               !0
           )),
-          $16(
+          $17(
               "<form class='ui-filterable'></form>"
           )
               .append(
@@ -18872,7 +18897,7 @@
               .insertBefore(
                   this.element
               ),
-          $16.mobile.textinput &&
+          $17.mobile.textinput &&
             (null != this.options.filterTheme &&
               (textinputOpts.theme = opts.filterTheme),
             selector.textinput(
@@ -18896,7 +18921,7 @@
                         options
                     );
                     return (
-                        (undefined = void 0) !== options.filterPlaceholder &&
+                        undefined !== options.filterPlaceholder &&
             this._isSearchInternal(
             ) &&
             this._search.attr(
@@ -18905,7 +18930,7 @@
             ),
                         undefined !== options.filterTheme &&
             this._search &&
-            $16.mobile.textinput &&
+            $17.mobile.textinput &&
             this._search.textinput(
                 "option",
                 "theme",
@@ -18928,8 +18953,8 @@
                         textinputOptions = {
                         };
                     if (this._isSearchInternal(
-                    ) && $16.mobile.textinput) {
-                        for (idx in $16.mobile.textinput.prototype.options)
+                    ) && $17.mobile.textinput) {
+                        for (idx in $17.mobile.textinput.prototype.options)
                             undefined !== options[idx] &&
               ("theme" === idx && null != this.options.filterTheme
                   ? (textinputOptions[idx] = this.options.filterTheme)
@@ -18943,7 +18968,7 @@
             }
         ),
         (function (
-            $17, undefined
+            $18, undefined
         ) {
             var tabId = 0,
                 rhash = /#.*$/;
@@ -18970,7 +18995,7 @@
             )
                 );
             }
-            $17.widget(
+            $18.widget(
                 "ui.tabs",
                 {
                     version: "fadf2b312a05040436451c64bbfaf4814bc62c56",
@@ -19006,7 +19031,7 @@
                                 function (
                                     event
                                 ) {
-                                    $17(
+                                    $18(
                                         this
                                     ).is(
                                         ".ui-state-disabled"
@@ -19019,7 +19044,7 @@
                                 "focus" + this.eventNamespace,
                                 function (
                                 ) {
-                                    $17(
+                                    $18(
                                         this
                                     ).closest(
                                         "li"
@@ -19034,13 +19059,13 @@
                         ),
                         (options.active = this._initialActive(
                         )),
-                        $17.isArray(
+                        $18.isArray(
                             options.disabled
                         ) &&
-              (options.disabled = $17
+              (options.disabled = $18
                   .unique(
                       options.disabled.concat(
-                          $17.map(
+                          $18.map(
                               this.tabs.filter(
                                   ".ui-state-disabled"
                               ),
@@ -19060,7 +19085,7 @@
                             ? (this.active = this._findActive(
                                 options.active
                             ))
-                            : (this.active = $17(
+                            : (this.active = $18(
                             )),
                         this._refresh(
                         ),
@@ -19082,7 +19107,7 @@
                     function (
                         i, tab
                     ) {
-                        if ($17(
+                        if ($18(
                             tab
                         ).attr(
                             "aria-controls"
@@ -19120,14 +19145,14 @@
                                 ? this._getPanelForTab(
                                     this.active
                                 )
-                                : $17(
+                                : $18(
                                 ),
                         };
                     },
                     _tabKeydown: function (
                         event
                     ) {
-                        var focusedTab = $17(
+                        var focusedTab = $18(
                                 this.document[0].activeElement
                             ).closest(
                                 "li"
@@ -19140,21 +19165,21 @@
                             event
                         )) {
                             switch (event.keyCode) {
-                            case $17.ui.keyCode.RIGHT:
-                            case $17.ui.keyCode.DOWN:
+                            case $18.ui.keyCode.RIGHT:
+                            case $18.ui.keyCode.DOWN:
                                 selectedIndex++;
                                 break;
-                            case $17.ui.keyCode.UP:
-                            case $17.ui.keyCode.LEFT:
+                            case $18.ui.keyCode.UP:
+                            case $18.ui.keyCode.LEFT:
                                 (goingForward = !1), selectedIndex--;
                                 break;
-                            case $17.ui.keyCode.END:
+                            case $18.ui.keyCode.END:
                                 selectedIndex = this.anchors.length - 1;
                                 break;
-                            case $17.ui.keyCode.HOME:
+                            case $18.ui.keyCode.HOME:
                                 selectedIndex = 0;
                                 break;
-                            case $17.ui.keyCode.SPACE:
+                            case $18.ui.keyCode.SPACE:
                                 return (
                                     event.preventDefault(
                                     ),
@@ -19166,7 +19191,7 @@
                                     ),
                                     void 0
                                 );
-                            case $17.ui.keyCode.ENTER:
+                            case $18.ui.keyCode.ENTER:
                                 return (
                                     event.preventDefault(
                                     ),
@@ -19220,7 +19245,7 @@
                             event
                         ) ||
             (event.ctrlKey &&
-              event.keyCode === $17.ui.keyCode.UP &&
+              event.keyCode === $18.ui.keyCode.UP &&
               (event.preventDefault(
               ), this.active.focus(
               )));
@@ -19228,7 +19253,7 @@
                     _handlePageNav: function (
                         event
                     ) {
-                        if (event.altKey && event.keyCode === $17.ui.keyCode.PAGE_UP)
+                        if (event.altKey && event.keyCode === $18.ui.keyCode.PAGE_UP)
                             return (
                                 this._activate(
                                     this._focusNextTab(
@@ -19238,7 +19263,7 @@
                                 ),
                                 !0
                             );
-                        if (event.altKey && event.keyCode === $17.ui.keyCode.PAGE_DOWN)
+                        if (event.altKey && event.keyCode === $18.ui.keyCode.PAGE_DOWN)
                             return (
                                 this._activate(
                                     this._focusNextTab(
@@ -19261,7 +19286,7 @@
                                 index
                             );
                         }
-                        for (; -1 !== $17.inArray(
+                        for (; -1 !== $18.inArray(
                             constrain(
                             ),
                             this.options.disabled
@@ -19342,7 +19367,7 @@
                             lis = this.tablist.children(
                                 ":has(a[href])"
                             );
-                        (options.disabled = $17.map(
+                        (options.disabled = $18.map(
                             lis.filter(
                                 ".ui-state-disabled"
                             ),
@@ -19358,12 +19383,12 @@
                         ),
                         !1 !== options.active && this.anchors.length
                             ? this.active.length &&
-                !$17.contains(
+                !$18.contains(
                     this.tablist[0],
                     this.active[0]
                 )
                                 ? this.tabs.length === options.disabled.length
-                                    ? ((options.active = !1), (this.active = $17(
+                                    ? ((options.active = !1), (this.active = $18(
                                     )))
                                     : this._activate(
                                         this._findNextTab(
@@ -19377,7 +19402,7 @@
                                 : (options.active = this.tabs.index(
                                     this.active
                                 ))
-                            : ((options.active = !1), (this.active = $17(
+                            : ((options.active = !1), (this.active = $18(
                             ))),
                         this._refresh(
                         );
@@ -19466,7 +19491,7 @@
                             .map(
                                 function (
                                 ) {
-                                    return $17(
+                                    return $18(
                                         "a",
                                         this
                                     )[0];
@@ -19481,7 +19506,7 @@
                                     tabIndex: -1,
                                 }
                             )),
-                        (this.panels = $17(
+                        (this.panels = $18(
                         )),
                         this.anchors.each(
                             function (
@@ -19490,13 +19515,13 @@
                                 var selector,
                                     panel,
                                     panelId,
-                                    anchorId = $17(
+                                    anchorId = $18(
                                         anchor
                                     ).uniqueId(
                                     ).attr(
                                         "id"
                                     ),
-                                    tab = $17(
+                                    tab = $18(
                                         anchor
                                     ).closest(
                                         "li"
@@ -19570,7 +19595,7 @@
                     _createPanel: function (
                         id
                     ) {
-                        return $17(
+                        return $18(
                             "<div>"
                         )
                             .attr(
@@ -19588,18 +19613,18 @@
                     _setupDisabled: function (
                         disabled
                     ) {
-                        $17.isArray(
+                        $18.isArray(
                             disabled
                         ) &&
             (disabled.length
                 ? disabled.length === this.anchors.length && (disabled = !0)
                 : (disabled = !1));
                         for (var li, i = 0; (li = this.tabs[i]); i++)
-                            !0 === disabled || -1 !== $17.inArray(
+                            !0 === disabled || -1 !== $18.inArray(
                                 i,
                                 disabled
                             )
-                                ? $17(
+                                ? $18(
                                     li
                                 )
                                     .addClass(
@@ -19609,7 +19634,7 @@
                                         "aria-disabled",
                                         "true"
                                     )
-                                : $17(
+                                : $18(
                                     li
                                 )
                                     .removeClass(
@@ -19632,7 +19657,7 @@
                             },
                         };
                         event &&
-            $17.each(
+            $18.each(
                 event.split(
                     " "
                 ),
@@ -19688,7 +19713,7 @@
                             ).each(
                                 function (
                                 ) {
-                                    var elem = $17(
+                                    var elem = $18(
                                             this
                                         ),
                                         position = elem.css(
@@ -19710,7 +19735,7 @@
                                 .each(
                                     function (
                                     ) {
-                                        maxHeight -= $17(
+                                        maxHeight -= $18(
                                             this
                                         ).outerHeight(
                                             !0
@@ -19721,15 +19746,15 @@
                                 .each(
                                     function (
                                     ) {
-                                        $17(
+                                        $18(
                                             this
                                         ).height(
                                             Math.max(
                                                 0,
-                                                maxHeight - $17(
+                                                maxHeight - $18(
                                                     this
                                                 ).innerHeight(
-                                                ) + $17(
+                                                ) + $18(
                                                     this
                                                 ).height(
                                                 ),
@@ -19749,7 +19774,7 @@
                       ) {
                           maxHeight = Math.max(
                               maxHeight,
-                              $17(
+                              $18(
                                   this
                               ).height(
                                   ""
@@ -19767,7 +19792,7 @@
                     ) {
                         var options = this.options,
                             active = this.active,
-                            tab = $17(
+                            tab = $18(
                                 event.currentTarget
                             ).closest(
                                 "li"
@@ -19775,7 +19800,7 @@
                             clickedIsActive = tab[0] === active[0],
                             collapsing = clickedIsActive && options.collapsible,
                             toShow = collapsing
-                                ? $17(
+                                ? $18(
                                 )
                                 : this._getPanelForTab(
                                     tab
@@ -19784,13 +19809,13 @@
                                 ? this._getPanelForTab(
                                     active
                                 )
-                                : $17(
+                                : $18(
                                 ),
                             eventData = {
                                 oldTab: active,
                                 oldPanel: toHide,
                                 newTab: collapsing
-                                    ? $17(
+                                    ? $18(
                                     )
                                     : tab,
                                 newPanel: toShow,
@@ -19814,14 +19839,14 @@
                   tab
               )),
               (this.active = clickedIsActive
-                  ? $17(
+                  ? $18(
                   )
                   : tab),
               this.xhr && this.xhr.abort(
               ),
               toHide.length ||
                 toShow.length ||
-                $17.error(
+                $18.error(
                     "jQuery UI Tabs: Mismatching fragment identifier."
                 ),
               toShow.length && this.load(
@@ -19917,7 +19942,7 @@
                     .filter(
                         function (
                         ) {
-                            return 0 === $17(
+                            return 0 === $18(
                                 this
                             ).attr(
                                 "tabIndex"
@@ -19957,7 +19982,7 @@
                 {
                     target: anchor,
                     currentTarget: anchor,
-                    preventDefault: $17.noop,
+                    preventDefault: $18.noop,
                 }
             ));
                     },
@@ -19965,7 +19990,7 @@
                         index
                     ) {
                         return !1 === index
-                            ? $17(
+                            ? $18(
                             )
                             : this.tabs.eq(
                                 index
@@ -20015,15 +20040,15 @@
                         ).each(
                             function (
                             ) {
-                                $17.data(
+                                $18.data(
                                     this,
                                     "ui-tabs-destroy"
                                 )
-                                    ? $17(
+                                    ? $18(
                                         this
                                     ).remove(
                                     )
-                                    : $17(
+                                    : $18(
                                         this
                                     )
                                         .removeClass(
@@ -20058,7 +20083,7 @@
                         this.tabs.each(
                             function (
                             ) {
-                                var li = $17(
+                                var li = $18(
                                         this
                                     ),
                                     prev = li.data(
@@ -20096,10 +20121,10 @@
                 : ((index = this._getIndex(
                     index
                 )),
-                (disabled = $17.isArray(
+                (disabled = $18.isArray(
                     disabled
                 )
-                    ? $17.map(
+                    ? $18.map(
                         disabled,
                         function (
                             num
@@ -20107,7 +20132,7 @@
                             return num !== index ? num : null;
                         }
                     )
-                    : $17.map(
+                    : $18.map(
                         this.tabs,
                         function (
                             li, num
@@ -20129,14 +20154,14 @@
                 : ((index = this._getIndex(
                     index
                 )),
-                -1 === $17.inArray(
+                -1 === $18.inArray(
                     index,
                     disabled
                 ) &&
-                  (disabled = $17.isArray(
+                  (disabled = $18.isArray(
                       disabled
                   )
-                      ? $17.merge(
+                      ? $18.merge(
                           [index,],
                           disabled
                       ).sort(
@@ -20169,7 +20194,7 @@
                         isLocal(
                             anchor[0]
                         ) ||
-            ((this.xhr = $17.ajax(
+            ((this.xhr = $18.ajax(
                 this._ajaxSettings(
                     anchor,
                     event,
@@ -20244,7 +20269,7 @@
                                 return that._trigger(
                                     "beforeLoad",
                                     event,
-                                    $17.extend(
+                                    $18.extend(
                                         {
                                             jqXHR: jqXHR,
                                             ajaxSettings: settings,
@@ -20258,7 +20283,7 @@
                     _getPanelForTab: function (
                         tab
                     ) {
-                        var id = $17(
+                        var id = $18(
                             tab
                         ).attr(
                             "aria-controls"
@@ -20275,7 +20300,7 @@
             jQuery
         ),
         (function (
-            $17, window
+            $18, window
         ) {
             var zoom,
                 evt,
@@ -20304,7 +20329,7 @@
                     );
             }
             if (
-                (($17.mobile.iosorientationfixEnabled = !0),
+                (($18.mobile.iosorientationfixEnabled = !0),
                 !(
                     /iPhone|iPad|iPod/.test(
                         navigator.platform
@@ -20317,16 +20342,16 @@
           ) > -1
                 ))
             ) {
-                $17.mobile.iosorientationfixEnabled = !1;
+                $18.mobile.iosorientationfixEnabled = !1;
                 return;
             }
-            (zoom = $17.mobile.zoom),
-            $17.mobile.document.on(
+            (zoom = $18.mobile.zoom),
+            $18.mobile.document.on(
                 "mobileinit",
                 function (
                 ) {
-                    $17.mobile.iosorientationfixEnabled &&
-            $17.mobile.window
+                    $18.mobile.iosorientationfixEnabled &&
+            $18.mobile.window
                 .bind(
                     "orientationchange.iosorientationfix",
                     zoom.enable
@@ -20342,26 +20367,26 @@
             this
         ),
         (function (
-            $17, window, undefined
+            $18, window, undefined
         ) {
-            var $html = $17(
+            var $html = $18(
                     "html"
                 ),
-                $window = $17.mobile.window;
+                $window = $18.mobile.window;
             function hideRenderingClass(
             ) {
                 $html.removeClass(
                     "ui-mobile-rendering"
                 );
             }
-            $17(
+            $18(
                 window.document
             ).trigger(
                 "mobileinit"
             ),
-            $17.mobile.gradeA(
+            $18.mobile.gradeA(
             ) &&
-          ($17.mobile.ajaxBlacklist && ($17.mobile.ajaxEnabled = !1),
+          ($18.mobile.ajaxBlacklist && ($18.mobile.ajaxEnabled = !1),
           $html.addClass(
               "ui-mobile ui-mobile-rendering"
           ),
@@ -20369,13 +20394,13 @@
               hideRenderingClass,
               5000
           ),
-          $17.extend(
-              $17.mobile,
+          $18.extend(
+              $18.mobile,
               {
                   initializePage: function (
                   ) {
-                      var path2 = $17.mobile.path,
-                          $pages = $17(
+                      var path2 = $18.mobile.path,
+                          $pages = $18(
                               ":jqmData(role='page'), :jqmData(role='dialog')"
                           ),
                           hash = path2.stripHash(
@@ -20388,11 +20413,11 @@
                               hash
                           );
                       $pages.length ||
-                ($pages = $17(
+                ($pages = $18(
                     "body"
                 )
                     .wrapInner(
-                        "<div data-" + $17.mobile.ns + "role='page'></div>",
+                        "<div data-" + $18.mobile.ns + "role='page'></div>",
                     )
                     .children(
                         0
@@ -20400,23 +20425,23 @@
                       $pages.each(
                           function (
                           ) {
-                              var $this = $17(
+                              var $this = $18(
                                   this
                               );
                               $this[0].getAttribute(
-                                  "data-" + $17.mobile.ns + "url"
+                                  "data-" + $18.mobile.ns + "url"
                               ) ||
                     $this.attr(
-                        "data-" + $17.mobile.ns + "url",
+                        "data-" + $18.mobile.ns + "url",
                         $this.attr(
                             "id"
                         ) || location.pathname + location.search,
                     );
                           }
                       ),
-                      ($17.mobile.firstPage = $pages.first(
+                      ($18.mobile.firstPage = $pages.first(
                       )),
-                      ($17.mobile.pageContainer = $17.mobile.firstPage
+                      ($18.mobile.pageContainer = $18.mobile.firstPage
                           .parent(
                           )
                           .addClass(
@@ -20424,34 +20449,34 @@
                           )
                           .pagecontainer(
                           )),
-                      $17.mobile.navreadyDeferred.resolve(
+                      $18.mobile.navreadyDeferred.resolve(
                       ),
                       $window.trigger(
                           "pagecontainercreate"
                       ),
-                      $17.mobile.loading(
+                      $18.mobile.loading(
                           "show"
                       ),
                       hideRenderingClass(
                       ),
-                      $17.mobile.hashListeningEnabled &&
-                $17.mobile.path.isHashValid(
+                      $18.mobile.hashListeningEnabled &&
+                $18.mobile.path.isHashValid(
                     location.hash
                 ) &&
-                ($17(
+                ($18(
                     hashPage
                 ).is(
                     ":jqmData(role='page')"
                 ) ||
-                  $17.mobile.path.isPath(
+                  $18.mobile.path.isPath(
                       hash
                   ) ||
-                  hash === $17.mobile.dialogHashKey)
-                          ? $17.event.special.navigate.isPushStateEnabled(
+                  hash === $18.mobile.dialogHashKey)
+                          ? $18.event.special.navigate.isPushStateEnabled(
                           )
-                              ? (($17.mobile.navigate.history.stack = []),
-                              $17.mobile.navigate(
-                                  $17.mobile.path.isPath(
+                              ? (($18.mobile.navigate.history.stack = []),
+                              $18.mobile.navigate(
+                                  $18.mobile.path.isPath(
                                       location.hash
                                   )
                                       ? location.hash
@@ -20461,21 +20486,21 @@
                                   "hashchange",
                                   [!0,]
                               )
-                          : ($17.mobile.path.isHashValid(
+                          : ($18.mobile.path.isHashValid(
                               location.hash
                           ) &&
-                      ($17.mobile.navigate.history.initialDst = hash.replace(
+                      ($18.mobile.navigate.history.initialDst = hash.replace(
                           "#",
                           "",
                       )),
-                          $17.event.special.navigate.isPushStateEnabled(
+                          $18.event.special.navigate.isPushStateEnabled(
                           ) &&
-                      $17.mobile.navigate.navigator.squash(
+                      $18.mobile.navigate.navigator.squash(
                           path2.parseLocation(
                           ).href,
                       ),
-                          $17.mobile.changePage(
-                              $17.mobile.firstPage,
+                          $18.mobile.changePage(
+                              $18.mobile.firstPage,
                               {
                                   transition: "none",
                                   reverse: !0,
@@ -20486,27 +20511,27 @@
                   },
               }
           ),
-          $17(
+          $18(
               function (
               ) {
-                  $17.support.inlineSVG(
+                  $18.support.inlineSVG(
                   ),
-                  $17.mobile.hideUrlBar && window.scrollTo(
+                  $18.mobile.hideUrlBar && window.scrollTo(
                       0,
                       1
                   ),
-                  ($17.mobile.defaultHomeScroll =
-                $17.support.scrollTop && 1 !== $17.mobile.window.scrollTop(
+                  ($18.mobile.defaultHomeScroll =
+                $18.support.scrollTop && 1 !== $18.mobile.window.scrollTop(
                 )
                     ? 1
                     : 0),
-                  $17.mobile.autoInitializePage && $17.mobile.initializePage(
+                  $18.mobile.autoInitializePage && $18.mobile.initializePage(
                   ),
-                  $17.mobile.hideUrlBar && $window.load(
-                      $17.mobile.silentScroll
+                  $18.mobile.hideUrlBar && $window.load(
+                      $18.mobile.silentScroll
                   ),
-                  $17.support.cssPointerEvents ||
-                $17.mobile.document.delegate(
+                  $18.support.cssPointerEvents ||
+                $18.mobile.document.delegate(
                     ".ui-state-disabled,.ui-disabled",
                     "vclick",
                     function (

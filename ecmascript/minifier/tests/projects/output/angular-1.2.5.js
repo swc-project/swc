@@ -6812,7 +6812,10 @@
         (this.$$parse = function (
             url
         ) {
-            var firstPathSegmentMatch,
+            var path,
+                url1,
+                base,
+                firstPathSegmentMatch,
                 path,
                 url1,
                 base,
@@ -6849,10 +6852,12 @@
                 this,
                 appBase
             ),
+            (path = this.$$path),
+            (url1 = withoutHashUrl),
+            (base = appBase),
             0 === url1.indexOf(
-                (base = appBase)
-            ) &&
-            (url1 = url1.replace(
+                base
+            ) && (url1 = url1.replace(
                 base,
                 ""
             )),

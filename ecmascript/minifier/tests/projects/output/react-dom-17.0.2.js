@@ -23390,7 +23390,8 @@
                 key
             );
         }
-        var findFiberByHostInstance,
+        var devToolsConfig,
+            findFiberByHostInstance,
             devToolsConfig,
             foundDevTools =
       ((findFiberByHostInstance = (devToolsConfig = {
