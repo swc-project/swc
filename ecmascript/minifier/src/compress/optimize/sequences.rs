@@ -757,6 +757,26 @@ impl Optimizer<'_> {
         }
     }
 
+    fn is_skippable_for_seq(&self, e: &Expr) -> bool {
+        match e {
+            Expr::Ident(..) | Expr::Lit(..) => true,
+            Expr::Unary(UnaryExpr {
+                op: op!("!"), arg, ..
+            }) => self.is_skippable_for_seq(&arg),
+
+            Expr::Bin(BinExpr {
+                op: op!("??") | op!("||") | op!("&&"),
+                ..
+            }) => false,
+
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.is_skippable_for_seq(&left) && self.is_skippable_for_seq(&right)
+            }
+
+            _ => false,
+        }
+    }
+
     /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
         match b {
@@ -773,17 +793,8 @@ impl Optimizer<'_> {
                     return true;
                 }
 
-                match &**left {
-                    Expr::Ident(..) | Expr::Lit(..) => {}
-                    Expr::Unary(UnaryExpr {
-                        op: op!("!"), arg, ..
-                    }) => match &**arg {
-                        Expr::Ident(..) | Expr::Lit(..) => {}
-                        _ => return false,
-                    },
-                    _ => {
-                        return false;
-                    }
+                if !self.is_skippable_for_seq(&left) {
+                    return false;
                 }
 
                 match *op {
