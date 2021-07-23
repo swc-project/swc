@@ -556,6 +556,12 @@ impl Optimizer<'_> {
             }
         }
 
+        if args.len() > params.len() {
+            for arg in &mut args[params.len()..] {
+                exprs.push(arg.expr.take());
+            }
+        }
+
         for mut stmt in body.stmts.take() {
             match stmt {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
