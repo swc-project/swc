@@ -4890,7 +4890,7 @@ Browser.Element &&
       return function (
           type, event
       ) {
-          return Element1.prototype.fireEvent.call(
+          return fireEvent.call(
               this,
               type,
               event
@@ -5392,6 +5392,7 @@ Elements.alias(
         }
     );
     var translations,
+        set,
         contains = {
             contains: function (
                 element
@@ -5441,7 +5442,7 @@ Elements.alias(
         return (
             addSlickPseudos(
             ),
-            Slick.search.call(
+            (search = Slick.search).call(
                 this,
                 context,
                 expression,
@@ -5452,26 +5453,33 @@ Elements.alias(
     (Slick.find = function (
         context, expression
     ) {
-        return addSlickPseudos(
-        ), Slick.find.call(
-            this,
-            context,
-            expression
+        return (
+            addSlickPseudos(
+            ), (find = Slick.find).call(
+                this,
+                context,
+                expression
+            )
         );
     }),
     (Slick.match = function (
         node, selector
     ) {
-        return addSlickPseudos(
-        ), Slick.match.call(
-            this,
-            node,
-            selector
+        return (
+            addSlickPseudos(
+            ), (match = Slick.match).call(
+                this,
+                node,
+                selector
+            )
         );
     });
     var types,
         pseudos,
         addSlickPseudos,
+        search,
+        find,
+        match,
         injectCombinator = function (
             expression, combinator
         ) {
@@ -6625,7 +6633,7 @@ Elements.alias(
                 "tag"
             )];
             if ((wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap))
-                return Element1.Properties.html.set.call(
+                return (set = Element1.Properties.html.set).call(
                     this,
                     html
                 );

@@ -389,7 +389,7 @@
                                         );
                                     }
                                 )
-                                : $17.fn.focus.apply(
+                                : orig.apply(
                                     this,
                                     arguments
                                 );
@@ -5276,7 +5276,7 @@
             ) {
                 return function (
                 ) {
-                    var constructor = $17.widget.apply(
+                    var constructor = orig.apply(
                             this,
                             arguments
                         ),
