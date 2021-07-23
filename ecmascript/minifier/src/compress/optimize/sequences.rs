@@ -646,7 +646,14 @@ impl Optimizer<'_> {
         fn exprs_of(s: &mut Stmt) -> Option<Vec<Mergable>> {
             Some(match s {
                 Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
-                Stmt::Decl(Decl::Var(v)) => v.decls.iter_mut().map(Mergable::Var).collect(),
+                Stmt::Decl(Decl::Var(
+                    v
+                    @
+                    VarDecl {
+                        kind: VarDeclKind::Var | VarDeclKind::Let,
+                        ..
+                    },
+                )) => v.decls.iter_mut().map(Mergable::Var).collect(),
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                     vec![Mergable::Expr(&mut **arg)]
                 }
