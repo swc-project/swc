@@ -1065,7 +1065,13 @@ impl Optimizer<'_> {
             };
             b.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
             if v.expr_usage != 1 || v.pat_usage != 0 {
-                log::trace!("[X] sequences: Aborting because counts");
+                log::trace!(
+                    "[X] sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
+                    left_id.sym,
+                    left_id.span.ctxt,
+                    v.expr_usage,
+                    v.pat_usage
+                );
                 return false;
             }
         }
