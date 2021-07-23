@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
 use crate::compress::optimize::Ctx;
+use crate::debug::dump;
 use crate::util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt};
 use retain_mut::RetainMut;
 use std::collections::HashMap;
@@ -11,7 +12,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
-use swc_ecma_utils::{contains_this_expr, undefined, ExprExt, StmtLike};
+use swc_ecma_utils::{contains_this_expr, undefined, ExprExt, Id, StmtLike};
 use swc_ecma_visit::noop_visit_type;
 use swc_ecma_visit::Node;
 use swc_ecma_visit::Visit;
@@ -731,15 +732,17 @@ impl Optimizer<'_> {
                     Mergable::Var(_) => break,
                     Mergable::Expr(e2) => {
                         if !can_skip_expr_for_seqs(&e2) {
-                            // if cfg!(feature = "debug") && false {
-                            //     log::trace!(
-                            //         "Cannot skip: {} from {}",
-                            //         dump(&*a2[j - idx].borrow()),
-                            //         dump(a1.last().unwrap().borrow())
-                            //     );
-                            // }
+                            if cfg!(feature = "debug") && false {
+                                log::trace!("Cannot skip: {}", dump(&**e2));
+                            }
 
                             break;
+                        }
+
+                        if let Some(id) = a1.last_mut().unwrap().id() {
+                            if idents_used_by(&**e2).contains(&id) {
+                                break;
+                            }
                         }
                     }
                 }
@@ -1168,4 +1171,19 @@ fn can_skip_expr_for_seqs(e: &Expr) -> bool {
 enum Mergable<'a> {
     Var(&'a mut VarDeclarator),
     Expr(&'a mut Expr),
+}
+
+impl Mergable<'_> {
+    fn id(&self) -> Option<Id> {
+        match self {
+            Mergable::Var(s) => match &s.name {
+                Pat::Ident(i) => Some(i.id.to_id()),
+                _ => None,
+            },
+            Mergable::Expr(s) => match &**s {
+                Expr::Assign(s) => get_lhs_ident(&s.left).map(|v| v.to_id()),
+                _ => None,
+            },
+        }
+    }
 }
