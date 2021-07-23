@@ -505,13 +505,13 @@
             fetch: function (
                 options
             ) {
-                (options = options
+                void 0 === (options = options
                     ? _.clone(
                         options
                     )
                     : {
-                    }),
-                void 0 === options.parse && (options.parse = !0);
+                    }).parse &&
+        (options.parse = !0);
                 var model = this,
                     success = options.success;
                 return (
@@ -1237,13 +1237,13 @@
             fetch: function (
                 options
             ) {
-                (options = options
+                void 0 === (options = options
                     ? _.clone(
                         options
                     )
                     : {
-                    }),
-                void 0 === options.parse && (options.parse = !0);
+                    }).parse &&
+        (options.parse = !0);
                 var success = options.success,
                     collection = this;
                 return (

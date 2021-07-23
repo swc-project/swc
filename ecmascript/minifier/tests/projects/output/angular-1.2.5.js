@@ -6816,9 +6816,6 @@
                 url1,
                 base,
                 firstPathSegmentMatch,
-                path,
-                url1,
-                base,
                 withoutBaseUrl =
             beginsWith(
                 appBase,

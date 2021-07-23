@@ -1409,15 +1409,16 @@
         function getSourceInfoErrorAddendum(
             source
         ) {
-            if (void 0 !== source) {
-                var fileName = source.fileName.replace(
-                        /^.*[\\\/]/,
-                        ""
-                    ),
-                    lineNumber = source.lineNumber;
-                return "\n\nCheck your code at " + fileName + ":" + lineNumber + ".";
-            }
-            return "";
+            return void 0 !== source
+                ? "\n\nCheck your code at " +
+          source.fileName.replace(
+              /^.*[\\\/]/,
+              ""
+          ) +
+          ":" +
+          source.lineNumber +
+          "."
+                : "";
         }
         function getSourceInfoErrorAddendumForProps(
             elementProps

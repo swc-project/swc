@@ -5393,7 +5393,6 @@ Elements.alias(
     );
     var set,
         translations,
-        set,
         contains = {
             contains: function (
                 element
@@ -5473,33 +5472,24 @@ Elements.alias(
             selector
         );
     });
-    var types,
-        search,
-        find,
-        match,
-        pseudos,
-        addSlickPseudos,
-        search,
-        find,
-        match,
-        injectCombinator = function (
-            expression, combinator
-        ) {
-            if (!expression) return combinator;
-            for (
-                var expressions = (expression = Object.clone(
-                        Slick.parse(
-                            expression
-                        )
-                    ))
-                        .expressions,
-                    i = expressions.length;
-                i--;
+    var injectCombinator = function (
+        expression, combinator
+    ) {
+        if (!expression) return combinator;
+        for (
+            var expressions = (expression = Object.clone(
+                    Slick.parse(
+                        expression
+                    )
+                ))
+                    .expressions,
+                i = expressions.length;
+            i--;
 
-            )
-                expressions[i][0].combinator = combinator;
-            return expression;
-        };
+        )
+            expressions[i][0].combinator = combinator;
+        return expression;
+    };
     Object.forEach(
         {
             getNext: "~",
@@ -5918,7 +5908,12 @@ Elements.alias(
             (node.type = type), (node.value = value);
         }),
     (input = null);
-    var div,
+    var types,
+        search,
+        find,
+        match,
+        pseudos,
+        addSlickPseudos,
         div,
         pollutesGetAttribute =
         (((div = document.createElement(
@@ -6617,51 +6612,52 @@ Elements.alias(
     (supportsTableInnerHTML &&
         supportsTRInnerHTML &&
         supportsHTML5Elements) ||
-        ((set = Element1.Properties.html.set),
-        ((translations = {
-            table: [1, "<table>", "</table>",],
-            select: [1, "<select>", "</select>",],
-            tbody: [2, "<table><tbody>", "</tbody></table>",],
-            tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
-        }).thead = translations.tfoot =
-          translations.tbody),
-        (Element1.Properties.html.set = function (
-            html
-        ) {
-            var wrap = translations[this.get(
-                "tag"
-            )];
-            if ((wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap))
-                return set.call(
-                    this,
-                    html
-                );
-            var level = wrap[0],
-                wrapper = document.createElement(
-                    "div"
-                ),
-                target = wrapper;
-            for (
-                supportsHTML5Elements || fragment.appendChild(
-                    wrapper
-                ),
-                wrapper.innerHTML = [wrap[1], html, wrap[2],].flatten(
-                ).join(
-                    ""
-                );
-                level--;
+        (Element1.Properties.html.set =
+          ((set = Element1.Properties.html.set),
+          ((translations = {
+              table: [1, "<table>", "</table>",],
+              select: [1, "<select>", "</select>",],
+              tbody: [2, "<table><tbody>", "</tbody></table>",],
+              tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
+          }).thead = translations.tfoot =
+            translations.tbody),
+          function (
+              html
+          ) {
+              var wrap = translations[this.get(
+                  "tag"
+              )];
+              if ((wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap))
+                  return set.call(
+                      this,
+                      html
+                  );
+              var level = wrap[0],
+                  wrapper = document.createElement(
+                      "div"
+                  ),
+                  target = wrapper;
+              for (
+                  supportsHTML5Elements || fragment.appendChild(
+                      wrapper
+                  ),
+                  wrapper.innerHTML = [wrap[1], html, wrap[2],].flatten(
+                  ).join(
+                      ""
+                  );
+                  level--;
 
-            )
-                target = target.firstChild;
-            this.empty(
-            ).adopt(
-                target.childNodes
-            ),
-            supportsHTML5Elements || fragment.removeChild(
-                wrapper
-            ),
-            (wrapper = null);
-        }));
+              )
+                  target = target.firstChild;
+              this.empty(
+              ).adopt(
+                  target.childNodes
+              ),
+              supportsHTML5Elements || fragment.removeChild(
+                  wrapper
+              ),
+              (wrapper = null);
+          }));
     var testForm = document.createElement(
         "form"
     );

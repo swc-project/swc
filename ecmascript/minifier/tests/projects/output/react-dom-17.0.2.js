@@ -1182,9 +1182,7 @@
         function getActiveElement(
             doc
         ) {
-            if (
-                ((doc = doc || (void 0 !== document ? document : void 0)), void 0 === doc)
-            )
+            if (void 0 === (doc = doc || (void 0 !== document ? document : void 0)))
                 return null;
             try {
                 return doc.activeElement || doc.body;
@@ -18027,8 +18025,7 @@
             console.error(
                 error
             );
-                        var errorBoundaryMessage,
-                            componentName = source
+                        var componentName = source
                                 ? getComponentName(
                                     source.type
                                 )
@@ -18040,19 +18037,18 @@
                                 : "The above error occurred in one of your React components:",
                             errorBoundaryName = getComponentName(
                                 boundary.type
-                            );
-                        errorBoundaryMessage = errorBoundaryName
-                            ? "React will try to recreate this component tree from scratch " +
-              ("using the error boundary you provided, " +
-                errorBoundaryName +
-                ".")
-                            : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.";
-                        var combinedMessage =
-            componentNameMessage +
-            "\n" +
-            componentStack +
-            "\n\n" +
-            ("" + errorBoundaryMessage);
+                            ),
+                            combinedMessage =
+              componentNameMessage +
+              "\n" +
+              componentStack +
+              "\n\n" +
+              (errorBoundaryName
+                  ? "React will try to recreate this component tree from scratch " +
+                  ("using the error boundary you provided, " +
+                    errorBoundaryName +
+                    ".")
+                  : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.");
                         console.error(
                             combinedMessage
                         );
@@ -18176,15 +18172,14 @@
                         wakeable,
                         threadIDs
                     ))
-                    : ((threadIDs = pingCache.get(
+                    : void 0 === (threadIDs = pingCache.get(
                         wakeable
-                    )),
-                    void 0 === threadIDs &&
-            ((threadIDs = new Set(
-            )), pingCache.set(
-                wakeable,
-                threadIDs
-            ))),
+                    )) &&
+          ((threadIDs = new Set(
+          )), pingCache.set(
+              wakeable,
+              threadIDs
+          )),
                 !threadIDs.has(
                     lanes
                 ))
@@ -23392,7 +23387,6 @@
         }
         var devToolsConfig,
             findFiberByHostInstance,
-            devToolsConfig,
             foundDevTools =
       ((findFiberByHostInstance = (devToolsConfig = {
           findFiberByHostInstance: getClosestInstanceFromNode,
