@@ -760,6 +760,8 @@ impl Optimizer<'_> {
     /// Returns true if something is modified.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> bool {
         match b {
+            Expr::Update(..) => return false,
+
             Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
 
             Expr::Unary(b) => return self.merge_sequential_expr(a, &mut b.arg),
