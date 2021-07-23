@@ -646,6 +646,9 @@ impl Optimizer<'_> {
             Some(match s {
                 Stmt::Expr(e) => vec![Mergable::Expr(&mut *e.expr)],
                 Stmt::Decl(Decl::Var(v)) => v.decls.iter_mut().map(Mergable::Var).collect(),
+                Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                    vec![Mergable::Expr(&mut **arg)]
+                }
                 _ => return None,
             })
         }
