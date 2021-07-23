@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "refresh": true
+            }
+        },
+        "target": "es5",
+        "loose": false,
+        "externalHelpers": false
+    },
+    "module": {
+        "type": "commonjs"
+    }
+}
