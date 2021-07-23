@@ -17,7 +17,6 @@ use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
 use swc_ecma_utils::DestructuringFinder;
-use swc_ecma_utils::ExprExt;
 use swc_ecma_utils::Id;
 use swc_ecma_utils::{find_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
@@ -318,15 +317,6 @@ impl Optimizer<'_> {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(e) => &mut **e,
         };
-
-        if call.args.iter().any(|arg| match &*arg.expr {
-            Expr::Member(MemberExpr {
-                computed: false, ..
-            }) => false,
-            _ => arg.expr.may_have_side_effects(),
-        }) {
-            return;
-        }
 
         match callee {
             Expr::Arrow(f) => {
