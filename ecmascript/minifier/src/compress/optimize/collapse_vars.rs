@@ -122,15 +122,6 @@ impl Optimizer<'_> {
     }
 
     /// Collapse single-use non-constant variables, side effects permitting.
-    pub(super) fn collapse_consequtive_vars<T>(&mut self, stmts: &mut Vec<T>)
-    where
-        T: StmtLike,
-    {
-
-        //
-    }
-
-    /// Collapse single-use non-constant variables, side effects permitting.
     ///
     /// This merges all variables to first variable declartion with an
     /// initializer. If such variable declaration is not found, variables are
@@ -411,19 +402,6 @@ impl VisitMut for VarPrepender {
     fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
 }
 
-/// Checks inlinabilty of variable initializer.
-struct InlinabiltyChecker {
-    can_inline: bool,
-}
-
-impl Visit for InlinabiltyChecker {
-    noop_visit_type!();
-
-    fn visit_update_expr(&mut self, _: &UpdateExpr, _: &dyn Node) {
-        self.can_inline = false;
-    }
-}
-
 struct Inliner<'a> {
     values: &'a mut FxHashMap<Id, Option<Box<Expr>>>,
 }
@@ -444,65 +422,5 @@ impl VisitMut for Inliner<'_> {
             }
             _ => {}
         }
-    }
-}
-
-/// Finds usage of `ident`, but except assignment to it.
-struct SimpleUsageFinder<'a> {
-    ident: &'a Ident,
-    found: bool,
-}
-
-impl<'a> Visit for SimpleUsageFinder<'a> {
-    noop_visit_type!();
-
-    fn visit_pat(&mut self, n: &Pat, _: &dyn Node) {
-        match n {
-            Pat::Ident(..) => {}
-            _ => {
-                n.visit_children_with(self);
-            }
-        }
-    }
-
-    fn visit_update_expr(&mut self, _: &UpdateExpr, _: &dyn Node) {}
-
-    fn visit_expr_or_spread(&mut self, n: &ExprOrSpread, _: &dyn Node) {
-        if n.spread.is_some() {
-            return;
-        }
-        n.visit_children_with(self);
-    }
-
-    fn visit_assign_expr(&mut self, e: &AssignExpr, _: &dyn Node) {
-        e.right.visit_with(e, self);
-    }
-
-    fn visit_ident(&mut self, i: &Ident, _: &dyn Node) {
-        if i.span.ctxt() == self.ident.span.ctxt() && i.sym == self.ident.sym {
-            self.found = true;
-        }
-    }
-
-    fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
-        e.obj.visit_with(e as _, self);
-
-        if e.computed {
-            e.prop.visit_with(e as _, self);
-        }
-    }
-}
-
-impl<'a> SimpleUsageFinder<'a> {
-    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
-    where
-        N: VisitWith<Self>,
-    {
-        let mut v = SimpleUsageFinder {
-            ident,
-            found: false,
-        };
-        node.visit_with(&Invalid { span: DUMMY_SP } as _, &mut v);
-        v.found
     }
 }
