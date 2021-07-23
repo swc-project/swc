@@ -209,6 +209,15 @@ impl Optimizer<'_> {
                     }
 
                     if let Some(arg) = arg {
+                        // NOTE
+                        //
+                        // This function is misdesigned and should be removed.
+                        // This is wrong because the order of execution is not guaranteed.
+                        match &**arg {
+                            Expr::Ident(..) | Expr::Lit(..) => {}
+                            _ => continue,
+                        }
+
                         let should_be_inlined = self.can_be_inlined_for_iife(arg);
                         if should_be_inlined {
                             log::debug!(
