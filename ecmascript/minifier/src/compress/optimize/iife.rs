@@ -521,6 +521,30 @@ impl Optimizer<'_> {
 
         let mut exprs = vec![];
 
+        {
+            let vars = params
+                .iter()
+                .cloned()
+                .map(BindingIdent::from)
+                .map(Pat::Ident)
+                .map(|name| VarDeclarator {
+                    span: DUMMY_SP,
+                    name,
+                    init: Default::default(),
+                    definite: Default::default(),
+                })
+                .collect::<Vec<_>>();
+
+            if !vars.is_empty() {
+                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: vars,
+                })));
+            }
+        }
+
         for (idx, param) in params.iter().enumerate() {
             if let Some(arg) = args.get_mut(idx) {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
@@ -528,7 +552,7 @@ impl Optimizer<'_> {
                     op: op!("="),
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
                     right: arg.expr.take(),
-                })))
+                })));
             }
         }
 
