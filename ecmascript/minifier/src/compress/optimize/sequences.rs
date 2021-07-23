@@ -952,6 +952,16 @@ impl Optimizer<'_> {
                             }
                         };
 
+                        if let Some(usage) = self
+                            .data
+                            .as_ref()
+                            .and_then(|data| data.vars.get(&left_id.to_id()))
+                        {
+                            if usage.declared_as_fn_expr {
+                                return false;
+                            }
+                        }
+
                         (left_id.clone(), right)
                     }
                     _ => return false,

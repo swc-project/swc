@@ -53,6 +53,8 @@ pub(crate) struct VarUsageInfo {
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
 
+    pub declared_as_fn_expr: bool,
+
     pub assign_count: usize,
     pub mutation_by_call_count: usize,
     pub usage_count: usize,
@@ -167,6 +169,7 @@ impl ProgramData {
                     e.get_mut().declared |= var_info.declared;
                     e.get_mut().declared_count += var_info.declared_count;
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
+                    e.get_mut().declared_as_fn_expr |= var_info.declared_as_fn_expr;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -299,6 +302,7 @@ impl UsageAnalyzer {
         i: &Ident,
         has_init: bool,
         kind: Option<VarDeclKind>,
+        is_fn_decl: bool,
     ) -> &mut VarUsageInfo {
         // log::trace!("declare_decl({}{:?})", i.sym, i.span.ctxt);
 
@@ -336,6 +340,8 @@ impl UsageAnalyzer {
             v.cond_init = true;
         }
         v.declared_as_catch_param |= self.ctx.in_catch_param;
+
+        v.declared_as_fn_expr |= is_fn_decl;
 
         v
     }
@@ -440,7 +446,7 @@ impl Visit for UsageAnalyzer {
     }
 
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None);
+        self.declare_decl(&n.ident, true, None, false);
 
         n.visit_children_with(self);
     }
@@ -469,8 +475,20 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if let Some(id) = &n.ident {
+            self.data
+                .vars
+                .entry(id.to_id())
+                .or_default()
+                .declared_as_fn_expr = true;
+        }
+    }
+
     fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None);
+        self.declare_decl(&n.ident, true, None, true);
 
         n.visit_children_with(self);
     }
@@ -653,6 +671,7 @@ impl Visit for UsageAnalyzer {
                         &i.id,
                         self.ctx.in_pat_of_var_decl_with_init,
                         self.ctx.var_decl_kind_of_pat,
+                        false,
                     );
 
                     if in_pat_of_param {
