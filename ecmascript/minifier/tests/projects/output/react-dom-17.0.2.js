@@ -23390,44 +23390,40 @@
                 key
             );
         }
-        var foundDevTools = (function injectIntoDevTools(
-            devToolsConfig
-        ) {
-            var ReactCurrentDispatcher,
-                findFiberByHostInstance = devToolsConfig.findFiberByHostInstance;
-            return injectInternals(
-                {
-                    bundleType: devToolsConfig.bundleType,
-                    version: devToolsConfig.version,
-                    rendererPackageName: devToolsConfig.rendererPackageName,
-                    rendererConfig: devToolsConfig.rendererConfig,
-                    overrideHookState: overrideHookState,
-                    overrideHookStateDeletePath: overrideHookStateDeletePath,
-                    overrideHookStateRenamePath: overrideHookStateRenamePath,
-                    overrideProps: overrideProps,
-                    overridePropsDeletePath: overridePropsDeletePath,
-                    overridePropsRenamePath: overridePropsRenamePath,
-                    setSuspenseHandler: setSuspenseHandler,
-                    scheduleUpdate: scheduleUpdate,
-                    currentDispatcherRef: ReactSharedInternals.ReactCurrentDispatcher,
-                    findHostInstanceByFiber: findHostInstanceByFiber,
-                    findFiberByHostInstance:
-        findFiberByHostInstance || emptyFindFiberByHostInstance,
-                    findHostInstancesForRefresh: findHostInstancesForRefresh,
-                    scheduleRefresh: scheduleRefresh,
-                    scheduleRoot: scheduleRoot,
-                    setRefreshHandler: setRefreshHandler,
-                    getCurrentFiber: getCurrentFiberForDevTools,
-                }
-            );
-        })(
-            {
-                findFiberByHostInstance: getClosestInstanceFromNode,
-                bundleType: 1,
-                version: ReactVersion,
-                rendererPackageName: "react-dom",
-            }
-        );
+        var findFiberByHostInstance,
+            devToolsConfig,
+            foundDevTools =
+      ((findFiberByHostInstance = (devToolsConfig = {
+          findFiberByHostInstance: getClosestInstanceFromNode,
+          bundleType: 1,
+          version: ReactVersion,
+          rendererPackageName: "react-dom",
+      }).findFiberByHostInstance),
+      injectInternals(
+          {
+              bundleType: devToolsConfig.bundleType,
+              version: devToolsConfig.version,
+              rendererPackageName: devToolsConfig.rendererPackageName,
+              rendererConfig: devToolsConfig.rendererConfig,
+              overrideHookState: overrideHookState,
+              overrideHookStateDeletePath: overrideHookStateDeletePath,
+              overrideHookStateRenamePath: overrideHookStateRenamePath,
+              overrideProps: overrideProps,
+              overridePropsDeletePath: overridePropsDeletePath,
+              overridePropsRenamePath: overridePropsRenamePath,
+              setSuspenseHandler: setSuspenseHandler,
+              scheduleUpdate: scheduleUpdate,
+              currentDispatcherRef: ReactSharedInternals.ReactCurrentDispatcher,
+              findHostInstanceByFiber: findHostInstanceByFiber,
+              findFiberByHostInstance:
+          findFiberByHostInstance || emptyFindFiberByHostInstance,
+              findHostInstancesForRefresh: findHostInstancesForRefresh,
+              scheduleRefresh: scheduleRefresh,
+              scheduleRoot: scheduleRoot,
+              setRefreshHandler: setRefreshHandler,
+              getCurrentFiber: getCurrentFiberForDevTools,
+          }
+      ));
         if (!React)
             throw Error(
                 "ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.",

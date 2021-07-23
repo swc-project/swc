@@ -6812,7 +6812,11 @@
         (this.$$parse = function (
             url
         ) {
-            var withoutBaseUrl =
+            var firstPathSegmentMatch,
+                path,
+                url1,
+                base,
+                withoutBaseUrl =
             beginsWith(
                 appBase,
                 url
@@ -6845,31 +6849,22 @@
                 this,
                 appBase
             ),
-            (this.$$path = (function (
-                path, url, base
-            ) {
-                var firstPathSegmentMatch,
-                    windowsFilePathExp = /^\/?.*?:(\/.*)/;
-                return (0 === url.indexOf(
-                    base
-                ) && (url = url.replace(
-                    base,
-                    ""
-                )),
-                windowsFilePathExp.exec(
-                    url
-                ))
-                    ? path
-                    : (firstPathSegmentMatch = windowsFilePathExp.exec(
-                        path
-                    ))
-                        ? firstPathSegmentMatch[1]
-                        : path;
-            })(
-                this.$$path,
-                withoutHashUrl,
-                appBase
+            0 === url1.indexOf(
+                (base = appBase)
+            ) &&
+            (url1 = url1.replace(
+                base,
+                ""
             )),
+            (this.$$path = /^\/?.*?:(\/.*)/.exec(
+                url1
+            )
+                ? path
+                : (firstPathSegmentMatch = /^\/?.*?:(\/.*)/.exec(
+                    path
+                ))
+                    ? firstPathSegmentMatch[1]
+                    : path),
             this.$$compose(
             );
         }),

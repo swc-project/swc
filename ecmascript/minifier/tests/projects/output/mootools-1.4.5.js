@@ -1119,14 +1119,13 @@ Array.alias(
     "extend",
     "append"
 );
-var fireEvent,
-    $pick = function (
-    ) {
-        return Array.from(
-            arguments
-        ).pick(
-        );
-    };
+var $pick = function (
+) {
+    return Array.from(
+        arguments
+    ).pick(
+    );
+};
 String.implement(
     {
         test: function (
@@ -1986,7 +1985,10 @@ Hash.alias(
 ),
 (function (
 ) {
-    var document = this.document,
+    var XMLHTTP,
+        MSXML2,
+        MSXML,
+        document = this.document,
         window = (document.window = this),
         ua = navigator.userAgent.toLowerCase(
         ),
@@ -2029,43 +2031,39 @@ Hash.alias(
         10
     )] = !0),
     (Browser.Platform[Browser.Platform.name] = !0),
-    (Browser.Request = (function (
+    (XMLHTTP = function (
     ) {
-        var XMLHTTP = function (
-            ) {
-                return new XMLHttpRequest(
-                );
-            },
-            MSXML2 = function (
-            ) {
-                return new ActiveXObject(
-                    "MSXML2.XMLHTTP"
-                );
-            },
-            MSXML = function (
-            ) {
-                return new ActiveXObject(
-                    "Microsoft.XMLHTTP"
-                );
-            };
-        return Function.attempt(
-            function (
-            ) {
-                return XMLHTTP(
-                ), XMLHTTP;
-            },
-            function (
-            ) {
-                return MSXML2(
-                ), MSXML2;
-            },
-            function (
-            ) {
-                return MSXML(
-                ), MSXML;
-            },
+        return new XMLHttpRequest(
         );
-    })(
+    }),
+    (MSXML2 = function (
+    ) {
+        return new ActiveXObject(
+            "MSXML2.XMLHTTP"
+        );
+    }),
+    (MSXML = function (
+    ) {
+        return new ActiveXObject(
+            "Microsoft.XMLHTTP"
+        );
+    }),
+    (Browser.Request = Function.attempt(
+        function (
+        ) {
+            return XMLHTTP(
+            ), XMLHTTP;
+        },
+        function (
+        ) {
+            return MSXML2(
+            ), MSXML2;
+        },
+        function (
+        ) {
+            return MSXML(
+            ), MSXML;
+        },
     )),
     (Browser.Features.xhr = !!Browser.Request);
     var version = (
@@ -4886,15 +4884,21 @@ var Element1 = function (
 };
 Browser.Element &&
   ((Element1.prototype = Browser.Element.prototype),
-  (Element1.prototype._fireEvent = function (
-      type, event
+  (Element1.prototype._fireEvent = (function (
+      fireEvent
   ) {
-      return Element1.prototype.fireEvent.call(
-          this,
-          type,
-          event
-      );
-  })),
+      return function (
+          type, event
+      ) {
+          return Element1.prototype.fireEvent.call(
+              this,
+              type,
+              event
+          );
+      };
+  })(
+      Element1.prototype.fireEvent
+  ))),
 new Type(
     "Element",
     Element1
@@ -5252,95 +5256,89 @@ Elements.alias(
             ) {
                 return this.window;
             },
-            id: (function (
-            ) {
-                var types = {
-                    string: function (
-                        id, nocash, doc
-                    ) {
-                        return (id = Slick.find(
-                            doc,
-                            "#" + id.replace(
-                                /(\W)/g,
-                                "\\$1"
-                            )
-                        ))
-                            ? types.element(
-                                id,
-                                nocash
-                            )
-                            : null;
-                    },
-                    element: function (
-                        el, nocash
-                    ) {
-                        if (
-                            (Slick.uidOf(
-                                el
-                            ),
-                            !nocash &&
+            id:
+          (((types = {
+              string: function (
+                  id, nocash, doc
+              ) {
+                  return (id = Slick.find(
+                      doc,
+                      "#" + id.replace(
+                          /(\W)/g,
+                          "\\$1"
+                      )
+                  ))
+                      ? types.element(
+                          id,
+                          nocash
+                      )
+                      : null;
+              },
+              element: function (
+                  el, nocash
+              ) {
+                  if (
+                      (Slick.uidOf(
+                          el
+                      ),
+                      !nocash &&
                   !el.$family &&
                   !/^(?:object|embed)$/i.test(
                       el.tagName
                   ))
-                        ) {
-                            var fireEvent1 = el.fireEvent;
-                            (el._fireEvent = function (
-                                type, event
-                            ) {
-                                return fireEvent1(
-                                    type,
-                                    event
-                                );
-                            }),
-                            Object.append(
-                                el,
-                                Element1.Prototype
-                            );
-                        }
-                        return el;
-                    },
-                    object: function (
-                        obj, nocash, doc
-                    ) {
-                        return obj.toElement
-                            ? types.element(
-                                obj.toElement(
-                                    doc
-                                ),
-                                nocash
-                            )
-                            : null;
-                    },
-                };
-                return (
-                    (types.textnode =
-              types.whitespace =
-              types.window =
-              types.document =
-                function (
-                    zero
-                ) {
-                    return zero;
-                }),
-                    function (
-                        el, nocash, doc
-                    ) {
-                        if (el && el.$family && el.uniqueNumber) return el;
-                        var type = typeOf(
-                            el
-                        );
-                        return types[type]
-                            ? types[type](
-                                el,
-                                nocash,
-                                doc || document
-                            )
-                            : null;
-                    }
-                );
-            })(
-            ),
+                  ) {
+                      var fireEvent = el.fireEvent;
+                      (el._fireEvent = function (
+                          type, event
+                      ) {
+                          return fireEvent(
+                              type,
+                              event
+                          );
+                      }),
+                      Object.append(
+                          el,
+                          Element1.Prototype
+                      );
+                  }
+                  return el;
+              },
+              object: function (
+                  obj, nocash, doc
+              ) {
+                  return obj.toElement
+                      ? types.element(
+                          obj.toElement(
+                              doc
+                          ),
+                          nocash
+                      )
+                      : null;
+              },
+          }).textnode =
+            types.whitespace =
+            types.window =
+            types.document =
+              function (
+                  zero
+              ) {
+                  return zero;
+              }),
+          function (
+              el, nocash, doc
+          ) {
+              if (el && el.$family && el.uniqueNumber) return el;
+              var type = typeOf(
+                  el
+              );
+              return types[type]
+                  ? types[type](
+                      el,
+                      nocash,
+                      doc || document
+                  )
+                  : null;
+          }),
         }
     ),
     null == window.$ &&
@@ -5393,16 +5391,17 @@ Elements.alias(
             },
         }
     );
-    var contains = {
-        contains: function (
-            element
-        ) {
-            return Slick.contains(
-                this,
+    var translations,
+        contains = {
+            contains: function (
                 element
-            );
-        },
-    };
+            ) {
+                return Slick.contains(
+                    this,
+                    element
+                );
+            },
+        };
     document.contains || Document.implement(
         contains
     ),
@@ -5421,83 +5420,76 @@ Elements.alias(
             );
         }
     ),
-    (function (
-        search, find, match
+    (this.Selectors = {
+    }),
+    (pseudos = this.Selectors.Pseudo = new Hash(
+    )),
+    (addSlickPseudos = function (
     ) {
-        this.Selectors = {
-        };
-        var pseudos = (this.Selectors.Pseudo = new Hash(
-            )),
-            addSlickPseudos = function (
-            ) {
-                for (var name in pseudos)
-                    pseudos.hasOwnProperty(
-                        name
-                    ) &&
-                (Slick.definePseudo(
-                    name,
-                    pseudos[name]
-                ), delete pseudos[name]);
-            };
-        (Slick.search = function (
-            context, expression, append
-        ) {
-            return (
-                addSlickPseudos(
-                ),
-                Slick.search.call(
-                    this,
-                    context,
-                    expression,
-                    append
-                )
-            );
-        }),
-        (Slick.find = function (
-            context, expression
-        ) {
-            return (
-                addSlickPseudos(
-                ), Slick.find.call(
-                    this,
-                    context,
-                    expression
-                )
-            );
-        }),
-        (Slick.match = function (
-            node, selector
-        ) {
-            return addSlickPseudos(
-            ), Slick.match.call(
+        for (var name in pseudos)
+            pseudos.hasOwnProperty(
+                name
+            ) &&
+            (Slick.definePseudo(
+                name,
+                pseudos[name]
+            ), delete pseudos[name]);
+    }),
+    (Slick.search = function (
+        context, expression, append
+    ) {
+        return (
+            addSlickPseudos(
+            ),
+            Slick.search.call(
                 this,
-                node,
-                selector
-            );
-        });
-    })(
-        Slick.search,
-        Slick.find,
-        Slick.match
-    );
-    var injectCombinator = function (
-        expression, combinator
+                context,
+                expression,
+                append
+            )
+        );
+    }),
+    (Slick.find = function (
+        context, expression
     ) {
-        if (!expression) return combinator;
-        for (
-            var expressions = (expression = Object.clone(
-                    Slick.parse(
-                        expression
-                    )
-                ))
-                    .expressions,
-                i = expressions.length;
-            i--;
+        return addSlickPseudos(
+        ), Slick.find.call(
+            this,
+            context,
+            expression
+        );
+    }),
+    (Slick.match = function (
+        node, selector
+    ) {
+        return addSlickPseudos(
+        ), Slick.match.call(
+            this,
+            node,
+            selector
+        );
+    });
+    var types,
+        pseudos,
+        addSlickPseudos,
+        injectCombinator = function (
+            expression, combinator
+        ) {
+            if (!expression) return combinator;
+            for (
+                var expressions = (expression = Object.clone(
+                        Slick.parse(
+                            expression
+                        )
+                    ))
+                        .expressions,
+                    i = expressions.length;
+                i--;
 
-        )
-            expressions[i][0].combinator = combinator;
-        return expression;
-    };
+            )
+                expressions[i][0].combinator = combinator;
+            return expression;
+        };
     Object.forEach(
         {
             getNext: "~",
@@ -6619,62 +6611,50 @@ Elements.alias(
     (supportsTableInnerHTML &&
         supportsTRInnerHTML &&
         supportsHTML5Elements) ||
-        (Element1.Properties.html.set = (function (
-            set
+        (((translations = {
+            table: [1, "<table>", "</table>",],
+            select: [1, "<select>", "</select>",],
+            tbody: [2, "<table><tbody>", "</tbody></table>",],
+            tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
+        }).thead = translations.tfoot =
+          translations.tbody),
+        (Element1.Properties.html.set = function (
+            html
         ) {
-            var translations = {
-                table: [1, "<table>", "</table>",],
-                select: [1, "<select>", "</select>",],
-                tbody: [2, "<table><tbody>", "</tbody></table>",],
-                tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
-            };
-            return (
-                (translations.thead = translations.tfoot = translations.tbody),
-                function (
+            var wrap = translations[this.get(
+                "tag"
+            )];
+            if ((wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap))
+                return Element1.Properties.html.set.call(
+                    this,
                     html
-                ) {
-                    var wrap = translations[this.get(
-                        "tag"
-                    )];
-                    if (
-                        (wrap || supportsHTML5Elements || (wrap = [0, "", "",]), !wrap)
-                    )
-                        return Element1.Properties.html.set.call(
-                            this,
-                            html
-                        );
-                    var level = wrap[0],
-                        wrapper = document.createElement(
-                            "div"
-                        ),
-                        target = wrapper;
-                    for (
-                        supportsHTML5Elements || fragment.appendChild(
-                            wrapper
-                        ),
-                        wrapper.innerHTML = [wrap[1], html, wrap[2],]
-                            .flatten(
-                            )
-                            .join(
-                                ""
-                            );
-                        level--;
+                );
+            var level = wrap[0],
+                wrapper = document.createElement(
+                    "div"
+                ),
+                target = wrapper;
+            for (
+                supportsHTML5Elements || fragment.appendChild(
+                    wrapper
+                ),
+                wrapper.innerHTML = [wrap[1], html, wrap[2],].flatten(
+                ).join(
+                    ""
+                );
+                level--;
 
-                    )
-                        target = target.firstChild;
-                    this.empty(
-                    ).adopt(
-                        target.childNodes
-                    ),
-                    supportsHTML5Elements || fragment.removeChild(
-                        wrapper
-                    ),
-                    (wrapper = null);
-                }
-            );
-        })(
-            Element1.Properties.html.set
-        ));
+            )
+                target = target.firstChild;
+            this.empty(
+            ).adopt(
+                target.childNodes
+            ),
+            supportsHTML5Elements || fragment.removeChild(
+                wrapper
+            ),
+            (wrapper = null);
+        }));
     var testForm = document.createElement(
         "form"
     );
