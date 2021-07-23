@@ -193,6 +193,36 @@ impl<'a> Fold for SuperCalleeFolder<'a> {
                     right,
                 })
             }
+
+            Expr::Call(CallExpr {
+                callee: ExprOrSuper::Expr(ref expr),
+                ref args,
+                ref type_args,
+                ..
+            }) => match &**expr {
+                Expr::Member(MemberExpr {
+                    obj: ExprOrSuper::Super(Super { span: super_token }),
+                    ..
+                }) => {
+                    let this_arg = ThisExpr {
+                        span: super_token.clone(),
+                    }
+                    .as_arg();
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: MemberExpr {
+                            span: DUMMY_SP,
+                            obj: ExprOrSuper::Expr(expr.clone()),
+                            prop: Box::new(Expr::Ident(quote_ident!("call"))),
+                            computed: false,
+                        }
+                        .as_callee(),
+                        args: iter::once(this_arg).chain(args.clone()).collect(),
+                        type_args: type_args.clone(),
+                    })
+                }
+                _ => n.fold_children_with(self),
+            },
             _ => n.fold_children_with(self),
         };
 

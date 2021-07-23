@@ -6444,3 +6444,93 @@ test!(
     }
     "
 );
+
+test!(
+    syntax(),
+    |t| {
+        let global_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            class_properties(),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
+        )
+    },
+    issue_1959_1,
+    "
+    class Extended extends Base {
+      getNext() {
+        return super.getNext(114514) + 114514
+      }
+    }
+    ",
+    "
+var Extended = function(Base) {
+    'use strict';
+    _inherits(Extended, Base);
+    function Extended() {
+        _classCallCheck(this, Extended);
+        return _possibleConstructorReturn(this, _getPrototypeOf(Extended).apply(this, arguments));
+    }
+    _createClass(Extended, [
+        {
+            key: 'getNext',
+            value: function getNext() {
+                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, 114514) + 114514;
+            }
+        }
+    ]);
+    return Extended;
+}(Base);
+    "
+);
+
+test!(
+    syntax(),
+    |t| {
+        let global_mark = Mark::fresh(Mark::root());
+
+        chain!(
+            class_properties(),
+            es2015::es2015(
+                global_mark,
+                Some(t.comments.clone()),
+                es2015::Config {
+                    ..Default::default()
+                }
+            ),
+        )
+    },
+    issue_1959_2,
+    "
+    class Extended extends Base {
+      getNext() {
+        return super.getNext(114514)
+      }
+    }
+    ",
+    "
+var Extended = function(Base) {
+    'use strict';
+    _inherits(Extended, Base);
+    function Extended() {
+        _classCallCheck(this, Extended);
+        return _possibleConstructorReturn(this, _getPrototypeOf(Extended).apply(this, arguments));
+    }
+    _createClass(Extended, [
+        {
+            key: 'getNext',
+            value: function getNext() {
+                return _get(_getPrototypeOf(Extended.prototype), 'getNext', this).call(this, 114514);
+            }
+        }
+    ]);
+    return Extended;
+}(Base);
+    "
+);
