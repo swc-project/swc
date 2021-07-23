@@ -328,9 +328,15 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                let param_ids = f
+                    .params
+                    .iter()
+                    .map(|p| p.clone().ident().unwrap().id)
+                    .collect::<Vec<_>>();
+
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(body) => {
-                        let new = self.inline_fn_like(body);
+                        let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
                             log::debug!("inline: Inlining a function call (arrow)");
@@ -422,54 +428,14 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                {
-                    let mut vars = HashMap::default();
-                    // We check for parameter and argument
-                    for (idx, param) in f.function.params.iter().enumerate() {
-                        let arg = call.args.get(idx).map(|v| &v.expr);
-                        if let Pat::Ident(param) = &param.pat {
-                            if let Some(usage) = self
-                                .data
-                                .as_ref()
-                                .and_then(|data| data.vars.get(&param.to_id()))
-                            {
-                                if usage.reassigned {
-                                    continue;
-                                }
-                            }
+                let param_ids = f
+                    .function
+                    .params
+                    .iter()
+                    .map(|p| p.pat.clone().ident().unwrap().id)
+                    .collect::<Vec<_>>();
 
-                            if let Some(arg) = arg {
-                                let should_be_inlined = self.can_be_inlined_for_iife(arg);
-                                if should_be_inlined {
-                                    log::debug!(
-                                        "iife: Trying to inline argument ({}{:?})",
-                                        param.id.sym,
-                                        param.id.span.ctxt
-                                    );
-                                    vars.insert(param.to_id(), arg.clone());
-                                }
-                            } else {
-                                log::debug!(
-                                    "iife: Trying to inline argument ({}{:?}) (undefined)",
-                                    param.id.sym,
-                                    param.id.span.ctxt
-                                );
-
-                                vars.insert(param.to_id(), undefined(param.span()));
-                            }
-                        }
-                    }
-
-                    let ctx = Ctx {
-                        inline_as_assignment: true,
-                        ..self.ctx
-                    };
-
-                    log::debug!("inline: Inlining arguments");
-                    self.with_ctx(ctx).inline_vars_in_node(body, vars);
-                }
-
-                let new = self.inline_fn_like(body);
+                let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
                     log::debug!("inline: Inlining a function call");
@@ -543,12 +509,29 @@ impl Optimizer<'_> {
         true
     }
 
-    fn inline_fn_like(&mut self, body: &mut BlockStmt) -> Option<Expr> {
+    fn inline_fn_like(
+        &mut self,
+        params: &[Ident],
+        body: &mut BlockStmt,
+        args: &mut [ExprOrSpread],
+    ) -> Option<Expr> {
         if !self.can_inline_fn_like(&*body) {
             return None;
         }
 
         let mut exprs = vec![];
+
+        for (idx, param) in params.iter().enumerate() {
+            if let Some(arg) = args.get_mut(idx) {
+                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                    right: arg.expr.take(),
+                })))
+            }
+        }
+
         for mut stmt in body.stmts.take() {
             match stmt {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
