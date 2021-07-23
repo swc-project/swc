@@ -654,17 +654,22 @@ impl Optimizer<'_> {
         }
 
         let mut exprs = vec![];
+        let mut buf = vec![];
 
         for stmt in stmts.iter_mut() {
             let items = exprs_of(stmt);
             if let Some(items) = items {
-                exprs.extend(items)
+                buf.extend(items)
             } else {
-                break;
+                exprs.push(take(&mut buf));
             }
         }
 
-        self.merge_sequences_in_exprs(&mut exprs);
+        exprs.push(buf);
+
+        for mut exprs in exprs {
+            self.merge_sequences_in_exprs(&mut exprs);
+        }
 
         stmts.retain_mut(|stmt| match stmt {
             Stmt::Decl(Decl::Var(v)) => {
