@@ -761,7 +761,9 @@ impl Optimizer<'_> {
         match e {
             Expr::Ident(..) | Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
-                op: op!("!"), arg, ..
+                op: op!("!") | op!("void"),
+                arg,
+                ..
             }) => self.is_skippable_for_seq(&arg),
 
             Expr::Bin(BinExpr {
