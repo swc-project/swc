@@ -288,6 +288,10 @@ impl Optimizer<'_> {
             }
         }
 
+        if self.ctx.in_top_level() {
+            return;
+        }
+
         if self.ctx.inline_prevented {
             return;
         }
@@ -502,6 +506,8 @@ impl Optimizer<'_> {
 
     fn can_inline_fn_like(&self, body: &BlockStmt) -> bool {
         if !body.stmts.iter().all(|stmt| match stmt {
+            Stmt::Decl(Decl::Var(..)) => true,
+
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
 
@@ -547,8 +553,23 @@ impl Optimizer<'_> {
         }
 
         let mut exprs = vec![];
-        for stmt in body.stmts.take() {
+        for mut stmt in body.stmts.take() {
             match stmt {
+                Stmt::Decl(Decl::Var(ref mut var)) => {
+                    for decl in &mut var.decls {
+                        if decl.init.is_some() {
+                            exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: PatOrExpr::Pat(Box::new(decl.name.clone())),
+                                right: decl.init.take().unwrap(),
+                            })))
+                        }
+                    }
+
+                    self.prepend_stmts.push(stmt);
+                }
+
                 Stmt::Expr(stmt) => {
                     exprs.push(stmt.expr);
                 }
