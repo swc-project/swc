@@ -821,7 +821,7 @@ function extname(path) {
     }
     return path.slice(startDot, end);
 }
-function format4(pathObject) {
+function format(pathObject) {
     if (pathObject === null || typeof pathObject !== "object") {
         throw new TypeError(`The "pathObject" argument must be of type Object. Received type ${typeof pathObject}`);
     }
@@ -968,7 +968,7 @@ const mod1 = function() {
         dirname: dirname,
         basename: basename,
         extname: extname,
-        format: format4,
+        format: format,
         parse: parse1,
         fromFileUrl: fromFileUrl,
         toFileUrl: toFileUrl
@@ -1703,10 +1703,10 @@ class Logger {
     #level;
     #handlers;
     #loggerName;
-    constructor(loggerName, levelName1, options1 = {
+    constructor(loggerName, levelName, options1 = {
     }){
         this.#loggerName = loggerName;
-        this.#level = getLevelByName(levelName1);
+        this.#level = getLevelByName(levelName);
         this.#handlers = options1.handlers || [];
     }
     get level() {
@@ -1718,8 +1718,8 @@ class Logger {
     get levelName() {
         return getLevelName(this.#level);
     }
-    set levelName(levelName) {
-        this.#level = getLevelByName(levelName);
+    set levelName(levelName1) {
+        this.#level = getLevelByName(levelName1);
     }
     get loggerName() {
         return this.#loggerName;
@@ -1730,8 +1730,8 @@ class Logger {
     get handlers() {
         return this.#handlers;
     }
-    _log(level, msg, ...args) {
-        if (this.level > level) {
+    _log(level1, msg, ...args) {
+        if (this.level > level1) {
             return msg instanceof Function ? undefined : msg;
         }
         let fnResult;
@@ -1745,7 +1745,7 @@ class Logger {
         const record = new LogRecord({
             msg: logMessage,
             args: args,
-            level: level,
+            level: level1,
             loggerName: this.loggerName
         });
         this.#handlers.forEach((handler)=>{
@@ -1763,20 +1763,20 @@ class Logger {
         }
         return "undefined";
     }
-    debug(msg, ...args) {
-        return this._log(LogLevels.DEBUG, msg, ...args);
+    debug(msg1, ...args1) {
+        return this._log(LogLevels.DEBUG, msg1, ...args1);
     }
-    info(msg, ...args) {
-        return this._log(LogLevels.INFO, msg, ...args);
+    info(msg2, ...args2) {
+        return this._log(LogLevels.INFO, msg2, ...args2);
     }
-    warning(msg, ...args) {
-        return this._log(LogLevels.WARNING, msg, ...args);
+    warning(msg3, ...args3) {
+        return this._log(LogLevels.WARNING, msg3, ...args3);
     }
-    error(msg, ...args) {
-        return this._log(LogLevels.ERROR, msg, ...args);
+    error(msg4, ...args4) {
+        return this._log(LogLevels.ERROR, msg4, ...args4);
     }
-    critical(msg, ...args) {
-        return this._log(LogLevels.CRITICAL, msg, ...args);
+    critical(msg5, ...args5) {
+        return this._log(LogLevels.CRITICAL, msg5, ...args5);
     }
 }
 const noColor = globalThis.Deno?.noColor ?? true;
@@ -1867,14 +1867,14 @@ class BufReader {
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
-    constructor(rd1, size1 = 4096){
+    constructor(rd, size1 = 4096){
         this.r = 0;
         this.w = 0;
         this.eof = false;
         if (size1 < 16) {
             size1 = MIN_BUF_SIZE;
         }
-        this._reset(new Uint8Array(size1), rd1);
+        this._reset(new Uint8Array(size1), rd);
     }
     size() {
         return this.buf.byteLength;
@@ -1905,12 +1905,12 @@ class BufReader {
         }
         throw new Error(`No progress after ${100} read() calls`);
     }
-    reset(r) {
-        this._reset(this.buf, r);
+    reset(r1) {
+        this._reset(this.buf, r1);
     }
-    _reset(buf, rd) {
+    _reset(buf, rd1) {
         this.buf = buf;
-        this.rd = rd;
+        this.rd = rd1;
         this.eof = false;
     }
     async read(p) {
@@ -1934,11 +1934,11 @@ class BufReader {
         this.r += copied;
         return copied;
     }
-    async readFull(p) {
+    async readFull(p1) {
         let bytesRead = 0;
-        while(bytesRead < p.length){
+        while(bytesRead < p1.length){
             try {
-                const rr = await this.read(p.subarray(bytesRead));
+                const rr = await this.read(p1.subarray(bytesRead));
                 if (rr === null) {
                     if (bytesRead === 0) {
                         return null;
@@ -1948,11 +1948,11 @@ class BufReader {
                 }
                 bytesRead += rr;
             } catch (err) {
-                err.partial = p.subarray(0, bytesRead);
+                err.partial = p1.subarray(0, bytesRead);
                 throw err;
             }
         }
-        return p;
+        return p1;
     }
     async readByte() {
         while(this.r === this.w){
@@ -2012,11 +2012,11 @@ class BufReader {
             more: false
         };
     }
-    async readSlice(delim) {
+    async readSlice(delim1) {
         let s = 0;
         let slice;
         while(true){
-            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim);
+            let i = this.buf.subarray(this.r + s, this.w).indexOf(delim1);
             if (i >= 0) {
                 i += s;
                 slice = this.buf.subarray(this.r, this.r + i + 1);
@@ -2088,16 +2088,16 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
+    static create(writer, size2 = 4096) {
+        return writer instanceof BufWriter ? writer : new BufWriter(writer, size2);
     }
-    constructor(writer1, size2 = 4096){
+    constructor(writer1, size3 = 4096){
         super();
         this.writer = writer1;
-        if (size2 <= 0) {
-            size2 = DEFAULT_BUF_SIZE;
+        if (size3 <= 0) {
+            size3 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size2);
+        this.buf = new Uint8Array(size3);
     }
     reset(w) {
         this.err = null;
@@ -2116,49 +2116,49 @@ class BufWriter extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    async write(data) {
+    async write(data1) {
         if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
+        if (data1.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
+        while(data1.byteLength > this.available()){
             if (this.buffered() === 0) {
                 try {
-                    numBytesWritten = await this.writer.write(data);
+                    numBytesWritten = await this.writer.write(data1);
                 } catch (e) {
                     this.err = e;
                     throw e;
                 }
             } else {
-                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copyBytes(data1, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 await this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
+            data1 = data1.subarray(numBytesWritten);
         }
-        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copyBytes(data1, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
+    static create(writer2, size4 = 4096) {
+        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size4);
     }
-    constructor(writer2, size3 = 4096){
+    constructor(writer3, size5 = 4096){
         super();
-        this.writer = writer2;
-        if (size3 <= 0) {
-            size3 = DEFAULT_BUF_SIZE;
+        this.writer = writer3;
+        if (size5 <= 0) {
+            size5 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size3);
+        this.buf = new Uint8Array(size5);
     }
-    reset(w) {
+    reset(w1) {
         this.err = null;
         this.usedBufferBytes = 0;
-        this.writer = w;
+        this.writer = w1;
     }
     flush() {
         if (this.err !== null) throw this.err;
@@ -2172,28 +2172,28 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    writeSync(data) {
+    writeSync(data2) {
         if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
+        if (data2.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
+        while(data2.byteLength > this.available()){
             if (this.buffered() === 0) {
                 try {
-                    numBytesWritten = this.writer.writeSync(data);
+                    numBytesWritten = this.writer.writeSync(data2);
                 } catch (e) {
                     this.err = e;
                     throw e;
                 }
             } else {
-                numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copyBytes(data2, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
+            data2 = data2.subarray(numBytesWritten);
         }
-        numBytesWritten = copyBytes(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copyBytes(data2, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
@@ -2209,15 +2209,15 @@ class BaseHandler {
     }
     handle(logRecord) {
         if (this.level > logRecord.level) return;
-        const msg = this.format(logRecord);
-        return this.log(msg);
+        const msg6 = this.format(logRecord);
+        return this.log(msg6);
     }
-    format(logRecord) {
+    format(logRecord1) {
         if (this.formatter instanceof Function) {
-            return this.formatter(logRecord);
+            return this.formatter(logRecord1);
         }
-        return this.formatter.replace(/{(\S+)}/g, (match, p1)=>{
-            const value = logRecord[p1];
+        return this.formatter.replace(/{(\S+)}/g, (match, p11)=>{
+            const value = logRecord1[p11];
             if (value == null) {
                 return match;
             }
@@ -2232,27 +2232,27 @@ class BaseHandler {
     }
 }
 class ConsoleHandler extends BaseHandler {
-    format(logRecord) {
-        let msg = super.format(logRecord);
-        switch(logRecord.level){
+    format(logRecord2) {
+        let msg6 = super.format(logRecord2);
+        switch(logRecord2.level){
             case LogLevels.INFO:
-                msg = blue(msg);
+                msg6 = blue(msg6);
                 break;
             case LogLevels.WARNING:
-                msg = yellow(msg);
+                msg6 = yellow(msg6);
                 break;
             case LogLevels.ERROR:
-                msg = red(msg);
+                msg6 = red(msg6);
                 break;
             case LogLevels.CRITICAL:
-                msg = bold(red(msg));
+                msg6 = bold(red(msg6));
                 break;
             default: break;
         }
-        return msg;
+        return msg6;
     }
-    log(msg) {
-        console.log(msg);
+    log(msg6) {
+        console.log(msg6);
     }
 }
 class WriterHandler extends BaseHandler {
@@ -2280,14 +2280,14 @@ class FileHandler extends WriterHandler {
         this._buf = new BufWriterSync(this._file);
         addEventListener("unload", this.#unloadCallback);
     }
-    handle(logRecord) {
-        super.handle(logRecord);
-        if (logRecord.level > LogLevels.ERROR) {
+    handle(logRecord3) {
+        super.handle(logRecord3);
+        if (logRecord3.level > LogLevels.ERROR) {
             this.flush();
         }
     }
-    log(msg) {
-        this._buf.writeSync(this._encoder.encode(msg + "\n"));
+    log(msg7) {
+        this._buf.writeSync(this._encoder.encode(msg7 + "\n"));
     }
     flush() {
         if (this._buf?.buffered() > 0) {
@@ -2338,13 +2338,13 @@ class RotatingFileHandler extends FileHandler {
             this.#currentFileSize = (await Deno.stat(this._filename)).size;
         }
     }
-    log(msg) {
-        const msgByteLength = this._encoder.encode(msg).byteLength + 1;
+    log(msg8) {
+        const msgByteLength = this._encoder.encode(msg8).byteLength + 1;
         if (this.#currentFileSize + msgByteLength > this.#maxBytes) {
             this.rotateLogFiles();
             this.#currentFileSize = 0;
         }
-        this._buf.writeSync(this._encoder.encode(msg + "\n"));
+        this._buf.writeSync(this._encoder.encode(msg8 + "\n"));
         this.#currentFileSize += msgByteLength;
     }
     rotateLogFiles() {
@@ -2406,35 +2406,35 @@ function getLogger(name) {
     }
     return result;
 }
-function debug(msg, ...args) {
-    if (msg instanceof Function) {
-        return getLogger("default").debug(msg, ...args);
+function debug(msg9, ...args6) {
+    if (msg9 instanceof Function) {
+        return getLogger("default").debug(msg9, ...args6);
     }
-    return getLogger("default").debug(msg, ...args);
+    return getLogger("default").debug(msg9, ...args6);
 }
-function info(msg, ...args) {
-    if (msg instanceof Function) {
-        return getLogger("default").info(msg, ...args);
+function info(msg9, ...args6) {
+    if (msg9 instanceof Function) {
+        return getLogger("default").info(msg9, ...args6);
     }
-    return getLogger("default").info(msg, ...args);
+    return getLogger("default").info(msg9, ...args6);
 }
-function warning(msg, ...args) {
-    if (msg instanceof Function) {
-        return getLogger("default").warning(msg, ...args);
+function warning(msg9, ...args6) {
+    if (msg9 instanceof Function) {
+        return getLogger("default").warning(msg9, ...args6);
     }
-    return getLogger("default").warning(msg, ...args);
+    return getLogger("default").warning(msg9, ...args6);
 }
-function error(msg, ...args) {
-    if (msg instanceof Function) {
-        return getLogger("default").error(msg, ...args);
+function error(msg9, ...args6) {
+    if (msg9 instanceof Function) {
+        return getLogger("default").error(msg9, ...args6);
     }
-    return getLogger("default").error(msg, ...args);
+    return getLogger("default").error(msg9, ...args6);
 }
-function critical(msg, ...args) {
-    if (msg instanceof Function) {
-        return getLogger("default").critical(msg, ...args);
+function critical(msg9, ...args6) {
+    if (msg9 instanceof Function) {
+        return getLogger("default").critical(msg9, ...args6);
     }
-    return getLogger("default").critical(msg, ...args);
+    return getLogger("default").critical(msg9, ...args6);
 }
 async function setup(config) {
     state.config = {
@@ -2840,7 +2840,7 @@ async function* expandGlob(glob, { root =Deno.cwd() , exclude =[] , includeDirs 
     ;
     const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions)
     );
-    const shouldInclude = (path1)=>!excludePatterns.some((p)=>!!path1.match(p)
+    const shouldInclude = (path1)=>!excludePatterns.some((p2)=>!!path1.match(p2)
         )
     ;
     const { segments , hasTrailingSep , winRoot  } = split(resolveFromRoot(glob));
@@ -2933,7 +2933,7 @@ function* expandGlobSync(glob, { root =Deno.cwd() , exclude =[] , includeDirs =t
     ;
     const excludePatterns = exclude.map(resolveFromRoot).map((s)=>globToRegExp(s, globOptions)
     );
-    const shouldInclude = (path1)=>!excludePatterns.some((p)=>!!path1.match(p)
+    const shouldInclude = (path1)=>!excludePatterns.some((p2)=>!!path1.match(p2)
         )
     ;
     const { segments , hasTrailingSep , winRoot  } = split(resolveFromRoot(glob));
@@ -3346,8 +3346,8 @@ const base64abc = [
     "+",
     "/"
 ];
-function encode(data) {
-    const uint8 = typeof data === "string" ? new TextEncoder().encode(data) : data instanceof Uint8Array ? data : new Uint8Array(data);
+function encode(data3) {
+    const uint8 = typeof data3 === "string" ? new TextEncoder().encode(data3) : data3 instanceof Uint8Array ? data3 : new Uint8Array(data3);
     let result = "", i;
     const l = uint8.length;
     for(i = 2; i < l; i += 3){
@@ -3371,9 +3371,9 @@ function encode(data) {
 }
 function decode(b64) {
     const binString = atob(b64);
-    const size4 = binString.length;
-    const bytes = new Uint8Array(size4);
-    for(let i = 0; i < size4; i++){
+    const size6 = binString.length;
+    const bytes = new Uint8Array(size6);
+    for(let i = 0; i < size6; i++){
         bytes[i] = binString.charCodeAt(i);
     }
     return bytes;
@@ -3427,19 +3427,19 @@ let cachedTextEncoder = new TextEncoder('utf-8');
 const encodeString = typeof cachedTextEncoder.encodeInto === 'function' ? function(arg, view) {
     return cachedTextEncoder.encodeInto(arg, view);
 } : function(arg, view) {
-    const buf = cachedTextEncoder.encode(arg);
-    view.set(buf);
+    const buf1 = cachedTextEncoder.encode(arg);
+    view.set(buf1);
     return {
         read: arg.length,
-        written: buf.length
+        written: buf1.length
     };
 };
 function passStringToWasm0(arg, malloc, realloc) {
     if (realloc === undefined) {
-        const buf = cachedTextEncoder.encode(arg);
-        const ptr = malloc(buf.length);
-        getUint8Memory0().subarray(ptr, ptr + buf.length).set(buf);
-        WASM_VECTOR_LEN = buf.length;
+        const buf1 = cachedTextEncoder.encode(arg);
+        const ptr = malloc(buf1.length);
+        getUint8Memory0().subarray(ptr, ptr + buf1.length).set(buf1);
+        WASM_VECTOR_LEN = buf1.length;
         return ptr;
     }
     let len = arg.length;
@@ -3481,9 +3481,9 @@ function passArray8ToWasm0(arg, malloc) {
     WASM_VECTOR_LEN = arg.length;
     return ptr;
 }
-function update_hash(hash, data) {
+function update_hash(hash, data3) {
     _assertClass(hash, DenoHash);
-    var ptr0 = passArray8ToWasm0(data, wasm.__wbindgen_malloc);
+    var ptr0 = passArray8ToWasm0(data3, wasm.__wbindgen_malloc);
     var len0 = WASM_VECTOR_LEN;
     wasm.update_hash(hash.ptr, ptr0, len0);
 }
@@ -3504,9 +3504,9 @@ function digest_hash(hash) {
         _assertClass(hash, DenoHash);
         wasm.digest_hash(retptr, hash.ptr);
         var r0 = getInt32Memory0()[retptr / 4 + 0];
-        var r1 = getInt32Memory0()[retptr / 4 + 1];
-        var v0 = getArrayU8FromWasm0(r0, r1).slice();
-        wasm.__wbindgen_free(r0, r1 * 1);
+        var r11 = getInt32Memory0()[retptr / 4 + 1];
+        var v0 = getArrayU8FromWasm0(r0, r11).slice();
+        wasm.__wbindgen_free(r0, r11 * 1);
         return v0;
     } finally{
         wasm.__wbindgen_export_2.value += 16;
@@ -3519,9 +3519,9 @@ class DenoHash {
         return obj;
     }
     free() {
-        const ptr = this.ptr;
+        const ptr1 = this.ptr;
         this.ptr = 0;
-        wasm.__wbg_denohash_free(ptr);
+        wasm.__wbg_denohash_free(ptr1);
     }
 }
 async function load(module, imports) {
@@ -3578,8 +3578,8 @@ async function init(input) {
     return wasm;
 }
 const hextable = new TextEncoder().encode("0123456789abcdef");
-function encodedLen(n) {
-    return n * 2;
+function encodedLen(n1) {
+    return n1 * 2;
 }
 function encode1(src) {
     const dst = new Uint8Array(encodedLen(src.length));
@@ -3602,20 +3602,20 @@ class Hash {
         this.#hash = create_hash(algorithm);
         this.#digested = false;
     }
-    update(data) {
-        let msg;
-        if (typeof data === "string") {
-            msg = new TextEncoder().encode(data);
-        } else if (typeof data === "object") {
-            if (data instanceof ArrayBuffer || ArrayBuffer.isView(data)) {
-                msg = new Uint8Array(data);
+    update(data3) {
+        let msg9;
+        if (typeof data3 === "string") {
+            msg9 = new TextEncoder().encode(data3);
+        } else if (typeof data3 === "object") {
+            if (data3 instanceof ArrayBuffer || ArrayBuffer.isView(data3)) {
+                msg9 = new Uint8Array(data3);
             } else {
                 throw new Error(TYPE_ERROR_MSG);
             }
         } else {
             throw new Error(TYPE_ERROR_MSG);
         }
-        update_hash(this.#hash, msg);
+        update_hash(this.#hash, msg9);
         return this;
     }
     digest() {
@@ -3623,9 +3623,9 @@ class Hash {
         this.#digested = true;
         return digest_hash(this.#hash);
     }
-    toString(format = "hex") {
+    toString(format4 = "hex") {
         const finalized = new Uint8Array(this.digest());
-        switch(format){
+        switch(format4){
             case "hex":
                 return encodeToString(finalized);
             case "base64":
@@ -3749,8 +3749,8 @@ function parse4(version, optionsOrLoose) {
     if (version.length > 256) {
         return null;
     }
-    const r = optionsOrLoose.loose ? re[LOOSE] : re[FULL];
-    if (!r.test(version)) {
+    const r2 = optionsOrLoose.loose ? re[LOOSE] : re[FULL];
+    if (!r2.test(version)) {
         return null;
     }
     try {
@@ -3769,35 +3769,35 @@ function clean(version, optionsOrLoose) {
     return s ? s.version : null;
 }
 class SemVer {
-    constructor(version1, optionsOrLoose2){
-        if (!optionsOrLoose2 || typeof optionsOrLoose2 !== "object") {
-            optionsOrLoose2 = {
-                loose: !!optionsOrLoose2,
+    constructor(version, optionsOrLoose){
+        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
+            optionsOrLoose = {
+                loose: !!optionsOrLoose,
                 includePrerelease: false
             };
         }
-        if (version1 instanceof SemVer) {
-            if (version1.loose === optionsOrLoose2.loose) {
-                return version1;
+        if (version instanceof SemVer) {
+            if (version.loose === optionsOrLoose.loose) {
+                return version;
             } else {
-                version1 = version1.version;
+                version = version.version;
             }
-        } else if (typeof version1 !== "string") {
-            throw new TypeError("Invalid Version: " + version1);
+        } else if (typeof version !== "string") {
+            throw new TypeError("Invalid Version: " + version);
         }
-        if (version1.length > 256) {
+        if (version.length > 256) {
             throw new TypeError("version is longer than " + 256 + " characters");
         }
         if (!(this instanceof SemVer)) {
-            return new SemVer(version1, optionsOrLoose2);
+            return new SemVer(version, optionsOrLoose);
         }
-        this.options = optionsOrLoose2;
-        this.loose = !!optionsOrLoose2.loose;
-        const m = version1.trim().match(optionsOrLoose2.loose ? re[LOOSE] : re[FULL]);
+        this.options = optionsOrLoose;
+        this.loose = !!optionsOrLoose.loose;
+        const m = version.trim().match(optionsOrLoose.loose ? re[LOOSE] : re[FULL]);
         if (!m) {
-            throw new TypeError("Invalid Version: " + version1);
+            throw new TypeError("Invalid Version: " + version);
         }
-        this.raw = version1;
+        this.raw = version;
         this.major = +m[1];
         this.minor = +m[2];
         this.patch = +m[3];
@@ -3839,27 +3839,27 @@ class SemVer {
         }
         return this.compareMain(other) || this.comparePre(other);
     }
-    compareMain(other) {
-        if (!(other instanceof SemVer)) {
-            other = new SemVer(other, this.options);
+    compareMain(other1) {
+        if (!(other1 instanceof SemVer)) {
+            other1 = new SemVer(other1, this.options);
         }
-        return compareIdentifiers(this.major, other.major) || compareIdentifiers(this.minor, other.minor) || compareIdentifiers(this.patch, other.patch);
+        return compareIdentifiers(this.major, other1.major) || compareIdentifiers(this.minor, other1.minor) || compareIdentifiers(this.patch, other1.patch);
     }
-    comparePre(other) {
-        if (!(other instanceof SemVer)) {
-            other = new SemVer(other, this.options);
+    comparePre(other2) {
+        if (!(other2 instanceof SemVer)) {
+            other2 = new SemVer(other2, this.options);
         }
-        if (this.prerelease.length && !other.prerelease.length) {
+        if (this.prerelease.length && !other2.prerelease.length) {
             return -1;
-        } else if (!this.prerelease.length && other.prerelease.length) {
+        } else if (!this.prerelease.length && other2.prerelease.length) {
             return 1;
-        } else if (!this.prerelease.length && !other.prerelease.length) {
+        } else if (!this.prerelease.length && !other2.prerelease.length) {
             return 0;
         }
         let i1 = 0;
         do {
             const a = this.prerelease[i1];
-            const b = other.prerelease[i1];
+            const b = other2.prerelease[i1];
             if (a === undefined && b === undefined) {
                 return 0;
             } else if (b === undefined) {
@@ -3874,14 +3874,14 @@ class SemVer {
         }while (++i1)
         return 1;
     }
-    compareBuild(other) {
-        if (!(other instanceof SemVer)) {
-            other = new SemVer(other, this.options);
+    compareBuild(other3) {
+        if (!(other3 instanceof SemVer)) {
+            other3 = new SemVer(other3, this.options);
         }
         let i1 = 0;
         do {
             const a = this.build[i1];
-            const b = other.build[i1];
+            const b = other3.build[i1];
             if (a === undefined && b === undefined) {
                 return 0;
             } else if (b === undefined) {
@@ -3987,13 +3987,13 @@ class SemVer {
         return this.version;
     }
 }
-function inc(version1, release, optionsOrLoose1, identifier) {
+function inc(version1, release1, optionsOrLoose1, identifier1) {
     if (typeof optionsOrLoose1 === "string") {
-        identifier = optionsOrLoose1;
+        identifier1 = optionsOrLoose1;
         optionsOrLoose1 = undefined;
     }
     try {
-        return new SemVer(version1, optionsOrLoose1).inc(release, identifier).version;
+        return new SemVer(version1, optionsOrLoose1).inc(release1, identifier1).version;
     } catch (er) {
         return null;
     }
@@ -4118,37 +4118,37 @@ function cmp(v1, operator, v2, optionsOrLoose1) {
 const ANY = {
 };
 class Comparator {
-    constructor(comp1, optionsOrLoose1){
+    constructor(comp, optionsOrLoose1){
         if (!optionsOrLoose1 || typeof optionsOrLoose1 !== "object") {
             optionsOrLoose1 = {
                 loose: !!optionsOrLoose1,
                 includePrerelease: false
             };
         }
-        if (comp1 instanceof Comparator) {
-            if (comp1.loose === !!optionsOrLoose1.loose) {
-                return comp1;
+        if (comp instanceof Comparator) {
+            if (comp.loose === !!optionsOrLoose1.loose) {
+                return comp;
             } else {
-                comp1 = comp1.value;
+                comp = comp.value;
             }
         }
         if (!(this instanceof Comparator)) {
-            return new Comparator(comp1, optionsOrLoose1);
+            return new Comparator(comp, optionsOrLoose1);
         }
         this.options = optionsOrLoose1;
         this.loose = !!optionsOrLoose1.loose;
-        this.parse(comp1);
+        this.parse(comp);
         if (this.semver === ANY) {
             this.value = "";
         } else {
             this.value = this.operator + this.semver.version;
         }
     }
-    parse(comp) {
-        const r = this.options.loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
-        const m1 = comp.match(r);
+    parse(comp1) {
+        const r2 = this.options.loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
+        const m1 = comp1.match(r2);
         if (!m1) {
-            throw new TypeError("Invalid comparator: " + comp);
+            throw new TypeError("Invalid comparator: " + comp1);
         }
         const m11 = m1[1];
         this.operator = m11 !== undefined ? m11 : "";
@@ -4161,22 +4161,22 @@ class Comparator {
             this.semver = new SemVer(m1[2], this.options.loose);
         }
     }
-    test(version) {
-        if (this.semver === ANY || version === ANY) {
+    test(version1) {
+        if (this.semver === ANY || version1 === ANY) {
             return true;
         }
-        if (typeof version === "string") {
-            version = new SemVer(version, this.options);
+        if (typeof version1 === "string") {
+            version1 = new SemVer(version1, this.options);
         }
-        return cmp(version, this.operator, this.semver, this.options);
+        return cmp(version1, this.operator, this.semver, this.options);
     }
-    intersects(comp, optionsOrLoose) {
-        if (!(comp instanceof Comparator)) {
+    intersects(comp2, optionsOrLoose2) {
+        if (!(comp2 instanceof Comparator)) {
             throw new TypeError("a Comparator is required");
         }
-        if (!optionsOrLoose || typeof optionsOrLoose !== "object") {
-            optionsOrLoose = {
-                loose: !!optionsOrLoose,
+        if (!optionsOrLoose2 || typeof optionsOrLoose2 !== "object") {
+            optionsOrLoose2 = {
+                loose: !!optionsOrLoose2,
                 includePrerelease: false
             };
         }
@@ -4185,21 +4185,21 @@ class Comparator {
             if (this.value === "") {
                 return true;
             }
-            rangeTmp = new Range1(comp.value, optionsOrLoose);
-            return satisfies(this.value, rangeTmp, optionsOrLoose);
-        } else if (comp.operator === "") {
-            if (comp.value === "") {
+            rangeTmp = new Range1(comp2.value, optionsOrLoose2);
+            return satisfies(this.value, rangeTmp, optionsOrLoose2);
+        } else if (comp2.operator === "") {
+            if (comp2.value === "") {
                 return true;
             }
-            rangeTmp = new Range1(this.value, optionsOrLoose);
-            return satisfies(comp.semver, rangeTmp, optionsOrLoose);
+            rangeTmp = new Range1(this.value, optionsOrLoose2);
+            return satisfies(comp2.semver, rangeTmp, optionsOrLoose2);
         }
-        const sameDirectionIncreasing = (this.operator === ">=" || this.operator === ">") && (comp.operator === ">=" || comp.operator === ">");
-        const sameDirectionDecreasing = (this.operator === "<=" || this.operator === "<") && (comp.operator === "<=" || comp.operator === "<");
-        const sameSemVer = this.semver.version === comp.semver.version;
-        const differentDirectionsInclusive = (this.operator === ">=" || this.operator === "<=") && (comp.operator === ">=" || comp.operator === "<=");
-        const oppositeDirectionsLessThan = cmp(this.semver, "<", comp.semver, optionsOrLoose) && (this.operator === ">=" || this.operator === ">") && (comp.operator === "<=" || comp.operator === "<");
-        const oppositeDirectionsGreaterThan = cmp(this.semver, ">", comp.semver, optionsOrLoose) && (this.operator === "<=" || this.operator === "<") && (comp.operator === ">=" || comp.operator === ">");
+        const sameDirectionIncreasing = (this.operator === ">=" || this.operator === ">") && (comp2.operator === ">=" || comp2.operator === ">");
+        const sameDirectionDecreasing = (this.operator === "<=" || this.operator === "<") && (comp2.operator === "<=" || comp2.operator === "<");
+        const sameSemVer = this.semver.version === comp2.semver.version;
+        const differentDirectionsInclusive = (this.operator === ">=" || this.operator === "<=") && (comp2.operator === ">=" || comp2.operator === "<=");
+        const oppositeDirectionsLessThan = cmp(this.semver, "<", comp2.semver, optionsOrLoose2) && (this.operator === ">=" || this.operator === ">") && (comp2.operator === "<=" || comp2.operator === "<");
+        const oppositeDirectionsGreaterThan = cmp(this.semver, ">", comp2.semver, optionsOrLoose2) && (this.operator === "<=" || this.operator === "<") && (comp2.operator === ">=" || comp2.operator === ">");
         return sameDirectionIncreasing || sameDirectionDecreasing || sameSemVer && differentDirectionsInclusive || oppositeDirectionsLessThan || oppositeDirectionsGreaterThan;
     }
     toString() {
@@ -4207,36 +4207,36 @@ class Comparator {
     }
 }
 class Range1 {
-    constructor(range1, optionsOrLoose3){
+    constructor(range, optionsOrLoose3){
         if (!optionsOrLoose3 || typeof optionsOrLoose3 !== "object") {
             optionsOrLoose3 = {
                 loose: !!optionsOrLoose3,
                 includePrerelease: false
             };
         }
-        if (range1 instanceof Range1) {
-            if (range1.loose === !!optionsOrLoose3.loose && range1.includePrerelease === !!optionsOrLoose3.includePrerelease) {
-                return range1;
+        if (range instanceof Range1) {
+            if (range.loose === !!optionsOrLoose3.loose && range.includePrerelease === !!optionsOrLoose3.includePrerelease) {
+                return range;
             } else {
-                return new Range1(range1.raw, optionsOrLoose3);
+                return new Range1(range.raw, optionsOrLoose3);
             }
         }
-        if (range1 instanceof Comparator) {
-            return new Range1(range1.value, optionsOrLoose3);
+        if (range instanceof Comparator) {
+            return new Range1(range.value, optionsOrLoose3);
         }
         if (!(this instanceof Range1)) {
-            return new Range1(range1, optionsOrLoose3);
+            return new Range1(range, optionsOrLoose3);
         }
         this.options = optionsOrLoose3;
         this.loose = !!optionsOrLoose3.loose;
         this.includePrerelease = !!optionsOrLoose3.includePrerelease;
-        this.raw = range1;
-        this.set = range1.split(/\s*\|\|\s*/).map((range1)=>this.parseRange(range1.trim())
+        this.raw = range;
+        this.set = range.split(/\s*\|\|\s*/).map((range1)=>this.parseRange(range1.trim())
         ).filter((c)=>{
             return c.length;
         });
         if (!this.set.length) {
-            throw new TypeError("Invalid SemVer Range: " + range1);
+            throw new TypeError("Invalid SemVer Range: " + range);
         }
         this.format();
     }
@@ -4245,46 +4245,46 @@ class Range1 {
         ).join("||").trim();
         return this.range;
     }
-    parseRange(range) {
+    parseRange(range1) {
         const loose = this.options.loose;
-        range = range.trim();
+        range1 = range1.trim();
         const hr = loose ? re[HYPHENRANGELOOSE] : re[HYPHENRANGE];
-        range = range.replace(hr, hyphenReplace);
-        range = range.replace(re[COMPARATORTRIM], comparatorTrimReplace);
-        range = range.replace(re[TILDETRIM], tildeTrimReplace);
-        range = range.replace(re[CARETTRIM], caretTrimReplace);
-        range = range.split(/\s+/).join(" ");
+        range1 = range1.replace(hr, hyphenReplace);
+        range1 = range1.replace(re[COMPARATORTRIM], comparatorTrimReplace);
+        range1 = range1.replace(re[TILDETRIM], tildeTrimReplace);
+        range1 = range1.replace(re[CARETTRIM], caretTrimReplace);
+        range1 = range1.split(/\s+/).join(" ");
         const compRe = loose ? re[COMPARATORLOOSE] : re[COMPARATOR];
-        let set = range.split(" ").map((comp2)=>parseComparator(comp2, this.options)
+        let set = range1.split(" ").map((comp3)=>parseComparator(comp3, this.options)
         ).join(" ").split(/\s+/);
         if (this.options.loose) {
-            set = set.filter((comp2)=>{
-                return !!comp2.match(compRe);
+            set = set.filter((comp3)=>{
+                return !!comp3.match(compRe);
             });
         }
-        return set.map((comp2)=>new Comparator(comp2, this.options)
+        return set.map((comp3)=>new Comparator(comp3, this.options)
         );
     }
-    test(version) {
-        if (typeof version === "string") {
-            version = new SemVer(version, this.options);
+    test(version2) {
+        if (typeof version2 === "string") {
+            version2 = new SemVer(version2, this.options);
         }
         for(var i1 = 0; i1 < this.set.length; i1++){
-            if (testSet(this.set[i1], version, this.options)) {
+            if (testSet(this.set[i1], version2, this.options)) {
                 return true;
             }
         }
         return false;
     }
-    intersects(range, optionsOrLoose) {
-        if (!(range instanceof Range1)) {
+    intersects(range2, optionsOrLoose4) {
+        if (!(range2 instanceof Range1)) {
             throw new TypeError("a Range is required");
         }
         return this.set.some((thisComparators)=>{
-            return isSatisfiable(thisComparators, optionsOrLoose) && range.set.some((rangeComparators)=>{
-                return isSatisfiable(rangeComparators, optionsOrLoose) && thisComparators.every((thisComparator)=>{
+            return isSatisfiable(thisComparators, optionsOrLoose4) && range2.set.some((rangeComparators)=>{
+                return isSatisfiable(rangeComparators, optionsOrLoose4) && thisComparators.every((thisComparator)=>{
                     return rangeComparators.every((rangeComparator)=>{
-                        return thisComparator.intersects(rangeComparator, optionsOrLoose);
+                        return thisComparator.intersects(rangeComparator, optionsOrLoose4);
                     });
                 });
             });
@@ -4294,20 +4294,20 @@ class Range1 {
         return this.range;
     }
 }
-function testSet(set, version2, options5) {
+function testSet(set, version3, options5) {
     for(let i2 = 0; i2 < set.length; i2++){
-        if (!set[i2].test(version2)) {
+        if (!set[i2].test(version3)) {
             return false;
         }
     }
-    if (version2.prerelease.length && !options5.includePrerelease) {
+    if (version3.prerelease.length && !options5.includePrerelease) {
         for(let i3 = 0; i3 < set.length; i3++){
             if (set[i3].semver === ANY) {
                 continue;
             }
             if (set[i3].semver.prerelease.length > 0) {
                 const allowed = set[i3].semver;
-                if (allowed.major === version2.major && allowed.minor === version2.minor && allowed.patch === version2.patch) {
+                if (allowed.major === version3.major && allowed.minor === version3.minor && allowed.patch === version3.patch) {
                     return true;
                 }
             }
@@ -4328,57 +4328,57 @@ function isSatisfiable(comparators, options5) {
     }
     return result;
 }
-function toComparators(range2, optionsOrLoose4) {
-    return new Range1(range2, optionsOrLoose4).set.map((comp2)=>{
-        return comp2.map((c)=>c.value
+function toComparators(range3, optionsOrLoose5) {
+    return new Range1(range3, optionsOrLoose5).set.map((comp3)=>{
+        return comp3.map((c)=>c.value
         ).join(" ").trim().split(" ");
     });
 }
-function parseComparator(comp2, options5) {
-    comp2 = replaceCarets(comp2, options5);
-    comp2 = replaceTildes(comp2, options5);
-    comp2 = replaceXRanges(comp2, options5);
-    comp2 = replaceStars(comp2, options5);
-    return comp2;
+function parseComparator(comp3, options5) {
+    comp3 = replaceCarets(comp3, options5);
+    comp3 = replaceTildes(comp3, options5);
+    comp3 = replaceXRanges(comp3, options5);
+    comp3 = replaceStars(comp3, options5);
+    return comp3;
 }
 function isX(id) {
     return !id || id.toLowerCase() === "x" || id === "*";
 }
-function replaceTildes(comp2, options5) {
-    return comp2.trim().split(/\s+/).map((comp3)=>replaceTilde(comp3, options5)
+function replaceTildes(comp3, options5) {
+    return comp3.trim().split(/\s+/).map((comp4)=>replaceTilde(comp4, options5)
     ).join(" ");
 }
-function replaceTilde(comp2, options5) {
-    const r = options5.loose ? re[TILDELOOSE] : re[TILDE];
-    return comp2.replace(r, (_, M, m1, p, pr)=>{
+function replaceTilde(comp3, options5) {
+    const r2 = options5.loose ? re[TILDELOOSE] : re[TILDE];
+    return comp3.replace(r2, (_, M, m1, p2, pr)=>{
         let ret;
         if (isX(M)) {
             ret = "";
         } else if (isX(m1)) {
             ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
-        } else if (isX(p)) {
+        } else if (isX(p2)) {
             ret = ">=" + M + "." + m1 + ".0 <" + M + "." + (+m1 + 1) + ".0";
         } else if (pr) {
-            ret = ">=" + M + "." + m1 + "." + p + "-" + pr + " <" + M + "." + (+m1 + 1) + ".0";
+            ret = ">=" + M + "." + m1 + "." + p2 + "-" + pr + " <" + M + "." + (+m1 + 1) + ".0";
         } else {
-            ret = ">=" + M + "." + m1 + "." + p + " <" + M + "." + (+m1 + 1) + ".0";
+            ret = ">=" + M + "." + m1 + "." + p2 + " <" + M + "." + (+m1 + 1) + ".0";
         }
         return ret;
     });
 }
-function replaceCarets(comp2, options5) {
-    return comp2.trim().split(/\s+/).map((comp3)=>replaceCaret(comp3, options5)
+function replaceCarets(comp3, options5) {
+    return comp3.trim().split(/\s+/).map((comp4)=>replaceCaret(comp4, options5)
     ).join(" ");
 }
-function replaceCaret(comp2, options5) {
-    const r = options5.loose ? re[CARETLOOSE] : re[CARET];
-    return comp2.replace(r, (_, M, m1, p, pr)=>{
+function replaceCaret(comp3, options5) {
+    const r2 = options5.loose ? re[CARETLOOSE] : re[CARET];
+    return comp3.replace(r2, (_, M, m1, p2, pr)=>{
         let ret;
         if (isX(M)) {
             ret = "";
         } else if (isX(m1)) {
             ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
-        } else if (isX(p)) {
+        } else if (isX(p2)) {
             if (M === "0") {
                 ret = ">=" + M + "." + m1 + ".0 <" + M + "." + (+m1 + 1) + ".0";
             } else {
@@ -4387,38 +4387,38 @@ function replaceCaret(comp2, options5) {
         } else if (pr) {
             if (M === "0") {
                 if (m1 === "0") {
-                    ret = ">=" + M + "." + m1 + "." + p + "-" + pr + " <" + M + "." + m1 + "." + (+p + 1);
+                    ret = ">=" + M + "." + m1 + "." + p2 + "-" + pr + " <" + M + "." + m1 + "." + (+p2 + 1);
                 } else {
-                    ret = ">=" + M + "." + m1 + "." + p + "-" + pr + " <" + M + "." + (+m1 + 1) + ".0";
+                    ret = ">=" + M + "." + m1 + "." + p2 + "-" + pr + " <" + M + "." + (+m1 + 1) + ".0";
                 }
             } else {
-                ret = ">=" + M + "." + m1 + "." + p + "-" + pr + " <" + (+M + 1) + ".0.0";
+                ret = ">=" + M + "." + m1 + "." + p2 + "-" + pr + " <" + (+M + 1) + ".0.0";
             }
         } else {
             if (M === "0") {
                 if (m1 === "0") {
-                    ret = ">=" + M + "." + m1 + "." + p + " <" + M + "." + m1 + "." + (+p + 1);
+                    ret = ">=" + M + "." + m1 + "." + p2 + " <" + M + "." + m1 + "." + (+p2 + 1);
                 } else {
-                    ret = ">=" + M + "." + m1 + "." + p + " <" + M + "." + (+m1 + 1) + ".0";
+                    ret = ">=" + M + "." + m1 + "." + p2 + " <" + M + "." + (+m1 + 1) + ".0";
                 }
             } else {
-                ret = ">=" + M + "." + m1 + "." + p + " <" + (+M + 1) + ".0.0";
+                ret = ">=" + M + "." + m1 + "." + p2 + " <" + (+M + 1) + ".0.0";
             }
         }
         return ret;
     });
 }
-function replaceXRanges(comp2, options5) {
-    return comp2.split(/\s+/).map((comp3)=>replaceXRange(comp3, options5)
+function replaceXRanges(comp3, options5) {
+    return comp3.split(/\s+/).map((comp4)=>replaceXRange(comp4, options5)
     ).join(" ");
 }
-function replaceXRange(comp2, options5) {
-    comp2 = comp2.trim();
-    const r = options5.loose ? re[XRANGELOOSE] : re[XRANGE];
-    return comp2.replace(r, (ret, gtlt, M, m1, p, pr)=>{
+function replaceXRange(comp3, options5) {
+    comp3 = comp3.trim();
+    const r2 = options5.loose ? re[XRANGELOOSE] : re[XRANGE];
+    return comp3.replace(r2, (ret, gtlt, M, m1, p2, pr)=>{
         const xM = isX(M);
         const xm = xM || isX(m1);
-        const xp = xm || isX(p);
+        const xp = xm || isX(p2);
         const anyX = xp;
         if (gtlt === "=" && anyX) {
             gtlt = "";
@@ -4433,16 +4433,16 @@ function replaceXRange(comp2, options5) {
             if (xm) {
                 m1 = 0;
             }
-            p = 0;
+            p2 = 0;
             if (gtlt === ">") {
                 gtlt = ">=";
                 if (xm) {
                     M = +M + 1;
                     m1 = 0;
-                    p = 0;
+                    p2 = 0;
                 } else {
                     m1 = +m1 + 1;
-                    p = 0;
+                    p2 = 0;
                 }
             } else if (gtlt === "<=") {
                 gtlt = "<";
@@ -4452,7 +4452,7 @@ function replaceXRange(comp2, options5) {
                     m1 = +m1 + 1;
                 }
             }
-            ret = gtlt + M + "." + m1 + "." + p;
+            ret = gtlt + M + "." + m1 + "." + p2;
         } else if (xm) {
             ret = ">=" + M + ".0.0 <" + (+M + 1) + ".0.0";
         } else if (xp) {
@@ -4461,8 +4461,8 @@ function replaceXRange(comp2, options5) {
         return ret;
     });
 }
-function replaceStars(comp2, options5) {
-    return comp2.trim().replace(re[STAR], "");
+function replaceStars(comp3, options5) {
+    return comp3.trim().replace(re[STAR], "");
 }
 function hyphenReplace($0, from, fM, fm, fp, fpr, fb, to, tM, tm, tp, tpr, tb) {
     if (isX(fM)) {
@@ -4487,19 +4487,19 @@ function hyphenReplace($0, from, fM, fm, fp, fpr, fb, to, tM, tm, tp, tpr, tb) {
     }
     return (from + " " + to).trim();
 }
-function satisfies(version2, range2, optionsOrLoose4) {
+function satisfies(version3, range3, optionsOrLoose5) {
     try {
-        range2 = new Range1(range2, optionsOrLoose4);
+        range3 = new Range1(range3, optionsOrLoose5);
     } catch (er) {
         return false;
     }
-    return range2.test(version2);
+    return range3.test(version3);
 }
-function maxSatisfying(versions, range2, optionsOrLoose4) {
+function maxSatisfying(versions, range3, optionsOrLoose5) {
     var max = null;
     var maxSV = null;
     try {
-        var rangeObj = new Range1(range2, optionsOrLoose4);
+        var rangeObj = new Range1(range3, optionsOrLoose5);
     } catch (er) {
         return null;
     }
@@ -4507,17 +4507,17 @@ function maxSatisfying(versions, range2, optionsOrLoose4) {
         if (rangeObj.test(v)) {
             if (!max || maxSV && maxSV.compare(v) === -1) {
                 max = v;
-                maxSV = new SemVer(max, optionsOrLoose4);
+                maxSV = new SemVer(max, optionsOrLoose5);
             }
         }
     });
     return max;
 }
-function minSatisfying(versions, range2, optionsOrLoose4) {
+function minSatisfying(versions, range3, optionsOrLoose5) {
     var min = null;
     var minSV = null;
     try {
-        var rangeObj = new Range1(range2, optionsOrLoose4);
+        var rangeObj = new Range1(range3, optionsOrLoose5);
     } catch (er) {
         return null;
     }
@@ -4525,25 +4525,25 @@ function minSatisfying(versions, range2, optionsOrLoose4) {
         if (rangeObj.test(v)) {
             if (!min || minSV.compare(v) === 1) {
                 min = v;
-                minSV = new SemVer(min, optionsOrLoose4);
+                minSV = new SemVer(min, optionsOrLoose5);
             }
         }
     });
     return min;
 }
-function minVersion(range2, optionsOrLoose4) {
-    range2 = new Range1(range2, optionsOrLoose4);
+function minVersion(range3, optionsOrLoose5) {
+    range3 = new Range1(range3, optionsOrLoose5);
     var minver = new SemVer("0.0.0");
-    if (range2.test(minver)) {
+    if (range3.test(minver)) {
         return minver;
     }
     minver = new SemVer("0.0.0-0");
-    if (range2.test(minver)) {
+    if (range3.test(minver)) {
         return minver;
     }
     minver = null;
-    for(var i2 = 0; i2 < range2.set.length; ++i2){
-        var comparators = range2.set[i2];
+    for(var i2 = 0; i2 < range3.set.length; ++i2){
+        var comparators = range3.set[i2];
         comparators.forEach((comparator)=>{
             var compver = new SemVer(comparator.semver.version);
             switch(comparator.operator){
@@ -4567,56 +4567,56 @@ function minVersion(range2, optionsOrLoose4) {
             }
         });
     }
-    if (minver && range2.test(minver)) {
+    if (minver && range3.test(minver)) {
         return minver;
     }
     return null;
 }
-function validRange(range2, optionsOrLoose4) {
+function validRange(range3, optionsOrLoose5) {
     try {
-        if (range2 === null) return null;
-        return new Range1(range2, optionsOrLoose4).range || "*";
+        if (range3 === null) return null;
+        return new Range1(range3, optionsOrLoose5).range || "*";
     } catch (er) {
         return null;
     }
 }
-function ltr(version2, range2, optionsOrLoose4) {
-    return outside(version2, range2, "<", optionsOrLoose4);
+function ltr(version3, range3, optionsOrLoose5) {
+    return outside(version3, range3, "<", optionsOrLoose5);
 }
-function gtr(version2, range2, optionsOrLoose4) {
-    return outside(version2, range2, ">", optionsOrLoose4);
+function gtr(version3, range3, optionsOrLoose5) {
+    return outside(version3, range3, ">", optionsOrLoose5);
 }
-function outside(version2, range2, hilo, optionsOrLoose4) {
-    version2 = new SemVer(version2, optionsOrLoose4);
-    range2 = new Range1(range2, optionsOrLoose4);
+function outside(version3, range3, hilo, optionsOrLoose5) {
+    version3 = new SemVer(version3, optionsOrLoose5);
+    range3 = new Range1(range3, optionsOrLoose5);
     let gtfn;
     let ltefn;
     let ltfn;
-    let comp2;
+    let comp3;
     let ecomp;
     switch(hilo){
         case ">":
             gtfn = gt;
             ltefn = lte;
             ltfn = lt;
-            comp2 = ">";
+            comp3 = ">";
             ecomp = ">=";
             break;
         case "<":
             gtfn = lt;
             ltefn = gte;
             ltfn = gt;
-            comp2 = "<";
+            comp3 = "<";
             ecomp = "<=";
             break;
         default:
             throw new TypeError('Must provide a hilo val of "<" or ">"');
     }
-    if (satisfies(version2, range2, optionsOrLoose4)) {
+    if (satisfies(version3, range3, optionsOrLoose5)) {
         return false;
     }
-    for(let i2 = 0; i2 < range2.set.length; ++i2){
-        const comparators = range2.set[i2];
+    for(let i2 = 0; i2 < range3.set.length; ++i2){
+        const comparators = range3.set[i2];
         let high = null;
         let low = null;
         comparators.forEach((comparator)=>{
@@ -4625,45 +4625,45 @@ function outside(version2, range2, hilo, optionsOrLoose4) {
             }
             high = high || comparator;
             low = low || comparator;
-            if (gtfn(comparator.semver, high.semver, optionsOrLoose4)) {
+            if (gtfn(comparator.semver, high.semver, optionsOrLoose5)) {
                 high = comparator;
-            } else if (ltfn(comparator.semver, low.semver, optionsOrLoose4)) {
+            } else if (ltfn(comparator.semver, low.semver, optionsOrLoose5)) {
                 low = comparator;
             }
         });
         if (high === null || low === null) return true;
-        if (high.operator === comp2 || high.operator === ecomp) {
+        if (high.operator === comp3 || high.operator === ecomp) {
             return false;
         }
-        if ((!low.operator || low.operator === comp2) && ltefn(version2, low.semver)) {
+        if ((!low.operator || low.operator === comp3) && ltefn(version3, low.semver)) {
             return false;
-        } else if (low.operator === ecomp && ltfn(version2, low.semver)) {
+        } else if (low.operator === ecomp && ltfn(version3, low.semver)) {
             return false;
         }
     }
     return true;
 }
-function prerelease(version2, optionsOrLoose4) {
-    var parsed = parse4(version2, optionsOrLoose4);
+function prerelease(version3, optionsOrLoose5) {
+    var parsed = parse4(version3, optionsOrLoose5);
     return parsed && parsed.prerelease.length ? parsed.prerelease : null;
 }
-function intersects(range11, range2, optionsOrLoose4) {
-    range11 = new Range1(range11, optionsOrLoose4);
-    range2 = new Range1(range2, optionsOrLoose4);
-    return range11.intersects(range2);
+function intersects(range11, range21, optionsOrLoose5) {
+    range11 = new Range1(range11, optionsOrLoose5);
+    range21 = new Range1(range21, optionsOrLoose5);
+    return range11.intersects(range21);
 }
-function coerce(version2, optionsOrLoose4) {
-    if (version2 instanceof SemVer) {
-        return version2;
+function coerce(version3, optionsOrLoose5) {
+    if (version3 instanceof SemVer) {
+        return version3;
     }
-    if (typeof version2 !== "string") {
+    if (typeof version3 !== "string") {
         return null;
     }
-    const match = version2.match(re[COERCE]);
+    const match = version3.match(re[COERCE]);
     if (match == null) {
         return null;
     }
-    return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"), optionsOrLoose4);
+    return parse4(match[1] + "." + (match[2] || "0") + "." + (match[3] || "0"), optionsOrLoose5);
 }
 const mod7 = function() {
     return {
@@ -4709,7 +4709,7 @@ const mod7 = function() {
         default: SemVer
     };
 }();
-const version2 = "1.11.0";
+const version3 = "1.11.0";
 const TaskName_AST = {
     "moduleName": "dnit.manifest",
     "decl": {
@@ -5867,69 +5867,69 @@ const ADL = {
 };
 const RESOLVER = declResolver(ADL);
 class ADLMap {
-    constructor(data, isEqual){
-        this.data = data;
+    constructor(data4, isEqual){
+        this.data = data4;
         this.isEqual = isEqual;
     }
     has(k) {
         return this.findIndex(k) !== -1;
     }
-    get(k) {
-        const ind = this.findIndex(k);
+    get(k1) {
+        const ind = this.findIndex(k1);
         if (ind === -1) {
             return undefined;
         }
         return this.data[ind].v2;
     }
-    getOrInsert(k, v) {
-        const existing = this.get(k);
+    getOrInsert(k2, v) {
+        const existing = this.get(k2);
         if (existing === undefined) {
-            this.set(k, v);
+            this.set(k2, v);
             return v;
         }
         return existing;
     }
-    set(k, v) {
-        const ind = this.findIndex(k);
+    set(k3, v1) {
+        const ind = this.findIndex(k3);
         if (ind === -1) {
             this.data.push({
-                v1: k,
-                v2: v
+                v1: k3,
+                v2: v1
             });
         }
         this.data[ind] = {
-            v1: k,
-            v2: v
+            v1: k3,
+            v2: v1
         };
         return this;
     }
     keys() {
-        return this.data.map((p)=>p.v1
+        return this.data.map((p2)=>p2.v1
         );
     }
     values() {
-        return this.data.map((p)=>p.v2
+        return this.data.map((p2)=>p2.v2
         );
     }
     entries() {
-        return this.data.map((p)=>[
-                p.v1,
-                p.v2
+        return this.data.map((p2)=>[
+                p2.v1,
+                p2.v2
             ]
         );
     }
     toData() {
         return this.data;
     }
-    findIndex(k) {
-        return this.data.findIndex((p)=>this.isEqual(p.v1, k)
+    findIndex(k4) {
+        return this.data.findIndex((p2)=>this.isEqual(p2.v1, k4)
         );
     }
 }
 class Manifest {
     constructor(dir, filename = ".manifest.json"){
         this.jsonBinding = createJsonBinding(RESOLVER, texprManifest());
-        this.tasks = new ADLMap([], (k1, k2)=>k1 === k2
+        this.tasks = new ADLMap([], (k11, k21)=>k11 === k21
         );
         this.filename = mod3.join(dir, filename);
     }
@@ -5937,9 +5937,9 @@ class Manifest {
         if (await mod5.exists(this.filename)) {
             const json = JSON.parse(await Deno.readTextFile(this.filename));
             const mdata = this.jsonBinding.fromJson(json);
-            for (const p of mdata.tasks){
-                const taskName = p.v1;
-                const taskData = p.v2;
+            for (const p2 of mdata.tasks){
+                const taskName = p2.v1;
+                const taskData = p2.v2;
                 this.tasks.set(taskName, new TaskManifest(taskData));
             }
         }
@@ -5948,9 +5948,9 @@ class Manifest {
         if (!await mod5.exists(mod3.dirname(this.filename))) {
         }
         const mdata = {
-            tasks: this.tasks.entries().map((p)=>({
-                    v1: p[0],
-                    v2: p[1].toData()
+            tasks: this.tasks.entries().map((p2)=>({
+                    v1: p2[0],
+                    v2: p2[1].toData()
                 })
             )
         };
@@ -5959,19 +5959,19 @@ class Manifest {
     }
 }
 class TaskManifest {
-    constructor(data1){
+    constructor(data5){
         this.lastExecution = null;
-        this.trackedFiles = new ADLMap([], (k1, k2)=>k1 === k2
+        this.trackedFiles = new ADLMap([], (k11, k21)=>k11 === k21
         );
-        this.trackedFiles = new ADLMap(data1.trackedFiles, (k1, k2)=>k1 === k2
+        this.trackedFiles = new ADLMap(data5.trackedFiles, (k11, k21)=>k11 === k21
         );
-        this.lastExecution = data1.lastExecution;
+        this.lastExecution = data5.lastExecution;
     }
     getFileData(fn) {
         return this.trackedFiles.get(fn);
     }
-    setFileData(fn, d) {
-        this.trackedFiles.set(fn, d);
+    setFileData(fn1, d) {
+        this.trackedFiles.set(fn1, d);
     }
     setExecutionTimestamp() {
         this.lastExecution = new Date().toISOString();
@@ -6019,9 +6019,9 @@ class AsyncQueue {
     }
 }
 class ExecContext {
-    constructor(manifest, args){
+    constructor(manifest, args6){
         this.manifest = manifest;
-        this.args = args;
+        this.args = args6;
         this.taskRegister = new Map();
         this.targetRegister = new Map();
         this.doneTasks = new Set();
@@ -6029,12 +6029,12 @@ class ExecContext {
         this.internalLogger = mod4.getLogger("internal");
         this.taskLogger = mod4.getLogger("task");
         this.userLogger = mod4.getLogger("user");
-        if (args["verbose"] !== undefined) {
+        if (args6["verbose"] !== undefined) {
             this.internalLogger.levelName = "INFO";
         }
-        const concurrency1 = args["concurrency"] || 4;
+        const concurrency1 = args6["concurrency"] || 4;
         this.asyncQueue = new AsyncQueue(concurrency1);
-        this.internalLogger.info(`Starting ExecContext version: ${version2}`);
+        this.internalLogger.info(`Starting ExecContext version: ${version3}`);
     }
     getTaskByName(name) {
         return this.taskRegister.get(name);
@@ -6090,16 +6090,16 @@ class Task {
     getTaskDeps(deps) {
         return deps.filter(isTask);
     }
-    getTrackedFiles(deps) {
-        return deps.filter(isTrackedFile);
+    getTrackedFiles(deps1) {
+        return deps1.filter(isTrackedFile);
     }
-    getTrackedFilesAsync(deps) {
-        return deps.filter(isTrackedFileAsync);
+    getTrackedFilesAsync(deps2) {
+        return deps2.filter(isTrackedFileAsync);
     }
     async setup(ctx) {
         if (this.taskManifest === null) {
-            for (const t of this.targets){
-                ctx.targetRegister.set(t.path, this);
+            for (const t1 of this.targets){
+                ctx.targetRegister.set(t1.path, this);
             }
             this.taskManifest = ctx.manifest.tasks.getOrInsert(this.name, new TaskManifest({
                 lastExecution: null,
@@ -6116,14 +6116,14 @@ class Task {
             }
         }
     }
-    async exec(ctx) {
-        if (ctx.doneTasks.has(this)) {
+    async exec(ctx1) {
+        if (ctx1.doneTasks.has(this)) {
             return;
         }
-        if (ctx.inprogressTasks.has(this)) {
+        if (ctx1.inprogressTasks.has(this)) {
             return;
         }
-        ctx.inprogressTasks.add(this);
+        ctx1.inprogressTasks.add(this);
         for (const afd of this.async_files_deps){
             const file_deps = await afd.getTrackedFiles();
             for (const fd of file_deps){
@@ -6131,50 +6131,50 @@ class Task {
             }
         }
         for (const fd of this.file_deps){
-            const t = ctx.targetRegister.get(fd.path);
-            if (t !== undefined) {
-                this.task_deps.add(t);
+            const t1 = ctx1.targetRegister.get(fd.path);
+            if (t1 !== undefined) {
+                this.task_deps.add(t1);
             }
         }
-        await this.execDependencies(ctx);
+        await this.execDependencies(ctx1);
         let actualUpToDate = true;
-        actualUpToDate = actualUpToDate && await this.checkFileDeps(ctx);
-        ctx.internalLogger.info(`${this.name} checkFileDeps ${actualUpToDate}`);
-        actualUpToDate = actualUpToDate && await this.targetsExist(ctx);
-        ctx.internalLogger.info(`${this.name} targetsExist ${actualUpToDate}`);
+        actualUpToDate = actualUpToDate && await this.checkFileDeps(ctx1);
+        ctx1.internalLogger.info(`${this.name} checkFileDeps ${actualUpToDate}`);
+        actualUpToDate = actualUpToDate && await this.targetsExist(ctx1);
+        ctx1.internalLogger.info(`${this.name} targetsExist ${actualUpToDate}`);
         if (this.uptodate !== undefined) {
-            actualUpToDate = actualUpToDate && await this.uptodate(taskContext(ctx, this));
+            actualUpToDate = actualUpToDate && await this.uptodate(taskContext(ctx1, this));
         }
-        ctx.internalLogger.info(`${this.name} uptodate ${actualUpToDate}`);
+        ctx1.internalLogger.info(`${this.name} uptodate ${actualUpToDate}`);
         if (actualUpToDate) {
-            ctx.taskLogger.info(`--- ${this.name}`);
+            ctx1.taskLogger.info(`--- ${this.name}`);
         } else {
-            ctx.taskLogger.info(`... ${this.name}`);
-            await this.action(taskContext(ctx, this));
-            ctx.taskLogger.info(`=== ${this.name}`);
+            ctx1.taskLogger.info(`... ${this.name}`);
+            await this.action(taskContext(ctx1, this));
+            ctx1.taskLogger.info(`=== ${this.name}`);
             {
                 this.taskManifest?.setExecutionTimestamp();
                 let promisesInProgress = [];
                 for (const fdep of this.file_deps){
-                    promisesInProgress.push(ctx.asyncQueue.schedule(async ()=>{
-                        const trackedFileData = await fdep.getFileData(ctx);
+                    promisesInProgress.push(ctx1.asyncQueue.schedule(async ()=>{
+                        const trackedFileData = await fdep.getFileData(ctx1);
                         this.taskManifest?.setFileData(fdep.path, trackedFileData);
                     }));
                 }
                 await Promise.all(promisesInProgress);
             }
         }
-        ctx.doneTasks.add(this);
-        ctx.inprogressTasks.delete(this);
+        ctx1.doneTasks.add(this);
+        ctx1.inprogressTasks.delete(this);
     }
-    async targetsExist(ctx) {
-        const tex = await Promise.all(Array.from(this.targets).map(async (tf)=>ctx.asyncQueue.schedule(()=>tf.exists()
+    async targetsExist(ctx2) {
+        const tex = await Promise.all(Array.from(this.targets).map(async (tf)=>ctx2.asyncQueue.schedule(()=>tf.exists()
             )
         ));
-        return !tex.some((t)=>!t
+        return !tex.some((t1)=>!t1
         );
     }
-    async checkFileDeps(ctx) {
+    async checkFileDeps(ctx3) {
         let fileDepsUpToDate = true;
         let promisesInProgress = [];
         const taskManifest = this.taskManifest;
@@ -6182,20 +6182,20 @@ class Task {
             throw new Error(`Invalid null taskManifest on ${this.name}`);
         }
         for (const fdep of this.file_deps){
-            promisesInProgress.push(ctx.asyncQueue.schedule(async ()=>{
-                const r = await fdep.getFileDataOrCached(ctx, taskManifest.getFileData(fdep.path));
-                taskManifest.setFileData(fdep.path, r.tData);
-                fileDepsUpToDate = fileDepsUpToDate && r.upToDate;
+            promisesInProgress.push(ctx3.asyncQueue.schedule(async ()=>{
+                const r2 = await fdep.getFileDataOrCached(ctx3, taskManifest.getFileData(fdep.path));
+                taskManifest.setFileData(fdep.path, r2.tData);
+                fileDepsUpToDate = fileDepsUpToDate && r2.upToDate;
             }));
         }
         await Promise.all(promisesInProgress);
         promisesInProgress = [];
         return fileDepsUpToDate;
     }
-    async execDependencies(ctx) {
+    async execDependencies(ctx4) {
         for (const dep of this.task_deps){
-            if (!ctx.doneTasks.has(dep) && !ctx.inprogressTasks.has(dep)) {
-                await dep.exec(ctx);
+            if (!ctx4.doneTasks.has(dep) && !ctx4.inprogressTasks.has(dep)) {
+                await dep.exec(ctx4);
             }
         }
     }
@@ -6221,8 +6221,8 @@ class TrackedFile {
         }
         return statResult.kind === 'fileInfo';
     }
-    async getHash(statInput) {
-        let statResult = statInput;
+    async getHash(statInput1) {
+        let statResult = statInput1;
         if (statResult === undefined) {
             statResult = await this.stat();
         }
@@ -6232,8 +6232,8 @@ class TrackedFile {
         mod4.getLogger('internal').info(`checking hash on ${this.path}`);
         return this.#getHash(this.path, statResult.fileInfo);
     }
-    async getTimestamp(statInput) {
-        let statResult = statInput;
+    async getTimestamp(statInput2) {
+        let statResult = statInput2;
         if (statResult === undefined) {
             statResult = await this.stat();
         }
@@ -6242,11 +6242,11 @@ class TrackedFile {
         }
         return this.#getTimestamp(this.path, statResult.fileInfo);
     }
-    async isUpToDate(ctx, tData, statInput) {
+    async isUpToDate(ctx5, tData, statInput3) {
         if (tData === undefined) {
             return false;
         }
-        let statResult = statInput;
+        let statResult = statInput3;
         if (statResult === undefined) {
             statResult = await this.stat();
         }
@@ -6257,8 +6257,8 @@ class TrackedFile {
         const hash = await this.getHash(statResult);
         return hash === tData.hash;
     }
-    async getFileData(ctx, statInput) {
-        let statResult = statInput;
+    async getFileData(ctx6, statInput4) {
+        let statResult = statInput4;
         if (statResult === undefined) {
             statResult = await this.stat();
         }
@@ -6267,25 +6267,25 @@ class TrackedFile {
             timestamp: await this.getTimestamp(statResult)
         };
     }
-    async getFileDataOrCached(ctx, tData, statInput) {
-        let statResult = statInput;
+    async getFileDataOrCached(ctx7, tData1, statInput5) {
+        let statResult = statInput5;
         if (statResult === undefined) {
             statResult = await this.stat();
         }
-        if (tData !== undefined && await this.isUpToDate(ctx, tData, statResult)) {
+        if (tData1 !== undefined && await this.isUpToDate(ctx7, tData1, statResult)) {
             return {
-                tData,
+                tData: tData1,
                 upToDate: true
             };
         }
         return {
-            tData: await this.getFileData(ctx, statResult),
+            tData: await this.getFileData(ctx7, statResult),
             upToDate: false
         };
     }
-    setTask(t) {
+    setTask(t1) {
         if (this.fromTask === null) {
-            this.fromTask = t;
+            this.fromTask = t1;
         } else {
             throw new Error("Duplicate tasks generating TrackedFile as target - " + this.path);
         }
@@ -6304,9 +6304,9 @@ class TrackedFilesAsync {
     }
 }
 async function getFileSha1Sum(filename1) {
-    const data2 = await Deno.readFile(filename1);
+    const data6 = await Deno.readFile(filename1);
     const hashsha1 = mod6.createHash("sha1");
-    hashsha1.update(data2);
+    hashsha1.update(data6);
     const hashInHex = hashsha1.toString();
     return hashInHex;
 }
@@ -6320,13 +6320,13 @@ class StdErrPlainHandler extends mod4.handlers.BaseHandler {
             formatter: "{msg}"
         });
     }
-    log(msg) {
-        Deno.stderr.writeSync(new TextEncoder().encode(msg + "\n"));
+    log(msg9) {
+        Deno.stderr.writeSync(new TextEncoder().encode(msg9 + "\n"));
     }
 }
 class StdErrHandler extends mod4.handlers.ConsoleHandler {
-    log(msg) {
-        Deno.stderr.writeSync(new TextEncoder().encode(msg + "\n"));
+    log(msg10) {
+        Deno.stderr.writeSync(new TextEncoder().encode(msg10 + "\n"));
     }
 }
 async function setupLogging() {
@@ -6493,17 +6493,17 @@ async function launch(logger) {
     }
 }
 async function main1() {
-    const args1 = mod.parse(Deno.args);
-    if (args1["version"] === true) {
-        console.log(`dnit ${version2}`);
+    const args7 = mod.parse(Deno.args);
+    if (args7["version"] === true) {
+        console.log(`dnit ${version3}`);
         Deno.exit(0);
     }
     await setupLogging();
     const internalLogger = mod4.getLogger("internal");
-    if (args1["verbose"] !== undefined) {
+    if (args7["verbose"] !== undefined) {
         internalLogger.levelName = "INFO";
     }
-    internalLogger.info(`starting dnit launch using version: ${version2}`);
+    internalLogger.info(`starting dnit launch using version: ${version3}`);
     launch(internalLogger).then((st)=>{
         Deno.exit(st.code);
     });

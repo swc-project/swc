@@ -146,14 +146,14 @@ class LimitedReader {
         this.reader = reader;
         this.limit = limit;
     }
-    async read(p) {
+    async read(p1) {
         if (this.limit <= 0) {
             return null;
         }
-        if (p.length > this.limit) {
-            p = p.subarray(0, this.limit);
+        if (p1.length > this.limit) {
+            p1 = p1.subarray(0, this.limit);
         }
-        const n = await this.reader.read(p);
+        const n = await this.reader.read(p1);
         if (n == null) {
             return null;
         }
@@ -1241,14 +1241,14 @@ class BufReader {
     static create(r, size = 4096) {
         return r instanceof BufReader ? r : new BufReader(r, size);
     }
-    constructor(rd1, size1 = 4096){
+    constructor(rd, size1 = 4096){
         this.r = 0;
         this.w = 0;
         this.eof = false;
         if (size1 < 16) {
             size1 = MIN_BUF_SIZE;
         }
-        this._reset(new Uint8Array(size1), rd1);
+        this._reset(new Uint8Array(size1), rd);
     }
     size() {
         return this.buf.byteLength;
@@ -1279,20 +1279,20 @@ class BufReader {
         }
         throw new Error(`No progress after ${100} read() calls`);
     }
-    reset(r) {
-        this._reset(this.buf, r);
+    reset(r1) {
+        this._reset(this.buf, r1);
     }
-    _reset(buf, rd) {
+    _reset(buf, rd1) {
         this.buf = buf;
-        this.rd = rd;
+        this.rd = rd1;
         this.eof = false;
     }
-    async read(p) {
-        let rr = p.byteLength;
-        if (p.byteLength === 0) return rr;
+    async read(p2) {
+        let rr = p2.byteLength;
+        if (p2.byteLength === 0) return rr;
         if (this.r === this.w) {
-            if (p.byteLength >= this.buf.byteLength) {
-                const rr1 = await this.rd.read(p);
+            if (p2.byteLength >= this.buf.byteLength) {
+                const rr1 = await this.rd.read(p2);
                 const nread = rr1 ?? 0;
                 assert(nread >= 0, "negative read");
                 return rr1;
@@ -1304,15 +1304,15 @@ class BufReader {
             assert(rr >= 0, "negative read");
             this.w += rr;
         }
-        const copied = copy(this.buf.subarray(this.r, this.w), p, 0);
+        const copied = copy(this.buf.subarray(this.r, this.w), p2, 0);
         this.r += copied;
         return copied;
     }
-    async readFull(p) {
+    async readFull(p3) {
         let bytesRead = 0;
-        while(bytesRead < p.length){
+        while(bytesRead < p3.length){
             try {
-                const rr = await this.read(p.subarray(bytesRead));
+                const rr = await this.read(p3.subarray(bytesRead));
                 if (rr === null) {
                     if (bytesRead === 0) {
                         return null;
@@ -1322,11 +1322,11 @@ class BufReader {
                 }
                 bytesRead += rr;
             } catch (err) {
-                err.partial = p.subarray(0, bytesRead);
+                err.partial = p3.subarray(0, bytesRead);
                 throw err;
             }
         }
-        return p;
+        return p3;
     }
     async readByte() {
         while(this.r === this.w){
@@ -1386,11 +1386,11 @@ class BufReader {
             more: false
         };
     }
-    async readSlice(delim) {
+    async readSlice(delim1) {
         let s1 = 0;
         let slice;
         while(true){
-            let i = this.buf.subarray(this.r + s1, this.w).indexOf(delim);
+            let i = this.buf.subarray(this.r + s1, this.w).indexOf(delim1);
             if (i >= 0) {
                 i += s1;
                 slice = this.buf.subarray(this.r, this.r + i + 1);
@@ -1462,16 +1462,16 @@ class AbstractBufBase {
     }
 }
 class BufWriter extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriter ? writer : new BufWriter(writer, size);
+    static create(writer, size2 = 4096) {
+        return writer instanceof BufWriter ? writer : new BufWriter(writer, size2);
     }
-    constructor(writer1, size2 = 4096){
+    constructor(writer1, size3 = 4096){
         super();
         this.writer = writer1;
-        if (size2 <= 0) {
-            size2 = DEFAULT_BUF_SIZE;
+        if (size3 <= 0) {
+            size3 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size2);
+        this.buf = new Uint8Array(size3);
     }
     reset(w) {
         this.err = null;
@@ -1518,21 +1518,21 @@ class BufWriter extends AbstractBufBase {
     }
 }
 class BufWriterSync extends AbstractBufBase {
-    static create(writer, size = 4096) {
-        return writer instanceof BufWriterSync ? writer : new BufWriterSync(writer, size);
+    static create(writer2, size4 = 4096) {
+        return writer2 instanceof BufWriterSync ? writer2 : new BufWriterSync(writer2, size4);
     }
-    constructor(writer2, size3 = 4096){
+    constructor(writer3, size5 = 4096){
         super();
-        this.writer = writer2;
-        if (size3 <= 0) {
-            size3 = DEFAULT_BUF_SIZE;
+        this.writer = writer3;
+        if (size5 <= 0) {
+            size5 = DEFAULT_BUF_SIZE;
         }
-        this.buf = new Uint8Array(size3);
+        this.buf = new Uint8Array(size5);
     }
-    reset(w) {
+    reset(w1) {
         this.err = null;
         this.usedBufferBytes = 0;
-        this.writer = w;
+        this.writer = w1;
     }
     flush() {
         if (this.err !== null) throw this.err;
@@ -1546,47 +1546,47 @@ class BufWriterSync extends AbstractBufBase {
         this.buf = new Uint8Array(this.buf.length);
         this.usedBufferBytes = 0;
     }
-    writeSync(data) {
+    writeSync(data1) {
         if (this.err !== null) throw this.err;
-        if (data.length === 0) return 0;
+        if (data1.length === 0) return 0;
         let totalBytesWritten = 0;
         let numBytesWritten = 0;
-        while(data.byteLength > this.available()){
+        while(data1.byteLength > this.available()){
             if (this.buffered() === 0) {
                 try {
-                    numBytesWritten = this.writer.writeSync(data);
+                    numBytesWritten = this.writer.writeSync(data1);
                 } catch (e) {
                     this.err = e;
                     throw e;
                 }
             } else {
-                numBytesWritten = copy(data, this.buf, this.usedBufferBytes);
+                numBytesWritten = copy(data1, this.buf, this.usedBufferBytes);
                 this.usedBufferBytes += numBytesWritten;
                 this.flush();
             }
             totalBytesWritten += numBytesWritten;
-            data = data.subarray(numBytesWritten);
+            data1 = data1.subarray(numBytesWritten);
         }
-        numBytesWritten = copy(data, this.buf, this.usedBufferBytes);
+        numBytesWritten = copy(data1, this.buf, this.usedBufferBytes);
         this.usedBufferBytes += numBytesWritten;
         totalBytesWritten += numBytesWritten;
         return totalBytesWritten;
     }
 }
 const invalidHeaderCharRegex = /[^\t\x20-\x7e\x80-\xff]/g;
-function str(buf) {
-    if (buf == null) {
+function str(buf1) {
+    if (buf1 == null) {
         return "";
     } else {
-        return new TextDecoder().decode(buf);
+        return new TextDecoder().decode(buf1);
     }
 }
 function charCode(s1) {
     return s1.charCodeAt(0);
 }
 class TextProtoReader {
-    constructor(r){
-        this.r = r;
+    constructor(r2){
+        this.r = r2;
     }
     async readLine() {
         const s1 = await this.readLineSlice();
@@ -1596,16 +1596,16 @@ class TextProtoReader {
     async readMIMEHeader() {
         const m = new Headers();
         let line;
-        let buf = await this.r.peek(1);
-        if (buf === null) {
+        let buf1 = await this.r.peek(1);
+        if (buf1 === null) {
             return null;
-        } else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) {
+        } else if (buf1[0] == charCode(" ") || buf1[0] == charCode("\t")) {
             line = await this.readLineSlice();
         }
-        buf = await this.r.peek(1);
-        if (buf === null) {
+        buf1 = await this.r.peek(1);
+        if (buf1 === null) {
             throw new Deno.errors.UnexpectedEof();
-        } else if (buf[0] == charCode(" ") || buf[0] == charCode("\t")) {
+        } else if (buf1[0] == charCode(" ") || buf1[0] == charCode("\t")) {
             throw new Deno.errors.InvalidData(`malformed MIME header initial line: ${str(line)}`);
         }
         while(true){
@@ -1634,9 +1634,9 @@ class TextProtoReader {
     async readLineSlice() {
         let line;
         while(true){
-            const r1 = await this.r.readLine();
-            if (r1 === null) return null;
-            const { line: l , more  } = r1;
+            const r3 = await this.r.readLine();
+            if (r3 === null) return null;
+            const { line: l , more  } = r3;
             if (!line && !more) {
                 if (this.skipSpace(l) === 0) {
                     return new Uint8Array(0);
@@ -1651,14 +1651,14 @@ class TextProtoReader {
         return line;
     }
     skipSpace(l) {
-        let n = 0;
+        let n1 = 0;
         for(let i = 0; i < l.length; i++){
             if (l[i] === charCode(" ") || l[i] === charCode("\t")) {
                 continue;
             }
-            n++;
+            n1++;
         }
-        return n;
+        return n1;
     }
 }
 function randomBoundary() {
@@ -1669,20 +1669,20 @@ function randomBoundary() {
     return boundary;
 }
 const encoder = new TextEncoder();
-function matchAfterPrefix(buf, prefix, eof) {
-    if (buf.length === prefix.length) {
+function matchAfterPrefix(buf1, prefix, eof) {
+    if (buf1.length === prefix.length) {
         return eof ? 1 : 0;
     }
-    const c = buf[prefix.length];
+    const c = buf1[prefix.length];
     if (c === " ".charCodeAt(0) || c === "\t".charCodeAt(0) || c === "\r".charCodeAt(0) || c === "\n".charCodeAt(0) || c === "-".charCodeAt(0)) {
         return 1;
     }
     return -1;
 }
-function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
+function scanUntilBoundary(buf1, dashBoundary, newLineDashBoundary, total, eof) {
     if (total === 0) {
-        if (startsWith(buf, dashBoundary)) {
-            switch(matchAfterPrefix(buf, dashBoundary, eof)){
+        if (startsWith(buf1, dashBoundary)) {
+            switch(matchAfterPrefix(buf1, dashBoundary, eof)){
                 case -1:
                     return dashBoundary.length;
                 case 0:
@@ -1691,13 +1691,13 @@ function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
                     return null;
             }
         }
-        if (startsWith(dashBoundary, buf)) {
+        if (startsWith(dashBoundary, buf1)) {
             return 0;
         }
     }
-    const i = indexOf(buf, newLineDashBoundary);
+    const i = indexOf(buf1, newLineDashBoundary);
     if (i >= 0) {
-        switch(matchAfterPrefix(buf.slice(i), newLineDashBoundary, eof)){
+        switch(matchAfterPrefix(buf1.slice(i), newLineDashBoundary, eof)){
             case -1:
                 return i + newLineDashBoundary.length;
             case 0:
@@ -1706,23 +1706,23 @@ function scanUntilBoundary(buf, dashBoundary, newLineDashBoundary, total, eof) {
                 return i > 0 ? i : null;
         }
     }
-    if (startsWith(newLineDashBoundary, buf)) {
+    if (startsWith(newLineDashBoundary, buf1)) {
         return 0;
     }
-    const j = lastIndexOf(buf, newLineDashBoundary.slice(0, 1));
-    if (j >= 0 && startsWith(newLineDashBoundary, buf.slice(j))) {
+    const j = lastIndexOf(buf1, newLineDashBoundary.slice(0, 1));
+    if (j >= 0 && startsWith(newLineDashBoundary, buf1.slice(j))) {
         return j;
     }
-    return buf.length;
+    return buf1.length;
 }
 class PartReader {
-    constructor(mr, headers2){
+    constructor(mr, headers){
         this.mr = mr;
-        this.headers = headers2;
+        this.headers = headers;
         this.n = 0;
         this.total = 0;
     }
-    async read(p) {
+    async read(p4) {
         const br = this.mr.bufReader;
         let peekLength = 1;
         while(this.n === 0){
@@ -1741,10 +1741,10 @@ class PartReader {
         if (this.n === null) {
             return null;
         }
-        const nread = Math.min(p.length, this.n);
-        const buf = p.subarray(0, nread);
-        const r1 = await br.readFull(buf);
-        assert(r1 === buf);
+        const nread = Math.min(p4.length, this.n);
+        const buf1 = p4.subarray(0, nread);
+        const r3 = await br.readFull(buf1);
+        assert(r3 === buf1);
         this.n -= nread;
         this.total += nread;
         return nread;
@@ -1778,9 +1778,9 @@ class PartReader {
         return this.getContentDispositionParams()["filename"];
     }
     get formName() {
-        const p = this.getContentDispositionParams();
+        const p5 = this.getContentDispositionParams();
         if (this.contentDisposition === "form-data") {
-            return p["name"];
+            return p5["name"];
         }
         return "";
     }
@@ -1810,32 +1810,32 @@ class MultipartReader {
         const fileMap = new Map();
         const valueMap = new Map();
         let maxValueBytes = maxMemory + (10 << 20);
-        const buf = new Deno.Buffer(new Uint8Array(maxValueBytes));
+        const buf1 = new Deno.Buffer(new Uint8Array(maxValueBytes));
         for(;;){
-            const p = await this.nextPart();
-            if (p === null) {
+            const p5 = await this.nextPart();
+            if (p5 === null) {
                 break;
             }
-            if (p.formName === "") {
+            if (p5.formName === "") {
                 continue;
             }
-            buf.reset();
-            if (!p.fileName) {
-                const n = await copyN(p, buf, maxValueBytes);
-                maxValueBytes -= n;
+            buf1.reset();
+            if (!p5.fileName) {
+                const n1 = await copyN(p5, buf1, maxValueBytes);
+                maxValueBytes -= n1;
                 if (maxValueBytes < 0) {
                     throw new RangeError("message too large");
                 }
-                const value = new TextDecoder().decode(buf.bytes());
-                valueMap.set(p.formName, value);
+                const value = new TextDecoder().decode(buf1.bytes());
+                valueMap.set(p5.formName, value);
                 continue;
             }
             let formFile;
-            const n = await copyN(p, buf, maxValueBytes);
-            const contentType = p.headers.get("content-type");
+            const n1 = await copyN(p5, buf1, maxValueBytes);
+            const contentType = p5.headers.get("content-type");
             assert(contentType != null, "content-type must be set");
-            if (n > maxMemory) {
-                const ext = extname2(p.fileName);
+            if (n1 > maxMemory) {
+                const ext = extname2(p5.fileName);
                 const filepath = await Deno.makeTempFile({
                     dir: ".",
                     prefix: "multipart-",
@@ -1845,13 +1845,13 @@ class MultipartReader {
                     write: true
                 });
                 try {
-                    const size4 = await Deno.copy(new MultiReader(buf, p), file);
+                    const size6 = await Deno.copy(new MultiReader(buf1, p5), file);
                     file.close();
                     formFile = {
-                        filename: p.fileName,
+                        filename: p5.fileName,
                         type: contentType,
                         tempfile: filepath,
-                        size: size4
+                        size: size6
                     };
                 } catch (e) {
                     await Deno.remove(filepath);
@@ -1859,27 +1859,27 @@ class MultipartReader {
                 }
             } else {
                 formFile = {
-                    filename: p.fileName,
+                    filename: p5.fileName,
                     type: contentType,
-                    content: buf.bytes(),
-                    size: buf.length
+                    content: buf1.bytes(),
+                    size: buf1.length
                 };
-                maxMemory -= n;
-                maxValueBytes -= n;
+                maxMemory -= n1;
+                maxValueBytes -= n1;
             }
             if (formFile) {
-                const mapVal = fileMap.get(p.formName);
+                const mapVal = fileMap.get(p5.formName);
                 if (mapVal !== undefined) {
                     if (Array.isArray(mapVal)) {
                         mapVal.push(formFile);
                     } else {
-                        fileMap.set(p.formName, [
+                        fileMap.set(p5.formName, [
                             mapVal,
                             formFile
                         ]);
                     }
                 } else {
-                    fileMap.set(p.formName, formFile);
+                    fileMap.set(p5.formName, formFile);
                 }
             }
         }
@@ -1900,8 +1900,8 @@ class MultipartReader {
             }
             if (this.isBoundaryDelimiterLine(line)) {
                 this.partsRead++;
-                const r1 = new TextProtoReader(this.bufReader);
-                const headers1 = await r1.readMIMEHeader();
+                const r3 = new TextProtoReader(this.bufReader);
+                const headers1 = await r3.readMIMEHeader();
                 if (headers1 === null) {
                     throw new Deno.errors.UnexpectedEof();
                 }
@@ -1932,11 +1932,11 @@ class MultipartReader {
         const rest = line.slice(this.dashBoundaryDash.length, line.length);
         return rest.length === 0 || equals(skipLWSPChar(rest), this.newLine);
     }
-    isBoundaryDelimiterLine(line) {
-        if (!startsWith(line, this.dashBoundary)) {
+    isBoundaryDelimiterLine(line1) {
+        if (!startsWith(line1, this.dashBoundary)) {
             return false;
         }
-        const rest = line.slice(this.dashBoundary.length);
+        const rest = line1.slice(this.dashBoundary.length);
         return equals(skipLWSPChar(rest), this.newLine);
     }
 }
@@ -1977,28 +1977,28 @@ function multipartFormData(fileMap, valueMap) {
     };
 }
 class PartWriter {
-    constructor(writer3, boundary1, headers1, isFirstBoundary){
-        this.writer = writer3;
+    constructor(writer4, boundary1, headers1, isFirstBoundary){
+        this.writer = writer4;
         this.boundary = boundary1;
         this.headers = headers1;
         this.closed = false;
         this.headersWritten = false;
-        let buf = "";
+        let buf1 = "";
         if (isFirstBoundary) {
-            buf += `--${boundary1}\r\n`;
+            buf1 += `--${boundary1}\r\n`;
         } else {
-            buf += `\r\n--${boundary1}\r\n`;
+            buf1 += `\r\n--${boundary1}\r\n`;
         }
-        for (const [key, value1] of headers1.entries()){
-            buf += `${key}: ${value1}\r\n`;
+        for (const [key, value] of headers1.entries()){
+            buf1 += `${key}: ${value}\r\n`;
         }
-        buf += `\r\n`;
-        this.partHeader = buf;
+        buf1 += `\r\n`;
+        this.partHeader = buf1;
     }
     close() {
         this.closed = true;
     }
-    async write(p) {
+    async write(p5) {
         if (this.closed) {
             throw new Error("part is closed");
         }
@@ -2006,7 +2006,7 @@ class PartWriter {
             await this.writer.write(encoder.encode(this.partHeader));
             this.headersWritten = true;
         }
-        return this.writer.write(p);
+        return this.writer.write(p5);
     }
 }
 function checkBoundary(b) {
@@ -2026,27 +2026,27 @@ class MultipartWriter {
     get boundary() {
         return this._boundary;
     }
-    constructor(writer4, boundary2){
-        this.writer = writer4;
+    constructor(writer5, boundary2){
+        this.writer = writer5;
         this.isClosed = false;
         if (boundary2 !== void 0) {
             this._boundary = checkBoundary(boundary2);
         } else {
             this._boundary = randomBoundary();
         }
-        this.bufWriter = new BufWriter(writer4);
+        this.bufWriter = new BufWriter(writer5);
     }
     formDataContentType() {
         return `multipart/form-data; boundary=${this.boundary}`;
     }
-    createPart(headers) {
+    createPart(headers2) {
         if (this.isClosed) {
             throw new Error("multipart: writer is closed");
         }
         if (this.lastPart) {
             this.lastPart.close();
         }
-        const part = new PartWriter(this.writer, this.boundary, headers, !this.lastPart);
+        const part = new PartWriter(this.writer, this.boundary, headers2, !this.lastPart);
         this.lastPart = part;
         return part;
     }
@@ -2056,18 +2056,18 @@ class MultipartWriter {
         h.set("Content-Type", "application/octet-stream");
         return this.createPart(h);
     }
-    createFormField(field) {
+    createFormField(field1) {
         const h = new Headers();
-        h.set("Content-Disposition", `form-data; name="${field}"`);
+        h.set("Content-Disposition", `form-data; name="${field1}"`);
         h.set("Content-Type", "application/octet-stream");
         return this.createPart(h);
     }
-    async writeField(field, value) {
-        const f = await this.createFormField(field);
-        await f.write(encoder.encode(value));
+    async writeField(field2, value1) {
+        const f = await this.createFormField(field2);
+        await f.write(encoder.encode(value1));
     }
-    async writeFile(field, filename, file) {
-        const f = await this.createFormFile(field, filename);
+    async writeFile(field3, filename1, file) {
+        const f = await this.createFormFile(field3, filename1);
         await Deno.copy(file, f);
     }
     flush() {

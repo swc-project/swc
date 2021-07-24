@@ -13,12 +13,12 @@ class MuxAsyncIterator {
         ++this.iteratorCount;
         this.callIteratorNext(iterator);
     }
-    async callIteratorNext(iterator) {
+    async callIteratorNext(iterator1) {
         try {
-            const { value , done  } = await iterator.next();
+            const { value , done  } = await iterator1.next();
             if (done) --this.iteratorCount;
             else this.yields.push({
-                iterator,
+                iterator: iterator1,
                 value
             });
         } catch (e) {
@@ -32,9 +32,9 @@ class MuxAsyncIterator {
             await this.signal;
             // Note that while we're looping over `yields`, new items may be added.
             for(let i = 0; i < this.yields.length; i++){
-                const { iterator , value  } = this.yields[i];
+                const { iterator: iterator2 , value  } = this.yields[i];
                 yield value;
-                this.callIteratorNext(iterator);
+                this.callIteratorNext(iterator2);
             }
             if (this.throws.length) {
                 for (const e of this.throws)throw e;
@@ -427,11 +427,11 @@ class Server {
         // might have been already closed
         }
     }
-    trackConnection(conn) {
-        this.connections.push(conn);
+    trackConnection(conn1) {
+        this.connections.push(conn1);
     }
-    untrackConnection(conn) {
-        const index = this.connections.indexOf(conn);
+    untrackConnection(conn2) {
+        const index = this.connections.indexOf(conn2);
         if (index !== -1) this.connections.splice(index, 1);
     }
     // Accepts a new TCP connection and yields all HTTP requests that arrive on
@@ -441,23 +441,23 @@ class Server {
     async *acceptConnAndIterateHttpRequests(mux) {
         if (this.closing) return;
         // Wait for a new connection.
-        let conn;
+        let conn3;
         try {
-            conn = await this.listener.accept();
+            conn3 = await this.listener.accept();
         } catch (error) {
             if (error instanceof Deno.errors.BadResource || error instanceof Deno.errors.InvalidData || error instanceof Deno.errors.UnexpectedEof) return mux.add(this.acceptConnAndIterateHttpRequests(mux));
             throw error;
         }
-        this.trackConnection(conn);
+        this.trackConnection(conn3);
         // Try to accept another connection and add it to the multiplexer.
         mux.add(this.acceptConnAndIterateHttpRequests(mux));
         // Yield the requests that arrive on the just-accepted connection.
-        yield* this.iterateHttpRequests(conn);
+        yield* this.iterateHttpRequests(conn3);
     }
     [Symbol.asyncIterator]() {
-        const mux = new MuxAsyncIterator();
-        mux.add(this.acceptConnAndIterateHttpRequests(mux));
-        return mux.iterate();
+        const mux1 = new MuxAsyncIterator();
+        mux1.add(this.acceptConnAndIterateHttpRequests(mux1));
+        return mux1.iterate();
     }
 }
 function _parseAddrFromStr(addr) {

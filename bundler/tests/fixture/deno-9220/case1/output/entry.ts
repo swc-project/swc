@@ -9,8 +9,8 @@ class Image1 {
         };
         return rntVal;
     }
-    setPixel(x, y, pix) {
-        const index = x + y * this.width;
+    setPixel(x1, y1, pix) {
+        const index = x1 + y1 * this.width;
         this.data[index * 4] = pix.r;
         this.data[index * 4 + 1] = pix.g;
         this.data[index * 4 + 2] = pix.b;
@@ -780,7 +780,7 @@ const JpegImage = function jpegImage() {
             const scaleX = this.width / width, scaleY = this.height / height;
             let component1, component2, component3, component4;
             let component1Line, component2Line, component3Line, component4Line;
-            let x, y;
+            let x2, y2;
             let offset = 0;
             let Y, Cb, Cr, K, C, M, Ye, R, G, B;
             let colorTransform;
@@ -789,10 +789,10 @@ const JpegImage = function jpegImage() {
             switch(this.components.length){
                 case 1:
                     component1 = this.components[0];
-                    for(y = 0; y < height; y++){
-                        component1Line = component1.lines[0 | y * component1.scaleY * scaleY];
-                        for(x = 0; x < width; x++){
-                            Y = component1Line[0 | x * component1.scaleX * scaleX];
+                    for(y2 = 0; y2 < height; y2++){
+                        component1Line = component1.lines[0 | y2 * component1.scaleY * scaleY];
+                        for(x2 = 0; x2 < width; x2++){
+                            Y = component1Line[0 | x2 * component1.scaleX * scaleX];
                             data[offset++] = Y;
                         }
                     }
@@ -800,13 +800,13 @@ const JpegImage = function jpegImage() {
                 case 2:
                     component1 = this.components[0];
                     component2 = this.components[1];
-                    for(y = 0; y < height; y++){
-                        component1Line = component1.lines[0 | y * component1.scaleY * scaleY];
-                        component2Line = component2.lines[0 | y * component2.scaleY * scaleY];
-                        for(x = 0; x < width; x++){
-                            Y = component1Line[0 | x * component1.scaleX * scaleX];
+                    for(y2 = 0; y2 < height; y2++){
+                        component1Line = component1.lines[0 | y2 * component1.scaleY * scaleY];
+                        component2Line = component2.lines[0 | y2 * component2.scaleY * scaleY];
+                        for(x2 = 0; x2 < width; x2++){
+                            Y = component1Line[0 | x2 * component1.scaleX * scaleX];
                             data[offset++] = Y;
-                            Y = component2Line[0 | x * component2.scaleX * scaleX];
+                            Y = component2Line[0 | x2 * component2.scaleX * scaleX];
                             data[offset++] = Y;
                         }
                     }
@@ -821,19 +821,19 @@ const JpegImage = function jpegImage() {
                     component1 = this.components[0];
                     component2 = this.components[1];
                     component3 = this.components[2];
-                    for(y = 0; y < height; y++){
-                        component1Line = component1.lines[0 | y * component1.scaleY * scaleY];
-                        component2Line = component2.lines[0 | y * component2.scaleY * scaleY];
-                        component3Line = component3.lines[0 | y * component3.scaleY * scaleY];
-                        for(x = 0; x < width; x++){
+                    for(y2 = 0; y2 < height; y2++){
+                        component1Line = component1.lines[0 | y2 * component1.scaleY * scaleY];
+                        component2Line = component2.lines[0 | y2 * component2.scaleY * scaleY];
+                        component3Line = component3.lines[0 | y2 * component3.scaleY * scaleY];
+                        for(x2 = 0; x2 < width; x2++){
                             if (!colorTransform) {
-                                R = component1Line[0 | x * component1.scaleX * scaleX];
-                                G = component2Line[0 | x * component2.scaleX * scaleX];
-                                B = component3Line[0 | x * component3.scaleX * scaleX];
+                                R = component1Line[0 | x2 * component1.scaleX * scaleX];
+                                G = component2Line[0 | x2 * component2.scaleX * scaleX];
+                                B = component3Line[0 | x2 * component3.scaleX * scaleX];
                             } else {
-                                Y = component1Line[0 | x * component1.scaleX * scaleX];
-                                Cb = component2Line[0 | x * component2.scaleX * scaleX];
-                                Cr = component3Line[0 | x * component3.scaleX * scaleX];
+                                Y = component1Line[0 | x2 * component1.scaleX * scaleX];
+                                Cb = component2Line[0 | x2 * component2.scaleX * scaleX];
+                                Cr = component3Line[0 | x2 * component3.scaleX * scaleX];
                                 R = clampTo8bit(Y + 1.402 * (Cr - 128));
                                 G = clampTo8bit(Y - 0.3441363 * (Cb - 128) - 0.71413636 * (Cr - 128));
                                 B = clampTo8bit(Y + 1.772 * (Cb - 128));
@@ -858,22 +858,22 @@ const JpegImage = function jpegImage() {
                     component2 = this.components[1];
                     component3 = this.components[2];
                     component4 = this.components[3];
-                    for(y = 0; y < height; y++){
-                        component1Line = component1.lines[0 | y * component1.scaleY * scaleY];
-                        component2Line = component2.lines[0 | y * component2.scaleY * scaleY];
-                        component3Line = component3.lines[0 | y * component3.scaleY * scaleY];
-                        component4Line = component4.lines[0 | y * component4.scaleY * scaleY];
-                        for(x = 0; x < width; x++){
+                    for(y2 = 0; y2 < height; y2++){
+                        component1Line = component1.lines[0 | y2 * component1.scaleY * scaleY];
+                        component2Line = component2.lines[0 | y2 * component2.scaleY * scaleY];
+                        component3Line = component3.lines[0 | y2 * component3.scaleY * scaleY];
+                        component4Line = component4.lines[0 | y2 * component4.scaleY * scaleY];
+                        for(x2 = 0; x2 < width; x2++){
                             if (!colorTransform) {
-                                C = component1Line[0 | x * component1.scaleX * scaleX];
-                                M = component2Line[0 | x * component2.scaleX * scaleX];
-                                Ye = component3Line[0 | x * component3.scaleX * scaleX];
-                                K = component4Line[0 | x * component4.scaleX * scaleX];
+                                C = component1Line[0 | x2 * component1.scaleX * scaleX];
+                                M = component2Line[0 | x2 * component2.scaleX * scaleX];
+                                Ye = component3Line[0 | x2 * component3.scaleX * scaleX];
+                                K = component4Line[0 | x2 * component4.scaleX * scaleX];
                             } else {
-                                Y = component1Line[0 | x * component1.scaleX * scaleX];
-                                Cb = component2Line[0 | x * component2.scaleX * scaleX];
-                                Cr = component3Line[0 | x * component3.scaleX * scaleX];
-                                K = component4Line[0 | x * component4.scaleX * scaleX];
+                                Y = component1Line[0 | x2 * component1.scaleX * scaleX];
+                                Cb = component2Line[0 | x2 * component2.scaleX * scaleX];
+                                Cr = component3Line[0 | x2 * component3.scaleX * scaleX];
+                                K = component4Line[0 | x2 * component4.scaleX * scaleX];
                                 C = 255 - clampTo8bit(Y + 1.402 * (Cr - 128));
                                 M = 255 - clampTo8bit(Y - 0.3441363 * (Cb - 128) - 0.71413636 * (Cr - 128));
                                 Ye = 255 - clampTo8bit(Y + 1.772 * (Cb - 128));
@@ -894,12 +894,12 @@ const JpegImage = function jpegImage() {
             const width = imageData.width, height = imageData.height;
             const imageDataArray = imageData.data;
             const data = this.getData(width, height);
-            let i = 0, j = 0, x, y;
+            let i = 0, j = 0, x2, y2;
             let Y, K, C, M, R, G, B;
             switch(this.components.length){
                 case 1:
-                    for(y = 0; y < height; y++){
-                        for(x = 0; x < width; x++){
+                    for(y2 = 0; y2 < height; y2++){
+                        for(x2 = 0; x2 < width; x2++){
                             Y = data[i++];
                             imageDataArray[j++] = Y;
                             imageDataArray[j++] = Y;
@@ -909,8 +909,8 @@ const JpegImage = function jpegImage() {
                     }
                     break;
                 case 3:
-                    for(y = 0; y < height; y++){
-                        for(x = 0; x < width; x++){
+                    for(y2 = 0; y2 < height; y2++){
+                        for(x2 = 0; x2 < width; x2++){
                             R = data[i++];
                             G = data[i++];
                             B = data[i++];
@@ -922,8 +922,8 @@ const JpegImage = function jpegImage() {
                     }
                     break;
                 case 4:
-                    for(y = 0; y < height; y++){
-                        for(x = 0; x < width; x++){
+                    for(y2 = 0; y2 < height; y2++){
+                        for(x2 = 0; x2 < width; x2++){
                             C = data[i++];
                             M = data[i++];
                             Y = data[i++];

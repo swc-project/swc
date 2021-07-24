@@ -86,7 +86,7 @@ class RequestHandler {
      * @param {Request} request The request data.
      *
      * @return {Promise<*>}
-     */ async push(url, request) {
+     */ async push(url1, request) {
         await _classPrivateFieldGet(this, _queue).wait();
         try {
             await this.rest.globalTimeout;
@@ -103,11 +103,11 @@ class RequestHandler {
                  */ this.rest.client.emit(_utils.ClientEvent.LIMITED, {
                     limit: this.limit,
                     method: request.method,
-                    url
+                    url: url1
                 });
                 await (0, _utils).sleep(this._untilReset);
             }
-            return this._make(url, request);
+            return this._make(url1, request);
         } finally{
             _classPrivateFieldGet(this, _queue).next();
         }
@@ -120,56 +120,56 @@ class RequestHandler {
      *
      * @return {Promise<*>}
      * @private
-     */ async _make(url, request, tries = 0) {
+     */ async _make(url2, request1, tries = 0) {
         const signal = new _abortSignal.AbortSignal();
         const timeout = _utils.Timers.setTimeout(()=>signal.abort()
         , this.rest.options.timeout);
-        let res;
+        let res1;
         try {
-            res = await (0, _nodeFetch).default(url, {
-                ...request,
+            res1 = await (0, _nodeFetch).default(url2, {
+                ...request1,
                 signal
             });
         } catch (e) {
             if (e.name === "AbortError" && tries !== this.rest.options.retries) {
-                return this._make(url, options, tries++);
+                return this._make(url2, options, tries++);
             }
             throw e;
         } finally{
             _utils.Timers.clearTimeout(timeout);
         }
         let _retry = 0;
-        if (res.headers) {
-            const [limit, remaining, reset, retry, cf] = getHeaders(res, headers), _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
+        if (res1.headers) {
+            const [limit, remaining, reset, retry, cf] = getHeaders(res1, headers), _reset = ~~reset * 1000 + Date.now() + this.rest.options.offset;
             this.remaining = remaining ? ~~remaining : 1;
             this.limit = limit ? ~~limit : Infinity;
             this.reset = reset ? _reset : Date.now();
             if (retry) {
                 _retry = ~~reset * (cf ? 1000 : 1 + this.rest.options.offset);
             }
-            if (res.headers.get("X-RateLimit-Global")) {
+            if (res1.headers.get("X-RateLimit-Global")) {
                 this.rest.globalTimeout = (0, _utils).sleep(_retry).then(()=>{
                     this.api.globalTimeout = null;
                 });
             }
         }
-        if (res.ok) {
-            return RequestHandler.parseResponse(res);
+        if (res1.ok) {
+            return RequestHandler.parseResponse(res1);
         }
-        if (res.status === 429) {
+        if (res1.status === 429) {
             this.rest.client.emit(_utils.ClientEvent.LIMITED, `Hit a 429 on route: ${this.id}, Retrying After: ${_retry}ms`);
             await (0, _utils).sleep(_retry);
-            return this._make(url, request, tries++);
+            return this._make(url2, request1, tries++);
         }
-        if (res.status >= 500 && res.status < 600) {
+        if (res1.status >= 500 && res1.status < 600) {
             if (tries !== this.rest.options.retries) {
-                return this._make(url, request, tries++);
+                return this._make(url2, request1, tries++);
             }
-            throw new _errors.DiscordHTTPError(res.statusText, res.constructor.name, res.status, request.method, url);
+            throw new _errors.DiscordHTTPError(res1.statusText, res1.constructor.name, res1.status, request1.method, url2);
         }
-        if (res.status >= 400 && res.status < 500) {
-            const data = await RequestHandler.parseResponse(res);
-            throw new _errors.DiscordAPIError(data.message, data.code, res.status, request.method, url);
+        if (res1.status >= 400 && res1.status < 500) {
+            const data = await RequestHandler.parseResponse(res1);
+            throw new _errors.DiscordAPIError(data.message, data.code, res1.status, request1.method, url2);
         }
         return null;
     }
@@ -213,7 +213,7 @@ var _queue = new WeakMap();
  * @param {Response} res The request response.
  * @param {string[]} headers The headers to fetch.
  * @return {string[]} The header values.
- */ function getHeaders(res, headers1) {
-    return headers1.map((headerName)=>res.headers.get(headerName)
+ */ function getHeaders(res1, headers1) {
+    return headers1.map((headerName)=>res1.headers.get(headerName)
     );
 }
