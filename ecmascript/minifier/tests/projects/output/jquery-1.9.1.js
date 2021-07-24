@@ -1346,14 +1346,12 @@
             ) {
                 if (stopped) return !1;
                 for (
-                    var currentTime,
-                        temp,
+                    var temp,
+                        currentTime = fxNow || createFxNow(
+                        ),
                         remaining = Math.max(
                             0,
-                            animation.startTime +
-                animation.duration -
-                (fxNow || createFxNow(
-                )),
+                            animation.startTime + animation.duration - currentTime,
                         ),
                         percent = 1 - (remaining / animation.duration || 0),
                         index = 0,
@@ -3373,16 +3371,15 @@
                             (name = attrs[i].name).indexOf(
                                 "data-"
                             ) ||
-                ((name = jQuery.camelCase(
-                    name.slice(
-                        5
-                    )
-                )),
                 dataAttr(
                     elem,
-                    name,
-                    data[name]
-                ));
+                    (name = jQuery.camelCase(
+                        name.slice(
+                            5
+                        )
+                    )),
+                    data[name],
+                );
                         jQuery._data(
                             elem,
                             "parsedAttrs",
@@ -7616,21 +7613,20 @@
                     var pattern = classCache[className + " "];
                     return (
                         pattern ||
-                ((pattern = new RegExp(
-                    "(^|" +
-                    whitespace +
-                    ")" +
-                    className +
-                    "(" +
-                    whitespace +
-                    "|$)",
-                )),
                 classCache(
                     className,
                     function (
                         elem
                     ) {
-                        return pattern.test(
+                        return (pattern = new RegExp(
+                            "(^|" +
+                      whitespace +
+                      ")" +
+                      className +
+                      "(" +
+                      whitespace +
+                      "|$)",
+                        )).test(
                             elem.className ||
                       (typeof elem.getAttribute !== strundefined &&
                         elem.getAttribute(
@@ -7639,7 +7635,7 @@
                       "",
                         );
                     }
-                ))
+                )
                     );
                 },
                 ATTR: function (

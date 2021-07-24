@@ -2092,9 +2092,8 @@
                 : isArray(
                     fn
                 )
-                    ? ((last = fn.length - 1),
-                    assertArgFn(
-                        fn[last],
+                    ? (assertArgFn(
+                        fn[(last = fn.length - 1)],
                         "fn"
                     ),
                     ($inject = fn.slice(
@@ -3523,35 +3522,36 @@
                         i < nodeList.length;
                         i++
                     )
+                        (attrs = new Attributes(
+                        )),
                         (childLinkFn =
-                ((nodeLinkFn = (directives = collectDirectives(
-                    nodeList[i],
-                    [],
-                    (attrs = new Attributes(
-                    )),
-                    0 === i ? maxPriority : undefined,
-                    ignoreDirective,
-                )).length
-                    ? applyDirectivesToNode(
-                        directives,
-                        nodeList[i],
-                        attrs,
-                        transcludeFn,
-                        $rootElement,
-                        null,
-                        [],
-                        [],
-                        previousCompileContext,
-                    )
-                    : null) &&
-                  nodeLinkFn.terminal) ||
-                !nodeList[i].childNodes ||
-                !nodeList[i].childNodes.length
-                    ? null
-                    : compileNodes(
-                        nodeList[i].childNodes,
-                        nodeLinkFn ? nodeLinkFn.transclude : transcludeFn,
-                    )),
+                  ((nodeLinkFn = (directives = collectDirectives(
+                      nodeList[i],
+                      [],
+                      attrs,
+                      0 === i ? maxPriority : undefined,
+                      ignoreDirective,
+                  )).length
+                      ? applyDirectivesToNode(
+                          directives,
+                          nodeList[i],
+                          attrs,
+                          transcludeFn,
+                          $rootElement,
+                          null,
+                          [],
+                          [],
+                          previousCompileContext,
+                      )
+                      : null) &&
+                    nodeLinkFn.terminal) ||
+                  !nodeList[i].childNodes ||
+                  !nodeList[i].childNodes.length
+                      ? null
+                      : compileNodes(
+                          nodeList[i].childNodes,
+                          nodeLinkFn ? nodeLinkFn.transclude : transcludeFn,
+                      )),
                         linkFns.push(
                             nodeLinkFn
                         ),
@@ -3598,13 +3598,12 @@
                                             "ng-scope"
                                         ))
                                         : (childScope = scope),
-                                    (childTranscludeFn = nodeLinkFn.transclude),
                                     nodeLinkFn(
                                         childLinkFn,
                                         childScope,
                                         node,
                                         $rootElement,
-                                        childTranscludeFn ||
+                                        (childTranscludeFn = nodeLinkFn.transclude) ||
                               (!boundTranscludeFn && transcludeFn)
                                             ? createBoundTranscludeFn(
                                                 scope,
@@ -4703,10 +4702,7 @@
                                 function (
                                     content
                                 ) {
-                                    var compileNode,
-                                        tempTemplateAttrs,
-                                        $template,
-                                        childBoundTranscludeFn;
+                                    var compileNode, tempTemplateAttrs, $template;
                                     if (
                                         ((content = denormalizeTemplate(
                                             content
@@ -4799,28 +4795,27 @@
                                             ),
                                             linkNode = $compileNode[0];
                                         beforeTemplateLinkNode !== beforeTemplateCompileNode &&
+                      ((linkNode = jqLiteClone(
+                          compileNode
+                      )),
                       replaceWith(
                           linkRootElement,
                           jqLite(
                               beforeTemplateLinkNode
                           ),
-                          (linkNode = jqLiteClone(
-                              compileNode
-                          )),
-                      ),
-                                        (childBoundTranscludeFn =
-                        afterTemplateNodeLinkFn.transclude
-                            ? createBoundTranscludeFn(
-                                scope,
-                                afterTemplateNodeLinkFn.transclude,
-                            )
-                            : boundTranscludeFn),
+                          linkNode,
+                      )),
                                         afterTemplateNodeLinkFn(
                                             afterTemplateChildLinkFn,
                                             scope,
                                             linkNode,
                                             $rootElement,
-                                            childBoundTranscludeFn,
+                                            afterTemplateNodeLinkFn.transclude
+                                                ? createBoundTranscludeFn(
+                                                    scope,
+                                                    afterTemplateNodeLinkFn.transclude,
+                                                )
+                                                : boundTranscludeFn,
                                         );
                                     }
                                     linkQueue = null;
@@ -5289,24 +5284,23 @@
                     CNTRL_REG
                 ))[1]),
                 (identifier = match[3]),
-                (expression = controllers.hasOwnProperty(
-                    constructor
-                )
-                    ? controllers[constructor]
-                    : getter(
-                        locals.$scope,
-                        constructor,
-                        !0
-                    ) ||
-                    getter(
-                        $window,
-                        constructor,
-                        !0
-                    )),
                 assertArgFn(
-                    expression,
+                    (expression = controllers.hasOwnProperty(
+                        constructor
+                    )
+                        ? controllers[constructor]
+                        : getter(
+                            locals.$scope,
+                            constructor,
+                            !0
+                        ) ||
+                      getter(
+                          $window,
+                          constructor,
+                          !0
+                      )),
                     constructor,
-                    !0
+                    !0,
                 )),
                         (instance = $injector.instantiate(
                             expression,
@@ -6195,20 +6189,19 @@
                     timeoutId
                 ),
                 (jsonpDone = xhr = null),
-                (status =
-            1223 ==
-            (status =
-              "file" == protocol && 0 === status
-                  ? response
-                      ? 200
-                      : 404
-                  : status)
-                ? 204
-                : status),
                 callback(
-                    status,
+                    (status =
+              1223 ==
+              (status =
+                "file" == protocol && 0 === status
+                    ? response
+                        ? 200
+                        : 404
+                    : status)
+                  ? 204
+                  : status),
                     response,
-                    headersString
+                    headersString,
                 ),
                 $browser.$$completeOutstandingRequest(
                     noop
@@ -12564,18 +12557,17 @@
                                     index++
                                 )
                                     if (
-                                        ((value =
-                    collection[
-                        (key =
-                        collection === collectionKeys
-                            ? index
-                            : collectionKeys[index])
-                    ]),
-                                        assertNotHasOwnProperty(
+                                        (assertNotHasOwnProperty(
                                             (trackById = trackByIdFn(
                                                 key,
-                                                value,
-                                                index
+                                                (value =
+                        collection[
+                            (key =
+                            collection === collectionKeys
+                                ? index
+                                : collectionKeys[index])
+                        ]),
+                                                index,
                                             )),
                                             "`track by` id",
                                         ),

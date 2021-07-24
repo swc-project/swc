@@ -13,12 +13,11 @@
                 ["exports", "react",],
                 factory
             )
-            : ((global = global || self),
-            factory(
-                (global.ReactDOM = {
+            : factory(
+                ((global = global || self).ReactDOM = {
                 }),
                 global.React
-            ));
+            );
 })(
     this,
     function (
@@ -3217,14 +3216,16 @@
                         "setRestoreImplementation() needs to be called to handle a target for controlled events. This error is likely caused by a bug in React. Please file an issue.",
                     );
                 var stateNode = internalInstance.stateNode;
-                stateNode &&
-        restoreImpl(
-            internalInstance.stateNode,
-            internalInstance.type,
-            getFiberCurrentPropsFromNode(
-                stateNode
-            ),
-        );
+                if (stateNode) {
+                    var _props = getFiberCurrentPropsFromNode(
+                        stateNode
+                    );
+                    restoreImpl(
+                        internalInstance.stateNode,
+                        internalInstance.type,
+                        _props
+                    );
+                }
             }
         }
         function enqueueStateRestore(
@@ -4027,7 +4028,7 @@
                 targetContainers.length > 0;
 
             ) {
-                var targetContainer,
+                var targetContainer = targetContainers[0],
                     nextBlockedOn = attemptToDispatchEvent(
                         queuedEvent.domEventName,
                         queuedEvent.eventSystemFlags,
@@ -4078,7 +4079,7 @@
                     targetContainers.length > 0;
 
                 ) {
-                    var targetContainer,
+                    var targetContainer = targetContainers[0],
                         nextBlockedOn = attemptToDispatchEvent(
                             nextDiscreteEvent.domEventName,
                             nextDiscreteEvent.eventSystemFlags,
@@ -8844,13 +8845,12 @@
                 break;
             default:
                 var container =
-            8 === nodeType
-                ? rootContainerInstance.parentNode
-                : rootContainerInstance,
-                    ownNamespace = container.namespaceURI || null;
+          8 === nodeType
+              ? rootContainerInstance.parentNode
+              : rootContainerInstance;
                 namespace = getChildNamespace(
-                    ownNamespace, (
-                        type = container.tagName)
+                    container.namespaceURI || null,
+                    (type = container.tagName),
                 );
                 break;
             }
@@ -11288,34 +11288,37 @@
         (void 0 !== contextType &&
           contextType.$$typeof === REACT_CONTEXT_TYPE &&
           void 0 === contextType._context);
-                isValid ||
-        didWarnAboutInvalidateContextType.has(
-            ctor
-        ) ||
-        (didWarnAboutInvalidateContextType.add(
-            ctor
-        ),
-        error(
-            "%s defines an invalid contextType. contextType should point to the Context object returned by React.createContext().%s",
-            getComponentName(
-                ctor
-            ) || "Component",
-            void 0 === contextType
-                ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file."
-                : "object" != typeof contextType
-                    ? " However, it is set to a " + typeof contextType + "."
-                    : contextType.$$typeof === REACT_PROVIDER_TYPE
-                        ? " Did you accidentally pass the Context.Provider instead?"
-                        : void 0 !== contextType._context
-                            ? " Did you accidentally pass the Context.Consumer instead?"
-                            : " However, it is set to an object with keys {" +
+                if (!isValid && !didWarnAboutInvalidateContextType.has(
+                    ctor
+                )) {
+                    didWarnAboutInvalidateContextType.add(
+                        ctor
+                    );
+                    var addendum = "";
+                    (addendum =
+          void 0 === contextType
+              ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file."
+              : "object" != typeof contextType
+                  ? " However, it is set to a " + typeof contextType + "."
+                  : contextType.$$typeof === REACT_PROVIDER_TYPE
+                      ? " Did you accidentally pass the Context.Provider instead?"
+                      : void 0 !== contextType._context
+                          ? " Did you accidentally pass the Context.Consumer instead?"
+                          : " However, it is set to an object with keys {" +
               Object.keys(
                   contextType
               ).join(
                   ", "
               ) +
-              "}.",
-        ));
+              "}."),
+                    error(
+                        "%s defines an invalid contextType. contextType should point to the Context object returned by React.createContext().%s",
+                        getComponentName(
+                            ctor
+                        ) || "Component",
+                        addendum,
+                    );
+                }
             }
             if ("object" == typeof contextType && null !== contextType)
                 context = readContext(
@@ -12305,15 +12308,13 @@
                             lanes
                         );
                     case REACT_PORTAL_TYPE:
-                        var _matchedFiber2 =
-              existingChildren.get(
-                  null === newChild.key ? newIdx : newChild.key,
-              ) || null;
                         return updatePortal(
                             returnFiber,
-                            _matchedFiber2,
+                            existingChildren.get(
+                                null === newChild.key ? newIdx : newChild.key,
+                            ) || null,
                             newChild,
-                            lanes
+                            lanes,
                         );
                     }
                     if (isArray$1(
@@ -13353,15 +13354,14 @@
             rootContainerInstance,
             hostContext,
         ) {
-            var instance = fiber.stateNode,
-                updatePayload = hydrateInstance(
-                    instance,
-                    fiber.type,
-                    fiber.memoizedProps,
-                    rootContainerInstance,
-                    hostContext,
-                    fiber,
-                );
+            var updatePayload = hydrateInstance(
+                fiber.stateNode,
+                fiber.type,
+                fiber.memoizedProps,
+                rootContainerInstance,
+                hostContext,
+                fiber,
+            );
             return (fiber.updateQueue = updatePayload), null !== updatePayload;
         }
         function prepareToHydrateHostTextInstance(
@@ -13386,11 +13386,9 @@
                         );
                         break;
                     case 5:
-                        var parentType = returnFiber.type,
-                            parentProps = returnFiber.memoizedProps;
                         didNotMatchHydratedTextInstance(
-                            parentType,
-                            parentProps,
+                            returnFiber.type,
+                            returnFiber.memoizedProps,
                             returnFiber.stateNode,
                             textInstance,
                             textContent,
@@ -15305,13 +15303,12 @@
         function updateFragment(
             current, workInProgress, renderLanes
         ) {
-            var nextChildren = workInProgress.pendingProps;
             return (
                 reconcileChildren(
                     current,
                     workInProgress,
-                    nextChildren,
-                    renderLanes
+                    workInProgress.pendingProps,
+                    renderLanes,
                 ),
                 workInProgress.child
             );
@@ -15319,13 +15316,12 @@
         function updateMode(
             current, workInProgress, renderLanes
         ) {
-            var nextChildren = workInProgress.pendingProps.children;
             return (
                 reconcileChildren(
                     current,
                     workInProgress,
-                    nextChildren,
-                    renderLanes
+                    workInProgress.pendingProps.children,
+                    renderLanes,
                 ),
                 workInProgress.child
             );
@@ -15335,14 +15331,14 @@
         ) {
             workInProgress.flags |= Update;
             var stateNode = workInProgress.stateNode;
-            (stateNode.effectDuration = 0), (stateNode.passiveEffectDuration = 0);
-            var nextChildren = workInProgress.pendingProps.children;
             return (
+                (stateNode.effectDuration = 0),
+                (stateNode.passiveEffectDuration = 0),
                 reconcileChildren(
                     current,
                     workInProgress,
-                    nextChildren,
-                    renderLanes
+                    workInProgress.pendingProps.children,
+                    renderLanes,
                 ),
                 workInProgress.child
             );
@@ -15363,7 +15359,8 @@
             renderLanes,
         ) {
             if (workInProgress.type !== workInProgress.elementType) {
-                var nextChildren,
+                var context,
+                    nextChildren,
                     innerPropTypes = Component.propTypes;
                 innerPropTypes &&
         checkPropTypes(
@@ -15375,16 +15372,14 @@
             ),
         );
             }
-            var context,
-                unmaskedContext = getUnmaskedContext(
-                    workInProgress,
-                    Component,
-                    !0
-                );
             if (
                 ((context = getMaskedContext(
                     workInProgress,
-                    unmaskedContext
+                    getUnmaskedContext(
+                        workInProgress,
+                        Component,
+                        !0
+                    ),
                 )),
                 prepareToReadContext(
                     workInProgress,
@@ -15914,16 +15909,15 @@
       (workInProgress.flags |= Placement));
             var value,
                 context,
-                props = workInProgress.pendingProps,
-                unmaskedContext = getUnmaskedContext(
-                    workInProgress,
-                    Component,
-                    !1
-                );
+                props = workInProgress.pendingProps;
             if (
                 ((context = getMaskedContext(
                     workInProgress,
-                    unmaskedContext
+                    getUnmaskedContext(
+                        workInProgress,
+                        Component,
+                        !1
+                    ),
                 )),
                 prepareToReadContext(
                     workInProgress,
@@ -17092,10 +17086,9 @@
                         );
                         break;
                     case 10:
-                        var newValue = workInProgress.memoizedProps.value;
                         pushProvider(
                             workInProgress,
-                            newValue
+                            workInProgress.memoizedProps.value
                         );
                         break;
                     case 12:
@@ -17198,46 +17191,41 @@
                     renderLanes,
                 );
             case 16:
-                var elementType = workInProgress.elementType;
                 return mountLazyComponent(
                     current,
                     workInProgress,
-                    elementType,
+                    workInProgress.elementType,
                     updateLanes,
                     renderLanes,
                 );
             case 0:
                 var _Component = workInProgress.type,
-                    unresolvedProps = workInProgress.pendingProps,
-                    resolvedProps =
-            workInProgress.elementType === _Component
-                ? unresolvedProps
-                : resolveDefaultProps(
-                    _Component,
-                    unresolvedProps
-                );
+                    unresolvedProps = workInProgress.pendingProps;
                 return updateFunctionComponent(
                     current,
                     workInProgress,
                     _Component,
-                    resolvedProps,
+                    workInProgress.elementType === _Component
+                        ? unresolvedProps
+                        : resolveDefaultProps(
+                            _Component,
+                            unresolvedProps
+                        ),
                     renderLanes,
                 );
             case 1:
                 var _Component2 = workInProgress.type,
-                    _unresolvedProps = workInProgress.pendingProps,
-                    _resolvedProps =
-            workInProgress.elementType === _Component2
-                ? _unresolvedProps
-                : resolveDefaultProps(
-                    _Component2,
-                    _unresolvedProps
-                );
+                    _unresolvedProps = workInProgress.pendingProps;
                 return updateClassComponent(
                     current,
                     workInProgress,
                     _Component2,
-                    _resolvedProps,
+                    workInProgress.elementType === _Component2
+                        ? _unresolvedProps
+                        : resolveDefaultProps(
+                            _Component2,
+                            _unresolvedProps
+                        ),
                     renderLanes,
                 );
             case 3:
@@ -17271,19 +17259,17 @@
                 );
             case 11:
                 var type = workInProgress.type,
-                    _unresolvedProps2 = workInProgress.pendingProps,
-                    _resolvedProps2 =
-            workInProgress.elementType === type
-                ? _unresolvedProps2
-                : resolveDefaultProps(
-                    type,
-                    _unresolvedProps2
-                );
+                    _unresolvedProps2 = workInProgress.pendingProps;
                 return updateForwardRef(
                     current,
                     workInProgress,
                     type,
-                    _resolvedProps2,
+                    workInProgress.elementType === type
+                        ? _unresolvedProps2
+                        : resolveDefaultProps(
+                            type,
+                            _unresolvedProps2
+                        ),
                     renderLanes,
                 );
             case 7:
@@ -17335,19 +17321,16 @@
                 ),
             );
                 }
-                return (
+                return updateMemoComponent(
+                    current,
+                    workInProgress,
+                    _type2,
                     (_resolvedProps3 = resolveDefaultProps(
                         _type2.type,
                         _resolvedProps3
                     )),
-                    updateMemoComponent(
-                        current,
-                        workInProgress,
-                        _type2,
-                        _resolvedProps3,
-                        updateLanes,
-                        renderLanes,
-                    )
+                    updateLanes,
+                    renderLanes,
                 );
             case 15:
                 return updateSimpleMemoComponent(
@@ -17360,19 +17343,17 @@
                 );
             case 17:
                 var _Component3 = workInProgress.type,
-                    _unresolvedProps4 = workInProgress.pendingProps,
-                    _resolvedProps4 =
-            workInProgress.elementType === _Component3
-                ? _unresolvedProps4
-                : resolveDefaultProps(
-                    _Component3,
-                    _unresolvedProps4
-                );
+                    _unresolvedProps4 = workInProgress.pendingProps;
                 return mountIncompleteClassComponent(
                     current,
                     workInProgress,
                     _Component3,
-                    _resolvedProps4,
+                    workInProgress.elementType === _Component3
+                        ? _unresolvedProps4
+                        : resolveDefaultProps(
+                            _Component3,
+                            _unresolvedProps4
+                        ),
                     renderLanes,
                 );
             case 19:
@@ -17571,15 +17552,14 @@
                 return null;
             case 6:
                 var newText = newProps;
-                if (current && null != workInProgress.stateNode) {
-                    var oldText = current.memoizedProps;
+                if (current && null != workInProgress.stateNode)
                     updateHostText$1(
                         current,
                         workInProgress,
-                        oldText,
-                        newText
+                        current.memoizedProps,
+                        newText,
                     );
-                } else {
+                else {
                     if (
                         "string" != typeof newText &&
             !(null !== workInProgress.stateNode)
@@ -19215,12 +19195,11 @@
                         "This should have a text node initialized. This error is likely caused by a bug in React. Please file an issue.",
                     );
                 var textInstance = finishedWork.stateNode,
-                    newText = finishedWork.memoizedProps,
-                    oldText = null !== current ? current.memoizedProps : newText;
+                    newText = finishedWork.memoizedProps;
                 commitTextUpdate(
                     textInstance,
-                    oldText,
-                    newText
+                    null !== current ? current.memoizedProps : newText,
+                    newText,
                 );
                 return;
             case 3:
@@ -19255,10 +19234,9 @@
                 break;
             case 23:
             case 24:
-                var isHidden = null !== finishedWork.memoizedState;
                 hideOrUnhideAllChildren(
                     finishedWork,
-                    isHidden
+                    null !== finishedWork.memoizedState,
                 );
                 return;
             }
@@ -19847,14 +19825,13 @@
         function markRootSuspended$1(
             root, suspendedLanes
         ) {
-            (suspendedLanes = removeLanes(
-                suspendedLanes,
-                workInProgressRootPingedLanes,
-            )),
             markRootSuspended(
                 root,
                 (suspendedLanes = removeLanes(
-                    suspendedLanes,
+                    (suspendedLanes = removeLanes(
+                        suspendedLanes,
+                        workInProgressRootPingedLanes,
+                    )),
                     workInProgressRootUpdatedLanes,
                 )),
             );
@@ -19883,22 +19860,20 @@
                         workInProgressRootIncludedLanes,
                         workInProgressRootUpdatedLanes,
                     ) &&
-            ((lanes = getNextLanes(
-                root,
-                lanes
-            )),
             (exitStatus = renderRootSync(
                 root,
-                lanes
-            ))))
-                    : ((lanes = getNextLanes(
+                (lanes = getNextLanes(
+                    root,
+                    lanes
+                )),
+            )))
+                    : (exitStatus = renderRootSync(
                         root,
-                        NoLanes
+                        (lanes = getNextLanes(
+                            root,
+                            NoLanes
+                        )),
                     )),
-                    (exitStatus = renderRootSync(
-                        root,
-                        lanes
-                    ))),
                 0 !== root.tag &&
         2 === exitStatus &&
         ((executionContext |= 64),
@@ -20507,14 +20482,15 @@
         function commitRoot(
             root
         ) {
+            var renderPriorityLevel = getCurrentPriorityLevel(
+            );
             return (
                 runWithPriority$1(
                     99,
                     commitRootImpl.bind(
                         null,
                         root,
-                        getCurrentPriorityLevel(
-                        )
+                        renderPriorityLevel
                     ),
                 ),
                 null
@@ -21073,17 +21049,16 @@
         function captureCommitPhaseErrorOnRoot(
             rootFiber, sourceFiber, error
         ) {
-            var update = createRootErrorUpdate(
-                rootFiber,
-                createCapturedValue(
-                    error,
-                    sourceFiber
-                ),
-                SyncLane,
-            );
             enqueueUpdate(
                 rootFiber,
-                update
+                createRootErrorUpdate(
+                    rootFiber,
+                    createCapturedValue(
+                        error,
+                        sourceFiber
+                    ),
+                    SyncLane,
+                ),
             );
             var eventTime = requestEventTime(
                 ),
@@ -21964,21 +21939,21 @@
         var findHostInstancesForRefresh = function (
             root, families
         ) {
-            var types,
-                hostInstances = new Set(
+            var hostInstances = new Set(
+                ),
+                types = new Set(
+                    families.map(
+                        function (
+                            family
+                        ) {
+                            return family.current;
+                        }
+                    ),
                 );
             return (
                 findHostInstancesForMatchingFibersRecursively(
                     root.current,
-                    new Set(
-                        families.map(
-                            function (
-                                family
-                            ) {
-                                return family.current;
-                            }
-                        ),
-                    ),
+                    types,
                     hostInstances,
                 ),
                 hostInstances
@@ -22437,16 +22412,14 @@
         function createFiberFromElement(
             element, mode, lanes
         ) {
-            var type = element.type,
-                key = element.key,
-                fiber = createFiberFromTypeAndProps(
-                    type,
-                    key,
-                    element.props,
-                    element._owner,
-                    mode,
-                    lanes,
-                );
+            var fiber = createFiberFromTypeAndProps(
+                element.type,
+                element.key,
+                element.props,
+                element._owner,
+                mode,
+                lanes,
+            );
             return (
                 (fiber._debugSource = element._source),
                 (fiber._debugOwner = element._owner),
@@ -22576,13 +22549,12 @@
         function createFiberFromPortal(
             portal, mode, lanes
         ) {
-            var pendingProps = null !== portal.children ? portal.children : [],
-                fiber = createFiber(
-                    4,
-                    pendingProps,
-                    portal.key,
-                    mode
-                );
+            var fiber = createFiber(
+                4,
+                null !== portal.children ? portal.children : [],
+                portal.key,
+                mode,
+            );
             return (
                 (fiber.lanes = lanes),
                 (fiber.stateNode = {

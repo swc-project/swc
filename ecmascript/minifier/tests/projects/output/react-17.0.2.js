@@ -10,10 +10,10 @@
                 ["exports",],
                 factory
             )
-            : ((global = global || self), factory(
-                (global.React = {
+            : factory(
+                ((global = global || self).React = {
                 })
-            ));
+            );
 })(
     this,
     function (
@@ -797,9 +797,8 @@
                 children
             ))
                 for (var i = 0; i < children.length; i++)
-                    (child = children[i]),
                     (nextName = nextNamePrefix + getElementKey(
-                        child,
+                        (child = children[i]),
                         i
                     )),
                     (subtreeCount += mapIntoArray(
@@ -1529,25 +1528,28 @@
         ) {
             var propTypes,
                 type = element.type;
-            null != type &&
-      "string" != typeof type &&
-      ("function" == typeof type
-          ? (propTypes = type.propTypes)
-          : "object" == typeof type &&
-          (type.$$typeof === REACT_FORWARD_REF_TYPE ||
-            type.$$typeof === REACT_MEMO_TYPE) &&
-          (propTypes = type.propTypes),
-      propTypes
-          ? checkPropTypes(
-              propTypes,
-              element.props,
-              "prop",
-              getComponentName(
-                  type
-              ),
-              element,
-          )
-          : void 0 === type.PropTypes ||
+            if (null != type && "string" != typeof type) {
+                if (
+                    ("function" == typeof type
+                        ? (propTypes = type.propTypes)
+                        : "object" == typeof type &&
+            (type.$$typeof === REACT_FORWARD_REF_TYPE ||
+              type.$$typeof === REACT_MEMO_TYPE) &&
+            (propTypes = type.propTypes),
+                    propTypes)
+                ) {
+                    var name = getComponentName(
+                        type
+                    );
+                    checkPropTypes(
+                        propTypes,
+                        element.props,
+                        "prop",
+                        name,
+                        element
+                    );
+                } else
+                    void 0 === type.PropTypes ||
           propTypesMisspellWarningShown ||
           ((propTypesMisspellWarningShown = !0),
           error(
@@ -1555,12 +1557,13 @@
               getComponentName(
                   type
               ) || "Unknown",
-          )),
-      "function" != typeof type.getDefaultProps ||
+          ));
+                "function" != typeof type.getDefaultProps ||
         type.getDefaultProps.isReactClassApproved ||
         error(
             "getDefaultProps is only used on classic React.createClass definitions. Use a static property named `defaultProps` instead.",
-        ));
+        );
+            }
         }
         function validateFragmentProps(
             fragment

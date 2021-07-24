@@ -629,15 +629,14 @@
                     function (
                         value, index
                     ) {
-                        var key = iterator.call(
-                            context,
-                            value,
-                            index,
-                            obj
-                        );
                         behavior(
                             result,
-                            key,
+                            iterator.call(
+                                context,
+                                value,
+                                index,
+                                obj
+                            ),
                             value
                         );
                     }

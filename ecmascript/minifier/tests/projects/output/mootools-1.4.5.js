@@ -1317,14 +1317,14 @@ Number.implement(
             precision
         ) {
             return (
-                (precision = Math.pow(
-                    10,
-                    precision || 0
-                ).toFixed(
-                    precision < 0 ? -precision : 0,
-                )),
                 Math.round(
-                    this * precision
+                    this *
+            (precision = Math.pow(
+                10,
+                precision || 0
+            ).toFixed(
+                precision < 0 ? -precision : 0,
+            )),
                 ) / precision
             );
         },
@@ -9446,10 +9446,10 @@ Fx.Transitions.extend(
         Back: function (
             p, x
         ) {
-            return (x = (x && x[0]) || 1.618), Math.pow(
+            return Math.pow(
                 p,
                 2
-            ) * ((x + 1) * p - x);
+            ) * (((x = (x && x[0]) || 1.618) + 1) * p - x);
         },
         Bounce: function (
             p
