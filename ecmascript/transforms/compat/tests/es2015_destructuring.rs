@@ -45,6 +45,70 @@ test!(
 
 test!(
     syntax(),
+    |_| chain!(
+        spread(spread::Config {
+            ..Default::default()
+        }),
+        parameters(),
+        destructuring(Default::default()),
+        block_scoping(),
+        object_rest_spread(),
+    ),
+    issue_1948,
+    "
+    const fn2 = (arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) => {
+        console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
+    };
+
+    function fn3(arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) {
+        console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
+    };
+
+    class cls {
+        fn4(arg1, {opt1, opt2}, arg2, {opt3, opt4}, ...arg3) {
+            console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
+        }
+
+        fn5(arg1, arg2) {
+            console.log(arg1, arg2);
+        }
+    }",
+    "
+    var fn2 = function(arg1, param, arg2, param1) {
+        var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+        for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; _key \
+     < _len; _key++){
+            arg3[_key - 4] = arguments[_key];
+        }
+        console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
+    };
+    function fn3(arg1, param, arg2, param1) {
+        var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+        for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; _key \
+     < _len; _key++){
+            arg3[_key - 4] = arguments[_key];
+        }
+        console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
+    }
+    ;
+    class cls {
+        fn4(arg1, param, arg2, param1) {
+            var opt1 = param.opt1, opt2 = param.opt2, opt3 = param1.opt3, opt4 = param1.opt4;
+            for(var _len = arguments.length, arg3 = new Array(_len > 4 ? _len - 4 : 0), _key = 4; \
+     _key < _len; _key++){
+                arg3[_key - 4] = arguments[_key];
+            }
+            console.log(arg1, opt1, opt2, arg2, opt3, opt4, arg3);
+        }
+        fn5(arg1, arg2) {
+            console.log(arg1, arg2);
+        }
+    }
+    "
+);
+
+test!(
+    syntax(),
     |_| tr(),
     issue_260_01,
     "[code = 1] = []",
@@ -334,7 +398,7 @@ test!(
     let w;
     let e;
     var ref;
-    if (true)  ref = [1, 2, 3].map(()=>123), q = ref[0], w = ref[1], e = ref[2], ref;    
+    if (true)  ref = [1, 2, 3].map(()=>123), q = ref[0], w = ref[1], e = ref[2], ref;
 })();"#
 );
 
@@ -993,7 +1057,7 @@ test!(
     var [[a, b]] = [[1, 2]];
     var [a, b, ...c] = [1, 2, 3, 4];
     var [[a, b, ...c]] = [[1, 2, 3, 4]];
-    
+
     var [a, b] = [1, 2, 3];
     var [[a, b]] = [[1, 2, 3]];
     var [a, b] = [a, b];
@@ -1006,7 +1070,7 @@ test!(
     [a, b] = [1, 2];
     [a, b] = [, 2];
     ; // Avoid completion record special case
-    
+
     "#,
     r#"
     var a = 1,
@@ -1030,8 +1094,8 @@ test!(
         b = ref2[1];
     var ref3;
     ref3 = [a[1], a[0]], a[0] = ref3[0], a[1] = ref3[1], ref3;
-    
-    
+
+
     var ref4 = _slicedToArray(_toConsumableArray(foo).concat([bar]), 2), a = ref4[0], b = ref4[1];
     // TODO: var ref4 = _toConsumableArray(foo).concat([bar]), a = ref4[0], b = ref4[1];
 
