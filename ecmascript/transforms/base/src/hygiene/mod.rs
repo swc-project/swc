@@ -586,9 +586,8 @@ impl<'a> VisitMut for Hygiene<'a> {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
         n.ident.visit_mut_with(self);
-        self.ident_type = old;
-
         n.class.visit_mut_with(self);
+        self.ident_type = old;
     }
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
