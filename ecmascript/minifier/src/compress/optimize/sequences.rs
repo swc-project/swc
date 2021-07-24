@@ -758,6 +758,10 @@ impl Optimizer<'_> {
     }
 
     fn is_skippable_for_seq(&self, e: &Expr) -> bool {
+        if !e.may_have_side_effects() {
+            return true;
+        }
+
         match e {
             Expr::Ident(..) | Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
