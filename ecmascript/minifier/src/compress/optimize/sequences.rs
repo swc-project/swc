@@ -891,6 +891,7 @@ impl Optimizer<'_> {
 
             Expr::Call(CallExpr {
                 callee: ExprOrSuper::Expr(b_callee),
+                args: b_args,
                 ..
             }) => {
                 let is_this_undefined = b_callee.is_ident();
@@ -917,9 +918,21 @@ impl Optimizer<'_> {
                     return true;
                 }
 
-                if b_callee.may_have_side_effects() {
+                if !self.is_skippable_for_seq(&b_callee) {
                     return false;
                 }
+
+                for arg in b_args {
+                    if self.merge_sequential_expr(a, &mut arg.expr) {
+                        return true;
+                    }
+
+                    if !self.is_skippable_for_seq(&arg.expr) {
+                        return false;
+                    }
+                }
+
+                return false;
             }
 
             Expr::New(NewExpr {
