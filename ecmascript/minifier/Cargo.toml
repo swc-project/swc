@@ -32,6 +32,7 @@ swc_ecma_transforms = {version = "0.61.0", path = "../transforms/", features = [
 swc_ecma_transforms_base = {version = "0.24.0", path = "../transforms/base"}
 swc_ecma_utils = {version = "0.41.0", path = "../utils"}
 swc_ecma_visit = {version = "0.35.0", path = "../visit"}
+unicode-xid = "0.2.2"
 
 [dev-dependencies]
 ansi_term = "0.12.1"
