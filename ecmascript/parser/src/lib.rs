@@ -127,6 +127,8 @@ pub enum Syntax {
     /// Standard
     #[serde(rename = "ecmascript")]
     Es(EsConfig),
+    /// This variant requires the cargo feature `typescript` to be enabled.
+    #[cfg(feature = "typescript")]
     #[serde(rename = "typescript")]
     Typescript(TsConfig),
 }
@@ -229,6 +231,7 @@ impl Syntax {
         }
     }
 
+    /// Should we pare typescript?
     #[cfg(not(feature = "typescript"))]
     pub const fn typescript(self) -> bool {
         false
