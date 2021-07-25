@@ -690,10 +690,11 @@
                 2
             )
             : [];
-        return isFunction(
+        return !isFunction(
             fn
-        ) && !(fn instanceof RegExp)
-            ? curryArgs.length
+        ) || fn instanceof RegExp
+            ? fn
+            : curryArgs.length
                 ? function (
                 ) {
                     return arguments.length
@@ -721,8 +722,7 @@
                         : fn.call(
                             self
                         );
-                }
-            : fn;
+                };
     }
     function toJsonReplacer(
         key, value
@@ -1053,8 +1053,8 @@
                             function (
                                 attr
                             ) {
-                                appElement ||
-                  !names[attr.name] ||
+                                !appElement &&
+                  names[attr.name] &&
                   ((appElement = element), (module = attr.value));
                             }
                         );
@@ -3131,7 +3131,7 @@
                             ))
                         )
                             return (
-                                key in data || size++,
+                                !(key in data) && size++,
                                 (data[key] = value),
                                 size > capacity && this.remove(
                                     staleEnd.key
@@ -3289,8 +3289,8 @@
                                                       directive
                                                   ),
                                               })
-                                              : directive.compile ||
-                              !directive.link ||
+                                              : !directive.compile &&
+                              directive.link &&
                               (directive.compile = valueFn(
                                   directive.link
                               )),
@@ -3690,7 +3690,7 @@
                             var attrStartName = !1,
                                 attrEndName = !1;
                             (attr = nAttrs[j]),
-                            (msie && !(msie >= 8) && !attr.specified) ||
+                            (!msie || msie >= 8 || attr.specified) &&
                       ((ngAttrName = directiveNormalize(
                           (name = attr.name)
                       )),
@@ -4306,7 +4306,7 @@
                         if (
                             ((directiveValue = directive.scope) &&
                   ((newScopeDirective = newScopeDirective || directive),
-                  directive.templateUrl ||
+                  !directive.templateUrl &&
                     (assertNoDuplicate(
                         "new/isolated scope",
                         newIsolateScopeDirective,
@@ -4318,8 +4318,8 @@
                     ) &&
                       (newIsolateScopeDirective = directive))),
                             (directiveName = directive.name),
-                            directive.templateUrl ||
-                  !directive.controller ||
+                            !directive.templateUrl &&
+                  directive.controller &&
                   ((directiveValue = directive.controller),
                   assertNoDuplicate(
                       "'" + directiveName + "' controller",
@@ -7893,10 +7893,10 @@
                     (promiseWarning = function (
                         fullExp
                     ) {
-                        $parseOptions.logPromiseWarnings &&
-                !promiseWarningCache.hasOwnProperty(
+                        !$parseOptions.logPromiseWarnings ||
+                promiseWarningCache.hasOwnProperty(
                     fullExp
-                ) &&
+                ) ||
                 ((promiseWarningCache[fullExp] = !0),
                 $log.warn(
                     "[$parse] Promise found in the expression `" +
@@ -9573,8 +9573,8 @@
                         "animation" in bodyStyle ||
               vendorPrefix + "Animation" in bodyStyle
                     )),
-                    android &&
-              (!transitions || !animations) &&
+                    !android ||
+              (transitions && animations) ||
               ((transitions = isString(
                   document.body.style.webkitTransition
               )),
@@ -11019,9 +11019,9 @@
                     event
                 ) {
                     var key = event.keyCode;
-                    91 !== key &&
-          (!(15 < key) || !(key < 19)) &&
-          (!(37 <= key) || !(key <= 40)) &&
+                    91 === key ||
+          (15 < key && key < 19) ||
+          (37 <= key && key <= 40) ||
           deferListener(
           );
                 }

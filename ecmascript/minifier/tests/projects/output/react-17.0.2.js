@@ -1348,8 +1348,8 @@
                     } catch (ex) {
                         error$1 = ex;
                     }
-                    error$1 &&
-          !(error$1 instanceof Error) &&
+                    !error$1 ||
+          error$1 instanceof Error ||
           (setCurrentlyValidatingElement(
               element
           ),

@@ -108,10 +108,10 @@ var YUI = function (
         getLoader = function (
             Y, o
         ) {
-            var loader = Y.Env._loader,
+            var G_ENV,
+                loader = Y.Env._loader,
                 lCore = ["loader-base",],
-                G_ENV = YUI.Env,
-                mods = G_ENV.mods;
+                mods = YUI.Env.mods;
             return (
                 loader
                     ? ((loader.ignoreRegistered = !1),
@@ -460,11 +460,11 @@ var YUI = function (
           !applied[(inst = instances[i]).id] &&
           ((applied[inst.id] = !0),
           (loader = inst.Env._loader) &&
-            ((loader.moduleInfo[name] && !loader.moduleInfo[name].temp) ||
-              loader.addModule(
-                  details,
-                  name
-              )));
+            (!loader.moduleInfo[name] || loader.moduleInfo[name].temp) &&
+            loader.addModule(
+                details,
+                name
+            ));
             return this;
         },
         _attach: function (
@@ -480,6 +480,7 @@ var YUI = function (
                 j,
                 loader,
                 def,
+                go,
                 mods = YUI.Env.mods,
                 aliases = YUI.Env.aliases,
                 Y = this,
@@ -500,10 +501,11 @@ var YUI = function (
                         loader.conditions[name].hasOwnProperty(
                             j
                         ) &&
-              (def = loader.conditions[name][j]) &&
-              ((def.ua && Y.UA[def.ua]) || (def.test && def.test(
-                  Y
-              ))) &&
+              (go =
+                (def = loader.conditions[name][j]) &&
+                ((def.ua && Y.UA[def.ua]) || (def.test && def.test(
+                    Y
+                )))) &&
               c.push(
                   def.name
               );
@@ -601,25 +603,25 @@ var YUI = function (
                         loader &&
               loader.moduleInfo[name] &&
               ((mod = loader.moduleInfo[name]), (moot = !0)),
-                        moot ||
-                !name ||
-                (-1 === name.indexOf(
+                        !moot &&
+                name &&
+                -1 === name.indexOf(
                     "skin-"
                 ) &&
-                  -1 === name.indexOf(
-                      "css"
-                  ) &&
-                  (Y.Env._missed.push(
-                      name
-                  ),
-                  (Y.Env._missed = Y.Array.dedupe(
-                      Y.Env._missed
-                  )),
-                  Y.message(
-                      "NOT loaded: " + name,
-                      "warn",
-                      "yui"
-                  )));
+                -1 === name.indexOf(
+                    "css"
+                ) &&
+                (Y.Env._missed.push(
+                    name
+                ),
+                (Y.Env._missed = Y.Array.dedupe(
+                    Y.Env._missed
+                )),
+                Y.message(
+                    "NOT loaded: " + name,
+                    "warn",
+                    "yui"
+                ));
                 }
             return !0;
         },
@@ -787,6 +789,7 @@ var YUI = function (
                 boot = config.bootstrap,
                 missing = [],
                 r = [],
+                ret = !0,
                 fetchCSS = config.fetchCSS,
                 process = function (
                     names, skip
@@ -904,13 +907,13 @@ var YUI = function (
                 ) && args.push(
                     i
                 );
-                return Y._attach(
+                return (ret = Y._attach(
                     args
-                ) && handleLoader(
+                )) && handleLoader(
                 ), Y;
             }
             return (
-                ((mods.loader || mods["loader-base"]) &&
+                (mods.loader || mods["loader-base"]) &&
           !Y.Loader &&
           Y._attach(
               ["loader" + (mods.loader ? "" : "-base"),]
@@ -938,7 +941,7 @@ var YUI = function (
           (len = (missing = Y.Array.dedupe(
               missing
           )).length),
-                boot && len && Y.Loader)
+                boot && len && Y.Loader
                     ? ((Y._loading = !0),
                     ((loader = getLoader(
                         Y
@@ -979,16 +982,16 @@ var YUI = function (
                                     onEnd: handleBoot,
                                 }
                             )))
-                        : Y._attach(
+                        : (ret = Y._attach(
                             args
-                        ) && handleLoader(
+                        )) && handleLoader(
                         ),
                 Y
             );
         },
         namespace: function (
         ) {
-            for (var a = arguments, o, i = 0, j, d, arg; i < a.length; i++)
+            for (var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)
                 if (((o = this), (arg = a[i]).indexOf(
                     PERIOD
                 ) > -1))
@@ -1122,8 +1125,7 @@ YUI.add(
     function (
         Y, NAME
     ) {
-        var UNDEFINED,
-            L = Y.Lang || (Y.Lang = {
+        var L = Y.Lang || (Y.Lang = {
             }),
             STRING_PROTO = String.prototype,
             TOSTRING = Object.prototype.toString,
@@ -1190,7 +1192,8 @@ YUI.add(
                 arguments
             );
         }
-        var hasOwn = Object.prototype.hasOwnProperty,
+        var UNDEFINED,
+            hasOwn = Object.prototype.hasOwnProperty,
             isObject = Y.Lang.isObject,
             Lang = Y.Lang,
             hasOwn = Object.prototype.hasOwnProperty,
@@ -1668,8 +1671,8 @@ YUI.add(
         (Y.merge = function (
         ) {
             for (
-                var i = 0, len = arguments.length, result = {
-                    }, key, obj;
+                var key, obj, i = 0, len = arguments.length, result = {
+                };
                 i < len;
                 ++i
             )
@@ -2203,13 +2206,15 @@ YUI.add(
             if (a === b) return 0;
             for (
                 i = 0,
+                aParts = (a + "").split(
+                    "."
+                ),
+                bParts = (b + "").split(
+                    "."
+                ),
                 len = Math.max(
-                    (aParts = (a + "").split(
-                        "."
-                    )).length,
-                    (bParts = (b + "").split(
-                        "."
-                    )).length,
+                    aParts.length,
+                    bParts.length
                 );
                 i < len;
                 ++i
@@ -2574,7 +2579,6 @@ YUI.add(
                     Lang.isArray(
                         urls
                     ) || (urls = [urls,]),
-                    i = 0,
                     (options = Y.merge(
                         this.options,
                         options
@@ -2582,6 +2586,7 @@ YUI.add(
                         this.options.attributes,
                         options.attributes,
                     ),
+                    i = 0,
                     len = urls.length;
                     i < len;
                     ++i
@@ -2693,10 +2698,10 @@ YUI.add(
                 nodes
             ) {
                 for (
-                    var purgeNodes = this._purgeNodes,
-                        isTransaction = nodes !== purgeNodes,
-                        index,
-                        node;
+                    var index,
+                        node,
+                        purgeNodes = this._purgeNodes,
+                        isTransaction = nodes !== purgeNodes;
                     (node = nodes.pop(
                     ));
 
@@ -2973,9 +2978,9 @@ YUI.add(
                 node ||
               ((nodeType = isScript
                   ? "script"
-                  : env.cssLoad || !ua.gecko
-                      ? "link"
-                      : "style"),
+                  : !env.cssLoad && ua.gecko
+                      ? "style"
+                      : "link"),
               (node = req.node =
                 this._createNode(
                     nodeType,
@@ -2991,18 +2996,18 @@ YUI.add(
                         ? (node.async = !0)
                         : (env.async && (node.async = !1),
                         env.preservesScriptOrder || (this._pending = req)))
-                    : env.cssLoad || !ua.gecko
-                        ? node.setAttribute(
-                            "href",
-                            req.url
-                        )
-                        : (node.innerHTML =
+                    : !env.cssLoad && ua.gecko
+                        ? (node.innerHTML =
                     (req.attributes.charset
                         ? '@charset "' + req.attributes.charset + '";'
                         : "") +
                     '@import "' +
                     req.url +
-                    '";'),
+                    '";')
+                        : node.setAttribute(
+                            "href",
+                            req.url
+                        ),
                 isScript &&
               ua.ie &&
               (ua.ie < 9 ||
@@ -3373,15 +3378,16 @@ YUI.add(
                 "canvas" == Y.config.defaultGraphicEngine,
                         canvas = DOCUMENT && DOCUMENT.createElement(
                             "canvas"
-                        ),
-                        svg =
-                DOCUMENT &&
+                        );
+                    return (
+                        (!(
+                            DOCUMENT &&
                 DOCUMENT.implementation.hasFeature(
                     "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                     "1.1",
-                );
-                    return (
-                        (!svg || useCanvas) &&
+                )
+                        ) ||
+                useCanvas) &&
               canvas &&
               canvas.getContext &&
               canvas.getContext(
@@ -3406,15 +3412,16 @@ YUI.add(
                 "canvas" == Y.config.defaultGraphicEngine,
                         canvas = DOCUMENT && DOCUMENT.createElement(
                             "canvas"
-                        ),
-                        svg =
-                DOCUMENT &&
+                        );
+                    return (
+                        (!(
+                            DOCUMENT &&
                 DOCUMENT.implementation.hasFeature(
                     "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                     "1.1",
-                );
-                    return (
-                        (!svg || useCanvas) &&
+                )
+                        ) ||
+                useCanvas) &&
               canvas &&
               canvas.getContext &&
               canvas.getContext(
@@ -3439,14 +3446,15 @@ YUI.add(
                 "canvas" != Y.config.defaultGraphicEngine,
                         canvas = DOCUMENT && DOCUMENT.createElement(
                             "canvas"
-                        ),
-                        svg =
-                DOCUMENT &&
-                DOCUMENT.implementation.hasFeature(
-                    "http://www.w3.org/TR/SVG11/feature#BasicStructure",
-                    "1.1",
-                );
-                    return svg && (useSVG || !canvas);
+                        );
+                    return (
+                        DOCUMENT &&
+              DOCUMENT.implementation.hasFeature(
+                  "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+                  "1.1",
+              ) &&
+              (useSVG || !canvas)
+                    );
                 },
                 trigger: "graphics",
             }
@@ -3465,14 +3473,15 @@ YUI.add(
                 "canvas" != Y.config.defaultGraphicEngine,
                         canvas = DOCUMENT && DOCUMENT.createElement(
                             "canvas"
-                        ),
-                        svg =
-                DOCUMENT &&
-                DOCUMENT.implementation.hasFeature(
-                    "http://www.w3.org/TR/SVG11/feature#BasicStructure",
-                    "1.1",
-                );
-                    return svg && (useSVG || !canvas);
+                        );
+                    return (
+                        DOCUMENT &&
+              DOCUMENT.implementation.hasFeature(
+                  "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+                  "1.1",
+              ) &&
+              (useSVG || !canvas)
+                    );
                 },
                 trigger: "graphics",
             }
@@ -3811,14 +3820,13 @@ YUI.add(
                 publisher = Y.fire ? Y : YUI.Env.globalEvents;
             return (
                 c.debug &&
-            ((src = src || ""),
-            void 0 !== src &&
+            (void 0 !== (src = src || "") &&
               ((excl = c.logExclude),
-              (incl = c.logInclude) && !(src in incl)
-                  ? (bail = 1)
-                  : incl && src in incl
+              !(incl = c.logInclude) || src in incl
+                  ? incl && src in incl
                       ? (bail = !incl[src])
-                      : excl && src in excl && (bail = excl[src]),
+                      : excl && src in excl && (bail = excl[src])
+                  : (bail = 1),
               (Y.config.logLevel = Y.config.logLevel || "debug"),
               (minlevel = LEVELS[Y.config.logLevel.toLowerCase(
               )]),
@@ -3904,7 +3912,7 @@ YUI.add(
                     : fn,
                 wrapper = function (
                 ) {
-                    !cancelled &&
+                    cancelled ||
               (method.apply
                   ? method.apply(
                       o,
@@ -3954,118 +3962,118 @@ YUI.add(
     function (
         Y, NAME
     ) {
-        !(function (
+        (VERSION = Y.version),
+        (BUILD = "/build/"),
+        (COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?"),
+        (groups = (META = {
+            version: VERSION,
+            root: VERSION + "/",
+            base: Y.Env.base,
+            comboBase: COMBO_BASE,
+            skin: {
+                defaultSkin: "sam",
+                base: "assets/skins/",
+                path: "skin.css",
+                after: [
+                    "cssreset",
+                    "cssfonts",
+                    "cssgrids",
+                    "cssbase",
+                    "cssreset-context",
+                    "cssfonts-context",
+                ],
+            },
+            groups: {
+            },
+            patterns: {
+            },
+        }).groups),
+        (yui2Update = function (
+            tnt, yui2, config
         ) {
-            var VERSION = Y.version,
-                BUILD = "/build/",
-                CDN_BASE = Y.Env.base,
-                COMBO_BASE = CDN_BASE + "combo?",
-                META = {
-                    version: VERSION,
-                    root: VERSION + "/",
-                    base: Y.Env.base,
-                    comboBase: COMBO_BASE,
-                    skin: {
-                        defaultSkin: "sam",
-                        base: "assets/skins/",
-                        path: "skin.css",
-                        after: [
-                            "cssreset",
-                            "cssfonts",
-                            "cssgrids",
-                            "cssbase",
-                            "cssreset-context",
-                            "cssfonts-context",
-                        ],
-                    },
-                    groups: {
-                    },
-                    patterns: {
+            var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD,
+                base = config && config.base ? config.base : CDN_BASE,
+                combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
+            (groups.yui2.base = base + root),
+            (groups.yui2.root = root),
+            (groups.yui2.comboBase = combo);
+        }),
+        (galleryUpdate = function (
+            tag, config
+        ) {
+            var root = (tag || "gallery-2013.08.22-21-03") + BUILD,
+                base = config && config.base ? config.base : CDN_BASE,
+                combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
+            (groups.gallery.base = base + root),
+            (groups.gallery.root = root),
+            (groups.gallery.comboBase = combo);
+        }),
+        (groups[VERSION] = {
+        }),
+        (groups.gallery = {
+            ext: !1,
+            combine: !0,
+            comboBase: COMBO_BASE,
+            update: galleryUpdate,
+            patterns: {
+                "gallery-": {
+                },
+                "lang/gallery-": {
+                },
+                "gallerycss-": {
+                    type: "css",
+                },
+            },
+        }),
+        (groups.yui2 = {
+            combine: !0,
+            ext: !1,
+            comboBase: COMBO_BASE,
+            update: yui2Update,
+            patterns: {
+                "yui2-": {
+                    configFn: function (
+                        me
+                    ) {
+                        /-skin|reset|fonts|grids|base/.test(
+                            me.name
+                        ) &&
+                  ((me.type = "css"),
+                  (me.path = me.path.replace(
+                      /\.js/,
+                      ".css"
+                  )),
+                  (me.path = me.path.replace(
+                      /\/yui2-skin/,
+                      "/assets/skins/sam/yui2-skin",
+                  )));
                     },
                 },
-                groups = META.groups,
-                yui2Update = function (
-                    tnt, yui2, config
-                ) {
-                    var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD,
-                        base = config && config.base ? config.base : CDN_BASE,
-                        combo =
-                config && config.comboBase ? config.comboBase : COMBO_BASE;
-                    (groups.yui2.base = base + root),
-                    (groups.yui2.root = root),
-                    (groups.yui2.comboBase = combo);
-                },
-                galleryUpdate = function (
-                    tag, config
-                ) {
-                    var root = (tag || "gallery-2013.08.22-21-03") + BUILD,
-                        base = config && config.base ? config.base : CDN_BASE,
-                        combo =
-                config && config.comboBase ? config.comboBase : COMBO_BASE;
-                    (groups.gallery.base = base + root),
-                    (groups.gallery.root = root),
-                    (groups.gallery.comboBase = combo);
-                };
-            (groups[VERSION] = {
-            }),
-            (groups.gallery = {
-                ext: !1,
-                combine: !0,
-                comboBase: COMBO_BASE,
-                update: galleryUpdate,
-                patterns: {
-                    "gallery-": {
-                    },
-                    "lang/gallery-": {
-                    },
-                    "gallerycss-": {
-                        type: "css",
-                    },
-                },
-            }),
-            (groups.yui2 = {
-                combine: !0,
-                ext: !1,
-                comboBase: COMBO_BASE,
-                update: yui2Update,
-                patterns: {
-                    "yui2-": {
-                        configFn: function (
-                            me
-                        ) {
-                            /-skin|reset|fonts|grids|base/.test(
-                                me.name
-                            ) &&
-                    ((me.type = "css"),
-                    (me.path = me.path.replace(
-                        /\.js/,
-                        ".css"
-                    )),
-                    (me.path = me.path.replace(
-                        /\/yui2-skin/,
-                        "/assets/skins/sam/yui2-skin",
-                    )));
-                        },
-                    },
-                },
-            }),
-            galleryUpdate(
-            ),
-            yui2Update(
-            ),
-            YUI.Env[VERSION] &&
-            Y.mix(
-                META,
-                YUI.Env[VERSION],
-                !1,
-                ["modules", "groups", "skin",],
-                0,
-                !0,
-            ),
-            (YUI.Env[VERSION] = META);
-        })(
-        );
-        var modulekey,
+            },
+        }),
+        galleryUpdate(
+        ),
+        yui2Update(
+        ),
+        YUI.Env[VERSION] &&
+          Y.mix(
+              META,
+              YUI.Env[VERSION],
+              !1,
+              ["modules", "groups", "skin",],
+              0,
+              !0,
+          ),
+        (YUI.Env[VERSION] = META);
+        var VERSION,
+            BUILD,
+            CDN_BASE,
+            COMBO_BASE,
+            META,
+            groups,
+            yui2Update,
+            galleryUpdate,
+            modulekey,
             NOT_FOUND = {
             },
             NO_REQUIREMENTS = [],
@@ -4074,13 +4082,13 @@ YUI.add(
             CSS1 = "css",
             JS = "js",
             INTL = "intl",
-            VERSION = Y.version,
+            VERSION1 = Y.version,
             ROOT_LANG = "",
             YObject = Y.Object,
             oeach = YObject.each,
             yArray = Y.Array,
             _queue = GLOBAL_ENV._loaderQueue,
-            META = GLOBAL_ENV[VERSION],
+            META1 = GLOBAL_ENV[VERSION1],
             L = Y.Lang,
             ON_PAGE = GLOBAL_ENV.mods,
             _path = function (
@@ -4093,14 +4101,14 @@ YUI.add(
             };
         YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {
         }),
-        (Y.Env.meta = META),
+        (Y.Env.meta = META1),
         (Y.Loader = function (
             o
         ) {
             var self = this;
             (o = o || {
             }),
-            (modulekey = META.md5),
+            (modulekey = META1.md5),
             (self.context = Y),
             (self.base = Y.Env.meta.base + Y.Env.meta.root),
             (self.comboBase = Y.Env.meta.comboBase),
@@ -4139,7 +4147,7 @@ YUI.add(
             (self._internal = !0),
             self._populateCache(
             ),
-            (self.loaded = GLOBAL_LOADED[VERSION]),
+            (self.loaded = GLOBAL_LOADED[VERSION1]),
             (self.async = !0),
             self._inspectPage(
             ),
@@ -4171,7 +4179,7 @@ YUI.add(
             ) {
                 var i,
                     self = this,
-                    defaults = META.modules,
+                    defaults = META1.modules,
                     cache = GLOBAL_ENV._renderedMods;
                 if (cache && !self.ignoreRegistered) {
                     for (i in cache)
@@ -4210,9 +4218,8 @@ YUI.add(
                         i
                     )) {
                         if (
-                            ((details = YUI.Env.mods[
-                                (name = (mod = self.moduleInfo[i]).name)
-                            ]
+                            ((name = (mod = self.moduleInfo[i]).name),
+                            (details = YUI.Env.mods[name]
                                 ? YUI.Env.mods[name].details
                                 : null) &&
                     ((self.moduleInfo[name]._reset = !0),
@@ -4665,17 +4672,17 @@ YUI.add(
                     for (j = 0, langs = yArray(
                         o.lang
                     ); j < langs.length; j++)
-                        (smod =
-                  this.moduleInfo[
-                      (packName = this.getLangPackName(
-                          (lang = langs[j]),
-                          name
-                      ))
-                  ]) || (smod = this._addLangPack(
+                        (lang = langs[j]),
+                        (packName = this.getLangPackName(
                             lang,
-                            o,
-                            packName
-                        ));
+                            name
+                        )),
+                        (smod = this.moduleInfo[packName]) ||
+                    (smod = this._addLangPack(
+                        lang,
+                        o,
+                        packName
+                    ));
                 if (subs) {
                     for (i in ((sup = o.supersedes || []), (l = 0), subs))
                         if (subs.hasOwnProperty(
@@ -4809,8 +4816,8 @@ YUI.add(
                   ));
                 if (o.condition)
                     for (
-                        YUI.Env.aliases[(t = o.condition.trigger)] &&
-                  (t = YUI.Env.aliases[t]),
+                        t = o.condition.trigger,
+                        YUI.Env.aliases[t] && (t = YUI.Env.aliases[t]),
                         Y.Lang.isArray(
                             t
                         ) || (t = [t,]),
@@ -5099,13 +5106,13 @@ YUI.add(
                                 result, id
                             ) {
                                 var condmod = ftests[id].name;
-                                hash[condmod] ||
-                    ftests[id].trigger !== name ||
-                    (result &&
-                      ftests[id] &&
-                      ((hash[condmod] = !0), d.push(
-                          condmod
-                      )));
+                                !hash[condmod] &&
+                    ftests[id].trigger === name &&
+                    result &&
+                    ftests[id] &&
+                    ((hash[condmod] = !0), d.push(
+                        condmod
+                    ));
                             }
                         );
                     else
@@ -5289,10 +5296,9 @@ YUI.add(
             ) {
                 var packPath,
                     conf,
-                    name = m.name,
-                    existing = this.moduleInfo[packName];
+                    name = m.name;
                 return (
-                    !existing &&
+                    !this.moduleInfo[packName] &&
                 ((packPath = _path(
                     m.pkg || name,
                     packName,
@@ -5560,20 +5566,20 @@ YUI.add(
                     self.inserted.hasOwnProperty(
                         i
                     ) &&
-                ((mod = self.getModule(
+                (!(mod = self.getModule(
                     i
-                )) &&
-                rreg &&
-                mod.type === JS &&
-                !(i in YUI.Env.mods)
-                    ? failed.push(
-                        i
-                    )
-                    : Y.mix(
+                )) ||
+                !rreg ||
+                mod.type !== JS ||
+                i in YUI.Env.mods
+                    ? Y.mix(
                         self.loaded,
                         self.getProvides(
                             i
                         )
+                    )
+                    : failed.push(
+                        i
                     ));
                 (fn = self.onSuccess),
                 (msg = failed.length ? "notregistered" : "success"),
@@ -5659,19 +5665,19 @@ YUI.add(
             _sort: function (
             ) {
                 for (
-                    var s = YObject.keys(
-                            this.required
-                        ),
-                        done = {
-                        },
-                        p = 0,
-                        l,
+                    var l,
                         a,
                         b,
                         j,
                         k,
                         moved,
-                        doneKey;
+                        doneKey,
+                        s = YObject.keys(
+                            this.required
+                        ),
+                        done = {
+                        },
+                        p = 0;
                     ;
 
                 ) {
@@ -5776,9 +5782,8 @@ YUI.add(
                                         )).cssMods.length)
                                     ) {
                                         for (i = 0; i < resMods.cssMods.length; i++)
-                                            delete YUI.Env._cssLoaded[
-                                                (modName = resMods.cssMods[i].name)
-                                            ],
+                                            (modName = resMods.cssMods[i].name),
+                                            delete YUI.Env._cssLoaded[modName],
                                             self.isCSSLoaded(
                                                 modName
                                             ) &&
@@ -5910,9 +5915,9 @@ YUI.add(
             },
             _continue: function (
             ) {
-                _queue.running ||
-              !(_queue.size(
-              ) > 0) ||
+                !_queue.running &&
+              _queue.size(
+              ) > 0 &&
               ((_queue.running = !0), _queue.next(
               )(
               ));
@@ -6063,10 +6068,10 @@ YUI.add(
                         else;
                     },
                     len = s.length,
-                    i = 0,
                     url = comboBase = self.comboBase,
                     comboSources = {
-                    };
+                    },
+                    i = 0;
                     i < len;
                     i++
                 ) {
@@ -7428,15 +7433,16 @@ YUI.add(
                     "canvas" == Y.config.defaultGraphicEngine,
                                 canvas = DOCUMENT && DOCUMENT.createElement(
                                     "canvas"
-                                ),
-                                svg =
-                    DOCUMENT &&
+                                );
+                            return (
+                                (!(
+                                    DOCUMENT &&
                     DOCUMENT.implementation.hasFeature(
                         "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                         "1.1",
-                    );
-                            return (
-                                (!svg || useCanvas) &&
+                    )
+                                ) ||
+                    useCanvas) &&
                   canvas &&
                   canvas.getContext &&
                   canvas.getContext(
@@ -7460,15 +7466,16 @@ YUI.add(
                     "canvas" == Y.config.defaultGraphicEngine,
                                 canvas = DOCUMENT && DOCUMENT.createElement(
                                     "canvas"
-                                ),
-                                svg =
-                    DOCUMENT &&
+                                );
+                            return (
+                                (!(
+                                    DOCUMENT &&
                     DOCUMENT.implementation.hasFeature(
                         "http://www.w3.org/TR/SVG11/feature#BasicStructure",
                         "1.1",
-                    );
-                            return (
-                                (!svg || useCanvas) &&
+                    )
+                                ) ||
+                    useCanvas) &&
                   canvas &&
                   canvas.getContext &&
                   canvas.getContext(
@@ -7494,14 +7501,15 @@ YUI.add(
                     "canvas" != Y.config.defaultGraphicEngine,
                                 canvas = DOCUMENT && DOCUMENT.createElement(
                                     "canvas"
-                                ),
-                                svg =
-                    DOCUMENT &&
-                    DOCUMENT.implementation.hasFeature(
-                        "http://www.w3.org/TR/SVG11/feature#BasicStructure",
-                        "1.1",
-                    );
-                            return svg && (useSVG || !canvas);
+                                );
+                            return (
+                                DOCUMENT &&
+                  DOCUMENT.implementation.hasFeature(
+                      "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+                      "1.1",
+                  ) &&
+                  (useSVG || !canvas)
+                            );
                         },
                         trigger: "graphics",
                     },
@@ -7519,14 +7527,15 @@ YUI.add(
                     "canvas" != Y.config.defaultGraphicEngine,
                                 canvas = DOCUMENT && DOCUMENT.createElement(
                                     "canvas"
-                                ),
-                                svg =
-                    DOCUMENT &&
-                    DOCUMENT.implementation.hasFeature(
-                        "http://www.w3.org/TR/SVG11/feature#BasicStructure",
-                        "1.1",
-                    );
-                            return svg && (useSVG || !canvas);
+                                );
+                            return (
+                                DOCUMENT &&
+                  DOCUMENT.implementation.hasFeature(
+                      "http://www.w3.org/TR/SVG11/feature#BasicStructure",
+                      "1.1",
+                  ) &&
+                  (useSVG || !canvas)
+                            );
                         },
                         trigger: "graphics",
                     },

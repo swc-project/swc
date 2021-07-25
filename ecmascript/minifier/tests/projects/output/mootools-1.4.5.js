@@ -1889,9 +1889,9 @@ Hash.implement(
             key, value
         ) {
             return (
-                (this[key] && !this.hasOwnProperty(
+                (!this[key] || this.hasOwnProperty(
                     key
-                )) || (this[key] = value), this
+                )) && (this[key] = value), this
             );
         },
         empty: function (
@@ -3776,10 +3776,10 @@ function (
                 }
                 if (this.starSelectsClosedQSA)
                     for (i = 0; (node = nodes[i++]); )
-                        node.nodeName > "@" &&
-                !(hasOthers && uniques[this.getUID(
+                        !(node.nodeName > "@") ||
+                (hasOthers && uniques[this.getUID(
                     node
-                )]) &&
+                )]) ||
                 found.push(
                     node
                 );
@@ -4048,15 +4048,15 @@ function (
         var uid = this.getUID(
             node
         );
-        this.uniques[uid] ||
-          !this.matchSelector(
+        !this.uniques[uid] &&
+          this.matchSelector(
               node,
               tag,
               id,
               classes,
               attributes,
               pseudos
-          ) ||
+          ) &&
           ((this.uniques[uid] = !0), this.found.push(
               node
           ));
@@ -4867,7 +4867,7 @@ var Element1 = function (
         var attributes = parsed.attributes;
         if (attributes)
             for (var attr, i = 0, l = attributes.length; i < l; i++)
-                null == props[(attr = attributes[i]).key] &&
+                null != props[(attr = attributes[i]).key] ||
           (null != attr.value && "=" == attr.operator
               ? (props[attr.key] = attr.value)
               : attr.value || attr.operator || (props[attr.key] = !0));
@@ -7812,7 +7812,7 @@ Elements.alias(
                         ? function (
                             event, target
                         ) {
-                            target || !event || !event.target || (target = event.target),
+                            !target && event && event.target && (target = event.target),
                             target && _map.listen(
                                 self,
                                 match,
@@ -7825,7 +7825,7 @@ Elements.alias(
                         : function (
                             event, target
                         ) {
-                            target || !event || !event.target || (target = event.target),
+                            !target && event && event.target && (target = event.target),
                             target && bubbleUp(
                                 self,
                                 match,
@@ -8667,8 +8667,8 @@ Element1.alias(
           (list.erase(
               this
           ),
-          list.length ||
-            !timers[fps] ||
+          !list.length &&
+            timers[fps] &&
             (delete instances[fps],
             (timers[fps] = clearInterval(
                 timers[fps]

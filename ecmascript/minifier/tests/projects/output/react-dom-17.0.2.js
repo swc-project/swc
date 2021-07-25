@@ -281,10 +281,10 @@
         function sanitizeURL(
             url
         ) {
-            didWarn ||
-      !isJavaScriptProtocol.test(
+            !didWarn &&
+      isJavaScriptProtocol.test(
           url
-      ) ||
+      ) &&
       ((didWarn = !0),
       error(
           "A future version of React will block javascript: URLs as a security precaution. Use event handlers instead if you can. If you need to generate unsafe HTML try using dangerouslySetInnerHTML instead. React was passed %s.",
@@ -1281,9 +1281,9 @@
           "A component is changing an uncontrolled input to be controlled. This is likely caused by the value changing from undefined to a defined value, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components",
       ),
       (didWarnUncontrolledToControlled = !0)),
-            node._wrapperState.controlled &&
-        !controlled &&
-        !didWarnControlledToUncontrolled &&
+            !node._wrapperState.controlled ||
+        controlled ||
+        didWarnControlledToUncontrolled ||
         (error(
             "A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controlled-components",
         ),
@@ -1528,8 +1528,8 @@
                             getDeclarationErrorAddendum(
                             ),
                         )
-                        : props.multiple ||
-            !isArray ||
+                        : !props.multiple &&
+            isArray &&
             error(
                 "The `%s` prop supplied to <select> must be a scalar value if `multiple` is false.%s",
                 propName,
@@ -2420,9 +2420,9 @@
                         );
                 }
                 if (
-                    (props.suppressContentEditableWarning ||
-          !props.contentEditable ||
-          null == props.children ||
+                    (!props.suppressContentEditableWarning &&
+          props.contentEditable &&
+          null != props.children &&
           error(
               "A component is `contentEditable` and contains `children` managed by React. It is now your responsibility to guarantee that none of those nodes are unexpectedly modified or duplicated. This is probably not intentional.",
           ),
@@ -4121,7 +4121,7 @@
         function scheduleCallbackIfUnblocked(
             queuedEvent, unblocked
         ) {
-            queuedEvent.blockedOn === unblocked &&
+            queuedEvent.blockedOn !== unblocked ||
       ((queuedEvent.blockedOn = null),
       hasScheduledReplayAttempt ||
         ((hasScheduledReplayAttempt = !0),
@@ -7089,12 +7089,12 @@
             "selectionchange" === domEventName &&
       9 !== rootContainerElement.nodeType &&
       (target = rootContainerElement.ownerDocument),
-            null === targetElement ||
-        isCapturePhaseListener ||
-        !nonDelegatedEvents.has(
+            null !== targetElement &&
+        !isCapturePhaseListener &&
+        nonDelegatedEvents.has(
             domEventName
-        ) ||
-        "scroll" !== domEventName ||
+        ) &&
+        "scroll" === domEventName &&
         ((eventSystemFlags |= 2), (target = targetElement));
             var listenerSet = getEventListenerSet(
                     target
@@ -7664,21 +7664,21 @@
                 type
             );
             return (
-                namespaceURI === HTML_NAMESPACE$1 &&
-        (isCustomComponentTag ||
-          "[object HTMLUnknownElement]" !==
-            Object.prototype.toString.call(
-                domElement
-            ) ||
-          Object.prototype.hasOwnProperty.call(
-              warnedUnknownTags,
-              type
+                namespaceURI !== HTML_NAMESPACE$1 ||
+        isCustomComponentTag ||
+        "[object HTMLUnknownElement]" !==
+          Object.prototype.toString.call(
+              domElement
           ) ||
-          ((warnedUnknownTags[type] = !0),
-          error(
-              "The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.",
-              type,
-          ))),
+        Object.prototype.hasOwnProperty.call(
+            warnedUnknownTags,
+            type
+        ) ||
+        ((warnedUnknownTags[type] = !0),
+        error(
+            "The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.",
+            type,
+        )),
                 domElement
             );
         }
@@ -7960,11 +7960,11 @@
               }),
               (styleUpdates[styleName] = ""));
                     } else
-                        propKey === DANGEROUSLY_SET_INNER_HTML ||
-            propKey === CHILDREN ||
-            propKey === SUPPRESS_CONTENT_EDITABLE_WARNING ||
-            propKey === SUPPRESS_HYDRATION_WARNING ||
-            propKey === AUTOFOCUS ||
+                        propKey !== DANGEROUSLY_SET_INNER_HTML &&
+            propKey !== CHILDREN &&
+            propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING &&
+            propKey !== SUPPRESS_HYDRATION_WARNING &&
+            propKey !== AUTOFOCUS &&
             (registrationNameDependencies.hasOwnProperty(
                 propKey
             )
@@ -7988,12 +7988,12 @@
                             nextProp
                         ), lastProp)) {
                             for (styleName in lastProp)
-                                lastProp.hasOwnProperty(
+                                !lastProp.hasOwnProperty(
                                     styleName
-                                ) &&
-                (!nextProp || !nextProp.hasOwnProperty(
+                                ) ||
+                (nextProp && nextProp.hasOwnProperty(
                     styleName
-                )) &&
+                )) ||
                 (styleUpdates || (styleUpdates = {
                 }),
                 (styleUpdates[styleName] = ""));
@@ -8029,8 +8029,8 @@
                   propKey,
                   "" + nextProp
               )
-                            : propKey === SUPPRESS_CONTENT_EDITABLE_WARNING ||
-              propKey === SUPPRESS_HYDRATION_WARNING ||
+                            : propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING &&
+              propKey !== SUPPRESS_HYDRATION_WARNING &&
               (registrationNameDependencies.hasOwnProperty(
                   propKey
               )
@@ -9647,8 +9647,8 @@
                     } catch (ex) {
                         error$1 = ex;
                     }
-                    error$1 &&
-          !(error$1 instanceof Error) &&
+                    !error$1 ||
+          error$1 instanceof Error ||
           (setCurrentlyValidatingElement(
               element
           ),
@@ -11131,9 +11131,9 @@
               "%s(...): No `render` method found on the returned component instance: you may have forgotten to define `render`.",
               name,
           )),
-            instance.getInitialState &&
-        !instance.getInitialState.isReactClassApproved &&
-        !instance.state &&
+            !instance.getInitialState ||
+        instance.getInitialState.isReactClassApproved ||
+        instance.state ||
         error(
             "getInitialState was defined on %s, a plain JavaScript class. This is only supported for classes created using React.createClass. Did you mean to define a state property instead?",
             name,
@@ -16918,12 +16918,12 @@
         ) {
             var context = workInProgress.type;
             void 0 === context._context
-                ? context !== context.Consumer &&
-        (hasWarnedAboutUsingContextAsConsumer ||
-          ((hasWarnedAboutUsingContextAsConsumer = !0),
-          error(
-              "Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?",
-          )))
+                ? context === context.Consumer ||
+        hasWarnedAboutUsingContextAsConsumer ||
+        ((hasWarnedAboutUsingContextAsConsumer = !0),
+        error(
+            "Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?",
+        ))
                 : (context = context._context);
             var newProps = workInProgress.pendingProps,
                 render = newProps.children;
@@ -18116,17 +18116,17 @@
                                 componentStack: null !== stack ? stack : "",
                             }
                         ),
-                        "function" != typeof getDerivedStateFromError &&
-                (includesSomeLane(
+                        "function" == typeof getDerivedStateFromError ||
+                includesSomeLane(
                     fiber.lanes,
                     SyncLane
                 ) ||
-                  error(
-                      "%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.",
-                      getComponentName(
-                          fiber.type
-                      ) || "Unknown",
-                  ));
+                error(
+                    "%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.",
+                    getComponentName(
+                        fiber.type
+                    ) || "Unknown",
+                );
                     })
                     : (update.callback = function (
                     ) {
@@ -20531,15 +20531,15 @@
                     remainingLanes
                 ),
                 null !== rootsWithPendingDiscreteUpdates &&
-        (hasDiscreteLanes(
+        !hasDiscreteLanes(
             remainingLanes
-        ) ||
-          !rootsWithPendingDiscreteUpdates.has(
-              root
-          ) ||
-          rootsWithPendingDiscreteUpdates.delete(
-              root
-          )),
+        ) &&
+        rootsWithPendingDiscreteUpdates.has(
+            root
+        ) &&
+        rootsWithPendingDiscreteUpdates.delete(
+            root
+        ),
                 root === workInProgressRoot &&
         ((workInProgressRoot = null),
         (workInProgress = null),
@@ -20716,8 +20716,8 @@
         ) {
             for (; null !== nextEffect; ) {
                 var current = nextEffect.alternate;
-                shouldFireAfterActiveInstanceBlur ||
-        null === focusedInstanceHandle ||
+                !shouldFireAfterActiveInstanceBlur &&
+        null !== focusedInstanceHandle &&
         ((nextEffect.flags & Deletion) !== NoFlags
             ? doesFiberContain(
                 nextEffect,
@@ -20745,17 +20745,17 @@
         ),
         resetCurrentFiber(
         )),
-                (512 & flags) !== NoFlags &&
-          (rootDoesHavePassiveEffects ||
-            ((rootDoesHavePassiveEffects = !0),
-            scheduleCallback(
-                NormalPriority$1,
-                function (
-                ) {
-                    return flushPassiveEffects(
-                    ), null;
-                }
-            ))),
+                (512 & flags) === NoFlags ||
+          rootDoesHavePassiveEffects ||
+          ((rootDoesHavePassiveEffects = !0),
+          scheduleCallback(
+              NormalPriority$1,
+              function (
+              ) {
+                  return flushPassiveEffects(
+                  ), null;
+              }
+          )),
                 (nextEffect = nextEffect.nextEffect);
             }
         }
@@ -21549,9 +21549,9 @@
                         function (
                             interaction
                         ) {
-                            pendingInteractions.has(
+                            !pendingInteractions.has(
                                 interaction
-                            ) || interaction.__count++,
+                            ) && interaction.__count++,
                             pendingInteractions.add(
                                 interaction
                             );
@@ -23199,11 +23199,11 @@
       );
             if (!shouldHydrate)
                 for (var rootSibling, warned = !1; (rootSibling = container.lastChild); )
-                    warned ||
-          1 !== rootSibling.nodeType ||
-          !rootSibling.hasAttribute(
+                    !warned &&
+          1 === rootSibling.nodeType &&
+          rootSibling.hasAttribute(
               ROOT_ATTRIBUTE_NAME
-          ) ||
+          ) &&
           ((warned = !0),
           error(
               "render(): Target node has markup rendered by React, but there are unrelated nodes as well. This is most commonly caused by white-space inserted around server-rendered markup.",
@@ -23212,9 +23212,9 @@
                         rootSibling
                     );
             return (
-                shouldHydrate &&
-        !forceHydrate &&
-        !warnedAboutHydrateAPI &&
+                !shouldHydrate ||
+        forceHydrate ||
+        warnedAboutHydrateAPI ||
         ((warnedAboutHydrateAPI = !0),
         warn(
             "render(): Calling ReactDOM.render() to hydrate server-rendered markup will stop working in React v18. Replace the ReactDOM.render() call with ReactDOM.hydrate() if you want React to attach to the server HTML.",
@@ -23869,7 +23869,7 @@
               name,
               value
           ),
-                "number" == typeof value &&
+                "number" != typeof value ||
           (isNaN(
               value
           )
@@ -24241,7 +24241,7 @@
             _ReactInternals$Sched.unstable_continueExecution,
             _ReactInternals$Sched.unstable_pauseExecution,
             _ReactInternals$Sched.unstable_forceFrameRate,
-            canUseDOM &&
+            !canUseDOM ||
       ((style = document.createElement(
           "div"
       ).style),
@@ -24824,9 +24824,9 @@
                 fiber,
                 instance,
             ) {
-                didWarnAboutUnsafeLifecycles.has(
+                !didWarnAboutUnsafeLifecycles.has(
                     fiber.type
-                ) ||
+                ) &&
         ("function" == typeof instance.componentWillMount &&
           !0 !== instance.componentWillMount.__suppressDeprecationWarning &&
           pendingComponentWillMountWarnings.push(

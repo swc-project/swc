@@ -2346,9 +2346,9 @@
                             timeout_id
                         ), (timeout_id = undefined);
                     }),
-                    window.attachEvent &&
-              !window.addEventListener &&
-              !supports_onhashchange &&
+                    !window.attachEvent ||
+              window.addEventListener ||
+              supports_onhashchange ||
               ((self.start = function (
               ) {
                   iframe ||
@@ -2941,7 +2941,7 @@
           },
           setup: function (
           ) {
-              self.bound ||
+              !self.bound &&
             ((self.bound = !0),
             self.isPushStateEnabled(
             )
@@ -4208,22 +4208,22 @@
                         event.target,
                         touchTargetPropertyName
                     );
-                blockMouseTriggers ||
-          (lastTouchID && lastTouchID === touchID) ||
-          ((ve = triggerVirtualEvent(
+                !blockMouseTriggers &&
+          (!lastTouchID || lastTouchID !== touchID) &&
+          (ve = triggerVirtualEvent(
               "v" + event.type,
               event
           )) &&
-            (ve.isDefaultPrevented(
-            ) && event.preventDefault(
-            ),
-            ve.isPropagationStopped(
-            ) && event.stopPropagation(
-            ),
-            ve.isImmediatePropagationStopped(
-            ) &&
-              event.stopImmediatePropagation(
-              )));
+          (ve.isDefaultPrevented(
+          ) && event.preventDefault(
+          ),
+          ve.isPropagationStopped(
+          ) && event.stopPropagation(
+          ),
+          ve.isImmediatePropagationStopped(
+          ) &&
+            event.stopImmediatePropagation(
+            ));
             }
             function handleTouchStart(
                 event
@@ -4912,14 +4912,14 @@
                       ((stop = $17.event.special.swipe.stop(
                           event
                       )),
-                      emitted ||
-                        ((emitted = $17.event.special.swipe.handleSwipe(
+                      !emitted &&
+                        (emitted = $17.event.special.swipe.handleSwipe(
                             start,
                             stop,
                             thisObject,
                             origTarget,
                         )) &&
-                          ($17.event.special.swipe.eventInProgress = !1)),
+                        ($17.event.special.swipe.eventInProgress = !1),
                       Math.abs(
                           start.coords[0] - stop.coords[0]
                       ) >
@@ -5415,12 +5415,12 @@
                         callback
                     ) {
                         var page = this.element;
-                        page.data(
+                        !page.data(
                             "mobile-page"
-                        ).options.domCache ||
-              !page.is(
+                        ).options.domCache &&
+              page.is(
                   ":jqmData(external-page='true')"
-              ) ||
+              ) &&
               page.bind(
                   "pagehide.remove",
                   callback ||
@@ -6732,18 +6732,18 @@
                 (isDialog
                     ? $17.mobile.defaultDialogTransition
                     : $17.mobile.defaultPageTransition)),
-                            historyDir ||
-                !alreadyThere ||
+                            !historyDir &&
+                alreadyThere &&
                 ($17.mobile.navigate.history.getActive(
                 ).pageUrl = pageUrl),
                             url &&
                 !settings.fromHashChange &&
-                ($17.mobile.path.isPath(
+                (!$17.mobile.path.isPath(
                     url
-                ) ||
-                  !(0 > url.indexOf(
+                ) &&
+                  0 > url.indexOf(
                       "#"
-                  )) ||
+                  ) &&
                   (url = "#" + url),
                 (params = {
                     transition: settings.transition,
@@ -7037,19 +7037,19 @@
                         event
                     ) {
                         var formData;
-                        event.isDefaultPrevented(
-                        ) ||
-              ((formData = getAjaxFormData(
+                        !event.isDefaultPrevented(
+                        ) &&
+              (formData = getAjaxFormData(
                   $17(
                       this
                   )
               )) &&
-                ($17.mobile.changePage(
-                    formData.url,
-                    formData.options
-                ),
-                event.preventDefault(
-                )));
+              ($17.mobile.changePage(
+                  formData.url,
+                  formData.options
+              ),
+              event.preventDefault(
+              ));
                     }
                 ),
                 $17.mobile.document.bind(
@@ -8388,9 +8388,11 @@
             undefined !== opts.collapsedIcon
                 ? !1 !== opts.collapsedIcon
                 : !1 !== currentOpts.collapsedIcon),
-                    (undefined === opts.iconpos &&
+                    !(
+                        undefined === opts.iconpos &&
             undefined === opts.collapsedIcon &&
-            undefined === opts.expandedIcon) ||
+            undefined === opts.expandedIcon
+                    ) &&
             (anchor.removeClass(
                 [iconposClass(
                     currentOpts.iconpos
@@ -11165,9 +11167,9 @@
                                     (pxStep =
                       (width = this.slider.width(
                       )) / ((max - min) / step)),
-                                    this.dragging &&
-                      !(data.pageX < left - 8) &&
-                      !(data.pageX > left + width + 8) &&
+                                    !this.dragging ||
+                      data.pageX < left - 8 ||
+                      data.pageX > left + width + 8 ||
                       (percent =
                         pxStep > 1
                             ? ((data.pageX - left) / width) * 100
@@ -11294,7 +11296,7 @@
                                     ))
                                 )
                                     return !1;
-                                isfromControl || !valueChanged || control.trigger(
+                                !isfromControl && valueChanged && control.trigger(
                                     "change"
                                 );
                             }
@@ -13693,9 +13695,9 @@
                     },
                     _handleWindowOrientationchange: function (
                     ) {
-                        this._orientationchangeInProgress ||
-            !this._isOpen ||
-            0 !== this._ignoreResizeTo ||
+                        !this._orientationchangeInProgress &&
+            this._isOpen &&
+            0 === this._ignoreResizeTo &&
             (this._expectResizeEvent(
             ),
             (this._orientationchangeInProgress = !0));
@@ -13830,11 +13832,11 @@
                   "ui-corner-all",
                   newOptions.corners
               ),
-                            undefined !== newOptions.transition &&
-              (this._currentTransition ||
-                this._applyTransition(
-                    newOptions.transition
-                )),
+                            undefined === newOptions.transition ||
+              this._currentTransition ||
+              this._applyTransition(
+                  newOptions.transition
+              ),
                             undefined !== newOptions.tolerance &&
               this._setTolerance(
                   newOptions.tolerance
@@ -14674,32 +14676,32 @@
                     ) {
                         this.options.disabled ||
             this.isOpen ||
-            ("vclick" !== event.type &&
-              (!event.keyCode ||
-                (event.keyCode !== $17.mobile.keyCode.ENTER &&
-                  event.keyCode !== $17.mobile.keyCode.SPACE))) ||
-            (this._decideFormat(
-            ),
-            "overlay" === this.menuType
-                ? this.button
-                    .attr(
-                        "href",
-                        "#" + this.popupId
-                    )
-                    .attr(
-                        "data-" + ($17.mobile.ns || "") + "rel",
-                        "popup"
-                    )
-                : this.button
-                    .attr(
-                        "href",
-                        "#" + this.dialogId
-                    )
-                    .attr(
-                        "data-" + ($17.mobile.ns || "") + "rel",
-                        "dialog"
-                    ),
-            (this.isOpen = !0));
+            (("vclick" === event.type ||
+              (event.keyCode &&
+                (event.keyCode === $17.mobile.keyCode.ENTER ||
+                  event.keyCode === $17.mobile.keyCode.SPACE))) &&
+              (this._decideFormat(
+              ),
+              "overlay" === this.menuType
+                  ? this.button
+                      .attr(
+                          "href",
+                          "#" + this.popupId
+                      )
+                      .attr(
+                          "data-" + ($17.mobile.ns || "") + "rel",
+                          "popup"
+                      )
+                  : this.button
+                      .attr(
+                          "href",
+                          "#" + this.dialogId
+                      )
+                      .attr(
+                          "data-" + ($17.mobile.ns || "") + "rel",
+                          "dialog"
+                      ),
+              (this.isOpen = !0)));
                     },
                     _handleListFocus: function (
                         e
@@ -16851,7 +16853,7 @@
                 ) + Math.abs(
                     desired.y - tip.y
                 )),
-              (best && !(diff < best.diff)) ||
+              (!best || diff < best.diff) &&
                 ((tip[p.snd] -=
                   s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd]),
                 (best = {
@@ -18811,8 +18813,8 @@
                     widget
                 ) {
                     return (
-                        this._widget ||
-            !widget ||
+                        !this._widget &&
+            widget &&
             ((this._widget = widget),
             (this._widget._setOptions = replaceSetOptions(
                 this,
@@ -18847,43 +18849,43 @@
                         textinputOpts = {
                         };
                     selector ||
-          this._isSearchInternal(
-          ) ||
-          ((updatePlaceholder = !1),
-          (selector = $16(
-              "<input data-" +
-              $16.mobile.ns +
-              "type='search' placeholder='" +
-              opts.filterPlaceholder +
-              "'></input>",
-          ).jqmData(
-              "ui-filterable-" + this.uuid + "-internal",
-              !0
-          )),
-          $16(
-              "<form class='ui-filterable'></form>"
-          )
-              .append(
-                  selector
-              )
-              .submit(
-                  function (
-                      evt
-                  ) {
-                      evt.preventDefault(
-                      ), selector.blur(
-                      );
-                  }
-              )
-              .insertBefore(
-                  this.element
-              ),
-          $16.mobile.textinput &&
-            (null != this.options.filterTheme &&
-              (textinputOpts.theme = opts.filterTheme),
-            selector.textinput(
-                textinputOpts
-            ))),
+          (!this._isSearchInternal(
+          ) &&
+            ((updatePlaceholder = !1),
+            (selector = $16(
+                "<input data-" +
+                $16.mobile.ns +
+                "type='search' placeholder='" +
+                opts.filterPlaceholder +
+                "'></input>",
+            ).jqmData(
+                "ui-filterable-" + this.uuid + "-internal",
+                !0
+            )),
+            $16(
+                "<form class='ui-filterable'></form>"
+            )
+                .append(
+                    selector
+                )
+                .submit(
+                    function (
+                        evt
+                    ) {
+                        evt.preventDefault(
+                        ), selector.blur(
+                        );
+                    }
+                )
+                .insertBefore(
+                    this.element
+                ),
+            $16.mobile.textinput &&
+              (null != this.options.filterTheme &&
+                (textinputOpts.theme = opts.filterTheme),
+              selector.textinput(
+                  textinputOpts
+              )))),
                     this._super(
                         selector
                     ),
@@ -19111,9 +19113,9 @@
                   )
               )) &&
               (active = !collapsible && 0),
-                            collapsible ||
-              !1 !== active ||
-              !this.anchors.length ||
+                            !collapsible &&
+              !1 === active &&
+              this.anchors.length &&
               (active = 0),
                             active
                         );
@@ -19222,14 +19224,14 @@
                     _panelKeydown: function (
                         event
                     ) {
-                        this._handlePageNav(
+                        !this._handlePageNav(
                             event
-                        ) ||
-            (event.ctrlKey &&
-              event.keyCode === $17.ui.keyCode.UP &&
-              (event.preventDefault(
-              ), this.active.focus(
-              )));
+                        ) &&
+            event.ctrlKey &&
+            event.keyCode === $17.ui.keyCode.UP &&
+            (event.preventDefault(
+            ), this.active.focus(
+            ));
                     },
                     _handlePageNav: function (
                         event
@@ -19309,7 +19311,7 @@
                             key,
                             value
                         ),
-                        "collapsible" === key &&
+                        "collapsible" !== key ||
               (this.element.toggleClass(
                   "ui-tabs-collapsible",
                   value
@@ -20172,9 +20174,9 @@
                                 tab: tab,
                                 panel: panel,
                             };
-                        isLocal(
+                        !isLocal(
                             anchor[0]
-                        ) ||
+                        ) &&
             ((this.xhr = $17.ajax(
                 this._ajaxSettings(
                     anchor,

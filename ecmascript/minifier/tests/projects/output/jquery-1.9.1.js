@@ -3511,7 +3511,7 @@
                 },
                 hooks,
             )),
-                startLength || !hooks || hooks.empty.fire(
+                !startLength && hooks && hooks.empty.fire(
                 );
             },
             _queueHooks: function (
@@ -4655,14 +4655,14 @@
                     )),
                     (handlers = events[type]) ||
                 (((handlers = events[type] = []).delegateCount = 0),
-                (special.setup &&
-                  !1 !==
+                (!special.setup ||
+                  !1 ===
                     special.setup.call(
                         null,
                         data,
                         namespaces,
                         eventHandle
-                    )) ||
+                    )) &&
                   (null.addEventListener
                       ? null.addEventListener(
                           type,
@@ -5007,10 +5007,10 @@
               );
 
                     )
-                        (event.namespace_re &&
-                !event.namespace_re.test(
+                        (!event.namespace_re ||
+                event.namespace_re.test(
                     handleObj.namespace
-                )) ||
+                )) &&
                 ((event.handleObj = handleObj),
                 (event.data = handleObj.data),
                 undefined !==
@@ -5195,8 +5195,8 @@
                 original.clientY +
                 ((doc && doc.scrollTop) || (body && body.scrollTop) || 0) -
                 ((doc && doc.clientTop) || (body && body.clientTop) || 0))),
-                    event.relatedTarget ||
-              !fromElement ||
+                    !event.relatedTarget &&
+              fromElement &&
               (event.relatedTarget =
                 fromElement === event.target
                     ? original.toElement
@@ -5530,9 +5530,9 @@
                   function (
                       event
                   ) {
-                      this.parentNode &&
-                  !event.isSimulated &&
-                  !event.isTrigger &&
+                      !this.parentNode ||
+                  event.isSimulated ||
+                  event.isTrigger ||
                   jQuery.event.simulate(
                       "change",
                       this.parentNode,
@@ -6246,9 +6246,9 @@
                 soFar;
 
             ) {
-                for (type in ((matched && !(match = rcomma.exec(
+                for (type in ((!matched || (match = rcomma.exec(
                     soFar
-                ))) ||
+                ))) &&
             (match && (soFar = soFar.slice(
                 match[0].length
             ) || soFar),
@@ -6404,16 +6404,16 @@
                 i++
             )
                 (elem = unmatched[i]) &&
-            ((filter && !filter(
+            (!filter || filter(
                 elem,
                 context,
                 xml
-            )) ||
-              (newUnmatched.push(
-                  elem
-              ), mapped && map.push(
-                  i
-              )));
+            )) &&
+            (newUnmatched.push(
+                elem
+            ), mapped && map.push(
+                i
+            ));
             return newUnmatched;
         }
         function setMatcher(
@@ -8876,10 +8876,10 @@
                 selector, keepData
             ) {
                 for (var elem, i = 0; null != (elem = this[i]); i++)
-                    (selector && !(jQuery.filter(
+                    (!selector || jQuery.filter(
                         selector,
                         [elem,]
-                    ).length > 0)) ||
+                    ).length > 0) &&
             (keepData || 1 !== elem.nodeType || jQuery.cleanData(
                 getAll(
                     elem
@@ -9396,10 +9396,10 @@
                             )
                                 tmp = tmp.lastChild;
                             if (
-                                (jQuery.support.leadingWhitespace ||
-                  !rleadingWhitespace.test(
+                                (!jQuery.support.leadingWhitespace &&
+                  rleadingWhitespace.test(
                       elem
-                  ) ||
+                  ) &&
                   nodes.push(
                       context.createTextNode(
                           rleadingWhitespace.exec(
@@ -10012,8 +10012,8 @@
                     );
             },
         }),
-            jQuery.support.pixelPosition ||
-          !jQuery.fn.position ||
+            !jQuery.support.pixelPosition &&
+          jQuery.fn.position &&
           jQuery.each(
               ["top", "left",],
               function (
@@ -10670,7 +10670,7 @@
                 callbackContext,
                 [jqXHR, statusText,]
             ),
-            fireGlobals &&
+            !fireGlobals ||
               (globalEventContext.trigger(
                   "ajaxComplete",
                   [jqXHR, s,]
