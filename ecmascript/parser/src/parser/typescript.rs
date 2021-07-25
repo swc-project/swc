@@ -2161,6 +2161,10 @@ impl<I: Tokens> Parser<I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<Option<Decl>> {
+        if !self.syntax().typescript() {
+            return Ok(None);
+        }
+
         assert!(
             !is!(self, "declare"),
             "try_parse_ts_declare should be called after eating `declare`"
