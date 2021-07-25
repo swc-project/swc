@@ -755,10 +755,10 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
             Expr::Cond(CondExpr { cons, alt, .. })
                 if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
             {
-                // We don't check for !(a ? b : c) because of parenthesiss.
-
                 cost(&cons, in_bool_ctx, bin_op, true)? + cost(&alt, in_bool_ctx, bin_op, true)?
             }
+
+            Expr::Cond(..) | Expr::Update(..) => 3,
 
             Expr::Seq(e) => {
                 if let Some(last) = e.exprs.last() {
