@@ -131,53 +131,6 @@ impl Optimizer<'_> {
         }
     }
 
-    /// This method may modify the return value.
-    pub(super) fn optimize_bang_in_nested_logical_ops(&mut self, e: &mut BinExpr) {
-        // match e.op {
-        //     op!("&&") | op!("||") => {}
-        //     _ => return,
-        // }
-
-        // match &mut *e.left {
-        //     Expr::Bin(BinExpr {
-        //         op: op @ op!("||") | op @ op!("&&"),
-        //         ..
-        //     }) => {
-        //         // (!a && !b) && a = b()
-        //         //
-        //         // =>
-        //         //
-        //         // a || b || a = b()
-        //         let op = *op;
-        //         if op == e.op {
-        //             if self.optimize_bang_within_logical_ops(&mut *e.left,
-        // true) {                 e.op = if op == op!("&&") {
-        //                     op!("||")
-        //                 } else {
-        //                     op!("&&")
-        //                 };
-        //             }
-        //         } else {
-        //             // (!options || !0 === options) && (options = {})
-        //             //
-        //             // =>
-        //             //
-        //             // (options || !0 !== options) || (options = {})
-
-        //             if self.optimize_bang_within_logical_ops(&mut *e.left,
-        // true) {                 e.op = if e.op == op!("||") {
-        //                     op!("&&")
-        //                 } else {
-        //                     op!("||")
-        //                 };
-        //             }
-        //         }
-        //     }
-
-        //     _ => {}
-        // }
-    }
-
     /// **This negates bool**.
     ///
     /// Returns true if it's negated.
@@ -246,52 +199,6 @@ impl Optimizer<'_> {
         }
 
         true
-    }
-
-    fn is_negation_efficient(&self, l: &Expr, r: &Expr, is_return_value_ignored: bool) -> bool {
-        fn is(e: &Expr) -> bool {
-            match e {
-                Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
-
-                Expr::Bin(BinExpr {
-                    op: op!("!==") | op!("===") | op!("!=") | op!("=="),
-                    ..
-                }) => true,
-
-                Expr::Bin(BinExpr {
-                    op: op!("||") | op!("&&"),
-                    left,
-                    right,
-                    ..
-                }) => is(&left) || is(&right),
-
-                _ => false,
-            }
-        }
-
-        match (l, r) {
-            (Expr::Bin(..), Expr::Bin(..)) => false,
-
-            _ => {
-                let can_negate_unary = is_return_value_ignored || self.ctx.in_bool_ctx;
-                let l_cost = negate_cost(&l, can_negate_unary, is_return_value_ignored)
-                    .unwrap_or(isize::MAX);
-                let r_cost = negate_cost(&r, can_negate_unary, is_return_value_ignored)
-                    .unwrap_or(isize::MAX);
-
-                if l_cost > 0 || (l_cost + r_cost > 0) {
-                    return false;
-                }
-
-                is(l)
-                    && ((is_return_value_ignored
-                        && match l {
-                            Expr::Unary(UnaryExpr { op: op!("!"), .. }) => true,
-                            _ => false,
-                        })
-                        || is(r))
-            }
-        }
     }
 
     pub(super) fn compress_useless_deletes(&mut self, e: &mut Expr) {

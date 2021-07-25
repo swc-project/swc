@@ -663,13 +663,6 @@ impl Optimizer<'_> {
     fn ignore_return_value(&mut self, e: &mut Expr) -> Option<Expr> {
         self.optimize_bang_within_logical_ops(e, true);
 
-        match e {
-            Expr::Bin(e) => {
-                self.optimize_bang_in_nested_logical_ops(e);
-            }
-            _ => {}
-        }
-
         self.compress_cond_to_logical_ignoring_return_value(e);
 
         match e {
