@@ -1,5 +1,5 @@
 [workspace]
-members = ["ecmascript", "ecmascript/jsdoc", "node/binding", "wasm"]
+members = ["ecmascript", "ecmascript/jsdoc", "node/binding", "wasm", "wasm-parser"]
 
 [package]
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
