@@ -756,7 +756,7 @@ function basename(path, ext = "") {
                 }
                 if (extIdx >= 0) {
                     if (code === ext.charCodeAt(extIdx)) {
-                        if ((--extIdx) === -1) {
+                        if (--extIdx === -1) {
                             end = i;
                         }
                     } else {
@@ -1139,7 +1139,7 @@ function basename1(path, ext = "") {
                 }
                 if (extIdx >= 0) {
                     if (code === ext.charCodeAt(extIdx)) {
-                        if ((--extIdx) === -1) {
+                        if (--extIdx === -1) {
                             end = i;
                         }
                     } else {

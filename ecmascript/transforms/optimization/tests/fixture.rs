@@ -47,7 +47,7 @@ fn expr(input: PathBuf) {
             dynamic_import: true,
             ..Default::default()
         }),
-        &|_| expr_simplifier(),
+        &|_| Repeat::new(expr_simplifier()),
         &input,
         &output,
     );

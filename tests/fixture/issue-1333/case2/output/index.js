@@ -63,7 +63,7 @@ class Shard extends _utils.Emitter {
         if (this.connected) {
             let _i = 0, _w = 1;
             const func = ()=>{
-                if ((++_i) < _w) {
+                if (++_i < _w) {
                     return;
                 }
                 const encoded = _classPrivateFieldGet(this, _serialization2).encode(data);

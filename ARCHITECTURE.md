@@ -33,7 +33,7 @@ Also, it contains / re-exports codes for visitor pattern. `Visit<T>` is non-muta
 
 ### `/ecmascript/ast`
 
-Contains ast nodes for javascript and script.
+Contains ast nodes for javascript and typescript.
 
 ### `/ecmascript/codegen`
 
