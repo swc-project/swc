@@ -2060,6 +2060,7 @@ impl VisitMut for Optimizer<'_> {
         p.visit_mut_children_with(self);
 
         self.optimize_computed_prop_name_as_normal(p);
+        self.optimize_prop_name(p);
     }
 
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
