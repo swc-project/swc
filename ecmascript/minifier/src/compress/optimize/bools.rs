@@ -718,13 +718,13 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
         in_bool_ctx: bool,
         bin_op: Option<BinaryOp>,
         is_ret_val_ignored: bool,
-    ) -> Option<isize> {
-        Some(match e {
+    ) -> isize {
+        match e {
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
                 if in_bool_ctx {
-                    return Some(-1);
+                    return -1;
                 }
 
                 match &**arg {
@@ -744,18 +744,19 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                 right,
                 ..
             }) => {
-                let l_cost = cost(&left, in_bool_ctx, Some(*op), false)?;
+                let l_cost = cost(&left, in_bool_ctx, Some(*op), false);
 
                 if !is_ret_val_ignored && !is_ok_to_negate_rhs(&right) {
-                    return Some(l_cost + 3);
+                    return l_cost + 3;
                 }
-                l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)?
+                l_cost + cost(&right, in_bool_ctx, Some(*op), is_ret_val_ignored)
             }
 
             Expr::Cond(CondExpr { cons, alt, .. })
                 if is_ok_to_negate_for_cond(&cons) && is_ok_to_negate_for_cond(&alt) =>
             {
-                cost(&cons, in_bool_ctx, bin_op, true)? + cost(&alt, in_bool_ctx, bin_op, true)?
+                cost(&cons, in_bool_ctx, bin_op, is_ret_val_ignored)
+                    + cost(&alt, in_bool_ctx, bin_op, is_ret_val_ignored)
             }
 
             Expr::Cond(..) | Expr::Update(..) => 3,
@@ -779,10 +780,10 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                     1
                 }
             }
-        })
+        }
     }
 
-    let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored)?;
+    let cost = cost(e, in_bool_ctx, None, is_ret_val_ignored);
 
     if cfg!(feature = "debug") {
         log::trace!("negation cost of `{}` = {}", dump(&*e), cost);
