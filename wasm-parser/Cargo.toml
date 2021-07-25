@@ -1,9 +1,18 @@
 [package]
-name = "wasm-parser"
-version = "0.1.0"
 authors = ["강동윤 <kdy1997.dev@gmail.com>"]
 edition = "2018"
+name = "wasm-parser"
+version = "0.1.0"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[package.metadata.wasm-pack.profile.profiling]
+wasm-opt = ['-g', '-O']
+
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
+swc_atoms = {path = "../atoms"}
+swc_common = {path = "../common"}
+swc_ecma_parser = {path = "../ecmascript/parser"}
+wasm-bindgen = {version = "0.2", features = ["serde-serialize"]}
+wasm-bindgen-futures = "0.4.8"
