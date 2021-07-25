@@ -724,7 +724,8 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
                 op: op!("!"), arg, ..
             }) => {
                 if in_bool_ctx {
-                    return -1;
+                    let c = -cost(arg, true, None, is_ret_val_ignored);
+                    return c.min(-1);
                 }
 
                 match &**arg {
