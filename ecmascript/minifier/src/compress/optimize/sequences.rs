@@ -834,7 +834,7 @@ impl Optimizer<'_> {
                 return self.merge_sequential_expr(a, &mut **prop);
             }
 
-            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
+            Expr::Assign(b) => {
                 match &mut b.left {
                     PatOrExpr::Expr(b) => {
                         if self.merge_sequential_expr(a, &mut **b) {
