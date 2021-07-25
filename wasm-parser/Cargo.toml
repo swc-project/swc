@@ -4,6 +4,9 @@ edition = "2018"
 name = "wasm-parser"
 version = "0.1.0"
 
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ['-g', '-O']
+
 [lib]
 crate-type = ["cdylib"]
 
