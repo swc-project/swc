@@ -52,6 +52,7 @@ mod iife;
 mod inline;
 mod join_vars;
 mod loops;
+mod misc;
 mod numbers;
 mod ops;
 mod properties;
