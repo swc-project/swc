@@ -28,7 +28,7 @@ pub fn parse() -> Result<JsValue, JsValue> {
     );
 
     let lexer = Lexer::new(
-        Syntax::Typescript(Default::default()),
+        Syntax::Es(Default::default()),
         Default::default(),
         StringInput::from(&*fm),
         None,
