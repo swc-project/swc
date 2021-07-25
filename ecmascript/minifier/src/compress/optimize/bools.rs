@@ -133,49 +133,49 @@ impl Optimizer<'_> {
 
     /// This method may modify the return value.
     pub(super) fn optimize_bang_in_nested_logical_ops(&mut self, e: &mut BinExpr) {
-        match e.op {
-            op!("&&") | op!("||") => {}
-            _ => return,
-        }
+        // match e.op {
+        //     op!("&&") | op!("||") => {}
+        //     _ => return,
+        // }
 
-        match &mut *e.left {
-            Expr::Bin(BinExpr {
-                op: op @ op!("||") | op @ op!("&&"),
-                ..
-            }) => {
-                // (!a && !b) && a = b()
-                //
-                // =>
-                //
-                // a || b || a = b()
-                let op = *op;
-                if op == e.op {
-                    if self.optimize_bang_within_logical_ops(&mut *e.left, true) {
-                        e.op = if op == op!("&&") {
-                            op!("||")
-                        } else {
-                            op!("&&")
-                        };
-                    }
-                } else {
-                    // (!options || !0 === options) && (options = {})
-                    //
-                    // =>
-                    //
-                    // (options || !0 !== options) || (options = {})
+        // match &mut *e.left {
+        //     Expr::Bin(BinExpr {
+        //         op: op @ op!("||") | op @ op!("&&"),
+        //         ..
+        //     }) => {
+        //         // (!a && !b) && a = b()
+        //         //
+        //         // =>
+        //         //
+        //         // a || b || a = b()
+        //         let op = *op;
+        //         if op == e.op {
+        //             if self.optimize_bang_within_logical_ops(&mut *e.left,
+        // true) {                 e.op = if op == op!("&&") {
+        //                     op!("||")
+        //                 } else {
+        //                     op!("&&")
+        //                 };
+        //             }
+        //         } else {
+        //             // (!options || !0 === options) && (options = {})
+        //             //
+        //             // =>
+        //             //
+        //             // (options || !0 !== options) || (options = {})
 
-                    if self.optimize_bang_within_logical_ops(&mut *e.left, true) {
-                        e.op = if e.op == op!("||") {
-                            op!("&&")
-                        } else {
-                            op!("||")
-                        };
-                    }
-                }
-            }
+        //             if self.optimize_bang_within_logical_ops(&mut *e.left,
+        // true) {                 e.op = if e.op == op!("||") {
+        //                     op!("&&")
+        //                 } else {
+        //                     op!("||")
+        //                 };
+        //             }
+        //         }
+        //     }
 
-            _ => {}
-        }
+        //     _ => {}
+        // }
     }
 
     /// **This negates bool**.
@@ -184,8 +184,12 @@ impl Optimizer<'_> {
     pub(super) fn optimize_bang_within_logical_ops(
         &mut self,
         expr: &mut Expr,
-        is_type_of_return_ignored: bool,
+        is_ret_val_ignored: bool,
     ) -> bool {
+        if negate_cost(&expr, is_ret_val_ignored, is_ret_val_ignored).unwrap_or(isize::MAX) >= 0 {
+            return false;
+        }
+
         let e = match expr {
             Expr::Bin(b) => b,
             _ => return false,
@@ -196,50 +200,13 @@ impl Optimizer<'_> {
             _ => return false,
         }
 
-        if self.optimize_bang_within_logical_ops(&mut *e.left, is_type_of_return_ignored) {
-            e.op = if e.op == op!("&&") {
-                op!("||")
+        if !is_ret_val_ignored {
+            if let Known(Type::Bool) = e.left.get_type() {
             } else {
-                op!("&&")
-            };
-            let ctx = Ctx {
-                in_bool_ctx: self.ctx.in_bool_ctx || is_type_of_return_ignored,
-                ..self.ctx
-            };
-            self.with_ctx(ctx).negate(&mut e.right);
-            return true;
-        }
-
-        match &mut *e.left {
-            Expr::Cond(..) => {
-                if is_type_of_return_ignored {
-                    if negate_cost(&e.left, true, false).unwrap_or(isize::MAX) < 0 {
-                        log::debug!("bools: Negating cond in lhs of `{}`", e.op);
-                        let ctx = Ctx {
-                            in_bool_ctx: true,
-                            ..self.ctx
-                        };
-                        self.with_ctx(ctx).negate(&mut e.left);
-                        e.op = if e.op == op!("&&") {
-                            op!("||")
-                        } else {
-                            op!("&&")
-                        };
-                        return true;
-                    }
-                }
+                // Don't change type.
+                return false;
             }
 
-            _ => {}
-        }
-
-        if let Known(Type::Bool) = e.left.get_type() {
-        } else {
-            // Don't change type.
-            return false;
-        }
-
-        if !is_type_of_return_ignored {
             if let Known(Type::Bool) = e.right.get_type() {
             } else {
                 // Don't change type.
@@ -252,37 +219,33 @@ impl Optimizer<'_> {
         //  =>
         //
         // `_ || 'undefined' == typeof require`
-        if self.is_negation_efficient(&e.left, &e.right, is_type_of_return_ignored) {
-            log::debug!(
-                "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good \
-                 for negation)",
-                self.line_col(e.span)
-            );
-            let start = dump(&*e);
+        log::debug!(
+            "bools({}): Negating: (!a && !b) => !(a || b) (because both expression are good for \
+             negation)",
+            self.line_col(e.span)
+        );
+        let start = dump(&*e);
 
-            e.op = if e.op == op!("&&") {
-                op!("||")
-            } else {
-                op!("&&")
-            };
-
-            let ctx = Ctx {
-                in_bool_ctx: true,
-                ..self.ctx
-            };
-
-            self.changed = true;
-            self.with_ctx(ctx).negate(&mut e.left);
-            self.with_ctx(ctx).negate(&mut e.right);
-
-            if cfg!(feature = "debug") {
-                log::trace!("[Change] {} => {}", start, dump(&*e));
-            }
-
-            true
+        e.op = if e.op == op!("&&") {
+            op!("||")
         } else {
-            false
+            op!("&&")
+        };
+
+        let ctx = Ctx {
+            in_bool_ctx: true,
+            ..self.ctx
+        };
+
+        self.changed = true;
+        self.with_ctx(ctx).negate(&mut e.left);
+        self.with_ctx(ctx).negate(&mut e.right);
+
+        if cfg!(feature = "debug") {
+            log::trace!("[Change] {} => {}", start, dump(&*e));
         }
+
+        true
     }
 
     fn is_negation_efficient(&self, l: &Expr, r: &Expr, is_return_value_ignored: bool) -> bool {
