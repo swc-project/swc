@@ -834,11 +834,6 @@ impl Optimizer<'_> {
                 ..
             }) => self.is_skippable_for_seq(&arg),
 
-            Expr::Bin(BinExpr {
-                op: op!("??") | op!("||") | op!("&&"),
-                ..
-            }) => false,
-
             Expr::Bin(BinExpr { left, right, .. }) => {
                 self.is_skippable_for_seq(&left) && self.is_skippable_for_seq(&right)
             }
