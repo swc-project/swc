@@ -65,7 +65,9 @@ impl Optimizer<'_> {
                 }
 
                 self.changed = true;
-                log::debug!("if_return: Negating an if statement because the alt is return");
+                log::debug!(
+                    "if_return: Negating an if statement because the alt is return / continue"
+                );
                 self.negate(&mut stmt.test);
                 swap(alt, &mut *stmt.cons);
             }
