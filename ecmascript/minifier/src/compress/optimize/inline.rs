@@ -107,7 +107,7 @@ impl Optimizer<'_> {
                         && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
-                                Lit::Str(_) => false,
+                                Lit::Str(_) => true,
                                 Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
