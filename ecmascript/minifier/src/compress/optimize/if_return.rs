@@ -1,10 +1,7 @@
 use super::Optimizer;
-use crate::compress::optimize::bools::negate_cost;
 use crate::compress::optimize::is_pure_undefined;
-use crate::compress::optimize::Ctx;
 use crate::debug::dump;
 use crate::util::ExprOptExt;
-use std::mem::swap;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
@@ -30,43 +27,6 @@ impl Optimizer<'_> {
                 }
             }
             None => {}
-        }
-    }
-
-    /// Negates the condition of a `if` statement to reduce body size.
-    pub(super) fn negate_if_else(&mut self, stmt: &mut IfStmt) {
-        let alt = match stmt.alt.as_deref_mut() {
-            Some(v) => v,
-            _ => return,
-        };
-
-        match &*stmt.cons {
-            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => return,
-            _ => {}
-        }
-
-        if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
-            self.changed = true;
-            log::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
-            let ctx = Ctx {
-                in_bool_ctx: true,
-                ..self.ctx
-            };
-            self.with_ctx(ctx).negate(&mut stmt.test);
-            swap(alt, &mut *stmt.cons);
-            return;
-        }
-
-        match &*alt {
-            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
-                self.changed = true;
-                log::debug!(
-                    "if_return: Negating an if statement because the alt is return / continue"
-                );
-                self.negate(&mut stmt.test);
-                swap(alt, &mut *stmt.cons);
-            }
-            _ => return,
         }
     }
 

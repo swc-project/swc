@@ -1954,8 +1954,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.merge_nested_if(n);
 
-        self.negate_if_else(n);
-
         self.merge_else_if(n);
     }
 

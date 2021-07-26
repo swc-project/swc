@@ -49,26 +49,41 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn negate_if_stmt(&mut self, s: &mut IfStmt) {
-        if s.alt.is_none() {
-            return;
+    /// Negates the condition of a `if` statement to reduce body size.
+    pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
+        let alt = match stmt.alt.as_deref_mut() {
+            Some(v) => v,
+            _ => return,
+        };
+
+        match &*stmt.cons {
+            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => return,
+            _ => {}
         }
 
-        if negate_cost(&s.test, true, false).unwrap_or(isize::MAX) >= 0 {
-            return;
-        }
-
-        self.changed = true;
-        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
-
-        {
+        if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
+            self.changed = true;
+            log::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {
                 in_bool_ctx: true,
                 ..self.ctx
             };
-            self.with_ctx(ctx).negate(&mut s.test);
+            self.with_ctx(ctx).negate(&mut stmt.test);
+            swap(alt, &mut *stmt.cons);
+            return;
         }
-        swap(&mut s.cons, s.alt.as_mut().unwrap());
+
+        match &*alt {
+            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
+                self.changed = true;
+                log::debug!(
+                    "if_return: Negating an if statement because the alt is return / continue"
+                );
+                self.negate(&mut stmt.test);
+                swap(alt, &mut *stmt.cons);
+            }
+            _ => return,
+        }
     }
 
     /// This method may change return value.
