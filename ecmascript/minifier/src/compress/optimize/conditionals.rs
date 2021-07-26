@@ -867,8 +867,11 @@ fn is_simple_lhs(l: &PatOrExpr) -> bool {
 fn always_terminates(s: &Stmt) -> bool {
     match s {
         Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
+        Stmt::If(IfStmt { cons, alt, .. }) => {
+            always_terminates(&cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
+        }
+        Stmt::Block(s) => s.stmts.iter().any(always_terminates),
 
-        // TODO: If, Switch
         _ => false,
     }
 }
