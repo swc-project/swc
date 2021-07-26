@@ -644,12 +644,38 @@ impl Optimizer<'_> {
 
     ///
     /// - `(path += 'foo', path)` => `(path += 'foo')`
-    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {}
+    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+
+        if let Some(last) = e.exprs.last() {
+            let last_id = match &**last {
+                Expr::Ident(i) => i,
+                _ => return,
+            };
+
+            match &*e.exprs[e.exprs.len() - 2] {
+                Expr::Assign(assign) => {
+                    if let Some(lhs) = get_lhs_ident(&assign.left) {
+                        if lhs.sym == last_id.sym && lhs.span.ctxt == last_id.span.ctxt {
+                            e.exprs.pop();
+                            self.changed = true;
+                            log::debug!("sequences: Shifting assignment");
+                            return;
+                        }
+                    };
+                }
+                _ => {}
+            }
+        }
+    }
 
     pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
         if e.exprs.len() < 2 {
             return;
         }
+
         match &*e.exprs[e.exprs.len() - 2] {
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
