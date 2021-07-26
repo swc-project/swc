@@ -14,7 +14,7 @@ impl Optimizer<'_> {
                     && s.value.chars().all(|c: char| c.is_xid_continue())
                 {
                     self.changed = true;
-                    log::trace!("misc: Optimizing string property name");
+                    log::debug!("misc: Optimizing string property name");
                     *name = PropName::Ident(Ident {
                         span: s.span,
                         sym: s.value.clone(),
@@ -30,7 +30,7 @@ impl Optimizer<'_> {
     pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
         if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
             self.changed = true;
-            log::trace!("misc: Removing useless return");
+            log::debug!("misc: Removing useless return");
             stmts.pop();
         }
     }
