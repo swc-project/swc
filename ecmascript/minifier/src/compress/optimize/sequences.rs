@@ -708,6 +708,8 @@ impl Optimizer<'_> {
         e.exprs.retain(|e| !e.is_invalid());
     }
 
+    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {}
+
     /// Calls `merge_sequential_expr`.
     ///
     ///

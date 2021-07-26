@@ -2077,6 +2077,8 @@ impl VisitMut for Optimizer<'_> {
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        self.shift_void(n);
+
         {
             let exprs = n
                 .exprs
