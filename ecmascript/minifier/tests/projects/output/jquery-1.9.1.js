@@ -5377,13 +5377,12 @@
                     event
                 ) {
                     var ret,
-                        target = this,
                         related = event.relatedTarget,
                         handleObj = event.handleObj;
                     return (
                         (related &&
-                (related === target || jQuery.contains(
-                    target,
+                (related === this || jQuery.contains(
+                    this,
                     related
                 ))) ||
                 ((event.type = handleObj.origType),

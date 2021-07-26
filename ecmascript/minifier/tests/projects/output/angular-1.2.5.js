@@ -8545,12 +8545,11 @@
                         $watch: function (
                             watchExp, listener, objectEquality
                         ) {
-                            var scope = this,
-                                get = compileToFn(
+                            var get = compileToFn(
                                     watchExp,
                                     "watch"
                                 ),
-                                array = scope.$$watchers,
+                                array = this.$$watchers,
                                 watcher = {
                                     fn: listener,
                                     last: initWatchVal,
@@ -8591,7 +8590,7 @@
                                 };
                             }
                             return (
-                                array || (array = scope.$$watchers = []),
+                                array || (array = this.$$watchers = []),
                                 array.unshift(
                                     watcher
                                 ),
@@ -8701,13 +8700,12 @@
                                 asyncQueue = this.$$asyncQueue,
                                 postDigestQueue = this.$$postDigestQueue,
                                 ttl = TTL,
-                                target = this,
                                 watchLog = [];
                             beginPhase(
                                 "$digest"
                             ), (lastDirtyWatch = null);
                             do {
-                                for (dirty = !1, current = target; asyncQueue.length; ) {
+                                for (dirty = !1, current = this; asyncQueue.length; ) {
                                     try {
                                         (asyncTask = asyncQueue.shift(
                                         )).scope.$eval(
@@ -8793,11 +8791,11 @@
                                     if (
                                         !(next =
                         current.$$childHead ||
-                        (current !== target && current.$$nextSibling))
+                        (current !== this && current.$$nextSibling))
                                     )
                                         for (
                                             ;
-                                            current !== target && !(next = current.$$nextSibling);
+                                            current !== this && !(next = current.$$nextSibling);
 
                                         )
                                             current = current.$parent;

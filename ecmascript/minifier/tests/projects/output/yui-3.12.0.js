@@ -379,22 +379,23 @@ var YUI = function (
         _setup: function (
         ) {
             var i,
-                Y = this,
                 core = [],
                 mods = YUI.Env.mods,
-                extras = Y.config.core || [].concat(
+                extras = this.config.core || [].concat(
                     YUI.Env.core
                 );
             for (i = 0; i < extras.length; i++)
                 mods[extras[i]] && core.push(
                     extras[i]
                 );
-            Y._attach(
+            this._attach(
                 ["yui-base",]
-            ), Y._attach(
+            ),
+            this._attach(
                 core
-            ), Y.Loader && getLoader(
-                Y
+            ),
+            this.Loader && getLoader(
+                this
             );
         },
         applyTo: function (
@@ -483,10 +484,9 @@ var YUI = function (
                 go,
                 mods = YUI.Env.mods,
                 aliases = YUI.Env.aliases,
-                Y = this,
                 cache = YUI.Env._renderedMods,
-                loader = Y.Env._loader,
-                done = Y.Env._attached,
+                loader = this.Env._loader,
+                done = this.Env._attached,
                 len = r.length,
                 c = [];
             for (i = 0; i < len; i++)
@@ -503,29 +503,30 @@ var YUI = function (
                         ) &&
               (go =
                 (def = loader.conditions[name][j]) &&
-                ((def.ua && Y.UA[def.ua]) || (def.test && def.test(
-                    Y
-                )))) &&
+                ((def.ua && this.UA[def.ua]) ||
+                  (def.test && def.test(
+                      this
+                  )))) &&
               c.push(
                   def.name
               );
             for (i = 0, len = (r = c).length; i < len; i++)
                 if (!done[r[i]]) {
                     if (((mod = mods[(name = r[i])]), aliases && aliases[name] && !mod)) {
-                        Y._attach(
+                        this._attach(
                             aliases[name]
                         );
                         continue;
                     }
                     if (mod) {
-                        for (j = 0, done[name] = !0; j < Y.Env._missed.length; j++)
-                            Y.Env._missed[j] === name &&
-                (Y.message(
+                        for (j = 0, done[name] = !0; j < this.Env._missed.length; j++)
+                            this.Env._missed[j] === name &&
+                (this.message(
                     "Found: " + name + " (was reported as missing earlier)",
                     "warn",
                     "yui",
                 ),
-                Y.Env._missed.splice(
+                this.Env._missed.splice(
                     j,
                     1
                 ));
@@ -541,7 +542,7 @@ var YUI = function (
                   req.push(
                       j
                   );
-                            Y._attach(
+                            this._attach(
                                 req
                             );
                         }
@@ -556,7 +557,7 @@ var YUI = function (
                         ) {
                             for (j = 0; j < req.length; j++)
                                 if (!done[req[j]]) {
-                                    if (!Y._attach(
+                                    if (!this._attach(
                                         req
                                     )) return !1;
                                     break;
@@ -565,7 +566,7 @@ var YUI = function (
                         if (after) {
                             for (j = 0; j < after.length; j++)
                                 if (!done[after[j]]) {
-                                    if (!Y._attach(
+                                    if (!this._attach(
                                         after,
                                         !0
                                     )) return !1;
@@ -573,18 +574,18 @@ var YUI = function (
                                 }
                         }
                         if (mod.fn)
-                            if (Y.config.throwFail) mod.fn(
-                                Y,
+                            if (this.config.throwFail) mod.fn(
+                                this,
                                 name
                             );
                             else
                                 try {
                                     mod.fn(
-                                        Y,
+                                        this,
                                         name
                                     );
                                 } catch (e) {
-                                    return Y.error(
+                                    return this.error(
                                         "Attach error: " + name,
                                         e,
                                         name
@@ -593,7 +594,7 @@ var YUI = function (
                         if (use) {
                             for (j = 0; j < use.length; j++)
                                 if (!done[use[j]]) {
-                                    if (!Y._attach(
+                                    if (!this._attach(
                                         use
                                     )) return !1;
                                     break;
@@ -611,13 +612,13 @@ var YUI = function (
                 -1 === name.indexOf(
                     "css"
                 ) &&
-                (Y.Env._missed.push(
+                (this.Env._missed.push(
                     name
                 ),
-                (Y.Env._missed = Y.Array.dedupe(
-                    Y.Env._missed
+                (this.Env._missed = this.Array.dedupe(
+                    this.Env._missed
                 )),
-                Y.message(
+                this.message(
                     "NOT loaded: " + name,
                     "warn",
                     "yui"
@@ -672,26 +673,25 @@ var YUI = function (
                     0
                 ),
                 callback = args[args.length - 1],
-                Y = this,
                 i = 0,
-                Env = Y.Env,
+                Env = this.Env,
                 provisioned = !0;
             if (
-                (Y.Lang.isFunction(
+                (this.Lang.isFunction(
                     callback
                 )
                     ? (args.pop(
                     ),
-                    Y.config.delayUntil &&
-              (callback = Y._delayCallback(
+                    this.config.delayUntil &&
+              (callback = this._delayCallback(
                   callback,
-                  Y.config.delayUntil
+                  this.config.delayUntil,
               )))
                     : (callback = null),
-                Y.Lang.isArray(
+                this.Lang.isArray(
                     args[0]
                 ) && (args = args[0]),
-                Y.config.cacheUse)
+                this.config.cacheUse)
             ) {
                 for (; (name = args[i++]); )
                     if (!Env._attached[name]) {
@@ -700,21 +700,21 @@ var YUI = function (
                     }
                 if (provisioned) {
                     if (args.length);
-                    return Y._notify(
+                    return this._notify(
                         callback,
                         ALREADY_DONE,
                         args
-                    ), Y;
+                    ), this;
                 }
             }
             return (
-                Y._loading
-                    ? ((Y._useQueue = Y._useQueue || new Y.Queue(
+                this._loading
+                    ? ((this._useQueue = this._useQueue || new this.Queue(
                     )),
-                    Y._useQueue.add(
+                    this._useQueue.add(
                         [args, callback,]
                     ))
-                    : Y._use(
+                    : this._use(
                         args,
                         function (
                             Y, response
@@ -726,7 +726,7 @@ var YUI = function (
                             );
                         }
                     ),
-                Y
+                this
             );
         },
         _notify: function (
@@ -1020,15 +1020,16 @@ var YUI = function (
         error: function (
             msg, e, src
         ) {
-            var ret,
-                Y = this;
+            var ret;
             if (
-                (Y.config.errorFn && (ret = Y.config.errorFn.apply(
-                    Y,
-                    arguments
-                )), ret)
+                (this.config.errorFn &&
+          (ret = this.config.errorFn.apply(
+              this,
+              arguments
+          )),
+                ret)
             )
-                Y.message(
+                this.message(
                     msg,
                     "error",
                     "" + src
@@ -1036,7 +1037,7 @@ var YUI = function (
             else throw e || new Error(
                 msg
             );
-            return Y;
+            return this;
         },
         guid: function (
             pre
@@ -1068,12 +1069,11 @@ var YUI = function (
         },
         destroy: function (
         ) {
-            var Y = this;
-            Y.Event && Y.Event._unload(
+            this.Event && this.Event._unload(
             ),
-            delete instances[Y.id],
-            delete Y.Env,
-            delete Y.config;
+            delete instances[this.id],
+            delete this.Env,
+            delete this.config;
         },
     }),
     (YUI.prototype = proto),
@@ -2726,18 +2726,17 @@ YUI.add(
           function (
               requests, options
           ) {
-              var self = this;
-              (self.id = Transaction._lastId += 1),
-              (self.data = options.data),
-              (self.errors = []),
-              (self.nodes = []),
-              (self.options = options),
-              (self.requests = requests),
-              (self._callbacks = []),
-              (self._queue = []),
-              (self._reqsWaiting = 0),
-              (self.tId = self.id),
-              (self.win = options.win || Y.config.win);
+              (this.id = Transaction._lastId += 1),
+              (this.data = options.data),
+              (this.errors = []),
+              (this.nodes = []),
+              (this.options = options),
+              (this.requests = requests),
+              (this._callbacks = []),
+              (this._queue = []),
+              (this._reqsWaiting = 0),
+              (this.tId = this.id),
+              (this.win = options.win || Y.config.win);
           }),
         (Transaction._lastId = 0),
         (Transaction.prototype = {
@@ -4105,127 +4104,120 @@ YUI.add(
         (Y.Loader = function (
             o
         ) {
-            var self = this;
             (o = o || {
             }),
             (modulekey = META1.md5),
-            (self.context = Y),
-            (self.base = Y.Env.meta.base + Y.Env.meta.root),
-            (self.comboBase = Y.Env.meta.comboBase),
-            (self.combine =
+            (this.context = Y),
+            (this.base = Y.Env.meta.base + Y.Env.meta.root),
+            (this.comboBase = Y.Env.meta.comboBase),
+            (this.combine =
               o.base && o.base.indexOf(
-                  self.comboBase.substr(
+                  this.comboBase.substr(
                       0,
                       20
                   )
               ) > -1),
-            (self.comboSep = "&"),
-            (self.maxURLLength = 1024),
-            (self.ignoreRegistered = o.ignoreRegistered),
-            (self.root = Y.Env.meta.root),
-            (self.timeout = 0),
-            (self.forceMap = {
+            (this.comboSep = "&"),
+            (this.maxURLLength = 1024),
+            (this.ignoreRegistered = o.ignoreRegistered),
+            (this.root = Y.Env.meta.root),
+            (this.timeout = 0),
+            (this.forceMap = {
             }),
-            (self.allowRollup = !1),
-            (self.filters = {
+            (this.allowRollup = !1),
+            (this.filters = {
             }),
-            (self.required = {
+            (this.required = {
             }),
-            (self.patterns = {
+            (this.patterns = {
             }),
-            (self.moduleInfo = {
+            (this.moduleInfo = {
             }),
-            (self.groups = Y.merge(
+            (this.groups = Y.merge(
                 Y.Env.meta.groups
             )),
-            (self.skin = Y.merge(
+            (this.skin = Y.merge(
                 Y.Env.meta.skin
             )),
-            (self.conditions = {
+            (this.conditions = {
             }),
-            (self.config = o),
-            (self._internal = !0),
-            self._populateCache(
+            (this.config = o),
+            (this._internal = !0),
+            this._populateCache(
             ),
-            (self.loaded = GLOBAL_LOADED[VERSION1]),
-            (self.async = !0),
-            self._inspectPage(
+            (this.loaded = GLOBAL_LOADED[VERSION1]),
+            (this.async = !0),
+            this._inspectPage(
             ),
-            (self._internal = !1),
-            self._config(
+            (this._internal = !1),
+            this._config(
                 o
             ),
-            (self.forceMap = self.force
+            (this.forceMap = this.force
                 ? Y.Array.hash(
-                    self.force
+                    this.force
                 )
                 : {
                 }),
-            (self.testresults = null),
-            Y.config.tests && (self.testresults = Y.config.tests),
-            (self.sorted = []),
-            (self.dirty = !0),
-            (self.inserted = {
+            (this.testresults = null),
+            Y.config.tests && (this.testresults = Y.config.tests),
+            (this.sorted = []),
+            (this.dirty = !0),
+            (this.inserted = {
             }),
-            (self.skipped = {
+            (this.skipped = {
             }),
-            (self.tested = {
+            (this.tested = {
             }),
-            self.ignoreRegistered && self._resetModules(
+            this.ignoreRegistered && this._resetModules(
             );
         }),
         (Y.Loader.prototype = {
             _populateCache: function (
             ) {
                 var i,
-                    self = this,
                     defaults = META1.modules,
                     cache = GLOBAL_ENV._renderedMods;
-                if (cache && !self.ignoreRegistered) {
+                if (cache && !this.ignoreRegistered) {
                     for (i in cache)
                         cache.hasOwnProperty(
                             i
                         ) &&
-                  (self.moduleInfo[i] = Y.merge(
+                  (this.moduleInfo[i] = Y.merge(
                       cache[i]
                   ));
                     for (i in (cache = GLOBAL_ENV._conditions))
                         cache.hasOwnProperty(
                             i
                         ) &&
-                  (self.conditions[i] = Y.merge(
+                  (this.conditions[i] = Y.merge(
                       cache[i]
                   ));
                 } else
                     for (i in defaults)
                         defaults.hasOwnProperty(
                             i
-                        ) && self.addModule(
+                        ) && this.addModule(
                             defaults[i],
                             i
                         );
             },
             _resetModules: function (
             ) {
-                var i,
-                    o,
-                    mod,
-                    name,
-                    details,
-                    self = this;
-                for (i in self.moduleInfo)
-                    if (self.moduleInfo.hasOwnProperty(
+                var i, o, mod, name, details;
+                for (i in this.moduleInfo)
+                    if (this.moduleInfo.hasOwnProperty(
                         i
                     )) {
                         if (
-                            ((name = (mod = self.moduleInfo[i]).name),
+                            ((name = (mod = this.moduleInfo[i]).name),
                             (details = YUI.Env.mods[name]
                                 ? YUI.Env.mods[name].details
                                 : null) &&
-                    ((self.moduleInfo[name]._reset = !0),
-                    (self.moduleInfo[name].requires = details.requires || []),
-                    (self.moduleInfo[name].optional = details.optional || []),
-                    (self.moduleInfo[name].supersedes =
+                    ((this.moduleInfo[name]._reset = !0),
+                    (this.moduleInfo[name].requires = details.requires || []),
+                    (this.moduleInfo[name].optional = details.optional || []),
+                    (this.moduleInfo[name].supersedes =
                       details.supercedes || [])),
                             mod.defaults)
                         )
@@ -4238,8 +4230,8 @@ YUI.add(
                         delete mod.langCache,
                         delete mod.skinCache,
                         mod.skinnable &&
-                    self._addSkin(
-                        self.skin.defaultSkin,
+                    this._addSkin(
+                        this.skin.defaultSkin,
                         mod.name
                     );
                     }
@@ -4261,28 +4253,23 @@ YUI.add(
             },
             _inspectPage: function (
             ) {
-                var v,
-                    m,
-                    req,
-                    mr,
-                    i,
-                    self = this;
-                for (i in self.moduleInfo)
-                    self.moduleInfo.hasOwnProperty(
+                var v, m, req, mr, i;
+                for (i in this.moduleInfo)
+                    this.moduleInfo.hasOwnProperty(
                         i
                     ) &&
-                (v = self.moduleInfo[i]).type &&
+                (v = this.moduleInfo[i]).type &&
                 v.type === CSS1 &&
-                self.isCSSLoaded(
+                this.isCSSLoaded(
                     v.name
                 ) &&
-                (self.loaded[i] = !0);
+                (this.loaded[i] = !0);
                 for (i in ON_PAGE)
                     ON_PAGE.hasOwnProperty(
                         i
                     ) &&
                 (v = ON_PAGE[i]).details &&
-                ((m = self.moduleInfo[v.name]),
+                ((m = this.moduleInfo[v.name]),
                 (req = v.details.requires),
                 (mr = m && m.requires),
                 m
@@ -4290,7 +4277,7 @@ YUI.add(
                     req &&
                     mr.length !== req.length &&
                     delete m.expanded
-                    : (m = self.addModule(
+                    : (m = this.addModule(
                         v.details,
                         i
                     )),
@@ -4527,12 +4514,11 @@ YUI.add(
             ) {
                 var i,
                     v,
-                    mods = o.modules,
-                    self = this;
+                    mods = o.modules;
                 if (
                     ((name = name || o.name),
                     (o.name = name),
-                    (self.groups[name] = o),
+                    (this.groups[name] = o),
                     o.patterns)
                 )
                     for (i in o.patterns)
@@ -4540,7 +4526,7 @@ YUI.add(
                             i
                         ) &&
                   ((o.patterns[i].group = name),
-                  (self.patterns[i] = o.patterns[i]));
+                  (this.patterns[i] = o.patterns[i]));
                 if (mods)
                     for (i in mods)
                         mods.hasOwnProperty(
@@ -4552,7 +4538,7 @@ YUI.add(
                         fullpath: v,
                     }),
                   (v.group = name),
-                  self.addModule(
+                  this.addModule(
                       v,
                       i
                   ));
@@ -4899,23 +4885,22 @@ YUI.add(
                     v,
                     len,
                     len2,
-                    self = this,
-                    r = self.required;
-                if (!self.allowRollup) {
+                    r = this.required;
+                if (!this.allowRollup) {
                     for (i in r)
                         if (r.hasOwnProperty(
                             i
-                        ) && (m = self.getModule(
+                        ) && (m = this.getModule(
                             i
                         )) && m.use)
                             for (a = 0, len = m.use.length; a < len; a++)
-                                if ((m2 = self.getModule(
+                                if ((m2 = this.getModule(
                                     m.use[a]
                                 )) && m2.use)
                                     for (v = 0, len2 = m2.use.length; v < len2; v++)
                                         r[m2.use[v]] = !0;
                                 else r[m.use[a]] = !0;
-                    self.required = r;
+                    this.required = r;
                 }
             },
             filterRequires: function (
@@ -5398,25 +5383,24 @@ YUI.add(
                     expound,
                     r = this.required,
                     done = {
-                    },
-                    self = this;
-                for (name in ((self.dirty = !1),
-                self._explodeRollups(
+                    };
+                for (name in ((this.dirty = !1),
+                this._explodeRollups(
                 ),
-                (r = self.required)))
+                (r = this.required)))
                     r.hasOwnProperty(
                         name
                     ) &&
                 !done[name] &&
                 ((done[name] = !0),
-                (m = self.getModule(
+                (m = this.getModule(
                     name
                 )) &&
                   ((expound = m.expound) &&
-                    ((r[expound] = self.getModule(
+                    ((r[expound] = this.getModule(
                         expound
                     )),
-                    (reqs = self.getRequires(
+                    (reqs = this.getRequires(
                         r[expound]
                     )),
                     Y.mix(
@@ -5425,7 +5409,7 @@ YUI.add(
                             reqs
                         )
                     )),
-                  (reqs = self.getRequires(
+                  (reqs = this.getRequires(
                       m
                   )),
                   Y.mix(
@@ -5551,51 +5535,50 @@ YUI.add(
                     msg,
                     i,
                     mod,
-                    self = this,
                     skipped = Y.merge(
-                        self.skipped
+                        this.skipped
                     ),
                     failed = [],
-                    rreg = self.requireRegistration;
+                    rreg = this.requireRegistration;
                 for (i in skipped)
                     skipped.hasOwnProperty(
                         i
-                    ) && delete self.inserted[i];
-                for (i in ((self.skipped = {
-                }), self.inserted))
-                    self.inserted.hasOwnProperty(
+                    ) && delete this.inserted[i];
+                for (i in ((this.skipped = {
+                }), this.inserted))
+                    this.inserted.hasOwnProperty(
                         i
                     ) &&
-                (!(mod = self.getModule(
+                (!(mod = this.getModule(
                     i
                 )) ||
                 !rreg ||
                 mod.type !== JS ||
                 i in YUI.Env.mods
                     ? Y.mix(
-                        self.loaded,
-                        self.getProvides(
+                        this.loaded,
+                        this.getProvides(
                             i
                         )
                     )
                     : failed.push(
                         i
                     ));
-                (fn = self.onSuccess),
+                (fn = this.onSuccess),
                 (msg = failed.length ? "notregistered" : "success"),
                 (success = !failed.length),
                 fn &&
                 fn.call(
-                    self.context,
+                    this.context,
                     {
                         msg: msg,
-                        data: self.data,
+                        data: this.data,
                         success: success,
                         failed: failed,
                         skipped: skipped,
                     }
                 ),
-                self._finish(
+                this._finish(
                     msg,
                     success
                 );
@@ -5603,16 +5586,15 @@ YUI.add(
             _onProgress: function (
                 e
             ) {
-                var i,
-                    self = this;
+                var i;
                 if (e.data && e.data.length)
                     for (i = 0; i < e.data.length; i++)
-                        e.data[i] = self.getModule(
+                        e.data[i] = this.getModule(
                             e.data[i].name
                         );
-                self.onProgress &&
-              self.onProgress.call(
-                  self.context,
+                this.onProgress &&
+              this.onProgress.call(
+                  this.context,
                   {
                       name: e.url,
                       data: e.data,

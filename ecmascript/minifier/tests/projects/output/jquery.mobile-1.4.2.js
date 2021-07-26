@@ -9090,18 +9090,19 @@
                         },
                         _create: function (
                         ) {
-                            var t = this,
-                                listviewClasses = "";
-                            (listviewClasses += t.options.inset ? " ui-listview-inset" : ""),
-                            t.options.inset &&
-                  ((listviewClasses += t.options.corners
+                            var listviewClasses = "";
+                            (listviewClasses += this.options.inset
+                                ? " ui-listview-inset"
+                                : ""),
+                            this.options.inset &&
+                  ((listviewClasses += this.options.corners
                       ? " ui-corner-all"
                       : ""),
-                  (listviewClasses += t.options.shadow ? " ui-shadow" : "")),
-                            t.element.addClass(
+                  (listviewClasses += this.options.shadow ? " ui-shadow" : "")),
+                            this.element.addClass(
                                 " ui-listview" + listviewClasses
                             ),
-                            t.refresh(
+                            this.refresh(
                                 !0
                             );
                         },
@@ -10532,7 +10533,6 @@
                                 side,
                                 activeClass,
                                 sliderImg,
-                                self = this,
                                 control = this.element,
                                 trackTheme =
                   this.options.trackTheme ||
@@ -10750,7 +10750,7 @@
                                     ).prependTo(
                                         slider
                                     );
-                                self._labels = $17(
+                                this._labels = $17(
                                     ".ui-slider-label",
                                     slider
                                 );
@@ -11080,7 +11080,6 @@
                                 aPercent,
                                 bPercent,
                                 valueChanged,
-                                self = this,
                                 parentTheme = $17.mobile.getAttribute(
                                     this.element[0],
                                     "theme"
@@ -11090,7 +11089,7 @@
                                 cornerClass = this.options.corners ? " ui-corner-all" : "",
                                 miniClass = this.options.mini ? " ui-mini" : "";
                             if (
-                                ((self.slider[0].className = [
+                                ((this.slider[0].className = [
                                     this.isToggleSwitch
                                         ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset"
                                         : "ui-slider-track ui-shadow-inset",
@@ -11120,7 +11119,7 @@
                     $17(
                         bg
                     ).prependTo(
-                        self.slider
+                        this.slider
                     ))),
                                 (this.handle.addClass(
                                     "ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow",
@@ -13185,8 +13184,7 @@
                         },
                         setButtonText: function (
                         ) {
-                            var self = this,
-                                selected = this.selected(
+                            var selected = this.selected(
                                 ),
                                 text = this.placeholder,
                                 span = $17(
@@ -13224,7 +13222,7 @@
                                             .join(
                                                 ", "
                                             )
-                                        : self.placeholder)
+                                        : this.placeholder)
                                         ? span.text(
                                             text
                                         )
@@ -13233,7 +13231,7 @@
                                         ),
                                     span
                                         .addClass(
-                                            self.select.attr(
+                                            this.select.attr(
                                                 "class"
                                             )
                                         )
@@ -13322,22 +13320,21 @@
                 .each(
                     function (
                     ) {
-                        var element = this,
-                            idref = element.getAttribute(
-                                "href"
-                            ).substring(
-                                1
-                            );
+                        var idref = this.getAttribute(
+                            "href"
+                        ).substring(
+                            1
+                        );
                         idref &&
-            (element.setAttribute(
+            (this.setAttribute(
                 "aria-haspopup",
                 !0
             ),
-            element.setAttribute(
+            this.setAttribute(
                 "aria-owns",
                 idref
             ),
-            element.setAttribute(
+            this.setAttribute(
                 "aria-expanded",
                 !1
             ));
@@ -15122,22 +15119,21 @@
                     },
                     close: function (
                     ) {
-                        if (!this.options.disabled && this.isOpen) {
-                            var self = this;
-                            "page" === self.menuType
-                                ? (self.menuPage.dialog(
-                                    "close"
-                                ),
-                                self.list.appendTo(
-                                    self.listbox
-                                ))
-                                : self.listbox.popup(
-                                    "close"
-                                ),
-                            self._focusButton(
-                            ),
-                            (self.isOpen = !1);
-                        }
+                        !this.options.disabled &&
+            this.isOpen &&
+            ("page" === this.menuType
+                ? (this.menuPage.dialog(
+                    "close"
+                ),
+                this.list.appendTo(
+                    this.listbox
+                ))
+                : this.listbox.popup(
+                    "close"
+                ),
+            this._focusButton(
+            ),
+            (this.isOpen = !1));
                     },
                     open: function (
                     ) {
@@ -15159,34 +15155,33 @@
                     },
                     _decideFormat: function (
                     ) {
-                        var self = this,
-                            $window = this.window,
-                            menuHeight = self.list.parent(
+                        var $window = this.window,
+                            menuHeight = this.list.parent(
                             ).outerHeight(
                             ),
                             scrollTop = $window.scrollTop(
                             ),
-                            btnOffset = self.button.offset(
+                            btnOffset = this.button.offset(
                             ).top,
                             screenHeight = $window.height(
                             );
                         menuHeight > screenHeight - 80 || !$17.support.scrollTop
-                            ? (self.menuPage.appendTo(
+                            ? (this.menuPage.appendTo(
                                 $17.mobile.pageContainer
                             ).page(
                             ),
-                            (self.menuPageContent = self.menuPage.find(
+                            (this.menuPageContent = this.menuPage.find(
                                 ".ui-content"
                             )),
-                            (self.menuPageClose = self.menuPage.find(
+                            (this.menuPageClose = this.menuPage.find(
                                 ".ui-header a"
                             )),
-                            self.thisPage.unbind(
+                            this.thisPage.unbind(
                                 "pagehide.remove"
                             ),
                             0 === scrollTop &&
                 btnOffset > screenHeight &&
-                self.thisPage.one(
+                this.thisPage.one(
                     "pagehide",
                     function (
                     ) {
@@ -15198,7 +15193,7 @@
                         );
                     }
                 ),
-                            self.menuPage.one(
+                            this.menuPage.one(
                                 {
                                     pageshow: $17.proxy(
                                         this,
@@ -15210,18 +15205,18 @@
                                     ),
                                 }
                             ),
-                            (self.menuType = "page"),
-                            self.menuPageContent.append(
-                                self.list
+                            (this.menuType = "page"),
+                            this.menuPageContent.append(
+                                this.list
                             ),
-                            self.menuPage.find(
+                            this.menuPage.find(
                                 "div .ui-title"
                             ).text(
-                                self.label.text(
+                                this.label.text(
                                 )
                             ))
-                            : ((self.menuType = "overlay"),
-                            self.listbox.one(
+                            : ((this.menuType = "overlay"),
+                            this.listbox.one(
                                 {
                                     popupafteropen: $17.proxy(
                                         this,
@@ -15246,7 +15241,6 @@
                             optLabel,
                             divider,
                             item,
-                            self = this,
                             o = this.options,
                             placeholder = this.placeholder,
                             needPlaceholder = !0,
@@ -15259,7 +15253,7 @@
                             ),
                             isPlaceholderItem = !1;
                         for (
-                            self.list.empty(
+                            this.list.empty(
                             ).filter(
                                 ".ui-listview"
                             ).listview(
@@ -15343,7 +15337,7 @@
                     "ui-screen-hidden"
                 ),
                 placeholder !== text &&
-                  (placeholder = self.placeholder = text)),
+                  (placeholder = this.placeholder = text)),
               (item = document.createElement(
                   "li"
               )),
@@ -15390,7 +15384,7 @@
               fragment.appendChild(
                   item
               ));
-                        self.list[0].appendChild(
+                        this.list[0].appendChild(
                             fragment
                         ),
                         this.isMultiple || placeholder.length
@@ -15400,7 +15394,7 @@
                             : this.header.addClass(
                                 "ui-screen-hidden"
                             ),
-                        self.list.listview(
+                        this.list.listview(
                         );
                     },
                     _button: function (
@@ -16614,8 +16608,7 @@
                                 /AppleWebKit\/([0-9]+)/
                             ),
                             wkversion = !!wkmatch && wkmatch[1],
-                            os = null,
-                            self = this;
+                            os = null;
                         platform.indexOf(
                             "iPhone"
                         ) > -1 ||
@@ -16630,13 +16623,13 @@
                                 "Android"
                             ) > -1 && (os = "android"),
                         "ios" === os
-                            ? self._bindScrollWorkaround(
+                            ? this._bindScrollWorkaround(
                             )
                             : "android" === os &&
                 wkversion &&
                 wkversion < 534 &&
-                (self._bindScrollWorkaround(
-                ), self._bindListThumbWorkaround(
+                (this._bindScrollWorkaround(
+                ), this._bindListThumbWorkaround(
                 ));
                     },
                     _viewportOffset: function (
@@ -17332,14 +17325,13 @@
                     _positionPanel: function (
                         scrollToTop
                     ) {
-                        var self = this,
-                            panelInnerHeight = self._panelInner.outerHeight(
+                        var panelInnerHeight = this._panelInner.outerHeight(
                             ),
                             expand = panelInnerHeight > $17.mobile.getScreenHeight(
                             );
-                        expand || !self.options.positionFixed
+                        expand || !this.options.positionFixed
                             ? (expand &&
-                (self._unfixPanel(
+                (this._unfixPanel(
                 ),
                 $17.mobile.resetActivePageHeight(
                     panelInnerHeight
@@ -17349,7 +17341,7 @@
                     0,
                     $17.mobile.defaultHomeScroll
                 ))
-                            : self._fixPanel(
+                            : this._fixPanel(
                             );
                     },
                     _bindFixListener: function (
