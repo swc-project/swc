@@ -112,6 +112,7 @@ impl Optimizer<'_> {
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
+                            Expr::This(..) => usage.is_fn_local,
                             Expr::Arrow(arr) => is_arrow_simple_enough(arr),
                             _ => false,
                         }
