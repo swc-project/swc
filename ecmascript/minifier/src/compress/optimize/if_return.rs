@@ -1,4 +1,5 @@
 use super::Optimizer;
+use crate::compress::optimize::conditionals::always_terminates;
 use crate::compress::optimize::is_pure_undefined;
 use crate::debug::dump;
 use crate::util::ExprOptExt;
@@ -189,6 +190,26 @@ impl Optimizer<'_> {
         }
     }
 
+    fn merge_nested_if_returns(&mut self, stmt: &mut Stmt) {
+        match stmt {
+            Stmt::Block(s) => self.merge_if_returns(&mut s.stmts),
+            Stmt::If(s) => {
+                if always_terminates(&s.cons) {
+                    self.merge_nested_if_returns(&mut s.cons);
+                    return;
+                }
+
+                if let Some(alt) = &mut s.alt {
+                    if always_terminates(&alt) {
+                        self.merge_nested_if_returns(&mut **alt);
+                        return;
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
     /// Merge simple return statements in if statements.
     ///
     /// # Example
@@ -212,6 +233,10 @@ impl Optimizer<'_> {
     pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.options.if_return || stmts.len() <= 1 {
             return;
+        }
+
+        for stmt in stmts.iter_mut() {
+            self.merge_nested_if_returns(stmt)
         }
 
         let idx_of_not_mergable = stmts.iter().rposition(|stmt| match stmt.as_stmt() {

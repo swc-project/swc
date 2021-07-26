@@ -864,7 +864,7 @@ fn is_simple_lhs(l: &PatOrExpr) -> bool {
     }
 }
 
-fn always_terminates(s: &Stmt) -> bool {
+pub(super) fn always_terminates(s: &Stmt) -> bool {
     match s {
         Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
         Stmt::If(IfStmt { cons, alt, .. }) => {
