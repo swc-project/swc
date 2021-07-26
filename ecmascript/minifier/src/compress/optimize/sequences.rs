@@ -1077,6 +1077,65 @@ impl Optimizer<'_> {
                 return false;
             }
 
+            Expr::Object(ObjectLit { props, .. }) => {
+                for prop in props {
+                    match prop {
+                        PropOrSpread::Spread(prop) => {
+                            if self.merge_sequential_expr(a, &mut *prop.expr) {
+                                return true;
+                            }
+
+                            return false;
+                        }
+                        PropOrSpread::Prop(prop) => {
+                            // Inline into key
+                            let key = match &mut **prop {
+                                Prop::Shorthand(_) => continue,
+                                Prop::KeyValue(prop) => Some(&mut prop.key),
+                                Prop::Assign(_) => None,
+                                Prop::Getter(prop) => Some(&mut prop.key),
+                                Prop::Setter(prop) => Some(&mut prop.key),
+                                Prop::Method(prop) => Some(&mut prop.key),
+                            };
+
+                            if let Some(PropName::Computed(key)) = key {
+                                if self.merge_sequential_expr(a, &mut key.expr) {
+                                    return true;
+                                }
+
+                                if !self.is_skippable_for_seq(&key.expr) {
+                                    return false;
+                                }
+                            }
+
+                            match &mut **prop {
+                                Prop::KeyValue(prop) => {
+                                    if self.merge_sequential_expr(a, &mut prop.value) {
+                                        return true;
+                                    }
+
+                                    if !self.is_skippable_for_seq(&prop.value) {
+                                        return false;
+                                    }
+                                }
+                                Prop::Assign(prop) => {
+                                    if self.merge_sequential_expr(a, &mut prop.value) {
+                                        return true;
+                                    }
+
+                                    if !self.is_skippable_for_seq(&prop.value) {
+                                        return false;
+                                    }
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                }
+
+                return false;
+            }
+
             _ => {}
         }
 
