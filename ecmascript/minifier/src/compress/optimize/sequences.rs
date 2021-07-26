@@ -970,6 +970,25 @@ impl Optimizer<'_> {
         //     );
         // }
 
+        {
+            // TODO(kdy1): Implement this.
+            //
+            // This requires tracking if `b` is in an assignment pattern.
+            //
+            // Update experssions can be inline.
+            //
+            // ++c, console.log(c)
+            //
+            // is same as
+            //
+            // console.log(c++)
+
+            match a {
+                Mergable::Var(_) => {}
+                Mergable::Expr(..) => {}
+            }
+        }
+
         let (left_id, right) = match a {
             Mergable::Expr(a) => {
                 match a {
