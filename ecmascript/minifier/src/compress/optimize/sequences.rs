@@ -862,7 +862,7 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                true
+                self.is_skippable_for_seq(&e.right)
             }
 
             Expr::Object(e) => {
