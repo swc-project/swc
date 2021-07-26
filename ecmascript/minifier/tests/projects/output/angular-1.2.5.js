@@ -12214,10 +12214,12 @@
                                                     response
                                                 ) {
                                                     if (thisChangeId === changeCounter) {
-                                                        var newScope = scope.$new(
-                                                        );
-                                                        ctrl.template = response;
-                                                        var clone = $transclude(
+                                                        var clone,
+                                                            newScope = scope.$new(
+                                                            );
+                                                        (ctrl.template = response),
+                                                        (currentScope = newScope),
+                                                        (currentElement = $transclude(
                                                             newScope,
                                                             function (
                                                                 clone
@@ -12230,10 +12232,8 @@
                                                                     $element,
                                                                     afterAnimation,
                                                                 );
-                                                            }
-                                                        );
-                                                        (currentScope = newScope),
-                                                        (currentElement = clone),
+                                                            },
+                                                        )),
                                                         currentScope.$emit(
                                                             "$includeContentLoaded"
                                                         ),
