@@ -801,8 +801,8 @@ impl Optimizer<'_> {
                 match &a2[j - idx] {
                     Mergable::Var(_) => break,
                     Mergable::Expr(e2) => {
-                        if !can_skip_expr_for_seqs(&e2) {
-                            if cfg!(feature = "debug") && false {
+                        if !self.is_skippable_for_seq(&*e2) {
+                            if cfg!(feature = "debug") {
                                 log::trace!("Cannot skip: {}", dump(&**e2));
                             }
 
@@ -821,6 +821,7 @@ impl Optimizer<'_> {
     }
 
     fn is_skippable_for_seq(&self, e: &Expr) -> bool {
+        log::trace!("is_skippable_for_seq({})", dump(e));
         if !e.may_have_side_effects() {
             return true;
         }
@@ -828,7 +829,7 @@ impl Optimizer<'_> {
         match e {
             Expr::Ident(..) | Expr::Lit(..) => true,
             Expr::Unary(UnaryExpr {
-                op: op!("!") | op!("void"),
+                op: op!("!") | op!("void") | op!("typeof"),
                 arg,
                 ..
             }) => self.is_skippable_for_seq(&arg),
@@ -843,11 +844,31 @@ impl Optimizer<'_> {
             }
 
             Expr::Assign(e) => {
-                if get_lhs_ident(&e.left).is_none() {
+                let left_id = get_lhs_ident(&e.left);
+                let left_id = match left_id {
+                    Some(v) => v,
+                    _ => return false,
+                };
+
+                match &*e.right {
+                    Expr::Lit(..) => return true,
+                    _ => {}
+                }
+
+                if contains_this_expr(&*e.right) {
                     return false;
                 }
 
-                self.is_skippable_for_seq(&e.right)
+                let used_ids = idents_used_by(&*e.right);
+                if used_ids.is_empty() {
+                    return true;
+                }
+
+                if used_ids.len() != 1 || !used_ids.contains(&left_id.to_id()) {
+                    return false;
+                }
+
+                true
             }
 
             Expr::Object(e) => {
@@ -855,12 +876,17 @@ impl Optimizer<'_> {
                     return true;
                 }
 
+                log::trace!("Can't skip: obj");
+
                 // TODO: Check for side effects in object properties.
 
                 false
             }
 
-            _ => false,
+            _ => {
+                log::trace!("Can't skip: {}", dump(e));
+                false
+            }
         }
     }
 
@@ -1269,51 +1295,6 @@ impl Visit for UsageCoutner<'_> {
         self.in_lhs = true;
         p.visit_children_with(self);
         self.in_lhs = old;
-    }
-}
-
-fn can_skip_expr_for_seqs(e: &Expr) -> bool {
-    match e {
-        Expr::Ident(..) => true,
-
-        Expr::Bin(BinExpr { left, right, .. }) => {
-            can_skip_expr_for_seqs(&left) && can_skip_expr_for_seqs(&right)
-        }
-
-        Expr::Assign(AssignExpr {
-            left,
-            op: op!("="),
-            right,
-            ..
-        }) => {
-            let left_id = get_lhs_ident(left);
-            let left_id = match left_id {
-                Some(v) => v,
-                _ => return false,
-            };
-
-            match &**right {
-                Expr::Lit(..) => return true,
-                _ => {}
-            }
-
-            if contains_this_expr(&**right) {
-                return false;
-            }
-
-            let used_ids = idents_used_by(&**right);
-            if used_ids.is_empty() {
-                return true;
-            }
-
-            if used_ids.len() != 1 || !used_ids.contains(&left_id.to_id()) {
-                return false;
-            }
-
-            true
-        }
-
-        _ => false,
     }
 }
 
