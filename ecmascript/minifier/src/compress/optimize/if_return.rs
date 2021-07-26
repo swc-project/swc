@@ -219,8 +219,10 @@ impl Optimizer<'_> {
             None => true,
         });
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
+        log::trace!("if_return: Skip = {}", skip);
 
         if stmts.len() <= skip + 1 {
+            log::trace!("if_return: Aborting because of skip");
             return;
         }
 
@@ -230,6 +232,7 @@ impl Optimizer<'_> {
 
             // There's no return statment so merging requires injecting unnecessary `void 0`
             if return_count == 0 {
+                log::trace!("if_return: Aborting because we failed to find return");
                 return;
             }
 
@@ -241,7 +244,10 @@ impl Optimizer<'_> {
                 &stmts[stmts.len() - 2].as_stmt(),
                 &stmts[stmts.len() - 1].as_stmt(),
             ) {
-                (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..))) => return,
+                (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..))) => {
+                    log::trace!("if_return: Aborting because last stmt is a not return stmt");
+                    return;
+                }
 
                 (
                     Some(Stmt::If(IfStmt {
@@ -250,7 +256,13 @@ impl Optimizer<'_> {
                     Some(Stmt::Return(..)),
                 ) => match &**cons {
                     Stmt::Return(ReturnStmt { arg: Some(..), .. }) => {}
-                    _ => return,
+                    _ => {
+                        log::trace!(
+                            "if_return: Aborting because stmt before last is an if stmt and cons \
+                             of it is not a return stmt"
+                        );
+                        return;
+                    }
                 },
 
                 _ => {}
