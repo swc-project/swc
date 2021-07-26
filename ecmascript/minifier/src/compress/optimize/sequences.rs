@@ -802,7 +802,7 @@ impl Optimizer<'_> {
                     Mergable::Var(_) => break,
                     Mergable::Expr(e2) => {
                         if !self.is_skippable_for_seq(&*e2) {
-                            if cfg!(feature = "debug") {
+                            if cfg!(feature = "debug") && false {
                                 log::trace!("Cannot skip: {}", dump(&**e2));
                             }
 
@@ -821,7 +821,6 @@ impl Optimizer<'_> {
     }
 
     fn is_skippable_for_seq(&self, e: &Expr) -> bool {
-        log::trace!("is_skippable_for_seq({})", dump(e));
         if !e.may_have_side_effects() {
             return true;
         }
@@ -871,17 +870,12 @@ impl Optimizer<'_> {
                     return true;
                 }
 
-                log::trace!("Can't skip: obj");
-
                 // TODO: Check for side effects in object properties.
 
                 false
             }
 
-            _ => {
-                log::trace!("Can't skip: {}", dump(e));
-                false
-            }
+            _ => false,
         }
     }
 
