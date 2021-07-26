@@ -347,14 +347,6 @@ pub(crate) struct IdentUsageCollector {
 impl Visit for IdentUsageCollector {
     noop_visit_type!();
 
-    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
     fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr, _: &dyn Node) {
         if self.ignore_nested {
             return;
@@ -371,6 +363,14 @@ impl Visit for IdentUsageCollector {
         n.visit_children_with(self);
     }
 
+    fn visit_function(&mut self, n: &Function, _: &dyn Node) {
+        if self.ignore_nested {
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_ident(&mut self, n: &Ident, _: &dyn Node) {
         self.ids.insert(n.to_id());
     }
@@ -380,6 +380,15 @@ impl Visit for IdentUsageCollector {
 
         if n.computed {
             n.prop.visit_with(n, self);
+        }
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName, _: &dyn Node) {
+        match n {
+            PropName::Computed(..) => {
+                n.visit_children_with(self);
+            }
+            _ => {}
         }
     }
 }
