@@ -21,6 +21,7 @@ use swc_common::pass::Repeated;
 use swc_common::sync::Lrc;
 use swc_common::{chain, SourceMap};
 use swc_ecma_ast::*;
+use swc_ecma_transforms::fixer;
 use swc_ecma_transforms::optimization::simplify::dead_branch_remover;
 use swc_ecma_transforms::optimization::simplify::expr_simplifier;
 use swc_ecma_transforms::pass::JsPass;
@@ -142,7 +143,7 @@ impl VisitMut for Compressor<'_> {
         }
 
         let start = if cfg!(feature = "debug") {
-            let start = dump(&*n);
+            let start = dump(&n.clone().fold_with(&mut fixer(None)));
             log::debug!("===== Start =====\n{}", start);
             start
         } else {
