@@ -4094,9 +4094,7 @@ YUI.add(
                 dir, file, type, nomin
             ) {
                 var path = dir + "/" + file;
-                return (
-                    nomin || (path += "-min"), (path += "." + (type || CSS1)), path
-                );
+                return nomin || (path += "-min"), (path += "." + (type || CSS1));
             };
         YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {
         }),

@@ -10286,22 +10286,19 @@
                 var zone = -1 * date.getTimezoneOffset(
                     ),
                     paddedZone = zone >= 0 ? "+" : "";
-                return (
-                    (paddedZone +=
-            padNumber(
-                Math[zone > 0 ? "floor" : "ceil"](
-                    zone / 60
-                ),
-                2
-            ) +
-            padNumber(
-                Math.abs(
-                    zone % 60
-                ),
-                2
-            )),
-                    paddedZone
-                );
+                return (paddedZone +=
+          padNumber(
+              Math[zone > 0 ? "floor" : "ceil"](
+                  zone / 60
+              ),
+              2
+          ) +
+          padNumber(
+              Math.abs(
+                  zone % 60
+              ),
+              2
+          ));
             },
         },
         DATE_FORMATS_SPLIT =
