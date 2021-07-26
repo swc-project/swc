@@ -4,9 +4,9 @@ export const obj = {
         options && !0 !== options || (options = {
             trigger: !!options
         });
-        var url = this.root + (fragment = this.getFragment(fragment || ''));
-        if (fragment = fragment.replace(pathStripper, ''), this.fragment !== fragment) {
-            if (this.fragment = fragment, '' === fragment && '/' !== url && (url = url.slice(0, -1)), this._hasPushState) this.history[options.replace ? 'replaceState' : 'pushState']({
+        var url = this.root + (fragment = this.getFragment(fragment || ""));
+        if (fragment = fragment.replace(pathStripper, ""), this.fragment !== fragment) {
+            if (this.fragment = fragment, "" === fragment && "/" !== url && (url = url.slice(0, -1)), this._hasPushState) this.history[options.replace ? "replaceState" : "pushState"]({
             }, document.title, url);
             else {
                 if (!this._wantsHashChange) return this.location.assign(url);

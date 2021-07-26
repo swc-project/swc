@@ -2254,6 +2254,12 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    fn visit_mut_str(&mut self, s: &mut Str) {
+        s.visit_mut_children_with(self);
+
+        s.kind = Default::default()
+    }
+
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
         n.visit_mut_children_with(self);
 
