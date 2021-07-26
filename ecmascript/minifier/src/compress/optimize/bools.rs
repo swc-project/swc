@@ -6,6 +6,7 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value;
 use swc_ecma_utils::Value::Known;
@@ -507,7 +508,7 @@ impl Optimizer<'_> {
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt(_o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
+        fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str {
@@ -522,10 +523,15 @@ impl Optimizer<'_> {
                 ) => {
                     // TODO?
                     match &**arg {
-                        Expr::Ident(Ident { sym, .. }) => match &**sym {
-                            "require" | "exports" => return false,
-                            _ => {}
-                        },
+                        Expr::Ident(arg) => {
+                            if let Some(usage) =
+                                o.data.as_ref().and_then(|data| data.vars.get(&arg.to_id()))
+                            {
+                                if !usage.declared {
+                                    return false;
+                                }
+                            }
+                        }
                         _ => {}
                     }
 
