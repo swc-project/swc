@@ -715,6 +715,11 @@ impl Optimizer<'_> {
                 Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                     vec![Mergable::Expr(&mut **arg)]
                 }
+
+                Stmt::If(s) => {
+                    vec![Mergable::Expr(&mut *s.test)]
+                }
+
                 _ => return None,
             })
         }
