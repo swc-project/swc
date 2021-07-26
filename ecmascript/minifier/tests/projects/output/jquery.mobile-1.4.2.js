@@ -5162,13 +5162,12 @@
             jQuery,
             this
         ),
-        (baseElement = ($7 = jQuery)(
-            "head"
-        ).children(
-            "base"
-        )),
         (base = {
-            element: baseElement.length
+            element: (baseElement = ($7 = jQuery)(
+                "head"
+            ).children(
+                "base"
+            )).length
                 ? baseElement
                 : $7(
                     "<base>",
@@ -16797,14 +16796,14 @@
                 (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) *
                   p.arrowOffsetFactor),
               (desiredForArrow[p.snd] = desired[p.snd]),
-              (result =
-                s.result ||
-                this._calculateFinalLocation(
-                    desiredForArrow,
-                    s.clampInfo
-                )),
               (r = {
-                  x: result.left,
+                  x: (result =
+                  s.result ||
+                  this._calculateFinalLocation(
+                      desiredForArrow,
+                      s.clampInfo
+                  ))
+                      .left,
                   y: result.top,
               }),
               (tip[p.fst] = r[p.fst] + s.contentBox[p.fst] + p.tipOffset),
@@ -16916,9 +16915,6 @@
                             ),
                             (bgRef = {
                             }),
-                            (state = this._getPlacementState(
-                                !0
-                            )),
                             (params = {
                                 l: {
                                     fst: "x",
@@ -16927,7 +16923,9 @@
                                     dimKey: "cy",
                                     oDimKey: "cx",
                                     offsetFactor: 1,
-                                    tipOffset: -state.arHalf.cx,
+                                    tipOffset: -(state = this._getPlacementState(
+                                        !0
+                                    )).arHalf.cx,
                                     arrowOffsetFactor: 0,
                                 },
                                 r: {

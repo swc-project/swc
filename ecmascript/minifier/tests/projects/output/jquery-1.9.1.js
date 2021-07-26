@@ -820,11 +820,11 @@
         );
         if (val <= 0 || null == val) {
             if (
-                ((0 > (val = curCSS(
+                (((val = curCSS(
                     elem,
                     name,
                     styles
-                )) || null == val) &&
+                )) < 0 || null == val) &&
           (val = elem.style[name]),
                 rnumnonpx.test(
                     val

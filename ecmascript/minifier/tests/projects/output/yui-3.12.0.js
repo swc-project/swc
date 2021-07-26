@@ -1533,14 +1533,13 @@ YUI.add(
             ) {
                 var len = array.length;
                 for (
-                    0 >
-                  (from =
-                    ((from = +from || 0) > 0 || -1) *
-                    Math.floor(
-                        Math.abs(
-                            from
-                        )
-                    )) &&
+                    (from =
+                  ((from = +from || 0) > 0 || -1) *
+                  Math.floor(
+                      Math.abs(
+                          from
+                      )
+                  )) < 0 &&
                 ((from += len), from < 0 && (from = 0));
                     from < len;
                     ++from
@@ -5267,19 +5266,17 @@ YUI.add(
             _addLangPack: function (
                 lang, m, packName
             ) {
-                var packPath,
-                    conf,
+                var conf,
                     name = m.name;
                 return (
                     !this.moduleInfo[packName] &&
-                ((packPath = _path(
-                    m.pkg || name,
-                    packName,
-                    "js",
-                    !0
-                )),
-                (conf = {
-                    path: packPath,
+                ((conf = {
+                    path: _path(
+                        m.pkg || name,
+                        packName,
+                        "js",
+                        !0
+                    ),
                     intl: !0,
                     langPack: !0,
                     ext: m.ext,

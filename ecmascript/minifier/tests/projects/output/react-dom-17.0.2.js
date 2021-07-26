@@ -8836,13 +8836,12 @@
         function getChildHostContext(
             parentHostContext, type, rootContainerInstance
         ) {
-            var parentHostContextDev = parentHostContext,
-                namespace = getChildNamespace(
+            var parentHostContextDev = parentHostContext;
+            return {
+                namespace: getChildNamespace(
                     parentHostContextDev.namespace,
                     type
-                );
-            return {
-                namespace: namespace,
+                ),
                 ancestorInfo: updatedAncestorInfo(
                     parentHostContextDev.ancestorInfo,
                     type,
@@ -13739,9 +13738,8 @@
                     throw Error(
                         "Rendered more hooks than during the previous render."
                     );
-                currentHook = nextCurrentHook;
                 var newHook = {
-                    memoizedState: currentHook.memoizedState,
+                    memoizedState: (currentHook = nextCurrentHook).memoizedState,
                     baseState: currentHook.baseState,
                     baseQueue: currentHook.baseQueue,
                     queue: currentHook.queue,
@@ -23308,6 +23306,7 @@
         }
         var devToolsConfig,
             findFiberByHostInstance,
+            ReactCurrentDispatcher1,
             foundDevTools =
       ((findFiberByHostInstance = (devToolsConfig = {
           findFiberByHostInstance: getClosestInstanceFromNode,
@@ -23315,6 +23314,7 @@
           version: "17.0.2",
           rendererPackageName: "react-dom",
       }).findFiberByHostInstance),
+      (ReactCurrentDispatcher1 = ReactSharedInternals.ReactCurrentDispatcher),
       injectInternals(
           {
               bundleType: devToolsConfig.bundleType,
@@ -23329,7 +23329,7 @@
               overridePropsRenamePath: overridePropsRenamePath,
               setSuspenseHandler: setSuspenseHandler,
               scheduleUpdate: scheduleUpdate,
-              currentDispatcherRef: ReactSharedInternals.ReactCurrentDispatcher,
+              currentDispatcherRef: ReactCurrentDispatcher1,
               findHostInstanceByFiber: findHostInstanceByFiber,
               findFiberByHostInstance:
           findFiberByHostInstance || emptyFindFiberByHostInstance,
@@ -26188,234 +26188,6 @@
                 },
                 unstable_isNewReconciler: enableNewReconciler,
             }),
-            (InvalidNestedHooksDispatcherOnUpdateInDEV = {
-                readContext: function (
-                    context, observedBits
-                ) {
-                    return warnInvalidContextAccess(
-                    ), readContext(
-                        context,
-                        observedBits
-                    );
-                },
-                useCallback: function (
-                    callback, deps
-                ) {
-                    return (
-                        (currentHookNameInDev = "useCallback"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateCallback(
-                            callback,
-                            deps
-                        )
-                    );
-                },
-                useContext: function (
-                    context, observedBits
-                ) {
-                    return (
-                        (currentHookNameInDev = "useContext"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        readContext(
-                            context,
-                            observedBits
-                        )
-                    );
-                },
-                useEffect: function (
-                    create, deps
-                ) {
-                    return (
-                        (currentHookNameInDev = "useEffect"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateEffect(
-                            create,
-                            deps
-                        )
-                    );
-                },
-                useImperativeHandle: function (
-                    ref, create, deps
-                ) {
-                    return (
-                        (currentHookNameInDev = "useImperativeHandle"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateImperativeHandle(
-                            ref,
-                            create,
-                            deps
-                        )
-                    );
-                },
-                useLayoutEffect: function (
-                    create, deps
-                ) {
-                    return (
-                        (currentHookNameInDev = "useLayoutEffect"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateLayoutEffect(
-                            create,
-                            deps
-                        )
-                    );
-                },
-                useMemo: function (
-                    create, deps
-                ) {
-                    (currentHookNameInDev = "useMemo"),
-                    warnInvalidHookAccess(
-                    ),
-                    updateHookTypesDev(
-                    );
-                    var prevDispatcher = ReactCurrentDispatcher$1.current;
-                    ReactCurrentDispatcher$1.current =
-          InvalidNestedHooksDispatcherOnUpdateInDEV;
-                    try {
-                        return updateMemo(
-                            create,
-                            deps
-                        );
-                    } finally {
-                        ReactCurrentDispatcher$1.current = prevDispatcher;
-                    }
-                },
-                useReducer: function (
-                    reducer, initialArg, init
-                ) {
-                    (currentHookNameInDev = "useReducer"),
-                    warnInvalidHookAccess(
-                    ),
-                    updateHookTypesDev(
-                    );
-                    var prevDispatcher = ReactCurrentDispatcher$1.current;
-                    ReactCurrentDispatcher$1.current =
-          InvalidNestedHooksDispatcherOnUpdateInDEV;
-                    try {
-                        return updateReducer(
-                            reducer,
-                            initialArg,
-                            init
-                        );
-                    } finally {
-                        ReactCurrentDispatcher$1.current = prevDispatcher;
-                    }
-                },
-                useRef: function (
-                    initialValue
-                ) {
-                    return (
-                        (currentHookNameInDev = "useRef"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateRef(
-                        )
-                    );
-                },
-                useState: function (
-                    initialState
-                ) {
-                    (currentHookNameInDev = "useState"),
-                    warnInvalidHookAccess(
-                    ),
-                    updateHookTypesDev(
-                    );
-                    var prevDispatcher = ReactCurrentDispatcher$1.current;
-                    ReactCurrentDispatcher$1.current =
-          InvalidNestedHooksDispatcherOnUpdateInDEV;
-                    try {
-                        return updateState(
-                            initialState
-                        );
-                    } finally {
-                        ReactCurrentDispatcher$1.current = prevDispatcher;
-                    }
-                },
-                useDebugValue: function (
-                    value, formatterFn
-                ) {
-                    return (
-                        (currentHookNameInDev = "useDebugValue"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateDebugValue(
-                        )
-                    );
-                },
-                useDeferredValue: function (
-                    value
-                ) {
-                    return (
-                        (currentHookNameInDev = "useDeferredValue"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateDeferredValue(
-                            value
-                        )
-                    );
-                },
-                useTransition: function (
-                ) {
-                    return (
-                        (currentHookNameInDev = "useTransition"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateTransition(
-                        )
-                    );
-                },
-                useMutableSource: function (
-                    source, getSnapshot, subscribe
-                ) {
-                    return (
-                        (currentHookNameInDev = "useMutableSource"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateMutableSource(
-                            source,
-                            getSnapshot,
-                            subscribe
-                        )
-                    );
-                },
-                useOpaqueIdentifier: function (
-                ) {
-                    return (
-                        (currentHookNameInDev = "useOpaqueIdentifier"),
-                        warnInvalidHookAccess(
-                        ),
-                        updateHookTypesDev(
-                        ),
-                        updateOpaqueIdentifier(
-                        )
-                    );
-                },
-                unstable_isNewReconciler: enableNewReconciler,
-            }),
             (InvalidNestedHooksDispatcherOnRerenderInDEV = {
                 readContext: function (
                     context, observedBits
@@ -26512,7 +26284,236 @@
                     );
                     var prevDispatcher = ReactCurrentDispatcher$1.current;
                     ReactCurrentDispatcher$1.current =
-          InvalidNestedHooksDispatcherOnUpdateInDEV;
+          InvalidNestedHooksDispatcherOnUpdateInDEV = {
+              readContext: function (
+                  context, observedBits
+              ) {
+                  return (
+                      warnInvalidContextAccess(
+                      ), readContext(
+                          context,
+                          observedBits
+                      )
+                  );
+              },
+              useCallback: function (
+                  callback, deps
+              ) {
+                  return (
+                      (currentHookNameInDev = "useCallback"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateCallback(
+                          callback,
+                          deps
+                      )
+                  );
+              },
+              useContext: function (
+                  context, observedBits
+              ) {
+                  return (
+                      (currentHookNameInDev = "useContext"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      readContext(
+                          context,
+                          observedBits
+                      )
+                  );
+              },
+              useEffect: function (
+                  create, deps
+              ) {
+                  return (
+                      (currentHookNameInDev = "useEffect"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateEffect(
+                          create,
+                          deps
+                      )
+                  );
+              },
+              useImperativeHandle: function (
+                  ref, create, deps
+              ) {
+                  return (
+                      (currentHookNameInDev = "useImperativeHandle"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateImperativeHandle(
+                          ref,
+                          create,
+                          deps
+                      )
+                  );
+              },
+              useLayoutEffect: function (
+                  create, deps
+              ) {
+                  return (
+                      (currentHookNameInDev = "useLayoutEffect"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateLayoutEffect(
+                          create,
+                          deps
+                      )
+                  );
+              },
+              useMemo: function (
+                  create, deps
+              ) {
+                  (currentHookNameInDev = "useMemo"),
+                  warnInvalidHookAccess(
+                  ),
+                  updateHookTypesDev(
+                  );
+                  var prevDispatcher = ReactCurrentDispatcher$1.current;
+                  ReactCurrentDispatcher$1.current =
+                InvalidNestedHooksDispatcherOnUpdateInDEV;
+                  try {
+                      return updateMemo(
+                          create,
+                          deps
+                      );
+                  } finally {
+                      ReactCurrentDispatcher$1.current = prevDispatcher;
+                  }
+              },
+              useReducer: function (
+                  reducer, initialArg, init
+              ) {
+                  (currentHookNameInDev = "useReducer"),
+                  warnInvalidHookAccess(
+                  ),
+                  updateHookTypesDev(
+                  );
+                  var prevDispatcher = ReactCurrentDispatcher$1.current;
+                  ReactCurrentDispatcher$1.current =
+                InvalidNestedHooksDispatcherOnUpdateInDEV;
+                  try {
+                      return updateReducer(
+                          reducer,
+                          initialArg,
+                          init
+                      );
+                  } finally {
+                      ReactCurrentDispatcher$1.current = prevDispatcher;
+                  }
+              },
+              useRef: function (
+                  initialValue
+              ) {
+                  return (
+                      (currentHookNameInDev = "useRef"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateRef(
+                      )
+                  );
+              },
+              useState: function (
+                  initialState
+              ) {
+                  (currentHookNameInDev = "useState"),
+                  warnInvalidHookAccess(
+                  ),
+                  updateHookTypesDev(
+                  );
+                  var prevDispatcher = ReactCurrentDispatcher$1.current;
+                  ReactCurrentDispatcher$1.current =
+                InvalidNestedHooksDispatcherOnUpdateInDEV;
+                  try {
+                      return updateState(
+                          initialState
+                      );
+                  } finally {
+                      ReactCurrentDispatcher$1.current = prevDispatcher;
+                  }
+              },
+              useDebugValue: function (
+                  value, formatterFn
+              ) {
+                  return (
+                      (currentHookNameInDev = "useDebugValue"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateDebugValue(
+                      )
+                  );
+              },
+              useDeferredValue: function (
+                  value
+              ) {
+                  return (
+                      (currentHookNameInDev = "useDeferredValue"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateDeferredValue(
+                          value
+                      )
+                  );
+              },
+              useTransition: function (
+              ) {
+                  return (
+                      (currentHookNameInDev = "useTransition"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateTransition(
+                      )
+                  );
+              },
+              useMutableSource: function (
+                  source, getSnapshot, subscribe
+              ) {
+                  return (
+                      (currentHookNameInDev = "useMutableSource"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateMutableSource(
+                          source,
+                          getSnapshot,
+                          subscribe
+                      )
+                  );
+              },
+              useOpaqueIdentifier: function (
+              ) {
+                  return (
+                      (currentHookNameInDev = "useOpaqueIdentifier"),
+                      warnInvalidHookAccess(
+                      ),
+                      updateHookTypesDev(
+                      ),
+                      updateOpaqueIdentifier(
+                      )
+                  );
+              },
+              unstable_isNewReconciler: enableNewReconciler,
+          };
                     try {
                         return updateMemo(
                             create,
