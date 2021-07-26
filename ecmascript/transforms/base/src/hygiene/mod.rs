@@ -665,6 +665,27 @@ impl<'a> VisitMut for Hygiene<'a> {
         n.class.visit_mut_with(self);
     }
 
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        n.function.decorators.visit_mut_with(self);
+
+        let mut folder = Hygiene {
+            config: self.config.clone(),
+            current: Scope::new(ScopeKind::Fn, None),
+            ident_type: IdentType::Ref,
+            var_kind: None,
+        };
+
+        folder.ident_type = IdentType::Binding;
+        n.function.params.visit_mut_children_with(&mut folder);
+
+        folder.ident_type = IdentType::Ref;
+
+        n.function.body.visit_mut_with(self);
+        n.key.visit_mut_with(self);
+
+        folder.apply_ops(&mut n.function);
+    }
+
     fn visit_mut_constructor(&mut self, c: &mut Constructor) {
         let old = self.ident_type;
         self.ident_type = IdentType::Binding;
