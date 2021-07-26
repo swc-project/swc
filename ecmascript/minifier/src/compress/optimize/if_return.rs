@@ -58,9 +58,9 @@ impl Optimizer<'_> {
         }
 
         match &*alt {
-            Stmt::Return(..) => {
+            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
                 match &*stmt.cons {
-                    Stmt::Return(..) => return,
+                    Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => return,
                     _ => {}
                 }
 
