@@ -642,6 +642,34 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+        match &*e.exprs[e.exprs.len() - 2] {
+            Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            }) => return,
+            _ => {}
+        }
+
+        if let Some(last) = e.exprs.last() {
+            if is_pure_undefined(&last) {
+                self.changed = true;
+                log::debug!("sequences: Shifting void");
+
+                e.exprs.pop();
+                let last = e.exprs.last_mut().unwrap();
+
+                *last = Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("void"),
+                    arg: last.take(),
+                }))
+            }
+        }
+    }
+
     pub(super) fn merge_sequences_in_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         fn exprs_of(s: &mut Stmt) -> Option<Vec<Mergable>> {
             Some(match s {
@@ -706,34 +734,6 @@ impl Optimizer<'_> {
         self.merge_sequences_in_exprs(&mut exprs);
 
         e.exprs.retain(|e| !e.is_invalid());
-    }
-
-    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
-        if e.exprs.len() < 2 {
-            return;
-        }
-        match &*e.exprs[e.exprs.len() - 2] {
-            Expr::Unary(UnaryExpr {
-                op: op!("void"), ..
-            }) => return,
-            _ => {}
-        }
-
-        if let Some(last) = e.exprs.last() {
-            if is_pure_undefined(&last) {
-                self.changed = true;
-                log::debug!("sequences: Shifting void");
-
-                e.exprs.pop();
-                let last = e.exprs.last_mut().unwrap();
-
-                *last = Box::new(Expr::Unary(UnaryExpr {
-                    span: DUMMY_SP,
-                    op: op!("void"),
-                    arg: last.take(),
-                }))
-            }
-        }
     }
 
     /// Calls `merge_sequential_expr`.
