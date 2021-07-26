@@ -1,7 +1,6 @@
+use super::Optimizer;
 use swc_ecma_ast::*;
 use unicode_xid::UnicodeXID;
-
-use super::Optimizer;
 
 impl Optimizer<'_> {
     pub(super) fn optimize_prop_name(&mut self, name: &mut PropName) {
@@ -25,6 +24,14 @@ impl Optimizer<'_> {
                 }
             }
             _ => {}
+        }
+    }
+
+    pub(super) fn remove_useless_return(&mut self, stmts: &mut Vec<Stmt>) {
+        if let Some(Stmt::Return(ReturnStmt { arg: None, .. })) = stmts.last() {
+            self.changed = true;
+            log::trace!("misc: Removing useless return");
+            stmts.pop();
         }
     }
 }
