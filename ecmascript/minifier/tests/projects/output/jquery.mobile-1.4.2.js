@@ -44,7 +44,6 @@
             undefined,
             path,
             $base,
-            dialogHashKey,
             $4,
             undefined,
             $5,
@@ -2083,10 +2082,9 @@
         (function (
             $17
         ) {
-            var loaderClass = "ui-loader",
-                $html = $17(
-                    "html"
-                );
+            var $html = $17(
+                "html"
+            );
             $17.widget(
                 "mobile.loader",
                 {
@@ -2097,9 +2095,7 @@
                         text: "loading",
                     },
                     defaultHtml:
-          "<div class='" +
-          loaderClass +
-          "'><span class='ui-icon-loading'></span><h1></h1></div>",
+          "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
                     fakeFixLoader: function (
                     ) {
                         var activeBtn = $17(
@@ -2181,8 +2177,7 @@
                         loadSettings.textVisible,
                         this.element.attr(
                             "class",
-                            loaderClass +
-                " ui-corner-all ui-body-" +
+                            "ui-loader ui-corner-all ui-body-" +
                 theme +
                 " ui-loader-" +
                 (loadSettings.textVisible || msgText || theme.text
@@ -2241,13 +2236,11 @@
             $17, window, undefined
         ) {
             var fake_onhashchange,
-                str_hashchange = "hashchange",
                 doc = document,
                 special = $17.event.special,
                 doc_mode = doc.documentMode,
                 supports_onhashchange =
-          "on" + str_hashchange in window &&
-          (doc_mode === undefined || doc_mode > 7);
+          "onhashchange" in window && (doc_mode === undefined || doc_mode > 7);
             function get_fragment(
                 url
             ) {
@@ -2258,21 +2251,21 @@
                     )
                 );
             }
-            ($17.fn[str_hashchange] = function (
+            ($17.fn.hashchange = function (
                 fn
             ) {
                 return fn
                     ? this.bind(
-                        str_hashchange,
+                        "hashchange",
                         fn
                     )
                     : this.trigger(
-                        str_hashchange
+                        "hashchange"
                     );
             }),
-            ($17.fn[str_hashchange].delay = 50),
-            (special[str_hashchange] = $17.extend(
-                special[str_hashchange],
+            ($17.fn.hashchange.delay = 50),
+            (special.hashchange = $17.extend(
+                special.hashchange,
                 {
                     setup: function (
                     ) {
@@ -2321,7 +2314,7 @@
                         $17(
                             window
                         ).trigger(
-                            str_hashchange
+                            "hashchange"
                         ))
                         : history_hash !== last_hash &&
                 (location.href =
@@ -2331,7 +2324,7 @@
                   ) + history_hash),
                     (timeout_id = setTimeout(
                         poll,
-                        $17.fn[str_hashchange].delay
+                        $17.fn.hashchange.delay
                     ));
                 }
                 return (
@@ -2353,7 +2346,7 @@
               ) {
                   iframe ||
                   ((iframe_src =
-                    (iframe_src = $17.fn[str_hashchange].src) &&
+                    (iframe_src = $17.fn.hashchange.src) &&
                     iframe_src + get_fragment(
                     )),
                   (iframe = $17(
@@ -2398,7 +2391,7 @@
                   hash, history_hash
               ) {
                   var iframe_doc = iframe.document,
-                      domain = $17.fn[str_hashchange].domain;
+                      domain = $17.fn.hashchange.domain;
                   hash !== history_hash &&
                   ((iframe_doc.title = doc.title),
                   iframe_doc.open(
@@ -2591,17 +2584,12 @@
                         var el,
                             transforms,
                             t,
-                            mqProp = "transform-3d",
                             ret = $17.mobile.media(
                                 "(-" +
                   vendors.join(
-                      "-" + mqProp + "),(-"
+                      "-transform-3d),(-"
                   ) +
-                  "-" +
-                  mqProp +
-                  "),(" +
-                  mqProp +
-                  ")",
+                  "-transform-3d),(transform-3d)",
                             );
                         if (ret) return !!ret;
                         for (t in ((el = document.createElement(
@@ -2959,7 +2947,6 @@
                 )));
           },
       }),
-        (dialogHashKey = "&ui-state=dialog"),
         (($3 = jQuery).mobile.path = path =
       {
           uiStateKey: "&ui-state",
@@ -3162,7 +3149,7 @@
               )
                   ? u.hash
                       .split(
-                          dialogHashKey
+                          "&ui-state=dialog"
                       )[0]
                       .replace(
                           /^#/,
@@ -3182,7 +3169,7 @@
                               ""
                           )
                           .split(
-                              dialogHashKey
+                              "&ui-state=dialog"
                           )[0]
                       : window.decodeURIComponent(
                           absUrl
@@ -3246,7 +3233,7 @@
                       /\?.*$/,
                       ""
                   ).replace(
-                      dialogHashKey,
+                      "&ui-state=dialog",
                       ""
                   ),
               );
@@ -3419,7 +3406,7 @@
               return path2 && path2.split(
                   splitkey
               )[0].split(
-                  dialogHashKey
+                  "&ui-state=dialog"
               )[0];
           },
           isFirstPageUrl: function (
@@ -4025,8 +4012,6 @@
         ) {
             var threshold,
                 i,
-                dataPropertyName = "virtualMouseBindings",
-                touchTargetPropertyName = "virtualTouchID",
                 virtualEventNames =
           "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(
               " ",
@@ -4111,7 +4096,7 @@
                 }; element; ) {
                     for (k in (b = $17.data(
                         element,
-                        dataPropertyName
+                        "virtualMouseBindings"
                     )))
                         b[k] && (flags[k] = flags.hasVirtualBinding = !0);
                     element = element.parentNode;
@@ -4125,7 +4110,7 @@
                     if (
                         (b = $17.data(
                             element,
-                            dataPropertyName
+                            "virtualMouseBindings"
                         )) &&
             (!eventType || b[eventType])
                     )
@@ -4203,7 +4188,7 @@
                 var ve,
                     touchID = $17.data(
                         event.target,
-                        touchTargetPropertyName
+                        "virtualTouchID"
                     );
                 !blockMouseTriggers &&
           (!lastTouchID || lastTouchID !== touchID) &&
@@ -4240,7 +4225,7 @@
           ((lastTouchID = nextTouchID++),
           $17.data(
               target,
-              touchTargetPropertyName,
+              "virtualTouchID",
               lastTouchID
           ),
           clearResetTimer(
@@ -4365,7 +4350,7 @@
                 var k,
                     bindings = $17.data(
                         ele,
-                        dataPropertyName
+                        "virtualMouseBindings"
                     );
                 if (bindings) {
                     for (k in bindings) if (bindings[k]) return !0;
@@ -4385,15 +4370,16 @@
                     ) {
                         hasVirtualBindings(
                             this
-                        ) || $17.data(
-                            this,
-                            dataPropertyName,
-                            {
-                            }
-                        ),
+                        ) ||
+              $17.data(
+                  this,
+                  "virtualMouseBindings",
+                  {
+                  }
+              ),
                         ($17.data(
                             this,
-                            dataPropertyName
+                            "virtualMouseBindings"
                         )[eventType] = !0),
                         (activeDocHandlers[eventType] =
                 (activeDocHandlers[eventType] || 0) + 1),
@@ -4463,7 +4449,7 @@
                             ),
                             bindings = $17.data(
                                 this,
-                                dataPropertyName
+                                "virtualMouseBindings"
                             );
                         bindings && (bindings[eventType] = !1),
                         $this.unbind(
@@ -4472,9 +4458,10 @@
                         ),
                         hasVirtualBindings(
                             this
-                        ) || $this.removeData(
-                            dataPropertyName
-                        );
+                        ) ||
+                $this.removeData(
+                    "virtualMouseBindings"
+                );
                     },
                 };
             }
@@ -4525,7 +4512,7 @@
                       ) < threshold) ||
                       $17.data(
                           ele,
-                          touchTargetPropertyName
+                          "virtualTouchID"
                       ) === o.touchID)
                             )
                                 return e.preventDefault(
@@ -4548,7 +4535,6 @@
                     document
                 ),
                 supportTouch = $17.mobile.support.touch,
-                scrollEvent = "touchmove scroll",
                 touchStartEvent = supportTouch ? "touchstart" : "mousedown",
                 touchStopEvent = supportTouch ? "touchend" : "mouseup",
                 touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
@@ -4611,7 +4597,7 @@
                         );
                     }
                     $this.bind(
-                        scrollEvent,
+                        "touchmove scroll",
                         function (
                             event
                         ) {
@@ -4641,7 +4627,7 @@
                     $17(
                         this
                     ).unbind(
-                        scrollEvent
+                        "touchmove scroll"
                     );
                 },
             }),
@@ -5068,7 +5054,6 @@
                 win = $17(
                     window
                 ),
-                event_name = "orientationchange",
                 portrait_map = {
                     0: !0,
                     180: !0,
@@ -5079,7 +5064,7 @@
                 );
                 orientation !== last_orientation &&
           ((last_orientation = orientation), win.trigger(
-              event_name
+              "orientationchange"
           ));
             }
             $17.support.orientation &&
@@ -5160,19 +5145,19 @@
                   ? "portrait"
                   : "landscape";
           }),
-            ($17.fn[event_name] = function (
+            ($17.fn.orientationchange = function (
                 fn
             ) {
                 return fn
                     ? this.bind(
-                        event_name,
+                        "orientationchange",
                         fn
                     )
                     : this.trigger(
-                        event_name
+                        "orientationchange"
                     );
             }),
-            $17.attrFn && ($17.attrFn[event_name] = !0);
+            $17.attrFn && ($17.attrFn.orientationchange = !0);
         })(
             jQuery,
             this
@@ -14608,30 +14593,28 @@
         (function (
             $17, undefined
         ) {
-            var unfocusableItemSelector =
-          ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
-                goToAdjacentItem = function (
-                    item, target, direction
-                ) {
-                    var adjacent = item[direction + "All"](
+            var goToAdjacentItem = function (
+                item, target, direction
+            ) {
+                var adjacent = item[direction + "All"](
+                )
+                    .not(
+                        ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')",
                     )
-                        .not(
-                            unfocusableItemSelector
-                        )
-                        .first(
-                        );
-                    adjacent.length &&
-            (target.blur(
-            ).attr(
-                "tabindex",
-                "-1"
-            ),
-            adjacent.find(
-                "a"
-            ).first(
-            ).focus(
-            ));
-                };
+                    .first(
+                    );
+                adjacent.length &&
+          (target.blur(
+          ).attr(
+              "tabindex",
+              "-1"
+          ),
+          adjacent.find(
+              "a"
+          ).first(
+          ).focus(
+          ));
+            };
             $17.widget(
                 "mobile.selectmenu",
                 $17.mobile.selectmenu,
@@ -15147,7 +15130,7 @@
                         );
                         0 === selector.length &&
             (selector = this.list.find(
-                "li:not(" + unfocusableItemSelector + ") a.ui-btn",
+                "li:not(.ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')) a.ui-btn",
             )),
                         selector.first(
                         ).focus(
@@ -16408,14 +16391,13 @@
                     show: function (
                         notransition
                     ) {
-                        var hideClass = "ui-fixed-hidden",
-                            $el = this.element;
+                        var $el = this.element;
                         this._useTransition(
                             notransition
                         )
                             ? $el
                                 .removeClass(
-                                    "out " + hideClass
+                                    "out ui-fixed-hidden"
                                 )
                                 .addClass(
                                     "in"
@@ -16429,15 +16411,14 @@
                                     }
                                 )
                             : $el.removeClass(
-                                hideClass
+                                "ui-fixed-hidden"
                             ),
                         (this._visible = !0);
                     },
                     hide: function (
                         notransition
                     ) {
-                        var hideClass = "ui-fixed-hidden",
-                            $el = this.element,
+                        var $el = this.element,
                             outclass =
               "out" + ("slide" === this.options.transition ? " reverse" : "");
                         this._useTransition(
@@ -16454,14 +16435,14 @@
                                     function (
                                     ) {
                                         $el.addClass(
-                                            hideClass
+                                            "ui-fixed-hidden"
                                         ).removeClass(
                                             outclass
                                         );
                                     }
                                 )
                             : $el.addClass(
-                                hideClass
+                                "ui-fixed-hidden"
                             ).removeClass(
                                 outclass
                             ),

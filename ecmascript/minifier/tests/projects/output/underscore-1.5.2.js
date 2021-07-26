@@ -77,7 +77,8 @@
                           return;
           }
       });
-    _.map = _.collect = function (
+    (_.map = _.collect =
+    function (
         obj, iterator, context
     ) {
         var results = [];
@@ -104,57 +105,56 @@
                     }
                 ),
                 results);
-    };
-    var reduceError = "Reduce of empty array with no initial value";
+    }),
     (_.reduce =
-    _.foldl =
-    _.inject =
-      function (
-          obj, iterator, memo, context
-      ) {
-          var initial = arguments.length > 2;
-          if (
-              (null == obj && (obj = []),
-              nativeReduce && obj.reduce === nativeReduce)
-          )
-              return (
-                  context && (iterator = _.bind(
-                      iterator,
-                      context
-                  )),
-                  initial
-                      ? obj.reduce(
-                          iterator,
-                          memo
-                      )
-                      : obj.reduce(
-                          iterator
-                      )
-              );
-          if (
-              (each(
-                  obj,
-                  function (
-                      value, index, list
-                  ) {
-                      initial
-                          ? (memo = iterator.call(
-                              context,
-                              memo,
-                              value,
-                              index,
-                              list
-                          ))
-                          : ((memo = value), (initial = !0));
-                  }
-              ),
-              !initial)
-          )
-              throw new TypeError(
-                  reduceError
-              );
-          return memo;
-      }),
+      _.foldl =
+      _.inject =
+        function (
+            obj, iterator, memo, context
+        ) {
+            var initial = arguments.length > 2;
+            if (
+                (null == obj && (obj = []),
+                nativeReduce && obj.reduce === nativeReduce)
+            )
+                return (
+                    context && (iterator = _.bind(
+                        iterator,
+                        context
+                    )),
+                    initial
+                        ? obj.reduce(
+                            iterator,
+                            memo
+                        )
+                        : obj.reduce(
+                            iterator
+                        )
+                );
+            if (
+                (each(
+                    obj,
+                    function (
+                        value, index, list
+                    ) {
+                        initial
+                            ? (memo = iterator.call(
+                                context,
+                                memo,
+                                value,
+                                index,
+                                list
+                            ))
+                            : ((memo = value), (initial = !0));
+                    }
+                ),
+                !initial)
+            )
+                throw new TypeError(
+                    "Reduce of empty array with no initial value"
+                );
+            return memo;
+        }),
     (_.reduceRight = _.foldr =
       function (
           obj, iterator, memo, context
@@ -206,7 +206,7 @@
               !initial)
           )
               throw new TypeError(
-                  reduceError
+                  "Reduce of empty array with no initial value"
               );
           return memo;
       }),

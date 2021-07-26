@@ -2113,7 +2113,6 @@
     ) {
         var INSTANTIATING = {
             },
-            providerSuffix = "Provider",
             path = [],
             loadedModules = new HashMap(
             ),
@@ -2158,7 +2157,7 @@
                     servicename
                 ) {
                     var provider = providerInjector.get(
-                        servicename + providerSuffix
+                        servicename + "Provider"
                     );
                     return instanceInjector.invoke(
                         provider.$get,
@@ -2209,7 +2208,7 @@
                     "Provider '{0}' must define $get factory method.",
                     name,
                 );
-            return (providerCache[name + providerSuffix] = provider_);
+            return (providerCache[name + "Provider"] = provider_);
         }
         function factory(
             name, factoryFn
@@ -2262,7 +2261,7 @@
             serviceName, decorFn
         ) {
             var origProvider = providerInjector.get(
-                    serviceName + providerSuffix
+                    serviceName + "Provider"
                 ),
                 orig$get = origProvider.$get;
             origProvider.$get = function (
@@ -2482,7 +2481,7 @@
                 ) {
                     return (
                         providerCache.hasOwnProperty(
-                            name + providerSuffix
+                            name + "Provider"
                         ) ||
             cache.hasOwnProperty(
                 name
@@ -3239,7 +3238,6 @@
     ) {
         var hasDirectives = {
             },
-            Suffix = "Directive",
             COMMENT_DIRECTIVE_REGEXP = /^\s*directive\:\s*([\d\w\-_]+)\s+(.*)$/,
             CLASS_DIRECTIVE_REGEXP = /(([\d\w\-_]+)(?:\:([^;]+))?;?)/,
             EVENT_HANDLER_ATTR_REGEXP = /^(on[a-z]+|formaction)$/;
@@ -3263,7 +3261,7 @@
                     ) ||
               ((hasDirectives[name] = []),
               $provide.factory(
-                  name + Suffix,
+                  name + "Directive",
                   [
                       "$injector",
                       "$exceptionHandler",
@@ -4565,7 +4563,7 @@
                         for (
                             var directive,
                                 directives = $injector.get(
-                                    name + Suffix
+                                    name + "Directive"
                                 ),
                                 i = 0,
                                 ii = directives.length;
@@ -6551,9 +6549,9 @@
                             minInt: 1,
                             minFrac: 2,
                             maxFrac: 2,
-                            posPre: "\u00A4",
+                            posPre: "\xa4",
                             posSuf: "",
-                            negPre: "(\u00A4",
+                            negPre: "(\xa4",
                             negSuf: ")",
                             gSize: 3,
                             lgSize: 3,
@@ -9762,14 +9760,13 @@
     function $FilterProvider(
         $provide
     ) {
-        var suffix = "Filter";
         function register(
             name, factory
         ) {
             if (!isObject(
                 name
             )) return $provide.factory(
-                name + suffix,
+                name + "Filter",
                 factory
             );
             var filters = {
@@ -9799,7 +9796,7 @@
                     name
                 ) {
                     return $injector.get(
-                        name + suffix
+                        name + "Filter"
                     );
                 };
             },
@@ -12414,10 +12411,9 @@
             function (
                 $parse, $animate
             ) {
-                var NG_REMOVED = "$$NG_REMOVED",
-                    ngRepeatMinErr = minErr(
-                        "ngRepeat"
-                    );
+                var ngRepeatMinErr = minErr(
+                    "ngRepeat"
+                );
                 function getBlockStart(
                     block
                 ) {
@@ -12613,7 +12609,7 @@
                       function (
                           element
                       ) {
-                          element[NG_REMOVED] = !0;
+                          element["$$NG_REMOVED"] = !0;
                       }
                   ),
                   block.scope.$destroy(
@@ -12640,7 +12636,7 @@
                                     ) {
                                         (childScope = block.scope), (nextNode = previousNode);
                                         do nextNode = nextNode.nextSibling;
-                                        while (nextNode && nextNode[NG_REMOVED]);
+                                        while (nextNode && nextNode["$$NG_REMOVED"]);
                                         getBlockStart(
                                             block
                                         ) != nextNode &&
@@ -13718,16 +13714,15 @@
                         return function (
                             scope, element, attr
                         ) {
-                            var selectCtrlName = "$selectController",
-                                parent = element.parent(
+                            var parent = element.parent(
                                 ),
                                 selectCtrl =
                   parent.data(
-                      selectCtrlName
+                      "$selectController"
                   ) ||
                   parent.parent(
                   ).data(
-                      selectCtrlName
+                      "$selectController"
                   );
                             selectCtrl && selectCtrl.databound
                                 ? element.prop(
@@ -14743,7 +14738,7 @@
           "\t" === ch ||
           "\n" === ch ||
           "\v" === ch ||
-          "\u00A0" === ch
+          "\xa0" === ch
             );
         },
         isIdent: function (

@@ -43,10 +43,6 @@ var YUI = function (
     var proto,
         prop,
         VERSION = "3.12.0",
-        PERIOD = ".",
-        BASE = "http://yui.yahooapis.com/",
-        DOC_LABEL = "yui3-js-enabled",
-        CSS_STAMP_EL = "yui3-css-stamp",
         NOOP = function (
         ) {},
         SLICE = Array.prototype.slice,
@@ -147,10 +143,10 @@ var YUI = function (
         };
     for (prop in (docEl &&
     -1 == docClass.indexOf(
-        DOC_LABEL
+        "yui3-js-enabled"
     ) &&
     (docClass && (docClass += " "),
-    (docClass += DOC_LABEL),
+    (docClass += "yui3-js-enabled"),
     (docEl.className = docClass)),
     VERSION.indexOf(
         "@"
@@ -228,8 +224,8 @@ var YUI = function (
                         },
                         versions: {
                         },
-                        base: BASE,
-                        cdn: BASE + VERSION + "/build/",
+                        base: "http://yui.yahooapis.com/",
+                        cdn: "http://yui.yahooapis.com/" + VERSION + "/build/",
                         _idx: 0,
                         _used: {
                         },
@@ -340,14 +336,12 @@ var YUI = function (
                 ),
             }),
             doc && !doc.getElementById(
-                CSS_STAMP_EL
+                "yui3-css-stamp"
             )
                 ? (((el = doc.createElement(
                     "div"
                 )).innerHTML =
-              '<div id="' +
-              CSS_STAMP_EL +
-              '" style="position: absolute !important; visibility: hidden !important"></div>'),
+              '<div id="yui3-css-stamp" style="position: absolute !important; visibility: hidden !important"></div>'),
                 (YUI.Env.cssStampEl = el.firstChild),
                 doc.body
                     ? doc.body.appendChild(
@@ -359,11 +353,11 @@ var YUI = function (
                     ))
                 : doc &&
             doc.getElementById(
-                CSS_STAMP_EL
+                "yui3-css-stamp"
             ) &&
             !YUI.Env.cssStampEl &&
             (YUI.Env.cssStampEl = doc.getElementById(
-                CSS_STAMP_EL
+                "yui3-css-stamp"
             )),
             (Y.config.lang = Y.config.lang || "en-US"),
             (Y.config.base = YUI.config.base || Y.Env.getBase(
@@ -993,11 +987,11 @@ var YUI = function (
         ) {
             for (var o, j, d, arg, a = arguments, i = 0; i < a.length; i++)
                 if (((o = this), (arg = a[i]).indexOf(
-                    PERIOD
+                    "."
                 ) > -1))
                     for (
                         j = "YAHOO" == (d = arg.split(
-                            PERIOD
+                            "."
                         ))[0]
                             ? 1
                             : 0;
@@ -1141,15 +1135,11 @@ YUI.add(
                 "[object Error]": "error",
             },
             SUBREGEX = /\{\s*([^|}]+?)\s*(?:\|([^}]*))?\s*\}/g,
-            WHITESPACE =
-          "\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF",
-            WHITESPACE_CLASS =
-          "[\x09-\x0D\x20\xA0\u1680\u180E\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]+",
             TRIM_LEFT_REGEX = new RegExp(
-                "^" + WHITESPACE_CLASS
+                "^[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+"
             ),
             TRIM_RIGHT_REGEX = new RegExp(
-                WHITESPACE_CLASS + "$"
+                "[\t-\r \xa0 ᠎ - \u2028\u2029  　﻿]+$"
             ),
             TRIMREGEX = new RegExp(
                 TRIM_LEFT_REGEX.source + "|" + TRIM_RIGHT_REGEX.source,
@@ -1369,7 +1359,8 @@ YUI.add(
         (L.trim =
           L._isNative(
               STRING_PROTO.trim
-          ) && !WHITESPACE.trim(
+          ) &&
+          !"\t\n\v\f\r \xa0 ᠎           \u2028\u2029  　﻿".trim(
           )
               ? function (
                   s
@@ -1394,7 +1385,8 @@ YUI.add(
         (L.trimLeft =
           L._isNative(
               STRING_PROTO.trimLeft
-          ) && !WHITESPACE.trimLeft(
+          ) &&
+          !"\t\n\v\f\r \xa0 ᠎           \u2028\u2029  　﻿".trimLeft(
           )
               ? function (
                   s
@@ -1413,7 +1405,8 @@ YUI.add(
         (L.trimRight =
           L._isNative(
               STRING_PROTO.trimRight
-          ) && !WHITESPACE.trimRight(
+          ) &&
+          !"\t\n\v\f\r \xa0 ᠎           \u2028\u2029  　﻿".trimRight(
           )
               ? function (
                   s
@@ -3798,8 +3791,6 @@ YUI.add(
         Y, NAME
     ) {
         var INSTANCE = Y,
-            LOGEVENT = "yui:log",
-            UNDEFINED = "undefined",
             LEVELS = {
                 debug: 1,
                 info: 2,
@@ -3842,27 +3833,27 @@ YUI.add(
                         cat,
                         src
                     )
-                    : typeof console !== UNDEFINED && console.log
+                    : void 0 !== console && console.log
                         ? console[cat && console[cat] && cat in LEVELS ? cat : "log"](
                             m,
                         )
-                        : typeof opera !== UNDEFINED && opera.postError(
+                        : void 0 !== opera && opera.postError(
                             m
                         )),
               publisher &&
                 !silent &&
                 (publisher !== Y ||
                   publisher.getEvent(
-                      LOGEVENT
+                      "yui:log"
                   ) ||
                   publisher.publish(
-                      LOGEVENT,
+                      "yui:log",
                       {
                           broadcast: 2,
                       }
                   ),
                 publisher.fire(
-                    LOGEVENT,
+                    "yui:log",
                     {
                         msg: msg,
                         cat: cat,
@@ -3962,7 +3953,6 @@ YUI.add(
         Y, NAME
     ) {
         (VERSION = Y.version),
-        (BUILD = "/build/"),
         (COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?"),
         (groups = (META = {
             version: VERSION,
@@ -3990,7 +3980,8 @@ YUI.add(
         (yui2Update = function (
             tnt, yui2, config
         ) {
-            var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD,
+            var root =
+              "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + "/build/",
                 base = config && config.base ? config.base : CDN_BASE,
                 combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
             (groups.yui2.base = base + root),
@@ -4000,7 +3991,7 @@ YUI.add(
         (galleryUpdate = function (
             tag, config
         ) {
-            var root = (tag || "gallery-2013.08.22-21-03") + BUILD,
+            var root = (tag || "gallery-2013.08.22-21-03") + "/build/",
                 base = config && config.base ? config.base : CDN_BASE,
                 combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
             (groups.gallery.base = base + root),
@@ -4065,7 +4056,6 @@ YUI.add(
           ),
         (YUI.Env[VERSION] = META);
         var VERSION,
-            BUILD,
             CDN_BASE,
             COMBO_BASE,
             META,
@@ -4078,11 +4068,7 @@ YUI.add(
             NO_REQUIREMENTS = [],
             GLOBAL_ENV = YUI.Env,
             GLOBAL_LOADED = GLOBAL_ENV._loaded,
-            CSS1 = "css",
-            JS = "js",
-            INTL = "intl",
             VERSION1 = Y.version,
-            ROOT_LANG = "",
             YObject = Y.Object,
             oeach = YObject.each,
             yArray = Y.Array,
@@ -4094,7 +4080,7 @@ YUI.add(
                 dir, file, type, nomin
             ) {
                 var path = dir + "/" + file;
-                return nomin || (path += "-min"), (path += "." + (type || CSS1));
+                return nomin || (path += "-min"), (path += "." + (type || "css"));
             };
         YUI.Env._cssLoaded || (YUI.Env._cssLoaded = {
         }),
@@ -4257,7 +4243,7 @@ YUI.add(
                         i
                     ) &&
                 (v = this.moduleInfo[i]).type &&
-                v.type === CSS1 &&
+                "css" === v.type &&
                 this.isCSSLoaded(
                     v.name
                 ) &&
@@ -4314,7 +4300,10 @@ YUI.add(
                 }
                 return (
                     (!!rm && mod2 in rm) ||
-              (!!m.ext && m.type === CSS1 && !other.ext && other.type === CSS1)
+              (!!m.ext &&
+                "css" === m.type &&
+                !other.ext &&
+                "css" === other.type)
                 );
             },
             _config: function (
@@ -4586,12 +4575,12 @@ YUI.add(
                     return null;
                 if (
                     (!o.type &&
-                ((o.type = JS),
+                ((o.type = "js"),
                 (p = o.path || o.fullpath) &&
                   this.REGEX_CSS.test(
                       p
                   ) &&
-                  (o.type = CSS1)),
+                  (o.type = "css")),
                     o.path || o.fullpath || (o.path = _path(
                         name,
                         name,
@@ -4748,11 +4737,11 @@ YUI.add(
                               lang
                           ),
                                     (packName = this.getLangPackName(
-                                        ROOT_LANG,
+                                        "",
                                         name
                                     )),
                                     (supName = this.getLangPackName(
-                                        ROOT_LANG,
+                                        "",
                                         i
                                     )),
                                     (smod = this.moduleInfo[packName]) ||
@@ -5024,7 +5013,8 @@ YUI.add(
                             add = this.getRequires(
                                 m
                             ),
-                            intl = intl || (m.expanded_map && (INTL in m.expanded_map));
+                            intl =
+                      intl || (m.expanded_map && ("intl" in m.expanded_map));
                             j < add.length;
                             j++
                         )
@@ -5051,7 +5041,7 @@ YUI.add(
                                     m
                                 ),
                                 intl =
-                        intl || (m.expanded_map && (INTL in m.expanded_map));
+                        intl || (m.expanded_map && ("intl" in m.expanded_map));
                                 j < add.length;
                                 j++
                             )
@@ -5073,7 +5063,7 @@ YUI.add(
                                     m
                                 ),
                                 intl =
-                        intl || (m.expanded_map && (INTL in m.expanded_map));
+                        intl || (m.expanded_map && ("intl" in m.expanded_map));
                                 j < add.length;
                                 j++
                             )
@@ -5172,8 +5162,8 @@ YUI.add(
                   !mod.langPack &&
                   Y.Intl &&
                   ((lang = Y.Intl.lookupBestLang(
-                      this.lang || ROOT_LANG,
-                      mod.lang,
+                      this.lang || "",
+                      mod.lang
                   )),
                   (packName = this.getLangPackName(
                       lang,
@@ -5183,7 +5173,7 @@ YUI.add(
                         packName
                     )),
                 d.unshift(
-                    INTL
+                    "intl"
                 )),
                     (mod.expanded_map = yArray.hash(
                         d
@@ -5285,7 +5275,7 @@ YUI.add(
                 ((packPath = _path(
                     m.pkg || name,
                     packName,
-                    JS,
+                    "js",
                     !0
                 )),
                 (conf = {
@@ -5331,7 +5321,7 @@ YUI.add(
                 )),
                 m.lang &&
                   ((packName = this.getLangPackName(
-                      ROOT_LANG,
+                      "",
                       name
                   )),
                   this._addLangPack(
@@ -5551,7 +5541,7 @@ YUI.add(
                     i
                 )) ||
                 !rreg ||
-                mod.type !== JS ||
+                "js" !== mod.type ||
                 i in YUI.Env.mods
                     ? Y.mix(
                         this.loaded,
@@ -5705,7 +5695,7 @@ YUI.add(
                     };
                 if (
                     ((self._refetch = []),
-                    type && (modules[type === JS ? CSS1 : JS] = []),
+                    type && (modules["js" === type ? "css" : "js"] = []),
                     self.fetchCSS || (modules.css = []),
                     modules.js.length && comp++,
                     modules.css.length && comp++,
@@ -6134,7 +6124,7 @@ YUI.add(
                         (maxURLLength =
                   resCombos[base].maxURLLength || self.maxURLLength),
                         resCombos[base]))
-                            if (type === JS || type === CSS1) {
+                            if ("js" === type || "css" === type) {
                                 if (
                                     ((urls = resCombos[base][type]),
                                     (mods = resCombos[base][type + "Mods"]),

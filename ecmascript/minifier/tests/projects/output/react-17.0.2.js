@@ -676,7 +676,6 @@
       object.$$typeof === REACT_ELEMENT_TYPE
             );
         }
-        var SEPARATOR = ".";
         function escape(
             key
         ) {
@@ -744,7 +743,7 @@
                     ),
                     childKey =
           "" === nameSoFar
-              ? SEPARATOR + getElementKey(
+              ? "." + getElementKey(
                   _child,
                   0
               )
@@ -791,7 +790,7 @@
             var child,
                 nextName,
                 subtreeCount = 0,
-                nextNamePrefix = "" === nameSoFar ? SEPARATOR : nameSoFar + ":";
+                nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
             if (Array.isArray(
                 children
             ))

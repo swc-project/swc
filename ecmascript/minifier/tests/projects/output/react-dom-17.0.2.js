@@ -133,15 +133,8 @@
       void 0 !== window.document &&
       void 0 !== window.document.createElement
             ),
-            ATTRIBUTE_NAME_START_CHAR =
-      ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD",
-            ATTRIBUTE_NAME_CHAR =
-      ATTRIBUTE_NAME_START_CHAR +
-      "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040",
-            ROOT_ATTRIBUTE_NAME = "data-reactroot",
-            VALID_ATTRIBUTE_NAME_REGEX = new RegExp(
-                "^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$",
-            ),
+            VALID_ATTRIBUTE_NAME_REGEX =
+      /^[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,
             hasOwnProperty = Object.prototype.hasOwnProperty,
             illegalAttributeNameCache = {
             },
@@ -1786,35 +1779,29 @@
                 props
             );
         }
-        var HTML_NAMESPACE = "http://www.w3.org/1999/xhtml",
-            MATH_NAMESPACE = "http://www.w3.org/1998/Math/MathML",
-            SVG_NAMESPACE = "http://www.w3.org/2000/svg",
-            Namespaces = {
-                html: HTML_NAMESPACE,
-                mathml: MATH_NAMESPACE,
-                svg: SVG_NAMESPACE,
-            };
         function getIntrinsicNamespace(
             type
         ) {
             switch (type) {
             case "svg":
-                return SVG_NAMESPACE;
+                return "http://www.w3.org/2000/svg";
             case "math":
-                return MATH_NAMESPACE;
+                return "http://www.w3.org/1998/Math/MathML";
             default:
-                return HTML_NAMESPACE;
+                return "http://www.w3.org/1999/xhtml";
             }
         }
         function getChildNamespace(
             parentNamespace, type
         ) {
-            return null == parentNamespace || parentNamespace === HTML_NAMESPACE
+            return null == parentNamespace ||
+      "http://www.w3.org/1999/xhtml" === parentNamespace
                 ? getIntrinsicNamespace(
                     type
                 )
-                : parentNamespace === SVG_NAMESPACE && "foreignObject" === type
-                    ? HTML_NAMESPACE
+                : "http://www.w3.org/2000/svg" === parentNamespace &&
+        "foreignObject" === type
+                    ? "http://www.w3.org/1999/xhtml"
                     : parentNamespace;
         }
         var didWarnValueDefaultValue$1,
@@ -1843,7 +1830,10 @@
                 function (
                     node, html
                 ) {
-                    if (node.namespaceURI === Namespaces.svg && !("innerHTML" in node)) {
+                    if (
+                        "http://www.w3.org/2000/svg" === node.namespaceURI &&
+        !("innerHTML" in node)
+                    ) {
                         (reusableSVGContainer =
           reusableSVGContainer || document.createElement(
               "div"
@@ -2989,12 +2979,10 @@
             },
             warnedProperties = {
             },
-            rARIA = new RegExp(
-                "^(aria)-[" + ATTRIBUTE_NAME_CHAR + "]*$"
-            ),
-            rARIACamel = new RegExp(
-                "^(aria)[A-Z][" + ATTRIBUTE_NAME_CHAR + "]*$"
-            ),
+            rARIA =
+      /^(aria)-[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,
+            rARIACamel =
+      /^(aria)[A-Z][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,
             hasOwnProperty$1 = Object.prototype.hasOwnProperty;
         function validateProperty(
             tagName, name
@@ -3132,12 +3120,10 @@
             _hasOwnProperty = Object.prototype.hasOwnProperty,
             EVENT_NAME_REGEX = /^on./,
             INVALID_EVENT_NAME_REGEX = /^on[^A-Z]/,
-            rARIA$1 = new RegExp(
-                "^(aria)-[" + ATTRIBUTE_NAME_CHAR + "]*$"
-            ),
-            rARIACamel$1 = new RegExp(
-                "^(aria)[A-Z][" + ATTRIBUTE_NAME_CHAR + "]*$"
-            ),
+            rARIA$1 =
+      /^(aria)-[:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,
+            rARIACamel$1 =
+      /^(aria)[A-Z][:A-Z_a-z\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u02FF\u0370-\u037D\u037F-\u1FFF\u200C-\u200D\u2070-\u218F\u2C00-\u2FEF\u3001-\uD7FF\uF900-\uFDCF\uFDF0-\uFFFD\-.0-9\u00B7\u0300-\u036F\u203F-\u2040]*$/,
             warnUnknownProperties = function (
                 type, props, eventRegistry
             ) {
@@ -5571,7 +5557,6 @@
       canUseDOM &&
       (!canUseCompositionEvent ||
         (documentMode && documentMode > 8 && documentMode <= 11)),
-            SPACEBAR_CHAR = " ",
             hasSpaceKeypress = !1;
         function isKeypressCommand(
             nativeEvent
@@ -5708,10 +5693,10 @@
             case "keypress":
                 var which = nativeEvent.which;
                 if (32 !== which) return null;
-                return (hasSpaceKeypress = !0), SPACEBAR_CHAR;
+                return (hasSpaceKeypress = !0), " ";
             case "textInput":
                 var chars = nativeEvent.data;
-                if (chars === SPACEBAR_CHAR && hasSpaceKeypress) return null;
+                if (" " === chars && hasSpaceKeypress) return null;
                 return chars;
             default:
                 return null;
@@ -7481,14 +7466,6 @@
             normalizeMarkupForTextOrAttribute,
             normalizeHTML,
             didWarnInvalidHydration = !1,
-            DANGEROUSLY_SET_INNER_HTML = "dangerouslySetInnerHTML",
-            SUPPRESS_CONTENT_EDITABLE_WARNING = "suppressContentEditableWarning",
-            SUPPRESS_HYDRATION_WARNING = "suppressHydrationWarning",
-            AUTOFOCUS = "autoFocus",
-            CHILDREN = "children",
-            STYLE = "style",
-            HTML$1 = "__html",
-            HTML_NAMESPACE$1 = Namespaces.html,
             NORMALIZE_NEWLINES_REGEX = /\r\n?/g,
             NORMALIZE_NULL_AND_REPLACEMENT_REGEX = /\u0000|\uFFFD/g;
         function getOwnerDocumentFromRootContainer(
@@ -7517,7 +7494,7 @@
                     propKey
                 )) {
                     var nextProp = nextProps[propKey];
-                    if (propKey === STYLE)
+                    if ("style" === propKey)
                         nextProp && Object.freeze(
                             nextProp
                         ),
@@ -7525,50 +7502,49 @@
                             domElement,
                             nextProp
                         );
-                    else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-                        var nextHtml = nextProp ? nextProp[HTML$1] : void 0;
+                    else if ("dangerouslySetInnerHTML" === propKey) {
+                        var nextHtml = nextProp ? nextProp["__html"] : void 0;
                         null != nextHtml && setInnerHTML(
                             domElement,
                             nextHtml
                         );
-                    } else if (propKey === CHILDREN)
-                        if ("string" == typeof nextProp) {
-                            var canSetTextContent = "textarea" !== tag || "" !== nextProp;
-                            canSetTextContent && setTextContent(
-                                domElement,
-                                nextProp
-                            );
-                        } else
-                            "number" == typeof nextProp &&
-              setTextContent(
-                  domElement,
-                  "" + nextProp
-              );
-                    else
-                        propKey === SUPPRESS_CONTENT_EDITABLE_WARNING ||
-            propKey === SUPPRESS_HYDRATION_WARNING ||
-            propKey === AUTOFOCUS ||
-            (registrationNameDependencies.hasOwnProperty(
-                propKey
-            )
-                ? null != nextProp &&
-                ("function" != typeof nextProp &&
-                  warnForInvalidEventListener(
-                      propKey,
-                      nextProp
-                  ),
-                "onScroll" === propKey &&
-                  listenToNonDelegatedEvent(
-                      "scroll",
-                      domElement
-                  ))
-                : null != nextProp &&
-                setValueForProperty(
+                    } else
+                        "children" === propKey
+                            ? "string" == typeof nextProp
+                                ? ("textarea" !== tag || "" !== nextProp) &&
+                setTextContent(
                     domElement,
-                    propKey,
-                    nextProp,
-                    isCustomComponentTag,
-                ));
+                    nextProp
+                )
+                                : "number" == typeof nextProp &&
+                setTextContent(
+                    domElement,
+                    "" + nextProp
+                )
+                            : "suppressContentEditableWarning" === propKey ||
+              "suppressHydrationWarning" === propKey ||
+              "autoFocus" === propKey ||
+              (registrationNameDependencies.hasOwnProperty(
+                  propKey
+              )
+                  ? null != nextProp &&
+                  ("function" != typeof nextProp &&
+                    warnForInvalidEventListener(
+                        propKey,
+                        nextProp
+                    ),
+                  "onScroll" === propKey &&
+                    listenToNonDelegatedEvent(
+                        "scroll",
+                        domElement
+                    ))
+                  : null != nextProp &&
+                  setValueForProperty(
+                      domElement,
+                      propKey,
+                      nextProp,
+                      isCustomComponentTag,
+                  ));
                 }
         }
         function updateDOMProperties(
@@ -7580,17 +7556,17 @@
             for (var i = 0; i < updatePayload.length; i += 2) {
                 var propKey = updatePayload[i],
                     propValue = updatePayload[i + 1];
-                propKey === STYLE
+                "style" === propKey
                     ? setValueForStyles(
                         domElement,
                         propValue
                     )
-                    : propKey === DANGEROUSLY_SET_INNER_HTML
+                    : "dangerouslySetInnerHTML" === propKey
                         ? setInnerHTML(
                             domElement,
                             propValue
                         )
-                        : propKey === CHILDREN
+                        : "children" === propKey
                             ? setTextContent(
                                 domElement,
                                 propValue
@@ -7613,11 +7589,11 @@
                 ),
                 namespaceURI = parentNamespace;
             if (
-                (namespaceURI === HTML_NAMESPACE$1 &&
+                ("http://www.w3.org/1999/xhtml" === namespaceURI &&
         (namespaceURI = getIntrinsicNamespace(
             type
         )),
-                namespaceURI === HTML_NAMESPACE$1)
+                "http://www.w3.org/1999/xhtml" === namespaceURI)
             ) {
                 if (
                     ((isCustomComponentTag = isCustomComponent(
@@ -7662,7 +7638,7 @@
                 type
             );
             return (
-                namespaceURI !== HTML_NAMESPACE$1 ||
+                "http://www.w3.org/1999/xhtml" !== namespaceURI ||
         isCustomComponentTag ||
         "[object HTMLUnknownElement]" !==
           Object.prototype.toString.call(
@@ -7948,7 +7924,7 @@
         ) &&
         null != lastProps[propKey]
                 )
-                    if (propKey === STYLE) {
+                    if ("style" === propKey) {
                         var lastStyle = lastProps[propKey];
                         for (styleName in lastStyle)
                             lastStyle.hasOwnProperty(
@@ -7958,11 +7934,11 @@
               }),
               (styleUpdates[styleName] = ""));
                     } else
-                        propKey !== DANGEROUSLY_SET_INNER_HTML &&
-            propKey !== CHILDREN &&
-            propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING &&
-            propKey !== SUPPRESS_HYDRATION_WARNING &&
-            propKey !== AUTOFOCUS &&
+                        "dangerouslySetInnerHTML" !== propKey &&
+            "children" !== propKey &&
+            "suppressContentEditableWarning" !== propKey &&
+            "suppressHydrationWarning" !== propKey &&
+            "autoFocus" !== propKey &&
             (registrationNameDependencies.hasOwnProperty(
                 propKey
             )
@@ -7981,7 +7957,7 @@
         nextProp !== lastProp &&
         (null != nextProp || null != lastProp)
                 )
-                    if (propKey === STYLE)
+                    if ("style" === propKey)
                         if ((nextProp && Object.freeze(
                             nextProp
                         ), lastProp)) {
@@ -8011,9 +7987,9 @@
                   styleUpdates
               )),
                             (styleUpdates = nextProp);
-                    else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-                        var nextHtml = nextProp ? nextProp[HTML$1] : void 0,
-                            lastHtml = lastProp ? lastProp[HTML$1] : void 0;
+                    else if ("dangerouslySetInnerHTML" === propKey) {
+                        var nextHtml = nextProp ? nextProp["__html"] : void 0,
+                            lastHtml = lastProp ? lastProp["__html"] : void 0;
                         null != nextHtml &&
             lastHtml !== nextHtml &&
             (updatePayload = updatePayload || []).push(
@@ -8021,14 +7997,14 @@
                 nextHtml
             );
                     } else
-                        propKey === CHILDREN
+                        "children" === propKey
                             ? ("string" == typeof nextProp || "number" == typeof nextProp) &&
               (updatePayload = updatePayload || []).push(
                   propKey,
                   "" + nextProp
               )
-                            : propKey !== SUPPRESS_CONTENT_EDITABLE_WARNING &&
-              propKey !== SUPPRESS_HYDRATION_WARNING &&
+                            : "suppressContentEditableWarning" !== propKey &&
+              "suppressHydrationWarning" !== propKey &&
               (registrationNameDependencies.hasOwnProperty(
                   propKey
               )
@@ -8060,10 +8036,10 @@
                 styleUpdates &&
         (validateShorthandPropertyCollisionInDev(
             styleUpdates,
-            nextProps[STYLE],
+            nextProps.style
         ),
         (updatePayload = updatePayload || []).push(
-            STYLE,
+            "style",
             styleUpdates
         )),
                 updatePayload
@@ -8139,7 +8115,7 @@
         ) {
             var isCustomComponentTag, extraAttributeNames;
             switch (
-                ((suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING]),
+                ((suppressHydrationWarning = !0 === rawProps.suppressHydrationWarning),
                 (isCustomComponentTag = isCustomComponent(
                     tag,
                     rawProps
@@ -8270,7 +8246,7 @@
                     propKey
                 )) {
                     var nextProp = rawProps[propKey];
-                    if (propKey === CHILDREN)
+                    if ("children" === propKey)
                         "string" == typeof nextProp
                             ? domElement.textContent !== nextProp &&
               (suppressHydrationWarning ||
@@ -8278,7 +8254,7 @@
                     domElement.textContent,
                     nextProp
                 ),
-              (updatePayload = [CHILDREN, nextProp,]))
+              (updatePayload = ["children", nextProp,]))
                             : "number" == typeof nextProp &&
               domElement.textContent !== "" + nextProp &&
               (suppressHydrationWarning ||
@@ -8286,7 +8262,7 @@
                     domElement.textContent,
                     nextProp
                 ),
-              (updatePayload = [CHILDREN, "" + nextProp,]));
+              (updatePayload = ["children", "" + nextProp,]));
                     else if (registrationNameDependencies.hasOwnProperty(
                         propKey
                     ))
@@ -8308,15 +8284,15 @@
                             );
                         if (suppressHydrationWarning);
                         else if (
-                            propKey === SUPPRESS_CONTENT_EDITABLE_WARNING ||
-            propKey === SUPPRESS_HYDRATION_WARNING ||
+                            "suppressContentEditableWarning" === propKey ||
+            "suppressHydrationWarning" === propKey ||
             "value" === propKey ||
             "checked" === propKey ||
             "selected" === propKey
                         );
-                        else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+                        else if ("dangerouslySetInnerHTML" === propKey) {
                             var serverHTML = domElement.innerHTML,
-                                nextHtml = nextProp ? nextProp[HTML$1] : void 0;
+                                nextHtml = nextProp ? nextProp["__html"] : void 0;
                             if (null != nextHtml) {
                                 var expectedHTML = normalizeHTML(
                                     domElement,
@@ -8329,7 +8305,7 @@
                     expectedHTML
                 );
                             }
-                        } else if (propKey === STYLE) {
+                        } else if ("style" === propKey) {
                             if (
                                 (extraAttributeNames.delete(
                                     propKey
@@ -8391,11 +8367,11 @@
                             else {
                                 var ownNamespace = parentNamespace;
                                 if (
-                                    (ownNamespace === HTML_NAMESPACE$1 &&
+                                    ("http://www.w3.org/1999/xhtml" === ownNamespace &&
                   (ownNamespace = getIntrinsicNamespace(
                       tag
                   )),
-                                    ownNamespace === HTML_NAMESPACE$1)
+                                    "http://www.w3.org/1999/xhtml" === ownNamespace)
                                 )
                                     extraAttributeNames.delete(
                                         propKey.toLowerCase(
@@ -8805,10 +8781,6 @@
             },
             didWarn$1 = {
             },
-            SUSPENSE_START_DATA = "$",
-            SUSPENSE_END_DATA = "/$",
-            SUSPENSE_PENDING_START_DATA = "$?",
-            SUSPENSE_FALLBACK_START_DATA = "$!",
             eventsEnabled = null,
             selectionInformation = null;
         function shouldAutoFocusHostComponent(
@@ -9212,12 +9184,12 @@
         function isSuspenseInstancePending(
             instance
         ) {
-            return instance.data === SUSPENSE_PENDING_START_DATA;
+            return "$?" === instance.data;
         }
         function isSuspenseInstanceFallback(
             instance
         ) {
-            return instance.data === SUSPENSE_FALLBACK_START_DATA;
+            return "$!" === instance.data;
         }
         function getNextHydratable(
             node
@@ -9287,16 +9259,12 @@
             for (var node = suspenseInstance.nextSibling, depth = 0; node; ) {
                 if (8 === node.nodeType) {
                     var data = node.data;
-                    if (data === SUSPENSE_END_DATA) {
+                    if ("/$" === data) {
                         if (0 === depth) return getNextHydratableSibling(
                             node
                         );
                         depth--;
-                    } else
-                        (data === SUSPENSE_START_DATA ||
-            data === SUSPENSE_FALLBACK_START_DATA ||
-            data === SUSPENSE_PENDING_START_DATA) &&
-            depth++;
+                    } else ("$" === data || "$!" === data || "$?" === data) && depth++;
                 }
                 node = node.nextSibling;
             }
@@ -9308,14 +9276,10 @@
             for (var node = targetInstance.previousSibling, depth = 0; node; ) {
                 if (8 === node.nodeType) {
                     var data = node.data;
-                    if (
-                        data === SUSPENSE_START_DATA ||
-          data === SUSPENSE_FALLBACK_START_DATA ||
-          data === SUSPENSE_PENDING_START_DATA
-                    ) {
+                    if ("$" === data || "$!" === data || "$?" === data) {
                         if (0 === depth) return node;
                         depth--;
-                    } else data === SUSPENSE_END_DATA && depth++;
+                    } else "/$" === data && depth++;
                 }
                 node = node.previousSibling;
             }
@@ -10221,8 +10185,7 @@
                 }
             }
         }
-        var ReactVersion = "17.0.2",
-            ReactCurrentBatchConfig = ReactSharedInternals.ReactCurrentBatchConfig;
+        var ReactCurrentBatchConfig = ReactSharedInternals.ReactCurrentBatchConfig;
         function requestCurrentTransition(
         ) {
             return ReactCurrentBatchConfig.transition;
@@ -23172,7 +23135,7 @@
                 rootElement &&
       1 === rootElement.nodeType &&
       rootElement.hasAttribute(
-          ROOT_ATTRIBUTE_NAME
+          "data-reactroot"
       )
             );
         }
@@ -23188,7 +23151,7 @@
                     !warned &&
           1 === rootSibling.nodeType &&
           rootSibling.hasAttribute(
-              ROOT_ATTRIBUTE_NAME
+              "data-reactroot"
           ) &&
           ((warned = !0),
           error(
@@ -23349,7 +23312,7 @@
       ((findFiberByHostInstance = (devToolsConfig = {
           findFiberByHostInstance: getClosestInstanceFromNode,
           bundleType: 1,
-          version: ReactVersion,
+          version: "17.0.2",
           rendererPackageName: "react-dom",
       }).findFiberByHostInstance),
       injectInternals(
@@ -24676,7 +24639,7 @@
                 parent, html
             ) {
                 var testElement =
-        parent.namespaceURI === HTML_NAMESPACE$1
+        "http://www.w3.org/1999/xhtml" === parent.namespaceURI
             ? parent.ownerDocument.createElement(
                 parent.tagName
             )
@@ -27483,6 +27446,6 @@
                 callback,
             );
         }),
-        (exports.version = ReactVersion);
+        (exports.version = "17.0.2");
     }
 );

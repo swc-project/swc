@@ -3,7 +3,6 @@
 ) {
     var readyList,
         rootjQuery,
-        core_strundefined = "undefined",
         document = window.document,
         location = window.location,
         _jQuery = window.jQuery,
@@ -11,14 +10,13 @@
         class2type = {
         },
         core_deletedIds = [],
-        core_version = "1.9.1",
         core_concat = core_deletedIds.concat,
         core_push = core_deletedIds.push,
         core_slice = core_deletedIds.slice,
         core_indexOf = core_deletedIds.indexOf,
         core_toString = class2type.toString,
         core_hasOwn = class2type.hasOwnProperty,
-        core_trim = core_version.trim,
+        core_trim = "1.9.1".trim,
         jQuery = function (
             selector, context
         ) {
@@ -573,11 +571,11 @@
             elem,
             i = 0,
             found =
-        typeof context.getElementsByTagName !== core_strundefined
+        void 0 !== context.getElementsByTagName
             ? context.getElementsByTagName(
                 tag || "*"
             )
-            : typeof context.querySelectorAll !== core_strundefined
+            : void 0 !== context.querySelectorAll
                 ? context.querySelectorAll(
                     tag || "*"
                 )
@@ -1701,7 +1699,7 @@
     }
     (jQuery.fn = jQuery.prototype =
     {
-        jquery: core_version,
+        jquery: "1.9.1",
         constructor: jQuery,
         init: function (
             selector, context, rootjQuery
@@ -2281,7 +2279,7 @@
             },
             trim:
         core_trim && !core_trim.call(
-            "\uFEFF\xA0"
+            "﻿\xa0"
         )
             ? function (
                 text
@@ -3186,8 +3184,6 @@
                     var container,
                         marginDiv,
                         tds,
-                        divReset =
-              "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;",
                         body = document.getElementsByTagName(
                             "body"
                         )[0];
@@ -3238,7 +3234,7 @@
                       "div"
                   ),
               )).style.cssText = div.style.cssText =
-                divReset),
+                "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;"),
               (marginDiv.style.marginRight = marginDiv.style.width = "0"),
               (div.style.width = "1px"),
               (support.reliableMarginRight = !parseFloat(
@@ -3248,10 +3244,10 @@
                   ) || {
                   }).marginRight,
               ))),
-            typeof div.style.zoom !== core_strundefined &&
+            void 0 !== div.style.zoom &&
               ((div.innerHTML = ""),
               (div.style.cssText =
-                divReset + "width:1px;padding:1px;display:inline;zoom:1"),
+                "padding:0;margin:0;border:0;display:block;box-sizing:content-box;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;width:1px;padding:1px;display:inline;zoom:1"),
               (support.inlineBlockNeedsLayout = 3 === div.offsetWidth),
               (div.style.display = "block"),
               (div.innerHTML = "<div></div>"),
@@ -3273,7 +3269,7 @@
         {
             cache: {
             },
-            expando: "jQuery" + (core_version + Math.random(
+            expando: "jQuery" + ("1.9.1" + Math.random(
             )).replace(
                 /\D/g,
                 ""
@@ -3894,7 +3890,7 @@
                                         className
                                     );
                             else
-                                (type === core_strundefined || "boolean" === type) &&
+                                ("undefined" === type || "boolean" === type) &&
                   (this.className &&
                     jQuery._data(
                         this,
@@ -4107,7 +4103,7 @@
                     ret,
                     nType = elem.nodeType;
                 if (elem && 3 !== nType && 8 !== nType && 2 !== nType) {
-                    if (typeof elem.getAttribute === core_strundefined)
+                    if (void 0 === elem.getAttribute)
                         return jQuery.prop(
                             elem,
                             name,
@@ -4159,10 +4155,9 @@
                         return ret;
                     else
                         return (
-                            typeof elem.getAttribute !== core_strundefined &&
-                (ret = elem.getAttribute(
-                    name
-                )),
+                            void 0 !== elem.getAttribute && (ret = elem.getAttribute(
+                                name
+                            )),
                             null == ret ? undefined : ret
                         );
                 }
@@ -4608,7 +4603,7 @@
                   function (
                       e
                   ) {
-                      return typeof jQuery === core_strundefined ||
+                      return void 0 === jQuery ||
                       (e && jQuery.event.triggered === e.type)
                           ? undefined
                           : jQuery.event.dispatch.apply(
@@ -5302,7 +5297,7 @@
         ) {
             var name = "on" + type;
             elem.detachEvent &&
-            (typeof elem[name] === core_strundefined && (elem[name] = null),
+            (void 0 === elem[name] && (elem[name] = null),
             elem.detachEvent(
                 name,
                 handle
@@ -5832,7 +5827,6 @@
             ),
             compilerCache = createCache(
             ),
-            strundefined = "undefined",
             arr = [],
             pop = arr.pop,
             push = arr.push,
@@ -6983,7 +6977,7 @@
                       return (
                           (div.innerHTML = "<a href='#'></a>"),
                           div.firstChild &&
-                    typeof div.firstChild.getAttribute !== strundefined &&
+                    void 0 !== div.firstChild.getAttribute &&
                     "#" === div.firstChild.getAttribute(
                         "href"
                     )
@@ -7013,10 +7007,7 @@
                   ? ((Expr.find.ID = function (
                       id, context
                   ) {
-                      if (
-                          typeof context.getElementById !== strundefined ||
-                      documentIsXML
-                      ) {
+                      if (void 0 !== context.getElementById || documentIsXML) {
                           var m = context.getElementById(
                               id
                           );
@@ -7041,16 +7032,13 @@
                   : ((Expr.find.ID = function (
                       id, context
                   ) {
-                      if (
-                          typeof context.getElementById !== strundefined ||
-                      documentIsXML
-                      ) {
+                      if (void 0 !== context.getElementById || documentIsXML) {
                           var m = context.getElementById(
                               id
                           );
                           return m
                               ? m.id === id ||
-                          (typeof m.getAttributeNode !== strundefined &&
+                          (void 0 !== m.getAttributeNode &&
                             m.getAttributeNode(
                                 "id"
                             ).value === id)
@@ -7070,7 +7058,7 @@
                           elem
                       ) {
                           var node =
-                        typeof elem.getAttributeNode !== strundefined &&
+                        void 0 !== elem.getAttributeNode &&
                         elem.getAttributeNode(
                             "id"
                         );
@@ -7081,7 +7069,7 @@
                   ? function (
                       tag, context
                   ) {
-                      if (typeof context.getElementsByTagName !== strundefined)
+                      if (void 0 !== context.getElementsByTagName)
                           return context.getElementsByTagName(
                               tag
                           );
@@ -7109,7 +7097,7 @@
                 function (
                     tag, context
                 ) {
-                    if (typeof context.getElementsByName !== strundefined)
+                    if (void 0 !== context.getElementsByName)
                         return context.getElementsByName(
                             name
                         );
@@ -7120,7 +7108,7 @@
                     className, context
                 ) {
                     if (
-                        typeof context.getElementsByClassName !== strundefined ||
+                        void 0 !== context.getElementsByClassName ||
                     documentIsXML
                     )
                         return context.getElementsByClassName(
@@ -7627,7 +7615,7 @@
                       "|$)",
                         )).test(
                             elem.className ||
-                      (typeof elem.getAttribute !== strundefined &&
+                      (void 0 !== elem.getAttribute &&
                         elem.getAttribute(
                             "class"
                         )) ||
@@ -9530,7 +9518,7 @@
               (delete cache[id],
               deleteExpando
                   ? delete elem[internalKey]
-                  : typeof elem.removeAttribute !== core_strundefined
+                  : void 0 !== elem.removeAttribute
                       ? elem.removeAttribute(
                           internalKey
                       )
@@ -11739,7 +11727,7 @@
                 docElem,
                 elem
             ))
-                ? (typeof elem.getBoundingClientRect !== core_strundefined &&
+                ? (void 0 !== elem.getBoundingClientRect &&
               (box = elem.getBoundingClientRect(
               )),
                 (win = getWindow(
