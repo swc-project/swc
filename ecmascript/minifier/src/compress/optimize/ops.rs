@@ -508,7 +508,7 @@ impl Optimizer<'_> {
         match (l, r) {
             (Expr::Member(_), _) if is_for_rel => false,
 
-            (Expr::Update(..), Expr::Lit(..)) if is_for_rel => false,
+            (Expr::Update(..) | Expr::Assign(..), Expr::Lit(..)) if is_for_rel => false,
 
             (
                 Expr::Member(..)
