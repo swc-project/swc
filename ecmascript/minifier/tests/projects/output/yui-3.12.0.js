@@ -3226,11 +3226,12 @@ YUI.add(
                         test,
                         cat_o = feature_tests[cat],
                         feature = cat_o && cat_o[name];
-                    if (feature)
-                        (result = feature.result),
-                        Y.Lang.isUndefined(
-                            result
-                        ) &&
+                    return (
+                        feature &&
+              ((result = feature.result),
+              Y.Lang.isUndefined(
+                  result
+              ) &&
                 ((ua = feature.ua) && (result = Y.UA[ua]),
                 (test = feature.test) &&
                   (!ua || result) &&
@@ -3238,9 +3239,9 @@ YUI.add(
                       Y,
                       args
                   )),
-                (feature.result = result));
-                    else;
-                    return result;
+                (feature.result = result))),
+                        result
+                    );
                 },
             }
         );
@@ -6016,33 +6017,32 @@ YUI.add(
                     addSingle = function (
                         m
                     ) {
-                        if (m)
-                            !1 ===
+                        m &&
+                    (!1 ===
                       (group = (m.group && self.groups[m.group]) || NOT_FOUND)
                           .async && (m.async = group.async),
-                            (url = m.fullpath
-                                ? self._filter(
-                                    m.fullpath,
-                                    s[i]
-                                )
-                                : self._url(
-                                    m.path,
-                                    s[i],
-                                    group.base || m.base
-                                )),
-                            (m.attributes || !1 === m.async) &&
-                        ((url = {
-                            url: url,
-                            async: m.async,
-                        }),
-                        m.attributes && (url.attributes = m.attributes)),
-                            resolved[m.type].push(
-                                url
-                            ),
-                            resolved[m.type + "Mods"].push(
-                                m
-                            );
-                        else;
+                    (url = m.fullpath
+                        ? self._filter(
+                            m.fullpath,
+                            s[i]
+                        )
+                        : self._url(
+                            m.path,
+                            s[i],
+                            group.base || m.base
+                        )),
+                    (m.attributes || !1 === m.async) &&
+                      ((url = {
+                          url: url,
+                          async: m.async,
+                      }),
+                      m.attributes && (url.attributes = m.attributes)),
+                    resolved[m.type].push(
+                        url
+                    ),
+                    resolved[m.type + "Mods"].push(
+                        m
+                    ));
                     },
                     len = s.length,
                     url = comboBase = self.comboBase,
