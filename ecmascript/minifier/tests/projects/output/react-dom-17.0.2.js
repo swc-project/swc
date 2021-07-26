@@ -16324,16 +16324,15 @@
             primaryChildren,
             renderLanes,
         ) {
-            var mode = workInProgress.mode,
-                primaryChildFragment = createFiberFromOffscreen(
-                    {
-                        mode: "visible",
-                        children: primaryChildren,
-                    },
-                    mode,
-                    renderLanes,
-                    null,
-                );
+            var primaryChildFragment = createFiberFromOffscreen(
+                {
+                    mode: "visible",
+                    children: primaryChildren,
+                },
+                workInProgress.mode,
+                renderLanes,
+                null,
+            );
             return (
                 (primaryChildFragment.return = workInProgress),
                 (workInProgress.child = primaryChildFragment),

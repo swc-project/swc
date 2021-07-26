@@ -2592,12 +2592,11 @@ YUI.add(
                     ++i
                 ) {
                     if (
-                        ((url = urls[i]),
-                        (req = {
+                        ((req = {
                             attributes: {
                             },
                         }),
-                        "string" == typeof url)
+                        "string" == typeof (url = urls[i]))
                     )
                         req.url = url;
                     else if (url.url)
