@@ -11053,19 +11053,19 @@
             validate = function (
                 regexp, value
             ) {
-                return ctrl.$isEmpty(
+                if (ctrl.$isEmpty(
                     value
                 ) || regexp.test(
                     value
-                )
-                    ? (ctrl.$setValidity(
+                ))
+                    return ctrl.$setValidity(
                         "pattern",
                         !0
-                    ), value)
-                    : (ctrl.$setValidity(
-                        "pattern",
-                        !1
-                    ), void 0);
+                    ), value;
+                ctrl.$setValidity(
+                    "pattern",
+                    !1
+                );
             };
         if (
             (pattern &&
@@ -11120,17 +11120,17 @@
                 minLengthValidator = function (
                     value
                 ) {
-                    return ctrl.$isEmpty(
+                    if (ctrl.$isEmpty(
                         value
-                    ) || !(value.length < minlength)
-                        ? (ctrl.$setValidity(
+                    ) || !(value.length < minlength))
+                        return ctrl.$setValidity(
                             "minlength",
                             !0
-                        ), value)
-                        : (ctrl.$setValidity(
-                            "minlength",
-                            !1
-                        ), void 0);
+                        ), value;
+                    ctrl.$setValidity(
+                        "minlength",
+                        !1
+                    );
                 };
             ctrl.$parsers.push(
                 minLengthValidator
@@ -11146,17 +11146,17 @@
                 maxLengthValidator = function (
                     value
                 ) {
-                    return ctrl.$isEmpty(
+                    if (ctrl.$isEmpty(
                         value
-                    ) || !(value.length > maxlength)
-                        ? (ctrl.$setValidity(
+                    ) || !(value.length > maxlength))
+                        return ctrl.$setValidity(
                             "maxlength",
                             !0
-                        ), value)
-                        : (ctrl.$setValidity(
-                            "maxlength",
-                            !1
-                        ), void 0);
+                        ), value;
+                    ctrl.$setValidity(
+                        "maxlength",
+                        !1
+                    );
                 };
             ctrl.$parsers.push(
                 maxLengthValidator
@@ -11185,24 +11185,26 @@
                     var empty = ctrl.$isEmpty(
                         value
                     );
-                    return empty || NUMBER_REGEXP.test(
+                    if (empty || NUMBER_REGEXP.test(
                         value
-                    )
-                        ? (ctrl.$setValidity(
-                            "number",
-                            !0
-                        ),
-                        "" === value
-                            ? null
-                            : empty
-                                ? value
-                                : parseFloat(
-                                    value
-                                ))
-                        : (ctrl.$setValidity(
-                            "number",
-                            !1
-                        ), void 0);
+                    ))
+                        return (
+                            ctrl.$setValidity(
+                                "number",
+                                !0
+                            ),
+                            "" === value
+                                ? null
+                                : empty
+                                    ? value
+                                    : parseFloat(
+                                        value
+                                    )
+                        );
+                    ctrl.$setValidity(
+                        "number",
+                        !1
+                    );
                 }
             ),
             ctrl.$formatters.push(
@@ -11224,17 +11226,17 @@
                 var min = parseFloat(
                     attr.min
                 );
-                return ctrl.$isEmpty(
+                if (ctrl.$isEmpty(
                     value
-                ) || !(value < min)
-                    ? (ctrl.$setValidity(
+                ) || !(value < min))
+                    return ctrl.$setValidity(
                         "min",
                         !0
-                    ), value)
-                    : (ctrl.$setValidity(
-                        "min",
-                        !1
-                    ), void 0);
+                    ), value;
+                ctrl.$setValidity(
+                    "min",
+                    !1
+                );
             };
             ctrl.$parsers.push(
                 minValidator
@@ -11249,17 +11251,17 @@
                 var max = parseFloat(
                     attr.max
                 );
-                return ctrl.$isEmpty(
+                if (ctrl.$isEmpty(
                     value
-                ) || !(value > max)
-                    ? (ctrl.$setValidity(
+                ) || !(value > max))
+                    return ctrl.$setValidity(
                         "max",
                         !0
-                    ), value)
-                    : (ctrl.$setValidity(
-                        "max",
-                        !1
-                    ), void 0);
+                    ), value;
+                ctrl.$setValidity(
+                    "max",
+                    !1
+                );
             };
             ctrl.$parsers.push(
                 maxValidator
@@ -11271,19 +11273,19 @@
             function (
                 value
             ) {
-                return ctrl.$isEmpty(
+                if (ctrl.$isEmpty(
                     value
                 ) || isNumber(
                     value
-                )
-                    ? (ctrl.$setValidity(
+                ))
+                    return ctrl.$setValidity(
                         "number",
                         !0
-                    ), value)
-                    : (ctrl.$setValidity(
-                        "number",
-                        !1
-                    ), void 0);
+                    ), value;
+                ctrl.$setValidity(
+                    "number",
+                    !1
+                );
             }
         );
     }
@@ -11301,19 +11303,19 @@
         var urlValidator = function (
             value
         ) {
-            return ctrl.$isEmpty(
+            if (ctrl.$isEmpty(
                 value
             ) || URL_REGEXP.test(
                 value
-            )
-                ? (ctrl.$setValidity(
+            ))
+                return ctrl.$setValidity(
                     "url",
                     !0
-                ), value)
-                : (ctrl.$setValidity(
-                    "url",
-                    !1
-                ), void 0);
+                ), value;
+            ctrl.$setValidity(
+                "url",
+                !1
+            );
         };
         ctrl.$formatters.push(
             urlValidator
@@ -11335,19 +11337,19 @@
         var emailValidator = function (
             value
         ) {
-            return ctrl.$isEmpty(
+            if (ctrl.$isEmpty(
                 value
             ) || EMAIL_REGEXP.test(
                 value
-            )
-                ? (ctrl.$setValidity(
+            ))
+                return ctrl.$setValidity(
                     "email",
                     !0
-                ), value)
-                : (ctrl.$setValidity(
-                    "email",
-                    !1
-                ), void 0);
+                ), value;
+            ctrl.$setValidity(
+                "email",
+                !1
+            );
         };
         ctrl.$formatters.push(
             emailValidator
@@ -11711,17 +11713,17 @@
                         var validator = function (
                             value
                         ) {
-                            return attr.required && ctrl.$isEmpty(
+                            if (!(attr.required && ctrl.$isEmpty(
                                 value
-                            )
-                                ? (ctrl.$setValidity(
-                                    "required",
-                                    !1
-                                ), void 0)
-                                : (ctrl.$setValidity(
+                            )))
+                                return ctrl.$setValidity(
                                     "required",
                                     !0
-                                ), value);
+                                ), value;
+                            ctrl.$setValidity(
+                                "required",
+                                !1
+                            );
                         };
                         ctrl.$formatters.push(
                             validator
@@ -11788,13 +11790,11 @@
                         function (
                             value
                         ) {
-                            return isArray(
+                            if (isArray(
                                 value
-                            )
-                                ? value.join(
-                                    ", "
-                                )
-                                : void 0;
+                            )) return value.join(
+                                ", "
+                            );
                         }
                     ),
                     (ctrl.$isEmpty = function (

@@ -5946,9 +5946,7 @@ YUI.add(
                 );
             },
             loadNext: function (
-            ) {
-                return;
-            },
+            ) {},
             _filter: function (
                 u, name, group
             ) {
