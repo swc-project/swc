@@ -4241,15 +4241,13 @@ function (
                         this.root,
                         node
                     )) break getById;
-                    return (
-                        this.push(
-                            item,
-                            tag,
-                            null,
-                            classes,
-                            attributes,
-                            pseudos
-                        ), void 0
+                    return void this.push(
+                        item,
+                        tag,
+                        null,
+                        classes,
+                        attributes,
+                        pseudos,
                     );
                 }
                 getByClass: if (

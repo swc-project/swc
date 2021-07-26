@@ -1573,8 +1573,7 @@
                     if (options[_i2].value === _selectedValue)
                         return (
                             (options[_i2].selected = !0),
-                            setDefaultSelected && (options[_i2].defaultSelected = !0),
-                            void 0
+                            void (setDefaultSelected && (options[_i2].defaultSelected = !0))
                         );
                     null !== defaultSelected ||
           options[_i2].disabled ||
@@ -3989,7 +3988,7 @@
                         if (null !== instance)
                             return (
                                 (queuedTarget.blockedOn = instance),
-                                attemptHydrationAtPriority(
+                                void attemptHydrationAtPriority(
                                     queuedTarget.lanePriority,
                                     function (
                                     ) {
@@ -4003,8 +4002,7 @@
                                             }
                                         );
                                     },
-                                ),
-                                void 0
+                                )
                             );
                     } else if (3 === tag) {
                         var root = nearestMounted.stateNode;
@@ -10639,8 +10637,7 @@
                             shared: currentQueue.shared,
                             effects: currentQueue.effects,
                         }),
-                        (workInProgress.updateQueue = queue),
-                        void 0
+                        void (workInProgress.updateQueue = queue)
                     );
                 }
             }
@@ -13312,8 +13309,7 @@
                             fiber
                         ),
                         (isHydrating = !1),
-                        (hydrationParentFiber = fiber),
-                        void 0
+                        void (hydrationParentFiber = fiber)
                     );
                 var firstAttemptedInstance = nextInstance;
                 if (!tryHydrate(
@@ -13335,8 +13331,7 @@
                                 fiber
                             ),
                             (isHydrating = !1),
-                            (hydrationParentFiber = fiber),
-                            void 0
+                            void (hydrationParentFiber = fiber)
                         );
                     deleteHydratableInstance(
                         hydrationParentFiber,
@@ -18247,13 +18242,10 @@
                                     );
                                 }
                             }
-                            return (
-                                (sourceFiber.lanes = mergeLanes(
-                                    sourceFiber.lanes,
-                                    SyncLane
-                                )),
-                                void 0
-                            );
+                            return void (sourceFiber.lanes = mergeLanes(
+                                sourceFiber.lanes,
+                                SyncLane,
+                            ));
                         }
                         return (
                             attachPingListener(
@@ -18262,8 +18254,7 @@
                                 rootRenderLanes
                             ),
                             (_workInProgress.flags |= 4096),
-                            (_workInProgress.lanes = rootRenderLanes),
-                            void 0
+                            void (_workInProgress.lanes = rootRenderLanes)
                         );
                     }
                     _workInProgress = _workInProgress.return;
@@ -18564,10 +18555,9 @@
                         3,
                         finishedWork
                     ),
-                    schedulePassiveEffects(
+                    void schedulePassiveEffects(
                         finishedWork
-                    ),
-                    void 0
+                    )
                 );
             case 1:
                 var instance = finishedWork.stateNode;
@@ -18689,18 +18679,17 @@
                 _finishedWork$memoize2.onCommit, finishedWork.stateNode.effectDuration;
                 var commitTime = getCommitTime(
                 );
-                return (
+                return void (
                     "function" == typeof onRender &&
-            onRender(
-                finishedWork.memoizedProps.id,
-                null === current ? "mount" : "update",
-                finishedWork.actualDuration,
-                finishedWork.treeBaseDuration,
-                finishedWork.actualStartTime,
-                commitTime,
-                finishedRoot.memoizedInteractions,
-            ),
-                    void 0
+          onRender(
+              finishedWork.memoizedProps.id,
+              null === current ? "mount" : "update",
+              finishedWork.actualDuration,
+              finishedWork.treeBaseDuration,
+              finishedWork.actualStartTime,
+              commitTime,
+              finishedRoot.memoizedInteractions,
+          )
                 );
             case 13:
                 commitSuspenseHydrationCallbacks(
@@ -19216,10 +19205,9 @@
                     commitSuspenseComponent(
                         finishedWork
                     ),
-                    attachSuspenseRetryListeners(
+                    void attachSuspenseRetryListeners(
                         finishedWork
-                    ),
-                    void 0
+                    )
                 );
             case 19:
                 attachSuspenseRetryListeners(
@@ -20089,8 +20077,7 @@
                         return (
                             (workInProgressRootExitStatus = 1),
                             (workInProgressRootFatalError = thrownValue),
-                            (workInProgress = null),
-                            void 0
+                            void (workInProgress = null)
                         );
                     enableProfilerTimer &&
           8 & erroredWork.mode &&
@@ -20394,7 +20381,7 @@
                         completedWork
                     );
                     if (null !== _next)
-                        return (_next.flags &= 2047), (workInProgress = _next), void 0;
+                        return (_next.flags &= 2047), void (workInProgress = _next);
                     if ((8 & completedWork.mode) !== 0) {
                         stopProfilerTimerIfRunningAndRecordDelta(
                             completedWork,

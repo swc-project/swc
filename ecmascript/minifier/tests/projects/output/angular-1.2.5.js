@@ -15006,7 +15006,7 @@
                     if (ch === quote)
                         return (
                             this.index++,
-                            this.tokens.push(
+                            void this.tokens.push(
                                 {
                                     index: start,
                                     text: rawString,
@@ -15017,8 +15017,7 @@
                                         return string;
                                     },
                                 }
-                            ),
-                            void 0
+                            )
                         );
                     string += ch;
                 }

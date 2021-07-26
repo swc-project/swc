@@ -3776,9 +3776,8 @@
                         if (this.preventHashAssignPopState)
                             return (
                                 (this.preventHashAssignPopState = !1),
-                                event.stopImmediatePropagation(
-                                ),
-                                void 0
+                                void event.stopImmediatePropagation(
+                                )
                             );
                         if (this.ignorePopState) {
                             this.ignorePopState = !1;
@@ -3807,8 +3806,7 @@
                                     state.url,
                                     state
                                 ),
-                                (event.historyState = state),
-                                void 0
+                                void (event.historyState = state)
                             );
                         this.history.direct(
                             {
@@ -3843,9 +3841,8 @@
                         if (this.preventNextHashChange)
                             return (
                                 (this.preventNextHashChange = !1),
-                                event.stopImmediatePropagation(
-                                ),
-                                void 0
+                                void event.stopImmediatePropagation(
+                                )
                             );
                         (history = this.history),
                         (hash = path1.parseLocation(
@@ -4532,8 +4529,8 @@
                       ) === o.touchID)
                             )
                                 return e.preventDefault(
-                                ), e.stopPropagation(
-                                ), void 0;
+                                ), void e.stopPropagation(
+                                );
                         ele = ele.parentNode;
                     }
             },
@@ -6257,11 +6254,10 @@
                                     settings,
                                     content
                                 ),
-                                settings.prefetch || this._getBase(
+                                void (!settings.prefetch && this._getBase(
                                 ).set(
                                     url
-                                ),
-                                void 0
+                                ))
                             );
                         if (
                             ((triggerData = {
@@ -6652,13 +6648,14 @@
                                         "pagechange",
                                         triggerData
                                     ),
-                                    settings.fromHashChange &&
+                                    void (
+                                        settings.fromHashChange &&
                   $17.mobile.navigate.history.direct(
                       {
                           url: url,
                       }
-                  ),
-                                    void 0
+                  )
+                                    )
                                 );
                             toPage.page(
                                 {
@@ -19169,10 +19166,9 @@
                                     clearTimeout(
                                         this.activating
                                     ),
-                                    this._activate(
+                                    void this._activate(
                                         selectedIndex
-                                    ),
-                                    void 0
+                                    )
                                 );
                             case $17.ui.keyCode.ENTER:
                                 return (
@@ -19181,10 +19177,9 @@
                                     clearTimeout(
                                         this.activating
                                     ),
-                                    this._activate(
+                                    void this._activate(
                                         selectedIndex !== this.options.active && selectedIndex,
-                                    ),
-                                    void 0
+                                    )
                                 );
                             default:
                                 return;

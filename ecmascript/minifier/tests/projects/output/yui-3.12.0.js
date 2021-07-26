@@ -5807,12 +5807,11 @@ YUI.add(
                 )
                     return (
                         (actions = -1),
-                        complete(
+                        void complete(
                             {
                                 fn: self._onSuccess,
                             }
-                        ),
-                        void 0
+                        )
                     );
                 modules.css.length &&
               Y.Get.css(
