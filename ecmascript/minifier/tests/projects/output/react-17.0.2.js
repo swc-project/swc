@@ -1,7 +1,7 @@
 !(function (
     global, factory
 ) {
-    "object" == typeof exports && void 0 !== module
+    "object" == typeof exports && "undefined" != typeof module
         ? factory(
             exports
         )
@@ -2631,7 +2631,7 @@
                 ) - initialTime;
             };
         }
-        if (void 0 === window || "function" != typeof MessageChannel) {
+        if ("undefined" == typeof window || "function" != typeof MessageChannel) {
             var _callback = null,
                 _timeoutID = null,
                 _flushCallback = function (
@@ -2689,7 +2689,7 @@
         } else {
             var _setTimeout = window.setTimeout,
                 _clearTimeout = window.clearTimeout;
-            if (void 0 !== console) {
+            if ("undefined" != typeof console) {
                 var requestAnimationFrame = window.requestAnimationFrame,
                     cancelAnimationFrame = window.cancelAnimationFrame;
                 "function" != typeof requestAnimationFrame &&

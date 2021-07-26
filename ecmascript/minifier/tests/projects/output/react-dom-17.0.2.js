@@ -1,7 +1,7 @@
 !(function (
     global, factory
 ) {
-    "object" == typeof exports && void 0 !== module
+    "object" == typeof exports && "undefined" != typeof module
         ? factory(
             exports,
             require(
@@ -129,7 +129,7 @@
                 );
         }
         var canUseDOM = !!(
-                void 0 !== window &&
+                "undefined" != typeof window &&
       void 0 !== window.document &&
       void 0 !== window.document.createElement
             ),
@@ -1177,7 +1177,10 @@
         function getActiveElement(
             doc
         ) {
-            if (void 0 === (doc = doc || (void 0 !== document ? document : void 0)))
+            if (
+                void 0 ===
+      (doc = doc || ("undefined" != typeof document ? document : void 0))
+            )
                 return null;
             try {
                 return doc.activeElement || doc.body;
@@ -1812,7 +1815,7 @@
             setInnerHTML = (function (
                 func
             ) {
-                return void 0 !== MSApp && MSApp.execUnsafeLocalFunction
+                return "undefined" != typeof MSApp && MSApp.execUnsafeLocalFunction
                     ? function (
                         arg0, arg1, arg2, arg3
                     ) {
@@ -9928,11 +9931,11 @@
         var rendererID = null,
             injectedHook = null,
             hasLoggedError = !1,
-            isDevToolsPresent = void 0 !== __REACT_DEVTOOLS_GLOBAL_HOOK__;
+            isDevToolsPresent = "undefined" != typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
         function injectInternals(
             internals
         ) {
-            if (void 0 === __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
+            if ("undefined" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
             var hook = __REACT_DEVTOOLS_GLOBAL_HOOK__;
             if (hook.isDisabled) return !0;
             if (!hook.supportsFiber)
@@ -14285,7 +14288,7 @@
             create, deps
         ) {
             return (
-                void 0 !== jest &&
+                "undefined" != typeof jest &&
         warnIfNotCurrentlyActingEffectsInDEV(
             currentlyRenderingFiber$1
         ),
@@ -14301,7 +14304,7 @@
             create, deps
         ) {
             return (
-                void 0 !== jest &&
+                "undefined" != typeof jest &&
         warnIfNotCurrentlyActingEffectsInDEV(
             currentlyRenderingFiber$1
         ),
@@ -14774,7 +14777,7 @@
                         }
                     }
                 }
-                void 0 !== jest &&
+                "undefined" != typeof jest &&
         (warnIfNotScopedWithMatchingAct(
             fiber
         ),
@@ -22748,7 +22751,7 @@
             var current$1 = container.current,
                 eventTime = requestEventTime(
                 );
-            void 0 !== jest &&
+            "undefined" != typeof jest &&
       (warnIfUnmockedScheduler(
           current$1
       ),
@@ -24044,9 +24047,9 @@
                 passiveBrowserEventsSupported = !1;
             }
         if (
-            void 0 !== window &&
+            "undefined" != typeof window &&
     "function" == typeof window.dispatchEvent &&
-    void 0 !== document &&
+    "undefined" != typeof document &&
     "function" == typeof document.createEvent
         ) {
             var fakeNode = document.createElement(
@@ -24063,7 +24066,7 @@
                 e,
                 f,
             ) {
-                if (!(void 0 !== document))
+                if (!("undefined" != typeof document))
                     throw Error(
                         "The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.",
                     );

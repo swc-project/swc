@@ -34,7 +34,9 @@
             this._wrapped = obj;
         };
     "undefined" != typeof exports
-        ? (void 0 !== module && module.exports && (exports = module.exports = _),
+        ? ("undefined" != typeof module &&
+        module.exports &&
+        (exports = module.exports = _),
         (exports._ = _))
         : (root._ = _),
     (_.VERSION = "1.5.2");

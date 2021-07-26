@@ -10077,7 +10077,7 @@ Element1.implement(
         },
     }
 ),
-void 0 === JSON && (this.JSON = {
+"undefined" == typeof JSON && (this.JSON = {
 }),
 (JSON = new Hash(
     {

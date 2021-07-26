@@ -10,7 +10,7 @@ var YUI = function (
         ) {
             return o && o.hasOwnProperty && o instanceof type;
         },
-        gconf = void 0 !== YUI_config && YUI_config;
+        gconf = "undefined" != typeof YUI_config && YUI_config;
     if (
         (instanceOf(
             Y,
@@ -51,7 +51,7 @@ var YUI = function (
             "io.xdrResponse": 1,
             "SWF.eventHandler": 1,
         },
-        hasWin = void 0 !== window,
+        hasWin = "undefined" != typeof window,
         win = hasWin ? window : null,
         doc = hasWin ? win.document : null,
         docEl = doc && doc.documentElement,
@@ -1964,7 +1964,7 @@ YUI.add(
                     secure: !1,
                     os: null,
                     nodejs: 0,
-                    winjs: !!(void 0 !== Windows && Windows.System),
+                    winjs: !!("undefined" != typeof Windows && Windows.System),
                     touchEnabled: !1,
                 },
                 ua = subUA || (nav && nav.userAgent),
@@ -3832,11 +3832,11 @@ YUI.add(
                         cat,
                         src
                     )
-                    : void 0 !== console && console.log
+                    : "undefined" != typeof console && console.log
                         ? console[cat && console[cat] && cat in LEVELS ? cat : "log"](
                             m,
                         )
-                        : void 0 !== opera && opera.postError(
+                        : "undefined" != typeof opera && opera.postError(
                             m
                         )),
               publisher &&

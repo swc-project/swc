@@ -1723,7 +1723,7 @@
         ), xhr;
     });
     var noXhrPatch =
-      void 0 !== window &&
+      "undefined" != typeof window &&
       !!window.ActiveXObject &&
       !(window.XMLHttpRequest && new XMLHttpRequest(
       ).dispatchEvent),
@@ -1902,7 +1902,7 @@
                 this,
                 "checkUrl"
             ),
-            void 0 !== window &&
+            "undefined" != typeof window &&
           ((this.location = window.location), (this.history = window.history));
         }),
         routeStripper = /^[#\/]|\s+$/g,
