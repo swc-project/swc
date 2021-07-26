@@ -40,12 +40,12 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
-            match &*stmt.cons {
-                Stmt::Return(..) => return,
-                _ => {}
-            }
+        match &*stmt.cons {
+            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => return,
+            _ => {}
+        }
 
+        if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
             self.changed = true;
             log::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
             let ctx = Ctx {
@@ -59,11 +59,6 @@ impl Optimizer<'_> {
 
         match &*alt {
             Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
-                match &*stmt.cons {
-                    Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => return,
-                    _ => {}
-                }
-
                 self.changed = true;
                 log::debug!(
                     "if_return: Negating an if statement because the alt is return / continue"
