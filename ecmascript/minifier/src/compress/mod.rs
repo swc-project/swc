@@ -167,7 +167,7 @@ impl VisitMut for Compressor<'_> {
             }
 
             if cfg!(feature = "debug") && !visitor.changed() {
-                let simplified = dump(&*n);
+                let simplified = dump(&n.clone().fold_with(&mut fixer(None)));
                 if start != simplified {
                     assert_eq!(
                         DebugUsingDisplay(&start),
