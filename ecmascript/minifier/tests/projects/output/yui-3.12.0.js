@@ -2591,16 +2591,15 @@ YUI.add(
                         "string" == typeof (url = urls[i]))
                     )
                         req.url = url;
-                    else if (url.url)
-                        Y.mix(
-                            req,
-                            url,
-                            !1,
-                            null,
-                            0,
-                            !0
-                        ), (url = url.url);
-                    else continue;
+                    else if (!url.url) continue;
+                    else Y.mix(
+                        req,
+                        url,
+                        !1,
+                        null,
+                        0,
+                        !0
+                    ), (url = url.url);
                     if ((Y.mix(
                         req,
                         options,
