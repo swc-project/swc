@@ -642,6 +642,10 @@ impl Optimizer<'_> {
         }
     }
 
+    ///
+    /// - `(path += 'foo', path)` => `(path += 'foo')`
+    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {}
+
     pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
         if e.exprs.len() < 2 {
             return;

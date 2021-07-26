@@ -2079,6 +2079,8 @@ impl VisitMut for Optimizer<'_> {
 
         self.shift_void(n);
 
+        self.shift_assignment(n);
+
         {
             let exprs = n
                 .exprs
