@@ -2011,6 +2011,19 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    fn visit_mut_opt_stmt(&mut self, s: &mut Option<Box<Stmt>>) {
+        s.visit_mut_children_with(self);
+
+        match s.as_deref() {
+            Some(Stmt::Empty(..)) => {
+                self.changed = true;
+                log::debug!("misc: Removing empty statement");
+                *s = None;
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
         n.visit_mut_children_with(self);
 
