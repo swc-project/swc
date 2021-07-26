@@ -278,28 +278,23 @@
             function focusable(
                 element, isTabIndexNotNaN
             ) {
-                var map,
-                    mapName,
+                var mapName,
                     img,
                     nodeName = element.nodeName.toLowerCase(
                     );
-                if ("area" === nodeName) {
-                    if (
-                        ((mapName = (map = element.parentNode).name),
-                        !element.href || !mapName || "map" !== map.nodeName.toLowerCase(
-                        ))
-                    )
-                        return !1;
-                    return (
-                        !!(img = $17(
-                            "img[usemap=#" + mapName + "]"
-                        )[0]) && visible(
-                            img
-                        )
-                    );
-                }
-                return (
-                    (/input|select|textarea|button|object/.test(
+                return "area" === nodeName
+                    ? ((mapName = element.parentNode.name),
+                    !!element.href &&
+              !!mapName &&
+              "map" === element.parentNode.nodeName.toLowerCase(
+              ) &&
+              !!(img = $17(
+                  "img[usemap=#" + mapName + "]"
+              )[0]) &&
+              visible(
+                  img
+              ))
+                    : (/input|select|textarea|button|object/.test(
                         nodeName
                     )
                         ? !element.disabled
@@ -307,8 +302,7 @@
                             ? element.href || isTabIndexNotNaN
                             : isTabIndexNotNaN) && visible(
                         element
-                    )
-                );
+                    );
             }
             function visible(
                 element
@@ -17022,14 +17016,15 @@
                             ret = this._super(
                                 opts
                             );
-                        if (undefined !== opts.arrow)
+                        if (undefined !== opts.arrow) {
                             if (!ar && opts.arrow) {
                                 this._ui.arrow = this._addArrow(
                                 );
                                 return;
-                            } else
-                                ar && !opts.arrow && (ar.arEls.remove(
-                                ), (this._ui.arrow = null));
+                            }
+                            ar && !opts.arrow && (ar.arEls.remove(
+                            ), (this._ui.arrow = null));
+                        }
                         return (
                             (ar = this._ui.arrow) &&
               (undefined !== opts.theme &&

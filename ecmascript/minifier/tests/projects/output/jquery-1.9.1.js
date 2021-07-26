@@ -1706,7 +1706,7 @@
         ) {
             var match, elem;
             if (!selector) return this;
-            if ("string" == typeof selector)
+            if ("string" == typeof selector) {
                 if (
                     (match =
               "<" === selector.charAt(
@@ -1721,7 +1721,7 @@
                       selector
                   )) &&
             (match[1] || !context)
-                )
+                ) {
                     if (match[1]) {
                         if (
                             ((context = context instanceof jQuery ? context[0] : context),
@@ -1753,47 +1753,42 @@
                                         context[match]
                                     );
                         return this;
-                    } else {
-                        if (
-                            (elem = document.getElementById(
-                                match[2]
-                            )) &&
-                elem.parentNode
-                        ) {
-                            if (elem.id !== match[2]) return rootjQuery.find(
-                                selector
-                            );
-                            (this.length = 1), (this[0] = elem);
-                        }
-                        return (
-                            (this.context = document), (this.selector = selector), this
-                        );
                     }
-                else if (!context || context.jquery)
-                    return (context || rootjQuery).find(
+                    if ((elem = document.getElementById(
+                        match[2]
+                    )) && elem.parentNode) {
+                        if (elem.id !== match[2]) return rootjQuery.find(
+                            selector
+                        );
+                        (this.length = 1), (this[0] = elem);
+                    }
+                    return (this.context = document), (this.selector = selector), this;
+                }
+                return !context || context.jquery
+                    ? (context || rootjQuery).find(
+                        selector
+                    )
+                    : this.constructor(
+                        context
+                    ).find(
                         selector
                     );
-                else return this.constructor(
-                    context
-                ).find(
+            }
+            return selector.nodeType
+                ? ((this.context = this[0] = selector), (this.length = 1), this)
+                : jQuery.isFunction(
                     selector
-                );
-            else if (selector.nodeType)
-                return (this.context = this[0] = selector), (this.length = 1), this;
-            else if (jQuery.isFunction(
-                selector
-            )) return rootjQuery.ready(
-                selector
-            );
-            return (
-                undefined !== selector.selector &&
-            ((this.selector = selector.selector),
-            (this.context = selector.context)),
-                jQuery.makeArray(
-                    selector,
-                    this
                 )
-            );
+                    ? rootjQuery.ready(
+                        selector
+                    )
+                    : (undefined !== selector.selector &&
+              ((this.selector = selector.selector),
+              (this.context = selector.context)),
+                    jQuery.makeArray(
+                        selector,
+                        this
+                    ));
         },
         selector: "",
         length: 0,
@@ -3936,33 +3931,8 @@
                     hooks,
                     isFunction,
                     elem = this[0];
-                if (!arguments.length) {
-                    if (elem) {
-                        if (
-                            (hooks =
-                jQuery.valHooks[elem.type] ||
-                jQuery.valHooks[elem.nodeName.toLowerCase(
-                )]) &&
-              "get" in hooks &&
-              undefined !== (ret = hooks.get(
-                  elem,
-                  "value"
-              ))
-                        )
-                            return ret;
-                        return "string" == typeof (ret = elem.value)
-                            ? ret.replace(
-                                rreturn,
-                                ""
-                            )
-                            : null == ret
-                                ? ""
-                                : ret;
-                    }
-                    return;
-                }
-                return (
-                    (isFunction = jQuery.isFunction(
+                return arguments.length
+                    ? ((isFunction = jQuery.isFunction(
                         value
                     )),
                     this.each(
@@ -3971,45 +3941,64 @@
                         ) {
                             var val;
                             1 === this.nodeType &&
-              (null ==
-              (val = isFunction
-                  ? value.call(
-                      this,
-                      i,
-                      jQuery(
-                          this
-                      ).val(
-                      )
-                  )
-                  : value)
-                  ? (val = "")
-                  : "number" == typeof val
-                      ? (val += "")
-                      : jQuery.isArray(
-                          val
-                      ) &&
-                  (val = jQuery.map(
-                      val,
-                      function (
-                          value
-                      ) {
-                          return null == value ? "" : value + "";
-                      }
-                  )),
-              ((hooks =
-                jQuery.valHooks[this.type] ||
-                jQuery.valHooks[this.nodeName.toLowerCase(
-                )]) &&
-                "set" in hooks &&
-                undefined !== hooks.set(
-                    this,
-                    val,
-                    "value"
-                )) ||
-                (this.value = val));
-                        }
+                (null ==
+                (val = isFunction
+                    ? value.call(
+                        this,
+                        i,
+                        jQuery(
+                            this
+                        ).val(
+                        )
                     )
-                );
+                    : value)
+                    ? (val = "")
+                    : "number" == typeof val
+                        ? (val += "")
+                        : jQuery.isArray(
+                            val
+                        ) &&
+                    (val = jQuery.map(
+                        val,
+                        function (
+                            value
+                        ) {
+                            return null == value ? "" : value + "";
+                        }
+                    )),
+                ((hooks =
+                  jQuery.valHooks[this.type] ||
+                  jQuery.valHooks[this.nodeName.toLowerCase(
+                  )]) &&
+                  "set" in hooks &&
+                  undefined !== hooks.set(
+                      this,
+                      val,
+                      "value"
+                  )) ||
+                  (this.value = val));
+                        }
+                    ))
+                    : elem
+                        ? (hooks =
+              jQuery.valHooks[elem.type] ||
+              jQuery.valHooks[elem.nodeName.toLowerCase(
+              )]) &&
+            "get" in hooks &&
+            undefined !== (ret = hooks.get(
+                elem,
+                "value"
+            ))
+                            ? ret
+                            : "string" == typeof (ret = elem.value)
+                                ? ret.replace(
+                                    rreturn,
+                                    ""
+                                )
+                                : null == ret
+                                    ? ""
+                                    : ret
+                        : void 0;
             },
         }
     ),
@@ -4243,37 +4232,27 @@
                     hooks,
                     nType = elem.nodeType;
                 if (elem && 3 !== nType && 8 !== nType && 2 !== nType)
-                    if (
-                        ((1 === nType && jQuery.isXMLDoc(
-                            elem
-                        )) ||
-              ((name = jQuery.propFix[name] || name),
-              (hooks = jQuery.propHooks[name])),
-                        value !== undefined)
-                    ) {
-                        if (
-                            hooks &&
+                    return ((1 === nType && jQuery.isXMLDoc(
+                        elem
+                    )) ||
+            ((name = jQuery.propFix[name] || name),
+            (hooks = jQuery.propHooks[name])),
+                    value !== undefined)
+                        ? hooks &&
               "set" in hooks &&
               undefined !== (ret = hooks.set(
                   elem,
                   value,
                   name
               ))
-                        )
-                            return ret;
-                        return (elem[name] = value);
-                    } else {
-                        if (
-                            hooks &&
-              "get" in hooks &&
-              null !== (ret = hooks.get(
-                  elem,
-                  name
-              ))
-                        )
-                            return ret;
-                        return elem[name];
-                    }
+                            ? ret
+                            : (elem[name] = value)
+                        : hooks && "get" in hooks && null !== (ret = hooks.get(
+                            elem,
+                            name
+                        ))
+                            ? ret
+                            : elem[name];
             },
             propHooks: {
                 tabIndex: {
@@ -7242,32 +7221,33 @@
                       a, b
                   ) {
                       var compare;
-                      if (a === b) return (hasDuplicate = !0), 0;
-                      if (
-                          (compare =
-                        b.compareDocumentPosition &&
-                        a.compareDocumentPosition &&
-                        a.compareDocumentPosition(
-                            b
-                        ))
-                      ) {
-                          if (
-                              1 & compare ||
+                      return a === b
+                          ? ((hasDuplicate = !0), 0)
+                          : (compare =
+                          b.compareDocumentPosition &&
+                          a.compareDocumentPosition &&
+                          a.compareDocumentPosition(
+                              b
+                          ))
+                              ? 1 & compare ||
                         (a.parentNode && 11 === a.parentNode.nodeType)
-                          ) {
-                              if (a === doc || contains(
-                                  preferredDoc,
-                                  a
-                              )) return -1;
-                              if (b === doc || contains(
-                                  preferredDoc,
-                                  b
-                              )) return 1;
-                              return 0;
-                          }
-                          return 4 & compare ? -1 : 1;
-                      }
-                      return a.compareDocumentPosition ? -1 : 1;
+                                  ? a === doc || contains(
+                                      preferredDoc,
+                                      a
+                                  )
+                                      ? -1
+                                      : b === doc || contains(
+                                          preferredDoc,
+                                          b
+                                      )
+                                          ? 1
+                                          : 0
+                                  : 4 & compare
+                                      ? -1
+                                      : 1
+                              : a.compareDocumentPosition
+                                  ? -1
+                                  : 1;
                   }
                   : function (
                       a, b
@@ -9663,57 +9643,53 @@
                   origName
               ))),
                         (hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName]),
-                        value !== undefined)
-                    ) {
-                        if (
-                            ("string" == (type = typeof value) &&
-                (ret = rrelNum.exec(
-                    value
-                )) &&
-                ((value =
-                  (ret[1] + 1) * ret[2] + parseFloat(
-                      jQuery.css(
-                          elem,
-                          name
-                      )
-                  )),
-                (type = "number")),
-                            !(null == value || ("number" === type && isNaN(
-                                value
-                            ))) &&
-                ("number" !== type ||
-                  jQuery.cssNumber[origName] ||
-                  (value += "px"),
-                jQuery.support.clearCloneStyle ||
-                  "" !== value ||
-                  0 !== name.indexOf(
-                      "background"
-                  ) ||
-                  (style[name] = "inherit"),
-                !hooks ||
-                  !("set" in hooks) ||
-                  undefined !== (value = hooks.set(
-                      elem,
-                      value,
-                      extra
-                  ))))
-                        )
-                            try {
-                                style[name] = value;
-                            } catch (e) {}
-                    } else {
-                        if (
-                            hooks &&
+                        value === undefined)
+                    )
+                        return hooks &&
               "get" in hooks &&
               undefined !== (ret = hooks.get(
                   elem,
                   !1,
                   extra
               ))
-                        )
-                            return ret;
-                        return style[name];
-                    }
+                            ? ret
+                            : style[name];
+                    if (
+                        ("string" == (type = typeof value) &&
+              (ret = rrelNum.exec(
+                  value
+              )) &&
+              ((value =
+                (ret[1] + 1) * ret[2] + parseFloat(
+                    jQuery.css(
+                        elem,
+                        name
+                    )
+                )),
+              (type = "number")),
+                        !(null == value || ("number" === type && isNaN(
+                            value
+                        ))) &&
+              ("number" !== type ||
+                jQuery.cssNumber[origName] ||
+                (value += "px"),
+              jQuery.support.clearCloneStyle ||
+                "" !== value ||
+                0 !== name.indexOf(
+                    "background"
+                ) ||
+                (style[name] = "inherit"),
+              !hooks ||
+                !("set" in hooks) ||
+                undefined !== (value = hooks.set(
+                    elem,
+                    value,
+                    extra
+                ))))
+                    )
+                        try {
+                            style[name] = value;
+                        } catch (e) {}
                 }
             },
             css: function (

@@ -2766,41 +2766,42 @@ YUI.add(
                     self
                 );
                     return;
-                } else if (
+                }
+                if (
                     (callback && self._callbacks.push(
                         callback
                     ),
-                    "executing" === state)
-                )
-                    return;
-                for (
-                    self._state = "executing",
-                    self._queue = queue = [],
-                    self.options.timeout &&
-                  (self._timeout = setTimeout(
-                      function (
-                      ) {
-                          self.abort(
-                              "Timeout"
-                          );
-                      },
-                      self.options.timeout
-                  )),
-                    self._reqsWaiting = requests.length,
-                    i = 0,
-                    len = requests.length;
-                    i < len;
-                    ++i
-                )
-                    (req = requests[i]).async || "css" === req.type
-                        ? self._insert(
-                            req
-                        )
-                        : queue.push(
-                            req
-                        );
-                self._next(
-                );
+                    "executing" !== state)
+                ) {
+                    for (
+                        self._state = "executing",
+                        self._queue = queue = [],
+                        self.options.timeout &&
+                    (self._timeout = setTimeout(
+                        function (
+                        ) {
+                            self.abort(
+                                "Timeout"
+                            );
+                        },
+                        self.options.timeout
+                    )),
+                        self._reqsWaiting = requests.length,
+                        i = 0,
+                        len = requests.length;
+                        i < len;
+                        ++i
+                    )
+                        (req = requests[i]).async || "css" === req.type
+                            ? self._insert(
+                                req
+                            )
+                            : queue.push(
+                                req
+                            );
+                    self._next(
+                    );
+                }
             },
             purge: function (
             ) {
@@ -6252,19 +6253,21 @@ YUI.add(
               (roll = !1),
               m.rollup)
                     ) {
-                        for (j = 0, c = 0; j < s.length; j++)
+                        for (j = 0, c = 0; j < s.length; j++) {
                             if (
                                 ((smod = info[s[j]]),
                                 this.loaded[s[j]] && !this.forceMap[s[j]])
                             ) {
                                 roll = !1;
                                 break;
-                            } else if (
+                            }
+                            if (
                                 r[s[j]] &&
                   m.type === smod.type &&
                   (c++, (roll = c >= m.rollup))
                             )
                                 break;
+                        }
                         roll && ((r[i] = !0), (rolled = !0), this.getRequires(
                             m
                         ));

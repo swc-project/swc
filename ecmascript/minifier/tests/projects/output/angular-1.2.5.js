@@ -46,20 +46,21 @@
                               1,
                               -1
                           );
-                      if (index + 2 < templateArgs.length) {
-                          if ("function" == typeof (arg = templateArgs[index + 2]))
-                              return arg.toString(
+                      return index + 2 < templateArgs.length
+                          ? "function" == typeof (arg = templateArgs[index + 2])
+                              ? arg.toString(
                               ).replace(
                                   / ?\{[\s\S]*$/,
                                   ""
-                              );
-                          if (void 0 === arg) return "undefined";
-                          if ("string" != typeof arg) return toJson(
-                              arg
-                          );
-                          return arg;
-                      }
-                      return match;
+                              )
+                              : void 0 === arg
+                                  ? "undefined"
+                                  : "string" != typeof arg
+                                      ? toJson(
+                                          arg
+                                      )
+                                      : arg
+                          : match;
                   }
               )) +
             "\nhttp://errors.angularjs.org/1.2.5/" +
@@ -2395,21 +2396,21 @@
                             ),
                         );
                     return cache[serviceName];
-                } else
-                    try {
-                        return (
-                            path.unshift(
-                                serviceName
-                            ),
-                            (cache[serviceName] = INSTANTIATING),
-                            (cache[serviceName] = factory(
-                                serviceName
-                            ))
-                        );
-                    } finally {
-                        path.shift(
-                        );
-                    }
+                }
+                try {
+                    return (
+                        path.unshift(
+                            serviceName
+                        ),
+                        (cache[serviceName] = INSTANTIATING),
+                        (cache[serviceName] = factory(
+                            serviceName
+                        ))
+                    );
+                } finally {
+                    path.shift(
+                    );
+                }
             }
             function invoke(
                 fn, self, locals
@@ -3967,7 +3968,8 @@
                                     directiveName,
                                 );
                             return value;
-                        } else
+                        }
+                        return (
                             isArray(
                                 require
                             ) &&
@@ -3984,8 +3986,9 @@
                               ),
                           );
                       }
-                  );
-                        return value;
+                  ),
+                            value
+                        );
                     }
                     function nodeLinkFn(
                         childLinkFn,
@@ -6768,25 +6771,23 @@
             if (undefined !== (appUrl = beginsWith(
                 appBase,
                 url
-            ))) {
-                if (
-                    ((prevAppUrl = appUrl),
-                    undefined !== (appUrl = beginsWith(
-                        basePrefix,
-                        appUrl
-                    )))
-                )
-                    return appBaseNoFile + (beginsWith(
+            )))
+                return ((prevAppUrl = appUrl),
+                undefined !== (appUrl = beginsWith(
+                    basePrefix,
+                    appUrl
+                )))
+                    ? appBaseNoFile + (beginsWith(
                         "/",
                         appUrl
-                    ) || appUrl);
-                return appBase + prevAppUrl;
-            } else if (undefined !== (appUrl = beginsWith(
+                    ) || appUrl)
+                    : appBase + prevAppUrl;
+            if (undefined !== (appUrl = beginsWith(
                 appBaseNoFile,
                 url
             )))
                 return appBaseNoFile + appUrl;
-            else if (appBaseNoFile == url + "/") return appBaseNoFile;
+            if (appBaseNoFile == url + "/") return appBaseNoFile;
         });
     }
     function LocationHashbangUrl(
@@ -7299,7 +7300,7 @@
             "+": function (
                 self, locals, a, b
             ) {
-                if (((a = a(
+                return ((a = a(
                     self,
                     locals
                 )), (b = b(
@@ -7307,17 +7308,17 @@
                     locals
                 )), isDefined(
                     a
-                ))) {
-                    if (isDefined(
+                ))
+                    ? isDefined(
                         b
-                    )) return a + b;
-                    return a;
-                }
-                return isDefined(
-                    b
-                )
-                    ? b
-                    : undefined;
+                    )
+                        ? a + b
+                        : a
+                    : isDefined(
+                        b
+                    )
+                        ? b
+                        : undefined;
             },
             "-": function (
                 self, locals, a, b
@@ -9156,16 +9157,16 @@
                     "^" + matcher + "$"
                 )
             );
-        } else if (isRegExp(
+        }
+        if (isRegExp(
             matcher
         )) return new RegExp(
             "^" + matcher.source + "$"
         );
-        else
-            throw $sceMinErr(
-                "imatcher",
-                'Matchers may only be "self", string patterns or RegExp objects',
-            );
+        throw $sceMinErr(
+            "imatcher",
+            'Matchers may only be "self", string patterns or RegExp objects',
+        );
     }
     function adjustMatchers(
         matchers
@@ -9383,7 +9384,8 @@
                                     maybeTrusted.toString(
                                     ),
                                 );
-                            } else if (type === SCE_CONTEXTS.HTML)
+                            }
+                            if (type === SCE_CONTEXTS.HTML)
                                 return htmlSanitizer(
                                     maybeTrusted
                                 );
@@ -10464,9 +10466,9 @@
                 limit
             )), isString(
                 input
-            ))) {
-                if (limit)
-                    return limit >= 0
+            )))
+                return limit
+                    ? limit >= 0
                         ? input.slice(
                             0,
                             limit
@@ -10474,9 +10476,8 @@
                         : input.slice(
                             limit,
                             input.length
-                        );
-                return "";
-            }
+                        )
+                    : "";
             var i,
                 n,
                 out = [];
@@ -14035,7 +14036,7 @@
             (2 == fn.length && fn !== jqLiteHasClass && fn !== jqLiteController
                 ? arg1
                 : arg2) === undefined
-                )
+                ) {
                     if (isObject(
                         arg1
                     )) {
@@ -14050,37 +14051,35 @@
                                 arg1[key]
                             );
                         return this;
-                    } else {
-                        for (
-                            var value = fn.$dv,
-                                jj =
-                    value === undefined
-                        ? Math.min(
-                            this.length,
-                            1
-                        )
-                        : this.length,
-                                j = 0;
-                            j < jj;
-                            j++
-                        ) {
-                            var nodeValue = fn(
-                                this[j],
-                                arg1,
-                                arg2
-                            );
-                            value = value ? value + nodeValue : nodeValue;
-                        }
-                        return value;
                     }
-                else {
-                    for (i = 0; i < this.length; i++) fn(
-                        this[i],
-                        arg1,
-                        arg2
-                    );
-                    return this;
+                    for (
+                        var value = fn.$dv,
+                            jj =
+                  value === undefined
+                      ? Math.min(
+                          this.length,
+                          1
+                      )
+                      : this.length,
+                            j = 0;
+                        j < jj;
+                        j++
+                    ) {
+                        var nodeValue = fn(
+                            this[j],
+                            arg1,
+                            arg2
+                        );
+                        value = value ? value + nodeValue : nodeValue;
+                    }
+                    return value;
                 }
+                for (i = 0; i < this.length; i++) fn(
+                    this[i],
+                    arg1,
+                    arg2
+                );
+                return this;
             };
         },
     ),
