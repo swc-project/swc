@@ -837,6 +837,24 @@ impl Optimizer<'_> {
                 self.is_skippable_for_seq(&left) && self.is_skippable_for_seq(&right)
             }
 
+            Expr::Assign(e) => {
+                if get_lhs_ident(&e.left).is_none() {
+                    return false;
+                }
+
+                self.is_skippable_for_seq(&e.right)
+            }
+
+            Expr::Object(e) => {
+                if e.props.is_empty() {
+                    return true;
+                }
+
+                // TODO: Check for side effects in object properties.
+
+                false
+            }
+
             _ => false,
         }
     }
@@ -1008,9 +1026,13 @@ impl Optimizer<'_> {
             }
 
             Expr::Seq(SeqExpr { exprs: b_exprs, .. }) => {
-                if let Some(first) = b_exprs.first_mut() {
-                    if self.merge_sequential_expr(a, &mut **first) {
+                for b_expr in b_exprs {
+                    if self.merge_sequential_expr(a, &mut **b_expr) {
                         return true;
+                    }
+
+                    if !self.is_skippable_for_seq(&b_expr) {
+                        return false;
                     }
                 }
 
