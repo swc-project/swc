@@ -1,4 +1,4 @@
-use super::Optimizer;
+use super::{is_pure_undefined, Optimizer};
 use crate::compress::optimize::util::{get_lhs_ident, get_lhs_ident_mut};
 use crate::compress::optimize::Ctx;
 use crate::debug::dump;
@@ -708,7 +708,33 @@ impl Optimizer<'_> {
         e.exprs.retain(|e| !e.is_invalid());
     }
 
-    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {}
+    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+        match &*e.exprs[e.exprs.len() - 2] {
+            Expr::Unary(UnaryExpr {
+                op: op!("void"), ..
+            }) => return,
+            _ => {}
+        }
+
+        if let Some(last) = e.exprs.last() {
+            if is_pure_undefined(&last) {
+                self.changed = true;
+                log::debug!("sequences: Shifting void");
+
+                e.exprs.pop();
+                let last = e.exprs.last_mut().unwrap();
+
+                *last = Box::new(Expr::Unary(UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("void"),
+                    arg: last.take(),
+                }))
+            }
+        }
+    }
 
     /// Calls `merge_sequential_expr`.
     ///
