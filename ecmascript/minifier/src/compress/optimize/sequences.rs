@@ -884,13 +884,20 @@ impl Optimizer<'_> {
         match b {
             Expr::Update(..) => return false,
 
-            Expr::Cond(b) => return self.merge_sequential_expr(a, &mut *b.test),
+            Expr::Cond(b) => {
+                log::trace!("seq: Try test of cond");
+                return self.merge_sequential_expr(a, &mut *b.test);
+            }
 
-            Expr::Unary(b) => return self.merge_sequential_expr(a, &mut b.arg),
+            Expr::Unary(b) => {
+                log::trace!("seq: Try arg of unary");
+                return self.merge_sequential_expr(a, &mut b.arg);
+            }
 
             Expr::Bin(BinExpr {
                 op, left, right, ..
             }) => {
+                log::trace!("seq: Try left of bin");
                 if self.merge_sequential_expr(a, &mut **left) {
                     return true;
                 }
@@ -904,6 +911,7 @@ impl Optimizer<'_> {
                     _ => {}
                 }
 
+                log::trace!("seq: Try right of bin");
                 return self.merge_sequential_expr(a, &mut **right);
             }
 
@@ -911,7 +919,10 @@ impl Optimizer<'_> {
                 obj: ExprOrSuper::Expr(obj),
                 computed: false,
                 ..
-            }) => return self.merge_sequential_expr(a, &mut **obj),
+            }) => {
+                log::trace!("seq: Try object of member");
+                return self.merge_sequential_expr(a, &mut **obj);
+            }
 
             Expr::Member(MemberExpr {
                 obj: ExprOrSuper::Expr(obj),
@@ -919,6 +930,7 @@ impl Optimizer<'_> {
                 computed: true,
                 ..
             }) => {
+                log::trace!("seq: Try object of member (computed)");
                 if self.merge_sequential_expr(a, &mut **obj) {
                     return true;
                 }
@@ -927,12 +939,14 @@ impl Optimizer<'_> {
                     return false;
                 }
 
+                log::trace!("seq: Try prop of member (computed)");
                 return self.merge_sequential_expr(a, &mut **prop);
             }
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
                     PatOrExpr::Expr(b) => {
+                        log::trace!("seq: Try lhs of assign");
                         if self.merge_sequential_expr(a, &mut **b) {
                             return true;
                         }
@@ -947,6 +961,7 @@ impl Optimizer<'_> {
                     }
                     PatOrExpr::Pat(b) => match &mut **b {
                         Pat::Expr(b) => {
+                            log::trace!("seq: Try lhs of assign");
                             if self.merge_sequential_expr(a, &mut **b) {
                                 return true;
                             }
@@ -963,6 +978,7 @@ impl Optimizer<'_> {
                     },
                 }
 
+                log::trace!("seq: Try rhs of assign");
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
@@ -970,6 +986,7 @@ impl Optimizer<'_> {
                 for elem in &mut b.elems {
                     match elem {
                         Some(elem) => {
+                            log::trace!("seq: Try element of array");
                             if self.merge_sequential_expr(a, &mut elem.expr) {
                                 return true;
                             }
@@ -995,6 +1012,7 @@ impl Optimizer<'_> {
                 ..
             }) => {
                 let is_this_undefined = b_callee.is_ident();
+                log::trace!("seq: Try callee of call");
                 if self.merge_sequential_expr(a, &mut **b_callee) {
                     if is_this_undefined {
                         match &**b_callee {
@@ -1023,6 +1041,7 @@ impl Optimizer<'_> {
                 }
 
                 for arg in b_args {
+                    log::trace!("seq: Try arg of call");
                     if self.merge_sequential_expr(a, &mut arg.expr) {
                         return true;
                     }
@@ -1038,6 +1057,7 @@ impl Optimizer<'_> {
             Expr::New(NewExpr {
                 callee: b_callee, ..
             }) => {
+                log::trace!("seq: Try callee of new");
                 if self.merge_sequential_expr(a, &mut **b_callee) {
                     return true;
                 }
@@ -1047,6 +1067,8 @@ impl Optimizer<'_> {
 
             Expr::Seq(SeqExpr { exprs: b_exprs, .. }) => {
                 for b_expr in b_exprs {
+                    log::trace!("seq: Try elem of seq");
+
                     if self.merge_sequential_expr(a, &mut **b_expr) {
                         return true;
                     }
