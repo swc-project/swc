@@ -190,20 +190,24 @@ impl Optimizer<'_> {
         }
     }
 
-    fn merge_nested_if_returns(&mut self, stmt: &mut Stmt) {
-        match stmt {
-            Stmt::Block(s) => self.merge_if_returns(&mut s.stmts),
-            Stmt::If(s) => {
-                if always_terminates(&s.cons) {
-                    self.merge_nested_if_returns(&mut s.cons);
+    fn merge_nested_if_returns(&mut self, s: &mut Stmt) {
+        match s {
+            Stmt::Block(..) => {
+                if !always_terminates(&s) {
                     return;
                 }
+            }
+
+            _ => {}
+        }
+
+        match s {
+            Stmt::Block(s) => self.merge_if_returns(&mut s.stmts),
+            Stmt::If(s) => {
+                self.merge_nested_if_returns(&mut s.cons);
 
                 if let Some(alt) = &mut s.alt {
-                    if always_terminates(&alt) {
-                        self.merge_nested_if_returns(&mut **alt);
-                        return;
-                    }
+                    self.merge_nested_if_returns(&mut **alt);
                 }
             }
             _ => {}
