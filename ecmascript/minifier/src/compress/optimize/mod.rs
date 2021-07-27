@@ -1915,6 +1915,8 @@ impl VisitMut for Optimizer<'_> {
                     body.visit_mut_children_with(optimizer);
                     optimizer.remove_useless_return(&mut body.stmts);
 
+                    optimizer.negate_if_terminate(&mut body.stmts);
+
                     if let Some(last) = body.stmts.last_mut() {
                         optimizer.drop_unused_stmt_at_end_of_fn(last);
                     }
@@ -2227,7 +2229,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.merge_sequences_in_stmts(stmts);
 
-        self.negate_if_terminate(stmts);
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 
         self.with_ctx(ctx).merge_var_decls(stmts);
