@@ -978,6 +978,31 @@ impl Optimizer<'_> {
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
+            Expr::Assign(b) => {
+                match &mut b.left {
+                    PatOrExpr::Expr(b) => match &**b {
+                        Expr::Ident(..) => {}
+
+                        _ => {
+                            return false;
+                        }
+                    },
+                    PatOrExpr::Pat(b) => match &mut **b {
+                        Pat::Expr(b) => match &**b {
+                            Expr::Ident(..) => {}
+                            _ => {
+                                return false;
+                            }
+                        },
+                        Pat::Ident(..) => {}
+                        _ => return false,
+                    },
+                }
+
+                log::trace!("seq: Try rhs of assign with op");
+                return self.merge_sequential_expr(a, &mut b.right);
+            }
+
             Expr::Array(b) => {
                 for elem in &mut b.elems {
                     match elem {
