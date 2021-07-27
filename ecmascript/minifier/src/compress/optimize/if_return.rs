@@ -1,5 +1,4 @@
 use super::Optimizer;
-use crate::compress::optimize::conditionals::always_terminates;
 use crate::compress::optimize::is_pure_undefined;
 use crate::debug::dump;
 use crate::util::ExprOptExt;
@@ -196,16 +195,6 @@ impl Optimizer<'_> {
     }
 
     fn merge_nested_if_returns(&mut self, s: &mut Stmt) {
-        match s {
-            Stmt::Block(..) => {
-                if !always_terminates(&s) {
-                    return;
-                }
-            }
-
-            _ => {}
-        }
-
         match s {
             Stmt::Block(s) => self.merge_if_returns(&mut s.stmts),
             Stmt::If(s) => {
