@@ -98,10 +98,7 @@ impl Optimizer<'_> {
         let cons = stmts.drain(1..).collect::<Vec<_>>();
 
         let if_stmt = stmts.take().into_iter().next().unwrap();
-        match if_stmt
-            .try_into_stmt()
-            .expect("first value must be an if statement")
-        {
+        match if_stmt {
             Stmt::If(mut s) => {
                 assert_eq!(s.alt, None);
                 self.negate(&mut s.test);
