@@ -2505,6 +2505,7 @@ dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
  "fxhash",
+ "indexmap",
  "log",
  "once_cell",
  "pretty_assertions 0.6.1",
@@ -2524,6 +2525,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_node_base",
  "testing",
+ "unicode-xid",
  "walkdir",
 ]
 
