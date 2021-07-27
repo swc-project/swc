@@ -1,7 +1,6 @@
 use super::Optimizer;
 use crate::compress::optimize::bools::negate_cost;
 use crate::compress::optimize::Ctx;
-use crate::compress::optimize::DISABLE_BUGGY_PASSES;
 use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::SpanExt;
@@ -801,10 +800,6 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn inject_else(&mut self, stmts: &mut Vec<Stmt>) {
-        if DISABLE_BUGGY_PASSES {
-            return;
-        }
-
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
@@ -813,7 +808,13 @@ impl Optimizer<'_> {
                     Stmt::If(IfStmt {
                         cons, alt: None, ..
                     }) => match &**cons {
-                        Stmt::Block(..) => always_terminates(&cons),
+                        Stmt::Block(b) => {
+                            b.stmts.len() == 2
+                                && match b.stmts.last() {
+                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => true,
+                                    _ => false,
+                                }
+                        }
                         _ => false,
                     },
                     _ => false,
@@ -836,6 +837,15 @@ impl Optimizer<'_> {
         let if_stmt = stmts.take().into_iter().next().unwrap();
         match if_stmt {
             Stmt::If(mut s) => {
+                match &mut *s.cons {
+                    Stmt::Block(cons) => {
+                        cons.stmts.pop();
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+
                 assert_eq!(s.alt, None);
 
                 s.alt = Some(if alt.len() == 1 {
@@ -871,7 +881,19 @@ impl Optimizer<'_> {
                 cons,
                 alt: Some(..),
                 ..
-            })) => always_terminates(cons),
+            })) => {
+                always_terminates(cons)
+                    && match &**cons {
+                        Stmt::Block(b) => {
+                            b.stmts.len() != 1
+                                && match b.stmts.last() {
+                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => true,
+                                    _ => false,
+                                }
+                        }
+                        _ => true,
+                    }
+            }
             _ => false,
         });
         if !need_work {
