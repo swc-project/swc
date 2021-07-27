@@ -674,12 +674,19 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
             }
 
             Expr::Cond(..)
-            | Expr::Assign(..)
             | Expr::Update(..)
             | Expr::Bin(BinExpr {
                 op: op!("in") | op!("instanceof"),
                 ..
             }) => 3,
+
+            Expr::Assign(..) => {
+                if is_ret_val_ignored {
+                    0
+                } else {
+                    3
+                }
+            }
 
             Expr::Seq(e) => {
                 if let Some(last) = e.exprs.last() {
