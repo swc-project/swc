@@ -619,18 +619,18 @@
                 )
                     return !1;
                 for (key in ((keySet = {
-                }), o1))
-                    if (!("$" === key.charAt(
+                }), o1)) {
+                    if ("$" === key.charAt(
                         0
                     ) || isFunction(
                         o1[key]
-                    ))) {
-                        if (!equals(
-                            o1[key],
-                            o2[key]
-                        )) return !1;
-                        keySet[key] = !0;
-                    }
+                    )) continue;
+                    if (!equals(
+                        o1[key],
+                        o2[key]
+                    )) return !1;
+                    keySet[key] = !0;
+                }
                 for (key in o2)
                     if (
                         !keySet.hasOwnProperty(
@@ -4083,68 +4083,67 @@
                               ));
                                         break;
                                     case "=":
-                                        if (!optional || attrs[attrName]) {
-                                            (compare = (parentGet = $parse(
-                                                attrs[attrName]
-                                            ))
-                                                .literal
-                                                ? equals
-                                                : function (
-                                                    a, b
-                                                ) {
-                                                    return a === b;
-                                                }),
-                                            (parentSet =
-                                parentGet.assign ||
-                                function (
-                                ) {
-                                    throw (
-                                        ((lastValue = isolateScope[scopeName] =
-                                      parentGet(
-                                          scope
-                                      )),
-                                        $compileMinErr(
-                                            "nonassign",
-                                            "Expression '{0}' used with directive '{1}' is non-assignable!",
-                                            attrs[attrName],
-                                            newIsolateScopeDirective.name,
+                                        if (optional && !attrs[attrName]) return;
+                                        (compare = (parentGet = $parse(
+                                            attrs[attrName]
                                         ))
-                                    );
-                                }),
-                                            (lastValue = isolateScope[scopeName] =
-                                parentGet(
-                                    scope
-                                )),
-                                            isolateScope.$watch(
-                                                function (
-                                                ) {
-                                                    var parentValue = parentGet(
-                                                        scope
-                                                    );
-                                                    return (
-                                                        compare(
-                                                            parentValue,
-                                                            isolateScope[scopeName],
-                                                        ) ||
-                                      (compare(
-                                          parentValue,
-                                          lastValue
-                                      )
-                                          ? parentSet(
-                                              scope,
-                                              (parentValue =
-                                              isolateScope[scopeName]),
-                                          )
-                                          : (isolateScope[scopeName] =
-                                            parentValue)),
-                                                        (lastValue = parentValue)
-                                                    );
-                                                },
-                                                null,
-                                                parentGet.literal,
-                                            );
-                                            break;
-                                        }
+                                            .literal
+                                            ? equals
+                                            : function (
+                                                a, b
+                                            ) {
+                                                return a === b;
+                                            }),
+                                        (parentSet =
+                              parentGet.assign ||
+                              function (
+                              ) {
+                                  throw (
+                                      ((lastValue = isolateScope[scopeName] =
+                                    parentGet(
+                                        scope
+                                    )),
+                                      $compileMinErr(
+                                          "nonassign",
+                                          "Expression '{0}' used with directive '{1}' is non-assignable!",
+                                          attrs[attrName],
+                                          newIsolateScopeDirective.name,
+                                      ))
+                                  );
+                              }),
+                                        (lastValue = isolateScope[scopeName] =
+                              parentGet(
+                                  scope
+                              )),
+                                        isolateScope.$watch(
+                                            function (
+                                            ) {
+                                                var parentValue = parentGet(
+                                                    scope
+                                                );
+                                                return (
+                                                    compare(
+                                                        parentValue,
+                                                        isolateScope[scopeName],
+                                                    ) ||
+                                    (compare(
+                                        parentValue,
+                                        lastValue
+                                    )
+                                        ? parentSet(
+                                            scope,
+                                            (parentValue =
+                                            isolateScope[scopeName]),
+                                        )
+                                        : (isolateScope[scopeName] =
+                                          parentValue)),
+                                                    (lastValue = parentValue)
+                                                );
+                                            },
+                                            null,
+                                            parentGet.literal,
+                                        );
+                                        break;
                                     case "&":
                                         (parentGet = $parse(
                                             attrs[attrName]
@@ -8407,9 +8406,9 @@
                                 function (
                                     value
                                 ) {
-                                    results.hasOwnProperty(
+                                    !results.hasOwnProperty(
                                         key
-                                    ) ||
+                                    ) &&
                     ((results[key] = value),
                     --counter || deferred.resolve(
                         results
@@ -13066,553 +13065,552 @@
                     link: function (
                         scope, element, attr, ctrls
                     ) {
-                        if (ctrls[1]) {
-                            var emptyOption,
-                                selectCtrl = ctrls[0],
-                                ngModelCtrl = ctrls[1],
-                                multiple = attr.multiple,
-                                optionsExp = attr.ngOptions,
-                                nullOption = !1,
-                                optionTemplate = jqLite(
-                                    document.createElement(
-                                        "option"
-                                    )
-                                ),
-                                optGroupTemplate = jqLite(
-                                    document.createElement(
-                                        "optgroup"
-                                    )
-                                ),
-                                unknownOption = optionTemplate.clone(
-                                );
-                            function setupAsSingle(
-                                scope,
-                                selectElement,
-                                ngModelCtrl1,
-                                selectCtrl,
+                        var emptyOption,
+                            selectCtrl = ctrls[0],
+                            ngModelCtrl = ctrls[1],
+                            multiple = attr.multiple,
+                            optionsExp = attr.ngOptions,
+                            nullOption = !1,
+                            optionTemplate = jqLite(
+                                document.createElement(
+                                    "option"
+                                )
+                            ),
+                            optGroupTemplate = jqLite(
+                                document.createElement(
+                                    "optgroup"
+                                )
+                            ),
+                            unknownOption = optionTemplate.clone(
+                            );
+                        function setupAsSingle(
+                            scope,
+                            selectElement,
+                            ngModelCtrl,
+                            selectCtrl,
+                        ) {
+                            (ngModelCtrl.$render = function (
                             ) {
-                                (ngModelCtrl1.$render = function (
-                                ) {
-                                    var viewValue = ngModelCtrl1.$viewValue;
-                                    selectCtrl.hasOption(
+                                var viewValue = ngModelCtrl.$viewValue;
+                                selectCtrl.hasOption(
+                                    viewValue
+                                )
+                                    ? (unknownOption.parent(
+                                    ) && unknownOption.remove(
+                                    ),
+                                    selectElement.val(
                                         viewValue
-                                    )
-                                        ? (unknownOption.parent(
-                                        ) && unknownOption.remove(
-                                        ),
-                                        selectElement.val(
+                                    ),
+                                    "" === viewValue && emptyOption.prop(
+                                        "selected",
+                                        !0
+                                    ))
+                                    : isUndefined(
+                                        viewValue
+                                    ) && emptyOption
+                                        ? selectElement.val(
+                                            ""
+                                        )
+                                        : selectCtrl.renderUnknownOption(
                                             viewValue
-                                        ),
-                                        "" === viewValue && emptyOption.prop(
-                                            "selected",
-                                            !0
-                                        ))
-                                        : isUndefined(
-                                            viewValue
-                                        ) && emptyOption
-                                            ? selectElement.val(
-                                                ""
-                                            )
-                                            : selectCtrl.renderUnknownOption(
-                                                viewValue
-                                            );
-                                }),
-                                selectElement.on(
-                                    "change",
-                                    function (
-                                    ) {
-                                        scope.$apply(
-                                            function (
-                                            ) {
-                                                unknownOption.parent(
-                                                ) && unknownOption.remove(
-                                                ),
-                                                ngModelCtrl1.$setViewValue(
-                                                    selectElement.val(
-                                                    )
-                                                );
-                                            }
                                         );
-                                    }
-                                );
-                            }
-                            function setupAsMultiple(
-                                scope, selectElement, ctrl
-                            ) {
-                                var lastView;
-                                (ctrl.$render = function (
+                            }),
+                            selectElement.on(
+                                "change",
+                                function (
                                 ) {
-                                    var items = new HashMap(
-                                        ctrl.$viewValue
-                                    );
-                                    forEach(
-                                        selectElement.find(
-                                            "option"
-                                        ),
+                                    scope.$apply(
                                         function (
-                                            option
                                         ) {
-                                            option.selected = isDefined(
-                                                items.get(
-                                                    option.value
+                                            unknownOption.parent(
+                                            ) && unknownOption.remove(
+                                            ),
+                                            ngModelCtrl.$setViewValue(
+                                                selectElement.val(
                                                 )
                                             );
                                         }
                                     );
-                                }),
-                                scope.$watch(
+                                }
+                            );
+                        }
+                        function setupAsMultiple(
+                            scope, selectElement, ctrl
+                        ) {
+                            var lastView;
+                            (ctrl.$render = function (
+                            ) {
+                                var items = new HashMap(
+                                    ctrl.$viewValue
+                                );
+                                forEach(
+                                    selectElement.find(
+                                        "option"
+                                    ),
                                     function (
+                                        option
                                     ) {
-                                        equals(
-                                            lastView,
-                                            ctrl.$viewValue
-                                        ) ||
-                      ((lastView = copy(
-                          ctrl.$viewValue
-                      )), ctrl.$render(
-                      ));
-                                    }
-                                ),
-                                selectElement.on(
-                                    "change",
-                                    function (
-                                    ) {
-                                        scope.$apply(
-                                            function (
-                                            ) {
-                                                var array = [];
-                                                forEach(
-                                                    selectElement.find(
-                                                        "option"
-                                                    ),
-                                                    function (
-                                                        option
-                                                    ) {
-                                                        option.selected && array.push(
-                                                            option.value
-                                                        );
-                                                    }
-                                                ),
-                                                ctrl.$setViewValue(
-                                                    array
-                                                );
-                                            }
+                                        option.selected = isDefined(
+                                            items.get(
+                                                option.value
+                                            )
                                         );
                                     }
                                 );
-                            }
-                            function setupAsOptions(
-                                scope, selectElement, ctrl
-                            ) {
-                                var match,
-                                    track,
-                                    displayFn = $parse(
-                                        match[2] || match[1]
-                                    ),
-                                    valueName = match[4] || match[6],
-                                    keyName = match[5],
-                                    groupByFn = $parse(
-                                        match[3] || ""
-                                    ),
-                                    valueFn = $parse(
-                                        match[2] ? match[1] : valueName
-                                    ),
-                                    valuesFn = $parse(
-                                        match[7]
-                                    ),
-                                    trackFn = match[8]
-                                        ? $parse(
-                                            match[8]
-                                        )
-                                        : null,
-                                    optionGroupsCache = [
-                                        [
-                                            {
-                                                element: selectElement,
-                                                label: "",
-                                            },
-                                        ],
-                                    ];
-                                function render(
+                            }),
+                            scope.$watch(
+                                function (
                                 ) {
-                                    var optionGroupName,
-                                        optionGroup,
-                                        option,
-                                        existingParent,
-                                        existingOptions,
-                                        existingOption,
-                                        key,
-                                        groupLength,
-                                        length,
-                                        groupIndex,
-                                        index,
-                                        selected,
-                                        lastElement,
-                                        element,
-                                        label,
-                                        optionGroups = {
-                                            "": [],
-                                        },
-                                        optionGroupNames = ["",],
-                                        modelValue = ctrl.$modelValue,
-                                        values = valuesFn(
-                                            scope
-                                        ) || [],
-                                        keys = keyName
-                                            ? sortedKeys(
-                                                values
-                                            )
-                                            : values,
-                                        locals = {
-                                        },
-                                        selectedSet = !1;
-                                    if (multiple)
-                                        if (trackFn && isArray(
-                                            modelValue
-                                        )) {
-                                            selectedSet = new HashMap(
-                                                []
-                                            );
-                                            for (
-                                                var trackIndex = 0;
-                                                trackIndex < modelValue.length;
-                                                trackIndex++
-                                            )
-                                                (locals[valueName] = modelValue[trackIndex]),
-                                                selectedSet.put(
-                                                    trackFn(
-                                                        scope,
-                                                        locals
-                                                    ),
-                                                    modelValue[trackIndex],
-                                                );
-                                        } else selectedSet = new HashMap(
-                                            modelValue
-                                        );
-                                    for (index = 0; index < (length = keys.length); index++) {
-                                        if (
-                                            ((key = index),
-                                            keyName &&
-                        "$" !== (key = keys[index]).charAt(
-                            0
-                        ) &&
-                        (locals[keyName] = key),
-                                            (locals[valueName] = values[key]),
-                                            (optionGroup =
-                        optionGroups[
-                            (optionGroupName = groupByFn(
-                                scope,
-                                locals
-                            ) || "")
-                        ]) ||
-                        ((optionGroup = optionGroups[optionGroupName] = []),
-                        optionGroupNames.push(
-                            optionGroupName
-                        )),
-                                            multiple)
-                                        )
-                                            selected = isDefined(
-                                                selectedSet.remove(
-                                                    trackFn
-                                                        ? trackFn(
-                                                            scope,
-                                                            locals
-                                                        )
-                                                        : valueFn(
-                                                            scope,
-                                                            locals
-                                                        ),
+                                    equals(
+                                        lastView,
+                                        ctrl.$viewValue
+                                    ) ||
+                    ((lastView = copy(
+                        ctrl.$viewValue
+                    )), ctrl.$render(
+                    ));
+                                }
+                            ),
+                            selectElement.on(
+                                "change",
+                                function (
+                                ) {
+                                    scope.$apply(
+                                        function (
+                                        ) {
+                                            var array = [];
+                                            forEach(
+                                                selectElement.find(
+                                                    "option"
                                                 ),
+                                                function (
+                                                    option
+                                                ) {
+                                                    option.selected && array.push(
+                                                        option.value
+                                                    );
+                                                }
+                                            ),
+                                            ctrl.$setViewValue(
+                                                array
                                             );
-                                        else {
-                                            if (trackFn) {
-                                                var modelCast = {
-                                                };
-                                                (modelCast[valueName] = modelValue),
-                                                (selected =
-                            trackFn(
-                                scope,
-                                modelCast
-                            ) ===
-                            trackFn(
-                                scope,
-                                locals
-                            ));
-                                            } else selected = modelValue === valueFn(
-                                                scope,
-                                                locals
-                                            );
-                                            selectedSet = selectedSet || selected;
                                         }
-                                        (label = isDefined(
-                                            (label = displayFn(
-                                                scope,
-                                                locals
-                                            ))
+                                    );
+                                }
+                            );
+                        }
+                        function setupAsOptions(
+                            scope, selectElement, ctrl
+                        ) {
+                            var match,
+                                track,
+                                displayFn = $parse(
+                                    match[2] || match[1]
+                                ),
+                                valueName = match[4] || match[6],
+                                keyName = match[5],
+                                groupByFn = $parse(
+                                    match[3] || ""
+                                ),
+                                valueFn = $parse(
+                                    match[2] ? match[1] : valueName
+                                ),
+                                valuesFn = $parse(
+                                    match[7]
+                                ),
+                                trackFn = match[8]
+                                    ? $parse(
+                                        match[8]
+                                    )
+                                    : null,
+                                optionGroupsCache = [
+                                    [
+                                        {
+                                            element: selectElement,
+                                            label: "",
+                                        },
+                                    ],
+                                ];
+                            function render(
+                            ) {
+                                var optionGroupName,
+                                    optionGroup,
+                                    option,
+                                    existingParent,
+                                    existingOptions,
+                                    existingOption,
+                                    key,
+                                    groupLength,
+                                    length,
+                                    groupIndex,
+                                    index,
+                                    selected,
+                                    lastElement,
+                                    element,
+                                    label,
+                                    optionGroups = {
+                                        "": [],
+                                    },
+                                    optionGroupNames = ["",],
+                                    modelValue = ctrl.$modelValue,
+                                    values = valuesFn(
+                                        scope
+                                    ) || [],
+                                    keys = keyName
+                                        ? sortedKeys(
+                                            values
                                         )
-                                            ? label
-                                            : ""),
-                                        optionGroup.push(
-                                            {
-                                                id: trackFn
+                                        : values,
+                                    locals = {
+                                    },
+                                    selectedSet = !1;
+                                if (multiple)
+                                    if (trackFn && isArray(
+                                        modelValue
+                                    )) {
+                                        selectedSet = new HashMap(
+                                            []
+                                        );
+                                        for (
+                                            var trackIndex = 0;
+                                            trackIndex < modelValue.length;
+                                            trackIndex++
+                                        )
+                                            (locals[valueName] = modelValue[trackIndex]),
+                                            selectedSet.put(
+                                                trackFn(
+                                                    scope,
+                                                    locals
+                                                ),
+                                                modelValue[trackIndex],
+                                            );
+                                    } else selectedSet = new HashMap(
+                                        modelValue
+                                    );
+                                for (index = 0; index < (length = keys.length); index++) {
+                                    if (((key = index), keyName)) {
+                                        if ("$" === (key = keys[index]).charAt(
+                                            0
+                                        )) continue;
+                                        locals[keyName] = key;
+                                    }
+                                    if (
+                                        ((locals[valueName] = values[key]),
+                                        (optionGroup =
+                      optionGroups[
+                          (optionGroupName = groupByFn(
+                              scope,
+                              locals
+                          ) || "")
+                      ]) ||
+                      ((optionGroup = optionGroups[optionGroupName] = []),
+                      optionGroupNames.push(
+                          optionGroupName
+                      )),
+                                        multiple)
+                                    )
+                                        selected = isDefined(
+                                            selectedSet.remove(
+                                                trackFn
                                                     ? trackFn(
                                                         scope,
                                                         locals
                                                     )
-                                                    : keyName
-                                                        ? keys[index]
-                                                        : index,
-                                                label: label,
-                                                selected: selected,
-                                            }
-                                        );
-                                    }
-                                    for (
-                                        multiple ||
-                      (nullOption || null === modelValue
-                          ? optionGroups[""].unshift(
-                              {
-                                  id: "",
-                                  label: "",
-                                  selected: !selectedSet,
-                              }
-                          )
-                          : selectedSet ||
-                          optionGroups[""].unshift(
-                              {
-                                  id: "?",
-                                  label: "",
-                                  selected: !0,
-                              }
-                          )),
-                                        groupIndex = 0,
-                                        groupLength = optionGroupNames.length;
-                                        groupIndex < groupLength;
-                                        groupIndex++
-                                    ) {
-                                        for (
-                                            optionGroup =
-                        optionGroups[
-                            (optionGroupName = optionGroupNames[groupIndex])
-                        ],
-                                            optionGroupsCache.length <= groupIndex
-                                                ? ((existingOptions = [
-                                                    (existingParent = {
-                                                        element: optGroupTemplate
-                                                            .clone(
-                                                            )
-                                                            .attr(
-                                                                "label",
-                                                                optionGroupName
-                                                            ),
-                                                        label: optionGroup.label,
-                                                    }),
-                                                ]),
-                                                optionGroupsCache.push(
-                                                    existingOptions
-                                                ),
-                                                selectElement.append(
-                                                    existingParent.element
-                                                ))
-                                                : (existingParent = (existingOptions =
-                              optionGroupsCache[groupIndex])[0]).label !=
-                              optionGroupName &&
-                            existingParent.element.attr(
-                                "label",
-                                (existingParent.label = optionGroupName),
-                            ),
-                                            lastElement = null,
-                                            index = 0,
-                                            length = optionGroup.length;
-                                            index < length;
-                                            index++
-                                        )
-                                            (option = optionGroup[index]),
-                                            (existingOption = existingOptions[index + 1])
-                                                ? ((lastElement = existingOption.element),
-                                                existingOption.label !== option.label &&
-                              lastElement.text(
-                                  (existingOption.label = option.label),
-                              ),
-                                                existingOption.id !== option.id &&
-                              lastElement.val(
-                                  (existingOption.id = option.id)
-                              ),
-                                                lastElement[0].selected !== option.selected &&
-                              lastElement.prop(
-                                  "selected",
-                                  (existingOption.selected = option.selected),
-                              ))
-                                                : ("" === option.id && nullOption
-                                                    ? (element = nullOption)
-                                                    : (element = optionTemplate.clone(
-                                                    ))
-                                                        .val(
-                                                            option.id
-                                                        )
-                                                        .attr(
-                                                            "selected",
-                                                            option.selected
-                                                        )
-                                                        .text(
-                                                            option.label
-                                                        ),
-                                                existingOptions.push(
-                                                    (existingOption = {
-                                                        element: element,
-                                                        label: option.label,
-                                                        id: option.id,
-                                                        selected: option.selected,
-                                                    }),
-                                                ),
-                                                lastElement
-                                                    ? lastElement.after(
-                                                        element
-                                                    )
-                                                    : existingParent.element.append(
-                                                        element
-                                                    ),
-                                                (lastElement = element));
-                                        for (index++; existingOptions.length > index; )
-                                            existingOptions.pop(
-                                            ).element.remove(
-                                            );
-                                    }
-                                    for (; optionGroupsCache.length > groupIndex; )
-                                        optionGroupsCache.pop(
-                                        )[0].element.remove(
-                                        );
-                                }
-                                if (!(match = optionsExp.match(
-                                    NG_OPTIONS_REGEXP
-                                )))
-                                    throw ngOptionsMinErr(
-                                        "iexp",
-                                        "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}",
-                                        optionsExp,
-                                        startingTag(
-                                            selectElement
-                                        ),
-                                    );
-                                nullOption &&
-                  ($compile(
-                      nullOption
-                  )(
-                      scope
-                  ),
-                  nullOption.removeClass(
-                      "ng-scope"
-                  ),
-                  nullOption.remove(
-                  )),
-                                selectElement.empty(
-                                ),
-                                selectElement.on(
-                                    "change",
-                                    function (
-                                    ) {
-                                        scope.$apply(
-                                            function (
-                                            ) {
-                                                var optionGroup,
-                                                    key,
-                                                    value,
-                                                    optionElement,
-                                                    index,
-                                                    groupIndex,
-                                                    length,
-                                                    groupLength,
-                                                    trackIndex,
-                                                    collection = valuesFn(
-                                                        scope
-                                                    ) || [],
-                                                    locals = {
-                                                    };
-                                                if (multiple) {
-                                                    for (
-                                                        groupIndex = 0,
-                                                        value = [],
-                                                        groupLength = optionGroupsCache.length;
-                                                        groupIndex < groupLength;
-                                                        groupIndex++
-                                                    )
-                                                        for (
-                                                            index = 1,
-                                                            length = (optionGroup =
-                                optionGroupsCache[groupIndex]).length;
-                                                            index < length;
-                                                            index++
-                                                        )
-                                                            if (
-                                                                (optionElement = optionGroup[index].element)[0]
-                                                                    .selected
-                                                            ) {
-                                                                if (
-                                                                    ((key = optionElement.val(
-                                                                    )),
-                                                                    keyName && (locals[keyName] = key),
-                                                                    trackFn)
-                                                                )
-                                                                    for (
-                                                                        trackIndex = 0;
-                                                                        trackIndex < collection.length &&
-                                  ((locals[valueName] = collection[trackIndex]),
-                                  trackFn(
-                                      scope,
-                                      locals
-                                  ) != key);
-                                                                        trackIndex++
-                                                                    );
-                                                                else locals[valueName] = collection[key];
-                                                                value.push(
-                                                                    valueFn(
-                                                                        scope,
-                                                                        locals
-                                                                    )
-                                                                );
-                                                            }
-                                                } else if ("?" == (key = selectElement.val(
-                                                )))
-                                                    value = undefined;
-                                                else if ("" === key) value = null;
-                                                else if (trackFn) {
-                                                    for (
-                                                        trackIndex = 0;
-                                                        trackIndex < collection.length;
-                                                        trackIndex++
-                                                    )
-                                                        if (
-                                                            ((locals[valueName] = collection[trackIndex]),
-                                                            trackFn(
-                                                                scope,
-                                                                locals
-                                                            ) == key)
-                                                        ) {
-                                                            value = valueFn(
-                                                                scope,
-                                                                locals
-                                                            );
-                                                            break;
-                                                        }
-                                                } else
-                                                    (locals[valueName] = collection[key]),
-                                                    keyName && (locals[keyName] = key),
-                                                    (value = valueFn(
+                                                    : valueFn(
                                                         scope,
                                                         locals
-                                                    ));
-                                                ctrl.$setViewValue(
-                                                    value
-                                                );
-                                            }
+                                                    ),
+                                            ),
                                         );
+                                    else {
+                                        if (trackFn) {
+                                            var modelCast = {
+                                            };
+                                            (modelCast[valueName] = modelValue),
+                                            (selected =
+                          trackFn(
+                              scope,
+                              modelCast
+                          ) === trackFn(
+                              scope,
+                              locals
+                          ));
+                                        } else selected = modelValue === valueFn(
+                                            scope,
+                                            locals
+                                        );
+                                        selectedSet = selectedSet || selected;
                                     }
-                                ),
-                                (ctrl.$render = render),
-                                scope.$watch(
-                                    render
-                                );
+                                    (label = isDefined(
+                                        (label = displayFn(
+                                            scope,
+                                            locals
+                                        ))
+                                    )
+                                        ? label
+                                        : ""),
+                                    optionGroup.push(
+                                        {
+                                            id: trackFn
+                                                ? trackFn(
+                                                    scope,
+                                                    locals
+                                                )
+                                                : keyName
+                                                    ? keys[index]
+                                                    : index,
+                                            label: label,
+                                            selected: selected,
+                                        }
+                                    );
+                                }
+                                for (
+                                    multiple ||
+                    (nullOption || null === modelValue
+                        ? optionGroups[""].unshift(
+                            {
+                                id: "",
+                                label: "",
+                                selected: !selectedSet,
                             }
+                        )
+                        : selectedSet ||
+                        optionGroups[""].unshift(
+                            {
+                                id: "?",
+                                label: "",
+                                selected: !0,
+                            }
+                        )),
+                                    groupIndex = 0,
+                                    groupLength = optionGroupNames.length;
+                                    groupIndex < groupLength;
+                                    groupIndex++
+                                ) {
+                                    for (
+                                        optionGroup =
+                      optionGroups[
+                          (optionGroupName = optionGroupNames[groupIndex])
+                      ],
+                                        optionGroupsCache.length <= groupIndex
+                                            ? ((existingOptions = [
+                                                (existingParent = {
+                                                    element: optGroupTemplate
+                                                        .clone(
+                                                        )
+                                                        .attr(
+                                                            "label",
+                                                            optionGroupName
+                                                        ),
+                                                    label: optionGroup.label,
+                                                }),
+                                            ]),
+                                            optionGroupsCache.push(
+                                                existingOptions
+                                            ),
+                                            selectElement.append(
+                                                existingParent.element
+                                            ))
+                                            : (existingParent = (existingOptions =
+                            optionGroupsCache[groupIndex])[0]).label !=
+                            optionGroupName &&
+                          existingParent.element.attr(
+                              "label",
+                              (existingParent.label = optionGroupName),
+                          ),
+                                        lastElement = null,
+                                        index = 0,
+                                        length = optionGroup.length;
+                                        index < length;
+                                        index++
+                                    )
+                                        (option = optionGroup[index]),
+                                        (existingOption = existingOptions[index + 1])
+                                            ? ((lastElement = existingOption.element),
+                                            existingOption.label !== option.label &&
+                            lastElement.text(
+                                (existingOption.label = option.label),
+                            ),
+                                            existingOption.id !== option.id &&
+                            lastElement.val(
+                                (existingOption.id = option.id)
+                            ),
+                                            lastElement[0].selected !== option.selected &&
+                            lastElement.prop(
+                                "selected",
+                                (existingOption.selected = option.selected),
+                            ))
+                                            : ("" === option.id && nullOption
+                                                ? (element = nullOption)
+                                                : (element = optionTemplate.clone(
+                                                ))
+                                                    .val(
+                                                        option.id
+                                                    )
+                                                    .attr(
+                                                        "selected",
+                                                        option.selected
+                                                    )
+                                                    .text(
+                                                        option.label
+                                                    ),
+                                            existingOptions.push(
+                                                (existingOption = {
+                                                    element: element,
+                                                    label: option.label,
+                                                    id: option.id,
+                                                    selected: option.selected,
+                                                }),
+                                            ),
+                                            lastElement
+                                                ? lastElement.after(
+                                                    element
+                                                )
+                                                : existingParent.element.append(
+                                                    element
+                                                ),
+                                            (lastElement = element));
+                                    for (index++; existingOptions.length > index; )
+                                        existingOptions.pop(
+                                        ).element.remove(
+                                        );
+                                }
+                                for (; optionGroupsCache.length > groupIndex; )
+                                    optionGroupsCache.pop(
+                                    )[0].element.remove(
+                                    );
+                            }
+                            if (!(match = optionsExp.match(
+                                NG_OPTIONS_REGEXP
+                            )))
+                                throw ngOptionsMinErr(
+                                    "iexp",
+                                    "Expected expression in form of '_select_ (as _label_)? for (_key_,)?_value_ in _collection_' but got '{0}'. Element: {1}",
+                                    optionsExp,
+                                    startingTag(
+                                        selectElement
+                                    ),
+                                );
+                            nullOption &&
+                ($compile(
+                    nullOption
+                )(
+                    scope
+                ),
+                nullOption.removeClass(
+                    "ng-scope"
+                ),
+                nullOption.remove(
+                )),
+                            selectElement.empty(
+                            ),
+                            selectElement.on(
+                                "change",
+                                function (
+                                ) {
+                                    scope.$apply(
+                                        function (
+                                        ) {
+                                            var optionGroup,
+                                                key,
+                                                value,
+                                                optionElement,
+                                                index,
+                                                groupIndex,
+                                                length,
+                                                groupLength,
+                                                trackIndex,
+                                                collection = valuesFn(
+                                                    scope
+                                                ) || [],
+                                                locals = {
+                                                };
+                                            if (multiple) {
+                                                for (
+                                                    groupIndex = 0,
+                                                    value = [],
+                                                    groupLength = optionGroupsCache.length;
+                                                    groupIndex < groupLength;
+                                                    groupIndex++
+                                                )
+                                                    for (
+                                                        index = 1,
+                                                        length = (optionGroup =
+                              optionGroupsCache[groupIndex]).length;
+                                                        index < length;
+                                                        index++
+                                                    )
+                                                        if (
+                                                            (optionElement = optionGroup[index].element)[0]
+                                                                .selected
+                                                        ) {
+                                                            if (
+                                                                ((key = optionElement.val(
+                                                                )),
+                                                                keyName && (locals[keyName] = key),
+                                                                trackFn)
+                                                            )
+                                                                for (
+                                                                    trackIndex = 0;
+                                                                    trackIndex < collection.length &&
+                                ((locals[valueName] = collection[trackIndex]),
+                                trackFn(
+                                    scope,
+                                    locals
+                                ) != key);
+                                                                    trackIndex++
+                                                                );
+                                                            else locals[valueName] = collection[key];
+                                                            value.push(
+                                                                valueFn(
+                                                                    scope,
+                                                                    locals
+                                                                )
+                                                            );
+                                                        }
+                                            } else if ("?" == (key = selectElement.val(
+                                            )))
+                                                value = undefined;
+                                            else if ("" === key) value = null;
+                                            else if (trackFn) {
+                                                for (
+                                                    trackIndex = 0;
+                                                    trackIndex < collection.length;
+                                                    trackIndex++
+                                                )
+                                                    if (
+                                                        ((locals[valueName] = collection[trackIndex]),
+                                                        trackFn(
+                                                            scope,
+                                                            locals
+                                                        ) == key)
+                                                    ) {
+                                                        value = valueFn(
+                                                            scope,
+                                                            locals
+                                                        );
+                                                        break;
+                                                    }
+                                            } else
+                                                (locals[valueName] = collection[key]),
+                                                keyName && (locals[keyName] = key),
+                                                (value = valueFn(
+                                                    scope,
+                                                    locals
+                                                ));
+                                            ctrl.$setViewValue(
+                                                value
+                                            );
+                                        }
+                                    );
+                                }
+                            ),
+                            (ctrl.$render = render),
+                            scope.$watch(
+                                render
+                            );
+                        }
+                        if (ctrls[1]) {
                             for (
                                 var i = 0, children = element.children(
                                     ), ii = children.length;

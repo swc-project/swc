@@ -361,7 +361,8 @@
                 var value = node.getAttribute(
                     name
                 );
-                return value === "" + expected ? expected : value;
+                if (value === "" + expected) return expected;
+                return value;
             }
         }
         function setValueForProperty(
@@ -1345,14 +1346,13 @@
             )) {
                 var type = props.type,
                     isButton = "submit" === type || "reset" === type;
-                if (!isButton || (void 0 !== props.value && null !== props.value)) {
-                    var initialValue = toString(
-                        node._wrapperState.initialValue
-                    );
-                    isHydrating ||
-          (initialValue !== node.value && (node.value = initialValue)),
-                    (node.defaultValue = initialValue);
-                }
+                if (isButton && (void 0 === props.value || null === props.value)) return;
+                var initialValue = toString(
+                    node._wrapperState.initialValue
+                );
+                isHydrating ||
+        (initialValue !== node.value && (node.value = initialValue)),
+                (node.defaultValue = initialValue);
             }
             var name = node.name;
             "" !== name && (node.name = ""),
@@ -1390,21 +1390,21 @@
                     i++
                 ) {
                     var otherNode = group[i];
-                    if (otherNode !== rootNode && otherNode.form === rootNode.form) {
-                        var otherProps = getFiberCurrentPropsFromNode(
-                            otherNode
+                    if (otherNode === rootNode || otherNode.form !== rootNode.form)
+                        continue;
+                    var otherProps = getFiberCurrentPropsFromNode(
+                        otherNode
+                    );
+                    if (!otherProps)
+                        throw Error(
+                            "ReactDOMInput: Mixing React and non-React radio inputs with the same `name` is not supported.",
                         );
-                        if (!otherProps)
-                            throw Error(
-                                "ReactDOMInput: Mixing React and non-React radio inputs with the same `name` is not supported.",
-                            );
-                        updateValueIfChanged(
-                            otherNode
-                        ), updateWrapper(
-                            otherNode,
-                            otherProps
-                        );
-                    }
+                    updateValueIfChanged(
+                        otherNode
+                    ), updateWrapper(
+                        otherNode,
+                        otherProps
+                    );
                 }
             }
         }
@@ -2349,18 +2349,18 @@
                         correctOriginalKey = expandedStyles[key];
                     if (correctOriginalKey && originalKey !== correctOriginalKey) {
                         var warningKey = originalKey + "," + correctOriginalKey;
-                        warnedAbout[warningKey] ||
-            ((warnedAbout[warningKey] = !0),
-            error(
-                "%s a style property during rerender (%s) when a conflicting property is set (%s) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.",
-                isValueEmpty(
-                    styleUpdates[originalKey]
-                )
-                    ? "Removing"
-                    : "Updating",
-                originalKey,
-                correctOriginalKey,
-            ));
+                        if (warnedAbout[warningKey]) continue;
+                        (warnedAbout[warningKey] = !0),
+                        error(
+                            "%s a style property during rerender (%s) when a conflicting property is set (%s) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.",
+                            isValueEmpty(
+                                styleUpdates[originalKey]
+                            )
+                                ? "Removing"
+                                : "Updating",
+                            originalKey,
+                            correctOriginalKey,
+                        );
                     }
                 }
             }
@@ -4932,13 +4932,17 @@
                         );
                         return;
                     }
-                    queueIfContinuousEvent(
-                        blockedOn,
-                        domEventName,
-                        eventSystemFlags,
-                        targetContainer,
-                        nativeEvent,
-                    ) || clearIfContinuousEvent(
+                    if (
+                        queueIfContinuousEvent(
+                            blockedOn,
+                            domEventName,
+                            eventSystemFlags,
+                            targetContainer,
+                            nativeEvent,
+                        )
+                    )
+                        return;
+                    clearIfContinuousEvent(
                         domEventName,
                         nativeEvent
                     );
@@ -6374,15 +6378,15 @@
                         node,
                         end
                     );
-                if (
-                    startMarker &&
-        endMarker &&
-        (1 !== selection.rangeCount ||
-          selection.anchorNode !== startMarker.node ||
-          selection.anchorOffset !== startMarker.offset ||
-          selection.focusNode !== endMarker.node ||
-          selection.focusOffset !== endMarker.offset)
-                ) {
+                if (startMarker && endMarker) {
+                    if (
+                        1 === selection.rangeCount &&
+          selection.anchorNode === startMarker.node &&
+          selection.anchorOffset === startMarker.offset &&
+          selection.focusNode === endMarker.node &&
+          selection.focusOffset === endMarker.offset
+                    )
+                        return;
                     var range = doc.createRange(
                     );
                     range.setStart(
@@ -6941,14 +6945,15 @@
                         instance = _dispatchListeners$i.instance,
                         currentTarget = _dispatchListeners$i.currentTarget,
                         listener = _dispatchListeners$i.listener;
-                    (instance !== previousInstance && event.isPropagationStopped(
-                    )) ||
-          (executeDispatch(
-              event,
-              listener,
-              currentTarget
-          ),
-          (previousInstance = instance));
+                    if (instance !== previousInstance && event.isPropagationStopped(
+                    ))
+                        return;
+                    executeDispatch(
+                        event,
+                        listener,
+                        currentTarget
+                    ),
+                    (previousInstance = instance);
                 }
             else
                 for (var _i = 0; _i < dispatchListeners.length; _i++) {
@@ -6956,14 +6961,15 @@
                         _instance = _dispatchListeners$_i.instance,
                         _currentTarget = _dispatchListeners$_i.currentTarget,
                         _listener = _dispatchListeners$_i.listener;
-                    (_instance !== previousInstance && event.isPropagationStopped(
-                    )) ||
-          (executeDispatch(
-              event,
-              _listener,
-              _currentTarget
-          ),
-          (previousInstance = _instance));
+                    if (_instance !== previousInstance && event.isPropagationStopped(
+                    ))
+                        return;
+                    executeDispatch(
+                        event,
+                        _listener,
+                        _currentTarget
+                    ),
+                    (previousInstance = _instance);
                 }
         }
         function processDispatchQueue(
@@ -7075,16 +7081,19 @@
             var eventSystemFlags =
         arguments.length > 4 && void 0 !== arguments[4] ? arguments[4] : 0,
                 target = rootContainerElement;
-            "selectionchange" === domEventName &&
-      9 !== rootContainerElement.nodeType &&
-      (target = rootContainerElement.ownerDocument),
-            null !== targetElement &&
+            if (
+                ("selectionchange" === domEventName &&
+        9 !== rootContainerElement.nodeType &&
+        (target = rootContainerElement.ownerDocument),
+                null !== targetElement &&
         !isCapturePhaseListener &&
         nonDelegatedEvents.has(
             domEventName
-        ) &&
-        "scroll" === domEventName &&
-        ((eventSystemFlags |= 2), (target = targetElement));
+        ))
+            ) {
+                if ("scroll" !== domEventName) return;
+                (eventSystemFlags |= 2), (target = targetElement);
+            }
             var listenerSet = getEventListenerSet(
                     target
                 ),
@@ -7172,47 +7181,45 @@
                 var targetContainerNode = targetContainer;
                 if (null !== targetInst) {
                     var node = targetInst;
-                    mainLoop: for (;;)
-                        if (null !== node) {
-                            var nodeTag = node.tag;
-                            if (3 === nodeTag || 4 === nodeTag) {
-                                var container = node.stateNode.containerInfo;
-                                if (isMatchingRootContainer(
-                                    container,
-                                    targetContainerNode
-                                ))
-                                    break;
-                                if (4 === nodeTag)
-                                    for (var grandNode = node.return; null !== grandNode; ) {
-                                        var grandTag = grandNode.tag;
-                                        if (3 === grandTag || 4 === grandTag) {
-                                            var grandContainer = grandNode.stateNode.containerInfo;
-                                            if (
-                                                isMatchingRootContainer(
-                                                    grandContainer,
-                                                    targetContainerNode,
-                                                )
+                    mainLoop: for (;;) {
+                        if (null === node) return;
+                        var nodeTag = node.tag;
+                        if (3 === nodeTag || 4 === nodeTag) {
+                            var container = node.stateNode.containerInfo;
+                            if (isMatchingRootContainer(
+                                container,
+                                targetContainerNode
+                            )) break;
+                            if (4 === nodeTag)
+                                for (var grandNode = node.return; null !== grandNode; ) {
+                                    var grandTag = grandNode.tag;
+                                    if (3 === grandTag || 4 === grandTag) {
+                                        var grandContainer = grandNode.stateNode.containerInfo;
+                                        if (
+                                            isMatchingRootContainer(
+                                                grandContainer,
+                                                targetContainerNode
                                             )
-                                                return;
-                                        }
-                                        grandNode = grandNode.return;
+                                        )
+                                            return;
                                     }
-                                for (; null !== container; ) {
-                                    var parentNode = getClosestInstanceFromNode(
-                                        container
-                                    );
-                                    if (null !== parentNode) {
-                                        var parentTag = parentNode.tag;
-                                        if (5 === parentTag || 6 === parentTag) {
-                                            node = ancestorInst = parentNode;
-                                            continue mainLoop;
-                                        }
-                                        container = container.parentNode;
-                                    }
+                                    grandNode = grandNode.return;
                                 }
+                            for (; null !== container; ) {
+                                var parentNode = getClosestInstanceFromNode(
+                                    container
+                                );
+                                if (null === parentNode) return;
+                                var parentTag = parentNode.tag;
+                                if (5 === parentTag || 6 === parentTag) {
+                                    node = ancestorInst = parentNode;
+                                    continue mainLoop;
+                                }
+                                container = container.parentNode;
                             }
-                            node = node.return;
                         }
+                        node = node.return;
+                    }
                 }
             }
             batchedEventUpdates(
@@ -9405,7 +9412,7 @@
             parentProps,
             parentInstance,
         ) {
-            if (!0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1]);
+            !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1];
         }
         var clientId = 0;
         function makeClientIdInDEV(
@@ -12406,16 +12413,16 @@
                             newChildren[newIdx],
                             lanes
                         );
-                        null !== _newFiber &&
-            ((lastPlacedIndex = placeChild(
-                _newFiber,
-                lastPlacedIndex,
-                newIdx
-            )),
-            null === previousNewFiber
-                ? (resultingFirstChild = _newFiber)
-                : (previousNewFiber.sibling = _newFiber),
-            (previousNewFiber = _newFiber));
+                        if (null === _newFiber) continue;
+                        (lastPlacedIndex = placeChild(
+                            _newFiber,
+                            lastPlacedIndex,
+                            newIdx
+                        )),
+                        null === previousNewFiber
+                            ? (resultingFirstChild = _newFiber)
+                            : (previousNewFiber.sibling = _newFiber),
+                        (previousNewFiber = _newFiber);
                     }
                     return resultingFirstChild;
                 }
@@ -12575,16 +12582,16 @@
                             step.value,
                             lanes
                         );
-                        null !== _newFiber3 &&
-            ((lastPlacedIndex = placeChild(
-                _newFiber3,
-                lastPlacedIndex,
-                newIdx,
-            )),
-            null === previousNewFiber
-                ? (resultingFirstChild = _newFiber3)
-                : (previousNewFiber.sibling = _newFiber3),
-            (previousNewFiber = _newFiber3));
+                        if (null === _newFiber3) continue;
+                        (lastPlacedIndex = placeChild(
+                            _newFiber3,
+                            lastPlacedIndex,
+                            newIdx
+                        )),
+                        null === previousNewFiber
+                            ? (resultingFirstChild = _newFiber3)
+                            : (previousNewFiber.sibling = _newFiber3),
+                        (previousNewFiber = _newFiber3);
                     }
                     return resultingFirstChild;
                 }
@@ -16463,13 +16470,14 @@
             firstChild,
             renderLanes,
         ) {
-            for (var state, node = firstChild; null !== node; ) {
-                if (13 === node.tag)
+            for (var node = firstChild; null !== node; ) {
+                if (13 === node.tag) {
+                    var state = node.memoizedState;
                     null !== state && scheduleWorkOnFiber(
                         node,
                         renderLanes
                     );
-                else if (19 === node.tag) scheduleWorkOnFiber(
+                } else if (19 === node.tag) scheduleWorkOnFiber(
                     node,
                     renderLanes
                 );
@@ -16477,13 +16485,12 @@
                     (node.child.return = node), (node = node.child);
                     continue;
                 }
-                if (node !== workInProgress) {
-                    for (; null === node.sibling; )
-                        null !== node.return &&
-            node.return !== workInProgress &&
-            (node = node.return);
-                    (node.sibling.return = node.return), (node = node.sibling);
+                if (node === workInProgress) return;
+                for (; null === node.sibling; ) {
+                    if (null === node.return || node.return === workInProgress) return;
+                    node = node.return;
                 }
+                (node.sibling.return = node.return), (node = node.sibling);
             }
         }
         function findLastContentRow(
@@ -16621,11 +16628,13 @@
                                 !step.done;
                                 step = childrenIterator.next(
                                 )
-                            )
-                                validateSuspenseListNestedChild(
+                            ) {
+                                if (!validateSuspenseListNestedChild(
                                     step.value,
                                     _i
-                                ) && _i++;
+                                )) return;
+                                _i++;
+                            }
                     } else
                         error(
                             'A single row was passed to a <SuspenseList revealOrder="%s" />. This is not useful since it needs multiple rows. Did you mean to pass multiple children or an array?',
@@ -17940,49 +17949,48 @@
                     boundary,
                     errorInfo
                 );
-                if (!1 !== logError) {
-                    var error = errorInfo.value;
-                    if (0) console.error(
-                        error
-                    );
-                    else {
-                        var source = errorInfo.source,
-                            stack = errorInfo.stack,
-                            componentStack = null !== stack ? stack : "";
-                        null != error &&
-            error._suppressLogging &&
-            1 !== boundary.tag &&
-            console.error(
-                error
-            );
-                        var componentName = source
-                                ? getComponentName(
-                                    source.type
-                                )
-                                : null,
-                            componentNameMessage = componentName
-                                ? "The above error occurred in the <" +
-                componentName +
-                "> component:"
-                                : "The above error occurred in one of your React components:",
-                            errorBoundaryName = getComponentName(
-                                boundary.type
-                            ),
-                            combinedMessage =
-              componentNameMessage +
-              "\n" +
-              componentStack +
-              "\n\n" +
-              (errorBoundaryName
-                  ? "React will try to recreate this component tree from scratch " +
-                  ("using the error boundary you provided, " +
-                    errorBoundaryName +
-                    ".")
-                  : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.");
+                if (!1 === logError) return;
+                var error = errorInfo.value;
+                if (0) console.error(
+                    error
+                );
+                else {
+                    var source = errorInfo.source,
+                        stack = errorInfo.stack,
+                        componentStack = null !== stack ? stack : "";
+                    if (null != error && error._suppressLogging) {
+                        if (1 === boundary.tag) return;
                         console.error(
-                            combinedMessage
+                            error
                         );
                     }
+                    var componentName = source
+                            ? getComponentName(
+                                source.type
+                            )
+                            : null,
+                        componentNameMessage = componentName
+                            ? "The above error occurred in the <" +
+              componentName +
+              "> component:"
+                            : "The above error occurred in one of your React components:",
+                        errorBoundaryName = getComponentName(
+                            boundary.type
+                        ),
+                        combinedMessage =
+            componentNameMessage +
+            "\n" +
+            componentStack +
+            "\n\n" +
+            (errorBoundaryName
+                ? "React will try to recreate this component tree from scratch " +
+                ("using the error boundary you provided, " +
+                  errorBoundaryName +
+                  ".")
+                : "Consider adding an error boundary to your tree to customize error handling behavior.\nVisit https://reactjs.org/link/error-boundaries to learn more about error boundaries.");
+                    console.error(
+                        combinedMessage
+                    );
                 }
             } catch (e) {
                 setTimeout(
@@ -18697,13 +18705,12 @@
                     (node.child.return = node), (node = node.child);
                     continue;
                 }
-                if (node !== finishedWork) {
-                    for (; null === node.sibling; )
-                        null !== node.return &&
-            node.return !== finishedWork &&
-            (node = node.return);
-                    (node.sibling.return = node.return), (node = node.sibling);
+                if (node === finishedWork) return;
+                for (; null === node.sibling; ) {
+                    if (null === node.return || node.return === finishedWork) return;
+                    node = node.return;
                 }
+                (node.sibling.return = node.return), (node = node.sibling);
             }
         }
         function commitAttachRef(
@@ -18829,11 +18836,12 @@
                     (node.child.return = node), (node = node.child);
                     continue;
                 }
-                if (node !== root) {
-                    for (; null === node.sibling; )
-                        null !== node.return && node.return !== root && (node = node.return);
-                    (node.sibling.return = node.return), (node = node.sibling);
+                if (node === root) return;
+                for (; null === node.sibling; ) {
+                    if (null === node.return || node.return === root) return;
+                    node = node.return;
                 }
+                (node.sibling.return = node.return), (node = node.sibling);
             }
         }
         function detachFiberMutation(
@@ -19074,14 +19082,12 @@
                     (node.child.return = node), (node = node.child);
                     continue;
                 }
-                if (node !== current) {
-                    for (; null === node.sibling; )
-                        null !== node.return &&
-            node.return !== current &&
-            4 === (node = node.return).tag &&
-            (currentParentIsValid = !1);
-                    (node.sibling.return = node.return), (node = node.sibling);
+                if (node === current) return;
+                for (; null === node.sibling; ) {
+                    if (null === node.return || node.return === current) return;
+                    4 === (node = node.return).tag && (currentParentIsValid = !1);
                 }
+                (node.sibling.return = node.return), (node = node.sibling);
             }
         }
         function commitDeletion(
@@ -19536,10 +19542,10 @@
             }
             if (null !== existingCallbackNode) {
                 var existingCallbackPriority = root.callbackPriority;
-                existingCallbackPriority !== newCallbackPriority &&
-        cancelCallback(
-            existingCallbackNode
-        );
+                if (existingCallbackPriority === newCallbackPriority) return;
+                cancelCallback(
+                    existingCallbackNode
+                );
             }
             (newCallbackNode =
       15 === newCallbackPriority
@@ -21247,18 +21253,20 @@
                     var componentName = getComponentName(
                         fiber.type
                     ) || "ReactComponent";
-                    null !== didWarnStateUpdateForNotYetMountedComponent
-                        ? didWarnStateUpdateForNotYetMountedComponent.has(
+                    if (null !== didWarnStateUpdateForNotYetMountedComponent) {
+                        if (didWarnStateUpdateForNotYetMountedComponent.has(
                             componentName
-                        ) ||
-            didWarnStateUpdateForNotYetMountedComponent.add(
-                componentName
-            )
-                        : (didWarnStateUpdateForNotYetMountedComponent = new Set(
+                        ))
+                            return;
+                        didWarnStateUpdateForNotYetMountedComponent.add(
+                            componentName
+                        );
+                    } else
+                        didWarnStateUpdateForNotYetMountedComponent = new Set(
                             [
                                 componentName,
                             ]
-                        ));
+                        );
                     try {
                         setCurrentFiber(
                             fiber
@@ -21295,21 +21303,17 @@
                 var componentName = getComponentName(
                     fiber.type
                 ) || "ReactComponent";
-                if (
-                    (null !== didWarnStateUpdateForUnmountedComponent
-                        ? didWarnStateUpdateForUnmountedComponent.has(
-                            componentName
-                        ) ||
-            didWarnStateUpdateForUnmountedComponent.add(
-                componentName
-            )
-                        : (didWarnStateUpdateForUnmountedComponent = new Set(
-                            [
-                                componentName,
-                            ]
-                        )),
-                    isFlushingPassiveEffects)
+                if (null !== didWarnStateUpdateForUnmountedComponent) {
+                    if (didWarnStateUpdateForUnmountedComponent.has(
+                        componentName
+                    )) return;
+                    didWarnStateUpdateForUnmountedComponent.add(
+                        componentName
+                    );
+                } else didWarnStateUpdateForUnmountedComponent = new Set(
+                    [componentName,]
                 );
+                if (isFlushingPassiveEffects);
                 else {
                     var previousFiber = current;
                     try {
@@ -26673,13 +26677,12 @@
                         (node.child.return = node), (node = node.child);
                         continue;
                     }
-                    if (node !== workInProgress) {
-                        for (; null === node.sibling; )
-                            null !== node.return &&
-              node.return !== workInProgress &&
-              (node = node.return);
-                        (node.sibling.return = node.return), (node = node.sibling);
+                    if (node === workInProgress) return;
+                    for (; null === node.sibling; ) {
+                        if (null === node.return || node.return === workInProgress) return;
+                        node = node.return;
                     }
+                    (node.sibling.return = node.return), (node = node.sibling);
                 }
             }),
             (updateHostContainer = function (

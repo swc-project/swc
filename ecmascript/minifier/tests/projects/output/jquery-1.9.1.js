@@ -1592,15 +1592,19 @@
             }
         )),
         props))
-            (value = props[index]),
-            rfxtypes.exec(
+            if (((value = props[index]), rfxtypes.exec(
                 value
-            ) &&
-          (delete props[index],
-          (toggle = toggle || "toggle" === value),
-          value !== (hidden ? "hide" : "show") && handled.push(
-              index
-          ));
+            ))) {
+                if (
+                    (delete props[index],
+                    (toggle = toggle || "toggle" === value),
+                    value === (hidden ? "hide" : "show"))
+                )
+                    continue;
+                handled.push(
+                    index
+                );
+            }
         if ((length = handled.length))
             for (
                 ("hidden" in
@@ -1927,36 +1931,37 @@
               i++
           )
               if (null != (options = arguments[i]))
-                  for (name in options)
-                      (src = target[name]),
-                      target !== (copy = options[name]) &&
-                  (deep &&
-                  copy &&
-                  (jQuery.isPlainObject(
-                      copy
-                  ) ||
-                    (copyIsArray = jQuery.isArray(
-                        copy
-                    )))
-                      ? (copyIsArray
-                          ? ((copyIsArray = !1),
-                          (clone = src && jQuery.isArray(
-                              src
-                          )
-                              ? src
-                              : []))
-                          : (clone = src && jQuery.isPlainObject(
-                              src
-                          )
-                              ? src
-                              : {
-                              }),
-                      (target[name] = jQuery.extend(
-                          deep,
-                          clone,
-                          copy
-                      )))
-                      : copy !== undefined && (target[name] = copy));
+                  for (name in options) {
+                      if (((src = target[name]), target === (copy = options[name])))
+                          continue;
+                      deep &&
+              copy &&
+              (jQuery.isPlainObject(
+                  copy
+              ) ||
+                (copyIsArray = jQuery.isArray(
+                    copy
+                )))
+                          ? (copyIsArray
+                              ? ((copyIsArray = !1),
+                              (clone = src && jQuery.isArray(
+                                  src
+                              )
+                                  ? src
+                                  : []))
+                              : (clone = src && jQuery.isPlainObject(
+                                  src
+                              )
+                                  ? src
+                                  : {
+                                  }),
+                          (target[name] = jQuery.extend(
+                              deep,
+                              clone,
+                              copy
+                          )))
+                          : copy !== undefined && (target[name] = copy);
+                  }
           return target;
       }),
     jQuery.extend(
@@ -9643,53 +9648,60 @@
                   origName
               ))),
                         (hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName]),
-                        value === undefined)
-                    )
-                        return hooks &&
+                        value !== undefined)
+                    ) {
+                        if (
+                            ("string" == (type = typeof value) &&
+                (ret = rrelNum.exec(
+                    value
+                )) &&
+                ((value =
+                  (ret[1] + 1) * ret[2] + parseFloat(
+                      jQuery.css(
+                          elem,
+                          name
+                      )
+                  )),
+                (type = "number")),
+                            null == value || ("number" === type && isNaN(
+                                value
+                            )))
+                        )
+                            return;
+                        if (
+                            ("number" !== type ||
+                jQuery.cssNumber[origName] ||
+                (value += "px"),
+                            jQuery.support.clearCloneStyle ||
+                "" !== value ||
+                0 !== name.indexOf(
+                    "background"
+                ) ||
+                (style[name] = "inherit"),
+                            !hooks ||
+                !("set" in hooks) ||
+                undefined !== (value = hooks.set(
+                    elem,
+                    value,
+                    extra
+                )))
+                        )
+                            try {
+                                style[name] = value;
+                            } catch (e) {}
+                    } else {
+                        if (
+                            hooks &&
               "get" in hooks &&
               undefined !== (ret = hooks.get(
                   elem,
                   !1,
                   extra
               ))
-                            ? ret
-                            : style[name];
-                    if (
-                        ("string" == (type = typeof value) &&
-              (ret = rrelNum.exec(
-                  value
-              )) &&
-              ((value =
-                (ret[1] + 1) * ret[2] + parseFloat(
-                    jQuery.css(
-                        elem,
-                        name
-                    )
-                )),
-              (type = "number")),
-                        !(null == value || ("number" === type && isNaN(
-                            value
-                        ))) &&
-              ("number" !== type ||
-                jQuery.cssNumber[origName] ||
-                (value += "px"),
-              jQuery.support.clearCloneStyle ||
-                "" !== value ||
-                0 !== name.indexOf(
-                    "background"
-                ) ||
-                (style[name] = "inherit"),
-              !hooks ||
-                !("set" in hooks) ||
-                undefined !== (value = hooks.set(
-                    elem,
-                    value,
-                    extra
-                ))))
-                    )
-                        try {
-                            style[name] = value;
-                        } catch (e) {}
+                        )
+                            return ret;
+                        return style[name];
+                    }
                 }
             },
             css: function (
@@ -11698,8 +11710,8 @@
             },
             elem = this[0],
             doc = elem && elem.ownerDocument;
-        return doc
-            ? ((docElem = doc.documentElement), jQuery.contains(
+        if (doc)
+            return ((docElem = doc.documentElement), jQuery.contains(
                 docElem,
                 elem
             ))
@@ -11719,8 +11731,7 @@
                 (win.pageXOffset || docElem.scrollLeft) -
                 (docElem.clientLeft || 0),
                 })
-                : box
-            : void 0;
+                : box;
     }),
     (jQuery.offset = {
         setOffset: function (

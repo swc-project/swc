@@ -7045,34 +7045,36 @@
                                     target,
                                     "mobile-button"
                                 ))
-                            )
-                                getAjaxFormData(
+                            ) {
+                                if (!getAjaxFormData(
                                     $17(
                                         target
                                     ).closest(
                                         "form"
                                     ),
                                     !0
-                                ) &&
-                    target.parentNode &&
-                    (target = target.parentNode);
-                            else if (
-                                (target = findClosestLink(
+                                )) return;
+                                target.parentNode && (target = target.parentNode);
+                            } else {
+                                if (
+                                    !(
+                                        (target = findClosestLink(
+                                            target
+                                        )) &&
+                      "#" !==
+                        $17.mobile.path.parseUrl(
+                            target.getAttribute(
+                                "href"
+                            ) || "#",
+                        ).hash
+                                    )
+                                )
+                                    return;
+                                if (!$17(
                                     target
-                                )) &&
-                  "#" !==
-                    $17.mobile.path.parseUrl(
-                        target.getAttribute(
-                            "href"
-                        ) || "#"
-                    )
-                        .hash &&
-                  !$17(
-                      target
-                  ).jqmHijackable(
-                  ).length
-                            )
-                                return;
+                                ).jqmHijackable(
+                                ).length) return;
+                            }
                             ~target.className.indexOf(
                                 "ui-link-inherit"
                             )
@@ -11042,6 +11044,7 @@
                                 left,
                                 width,
                                 data,
+                                tol,
                                 pxStep,
                                 percent,
                                 control,
@@ -11099,7 +11102,7 @@
                     ).prependTo(
                         this.slider
                     ))),
-                                (this.handle.addClass(
+                                this.handle.addClass(
                                     "ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow",
                                 ),
                                 (control = this.element),
@@ -11135,124 +11138,131 @@
                       )
                       : 1),
                                 "object" == typeof val)
-                                    ? ((data = val),
+                            ) {
+                                if (
+                                    ((data = val),
+                                    (tol = 8),
                                     (left = this.slider.offset(
                                     ).left),
                                     (pxStep =
-                      (width = this.slider.width(
-                      )) / ((max - min) / step)),
+                    (width = this.slider.width(
+                    )) / ((max - min) / step)),
                                     !this.dragging ||
-                      data.pageX < left - 8 ||
-                      data.pageX > left + width + 8 ||
-                      (percent =
-                        pxStep > 1
-                            ? ((data.pageX - left) / width) * 100
-                            : Math.round(
-                                ((data.pageX - left) / width) * 100
-                            )))
-                                    : (null == val &&
-                      (val = isInput
-                          ? parseFloat(
-                              control.val(
-                              ) || 0
-                          )
-                          : control[0].selectedIndex),
-                                    (percent = ((parseFloat(
-                                        val
-                                    ) - min) / (max - min)) * 100)),
+                    data.pageX < left - tol ||
+                    data.pageX > left + width + tol)
+                                )
+                                    return;
+                                percent =
+                  pxStep > 1
+                      ? ((data.pageX - left) / width) * 100
+                      : Math.round(
+                          ((data.pageX - left) / width) * 100
+                      );
+                            } else
+                                null == val &&
+                  (val = isInput
+                      ? parseFloat(
+                          control.val(
+                          ) || 0
+                      )
+                      : control[0].selectedIndex),
+                                (percent = ((parseFloat(
+                                    val
+                                ) - min) / (max - min)) * 100);
+                            if (
                                 !isNaN(
                                     percent
                                 ) &&
-                  ((alignValue =
-                    newval -
-                    (valModStep =
-                      ((newval = (percent / 100) * (max - min) + min) - min) %
-                      step)),
-                  2 * Math.abs(
-                      valModStep
-                  ) >= step &&
-                    (alignValue += valModStep > 0 ? step : -step),
-                  (percentPerStep = 100 / ((max - min) / step)),
-                  (newval = parseFloat(
-                      alignValue.toFixed(
-                          5
-                      )
+                ((alignValue =
+                  newval -
+                  (valModStep =
+                    ((newval = (percent / 100) * (max - min) + min) - min) %
+                    step)),
+                2 * Math.abs(
+                    valModStep
+                ) >= step &&
+                  (alignValue += valModStep > 0 ? step : -step),
+                (percentPerStep = 100 / ((max - min) / step)),
+                (newval = parseFloat(
+                    alignValue.toFixed(
+                        5
+                    )
+                )),
+                void 0 === pxStep && (pxStep = width / ((max - min) / step)),
+                pxStep > 1 &&
+                  isInput &&
+                  (percent = (newval - min) * percentPerStep * (1 / step)),
+                percent < 0 && (percent = 0),
+                percent > 100 && (percent = 100),
+                newval < min && (newval = min),
+                newval > max && (newval = max),
+                this.handle.css(
+                    "left",
+                    percent + "%"
+                ),
+                this.handle[0].setAttribute(
+                    "aria-valuenow",
+                    isInput
+                        ? newval
+                        : optionElements.eq(
+                            newval
+                        ).attr(
+                            "value"
+                        ),
+                ),
+                this.handle[0].setAttribute(
+                    "aria-valuetext",
+                    isInput
+                        ? newval
+                        : optionElements.eq(
+                            newval
+                        ).getEncodedText(
+                        ),
+                ),
+                this.handle[0].setAttribute(
+                    "title",
+                    isInput
+                        ? newval
+                        : optionElements.eq(
+                            newval
+                        ).getEncodedText(
+                        ),
+                ),
+                this.valuebg && this.valuebg.css(
+                    "width",
+                    percent + "%"
+                ),
+                this._labels &&
+                  ((handlePercent =
+                    (this.handle.width(
+                    ) / this.slider.width(
+                    )) * 100),
+                  (aPercent =
+                    percent &&
+                    handlePercent + ((100 - handlePercent) * percent) / 100),
+                  (bPercent =
+                    100 === percent
+                        ? 0
+                        : Math.min(
+                            handlePercent + 100 - aPercent,
+                            100
+                        )),
+                  this._labels.each(
+                      function (
+                      ) {
+                          var ab = $17(
+                              this
+                          ).hasClass(
+                              "ui-slider-label-a"
+                          );
+                          $17(
+                              this
+                          ).width(
+                              (ab ? aPercent : bPercent) + "%"
+                          );
+                      }
                   )),
-                  void 0 === pxStep && (pxStep = width / ((max - min) / step)),
-                  pxStep > 1 &&
-                    isInput &&
-                    (percent = (newval - min) * percentPerStep * (1 / step)),
-                  percent < 0 && (percent = 0),
-                  percent > 100 && (percent = 100),
-                  newval < min && (newval = min),
-                  newval > max && (newval = max),
-                  this.handle.css(
-                      "left",
-                      percent + "%"
-                  ),
-                  this.handle[0].setAttribute(
-                      "aria-valuenow",
-                      isInput
-                          ? newval
-                          : optionElements.eq(
-                              newval
-                          ).attr(
-                              "value"
-                          ),
-                  ),
-                  this.handle[0].setAttribute(
-                      "aria-valuetext",
-                      isInput
-                          ? newval
-                          : optionElements.eq(
-                              newval
-                          ).getEncodedText(
-                          ),
-                  ),
-                  this.handle[0].setAttribute(
-                      "title",
-                      isInput
-                          ? newval
-                          : optionElements.eq(
-                              newval
-                          ).getEncodedText(
-                          ),
-                  ),
-                  this.valuebg && this.valuebg.css(
-                      "width",
-                      percent + "%"
-                  ),
-                  this._labels &&
-                    ((handlePercent =
-                      (this.handle.width(
-                      ) / this.slider.width(
-                      )) * 100),
-                    (aPercent =
-                      percent &&
-                      handlePercent + ((100 - handlePercent) * percent) / 100),
-                    (bPercent =
-                      100 === percent
-                          ? 0
-                          : Math.min(
-                              handlePercent + 100 - aPercent,
-                              100
-                          )),
-                    this._labels.each(
-                        function (
-                        ) {
-                            var ab = $17(
-                                this
-                            ).hasClass(
-                                "ui-slider-label-a"
-                            );
-                            $17(
-                                this
-                            ).width(
-                                (ab ? aPercent : bPercent) + "%"
-                            );
-                        }
-                    )),
-                  !preventInputUpdate))
+                !preventInputUpdate)
                             ) {
                                 if (
                                     ((valueChanged = !1),
@@ -16583,28 +16593,32 @@
                             ),
                             wkversion = !!wkmatch && wkmatch[1],
                             os = null;
-                        platform.indexOf(
-                            "iPhone"
-                        ) > -1 ||
-          platform.indexOf(
-              "iPad"
-          ) > -1 ||
-          platform.indexOf(
-              "iPod"
-          ) > -1
-                            ? (os = "ios")
-                            : ua.indexOf(
+                        if (
+                            platform.indexOf(
+                                "iPhone"
+                            ) > -1 ||
+            platform.indexOf(
+                "iPad"
+            ) > -1 ||
+            platform.indexOf(
+                "iPod"
+            ) > -1
+                        )
+                            os = "ios";
+                        else {
+                            if (!(ua.indexOf(
                                 "Android"
-                            ) > -1 && (os = "android"),
-                        "ios" === os
-                            ? this._bindScrollWorkaround(
-                            )
-                            : "android" === os &&
-                wkversion &&
-                wkversion < 534 &&
-                (this._bindScrollWorkaround(
-                ), this._bindListThumbWorkaround(
-                ));
+                            ) > -1)) return;
+                            os = "android";
+                        }
+                        if ("ios" === os) this._bindScrollWorkaround(
+                        );
+                        else {
+                            if ("android" !== os || !wkversion || !(wkversion < 534)) return;
+                            this._bindScrollWorkaround(
+                            ), this._bindListThumbWorkaround(
+                            );
+                        }
                     },
                     _viewportOffset: function (
                     ) {
@@ -18450,40 +18464,44 @@
                         var val,
                             lastval,
                             search = this._search;
-                        search &&
-            ((val = search.val(
-            ).toLowerCase(
-            )),
-            ((lastval = $17.mobile.getAttribute(
-                search[0],
-                "lastval"
-            ) + "") &&
-              lastval === val) ||
-              (this._timer &&
-                (window.clearTimeout(
-                    this._timer
-                ), (this._timer = 0)),
-              (this._timer = this._delay(
-                  function (
-                  ) {
-                      this._trigger(
-                          "beforefilter",
-                          null,
-                          {
-                              input: search,
-                          }
-                      ),
-                      search[0].setAttribute(
-                          "data-" + $17.mobile.ns + "lastval",
-                          val,
-                      ),
-                      this._filterItems(
-                          val
-                      ),
-                      (this._timer = 0);
-                  },
-                  250
-              ))));
+                        if (search) {
+                            if (
+                                ((val = search.val(
+                                ).toLowerCase(
+                                )),
+                                (lastval = $17.mobile.getAttribute(
+                                    search[0],
+                                    "lastval"
+                                ) + "") &&
+                lastval === val)
+                            )
+                                return;
+                            this._timer &&
+              (window.clearTimeout(
+                  this._timer
+              ), (this._timer = 0)),
+                            (this._timer = this._delay(
+                                function (
+                                ) {
+                                    this._trigger(
+                                        "beforefilter",
+                                        null,
+                                        {
+                                            input: search,
+                                        }
+                                    ),
+                                    search[0].setAttribute(
+                                        "data-" + $17.mobile.ns + "lastval",
+                                        val,
+                                    ),
+                                    this._filterItems(
+                                        val
+                                    ),
+                                    (this._timer = 0);
+                                },
+                                250
+                            ));
+                        }
                     },
                     _getFilterableItems: function (
                     ) {
@@ -18811,44 +18829,45 @@
                         updatePlaceholder = !0,
                         textinputOpts = {
                         };
-                    selector ||
-          (!this._isSearchInternal(
-          ) &&
-            ((updatePlaceholder = !1),
-            (selector = $16(
-                "<input data-" +
+                    if (!selector) {
+                        if (this._isSearchInternal(
+                        )) return;
+                        (updatePlaceholder = !1),
+                        (selector = $16(
+                            "<input data-" +
                 $16.mobile.ns +
                 "type='search' placeholder='" +
                 opts.filterPlaceholder +
                 "'></input>",
-            ).jqmData(
-                "ui-filterable-" + this.uuid + "-internal",
-                !0
-            )),
-            $16(
-                "<form class='ui-filterable'></form>"
-            )
-                .append(
-                    selector
-                )
-                .submit(
-                    function (
-                        evt
-                    ) {
-                        evt.preventDefault(
-                        ), selector.blur(
-                        );
-                    }
-                )
-                .insertBefore(
-                    this.element
-                ),
-            $16.mobile.textinput &&
+                        ).jqmData(
+                            "ui-filterable-" + this.uuid + "-internal",
+                            !0
+                        )),
+                        $16(
+                            "<form class='ui-filterable'></form>"
+                        )
+                            .append(
+                                selector
+                            )
+                            .submit(
+                                function (
+                                    evt
+                                ) {
+                                    evt.preventDefault(
+                                    ), selector.blur(
+                                    );
+                                }
+                            )
+                            .insertBefore(
+                                this.element
+                            ),
+                        $16.mobile.textinput &&
               (null != this.options.filterTheme &&
                 (textinputOpts.theme = opts.filterTheme),
               selector.textinput(
                   textinputOpts
-              )))),
+              ));
+                    }
                     this._super(
                         selector
                     ),
@@ -20092,28 +20111,33 @@
                         index
                     ) {
                         var disabled = this.options.disabled;
-                        !0 !== disabled &&
-            (index === undefined
-                ? (disabled = !0)
-                : ((index = this._getIndex(
-                    index
-                )),
-                -1 === $17.inArray(
-                    index,
-                    disabled
-                ) &&
-                  (disabled = $17.isArray(
-                      disabled
-                  )
-                      ? $17.merge(
-                          [index,],
-                          disabled
-                      ).sort(
-                      )
-                      : [index,])),
-            this._setupDisabled(
-                disabled
-            ));
+                        if (!0 !== disabled) {
+                            if (index === undefined) disabled = !0;
+                            else {
+                                if (
+                                    ((index = this._getIndex(
+                                        index
+                                    )),
+                                    -1 !== $17.inArray(
+                                        index,
+                                        disabled
+                                    ))
+                                )
+                                    return;
+                                disabled = $17.isArray(
+                                    disabled
+                                )
+                                    ? $17.merge(
+                                        [index,],
+                                        disabled
+                                    ).sort(
+                                    )
+                                    : [index,];
+                            }
+                            this._setupDisabled(
+                                disabled
+                            );
+                        }
                     },
                     load: function (
                         index, event

@@ -1527,15 +1527,17 @@
             var propTypes,
                 type = element.type;
             if (null != type && "string" != typeof type) {
-                if (
-                    ("function" == typeof type
-                        ? (propTypes = type.propTypes)
-                        : "object" == typeof type &&
-            (type.$$typeof === REACT_FORWARD_REF_TYPE ||
-              type.$$typeof === REACT_MEMO_TYPE) &&
-            (propTypes = type.propTypes),
-                    propTypes)
-                ) {
+                if ("function" == typeof type) propTypes = type.propTypes;
+                else {
+                    if (
+                        "object" != typeof type ||
+          (type.$$typeof !== REACT_FORWARD_REF_TYPE &&
+            type.$$typeof !== REACT_MEMO_TYPE)
+                    )
+                        return;
+                    propTypes = type.propTypes;
+                }
+                if (propTypes) {
                     var name = getComponentName(
                         type
                     );
@@ -1711,14 +1713,11 @@
             for (var index = i; ; ) {
                 var parentIndex = (index - 1) >>> 1,
                     parent = heap[parentIndex];
-                void 0 !== parent &&
-        compare(
-            parent,
-            node
-        ) > 0 &&
-        ((heap[parentIndex] = node),
-        (heap[index] = parent),
-        (index = parentIndex));
+                if (!(void 0 !== parent && compare(
+                    parent,
+                    node
+                ) > 0)) return;
+                (heap[parentIndex] = node), (heap[index] = parent), (index = parentIndex);
             }
         }
         function siftDown(
@@ -1729,11 +1728,11 @@
                     left = heap[leftIndex],
                     rightIndex = leftIndex + 1,
                     right = heap[rightIndex];
-                void 0 !== left && 0 > compare(
+                if (void 0 !== left && 0 > compare(
                     left,
                     node
-                )
-                    ? void 0 !== right && 0 > compare(
+                ))
+                    void 0 !== right && 0 > compare(
                         right,
                         left
                     )
@@ -1742,15 +1741,14 @@
                         (index = rightIndex))
                         : ((heap[index] = left),
                         (heap[leftIndex] = node),
-                        (index = leftIndex))
-                    : void 0 !== right &&
-          0 > compare(
-              right,
-              node
-          ) &&
-          ((heap[index] = right),
-          (heap[rightIndex] = node),
-          (index = rightIndex));
+                        (index = leftIndex));
+                else {
+                    if (!(void 0 !== right && 0 > compare(
+                        right,
+                        node
+                    ))) return;
+                    (heap[index] = right), (heap[rightIndex] = node), (index = rightIndex);
+                }
             }
         }
         function compare(
@@ -1775,23 +1773,25 @@
         ) {
             for (var timer = peek(
                 timerQueue
-            ); null !== timer; )
-                null === timer.callback
-                    ? pop(
-                        timerQueue
-                    )
-                    : timer.startTime <= currentTime &&
-          (pop(
-              timerQueue
-          ),
-          (timer.sortIndex = timer.expirationTime),
-          push(
-              taskQueue,
-              timer
-          )),
-                (timer = peek(
+            ); null !== timer; ) {
+                if (null === timer.callback) pop(
                     timerQueue
-                ));
+                );
+                else {
+                    if (!(timer.startTime <= currentTime)) return;
+                    pop(
+                        timerQueue
+                    ),
+                    (timer.sortIndex = timer.expirationTime),
+                    push(
+                        taskQueue,
+                        timer
+                    );
+                }
+                timer = peek(
+                    timerQueue
+                );
+            }
         }
         function handleTimeout(
             currentTime

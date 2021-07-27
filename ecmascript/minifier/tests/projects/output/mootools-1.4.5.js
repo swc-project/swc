@@ -2885,18 +2885,21 @@ var Event1 = DOMEvent;
                     ),
                 ));
                 if (this.addEvent)
-                    for (var option in options)
-                        "function" == typeOf(
-                            options[option]
-                        ) &&
-                /^on[A-Z]/.test(
+                    for (var option in options) {
+                        if (
+                            "function" != typeOf(
+                                options[option]
+                            ) ||
+                !/^on[A-Z]/.test(
                     option
-                ) &&
-                (this.addEvent(
-                    option,
-                    options[option]
-                ),
-                delete options[option]);
+                )
+                        )
+                            continue;
+                        this.addEvent(
+                            option,
+                            options[option]
+                        ), delete options[option];
+                    }
                 return this;
             },
         }
@@ -3264,13 +3267,13 @@ function (
         document
     ) {
         var nodeType = document.nodeType;
-        if (
-            (9 == nodeType ||
-            (nodeType
-                ? (document = document.ownerDocument)
-                : document.navigator && (document = document.document)),
-            this.document !== document)
-        ) {
+        if (9 == nodeType);
+        else if (nodeType) document = document.ownerDocument;
+        else {
+            if (!document.navigator) return;
+            document = document.document;
+        }
+        if (this.document !== document) {
             this.document = document;
             var feature,
                 root = document.documentElement,
@@ -3686,21 +3689,22 @@ function (
                                 );
                                 (node = nodes[i++]);
 
-                            )
+                            ) {
                                 if (
-                                    (className = node.className) &&
-                    matchClass.test(
-                        className
-                    )
-                                ) {
-                                    if (first) return node;
-                                    (hasOthers && uniques[this.getUID(
-                                        node
-                                    )]) ||
-                      found.push(
-                          node
-                      );
-                                }
+                                    !(
+                                        (className = node.className) && matchClass.test(
+                                            className
+                                        )
+                                    )
+                                )
+                                    continue;
+                                if (first) return node;
+                                (hasOthers && uniques[this.getUID(
+                                    node
+                                )]) || found.push(
+                                    node
+                                );
+                            }
                         }
                     }
                 } else {
@@ -3992,19 +3996,19 @@ function (
                     count = 1;
                 if (ofType) {
                     var nodeName = node.nodeName;
-                    do
-                        el.nodeName == nodeName &&
-                  (this[positions][this.getUID(
-                      el
-                  )] = count++);
-                    while ((el = el[sibling]));
+                    do {
+                        if (el.nodeName != nodeName) continue;
+                        this[positions][this.getUID(
+                            el
+                        )] = count++;
+                    } while ((el = el[sibling]));
                 } else
-                    do
-                        1 == el.nodeType &&
-                  (this[positions][this.getUID(
-                      el
-                  )] = count++);
-                    while ((el = el[sibling]));
+                    do {
+                        if (1 != el.nodeType) continue;
+                        this[positions][this.getUID(
+                            el
+                        )] = count++;
+                    } while ((el = el[sibling]));
             }
             argument = argument || "n";
             var parsed =
@@ -4200,16 +4204,16 @@ function (
             if (this.isHTMLDocument) {
                 getById: if (id) {
                     if (
-                        ((!(item = this.document.getElementById(
+                        (!(item = this.document.getElementById(
                             id
                         )) && node.all) ||
-                (this.idGetsName &&
-                  item &&
-                  item.getAttributeNode(
-                      "id"
-                  ).nodeValue != id)) &&
-              (children = node.all[id])
+              (this.idGetsName &&
+                item &&
+                item.getAttributeNode(
+                    "id"
+                ).nodeValue != id)
                     ) {
+                        if (!(children = node.all[id])) return;
                         for (
                             children[0] || (children = [children,]), i = 0;
                             (item = children[i++]);
@@ -4237,10 +4241,13 @@ function (
                             node,
                             item
                         )) return;
-                    } else if (!this.contains(
-                        this.root,
-                        node
-                    )) break getById;
+                    } else {
+                        if (this.contains(
+                            this.root,
+                            node
+                        )) return;
+                        break getById;
+                    }
                     return void this.push(
                         item,
                         tag,
@@ -4864,11 +4871,12 @@ var Element1 = function (
         parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
         if (attributes)
-            for (var attr, i = 0, l = attributes.length; i < l; i++)
-                null != props[(attr = attributes[i]).key] ||
-          (null != attr.value && "=" == attr.operator
-              ? (props[attr.key] = attr.value)
-              : attr.value || attr.operator || (props[attr.key] = !0));
+            for (var attr, i = 0, l = attributes.length; i < l; i++) {
+                if (null != props[(attr = attributes[i]).key]) continue;
+                null != attr.value && "=" == attr.operator
+                    ? (props[attr.key] = attr.value)
+                    : attr.value || attr.operator || (props[attr.key] = !0);
+            }
         parsed.classList &&
       null == props.class &&
       (props.class = parsed.classList.join(
@@ -6958,18 +6966,18 @@ Elements.alias(
                 );
                 var result = this.style[property];
                 if (!result || "zIndex" == property) {
-                    for (var style in ((result = []), Element1.ShortStyles))
-                        if (property == style) {
-                            for (var s in Element1.ShortStyles[style])
-                                result.push(
-                                    this.getStyle(
-                                        s
-                                    )
-                                );
-                            return result.join(
-                                " "
+                    for (var style in ((result = []), Element1.ShortStyles)) {
+                        if (property != style) continue;
+                        for (var s in Element1.ShortStyles[style])
+                            result.push(
+                                this.getStyle(
+                                    s
+                                )
                             );
-                        }
+                        return result.join(
+                            " "
+                        );
+                    }
                     result = this.getComputedStyle(
                         property
                     );

@@ -973,50 +973,55 @@
                     merge = options.merge,
                     remove = options.remove,
                     order = !sortable && !!add && !!remove && [];
-                for (i = 0, l = models.length; i < l; i++)
-                    (id =
-          (attrs = models[i]) instanceof Model
-              ? (model = attrs)
-              : attrs[targetModel.prototype.idAttribute]),
-                    (existing = this.get(
-                        id
-                    ))
-                        ? (remove && (modelMap[existing.cid] = !0),
+                for (i = 0, l = models.length; i < l; i++) {
+                    if (
+                        ((id =
+            (attrs = models[i]) instanceof Model
+                ? (model = attrs)
+                : attrs[targetModel.prototype.idAttribute]),
+                        (existing = this.get(
+                            id
+                        )))
+                    )
+                        remove && (modelMap[existing.cid] = !0),
                         merge &&
-                ((attrs = attrs === model ? model.attributes : attrs),
-                options.parse && (attrs = existing.parse(
-                    attrs,
-                    options
-                )),
-                existing.set(
-                    attrs,
-                    options
-                ),
-                sortable &&
-                  !sort &&
-                  existing.hasChanged(
-                      sortAttr
-                  ) &&
-                  (sort = !0)),
-                        (models[i] = existing))
-                        : add &&
-              (model = models[i] = this._prepareModel(
+              ((attrs = attrs === model ? model.attributes : attrs),
+              options.parse && (attrs = existing.parse(
                   attrs,
                   options
-              )) &&
-              (toAdd.push(
-                  model
+              )),
+              existing.set(
+                  attrs,
+                  options
               ),
-              model.on(
-                  "all",
-                  this._onModelEvent,
-                  this
-              ),
-              (this._byId[model.cid] = model),
-              null != model.id && (this._byId[model.id] = model)),
+              sortable &&
+                !sort &&
+                existing.hasChanged(
+                    sortAttr
+                ) &&
+                (sort = !0)),
+                        (models[i] = existing);
+                    else if (add) {
+                        if (!(model = models[i] = this._prepareModel(
+                            attrs,
+                            options
+                        )))
+                            continue;
+                        toAdd.push(
+                            model
+                        ),
+                        model.on(
+                            "all",
+                            this._onModelEvent,
+                            this
+                        ),
+                        (this._byId[model.cid] = model),
+                        null != model.id && (this._byId[model.id] = model);
+                    }
                     order && order.push(
                         existing || model
                     );
+                }
                 if (remove) {
                     for (i = 0, l = this.length; i < l; ++i)
                         modelMap[(model = this.models[i]).cid] || toRemove.push(

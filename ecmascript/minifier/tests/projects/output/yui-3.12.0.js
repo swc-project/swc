@@ -692,14 +692,12 @@ var YUI = function (
                         provisioned = !1;
                         break;
                     }
-                if (provisioned) {
-                    if (args.length);
-                    return this._notify(
+                if (provisioned)
+                    return args.length, this._notify(
                         callback,
                         ALREADY_DONE,
                         args
                     ), this;
-                }
             }
             return (
                 this._loading
@@ -1703,40 +1701,13 @@ YUI.add(
                     return receiver;
             } else (from = supplier), (to = receiver);
             if (((alwaysOverwrite = overwrite && !merge), whitelist))
-                for (i = 0, len = whitelist.length; i < len; ++i)
-                    (key = whitelist[i]),
-                    hasOwn.call(
+                for (i = 0, len = whitelist.length; i < len; ++i) {
+                    if (((key = whitelist[i]), !hasOwn.call(
                         from,
                         key
-                    ) &&
-                  ((exists = !alwaysOverwrite && key in to),
-                  merge &&
-                  exists &&
-                  isObject(
-                      to[key],
-                      !0
-                  ) &&
-                  isObject(
-                      from[key],
-                      !0
-                  )
-                      ? Y.mix(
-                          to[key],
-                          from[key],
-                          overwrite,
-                          null,
-                          0,
-                          merge
-                      )
-                      : (overwrite || !exists) && (to[key] = from[key]));
-            else {
-                for (key in from)
-                    hasOwn.call(
-                        from,
-                        key
-                    ) &&
-                ((exists = !alwaysOverwrite && key in to),
-                merge &&
+                    ))) continue;
+                    (exists = !alwaysOverwrite && key in to),
+                    merge &&
                 exists &&
                 isObject(
                     to[key],
@@ -1746,15 +1717,43 @@ YUI.add(
                     from[key],
                     !0
                 )
-                    ? Y.mix(
-                        to[key],
-                        from[key],
-                        overwrite,
-                        null,
-                        0,
-                        merge
-                    )
-                    : (overwrite || !exists) && (to[key] = from[key]));
+                        ? Y.mix(
+                            to[key],
+                            from[key],
+                            overwrite,
+                            null,
+                            0,
+                            merge
+                        )
+                        : (overwrite || !exists) && (to[key] = from[key]);
+                }
+            else {
+                for (key in from) {
+                    if (!hasOwn.call(
+                        from,
+                        key
+                    )) continue;
+                    (exists = !alwaysOverwrite && key in to),
+                    merge &&
+                exists &&
+                isObject(
+                    to[key],
+                    !0
+                ) &&
+                isObject(
+                    from[key],
+                    !0
+                )
+                        ? Y.mix(
+                            to[key],
+                            from[key],
+                            overwrite,
+                            null,
+                            0,
+                            merge
+                        )
+                        : (overwrite || !exists) && (to[key] = from[key]);
+                }
                 Y.Object._hasEnumBug &&
               Y.mix(
                   to,
@@ -2591,32 +2590,33 @@ YUI.add(
                         "string" == typeof (url = urls[i]))
                     )
                         req.url = url;
-                    else if (!url.url) continue;
-                    else Y.mix(
-                        req,
-                        url,
-                        !1,
-                        null,
-                        0,
-                        !0
-                    ), (url = url.url);
-                    if ((Y.mix(
+                    else {
+                        if (!url.url) continue;
+                        Y.mix(
+                            req,
+                            url,
+                            !1,
+                            null,
+                            0,
+                            !0
+                        ), (url = url.url);
+                    }
+                    Y.mix(
                         req,
                         options,
                         !1,
                         null,
                         0,
                         !0
-                    ), !req.type))
-                        if (this.REGEX_CSS.test(
-                            url
-                        )) req.type = "css";
-                        else {
-                            if (!this.REGEX_JS.test(
-                                url
-                            ));
-                            req.type = "js";
-                        }
+                    ),
+                    req.type ||
+                  (this.REGEX_CSS.test(
+                      url
+                  )
+                      ? (req.type = "css")
+                      : (this.REGEX_JS.test(
+                          url
+                      ), (req.type = "js"))),
                     Y.mix(
                         req,
                         "js" === req.type ? this.jsOptions : this.cssOptions,
@@ -6086,32 +6086,33 @@ YUI.add(
                 (url = j),
                 (len = (mods = comboSources[j]).length))
                     )
-                        for (i = 0; i < len; i++)
-                            !inserted[mods[i]] &&
-                    ((m = mods[i]) && (m.combine || !m.ext)
-                        ? ((resCombos[j].comboSep = m.comboSep),
-                        (resCombos[j].group = m.group),
-                        (resCombos[j].maxURLLength = m.maxURLLength),
-                        (frag =
-                          (L.isValue(
-                              m.root
-                          )
-                              ? m.root
-                              : self.root) +
-                          (m.path || m.fullpath)),
-                        (frag = self._filter(
-                            frag,
-                            m.name
-                        )),
-                        resCombos[j][m.type].push(
-                            frag
-                        ),
-                        resCombos[j][m.type + "Mods"].push(
-                            m
-                        ))
-                        : mods[i] && addSingle(
-                            mods[i]
-                        ));
+                        for (i = 0; i < len; i++) {
+                            if (inserted[mods[i]]) continue;
+                            (m = mods[i]) && (m.combine || !m.ext)
+                                ? ((resCombos[j].comboSep = m.comboSep),
+                                (resCombos[j].group = m.group),
+                                (resCombos[j].maxURLLength = m.maxURLLength),
+                                (frag =
+                        (L.isValue(
+                            m.root
+                        )
+                            ? m.root
+                            : self.root) +
+                        (m.path || m.fullpath)),
+                                (frag = self._filter(
+                                    frag,
+                                    m.name
+                                )),
+                                resCombos[j][m.type].push(
+                                    frag
+                                ),
+                                resCombos[j][m.type + "Mods"].push(
+                                    m
+                                ))
+                                : mods[i] && addSingle(
+                                    mods[i]
+                                );
+                        }
                 for (j in resCombos)
                     if (resCombos.hasOwnProperty(
                         j
@@ -6246,13 +6247,16 @@ YUI.add(
                             i
                         ) &&
               !r[i] &&
-              (!this.loaded[i] || this.forceMap[i]) &&
-              ((s = (m = this.getModule(
-                  i
-              )).supersedes || []),
-              (roll = !1),
-              m.rollup)
+              (!this.loaded[i] || this.forceMap[i])
                     ) {
+                        if (
+                            ((s = (m = this.getModule(
+                                i
+                            )).supersedes || []),
+                            (roll = !1),
+                            !m.rollup)
+                        )
+                            continue;
                         for (j = 0, c = 0; j < s.length; j++) {
                             if (
                                 ((smod = info[s[j]]),

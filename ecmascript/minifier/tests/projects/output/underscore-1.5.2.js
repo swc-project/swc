@@ -766,17 +766,16 @@
     (_.last = function (
         array, n, guard
     ) {
-        return null == array
-            ? void 0
-            : null == n || guard
-                ? array[array.length - 1]
-                : slice.call(
-                    array,
-                    Math.max(
-                        array.length - n,
-                        0
-                    )
-                );
+        if (null != array) {
+            if (null == n || guard) return array[array.length - 1];
+            return slice.call(
+                array,
+                Math.max(
+                    array.length - n,
+                    0
+                )
+            );
+        }
     }),
     (_.rest =
       _.tail =
