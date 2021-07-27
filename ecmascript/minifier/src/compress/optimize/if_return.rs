@@ -52,6 +52,20 @@ impl Optimizer<'_> {
         handle_return: bool,
         handle_continue: bool,
     ) {
+        if handle_return {
+            for s in stmts.iter_mut() {
+                match s {
+                    Stmt::If(s) => match &mut *s.cons {
+                        Stmt::Block(cons) => {
+                            self.negate_if_terminate(&mut cons.stmts, true, false);
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+        }
+
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
