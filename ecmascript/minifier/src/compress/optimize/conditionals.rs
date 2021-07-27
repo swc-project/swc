@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::compress::optimize::bools::negate_cost;
 use crate::compress::optimize::Ctx;
+use crate::compress::optimize::DISABLE_BUGGY_PASSES;
 use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::SpanExt;
@@ -799,7 +800,12 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Currently disabled.
     pub(super) fn inject_else(&mut self, stmts: &mut Vec<Stmt>) {
+        if DISABLE_BUGGY_PASSES {
+            return;
+        }
+
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
@@ -885,13 +891,7 @@ impl Optimizer<'_> {
                 cons,
                 alt: Some(..),
                 ..
-            })) => {
-                always_terminates(cons)
-                    && match &**cons {
-                        Stmt::Return(ReturnStmt { arg: None, .. }) => false,
-                        _ => true,
-                    }
-            }
+            })) => always_terminates(cons),
             _ => false,
         });
         if !need_work {
