@@ -5534,20 +5534,20 @@ YUI.add(
                     this.inserted.hasOwnProperty(
                         i
                     ) &&
-                (!(mod = this.getModule(
+                ((mod = this.getModule(
                     i
-                )) ||
-                !rreg ||
-                "js" !== mod.type ||
-                i in YUI.Env.mods
-                    ? Y.mix(
+                )) &&
+                rreg &&
+                "js" === mod.type &&
+                !(i in YUI.Env.mods)
+                    ? failed.push(
+                        i
+                    )
+                    : Y.mix(
                         this.loaded,
                         this.getProvides(
                             i
                         )
-                    )
-                    : failed.push(
-                        i
                     ));
                 (fn = this.onSuccess),
                 (msg = failed.length ? "notregistered" : "success"),
