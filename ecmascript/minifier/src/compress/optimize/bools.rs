@@ -674,6 +674,7 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
             }
 
             Expr::Cond(..)
+            | Expr::Assign(..)
             | Expr::Update(..)
             | Expr::Bin(BinExpr {
                 op: op!("in") | op!("instanceof"),
