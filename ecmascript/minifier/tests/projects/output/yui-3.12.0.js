@@ -309,7 +309,8 @@ var YUI = function (
                         "_"
                     ));
                 else if (YUI._YUI) {
-                    for (prop in ((Env._yidx += (G_ENV = YUI._YUI.Env)._yidx),
+                    for (prop in ((G_ENV = YUI._YUI.Env),
+                    (Env._yidx += G_ENV._yidx),
                     (Env._uidx += G_ENV._uidx),
                     G_ENV))
                         prop in Env || (Env[prop] = G_ENV[prop]);

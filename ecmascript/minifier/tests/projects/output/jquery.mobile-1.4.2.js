@@ -12733,8 +12733,7 @@
                     },
                     _updateHeight: function (
                     ) {
-                        var paddingTop,
-                            borderTop,
+                        var borderTop,
                             height,
                             scrollTop = this.window.scrollTop(
                             );
@@ -12764,17 +12763,17 @@
                 )) +
               15),
                         0 === this.element[0].clientHeight &&
-              ((paddingTop = parseFloat(
-                  this.element.css(
-                      "padding-top"
-                  )
-              )),
               (height +=
-                paddingTop + parseFloat(
+                parseFloat(
+                    this.element.css(
+                        "padding-top"
+                    )
+                ) +
+                parseFloat(
                     this.element.css(
                         "padding-bottom"
                     )
-                ))),
+                )),
                         this.element.css(
                             {
                                 height: height,

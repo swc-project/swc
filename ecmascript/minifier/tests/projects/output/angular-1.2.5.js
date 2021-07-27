@@ -10415,8 +10415,7 @@
                     function (
                         value
                     ) {
-                        (fn = DATE_FORMATS[value]),
-                        (text += fn
+                        text += (fn = DATE_FORMATS[value])
                             ? fn(
                                 date,
                                 $locale.DATETIME_FORMATS
@@ -10427,7 +10426,7 @@
                             ).replace(
                                 /''/g,
                                 "'"
-                            ));
+                            );
                     }
                 ),
                 text

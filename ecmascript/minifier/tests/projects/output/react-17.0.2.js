@@ -788,24 +788,22 @@
                 return 1;
             }
             var child,
-                nextName,
                 subtreeCount = 0,
                 nextNamePrefix = "" === nameSoFar ? "." : nameSoFar + ":";
             if (Array.isArray(
                 children
             ))
                 for (var i = 0; i < children.length; i++)
-                    (nextName = nextNamePrefix + getElementKey(
-                        (child = children[i]),
-                        i
-                    )),
-                    (subtreeCount += mapIntoArray(
+                    subtreeCount += mapIntoArray(
                         child,
                         array,
                         escapedPrefix,
-                        nextName,
+                        nextNamePrefix + getElementKey(
+                            (child = children[i]),
+                            i
+                        ),
                         callback,
-                    ));
+                    );
             else {
                 var iteratorFn = getIteratorFn(
                     children
@@ -826,18 +824,16 @@
                         )).done;
 
                     )
-                        (nextName =
-            nextNamePrefix + getElementKey(
-                (child = step.value),
-                ii++
-            )),
-                        (subtreeCount += mapIntoArray(
+                        subtreeCount += mapIntoArray(
                             child,
                             array,
                             escapedPrefix,
-                            nextName,
+                            nextNamePrefix + getElementKey(
+                                (child = step.value),
+                                ii++
+                            ),
                             callback,
-                        ));
+                        );
                 } else if ("object" === type) {
                     var childrenString = "" + children;
                     throw Error(
