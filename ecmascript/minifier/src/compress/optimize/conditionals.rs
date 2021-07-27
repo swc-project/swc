@@ -888,13 +888,7 @@ impl Optimizer<'_> {
             })) => {
                 always_terminates(cons)
                     && match &**cons {
-                        Stmt::Block(b) => {
-                            b.stmts.len() != 1
-                                && match b.stmts.last() {
-                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => false,
-                                    _ => true,
-                                }
-                        }
+                        Stmt::Return(ReturnStmt { arg: None, .. }) => false,
                         _ => true,
                     }
             }
