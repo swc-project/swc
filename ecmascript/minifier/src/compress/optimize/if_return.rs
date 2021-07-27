@@ -259,7 +259,7 @@ impl Optimizer<'_> {
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
 
-        if stmts.len() <= skip + 1 {
+        if stmts.len() <= skip {
             log::trace!("if_return: Aborting because of skip");
             return;
         }
@@ -278,32 +278,34 @@ impl Optimizer<'_> {
             // is without return, we don't need to fold it as `void 0` is too much for such
             // cases.
 
-            match (
-                &stmts[stmts.len() - 2].as_stmt(),
-                &stmts[stmts.len() - 1].as_stmt(),
-            ) {
-                (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..))) => {
-                    log::trace!("if_return: Aborting because last stmt is a not return stmt");
-                    return;
-                }
-
-                (
-                    Some(Stmt::If(IfStmt {
-                        cons, alt: None, ..
-                    })),
-                    Some(Stmt::Return(..)),
-                ) => match &**cons {
-                    Stmt::Return(ReturnStmt { arg: Some(..), .. }) => {}
-                    _ => {
-                        log::trace!(
-                            "if_return: Aborting because stmt before last is an if stmt and cons \
-                             of it is not a return stmt"
-                        );
+            if stmts.len() >= 2 {
+                match (
+                    &stmts[stmts.len() - 2].as_stmt(),
+                    &stmts[stmts.len() - 1].as_stmt(),
+                ) {
+                    (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..))) => {
+                        log::trace!("if_return: Aborting because last stmt is a not return stmt");
                         return;
                     }
-                },
 
-                _ => {}
+                    (
+                        Some(Stmt::If(IfStmt {
+                            cons, alt: None, ..
+                        })),
+                        Some(Stmt::Return(..)),
+                    ) => match &**cons {
+                        Stmt::Return(ReturnStmt { arg: Some(..), .. }) => {}
+                        _ => {
+                            log::trace!(
+                                "if_return: Aborting because stmt before last is an if stmt and \
+                                 cons of it is not a return stmt"
+                            );
+                            return;
+                        }
+                    },
+
+                    _ => {}
+                }
             }
         }
 
@@ -531,8 +533,9 @@ impl Optimizer<'_> {
     }
 
     fn can_merge_stmt_as_if_return(&self, s: &Stmt) -> bool {
-        match s {
+        let res = match s {
             Stmt::Expr(..) | Stmt::Return(..) => true,
+            Stmt::Block(s) => s.stmts.len() == 1 && self.can_merge_stmt_as_if_return(&s.stmts[0]),
             Stmt::If(stmt) => {
                 self.can_merge_stmt_as_if_return(&stmt.cons)
                     && stmt
@@ -542,7 +545,12 @@ impl Optimizer<'_> {
                         .unwrap_or(true)
             }
             _ => false,
-        }
+        };
+        // if !res {
+        //     log::trace!("Cannot merge: {}", dump(s));
+        // }
+
+        res
     }
 }
 
