@@ -53,27 +53,6 @@ impl Optimizer<'_> {
         handle_return: bool,
         handle_continue: bool,
     ) {
-        for stmt in stmts.iter_mut() {
-            match stmt {
-                Stmt::For(ForStmt { body, .. })
-                | Stmt::ForIn(ForInStmt { body, .. })
-                | Stmt::ForOf(ForOfStmt {
-                    body,
-                    await_token: None,
-                    ..
-                }) => {
-                    // Handle contioues.
-                    match &mut **body {
-                        Stmt::Block(body) => {
-                            self.negate_if_terminate(&mut body.stmts, false, true);
-                        }
-                        _ => {}
-                    }
-                }
-                _ => {}
-            }
-        }
-
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {

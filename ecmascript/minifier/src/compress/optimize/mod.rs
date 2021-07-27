@@ -1856,6 +1856,13 @@ impl VisitMut for Optimizer<'_> {
         n.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.body.visit_mut_with(self);
+
+        match &mut *n.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -1868,6 +1875,13 @@ impl VisitMut for Optimizer<'_> {
         n.left.visit_mut_with(&mut *self.with_ctx(ctx));
 
         n.body.visit_mut_with(self);
+
+        match &mut *n.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
@@ -1886,6 +1900,13 @@ impl VisitMut for Optimizer<'_> {
 
         if let Some(test) = &mut s.test {
             self.with_ctx(ctx).optimize_expr_in_bool_ctx(test);
+        }
+
+        match &mut *s.body {
+            Stmt::Block(body) => {
+                self.negate_if_terminate(&mut body.stmts, false, true);
+            }
+            _ => {}
         }
     }
 
