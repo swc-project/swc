@@ -2248,7 +2248,9 @@ impl VisitMut for Optimizer<'_> {
             ..self.ctx
         };
 
-        self.merge_sequences_in_stmts(stmts);
+        self.with_ctx(ctx).inject_else(stmts);
+
+        self.with_ctx(ctx).merge_sequences_in_stmts(stmts);
 
         self.with_ctx(ctx).handle_stmt_likes(stmts);
 

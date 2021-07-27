@@ -30,6 +30,8 @@ impl Optimizer<'_> {
         }
     }
 
+    pub(super) fn inject_else(&mut self, stmt: &mut Vec<Stmt>) {}
+
     /// # Input
     ///
     /// ```js
