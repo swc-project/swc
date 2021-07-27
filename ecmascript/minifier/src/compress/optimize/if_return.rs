@@ -305,12 +305,6 @@ impl Optimizer<'_> {
 
                 _ => {}
             }
-
-            // TODO: Find correct condition
-
-            if return_count == 1 {
-                return;
-            }
         }
 
         {
