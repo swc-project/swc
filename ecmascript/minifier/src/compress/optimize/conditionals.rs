@@ -810,6 +810,10 @@ impl Optimizer<'_> {
                     }) => match &**cons {
                         Stmt::Block(b) => {
                             b.stmts.len() == 2
+                                && match b.stmts.first() {
+                                    Some(Stmt::If(..) | Stmt::Expr(..)) => false,
+                                    _ => true,
+                                }
                                 && match b.stmts.last() {
                                     Some(Stmt::Return(ReturnStmt { arg: None, .. })) => true,
                                     _ => false,
@@ -887,8 +891,8 @@ impl Optimizer<'_> {
                         Stmt::Block(b) => {
                             b.stmts.len() != 1
                                 && match b.stmts.last() {
-                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => true,
-                                    _ => false,
+                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => false,
+                                    _ => true,
                                 }
                         }
                         _ => true,
