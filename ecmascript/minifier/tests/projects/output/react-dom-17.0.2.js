@@ -1295,8 +1295,8 @@
                     props.value
                 ),
                 type = props.type;
-            if (null != value)
-                "number" === type
+            null != value
+                ? "number" === type
                     ? ((0 === value && "" === node.value) || node.value != value) &&
           (node.value = toString(
               value
@@ -1305,13 +1305,11 @@
                         value
                     ) && (node.value = toString(
                         value
-                    ));
-            else if ("submit" === type || "reset" === type) {
-                node.removeAttribute(
-                    "value"
-                );
-                return;
-            }
+                    ))
+                : ("submit" === type || "reset" === type) &&
+        node.removeAttribute(
+            "value"
+        ),
             props.hasOwnProperty(
                 "value"
             )
@@ -1323,13 +1321,13 @@
                 : props.hasOwnProperty(
                     "defaultValue"
                 ) &&
-        setDefaultValue(
-            node,
-            props.type,
-            getToStringValue(
-                props.defaultValue
-            )
-        ),
+          setDefaultValue(
+              node,
+              props.type,
+              getToStringValue(
+                  props.defaultValue
+              ),
+          ),
             null == props.checked &&
         null != props.defaultChecked &&
         (node.defaultChecked = !!props.defaultChecked);
@@ -1864,14 +1862,10 @@
             ) {
                 if (text) {
                     var firstChild = node.firstChild;
-                    if (
-                        firstChild &&
+                    firstChild &&
           firstChild === node.lastChild &&
-          3 === firstChild.nodeType
-                    ) {
-                        firstChild.nodeValue = text;
-                        return;
-                    }
+          3 === firstChild.nodeType &&
+          (firstChild.nodeValue = text);
                 }
                 node.textContent = text;
             },
@@ -3998,12 +3992,10 @@
                             );
                     } else if (3 === tag) {
                         var root = nearestMounted.stateNode;
-                        if (root.hydrate) {
-                            queuedTarget.blockedOn = getContainerFromFiber(
-                                nearestMounted
-                            );
-                            return;
-                        }
+                        root.hydrate &&
+            (queuedTarget.blockedOn = getContainerFromFiber(
+                nearestMounted
+            ));
                     }
                 }
             }
@@ -4889,60 +4881,52 @@
         ) {
             if (_enabled) {
                 var allowReplay = !0;
-                if (
-                    (allowReplay = (4 & eventSystemFlags) == 0) &&
+                (allowReplay = (4 & eventSystemFlags) == 0) &&
         hasQueuedDiscreteEvents(
         ) &&
         isReplayableDiscreteEvent(
             domEventName
-        )
-                ) {
-                    queueDiscreteEvent(
-                        null,
-                        domEventName,
-                        eventSystemFlags,
-                        targetContainer,
-                        nativeEvent,
-                    );
-                    return;
-                }
+        ) &&
+        queueDiscreteEvent(
+            null,
+            domEventName,
+            eventSystemFlags,
+            targetContainer,
+            nativeEvent,
+        );
                 var blockedOn = attemptToDispatchEvent(
                     domEventName,
                     eventSystemFlags,
                     targetContainer,
                     nativeEvent,
                 );
-                if (null === blockedOn) {
-                    allowReplay && clearIfContinuousEvent(
-                        domEventName,
-                        nativeEvent
-                    );
-                    return;
-                }
-                if (allowReplay) {
-                    if (isReplayableDiscreteEvent(
-                        domEventName
-                    )) {
-                        queueDiscreteEvent(
-                            blockedOn,
-                            domEventName,
-                            eventSystemFlags,
-                            targetContainer,
-                            nativeEvent,
-                        );
-                        return;
-                    }
-                    queueIfContinuousEvent(
-                        blockedOn,
-                        domEventName,
-                        eventSystemFlags,
-                        targetContainer,
-                        nativeEvent,
-                    ) || clearIfContinuousEvent(
-                        domEventName,
-                        nativeEvent
-                    );
-                }
+                null === blockedOn &&
+        allowReplay &&
+        clearIfContinuousEvent(
+            domEventName,
+            nativeEvent
+        ),
+                allowReplay &&
+          (isReplayableDiscreteEvent(
+              domEventName
+          ) &&
+            queueDiscreteEvent(
+                blockedOn,
+                domEventName,
+                eventSystemFlags,
+                targetContainer,
+                nativeEvent,
+            ),
+          queueIfContinuousEvent(
+              blockedOn,
+              domEventName,
+              eventSystemFlags,
+              targetContainer,
+              nativeEvent,
+          ) || clearIfContinuousEvent(
+              domEventName,
+              nativeEvent
+          )),
                 dispatchEventForPluginEventSystem(
                     domEventName,
                     eventSystemFlags,
@@ -6056,15 +6040,13 @@
                     domEventName,
                     targetInst
                 );
-                if (inst) {
-                    createAndAccumulateChangeEvent(
-                        dispatchQueue,
-                        inst,
-                        nativeEvent,
-                        nativeEventTarget,
-                    );
-                    return;
-                }
+                inst &&
+        createAndAccumulateChangeEvent(
+            dispatchQueue,
+            inst,
+            nativeEvent,
+            nativeEventTarget,
+        );
             }
             handleEventFunc && handleEventFunc(
                 domEventName,
@@ -9656,12 +9638,9 @@
         function pop(
             cursor, fiber
         ) {
-            if (index < 0) {
-                error(
-                    "Unexpected pop."
-                );
-                return;
-            }
+            index < 0 && error(
+                "Unexpected pop."
+            ),
             fiber !== fiberStack[index] && error(
                 "Unexpected Fiber popped."
             ),
@@ -14260,21 +14239,18 @@
                 destroy = void 0;
             if (null !== currentHook) {
                 var prevEffect = currentHook.memoizedState;
-                if (((destroy = prevEffect.destroy), null !== nextDeps)) {
-                    var prevDeps = prevEffect.deps;
-                    if (areHookInputsEqual(
-                        nextDeps,
-                        prevDeps
-                    )) {
-                        pushEffect(
-                            hookFlags,
-                            create,
-                            destroy,
-                            nextDeps
-                        );
-                        return;
-                    }
-                }
+                (destroy = prevEffect.destroy),
+                null !== nextDeps &&
+          areHookInputsEqual(
+              nextDeps,
+              prevEffect.deps
+          ) &&
+          pushEffect(
+              hookFlags,
+              create,
+              destroy,
+              nextDeps
+          );
             }
             (currentlyRenderingFiber$1.flags |= fiberFlags),
             (hook.memoizedState = pushEffect(
@@ -19524,16 +19500,16 @@
                 ),
                 newCallbackPriority = returnNextLanesPriority(
                 );
-            if (nextLanes === NoLanes) {
-                null !== existingCallbackNode &&
+            if (
+                (nextLanes === NoLanes &&
+        null !== existingCallbackNode &&
         (cancelCallback(
             existingCallbackNode
         ),
         (root.callbackNode = null),
-        (root.callbackPriority = 0));
-                return;
-            }
-            if (null !== existingCallbackNode) {
+        (root.callbackPriority = 0)),
+                null !== existingCallbackNode)
+            ) {
                 var existingCallbackPriority = root.callbackPriority;
                 existingCallbackPriority !== newCallbackPriority &&
         cancelCallback(
@@ -21025,14 +21001,12 @@
         function captureCommitPhaseError(
             sourceFiber, error
         ) {
-            if (3 === sourceFiber.tag) {
-                captureCommitPhaseErrorOnRoot(
-                    sourceFiber,
-                    sourceFiber,
-                    error
-                );
-                return;
-            }
+            3 === sourceFiber.tag &&
+      captureCommitPhaseErrorOnRoot(
+          sourceFiber,
+          sourceFiber,
+          error
+      );
             for (var fiber = sourceFiber.return; null !== fiber; ) {
                 if (3 === fiber.tag) {
                     captureCommitPhaseErrorOnRoot(
@@ -22951,12 +22925,10 @@
             copyWithRename = function (
                 obj, oldPath, newPath
             ) {
-                if (oldPath.length !== newPath.length) {
-                    warn(
-                        "copyWithRename() expects paths of the same length"
-                    );
-                    return;
-                }
+                oldPath.length !== newPath.length &&
+        warn(
+            "copyWithRename() expects paths of the same length"
+        );
                 for (var i = 0; i < newPath.length - 1; i++)
                     if (oldPath[i] !== newPath[i]) {
                         warn(
@@ -24963,15 +24935,15 @@
                 var strictRoot = findStrictRoot(
                     fiber
                 );
-                if (null === strictRoot) {
-                    error(
-                        "Expected to find a StrictMode component in a strict mode tree. This error is likely caused by a bug in React. Please file an issue.",
-                    );
-                    return;
-                }
-                if (!didWarnAboutLegacyContext.has(
-                    fiber.type
-                )) {
+                if (
+                    (null === strictRoot &&
+          error(
+              "Expected to find a StrictMode component in a strict mode tree. This error is likely caused by a bug in React. Please file an issue.",
+          ),
+                    !didWarnAboutLegacyContext.has(
+                        fiber.type
+                    ))
+                ) {
                     var warningsForRoot = pendingLegacyContextWarning.get(
                         strictRoot
                     );
@@ -27190,15 +27162,14 @@
                 },
                 function (
                 ) {
-                    if ((49 & executionContext) !== 0) {
-                        (16 & executionContext) !== 0 &&
-            error(
-                "unstable_flushDiscreteUpdates: Cannot flush updates when React is already rendering.",
-            );
-                        return;
-                    }
+                    (49 & executionContext) !== 0 &&
+          (16 & executionContext) !== 0 &&
+          error(
+              "unstable_flushDiscreteUpdates: Cannot flush updates when React is already rendering.",
+          ),
                     flushPendingDiscreteUpdates(
-                    ), flushPassiveEffects(
+                    ),
+                    flushPassiveEffects(
                     );
                 },
                 function (

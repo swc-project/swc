@@ -2759,16 +2759,14 @@ YUI.add(
                     self = this,
                     requests = self.requests,
                     state = self._state;
-                if ("done" === state) {
-                    callback &&
+                if (
+                    ("done" === state &&
+                callback &&
                 callback(
                     self.errors.length ? self.errors : null,
                     self
-                );
-                    return;
-                }
-                if (
-                    (callback && self._callbacks.push(
+                ),
+                    callback && self._callbacks.push(
                         callback
                     ),
                     "executing" !== state)

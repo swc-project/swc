@@ -1322,13 +1322,10 @@
                         function (
                             prop, value
                         ) {
-                            if (!$17.isFunction(
+                            $17.isFunction(
                                 value
-                            )) {
-                                proxiedPrototype[prop] = value;
-                                return;
-                            }
-                            proxiedPrototype[prop] = (function (
+                            ) || (proxiedPrototype[prop] = value),
+                            (proxiedPrototype[prop] = (function (
                             ) {
                                 var _super = function (
                                     ) {
@@ -1363,7 +1360,7 @@
                                     );
                                 };
                             })(
-                            );
+                            ));
                         }
                     ),
                     (constructor.prototype = $17.widget.extend(
@@ -3760,22 +3757,16 @@
                                 void event.stopImmediatePropagation(
                                 )
                             );
-                        if (this.ignorePopState) {
-                            this.ignorePopState = !1;
-                            return;
-                        }
                         if (
+                            (this.ignorePopState && (this.ignorePopState = !1),
                             !event.originalEvent.state &&
-            1 === this.history.stack.length &&
-            this.ignoreInitialHashChange &&
-            ((this.ignoreInitialHashChange = !1), location.href === initialHref)
-                        ) {
-                            event.preventDefault(
-                            );
-                            return;
-                        }
-                        if (
-                            ((hash = path1.parseLocation(
+              1 === this.history.stack.length &&
+              this.ignoreInitialHashChange &&
+              ((this.ignoreInitialHashChange = !1),
+              location.href === initialHref) &&
+              event.preventDefault(
+              ),
+                            (hash = path1.parseLocation(
                             ).hash),
                             !event.originalEvent.state && hash)
                         )
@@ -6211,17 +6202,16 @@
               ) &&
               !$17.mobile.path.isFirstPageUrl(
                   fileUrl
-              ))
-                        ) {
-                            deferred.reject(
-                                absUrl,
-                                settings
-                            );
-                            return;
-                        }
-                        if ((this._getBase(
-                        ).reset(
-                        ), content.length && !settings.reload))
+              ) &&
+              deferred.reject(
+                  absUrl,
+                  settings
+              ),
+                            this._getBase(
+                            ).reset(
+                            ),
+                            content.length && !settings.reload)
+                        )
                             return (
                                 this._enhance(
                                     content,
@@ -6237,67 +6227,56 @@
                                     url
                                 ))
                             );
-                        if (
-                            ((triggerData = {
-                                url: url,
-                                absUrl: absUrl,
-                                dataUrl: dataUrl,
-                                deferred: deferred,
-                                options: settings,
-                            }),
-                            !(
-                                (pblEvent = this._triggerWithDeprecated(
-                                    "beforeload",
-                                    triggerData,
-                                )).deprecatedEvent.isDefaultPrevented(
-                                ) ||
+                        (triggerData = {
+                            url: url,
+                            absUrl: absUrl,
+                            dataUrl: dataUrl,
+                            deferred: deferred,
+                            options: settings,
+                        }),
+                        (pblEvent = this._triggerWithDeprecated(
+                            "beforeload",
+                            triggerData,
+                        )).deprecatedEvent.isDefaultPrevented(
+                        ) ||
               pblEvent.event.isDefaultPrevented(
-              )
-                            ))
-                        ) {
-                            if (
-                                (settings.showLoadMsg && this._showLoading(
-                                    settings.loadMsgDelay
-                                ),
-                                undefined === settings.prefetch && this._getBase(
-                                ).reset(
-                                ),
-                                !(
-                                    $17.mobile.allowCrossDomainPages ||
+              ) ||
+              (settings.showLoadMsg && this._showLoading(
+                  settings.loadMsgDelay
+              ),
+              undefined === settings.prefetch && this._getBase(
+              ).reset(
+              ),
+              $17.mobile.allowCrossDomainPages ||
                 $17.mobile.path.isSameDomain(
                     $17.mobile.path.documentUrl,
                     absUrl,
-                )
-                                ))
-                            ) {
-                                deferred.reject(
-                                    absUrl,
-                                    settings
-                                );
-                                return;
-                            }
-                            $17.ajax(
-                                {
-                                    url: fileUrl,
-                                    type: settings.type,
-                                    data: settings.data,
-                                    contentType: settings.contentType,
-                                    dataType: "html",
-                                    success: this._loadSuccess(
-                                        absUrl,
-                                        triggerData,
-                                        settings,
-                                        deferred,
-                                    ),
-                                    error: this._loadError(
-                                        absUrl,
-                                        triggerData,
-                                        settings,
-                                        deferred
-                                    ),
-                                }
-                            );
-                        }
+                ) ||
+                deferred.reject(
+                    absUrl,
+                    settings
+                ),
+              $17.ajax(
+                  {
+                      url: fileUrl,
+                      type: settings.type,
+                      data: settings.data,
+                      contentType: settings.contentType,
+                      dataType: "html",
+                      success: this._loadSuccess(
+                          absUrl,
+                          triggerData,
+                          settings,
+                          deferred,
+                      ),
+                      error: this._loadError(
+                          absUrl,
+                          triggerData,
+                          settings,
+                          deferred
+                      ),
+                  }
+              ));
                     },
                     _loadError: function (
                         absUrl, triggerData, settings, deferred
@@ -6507,12 +6486,9 @@
                     change: function (
                         to, options
                     ) {
-                        if (isPageTransitioning) {
-                            pageTransitionQueue.unshift(
-                                arguments
-                            );
-                            return;
-                        }
+                        isPageTransitioning && pageTransitionQueue.unshift(
+                            arguments
+                        );
                         var settings = $17.extend(
                                 {
                                 },
@@ -6559,27 +6535,25 @@
                             params,
                             cssTransitionDeferred,
                             beforeTransition;
-                        if (isPageTransitioning) {
-                            pageTransitionQueue.unshift(
-                                [toPage, settings,]
-                            );
-                            return;
-                        }
                         if (
+                            (isPageTransitioning &&
+              pageTransitionQueue.unshift(
+                  [toPage, settings,]
+              ),
                             this._triggerPageBeforeChange(
                                 toPage,
                                 triggerData,
                                 settings
                             ) &&
-            !(
-                (beforeTransition = this._triggerWithDeprecated(
-                    "beforetransition",
-                    triggerData,
-                )).deprecatedEvent.isDefaultPrevented(
-                ) ||
-              beforeTransition.event.isDefaultPrevented(
-              )
-            )
+              !(
+                  (beforeTransition = this._triggerWithDeprecated(
+                      "beforetransition",
+                      triggerData,
+                  )).deprecatedEvent.isDefaultPrevented(
+                  ) ||
+                beforeTransition.event.isDefaultPrevented(
+                )
+              ))
                         ) {
                             if (
                                 ((isPageTransitioning = !0),
@@ -6864,11 +6838,8 @@
                     pageTitle = page.find(
                         ".ui-title:eq(0)"
                     );
-                if (autofocus.length) {
-                    autofocus.focus(
-                    );
-                    return;
-                }
+                autofocus.length && autofocus.focus(
+                ),
                 pageTitle.length
                     ? pageTitle.focus(
                     )
@@ -7155,70 +7126,59 @@
                                 ))
                                     return $17.mobile.back(
                                     ), !1;
-                                if (
-                                    ((baseUrl = $17.mobile.getClosestBaseUrl(
-                                        $link
-                                    )),
-                                    (href = $17.mobile.path.makeUrlAbsolute(
-                                        $link.attr(
-                                            "href"
-                                        ) || "#",
-                                        baseUrl,
-                                    )),
-                                    !$17.mobile.ajaxEnabled &&
-                      !$17.mobile.path.isEmbeddedPage(
+                                (baseUrl = $17.mobile.getClosestBaseUrl(
+                                    $link
+                                )),
+                                (href = $17.mobile.path.makeUrlAbsolute(
+                                    $link.attr(
+                                        "href"
+                                    ) || "#",
+                                    baseUrl,
+                                )),
+                                $17.mobile.ajaxEnabled ||
+                      $17.mobile.path.isEmbeddedPage(
                           href
-                      ))
-                                ) {
-                                    httpCleanup(
-                                    );
-                                    return;
-                                }
-                                if (-1 !== href.search(
+                      ) ||
+                      httpCleanup(
+                      ),
+                                -1 !== href.search(
                                     "#"
-                                ))
-                                    if ((href = href.replace(
-                                        /[^#]*#/,
-                                        ""
-                                    )))
-                                        href = $17.mobile.path.isPath(
-                                            href
-                                        )
-                                            ? $17.mobile.path.makeUrlAbsolute(
-                                                href,
-                                                baseUrl
-                                            )
-                                            : $17.mobile.path.makeUrlAbsolute(
-                                                "#" + href,
-                                                documentUrl.hrefNoHash,
-                                            );
-                                    else {
-                                        event.preventDefault(
-                                        );
-                                        return;
-                                    }
-                                if (
-                                    $link.is(
-                                        "[rel='external']"
-                                    ) ||
-                    $link.is(
-                        ":jqmData(ajax='false')"
-                    ) ||
-                    $link.is(
-                        "[target]"
-                    ) ||
-                    ($17.mobile.path.isExternal(
-                        href
-                    ) &&
-                      !$17.mobile.path.isPermittedCrossDomainRequest(
-                          documentUrl,
-                          href,
+                                ) &&
+                      ((href = href.replace(
+                          /[^#]*#/,
+                          ""
                       ))
-                                ) {
-                                    httpCleanup(
-                                    );
-                                    return;
-                                }
+                          ? (href = $17.mobile.path.isPath(
+                              href
+                          )
+                              ? $17.mobile.path.makeUrlAbsolute(
+                                  href,
+                                  baseUrl
+                              )
+                              : $17.mobile.path.makeUrlAbsolute(
+                                  "#" + href,
+                                  documentUrl.hrefNoHash,
+                              ))
+                          : event.preventDefault(
+                          )),
+                                ($link.is(
+                                    "[rel='external']"
+                                ) ||
+                      $link.is(
+                          ":jqmData(ajax='false')"
+                      ) ||
+                      $link.is(
+                          "[target]"
+                      ) ||
+                      ($17.mobile.path.isExternal(
+                          href
+                      ) &&
+                        !$17.mobile.path.isPermittedCrossDomainRequest(
+                            documentUrl,
+                            href,
+                        ))) &&
+                      httpCleanup(
+                      ),
                                 (transition = $link.jqmData(
                                     "transition"
                                 )),
@@ -9734,14 +9694,11 @@
                             event
                         ) {
                             var input = this.element;
-                            if (input.is(
-                                ":disabled"
-                            )) {
-                                event.preventDefault(
-                                );
-                                return;
-                            }
                             return (
+                                input.is(
+                                    ":disabled"
+                                ) && event.preventDefault(
+                                ),
                                 this._cacheVals(
                                 ),
                                 input.prop(
@@ -14004,38 +13961,34 @@
                     _animate: function (
                         args
                     ) {
-                        if (
-                            (this._ui.screen
-                                .removeClass(
-                                    args.classToRemove
-                                )
-                                .addClass(
-                                    args.screenClassToAdd
-                                ),
-                            args.prerequisites.screen.resolve(
+                        this._ui.screen
+                            .removeClass(
+                                args.classToRemove
+                            )
+                            .addClass(
+                                args.screenClassToAdd
                             ),
-                            args.transition &&
+                        args.prerequisites.screen.resolve(
+                        ),
+                        args.transition &&
               "none" !== args.transition &&
               (args.applyTransition && this._applyTransition(
                   args.transition
               ),
-              this._fallbackTransition))
-                        ) {
-                            this._ui.container
-                                .addClass(
-                                    args.containerClassToAdd
-                                )
-                                .removeClass(
-                                    args.classToRemove
-                                )
-                                .animationComplete(
-                                    $17.proxy(
-                                        args.prerequisites.container,
-                                        "resolve"
-                                    ),
-                                );
-                            return;
-                        }
+              this._fallbackTransition) &&
+              this._ui.container
+                  .addClass(
+                      args.containerClassToAdd
+                  )
+                  .removeClass(
+                      args.classToRemove
+                  )
+                  .animationComplete(
+                      $17.proxy(
+                          args.prerequisites.container,
+                          "resolve"
+                      ),
+                  ),
                         this._ui.container.removeClass(
                             args.classToRemove
                         ),
@@ -17022,16 +16975,14 @@
                             ret = this._super(
                                 opts
                             );
-                        if (undefined !== opts.arrow) {
-                            if (!ar && opts.arrow) {
-                                this._ui.arrow = this._addArrow(
-                                );
-                                return;
-                            }
-                            ar && !opts.arrow && (ar.arEls.remove(
-                            ), (this._ui.arrow = null));
-                        }
                         return (
+                            undefined !== opts.arrow &&
+              (!ar && opts.arrow && (this._ui.arrow = this._addArrow(
+              )),
+              ar &&
+                !opts.arrow &&
+                (ar.arEls.remove(
+                ), (this._ui.arrow = null))),
                             (ar = this._ui.arrow) &&
               (undefined !== opts.theme &&
                 ((oldTheme = this._themeClassFromOption(
@@ -19262,18 +19213,12 @@
                     _setOption: function (
                         key, value
                     ) {
-                        if ("active" === key) {
-                            this._activate(
-                                value
-                            );
-                            return;
-                        }
-                        if ("disabled" === key) {
-                            this._setupDisabled(
-                                value
-                            );
-                            return;
-                        }
+                        "active" === key && this._activate(
+                            value
+                        ),
+                        "disabled" === key && this._setupDisabled(
+                            value
+                        ),
                         this._super(
                             key,
                             value
@@ -20283,23 +20228,17 @@
                     : zoom.enabled || zoom.enable(
                     );
             }
-            if (
-                (($17.mobile.iosorientationfixEnabled = !0),
-                !(
-                    /iPhone|iPad|iPod/.test(
-                        navigator.platform
-                    ) &&
+            ($17.mobile.iosorientationfixEnabled = !0),
+            (/iPhone|iPad|iPod/.test(
+                navigator.platform
+            ) &&
           /OS [1-5]_[0-9_]* like Mac OS X/i.test(
               ua
           ) &&
           ua.indexOf(
               "AppleWebKit"
-          ) > -1
-                ))
-            ) {
-                $17.mobile.iosorientationfixEnabled = !1;
-                return;
-            }
+          ) > -1) ||
+          ($17.mobile.iosorientationfixEnabled = !1),
             (zoom = $17.mobile.zoom),
             $17.mobile.document.on(
                 "mobileinit",

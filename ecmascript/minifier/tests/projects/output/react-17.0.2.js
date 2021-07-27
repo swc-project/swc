@@ -2712,17 +2712,15 @@
             (forceFrameRate = function (
                 fps
             ) {
-                if (fps < 0 || fps > 125) {
-                    console.error(
-                        "forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported",
-                    );
-                    return;
-                }
-                yieldInterval = fps > 0
+                (fps < 0 || fps > 125) &&
+          console.error(
+              "forceFrameRate takes a positive int between 0 and 125, forcing frame rates higher than 125 fps is not supported",
+          ),
+                (yieldInterval = fps > 0
                     ? Math.floor(
                         1000 / fps
                     )
-                    : 5;
+                    : 5);
             });
             var performWorkUntilDeadline = function (
                 ) {

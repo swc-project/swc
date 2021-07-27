@@ -1676,12 +1676,9 @@
     ) {
         var expandoId = element[jqName],
             expandoStore = jqCache[expandoId];
-        if (expandoStore) {
-            if (name) {
-                delete jqCache[expandoId].data[name];
-                return;
-            }
-            expandoStore.handle &&
+        expandoStore &&
+      (name && delete jqCache[expandoId].data[name],
+      expandoStore.handle &&
         (expandoStore.events.$destroy && expandoStore.handle(
             {
             },
@@ -1690,9 +1687,8 @@
         jqLiteOff(
             element
         )),
-            delete jqCache[expandoId],
-            (element[jqName] = undefined);
-        }
+      delete jqCache[expandoId],
+      (element[jqName] = undefined));
     }
     function jqLiteExpandoStore(
         element, key, value
@@ -7060,37 +7056,31 @@
                         function (
                             newUrl
                         ) {
-                            if ($location.absUrl(
-                            ) != newUrl) {
-                                if (
-                                    $rootScope.$broadcast(
-                                        "$locationChangeStart",
-                                        newUrl,
-                                        $location.absUrl(
-                                        ),
-                                    ).defaultPrevented
-                                ) {
-                                    $browser.url(
-                                        $location.absUrl(
-                                        )
-                                    );
-                                    return;
-                                }
-                                $rootScope.$evalAsync(
-                                    function (
-                                    ) {
-                                        var oldUrl = $location.absUrl(
-                                        );
-                                        $location.$$parse(
-                                            newUrl
-                                        ), afterLocationChange(
-                                            oldUrl
-                                        );
-                                    }
-                                ),
-                                $rootScope.$$phase || $rootScope.$digest(
-                                );
-                            }
+                            $location.absUrl(
+                            ) != newUrl &&
+                ($rootScope.$broadcast(
+                    "$locationChangeStart",
+                    newUrl,
+                    $location.absUrl(
+                    ),
+                ).defaultPrevented && $browser.url(
+                    $location.absUrl(
+                    )
+                ),
+                $rootScope.$evalAsync(
+                    function (
+                    ) {
+                        var oldUrl = $location.absUrl(
+                        );
+                        $location.$$parse(
+                            newUrl
+                        ), afterLocationChange(
+                            oldUrl
+                        );
+                    }
+                ),
+                $rootScope.$$phase || $rootScope.$digest(
+                ));
                         }
                     ),
                     $rootScope.$watch(
