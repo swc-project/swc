@@ -361,8 +361,7 @@
                 var value = node.getAttribute(
                     name
                 );
-                if (value === "" + expected) return expected;
-                return value;
+                return value === "" + expected ? expected : value;
             }
         }
         function setValueForProperty(
@@ -1346,13 +1345,14 @@
             )) {
                 var type = props.type,
                     isButton = "submit" === type || "reset" === type;
-                if (isButton && (void 0 === props.value || null === props.value)) return;
-                var initialValue = toString(
-                    node._wrapperState.initialValue
-                );
-                isHydrating ||
-        (initialValue !== node.value && (node.value = initialValue)),
-                (node.defaultValue = initialValue);
+                if (!isButton || (void 0 !== props.value && null !== props.value)) {
+                    var initialValue = toString(
+                        node._wrapperState.initialValue
+                    );
+                    isHydrating ||
+          (initialValue !== node.value && (node.value = initialValue)),
+                    (node.defaultValue = initialValue);
+                }
             }
             var name = node.name;
             "" !== name && (node.name = ""),
@@ -1390,21 +1390,21 @@
                     i++
                 ) {
                     var otherNode = group[i];
-                    if (otherNode === rootNode || otherNode.form !== rootNode.form)
-                        continue;
-                    var otherProps = getFiberCurrentPropsFromNode(
-                        otherNode
-                    );
-                    if (!otherProps)
-                        throw Error(
-                            "ReactDOMInput: Mixing React and non-React radio inputs with the same `name` is not supported.",
+                    if (otherNode !== rootNode && otherNode.form === rootNode.form) {
+                        var otherProps = getFiberCurrentPropsFromNode(
+                            otherNode
                         );
-                    updateValueIfChanged(
-                        otherNode
-                    ), updateWrapper(
-                        otherNode,
-                        otherProps
-                    );
+                        if (!otherProps)
+                            throw Error(
+                                "ReactDOMInput: Mixing React and non-React radio inputs with the same `name` is not supported.",
+                            );
+                        updateValueIfChanged(
+                            otherNode
+                        ), updateWrapper(
+                            otherNode,
+                            otherProps
+                        );
+                    }
                 }
             }
         }
@@ -4932,17 +4932,13 @@
                         );
                         return;
                     }
-                    if (
-                        queueIfContinuousEvent(
-                            blockedOn,
-                            domEventName,
-                            eventSystemFlags,
-                            targetContainer,
-                            nativeEvent,
-                        )
-                    )
-                        return;
-                    clearIfContinuousEvent(
+                    queueIfContinuousEvent(
+                        blockedOn,
+                        domEventName,
+                        eventSystemFlags,
+                        targetContainer,
+                        nativeEvent,
+                    ) || clearIfContinuousEvent(
                         domEventName,
                         nativeEvent
                     );
@@ -6378,15 +6374,15 @@
                         node,
                         end
                     );
-                if (startMarker && endMarker) {
-                    if (
-                        1 === selection.rangeCount &&
-          selection.anchorNode === startMarker.node &&
-          selection.anchorOffset === startMarker.offset &&
-          selection.focusNode === endMarker.node &&
-          selection.focusOffset === endMarker.offset
-                    )
-                        return;
+                if (
+                    startMarker &&
+        endMarker &&
+        (1 !== selection.rangeCount ||
+          selection.anchorNode !== startMarker.node ||
+          selection.anchorOffset !== startMarker.offset ||
+          selection.focusNode !== endMarker.node ||
+          selection.focusOffset !== endMarker.offset)
+                ) {
                     var range = doc.createRange(
                     );
                     range.setStart(
@@ -7081,19 +7077,16 @@
             var eventSystemFlags =
         arguments.length > 4 && void 0 !== arguments[4] ? arguments[4] : 0,
                 target = rootContainerElement;
-            if (
-                ("selectionchange" === domEventName &&
-        9 !== rootContainerElement.nodeType &&
-        (target = rootContainerElement.ownerDocument),
-                null !== targetElement &&
+            "selectionchange" === domEventName &&
+      9 !== rootContainerElement.nodeType &&
+      (target = rootContainerElement.ownerDocument),
+            null !== targetElement &&
         !isCapturePhaseListener &&
         nonDelegatedEvents.has(
             domEventName
-        ))
-            ) {
-                if ("scroll" !== domEventName) return;
-                (eventSystemFlags |= 2), (target = targetElement);
-            }
+        ) &&
+        "scroll" === domEventName &&
+        ((eventSystemFlags |= 2), (target = targetElement));
             var listenerSet = getEventListenerSet(
                     target
                 ),
@@ -12215,16 +12208,16 @@
                         newChild
                     ) || getIteratorFn(
                         newChild
-                    )) {
-                        if (null !== key) return null;
-                        return updateFragment(
-                            returnFiber,
-                            oldFiber,
-                            newChild,
-                            lanes,
-                            null
-                        );
-                    }
+                    ))
+                        return null !== key
+                            ? null
+                            : updateFragment(
+                                returnFiber,
+                                oldFiber,
+                                newChild,
+                                lanes,
+                                null
+                            );
                     throwOnInvalidObjectType(
                         returnFiber,
                         newChild
@@ -12413,16 +12406,16 @@
                             newChildren[newIdx],
                             lanes
                         );
-                        if (null === _newFiber) continue;
-                        (lastPlacedIndex = placeChild(
-                            _newFiber,
-                            lastPlacedIndex,
-                            newIdx
-                        )),
-                        null === previousNewFiber
-                            ? (resultingFirstChild = _newFiber)
-                            : (previousNewFiber.sibling = _newFiber),
-                        (previousNewFiber = _newFiber);
+                        null !== _newFiber &&
+            ((lastPlacedIndex = placeChild(
+                _newFiber,
+                lastPlacedIndex,
+                newIdx
+            )),
+            null === previousNewFiber
+                ? (resultingFirstChild = _newFiber)
+                : (previousNewFiber.sibling = _newFiber),
+            (previousNewFiber = _newFiber));
                     }
                     return resultingFirstChild;
                 }
@@ -12582,16 +12575,16 @@
                             step.value,
                             lanes
                         );
-                        if (null === _newFiber3) continue;
-                        (lastPlacedIndex = placeChild(
-                            _newFiber3,
-                            lastPlacedIndex,
-                            newIdx
-                        )),
-                        null === previousNewFiber
-                            ? (resultingFirstChild = _newFiber3)
-                            : (previousNewFiber.sibling = _newFiber3),
-                        (previousNewFiber = _newFiber3);
+                        null !== _newFiber3 &&
+            ((lastPlacedIndex = placeChild(
+                _newFiber3,
+                lastPlacedIndex,
+                newIdx,
+            )),
+            null === previousNewFiber
+                ? (resultingFirstChild = _newFiber3)
+                : (previousNewFiber.sibling = _newFiber3),
+            (previousNewFiber = _newFiber3));
                     }
                     return resultingFirstChild;
                 }
@@ -19542,10 +19535,10 @@
             }
             if (null !== existingCallbackNode) {
                 var existingCallbackPriority = root.callbackPriority;
-                if (existingCallbackPriority === newCallbackPriority) return;
-                cancelCallback(
-                    existingCallbackNode
-                );
+                existingCallbackPriority !== newCallbackPriority &&
+        cancelCallback(
+            existingCallbackNode
+        );
             }
             (newCallbackNode =
       15 === newCallbackPriority
@@ -21253,20 +21246,18 @@
                     var componentName = getComponentName(
                         fiber.type
                     ) || "ReactComponent";
-                    if (null !== didWarnStateUpdateForNotYetMountedComponent) {
-                        if (didWarnStateUpdateForNotYetMountedComponent.has(
+                    null !== didWarnStateUpdateForNotYetMountedComponent
+                        ? didWarnStateUpdateForNotYetMountedComponent.has(
                             componentName
-                        ))
-                            return;
-                        didWarnStateUpdateForNotYetMountedComponent.add(
-                            componentName
-                        );
-                    } else
-                        didWarnStateUpdateForNotYetMountedComponent = new Set(
+                        ) ||
+            didWarnStateUpdateForNotYetMountedComponent.add(
+                componentName
+            )
+                        : (didWarnStateUpdateForNotYetMountedComponent = new Set(
                             [
                                 componentName,
                             ]
-                        );
+                        ));
                     try {
                         setCurrentFiber(
                             fiber
@@ -21303,17 +21294,21 @@
                 var componentName = getComponentName(
                     fiber.type
                 ) || "ReactComponent";
-                if (null !== didWarnStateUpdateForUnmountedComponent) {
-                    if (didWarnStateUpdateForUnmountedComponent.has(
-                        componentName
-                    )) return;
-                    didWarnStateUpdateForUnmountedComponent.add(
-                        componentName
-                    );
-                } else didWarnStateUpdateForUnmountedComponent = new Set(
-                    [componentName,]
+                if (
+                    (null !== didWarnStateUpdateForUnmountedComponent
+                        ? didWarnStateUpdateForUnmountedComponent.has(
+                            componentName
+                        ) ||
+            didWarnStateUpdateForUnmountedComponent.add(
+                componentName
+            )
+                        : (didWarnStateUpdateForUnmountedComponent = new Set(
+                            [
+                                componentName,
+                            ]
+                        )),
+                    isFlushingPassiveEffects)
                 );
-                if (isFlushingPassiveEffects);
                 else {
                     var previousFiber = current;
                     try {

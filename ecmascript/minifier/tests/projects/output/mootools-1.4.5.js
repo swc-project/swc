@@ -2885,21 +2885,18 @@ var Event1 = DOMEvent;
                     ),
                 ));
                 if (this.addEvent)
-                    for (var option in options) {
-                        if (
-                            "function" != typeOf(
-                                options[option]
-                            ) ||
-                !/^on[A-Z]/.test(
-                    option
-                )
-                        )
-                            continue;
-                        this.addEvent(
-                            option,
+                    for (var option in options)
+                        "function" == typeOf(
                             options[option]
-                        ), delete options[option];
-                    }
+                        ) &&
+                /^on[A-Z]/.test(
+                    option
+                ) &&
+                (this.addEvent(
+                    option,
+                    options[option]
+                ),
+                delete options[option]);
                 return this;
             },
         }
@@ -3689,22 +3686,21 @@ function (
                                 );
                                 (node = nodes[i++]);
 
-                            ) {
+                            )
                                 if (
-                                    !(
-                                        (className = node.className) && matchClass.test(
-                                            className
-                                        )
-                                    )
-                                )
-                                    continue;
-                                if (first) return node;
-                                (hasOthers && uniques[this.getUID(
-                                    node
-                                )]) || found.push(
-                                    node
-                                );
-                            }
+                                    (className = node.className) &&
+                    matchClass.test(
+                        className
+                    )
+                                ) {
+                                    if (first) return node;
+                                    (hasOthers && uniques[this.getUID(
+                                        node
+                                    )]) ||
+                      found.push(
+                          node
+                      );
+                                }
                         }
                     }
                 } else {
@@ -4871,12 +4867,11 @@ var Element1 = function (
         parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
         if (attributes)
-            for (var attr, i = 0, l = attributes.length; i < l; i++) {
-                if (null != props[(attr = attributes[i]).key]) continue;
-                null != attr.value && "=" == attr.operator
-                    ? (props[attr.key] = attr.value)
-                    : attr.value || attr.operator || (props[attr.key] = !0);
-            }
+            for (var attr, i = 0, l = attributes.length; i < l; i++)
+                null == props[(attr = attributes[i]).key] &&
+          (null != attr.value && "=" == attr.operator
+              ? (props[attr.key] = attr.value)
+              : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList &&
       null == props.class &&
       (props.class = parsed.classList.join(
@@ -6966,18 +6961,18 @@ Elements.alias(
                 );
                 var result = this.style[property];
                 if (!result || "zIndex" == property) {
-                    for (var style in ((result = []), Element1.ShortStyles)) {
-                        if (property != style) continue;
-                        for (var s in Element1.ShortStyles[style])
-                            result.push(
-                                this.getStyle(
-                                    s
-                                )
+                    for (var style in ((result = []), Element1.ShortStyles))
+                        if (property == style) {
+                            for (var s in Element1.ShortStyles[style])
+                                result.push(
+                                    this.getStyle(
+                                        s
+                                    )
+                                );
+                            return result.join(
+                                " "
                             );
-                        return result.join(
-                            " "
-                        );
-                    }
+                        }
                     result = this.getComputedStyle(
                         property
                     );

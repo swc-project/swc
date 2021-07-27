@@ -1931,37 +1931,36 @@
               i++
           )
               if (null != (options = arguments[i]))
-                  for (name in options) {
-                      if (((src = target[name]), target === (copy = options[name])))
-                          continue;
-                      deep &&
-              copy &&
-              (jQuery.isPlainObject(
-                  copy
-              ) ||
-                (copyIsArray = jQuery.isArray(
-                    copy
-                )))
-                          ? (copyIsArray
-                              ? ((copyIsArray = !1),
-                              (clone = src && jQuery.isArray(
-                                  src
-                              )
-                                  ? src
-                                  : []))
-                              : (clone = src && jQuery.isPlainObject(
-                                  src
-                              )
-                                  ? src
-                                  : {
-                                  }),
-                          (target[name] = jQuery.extend(
-                              deep,
-                              clone,
-                              copy
-                          )))
-                          : copy !== undefined && (target[name] = copy);
-                  }
+                  for (name in options)
+                      (src = target[name]),
+                      target !== (copy = options[name]) &&
+                  (deep &&
+                  copy &&
+                  (jQuery.isPlainObject(
+                      copy
+                  ) ||
+                    (copyIsArray = jQuery.isArray(
+                        copy
+                    )))
+                      ? (copyIsArray
+                          ? ((copyIsArray = !1),
+                          (clone = src && jQuery.isArray(
+                              src
+                          )
+                              ? src
+                              : []))
+                          : (clone = src && jQuery.isPlainObject(
+                              src
+                          )
+                              ? src
+                              : {
+                              }),
+                      (target[name] = jQuery.extend(
+                          deep,
+                          clone,
+                          copy
+                      )))
+                      : copy !== undefined && (target[name] = copy));
           return target;
       }),
     jQuery.extend(
@@ -9648,60 +9647,53 @@
                   origName
               ))),
                         (hooks = jQuery.cssHooks[name] || jQuery.cssHooks[origName]),
-                        value !== undefined)
-                    ) {
-                        if (
-                            ("string" == (type = typeof value) &&
-                (ret = rrelNum.exec(
-                    value
-                )) &&
-                ((value =
-                  (ret[1] + 1) * ret[2] + parseFloat(
-                      jQuery.css(
-                          elem,
-                          name
-                      )
-                  )),
-                (type = "number")),
-                            null == value || ("number" === type && isNaN(
-                                value
-                            )))
-                        )
-                            return;
-                        if (
-                            ("number" !== type ||
-                jQuery.cssNumber[origName] ||
-                (value += "px"),
-                            jQuery.support.clearCloneStyle ||
-                "" !== value ||
-                0 !== name.indexOf(
-                    "background"
-                ) ||
-                (style[name] = "inherit"),
-                            !hooks ||
-                !("set" in hooks) ||
-                undefined !== (value = hooks.set(
-                    elem,
-                    value,
-                    extra
-                )))
-                        )
-                            try {
-                                style[name] = value;
-                            } catch (e) {}
-                    } else {
-                        if (
-                            hooks &&
+                        value === undefined)
+                    )
+                        return hooks &&
               "get" in hooks &&
               undefined !== (ret = hooks.get(
                   elem,
                   !1,
                   extra
               ))
-                        )
-                            return ret;
-                        return style[name];
-                    }
+                            ? ret
+                            : style[name];
+                    if (
+                        ("string" == (type = typeof value) &&
+              (ret = rrelNum.exec(
+                  value
+              )) &&
+              ((value =
+                (ret[1] + 1) * ret[2] + parseFloat(
+                    jQuery.css(
+                        elem,
+                        name
+                    )
+                )),
+              (type = "number")),
+                        !(null == value || ("number" === type && isNaN(
+                            value
+                        ))) &&
+              ("number" !== type ||
+                jQuery.cssNumber[origName] ||
+                (value += "px"),
+              jQuery.support.clearCloneStyle ||
+                "" !== value ||
+                0 !== name.indexOf(
+                    "background"
+                ) ||
+                (style[name] = "inherit"),
+              !hooks ||
+                !("set" in hooks) ||
+                undefined !== (value = hooks.set(
+                    elem,
+                    value,
+                    extra
+                ))))
+                    )
+                        try {
+                            style[name] = value;
+                        } catch (e) {}
                 }
             },
             css: function (

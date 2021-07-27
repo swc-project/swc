@@ -7045,17 +7045,18 @@
                                     target,
                                     "mobile-button"
                                 ))
-                            ) {
-                                if (!getAjaxFormData(
+                            )
+                                getAjaxFormData(
                                     $17(
                                         target
                                     ).closest(
                                         "form"
                                     ),
                                     !0
-                                )) return;
-                                target.parentNode && (target = target.parentNode);
-                            } else {
+                                ) &&
+                    target.parentNode &&
+                    (target = target.parentNode);
+                            else {
                                 if (
                                     !(
                                         (target = findClosestLink(
@@ -11044,7 +11045,6 @@
                                 left,
                                 width,
                                 data,
-                                tol,
                                 pxStep,
                                 percent,
                                 control,
@@ -11102,7 +11102,7 @@
                     ).prependTo(
                         this.slider
                     ))),
-                                this.handle.addClass(
+                                (this.handle.addClass(
                                     "ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow",
                                 ),
                                 (control = this.element),
@@ -11138,131 +11138,124 @@
                       )
                       : 1),
                                 "object" == typeof val)
-                            ) {
-                                if (
-                                    ((data = val),
-                                    (tol = 8),
+                                    ? ((data = val),
                                     (left = this.slider.offset(
                                     ).left),
                                     (pxStep =
-                    (width = this.slider.width(
-                    )) / ((max - min) / step)),
+                      (width = this.slider.width(
+                      )) / ((max - min) / step)),
                                     !this.dragging ||
-                    data.pageX < left - tol ||
-                    data.pageX > left + width + tol)
-                                )
-                                    return;
-                                percent =
-                  pxStep > 1
-                      ? ((data.pageX - left) / width) * 100
-                      : Math.round(
-                          ((data.pageX - left) / width) * 100
-                      );
-                            } else
-                                null == val &&
-                  (val = isInput
-                      ? parseFloat(
-                          control.val(
-                          ) || 0
-                      )
-                      : control[0].selectedIndex),
-                                (percent = ((parseFloat(
-                                    val
-                                ) - min) / (max - min)) * 100);
-                            if (
+                      data.pageX < left - 8 ||
+                      data.pageX > left + width + 8 ||
+                      (percent =
+                        pxStep > 1
+                            ? ((data.pageX - left) / width) * 100
+                            : Math.round(
+                                ((data.pageX - left) / width) * 100
+                            )))
+                                    : (null == val &&
+                      (val = isInput
+                          ? parseFloat(
+                              control.val(
+                              ) || 0
+                          )
+                          : control[0].selectedIndex),
+                                    (percent = ((parseFloat(
+                                        val
+                                    ) - min) / (max - min)) * 100)),
                                 !isNaN(
                                     percent
                                 ) &&
-                ((alignValue =
-                  newval -
-                  (valModStep =
-                    ((newval = (percent / 100) * (max - min) + min) - min) %
-                    step)),
-                2 * Math.abs(
-                    valModStep
-                ) >= step &&
-                  (alignValue += valModStep > 0 ? step : -step),
-                (percentPerStep = 100 / ((max - min) / step)),
-                (newval = parseFloat(
-                    alignValue.toFixed(
-                        5
-                    )
-                )),
-                void 0 === pxStep && (pxStep = width / ((max - min) / step)),
-                pxStep > 1 &&
-                  isInput &&
-                  (percent = (newval - min) * percentPerStep * (1 / step)),
-                percent < 0 && (percent = 0),
-                percent > 100 && (percent = 100),
-                newval < min && (newval = min),
-                newval > max && (newval = max),
-                this.handle.css(
-                    "left",
-                    percent + "%"
-                ),
-                this.handle[0].setAttribute(
-                    "aria-valuenow",
-                    isInput
-                        ? newval
-                        : optionElements.eq(
-                            newval
-                        ).attr(
-                            "value"
-                        ),
-                ),
-                this.handle[0].setAttribute(
-                    "aria-valuetext",
-                    isInput
-                        ? newval
-                        : optionElements.eq(
-                            newval
-                        ).getEncodedText(
-                        ),
-                ),
-                this.handle[0].setAttribute(
-                    "title",
-                    isInput
-                        ? newval
-                        : optionElements.eq(
-                            newval
-                        ).getEncodedText(
-                        ),
-                ),
-                this.valuebg && this.valuebg.css(
-                    "width",
-                    percent + "%"
-                ),
-                this._labels &&
-                  ((handlePercent =
-                    (this.handle.width(
-                    ) / this.slider.width(
-                    )) * 100),
-                  (aPercent =
-                    percent &&
-                    handlePercent + ((100 - handlePercent) * percent) / 100),
-                  (bPercent =
-                    100 === percent
-                        ? 0
-                        : Math.min(
-                            handlePercent + 100 - aPercent,
-                            100
-                        )),
-                  this._labels.each(
-                      function (
-                      ) {
-                          var ab = $17(
-                              this
-                          ).hasClass(
-                              "ui-slider-label-a"
-                          );
-                          $17(
-                              this
-                          ).width(
-                              (ab ? aPercent : bPercent) + "%"
-                          );
-                      }
+                  ((alignValue =
+                    newval -
+                    (valModStep =
+                      ((newval = (percent / 100) * (max - min) + min) - min) %
+                      step)),
+                  2 * Math.abs(
+                      valModStep
+                  ) >= step &&
+                    (alignValue += valModStep > 0 ? step : -step),
+                  (percentPerStep = 100 / ((max - min) / step)),
+                  (newval = parseFloat(
+                      alignValue.toFixed(
+                          5
+                      )
                   )),
-                !preventInputUpdate)
+                  void 0 === pxStep && (pxStep = width / ((max - min) / step)),
+                  pxStep > 1 &&
+                    isInput &&
+                    (percent = (newval - min) * percentPerStep * (1 / step)),
+                  percent < 0 && (percent = 0),
+                  percent > 100 && (percent = 100),
+                  newval < min && (newval = min),
+                  newval > max && (newval = max),
+                  this.handle.css(
+                      "left",
+                      percent + "%"
+                  ),
+                  this.handle[0].setAttribute(
+                      "aria-valuenow",
+                      isInput
+                          ? newval
+                          : optionElements.eq(
+                              newval
+                          ).attr(
+                              "value"
+                          ),
+                  ),
+                  this.handle[0].setAttribute(
+                      "aria-valuetext",
+                      isInput
+                          ? newval
+                          : optionElements.eq(
+                              newval
+                          ).getEncodedText(
+                          ),
+                  ),
+                  this.handle[0].setAttribute(
+                      "title",
+                      isInput
+                          ? newval
+                          : optionElements.eq(
+                              newval
+                          ).getEncodedText(
+                          ),
+                  ),
+                  this.valuebg && this.valuebg.css(
+                      "width",
+                      percent + "%"
+                  ),
+                  this._labels &&
+                    ((handlePercent =
+                      (this.handle.width(
+                      ) / this.slider.width(
+                      )) * 100),
+                    (aPercent =
+                      percent &&
+                      handlePercent + ((100 - handlePercent) * percent) / 100),
+                    (bPercent =
+                      100 === percent
+                          ? 0
+                          : Math.min(
+                              handlePercent + 100 - aPercent,
+                              100
+                          )),
+                    this._labels.each(
+                        function (
+                        ) {
+                            var ab = $17(
+                                this
+                            ).hasClass(
+                                "ui-slider-label-a"
+                            );
+                            $17(
+                                this
+                            ).width(
+                                (ab ? aPercent : bPercent) + "%"
+                            );
+                        }
+                    )),
+                  !preventInputUpdate))
                             ) {
                                 if (
                                     ((valueChanged = !1),
@@ -18464,44 +18457,40 @@
                         var val,
                             lastval,
                             search = this._search;
-                        if (search) {
-                            if (
-                                ((val = search.val(
-                                ).toLowerCase(
-                                )),
-                                (lastval = $17.mobile.getAttribute(
-                                    search[0],
-                                    "lastval"
-                                ) + "") &&
-                lastval === val)
-                            )
-                                return;
-                            this._timer &&
-              (window.clearTimeout(
-                  this._timer
-              ), (this._timer = 0)),
-                            (this._timer = this._delay(
-                                function (
-                                ) {
-                                    this._trigger(
-                                        "beforefilter",
-                                        null,
-                                        {
-                                            input: search,
-                                        }
-                                    ),
-                                    search[0].setAttribute(
-                                        "data-" + $17.mobile.ns + "lastval",
-                                        val,
-                                    ),
-                                    this._filterItems(
-                                        val
-                                    ),
-                                    (this._timer = 0);
-                                },
-                                250
-                            ));
-                        }
+                        !search ||
+            ((val = search.val(
+            ).toLowerCase(
+            )),
+            ((lastval = $17.mobile.getAttribute(
+                search[0],
+                "lastval"
+            ) + "") &&
+              lastval === val) ||
+              (this._timer &&
+                (window.clearTimeout(
+                    this._timer
+                ), (this._timer = 0)),
+              (this._timer = this._delay(
+                  function (
+                  ) {
+                      this._trigger(
+                          "beforefilter",
+                          null,
+                          {
+                              input: search,
+                          }
+                      ),
+                      search[0].setAttribute(
+                          "data-" + $17.mobile.ns + "lastval",
+                          val,
+                      ),
+                      this._filterItems(
+                          val
+                      ),
+                      (this._timer = 0);
+                  },
+                  250
+              ))));
                     },
                     _getFilterableItems: function (
                     ) {
@@ -18829,45 +18818,44 @@
                         updatePlaceholder = !0,
                         textinputOpts = {
                         };
-                    if (!selector) {
-                        if (this._isSearchInternal(
-                        )) return;
-                        (updatePlaceholder = !1),
-                        (selector = $16(
-                            "<input data-" +
+                    selector ||
+          (!this._isSearchInternal(
+          ) &&
+            ((updatePlaceholder = !1),
+            (selector = $16(
+                "<input data-" +
                 $16.mobile.ns +
                 "type='search' placeholder='" +
                 opts.filterPlaceholder +
                 "'></input>",
-                        ).jqmData(
-                            "ui-filterable-" + this.uuid + "-internal",
-                            !0
-                        )),
-                        $16(
-                            "<form class='ui-filterable'></form>"
-                        )
-                            .append(
-                                selector
-                            )
-                            .submit(
-                                function (
-                                    evt
-                                ) {
-                                    evt.preventDefault(
-                                    ), selector.blur(
-                                    );
-                                }
-                            )
-                            .insertBefore(
-                                this.element
-                            ),
-                        $16.mobile.textinput &&
+            ).jqmData(
+                "ui-filterable-" + this.uuid + "-internal",
+                !0
+            )),
+            $16(
+                "<form class='ui-filterable'></form>"
+            )
+                .append(
+                    selector
+                )
+                .submit(
+                    function (
+                        evt
+                    ) {
+                        evt.preventDefault(
+                        ), selector.blur(
+                        );
+                    }
+                )
+                .insertBefore(
+                    this.element
+                ),
+            $16.mobile.textinput &&
               (null != this.options.filterTheme &&
                 (textinputOpts.theme = opts.filterTheme),
               selector.textinput(
                   textinputOpts
-              ));
-                    }
+              )))),
                     this._super(
                         selector
                     ),

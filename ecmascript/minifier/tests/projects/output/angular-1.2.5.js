@@ -619,18 +619,18 @@
                 )
                     return !1;
                 for (key in ((keySet = {
-                }), o1)) {
-                    if ("$" === key.charAt(
+                }), o1))
+                    if (!("$" === key.charAt(
                         0
                     ) || isFunction(
                         o1[key]
-                    )) continue;
-                    if (!equals(
-                        o1[key],
-                        o2[key]
-                    )) return !1;
-                    keySet[key] = !0;
-                }
+                    ))) {
+                        if (!equals(
+                            o1[key],
+                            o2[key]
+                        )) return !1;
+                        keySet[key] = !0;
+                    }
                 for (key in o2)
                     if (
                         !keySet.hasOwnProperty(
