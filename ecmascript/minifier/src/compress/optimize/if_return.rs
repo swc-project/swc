@@ -484,6 +484,11 @@ impl Optimizer<'_> {
     fn merge_if_returns_to(&mut self, stmt: Stmt, mut exprs: Vec<Box<Expr>>) -> Expr {
         //
         match stmt {
+            Stmt::Block(s) => {
+                assert_eq!(s.stmts.len(), 1);
+                self.merge_if_returns_to(s.stmts.into_iter().next().unwrap(), exprs)
+            }
+
             Stmt::If(IfStmt {
                 span,
                 test,
