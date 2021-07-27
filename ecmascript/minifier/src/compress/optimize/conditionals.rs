@@ -1,6 +1,7 @@
 use super::Optimizer;
 use crate::compress::optimize::bools::negate_cost;
 use crate::compress::optimize::Ctx;
+use crate::compress::optimize::DISABLE_BUGGY_PASSES;
 use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::SpanExt;
@@ -797,6 +798,63 @@ impl Optimizer<'_> {
 
             _ => None,
         }
+    }
+
+    pub(super) fn inject_else(&mut self, stmts: &mut Vec<Stmt>) {
+        if DISABLE_BUGGY_PASSES {
+            return;
+        }
+
+        let len = stmts.len();
+
+        let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
+            idx != len - 1
+                && match s {
+                    Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    }) => match &**cons {
+                        Stmt::Block(..) => always_terminates(&cons),
+                        _ => false,
+                    },
+                    _ => false,
+                }
+        });
+
+        let pos_of_if = match pos_of_if {
+            Some(v) => v,
+            _ => return,
+        };
+
+        self.changed = true;
+        log::debug!("if_return: Injecting else because it's shorter");
+
+        let mut new = vec![];
+        new.reserve(pos_of_if + 1);
+        new.extend(stmts.drain(..pos_of_if));
+        let alt = stmts.drain(1..).collect::<Vec<_>>();
+
+        let if_stmt = stmts.take().into_iter().next().unwrap();
+        match if_stmt {
+            Stmt::If(mut s) => {
+                assert_eq!(s.alt, None);
+
+                s.alt = Some(if alt.len() == 1 {
+                    Box::new(alt.into_iter().next().unwrap())
+                } else {
+                    Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: alt,
+                    }))
+                });
+
+                new.push(Stmt::If(s))
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+
+        *stmts = new;
     }
 
     /// if (foo) return bar()
