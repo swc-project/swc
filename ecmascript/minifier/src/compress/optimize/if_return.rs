@@ -259,7 +259,7 @@ impl Optimizer<'_> {
         let skip = idx_of_not_mergable.map(|v| v + 1).unwrap_or(0);
         log::trace!("if_return: Skip = {}", skip);
 
-        if stmts.len() <= skip {
+        if stmts.len() <= skip + 1 {
             log::trace!("if_return: Aborting because of skip");
             return;
         }
