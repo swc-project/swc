@@ -229,12 +229,16 @@ impl Optimizer<'_> {
     /// }
     /// ```
     pub(super) fn merge_if_returns(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.options.if_return || stmts.len() <= 1 {
+        if !self.options.if_return {
             return;
         }
 
         for stmt in stmts.iter_mut() {
             self.merge_nested_if_returns(stmt)
+        }
+
+        if stmts.len() <= 1 {
+            return;
         }
 
         let idx_of_not_mergable = stmts.iter().rposition(|stmt| match stmt.as_stmt() {
