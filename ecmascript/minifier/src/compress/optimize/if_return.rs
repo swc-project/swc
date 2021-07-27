@@ -144,7 +144,7 @@ impl Optimizer<'_> {
                 ..
             })) => {
                 match &**cons_of_alt {
-                    Stmt::Return(..) => {}
+                    Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {}
                     _ => return,
                 }
 
