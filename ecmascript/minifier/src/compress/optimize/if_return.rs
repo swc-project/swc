@@ -47,7 +47,33 @@ impl Optimizer<'_> {
     ///         console.log(b);
     /// }
     /// ```
-    pub(super) fn negate_if_terminate(&mut self, stmts: &mut Vec<Stmt>) {
+    pub(super) fn negate_if_terminate(
+        &mut self,
+        stmts: &mut Vec<Stmt>,
+        handle_return: bool,
+        handle_continue: bool,
+    ) {
+        for stmt in stmts.iter_mut() {
+            match stmt {
+                Stmt::For(ForStmt { body, .. })
+                | Stmt::ForIn(ForInStmt { body, .. })
+                | Stmt::ForOf(ForOfStmt {
+                    body,
+                    await_token: None,
+                    ..
+                }) => {
+                    // Handle contioues.
+                    match &mut **body {
+                        Stmt::Block(body) => {
+                            self.negate_if_terminate(&mut body.stmts, false, true);
+                        }
+                        _ => {}
+                    }
+                }
+                _ => {}
+            }
+        }
+
         let len = stmts.len();
 
         let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
@@ -56,9 +82,9 @@ impl Optimizer<'_> {
                     Stmt::If(IfStmt {
                         cons, alt: None, ..
                     }) => match &**cons {
-                        Stmt::Return(ReturnStmt { arg: None, .. }) => true,
+                        Stmt::Return(ReturnStmt { arg: None, .. }) => handle_return,
 
-                        Stmt::Continue(ContinueStmt { label: None, .. }) => true,
+                        Stmt::Continue(ContinueStmt { label: None, .. }) => handle_continue,
                         _ => false,
                     },
                     _ => false,
