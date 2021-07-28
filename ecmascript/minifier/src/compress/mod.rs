@@ -110,17 +110,6 @@ impl Compressor<'_> {
             return;
         }
 
-        {
-            let mut v = decl_hoister(DeclHoisterConfig {
-                hoist_fns: self.options.hoist_fns,
-                hoist_vars: self.options.hoist_vars,
-                top_level: self.options.top_level(),
-            });
-            stmts.visit_mut_with(&mut v);
-            self.changed |= v.changed();
-        }
-        // TODO: Hoist decls
-
         stmts.visit_mut_children_with(self);
 
         // TODO: drop unused
@@ -252,6 +241,16 @@ impl VisitMut for Compressor<'_> {
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        {
+            let mut v = decl_hoister(DeclHoisterConfig {
+                hoist_fns: self.options.hoist_fns,
+                hoist_vars: self.options.hoist_vars,
+                top_level: self.options.top_level(),
+            });
+            stmts.visit_mut_with(&mut v);
+            self.changed |= v.changed();
+        }
+
         self.handle_stmt_likes(stmts);
 
         stmts.retain(|stmt| match stmt {
@@ -267,6 +266,20 @@ impl VisitMut for Compressor<'_> {
             }
             _ => true,
         });
+    }
+
+    fn visit_mut_script(&mut self, script: &mut Script) {
+        {
+            let mut v = decl_hoister(DeclHoisterConfig {
+                hoist_fns: self.options.hoist_fns,
+                hoist_vars: self.options.hoist_vars,
+                top_level: self.options.top_level(),
+            });
+            script.body.visit_mut_with(&mut v);
+            self.changed |= v.changed();
+        }
+
+        script.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
