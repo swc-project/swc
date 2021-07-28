@@ -1,4 +1,3 @@
-use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::option::CompressOptions;
@@ -70,6 +69,7 @@ pub(super) fn optimizer<'a>(
     cm: Lrc<SourceMap>,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
+    data: &'a ProgramData,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -91,7 +91,7 @@ pub(super) fn optimizer<'a>(
         simple_props: Default::default(),
         _simple_array_values: Default::default(),
         typeofs: Default::default(),
-        data: Default::default(),
+        data: Some(data),
         ctx: Default::default(),
         done,
         done_ctxt,
@@ -212,7 +212,7 @@ struct Optimizer<'a> {
     ///
     /// This is calculated multiple time, but only once per one
     /// `visit_mut_module`.
-    data: Option<ProgramData>,
+    data: Option<&'a ProgramData>,
     ctx: Ctx,
     /// In future: This will be used to `mark` node as done.
     done: Mark,
@@ -245,7 +245,7 @@ impl Optimizer<'_> {
         match self.data {
             Some(..) => {}
             None => {
-                self.data = Some(analyze(stmts));
+                unreachable!()
             }
         }
         let prepend_stmts = self.prepend_stmts.take();

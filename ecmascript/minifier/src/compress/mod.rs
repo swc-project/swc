@@ -1,6 +1,8 @@
 use self::drop_console::drop_console;
 use self::hoist_decls::DeclHoisterConfig;
 use self::optimize::optimizer;
+use crate::analyzer::analyze;
+use crate::analyzer::ProgramData;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::debug::invoke;
@@ -52,6 +54,7 @@ pub fn compressor<'a>(
         options,
         pass: 0,
         changed: false,
+        data: None,
     };
 
     chain!(
@@ -67,6 +70,7 @@ struct Compressor<'a> {
     comments: Option<&'a dyn Comments>,
     changed: bool,
     pass: usize,
+    data: Option<ProgramData>,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -83,6 +87,7 @@ impl Repeated for Compressor<'_> {
     fn reset(&mut self) {
         self.changed = false;
         self.pass += 1;
+        self.data = None;
     }
 }
 
@@ -90,7 +95,7 @@ impl Compressor<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<Self> + VisitMutWith<hoist_decls::Hoister>,
+        Vec<T>: VisitMutWith<Self> + for<'aa> VisitMutWith<hoist_decls::Hoister<'aa>>,
     {
         // Skip if `use asm` exists.
         if stmts.iter().any(|stmt| match stmt.as_stmt() {
@@ -120,6 +125,9 @@ impl VisitMut for Compressor<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        debug_assert!(self.data.is_none());
+        self.data = Some(analyze(&*n));
+
         if self.options.passes != 0 && self.options.passes + 1 <= self.pass {
             let done = dump(&*n);
             log::debug!("===== Done =====\n{}", done);
@@ -185,7 +193,12 @@ impl VisitMut for Compressor<'_> {
             // TODO: reset_opt_flags
             //
             // This is swc version of `node.optimize(this);`.
-            let mut visitor = optimizer(self.cm.clone(), self.options, self.comments);
+            let mut visitor = optimizer(
+                self.cm.clone(),
+                self.options,
+                self.comments,
+                self.data.as_ref().unwrap(),
+            );
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
 
@@ -242,11 +255,14 @@ impl VisitMut for Compressor<'_> {
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         {
-            let mut v = decl_hoister(DeclHoisterConfig {
-                hoist_fns: self.options.hoist_fns,
-                hoist_vars: self.options.hoist_vars,
-                top_level: self.options.top_level(),
-            });
+            let mut v = decl_hoister(
+                DeclHoisterConfig {
+                    hoist_fns: self.options.hoist_fns,
+                    hoist_vars: self.options.hoist_vars,
+                    top_level: self.options.top_level(),
+                },
+                self.data.as_ref().unwrap(),
+            );
             stmts.visit_mut_with(&mut v);
             self.changed |= v.changed();
         }
@@ -268,18 +284,24 @@ impl VisitMut for Compressor<'_> {
         });
     }
 
-    fn visit_mut_script(&mut self, script: &mut Script) {
+    fn visit_mut_script(&mut self, n: &mut Script) {
+        debug_assert!(self.data.is_none());
+        self.data = Some(analyze(&*n));
+
         {
-            let mut v = decl_hoister(DeclHoisterConfig {
-                hoist_fns: self.options.hoist_fns,
-                hoist_vars: self.options.hoist_vars,
-                top_level: self.options.top_level(),
-            });
-            script.body.visit_mut_with(&mut v);
+            let mut v = decl_hoister(
+                DeclHoisterConfig {
+                    hoist_fns: self.options.hoist_fns,
+                    hoist_vars: self.options.hoist_vars,
+                    top_level: self.options.top_level(),
+                },
+                self.data.as_ref().unwrap(),
+            );
+            n.body.visit_mut_with(&mut v);
             self.changed |= v.changed();
         }
 
-        script.visit_mut_children_with(self);
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
