@@ -156,6 +156,8 @@ impl VisitMut for Compressor<'_> {
                 self.pass
             );
 
+            let start_time = Instant::now();
+
             let mut visitor = expr_simplifier();
             n.visit_mut_with(&mut visitor);
             self.changed |= visitor.changed();
@@ -165,6 +167,14 @@ impl VisitMut for Compressor<'_> {
                     log::debug!("===== Simplified =====\n{}", dump(&*n));
                 }
             }
+
+            let end_time = Instant::now();
+
+            log::info!(
+                "compress: expr_simplifier took {:?} (pass = {})",
+                end_time - start_time,
+                self.pass
+            );
 
             if cfg!(feature = "debug") && !visitor.changed() {
                 let simplified = dump(&n.clone().fold_with(&mut fixer(None)));
@@ -208,8 +218,12 @@ impl VisitMut for Compressor<'_> {
                 "".into()
             };
 
+            let start_time = Instant::now();
+
             let mut v = dead_branch_remover();
             n.map_with_mut(|n| n.fold_with(&mut v));
+
+            let end_time = Instant::now();
 
             if cfg!(feature = "debug") {
                 let simplified = dump(&*n);
@@ -222,6 +236,12 @@ impl VisitMut for Compressor<'_> {
                     );
                 }
             }
+
+            log::info!(
+                "compress: dead_branch_remover took {:?} (pass = {})",
+                end_time - start_time,
+                self.pass
+            );
 
             self.changed |= v.changed();
         }
