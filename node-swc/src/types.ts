@@ -356,6 +356,14 @@ export interface EsParserConfig {
   /**
    * Defaults to `false`
    */
+  exportDefaultFrom?: boolean;
+   /**
+   * Defaults to `false`
+   */
+  exportNamespaceFrom?: boolean;
+  /**
+   * Defaults to `false`
+   */
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
@@ -366,11 +374,7 @@ export interface EsParserConfig {
   /**
    * Defaults to `false`
    */
-  exportDefaultFrom?: boolean;
-  /**
-   * Defaults to `false`
-   */
-  exportNamespaceFrom?: boolean;
+   optionalChaining?: boolean;
   /**
    * Defaults to `false`
    */
@@ -378,15 +382,11 @@ export interface EsParserConfig {
   /**
    * Defaults to `false`
    */
-  importAssertions?: boolean;
-  /**
-   * Defaults to `false`
-   */
   topLevelAwait?: boolean;
   /**
    * Defaults to `false`
    */
-   optionalChaining?: boolean;
+  importAssertions?: boolean;
 }
 
 /**
