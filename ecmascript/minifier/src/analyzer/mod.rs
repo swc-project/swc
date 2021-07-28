@@ -38,7 +38,7 @@ where
 
     let end_time = Instant::now();
 
-    log::info!("analysis: Scope analysis took {:?}", end_time - start_time,);
+    log::debug!("Scope analysis took {:?}", end_time - start_time);
 
     v.data
 }
