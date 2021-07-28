@@ -12,6 +12,8 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
+use std::time::Instant;
+
 use crate::compress::compressor;
 use crate::hygiene::unique_marker;
 use crate::option::ExtraOptions;
@@ -52,6 +54,7 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
+    let start = Instant::now();
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //
@@ -64,9 +67,12 @@ pub fn optimize(
             m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
     }
+    log::info!("global_defs took {:?}", Instant::now() - start);
 
     if let Some(options) = &options.compress {
+        let start = Instant::now();
         m.visit_mut_with(&mut precompress_optimizer(options.clone()));
+        log::info!("precompress took {:?}", Instant::now() - start);
     }
 
     m.visit_mut_with(&mut unique_marker());
@@ -99,10 +105,14 @@ pub fn optimize(
         t.section("compress");
     }
     if let Some(options) = &options.compress {
+        let start = Instant::now();
         m = m.fold_with(&mut compressor(cm.clone(), &options, comments));
+        log::info!("compressor took {:?}", Instant::now() - start);
         // Again, we don't need to validate ast
 
+        let start = Instant::now();
         m.visit_mut_with(&mut postcompress_optimizer(options));
+        log::info!("postcompressor took {:?}", Instant::now() - start);
     }
 
     if let Some(ref mut _t) = timings {
