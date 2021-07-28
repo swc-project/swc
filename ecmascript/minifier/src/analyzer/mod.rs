@@ -4,6 +4,7 @@ use crate::util::idents_used_by;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
+use std::time::Instant;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -24,6 +25,8 @@ pub(crate) fn analyze<N>(n: &N) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
+    let start_time = Instant::now();
+
     let mut v = UsageAnalyzer {
         data: Default::default(),
         scope: Default::default(),
@@ -32,6 +35,10 @@ where
     n.visit_with(&Invalid { span: DUMMY_SP }, &mut v);
     let top_scope = v.scope;
     v.data.top.merge(top_scope, false);
+
+    let end_time = Instant::now();
+
+    log::info!("analysis: Scope analysis took {:?}", end_time - start_time,);
 
     v.data
 }
