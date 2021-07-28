@@ -375,6 +375,18 @@ export interface EsParserConfig {
    * Defaults to `false`
    */
   importMeta?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  importAssertions?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  topLevelAwait?: boolean;
+  /**
+   * Defaults to `false`
+   */
+   optionalChaining?: boolean;
 }
 
 /**
