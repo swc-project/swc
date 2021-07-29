@@ -1,12 +1,13 @@
 use super::Optimizer;
-use crate::analyzer::analyze;
 use crate::compress::optimize::is_left_access_to_arguments;
 use std::iter::repeat_with;
 use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
+use swc_ecma_utils::find_ids;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::private_ident;
+use swc_ecma_utils::Id;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
@@ -75,9 +76,9 @@ impl Optimizer<'_> {
 
         {
             // If a function has a variable named `arguments`, we abort.
-            let data = analyze(&f.body);
-            for (id, var) in &data.vars {
-                if id.0 == js_word!("arguments") && var.declared {
+            let data: Vec<Id> = find_ids(&f.body);
+            for id in &data {
+                if id.0 == js_word!("arguments") {
                     return;
                 }
             }
