@@ -1,4 +1,4 @@
-import   "core-js/modules/web.dom.iterable";
+import "core-js/modules/web.dom.iterable";
 Array.from;
 Map;
 new Promise();
@@ -15,7 +15,7 @@ G.assign;
 function H(WeakMap) {
     var blah = new WeakMap();
 }
-var asdf = 'copyWithin';
+var asdf = "copyWithin";
 i[asdf];
 j[`copyWithin`];
-var { [asdf]: _a  } = k;
+var { [asdf]: _a } = k;

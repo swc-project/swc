@@ -1,19 +1,19 @@
-import   "core-js/modules/es.array.reduce";
-import   "core-js/modules/es.array.reduce-right";
-import   "core-js/modules/es.array.unscopables.flat";
-import   "core-js/modules/es.array.unscopables.flat-map";
-import   "core-js/modules/es.math.hypot";
-import   "core-js/modules/es.object.from-entries";
-import   "core-js/modules/web.immediate";
+import "core-js/modules/es.array.reduce";
+import "core-js/modules/es.array.reduce-right";
+import "core-js/modules/es.array.unscopables.flat";
+import "core-js/modules/es.array.unscopables.flat-map";
+import "core-js/modules/es.math.hypot";
+import "core-js/modules/es.object.from-entries";
+import "core-js/modules/web.immediate";
 const foo = {
-    a: true
+    a: true,
 };
 const bar = {
     ...foo,
-    b: false
+    b: false,
 };
 async function baz() {
-    for await (const x of someAsyncThing()){
+    for await (const x of someAsyncThing()) {
         console.log(x);
     }
 }

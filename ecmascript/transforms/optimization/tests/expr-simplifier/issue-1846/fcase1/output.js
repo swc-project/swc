@@ -1,7 +1,7 @@
-import   "reflect-metadata";
-const Test = (target)=>{
-    const metadata = Reflect.getMetadataKeys(target).reduce((metadata, key)=>{
-        const { [key]: values = []  } = metadata;
+import "reflect-metadata";
+const Test = (target) => {
+    const metadata = Reflect.getMetadataKeys(target).reduce((metadata, key) => {
+        const { [key]: values = [] } = metadata;
         const all = Reflect.getMetadata(key, target);
         const own = Reflect.getOwnMetadata(key, target);
         return {
@@ -9,16 +9,14 @@ const Test = (target)=>{
             [key]: [
                 {
                     all,
-                    own
+                    own,
                 },
-                ...values
-            ]
+                ...values,
+            ],
         };
-    }, {
-    });
+    }, {});
     console.dir(metadata, {
-        depth: 5
+        depth: 5,
     });
 };
-export class Foo {
-}
+export class Foo {}
