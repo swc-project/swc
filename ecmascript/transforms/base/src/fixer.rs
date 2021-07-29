@@ -4,6 +4,12 @@ use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
+/// Fixes ast nodes before printing so semantics are preserved.
+///
+/// You don't have to bother to create appropriate parenthesis.
+/// The pass will insert parenthesis as needed. In other words, it's
+/// okay to store `a * (b + c)` as `Bin { a * Bin { b + c } }`.
+
 pub fn fixer<'a>(comments: Option<&'a dyn Comments>) -> impl 'a + Fold + VisitMut {
     as_folder(Fixer {
         comments,
