@@ -1,11 +1,13 @@
 use proc_macro::TokenStream;
-use proc_macro2::Span;
 use quote::ToTokens;
 use syn::ItemFn;
 
 mod fixture;
 
 /// Create tests from files.
+///
+/// **NOTE: Path should be relative to the directory of `Cargo.toml` file**.
+/// This is limitation of current proc macro api.
 ///
 /// # Why
 ///
@@ -55,9 +57,7 @@ pub fn fixture(attr: TokenStream, item: TokenStream) -> TokenStream {
     let config: self::fixture::Config =
         syn::parse(attr).expect("failed to parse input passed to #[fixture]");
 
-    let file = Span::call_site().source_file();
-
-    let cases = self::fixture::expand(&file, &item.sig.ident, config).unwrap();
+    let cases = self::fixture::expand(&item.sig.ident, config).unwrap();
 
     let mut output = proc_macro2::TokenStream::new();
 
