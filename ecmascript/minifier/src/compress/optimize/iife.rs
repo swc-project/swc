@@ -377,10 +377,54 @@ impl Optimizer<'_> {
                     }
                     BlockStmtOrExpr::Expr(body) => {
                         self.changed = true;
+
+                        {
+                            let vars = f
+                                .params
+                                .iter()
+                                .cloned()
+                                .map(|name| VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name,
+                                    init: Default::default(),
+                                    definite: Default::default(),
+                                })
+                                .collect::<Vec<_>>();
+
+                            if !vars.is_empty() {
+                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: Default::default(),
+                                    decls: vars,
+                                })));
+                            }
+                        }
+
+                        let mut exprs = vec![];
+                        exprs.push(Box::new(make_number(DUMMY_SP, 0.0)));
+                        for (idx, param) in f.params.iter().enumerate() {
+                            if let Some(arg) = call.args.get_mut(idx) {
+                                exprs.push(Box::new(Expr::Assign(AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: PatOrExpr::Pat(Box::new(param.clone())),
+                                    right: arg.expr.take(),
+                                })));
+                            }
+                        }
+
+                        if call.args.len() > f.params.len() {
+                            for arg in &mut call.args[f.params.len()..] {
+                                exprs.push(arg.expr.take());
+                            }
+                        }
+                        exprs.push(body.take());
+
                         log::debug!("inline: Inlining a call to an arrow function");
                         *e = Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
-                            exprs: vec![Box::new(make_number(DUMMY_SP, 0.0)), body.take()],
+                            exprs,
                         });
                         return;
                     }
