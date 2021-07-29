@@ -2,7 +2,6 @@ use super::Optimizer;
 use crate::compress::optimize::Ctx;
 use crate::util::idents_used_by;
 use crate::util::make_number;
-use crate::util::IdentUsageCollector;
 use fxhash::FxHashMap;
 use std::collections::HashMap;
 use std::mem::replace;
@@ -15,11 +14,9 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_utils::undefined;
-use swc_ecma_utils::DestructuringFinder;
+use swc_ecma_utils::ExprFactory;
 use swc_ecma_utils::Id;
-use swc_ecma_utils::{find_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
-use swc_ecma_visit::VisitWith;
 
 /// Methods related to the option `negate_iife`.
 impl Optimizer<'_> {
@@ -332,10 +329,6 @@ impl Optimizer<'_> {
                 }
 
                 if f.params.iter().any(|param| !param.is_ident()) {
-                    return;
-                }
-
-                if is_param_used_by_body(&f.params, &f.body) {
                     return;
                 }
 
@@ -760,30 +753,4 @@ impl Optimizer<'_> {
             _ => false,
         }
     }
-}
-
-// We can't remove a function call if a parameter is declared by function and
-// the body of the function uses it.
-fn is_param_used_by_body<P, B>(params: &P, body: &B) -> bool
-where
-    P: for<'any> VisitWith<DestructuringFinder<'any, Id>>,
-    B: VisitWith<IdentUsageCollector>,
-{
-    let declared: Vec<Id> = find_ids(params);
-
-    let used = idents_used_by(body);
-
-    for id in declared {
-        if used.contains(&id) {
-            return true;
-        }
-    }
-
-    for (sym, _) in used {
-        if sym == js_word!("arguments") {
-            return true;
-        }
-    }
-
-    false
 }
