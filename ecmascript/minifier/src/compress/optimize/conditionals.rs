@@ -393,14 +393,16 @@ impl Optimizer<'_> {
 
         match &*stmt.cons {
             Stmt::Empty(..) => {
-                if stmt.alt.is_none() {
-                    *s = Stmt::Expr(ExprStmt {
-                        span: stmt.span,
-                        expr: stmt.test.take(),
-                    });
-                    self.changed = true;
-                    log::debug!("conditionals: `if (foo);` => `foo` ");
-                    return;
+                if self.options.conditionals || self.options.unused {
+                    if stmt.alt.is_none() {
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr: stmt.test.take(),
+                        });
+                        self.changed = true;
+                        log::debug!("conditionals: `if (foo);` => `foo` ");
+                        return;
+                    }
                 }
             }
             _ => {}
