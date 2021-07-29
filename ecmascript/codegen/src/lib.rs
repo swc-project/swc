@@ -190,7 +190,7 @@ impl<'a> Emitter<'a> {
 
         if specifiers.is_empty() {
             if emitted_ns || emitted_default {
-                space!();
+                formatting_space!();
                 keyword!("from");
             }
         } else {
