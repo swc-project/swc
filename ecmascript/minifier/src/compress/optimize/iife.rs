@@ -432,7 +432,14 @@ impl Optimizer<'_> {
             }
             Expr::Fn(f) => {
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
-                    return;
+                    let body = f.function.body.as_ref().unwrap();
+                    let has_decl = body.stmts.iter().any(|stmt| match stmt {
+                        Stmt::Decl(..) => true,
+                        _ => false,
+                    });
+                    if has_decl {
+                        return;
+                    }
                 }
 
                 if f.function.is_generator {
