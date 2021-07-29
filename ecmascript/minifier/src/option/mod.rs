@@ -174,6 +174,7 @@ pub struct CompressOptions {
     #[serde(alias = "hoist_vars")]
     pub hoist_vars: bool,
 
+    /// No effect.
     #[serde(default)]
     #[serde(alias = "ie8")]
     pub ie8: bool,
