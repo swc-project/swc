@@ -1203,6 +1203,7 @@ impl Optimizer<'_> {
             }
         }
 
+        let mut right_val;
         let (left_id, right) = match a {
             Mergable::Expr(a) => {
                 match a {
@@ -1264,7 +1265,10 @@ impl Optimizer<'_> {
 
                 match &mut a.init {
                     Some(v) => (left, v),
-                    None => return false,
+                    None => {
+                        right_val = undefined(DUMMY_SP);
+                        (left, &mut right_val)
+                    }
                 }
             }
         };
@@ -1344,7 +1348,7 @@ impl Optimizer<'_> {
         vars.insert(
             left_id.to_id(),
             match a {
-                Mergable::Var(a) => a.init.take().unwrap(),
+                Mergable::Var(a) => a.init.take().unwrap_or_else(|| undefined(DUMMY_SP)),
                 Mergable::Expr(a) => Box::new(a.take()),
             },
         );
