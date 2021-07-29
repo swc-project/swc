@@ -915,8 +915,6 @@ reduce_vars/escape_local_conditional/input.js
 reduce_vars/escape_local_throw/input.js
 reduce_vars/escape_throw/input.js
 reduce_vars/escape_yield/input.js
-reduce_vars/escaped_prop_1/input.js
-reduce_vars/escaped_prop_2/input.js
 reduce_vars/for_in_prop/input.js
 reduce_vars/func_inline/input.js
 reduce_vars/iife_assign/input.js
