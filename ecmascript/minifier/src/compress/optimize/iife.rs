@@ -295,10 +295,6 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.inline_prevented {
-            return;
-        }
-
         let call = match e {
             Expr::Call(v) => v,
             _ => return,
@@ -312,6 +308,11 @@ impl Optimizer<'_> {
             ExprOrSuper::Super(_) => return,
             ExprOrSuper::Expr(e) => &mut **e,
         };
+
+        if self.ctx.inline_prevented {
+            log::trace!("iife: [x] Inline is prevented");
+            return;
+        }
 
         match callee {
             Expr::Arrow(f) => {
