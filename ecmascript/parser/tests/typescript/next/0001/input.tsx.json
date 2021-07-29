@@ -1,0 +1,164 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 0,
+    "end": 86,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 26,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "React",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 18,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "react",
+        "hasEscape": false,
+        "kind": {
+          "type": "normal",
+          "containsQuote": true
+        }
+      },
+      "typeOnly": false,
+      "asserts": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 27,
+        "end": 86,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 33,
+            "end": 85,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 33,
+              "end": 37,
+              "ctxt": 0
+            },
+            "value": "comp",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 40,
+              "end": 85,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "JSXElement",
+              "span": {
+                "start": 46,
+                "end": 85,
+                "ctxt": 0
+              },
+              "opening": {
+                "type": "JSXOpeningElement",
+                "name": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 47,
+                    "end": 60,
+                    "ctxt": 0
+                  },
+                  "value": "amp-something",
+                  "optional": false
+                },
+                "span": {
+                  "start": 46,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "attributes": [
+                  {
+                    "type": "JSXAttribute",
+                    "span": {
+                      "start": 61,
+                      "end": 82,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 61,
+                        "end": 70,
+                        "ctxt": 0
+                      },
+                      "value": "className",
+                      "optional": false
+                    },
+                    "value": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 71,
+                        "end": 82,
+                        "ctxt": 0
+                      },
+                      "value": "something",
+                      "hasEscape": false,
+                      "kind": {
+                        "type": "normal",
+                        "containsQuote": true
+                      }
+                    }
+                  }
+                ],
+                "selfClosing": true,
+                "typeArguments": null
+              },
+              "children": [],
+              "closing": null
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
