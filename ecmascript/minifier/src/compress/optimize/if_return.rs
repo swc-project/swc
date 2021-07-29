@@ -53,6 +53,10 @@ impl Optimizer<'_> {
         handle_continue: bool,
     ) {
         if handle_return {
+            if !self.options.if_return {
+                return;
+            }
+
             for s in stmts.iter_mut() {
                 match s {
                     Stmt::If(s) => match &mut *s.cons {
