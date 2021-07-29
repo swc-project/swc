@@ -189,8 +189,8 @@ impl<'a> Emitter<'a> {
         }
 
         if specifiers.is_empty() {
+            formatting_space!();
             if emitted_ns || emitted_default {
-                formatting_space!();
                 keyword!("from");
             }
         } else {
