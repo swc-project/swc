@@ -720,6 +720,10 @@ impl Optimizer<'_> {
             })
         }
 
+        if !self.options.sequences() {
+            return;
+        }
+
         let mut exprs = vec![];
         let mut buf = vec![];
 
