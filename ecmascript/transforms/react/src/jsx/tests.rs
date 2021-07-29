@@ -1294,7 +1294,7 @@ exports.default = RandomComponent;
 "#
 );
 
-#[testing::fixture("fixture/**/input.js")]
+#[testing::fixture("tests/jsx/fixture/**/input.js")]
 fn fixture(input: PathBuf) {
     let mut output = input.with_file_name("output.js");
     if !output.exists() {
