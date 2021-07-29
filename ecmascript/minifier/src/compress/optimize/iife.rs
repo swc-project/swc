@@ -496,17 +496,17 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if !self.can_inline_fn_like(body) {
-                    log::trace!("iife: [x] Body is not inliable");
-                    return;
-                }
-
                 let param_ids = f
                     .function
                     .params
                     .iter()
                     .map(|p| p.pat.clone().ident().unwrap().id)
                     .collect::<Vec<_>>();
+
+                if !self.can_inline_fn_like(&param_ids, body) {
+                    log::trace!("iife: [x] Body is not inliable");
+                    return;
+                }
 
                 let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
@@ -522,12 +522,20 @@ impl Optimizer<'_> {
         }
     }
 
-    fn can_inline_fn_like(&self, body: &BlockStmt) -> bool {
+    fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
         if !body.stmts.iter().all(|stmt| match stmt {
             Stmt::Decl(Decl::Var(VarDecl {
                 kind: VarDeclKind::Var | VarDeclKind::Let,
+                decls,
                 ..
             })) => {
+                if decls.iter().any(|decl| match decl.name {
+                    Pat::Ident(..) => false,
+                    _ => true,
+                }) {
+                    return false;
+                }
+
                 if self.ctx.executed_multiple_time {
                     return false;
                 }
@@ -537,6 +545,12 @@ impl Optimizer<'_> {
 
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
+
+                // TODO: Check if paramter is used and inline if call is not related to parameters.
+                Expr::Call(e) => {
+                    let used = idents_used_by(e);
+                    param_ids.iter().all(|param| !used.contains(&param.to_id()))
+                }
 
                 _ => true,
             },
@@ -574,7 +588,7 @@ impl Optimizer<'_> {
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(&*body) {
+        if !self.can_inline_fn_like(&params, &*body) {
             return None;
         }
 
