@@ -295,10 +295,6 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
-            return;
-        }
-
         if self.ctx.inline_prevented {
             return;
         }
@@ -319,6 +315,10 @@ impl Optimizer<'_> {
 
         match callee {
             Expr::Arrow(f) => {
+                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                    return;
+                }
+
                 if f.params.iter().any(|param| !param.is_ident()) {
                     return;
                 }
@@ -431,6 +431,10 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Fn(f) => {
+                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                    return;
+                }
+
                 if f.function.is_generator {
                     return;
                 }
