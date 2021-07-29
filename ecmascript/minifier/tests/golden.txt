@@ -120,7 +120,9 @@ collapse_vars/collapse_rhs_this/input.js
 collapse_vars/collapse_rhs_undefined/input.js
 collapse_vars/collapse_rhs_var/input.js
 collapse_vars/collapse_rhs_vardef/input.js
+collapse_vars/collapse_vars_closures/input.js
 collapse_vars/collapse_vars_properties/input.js
+collapse_vars/collapse_vars_regexp/input.js
 collapse_vars/collapse_vars_try/input.js
 collapse_vars/collapse_vars_unary_2/input.js
 collapse_vars/cond_branch_switch/input.js
@@ -138,6 +140,10 @@ collapse_vars/issue_1605_1/input.js
 collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2313_2/input.js
 collapse_vars/issue_2319_2/input.js
+collapse_vars/issue_2364_1/input.js
+collapse_vars/issue_2364_2/input.js
+collapse_vars/issue_2364_3/input.js
+collapse_vars/issue_2364_4/input.js
 collapse_vars/issue_2364_6/input.js
 collapse_vars/issue_2364_7/input.js
 collapse_vars/issue_2364_8/input.js
@@ -146,6 +152,7 @@ collapse_vars/issue_2365/input.js
 collapse_vars/issue_2425_1/input.js
 collapse_vars/issue_2425_2/input.js
 collapse_vars/issue_2425_3/input.js
+collapse_vars/issue_2437_1/input.js
 collapse_vars/issue_2437_2/input.js
 collapse_vars/issue_2571_1/input.js
 collapse_vars/issue_2571_2/input.js
@@ -218,6 +225,8 @@ conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/issue_2535_2/input.js
 conditionals/no_evaluate/input.js
+conditionals/ternary_boolean_alternative/input.js
+conditionals/ternary_boolean_consequent/input.js
 conditionals/to_and_or/input.js
 conditionals/trivial_boolean_ternary_expressions/input.js
 const/issue_1191/input.js
@@ -294,6 +303,7 @@ destructuring/unused_destructuring_object_method_param/input.js
 directives/class_directives_compression/input.js
 directives/simple_statement_is_not_a_directive/input.js
 drop_console/drop_console_1/input.js
+drop_unused/assign_binding/input.js
 drop_unused/assign_chain/input.js
 drop_unused/cascade_drop_assign/input.js
 drop_unused/const_assign/input.js
@@ -304,6 +314,7 @@ drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
+drop_unused/issue_1656/input.js
 drop_unused/issue_2136_1/input.js
 drop_unused/issue_2995/input.js
 drop_unused/issue_3146_2/input.js
@@ -426,10 +437,15 @@ expression/pow/input.js
 expression/pow_with_number_constants/input.js
 expression/pow_with_parentheses/input.js
 expression/pow_with_unary_between_brackets/input.js
+functions/avoid_generating_duplicate_functions_compared_together/input.js
+functions/avoid_generating_duplicate_functions_compared_together_2/input.js
+functions/avoid_generating_duplicate_functions_compared_together_4/input.js
 functions/deduplicate_parenthesis/input.js
 functions/drop_lone_use_strict/input.js
 functions/drop_lone_use_strict_arrows_1/input.js
 functions/function_returning_constant_literal/input.js
+functions/iifes_returning_constants_keep_fargs_false/input.js
+functions/iifes_returning_constants_keep_fargs_true/input.js
 functions/inline_0/input.js
 functions/inline_false/input.js
 functions/inline_function_expressions/input.js
@@ -548,10 +564,13 @@ identity/inline_identity_lose_this/input.js
 identity/inline_identity_regression/input.js
 identity/inline_identity_undefined/input.js
 ie8/issue_2120_2/input.js
+if_return/if_if_return_return/input.js
 if_return/if_return_1/input.js
 if_return/if_return_2/input.js
 if_return/if_return_3/input.js
+if_return/if_return_5/input.js
 if_return/if_return_6/input.js
+if_return/if_return_7/input.js
 if_return/if_return_8/input.js
 if_return/issue_1089/input.js
 if_return/issue_1317/input.js
@@ -569,6 +588,7 @@ issue_1001/parenthesis_strings_in_parenthesis/input.js
 issue_1041/const_declaration/input.js
 issue_1041/const_pragma/input.js
 issue_1041/not_const/input.js
+issue_1043/issue_1043/input.js
 issue_1044/issue_1044/input.js
 issue_1105/Infinity_not_in_with_scope/input.js
 issue_1105/with_in_global_scope/input.js
@@ -581,6 +601,10 @@ issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
 issue_143/tranformation_sort_order_unequal/input.js
+issue_1446/typeof_eq_undefined/input.js
+issue_1446/undefined_redefined/input.js
+issue_1447/else_with_empty_block/input.js
+issue_1447/else_with_empty_statement/input.js
 issue_1588/runtime_error/input.js
 issue_1588/support_ie8/input.js
 issue_1639/issue_1639_3/input.js
@@ -636,6 +660,7 @@ issue_2001/export_toplevel_2/input.js
 issue_208/do_not_update_lhs/input.js
 issue_208/do_update_rhs/input.js
 issue_208/mixed/input.js
+issue_229/template_strings/input.js
 issue_2652/insert_semicolon/input.js
 issue_2652/unary_postfix/input.js
 issue_267/issue_267/input.js
@@ -691,10 +716,13 @@ labels/labels_10/input.js
 labels/labels_5/input.js
 labels/labels_8/input.js
 logical_assignment/assign_in_conditional_part_reused/input.js
+logical_assignment/assignment_in_left_part/input.js
 logical_assignment/prematurely_evaluate_assignment/input.js
 logical_assignment/prematurely_evaluate_assignment_inv/input.js
 loops/dead_code_condition/input.js
 loops/do_switch/input.js
+loops/drop_if_break_1/input.js
+loops/drop_if_break_2/input.js
 loops/evaluate/input.js
 loops/in_parenthesis_1/input.js
 loops/in_parenthesis_2/input.js
@@ -804,6 +832,7 @@ properties/accessor_number/input.js
 properties/accessor_string/input.js
 properties/accessor_this/input.js
 properties/array_hole/input.js
+properties/dot_properties_es5/input.js
 properties/evaluate_string_length/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
@@ -847,6 +876,7 @@ pure_getters/collapse_vars_2_strict/input.js
 pure_getters/impure_getter_1/input.js
 pure_getters/issue_2110_1/input.js
 pure_getters/issue_2110_2/input.js
+pure_getters/issue_2265_2/input.js
 pure_getters/issue_2265_4/input.js
 pure_getters/issue_2313_1/input.js
 pure_getters/issue_2313_2/input.js
@@ -966,6 +996,7 @@ reduce_vars/method_2/input.js
 reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
+reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
 reduce_vars/obj_var_2/input.js
@@ -1036,6 +1067,7 @@ sequences/func_def_2/input.js
 sequences/func_def_3/input.js
 sequences/func_def_4/input.js
 sequences/func_def_5/input.js
+sequences/hoist_defun/input.js
 sequences/iife/input.js
 sequences/issue_1685/input.js
 sequences/issue_2062/input.js
