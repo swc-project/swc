@@ -544,7 +544,7 @@ impl Optimizer<'_> {
     ) -> Option<Expr> {
         if cons.eq_ignore_span(alt)
             && match &*cons {
-                Expr::Yield(..) => false,
+                Expr::Yield(..) | Expr::Fn(..) => false,
                 _ => true,
             }
         {
