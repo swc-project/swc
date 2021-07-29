@@ -635,6 +635,18 @@ pub(crate) fn negate_cost(e: &Expr, in_bool_ctx: bool, is_ret_val_ignored: bool)
             Expr::Unary(UnaryExpr {
                 op: op!("!"), arg, ..
             }) => {
+                // TODO: Check if this argument is actually start of line.
+                match &**arg {
+                    Expr::Call(CallExpr {
+                        callee: ExprOrSuper::Expr(callee),
+                        ..
+                    }) => match &**callee {
+                        Expr::Fn(..) => return 0,
+                        _ => {}
+                    },
+                    _ => {}
+                }
+
                 if in_bool_ctx {
                     let c = -cost(arg, true, None, is_ret_val_ignored);
                     return c.min(-1);
