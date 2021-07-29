@@ -402,6 +402,13 @@ impl Optimizer<'_> {
             _ => return,
         };
 
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "unused: drop_unused_assignments: Target: `{}`",
+                dump(&assign.left)
+            )
+        }
+
         if !has_mark(assign.span, self.marks.non_top_level)
             && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
@@ -416,7 +423,15 @@ impl Optimizer<'_> {
         }
 
         match &mut assign.left {
-            PatOrExpr::Expr(_) => return,
+            PatOrExpr::Expr(_) => {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "unused: Preserving assignment to `{}` because it's an expression",
+                        dump(&assign.left)
+                    )
+                }
+                return;
+            }
             PatOrExpr::Pat(left) => match &**left {
                 Pat::Ident(i) => {
                     if self.options.top_retain.contains(&i.id.sym) {
@@ -437,6 +452,14 @@ impl Optimizer<'_> {
                             self.changed = true;
                             *e = *assign.right.take();
                             return;
+                        } else {
+                            if cfg!(feature = "debug") {
+                                log::trace!(
+                                    "unused: Preserving assignment to `{}` because of usage: {:?}",
+                                    dump(&assign.left),
+                                    var
+                                )
+                            }
                         }
                     }
                 }
