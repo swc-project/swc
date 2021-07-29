@@ -255,7 +255,7 @@ impl Optimizer<'_> {
                 unreachable!()
             }
         }
-        let old_asm = self.ctx.in_asm;
+        let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
 
@@ -277,6 +277,7 @@ impl Optimizer<'_> {
                             if v.value == *"use asm" && !v.has_escape {
                                 child_ctx.in_asm = true;
                                 self.ctx.in_asm = true;
+                                use_asm = true;
                             }
                         }
                         _ => {}
@@ -304,6 +305,8 @@ impl Optimizer<'_> {
             *stmts = new;
         }
 
+        self.ctx.in_asm |= use_asm;
+
         self.drop_useless_blocks(stmts);
 
         self.reorder_stmts(stmts);
@@ -329,8 +332,6 @@ impl Optimizer<'_> {
         debug_assert_eq!(self.prepend_stmts, vec![]);
         self.prepend_stmts = prepend_stmts;
         self.append_stmts = append_stmts;
-
-        self.ctx.in_asm = old_asm;
     }
 
     /// `a = a + 1` => `a += 1`.
@@ -1939,6 +1940,8 @@ impl VisitMut for Optimizer<'_> {
             n.decorators.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        let old_in_asm = self.ctx.in_asm;
+
         {
             let ctx = Ctx {
                 stmt_lablled: false,
@@ -1977,6 +1980,8 @@ impl VisitMut for Optimizer<'_> {
             };
             self.with_ctx(ctx).optimize_usage_of_arguments(n);
         }
+
+        self.ctx.in_asm = old_in_asm;
     }
 
     fn visit_mut_if_stmt(&mut self, n: &mut IfStmt) {
