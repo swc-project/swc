@@ -3,7 +3,7 @@ set -eux
 
 
 # Prevent regression
-./scripts/run.sh fixture_terser__compress__
+./scripts/run.sh fixture_tests__terser__compress__
 
 export RUST_BACKTRACE=1
 export RUST_LOG=swc_ecma_minifier=trace
