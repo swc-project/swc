@@ -1,8 +1,10 @@
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::option::PureGetterOption;
+use crate::util::has_mark;
 
 use super::Optimizer;
 use swc_atoms::js_word;
+use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -78,7 +80,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(&mut var.name, Some(init));
+                    self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
@@ -92,7 +94,7 @@ impl Optimizer<'_> {
                 }
             },
             None => {
-                self.drop_unused_vars(&mut var.name, var.init.as_deref_mut());
+                self.drop_unused_vars(var.span, &mut var.name, var.init.as_deref_mut());
             }
         }
     }
@@ -120,27 +122,34 @@ impl Optimizer<'_> {
         self.take_pat_if_unused(pat, None)
     }
 
-    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
+    pub(super) fn drop_unused_vars(
+        &mut self,
+        var_declarator_span: Span,
+        name: &mut Pat,
+        init: Option<&mut Expr>,
+    ) {
         if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
         {
             return;
         }
 
         // Top-level
-        match self.ctx.var_kind {
-            Some(VarDeclKind::Var) => {
-                if (!self.options.top_level() && self.options.top_retain.is_empty())
-                    && self.ctx.in_top_level()
-                {
-                    return;
+        if !has_mark(var_declarator_span, self.marks.non_top_level) {
+            match self.ctx.var_kind {
+                Some(VarDeclKind::Var) => {
+                    if (!self.options.top_level() && self.options.top_retain.is_empty())
+                        && self.ctx.in_top_level()
+                    {
+                        return;
+                    }
                 }
-            }
-            Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
-                if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
-                    return;
+                Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
+                    if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
+                        return;
+                    }
                 }
+                None => {}
             }
-            None => {}
         }
 
         if let Some(scope) = self
