@@ -880,7 +880,6 @@ pure_getters/issue_2678/input.js
 pure_getters/issue_2938_1/input.js
 pure_getters/issue_2938_2/input.js
 reduce_vars/accessor_1/input.js
-reduce_vars/array_forin_1/input.js
 reduce_vars/array_forin_2/input.js
 reduce_vars/array_forof_1/input.js
 reduce_vars/array_forof_2/input.js
