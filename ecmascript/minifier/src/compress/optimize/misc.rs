@@ -12,6 +12,7 @@ impl Optimizer<'_> {
 
                 if s.value.starts_with(|c: char| c.is_xid_start())
                     && s.value.chars().all(|c: char| c.is_xid_continue())
+                    && !s.value.contains("𝒶")
                 {
                     self.changed = true;
                     log::debug!("misc: Optimizing string property name");
