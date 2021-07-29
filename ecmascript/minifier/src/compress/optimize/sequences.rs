@@ -759,6 +759,10 @@ impl Optimizer<'_> {
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
+        if !self.options.sequences() {
+            return;
+        }
+
         let mut exprs = e
             .exprs
             .iter_mut()
@@ -777,10 +781,6 @@ impl Optimizer<'_> {
     /// TODO(kdy1): Check for side effects and call merge_sequential_expr more
     /// if expressions between a and b are side-effect-free.
     fn merge_sequences_in_exprs(&mut self, exprs: &mut Vec<Mergable>) {
-        if !self.options.sequences() {
-            return;
-        }
-
         for idx in 0..exprs.len() {
             for j in idx..exprs.len() {
                 let (a1, a2) = exprs.split_at_mut(idx);
