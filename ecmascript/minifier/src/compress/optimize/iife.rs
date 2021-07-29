@@ -492,7 +492,10 @@ impl Optimizer<'_> {
 
     fn can_inline_fn_like(&self, body: &BlockStmt) -> bool {
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(..)) => true,
+            Stmt::Decl(Decl::Var(VarDecl {
+                kind: VarDeclKind::Var | VarDeclKind::Let,
+                ..
+            })) => true,
 
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
