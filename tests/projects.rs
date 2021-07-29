@@ -5,12 +5,19 @@ use std::{
     sync::Arc,
 };
 use swc::{
-    config::{Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig},
+    config::{
+        BuiltConfig, Config, JscConfig, ModuleConfig, Options, SourceMapsConfig, TransformConfig,
+    },
     Compiler,
 };
-use swc_common::FileName;
+use swc_common::{chain, comments::Comment, BytePos, FileName};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_ast::*;
+use swc_ecma_parser::TsConfig;
+use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_transforms::helpers::{self, Helpers};
+use swc_ecma_utils::HANDLER;
+use swc_ecma_visit::{Fold, FoldWith};
 use testing::{NormalizedOutput, StdErr, Tester};
 use walkdir::WalkDir;
 
@@ -652,6 +659,103 @@ fn deno_10282_2() {
     println!("{}", output);
 
     assert_eq!(output.to_string(), "const a = `\n`;\n");
+}
+
+struct Panicking;
+
+impl Fold for Panicking {
+    fn fold_jsx_opening_element(&mut self, node: JSXOpeningElement) -> JSXOpeningElement {
+        let JSXOpeningElement { name, .. } = &node;
+        println!("HMM");
+
+        if let JSXElementName::Ident(Ident { sym, .. }) = name {
+            panic!("visited: {}", sym)
+        }
+
+        JSXOpeningElement { ..node }
+    }
+}
+
+#[test]
+#[should_panic = "visited"]
+fn should_visit() {
+    Tester::new()
+        .print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone(), Arc::new(handler));
+
+            let fm = cm.new_source_file(
+                FileName::Anon,
+                "
+                    import React from 'react';
+                    const comp = () => <amp-something className='something' />;
+                "
+                .into(),
+            );
+            let config = c
+                .config_for_file(
+                    &swc::config::Options {
+                        config: swc::config::Config {
+                            jsc: JscConfig {
+                                syntax: Some(Syntax::Es(EsConfig {
+                                    jsx: true,
+                                    ..Default::default()
+                                })),
+                                ..Default::default()
+                            },
+                            ..Default::default()
+                        },
+                        ..Default::default()
+                    },
+                    &fm.name,
+                )
+                .unwrap()
+                .unwrap();
+
+            dbg!(config.syntax);
+            let program = c
+                .parse_js(fm.clone(), config.target, config.syntax, true, true)
+                .map_err(|_| ())?;
+
+            let config = BuiltConfig {
+                pass: chain!(Panicking, config.pass),
+                syntax: config.syntax,
+                target: config.target,
+                minify: config.minify,
+                external_helpers: config.external_helpers,
+                source_maps: config.source_maps,
+                input_source_map: config.input_source_map,
+                is_module: config.is_module,
+                output_path: config.output_path,
+            };
+
+            if config.minify {
+                let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                    vc.retain(|c: &Comment| c.text.starts_with("!"));
+                    !vc.is_empty()
+                };
+                c.comments().leading.retain(preserve_excl);
+                c.comments().trailing.retain(preserve_excl);
+            }
+            let mut pass = config.pass;
+            let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+                HANDLER.set(&c.handler, || {
+                    // Fold module
+                    program.fold_with(&mut pass)
+                })
+            });
+
+            Ok(c.print(
+                &program,
+                config.output_path,
+                config.target,
+                config.source_maps,
+                None, // TODO: figure out sourcemaps
+                config.minify,
+            )
+            .unwrap()
+            .code)
+        })
+        .unwrap();
 }
 
 #[testing::fixture("tests/fixture/**/input/")]
