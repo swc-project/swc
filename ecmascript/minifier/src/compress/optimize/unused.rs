@@ -145,7 +145,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        self.take_pat_if_unused(pat, None)
+        self.take_pat_if_unused(DUMMY_SP, pat, None)
     }
 
     pub(super) fn drop_unused_vars(
@@ -208,12 +208,12 @@ impl Optimizer<'_> {
             return;
         }
 
-        self.take_pat_if_unused(name, init);
+        self.take_pat_if_unused(var_declarator_span, name, init);
     }
 
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(&mut param.pat, None);
+            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None);
 
             if !param.pat.is_invalid() {
                 return;
@@ -221,7 +221,13 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
+    /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
+    pub(super) fn take_pat_if_unused(
+        &mut self,
+        parent_span: Span,
+        name: &mut Pat,
+        mut init: Option<&mut Expr>,
+    ) {
         let had_value = init.is_some();
         let can_drop_children = had_value;
 
@@ -234,7 +240,9 @@ impl Optimizer<'_> {
 
         match name {
             Pat::Ident(i) => {
-                if self.options.top_retain.contains(&i.id.sym) {
+                if !has_mark(parent_span, self.marks.non_top_level)
+                    && self.options.top_retain.contains(&i.id.sym)
+                {
                     return;
                 }
 
@@ -273,7 +281,7 @@ impl Optimizer<'_> {
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
-                            self.take_pat_if_unused(p, elem);
+                            self.take_pat_if_unused(parent_span, p, elem);
                         }
                         None => {}
                     }
@@ -309,7 +317,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
 
-                            self.take_pat_if_unused(&mut p.value, prop);
+                            self.take_pat_if_unused(parent_span, &mut p.value, prop);
                         }
                         ObjectPatProp::Assign(_) => {}
                         ObjectPatProp::Rest(_) => {}
