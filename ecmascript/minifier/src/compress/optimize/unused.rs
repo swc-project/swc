@@ -23,6 +23,15 @@ impl Optimizer<'_> {
     {
         fn is_inliable(b: &BlockStmt) -> bool {
             b.stmts.iter().all(|s| match s {
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    ident:
+                        Ident {
+                            sym: js_word!("undefined"),
+                            ..
+                        },
+                    ..
+                })) => false,
+
                 Stmt::Decl(
                     Decl::Var(VarDecl {
                         kind: VarDeclKind::Var,
