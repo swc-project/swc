@@ -13,6 +13,9 @@ set -eu
 
 export RUST_LOG=swc_ecma_minifier=trace
 
+# Run unit tests.
+cargo test --all-feature --lib
+
 # To prevent regression, we run base test before real tests.
 touch tests/compress.rs
 UPDATE=1 ./scripts/base.sh base_fixture
