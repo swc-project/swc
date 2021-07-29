@@ -6,6 +6,7 @@ use crate::analyzer::ProgramData;
 use crate::compress::hoist_decls::decl_hoister;
 use crate::debug::dump;
 use crate::debug::invoke;
+use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::Optional;
 #[cfg(feature = "pretty_assertions")]
@@ -39,8 +40,9 @@ mod drop_console;
 mod hoist_decls;
 mod optimize;
 
-pub fn compressor<'a>(
+pub(crate) fn compressor<'a>(
     cm: Lrc<SourceMap>,
+    marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
 ) -> impl 'a + JsPass {
@@ -50,10 +52,11 @@ pub fn compressor<'a>(
     };
     let compressor = Compressor {
         cm,
-        comments,
+        marks,
         options,
-        pass: 0,
+        comments,
         changed: false,
+        pass: 0,
         data: None,
     };
 
@@ -66,6 +69,7 @@ pub fn compressor<'a>(
 
 struct Compressor<'a> {
     cm: Lrc<SourceMap>,
+    marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
     changed: bool,
@@ -195,6 +199,7 @@ impl VisitMut for Compressor<'_> {
             // This is swc version of `node.optimize(this);`.
             let mut visitor = optimizer(
                 self.cm.clone(),
+                self.marks,
                 self.options,
                 self.comments,
                 self.data.as_ref().unwrap(),

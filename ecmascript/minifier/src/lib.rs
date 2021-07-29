@@ -12,10 +12,9 @@
 //! them something other. Don't call methods like `visit_mut_script` nor
 //! `visit_mut_module_items`.
 
-use std::time::Instant;
-
 use crate::compress::compressor;
 use crate::hygiene::unique_marker;
+use crate::marks::Marks;
 use crate::option::ExtraOptions;
 use crate::option::MinifyOptions;
 use crate::pass::compute_char_freq::compute_char_freq;
@@ -28,6 +27,7 @@ use crate::pass::mangle_props::mangle_properties;
 use crate::pass::precompress::precompress_optimizer;
 use analyzer::analyze;
 use pass::postcompress::postcompress_optimizer;
+use std::time::Instant;
 use swc_common::comments::Comments;
 use swc_common::sync::Lrc;
 use swc_common::SourceMap;
@@ -55,6 +55,8 @@ pub fn optimize(
     options: &MinifyOptions,
     extra: &ExtraOptions,
 ) -> Module {
+    let marks = Marks::new();
+
     let start = Instant::now();
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
@@ -107,7 +109,7 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         let start = Instant::now();
-        m = m.fold_with(&mut compressor(cm.clone(), &options, comments));
+        m = m.fold_with(&mut compressor(cm.clone(), marks, &options, comments));
         log::info!("compressor took {:?}", Instant::now() - start);
         // Again, we don't need to validate ast
 

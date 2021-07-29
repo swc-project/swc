@@ -1,5 +1,6 @@
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
+use crate::marks::Marks;
 use crate::option::CompressOptions;
 use crate::util::contains_leaping_yield;
 use crate::util::MoudleItemExt;
@@ -67,6 +68,7 @@ const DISABLE_BUGGY_PASSES: bool = true;
 /// This pass is simillar to `node.optimize` of terser.
 pub(super) fn optimizer<'a>(
     cm: Lrc<SourceMap>,
+    marks: Marks,
     options: &'a CompressOptions,
     comments: Option<&'a dyn Comments>,
     data: &'a ProgramData,
@@ -80,6 +82,7 @@ pub(super) fn optimizer<'a>(
     let done_ctxt = SyntaxContext::empty().apply_mark(done);
     Optimizer {
         cm,
+        marks,
         comments,
         changed: false,
         options,
@@ -187,6 +190,8 @@ impl Ctx {
 
 struct Optimizer<'a> {
     cm: Lrc<SourceMap>,
+
+    marks: Marks,
 
     comments: Option<&'a dyn Comments>,
 
