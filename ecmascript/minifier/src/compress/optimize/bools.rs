@@ -760,14 +760,16 @@ mod tests {
             "this[key] && !this.hasOwnProperty(key) || (this[key] = value)",
             false,
             true,
-            3,
+            2,
         );
-
+    }
+    #[test]
+    fn logical_2() {
         assert_negate_cost(
             "(!this[key] || this.hasOwnProperty(key)) && (this[key] = value)",
             false,
             true,
-            -3,
+            -2,
         );
     }
 }
