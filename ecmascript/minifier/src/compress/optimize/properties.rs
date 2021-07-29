@@ -60,6 +60,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.is_callee {
+            return;
+        }
+
         if obj.props.iter().any(|prop| match prop {
             PropOrSpread::Spread(_) => false,
             PropOrSpread::Prop(p) => match &**p {
