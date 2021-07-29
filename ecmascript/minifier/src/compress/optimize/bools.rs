@@ -614,10 +614,9 @@ pub(crate) fn is_ok_to_negate_rhs(rhs: &Expr) -> bool {
                 return true;
             }
 
-            log::warn!(
-                "unimplemented: can_negate_rhs_of_logical: `{}`",
-                dump(&*rhs)
-            );
+            if cfg!(feature = "debug") {
+                log::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(&*rhs));
+            }
 
             false
         }
