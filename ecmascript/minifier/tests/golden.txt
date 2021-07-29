@@ -468,7 +468,6 @@ global_defs/expanded/input.js
 global_defs/issue_1801/input.js
 global_defs/issue_1986/input.js
 global_defs/issue_2167/input.js
-global_defs/issue_3217/input.js
 global_defs/keyword/input.js
 global_defs/mixed/input.js
 global_defs/must_replace/input.js
@@ -829,9 +828,7 @@ properties/evaluate_string_length/input.js
 properties/first_256_chars_as_properties/input.js
 properties/first_256_hex_chars_as_properties/input.js
 properties/first_256_unicode_chars_as_properties/input.js
-properties/issue_2208_1/input.js
 properties/issue_2208_2/input.js
-properties/issue_2208_6/input.js
 properties/issue_2321/input.js
 properties/issue_2893_1/input.js
 properties/issue_2893_2/input.js
@@ -986,7 +983,6 @@ reduce_vars/multi_def_3/input.js
 reduce_vars/named_function_with_recursive_ref_reuse/input.js
 reduce_vars/obj_for_2/input.js
 reduce_vars/obj_var_1/input.js
-reduce_vars/obj_var_2/input.js
 reduce_vars/perf_5/input.js
 reduce_vars/pure_getters_1/input.js
 reduce_vars/recursive_inlining_5/input.js
