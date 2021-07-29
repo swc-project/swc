@@ -1261,14 +1261,19 @@ impl Optimizer<'_> {
                     if usage.reassigned || !usage.is_fn_local {
                         return false;
                     }
-                }
+                    match &mut a.init {
+                        Some(v) => (left, v),
+                        None => {
+                            if usage.declared_count > 1 {
+                                return false;
+                            }
 
-                match &mut a.init {
-                    Some(v) => (left, v),
-                    None => {
-                        right_val = undefined(DUMMY_SP);
-                        (left, &mut right_val)
+                            right_val = undefined(DUMMY_SP);
+                            (left, &mut right_val)
+                        }
                     }
+                } else {
+                    return false;
                 }
             }
         };
