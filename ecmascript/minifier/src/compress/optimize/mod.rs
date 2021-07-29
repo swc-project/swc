@@ -1708,15 +1708,6 @@ impl VisitMut for Optimizer<'_> {
 
         self.collapse_seq_exprs(e);
 
-        // Normalize
-        match e {
-            Expr::Paren(paren) => {
-                self.changed = true;
-                *e = *paren.expr.take();
-            }
-            _ => {}
-        }
-
         self.drop_unused_assignments(e);
 
         self.compress_regexp(e);
@@ -1781,6 +1772,13 @@ impl VisitMut for Optimizer<'_> {
         self.invoke_iife(e);
 
         self.optimize_bangbang(e);
+
+        match e {
+            Expr::Seq(s) if s.exprs.is_empty() => {
+                e.take();
+            }
+            _ => {}
+        }
     }
 
     fn visit_mut_expr_stmt(&mut self, n: &mut ExprStmt) {
