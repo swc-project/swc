@@ -189,9 +189,10 @@ impl<'a> Emitter<'a> {
         }
 
         if specifiers.is_empty() {
-            space!();
             if emitted_ns || emitted_default {
+                formatting_space!();
                 keyword!("from");
+                formatting_space!();
             }
         } else {
             if emitted_default {
@@ -209,9 +210,9 @@ impl<'a> Emitter<'a> {
             formatting_space!();
 
             keyword!("from");
+            formatting_space!();
         }
 
-        formatting_space!();
         emit!(node.src);
         formatting_semi!();
     }

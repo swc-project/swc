@@ -1,4 +1,4 @@
-import   "./errors.ts";
+import "./errors.ts";
 function a() {
     t();
 }

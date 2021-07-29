@@ -1,4 +1,4 @@
-import   "reflect-metadata";
+import "reflect-metadata";
 const Test = (target)=>{
     const metadata = Reflect.getMetadataKeys(target).reduce((metadata, key)=>{
         const { [key]: values = []  } = metadata;
