@@ -253,6 +253,7 @@ impl Optimizer<'_> {
                 unreachable!()
             }
         }
+        let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
 
@@ -269,6 +270,10 @@ impl Optimizer<'_> {
 
                             if v.value == *"use strict" && !v.has_escape {
                                 child_ctx.in_strict = true;
+                            }
+
+                            if v.value == *"use asm" && !v.has_escape {
+                                use_asm = true;
                             }
                         }
                         _ => {}
@@ -298,7 +303,9 @@ impl Optimizer<'_> {
 
         self.drop_useless_blocks(stmts);
 
-        self.reorder_stmts(stmts);
+        if !use_asm {
+            self.reorder_stmts(stmts);
+        }
 
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);

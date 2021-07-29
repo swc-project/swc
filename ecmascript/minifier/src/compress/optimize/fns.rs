@@ -18,6 +18,8 @@ impl Optimizer<'_> {
     where
         T: MoudleItemExt,
     {
+        // Sort by position
+
         if is_sorted_by(stmts.iter(), |a, b| {
             // Check for function declarations.
 
