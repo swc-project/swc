@@ -1,11 +1,11 @@
+use super::Optimizer;
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::debug::dump;
 use crate::option::PureGetterOption;
 use crate::util::has_mark;
-
-use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Span;
+use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -398,7 +398,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
+        if !has_mark(e.span(), self.marks.non_top_level)
+            && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
             return;

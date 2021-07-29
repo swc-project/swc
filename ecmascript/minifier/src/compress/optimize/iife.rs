@@ -406,7 +406,7 @@ impl Optimizer<'_> {
                         for (idx, param) in f.params.iter().enumerate() {
                             if let Some(arg) = call.args.get_mut(idx) {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     op: op!("="),
                                     left: PatOrExpr::Pat(Box::new(param.clone())),
                                     right: arg.expr.take(),
@@ -581,7 +581,7 @@ impl Optimizer<'_> {
         for (idx, param) in params.iter().enumerate() {
             if let Some(arg) = args.get_mut(idx) {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
-                    span: DUMMY_SP,
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     op: op!("="),
                     left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
                     right: arg.expr.take(),
@@ -601,7 +601,7 @@ impl Optimizer<'_> {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
+                                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                 op: op!("="),
                                 left: PatOrExpr::Pat(Box::new(decl.name.clone())),
                                 right: decl.init.take().unwrap(),
