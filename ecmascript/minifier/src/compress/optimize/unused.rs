@@ -21,18 +21,35 @@ impl Optimizer<'_> {
     where
         T: StmtLike,
     {
+        fn is_inliable(b: &BlockStmt) -> bool {
+            b.stmts.iter().all(|s| match s {
+                Stmt::Decl(
+                    Decl::Var(VarDecl {
+                        kind: VarDeclKind::Var,
+                        ..
+                    })
+                    | Decl::Fn(..),
+                ) => true,
+                Stmt::Decl(..) => false,
+                _ => true,
+            })
+        }
+
         if stmts.iter().all(|stmt| match stmt.as_stmt() {
-            Some(Stmt::Block(..)) => false,
+            Some(Stmt::Block(b)) if is_inliable(b) => false,
             _ => true,
         }) {
             return;
         }
 
+        self.changed = true;
+        log::debug!("Dropping useless block");
+
         let mut new = vec![];
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(v) => match v {
-                    Stmt::Block(v) => {
+                    Stmt::Block(v) if is_inliable(&v) => {
                         new.extend(v.stmts.into_iter().map(T::from_stmt));
                     }
                     _ => new.push(T::from_stmt(v)),

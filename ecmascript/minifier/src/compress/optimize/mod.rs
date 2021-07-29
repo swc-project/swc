@@ -1300,9 +1300,14 @@ impl Optimizer<'_> {
                 // Remove nested blocks
                 if bs.stmts.len() == 1 {
                     if let Stmt::Block(block) = &mut bs.stmts[0] {
-                        log::debug!("optimizer: Removing nested block");
-                        self.changed = true;
-                        bs.stmts = block.stmts.take();
+                        if block.stmts.iter().all(|stmt| match stmt {
+                            Stmt::Decl(..) => false,
+                            _ => true,
+                        }) {
+                            log::debug!("optimizer: Removing nested block");
+                            self.changed = true;
+                            bs.stmts = block.stmts.take();
+                        }
                     }
                 }
 
