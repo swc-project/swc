@@ -450,11 +450,13 @@ impl Optimizer<'_> {
                         _ => false,
                     });
                     if has_decl {
+                        log::trace!("iife: [x] Found decl");
                         return;
                     }
                 }
 
                 if f.function.is_generator {
+                    log::trace!("iife: [x] Cannot inline generator");
                     return;
                 }
 
@@ -463,21 +465,27 @@ impl Optimizer<'_> {
                     Pat::Object(..) | Pat::Array(..) | Pat::Assign(..) | Pat::Rest(..) => true,
                     _ => false,
                 }) {
+                    log::trace!("iife: [x] Found complex pattern");
                     return;
                 }
 
                 if let Some(i) = &f.ident {
                     if idents_used_by(&f.function.body).contains(&i.to_id()) {
+                        log::trace!("iife: [x] Recursive?");
                         return;
                     }
                 }
 
                 for arg in &call.args {
                     if arg.spread.is_some() {
+                        log::trace!("iife: [x] Found spread argument");
                         return;
                     }
                     match &*arg.expr {
-                        Expr::Fn(..) | Expr::Arrow(..) => return,
+                        Expr::Fn(..) | Expr::Arrow(..) => {
+                            log::trace!("iife: [x] Found callable argument");
+                            return;
+                        }
                         _ => {}
                     }
                 }
@@ -489,6 +497,7 @@ impl Optimizer<'_> {
                 }
 
                 if !self.can_inline_fn_like(body) {
+                    log::trace!("iife: [x] Body is not inliable");
                     return;
                 }
 
@@ -528,9 +537,6 @@ impl Optimizer<'_> {
 
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
-
-                // TODO: Check if paramter is used and inline if call is not related to parameters.
-                Expr::Call(..) => false,
 
                 _ => true,
             },
