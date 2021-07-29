@@ -107,7 +107,6 @@ pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
     ));
     let resolved_path = RelativePath::new(&attr.pattern).to_path(&base_dir);
     let pattern = resolved_path.to_string_lossy();
-    eprintln!("{}: ", resolved_path.display());
 
     let paths =
         glob(&pattern).with_context(|| format!("glob failed for whole path: `{}`", pattern))?;
