@@ -1418,6 +1418,10 @@ impl VisitMut for SimplifyExpr {
 
     /// Drops unused values
     fn visit_mut_seq_expr(&mut self, e: &mut SeqExpr) {
+        if e.exprs.is_empty() {
+            return;
+        }
+
         e.visit_mut_children_with(self);
 
         let len = e.exprs.len();
