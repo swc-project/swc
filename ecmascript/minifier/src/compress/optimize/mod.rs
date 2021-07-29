@@ -114,6 +114,7 @@ struct Ctx {
 
     in_asm: bool,
 
+    is_callee: bool,
     in_call_arg: bool,
 
     /// If this is `true`, the first usage will be inlined as an assignment.
@@ -1554,6 +1555,7 @@ impl VisitMut for Optimizer<'_> {
         };
         {
             let ctx = Ctx {
+                is_callee: true,
                 is_this_aware_callee: is_this_undefined
                     || match &e.callee {
                         ExprOrSuper::Super(_) => false,
@@ -2051,7 +2053,13 @@ impl VisitMut for Optimizer<'_> {
     }
 
     fn visit_mut_new_expr(&mut self, n: &mut NewExpr) {
-        n.callee.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                is_callee: true,
+                ..self.ctx
+            };
+            n.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         {
             let ctx = Ctx {
@@ -2183,11 +2191,12 @@ impl VisitMut for Optimizer<'_> {
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
         let ctx = Ctx {
-            in_bang_arg: false,
+            is_callee: false,
             is_delete_arg: false,
-            is_exported: false,
             is_update_arg: false,
             in_lhs_of_assign: false,
+            in_bang_arg: false,
+            is_exported: false,
             in_obj_of_non_computed_member: false,
             ..self.ctx
         };
