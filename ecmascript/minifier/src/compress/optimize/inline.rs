@@ -1,6 +1,7 @@
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
 use crate::debug::dump;
+use crate::util::has_mark;
 use crate::util::idents_used_by;
 
 use super::Optimizer;
@@ -24,7 +25,8 @@ impl Optimizer<'_> {
             None => return,
         };
 
-        let should_preserve = (!self.options.top_level() && self.options.top_retain.is_empty())
+        let should_preserve = !has_mark(var.span, self.marks.non_top_level)
+            && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
 
         if self
