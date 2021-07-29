@@ -2430,7 +2430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.64.1"
+version = "0.64.2"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2608,7 +2608,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "fxhash",
  "once_cell",
