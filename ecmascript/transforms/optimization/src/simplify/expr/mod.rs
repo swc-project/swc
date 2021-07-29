@@ -1221,6 +1221,8 @@ impl VisitMut for SimplifyExpr {
                 return;
             }
 
+            Expr::Seq(seq) if seq.exprs.is_empty() => return,
+
             Expr::Unary(..)
             | Expr::Bin(..)
             | Expr::Member(..)
