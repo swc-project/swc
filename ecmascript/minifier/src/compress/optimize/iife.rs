@@ -495,7 +495,13 @@ impl Optimizer<'_> {
             Stmt::Decl(Decl::Var(VarDecl {
                 kind: VarDeclKind::Var | VarDeclKind::Let,
                 ..
-            })) => true,
+            })) => {
+                if self.ctx.executed_multiple_time {
+                    return false;
+                }
+
+                true
+            }
 
             Stmt::Expr(e) => match &*e.expr {
                 Expr::Await(..) => false,
