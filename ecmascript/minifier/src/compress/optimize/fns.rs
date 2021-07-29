@@ -10,6 +10,10 @@ impl Optimizer<'_> {
     where
         T: MoudleItemExt,
     {
+        if self.ctx.in_asm {
+            return;
+        }
+
         self.reorder_stmts_inner(stmts);
     }
 

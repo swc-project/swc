@@ -112,6 +112,8 @@ struct Ctx {
 
     in_bool_ctx: bool,
 
+    in_asm: bool,
+
     /// If this is `true`, the first usage will be inlined as an assignment.
     inline_as_assignment: bool,
 
@@ -253,7 +255,7 @@ impl Optimizer<'_> {
                 unreachable!()
             }
         }
-        let mut use_asm = false;
+        let old_asm = self.ctx.in_asm;
         let prepend_stmts = self.prepend_stmts.take();
         let append_stmts = self.append_stmts.take();
 
@@ -273,7 +275,8 @@ impl Optimizer<'_> {
                             }
 
                             if v.value == *"use asm" && !v.has_escape {
-                                use_asm = true;
+                                child_ctx.in_asm = true;
+                                self.ctx.in_asm = true;
                             }
                         }
                         _ => {}
@@ -303,9 +306,7 @@ impl Optimizer<'_> {
 
         self.drop_useless_blocks(stmts);
 
-        if !use_asm {
-            self.reorder_stmts(stmts);
-        }
+        self.reorder_stmts(stmts);
 
         self.merge_simillar_ifs(stmts);
         self.join_vars(stmts);
@@ -328,6 +329,8 @@ impl Optimizer<'_> {
         debug_assert_eq!(self.prepend_stmts, vec![]);
         self.prepend_stmts = prepend_stmts;
         self.append_stmts = append_stmts;
+
+        self.ctx.in_asm = old_asm;
     }
 
     /// `a = a + 1` => `a += 1`.
