@@ -295,7 +295,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if self.ctx.in_top_level() {
+        if self.ctx.in_top_level() && self.options.negate_iife {
             return;
         }
 
