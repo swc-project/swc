@@ -1,5 +1,7 @@
+
 export const obj = {
     eq: function (
+        jqLite,
         index
     ) {
         return index >= 0

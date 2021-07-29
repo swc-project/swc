@@ -568,7 +568,7 @@ impl Optimizer<'_> {
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&cons_callee.to_id()))
-                    .map(|v| v.is_fn_local || !v.declared)
+                    .map(|v| v.is_fn_local && v.declared)
                     .unwrap_or(false);
 
                 if side_effect_free
