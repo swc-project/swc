@@ -358,23 +358,6 @@ impl Optimizer<'_> {
                         _ => {}
                     },
                 }
-                let mut inline_map = HashMap::default();
-                for (idx, param) in f.params.iter().enumerate() {
-                    let arg_val = if let Some(arg) = call.args.get(idx) {
-                        arg.expr.clone()
-                    } else {
-                        undefined(DUMMY_SP)
-                    };
-
-                    match param {
-                        Pat::Ident(param) => {
-                            inline_map.insert(param.id.to_id(), arg_val);
-                        }
-                        _ => {}
-                    }
-                }
-
-                self.inline_vars_in_node(&mut f.body, inline_map);
 
                 match &mut f.body {
                     BlockStmtOrExpr::BlockStmt(_) => {
