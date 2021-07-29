@@ -1,4 +1,4 @@
-import   "core-js/modules/web.dom.iterable";
+import "core-js/modules/web.dom.iterable";
 Array.from;
 Map;
 new Promise();
