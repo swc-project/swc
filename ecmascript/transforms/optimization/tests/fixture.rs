@@ -6,7 +6,7 @@ use swc_ecma_transforms_optimization::simplify::dce::dce;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_transforms_testing::test_fixture;
 
-#[testing::fixture("dce/**/input.js")]
+#[testing::fixture("tests/dce/**/input.js")]
 fn dce_single_pass(input: PathBuf) {
     let output = input.with_file_name("output.js");
 
@@ -22,7 +22,7 @@ fn dce_single_pass(input: PathBuf) {
     );
 }
 
-#[testing::fixture("dce/**/input.js")]
+#[testing::fixture("tests/dce/**/input.js")]
 fn dce_repeated(input: PathBuf) {
     let output = input.with_file_name("output.full.js");
 
@@ -38,7 +38,7 @@ fn dce_repeated(input: PathBuf) {
     );
 }
 
-#[testing::fixture("expr-simplifier/**/input.js")]
+#[testing::fixture("tests/expr-simplifier/**/input.js")]
 fn expr(input: PathBuf) {
     let output = input.with_file_name("output.js");
 

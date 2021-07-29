@@ -6,7 +6,7 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use testing::{run_test2, NormalizedOutput};
 
-#[testing::fixture("fixture/**/input.ts")]
+#[testing::fixture("tests/fixture/**/input.ts")]
 fn test_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let output = dir.join(format!(

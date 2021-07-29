@@ -17,8 +17,8 @@ use testing::StdErr;
 #[path = "common/mod.rs"]
 mod common;
 
-#[testing::fixture("typescript/**/*.ts")]
-#[testing::fixture("typescript/**/*.tsx")]
+#[testing::fixture("tests/typescript/**/*.ts")]
+#[testing::fixture("tests/typescript/**/*.tsx")]
 fn spec(file: PathBuf) {
     let file_name = file
         .display()
@@ -196,7 +196,7 @@ where
     output
 }
 
-#[testing::fixture("typescript-errors/**/*.ts")]
+#[testing::fixture("tests/typescript-errors/**/*.ts")]
 fn errors(file: PathBuf) {
     let file_name = file.display().to_string();
 

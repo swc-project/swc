@@ -654,7 +654,7 @@ fn deno_10282_2() {
     assert_eq!(output.to_string(), "const a = `\n`;\n");
 }
 
-#[testing::fixture("fixture/**/input/")]
+#[testing::fixture("tests/fixture/**/input/")]
 fn tests(dir: PathBuf) {
     let output = dir.parent().unwrap().join("output");
     let _ = create_dir_all(&output);

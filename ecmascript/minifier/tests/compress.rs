@@ -199,7 +199,7 @@ fn stdout_of(code: &str) -> Result<String, Error> {
     Ok(String::from_utf8_lossy(&actual_output.stdout).to_string())
 }
 
-#[testing::fixture("compress/fixture/**/input.js")]
+#[testing::fixture("tests/compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
@@ -229,7 +229,7 @@ fn base_fixture(input: PathBuf) {
 }
 
 /// Tests used to prevent regressions.
-#[testing::fixture("compress/exec/**/input.js")]
+#[testing::fixture("tests/compress/exec/**/input.js")]
 fn base_exec(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
@@ -266,7 +266,7 @@ fn base_exec(input: PathBuf) {
 }
 
 /// Tests ported from terser.
-#[testing::fixture("terser/compress/**/input.js")]
+#[testing::fixture("tests/terser/compress/**/input.js")]
 fn fixture(input: PathBuf) {
     if is_ignored(&input) {
         return;
