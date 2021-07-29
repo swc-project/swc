@@ -48,6 +48,14 @@ jobs:
         run: |
           (cd ecmascript/ast && cargo hack check --feature-powerset --no-dev-deps)
 
+      - name: Check swc_ecmascript
+        run: |
+          (cd ecmascript && cargo hack check --feature-powerset --no-dev-deps)
+
+      - name: Check testing
+        run: |
+          (cd testing && cargo hack check --feature-powerset --no-dev-deps)
+
       - name: Check swc_ecma_transforms
         run: |
           (cd ecmascript/transforms && cargo hack check --feature-powerset --no-dev-deps)
