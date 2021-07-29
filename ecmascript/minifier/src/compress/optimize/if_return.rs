@@ -264,7 +264,7 @@ impl Optimizer<'_> {
         log::trace!("if_return: Skip = {}", skip);
 
         if stmts.len() <= skip + 1 {
-            log::trace!("if_return: Aborting because of skip");
+            log::trace!("if_return: [x] Aborting because of skip");
             return;
         }
 
@@ -274,7 +274,7 @@ impl Optimizer<'_> {
 
             // There's no return statment so merging requires injecting unnecessary `void 0`
             if return_count == 0 {
-                log::trace!("if_return: Aborting because we failed to find return");
+                log::trace!("if_return: [x] Aborting because we failed to find return");
                 return;
             }
 
@@ -288,7 +288,9 @@ impl Optimizer<'_> {
                     &stmts[stmts.len() - 1].as_stmt(),
                 ) {
                     (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..))) => {
-                        log::trace!("if_return: Aborting because last stmt is a not return stmt");
+                        log::trace!(
+                            "if_return: [x] Aborting because last stmt is a not return stmt"
+                        );
                         return;
                     }
 
@@ -301,8 +303,8 @@ impl Optimizer<'_> {
                         Stmt::Return(ReturnStmt { arg: Some(..), .. }) => {}
                         _ => {
                             log::trace!(
-                                "if_return: Aborting because stmt before last is an if stmt and \
-                                 cons of it is not a return stmt"
+                                "if_return: [x] Aborting because stmt before last is an if stmt \
+                                 and cons of it is not a return stmt"
                             );
                             return;
                         }
