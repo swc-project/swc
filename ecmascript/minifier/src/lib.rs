@@ -40,6 +40,7 @@ mod analyzer;
 mod compress;
 mod debug;
 mod hygiene;
+mod marks;
 pub mod option;
 mod pass;
 pub mod timing;
