@@ -316,7 +316,18 @@ impl Optimizer<'_> {
         match callee {
             Expr::Arrow(f) => {
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
-                    return;
+                    match &f.body {
+                        BlockStmtOrExpr::BlockStmt(body) => {
+                            let has_decl = body.stmts.iter().any(|stmt| match stmt {
+                                Stmt::Decl(..) => true,
+                                _ => false,
+                            });
+                            if has_decl {
+                                return;
+                            }
+                        }
+                        BlockStmtOrExpr::Expr(_) => {}
+                    }
                 }
 
                 if f.params.iter().any(|param| !param.is_ident()) {
