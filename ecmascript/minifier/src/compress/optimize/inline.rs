@@ -62,6 +62,12 @@ impl Optimizer<'_> {
                     }
 
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+                        if cfg!(feature = "debug") {
+                            log::trace!(
+                                "inline: Preserving non-const variable `{}` because it's top-level",
+                                dump(&var.name)
+                            );
+                        }
                         return;
                     }
 

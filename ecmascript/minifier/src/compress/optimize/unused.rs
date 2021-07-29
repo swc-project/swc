@@ -1,4 +1,5 @@
 use crate::compress::optimize::util::class_has_side_effect;
+use crate::debug::dump;
 use crate::option::PureGetterOption;
 use crate::util::has_mark;
 
@@ -140,6 +141,12 @@ impl Optimizer<'_> {
                     if (!self.options.top_level() && self.options.top_retain.is_empty())
                         && self.ctx.in_top_level()
                     {
+                        if cfg!(feature = "debug") {
+                            log::trace!(
+                                "unused: Preserving `var` `{}` because it's top-level",
+                                dump(&*name)
+                            );
+                        }
                         return;
                     }
                 }
