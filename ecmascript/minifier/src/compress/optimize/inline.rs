@@ -80,6 +80,9 @@ impl Optimizer<'_> {
                     }
 
                     if usage.cond_init || usage.used_above_decl {
+                        if cfg!(feature = "debug") {
+                            log::trace!("inline: [x] It's cond init or used before decl",);
+                        }
                         return;
                     }
 
@@ -87,6 +90,9 @@ impl Optimizer<'_> {
                         match &**init {
                             Expr::Lit(..) => {}
                             _ => {
+                                if cfg!(feature = "debug") {
+                                    log::trace!("inline: [x] It's not fn-local");
+                                }
                                 return;
                             }
                         }
@@ -160,6 +166,9 @@ impl Optimizer<'_> {
                     }
 
                     if self.ctx.inline_as_assignment {
+                        if cfg!(feature = "debug") {
+                            log::trace!("inline: [x] inline_as_assignment is true");
+                        }
                         return;
                     }
 
@@ -206,7 +215,7 @@ impl Optimizer<'_> {
 
                         if usage.used_in_loop {
                             match &**init {
-                                Expr::Lit(..) | Expr::Ident(..) => {}
+                                Expr::Lit(..) | Expr::Ident(..) | Expr::Fn(..) => {}
                                 _ => {
                                     return;
                                 }
