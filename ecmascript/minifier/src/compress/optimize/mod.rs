@@ -114,6 +114,8 @@ struct Ctx {
 
     in_asm: bool,
 
+    in_call_arg: bool,
+
     /// If this is `true`, the first usage will be inlined as an assignment.
     inline_as_assignment: bool,
 
@@ -1586,6 +1588,7 @@ impl VisitMut for Optimizer<'_> {
         {
             let ctx = Ctx {
                 is_this_aware_callee: false,
+                in_call_arg: true,
                 ..self.ctx
             };
             // TODO: Prevent inline if callee is unknown.
@@ -2053,7 +2056,11 @@ impl VisitMut for Optimizer<'_> {
         n.callee.visit_mut_with(self);
 
         {
-            n.args.visit_mut_with(self);
+            let ctx = Ctx {
+                in_call_arg: true,
+                ..self.ctx
+            };
+            n.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
     }
 
