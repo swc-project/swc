@@ -538,7 +538,13 @@ impl Optimizer<'_> {
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
-        if cons.eq_ignore_span(alt) {
+        if cons.eq_ignore_span(alt)
+            && match &*cons {
+                Expr::Yield(..) => false,
+                _ => true,
+            }
+        {
+            log::debug!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![test.take(), Box::new(cons.take())],
