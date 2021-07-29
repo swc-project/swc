@@ -134,6 +134,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if cfg!(feature = "debug") {
+            log::trace!("unused: drop_unused_vars({})", dump(&*name));
+        }
+
         // Top-level
         if !has_mark(var_declarator_span, self.marks.non_top_level) {
             match self.ctx.var_kind {
@@ -219,6 +223,10 @@ impl Optimizer<'_> {
                     // This will remove variable.
                     name.take();
                     return;
+                } else {
+                    if cfg!(feature = "debug") {
+                        log::trace!("unused: Cannot drop ({}) becaue it's used", dump(&*i));
+                    }
                 }
             }
 

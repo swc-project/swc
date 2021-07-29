@@ -29,6 +29,14 @@ impl Optimizer<'_> {
             && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
 
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "inline: store_var_for_inining({}, should_preserve = {:?})",
+                dump(&var.name),
+                should_preserve
+            );
+        }
+
         if self
             .data
             .as_ref()
