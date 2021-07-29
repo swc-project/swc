@@ -282,12 +282,24 @@ impl Optimizer<'_> {
             // is without return, we don't need to fold it as `void 0` is too much for such
             // cases.
 
+            let if_return_count = stmts
+                .iter()
+                .filter(|s| match s {
+                    Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    }) => always_terminates_with_return_arg(&cons),
+                    _ => false,
+                })
+                .count();
+
             if stmts.len() >= 2 {
                 match (
                     &stmts[stmts.len() - 2].as_stmt(),
                     &stmts[stmts.len() - 1].as_stmt(),
                 ) {
-                    (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..))) => {
+                    (_, Some(Stmt::If(IfStmt { alt: None, .. }) | Stmt::Expr(..)))
+                        if if_return_count <= 1 =>
+                    {
                         log::trace!(
                             "if_return: [x] Aborting because last stmt is a not return stmt"
                         );
@@ -328,7 +340,7 @@ impl Optimizer<'_> {
             let ends_with_mergable = stmts
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
-                    Some(Stmt::Return(..) | Stmt::Expr(..)) => true,
+                    Some(s) => self.can_merge_stmt_as_if_return(s),
                     _ => false,
                 })
                 .unwrap();
@@ -596,4 +608,20 @@ impl Visit for ReturnFinder {
 
     fn visit_function(&mut self, _: &Function, _: &dyn Node) {}
     fn visit_arrow_expr(&mut self, _: &ArrowExpr, _: &dyn Node) {}
+}
+
+fn always_terminates_with_return_arg(s: &Stmt) -> bool {
+    match s {
+        Stmt::Return(ReturnStmt { arg: Some(..), .. }) => true,
+        Stmt::If(IfStmt { cons, alt, .. }) => {
+            always_terminates_with_return_arg(&cons)
+                && alt
+                    .as_deref()
+                    .map(always_terminates_with_return_arg)
+                    .unwrap_or(false)
+        }
+        Stmt::Block(s) => s.stmts.iter().any(always_terminates_with_return_arg),
+
+        _ => false,
+    }
 }
