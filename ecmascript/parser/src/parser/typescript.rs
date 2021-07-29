@@ -546,6 +546,10 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         token_to_eat: &'static Token,
     ) -> PResult<Option<Box<TsType>>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         self.in_type().parse_with(|p| {
             if !p.input.eat(token_to_eat) {
                 return Ok(None);
@@ -1191,6 +1195,10 @@ impl<I: Tokens> Parser<I> {
         readonly: bool,
         is_static: bool,
     ) -> PResult<Option<TsIndexSignature>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         if !(is!(self, '[') && self.ts_look_ahead(|p| p.is_ts_unambiguously_index_signature())?) {
             return Ok(None);
         }
@@ -1576,6 +1584,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
+        if !cfg!(feature = "typescript") {
+            return Default::default();
+        }
+
         self.try_parse_ts(|p| {
             let start = cur_pos!(p);
 
@@ -1752,6 +1764,10 @@ impl<I: Tokens> Parser<I> {
 
     #[allow(clippy::vec_box)]
     fn parse_ts_tpl_type_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         trace_cur!(self, parse_tpl_elements);
 
         let mut types = vec![];
@@ -1776,6 +1792,10 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Eats ')` at the end but does not eat `(` at start.
     fn parse_ts_binding_list_for_signature(&mut self) -> PResult<Vec<TsFnParam>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         debug_assert!(self.input.syntax().typescript());
 
         let params = self.parse_formal_params()?;
@@ -1803,6 +1823,10 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Used for parsing return types.
     fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<TsTypeAnn>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(None);
+        }
+
         if is!(self, ':') {
             self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                 .map(Some)
@@ -1813,6 +1837,10 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsTryParseTypeAnnotation`
     pub(super) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<TsTypeAnn>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(None);
+        }
+
         if is!(self, ':') {
             let pos = cur_pos!(self);
             return self.parse_ts_type_ann(/* eat_colon */ true, pos).map(Some);
@@ -1823,11 +1851,19 @@ impl<I: Tokens> Parser<I> {
 
     /// `tsTryParseType`
     fn try_parse_ts_type(&mut self) -> PResult<Option<Box<TsType>>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(None);
+        }
+
         self.eat_then_parse_ts_type(&tok!(':'))
     }
 
     /// `tsTryParseTypeParameters`
     pub(super) fn try_parse_ts_type_params(&mut self) -> PResult<Option<TsTypeParamDecl>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(None);
+        }
+
         if is!(self, '<') {
             return self.parse_ts_type_params().map(Some);
         }
@@ -1837,6 +1873,9 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseNonArrayType`
     #[allow(clippy::cognitive_complexity)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
+        if !cfg!(feature = "typescript") {
+            unreachable!()
+        }
         trace_cur!(self, parse_ts_non_array_type);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2091,6 +2130,10 @@ impl<I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
         expr: Ident,
     ) -> PResult<Option<Decl>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         let start = expr.span().lo();
 
         match &*expr.sym {
@@ -2161,6 +2204,10 @@ impl<I: Tokens> Parser<I> {
         start: BytePos,
         decorators: Vec<Decorator>,
     ) -> PResult<Option<Decl>> {
+        if !self.syntax().typescript() {
+            return Ok(None);
+        }
+
         assert!(
             !is!(self, "declare"),
             "try_parse_ts_declare should be called after eating `declare`"
@@ -2280,6 +2327,10 @@ impl<I: Tokens> Parser<I> {
         decorators: Vec<Decorator>,
         value: JsWord,
     ) -> Option<Decl> {
+        if !cfg!(feature = "typescript") {
+            return None;
+        }
+
         self.try_parse_ts(|p| {
             let start = cur_pos!(p);
             let opt = p.parse_ts_decl(start, decorators, value, true)?;
@@ -2302,6 +2353,10 @@ impl<I: Tokens> Parser<I> {
         value: JsWord,
         next: bool,
     ) -> PResult<Option<Decl>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         match value {
             js_word!("abstract") => {
                 if next || (is!(self, "class") && !self.input.had_line_break_before_cur()) {
@@ -2405,6 +2460,10 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
     ) -> PResult<Option<ArrowExpr>> {
+        if !cfg!(feature = "typescript") {
+            return Ok(Default::default());
+        }
+
         let res = if is_one_of!(self, '<', JSXTagStart) {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params()?;

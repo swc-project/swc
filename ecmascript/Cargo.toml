@@ -6,13 +6,14 @@ edition = "2018"
 license = "Apache-2.0/MIT"
 name = "swc_ecmascript"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.46.0"
+version = "0.48.0"
 
 [package.metadata.docs.rs]
 all-features = true
 
 [features]
 codegen = ["swc_ecma_codegen"]
+default = ["typescript-parser"]
 dep_graph = ["swc_ecma_dep_graph"]
 minifier = ["swc_ecma_minifier"]
 parser = ["swc_ecma_parser"]
@@ -20,21 +21,23 @@ transforms = ["swc_ecma_transforms"]
 utils = ["swc_ecma_utils"]
 visit = ["swc_ecma_visit"]
 
+typescript-parser = ["swc_ecma_parser/typescript"]
+
 compat = ["swc_ecma_transforms/compat"]
 module = ["swc_ecma_transforms/module"]
 optimization = ["swc_ecma_transforms/optimization"]
 proposal = ["swc_ecma_transforms/proposal"]
 react = ["swc_ecma_transforms/react"]
-typescript = ["swc_ecma_transforms/typescript"]
+typescript = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
 swc_ecma_ast = {version = "0.49.0", path = "./ast"}
-swc_ecma_codegen = {version = "0.62.0", path = "./codegen", optional = true}
-swc_ecma_dep_graph = {version = "0.31.0", path = "./dep-graph", optional = true}
-swc_ecma_minifier = {version = "0.12.0", path = "./minifier", optional = true}
-swc_ecma_parser = {version = "0.63.0", path = "./parser", optional = true}
-swc_ecma_transforms = {version = "0.59.0", path = "./transforms", optional = true}
-swc_ecma_utils = {version = "0.40.0", path = "./utils", optional = true}
+swc_ecma_codegen = {version = "0.64.0", path = "./codegen", optional = true}
+swc_ecma_dep_graph = {version = "0.33.0", path = "./dep-graph", optional = true}
+swc_ecma_minifier = {version = "0.14.0", path = "./minifier", optional = true}
+swc_ecma_parser = {version = "0.65.0", path = "./parser", optional = true, default-features = false}
+swc_ecma_transforms = {version = "0.61.0", path = "./transforms", optional = true}
+swc_ecma_utils = {version = "0.41.0", path = "./utils", optional = true}
 swc_ecma_visit = {version = "0.35.0", path = "./visit", optional = true}
 
 [dev-dependencies]

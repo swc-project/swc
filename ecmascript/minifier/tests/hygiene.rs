@@ -13,7 +13,7 @@ use testing::assert_eq;
 use testing::run_test2;
 use testing::DebugUsingDisplay;
 
-#[testing::fixture("hygiene/identical/**/*.js")]
+#[testing::fixture("tests/hygiene/identical/**/*.js")]
 fn identical(input: PathBuf) {
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).expect("failed to load input.js");
