@@ -128,9 +128,15 @@ impl Optimizer<'_> {
         name: &mut Pat,
         init: Option<&mut Expr>,
     ) {
-        if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
-        {
-            return;
+        let has_mark = has_mark(var_declarator_span, self.marks.non_top_level);
+
+        if !has_mark {
+            if !self.options.unused
+                || self.ctx.in_var_decl_of_for_in_or_of_loop
+                || self.ctx.is_exported
+            {
+                return;
+            }
         }
 
         if cfg!(feature = "debug") {
@@ -138,7 +144,7 @@ impl Optimizer<'_> {
         }
 
         // Top-level
-        if !has_mark(var_declarator_span, self.marks.non_top_level) {
+        if !has_mark {
             match self.ctx.var_kind {
                 Some(VarDeclKind::Var) => {
                     if (!self.options.top_level() && self.options.top_retain.is_empty())
@@ -380,7 +386,14 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
-        if !self.options.unused {
+        let assign = match e {
+            Expr::Assign(e) => e,
+            _ => return,
+        };
+
+        let has_mark = has_mark(assign.span, self.marks.non_top_level);
+
+        if !has_mark && !self.options.unused {
             return;
         }
 
@@ -397,11 +410,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        let assign = match e {
-            Expr::Assign(e) => e,
-            _ => return,
-        };
-
         if cfg!(feature = "debug") {
             log::trace!(
                 "unused: drop_unused_assignments: Target: `{}`",
@@ -409,7 +417,7 @@ impl Optimizer<'_> {
             )
         }
 
-        if !has_mark(assign.span, self.marks.non_top_level)
+        if !has_mark
             && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
