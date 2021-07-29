@@ -235,7 +235,7 @@ fn find_config(dir: &Path) -> String {
     panic!("failed to find config file for {}", dir.display())
 }
 
-#[testing::fixture("compress/fixture/**/input.js")]
+#[testing::fixture("tests/compress/fixture/**/input.js")]
 fn base_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = find_config(&dir);
@@ -263,7 +263,7 @@ fn base_fixture(input: PathBuf) {
     .unwrap()
 }
 
-#[testing::fixture("projects/files/*.js")]
+#[testing::fixture("tests/projects/files/*.js")]
 fn projects(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = dir.join("config.json");
