@@ -5,7 +5,6 @@ use crate::option::PureGetterOption;
 use crate::util::has_mark;
 use swc_atoms::js_word;
 use swc_common::Span;
-use swc_common::Spanned;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
@@ -398,17 +397,23 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !has_mark(e.span(), self.marks.non_top_level)
-            && (!self.options.top_level() && self.options.top_retain.is_empty())
-            && self.ctx.in_top_level()
-        {
-            return;
-        }
-
         let assign = match e {
             Expr::Assign(e) => e,
             _ => return,
         };
+
+        if !has_mark(assign.span, self.marks.non_top_level)
+            && (!self.options.top_level() && self.options.top_retain.is_empty())
+            && self.ctx.in_top_level()
+        {
+            if cfg!(feature = "debug") {
+                log::trace!(
+                    "unused: Preserving assignment to `{}` because it's top-level",
+                    dump(&assign.left)
+                )
+            }
+            return;
+        }
 
         match &mut assign.left {
             PatOrExpr::Expr(_) => return,
