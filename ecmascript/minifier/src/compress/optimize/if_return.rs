@@ -123,6 +123,10 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
+        if !self.options.conditionals && !self.options.bools {
+            return;
+        }
+
         if s.alt.is_some() {
             return;
         }
