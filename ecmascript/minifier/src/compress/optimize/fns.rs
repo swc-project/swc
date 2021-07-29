@@ -22,6 +22,10 @@ impl Optimizer<'_> {
     where
         T: MoudleItemExt,
     {
+        if !self.options.join_vars {
+            return;
+        }
+
         // Sort by position
 
         if is_sorted_by(stmts.iter(), |a, b| {
