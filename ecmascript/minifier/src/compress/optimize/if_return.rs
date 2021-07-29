@@ -53,7 +53,7 @@ impl Optimizer<'_> {
         handle_continue: bool,
     ) {
         if handle_return {
-            if !self.options.if_return {
+            if !self.options.if_return || !self.options.bools {
                 return;
             }
 
