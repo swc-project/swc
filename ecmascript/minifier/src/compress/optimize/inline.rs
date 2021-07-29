@@ -357,7 +357,7 @@ impl Optimizer<'_> {
                                     f.ident.span.ctxt
                                 );
 
-                                self.lits.insert(
+                                self.vars_for_inlining.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
