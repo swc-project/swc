@@ -452,8 +452,6 @@ functions/inline_function_expressions/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/issue_2097/input.js
-functions/issue_2601_2/input.js
-functions/issue_2620_2/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js
