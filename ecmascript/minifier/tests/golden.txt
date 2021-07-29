@@ -967,7 +967,6 @@ reduce_vars/issue_2455/input.js
 reduce_vars/issue_2598/input.js
 reduce_vars/issue_2670/input.js
 reduce_vars/issue_2869/input.js
-reduce_vars/issue_2916/input.js
 reduce_vars/issue_2919/input.js
 reduce_vars/issue_2992/input.js
 reduce_vars/issue_3042_1/input.js
@@ -992,7 +991,6 @@ reduce_vars/issue_581_2/input.js
 reduce_vars/issue_741_2/input.js
 reduce_vars/issue_741_reference_cycle/input.js
 reduce_vars/method_1/input.js
-reduce_vars/method_2/input.js
 reduce_vars/multi_def_1/input.js
 reduce_vars/multi_def_2/input.js
 reduce_vars/multi_def_3/input.js
@@ -1216,7 +1214,6 @@ yield/generator_yield_undefined/input.js
 yield/generators/input.js
 yield/generators_yield/input.js
 yield/generators_yield_assign/input.js
-yield/issue_2689/input.js
 yield/issue_2832/input.js
 yield/issue_t60/input.js
 yield/yield_as_ES5_property/input.js
