@@ -4,7 +4,10 @@ use pmutil::q;
 use proc_macro2::Span;
 use regex::Regex;
 use relative_path::RelativePath;
-use std::{env, path::Component};
+use std::{
+    env,
+    path::{Component, PathBuf},
+};
 use syn::{
     parse::{Parse, ParseStream},
     Ident, ItemFn, Lit, LitStr, Meta, NestedMeta, Token,
@@ -99,11 +102,12 @@ impl Parse for Config {
 }
 
 pub fn expand(callee: &Ident, attr: Config) -> Result<Vec<ItemFn>, Error> {
-    let base_dir = env::current_dir().expect(
-        "#[fixture] requires current directory because it's relative to cargo manifest directory",
-    );
+    let base_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect(
+        "#[fixture] requires CARGO_MANIFEST_DIR because it's relative to cargo manifest directory",
+    ));
     let resolved_path = RelativePath::new(&attr.pattern).to_path(&base_dir);
     let pattern = resolved_path.to_string_lossy();
+    eprintln!("{}: ", resolved_path.display());
 
     let paths =
         glob(&pattern).with_context(|| format!("glob failed for whole path: `{}`", pattern))?;
