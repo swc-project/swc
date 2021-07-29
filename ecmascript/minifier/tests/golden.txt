@@ -571,7 +571,6 @@ if_return/issue_1317/input.js
 if_return/issue_1317_strict/input.js
 if_return/issue_1437/input.js
 if_return/issue_1437_conditionals/input.js
-if_return/issue_2747/input.js
 inline/inline_func_with_name_existing_in_block_scope/input.js
 inline/inline_into_scope_conflict_enclosed/input.js
 inline/inline_into_scope_conflict_enclosed_2/input.js
@@ -604,7 +603,6 @@ issue_1588/support_ie8/input.js
 issue_1639/issue_1639_3/input.js
 issue_1656/f7/input.js
 issue_1673/side_effects_catch/input.js
-issue_1673/side_effects_else/input.js
 issue_1673/side_effects_finally/input.js
 issue_1673/side_effects_label/input.js
 issue_1673/side_effects_switch/input.js
