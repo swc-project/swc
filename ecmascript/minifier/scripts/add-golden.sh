@@ -6,7 +6,7 @@ set -eu
 
 export SWC_RUN=0
 
-cargo test --test compress --all-features \
+cargo test --test compress --all-features fixture_tests__terser__compress__ \
   | grep 'fixture_tests__terser__compress__' \
   | grep 'js .\.\. ok$' \
   | sed -e 's!test fixture_tests__terser__compress__!!' \
