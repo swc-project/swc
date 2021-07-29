@@ -58,22 +58,22 @@ passes the test-suite at all times.
 
 Your basic steps to get going:
 
-- Fork swc and create a branch from master for the issue you are working on.
-- Make sure you have the `make` utility installed, along with Rust and C/C++
-  compilers.
-- Please adhere to the code style that you see around the location you are
-  working on.
-- [Commit as you go][githelp].
-- Include tests that cover all non-trivial code. The existing tests
-  in `test/` provide templates on how to test swc's behavior in a
-  sandbox-environment. The internal crate `testing` provides a vast amount
-  of helpers to minimize boilerplate. See [`testing/lib.rs`] for an
-  introduction to writing tests.
-- Make sure `cargo test` passes.
-- All code changes are expected to comply with the formatting suggested by `rustfmt`.
-  You can use `rustup component add --toolchain nightly rustfmt-preview` to install `rustfmt` and use
-  `rustfmt +nightly --unstable-features --skip-children` on the changed files to automatically format your code.
-- Push your commits to GitHub and create a pull request against swc's `master` branch.
+-   Fork swc and create a branch from master for the issue you are working on.
+-   Make sure you have the `make` utility installed, along with Rust and C/C++
+    compilers.
+-   Please adhere to the code style that you see around the location you are
+    working on.
+-   [Commit as you go][githelp].
+-   Include tests that cover all non-trivial code. The existing tests
+    in `test/` provide templates on how to test swc's behavior in a
+    sandbox-environment. The internal crate `testing` provides a vast amount
+    of helpers to minimize boilerplate. See [`testing/lib.rs`] for an
+    introduction to writing tests.
+-   Make sure `cargo test` passes.
+-   All code changes are expected to comply with the formatting suggested by `rustfmt`.
+    You can use `rustup component add --toolchain nightly rustfmt-preview` to install `rustfmt` and use
+    `rustfmt +nightly --unstable-features --skip-children` on the changed files to automatically format your code.
+-   Push your commits to GitHub and create a pull request against swc's `master` branch.
 
 ## Getting your development environment set up
 
@@ -95,7 +95,6 @@ After cloning the project there are a few steps required to get the project runn
 3.  Setup some environment variables which is required for tests.
 
     ```bash
-    export RUSTFLAGS='--cfg procmacro2_semver_exempt'
     export RUST_BACKTRACE=full
     export PATH="$PATH:$PWD/ecmascript/transforms/node_modules/.bin"
     ```
@@ -149,27 +148,27 @@ updated sort][lru] is good for finding issues like this.
 Contributors with sufficient permissions on the Rust-repository can help by
 adding labels to triage issues:
 
-- Yellow, **A**-prefixed labels state which **area** of the project an issue
-  relates to.
+-   Yellow, **A**-prefixed labels state which **area** of the project an issue
+    relates to.
 
-- Magenta, **B**-prefixed labels identify bugs which are **blockers**.
+-   Magenta, **B**-prefixed labels identify bugs which are **blockers**.
 
-- Red, **C**-prefixed labels represent the **category** of an issue.
-  In particular, **C-feature-request** marks _proposals_ for new features. If
-  an issue is **C-feature-request**, but is not **Feature accepted**,
-  then it was not thoroughly discussed, and might need some additional design
-  or perhaps should be implemented as an external subcommand first. Ping
-  @swc-projcet/swc if you want to send a PR for an such issue.
+-   Red, **C**-prefixed labels represent the **category** of an issue.
+    In particular, **C-feature-request** marks _proposals_ for new features. If
+    an issue is **C-feature-request**, but is not **Feature accepted**,
+    then it was not thoroughly discussed, and might need some additional design
+    or perhaps should be implemented as an external subcommand first. Ping
+    @swc-projcet/swc if you want to send a PR for an such issue.
 
-- Green, **E**-prefixed labels explain the level of **experience** or
-  **effort** necessary to fix the issue. [**E-mentor**][e-mentor] issues also
-  have some instructions on how to get started.
+-   Green, **E**-prefixed labels explain the level of **experience** or
+    **effort** necessary to fix the issue. [**E-mentor**][e-mentor] issues also
+    have some instructions on how to get started.
 
-- Purple gray, **O**-prefixed labels are the **operating system** or platform
-  that this issue is specific to.
+-   Purple gray, **O**-prefixed labels are the **operating system** or platform
+    that this issue is specific to.
 
-- Orange, **P**-prefixed labels indicate a bug's **priority**.
-- Light orange, **L**-prefixed labels indicate language related to the bug.
+-   Orange, **P**-prefixed labels indicate a bug's **priority**.
+-   Light orange, **L**-prefixed labels indicate language related to the bug.
 
 [gist]: https://gist.github.com/
 [new-issues]: https://github.com/swc-project/swc/issues/new

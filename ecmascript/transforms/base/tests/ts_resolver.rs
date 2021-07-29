@@ -15,8 +15,8 @@ use swc_ecma_visit::Visit;
 use swc_ecma_visit::VisitWith;
 use testing::fixture;
 
-#[fixture("../../../parser/tests/typescript/**/*.ts")]
-#[fixture("../../../parser/tests/typescript/**/*.tsx")]
+#[fixture("../../parser/tests/typescript/**/*.ts")]
+#[fixture("../../parser/tests/typescript/**/*.tsx")]
 fn no_empty(input: PathBuf) {
     eprintln!("{}", input.display());
 

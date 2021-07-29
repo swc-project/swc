@@ -912,7 +912,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2260,7 +2260,7 @@ checksum = "6446ced80d6c486436db5c078dde11a9f73d42b57fb273121e160b84f63d894c"
 
 [[package]]
 name = "swc"
-version = "0.31.0"
+version = "0.32.0"
 dependencies = [
  "ahash 0.7.4",
  "anyhow",
@@ -2351,7 +2351,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.47.0"
+version = "0.48.0"
 dependencies = [
  "ahash 0.7.4",
  "anyhow",
@@ -2430,7 +2430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.63.0"
+version = "0.64.0"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2456,7 +2456,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_dep_graph"
-version = "0.32.0"
+version = "0.33.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2468,7 +2468,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.22.0"
+version = "0.23.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -2481,7 +2481,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.11.1"
+version = "0.12.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2500,7 +2500,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.13.0"
+version = "0.14.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
@@ -2528,7 +2528,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -2552,7 +2552,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.30.0"
+version = "0.31.0"
 dependencies = [
  "dashmap",
  "fxhash",
@@ -2578,7 +2578,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.60.0"
+version = "0.61.0"
 dependencies = [
  "pretty_assertions 0.6.1",
  "sourcemap",
@@ -2605,7 +2605,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.23.1"
+version = "0.24.0"
 dependencies = [
  "fxhash",
  "once_cell",
@@ -2624,7 +2624,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.9.0"
+version = "0.10.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2636,7 +2636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.26.0"
+version = "0.27.0"
 dependencies = [
  "arrayvec",
  "fxhash",
@@ -2672,7 +2672,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -2695,7 +2695,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.30.0"
+version = "0.31.0"
 dependencies = [
  "dashmap",
  "fxhash",
@@ -2722,7 +2722,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "either",
  "fxhash",
@@ -2744,7 +2744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.28.0"
+version = "0.29.0"
 dependencies = [
  "base64 0.13.0",
  "dashmap",
@@ -2770,7 +2770,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "ansi_term 0.12.1",
  "serde",
@@ -2788,7 +2788,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.29.0"
+version = "0.30.0"
 dependencies = [
  "fxhash",
  "serde",
@@ -2810,7 +2810,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.40.1"
+version = "0.41.0"
 dependencies = [
  "once_cell",
  "scoped-tls",
@@ -2835,7 +2835,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.47.0"
+version = "0.48.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2933,7 +2933,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.11.0"
+version = "0.12.0"
 dependencies = [
  "ansi_term 0.12.1",
  "difference",
@@ -2948,7 +2948,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "0.1.2"
+version = "0.2.1"
 dependencies = [
  "anyhow",
  "glob",

@@ -1160,7 +1160,7 @@ impl Visit for ExportCollector {
     }
 }
 
-#[testing::fixture("deno-exec/**/entry.ts")]
+#[testing::fixture("tests/deno-exec/**/entry.ts")]
 fn exec(input: PathBuf) {
     let dir = tempfile::tempdir().expect("failed to crate temp file");
     let path = dir.path().join("main.js");
