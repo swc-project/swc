@@ -825,6 +825,10 @@ impl Optimizer<'_> {
     }
 
     fn is_skippable_for_seq(&self, e: &Expr) -> bool {
+        if self.ctx.in_try_block {
+            return false;
+        }
+
         if !e.may_have_side_effects() {
             return true;
         }
