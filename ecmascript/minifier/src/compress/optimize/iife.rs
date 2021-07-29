@@ -384,7 +384,7 @@ impl Optimizer<'_> {
                                 .iter()
                                 .cloned()
                                 .map(|name| VarDeclarator {
-                                    span: DUMMY_SP,
+                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                                     name,
                                     init: Default::default(),
                                     definite: Default::default(),
@@ -561,7 +561,7 @@ impl Optimizer<'_> {
                 .map(BindingIdent::from)
                 .map(Pat::Ident)
                 .map(|name| VarDeclarator {
-                    span: DUMMY_SP,
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
                     name,
                     init: Default::default(),
                     definite: Default::default(),
