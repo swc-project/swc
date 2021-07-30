@@ -414,19 +414,16 @@ impl Optimizer<'_> {
                 op!("&=")
             }
             BinaryOp::LogicalOr => {
-                // op!("||=")
-                return;
+                op!("||=")
             }
             BinaryOp::LogicalAnd => {
-                // op!("&&=")
-                return;
+                op!("&&=")
             }
             BinaryOp::Exp => {
                 op!("**=")
             }
             BinaryOp::NullishCoalescing => {
-                // op!("??=")
-                return;
+                op!("??=")
             }
         };
 
