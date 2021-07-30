@@ -21,6 +21,8 @@ use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap}
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
+use swc_ecma_minifier::option::terser::{TerserCompressorOptions, TerserEcmaVersion};
+use swc_ecma_minifier::option::{MangleOptions, ManglePropertiesOptions};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::modules::hoist::import_hoister;
@@ -287,7 +289,7 @@ impl Options {
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
         BuiltConfig {
-            minify: config.minify.unwrap_or(false),
+            minify: config.minify.is_some(),
             pass,
             external_helpers,
             syntax,
@@ -479,7 +481,7 @@ pub struct Config {
     pub module: Option<ModuleConfig>,
 
     #[serde(default)]
-    pub minify: Option<bool>,
+    pub minify: Option<MinifyConfig>,
 
     #[serde(default)]
     pub input_source_map: InputSourceMap,
@@ -487,6 +489,48 @@ pub struct Config {
     /// Possible values are: `'inline'`, `true`, `false`.
     #[serde(default)]
     pub source_maps: Option<SourceMapsConfig>,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+#[serde(untagged)]
+pub enum MinifyConfig {
+    Bool(bool),
+    Terser(TerserMinifyOptions),
+}
+
+/// Second argument of `minify`.
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TerserMinifyOptions {
+    #[serde(default)]
+    pub compress: Option<TerserCompressorOptions>,
+
+    #[serde(default)]
+    pub mangle: Option<MangleOptions>,
+
+    #[serde(default)]
+    pub ecma: TerserEcmaVersion,
+
+    #[serde(default)]
+    pub keep_classnames: bool,
+
+    #[serde(default)]
+    pub keep_fnames: bool,
+
+    #[serde(default)]
+    pub module: bool,
+
+    #[serde(default)]
+    pub safari10: bool,
+
+    #[serde(default)]
+    pub toplevel: bool,
+}
+
+impl Default for MinifyConfig {
+    fn default() -> Self {
+        Self::Bool(false)
+    }
 }
 
 impl Config {
@@ -884,6 +928,75 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
+    }
+}
+
+impl Merge for MinifyConfig {
+    fn merge(&mut self, from: &Self) {
+        match self {
+            MinifyConfig::Bool(l) => match from {
+                MinifyConfig::Bool(r) => {
+                    *l |= *r;
+                }
+                MinifyConfig::Terser(r) => {
+                    *self = MinifyConfig::Terser(r.clone());
+                }
+            },
+            MinifyConfig::Terser(l) => match from {
+                MinifyConfig::Bool(r) => {
+                    if *r {
+                        l.compress.get_or_insert_with(Default::default);
+                        l.mangle.get_or_insert_with(Default::default);
+                    }
+                }
+                MinifyConfig::Terser(r) => {
+                    l.merge(r);
+                }
+            },
+        }
+    }
+}
+
+impl Merge for TerserMinifyOptions {
+    fn merge(&mut self, from: &Self) {
+        self.compress.merge(&from.compress);
+        self.mangle.merge(&from.mangle);
+        self.ecma.merge(&from.ecma);
+        self.keep_classnames |= from.keep_classnames;
+        self.keep_fnames |= from.keep_fnames;
+        self.safari10 |= from.safari10;
+        self.toplevel |= from.toplevel;
+    }
+}
+
+impl Merge for TerserCompressorOptions {
+    fn merge(&mut self, from: &Self) {
+        self.defaults |= from.defaults;
+        // TODO
+    }
+}
+
+impl Merge for MangleOptions {
+    fn merge(&mut self, from: &Self) {
+        self.props.merge(&from.props);
+
+        self.top_level |= from.top_level;
+        self.keep_class_names |= from.keep_class_names;
+        self.keep_fn_names |= from.keep_fn_names;
+        self.keep_private_props |= from.keep_private_props;
+        self.safari10 |= from.safari10;
+    }
+}
+
+impl Merge for ManglePropertiesOptions {
+    fn merge(&mut self, from: &Self) {
+        self.undeclared |= from.undeclared;
+    }
+}
+
+impl Merge for TerserEcmaVersion {
+    fn merge(&mut self, from: &Self) {
+        *self = from.clone();
     }
 }
 
