@@ -1,9 +1,8 @@
 //! Compatibility for terser config.
 
-use crate::option::PureGetterOption;
-
 use super::CompressOptions;
 use super::TopLevelOptions;
+use crate::option::PureGetterOption;
 use fxhash::FxHashMap;
 use serde::Deserialize;
 use serde_json::Value;
@@ -24,6 +23,12 @@ use swc_ecma_utils::drop_span;
 pub enum TerserEcmaVersion {
     Num(usize),
     Str(String),
+}
+
+impl Default for TerserEcmaVersion {
+    fn default() -> Self {
+        Self::Num(5)
+    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
