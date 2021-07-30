@@ -87,8 +87,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self
     }
 
-    pub fn minify(mut self, options: TerserMinifyOptions) -> Self {
-        self.minify = Some(options);
+    pub fn minify(mut self, options: Option<TerserMinifyOptions>) -> Self {
+        self.minify = options;
         self
     }
 

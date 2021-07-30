@@ -202,6 +202,7 @@ impl Options {
             keep_class_names,
             base_url,
             paths,
+            minify: js_minify,
         } = config.jsc;
         let target = target.unwrap_or_default();
 
@@ -271,6 +272,7 @@ impl Options {
         let pass = PassBuilder::new(&cm, &handler, loose, top_level_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
+            .minify(js_minify)
             .hygiene(if self.disable_hygiene {
                 None
             } else {
@@ -482,7 +484,7 @@ pub struct Config {
     pub module: Option<ModuleConfig>,
 
     #[serde(default)]
-    pub minify: Option<MinifyConfig>,
+    pub minify: Option<bool>,
 
     #[serde(default)]
     pub input_source_map: InputSourceMap,
@@ -492,15 +494,8 @@ pub struct Config {
     pub source_maps: Option<SourceMapsConfig>,
 }
 
-#[derive(Debug, Clone, Deserialize)]
-#[serde(untagged)]
-pub enum MinifyConfig {
-    Bool(bool),
-    Terser(TerserMinifyOptions),
-}
-
 /// Second argument of `minify`.
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TerserMinifyOptions {
     #[serde(default)]
@@ -526,12 +521,6 @@ pub struct TerserMinifyOptions {
 
     #[serde(default)]
     pub toplevel: bool,
-}
-
-impl Default for MinifyConfig {
-    fn default() -> Self {
-        Self::Bool(false)
-    }
 }
 
 impl Config {
@@ -665,6 +654,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub paths: Paths,
+
+    #[serde(default)]
+    pub minify: Option<TerserMinifyOptions>,
 }
 
 /// `paths` sectiob of `tsconfig.json`.
@@ -929,32 +921,6 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
-    }
-}
-
-impl Merge for MinifyConfig {
-    fn merge(&mut self, from: &Self) {
-        match self {
-            MinifyConfig::Bool(l) => match from {
-                MinifyConfig::Bool(r) => {
-                    *l |= *r;
-                }
-                MinifyConfig::Terser(r) => {
-                    *self = MinifyConfig::Terser(r.clone());
-                }
-            },
-            MinifyConfig::Terser(l) => match from {
-                MinifyConfig::Bool(r) => {
-                    if *r {
-                        l.compress.get_or_insert_with(Default::default);
-                        l.mangle.get_or_insert_with(Default::default);
-                    }
-                }
-                MinifyConfig::Terser(r) => {
-                    l.merge(r);
-                }
-            },
-        }
     }
 }
 

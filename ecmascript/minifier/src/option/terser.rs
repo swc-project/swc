@@ -4,7 +4,7 @@ use super::CompressOptions;
 use super::TopLevelOptions;
 use crate::option::PureGetterOption;
 use fxhash::FxHashMap;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use swc_atoms::JsWord;
 use swc_common::input::SourceFileInput;
@@ -17,7 +17,7 @@ use swc_ecma_parser::lexer::Lexer;
 use swc_ecma_parser::Parser;
 use swc_ecma_utils::drop_span;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserEcmaVersion {
@@ -31,7 +31,7 @@ impl Default for TerserEcmaVersion {
     }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserPureGetterOption {
@@ -47,7 +47,7 @@ impl Default for TerserPureGetterOption {
     }
 }
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserInlineOption {
@@ -55,7 +55,7 @@ pub enum TerserInlineOption {
     Num(u8),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserTopLevelOptions {
@@ -63,7 +63,7 @@ pub enum TerserTopLevelOptions {
     Str(String),
 }
 
-#[derive(Debug, Clone, Copy, Deserialize)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserSequenceOptions {
@@ -71,7 +71,7 @@ pub enum TerserSequenceOptions {
     Num(u8),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserTopRetainOption {
@@ -79,7 +79,7 @@ pub enum TerserTopRetainOption {
     Seq(Vec<JsWord>),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct TerserCompressorOptions {
     #[serde(default)]
