@@ -521,6 +521,9 @@ pub struct TerserMinifyOptions {
 
     #[serde(default)]
     pub toplevel: bool,
+
+    #[serde(default)]
+    pub source_map: bool,
 }
 
 impl Config {
