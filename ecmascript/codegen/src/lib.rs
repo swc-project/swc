@@ -2543,6 +2543,13 @@ fn escape_without_source(v: &str, target: JscTarget, single_quote: bool) -> Stri
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
 
+            '\u{2028}' => {
+                buf.push_str("\\u2028");
+            }
+            '\u{2029}' => {
+                buf.push_str("\\u2029");
+            }
+
             _ => {
                 buf.push(c);
             }

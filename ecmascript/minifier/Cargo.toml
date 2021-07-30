@@ -7,13 +7,14 @@ include = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license = "Apache-2.0/MIT"
 name = "swc_ecma_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.14.0"
+version = "0.15.0"
 
 [features]
 debug = []
 
 [dependencies]
 fxhash = "0.2.1"
+indexmap = "1.7.0"
 log = "0.4"
 once_cell = "1.5.2"
 pretty_assertions = {version = "0.6.1", optional = true}
@@ -31,10 +32,12 @@ swc_ecma_transforms = {version = "0.61.0", path = "../transforms/", features = [
 swc_ecma_transforms_base = {version = "0.24.0", path = "../transforms/base"}
 swc_ecma_utils = {version = "0.41.0", path = "../utils"}
 swc_ecma_visit = {version = "0.35.0", path = "../visit"}
+unicode-xid = "0.2.2"
 
 [dev-dependencies]
 ansi_term = "0.12.1"
 anyhow = "1"
 pretty_assertions = "0.6.1"
+swc_node_base = {version = "0.2.0", path = "../../node/base"}
 testing = {version = "0.12.0", path = "../../testing"}
 walkdir = "2.3.1"

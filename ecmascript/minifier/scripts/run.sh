@@ -13,6 +13,9 @@ set -eu
 
 export RUST_LOG=swc_ecma_minifier=trace
 
+# Run unit tests.
+cargo test --all-features --lib
+
 # To prevent regression, we run base test before real tests.
 touch tests/compress.rs
 UPDATE=1 ./scripts/base.sh base_fixture
@@ -21,7 +24,7 @@ UPDATE=1 ./scripts/base.sh base_fixture
 if [ -z "$@" ]; then
     ./scripts/sort.sh
 
-    SWC_RUN=0 GOLDEN_ONLY=1 cargo test --test compress --all-features 
+    SWC_RUN=0 GOLDEN_ONLY=1 cargo test -q --test compress --all-features fixture_tests__terser__compress__
 fi
 
 SKIP_GOLDEN=1 cargo test --test compress --all-features $@

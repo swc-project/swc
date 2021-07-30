@@ -1,4 +1,3 @@
-use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::analyzer::UsageAnalyzer;
 use crate::util::is_hoisted_var_decl_without_init;
@@ -24,21 +23,21 @@ pub(super) struct DeclHoisterConfig {
     pub top_level: bool,
 }
 
-pub(super) fn decl_hoister(config: DeclHoisterConfig) -> Hoister {
+pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {
     Hoister {
         config,
         changed: false,
-        data: None,
+        data,
     }
 }
 
-pub(super) struct Hoister {
+pub(super) struct Hoister<'a> {
     config: DeclHoisterConfig,
     changed: bool,
-    data: Option<ProgramData>,
+    data: &'a ProgramData,
 }
 
-impl Repeated for Hoister {
+impl Repeated for Hoister<'_> {
     fn changed(&self) -> bool {
         self.changed
     }
@@ -48,40 +47,30 @@ impl Repeated for Hoister {
     }
 }
 
-impl Hoister {
+impl Hoister<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + IsModuleItem,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer>,
+        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer>,
     {
-        match self.data {
-            None => {
-                self.data = Some(analyze(stmts));
-            }
-            _ => {}
-        }
-
         stmts.visit_mut_children_with(self);
 
         let should_hoist = !is_sorted_by_key(stmts.iter(), |stmt| match stmt.as_stmt() {
             Some(stmt) => match stmt {
                 Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
                 Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                    if let Some(data) = &self.data {
-                        let ids: Vec<Id> = find_ids(&var.decls);
+                    let ids: Vec<Id> = find_ids(&var.decls);
 
-                        if ids.iter().any(|id| {
-                            data.vars
-                                .get(id)
-                                .map(|v| !v.used_above_decl)
-                                .unwrap_or(false)
-                        }) {
-                            2
-                        } else {
-                            3
-                        }
-                    } else {
+                    if ids.iter().any(|id| {
+                        self.data
+                            .vars
+                            .get(id)
+                            .map(|v| !v.used_above_decl)
+                            .unwrap_or(false)
+                    }) {
                         2
+                    } else {
+                        3
                     }
                 }
                 _ => 3,
@@ -133,8 +122,8 @@ impl Hoister {
                                         if decl.init.is_none()
                                             && self
                                                 .data
-                                                .as_ref()
-                                                .and_then(|v| v.vars.get(&id.to_id()))
+                                                .vars
+                                                .get(&id.to_id())
                                                 .map(|v| v.declared_as_fn_param)
                                                 .unwrap_or(false)
                                         {
@@ -207,8 +196,8 @@ impl Hoister {
                                         if decl.init.is_none()
                                             && self
                                                 .data
-                                                .as_ref()
-                                                .and_then(|v| v.vars.get(&name.to_id()))
+                                                .vars
+                                                .get(&name.to_id())
                                                 .map(|v| v.declared_as_fn_param)
                                                 .unwrap_or(false)
                                         {
@@ -258,7 +247,7 @@ impl Hoister {
     }
 }
 
-impl VisitMut for Hoister {
+impl VisitMut for Hoister<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {

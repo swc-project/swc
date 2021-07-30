@@ -55,7 +55,7 @@ impl Optimizer<'_> {
                                 .map(|var| var.is_fn_local)
                                 .unwrap_or(false)
                             {
-                                log::trace!(
+                                log::debug!(
                                     "dead_code: Dropping an assigment to a varaible declared in \
                                      function because function is being terminated"
                                 );

@@ -1,7 +1,6 @@
-var n = 2,
-    c = 0;
+var n = 2, c = 0;
 (function f(a) {
-    0 < n-- && g((a = 1));
+    0 < n-- && g(a = 1);
     function g() {
         a && c++;
     }

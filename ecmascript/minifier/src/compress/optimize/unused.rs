@@ -1,19 +1,77 @@
-use crate::compress::optimize::util::class_has_side_effect;
-use crate::option::PureGetterOption;
-
 use super::Optimizer;
+use crate::compress::optimize::util::class_has_side_effect;
+use crate::debug::dump;
+use crate::option::PureGetterOption;
+use crate::util::has_mark;
 use swc_atoms::js_word;
+use swc_common::Span;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::contains_ident_ref;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::StmtLike;
 use swc_ecma_visit::noop_visit_mut_type;
 use swc_ecma_visit::VisitMut;
 use swc_ecma_visit::VisitMutWith;
 
 /// Methods related to the option `unused`.
 impl Optimizer<'_> {
+    pub(super) fn drop_useless_blocks<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        fn is_inliable(b: &BlockStmt) -> bool {
+            b.stmts.iter().all(|s| match s {
+                Stmt::Decl(Decl::Fn(FnDecl {
+                    ident:
+                        Ident {
+                            sym: js_word!("undefined"),
+                            ..
+                        },
+                    ..
+                })) => false,
+
+                Stmt::Decl(
+                    Decl::Var(VarDecl {
+                        kind: VarDeclKind::Var,
+                        ..
+                    })
+                    | Decl::Fn(..),
+                ) => true,
+                Stmt::Decl(..) => false,
+                _ => true,
+            })
+        }
+
+        if stmts.iter().all(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Block(b)) if is_inliable(b) => false,
+            _ => true,
+        }) {
+            return;
+        }
+
+        self.changed = true;
+        log::debug!("Dropping useless block");
+
+        let mut new = vec![];
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(v) => match v {
+                    Stmt::Block(v) if is_inliable(&v) => {
+                        new.extend(v.stmts.into_iter().map(T::from_stmt));
+                    }
+                    _ => new.push(T::from_stmt(v)),
+                },
+                Err(v) => {
+                    new.push(v);
+                }
+            }
+        }
+
+        *stmts = new;
+    }
+
     pub(super) fn drop_unused_stmt_at_end_of_fn(&mut self, s: &mut Stmt) {
         match s {
             Stmt::Return(r) => match r.arg.as_deref_mut() {
@@ -22,7 +80,7 @@ impl Optimizer<'_> {
                     op: op!("void"),
                     arg,
                 })) => {
-                    log::trace!("unused: Removing `return void` in end of a function");
+                    log::debug!("unused: Removing `return void` in end of a function");
                     self.changed = true;
                     *s = Stmt::Expr(ExprStmt {
                         span: *span,
@@ -48,7 +106,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {}
                 _ => {
-                    self.drop_unused_vars(&mut var.name, Some(init));
+                    self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
                     if var.name.is_invalid() {
                         let side_effects = self.ignore_return_value(init);
@@ -62,7 +120,7 @@ impl Optimizer<'_> {
                 }
             },
             None => {
-                self.drop_unused_vars(&mut var.name, var.init.as_deref_mut());
+                self.drop_unused_vars(var.span, &mut var.name, var.init.as_deref_mut());
             }
         }
     }
@@ -87,30 +145,53 @@ impl Optimizer<'_> {
             return;
         }
 
-        self.take_pat_if_unused(pat, None)
+        self.take_pat_if_unused(DUMMY_SP, pat, None)
     }
 
-    pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
-        if !self.options.unused || self.ctx.in_var_decl_of_for_in_or_of_loop || self.ctx.is_exported
-        {
-            return;
+    pub(super) fn drop_unused_vars(
+        &mut self,
+        var_declarator_span: Span,
+        name: &mut Pat,
+        init: Option<&mut Expr>,
+    ) {
+        let has_mark = has_mark(var_declarator_span, self.marks.non_top_level);
+
+        if !has_mark {
+            if !self.options.unused
+                || self.ctx.in_var_decl_of_for_in_or_of_loop
+                || self.ctx.is_exported
+            {
+                return;
+            }
+        }
+
+        if cfg!(feature = "debug") {
+            log::trace!("unused: drop_unused_vars({})", dump(&*name));
         }
 
         // Top-level
-        match self.ctx.var_kind {
-            Some(VarDeclKind::Var) => {
-                if (!self.options.top_level() && self.options.top_retain.is_empty())
-                    && self.ctx.in_top_level()
-                {
-                    return;
+        if !has_mark {
+            match self.ctx.var_kind {
+                Some(VarDeclKind::Var) => {
+                    if (!self.options.top_level() && self.options.top_retain.is_empty())
+                        && self.ctx.in_top_level()
+                    {
+                        if cfg!(feature = "debug") {
+                            log::trace!(
+                                "unused: Preserving `var` `{}` because it's top-level",
+                                dump(&*name)
+                            );
+                        }
+                        return;
+                    }
                 }
-            }
-            Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
-                if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
-                    return;
+                Some(VarDeclKind::Let) | Some(VarDeclKind::Const) => {
+                    if !self.options.top_level() && self.ctx.is_top_level_for_block_level_vars() {
+                        return;
+                    }
                 }
+                None => {}
             }
-            None => {}
         }
 
         if let Some(scope) = self
@@ -127,12 +208,12 @@ impl Optimizer<'_> {
             return;
         }
 
-        self.take_pat_if_unused(name, init);
+        self.take_pat_if_unused(var_declarator_span, name, init);
     }
 
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
         for param in params.iter_mut().rev() {
-            self.take_pat_if_unused(&mut param.pat, None);
+            self.take_pat_if_unused(DUMMY_SP, &mut param.pat, None);
 
             if !param.pat.is_invalid() {
                 return;
@@ -140,7 +221,13 @@ impl Optimizer<'_> {
         }
     }
 
-    pub(super) fn take_pat_if_unused(&mut self, name: &mut Pat, mut init: Option<&mut Expr>) {
+    /// `parent_span` should be [Span] of [VarDeclarator] or [AssignExpr]
+    pub(super) fn take_pat_if_unused(
+        &mut self,
+        parent_span: Span,
+        name: &mut Pat,
+        mut init: Option<&mut Expr>,
+    ) {
         let had_value = init.is_some();
         let can_drop_children = had_value;
 
@@ -153,7 +240,9 @@ impl Optimizer<'_> {
 
         match name {
             Pat::Ident(i) => {
-                if self.options.top_retain.contains(&i.id.sym) {
+                if !has_mark(parent_span, self.marks.non_top_level)
+                    && self.options.top_retain.contains(&i.id.sym)
+                {
                     return;
                 }
 
@@ -165,7 +254,7 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "unused: Dropping a variable '{}{:?}' because it is not used",
                         i.id.sym,
                         i.id.span.ctxt
@@ -173,6 +262,10 @@ impl Optimizer<'_> {
                     // This will remove variable.
                     name.take();
                     return;
+                } else {
+                    if cfg!(feature = "debug") {
+                        log::trace!("unused: Cannot drop ({}) becaue it's used", dump(&*i));
+                    }
                 }
             }
 
@@ -188,7 +281,7 @@ impl Optimizer<'_> {
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
-                            self.take_pat_if_unused(p, elem);
+                            self.take_pat_if_unused(parent_span, p, elem);
                         }
                         None => {}
                     }
@@ -224,7 +317,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
 
-                            self.take_pat_if_unused(&mut p.value, prop);
+                            self.take_pat_if_unused(parent_span, &mut p.value, prop);
                         }
                         ObjectPatProp::Assign(_) => {}
                         ObjectPatProp::Rest(_) => {}
@@ -303,7 +396,7 @@ impl Optimizer<'_> {
                     .unwrap_or(false)
                 {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
                         ident.span.ctxt
@@ -327,7 +420,14 @@ impl Optimizer<'_> {
     }
 
     pub(super) fn drop_unused_assignments(&mut self, e: &mut Expr) {
-        if !self.options.unused {
+        let assign = match e {
+            Expr::Assign(e) => e,
+            _ => return,
+        };
+
+        let has_mark = has_mark(assign.span, self.marks.non_top_level);
+
+        if !has_mark && !self.options.unused {
             return;
         }
 
@@ -344,19 +444,36 @@ impl Optimizer<'_> {
             return;
         }
 
-        if (!self.options.top_level() && self.options.top_retain.is_empty())
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "unused: drop_unused_assignments: Target: `{}`",
+                dump(&assign.left)
+            )
+        }
+
+        if !has_mark
+            && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level()
         {
+            if cfg!(feature = "debug") {
+                log::trace!(
+                    "unused: Preserving assignment to `{}` because it's top-level",
+                    dump(&assign.left)
+                )
+            }
             return;
         }
 
-        let assign = match e {
-            Expr::Assign(e) => e,
-            _ => return,
-        };
-
         match &mut assign.left {
-            PatOrExpr::Expr(_) => return,
+            PatOrExpr::Expr(_) => {
+                if cfg!(feature = "debug") {
+                    log::trace!(
+                        "unused: Preserving assignment to `{}` because it's an expression",
+                        dump(&assign.left)
+                    )
+                }
+                return;
+            }
             PatOrExpr::Pat(left) => match &**left {
                 Pat::Ident(i) => {
                     if self.options.top_retain.contains(&i.id.sym) {
@@ -369,7 +486,7 @@ impl Optimizer<'_> {
                         .and_then(|data| data.vars.get(&i.to_id()))
                     {
                         if var.is_fn_local && var.usage_count == 0 {
-                            log::trace!(
+                            log::debug!(
                                 "unused: Dropping assignment to var '{}{:?}', which is never used",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -377,6 +494,14 @@ impl Optimizer<'_> {
                             self.changed = true;
                             *e = *assign.right.take();
                             return;
+                        } else {
+                            if cfg!(feature = "debug") {
+                                log::trace!(
+                                    "unused: Preserving assignment to `{}` because of usage: {:?}",
+                                    dump(&assign.left),
+                                    var
+                                )
+                            }
                         }
                     }
                 }
@@ -405,7 +530,7 @@ impl Optimizer<'_> {
 
                 if can_remove_ident {
                     self.changed = true;
-                    log::trace!("Removing ident of an class / function expression");
+                    log::debug!("Removing ident of an class / function expression");
                     *name = None;
                 }
             }
@@ -429,7 +554,7 @@ impl Optimizer<'_> {
                 }
 
                 self.changed = true;
-                log::trace!(
+                log::debug!(
                     "unused: Removing the name of a function expression because it's not used by \
                      it'"
                 );

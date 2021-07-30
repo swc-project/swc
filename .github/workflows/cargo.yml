@@ -160,7 +160,7 @@ jobs:
       # Source map format
       - uses: actions/setup-node@v2
         with:
-          node-version: "14"
+          node-version: "16"
 
       # We explicitly do this to cache properly.
       - name: Install Rust
@@ -170,7 +170,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16
 
       - uses: denoland/setup-deno@v1
         with:

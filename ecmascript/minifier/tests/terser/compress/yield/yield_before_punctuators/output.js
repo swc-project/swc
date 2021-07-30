@@ -1,11 +1,11 @@
-iter = (function* () {
+iter = (function*() {
     assignmentResult = [x = yield] = value;
 })();
 function* g1() {
     yield;
 }
 function* g2() {
-    [yield];
+    [(yield)];
 }
 function* g3() {
     yield, yield;

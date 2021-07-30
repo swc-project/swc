@@ -1,6 +1,11 @@
 use super::Optimizer;
+use crate::compress::optimize::bools::negate_cost;
+use crate::compress::optimize::Ctx;
+use crate::compress::optimize::DISABLE_BUGGY_PASSES;
+use crate::debug::dump;
 use crate::util::make_bool;
 use crate::util::SpanExt;
+use std::mem::swap;
 use swc_common::EqIgnoreSpan;
 use swc_common::Spanned;
 use swc_common::DUMMY_SP;
@@ -18,6 +23,104 @@ use swc_ecma_utils::Value::Known;
 /// Methods related to the option `conditionals`. All methods are noop if
 /// `conditionals` is false.
 impl Optimizer<'_> {
+    pub(super) fn negate_cond_expr(&mut self, cond: &mut CondExpr) {
+        if negate_cost(&cond.test, true, false).unwrap_or(isize::MAX) >= 0 {
+            return;
+        }
+
+        self.changed = true;
+        log::debug!("conditionals: `a ? foo : bar` => `!a ? bar : foo` (considered cost)");
+        let start_str = dump(&*cond);
+
+        {
+            let ctx = Ctx {
+                in_bool_ctx: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).negate(&mut cond.test);
+        }
+        swap(&mut cond.cons, &mut cond.alt);
+
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "[Change] Negated cond: `{}` => `{}`",
+                start_str,
+                dump(&*cond)
+            )
+        }
+    }
+
+    /// Negates the condition of a `if` statement to reduce body size.
+    pub(super) fn negate_if_stmt(&mut self, stmt: &mut IfStmt) {
+        let alt = match stmt.alt.as_deref_mut() {
+            Some(v) => v,
+            _ => return,
+        };
+
+        match &*stmt.cons {
+            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => return,
+            _ => {}
+        }
+
+        if negate_cost(&stmt.test, true, false).unwrap_or(isize::MAX) < 0 {
+            self.changed = true;
+            log::debug!("if_return: Negating `cond` of an if statement which has cons and alt");
+            let ctx = Ctx {
+                in_bool_ctx: true,
+                ..self.ctx
+            };
+            self.with_ctx(ctx).negate(&mut stmt.test);
+            swap(alt, &mut *stmt.cons);
+            return;
+        }
+
+        match &*alt {
+            Stmt::Return(..) | Stmt::Continue(ContinueStmt { label: None, .. }) => {
+                self.changed = true;
+                log::debug!(
+                    "if_return: Negating an if statement because the alt is return / continue"
+                );
+                self.negate(&mut stmt.test);
+                swap(alt, &mut *stmt.cons);
+            }
+            _ => return,
+        }
+    }
+
+    /// This method may change return value.
+    ///
+    /// - `a ? b : false` => `a && b`
+    pub(super) fn compress_cond_to_logical_ignoring_return_value(&mut self, e: &mut Expr) {
+        let cond = match e {
+            Expr::Cond(cond) => cond,
+            _ => return,
+        };
+
+        if !cond.cons.may_have_side_effects() {
+            self.changed = true;
+            log::debug!("conditionals: `cond ? useless : alt` => `cond || alt`");
+            *e = Expr::Bin(BinExpr {
+                span: cond.span,
+                op: op!("||"),
+                left: cond.test.take(),
+                right: cond.alt.take(),
+            });
+            return;
+        }
+
+        if !cond.alt.may_have_side_effects() {
+            self.changed = true;
+            log::debug!("conditionals: `cond ? cons : useless` => `cond && cons`");
+            *e = Expr::Bin(BinExpr {
+                span: cond.span,
+                op: op!("&&"),
+                left: cond.test.take(),
+                right: cond.cons.take(),
+            });
+            return;
+        }
+    }
+
     /// Removes useless operands of an logical expressions.
     pub(super) fn drop_logical_operands(&mut self, e: &mut Expr) {
         if !self.options.conditionals {
@@ -47,7 +150,7 @@ impl Optimizer<'_> {
             // `!!b || true` => true
             if let Known(true) = rb {
                 self.changed = true;
-                log::trace!("conditionals: `!!foo || true` => `true`");
+                log::debug!("conditionals: `!!foo || true` => `true`");
                 *e = make_bool(bin.span, true);
                 return;
             }
@@ -70,7 +173,7 @@ impl Optimizer<'_> {
             (Expr::Bin(cons @ BinExpr { op: op!("||"), .. }), alt)
                 if (*cons.right).eq_ignore_span(&*alt) =>
             {
-                log::trace!("conditionals: `x ? y || z : z` => `x || y && z`");
+                log::debug!("conditionals: `x ? y || z : z` => `x || y && z`");
                 self.changed = true;
 
                 *e = Expr::Bin(BinExpr {
@@ -91,13 +194,10 @@ impl Optimizer<'_> {
     }
 
     ///
-    /// - `foo ? 1 : false` => `!!foo && 1`
-    /// - `!foo ? true : 0` => `!foo || 0`
+    /// - `foo ? bar : false` => `!!foo && bar`
+    /// - `!foo ? true : bar` => `!foo || bar`
+    /// - `foo ? false : bar` => `!foo && bar`
     pub(super) fn compress_conds_as_logical(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
         let cond = match e {
             Expr::Cond(cond) => cond,
             _ => return,
@@ -107,7 +207,7 @@ impl Optimizer<'_> {
         if let Known(Type::Bool) = lt {
             let lb = cond.cons.as_pure_bool();
             if let Known(true) = lb {
-                log::trace!("conditionals: `foo ? true : bar` => `!!foo || bar`");
+                log::debug!("conditionals: `foo ? true : bar` => `!!foo || bar`");
 
                 // Negate twice to convert `test` to boolean.
                 self.negate_twice(&mut cond.test);
@@ -123,21 +223,19 @@ impl Optimizer<'_> {
             }
 
             // TODO: Verify this rule.
-            if false {
-                if let Known(false) = lb {
-                    log::trace!("conditionals: `foo ? false : bar` => `!foo && bar`");
+            if let Known(false) = lb {
+                log::debug!("conditionals: `foo ? false : bar` => `!foo && bar`");
 
-                    self.changed = true;
-                    self.negate(&mut cond.test);
+                self.changed = true;
+                self.negate(&mut cond.test);
 
-                    *e = Expr::Bin(BinExpr {
-                        span: cond.span,
-                        op: op!("&&"),
-                        left: cond.test.take(),
-                        right: cond.alt.take(),
-                    });
-                    return;
-                }
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("&&"),
+                    left: cond.test.take(),
+                    right: cond.alt.take(),
+                });
+                return;
             }
         }
 
@@ -145,7 +243,7 @@ impl Optimizer<'_> {
         if let Known(Type::Bool) = rt {
             let rb = cond.alt.as_pure_bool();
             if let Known(false) = rb {
-                log::trace!("conditionals: `foo ? 1 : false` => `!!foo && 1`");
+                log::debug!("conditionals: `foo ? bar : false` => `!!foo && bar`");
                 self.changed = true;
 
                 // Negate twice to convert `test` to boolean.
@@ -154,6 +252,22 @@ impl Optimizer<'_> {
                 *e = Expr::Bin(BinExpr {
                     span: cond.span,
                     op: op!("&&"),
+                    left: cond.test.take(),
+                    right: cond.cons.take(),
+                });
+                return;
+            }
+
+            if let Known(true) = rb {
+                log::debug!("conditionals: `foo ? bar : true` => `!foo || bar");
+                self.changed = true;
+
+                // Negate twice to convert `test` to boolean.
+                self.negate(&mut cond.test);
+
+                *e = Expr::Bin(BinExpr {
+                    span: cond.span,
+                    op: op!("||"),
                     left: cond.test.take(),
                     right: cond.cons.take(),
                 });
@@ -199,7 +313,7 @@ impl Optimizer<'_> {
         }
 
         self.changed = true;
-        log::trace!("conditionals: Merging if statements with same `cons`");
+        log::debug!("conditionals: Merging if statements with same `cons`");
 
         let mut cur: Option<IfStmt> = None;
         let mut new = Vec::with_capacity(stmts.len());
@@ -272,14 +386,27 @@ impl Optimizer<'_> {
     /// }
     /// ```
     pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
-        if !self.options.conditionals {
-            return;
-        }
-
         let stmt = match s {
             Stmt::If(v) => v,
             _ => return,
         };
+
+        match &*stmt.cons {
+            Stmt::Empty(..) => {
+                if self.options.conditionals || self.options.unused {
+                    if stmt.alt.is_none() {
+                        *s = Stmt::Expr(ExprStmt {
+                            span: stmt.span,
+                            expr: stmt.test.take(),
+                        });
+                        self.changed = true;
+                        log::debug!("conditionals: `if (foo);` => `foo` ");
+                        return;
+                    }
+                }
+            }
+            _ => {}
+        }
 
         // If alt does not exist, an if statement is better than a conditional
         // expression.
@@ -303,7 +430,7 @@ impl Optimizer<'_> {
                     Expr::Unary(UnaryExpr {
                         op: op!("!"), arg, ..
                     }) => {
-                        log::trace!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
+                        log::debug!("Optimizing `if (!foo); else bar();` as `foo && bar();`");
 
                         let mut expr = Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
@@ -318,7 +445,7 @@ impl Optimizer<'_> {
                         });
                     }
                     _ => {
-                        log::trace!("Optimizing `if (foo); else bar();` as `foo || bar();`");
+                        log::debug!("Optimizing `if (foo); else bar();` as `foo || bar();`");
 
                         let mut expr = Box::new(Expr::Bin(BinExpr {
                             span: DUMMY_SP,
@@ -356,29 +483,27 @@ impl Optimizer<'_> {
             None => {}
         }
 
-        // if (a) b(); else c(); => a ? b() : c()
-        log::trace!(
-            "Compressing if statement as conditional expression (even though cons and alt is not \
-             compressable)"
-        );
-        self.changed = true;
-        *s = Stmt::Expr(ExprStmt {
-            span: stmt.span.with_mark(self.done),
-            expr: Box::new(Expr::Cond(CondExpr {
-                span: DUMMY_SP.with_ctxt(self.done_ctxt),
-                test: stmt.test.take(),
-                cons: Box::new(cons.take()),
-                alt: Box::new(alt.take()),
-            })),
-        })
+        if self.options.conditionals || self.options.bools {
+            // if (a) b(); else c(); => a ? b() : c()
+            log::debug!(
+                "Compressing if statement as conditional expression (even though cons and alt is \
+                 not compressable)"
+            );
+            self.changed = true;
+            *s = Stmt::Expr(ExprStmt {
+                span: stmt.span.with_mark(self.done),
+                expr: Box::new(Expr::Cond(CondExpr {
+                    span: DUMMY_SP.with_ctxt(self.done_ctxt),
+                    test: stmt.test.take(),
+                    cons: Box::new(cons.take()),
+                    alt: Box::new(alt.take()),
+                })),
+            })
+        }
     }
 
     /// Compress a conditional expression if cons and alt is simillar
     pub(super) fn compress_cond_expr_if_simillar(&mut self, e: &mut Expr) {
-        if !self.options.conditionals {
-            return;
-        }
-
         let cond = match e {
             Expr::Cond(expr) => expr,
             _ => return,
@@ -398,7 +523,7 @@ impl Optimizer<'_> {
 
         // x ? x : y => x || y
         if cond.test.is_ident() && cond.test.eq_ignore_span(&cond.cons) {
-            log::trace!("Compressing `x ? x : y` as `x || y`");
+            log::debug!("Compressing `x ? x : y` as `x || y`");
             self.changed = true;
             *e = Expr::Bin(BinExpr {
                 span: cond.span,
@@ -417,43 +542,24 @@ impl Optimizer<'_> {
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
-        if cons.eq_ignore_span(alt) {
+        if cons.eq_ignore_span(alt)
+            && match &*cons {
+                Expr::Yield(..) | Expr::Fn(..) => false,
+                _ => true,
+            }
+        {
+            log::debug!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![test.take(), Box::new(cons.take())],
             }));
         }
 
-        match &**test {
-            Expr::Call(CallExpr {
-                callee: ExprOrSuper::Expr(callee),
-                ..
-            }) => match &**callee {
-                Expr::Ident(callee) => {
-                    let side_effect_free = self
-                        .data
-                        .as_ref()
-                        .and_then(|data| data.vars.get(&callee.to_id()))
-                        .map(|v| v.is_fn_local)
-                        .unwrap_or(false);
-                    if !side_effect_free {
-                        match cons {
-                            Expr::Call(..) => {
-                                return None;
-                            }
-                            _ => {}
-                        }
-                    }
-                }
-                _ => return None,
-            },
-            _ => {}
-        }
-
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
                 let cons_callee = cons.callee.as_expr().and_then(|e| e.as_ident())?;
                 //
+
                 if !cons.callee.eq_ignore_span(&alt.callee) {
                     return None;
                 }
@@ -462,7 +568,7 @@ impl Optimizer<'_> {
                     .data
                     .as_ref()
                     .and_then(|data| data.vars.get(&cons_callee.to_id()))
-                    .map(|v| v.is_fn_local)
+                    .map(|v| v.is_fn_local && v.declared)
                     .unwrap_or(false);
 
                 if side_effect_free
@@ -476,8 +582,9 @@ impl Optimizer<'_> {
                         .zip(alt.args.iter())
                         .filter(|(cons, alt)| !cons.eq_ignore_span(alt))
                         .count();
+
                     if diff_count == 1 {
-                        log::trace!(
+                        log::debug!(
                             "conditionals: Merging cons and alt as only one argument differs"
                         );
                         self.changed = true;
@@ -543,7 +650,7 @@ impl Optimizer<'_> {
                         })),
                     });
 
-                    log::trace!(
+                    log::debug!(
                         "Compreessing if into cond as there's no side effect and the number of \
                          arguments is 1"
                     );
@@ -556,7 +663,7 @@ impl Optimizer<'_> {
                 }
 
                 if !side_effect_free && is_for_if_stmt {
-                    log::trace!("Compreessing if into cond while preserving side effects");
+                    log::debug!("Compreessing if into cond while preserving side effects");
                     return Some(Expr::Cond(CondExpr {
                         span: DUMMY_SP.with_ctxt(self.done_ctxt),
                         test: test.take(),
@@ -601,7 +708,7 @@ impl Optimizer<'_> {
                             })),
                         });
 
-                        log::trace!(
+                        log::debug!(
                             "Compreessing if statement into a condiotnal expression of `new` as \
                              there's no side effect and the number of arguments is 1"
                         );
@@ -623,7 +730,7 @@ impl Optimizer<'_> {
                     && cons.left.eq_ignore_span(&alt.left)
                     && is_simple_lhs(&cons.left) =>
             {
-                log::trace!("Merging assignments in cons and alt of if statement");
+                log::debug!("Merging assignments in cons and alt of if statement");
                 Some(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: cons.op,
@@ -639,7 +746,7 @@ impl Optimizer<'_> {
 
             // a ? b ? c() : d() : d() => a && b ? c() : d()
             (Expr::Cond(cons), alt) if (*cons.alt).eq_ignore_span(&*alt) => {
-                log::trace!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
+                log::debug!("conditionals: a ? b ? c() : d() : d() => a && b ? c() : d()");
                 return Some(Expr::Cond(CondExpr {
                     span: DUMMY_SP.with_ctxt(self.done_ctxt),
                     test: Box::new(Expr::Bin(BinExpr {
@@ -656,16 +763,19 @@ impl Optimizer<'_> {
             // z ? "fuji" : (condition(), "fuji");
             // =>
             // (z || condition(), "fuji");
-            (cons, Expr::Seq(alt))
-                if alt.exprs.len() == 2 && (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) =>
-            {
-                log::trace!("conditionals: Reducing seq expr in alt");
+            (cons, Expr::Seq(alt)) if (**alt.exprs.last().unwrap()).eq_ignore_span(&*cons) => {
+                self.changed = true;
+                log::debug!("conditionals: Reducing seq expr in alt");
                 //
+                alt.exprs.pop();
                 let first = Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
-                    right: alt.exprs[0].take(),
+                    right: Box::new(Expr::Seq(SeqExpr {
+                        span: alt.span,
+                        exprs: alt.exprs.take(),
+                    })),
                 }));
                 return Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -673,8 +783,163 @@ impl Optimizer<'_> {
                 }));
             }
 
+            // z ? (condition(), "fuji") : "fuji"
+            // =>
+            // (z && condition(), "fuji");
+            (Expr::Seq(cons), alt) if (**cons.exprs.last().unwrap()).eq_ignore_span(&*alt) => {
+                self.changed = true;
+                log::debug!("conditionals: Reducing seq expr in cons");
+                //
+                cons.exprs.pop();
+                let first = Box::new(Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: test.take(),
+                    op: op!("&&"),
+                    right: Box::new(Expr::Seq(SeqExpr {
+                        span: cons.span,
+                        exprs: cons.exprs.take(),
+                    })),
+                }));
+                return Some(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![first, Box::new(alt.take())],
+                }));
+            }
+
             _ => None,
         }
+    }
+
+    /// Currently disabled.
+    pub(super) fn inject_else(&mut self, stmts: &mut Vec<Stmt>) {
+        if DISABLE_BUGGY_PASSES {
+            return;
+        }
+
+        let len = stmts.len();
+
+        let pos_of_if = stmts.iter().enumerate().rposition(|(idx, s)| {
+            idx != len - 1
+                && match s {
+                    Stmt::If(IfStmt {
+                        cons, alt: None, ..
+                    }) => match &**cons {
+                        Stmt::Block(b) => {
+                            b.stmts.len() == 2
+                                && match b.stmts.first() {
+                                    Some(Stmt::If(..) | Stmt::Expr(..)) => false,
+                                    _ => true,
+                                }
+                                && match b.stmts.last() {
+                                    Some(Stmt::Return(ReturnStmt { arg: None, .. })) => true,
+                                    _ => false,
+                                }
+                        }
+                        _ => false,
+                    },
+                    _ => false,
+                }
+        });
+
+        let pos_of_if = match pos_of_if {
+            Some(v) => v,
+            _ => return,
+        };
+
+        self.changed = true;
+        log::debug!("if_return: Injecting else because it's shorter");
+
+        let mut new = vec![];
+        new.reserve(pos_of_if + 1);
+        new.extend(stmts.drain(..pos_of_if));
+        let alt = stmts.drain(1..).collect::<Vec<_>>();
+
+        let if_stmt = stmts.take().into_iter().next().unwrap();
+        match if_stmt {
+            Stmt::If(mut s) => {
+                match &mut *s.cons {
+                    Stmt::Block(cons) => {
+                        cons.stmts.pop();
+                    }
+                    _ => {
+                        unreachable!()
+                    }
+                }
+
+                assert_eq!(s.alt, None);
+
+                s.alt = Some(if alt.len() == 1 {
+                    Box::new(alt.into_iter().next().unwrap())
+                } else {
+                    Box::new(Stmt::Block(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: alt,
+                    }))
+                });
+
+                new.push(Stmt::If(s))
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+
+        *stmts = new;
+    }
+
+    /// if (foo) return bar()
+    /// else baz()
+    ///
+    /// `else` token can be removed from the code above.
+    pub(super) fn drop_else_token<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        // Find an if statement with else token.
+        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::If(IfStmt {
+                cons,
+                alt: Some(..),
+                ..
+            })) => always_terminates(cons),
+            _ => false,
+        });
+        if !need_work {
+            return;
+        }
+        //
+
+        let mut new_stmts = vec![];
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => match stmt {
+                    Stmt::If(IfStmt {
+                        span,
+                        test,
+                        cons,
+                        alt: Some(alt),
+                        ..
+                    }) if always_terminates(&cons) => {
+                        new_stmts.push(T::from_stmt(Stmt::If(IfStmt {
+                            span,
+                            test,
+                            cons,
+                            alt: None,
+                        })));
+                        new_stmts.push(T::from_stmt(*alt));
+                    }
+                    _ => {
+                        new_stmts.push(T::from_stmt(stmt));
+                    }
+                },
+                Err(stmt) => new_stmts.push(stmt),
+            }
+        }
+
+        self.changed = true;
+        log::debug!("conditionals: Dropped useless `else` token");
+        *stmts = new_stmts;
     }
 }
 
@@ -693,7 +958,23 @@ fn is_simple_lhs(l: &PatOrExpr) -> bool {
         },
         PatOrExpr::Pat(l) => match &**l {
             Pat::Ident(_) => return true,
+            Pat::Expr(e) => match &**e {
+                Expr::Ident(..) => return true,
+                _ => false,
+            },
             _ => false,
         },
+    }
+}
+
+pub(super) fn always_terminates(s: &Stmt) -> bool {
+    match s {
+        Stmt::Return(..) | Stmt::Throw(..) | Stmt::Break(..) | Stmt::Continue(..) => true,
+        Stmt::If(IfStmt { cons, alt, .. }) => {
+            always_terminates(&cons) && alt.as_deref().map(always_terminates).unwrap_or(false)
+        }
+        Stmt::Block(s) => s.stmts.iter().any(always_terminates),
+
+        _ => false,
     }
 }

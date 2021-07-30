@@ -2430,7 +2430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.64.0"
+version = "0.64.2"
 dependencies = [
  "bitflags",
  "num-bigint",
@@ -2500,11 +2500,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.14.0"
+version = "0.15.0"
 dependencies = [
  "ansi_term 0.12.1",
  "anyhow",
  "fxhash",
+ "indexmap",
  "log",
  "once_cell",
  "pretty_assertions 0.6.1",
@@ -2522,7 +2523,9 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_node_base",
  "testing",
+ "unicode-xid",
  "walkdir",
 ]
 
@@ -2605,7 +2608,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.24.0"
+version = "0.24.1"
 dependencies = [
  "fxhash",
  "once_cell",
@@ -2788,7 +2791,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.30.0"
+version = "0.30.1"
 dependencies = [
  "fxhash",
  "serde",
@@ -2835,7 +2838,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.48.0"
+version = "0.49.0"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -2940,7 +2943,7 @@ dependencies = [
  "env_logger 0.7.1",
  "log",
  "once_cell",
- "pretty_assertions 0.6.1",
+ "pretty_assertions 0.7.2",
  "regex",
  "swc_common",
  "testing_macros",
