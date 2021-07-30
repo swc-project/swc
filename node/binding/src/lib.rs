@@ -46,6 +46,9 @@ fn init(mut exports: JsObject) -> napi::Result<()> {
 
     exports.create_named_method("define", define_compiler_class)?;
 
+    exports.create_named_method("minify", minify::minify)?;
+    exports.create_named_method("minifySync", minify::minify_sync)?;
+
     exports.create_named_method("transform", transform::transform)?;
     exports.create_named_method("transformSync", transform::transform_sync)?;
     exports.create_named_method("transformFile", transform::transform_file)?;

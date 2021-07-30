@@ -524,6 +524,9 @@ pub struct TerserMinifyOptions {
 
     #[serde(default)]
     pub source_map: bool,
+    
+    #[serde(default)]
+    pub output_path: Option<String>,
 }
 
 impl Config {

@@ -564,11 +564,11 @@ impl Compiler {
         &self,
         fm: Arc<SourceFile>,
         opts: &TerserMinifyOptions,
-        orig: Option<&sourcemap::SourceMap>,
-        output_path: Option<PathBuf>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let target = opts.ecma.clone().into();
+
+            let orig = self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?;
 
             let min_opts = MinifyOptions {
                 compress: opts
@@ -619,10 +619,10 @@ impl Compiler {
 
             self.print(
                 &module,
-                output_path,
+                opts.output_path.clone().map(From::from),
                 target,
                 SourceMapsConfig::Bool(opts.source_map),
-                orig,
+                orig.as_ref(),
                 true,
             )
         })
