@@ -17,6 +17,7 @@ use swc_common::{
 };
 
 mod bundle;
+mod minify;
 mod parse;
 mod print;
 mod transform;
