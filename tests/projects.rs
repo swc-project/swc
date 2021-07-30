@@ -842,4 +842,16 @@ fn issue_1984() {
         Ok(())
     })
     .unwrap()
+fn opt_source_file_name_1() {
+    let res = str_with_opt(
+        "import Foo from 'foo';",
+        Options {
+            source_file_name: Some("entry".into()),
+            source_maps: Some(SourceMapsConfig::Bool(true)),
+            ..Default::default()
+        },
+    )
+    .unwrap();
+
+    assert_eq!(res.to_string(), "")
 }
