@@ -19,7 +19,7 @@ export interface JsMinifyOption {
 
   mangle?: TerserMangleOptions,
 
-  ecma: TerserEcmaVersion,
+  ecma?: TerserEcmaVersion,
 
   keep_classnames?: boolean,
 
@@ -135,7 +135,7 @@ export interface TerserCompressOptions {
   pure_funcs?: string[],
 
 
-  reduce_funcs: boolean,
+  reduce_funcs?: boolean,
 
 
   reduce_vars?: boolean,
