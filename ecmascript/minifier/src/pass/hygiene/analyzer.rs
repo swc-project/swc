@@ -40,6 +40,21 @@ impl HygieneAnalyzer<'_> {
 
         let ret = op(self);
 
+        let mut ids = vec![];
+        {
+            let scope = self.scope();
+            for (sym, ctxts) in &scope.declared_symbols {
+                if ctxts.len() == 1 {
+                    let id = (sym.clone(), *ctxts.iter().next().unwrap());
+                    ids.push(id)
+                }
+            }
+        }
+        for id in ids {
+            self.hygiene.preserved.remove(&id);
+            self.hygiene.modified.insert(id);
+        }
+
         self.cur_scope = old;
 
         ret

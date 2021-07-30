@@ -1,4 +1,3 @@
-var a = "FAIL",
-    b;
-while (((a = "PASS"), --b) && "PASS" == b);
+var b, a = "FAIL";
+while(a = "PASS", --b && "PASS" == b);
 console.log(a, b);

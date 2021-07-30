@@ -1591,6 +1591,13 @@ impl VisitMut for Strip {
                 function: Function { body: None, .. },
                 ..
             }) => false,
+            ClassMember::PrivateMethod(PrivateMethod {
+                is_abstract: true, ..
+            })
+            | ClassMember::PrivateMethod(PrivateMethod {
+                function: Function { body: None, .. },
+                ..
+            }) => false,
             ClassMember::ClassProp(ClassProp {
                 value: None,
                 ref decorators,

@@ -17,6 +17,9 @@ impl UsageAnalyzer {
 #[derive(Debug, Default, Clone, Copy)]
 pub(super) struct Ctx {
     pub var_decl_kind_of_pat: Option<VarDeclKind>,
+
+    pub in_var_decl_with_no_side_effect_for_member_access: bool,
+
     pub in_pat_of_var_decl: bool,
     pub in_pat_of_var_decl_with_init: bool,
     pub in_pat_of_param: bool,
@@ -38,6 +41,8 @@ pub(super) struct Ctx {
     pub in_update_arg: bool,
     pub in_assign_lhs: bool,
     pub in_cond: bool,
+
+    pub inline_prevented: bool,
 }
 
 pub(super) struct WithCtx<'a> {

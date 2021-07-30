@@ -1,9 +1,9 @@
 "use strict";
-var a = "PASS",
-    b;
+var b, a = "PASS";
 try {
     b = c = 0;
     a = "FAIL";
     b();
-} catch (e) {}
+} catch (e) {
+}
 console.log(a);

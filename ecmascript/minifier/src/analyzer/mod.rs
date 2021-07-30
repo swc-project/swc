@@ -4,6 +4,7 @@ use crate::util::idents_used_by;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
+use std::time::Instant;
 use swc_atoms::JsWord;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -24,6 +25,8 @@ pub(crate) fn analyze<N>(n: &N) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
+    let start_time = Instant::now();
+
     let mut v = UsageAnalyzer {
         data: Default::default(),
         scope: Default::default(),
@@ -33,11 +36,17 @@ where
     let top_scope = v.scope;
     v.data.top.merge(top_scope, false);
 
+    let end_time = Instant::now();
+
+    log::debug!("Scope analysis took {:?}", end_time - start_time);
+
     v.data
 }
 
 #[derive(Debug, Default)]
 pub(crate) struct VarUsageInfo {
+    pub inline_prevented: bool,
+
     /// The number of reference to this identifier.
     pub ref_count: usize,
 
@@ -50,6 +59,8 @@ pub(crate) struct VarUsageInfo {
 
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
+
+    pub declared_as_fn_expr: bool,
 
     pub assign_count: usize,
     pub mutation_by_call_count: usize,
@@ -71,6 +82,8 @@ pub(crate) struct VarUsageInfo {
     /// functions.
     pub is_fn_local: bool,
 
+    used_by_nested_fn: bool,
+
     pub used_in_loop: bool,
 
     pub var_kind: Option<VarDeclKind>,
@@ -82,6 +95,8 @@ pub(crate) struct VarUsageInfo {
     ///
     /// Indicates a variable or function is overrided without using it.
     pub overriden_without_used: bool,
+
+    pub no_side_effect_for_member_access: bool,
 
     /// In `c = b`, `b` inffects `c`.
     infects: Vec<Id>,
@@ -143,9 +158,12 @@ impl ProgramData {
             to.merge(scope, false);
         }
 
-        for (id, var_info) in child.vars {
+        for (id, mut var_info) in child.vars {
+            // log::trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
+                    e.get_mut().inline_prevented |= var_info.inline_prevented;
+
                     e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= var_info.cond_init;
 
@@ -158,6 +176,7 @@ impl ProgramData {
                     e.get_mut().declared |= var_info.declared;
                     e.get_mut().declared_count += var_info.declared_count;
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
+                    e.get_mut().declared_as_fn_expr |= var_info.declared_as_fn_expr;
 
                     // If a var is registered at a parent scope, it means that it's delcared before
                     // usages.
@@ -172,14 +191,30 @@ impl ProgramData {
 
                     e.get_mut().infects.extend(var_info.infects);
 
+                    e.get_mut().no_side_effect_for_member_access =
+                        e.get_mut().no_side_effect_for_member_access
+                            && var_info.no_side_effect_for_member_access;
+
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;
+                            e.get_mut().used_by_nested_fn = true;
                         }
-                        ScopeKind::Block => {}
+                        ScopeKind::Block => {
+                            if var_info.used_by_nested_fn {
+                                e.get_mut().is_fn_local = false;
+                                e.get_mut().used_by_nested_fn = true;
+                            }
+                        }
                     }
                 }
                 Entry::Vacant(e) => {
+                    match kind {
+                        ScopeKind::Fn => {
+                            var_info.used_by_nested_fn = true;
+                        }
+                        ScopeKind::Block => {}
+                    }
                     e.insert(var_info);
                 }
             }
@@ -225,16 +260,24 @@ impl UsageAnalyzer {
     }
 
     fn report(&mut self, i: Id, is_modify: bool, dejavu: &mut FxHashSet<Id>) {
+        // log::trace!("report({}{:?})", i.0, i.1);
+
         let is_first = dejavu.is_empty();
 
         if !dejavu.insert(i.clone()) {
             return;
         }
 
-        let e = self.data.vars.entry(i).or_insert_with(|| VarUsageInfo {
-            used_above_decl: true,
-            ..Default::default()
+        let e = self.data.vars.entry(i.clone()).or_insert_with(|| {
+            // log::trace!("insert({}{:?})", i.0, i.1);
+
+            VarUsageInfo {
+                used_above_decl: true,
+                ..Default::default()
+            }
         });
+
+        e.inline_prevented |= self.ctx.inline_prevented;
 
         e.ref_count += 1;
         e.reassigned |= is_first && is_modify && self.ctx.is_exact_reassignment;
@@ -258,7 +301,7 @@ impl UsageAnalyzer {
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        self.report(i.to_id(), is_assign, &mut Default::default())
+        self.report(i.to_id(), is_assign, &mut Default::default());
     }
 
     fn declare_decl(
@@ -266,7 +309,12 @@ impl UsageAnalyzer {
         i: &Ident,
         has_init: bool,
         kind: Option<VarDeclKind>,
+        is_fn_decl: bool,
     ) -> &mut VarUsageInfo {
+        // log::trace!("declare_decl({}{:?})", i.sym, i.span.ctxt);
+
+        let ctx = self.ctx;
+
         let v = self
             .data
             .vars
@@ -282,6 +330,9 @@ impl UsageAnalyzer {
                 is_fn_local: true,
                 var_kind: kind,
                 var_initialized: has_init,
+                no_side_effect_for_member_access: ctx
+                    .in_var_decl_with_no_side_effect_for_member_access,
+
                 ..Default::default()
             });
         self.scope
@@ -296,6 +347,8 @@ impl UsageAnalyzer {
             v.cond_init = true;
         }
         v.declared_as_catch_param |= self.ctx.in_catch_param;
+
+        v.declared_as_fn_expr |= is_fn_decl;
 
         v
     }
@@ -385,8 +438,22 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_class(&mut self, n: &Class, _: &dyn Node) {
+        n.decorators.visit_with(n, self);
+
+        {
+            let ctx = Ctx {
+                inline_prevented: true,
+                ..self.ctx
+            };
+            n.super_class.visit_with(n, &mut *self.with_ctx(ctx));
+        }
+
+        n.body.visit_with(n, self);
+    }
+
     fn visit_class_decl(&mut self, n: &ClassDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None);
+        self.declare_decl(&n.ident, true, None, false);
 
         n.visit_children_with(self);
     }
@@ -415,8 +482,20 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
+        n.visit_children_with(self);
+
+        if let Some(id) = &n.ident {
+            self.data
+                .vars
+                .entry(id.to_id())
+                .or_default()
+                .declared_as_fn_expr = true;
+        }
+    }
+
     fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None);
+        self.declare_decl(&n.ident, true, None, true);
 
         n.visit_children_with(self);
     }
@@ -432,12 +511,14 @@ impl Visit for UsageAnalyzer {
             };
             n.left.visit_with(n, &mut *child.with_ctx(ctx));
 
+            n.right.visit_with(n, child);
+
             let ctx = Ctx {
                 in_loop: true,
                 in_cond: true,
                 ..child.ctx
             };
-            n.body.visit_with(n, &mut *child.with_ctx(ctx))
+            n.body.visit_with(n, &mut *child.with_ctx(ctx));
         });
     }
 
@@ -597,6 +678,7 @@ impl Visit for UsageAnalyzer {
                         &i.id,
                         self.ctx.in_pat_of_var_decl_with_init,
                         self.ctx.var_decl_kind_of_pat,
+                        false,
                     );
 
                     if in_pat_of_param {
@@ -735,6 +817,10 @@ impl Visit for UsageAnalyzer {
         let ctx = Ctx {
             in_pat_of_var_decl: true,
             in_pat_of_var_decl_with_init: e.init.is_some(),
+            in_var_decl_with_no_side_effect_for_member_access: match e.init.as_deref() {
+                Some(Expr::Array(..) | Expr::Lit(..)) => true,
+                _ => false,
+            },
             ..self.ctx
         };
         e.name.visit_with(e, &mut *self.with_ctx(ctx));

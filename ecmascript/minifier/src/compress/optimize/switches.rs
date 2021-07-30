@@ -1,3 +1,5 @@
+use std::mem::take;
+
 use super::Optimizer;
 use crate::util::ExprOptExt;
 use swc_common::EqIgnoreSpan;
@@ -5,7 +7,9 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::prepend;
 use swc_ecma_utils::ExprExt;
+use swc_ecma_utils::StmtExt;
 use swc_ecma_utils::Type;
 use swc_ecma_utils::Value::Known;
 use swc_ecma_visit::noop_visit_type;
@@ -45,6 +49,7 @@ impl Optimizer<'_> {
         });
 
         if let Some(case_idx) = matching_case {
+            let mut var_ids = vec![];
             let mut stmts = vec![];
 
             let should_preserve_switch = stmt.cases.iter().skip(case_idx).any(|case| {
@@ -60,9 +65,9 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                log::trace!("switches: Removing unreachable cases from a constant switch");
+                log::debug!("switches: Removing unreachable cases from a constant switch");
             } else {
-                log::trace!("switches: Removing a constant switch");
+                log::debug!("switches: Removing a constant switch");
             }
 
             self.changed = true;
@@ -78,6 +83,21 @@ impl Optimizer<'_> {
                         span: stmt.cases[case_idx].span,
                         expr,
                     }));
+                }
+            }
+
+            for case in &stmt.cases[..case_idx] {
+                for cons in &case.cons {
+                    var_ids.extend(
+                        cons.extract_var_ids()
+                            .into_iter()
+                            .map(|name| VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(name.into()),
+                                init: None,
+                                definite: Default::default(),
+                            }),
+                    );
                 }
             }
 
@@ -108,6 +128,18 @@ impl Optimizer<'_> {
                 if found_break {
                     break;
                 }
+            }
+
+            if !var_ids.is_empty() {
+                prepend(
+                    &mut stmts,
+                    Stmt::Decl(Decl::Var(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: Default::default(),
+                        decls: take(&mut var_ids),
+                    })),
+                )
             }
 
             let inner = if should_preserve_switch {
@@ -193,7 +225,7 @@ impl Optimizer<'_> {
         if !preserve_cases {
             if let Some(last_non_empty) = last_non_empty {
                 if last_non_empty + 1 != cases.len() {
-                    log::trace!("switches: Removing empty cases at the end");
+                    log::debug!("switches: Removing empty cases at the end");
                     self.changed = true;
                     cases.drain(last_non_empty + 1..);
                 }
@@ -203,7 +235,7 @@ impl Optimizer<'_> {
         if let Some(last) = cases.last_mut() {
             match last.cons.last() {
                 Some(Stmt::Break(BreakStmt { label: None, .. })) => {
-                    log::trace!("switches: Removing `break` at the end");
+                    log::debug!("switches: Removing `break` at the end");
                     self.changed = true;
                     last.cons.pop();
                 }
@@ -215,10 +247,21 @@ impl Optimizer<'_> {
     /// If a case ends with break but content is same with the consequtive case
     /// except the break statement, we merge them.
     fn merge_cases_with_same_cons(&mut self, cases: &mut Vec<SwitchCase>) {
+        let stop_pos = cases.iter().position(|case| match case.test.as_deref() {
+            Some(Expr::Update(..)) => true,
+            _ => false,
+        });
+
         let mut found = None;
         'l: for (li, l) in cases.iter().enumerate().rev() {
             if l.cons.is_empty() {
                 continue;
+            }
+
+            if let Some(stop_pos) = stop_pos {
+                if li > stop_pos {
+                    continue;
+                }
             }
 
             if let Some(l_last) = l.cons.last() {
@@ -253,7 +296,7 @@ impl Optimizer<'_> {
 
         if let Some(idx) = found {
             self.changed = true;
-            log::trace!("switches: Merging cases with same cons");
+            log::debug!("switches: Merging cases with same cons");
             cases[idx].cons.clear();
         }
     }

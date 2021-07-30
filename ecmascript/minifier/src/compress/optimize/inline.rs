@@ -1,9 +1,13 @@
 use crate::compress::optimize::util::class_has_side_effect;
 use crate::compress::optimize::util::is_valid_for_lhs;
+use crate::debug::dump;
+use crate::util::has_mark;
+use crate::util::idents_used_by;
 
 use super::Optimizer;
 use swc_atoms::js_word;
 use swc_common::Spanned;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::MapWithMut;
 use swc_ecma_utils::ident::IdentLike;
@@ -21,8 +25,17 @@ impl Optimizer<'_> {
             None => return,
         };
 
-        let should_preserve = (!self.options.top_level() && self.options.top_retain.is_empty())
+        let should_preserve = !has_mark(var.span, self.marks.non_top_level)
+            && (!self.options.top_level() && self.options.top_retain.is_empty())
             && self.ctx.in_top_level();
+
+        if cfg!(feature = "debug") {
+            log::trace!(
+                "inline: store_var_for_inining({}, should_preserve = {:?})",
+                dump(&var.name),
+                should_preserve
+            );
+        }
 
         if self
             .data
@@ -57,11 +70,32 @@ impl Optimizer<'_> {
                     }
 
                     if should_preserve && usage.var_kind != Some(VarDeclKind::Const) {
+                        if cfg!(feature = "debug") {
+                            log::trace!(
+                                "inline: Preserving non-const variable `{}` because it's top-level",
+                                dump(&var.name)
+                            );
+                        }
                         return;
                     }
 
                     if usage.cond_init || usage.used_above_decl {
+                        if cfg!(feature = "debug") {
+                            log::trace!("inline: [x] It's cond init or used before decl",);
+                        }
                         return;
+                    }
+
+                    if !usage.is_fn_local {
+                        match &**init {
+                            Expr::Lit(..) => {}
+                            _ => {
+                                if cfg!(feature = "debug") {
+                                    log::trace!("inline: [x] It's not fn-local");
+                                }
+                                return;
+                            }
+                        }
                     }
 
                     if !usage.reassigned {
@@ -95,14 +129,12 @@ impl Optimizer<'_> {
                         && (!usage.mutated || (usage.assign_count == 0 && !usage.reassigned))
                         && match &**init {
                             Expr::Lit(lit) => match lit {
-                                Lit::Str(_)
-                                | Lit::Bool(_)
-                                | Lit::Null(_)
-                                | Lit::Num(_)
-                                | Lit::BigInt(_) => true,
+                                Lit::Str(_) => true,
+                                Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                                 Lit::Regex(_) => self.options.unsafe_regexp,
                                 _ => false,
                             },
+                            Expr::This(..) => usage.is_fn_local,
                             Expr::Arrow(arr) => is_arrow_simple_enough(arr),
                             _ => false,
                         }
@@ -114,7 +146,7 @@ impl Optimizer<'_> {
                                 _ => true,
                             }
                         {
-                            log::trace!(
+                            log::debug!(
                                 "inline: Decided to inline '{}{:?}' because it's simple",
                                 i.id.sym,
                                 i.id.span.ctxt
@@ -122,13 +154,20 @@ impl Optimizer<'_> {
 
                             self.lits.insert(i.to_id(), init.take());
                         } else {
-                            log::trace!(
+                            log::debug!(
                                 "inline: Decided to copy '{}{:?}' because it's simple",
                                 i.id.sym,
                                 i.id.span.ctxt
                             );
 
                             self.lits.insert(i.to_id(), init.clone());
+                        }
+                        return;
+                    }
+
+                    if self.ctx.inline_as_assignment {
+                        if cfg!(feature = "debug") {
+                            log::trace!("inline: [x] inline_as_assignment is true");
                         }
                         return;
                     }
@@ -158,7 +197,11 @@ impl Optimizer<'_> {
                             _ => {}
                         }
                         match &**init {
-                            Expr::Lit(Lit::Regex(..)) => return,
+                            Expr::Lit(Lit::Regex(..)) => {
+                                if !usage.is_fn_local || usage.used_in_loop {
+                                    return;
+                                }
+                            }
 
                             Expr::This(..) => {
                                 // Don't inline this if it passes function boundaries.
@@ -170,17 +213,20 @@ impl Optimizer<'_> {
                             _ => {}
                         }
 
-                        if init.may_have_side_effects() {
-                            if !self
-                                .vars_accessible_without_side_effect
-                                .contains(&i.to_id())
-                            {
-                                // TODO: Inline partially
-                                return;
+                        if usage.used_in_loop {
+                            match &**init {
+                                Expr::Lit(..) | Expr::Ident(..) | Expr::Fn(..) => {}
+                                _ => {
+                                    return;
+                                }
                             }
                         }
 
-                        log::trace!(
+                        if init.may_have_side_effects() {
+                            return;
+                        }
+
+                        log::debug!(
                             "inline: Decided to inline '{}{:?}' because it's used only once",
                             i.id.sym,
                             i.id.span.ctxt
@@ -210,6 +256,10 @@ impl Optimizer<'_> {
                     _ => {}
                 },
 
+                Stmt::Try(TryStmt { block, .. }) => {
+                    return self.is_fn_body_simple_enough_to_inline(block)
+                }
+
                 _ => {}
             }
         }
@@ -234,7 +284,7 @@ impl Optimizer<'_> {
             .and_then(|data| data.vars.get(&i.to_id()))
         {
             if !usage.reassigned {
-                log::trace!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
+                log::debug!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
                         self.typeofs.insert(i.to_id(), js_word!("function"));
@@ -286,6 +336,10 @@ impl Optimizer<'_> {
             return;
         }
 
+        if self.ctx.inline_as_assignment {
+            return;
+        }
+
         if let Some(usage) = self
             .data
             .as_ref()
@@ -295,7 +349,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if usage.reassigned {
+            if usage.reassigned || usage.inline_prevented {
                 return;
             }
 
@@ -305,14 +359,14 @@ impl Optimizer<'_> {
                     match &f.function.body {
                         Some(body) => {
                             if self.is_fn_body_simple_enough_to_inline(body) {
-                                log::trace!(
+                                log::debug!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
                                     f.ident.sym,
                                     f.ident.span.ctxt
                                 );
 
-                                self.lits.insert(
+                                self.vars_for_inlining.insert(
                                     i.to_id(),
                                     match decl {
                                         Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
@@ -351,14 +405,14 @@ impl Optimizer<'_> {
                 self.changed = true;
                 match &decl {
                     Decl::Class(c) => {
-                        log::trace!(
+                        log::debug!(
                             "inline: Decided to inline class '{}{:?}' as it's used only once",
                             c.ident.sym,
                             c.ident.span.ctxt
                         );
                     }
                     Decl::Fn(f) => {
-                        log::trace!(
+                        log::debug!(
                             "inline: Decided to inline function '{}{:?}' as it's used only once",
                             f.ident.sym,
                             f.ident.span.ctxt
@@ -366,6 +420,7 @@ impl Optimizer<'_> {
                     }
                     _ => {}
                 }
+
                 self.vars_for_inlining.insert(
                     i.to_id(),
                     match decl.take() {
@@ -399,10 +454,28 @@ impl Optimizer<'_> {
                     return;
                 }
                 //
-                if let Some(value) = self.lits.get(&i.to_id()).cloned() {
+                if let Some(value) = self
+                    .lits
+                    .get(&i.to_id())
+                    .and_then(|v| {
+                        // Prevent infinite recursion.
+                        let ids = idents_used_by(&**v);
+                        if ids.contains(&i.to_id()) {
+                            None
+                        } else {
+                            Some(v)
+                        }
+                    })
+                    .cloned()
+                {
                     match &*value {
                         Expr::Lit(Lit::Num(..)) => {
                             if self.ctx.in_lhs_of_assign {
+                                return;
+                            }
+                        }
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
                                 return;
                             }
                         }
@@ -410,22 +483,63 @@ impl Optimizer<'_> {
                     }
 
                     self.changed = true;
-                    log::trace!("inline: Replacing a variable with cheap expression");
+                    log::debug!("inline: Replacing a variable with cheap expression");
 
                     *e = *value;
-                } else if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
+                    return;
+                }
+
+                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     if self.ctx.is_exact_lhs_of_assign && !is_valid_for_lhs(&value) {
                         return;
                     }
 
+                    match &**value {
+                        Expr::Member(..) => {
+                            if self.ctx.executed_multiple_time {
+                                return;
+                            }
+                        }
+                        _ => {}
+                    }
+                }
+
+                if self.ctx.inline_as_assignment {
+                    if let Some(value) = self.vars_for_inlining.remove(&i.to_id()) {
+                        self.changed = true;
+                        log::debug!(
+                            "inline: Inlining '{}{:?}' using assignment",
+                            i.sym,
+                            i.span.ctxt
+                        );
+
+                        *e = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: PatOrExpr::Pat(Box::new(Pat::Ident(i.clone().into()))),
+                            right: value,
+                        });
+
+                        if cfg!(feature = "debug") {
+                            log::trace!("inline: [Change] {}", dump(&*e))
+                        }
+                        return;
+                    }
+                }
+
+                if let Some(value) = self.vars_for_inlining.get(&i.to_id()) {
                     self.changed = true;
-                    log::trace!(
+                    log::debug!(
                         "inline: Replacing '{}{:?}' with an expression",
                         i.sym,
                         i.span.ctxt
                     );
 
                     *e = *value.clone();
+
+                    if cfg!(feature = "debug") {
+                        log::trace!("inline: [Change] {}", dump(&*e))
+                    }
                 }
             }
             _ => {}
