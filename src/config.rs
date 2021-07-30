@@ -496,7 +496,7 @@ pub struct Config {
 
 /// Second argument of `minify`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct TerserMinifyOptions {
     #[serde(default)]
     pub compress: Option<TerserCompressorOptions>,
@@ -524,7 +524,7 @@ pub struct TerserMinifyOptions {
 
     #[serde(default)]
     pub source_map: bool,
-    
+
     #[serde(default)]
     pub output_path: Option<String>,
 }
