@@ -1,3 +1,4 @@
+use crate::SwcComments;
 use crate::{builder::PassBuilder, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
@@ -17,7 +18,7 @@ use std::{
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
-use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
+use swc_common::{errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
@@ -187,7 +188,7 @@ impl Options {
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
-        comments: Option<&'a dyn Comments>,
+        comments: Option<&'a SwcComments>,
     ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
@@ -240,14 +241,14 @@ impl Options {
             pass
         };
 
-        let root_mark = self
+        let top_level_mark = self
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
             // handle jsx
             Optional::new(
-                react::react(cm.clone(), comments, transform.react),
+                react::react(cm.clone(), comments.clone(), transform.react),
                 syntax.jsx()
             ),
             // Decorators may use type information
@@ -259,7 +260,7 @@ impl Options {
                 syntax.decorators()
             ),
             Optional::new(typescript::strip(), syntax.typescript()),
-            resolver_with_mark(root_mark),
+            resolver_with_mark(top_level_mark),
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
@@ -267,7 +268,7 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
+        let pass = PassBuilder::new(&cm, &handler, loose, top_level_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
             .hygiene(if self.disable_hygiene {

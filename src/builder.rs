@@ -1,12 +1,19 @@
-use crate::config::{CompiledPaths, GlobalPassOption, JscTarget, ModuleConfig};
+use crate::config::{
+    CompiledPaths, GlobalPassOption, JscTarget, ModuleConfig, TerserMinifyOptions,
+};
+use crate::SwcComments;
 use compat::es2020::export_namespace_from;
 use either::Either;
 use std::cell::RefCell;
 use std::rc::Rc;
 use std::{collections::HashMap, sync::Arc};
 use swc_atoms::JsWord;
+use swc_common::comments::Comments;
+use swc_common::sync::Lrc;
 use swc_common::FileName;
-use swc_common::{chain, comments::Comments, errors::Handler, Mark, SourceMap};
+use swc_common::{chain, errors::Handler, Mark, SourceMap};
+use swc_ecma_ast::Module;
+use swc_ecma_minifier::option::MinifyOptions;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::hygiene::hygiene_with_config;
 use swc_ecma_transforms::modules::util::Scope;
@@ -14,6 +21,8 @@ use swc_ecma_transforms::{
     compat, fixer, helpers, hygiene, modules, optimization::const_modules, pass::Optional,
     proposals::import_assertions, typescript,
 };
+use swc_ecma_transforms_base::ext::MapWithMut;
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
 /// Builder is used to create a high performance `Compiler`.
 pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
@@ -27,6 +36,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     hygiene: Option<hygiene::Config>,
     fixer: bool,
     inject_helpers: bool,
+    minify: Option<TerserMinifyOptions>,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -48,6 +58,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             env: None,
             fixer: true,
             inject_helpers: true,
+            minify: None,
         }
     }
 
@@ -67,11 +78,17 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             global_mark: self.global_mark,
             fixer: self.fixer,
             inject_helpers: self.inject_helpers,
+            minify: self.minify,
         }
     }
 
     pub fn skip_helper_injection(mut self, skip: bool) -> Self {
         self.inject_helpers = !skip;
+        self
+    }
+
+    pub fn minify(mut self, options: TerserMinifyOptions) -> Self {
+        self.minify = Some(options);
         self
     }
 
@@ -134,7 +151,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         base: &FileName,
         syntax: Syntax,
         module: Option<ModuleConfig>,
-        comments: Option<&'cmt dyn Comments>,
+        comments: Option<&'cmt SwcComments>,
     ) -> impl 'cmt + swc_ecma_visit::Fold
     where
         P: 'cmt,
@@ -151,7 +168,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
             Either::Left(chain!(
                 import_assertions(),
                 Optional::new(typescript::strip(), syntax.typescript()),
-                swc_ecma_preset_env::preset_env(self.global_mark, comments, env)
+                swc_ecma_preset_env::preset_env(self.global_mark, comments.clone(), env)
             ))
         } else {
             Either::Right(chain!(
@@ -165,7 +182,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 Optional::new(
                     compat::es2015(
                         self.global_mark,
-                        comments,
+                        comments.clone(),
                         compat::es2015::Config {
                             for_of: compat::es2015::for_of::Config {
                                 assume_array: self.loose
@@ -206,11 +223,54 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 module,
                 Rc::clone(&module_scope)
             ),
+            as_folder(MinifierPass {
+                options: self.minify,
+                cm: self.cm.clone(),
+                comments: comments.cloned(),
+                top_level_mark: self.global_mark,
+            }),
             Optional::new(
                 hygiene_with_config(self.hygiene.clone().unwrap_or_default()),
                 self.hygiene.is_some()
             ),
-            Optional::new(fixer(comments), self.fixer),
+            Optional::new(fixer(comments.map(|v| v as &dyn Comments)), self.fixer),
         )
+    }
+}
+
+struct MinifierPass {
+    options: Option<TerserMinifyOptions>,
+    cm: Lrc<SourceMap>,
+    comments: Option<SwcComments>,
+    top_level_mark: Mark,
+}
+
+impl VisitMut for MinifierPass {
+    noop_visit_mut_type!();
+
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        if let Some(options) = &self.options {
+            let opts = MinifyOptions {
+                compress: options
+                    .compress
+                    .clone()
+                    .map(|v| v.into_config(self.cm.clone())),
+                mangle: options.mangle.clone(),
+                ..Default::default()
+            };
+
+            m.map_with_mut(|m| {
+                swc_ecma_minifier::optimize(
+                    m,
+                    self.cm.clone(),
+                    self.comments.as_ref().map(|v| v as &dyn Comments),
+                    None,
+                    &opts,
+                    &swc_ecma_minifier::option::ExtraOptions {
+                        top_level_mark: self.top_level_mark,
+                    },
+                )
+            })
+        }
     }
 }
