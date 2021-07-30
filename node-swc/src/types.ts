@@ -339,6 +339,8 @@ export interface EsParserConfig {
   privateMethod?: boolean;
   /**
    * Defaults to `false`
+   *
+   * @deprecated Always true because it's in ecmascript spec.
    */
   classProperty?: boolean;
   /**
@@ -356,6 +358,16 @@ export interface EsParserConfig {
   /**
    * Defaults to `false`
    */
+  exportDefaultFrom?: boolean;
+  /**
+   * Defaults to `false`
+   *
+   * @deprecated Always true because it's in ecmascript spec.
+   */
+  exportNamespaceFrom?: boolean;
+  /**
+   * Defaults to `false`
+   */
   dynamicImport?: boolean;
   /**
    * Defaults to `false`
@@ -365,16 +377,22 @@ export interface EsParserConfig {
   nullishCoalescing?: boolean;
   /**
    * Defaults to `false`
+   *
+   * @deprecated Always true because it's in ecmascript spec.
    */
-  exportDefaultFrom?: boolean;
-  /**
-   * Defaults to `false`
-   */
-  exportNamespaceFrom?: boolean;
+  optionalChaining?: boolean;
   /**
    * Defaults to `false`
    */
   importMeta?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  topLevelAwait?: boolean;
+  /**
+   * Defaults to `false`
+   */
+  importAssertions?: boolean;
 }
 
 /**
