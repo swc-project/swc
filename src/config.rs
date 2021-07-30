@@ -584,6 +584,8 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
     pub target: JscTarget,
+    /// Minification for **codegen**. Minifier transforms will be inserted into
+    /// `pass`.
     pub minify: bool,
     pub external_helpers: bool,
     pub source_maps: SourceMapsConfig,
