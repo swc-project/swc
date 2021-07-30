@@ -1,5 +1,6 @@
 //! Compatibility for terser config.
 
+use super::true_by_default;
 use super::CompressOptions;
 use super::TopLevelOptions;
 use crate::option::PureGetterOption;
@@ -109,7 +110,7 @@ pub struct TerserCompressorOptions {
     #[serde(default)]
     pub dead_code: bool,
 
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     pub defaults: bool,
 
     #[serde(default)]
