@@ -3,7 +3,7 @@ use super::compute_char_freq::CharFreqInfo;
 use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::option::MangleOptions;
-use crate::util::base54::base54;
+use crate::util::base54::incr_base54;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use swc_atoms::JsWord;
@@ -56,16 +56,9 @@ impl Mangler {
         }
 
         loop {
-            let sym = match base54(self.n) {
-                Some(v) => v,
-                None => {
-                    self.n += 1;
-                    continue;
-                }
-            };
+            let sym = incr_base54(&mut self.n);
 
             let sym: JsWord = sym.into();
-            self.n += 1;
             if self.preserved_symbols.contains(&sym) {
                 continue;
             }
@@ -84,16 +77,9 @@ impl Mangler {
             cached.clone()
         } else {
             loop {
-                let sym = match base54(self.private_n) {
-                    Some(v) => v,
-                    None => {
-                        self.private_n += 1;
-                        continue;
-                    }
-                };
+                let sym = incr_base54(&mut self.private_n);
 
                 let sym: JsWord = sym.into();
-                self.private_n += 1;
 
                 self.renamed_private.insert(id.clone(), sym.clone());
 
