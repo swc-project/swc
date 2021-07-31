@@ -62,4 +62,14 @@ mod tests {
         t.incr(54 - 2);
         t.gen("aa");
     }
+
+    #[test]
+    fn perf() {
+        let mut t = Tester { n: 0 };
+
+        t.incr(54);
+        t.gen("aa");
+        t.incr(54 * 64 * 64 * 64 * 64 * 64);
+        t.gen("")
+    }
 }
