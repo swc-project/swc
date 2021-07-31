@@ -94,6 +94,7 @@ enum TestMangleOptions {
 
 #[derive(Debug, Clone, Deserialize)]
 struct TestOptions {
+    #[serde(default)]
     defaults: bool,
 }
 
