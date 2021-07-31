@@ -59,7 +59,7 @@ impl Mangler {
             let sym = base54(self.n);
             if sym.starts_with(|c: char| c.is_digit(10)) {
                 if sym.starts_with('0') {
-                    self.n += 10;
+                    self.n += 9;
                 }
                 continue;
             }
