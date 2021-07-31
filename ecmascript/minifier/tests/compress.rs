@@ -92,9 +92,19 @@ enum TestMangleOptions {
     Normal(MangleOptions),
 }
 
+#[derive(Debug, Clone, Deserialize)]
+struct TestOptions {
+    #[serde(default)]
+    defaults: bool,
+}
+
 fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOptions) {
-    let c: TerserCompressorOptions =
+    let opts: TestOptions =
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+    let mut c: TerserCompressorOptions =
+        serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
+
+    c.defaults = opts.defaults;
 
     (c.module, c.into_config(cm))
 }

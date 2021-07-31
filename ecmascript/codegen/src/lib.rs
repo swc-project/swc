@@ -115,7 +115,9 @@ impl<'a> Emitter<'a> {
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
 
-        self.wr.write_line()?;
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
@@ -190,7 +192,7 @@ impl<'a> Emitter<'a> {
 
         if specifiers.is_empty() {
             if emitted_ns || emitted_default {
-                formatting_space!();
+                space!();
                 keyword!("from");
                 formatting_space!();
             }

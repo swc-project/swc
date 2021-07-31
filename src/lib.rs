@@ -6,6 +6,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
+use config::JsMinifyOptions;
 use dashmap::DashMap;
 use serde::Serialize;
 use serde_json::error::Category;
@@ -21,16 +22,20 @@ use swc_common::{
     errors::Handler,
     input::StringInput,
     source_map::SourceMapGenConfig,
-    BytePos, FileName, Globals, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
+    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, DUMMY_SP, GLOBALS,
 };
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::{self, Emitter, Node};
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
-use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
+use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax};
 use swc_ecma_transforms::{
+    fixer,
     helpers::{self, Helpers},
+    hygiene,
     modules::path::NodeImportResolver,
     pass::noop,
+    resolver_with_mark,
 };
 use swc_ecma_visit::FoldWith;
 
@@ -553,6 +558,75 @@ impl Compiler {
         opts: &Options,
     ) -> Result<TransformOutput, Error> {
         self.process_js_with_custom_pass(fm, opts, noop())
+    }
+
+    pub fn minify(
+        &self,
+        fm: Arc<SourceFile>,
+        opts: &JsMinifyOptions,
+    ) -> Result<TransformOutput, Error> {
+        self.run(|| {
+            let target = opts.ecma.clone().into();
+
+            let orig = self.get_orig_src_map(&fm, &InputSourceMap::Bool(opts.source_map))?;
+
+            let min_opts = MinifyOptions {
+                compress: opts
+                    .compress
+                    .clone()
+                    .into_obj()
+                    .map(|v| v.into_config(self.cm.clone())),
+                mangle: opts.mangle.clone().into_obj(),
+                ..Default::default()
+            };
+
+            let module = self
+                .parse_js(
+                    fm.clone(),
+                    target,
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        decorators: true,
+                        decorators_before_export: true,
+                        top_level_await: true,
+                        import_assertions: true,
+
+                        ..Default::default()
+                    }),
+                    true,
+                    true,
+                )
+                .context("failed to parse input file")?
+                .expect_module();
+
+            let top_level_mark = Mark::fresh(Mark::root());
+
+            let module = self.run_transform(false, || {
+                let module = module.fold_with(&mut resolver_with_mark(top_level_mark));
+
+                let module = swc_ecma_minifier::optimize(
+                    module,
+                    self.cm.clone(),
+                    Some(&self.comments),
+                    None,
+                    &min_opts,
+                    &swc_ecma_minifier::option::ExtraOptions { top_level_mark },
+                );
+
+                module
+                    .fold_with(&mut hygiene())
+                    .fold_with(&mut fixer(Some(&self.comments as &dyn Comments)))
+            });
+
+            self.print(
+                &module,
+                opts.output_path.clone().map(From::from),
+                target,
+                SourceMapsConfig::Bool(opts.source_map),
+                orig.as_ref(),
+                true,
+            )
+        })
     }
 
     /// You can use custom pass with this method.

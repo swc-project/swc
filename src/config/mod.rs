@@ -1,3 +1,4 @@
+use crate::SwcComments;
 use crate::{builder::PassBuilder, SwcImportResolver};
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
@@ -17,10 +18,12 @@ use std::{
 };
 use swc_atoms::JsWord;
 pub use swc_common::chain;
-use swc_common::{comments::Comments, errors::Handler, FileName, Mark, SourceMap};
+use swc_common::{errors::Handler, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Expr, ExprStmt, ModuleItem, Stmt};
 use swc_ecma_ext_transforms::jest;
 use swc_ecma_loader::resolvers::{lru::CachingResolver, node::NodeResolver, tsc::TsConfigResolver};
+use swc_ecma_minifier::option::terser::{TerserCompressorOptions, TerserEcmaVersion};
+use swc_ecma_minifier::option::{MangleOptions, ManglePropertiesOptions};
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms::modules::hoist::import_hoister;
@@ -36,8 +39,11 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_visit::Fold;
 
+use self::util::BoolOrObject;
+
 #[cfg(test)]
 mod tests;
+pub mod util;
 
 #[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -185,7 +191,7 @@ impl Options {
         handler: &Handler,
         is_module: bool,
         config: Option<Config>,
-        comments: Option<&'a dyn Comments>,
+        comments: Option<&'a SwcComments>,
     ) -> BuiltConfig<impl 'a + swc_ecma_visit::Fold> {
         let mut config = config.unwrap_or_else(Default::default);
         config.merge(&self.config);
@@ -199,6 +205,7 @@ impl Options {
             keep_class_names,
             base_url,
             paths,
+            minify: js_minify,
         } = config.jsc;
         let target = target.unwrap_or_default();
 
@@ -238,14 +245,14 @@ impl Options {
             pass
         };
 
-        let root_mark = self
+        let top_level_mark = self
             .global_mark
             .unwrap_or_else(|| Mark::fresh(Mark::root()));
 
         let pass = chain!(
             // handle jsx
             Optional::new(
-                react::react(cm.clone(), comments, transform.react),
+                react::react(cm.clone(), comments.clone(), transform.react),
                 syntax.jsx()
             ),
             // Decorators may use type information
@@ -257,7 +264,7 @@ impl Options {
                 syntax.decorators()
             ),
             Optional::new(typescript::strip(), syntax.typescript()),
-            resolver_with_mark(root_mark),
+            resolver_with_mark(top_level_mark),
             const_modules,
             optimization,
             Optional::new(export_default_from(), syntax.export_default_from()),
@@ -265,9 +272,10 @@ impl Options {
             json_parse_pass
         );
 
-        let pass = PassBuilder::new(&cm, &handler, loose, root_mark, pass)
+        let pass = PassBuilder::new(&cm, &handler, loose, top_level_mark, pass)
             .target(target)
             .skip_helper_injection(self.skip_helper_injection)
+            .minify(js_minify)
             .hygiene(if self.disable_hygiene {
                 None
             } else {
@@ -287,7 +295,7 @@ impl Options {
         let pass = chain!(pass, Optional::new(jest::jest(), transform.hidden.jest));
 
         BuiltConfig {
-            minify: config.minify.unwrap_or(false),
+            minify: config.minify.is_some(),
             pass,
             external_helpers,
             syntax,
@@ -489,6 +497,41 @@ pub struct Config {
     pub source_maps: Option<SourceMapsConfig>,
 }
 
+/// Second argument of `minify`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase")]
+pub struct JsMinifyOptions {
+    #[serde(default)]
+    pub compress: BoolOrObject<TerserCompressorOptions>,
+
+    #[serde(default)]
+    pub mangle: BoolOrObject<MangleOptions>,
+
+    #[serde(default)]
+    pub ecma: TerserEcmaVersion,
+
+    #[serde(default)]
+    pub keep_classnames: bool,
+
+    #[serde(default)]
+    pub keep_fnames: bool,
+
+    #[serde(default)]
+    pub module: bool,
+
+    #[serde(default)]
+    pub safari10: bool,
+
+    #[serde(default)]
+    pub toplevel: bool,
+
+    #[serde(default)]
+    pub source_map: bool,
+
+    #[serde(default)]
+    pub output_path: Option<String>,
+}
+
 impl Config {
     /// Adjust config for `file`.
     ///
@@ -584,6 +627,8 @@ pub struct BuiltConfig<P: swc_ecma_visit::Fold> {
     pub pass: P,
     pub syntax: Syntax,
     pub target: JscTarget,
+    /// Minification for **codegen**. Minifier transforms will be inserted into
+    /// `pass`.
     pub minify: bool,
     pub external_helpers: bool,
     pub source_maps: SourceMapsConfig,
@@ -618,6 +663,9 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub paths: Paths,
+
+    #[serde(default)]
+    pub minify: Option<JsMinifyOptions>,
 }
 
 /// `paths` sectiob of `tsconfig.json`.
@@ -882,6 +930,49 @@ impl Merge for Config {
         self.minify.merge(&from.minify);
         self.env.merge(&from.env);
         self.source_maps.merge(&from.source_maps);
+    }
+}
+
+impl Merge for JsMinifyOptions {
+    fn merge(&mut self, from: &Self) {
+        self.compress.merge(&from.compress);
+        self.mangle.merge(&from.mangle);
+        self.ecma.merge(&from.ecma);
+        self.keep_classnames |= from.keep_classnames;
+        self.keep_fnames |= from.keep_fnames;
+        self.safari10 |= from.safari10;
+        self.toplevel |= from.toplevel;
+    }
+}
+
+impl Merge for TerserCompressorOptions {
+    fn merge(&mut self, from: &Self) {
+        self.defaults |= from.defaults;
+        // TODO
+    }
+}
+
+impl Merge for MangleOptions {
+    fn merge(&mut self, from: &Self) {
+        self.props.merge(&from.props);
+
+        self.top_level |= from.top_level;
+        self.keep_class_names |= from.keep_class_names;
+        self.keep_fn_names |= from.keep_fn_names;
+        self.keep_private_props |= from.keep_private_props;
+        self.safari10 |= from.safari10;
+    }
+}
+
+impl Merge for ManglePropertiesOptions {
+    fn merge(&mut self, from: &Self) {
+        self.undeclared |= from.undeclared;
+    }
+}
+
+impl Merge for TerserEcmaVersion {
+    fn merge(&mut self, from: &Self) {
+        *self = from.clone();
     }
 }
 

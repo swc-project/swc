@@ -482,6 +482,12 @@ impl Visit for UsageAnalyzer {
         }
     }
 
+    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
+        self.declare_decl(&n.ident, true, None, true);
+
+        n.visit_children_with(self);
+    }
+
     fn visit_fn_expr(&mut self, n: &FnExpr, _: &dyn Node) {
         n.visit_children_with(self);
 
@@ -492,12 +498,6 @@ impl Visit for UsageAnalyzer {
                 .or_default()
                 .declared_as_fn_expr = true;
         }
-    }
-
-    fn visit_fn_decl(&mut self, n: &FnDecl, _: &dyn Node) {
-        self.declare_decl(&n.ident, true, None, true);
-
-        n.visit_children_with(self);
     }
 
     fn visit_for_in_stmt(&mut self, n: &ForInStmt, _: &dyn Node) {
@@ -582,6 +582,18 @@ impl Visit for UsageAnalyzer {
         n.test.visit_with(n, self);
         n.cons.visit_with(n, &mut *self.with_ctx(ctx));
         n.alt.visit_with(n, &mut *self.with_ctx(ctx));
+    }
+
+    fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier, _: &dyn Node) {
+        self.declare_decl(&n.local, true, None, false);
+    }
+
+    fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier, _: &dyn Node) {
+        self.declare_decl(&n.local, true, None, false);
+    }
+
+    fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier, _: &dyn Node) {
+        self.declare_decl(&n.local, true, None, false);
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr, _: &dyn Node) {
