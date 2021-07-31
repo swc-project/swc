@@ -62,5 +62,5 @@ it("should mangle locals", async () => {
         },
     });
 
-    expect(code).toMatchInlineSnapshot(`""`);
+    expect(code).toMatchInlineSnapshot(`"(function(){const a=Math.random()+'_'+Math.random();console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);console.log(a);})();"`);
 })
