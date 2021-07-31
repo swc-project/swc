@@ -236,11 +236,11 @@ impl Optimizer<'_> {
 
             match find_body(callee) {
                 Some(Either::Left(body)) => {
-                    log::debug!("inline: Inlining arguments");
+                    log::trace!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 Some(Either::Right(body)) => {
-                    log::debug!("inline: Inlining arguments");
+                    log::trace!("inline: Inlining arguments");
                     self.inline_vars_in_node(body, vars);
                 }
                 _ => {}
@@ -252,7 +252,7 @@ impl Optimizer<'_> {
     where
         N: VisitMutWith<Self>,
     {
-        log::debug!("inline: inline_vars_in_node");
+        log::trace!("inline: inline_vars_in_node");
         let ctx = Ctx {
             inline_prevented: false,
             ..self.ctx
