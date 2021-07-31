@@ -60,6 +60,8 @@ impl Mangler {
             if sym.starts_with(|c: char| c.is_digit(10)) {
                 if sym.starts_with('0') {
                     self.n += 9;
+                } else {
+                    self.n += 1;
                 }
                 continue;
             }
