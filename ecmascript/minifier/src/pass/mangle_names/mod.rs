@@ -56,15 +56,13 @@ impl Mangler {
         }
 
         loop {
-            let sym = base54(self.n);
-            if sym.starts_with(|c: char| c.is_digit(10)) {
-                if sym.starts_with('0') {
-                    self.n += 9;
-                } else {
+            let sym = match base54(self.n) {
+                Some(v) => v,
+                None => {
                     self.n += 1;
+                    continue;
                 }
-                continue;
-            }
+            };
 
             let sym: JsWord = sym.into();
             self.n += 1;
@@ -85,12 +83,22 @@ impl Mangler {
         let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
             cached.clone()
         } else {
-            let sym: JsWord = base54(self.private_n).into();
-            self.private_n += 1;
+            loop {
+                let sym = match base54(self.n) {
+                    Some(v) => v,
+                    None => {
+                        self.private_n += 1;
+                        continue;
+                    }
+                };
 
-            self.renamed_private.insert(id.clone(), sym.clone());
+                let sym: JsWord = sym.into();
+                self.private_n += 1;
 
-            sym
+                self.renamed_private.insert(id.clone(), sym.clone());
+
+                break sym;
+            }
         };
 
         private_name.id.sym = new_sym;
