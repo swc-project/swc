@@ -715,3 +715,27 @@ fn tests(dir: PathBuf) {
         .map(|_| ())
         .expect("failed");
 }
+
+#[test]
+fn issue_1984() {
+    testing::run_test2(false, |cm, handler| {
+        let c = Compiler::new(cm.clone(), Arc::new(handler));
+        let fm = c.cm.new_source_file(
+            FileName::Anon,
+            "
+            function Set() {}
+            function useSelection(selectionType, derivedHalfSelectedKeys) {
+                return selectionType === 'radio'
+                    ? new Set()
+                    : new Set(derivedHalfSelectedKeys);
+            }
+            "
+            .into(),
+        );
+
+        c.minify(fm, &serde_json::from_str("{}").unwrap()).unwrap();
+
+        Ok(())
+    })
+    .unwrap()
+}

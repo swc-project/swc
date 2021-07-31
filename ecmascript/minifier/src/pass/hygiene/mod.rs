@@ -4,6 +4,7 @@ use crate::analyzer::analyze;
 use crate::analyzer::ProgramData;
 use crate::pass::hygiene::analyzer::HygieneAnalyzer;
 use crate::pass::hygiene::analyzer::HygieneData;
+use crate::util::now;
 use swc_common::Mark;
 use swc_common::SyntaxContext;
 use swc_common::DUMMY_SP;
@@ -70,7 +71,7 @@ impl VisitMut for Optimizer {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         log::info!("hygiene: Analyzing span hygiene");
-        let start = Instant::now();
+        let start = now();
 
         let mut analyzer = HygieneAnalyzer {
             data: &self.data,
@@ -81,13 +82,18 @@ impl VisitMut for Optimizer {
         n.visit_with(&Invalid { span: DUMMY_SP }, &mut analyzer);
         self.hygiene = analyzer.hygiene;
 
-        let end = Instant::now();
-        log::info!("hygiene: Span hygiene analysis took {:?}", end - start);
-        let start = end;
+        if let Some(start) = start {
+            let end = Instant::now();
+            log::info!("hygiene: Span hygiene analysis took {:?}", end - start);
+        }
+        let start = now();
 
         log::info!("hygiene: Optimizing span hygiene");
         n.visit_mut_children_with(self);
-        let end = Instant::now();
-        log::info!("hygiene: Span hygiene optimiation took {:?}", end - start);
+
+        if let Some(start) = start {
+            let end = Instant::now();
+            log::info!("hygiene: Span hygiene optimiation took {:?}", end - start);
+        }
     }
 }

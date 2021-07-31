@@ -91,11 +91,20 @@ impl ManglePropertiesState {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
             } else {
-                let n = self.n;
-                self.n += 1;
-                let mangled_name: JsWord = base54(n).into();
-                self.cache.insert(name.clone(), mangled_name.clone());
-                Some(mangled_name)
+                loop {
+                    let n = self.n;
+                    self.n += 1;
+                    let sym = match base54(n) {
+                        Some(v) => v,
+                        None => {
+                            continue;
+                        }
+                    };
+
+                    let mangled_name: JsWord = sym.into();
+                    self.cache.insert(name.clone(), mangled_name.clone());
+                    return Some(mangled_name);
+                }
             }
         } else {
             None

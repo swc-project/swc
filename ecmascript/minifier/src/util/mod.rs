@@ -1,3 +1,5 @@
+use std::time::Instant;
+
 use fxhash::FxHashSet;
 use swc_common::pass::CompilerPass;
 use swc_common::pass::Repeated;
@@ -474,4 +476,12 @@ pub(crate) fn can_end_conditionally(s: &Stmt) -> bool {
     }
 
     can_end(s, true)
+}
+
+pub fn now() -> Option<Instant> {
+    if cfg!(target_arch = "wasm32") {
+        None
+    } else {
+        Some(Instant::now())
+    }
 }
