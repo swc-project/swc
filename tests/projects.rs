@@ -723,6 +723,7 @@ fn issue_1984() {
         let fm = c.cm.new_source_file(
             FileName::Anon,
             "
+            function Set() {}
             function useSelection(selectionType, derivedHalfSelectedKeys) {
                 return selectionType === 'radio'
                     ? new Set()

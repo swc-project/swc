@@ -681,6 +681,8 @@ impl Optimizer<'_> {
                 if cons.callee.eq_ignore_span(&alt.callee) {
                     if cons.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
                         && alt.args.as_ref().map(|v| v.len() <= 1).unwrap_or(true)
+                        && cons.args.as_ref().map(|v| v.len()).unwrap_or(0)
+                            == alt.args.as_ref().map(|v| v.len()).unwrap_or(0)
                         && (cons.args.is_some()
                             && cons
                                 .args
@@ -698,15 +700,17 @@ impl Optimizer<'_> {
                     {
                         let mut args = vec![];
 
-                        args.push(ExprOrSpread {
-                            spread: None,
-                            expr: Box::new(Expr::Cond(CondExpr {
-                                span: DUMMY_SP,
-                                test: test.take(),
-                                cons: cons.args.as_mut().unwrap()[0].expr.take(),
-                                alt: alt.args.as_mut().unwrap()[0].expr.take(),
-                            })),
-                        });
+                        if cons.args.as_ref().map(|v| v.len()).unwrap_or(0) == 1 {
+                            args.push(ExprOrSpread {
+                                spread: None,
+                                expr: Box::new(Expr::Cond(CondExpr {
+                                    span: DUMMY_SP,
+                                    test: test.take(),
+                                    cons: cons.args.as_mut().unwrap()[0].expr.take(),
+                                    alt: alt.args.as_mut().unwrap()[0].expr.take(),
+                                })),
+                            });
+                        }
 
                         log::debug!(
                             "Compreessing if statement into a condiotnal expression of `new` as \
