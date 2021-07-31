@@ -25,6 +25,7 @@ pub use crate::pass::hygiene::optimize_hygiene;
 use crate::pass::mangle_names::name_mangler;
 use crate::pass::mangle_props::mangle_properties;
 use crate::pass::precompress::precompress_optimizer;
+use crate::util::now;
 use analyzer::analyze;
 use pass::postcompress::postcompress_optimizer;
 use std::time::Instant;
@@ -57,7 +58,7 @@ pub fn optimize(
 ) -> Module {
     let marks = Marks::new();
 
-    let start = Instant::now();
+    let start = now();
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         // Apply global defs.
         //
@@ -70,12 +71,16 @@ pub fn optimize(
             m.visit_mut_with(&mut global_defs::globals_defs(defs, extra.top_level_mark));
         }
     }
-    log::info!("global_defs took {:?}", Instant::now() - start);
+    if let Some(start) = start {
+        log::info!("global_defs took {:?}", Instant::now() - start);
+    }
 
     if let Some(options) = &options.compress {
-        let start = Instant::now();
+        let start = now();
         m.visit_mut_with(&mut precompress_optimizer(options.clone()));
-        log::info!("precompress took {:?}", Instant::now() - start);
+        if let Some(start) = start {
+            log::info!("precompress took {:?}", Instant::now() - start);
+        }
     }
 
     m.visit_mut_with(&mut unique_marker());
@@ -108,14 +113,18 @@ pub fn optimize(
         t.section("compress");
     }
     if let Some(options) = &options.compress {
-        let start = Instant::now();
+        let start = now();
         m = m.fold_with(&mut compressor(cm.clone(), marks, &options, comments));
-        log::info!("compressor took {:?}", Instant::now() - start);
+        if let Some(start) = start {
+            log::info!("compressor took {:?}", Instant::now() - start);
+        }
         // Again, we don't need to validate ast
 
-        let start = Instant::now();
+        let start = now();
         m.visit_mut_with(&mut postcompress_optimizer(options));
-        log::info!("postcompressor took {:?}", Instant::now() - start);
+        if let Some(start) = start {
+            log::info!("postcompressor took {:?}", Instant::now() - start);
+        }
     }
 
     if let Some(ref mut _t) = timings {

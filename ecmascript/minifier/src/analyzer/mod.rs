@@ -1,6 +1,7 @@
 use self::ctx::Ctx;
 use crate::util::can_end_conditionally;
 use crate::util::idents_used_by;
+use crate::util::now;
 use fxhash::FxHashMap;
 use fxhash::FxHashSet;
 use std::collections::hash_map::Entry;
@@ -25,7 +26,7 @@ pub(crate) fn analyze<N>(n: &N) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer>,
 {
-    let start_time = Instant::now();
+    let start_time = now();
 
     let mut v = UsageAnalyzer {
         data: Default::default(),
@@ -36,9 +37,11 @@ where
     let top_scope = v.scope;
     v.data.top.merge(top_scope, false);
 
-    let end_time = Instant::now();
+    if let Some(start_time) = start_time {
+        let end_time = Instant::now();
 
-    log::debug!("Scope analysis took {:?}", end_time - start_time);
+        log::debug!("Scope analysis took {:?}", end_time - start_time);
+    }
 
     v.data
 }

@@ -1,6 +1,8 @@
 use std::io::{self, Write};
 use std::time::{Duration, Instant};
 
+use crate::util::now;
+
 /// TOOD: Add timings.
 #[derive(Default, Debug)]
 pub struct Timings {
@@ -18,7 +20,7 @@ impl Timings {
     pub fn section(&mut self, name: &str) {
         self.end_section();
 
-        self.current_section = Some((String::from(name), Instant::now()));
+        self.current_section = now().map(|now| (String::from(name), now));
     }
 
     pub fn end_section(&mut self) {
