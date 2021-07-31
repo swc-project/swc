@@ -41,6 +41,7 @@ use swc_ecma_visit::Fold;
 
 #[cfg(test)]
 mod tests;
+pub mod util;
 
 #[derive(Default, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
