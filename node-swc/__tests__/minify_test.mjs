@@ -1,4 +1,4 @@
-import swc from '../../';
+import swc from '../..';
 
 it("should minify properly", async () => {
     const { code } = await swc.minify(`
@@ -6,5 +6,5 @@ it("should minify properly", async () => {
     console.log(foo)
     `);
 
-    expect(code).toMatchInlineSnapshot(`bar/app`);
+    expect(code).toMatchInlineSnapshot(`"import foo from'@src/app';console.log(foo);"`);
 })
