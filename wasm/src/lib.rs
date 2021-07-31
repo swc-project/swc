@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc::{
-    config::{JscTarget, Options, ParseOptions, SourceMapsConfig, TerserMinifyOptions},
+    config::{JsMinifyOptions, JscTarget, Options, ParseOptions, SourceMapsConfig},
     Compiler,
 };
 use swc_common::{
@@ -19,7 +19,7 @@ use wasm_bindgen::prelude::*;
 pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
     console_error_panic_hook::set_once();
 
-    let opts: TerserMinifyOptions = opts
+    let opts: JsMinifyOptions = opts
         .into_serde()
         .map_err(|err| format!("failed to parse options: {}", err))?;
 

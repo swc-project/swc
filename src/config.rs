@@ -497,7 +497,7 @@ pub struct Config {
 /// Second argument of `minify`.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub struct TerserMinifyOptions {
+pub struct JsMinifyOptions {
     #[serde(default)]
     pub compress: Option<TerserCompressorOptions>,
 
@@ -662,7 +662,7 @@ pub struct JscConfig {
     pub paths: Paths,
 
     #[serde(default)]
-    pub minify: Option<TerserMinifyOptions>,
+    pub minify: Option<JsMinifyOptions>,
 }
 
 /// `paths` sectiob of `tsconfig.json`.
@@ -930,7 +930,7 @@ impl Merge for Config {
     }
 }
 
-impl Merge for TerserMinifyOptions {
+impl Merge for JsMinifyOptions {
     fn merge(&mut self, from: &Self) {
         self.compress.merge(&from.compress);
         self.mangle.merge(&from.mangle);

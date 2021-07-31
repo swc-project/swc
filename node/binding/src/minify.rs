@@ -10,7 +10,7 @@ use swc_common::FileName;
 struct MinifyTask {
     c: Arc<swc::Compiler>,
     code: String,
-    opts: swc::config::TerserMinifyOptions,
+    opts: swc::config::JsMinifyOptions,
 }
 
 impl Task for MinifyTask {

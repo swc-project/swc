@@ -6,7 +6,7 @@ use crate::config::{
     SourceMapsConfig,
 };
 use anyhow::{bail, Context, Error};
-use config::TerserMinifyOptions;
+use config::JsMinifyOptions;
 use dashmap::DashMap;
 use serde::Serialize;
 use serde_json::error::Category;
@@ -563,7 +563,7 @@ impl Compiler {
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
-        opts: &TerserMinifyOptions,
+        opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let target = opts.ecma.clone().into();

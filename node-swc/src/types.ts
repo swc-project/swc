@@ -14,10 +14,10 @@ export type ParseOptions = ParserConfig & {
 
 export type TerserEcmaVersion = 5 | 2015 | 2016 | string | number;
 
-export interface JsMinifyOption {
+export interface JsMinifyOptions {
   compress?: TerserCompressOptions,
 
-  mangle?: TerserMangleOptions,
+  mangle?: TerserMangleOptions | boolean,
 
   ecma?: TerserEcmaVersion,
 

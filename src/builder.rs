@@ -1,6 +1,4 @@
-use crate::config::{
-    CompiledPaths, GlobalPassOption, JscTarget, ModuleConfig, TerserMinifyOptions,
-};
+use crate::config::{CompiledPaths, GlobalPassOption, JsMinifyOptions, JscTarget, ModuleConfig};
 use crate::SwcComments;
 use compat::es2020::export_namespace_from;
 use either::Either;
@@ -36,7 +34,7 @@ pub struct PassBuilder<'a, 'b, P: swc_ecma_visit::Fold> {
     hygiene: Option<hygiene::Config>,
     fixer: bool,
     inject_helpers: bool,
-    minify: Option<TerserMinifyOptions>,
+    minify: Option<JsMinifyOptions>,
 }
 
 impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
@@ -87,7 +85,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
         self
     }
 
-    pub fn minify(mut self, options: Option<TerserMinifyOptions>) -> Self {
+    pub fn minify(mut self, options: Option<JsMinifyOptions>) -> Self {
         self.minify = options;
         self
     }
@@ -239,7 +237,7 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
 }
 
 struct MinifierPass {
-    options: Option<TerserMinifyOptions>,
+    options: Option<JsMinifyOptions>,
     cm: Lrc<SourceMap>,
     comments: Option<SwcComments>,
     top_level_mark: Mark,

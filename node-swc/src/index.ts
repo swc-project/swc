@@ -6,7 +6,7 @@ import {
   Options,
   Script,
   Program,
-  JsMinifyOption,
+  JsMinifyOptions,
 } from "./types";
 export * from "./types";
 import { BundleInput, compileBundleOptions } from "./spack";
@@ -31,11 +31,11 @@ export function plugins(ps: Plugin[]): Plugin {
 
 export class Compiler {
 
-  async minify(src: string, opts?: JsMinifyOption): Promise<Output> {
+  async minify(src: string, opts?: JsMinifyOptions): Promise<Output> {
     return bindings.minify(src, toBuffer(opts ?? {}));
   }
 
-  minifySync(src: string, opts?: JsMinifyOption): Output {
+  minifySync(src: string, opts?: JsMinifyOptions): Output {
     return bindings.minifySync(src, toBuffer(opts ?? {}));
   }
 
@@ -296,11 +296,11 @@ export function bundle(
   return compiler.bundle(options)
 }
 
-export async function minify(src: string, opts?: JsMinifyOption): Promise<Output> {
+export async function minify(src: string, opts?: JsMinifyOptions): Promise<Output> {
   return compiler.minify(src, opts);
 }
 
-export function minifySync(src: string, opts?: JsMinifyOption): Output {
+export function minifySync(src: string, opts?: JsMinifyOptions): Output {
   return compiler.minifySync(src, opts);
 }
 
