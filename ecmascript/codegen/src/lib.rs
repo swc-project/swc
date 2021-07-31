@@ -114,6 +114,10 @@ impl<'a> Emitter<'a> {
         }
 
         self.emit_trailing_comments_of_pos(node.span().hi, true, true)?;
+
+        if !self.cfg.minify {
+            self.wr.write_line()?;
+        }
     }
 
     #[emitter]
