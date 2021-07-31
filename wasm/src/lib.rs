@@ -5,7 +5,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 use swc::{
-    config::{JscTarget, Options, ParseOptions, SourceMapsConfig},
+    config::{JscTarget, Options, ParseOptions, SourceMapsConfig, TerserMinifyOptions},
     Compiler,
 };
 use swc_common::{
@@ -14,6 +14,24 @@ use swc_common::{
 };
 use swc_ecmascript::ast::Program;
 use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen(js_name = "minifySync")]
+pub fn minify_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
+    console_error_panic_hook::set_once();
+
+    let opts: TerserMinifyOptions = opts
+        .into_serde()
+        .map_err(|err| format!("failed to parse options: {}", err))?;
+
+    let (c, errors) = compiler();
+
+    let fm = c.cm.new_source_file(FileName::Anon, s.into());
+    let program = c
+        .minify(fm, &opts)
+        .map_err(|err| format!("failed to minify: {}\n{}", err, errors))?;
+
+    Ok(JsValue::from_serde(&program).map_err(|err| format!("failed to return value: {}", err))?)
+}
 
 #[wasm_bindgen(js_name = "parseSync")]
 pub fn parse_sync(s: &str, opts: JsValue) -> Result<JsValue, JsValue> {
