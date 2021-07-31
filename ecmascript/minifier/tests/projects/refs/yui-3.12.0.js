@@ -237,7 +237,8 @@ var YUI = function (
                         _guidp: "y",
                         _loaded: {
                         },
-                        _BASE_RE: /(?:\?(?:[^&]*&)*([^&]*))?\b(simpleyui|yui(?:-\w+)?)\/\2(?:-(min|debug))?\.js/,
+                        _BASE_RE:
+              /(?:\?(?:[^&]*&)*([^&]*))?\b(simpleyui|yui(?:-\w+)?)\/\2(?:-(min|debug))?\.js/,
                         parseBasePath: function (
                             src, pattern
                         ) {
@@ -1411,30 +1412,35 @@ YUI.add(
                     ));
                 return results;
             }),
-        (YArray.each = YArray.forEach = Lang._isNative(
-            Native.forEach
-        )
-            ? function (
-                array, fn, thisObj
-            ) {
-                return Native.forEach.call(
-                    array || [],
-                    fn,
-                    thisObj || Y
-                ), Y;
-            }
-            : function (
-                array, fn, thisObj
-            ) {
-                for (var i = 0, len = (array && array.length) || 0; i < len; ++i)
-                    i in array && fn.call(
-                        thisObj || Y,
-                        array[i],
-                        i,
-                        array
-                    );
-                return Y;
-            }),
+        (YArray.each = YArray.forEach =
+          Lang._isNative(
+              Native.forEach
+          )
+              ? function (
+                  array, fn, thisObj
+              ) {
+                  return Native.forEach.call(
+                      array || [],
+                      fn,
+                      thisObj || Y
+                  ), Y;
+              }
+              : function (
+                  array, fn, thisObj
+              ) {
+                  for (
+                      var i = 0, len = (array && array.length) || 0;
+                      i < len;
+                      ++i
+                  )
+                      i in array && fn.call(
+                          thisObj || Y,
+                          array[i],
+                          i,
+                          array
+                      );
+                  return Y;
+              }),
         (YArray.hash = function (
             keys, values
         ) {
@@ -1738,10 +1744,11 @@ YUI.add(
             }.propertyIsEnumerable(
                 "valueOf",
             )),
-            hasProtoEnumBug = (O._hasProtoEnumBug = function (
-            ) {}.propertyIsEnumerable(
-                "prototype",
-            )),
+            hasProtoEnumBug = (O._hasProtoEnumBug =
+          function (
+          ) {}.propertyIsEnumerable(
+              "prototype"
+          )),
             owns = (O.owns = function (
                 obj, key
             ) {
@@ -2424,7 +2431,8 @@ YUI.add(
             Get,
             Transaction,
             Lang = Y.Lang;
-        (Y.Get = Get = {
+        (Y.Get = Get =
+        {
             cssOptions: {
                 attributes: {
                     rel: "stylesheet",
@@ -2506,10 +2514,10 @@ YUI.add(
                 threshold
             ) {
                 threshold &&
-            this._purgeNodes.length >= threshold &&
-            this._purge(
-                this._purgeNodes
-            );
+              this._purgeNodes.length >= threshold &&
+              this._purge(
+                  this._purgeNodes
+              );
             },
             _getEnv: function (
             ) {
@@ -2517,26 +2525,27 @@ YUI.add(
                     ua = Y.UA;
                 return (this._env = {
                     async:
-              (doc && !0 === doc.createElement(
-                  "script"
-              ).async) || ua.ie >= 10,
+                (doc && !0 === doc.createElement(
+                    "script"
+                ).async) ||
+                ua.ie >= 10,
                     cssFail:
-              ua.gecko >= 9 || ua.compareVersions(
-                  ua.webkit,
-                  535.24
-              ) >= 0,
-                    cssLoad:
-              ((!ua.gecko && !ua.webkit) ||
-                ua.gecko >= 9 ||
-                ua.compareVersions(
+                ua.gecko >= 9 || ua.compareVersions(
                     ua.webkit,
                     535.24
-                ) >= 0) &&
-              !(ua.chrome && ua.chrome <= 18),
+                ) >= 0,
+                    cssLoad:
+                ((!ua.gecko && !ua.webkit) ||
+                  ua.gecko >= 9 ||
+                  ua.compareVersions(
+                      ua.webkit,
+                      535.24
+                  ) >= 0) &&
+                !(ua.chrome && ua.chrome <= 18),
                     preservesScriptOrder: !!(
                         ua.gecko ||
-              ua.opera ||
-              (ua.ie && ua.ie >= 10)
+                ua.opera ||
+                (ua.ie && ua.ie >= 10)
                     ),
                 });
             },
@@ -2591,13 +2600,13 @@ YUI.add(
                         !0
                     ),
                     req.type ||
-                (this.REGEX_CSS.test(
-                    url
-                )
-                    ? (req.type = "css")
-                    : (this.REGEX_JS.test(
-                        url
-                    ), (req.type = "js"))),
+                  (this.REGEX_CSS.test(
+                      url
+                  )
+                      ? (req.type = "css")
+                      : (this.REGEX_JS.test(
+                          url
+                      ), (req.type = "js"))),
                     Y.mix(
                         req,
                         "js" === req.type ? this.jsOptions : this.cssOptions,
@@ -2627,8 +2636,8 @@ YUI.add(
                 var transaction;
                 return (
                     "function" == typeof options &&
-              ((callback = options), (options = {
-              })),
+                ((callback = options), (options = {
+                })),
                     options || (options = {
                     }),
                     (options.type = type),
@@ -2659,12 +2668,12 @@ YUI.add(
             ) {
                 var item;
                 this._pending ||
-            ((item = this._queue.shift(
-            )) &&
-              ((this._pending = item),
-              item.transaction.execute(
-                  item.callback
-              )));
+              ((item = this._queue.shift(
+              )) &&
+                ((this._pending = item),
+                item.transaction.execute(
+                    item.callback
+                )));
             },
             _purge: function (
                 nodes
@@ -2679,36 +2688,37 @@ YUI.add(
 
                 )
                     node._yuiget_finished &&
-              (node.parentNode && node.parentNode.removeChild(
-                  node
-              ),
-              isTransaction &&
-                (index = Y.Array.indexOf(
-                    purgeNodes,
+                (node.parentNode && node.parentNode.removeChild(
                     node
-                )) > -1 &&
-                purgeNodes.splice(
-                    index,
-                    1
-                ));
+                ),
+                isTransaction &&
+                  (index = Y.Array.indexOf(
+                      purgeNodes,
+                      node
+                  )) > -1 &&
+                  purgeNodes.splice(
+                      index,
+                      1
+                  ));
             },
         }),
         (Get.script = Get.js),
-        (Get.Transaction = Transaction = function (
-            requests, options
-        ) {
-            (this.id = Transaction._lastId += 1),
-            (this.data = options.data),
-            (this.errors = []),
-            (this.nodes = []),
-            (this.options = options),
-            (this.requests = requests),
-            (this._callbacks = []),
-            (this._queue = []),
-            (this._reqsWaiting = 0),
-            (this.tId = this.id),
-            (this.win = options.win || Y.config.win);
-        }),
+        (Get.Transaction = Transaction =
+          function (
+              requests, options
+          ) {
+              (this.id = Transaction._lastId += 1),
+              (this.data = options.data),
+              (this.errors = []),
+              (this.nodes = []),
+              (this.options = options),
+              (this.requests = requests),
+              (this._callbacks = []),
+              (this._queue = []),
+              (this._reqsWaiting = 0),
+              (this.tId = this.id),
+              (this.win = options.win || Y.config.win);
+          }),
         (Transaction._lastId = 0),
         (Transaction.prototype = {
             _state: "new",
@@ -2951,11 +2961,12 @@ YUI.add(
                   : !env.cssLoad && ua.gecko
                       ? "style"
                       : "link"),
-              (node = req.node = this._createNode(
-                  nodeType,
-                  req.attributes,
-                  req.doc,
-              ))),
+              (node = req.node =
+                this._createNode(
+                    nodeType,
+                    req.attributes,
+                    req.doc
+                ))),
                 isScript
                     ? (node.setAttribute(
                         "src",
@@ -6131,9 +6142,10 @@ YUI.add(
                                                 resCombos[base].group
                                             ),
                                         );
-                                resolved[type + "Mods"] = resolved[type + "Mods"].concat(
-                                    mods,
-                                );
+                                resolved[type + "Mods"] =
+                      resolved[type + "Mods"].concat(
+                          mods
+                      );
                             }
                 return (resCombos = null), resolved;
             },

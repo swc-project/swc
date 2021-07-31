@@ -1130,14 +1130,15 @@ String.implement(
         test: function (
             regex, params
         ) {
-            return ("regexp" == typeOf(
-                regex
-            )
-                ? regex
-                : new RegExp(
-                    "" + regex,
-                    params
+            return (
+                "regexp" == typeOf(
+                    regex
                 )
+                    ? regex
+                    : new RegExp(
+                        "" + regex,
+                        params
+                    )
             ).test(
                 this
             );
@@ -2169,10 +2170,11 @@ Hash.alias(
                 window[name] = method;
             }
         ),
-        (this.Document = document.$constructor = new Type(
+        (this.Document = document.$constructor =
+        new Type(
             "Document",
             function (
-            ) {},
+            ) {}
         )),
         (document.$family = Function.from(
             "document"
@@ -3072,11 +3074,10 @@ function (
             var currentSeparator = parsed.expressions[separatorIndex];
             reversed &&
           currentSeparator[combinatorIndex] &&
-          (currentSeparator[
-              combinatorIndex
-          ].reverseCombinator = reverseCombinator(
-              combinator
-          )),
+          (currentSeparator[combinatorIndex].reverseCombinator =
+            reverseCombinator(
+                combinator
+            )),
             (currentSeparator[++combinatorIndex] = {
                 combinator: combinator,
                 tag: "*",
@@ -3301,7 +3302,16 @@ function (
                 (features.isXMLDocument = this.isXML(
                     document
                 )),
-                (features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1);
+                (features.brokenStarGEBTN =
+                features.starSelectsClosedQSA =
+                features.idGetsName =
+                features.brokenMixedCaseQSA =
+                features.brokenGEBCN =
+                features.brokenCheckedQSA =
+                features.brokenEmptyAttributeQSA =
+                features.isHTMLDocument =
+                features.nativeMatchesSelector =
+                  !1);
                 var selected,
                     id = "slick_uniqueid",
                     testNode = document.createElement(
@@ -3392,9 +3402,10 @@ function (
                         } catch (e) {}
                         try {
                             (testNode.innerHTML = '<a class="MiX"></a>'),
-                            (features.brokenMixedCaseQSA = !testNode.querySelectorAll(
-                                ".MiX",
-                            ).length);
+                            (features.brokenMixedCaseQSA =
+                      !testNode.querySelectorAll(
+                          ".MiX"
+                      ).length);
                         } catch (e) {}
                         try {
                             (testNode.innerHTML =
@@ -4979,15 +4990,16 @@ var IFrame = new Type(
             var onload = props.onload || function (
             ) {};
             delete props.onload,
-            (props.id = props.name = [
-                props.id,
-                props.name,
-                iframe
-                    ? iframe.id || iframe.name
-                    : "IFrame_" + String.uniqueID(
-                    ),
-            ].pick(
-            )),
+            (props.id = props.name =
+        [
+            props.id,
+            props.name,
+            iframe
+                ? iframe.id || iframe.name
+                : "IFrame_" + String.uniqueID(
+                ),
+        ].pick(
+        )),
             (iframe = new Element(
                 iframe || "iframe",
                 props
@@ -5311,11 +5323,15 @@ Elements.alias(
                       : null;
               },
           }),
-          (types.textnode = types.whitespace = types.window = types.document = function (
-              zero,
-          ) {
-              return zero;
-          }),
+          (types.textnode =
+            types.whitespace =
+            types.window =
+            types.document =
+              function (
+                  zero
+              ) {
+                  return zero;
+              }),
           function (
               el, nocash, doc
           ) {
@@ -6570,9 +6586,10 @@ Elements.alias(
     var supportsHTML5Elements = 1 == div.childNodes.length;
     if (!supportsHTML5Elements)
         for (
-            var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(
-                    " ",
-                ),
+            var tags =
+            "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(
+                " ",
+            ),
                 fragment = document.createDocumentFragment(
                 ),
                 l = tags.length;
@@ -6611,7 +6628,8 @@ Elements.alias(
               select: [1, "<select>", "</select>",],
               tbody: [2, "<table><tbody>", "</tbody></table>",],
               tr: [3, "<table><tbody><tr>", "</tr></tbody></table>",],
-          }).thead = translations.tfoot = translations.tbody),
+          }).thead = translations.tfoot =
+            translations.tbody),
           function (
               html
           ) {
@@ -6890,9 +6908,8 @@ Elements.alias(
                         this
                     );
                 if (
-                    ((property = ("float" == property
-                        ? floatName
-                        : property
+                    ((property = (
+                        "float" == property ? floatName : property
                     ).camelCase(
                     )),
                     "string" != typeOf(
@@ -10558,12 +10575,13 @@ var Cookie = new Class(
             (build +=
               '<param name="' + param + '" value="' + params[param] + '" />');
                 (build += "</object>"),
-                (this.object = (container
-                    ? container.empty(
-                    )
-                    : new Element(
-                        "div"
-                    )
+                (this.object = (
+                    container
+                        ? container.empty(
+                        )
+                        : new Element(
+                            "div"
+                        )
                 ).set(
                     "html",
                     build

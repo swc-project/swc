@@ -42,37 +42,42 @@
         (exports._ = _))
         : (root._ = _),
     (_.VERSION = "1.5.2");
-    var each = (_.each = _.forEach = function (
-        obj, iterator, context
-    ) {
-        if (null != obj)
-            if (nativeForEach && obj.forEach === nativeForEach)
-                obj.forEach(
-                    iterator,
-                    context
-                );
-            else if (obj.length === +obj.length) {
-                for (var i = 0, length = obj.length; i < length; i++)
-                    if (iterator.call(
-                        context,
-                        obj[i],
-                        i,
-                        obj
-                    ) === breaker) return;
-            } else {
-                var keys = _.keys(
-                    obj
-                );
-                for (i = 0, length = keys.length; i < length; i++)
-                    if (iterator.call(
-                        context,
-                        obj[keys[i]],
-                        keys[i],
-                        obj
-                    ) === breaker)
-                        return;
-            }
-    });
+    var each =
+    (_.each =
+    _.forEach =
+      function (
+          obj, iterator, context
+      ) {
+          if (null != obj)
+              if (nativeForEach && obj.forEach === nativeForEach)
+                  obj.forEach(
+                      iterator,
+                      context
+                  );
+              else if (obj.length === +obj.length) {
+                  for (var i = 0, length = obj.length; i < length; i++)
+                      if (iterator.call(
+                          context,
+                          obj[i],
+                          i,
+                          obj
+                      ) === breaker) return;
+              } else {
+                  var keys = _.keys(
+                      obj
+                  );
+                  for (i = 0, length = keys.length; i < length; i++)
+                      if (
+                          iterator.call(
+                              context,
+                              obj[keys[i]],
+                              keys[i],
+                              obj
+                          ) === breaker
+                      )
+                          return;
+              }
+      });
     _.map = _.collect = function (
         obj, iterator, context
     ) {
@@ -102,155 +107,162 @@
                 results);
     };
     var reduceError = "Reduce of empty array with no initial value";
-    (_.reduce = _.foldl = _.inject = function (
-        obj, iterator, memo, context
-    ) {
-        var initial = arguments.length > 2;
-        if (
-            (null == obj && (obj = []), nativeReduce && obj.reduce === nativeReduce)
-        )
-            return (
-                context && (iterator = _.bind(
-                    iterator,
-                    context
-                )),
-                initial
-                    ? obj.reduce(
-                        iterator,
-                        memo
-                    )
-                    : obj.reduce(
-                        iterator
-                    )
-            );
-        if (
-            (each(
-                obj,
-                function (
-                    value, index, list
-                ) {
-                    initial
-                        ? (memo = iterator.call(
-                            context,
-                            memo,
-                            value,
-                            index,
-                            list
-                        ))
-                        : ((memo = value), (initial = !0));
-                }
-            ),
-            !initial)
-        )
-            throw new TypeError(
-                reduceError
-            );
-        return memo;
-    }),
-    (_.reduceRight = _.foldr = function (
-        obj, iterator, memo, context
-    ) {
-        var initial = arguments.length > 2;
-        if (
-            (null == obj && (obj = []),
-            nativeReduceRight && obj.reduceRight === nativeReduceRight)
-        )
-            return (
-                context && (iterator = _.bind(
-                    iterator,
-                    context
-                )),
-                initial
-                    ? obj.reduceRight(
-                        iterator,
-                        memo
-                    )
-                    : obj.reduceRight(
-                        iterator
-                    )
-            );
-        var length = obj.length;
-        if (length !== +length) {
-            var keys = _.keys(
-                obj
-            );
-            length = keys.length;
-        }
-        if (
-            (each(
-                obj,
-                function (
-                    value, index, list
-                ) {
-                    (index = keys ? keys[--length] : --length),
-                    initial
-                        ? (memo = iterator.call(
-                            context,
-                            memo,
-                            obj[index],
-                            index,
-                            list
-                        ))
-                        : ((memo = obj[index]), (initial = !0));
-                }
-            ),
-            !initial)
-        )
-            throw new TypeError(
-                reduceError
-            );
-        return memo;
-    }),
-    (_.find = _.detect = function (
-        obj, iterator, context
-    ) {
-        var result;
-        return (
-            any(
-                obj,
-                function (
-                    value, index, list
-                ) {
-                    if (iterator.call(
-                        context,
-                        value,
-                        index,
-                        list
-                    ))
-                        return (result = value), !0;
-                }
-            ),
-            result
-        );
-    }),
-    (_.filter = _.select = function (
-        obj, iterator, context
-    ) {
-        var results = [];
-        return null == obj
-            ? results
-            : nativeFilter && obj.filter === nativeFilter
-                ? obj.filter(
-                    iterator,
-                    context
-                )
-                : (each(
-                    obj,
-                    function (
-                        value, index, list
-                    ) {
-                        iterator.call(
-                            context,
-                            value,
-                            index,
-                            list
-                        ) && results.push(
-                            value
-                        );
-                    }
-                ),
-                results);
-    }),
+    (_.reduce =
+    _.foldl =
+    _.inject =
+      function (
+          obj, iterator, memo, context
+      ) {
+          var initial = arguments.length > 2;
+          if (
+              (null == obj && (obj = []),
+              nativeReduce && obj.reduce === nativeReduce)
+          )
+              return (
+                  context && (iterator = _.bind(
+                      iterator,
+                      context
+                  )),
+                  initial
+                      ? obj.reduce(
+                          iterator,
+                          memo
+                      )
+                      : obj.reduce(
+                          iterator
+                      )
+              );
+          if (
+              (each(
+                  obj,
+                  function (
+                      value, index, list
+                  ) {
+                      initial
+                          ? (memo = iterator.call(
+                              context,
+                              memo,
+                              value,
+                              index,
+                              list
+                          ))
+                          : ((memo = value), (initial = !0));
+                  }
+              ),
+              !initial)
+          )
+              throw new TypeError(
+                  reduceError
+              );
+          return memo;
+      }),
+    (_.reduceRight = _.foldr =
+      function (
+          obj, iterator, memo, context
+      ) {
+          var initial = arguments.length > 2;
+          if (
+              (null == obj && (obj = []),
+              nativeReduceRight && obj.reduceRight === nativeReduceRight)
+          )
+              return (
+                  context && (iterator = _.bind(
+                      iterator,
+                      context
+                  )),
+                  initial
+                      ? obj.reduceRight(
+                          iterator,
+                          memo
+                      )
+                      : obj.reduceRight(
+                          iterator
+                      )
+              );
+          var length = obj.length;
+          if (length !== +length) {
+              var keys = _.keys(
+                  obj
+              );
+              length = keys.length;
+          }
+          if (
+              (each(
+                  obj,
+                  function (
+                      value, index, list
+                  ) {
+                      (index = keys ? keys[--length] : --length),
+                      initial
+                          ? (memo = iterator.call(
+                              context,
+                              memo,
+                              obj[index],
+                              index,
+                              list
+                          ))
+                          : ((memo = obj[index]), (initial = !0));
+                  }
+              ),
+              !initial)
+          )
+              throw new TypeError(
+                  reduceError
+              );
+          return memo;
+      }),
+    (_.find = _.detect =
+      function (
+          obj, iterator, context
+      ) {
+          var result;
+          return (
+              any(
+                  obj,
+                  function (
+                      value, index, list
+                  ) {
+                      if (iterator.call(
+                          context,
+                          value,
+                          index,
+                          list
+                      ))
+                          return (result = value), !0;
+                  }
+              ),
+              result
+          );
+      }),
+    (_.filter = _.select =
+      function (
+          obj, iterator, context
+      ) {
+          var results = [];
+          return null == obj
+              ? results
+              : nativeFilter && obj.filter === nativeFilter
+                  ? obj.filter(
+                      iterator,
+                      context
+                  )
+                  : (each(
+                      obj,
+                      function (
+                          value, index, list
+                      ) {
+                          iterator.call(
+                              context,
+                              value,
+                              index,
+                              list
+                          ) && results.push(
+                              value
+                          );
+                      }
+                  ),
+                  results);
+      }),
     (_.reject = function (
         obj, iterator, context
     ) {
@@ -269,81 +281,89 @@
             context,
         );
     }),
-    (_.every = _.all = function (
-        obj, iterator, context
-    ) {
-        iterator || (iterator = _.identity);
-        var result = !0;
-        return null == obj
-            ? result
-            : nativeEvery && obj.every === nativeEvery
-                ? obj.every(
-                    iterator,
-                    context
-                )
-                : (each(
-                    obj,
-                    function (
-                        value, index, list
-                    ) {
-                        if (
-                            !(result = result && iterator.call(
-                                context,
-                                value,
-                                index,
-                                list
-                            ))
-                        )
-                            return breaker;
-                    }
-                ),
-                !!result);
-    });
-    var any = (_.some = _.any = function (
-        obj, iterator, context
-    ) {
-        iterator || (iterator = _.identity);
-        var result = !1;
-        return null == obj
-            ? result
-            : nativeSome && obj.some === nativeSome
-                ? obj.some(
-                    iterator,
-                    context
-                )
-                : (each(
-                    obj,
-                    function (
-                        value, index, list
-                    ) {
-                        if (result || (result = iterator.call(
-                            context,
-                            value,
-                            index,
-                            list
-                        )))
-                            return breaker;
-                    }
-                ),
-                !!result);
-    });
-    (_.contains = _.include = function (
+    (_.every = _.all =
+      function (
+          obj, iterator, context
+      ) {
+          iterator || (iterator = _.identity);
+          var result = !0;
+          return null == obj
+              ? result
+              : nativeEvery && obj.every === nativeEvery
+                  ? obj.every(
+                      iterator,
+                      context
+                  )
+                  : (each(
+                      obj,
+                      function (
+                          value, index, list
+                      ) {
+                          if (
+                              !(result = result && iterator.call(
+                                  context,
+                                  value,
+                                  index,
+                                  list
+                              ))
+                          )
+                              return breaker;
+                      }
+                  ),
+                  !!result);
+      });
+    var any =
+    (_.some =
+    _.any =
+      function (
+          obj, iterator, context
+      ) {
+          iterator || (iterator = _.identity);
+          var result = !1;
+          return null == obj
+              ? result
+              : nativeSome && obj.some === nativeSome
+                  ? obj.some(
+                      iterator,
+                      context
+                  )
+                  : (each(
+                      obj,
+                      function (
+                          value, index, list
+                      ) {
+                          if (
+                              result ||
+                (result = iterator.call(
+                    context,
+                    value,
+                    index,
+                    list
+                ))
+                          )
+                              return breaker;
+                      }
+                  ),
+                  !!result);
+      });
+    (_.contains = _.include =
+    function (
         obj, target
     ) {
         return (
             null != obj &&
-      (nativeIndexOf && obj.indexOf === nativeIndexOf
-          ? -1 != obj.indexOf(
-              target
-          )
-          : any(
-              obj,
-              function (
-                  value
-              ) {
-                  return value === target;
-              }
-          ))
+        (nativeIndexOf && obj.indexOf === nativeIndexOf
+            ? -1 != obj.indexOf(
+                target
+            )
+            : any(
+                obj,
+                function (
+                    value
+                ) {
+                    return value === target;
+                }
+            ))
         );
     }),
     (_.invoke = function (
@@ -719,18 +739,21 @@
                     obj
                 ).length;
     }),
-    (_.first = _.head = _.take = function (
-        array, n, guard
-    ) {
-        if (null != array)
-            return null == n || guard
-                ? array[0]
-                : slice.call(
-                    array,
-                    0,
-                    n
-                );
-    }),
+    (_.first =
+      _.head =
+      _.take =
+        function (
+            array, n, guard
+        ) {
+            if (null != array)
+                return null == n || guard
+                    ? array[0]
+                    : slice.call(
+                        array,
+                        0,
+                        n
+                    );
+        }),
     (_.initial = function (
         array, n, guard
     ) {
@@ -754,14 +777,17 @@
                     )
                 );
     }),
-    (_.rest = _.tail = _.drop = function (
-        array, n, guard
-    ) {
-        return slice.call(
-            array,
-            null == n || guard ? 1 : n
-        );
-    }),
+    (_.rest =
+      _.tail =
+      _.drop =
+        function (
+            array, n, guard
+        ) {
+            return slice.call(
+                array,
+                null == n || guard ? 1 : n
+            );
+        }),
     (_.compact = function (
         array
     ) {
@@ -828,44 +854,45 @@
             )
         );
     }),
-    (_.uniq = _.unique = function (
-        array, isSorted, iterator, context
-    ) {
-        _.isFunction(
-            isSorted
-        ) &&
-        ((context = iterator), (iterator = isSorted), (isSorted = !1));
-        var initial = iterator
-                ? _.map(
-                    array,
-                    iterator,
-                    context
-                )
-                : array,
-            results = [],
-            seen = [];
-        return (
-            each(
-                initial,
-                function (
-                    value, index
-                ) {
-                    (isSorted
-                        ? index && seen[seen.length - 1] === value
-                        : _.contains(
-                            seen,
-                            value
-                        )) ||
-            (seen.push(
-                value
-            ), results.push(
-                array[index]
-            ));
-                }
-            ),
-            results
-        );
-    }),
+    (_.uniq = _.unique =
+      function (
+          array, isSorted, iterator, context
+      ) {
+          _.isFunction(
+              isSorted
+          ) &&
+          ((context = iterator), (iterator = isSorted), (isSorted = !1));
+          var initial = iterator
+                  ? _.map(
+                      array,
+                      iterator,
+                      context
+                  )
+                  : array,
+              results = [],
+              seen = [];
+          return (
+              each(
+                  initial,
+                  function (
+                      value, index
+                  ) {
+                      (isSorted
+                          ? index && seen[seen.length - 1] === value
+                          : _.contains(
+                              seen,
+                              value
+                          )) ||
+              (seen.push(
+                  value
+              ), results.push(
+                  array[index]
+              ));
+                  }
+              ),
+              results
+          );
+      }),
     (_.union = function (
     ) {
         return _.uniq(
@@ -1398,18 +1425,19 @@
             result[obj[keys[i]]] = keys[i];
         return result;
     }),
-    (_.functions = _.methods = function (
-        obj
-    ) {
-        var names = [];
-        for (var key in obj) _.isFunction(
-            obj[key]
-        ) && names.push(
-            key
-        );
-        return names.sort(
-        );
-    }),
+    (_.functions = _.methods =
+      function (
+          obj
+      ) {
+          var names = [];
+          for (var key in obj) _.isFunction(
+              obj[key]
+          ) && names.push(
+              key
+          );
+          return names.sort(
+          );
+      }),
     (_.extend = function (
         obj
     ) {

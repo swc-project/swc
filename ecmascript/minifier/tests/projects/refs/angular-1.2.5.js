@@ -2898,11 +2898,12 @@
                         Constructor = function (
                         ) {};
                     return (
-                        (Constructor.prototype = (isArray(
-                            Type
-                        )
-                            ? Type[Type.length - 1]
-                            : Type
+                        (Constructor.prototype = (
+                            isArray(
+                                Type
+                            )
+                                ? Type[Type.length - 1]
+                                : Type
                         ).prototype),
                         isObject(
                             (returnedValue = invoke(
@@ -3965,14 +3966,13 @@
                   node.nodeValue.match(
                       /\S+/
                   ) &&
-                  ($compileNodes[index] = node = jqLite(
-                      node
-                  )
-                      .wrap(
-                          "<span></span>"
-                      )
-                      .parent(
-                      )[0]);
+                  ($compileNodes[index] = node =
+                    jqLite(
+                        node
+                    ).wrap(
+                        "<span></span>"
+                    ).parent(
+                    )[0]);
                         }
                     );
                     var compositeLinkFn = compileNodes(
@@ -4265,16 +4265,17 @@
                                         )
                                     ))
                                 ] = name),
-                                (attrs[nName] = value = trim(
-                                    msie && "href" == name
-                                        ? decodeURIComponent(
-                                            node.getAttribute(
-                                                name,
-                                                2
-                                            )
-                                        )
-                                        : attr.value,
-                                )),
+                                (attrs[nName] = value =
+                        trim(
+                            msie && "href" == name
+                                ? decodeURIComponent(
+                                    node.getAttribute(
+                                        name,
+                                        2
+                                    )
+                                )
+                                : attr.value,
+                        )),
                                 getBooleanAttrName(
                                     node,
                                     nName
@@ -4548,15 +4549,16 @@
                           attrStart,
                           attrEnd
                       )),
-                      ($compileNode = templateAttrs.$$element = jqLite(
-                          document.createComment(
-                              " " +
-                            directiveName +
-                            ": " +
-                            templateAttrs[directiveName] +
-                            " ",
-                          ),
-                      )),
+                      ($compileNode = templateAttrs.$$element =
+                        jqLite(
+                            document.createComment(
+                                " " +
+                              directiveName +
+                              ": " +
+                              templateAttrs[directiveName] +
+                              " ",
+                            ),
+                        )),
                       (compileNode = $compileNode[0]),
                       replaceWith(
                           jqCollection,
@@ -4961,11 +4963,10 @@
                               function (
                               ) {
                                   throw (
-                                      ((lastValue = isolateScope[
-                                          scopeName
-                                      ] = parentGet(
-                                          scope
-                                      )),
+                                      ((lastValue = isolateScope[scopeName] =
+                                    parentGet(
+                                        scope
+                                    )),
                                       $compileMinErr(
                                           "nonassign",
                                           "Expression '{0}' used with directive '{1}' is non-assignable!",
@@ -4974,9 +4975,10 @@
                                       ))
                                   );
                               }),
-                                        (lastValue = isolateScope[scopeName] = parentGet(
-                                            scope,
-                                        )),
+                                        (lastValue = isolateScope[scopeName] =
+                              parentGet(
+                                  scope
+                              )),
                                         isolateScope.$watch(
                                             function (
                                             ) {
@@ -4997,9 +4999,8 @@
                                             (parentValue =
                                             isolateScope[scopeName]),
                                         )
-                                        : (isolateScope[
-                                            scopeName
-                                        ] = parentValue)),
+                                        : (isolateScope[scopeName] =
+                                          parentValue)),
                                                     (lastValue = parentValue)
                                                 );
                                             },
@@ -5072,18 +5073,16 @@
                                 controller,
                                 locals
                             )),
-                            (elementControllers[
-                                directive.name
-                            ] = controllerInstance),
+                            (elementControllers[directive.name] =
+                          controllerInstance),
                             hasElementTranscludeDirective ||
                           $element.data(
                               "$" + directive.name + "Controller",
                               controllerInstance,
                           ),
                             directive.controllerAs &&
-                          (locals.$scope[
-                              directive.controllerAs
-                          ] = controllerInstance);
+                          (locals.$scope[directive.controllerAs] =
+                            controllerInstance);
                         }
                     ),
                             i = 0,
@@ -5424,12 +5423,13 @@
                           ),
                           linkNode,
                       )),
-                                        (childBoundTranscludeFn = afterTemplateNodeLinkFn.transclude
-                                            ? createBoundTranscludeFn(
-                                                scope,
-                                                afterTemplateNodeLinkFn.transclude,
-                                            )
-                                            : boundTranscludeFn),
+                                        (childBoundTranscludeFn =
+                        afterTemplateNodeLinkFn.transclude
+                            ? createBoundTranscludeFn(
+                                scope,
+                                afterTemplateNodeLinkFn.transclude,
+                            )
+                            : boundTranscludeFn),
                                         afterTemplateNodeLinkFn(
                                             afterTemplateChildLinkFn,
                                             scope,
@@ -6015,9 +6015,10 @@
                                 reqHeaders
                             );
                             defaultHeadersIteration: for (defHeaderName in defHeaders) {
-                                for (reqHeaderName in ((lowercaseDefHeaderName = lowercase(
-                                    defHeaderName,
-                                )),
+                                for (reqHeaderName in ((lowercaseDefHeaderName =
+                  lowercase(
+                      defHeaderName
+                  )),
                                 reqHeaders))
                                     if (lowercase(
                                         reqHeaderName
@@ -6065,9 +6066,8 @@
                         ]
                         : undefined;
                     xsrfValue &&
-            (headers[
-                config.xsrfHeaderName || defaults.xsrfHeaderName
-            ] = xsrfValue);
+            (headers[config.xsrfHeaderName || defaults.xsrfHeaderName] =
+              xsrfValue);
                     var chain = [
                             function (
                                 config
@@ -6734,7 +6734,10 @@
                             ),
                             doneWrapper = function (
                             ) {
-                                (script.onreadystatechange = script.onload = script.onerror = null),
+                                (script.onreadystatechange =
+                  script.onload =
+                  script.onerror =
+                    null),
                                 rawDocument.body.removeChild(
                                     script
                                 ),
@@ -6752,11 +6755,12 @@
                                     ) && doneWrapper(
                                     );
                                 })
-                                : (script.onload = script.onerror = function (
-                                ) {
-                                    doneWrapper(
-                                    );
-                                }),
+                                : (script.onload = script.onerror =
+                    function (
+                    ) {
+                        doneWrapper(
+                        );
+                    }),
                             rawDocument.body.appendChild(
                                 script
                             ),
@@ -7036,9 +7040,10 @@
                     CURRENCY_SYM: "$",
                 },
                 DATETIME_FORMATS: {
-                    MONTH: "January,February,March,April,May,June,July,August,September,October,November,December".split(
-                        ",",
-                    ),
+                    MONTH:
+            "January,February,March,April,May,June,July,August,September,October,November,December".split(
+                ",",
+            ),
                     SHORTMONTH: "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec".split(
                         ",",
                     ),
@@ -7711,100 +7716,103 @@
             },
         ]);
     }
-    LocationHashbangInHtml5Url.prototype = LocationHashbangUrl.prototype = LocationHtml5Url.prototype = {
-        $$html5: !1,
-        $$replace: !1,
-        absUrl: locationGetter(
-            "$$absUrl"
-        ),
-        url: function (
-            url, replace
-        ) {
-            if (isUndefined(
-                url
-            )) return this.$$url;
-            var match = PATH_MATCH.exec(
-                url
-            );
-            return (
-                match[1] && this.path(
-                    decodeURIComponent(
-                        match[1]
-                    )
-                ),
-                (match[2] || match[1]) && this.search(
-                    match[3] || ""
-                ),
-                this.hash(
-                    match[5] || "",
-                    replace
-                ),
-                this
-            );
-        },
-        protocol: locationGetter(
-            "$$protocol"
-        ),
-        host: locationGetter(
-            "$$host"
-        ),
-        port: locationGetter(
-            "$$port"
-        ),
-        path: locationGetterSetter(
-            "$$path",
-            function (
-                path
-            ) {
-                return "/" == path.charAt(
-                    0
-                )
-                    ? path
-                    : "/" + path;
-            }
-        ),
-        search: function (
-            search, paramValue
-        ) {
-            switch (arguments.length) {
-            case 0:
-                return this.$$search;
-            case 1:
-                if (isString(
-                    search
-                )) this.$$search = parseKeyValue(
-                    search
-                );
-                else {
-                    if (!isObject(
-                        search
-                    ))
-                        throw $locationMinErr(
-                            "isrcharg",
-                            "The first argument of the `$location#search()` call must be a string or an object.",
-                        );
-                    this.$$search = search;
-                }
-                break;
-            default:
-                isUndefined(
-                    paramValue
-                ) || null === paramValue
-                    ? delete this.$$search[search]
-                    : (this.$$search[search] = paramValue);
-            }
-            return this.$$compose(
-            ), this;
-        },
-        hash: locationGetterSetter(
-            "$$hash",
-            identity
-        ),
-        replace: function (
-        ) {
-            return (this.$$replace = !0), this;
-        },
-    };
+    LocationHashbangInHtml5Url.prototype =
+    LocationHashbangUrl.prototype =
+    LocationHtml5Url.prototype =
+      {
+          $$html5: !1,
+          $$replace: !1,
+          absUrl: locationGetter(
+              "$$absUrl"
+          ),
+          url: function (
+              url, replace
+          ) {
+              if (isUndefined(
+                  url
+              )) return this.$$url;
+              var match = PATH_MATCH.exec(
+                  url
+              );
+              return (
+                  match[1] && this.path(
+                      decodeURIComponent(
+                          match[1]
+                      )
+                  ),
+                  (match[2] || match[1]) && this.search(
+                      match[3] || ""
+                  ),
+                  this.hash(
+                      match[5] || "",
+                      replace
+                  ),
+                  this
+              );
+          },
+          protocol: locationGetter(
+              "$$protocol"
+          ),
+          host: locationGetter(
+              "$$host"
+          ),
+          port: locationGetter(
+              "$$port"
+          ),
+          path: locationGetterSetter(
+              "$$path",
+              function (
+                  path
+              ) {
+                  return "/" == path.charAt(
+                      0
+                  )
+                      ? path
+                      : "/" + path;
+              }
+          ),
+          search: function (
+              search, paramValue
+          ) {
+              switch (arguments.length) {
+              case 0:
+                  return this.$$search;
+              case 1:
+                  if (isString(
+                      search
+                  )) this.$$search = parseKeyValue(
+                      search
+                  );
+                  else {
+                      if (!isObject(
+                          search
+                      ))
+                          throw $locationMinErr(
+                              "isrcharg",
+                              "The first argument of the `$location#search()` call must be a string or an object.",
+                          );
+                      this.$$search = search;
+                  }
+                  break;
+              default:
+                  isUndefined(
+                      paramValue
+                  ) || null === paramValue
+                      ? delete this.$$search[search]
+                      : (this.$$search[search] = paramValue);
+              }
+              return this.$$compose(
+              ), this;
+          },
+          hash: locationGetterSetter(
+              "$$hash",
+              identity
+          ),
+          replace: function (
+          ) {
+              return (this.$$replace = !0), this;
+          },
+      };
     var promiseWarning,
         $parseMinErr = minErr(
             "$parse"
@@ -8630,16 +8638,20 @@
             )),
             json &&
             ((this.assignment = this.logicalOR),
-            (this.functionCall = this.fieldAccess = this.objectIndex = this.filterChain = function (
-            ) {
-                this.throwError(
-                    "is not valid json",
-                    {
-                        text: text,
-                        index: 0,
-                    }
-                );
-            }));
+            (this.functionCall =
+              this.fieldAccess =
+              this.objectIndex =
+              this.filterChain =
+                function (
+                ) {
+                    this.throwError(
+                        "is not valid json",
+                        {
+                            text: text,
+                            index: 0,
+                        }
+                    );
+                }));
             var value = json
                 ? this.primary(
                 )
@@ -9242,9 +9254,8 @@
                                     locals
                                 ),
                                 parser.text
-                            )[
-                                key
-                            ] = value);
+                            )[key] =
+                  value);
                         },
                     },
                 )
@@ -10098,11 +10109,13 @@
                                     progress
                                 ) {
                                     try {
-                                        return (isFunction(
-                                            progressback
-                                        )
-                                            ? progressback
-                                            : defaultCallback)(
+                                        return (
+                                            isFunction(
+                                                progressback
+                                            )
+                                                ? progressback
+                                                : defaultCallback
+                                        )(
                                             progress
                                         );
                                     } catch (e) {
@@ -10264,7 +10277,14 @@
                 ) {
                     (this.$id = nextUid(
                     )),
-                    (this.$$phase = this.$parent = this.$$watchers = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null),
+                    (this.$$phase =
+                this.$parent =
+                this.$$watchers =
+                this.$$nextSibling =
+                this.$$prevSibling =
+                this.$$childHead =
+                this.$$childTail =
+                  null),
                     (this.this = this.$root = this),
                     (this.$$destroyed = !1),
                     (this.$$asyncQueue = []),
@@ -10295,7 +10315,11 @@
                             (child.$$listeners = {
                             }),
                             (child.$parent = this),
-                            (child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null),
+                            (child.$$watchers =
+                  child.$$nextSibling =
+                  child.$$childHead =
+                  child.$$childTail =
+                    null),
                             (child.$$prevSibling = this.$$childTail),
                             this.$$childHead
                                 ? ((this.$$childTail.$$nextSibling = child),
@@ -10606,7 +10630,12 @@
                       (this.$$prevSibling.$$nextSibling = this.$$nextSibling),
                     this.$$nextSibling &&
                       (this.$$nextSibling.$$prevSibling = this.$$prevSibling),
-                    (this.$parent = this.$$nextSibling = this.$$prevSibling = this.$$childHead = this.$$childTail = null));
+                    (this.$parent =
+                      this.$$nextSibling =
+                      this.$$prevSibling =
+                      this.$$childHead =
+                      this.$$childTail =
+                        null));
                         }
                     },
                     $eval: function (
@@ -11208,11 +11237,12 @@
                 (sce.getTrusted = $sceDelegate.getTrusted),
                 (sce.valueOf = $sceDelegate.valueOf),
                 enabled ||
-              ((sce.trustAs = sce.getTrusted = function (
-                  type, value
-              ) {
-                  return value;
-              }),
+              ((sce.trustAs = sce.getTrusted =
+                function (
+                    type, value
+                ) {
+                    return value;
+                }),
               (sce.valueOf = identity)),
                 (sce.parseAs = function (
                     type, expr
@@ -12071,12 +12101,14 @@
           ));
             },
         },
-        DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
+        DATE_FORMATS_SPLIT =
+      /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/,
         NUMBER_STRING = /^\-?\d+$/;
     function dateFilter(
         $locale
     ) {
-        var R_ISO8601_STR = /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
+        var R_ISO8601_STR =
+      /^(\d{4})-?(\d\d)-?(\d\d)(?:T(\d\d)(?::?(\d\d)(?::?(\d\d)(?:\.(\d+))?)?)?(Z|([+-])(\d\d):?(\d\d))?)?$/;
         return function (
             date, format
         ) {
@@ -12780,7 +12812,8 @@
         ngFormDirective = formDirectiveFactory(
             !0
         ),
-        URL_REGEXP = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
+        URL_REGEXP =
+      /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
         EMAIL_REGEXP = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/,
         NUMBER_REGEXP = /^\s*(\-|\+)?(\d+|(\d*(\.\d*)))\s*$/,
         inputType = {
@@ -14862,7 +14895,8 @@
             function (
                 $compile, $parse
             ) {
-                var NG_OPTIONS_REGEXP = /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
+                var NG_OPTIONS_REGEXP =
+            /^\s*(.*?)(?:\s+as\s+(.*?))?(?:\s+group\s+by\s+(.*))?\s+for\s+(?:([\$\w][\$\w]*)|(?:\(\s*([\$\w][\$\w]*)\s*,\s*([\$\w][\$\w]*)\s*\)))\s+in\s+(.*?)(?:\s+track\s+by\s+(.*?))?$/,
                     nullModelCtrl = {
                         $setViewValue: noop,
                     };

@@ -645,7 +645,8 @@
                 );
             }
         );
-        var isJavaScriptProtocol = /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i,
+        var isJavaScriptProtocol =
+      /^[\u0000-\u001F ]*j[\r\n\t]*a[\r\n\t]*v[\r\n\t]*a[\r\n\t]*s[\r\n\t]*c[\r\n\t]*r[\r\n\t]*i[\r\n\t]*p[\r\n\t]*t[\r\n\t]*\:/i,
             didWarn = !1;
         function sanitizeURL(
             url
@@ -4449,9 +4450,10 @@
                             );
                     } else if (3 === tag) {
                         if (nearestMounted.stateNode.hydrate)
-                            return void (queuedTarget.blockedOn = getContainerFromFiber(
-                                nearestMounted,
-                            ));
+                            return void (queuedTarget.blockedOn =
+              getContainerFromFiber(
+                  nearestMounted
+              ));
                     }
                 }
             }
@@ -5356,38 +5358,41 @@
                                     switch (domEventName) {
                                     case "focusin":
                                         return (
-                                            (queuedFocus = accumulateOrCreateContinuousQueuedReplayableEvent(
-                                                queuedFocus,
-                                                blockedOn,
-                                                domEventName,
-                                                eventSystemFlags,
-                                                targetContainer,
-                                                nativeEvent,
-                                            )),
+                                            (queuedFocus =
+                        accumulateOrCreateContinuousQueuedReplayableEvent(
+                            queuedFocus,
+                            blockedOn,
+                            domEventName,
+                            eventSystemFlags,
+                            targetContainer,
+                            nativeEvent,
+                        )),
                                             !0
                                         );
                                     case "dragenter":
                                         return (
-                                            (queuedDrag = accumulateOrCreateContinuousQueuedReplayableEvent(
-                                                queuedDrag,
-                                                blockedOn,
-                                                domEventName,
-                                                eventSystemFlags,
-                                                targetContainer,
-                                                nativeEvent,
-                                            )),
+                                            (queuedDrag =
+                        accumulateOrCreateContinuousQueuedReplayableEvent(
+                            queuedDrag,
+                            blockedOn,
+                            domEventName,
+                            eventSystemFlags,
+                            targetContainer,
+                            nativeEvent,
+                        )),
                                             !0
                                         );
                                     case "mouseover":
                                         return (
-                                            (queuedMouse = accumulateOrCreateContinuousQueuedReplayableEvent(
-                                                queuedMouse,
-                                                blockedOn,
-                                                domEventName,
-                                                eventSystemFlags,
-                                                targetContainer,
-                                                nativeEvent,
-                                            )),
+                                            (queuedMouse =
+                        accumulateOrCreateContinuousQueuedReplayableEvent(
+                            queuedMouse,
+                            blockedOn,
+                            domEventName,
+                            eventSystemFlags,
+                            targetContainer,
+                            nativeEvent,
+                        )),
                                             !0
                                         );
                                     case "pointerover":
@@ -8856,9 +8861,10 @@
             serverText, clientText
         ) {
             if (!didWarnInvalidHydration) {
-                var normalizedClientText = normalizeMarkupForTextOrAttribute(
-                        clientText,
-                    ),
+                var normalizedClientText =
+            normalizeMarkupForTextOrAttribute(
+                clientText
+            ),
                     normalizedServerText = normalizeMarkupForTextOrAttribute(
                         serverText
                     );
@@ -8875,12 +8881,14 @@
             propName, serverValue, clientValue
         ) {
             if (!didWarnInvalidHydration) {
-                var normalizedClientValue = normalizeMarkupForTextOrAttribute(
-                        clientValue,
-                    ),
-                    normalizedServerValue = normalizeMarkupForTextOrAttribute(
-                        serverValue,
-                    );
+                var normalizedClientValue =
+            normalizeMarkupForTextOrAttribute(
+                clientValue
+            ),
+                    normalizedServerValue =
+            normalizeMarkupForTextOrAttribute(
+                serverValue
+            );
                 normalizedServerValue !== normalizedClientValue &&
           ((didWarnInvalidHydration = !0),
           error(
@@ -14349,7 +14357,8 @@
                     next: null,
                 };
                 null === workInProgressHook
-                    ? (currentlyRenderingFiber$1.memoizedState = workInProgressHook = newHook)
+                    ? (currentlyRenderingFiber$1.memoizedState = workInProgressHook =
+            newHook)
                     : (workInProgressHook = workInProgressHook.next = newHook);
             }
             return workInProgressHook;
@@ -14735,11 +14744,12 @@
                     lastRenderedReducer: basicStateReducer,
                     lastRenderedState: snapshot,
                 };
-                (newQueue.dispatch = setSnapshot = dispatchAction.bind(
-                    null,
-                    currentlyRenderingFiber$1,
-                    newQueue,
-                )),
+                (newQueue.dispatch = setSnapshot =
+        dispatchAction.bind(
+            null,
+            currentlyRenderingFiber$1,
+            newQueue
+        )),
                 (stateHook.queue = newQueue),
                 (stateHook.baseQueue = null),
                 (snapshot = readFromUnsubcribedMutableSource(
@@ -15370,14 +15380,16 @@
                 fiber === currentlyRenderingFiber$1 ||
       (null !== alternate && alternate === currentlyRenderingFiber$1)
             )
-                didScheduleRenderPhaseUpdateDuringThisPass = didScheduleRenderPhaseUpdate = !0;
+                didScheduleRenderPhaseUpdateDuringThisPass =
+        didScheduleRenderPhaseUpdate = !0;
             else {
                 if (0 === fiber.lanes && (null === alternate || 0 === alternate.lanes)) {
                     var lastRenderedReducer = queue.lastRenderedReducer;
                     if (null !== lastRenderedReducer) {
                         var prevDispatcher;
                         (prevDispatcher = ReactCurrentDispatcher$1.current),
-                        (ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV);
+                        (ReactCurrentDispatcher$1.current =
+              InvalidNestedHooksDispatcherOnUpdateInDEV);
                         try {
                             var currentState = queue.lastRenderedState,
                                 eagerState = lastRenderedReducer(
@@ -15547,7 +15559,8 @@
                     deps
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+        InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountMemo(
                         create,
@@ -15563,7 +15576,8 @@
                 (currentHookNameInDev = "useReducer"), mountHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+        InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountReducer(
                         reducer,
@@ -15592,7 +15606,8 @@
                 (currentHookNameInDev = "useState"), mountHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+        InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountState(
                         initialState
@@ -15736,7 +15751,8 @@
                 (currentHookNameInDev = "useMemo"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountMemo(
                         create,
@@ -15752,7 +15768,8 @@
                 (currentHookNameInDev = "useReducer"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountReducer(
                         reducer,
@@ -15781,7 +15798,8 @@
                 (currentHookNameInDev = "useState"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountState(
                         initialState
@@ -15925,7 +15943,8 @@
                 (currentHookNameInDev = "useMemo"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateMemo(
                         create,
@@ -15941,7 +15960,8 @@
                 (currentHookNameInDev = "useReducer"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateReducer(
                         reducer
@@ -15965,7 +15985,8 @@
                 (currentHookNameInDev = "useState"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateState(
                     );
@@ -16113,7 +16134,8 @@
                 (currentHookNameInDev = "useMemo"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnRerenderInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnRerenderInDEV;
                 try {
                     return updateMemo(
                         create,
@@ -16129,7 +16151,8 @@
                 (currentHookNameInDev = "useReducer"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnRerenderInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnRerenderInDEV;
                 try {
                     return rerenderReducer(
                         reducer
@@ -16153,7 +16176,8 @@
                 (currentHookNameInDev = "useState"), updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnRerenderInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnRerenderInDEV;
                 try {
                     return rerenderState(
                     );
@@ -16315,7 +16339,8 @@
                 mountHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountMemo(
                         create,
@@ -16334,7 +16359,8 @@
                 mountHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountReducer(
                         reducer,
@@ -16368,7 +16394,8 @@
                 mountHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnMountInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnMountInDEV;
                 try {
                     return mountState(
                         initialState
@@ -16537,7 +16564,8 @@
                 updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateMemo(
                         create,
@@ -16556,7 +16584,8 @@
                 updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateReducer(
                         reducer
@@ -16587,7 +16616,8 @@
                 updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateState(
                     );
@@ -16759,7 +16789,8 @@
                 updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return updateMemo(
                         create,
@@ -16778,7 +16809,8 @@
                 updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return rerenderReducer(
                         reducer
@@ -16809,7 +16841,8 @@
                 updateHookTypesDev(
                 );
                 var prevDispatcher = ReactCurrentDispatcher$1.current;
-                ReactCurrentDispatcher$1.current = InvalidNestedHooksDispatcherOnUpdateInDEV;
+                ReactCurrentDispatcher$1.current =
+          InvalidNestedHooksDispatcherOnUpdateInDEV;
                 try {
                     return rerenderState(
                     );
@@ -17990,9 +18023,10 @@
                         workInProgress,
                         Component
                     ),
-                    (workInProgress.type = Component = resolveFunctionForHotReloading(
-                        Component,
-                    )),
+                    (workInProgress.type = Component =
+            resolveFunctionForHotReloading(
+                Component
+            )),
                     updateFunctionComponent(
                         null,
                         workInProgress,
@@ -18003,9 +18037,10 @@
                 );
             case 1:
                 return (
-                    (workInProgress.type = Component = resolveClassForHotReloading(
-                        Component,
-                    )),
+                    (workInProgress.type = Component =
+            resolveClassForHotReloading(
+                Component
+            )),
                     updateClassComponent(
                         null,
                         workInProgress,
@@ -18016,9 +18051,10 @@
                 );
             case 11:
                 return (
-                    (workInProgress.type = Component = resolveForwardRefForHotReloading(
-                        Component,
-                    )),
+                    (workInProgress.type = Component =
+            resolveForwardRefForHotReloading(
+                Component
+            )),
                     updateForwardRef(
                         null,
                         workInProgress,
@@ -18201,9 +18237,10 @@
                         renderLanes,
                     );
                     return (
-                        (workInProgress.child.memoizedState = mountSuspenseOffscreenState(
-                            renderLanes,
-                        )),
+                        (workInProgress.child.memoizedState =
+            mountSuspenseOffscreenState(
+                renderLanes
+            )),
                         (workInProgress.memoizedState = SUSPENDED_MARKER),
                         fallbackFragment
                     );
@@ -18216,9 +18253,10 @@
                         renderLanes,
                     );
                     return (
-                        (workInProgress.child.memoizedState = mountSuspenseOffscreenState(
-                            renderLanes,
-                        )),
+                        (workInProgress.child.memoizedState =
+            mountSuspenseOffscreenState(
+                renderLanes
+            )),
                         (workInProgress.memoizedState = SUSPENDED_MARKER),
                         (workInProgress.lanes = 33554432),
                         markSpawnedWork(
@@ -18405,7 +18443,8 @@
                 null !== currentFallbackChildFragment &&
         ((currentFallbackChildFragment.nextEffect = null),
         (currentFallbackChildFragment.flags = 8),
-        (workInProgress.firstEffect = workInProgress.lastEffect = currentFallbackChildFragment)),
+        (workInProgress.firstEffect = workInProgress.lastEffect =
+          currentFallbackChildFragment)),
                 (workInProgress.child = primaryChildFragment),
                 primaryChildFragment
             );
@@ -18997,10 +19036,11 @@
 
                             )
                                 (currentChild = currentChild.sibling),
-                                ((newChild = newChild.sibling = createWorkInProgress(
-                                    currentChild,
-                                    currentChild.pendingProps,
-                                )).return = workInProgress);
+                                ((newChild = newChild.sibling =
+                    createWorkInProgress(
+                        currentChild,
+                        currentChild.pendingProps,
+                    )).return = workInProgress);
                             newChild.sibling = null;
                         }
                     })(
@@ -22909,7 +22949,10 @@
                 root.current,
                 null
             )),
-            (workInProgressRootRenderLanes = subtreeRenderLanes = workInProgressRootIncludedLanes = lanes),
+            (workInProgressRootRenderLanes =
+        subtreeRenderLanes =
+        workInProgressRootIncludedLanes =
+          lanes),
             (workInProgressRootExitStatus = 0),
             (workInProgressRootFatalError = null),
             (workInProgressRootSkippedLanes = 0),
@@ -25079,9 +25122,10 @@
                             break getTag;
                         case REACT_FORWARD_REF_TYPE:
                             (fiberTag = 11),
-                            (resolvedType = resolveForwardRefForHotReloading(
-                                resolvedType,
-                            ));
+                            (resolvedType =
+                    resolveForwardRefForHotReloading(
+                        resolvedType
+                    ));
                             break getTag;
                         case REACT_MEMO_TYPE:
                             fiberTag = 14;
@@ -25923,52 +25967,54 @@
         ) {
             shouldSuspendImpl = newShouldSuspendImpl;
         }),
-        (ReactDOMRoot.prototype.render = ReactDOMBlockingRoot.prototype.render = function (
-            children,
-        ) {
-            var root = this._internalRoot;
-            "function" == typeof arguments[1] &&
-        error(
-            "render(...): does not support the second callback argument. To execute a side effect after rendering, declare it in a component body with useEffect().",
-        );
-            var container = root.containerInfo;
-            if (8 !== container.nodeType) {
-                var hostInstance = findHostInstanceWithNoPortals(
-                    root.current
-                );
-                hostInstance &&
-          hostInstance.parentNode !== container &&
+        (ReactDOMRoot.prototype.render = ReactDOMBlockingRoot.prototype.render =
+      function (
+          children
+      ) {
+          var root = this._internalRoot;
+          "function" == typeof arguments[1] &&
           error(
-              "render(...): It looks like the React-rendered content of the root container was removed without using React. This is not supported and will cause errors. Instead, call root.unmount() to empty a root's container.",
+              "render(...): does not support the second callback argument. To execute a side effect after rendering, declare it in a component body with useEffect().",
           );
-            }
-            updateContainer(
-                children,
-                root,
-                null,
-                null
+          var container = root.containerInfo;
+          if (8 !== container.nodeType) {
+              var hostInstance = findHostInstanceWithNoPortals(
+                  root.current
+              );
+              hostInstance &&
+            hostInstance.parentNode !== container &&
+            error(
+                "render(...): It looks like the React-rendered content of the root container was removed without using React. This is not supported and will cause errors. Instead, call root.unmount() to empty a root's container.",
             );
-        }),
-        (ReactDOMRoot.prototype.unmount = ReactDOMBlockingRoot.prototype.unmount = function (
-        ) {
-            "function" == typeof arguments[0] &&
-        error(
-            "unmount(...): does not support a callback argument. To execute a side effect after rendering, declare it in a component body with useEffect().",
-        );
-            var root = this._internalRoot,
-                container = root.containerInfo;
-            updateContainer(
-                null,
-                root,
-                null,
-                function (
-                ) {
-                    unmarkContainerAsRoot(
-                        container
-                    );
-                }
-            );
-        });
+          }
+          updateContainer(
+              children,
+              root,
+              null,
+              null
+          );
+      }),
+        (ReactDOMRoot.prototype.unmount = ReactDOMBlockingRoot.prototype.unmount =
+      function (
+      ) {
+          "function" == typeof arguments[0] &&
+          error(
+              "unmount(...): does not support a callback argument. To execute a side effect after rendering, declare it in a component body with useEffect().",
+          );
+          var root = this._internalRoot,
+              container = root.containerInfo;
+          updateContainer(
+              null,
+              root,
+              null,
+              function (
+              ) {
+                  unmarkContainerAsRoot(
+                      container
+                  );
+              }
+          );
+      });
         var topLevelUpdateWarnings,
             ReactCurrentOwner$3 = ReactSharedInternals.ReactCurrentOwner,
             warnedAboutHydrateAPI = !1;
@@ -26089,10 +26135,11 @@
                 );
             } else {
                 if (
-                    ((root = container._reactRootContainer = legacyCreateRootFromDOMContainer(
-                        container,
-                        forceHydrate,
-                    )),
+                    ((root = container._reactRootContainer =
+          legacyCreateRootFromDOMContainer(
+              container,
+              forceHydrate
+          )),
                     (fiberRoot = root._internalRoot),
                     "function" == typeof callback)
                 ) {

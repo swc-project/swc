@@ -2717,7 +2717,8 @@
                         ),
                         1 === subscribers.size &&
             (subscriberRef.current = {
-                onInteractionScheduledWorkCompleted: onInteractionScheduledWorkCompleted,
+                onInteractionScheduledWorkCompleted:
+                onInteractionScheduledWorkCompleted,
                 onInteractionTraced: onInteractionTraced,
                 onWorkCanceled: onWorkCanceled,
                 onWorkScheduled: onWorkScheduled,
@@ -2869,7 +2870,8 @@
         (exports.Children = Children),
         (exports.Component = Component),
         (exports.PureComponent = PureComponent),
-        (exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals$1),
+        (exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED =
+      ReactSharedInternals$1),
         (exports.cloneElement = cloneElement$1),
         (exports.createContext = function (
             defaultValue, calculateChangedBits

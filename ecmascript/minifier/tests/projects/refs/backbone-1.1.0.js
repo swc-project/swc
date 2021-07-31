@@ -2201,46 +2201,50 @@
     ),
     (Backbone.history = new History(
     ));
-    Model.extend = Collection.extend = Router.extend = View.extend = History.extend = function (
-        protoProps,
-        staticProps,
-    ) {
-        var child,
-            parent = this;
-        (child =
-      protoProps && _.has(
-          protoProps,
-          "constructor"
-      )
-          ? protoProps.constructor
-          : function (
+    Model.extend =
+    Collection.extend =
+    Router.extend =
+    View.extend =
+    History.extend =
+      function (
+          protoProps, staticProps
+      ) {
+          var child,
+              parent = this;
+          (child =
+          protoProps && _.has(
+              protoProps,
+              "constructor"
+          )
+              ? protoProps.constructor
+              : function (
+              ) {
+                  return parent.apply(
+                      this,
+                      arguments
+                  );
+              }),
+          _.extend(
+              child,
+              parent,
+              staticProps
+          );
+          var Surrogate = function (
           ) {
-              return parent.apply(
-                  this,
-                  arguments
-              );
-          }),
-        _.extend(
-            child,
-            parent,
-            staticProps
-        );
-        var Surrogate = function (
-        ) {
-            this.constructor = child;
-        };
-        return (
-            (Surrogate.prototype = parent.prototype),
-            (child.prototype = new Surrogate(
-            )),
-            protoProps && _.extend(
-                child.prototype,
-                protoProps
-            ),
-            (child.__super__ = parent.prototype),
-            child
-        );
-    };
+              this.constructor = child;
+          };
+          return (
+              (Surrogate.prototype = parent.prototype),
+              (child.prototype = new Surrogate(
+              )),
+              protoProps && _.extend(
+                  child.prototype,
+                  protoProps
+              ),
+              (child.__super__ = parent.prototype),
+              child
+          );
+      };
     var urlError = function (
         ) {
             throw new Error(
