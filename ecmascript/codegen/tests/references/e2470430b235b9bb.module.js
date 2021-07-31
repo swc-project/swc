@@ -1,4 +1,3 @@
 export default function a() {
-};
-let b;
+};let b;
 export { b as a };
