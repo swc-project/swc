@@ -36,7 +36,30 @@ it("should accpept { mangle = object }", async () => {
     console.log(foo)
     `, {
         compress: false,
-        mangle: {},
+        mangle: {
+            topLevel: true
+        },
+    });
+
+    expect(code).toMatchInlineSnapshot(`""`);
+})
+
+it("should mangle locals", async () => {
+    const { code } = await swc.minify(`
+    (function(){
+        const longName = Math.random() + '_' + Math.random();
+        console.log(longName);
+        console.log(longName);
+        console.log(longName);
+        console.log(longName);
+        console.log(longName);
+        console.log(longName);
+    })()
+    `, {
+        compress: false,
+        mangle: {
+            topLevel: true
+        },
     });
 
     expect(code).toMatchInlineSnapshot(`""`);
