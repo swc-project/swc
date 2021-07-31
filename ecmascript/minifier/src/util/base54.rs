@@ -59,7 +59,7 @@ mod tests {
 
         t.gen("a");
         t.gen("b");
-        t.incr(54);
+        t.incr(54 - 2);
         t.gen("aa");
     }
 }
