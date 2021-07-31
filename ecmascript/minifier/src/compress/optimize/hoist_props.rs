@@ -88,7 +88,7 @@ impl Optimizer<'_> {
 
                                     match &p.key {
                                         PropName::Str(s) => {
-                                            log::debug!(
+                                            log::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
@@ -96,7 +96,7 @@ impl Optimizer<'_> {
                                                 .insert((name.to_id(), s.value.clone()), value);
                                         }
                                         PropName::Ident(i) => {
-                                            log::debug!(
+                                            log::trace!(
                                                 "hoist_props: Storing a varaible to inline \
                                                  properties"
                                             );
